@@ -34,7 +34,7 @@ extension AssociateDomainInput {
     }
 }
 
-public struct AssociateDomainInput: Swift.Equatable {
+public struct AssociateDomainInput {
     /// The ARN of an issued ACM certificate that is valid for the domain being associated.
     /// This member is required.
     public var acmCertificateArn: Swift.String?
@@ -61,7 +61,7 @@ public struct AssociateDomainInput: Swift.Equatable {
     }
 }
 
-struct AssociateDomainInputBody: Swift.Equatable {
+struct AssociateDomainInputBody {
     let fleetArn: Swift.String?
     let domainName: Swift.String?
     let displayName: Swift.String?
@@ -94,7 +94,7 @@ extension AssociateDomainOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateDomainOutput: Swift.Equatable {
+public struct AssociateDomainOutput {
 
     public init() { }
 }
@@ -143,7 +143,7 @@ extension AssociateWebsiteAuthorizationProviderInput {
     }
 }
 
-public struct AssociateWebsiteAuthorizationProviderInput: Swift.Equatable {
+public struct AssociateWebsiteAuthorizationProviderInput {
     /// The authorization provider type.
     /// This member is required.
     public var authorizationProviderType: WorkLinkClientTypes.AuthorizationProviderType?
@@ -165,7 +165,7 @@ public struct AssociateWebsiteAuthorizationProviderInput: Swift.Equatable {
     }
 }
 
-struct AssociateWebsiteAuthorizationProviderInputBody: Swift.Equatable {
+struct AssociateWebsiteAuthorizationProviderInputBody {
     let fleetArn: Swift.String?
     let authorizationProviderType: WorkLinkClientTypes.AuthorizationProviderType?
     let domainName: Swift.String?
@@ -201,7 +201,7 @@ extension AssociateWebsiteAuthorizationProviderOutput: ClientRuntime.HttpRespons
     }
 }
 
-public struct AssociateWebsiteAuthorizationProviderOutput: Swift.Equatable {
+public struct AssociateWebsiteAuthorizationProviderOutput {
     /// A unique identifier for the authorization provider.
     public var authorizationProviderId: Swift.String?
 
@@ -213,7 +213,7 @@ public struct AssociateWebsiteAuthorizationProviderOutput: Swift.Equatable {
     }
 }
 
-struct AssociateWebsiteAuthorizationProviderOutputBody: Swift.Equatable {
+struct AssociateWebsiteAuthorizationProviderOutputBody {
     let authorizationProviderId: Swift.String?
 }
 
@@ -273,7 +273,7 @@ extension AssociateWebsiteCertificateAuthorityInput {
     }
 }
 
-public struct AssociateWebsiteCertificateAuthorityInput: Swift.Equatable {
+public struct AssociateWebsiteCertificateAuthorityInput {
     /// The root certificate of the CA.
     /// This member is required.
     public var certificate: Swift.String?
@@ -295,7 +295,7 @@ public struct AssociateWebsiteCertificateAuthorityInput: Swift.Equatable {
     }
 }
 
-struct AssociateWebsiteCertificateAuthorityInputBody: Swift.Equatable {
+struct AssociateWebsiteCertificateAuthorityInputBody {
     let fleetArn: Swift.String?
     let certificate: Swift.String?
     let displayName: Swift.String?
@@ -331,7 +331,7 @@ extension AssociateWebsiteCertificateAuthorityOutput: ClientRuntime.HttpResponse
     }
 }
 
-public struct AssociateWebsiteCertificateAuthorityOutput: Swift.Equatable {
+public struct AssociateWebsiteCertificateAuthorityOutput {
     /// A unique identifier for the CA.
     public var websiteCaId: Swift.String?
 
@@ -343,7 +343,7 @@ public struct AssociateWebsiteCertificateAuthorityOutput: Swift.Equatable {
     }
 }
 
-struct AssociateWebsiteCertificateAuthorityOutputBody: Swift.Equatable {
+struct AssociateWebsiteCertificateAuthorityOutputBody {
     let websiteCaId: Swift.String?
 }
 
@@ -439,7 +439,7 @@ extension CreateFleetInput {
     }
 }
 
-public struct CreateFleetInput: Swift.Equatable {
+public struct CreateFleetInput {
     /// The fleet name to display.
     public var displayName: Swift.String?
     /// A unique name for the fleet.
@@ -464,7 +464,7 @@ public struct CreateFleetInput: Swift.Equatable {
     }
 }
 
-struct CreateFleetInputBody: Swift.Equatable {
+struct CreateFleetInputBody {
     let fleetName: Swift.String?
     let displayName: Swift.String?
     let optimizeForEndUserLocation: Swift.Bool?
@@ -513,7 +513,7 @@ extension CreateFleetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateFleetOutput: Swift.Equatable {
+public struct CreateFleetOutput {
     /// The Amazon Resource Name (ARN) of the fleet.
     public var fleetArn: Swift.String?
 
@@ -525,7 +525,7 @@ public struct CreateFleetOutput: Swift.Equatable {
     }
 }
 
-struct CreateFleetOutputBody: Swift.Equatable {
+struct CreateFleetOutputBody {
     let fleetArn: Swift.String?
 }
 
@@ -577,7 +577,7 @@ extension DeleteFleetInput {
     }
 }
 
-public struct DeleteFleetInput: Swift.Equatable {
+public struct DeleteFleetInput {
     /// The ARN of the fleet.
     /// This member is required.
     public var fleetArn: Swift.String?
@@ -590,7 +590,7 @@ public struct DeleteFleetInput: Swift.Equatable {
     }
 }
 
-struct DeleteFleetInputBody: Swift.Equatable {
+struct DeleteFleetInputBody {
     let fleetArn: Swift.String?
 }
 
@@ -611,7 +611,7 @@ extension DeleteFleetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteFleetOutput: Swift.Equatable {
+public struct DeleteFleetOutput {
 
     public init() { }
 }
@@ -651,7 +651,7 @@ extension DescribeAuditStreamConfigurationInput {
     }
 }
 
-public struct DescribeAuditStreamConfigurationInput: Swift.Equatable {
+public struct DescribeAuditStreamConfigurationInput {
     /// The ARN of the fleet.
     /// This member is required.
     public var fleetArn: Swift.String?
@@ -664,7 +664,7 @@ public struct DescribeAuditStreamConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DescribeAuditStreamConfigurationInputBody: Swift.Equatable {
+struct DescribeAuditStreamConfigurationInputBody {
     let fleetArn: Swift.String?
 }
 
@@ -692,7 +692,7 @@ extension DescribeAuditStreamConfigurationOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DescribeAuditStreamConfigurationOutput: Swift.Equatable {
+public struct DescribeAuditStreamConfigurationOutput {
     /// The ARN of the Amazon Kinesis data stream that will receive the audit events.
     public var auditStreamArn: Swift.String?
 
@@ -704,7 +704,7 @@ public struct DescribeAuditStreamConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAuditStreamConfigurationOutputBody: Swift.Equatable {
+struct DescribeAuditStreamConfigurationOutputBody {
     let auditStreamArn: Swift.String?
 }
 
@@ -755,7 +755,7 @@ extension DescribeCompanyNetworkConfigurationInput {
     }
 }
 
-public struct DescribeCompanyNetworkConfigurationInput: Swift.Equatable {
+public struct DescribeCompanyNetworkConfigurationInput {
     /// The ARN of the fleet.
     /// This member is required.
     public var fleetArn: Swift.String?
@@ -768,7 +768,7 @@ public struct DescribeCompanyNetworkConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DescribeCompanyNetworkConfigurationInputBody: Swift.Equatable {
+struct DescribeCompanyNetworkConfigurationInputBody {
     let fleetArn: Swift.String?
 }
 
@@ -800,7 +800,7 @@ extension DescribeCompanyNetworkConfigurationOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct DescribeCompanyNetworkConfigurationOutput: Swift.Equatable {
+public struct DescribeCompanyNetworkConfigurationOutput {
     /// The security groups associated with access to the provided subnets.
     public var securityGroupIds: [Swift.String]?
     /// The subnets used for X-ENI connections from Amazon WorkLink rendering containers.
@@ -820,7 +820,7 @@ public struct DescribeCompanyNetworkConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeCompanyNetworkConfigurationOutputBody: Swift.Equatable {
+struct DescribeCompanyNetworkConfigurationOutputBody {
     let vpcId: Swift.String?
     let subnetIds: [Swift.String]?
     let securityGroupIds: [Swift.String]?
@@ -901,7 +901,7 @@ extension DescribeDeviceInput {
     }
 }
 
-public struct DescribeDeviceInput: Swift.Equatable {
+public struct DescribeDeviceInput {
     /// A unique identifier for a registered user's device.
     /// This member is required.
     public var deviceId: Swift.String?
@@ -919,7 +919,7 @@ public struct DescribeDeviceInput: Swift.Equatable {
     }
 }
 
-struct DescribeDeviceInputBody: Swift.Equatable {
+struct DescribeDeviceInputBody {
     let fleetArn: Swift.String?
     let deviceId: Swift.String?
 }
@@ -967,7 +967,7 @@ extension DescribeDeviceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDeviceOutput: Swift.Equatable {
+public struct DescribeDeviceOutput {
     /// The date that the device first signed in to Amazon WorkLink.
     public var firstAccessedTime: ClientRuntime.Date?
     /// The date that the device last accessed Amazon WorkLink.
@@ -1011,7 +1011,7 @@ public struct DescribeDeviceOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDeviceOutputBody: Swift.Equatable {
+struct DescribeDeviceOutputBody {
     let status: WorkLinkClientTypes.DeviceStatus?
     let model: Swift.String?
     let manufacturer: Swift.String?
@@ -1094,7 +1094,7 @@ extension DescribeDevicePolicyConfigurationInput {
     }
 }
 
-public struct DescribeDevicePolicyConfigurationInput: Swift.Equatable {
+public struct DescribeDevicePolicyConfigurationInput {
     /// The ARN of the fleet.
     /// This member is required.
     public var fleetArn: Swift.String?
@@ -1107,7 +1107,7 @@ public struct DescribeDevicePolicyConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DescribeDevicePolicyConfigurationInputBody: Swift.Equatable {
+struct DescribeDevicePolicyConfigurationInputBody {
     let fleetArn: Swift.String?
 }
 
@@ -1135,7 +1135,7 @@ extension DescribeDevicePolicyConfigurationOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct DescribeDevicePolicyConfigurationOutput: Swift.Equatable {
+public struct DescribeDevicePolicyConfigurationOutput {
     /// The certificate chain, including intermediate certificates and the root certificate authority certificate used to issue device certificates.
     public var deviceCaCertificate: Swift.String?
 
@@ -1147,7 +1147,7 @@ public struct DescribeDevicePolicyConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDevicePolicyConfigurationOutputBody: Swift.Equatable {
+struct DescribeDevicePolicyConfigurationOutputBody {
     let deviceCaCertificate: Swift.String?
 }
 
@@ -1202,7 +1202,7 @@ extension DescribeDomainInput {
     }
 }
 
-public struct DescribeDomainInput: Swift.Equatable {
+public struct DescribeDomainInput {
     /// The name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
@@ -1220,7 +1220,7 @@ public struct DescribeDomainInput: Swift.Equatable {
     }
 }
 
-struct DescribeDomainInputBody: Swift.Equatable {
+struct DescribeDomainInputBody {
     let fleetArn: Swift.String?
     let domainName: Swift.String?
 }
@@ -1260,7 +1260,7 @@ extension DescribeDomainOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDomainOutput: Swift.Equatable {
+public struct DescribeDomainOutput {
     /// The ARN of an issued ACM certificate that is valid for the domain being associated.
     public var acmCertificateArn: Swift.String?
     /// The time that the domain was added.
@@ -1288,7 +1288,7 @@ public struct DescribeDomainOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDomainOutputBody: Swift.Equatable {
+struct DescribeDomainOutputBody {
     let domainName: Swift.String?
     let displayName: Swift.String?
     let createdTime: ClientRuntime.Date?
@@ -1355,7 +1355,7 @@ extension DescribeFleetMetadataInput {
     }
 }
 
-public struct DescribeFleetMetadataInput: Swift.Equatable {
+public struct DescribeFleetMetadataInput {
     /// The Amazon Resource Name (ARN) of the fleet.
     /// This member is required.
     public var fleetArn: Swift.String?
@@ -1368,7 +1368,7 @@ public struct DescribeFleetMetadataInput: Swift.Equatable {
     }
 }
 
-struct DescribeFleetMetadataInputBody: Swift.Equatable {
+struct DescribeFleetMetadataInputBody {
     let fleetArn: Swift.String?
 }
 
@@ -1410,7 +1410,7 @@ extension DescribeFleetMetadataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeFleetMetadataOutput: Swift.Equatable {
+public struct DescribeFleetMetadataOutput {
     /// The identifier used by users to sign in to the Amazon WorkLink app.
     public var companyCode: Swift.String?
     /// The time that the fleet was created.
@@ -1450,7 +1450,7 @@ public struct DescribeFleetMetadataOutput: Swift.Equatable {
     }
 }
 
-struct DescribeFleetMetadataOutputBody: Swift.Equatable {
+struct DescribeFleetMetadataOutputBody {
     let createdTime: ClientRuntime.Date?
     let lastUpdatedTime: ClientRuntime.Date?
     let fleetName: Swift.String?
@@ -1538,7 +1538,7 @@ extension DescribeIdentityProviderConfigurationInput {
     }
 }
 
-public struct DescribeIdentityProviderConfigurationInput: Swift.Equatable {
+public struct DescribeIdentityProviderConfigurationInput {
     /// The ARN of the fleet.
     /// This member is required.
     public var fleetArn: Swift.String?
@@ -1551,7 +1551,7 @@ public struct DescribeIdentityProviderConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DescribeIdentityProviderConfigurationInputBody: Swift.Equatable {
+struct DescribeIdentityProviderConfigurationInputBody {
     let fleetArn: Swift.String?
 }
 
@@ -1583,7 +1583,7 @@ extension DescribeIdentityProviderConfigurationOutput: ClientRuntime.HttpRespons
     }
 }
 
-public struct DescribeIdentityProviderConfigurationOutput: Swift.Equatable {
+public struct DescribeIdentityProviderConfigurationOutput {
     /// The SAML metadata document provided by the user’s identity provider.
     public var identityProviderSamlMetadata: Swift.String?
     /// The type of identity provider.
@@ -1603,7 +1603,7 @@ public struct DescribeIdentityProviderConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeIdentityProviderConfigurationOutputBody: Swift.Equatable {
+struct DescribeIdentityProviderConfigurationOutputBody {
     let identityProviderType: WorkLinkClientTypes.IdentityProviderType?
     let serviceProviderSamlMetadata: Swift.String?
     let identityProviderSamlMetadata: Swift.String?
@@ -1666,7 +1666,7 @@ extension DescribeWebsiteCertificateAuthorityInput {
     }
 }
 
-public struct DescribeWebsiteCertificateAuthorityInput: Swift.Equatable {
+public struct DescribeWebsiteCertificateAuthorityInput {
     /// The ARN of the fleet.
     /// This member is required.
     public var fleetArn: Swift.String?
@@ -1684,7 +1684,7 @@ public struct DescribeWebsiteCertificateAuthorityInput: Swift.Equatable {
     }
 }
 
-struct DescribeWebsiteCertificateAuthorityInputBody: Swift.Equatable {
+struct DescribeWebsiteCertificateAuthorityInputBody {
     let fleetArn: Swift.String?
     let websiteCaId: Swift.String?
 }
@@ -1720,7 +1720,7 @@ extension DescribeWebsiteCertificateAuthorityOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct DescribeWebsiteCertificateAuthorityOutput: Swift.Equatable {
+public struct DescribeWebsiteCertificateAuthorityOutput {
     /// The root certificate of the certificate authority.
     public var certificate: Swift.String?
     /// The time that the certificate authority was added.
@@ -1740,7 +1740,7 @@ public struct DescribeWebsiteCertificateAuthorityOutput: Swift.Equatable {
     }
 }
 
-struct DescribeWebsiteCertificateAuthorityOutputBody: Swift.Equatable {
+struct DescribeWebsiteCertificateAuthorityOutputBody {
     let certificate: Swift.String?
     let createdTime: ClientRuntime.Date?
     let displayName: Swift.String?
@@ -1838,7 +1838,7 @@ extension WorkLinkClientTypes.DeviceSummary: Swift.Codable {
 
 extension WorkLinkClientTypes {
     /// The summary of devices.
-    public struct DeviceSummary: Swift.Equatable {
+    public struct DeviceSummary {
         /// The ID of the device.
         public var deviceId: Swift.String?
         /// The status of the device.
@@ -1880,7 +1880,7 @@ extension DisassociateDomainInput {
     }
 }
 
-public struct DisassociateDomainInput: Swift.Equatable {
+public struct DisassociateDomainInput {
     /// The name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
@@ -1898,7 +1898,7 @@ public struct DisassociateDomainInput: Swift.Equatable {
     }
 }
 
-struct DisassociateDomainInputBody: Swift.Equatable {
+struct DisassociateDomainInputBody {
     let fleetArn: Swift.String?
     let domainName: Swift.String?
 }
@@ -1923,7 +1923,7 @@ extension DisassociateDomainOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateDomainOutput: Swift.Equatable {
+public struct DisassociateDomainOutput {
 
     public init() { }
 }
@@ -1967,7 +1967,7 @@ extension DisassociateWebsiteAuthorizationProviderInput {
     }
 }
 
-public struct DisassociateWebsiteAuthorizationProviderInput: Swift.Equatable {
+public struct DisassociateWebsiteAuthorizationProviderInput {
     /// A unique identifier for the authorization provider.
     /// This member is required.
     public var authorizationProviderId: Swift.String?
@@ -1985,7 +1985,7 @@ public struct DisassociateWebsiteAuthorizationProviderInput: Swift.Equatable {
     }
 }
 
-struct DisassociateWebsiteAuthorizationProviderInputBody: Swift.Equatable {
+struct DisassociateWebsiteAuthorizationProviderInputBody {
     let fleetArn: Swift.String?
     let authorizationProviderId: Swift.String?
 }
@@ -2010,7 +2010,7 @@ extension DisassociateWebsiteAuthorizationProviderOutput: ClientRuntime.HttpResp
     }
 }
 
-public struct DisassociateWebsiteAuthorizationProviderOutput: Swift.Equatable {
+public struct DisassociateWebsiteAuthorizationProviderOutput {
 
     public init() { }
 }
@@ -2055,7 +2055,7 @@ extension DisassociateWebsiteCertificateAuthorityInput {
     }
 }
 
-public struct DisassociateWebsiteCertificateAuthorityInput: Swift.Equatable {
+public struct DisassociateWebsiteCertificateAuthorityInput {
     /// The ARN of the fleet.
     /// This member is required.
     public var fleetArn: Swift.String?
@@ -2073,7 +2073,7 @@ public struct DisassociateWebsiteCertificateAuthorityInput: Swift.Equatable {
     }
 }
 
-struct DisassociateWebsiteCertificateAuthorityInputBody: Swift.Equatable {
+struct DisassociateWebsiteCertificateAuthorityInputBody {
     let fleetArn: Swift.String?
     let websiteCaId: Swift.String?
 }
@@ -2098,7 +2098,7 @@ extension DisassociateWebsiteCertificateAuthorityOutput: ClientRuntime.HttpRespo
     }
 }
 
-public struct DisassociateWebsiteCertificateAuthorityOutput: Swift.Equatable {
+public struct DisassociateWebsiteCertificateAuthorityOutput {
 
     public init() { }
 }
@@ -2207,7 +2207,7 @@ extension WorkLinkClientTypes.DomainSummary: Swift.Codable {
 
 extension WorkLinkClientTypes {
     /// The summary of the domain.
-    public struct DomainSummary: Swift.Equatable {
+    public struct DomainSummary {
         /// The time that the domain was created.
         /// This member is required.
         public var createdTime: ClientRuntime.Date?
@@ -2355,7 +2355,7 @@ extension WorkLinkClientTypes.FleetSummary: Swift.Codable {
 
 extension WorkLinkClientTypes {
     /// The summary of the fleet.
-    public struct FleetSummary: Swift.Equatable {
+    public struct FleetSummary {
         /// The identifier used by users to sign into the Amazon WorkLink app.
         public var companyCode: Swift.String?
         /// The time when the fleet was created.
@@ -2465,7 +2465,7 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct InternalServerErrorExceptionBody: Swift.Equatable {
+struct InternalServerErrorExceptionBody {
     let message: Swift.String?
 }
 
@@ -2520,7 +2520,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InvalidRequestExceptionBody: Swift.Equatable {
+struct InvalidRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -2564,7 +2564,7 @@ extension ListDevicesInput {
     }
 }
 
-public struct ListDevicesInput: Swift.Equatable {
+public struct ListDevicesInput {
     /// The ARN of the fleet.
     /// This member is required.
     public var fleetArn: Swift.String?
@@ -2585,7 +2585,7 @@ public struct ListDevicesInput: Swift.Equatable {
     }
 }
 
-struct ListDevicesInputBody: Swift.Equatable {
+struct ListDevicesInputBody {
     let fleetArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -2623,7 +2623,7 @@ extension ListDevicesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDevicesOutput: Swift.Equatable {
+public struct ListDevicesOutput {
     /// Information about the devices.
     public var devices: [WorkLinkClientTypes.DeviceSummary]?
     /// The pagination token used to retrieve the next page of results for this operation. If there are no more pages, this value is null.
@@ -2639,7 +2639,7 @@ public struct ListDevicesOutput: Swift.Equatable {
     }
 }
 
-struct ListDevicesOutputBody: Swift.Equatable {
+struct ListDevicesOutputBody {
     let devices: [WorkLinkClientTypes.DeviceSummary]?
     let nextToken: Swift.String?
 }
@@ -2711,7 +2711,7 @@ extension ListDomainsInput {
     }
 }
 
-public struct ListDomainsInput: Swift.Equatable {
+public struct ListDomainsInput {
     /// The ARN of the fleet.
     /// This member is required.
     public var fleetArn: Swift.String?
@@ -2732,7 +2732,7 @@ public struct ListDomainsInput: Swift.Equatable {
     }
 }
 
-struct ListDomainsInputBody: Swift.Equatable {
+struct ListDomainsInputBody {
     let fleetArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -2770,7 +2770,7 @@ extension ListDomainsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDomainsOutput: Swift.Equatable {
+public struct ListDomainsOutput {
     /// Information about the domains.
     public var domains: [WorkLinkClientTypes.DomainSummary]?
     /// The pagination token used to retrieve the next page of results for this operation. If there are no more pages, this value is null.
@@ -2786,7 +2786,7 @@ public struct ListDomainsOutput: Swift.Equatable {
     }
 }
 
-struct ListDomainsOutputBody: Swift.Equatable {
+struct ListDomainsOutputBody {
     let domains: [WorkLinkClientTypes.DomainSummary]?
     let nextToken: Swift.String?
 }
@@ -2854,7 +2854,7 @@ extension ListFleetsInput {
     }
 }
 
-public struct ListFleetsInput: Swift.Equatable {
+public struct ListFleetsInput {
     /// The maximum number of results to be included in the next page.
     public var maxResults: Swift.Int?
     /// The pagination token used to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
@@ -2870,7 +2870,7 @@ public struct ListFleetsInput: Swift.Equatable {
     }
 }
 
-struct ListFleetsInputBody: Swift.Equatable {
+struct ListFleetsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -2904,7 +2904,7 @@ extension ListFleetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFleetsOutput: Swift.Equatable {
+public struct ListFleetsOutput {
     /// The summary list of the fleets.
     public var fleetSummaryList: [WorkLinkClientTypes.FleetSummary]?
     /// The pagination token used to retrieve the next page of results for this operation. If there are no more pages, this value is null.
@@ -2920,7 +2920,7 @@ public struct ListFleetsOutput: Swift.Equatable {
     }
 }
 
-struct ListFleetsOutputBody: Swift.Equatable {
+struct ListFleetsOutputBody {
     let fleetSummaryList: [WorkLinkClientTypes.FleetSummary]?
     let nextToken: Swift.String?
 }
@@ -2973,7 +2973,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the fleet.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2986,7 +2986,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -3007,7 +3007,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The tags attached to the resource. A tag is a key-value pair.
     public var tags: [Swift.String:Swift.String]?
 
@@ -3019,7 +3019,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -3083,7 +3083,7 @@ extension ListWebsiteAuthorizationProvidersInput {
     }
 }
 
-public struct ListWebsiteAuthorizationProvidersInput: Swift.Equatable {
+public struct ListWebsiteAuthorizationProvidersInput {
     /// The ARN of the fleet.
     /// This member is required.
     public var fleetArn: Swift.String?
@@ -3104,7 +3104,7 @@ public struct ListWebsiteAuthorizationProvidersInput: Swift.Equatable {
     }
 }
 
-struct ListWebsiteAuthorizationProvidersInputBody: Swift.Equatable {
+struct ListWebsiteAuthorizationProvidersInputBody {
     let fleetArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -3142,7 +3142,7 @@ extension ListWebsiteAuthorizationProvidersOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct ListWebsiteAuthorizationProvidersOutput: Swift.Equatable {
+public struct ListWebsiteAuthorizationProvidersOutput {
     /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
     public var nextToken: Swift.String?
     /// The website authorization providers.
@@ -3158,7 +3158,7 @@ public struct ListWebsiteAuthorizationProvidersOutput: Swift.Equatable {
     }
 }
 
-struct ListWebsiteAuthorizationProvidersOutputBody: Swift.Equatable {
+struct ListWebsiteAuthorizationProvidersOutputBody {
     let websiteAuthorizationProviders: [WorkLinkClientTypes.WebsiteAuthorizationProviderSummary]?
     let nextToken: Swift.String?
 }
@@ -3230,7 +3230,7 @@ extension ListWebsiteCertificateAuthoritiesInput {
     }
 }
 
-public struct ListWebsiteCertificateAuthoritiesInput: Swift.Equatable {
+public struct ListWebsiteCertificateAuthoritiesInput {
     /// The ARN of the fleet.
     /// This member is required.
     public var fleetArn: Swift.String?
@@ -3251,7 +3251,7 @@ public struct ListWebsiteCertificateAuthoritiesInput: Swift.Equatable {
     }
 }
 
-struct ListWebsiteCertificateAuthoritiesInputBody: Swift.Equatable {
+struct ListWebsiteCertificateAuthoritiesInputBody {
     let fleetArn: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -3289,7 +3289,7 @@ extension ListWebsiteCertificateAuthoritiesOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct ListWebsiteCertificateAuthoritiesOutput: Swift.Equatable {
+public struct ListWebsiteCertificateAuthoritiesOutput {
     /// The pagination token used to retrieve the next page of results for this operation. If there are no more pages, this value is null.
     public var nextToken: Swift.String?
     /// Information about the certificates.
@@ -3305,7 +3305,7 @@ public struct ListWebsiteCertificateAuthoritiesOutput: Swift.Equatable {
     }
 }
 
-struct ListWebsiteCertificateAuthoritiesOutputBody: Swift.Equatable {
+struct ListWebsiteCertificateAuthoritiesOutputBody {
     let websiteCertificateAuthorities: [WorkLinkClientTypes.WebsiteCaSummary]?
     let nextToken: Swift.String?
 }
@@ -3387,7 +3387,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct ResourceAlreadyExistsExceptionBody: Swift.Equatable {
+struct ResourceAlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -3442,7 +3442,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -3482,7 +3482,7 @@ extension RestoreDomainAccessInput {
     }
 }
 
-public struct RestoreDomainAccessInput: Swift.Equatable {
+public struct RestoreDomainAccessInput {
     /// The name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
@@ -3500,7 +3500,7 @@ public struct RestoreDomainAccessInput: Swift.Equatable {
     }
 }
 
-struct RestoreDomainAccessInputBody: Swift.Equatable {
+struct RestoreDomainAccessInputBody {
     let fleetArn: Swift.String?
     let domainName: Swift.String?
 }
@@ -3525,7 +3525,7 @@ extension RestoreDomainAccessOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RestoreDomainAccessOutput: Swift.Equatable {
+public struct RestoreDomainAccessOutput {
 
     public init() { }
 }
@@ -3569,7 +3569,7 @@ extension RevokeDomainAccessInput {
     }
 }
 
-public struct RevokeDomainAccessInput: Swift.Equatable {
+public struct RevokeDomainAccessInput {
     /// The name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
@@ -3587,7 +3587,7 @@ public struct RevokeDomainAccessInput: Swift.Equatable {
     }
 }
 
-struct RevokeDomainAccessInputBody: Swift.Equatable {
+struct RevokeDomainAccessInputBody {
     let fleetArn: Swift.String?
     let domainName: Swift.String?
 }
@@ -3612,7 +3612,7 @@ extension RevokeDomainAccessOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RevokeDomainAccessOutput: Swift.Equatable {
+public struct RevokeDomainAccessOutput {
 
     public init() { }
 }
@@ -3656,7 +3656,7 @@ extension SignOutUserInput {
     }
 }
 
-public struct SignOutUserInput: Swift.Equatable {
+public struct SignOutUserInput {
     /// The ARN of the fleet.
     /// This member is required.
     public var fleetArn: Swift.String?
@@ -3674,7 +3674,7 @@ public struct SignOutUserInput: Swift.Equatable {
     }
 }
 
-struct SignOutUserInputBody: Swift.Equatable {
+struct SignOutUserInputBody {
     let fleetArn: Swift.String?
     let username: Swift.String?
 }
@@ -3699,7 +3699,7 @@ extension SignOutUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SignOutUserOutput: Swift.Equatable {
+public struct SignOutUserOutput {
 
     public init() { }
 }
@@ -3745,7 +3745,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the fleet.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3763,7 +3763,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -3793,7 +3793,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -3848,7 +3848,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct TooManyRequestsExceptionBody: Swift.Equatable {
+struct TooManyRequestsExceptionBody {
     let message: Swift.String?
 }
 
@@ -3903,7 +3903,7 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct UnauthorizedExceptionBody: Swift.Equatable {
+struct UnauthorizedExceptionBody {
     let message: Swift.String?
 }
 
@@ -3945,7 +3945,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the fleet.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3963,7 +3963,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -3977,7 +3977,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -4017,7 +4017,7 @@ extension UpdateAuditStreamConfigurationInput {
     }
 }
 
-public struct UpdateAuditStreamConfigurationInput: Swift.Equatable {
+public struct UpdateAuditStreamConfigurationInput {
     /// The ARN of the Amazon Kinesis data stream that receives the audit events.
     public var auditStreamArn: Swift.String?
     /// The ARN of the fleet.
@@ -4034,7 +4034,7 @@ public struct UpdateAuditStreamConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateAuditStreamConfigurationInputBody: Swift.Equatable {
+struct UpdateAuditStreamConfigurationInputBody {
     let fleetArn: Swift.String?
     let auditStreamArn: Swift.String?
 }
@@ -4059,7 +4059,7 @@ extension UpdateAuditStreamConfigurationOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct UpdateAuditStreamConfigurationOutput: Swift.Equatable {
+public struct UpdateAuditStreamConfigurationOutput {
 
     public init() { }
 }
@@ -4117,7 +4117,7 @@ extension UpdateCompanyNetworkConfigurationInput {
     }
 }
 
-public struct UpdateCompanyNetworkConfigurationInput: Swift.Equatable {
+public struct UpdateCompanyNetworkConfigurationInput {
     /// The ARN of the fleet.
     /// This member is required.
     public var fleetArn: Swift.String?
@@ -4145,7 +4145,7 @@ public struct UpdateCompanyNetworkConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateCompanyNetworkConfigurationInputBody: Swift.Equatable {
+struct UpdateCompanyNetworkConfigurationInputBody {
     let fleetArn: Swift.String?
     let vpcId: Swift.String?
     let subnetIds: [Swift.String]?
@@ -4196,7 +4196,7 @@ extension UpdateCompanyNetworkConfigurationOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct UpdateCompanyNetworkConfigurationOutput: Swift.Equatable {
+public struct UpdateCompanyNetworkConfigurationOutput {
 
     public init() { }
 }
@@ -4240,7 +4240,7 @@ extension UpdateDevicePolicyConfigurationInput {
     }
 }
 
-public struct UpdateDevicePolicyConfigurationInput: Swift.Equatable {
+public struct UpdateDevicePolicyConfigurationInput {
     /// The certificate chain, including intermediate certificates and the root certificate authority certificate used to issue device certificates.
     public var deviceCaCertificate: Swift.String?
     /// The ARN of the fleet.
@@ -4257,7 +4257,7 @@ public struct UpdateDevicePolicyConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateDevicePolicyConfigurationInputBody: Swift.Equatable {
+struct UpdateDevicePolicyConfigurationInputBody {
     let fleetArn: Swift.String?
     let deviceCaCertificate: Swift.String?
 }
@@ -4282,7 +4282,7 @@ extension UpdateDevicePolicyConfigurationOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct UpdateDevicePolicyConfigurationOutput: Swift.Equatable {
+public struct UpdateDevicePolicyConfigurationOutput {
 
     public init() { }
 }
@@ -4330,7 +4330,7 @@ extension UpdateDomainMetadataInput {
     }
 }
 
-public struct UpdateDomainMetadataInput: Swift.Equatable {
+public struct UpdateDomainMetadataInput {
     /// The name to display.
     public var displayName: Swift.String?
     /// The name of the domain.
@@ -4352,7 +4352,7 @@ public struct UpdateDomainMetadataInput: Swift.Equatable {
     }
 }
 
-struct UpdateDomainMetadataInputBody: Swift.Equatable {
+struct UpdateDomainMetadataInputBody {
     let fleetArn: Swift.String?
     let domainName: Swift.String?
     let displayName: Swift.String?
@@ -4381,7 +4381,7 @@ extension UpdateDomainMetadataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDomainMetadataOutput: Swift.Equatable {
+public struct UpdateDomainMetadataOutput {
 
     public init() { }
 }
@@ -4429,7 +4429,7 @@ extension UpdateFleetMetadataInput {
     }
 }
 
-public struct UpdateFleetMetadataInput: Swift.Equatable {
+public struct UpdateFleetMetadataInput {
     /// The fleet name to display. The existing DisplayName is unset if null is passed.
     public var displayName: Swift.String?
     /// The ARN of the fleet.
@@ -4450,7 +4450,7 @@ public struct UpdateFleetMetadataInput: Swift.Equatable {
     }
 }
 
-struct UpdateFleetMetadataInputBody: Swift.Equatable {
+struct UpdateFleetMetadataInputBody {
     let fleetArn: Swift.String?
     let displayName: Swift.String?
     let optimizeForEndUserLocation: Swift.Bool?
@@ -4479,7 +4479,7 @@ extension UpdateFleetMetadataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateFleetMetadataOutput: Swift.Equatable {
+public struct UpdateFleetMetadataOutput {
 
     public init() { }
 }
@@ -4527,7 +4527,7 @@ extension UpdateIdentityProviderConfigurationInput {
     }
 }
 
-public struct UpdateIdentityProviderConfigurationInput: Swift.Equatable {
+public struct UpdateIdentityProviderConfigurationInput {
     /// The ARN of the fleet.
     /// This member is required.
     public var fleetArn: Swift.String?
@@ -4549,7 +4549,7 @@ public struct UpdateIdentityProviderConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateIdentityProviderConfigurationInputBody: Swift.Equatable {
+struct UpdateIdentityProviderConfigurationInputBody {
     let fleetArn: Swift.String?
     let identityProviderType: WorkLinkClientTypes.IdentityProviderType?
     let identityProviderSamlMetadata: Swift.String?
@@ -4578,7 +4578,7 @@ extension UpdateIdentityProviderConfigurationOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct UpdateIdentityProviderConfigurationOutput: Swift.Equatable {
+public struct UpdateIdentityProviderConfigurationOutput {
 
     public init() { }
 }
@@ -4637,7 +4637,7 @@ extension WorkLinkClientTypes.WebsiteAuthorizationProviderSummary: Swift.Codable
 
 extension WorkLinkClientTypes {
     /// The summary of the website authorization provider.
-    public struct WebsiteAuthorizationProviderSummary: Swift.Equatable {
+    public struct WebsiteAuthorizationProviderSummary {
         /// A unique identifier for the authorization provider.
         public var authorizationProviderId: Swift.String?
         /// The authorization provider type.
@@ -4697,7 +4697,7 @@ extension WorkLinkClientTypes.WebsiteCaSummary: Swift.Codable {
 
 extension WorkLinkClientTypes {
     /// The summary of the certificate authority (CA).
-    public struct WebsiteCaSummary: Swift.Equatable {
+    public struct WebsiteCaSummary {
         /// The time when the CA was added.
         public var createdTime: ClientRuntime.Date?
         /// The name to display.

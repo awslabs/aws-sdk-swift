@@ -50,7 +50,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -104,7 +104,7 @@ extension CreateLinkInput {
     }
 }
 
-public struct CreateLinkInput: Swift.Equatable {
+public struct CreateLinkInput {
     /// Specify a friendly human-readable name to use to identify this source account when you are viewing data from it in the monitoring account. You can use a custom label or use the following variables:
     ///
     /// * $AccountName is the name of the account
@@ -137,7 +137,7 @@ public struct CreateLinkInput: Swift.Equatable {
     }
 }
 
-struct CreateLinkInputBody: Swift.Equatable {
+struct CreateLinkInputBody {
     let labelTemplate: Swift.String?
     let resourceTypes: [OAMClientTypes.ResourceType]?
     let sinkIdentifier: Swift.String?
@@ -207,7 +207,7 @@ extension CreateLinkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateLinkOutput: Swift.Equatable {
+public struct CreateLinkOutput {
     /// The ARN of the link that is newly created.
     public var arn: Swift.String?
     /// The random ID string that Amazon Web Services generated as part of the link ARN.
@@ -243,7 +243,7 @@ public struct CreateLinkOutput: Swift.Equatable {
     }
 }
 
-struct CreateLinkOutputBody: Swift.Equatable {
+struct CreateLinkOutputBody {
     let arn: Swift.String?
     let id: Swift.String?
     let label: Swift.String?
@@ -343,7 +343,7 @@ extension CreateSinkInput {
     }
 }
 
-public struct CreateSinkInput: Swift.Equatable {
+public struct CreateSinkInput {
     /// A name for the sink.
     /// This member is required.
     public var name: Swift.String?
@@ -360,7 +360,7 @@ public struct CreateSinkInput: Swift.Equatable {
     }
 }
 
-struct CreateSinkInputBody: Swift.Equatable {
+struct CreateSinkInputBody {
     let name: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
@@ -407,7 +407,7 @@ extension CreateSinkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSinkOutput: Swift.Equatable {
+public struct CreateSinkOutput {
     /// The ARN of the sink that is newly created.
     public var arn: Swift.String?
     /// The random ID string that Amazon Web Services generated as part of the sink ARN.
@@ -431,7 +431,7 @@ public struct CreateSinkOutput: Swift.Equatable {
     }
 }
 
-struct CreateSinkOutputBody: Swift.Equatable {
+struct CreateSinkOutputBody {
     let arn: Swift.String?
     let id: Swift.String?
     let name: Swift.String?
@@ -503,7 +503,7 @@ extension DeleteLinkInput {
     }
 }
 
-public struct DeleteLinkInput: Swift.Equatable {
+public struct DeleteLinkInput {
     /// The ARN of the link to delete.
     /// This member is required.
     public var identifier: Swift.String?
@@ -516,7 +516,7 @@ public struct DeleteLinkInput: Swift.Equatable {
     }
 }
 
-struct DeleteLinkInputBody: Swift.Equatable {
+struct DeleteLinkInputBody {
     let identifier: Swift.String?
 }
 
@@ -537,7 +537,7 @@ extension DeleteLinkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteLinkOutput: Swift.Equatable {
+public struct DeleteLinkOutput {
 
     public init() { }
 }
@@ -576,7 +576,7 @@ extension DeleteSinkInput {
     }
 }
 
-public struct DeleteSinkInput: Swift.Equatable {
+public struct DeleteSinkInput {
     /// The ARN of the sink to delete.
     /// This member is required.
     public var identifier: Swift.String?
@@ -589,7 +589,7 @@ public struct DeleteSinkInput: Swift.Equatable {
     }
 }
 
-struct DeleteSinkInputBody: Swift.Equatable {
+struct DeleteSinkInputBody {
     let identifier: Swift.String?
 }
 
@@ -610,7 +610,7 @@ extension DeleteSinkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSinkOutput: Swift.Equatable {
+public struct DeleteSinkOutput {
 
     public init() { }
 }
@@ -650,7 +650,7 @@ extension GetLinkInput {
     }
 }
 
-public struct GetLinkInput: Swift.Equatable {
+public struct GetLinkInput {
     /// The ARN of the link to retrieve information for.
     /// This member is required.
     public var identifier: Swift.String?
@@ -663,7 +663,7 @@ public struct GetLinkInput: Swift.Equatable {
     }
 }
 
-struct GetLinkInputBody: Swift.Equatable {
+struct GetLinkInputBody {
     let identifier: Swift.String?
 }
 
@@ -703,7 +703,7 @@ extension GetLinkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLinkOutput: Swift.Equatable {
+public struct GetLinkOutput {
     /// The ARN of the link.
     public var arn: Swift.String?
     /// The random ID string that Amazon Web Services generated as part of the link ARN.
@@ -739,7 +739,7 @@ public struct GetLinkOutput: Swift.Equatable {
     }
 }
 
-struct GetLinkOutputBody: Swift.Equatable {
+struct GetLinkOutputBody {
     let arn: Swift.String?
     let id: Swift.String?
     let label: Swift.String?
@@ -831,7 +831,7 @@ extension GetSinkInput {
     }
 }
 
-public struct GetSinkInput: Swift.Equatable {
+public struct GetSinkInput {
     /// The ARN of the sink to retrieve information for.
     /// This member is required.
     public var identifier: Swift.String?
@@ -844,7 +844,7 @@ public struct GetSinkInput: Swift.Equatable {
     }
 }
 
-struct GetSinkInputBody: Swift.Equatable {
+struct GetSinkInputBody {
     let identifier: Swift.String?
 }
 
@@ -878,7 +878,7 @@ extension GetSinkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSinkOutput: Swift.Equatable {
+public struct GetSinkOutput {
     /// The ARN of the sink.
     public var arn: Swift.String?
     /// The random ID string that Amazon Web Services generated as part of the sink ARN.
@@ -902,7 +902,7 @@ public struct GetSinkOutput: Swift.Equatable {
     }
 }
 
-struct GetSinkOutputBody: Swift.Equatable {
+struct GetSinkOutputBody {
     let arn: Swift.String?
     let id: Swift.String?
     let name: Swift.String?
@@ -973,7 +973,7 @@ extension GetSinkPolicyInput {
     }
 }
 
-public struct GetSinkPolicyInput: Swift.Equatable {
+public struct GetSinkPolicyInput {
     /// The ARN of the sink to retrieve the policy of.
     /// This member is required.
     public var sinkIdentifier: Swift.String?
@@ -986,7 +986,7 @@ public struct GetSinkPolicyInput: Swift.Equatable {
     }
 }
 
-struct GetSinkPolicyInputBody: Swift.Equatable {
+struct GetSinkPolicyInputBody {
     let sinkIdentifier: Swift.String?
 }
 
@@ -1018,7 +1018,7 @@ extension GetSinkPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSinkPolicyOutput: Swift.Equatable {
+public struct GetSinkPolicyOutput {
     /// The policy that you specified, in JSON format.
     public var policy: Swift.String?
     /// The ARN of the sink.
@@ -1038,7 +1038,7 @@ public struct GetSinkPolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetSinkPolicyOutputBody: Swift.Equatable {
+struct GetSinkPolicyOutputBody {
     let sinkArn: Swift.String?
     let sinkId: Swift.String?
     let policy: Swift.String?
@@ -1124,7 +1124,7 @@ public struct InternalServiceFault: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct InternalServiceFaultBody: Swift.Equatable {
+struct InternalServiceFaultBody {
     let message: Swift.String?
 }
 
@@ -1188,7 +1188,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidParameterExceptionBody: Swift.Equatable {
+struct InvalidParameterExceptionBody {
     let message: Swift.String?
 }
 
@@ -1232,7 +1232,7 @@ extension ListAttachedLinksInput {
     }
 }
 
-public struct ListAttachedLinksInput: Swift.Equatable {
+public struct ListAttachedLinksInput {
     /// Limits the number of returned links to the specified number.
     public var maxResults: Swift.Int?
     /// The token for the next set of items to return. You received this token from a previous call.
@@ -1253,7 +1253,7 @@ public struct ListAttachedLinksInput: Swift.Equatable {
     }
 }
 
-struct ListAttachedLinksInputBody: Swift.Equatable {
+struct ListAttachedLinksInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let sinkIdentifier: Swift.String?
@@ -1322,7 +1322,7 @@ extension OAMClientTypes.ListAttachedLinksItem: Swift.Codable {
 
 extension OAMClientTypes {
     /// A structure that contains information about one link attached to this monitoring account sink.
-    public struct ListAttachedLinksItem: Swift.Equatable {
+    public struct ListAttachedLinksItem {
         /// The label that was assigned to this link at creation, with the variables resolved to their actual values.
         public var label: Swift.String?
         /// The ARN of the link.
@@ -1358,7 +1358,7 @@ extension ListAttachedLinksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAttachedLinksOutput: Swift.Equatable {
+public struct ListAttachedLinksOutput {
     /// An array of structures that contain the information about the attached links.
     /// This member is required.
     public var items: [OAMClientTypes.ListAttachedLinksItem]?
@@ -1375,7 +1375,7 @@ public struct ListAttachedLinksOutput: Swift.Equatable {
     }
 }
 
-struct ListAttachedLinksOutputBody: Swift.Equatable {
+struct ListAttachedLinksOutputBody {
     let items: [OAMClientTypes.ListAttachedLinksItem]?
     let nextToken: Swift.String?
 }
@@ -1442,7 +1442,7 @@ extension ListLinksInput {
     }
 }
 
-public struct ListLinksInput: Swift.Equatable {
+public struct ListLinksInput {
     /// Limits the number of returned links to the specified number.
     public var maxResults: Swift.Int?
     /// The token for the next set of items to return. You received this token from a previous call.
@@ -1458,7 +1458,7 @@ public struct ListLinksInput: Swift.Equatable {
     }
 }
 
-struct ListLinksInputBody: Swift.Equatable {
+struct ListLinksInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -1535,7 +1535,7 @@ extension OAMClientTypes.ListLinksItem: Swift.Codable {
 
 extension OAMClientTypes {
     /// A structure that contains information about one of this source account's links to a monitoring account.
-    public struct ListLinksItem: Swift.Equatable {
+    public struct ListLinksItem {
         /// The ARN of the link.
         public var arn: Swift.String?
         /// The random ID string that Amazon Web Services generated as part of the link ARN.
@@ -1579,7 +1579,7 @@ extension ListLinksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListLinksOutput: Swift.Equatable {
+public struct ListLinksOutput {
     /// An array of structures that contain the information about the returned links.
     /// This member is required.
     public var items: [OAMClientTypes.ListLinksItem]?
@@ -1596,7 +1596,7 @@ public struct ListLinksOutput: Swift.Equatable {
     }
 }
 
-struct ListLinksOutputBody: Swift.Equatable {
+struct ListLinksOutputBody {
     let items: [OAMClientTypes.ListLinksItem]?
     let nextToken: Swift.String?
 }
@@ -1662,7 +1662,7 @@ extension ListSinksInput {
     }
 }
 
-public struct ListSinksInput: Swift.Equatable {
+public struct ListSinksInput {
     /// Limits the number of returned links to the specified number.
     public var maxResults: Swift.Int?
     /// The token for the next set of items to return. You received this token from a previous call.
@@ -1678,7 +1678,7 @@ public struct ListSinksInput: Swift.Equatable {
     }
 }
 
-struct ListSinksInputBody: Swift.Equatable {
+struct ListSinksInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -1731,7 +1731,7 @@ extension OAMClientTypes.ListSinksItem: Swift.Codable {
 
 extension OAMClientTypes {
     /// A structure that contains information about one of this monitoring account's sinks.
-    public struct ListSinksItem: Swift.Equatable {
+    public struct ListSinksItem {
         /// The ARN of the sink.
         public var arn: Swift.String?
         /// The random ID string that Amazon Web Services generated as part of the sink ARN.
@@ -1767,7 +1767,7 @@ extension ListSinksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSinksOutput: Swift.Equatable {
+public struct ListSinksOutput {
     /// An array of structures that contain the information about the returned sinks.
     /// This member is required.
     public var items: [OAMClientTypes.ListSinksItem]?
@@ -1784,7 +1784,7 @@ public struct ListSinksOutput: Swift.Equatable {
     }
 }
 
-struct ListSinksOutputBody: Swift.Equatable {
+struct ListSinksOutputBody {
     let items: [OAMClientTypes.ListSinksItem]?
     let nextToken: Swift.String?
 }
@@ -1836,7 +1836,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The ARN of the resource that you want to view tags for. The ARN format of a sink is arn:aws:oam:Region:account-id:sink/sink-id  The ARN format of a link is arn:aws:oam:Region:account-id:link/link-id  For more information about ARN format, see [CloudWatch Logs resources and operations](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/iam-access-control-overview-cwl.html). Unlike tagging permissions in other Amazon Web Services services, to retrieve the list of tags for links or sinks you must have the oam:RequestTag permission. The aws:ReguestTag permission does not allow you to tag and untag links and sinks.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -1849,7 +1849,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -1870,7 +1870,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The list of tags associated with the requested resource.>
     public var tags: [Swift.String:Swift.String]?
 
@@ -1882,7 +1882,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -1967,7 +1967,7 @@ public struct MissingRequiredParameterException: ClientRuntime.ModeledError, AWS
     }
 }
 
-struct MissingRequiredParameterExceptionBody: Swift.Equatable {
+struct MissingRequiredParameterExceptionBody {
     let message: Swift.String?
 }
 
@@ -2009,7 +2009,7 @@ extension PutSinkPolicyInput {
     }
 }
 
-public struct PutSinkPolicyInput: Swift.Equatable {
+public struct PutSinkPolicyInput {
     /// The JSON policy to use. If you are updating an existing policy, the entire existing policy is replaced by what you specify here. The policy must be in JSON string format with quotation marks escaped and no newlines. For examples of different types of policies, see the Examples section on this page.
     /// This member is required.
     public var policy: Swift.String?
@@ -2027,7 +2027,7 @@ public struct PutSinkPolicyInput: Swift.Equatable {
     }
 }
 
-struct PutSinkPolicyInputBody: Swift.Equatable {
+struct PutSinkPolicyInputBody {
     let sinkIdentifier: Swift.String?
     let policy: Swift.String?
 }
@@ -2063,7 +2063,7 @@ extension PutSinkPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutSinkPolicyOutput: Swift.Equatable {
+public struct PutSinkPolicyOutput {
     /// The policy that you specified.
     public var policy: Swift.String?
     /// The ARN of the sink.
@@ -2083,7 +2083,7 @@ public struct PutSinkPolicyOutput: Swift.Equatable {
     }
 }
 
-struct PutSinkPolicyOutputBody: Swift.Equatable {
+struct PutSinkPolicyOutputBody {
     let sinkArn: Swift.String?
     let sinkId: Swift.String?
     let policy: Swift.String?
@@ -2169,7 +2169,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -2274,7 +2274,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -2316,7 +2316,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The ARN of the resource that you're adding tags to. The ARN format of a sink is arn:aws:oam:Region:account-id:sink/sink-id  The ARN format of a link is arn:aws:oam:Region:account-id:link/link-id  For more information about ARN format, see [CloudWatch Logs resources and operations](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/iam-access-control-overview-cwl.html).
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2334,7 +2334,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -2364,7 +2364,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -2421,7 +2421,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct TooManyTagsExceptionBody: Swift.Equatable {
+struct TooManyTagsExceptionBody {
     let message: Swift.String?
 }
 
@@ -2463,7 +2463,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The ARN of the resource that you're removing tags from. The ARN format of a sink is arn:aws:oam:Region:account-id:sink/sink-id  The ARN format of a link is arn:aws:oam:Region:account-id:link/link-id  For more information about ARN format, see [CloudWatch Logs resources and operations](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/iam-access-control-overview-cwl.html).
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2481,7 +2481,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -2495,7 +2495,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -2539,7 +2539,7 @@ extension UpdateLinkInput {
     }
 }
 
-public struct UpdateLinkInput: Swift.Equatable {
+public struct UpdateLinkInput {
     /// The ARN of the link that you want to update.
     /// This member is required.
     public var identifier: Swift.String?
@@ -2557,7 +2557,7 @@ public struct UpdateLinkInput: Swift.Equatable {
     }
 }
 
-struct UpdateLinkInputBody: Swift.Equatable {
+struct UpdateLinkInputBody {
     let identifier: Swift.String?
     let resourceTypes: [OAMClientTypes.ResourceType]?
 }
@@ -2610,7 +2610,7 @@ extension UpdateLinkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateLinkOutput: Swift.Equatable {
+public struct UpdateLinkOutput {
     /// The ARN of the link that you have updated.
     public var arn: Swift.String?
     /// The random ID string that Amazon Web Services generated as part of the sink ARN.
@@ -2646,7 +2646,7 @@ public struct UpdateLinkOutput: Swift.Equatable {
     }
 }
 
-struct UpdateLinkOutputBody: Swift.Equatable {
+struct UpdateLinkOutputBody {
     let arn: Swift.String?
     let id: Swift.String?
     let label: Swift.String?
@@ -2757,7 +2757,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

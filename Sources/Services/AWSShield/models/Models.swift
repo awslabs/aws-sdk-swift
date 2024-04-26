@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -96,7 +96,7 @@ public struct AccessDeniedForDependencyException: ClientRuntime.ModeledError, AW
     }
 }
 
-struct AccessDeniedForDependencyExceptionBody: Swift.Equatable {
+struct AccessDeniedForDependencyExceptionBody {
     let message: Swift.String?
 }
 
@@ -139,7 +139,7 @@ extension ShieldClientTypes.ApplicationLayerAutomaticResponseConfiguration: Swif
 
 extension ShieldClientTypes {
     /// The automatic application layer DDoS mitigation settings for a [Protection]. This configuration determines whether Shield Advanced automatically manages rules in the web ACL in order to respond to application layer events that Shield Advanced determines to be DDoS attacks.
-    public struct ApplicationLayerAutomaticResponseConfiguration: Swift.Equatable {
+    public struct ApplicationLayerAutomaticResponseConfiguration {
         /// Specifies the action setting that Shield Advanced should use in the WAF rules that it creates on behalf of the protected resource in response to DDoS attacks. You specify this as part of the configuration for the automatic application layer DDoS mitigation feature, when you enable or update automatic mitigation. Shield Advanced creates the WAF rules in a Shield Advanced-managed rule group, inside the web ACL that you have associated with the resource.
         /// This member is required.
         public var action: ShieldClientTypes.ResponseAction?
@@ -211,7 +211,7 @@ extension AssociateDRTLogBucketInput {
     }
 }
 
-public struct AssociateDRTLogBucketInput: Swift.Equatable {
+public struct AssociateDRTLogBucketInput {
     /// The Amazon S3 bucket that contains the logs that you want to share.
     /// This member is required.
     public var logBucket: Swift.String?
@@ -224,7 +224,7 @@ public struct AssociateDRTLogBucketInput: Swift.Equatable {
     }
 }
 
-struct AssociateDRTLogBucketInputBody: Swift.Equatable {
+struct AssociateDRTLogBucketInputBody {
     let logBucket: Swift.String?
 }
 
@@ -245,7 +245,7 @@ extension AssociateDRTLogBucketOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateDRTLogBucketOutput: Swift.Equatable {
+public struct AssociateDRTLogBucketOutput {
 
     public init() { }
 }
@@ -288,7 +288,7 @@ extension AssociateDRTRoleInput {
     }
 }
 
-public struct AssociateDRTRoleInput: Swift.Equatable {
+public struct AssociateDRTRoleInput {
     /// The Amazon Resource Name (ARN) of the role the SRT will use to access your Amazon Web Services account. Prior to making the AssociateDRTRole request, you must attach the [AWSShieldDRTAccessPolicy](https://console.aws.amazon.com/iam/home?#/policies/arn:aws:iam::aws:policy/service-role/AWSShieldDRTAccessPolicy) managed policy to this role. For more information see [Attaching and Detaching IAM Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_manage-attach-detach.html).
     /// This member is required.
     public var roleArn: Swift.String?
@@ -301,7 +301,7 @@ public struct AssociateDRTRoleInput: Swift.Equatable {
     }
 }
 
-struct AssociateDRTRoleInputBody: Swift.Equatable {
+struct AssociateDRTRoleInputBody {
     let roleArn: Swift.String?
 }
 
@@ -322,7 +322,7 @@ extension AssociateDRTRoleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateDRTRoleOutput: Swift.Equatable {
+public struct AssociateDRTRoleOutput {
 
     public init() { }
 }
@@ -367,7 +367,7 @@ extension AssociateHealthCheckInput {
     }
 }
 
-public struct AssociateHealthCheckInput: Swift.Equatable {
+public struct AssociateHealthCheckInput {
     /// The Amazon Resource Name (ARN) of the health check to associate with the protection.
     /// This member is required.
     public var healthCheckArn: Swift.String?
@@ -385,7 +385,7 @@ public struct AssociateHealthCheckInput: Swift.Equatable {
     }
 }
 
-struct AssociateHealthCheckInputBody: Swift.Equatable {
+struct AssociateHealthCheckInputBody {
     let protectionId: Swift.String?
     let healthCheckArn: Swift.String?
 }
@@ -410,7 +410,7 @@ extension AssociateHealthCheckOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateHealthCheckOutput: Swift.Equatable {
+public struct AssociateHealthCheckOutput {
 
     public init() { }
 }
@@ -454,7 +454,7 @@ extension AssociateProactiveEngagementDetailsInput {
     }
 }
 
-public struct AssociateProactiveEngagementDetailsInput: Swift.Equatable {
+public struct AssociateProactiveEngagementDetailsInput {
     /// A list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you for escalations to the SRT and to initiate proactive customer support. To enable proactive engagement, the contact list must include at least one phone number. The contacts that you provide here replace any contacts that were already defined. If you already have contacts defined and want to use them, retrieve the list using DescribeEmergencyContactSettings and then provide it here.
     /// This member is required.
     public var emergencyContactList: [ShieldClientTypes.EmergencyContact]?
@@ -467,7 +467,7 @@ public struct AssociateProactiveEngagementDetailsInput: Swift.Equatable {
     }
 }
 
-struct AssociateProactiveEngagementDetailsInputBody: Swift.Equatable {
+struct AssociateProactiveEngagementDetailsInputBody {
     let emergencyContactList: [ShieldClientTypes.EmergencyContact]?
 }
 
@@ -497,7 +497,7 @@ extension AssociateProactiveEngagementDetailsOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct AssociateProactiveEngagementDetailsOutput: Swift.Equatable {
+public struct AssociateProactiveEngagementDetailsOutput {
 
     public init() { }
 }
@@ -628,7 +628,7 @@ extension ShieldClientTypes.AttackDetail: Swift.Codable {
 
 extension ShieldClientTypes {
     /// The details of a DDoS attack.
-    public struct AttackDetail: Swift.Equatable {
+    public struct AttackDetail {
         /// List of counters that describe the attack for the specified time period.
         public var attackCounters: [ShieldClientTypes.SummarizedCounter]?
         /// The unique identifier (ID) of the attack.
@@ -759,7 +759,7 @@ extension ShieldClientTypes.AttackProperty: Swift.Codable {
 
 extension ShieldClientTypes {
     /// Details of a Shield event. This is provided as part of an [AttackDetail].
-    public struct AttackProperty: Swift.Equatable {
+    public struct AttackProperty {
         /// The type of Shield event that was observed. NETWORK indicates layer 3 and layer 4 events and APPLICATION indicates layer 7 events. For infrastructure layer events (L3 and L4 events), you can view metrics for top contributors in Amazon CloudWatch metrics. For more information, see [Shield metrics and alarms](https://docs.aws.amazon.com/waf/latest/developerguide/monitoring-cloudwatch.html#set-ddos-alarms) in the WAF Developer Guide.
         public var attackLayer: ShieldClientTypes.AttackLayer?
         /// Defines the Shield event property information that is provided. The WORDPRESS_PINGBACK_REFLECTOR and WORDPRESS_PINGBACK_SOURCE values are valid only for WordPress reflective pingback events.
@@ -866,7 +866,7 @@ extension ShieldClientTypes.AttackStatisticsDataItem: Swift.Codable {
 
 extension ShieldClientTypes {
     /// A single attack statistics data record. This is returned by [DescribeAttackStatistics] along with a time range indicating the time period that the attack statistics apply to.
-    public struct AttackStatisticsDataItem: Swift.Equatable {
+    public struct AttackStatisticsDataItem {
         /// The number of attacks detected during the time period. This is always present, but might be zero.
         /// This member is required.
         public var attackCount: Swift.Int
@@ -942,7 +942,7 @@ extension ShieldClientTypes.AttackSummary: Swift.Codable {
 
 extension ShieldClientTypes {
     /// Summarizes all DDoS attacks for a specified time period.
-    public struct AttackSummary: Swift.Equatable {
+    public struct AttackSummary {
         /// The unique identifier (ID) of the attack.
         public var attackId: Swift.String?
         /// The list of attacks for a specified time period.
@@ -993,7 +993,7 @@ extension ShieldClientTypes.AttackVectorDescription: Swift.Codable {
 
 extension ShieldClientTypes {
     /// Describes the attack.
-    public struct AttackVectorDescription: Swift.Equatable {
+    public struct AttackVectorDescription {
         /// The attack type. Valid values:
         ///
         /// * UDP_TRAFFIC
@@ -1077,7 +1077,7 @@ extension ShieldClientTypes.AttackVolume: Swift.Codable {
 
 extension ShieldClientTypes {
     /// Information about the volume of attacks during the time period, included in an [AttackStatisticsDataItem]. If the accompanying AttackCount in the statistics object is zero, this setting might be empty.
-    public struct AttackVolume: Swift.Equatable {
+    public struct AttackVolume {
         /// A statistics object that uses bits per second as the unit. This is included for network level attacks.
         public var bitsPerSecond: ShieldClientTypes.AttackVolumeStatistics?
         /// A statistics object that uses packets per second as the unit. This is included for network level attacks.
@@ -1120,7 +1120,7 @@ extension ShieldClientTypes.AttackVolumeStatistics: Swift.Codable {
 
 extension ShieldClientTypes {
     /// Statistics objects for the various data types in [AttackVolume].
-    public struct AttackVolumeStatistics: Swift.Equatable {
+    public struct AttackVolumeStatistics {
         /// The maximum attack volume observed for the given unit.
         /// This member is required.
         public var max: Swift.Double
@@ -1180,7 +1180,7 @@ extension ShieldClientTypes.BlockAction: Swift.Codable {
 
 extension ShieldClientTypes {
     /// Specifies that Shield Advanced should configure its WAF rules with the WAF Block action. This is only used in the context of the ResponseAction setting. JSON specification: "Block": {}
-    public struct BlockAction: Swift.Equatable {
+    public struct BlockAction {
 
         public init() { }
     }
@@ -1214,7 +1214,7 @@ extension ShieldClientTypes.Contributor: Swift.Codable {
 
 extension ShieldClientTypes {
     /// A contributor to the attack and their contribution.
-    public struct Contributor: Swift.Equatable {
+    public struct Contributor {
         /// The name of the contributor. The type of name that you'll find here depends on the AttackPropertyIdentifier setting in the AttackProperty where this contributor is defined. For example, if the AttackPropertyIdentifier is SOURCE_COUNTRY, the Name could be United States.
         public var name: Swift.String?
         /// The contribution of this contributor expressed in [Protection] units. For example 10,000.
@@ -1245,7 +1245,7 @@ extension ShieldClientTypes.CountAction: Swift.Codable {
 
 extension ShieldClientTypes {
     /// Specifies that Shield Advanced should configure its WAF rules with the WAF Count action. This is only used in the context of the ResponseAction setting. JSON specification: "Count": {}
-    public struct CountAction: Swift.Equatable {
+    public struct CountAction {
 
         public init() { }
     }
@@ -1298,7 +1298,7 @@ extension CreateProtectionGroupInput {
     }
 }
 
-public struct CreateProtectionGroupInput: Swift.Equatable {
+public struct CreateProtectionGroupInput {
     /// Defines how Shield combines resource data for the group in order to detect, mitigate, and report events.
     ///
     /// * Sum - Use the total traffic across the group. This is a good choice for most cases. Examples include Elastic IP addresses for EC2 instances that scale manually or automatically.
@@ -1339,7 +1339,7 @@ public struct CreateProtectionGroupInput: Swift.Equatable {
     }
 }
 
-struct CreateProtectionGroupInputBody: Swift.Equatable {
+struct CreateProtectionGroupInputBody {
     let protectionGroupId: Swift.String?
     let aggregation: ShieldClientTypes.ProtectionGroupAggregation?
     let pattern: ShieldClientTypes.ProtectionGroupPattern?
@@ -1398,7 +1398,7 @@ extension CreateProtectionGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateProtectionGroupOutput: Swift.Equatable {
+public struct CreateProtectionGroupOutput {
 
     public init() { }
 }
@@ -1450,7 +1450,7 @@ extension CreateProtectionInput {
     }
 }
 
-public struct CreateProtectionInput: Swift.Equatable {
+public struct CreateProtectionInput {
     /// Friendly name for the Protection you are creating.
     /// This member is required.
     public var name: Swift.String?
@@ -1484,7 +1484,7 @@ public struct CreateProtectionInput: Swift.Equatable {
     }
 }
 
-struct CreateProtectionInputBody: Swift.Equatable {
+struct CreateProtectionInputBody {
     let name: Swift.String?
     let resourceArn: Swift.String?
     let tags: [ShieldClientTypes.Tag]?
@@ -1529,7 +1529,7 @@ extension CreateProtectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateProtectionOutput: Swift.Equatable {
+public struct CreateProtectionOutput {
     /// The unique identifier (ID) for the [Protection] object that is created.
     public var protectionId: Swift.String?
 
@@ -1541,7 +1541,7 @@ public struct CreateProtectionOutput: Swift.Equatable {
     }
 }
 
-struct CreateProtectionOutputBody: Swift.Equatable {
+struct CreateProtectionOutputBody {
     let protectionId: Swift.String?
 }
 
@@ -1590,12 +1590,12 @@ extension CreateSubscriptionInput {
     }
 }
 
-public struct CreateSubscriptionInput: Swift.Equatable {
+public struct CreateSubscriptionInput {
 
     public init() { }
 }
 
-struct CreateSubscriptionInputBody: Swift.Equatable {
+struct CreateSubscriptionInputBody {
 }
 
 extension CreateSubscriptionInputBody: Swift.Decodable {
@@ -1609,7 +1609,7 @@ extension CreateSubscriptionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSubscriptionOutput: Swift.Equatable {
+public struct CreateSubscriptionOutput {
 
     public init() { }
 }
@@ -1646,7 +1646,7 @@ extension DeleteProtectionGroupInput {
     }
 }
 
-public struct DeleteProtectionGroupInput: Swift.Equatable {
+public struct DeleteProtectionGroupInput {
     /// The name of the protection group. You use this to identify the protection group in lists and to manage the protection group, for example to update, delete, or describe it.
     /// This member is required.
     public var protectionGroupId: Swift.String?
@@ -1659,7 +1659,7 @@ public struct DeleteProtectionGroupInput: Swift.Equatable {
     }
 }
 
-struct DeleteProtectionGroupInputBody: Swift.Equatable {
+struct DeleteProtectionGroupInputBody {
     let protectionGroupId: Swift.String?
 }
 
@@ -1680,7 +1680,7 @@ extension DeleteProtectionGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteProtectionGroupOutput: Swift.Equatable {
+public struct DeleteProtectionGroupOutput {
 
     public init() { }
 }
@@ -1718,7 +1718,7 @@ extension DeleteProtectionInput {
     }
 }
 
-public struct DeleteProtectionInput: Swift.Equatable {
+public struct DeleteProtectionInput {
     /// The unique identifier (ID) for the [Protection] object to be deleted.
     /// This member is required.
     public var protectionId: Swift.String?
@@ -1731,7 +1731,7 @@ public struct DeleteProtectionInput: Swift.Equatable {
     }
 }
 
-struct DeleteProtectionInputBody: Swift.Equatable {
+struct DeleteProtectionInputBody {
     let protectionId: Swift.String?
 }
 
@@ -1752,7 +1752,7 @@ extension DeleteProtectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteProtectionOutput: Swift.Equatable {
+public struct DeleteProtectionOutput {
 
     public init() { }
 }
@@ -1786,12 +1786,12 @@ extension DeleteSubscriptionInput {
 }
 
 @available(*, deprecated)
-public struct DeleteSubscriptionInput: Swift.Equatable {
+public struct DeleteSubscriptionInput {
 
     public init() { }
 }
 
-struct DeleteSubscriptionInputBody: Swift.Equatable {
+struct DeleteSubscriptionInputBody {
 }
 
 extension DeleteSubscriptionInputBody: Swift.Decodable {
@@ -1806,7 +1806,7 @@ extension DeleteSubscriptionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 @available(*, deprecated)
-public struct DeleteSubscriptionOutput: Swift.Equatable {
+public struct DeleteSubscriptionOutput {
 
     public init() { }
 }
@@ -1844,7 +1844,7 @@ extension DescribeAttackInput {
     }
 }
 
-public struct DescribeAttackInput: Swift.Equatable {
+public struct DescribeAttackInput {
     /// The unique identifier (ID) for the attack.
     /// This member is required.
     public var attackId: Swift.String?
@@ -1857,7 +1857,7 @@ public struct DescribeAttackInput: Swift.Equatable {
     }
 }
 
-struct DescribeAttackInputBody: Swift.Equatable {
+struct DescribeAttackInputBody {
     let attackId: Swift.String?
 }
 
@@ -1885,7 +1885,7 @@ extension DescribeAttackOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAttackOutput: Swift.Equatable {
+public struct DescribeAttackOutput {
     /// The attack that you requested.
     public var attack: ShieldClientTypes.AttackDetail?
 
@@ -1897,7 +1897,7 @@ public struct DescribeAttackOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAttackOutputBody: Swift.Equatable {
+struct DescribeAttackOutputBody {
     let attack: ShieldClientTypes.AttackDetail?
 }
 
@@ -1940,12 +1940,12 @@ extension DescribeAttackStatisticsInput {
     }
 }
 
-public struct DescribeAttackStatisticsInput: Swift.Equatable {
+public struct DescribeAttackStatisticsInput {
 
     public init() { }
 }
 
-struct DescribeAttackStatisticsInputBody: Swift.Equatable {
+struct DescribeAttackStatisticsInputBody {
 }
 
 extension DescribeAttackStatisticsInputBody: Swift.Decodable {
@@ -1968,7 +1968,7 @@ extension DescribeAttackStatisticsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAttackStatisticsOutput: Swift.Equatable {
+public struct DescribeAttackStatisticsOutput {
     /// The data that describes the attacks detected during the time period.
     /// This member is required.
     public var dataItems: [ShieldClientTypes.AttackStatisticsDataItem]?
@@ -1986,7 +1986,7 @@ public struct DescribeAttackStatisticsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAttackStatisticsOutputBody: Swift.Equatable {
+struct DescribeAttackStatisticsOutputBody {
     let timeRange: ShieldClientTypes.TimeRange?
     let dataItems: [ShieldClientTypes.AttackStatisticsDataItem]?
 }
@@ -2041,12 +2041,12 @@ extension DescribeDRTAccessInput {
     }
 }
 
-public struct DescribeDRTAccessInput: Swift.Equatable {
+public struct DescribeDRTAccessInput {
 
     public init() { }
 }
 
-struct DescribeDRTAccessInputBody: Swift.Equatable {
+struct DescribeDRTAccessInputBody {
 }
 
 extension DescribeDRTAccessInputBody: Swift.Decodable {
@@ -2069,7 +2069,7 @@ extension DescribeDRTAccessOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDRTAccessOutput: Swift.Equatable {
+public struct DescribeDRTAccessOutput {
     /// The list of Amazon S3 buckets accessed by the SRT.
     public var logBucketList: [Swift.String]?
     /// The Amazon Resource Name (ARN) of the role the SRT used to access your Amazon Web Services account.
@@ -2085,7 +2085,7 @@ public struct DescribeDRTAccessOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDRTAccessOutputBody: Swift.Equatable {
+struct DescribeDRTAccessOutputBody {
     let roleArn: Swift.String?
     let logBucketList: [Swift.String]?
 }
@@ -2141,12 +2141,12 @@ extension DescribeEmergencyContactSettingsInput {
     }
 }
 
-public struct DescribeEmergencyContactSettingsInput: Swift.Equatable {
+public struct DescribeEmergencyContactSettingsInput {
 
     public init() { }
 }
 
-struct DescribeEmergencyContactSettingsInputBody: Swift.Equatable {
+struct DescribeEmergencyContactSettingsInputBody {
 }
 
 extension DescribeEmergencyContactSettingsInputBody: Swift.Decodable {
@@ -2167,7 +2167,7 @@ extension DescribeEmergencyContactSettingsOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DescribeEmergencyContactSettingsOutput: Swift.Equatable {
+public struct DescribeEmergencyContactSettingsOutput {
     /// A list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive customer support.
     public var emergencyContactList: [ShieldClientTypes.EmergencyContact]?
 
@@ -2179,7 +2179,7 @@ public struct DescribeEmergencyContactSettingsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeEmergencyContactSettingsOutputBody: Swift.Equatable {
+struct DescribeEmergencyContactSettingsOutputBody {
     let emergencyContactList: [ShieldClientTypes.EmergencyContact]?
 }
 
@@ -2236,7 +2236,7 @@ extension DescribeProtectionGroupInput {
     }
 }
 
-public struct DescribeProtectionGroupInput: Swift.Equatable {
+public struct DescribeProtectionGroupInput {
     /// The name of the protection group. You use this to identify the protection group in lists and to manage the protection group, for example to update, delete, or describe it.
     /// This member is required.
     public var protectionGroupId: Swift.String?
@@ -2249,7 +2249,7 @@ public struct DescribeProtectionGroupInput: Swift.Equatable {
     }
 }
 
-struct DescribeProtectionGroupInputBody: Swift.Equatable {
+struct DescribeProtectionGroupInputBody {
     let protectionGroupId: Swift.String?
 }
 
@@ -2277,7 +2277,7 @@ extension DescribeProtectionGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeProtectionGroupOutput: Swift.Equatable {
+public struct DescribeProtectionGroupOutput {
     /// A grouping of protected resources that you and Shield Advanced can monitor as a collective. This resource grouping improves the accuracy of detection and reduces false positives.
     /// This member is required.
     public var protectionGroup: ShieldClientTypes.ProtectionGroup?
@@ -2290,7 +2290,7 @@ public struct DescribeProtectionGroupOutput: Swift.Equatable {
     }
 }
 
-struct DescribeProtectionGroupOutputBody: Swift.Equatable {
+struct DescribeProtectionGroupOutputBody {
     let protectionGroup: ShieldClientTypes.ProtectionGroup?
 }
 
@@ -2342,7 +2342,7 @@ extension DescribeProtectionInput {
     }
 }
 
-public struct DescribeProtectionInput: Swift.Equatable {
+public struct DescribeProtectionInput {
     /// The unique identifier (ID) for the [Protection] object to describe. You must provide either the ResourceArn of the protected resource or the ProtectionID of the protection, but not both.
     public var protectionId: Swift.String?
     /// The ARN (Amazon Resource Name) of the protected Amazon Web Services resource. You must provide either the ResourceArn of the protected resource or the ProtectionID of the protection, but not both.
@@ -2358,7 +2358,7 @@ public struct DescribeProtectionInput: Swift.Equatable {
     }
 }
 
-struct DescribeProtectionInputBody: Swift.Equatable {
+struct DescribeProtectionInputBody {
     let protectionId: Swift.String?
     let resourceArn: Swift.String?
 }
@@ -2390,7 +2390,7 @@ extension DescribeProtectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeProtectionOutput: Swift.Equatable {
+public struct DescribeProtectionOutput {
     /// The [Protection] that you requested.
     public var protection: ShieldClientTypes.Protection?
 
@@ -2402,7 +2402,7 @@ public struct DescribeProtectionOutput: Swift.Equatable {
     }
 }
 
-struct DescribeProtectionOutputBody: Swift.Equatable {
+struct DescribeProtectionOutputBody {
     let protection: ShieldClientTypes.Protection?
 }
 
@@ -2446,12 +2446,12 @@ extension DescribeSubscriptionInput {
     }
 }
 
-public struct DescribeSubscriptionInput: Swift.Equatable {
+public struct DescribeSubscriptionInput {
 
     public init() { }
 }
 
-struct DescribeSubscriptionInputBody: Swift.Equatable {
+struct DescribeSubscriptionInputBody {
 }
 
 extension DescribeSubscriptionInputBody: Swift.Decodable {
@@ -2472,7 +2472,7 @@ extension DescribeSubscriptionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeSubscriptionOutput: Swift.Equatable {
+public struct DescribeSubscriptionOutput {
     /// The Shield Advanced subscription details for an account.
     public var subscription: ShieldClientTypes.Subscription?
 
@@ -2484,7 +2484,7 @@ public struct DescribeSubscriptionOutput: Swift.Equatable {
     }
 }
 
-struct DescribeSubscriptionOutputBody: Swift.Equatable {
+struct DescribeSubscriptionOutputBody {
     let subscription: ShieldClientTypes.Subscription?
 }
 
@@ -2532,7 +2532,7 @@ extension DisableApplicationLayerAutomaticResponseInput {
     }
 }
 
-public struct DisableApplicationLayerAutomaticResponseInput: Swift.Equatable {
+public struct DisableApplicationLayerAutomaticResponseInput {
     /// The ARN (Amazon Resource Name) of the protected resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2545,7 +2545,7 @@ public struct DisableApplicationLayerAutomaticResponseInput: Swift.Equatable {
     }
 }
 
-struct DisableApplicationLayerAutomaticResponseInputBody: Swift.Equatable {
+struct DisableApplicationLayerAutomaticResponseInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -2566,7 +2566,7 @@ extension DisableApplicationLayerAutomaticResponseOutput: ClientRuntime.HttpResp
     }
 }
 
-public struct DisableApplicationLayerAutomaticResponseOutput: Swift.Equatable {
+public struct DisableApplicationLayerAutomaticResponseOutput {
 
     public init() { }
 }
@@ -2601,12 +2601,12 @@ extension DisableProactiveEngagementInput {
     }
 }
 
-public struct DisableProactiveEngagementInput: Swift.Equatable {
+public struct DisableProactiveEngagementInput {
 
     public init() { }
 }
 
-struct DisableProactiveEngagementInputBody: Swift.Equatable {
+struct DisableProactiveEngagementInputBody {
 }
 
 extension DisableProactiveEngagementInputBody: Swift.Decodable {
@@ -2620,7 +2620,7 @@ extension DisableProactiveEngagementOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisableProactiveEngagementOutput: Swift.Equatable {
+public struct DisableProactiveEngagementOutput {
 
     public init() { }
 }
@@ -2660,7 +2660,7 @@ extension DisassociateDRTLogBucketInput {
     }
 }
 
-public struct DisassociateDRTLogBucketInput: Swift.Equatable {
+public struct DisassociateDRTLogBucketInput {
     /// The Amazon S3 bucket that contains the logs that you want to share.
     /// This member is required.
     public var logBucket: Swift.String?
@@ -2673,7 +2673,7 @@ public struct DisassociateDRTLogBucketInput: Swift.Equatable {
     }
 }
 
-struct DisassociateDRTLogBucketInputBody: Swift.Equatable {
+struct DisassociateDRTLogBucketInputBody {
     let logBucket: Swift.String?
 }
 
@@ -2694,7 +2694,7 @@ extension DisassociateDRTLogBucketOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateDRTLogBucketOutput: Swift.Equatable {
+public struct DisassociateDRTLogBucketOutput {
 
     public init() { }
 }
@@ -2730,12 +2730,12 @@ extension DisassociateDRTRoleInput {
     }
 }
 
-public struct DisassociateDRTRoleInput: Swift.Equatable {
+public struct DisassociateDRTRoleInput {
 
     public init() { }
 }
 
-struct DisassociateDRTRoleInputBody: Swift.Equatable {
+struct DisassociateDRTRoleInputBody {
 }
 
 extension DisassociateDRTRoleInputBody: Swift.Decodable {
@@ -2749,7 +2749,7 @@ extension DisassociateDRTRoleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateDRTRoleOutput: Swift.Equatable {
+public struct DisassociateDRTRoleOutput {
 
     public init() { }
 }
@@ -2792,7 +2792,7 @@ extension DisassociateHealthCheckInput {
     }
 }
 
-public struct DisassociateHealthCheckInput: Swift.Equatable {
+public struct DisassociateHealthCheckInput {
     /// The Amazon Resource Name (ARN) of the health check that is associated with the protection.
     /// This member is required.
     public var healthCheckArn: Swift.String?
@@ -2810,7 +2810,7 @@ public struct DisassociateHealthCheckInput: Swift.Equatable {
     }
 }
 
-struct DisassociateHealthCheckInputBody: Swift.Equatable {
+struct DisassociateHealthCheckInputBody {
     let protectionId: Swift.String?
     let healthCheckArn: Swift.String?
 }
@@ -2835,7 +2835,7 @@ extension DisassociateHealthCheckOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateHealthCheckOutput: Swift.Equatable {
+public struct DisassociateHealthCheckOutput {
 
     public init() { }
 }
@@ -2888,7 +2888,7 @@ extension ShieldClientTypes.EmergencyContact: Swift.Codable {
 
 extension ShieldClientTypes {
     /// Contact information that the SRT can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive customer support.
-    public struct EmergencyContact: Swift.Equatable {
+    public struct EmergencyContact {
         /// Additional notes regarding the contact.
         public var contactNotes: Swift.String?
         /// The email address for the contact.
@@ -2935,7 +2935,7 @@ extension EnableApplicationLayerAutomaticResponseInput {
     }
 }
 
-public struct EnableApplicationLayerAutomaticResponseInput: Swift.Equatable {
+public struct EnableApplicationLayerAutomaticResponseInput {
     /// Specifies the action setting that Shield Advanced should use in the WAF rules that it creates on behalf of the protected resource in response to DDoS attacks. You specify this as part of the configuration for the automatic application layer DDoS mitigation feature, when you enable or update automatic mitigation. Shield Advanced creates the WAF rules in a Shield Advanced-managed rule group, inside the web ACL that you have associated with the resource.
     /// This member is required.
     public var action: ShieldClientTypes.ResponseAction?
@@ -2953,7 +2953,7 @@ public struct EnableApplicationLayerAutomaticResponseInput: Swift.Equatable {
     }
 }
 
-struct EnableApplicationLayerAutomaticResponseInputBody: Swift.Equatable {
+struct EnableApplicationLayerAutomaticResponseInputBody {
     let resourceArn: Swift.String?
     let action: ShieldClientTypes.ResponseAction?
 }
@@ -2978,7 +2978,7 @@ extension EnableApplicationLayerAutomaticResponseOutput: ClientRuntime.HttpRespo
     }
 }
 
-public struct EnableApplicationLayerAutomaticResponseOutput: Swift.Equatable {
+public struct EnableApplicationLayerAutomaticResponseOutput {
 
     public init() { }
 }
@@ -3014,12 +3014,12 @@ extension EnableProactiveEngagementInput {
     }
 }
 
-public struct EnableProactiveEngagementInput: Swift.Equatable {
+public struct EnableProactiveEngagementInput {
 
     public init() { }
 }
 
-struct EnableProactiveEngagementInputBody: Swift.Equatable {
+struct EnableProactiveEngagementInputBody {
 }
 
 extension EnableProactiveEngagementInputBody: Swift.Decodable {
@@ -3033,7 +3033,7 @@ extension EnableProactiveEngagementOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct EnableProactiveEngagementOutput: Swift.Equatable {
+public struct EnableProactiveEngagementOutput {
 
     public init() { }
 }
@@ -3068,12 +3068,12 @@ extension GetSubscriptionStateInput {
     }
 }
 
-public struct GetSubscriptionStateInput: Swift.Equatable {
+public struct GetSubscriptionStateInput {
 
     public init() { }
 }
 
-struct GetSubscriptionStateInputBody: Swift.Equatable {
+struct GetSubscriptionStateInputBody {
 }
 
 extension GetSubscriptionStateInputBody: Swift.Decodable {
@@ -3094,7 +3094,7 @@ extension GetSubscriptionStateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSubscriptionStateOutput: Swift.Equatable {
+public struct GetSubscriptionStateOutput {
     /// The status of the subscription.
     /// This member is required.
     public var subscriptionState: ShieldClientTypes.SubscriptionState?
@@ -3107,7 +3107,7 @@ public struct GetSubscriptionStateOutput: Swift.Equatable {
     }
 }
 
-struct GetSubscriptionStateOutputBody: Swift.Equatable {
+struct GetSubscriptionStateOutputBody {
     let subscriptionState: ShieldClientTypes.SubscriptionState?
 }
 
@@ -3203,7 +3203,7 @@ extension ShieldClientTypes.InclusionProtectionFilters: Swift.Codable {
 
 extension ShieldClientTypes {
     /// Narrows the set of protections that the call retrieves. You can retrieve a single protection by providing its name or the ARN (Amazon Resource Name) of its protected resource. You can also retrieve all protections for a specific resource type. You can provide up to one criteria per filter type. Shield Advanced returns protections that exactly match all of the filter criteria that you provide.
-    public struct InclusionProtectionFilters: Swift.Equatable {
+    public struct InclusionProtectionFilters {
         /// The name of the protection that you want to retrieve.
         public var protectionNames: [Swift.String]?
         /// The ARN (Amazon Resource Name) of the resource whose protection you want to retrieve.
@@ -3312,7 +3312,7 @@ extension ShieldClientTypes.InclusionProtectionGroupFilters: Swift.Codable {
 
 extension ShieldClientTypes {
     /// Narrows the set of protection groups that the call retrieves. You can retrieve a single protection group by its name and you can retrieve all protection groups that are configured with a specific pattern, aggregation, or resource type. You can provide up to one criteria per filter type. Shield Advanced returns the protection groups that exactly match all of the search criteria that you provide.
-    public struct InclusionProtectionGroupFilters: Swift.Equatable {
+    public struct InclusionProtectionGroupFilters {
         /// The aggregation setting of the protection groups that you want to retrieve.
         public var aggregations: [ShieldClientTypes.ProtectionGroupAggregation]?
         /// The pattern specification of the protection groups that you want to retrieve.
@@ -3377,7 +3377,7 @@ public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct InternalErrorExceptionBody: Swift.Equatable {
+struct InternalErrorExceptionBody {
     let message: Swift.String?
 }
 
@@ -3432,7 +3432,7 @@ public struct InvalidOperationException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidOperationExceptionBody: Swift.Equatable {
+struct InvalidOperationExceptionBody {
     let message: Swift.String?
 }
 
@@ -3487,7 +3487,7 @@ public struct InvalidPaginationTokenException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct InvalidPaginationTokenExceptionBody: Swift.Equatable {
+struct InvalidPaginationTokenExceptionBody {
     let message: Swift.String?
 }
 
@@ -3554,7 +3554,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidParameterExceptionBody: Swift.Equatable {
+struct InvalidParameterExceptionBody {
     let message: Swift.String?
     let reason: ShieldClientTypes.ValidationExceptionReason?
     let fields: [ShieldClientTypes.ValidationExceptionField]?
@@ -3626,7 +3626,7 @@ public struct InvalidResourceException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InvalidResourceExceptionBody: Swift.Equatable {
+struct InvalidResourceExceptionBody {
     let message: Swift.String?
 }
 
@@ -3669,7 +3669,7 @@ extension ShieldClientTypes.Limit: Swift.Codable {
 
 extension ShieldClientTypes {
     /// Specifies how many protections of a given type you can create.
-    public struct Limit: Swift.Equatable {
+    public struct Limit {
         /// The maximum number of protections that can be created for the specified Type.
         public var max: Swift.Int
         /// The type of protection.
@@ -3738,7 +3738,7 @@ public struct LimitsExceededException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct LimitsExceededExceptionBody: Swift.Equatable {
+struct LimitsExceededExceptionBody {
     let message: Swift.String?
     let type: Swift.String?
     let limit: Swift.Int
@@ -3801,7 +3801,7 @@ extension ListAttacksInput {
     }
 }
 
-public struct ListAttacksInput: Swift.Equatable {
+public struct ListAttacksInput {
     /// The end of the time period for the attacks. This is a timestamp type. The request syntax listing for this call indicates a number type, but you can provide the time in any valid [timestamp format](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-types.html#parameter-type-timestamp) setting.
     public var endTime: ShieldClientTypes.TimeRange?
     /// The greatest number of objects that you want Shield Advanced to return to the list request. Shield Advanced might return fewer objects than you indicate in this setting, even if more objects are available. If there are more objects remaining, Shield Advanced will always also return a NextToken value in the response. The default setting is 20.
@@ -3829,7 +3829,7 @@ public struct ListAttacksInput: Swift.Equatable {
     }
 }
 
-struct ListAttacksInputBody: Swift.Equatable {
+struct ListAttacksInputBody {
     let resourceArns: [Swift.String]?
     let startTime: ShieldClientTypes.TimeRange?
     let endTime: ShieldClientTypes.TimeRange?
@@ -3884,7 +3884,7 @@ extension ListAttacksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAttacksOutput: Swift.Equatable {
+public struct ListAttacksOutput {
     /// The attack information for the specified time range.
     public var attackSummaries: [ShieldClientTypes.AttackSummary]?
     /// When you request a list of objects from Shield Advanced, if the response does not include all of the remaining available objects, Shield Advanced includes a NextToken value in the response. You can retrieve the next batch of objects by requesting the list again and providing the token that was returned by the prior call in your request. You can indicate the maximum number of objects that you want Shield Advanced to return for a single call with the MaxResults setting. Shield Advanced will not return more than MaxResults objects, but may return fewer, even if more objects are still available. Whenever more objects remain that Shield Advanced has not yet returned to you, the response will include a NextToken value.
@@ -3900,7 +3900,7 @@ public struct ListAttacksOutput: Swift.Equatable {
     }
 }
 
-struct ListAttacksOutputBody: Swift.Equatable {
+struct ListAttacksOutputBody {
     let attackSummaries: [ShieldClientTypes.AttackSummary]?
     let nextToken: Swift.String?
 }
@@ -3970,7 +3970,7 @@ extension ListProtectionGroupsInput {
     }
 }
 
-public struct ListProtectionGroupsInput: Swift.Equatable {
+public struct ListProtectionGroupsInput {
     /// Narrows the set of protection groups that the call retrieves. You can retrieve a single protection group by its name and you can retrieve all protection groups that are configured with specific pattern or aggregation settings. You can provide up to one criteria per filter type. Shield Advanced returns the protection groups that exactly match all of the search criteria that you provide.
     public var inclusionFilters: ShieldClientTypes.InclusionProtectionGroupFilters?
     /// The greatest number of objects that you want Shield Advanced to return to the list request. Shield Advanced might return fewer objects than you indicate in this setting, even if more objects are available. If there are more objects remaining, Shield Advanced will always also return a NextToken value in the response. The default setting is 20.
@@ -3990,7 +3990,7 @@ public struct ListProtectionGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListProtectionGroupsInputBody: Swift.Equatable {
+struct ListProtectionGroupsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let inclusionFilters: ShieldClientTypes.InclusionProtectionGroupFilters?
@@ -4028,7 +4028,7 @@ extension ListProtectionGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListProtectionGroupsOutput: Swift.Equatable {
+public struct ListProtectionGroupsOutput {
     /// When you request a list of objects from Shield Advanced, if the response does not include all of the remaining available objects, Shield Advanced includes a NextToken value in the response. You can retrieve the next batch of objects by requesting the list again and providing the token that was returned by the prior call in your request. You can indicate the maximum number of objects that you want Shield Advanced to return for a single call with the MaxResults setting. Shield Advanced will not return more than MaxResults objects, but may return fewer, even if more objects are still available. Whenever more objects remain that Shield Advanced has not yet returned to you, the response will include a NextToken value.
     public var nextToken: Swift.String?
     ///
@@ -4045,7 +4045,7 @@ public struct ListProtectionGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListProtectionGroupsOutputBody: Swift.Equatable {
+struct ListProtectionGroupsOutputBody {
     let protectionGroups: [ShieldClientTypes.ProtectionGroup]?
     let nextToken: Swift.String?
 }
@@ -4115,7 +4115,7 @@ extension ListProtectionsInput {
     }
 }
 
-public struct ListProtectionsInput: Swift.Equatable {
+public struct ListProtectionsInput {
     /// Narrows the set of protections that the call retrieves. You can retrieve a single protection by providing its name or the ARN (Amazon Resource Name) of its protected resource. You can also retrieve all protections for a specific resource type. You can provide up to one criteria per filter type. Shield Advanced returns protections that exactly match all of the filter criteria that you provide.
     public var inclusionFilters: ShieldClientTypes.InclusionProtectionFilters?
     /// The greatest number of objects that you want Shield Advanced to return to the list request. Shield Advanced might return fewer objects than you indicate in this setting, even if more objects are available. If there are more objects remaining, Shield Advanced will always also return a NextToken value in the response. The default setting is 20.
@@ -4135,7 +4135,7 @@ public struct ListProtectionsInput: Swift.Equatable {
     }
 }
 
-struct ListProtectionsInputBody: Swift.Equatable {
+struct ListProtectionsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let inclusionFilters: ShieldClientTypes.InclusionProtectionFilters?
@@ -4173,7 +4173,7 @@ extension ListProtectionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListProtectionsOutput: Swift.Equatable {
+public struct ListProtectionsOutput {
     /// When you request a list of objects from Shield Advanced, if the response does not include all of the remaining available objects, Shield Advanced includes a NextToken value in the response. You can retrieve the next batch of objects by requesting the list again and providing the token that was returned by the prior call in your request. You can indicate the maximum number of objects that you want Shield Advanced to return for a single call with the MaxResults setting. Shield Advanced will not return more than MaxResults objects, but may return fewer, even if more objects are still available. Whenever more objects remain that Shield Advanced has not yet returned to you, the response will include a NextToken value.
     public var nextToken: Swift.String?
     /// The array of enabled [Protection] objects.
@@ -4189,7 +4189,7 @@ public struct ListProtectionsOutput: Swift.Equatable {
     }
 }
 
-struct ListProtectionsOutputBody: Swift.Equatable {
+struct ListProtectionsOutputBody {
     let protections: [ShieldClientTypes.Protection]?
     let nextToken: Swift.String?
 }
@@ -4259,7 +4259,7 @@ extension ListResourcesInProtectionGroupInput {
     }
 }
 
-public struct ListResourcesInProtectionGroupInput: Swift.Equatable {
+public struct ListResourcesInProtectionGroupInput {
     /// The greatest number of objects that you want Shield Advanced to return to the list request. Shield Advanced might return fewer objects than you indicate in this setting, even if more objects are available. If there are more objects remaining, Shield Advanced will always also return a NextToken value in the response. The default setting is 20.
     public var maxResults: Swift.Int?
     /// When you request a list of objects from Shield Advanced, if the response does not include all of the remaining available objects, Shield Advanced includes a NextToken value in the response. You can retrieve the next batch of objects by requesting the list again and providing the token that was returned by the prior call in your request. You can indicate the maximum number of objects that you want Shield Advanced to return for a single call with the MaxResults setting. Shield Advanced will not return more than MaxResults objects, but may return fewer, even if more objects are still available. Whenever more objects remain that Shield Advanced has not yet returned to you, the response will include a NextToken value. On your first call to a list operation, leave this setting empty.
@@ -4280,7 +4280,7 @@ public struct ListResourcesInProtectionGroupInput: Swift.Equatable {
     }
 }
 
-struct ListResourcesInProtectionGroupInputBody: Swift.Equatable {
+struct ListResourcesInProtectionGroupInputBody {
     let protectionGroupId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -4318,7 +4318,7 @@ extension ListResourcesInProtectionGroupOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ListResourcesInProtectionGroupOutput: Swift.Equatable {
+public struct ListResourcesInProtectionGroupOutput {
     /// When you request a list of objects from Shield Advanced, if the response does not include all of the remaining available objects, Shield Advanced includes a NextToken value in the response. You can retrieve the next batch of objects by requesting the list again and providing the token that was returned by the prior call in your request. You can indicate the maximum number of objects that you want Shield Advanced to return for a single call with the MaxResults setting. Shield Advanced will not return more than MaxResults objects, but may return fewer, even if more objects are still available. Whenever more objects remain that Shield Advanced has not yet returned to you, the response will include a NextToken value.
     public var nextToken: Swift.String?
     /// The Amazon Resource Names (ARNs) of the resources that are included in the protection group.
@@ -4335,7 +4335,7 @@ public struct ListResourcesInProtectionGroupOutput: Swift.Equatable {
     }
 }
 
-struct ListResourcesInProtectionGroupOutputBody: Swift.Equatable {
+struct ListResourcesInProtectionGroupOutputBody {
     let resourceArns: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -4397,7 +4397,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource to get tags for.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -4410,7 +4410,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceARN: Swift.String?
 }
 
@@ -4438,7 +4438,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// A list of tag key and value pairs associated with the specified resource.
     public var tags: [ShieldClientTypes.Tag]?
 
@@ -4450,7 +4450,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [ShieldClientTypes.Tag]?
 }
 
@@ -4527,7 +4527,7 @@ public struct LockedSubscriptionException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct LockedSubscriptionExceptionBody: Swift.Equatable {
+struct LockedSubscriptionExceptionBody {
     let message: Swift.String?
 }
 
@@ -4564,7 +4564,7 @@ extension ShieldClientTypes.Mitigation: Swift.Codable {
 
 extension ShieldClientTypes {
     /// The mitigation applied to a DDoS attack.
-    public struct Mitigation: Swift.Equatable {
+    public struct Mitigation {
         /// The name of the mitigation taken for this attack.
         public var mitigationName: Swift.String?
 
@@ -4617,7 +4617,7 @@ public struct NoAssociatedRoleException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct NoAssociatedRoleExceptionBody: Swift.Equatable {
+struct NoAssociatedRoleExceptionBody {
     let message: Swift.String?
 }
 
@@ -4672,7 +4672,7 @@ public struct OptimisticLockException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct OptimisticLockExceptionBody: Swift.Equatable {
+struct OptimisticLockExceptionBody {
     let message: Swift.String?
 }
 
@@ -4830,7 +4830,7 @@ extension ShieldClientTypes.Protection: Swift.Codable {
 
 extension ShieldClientTypes {
     /// An object that represents a resource that is under DDoS protection.
-    public struct Protection: Swift.Equatable {
+    public struct Protection {
         /// The automatic application layer DDoS mitigation settings for the protection. This configuration determines whether Shield Advanced automatically manages rules in the web ACL in order to respond to application layer events that Shield Advanced determines to be DDoS attacks.
         public var applicationLayerAutomaticResponseConfiguration: ShieldClientTypes.ApplicationLayerAutomaticResponseConfiguration?
         /// The unique identifier (ID) for the Route 53 health check that's associated with the protection.
@@ -4927,7 +4927,7 @@ extension ShieldClientTypes.ProtectionGroup: Swift.Codable {
 
 extension ShieldClientTypes {
     /// A grouping of protected resources that you and Shield Advanced can monitor as a collective. This resource grouping improves the accuracy of detection and reduces false positives.
-    public struct ProtectionGroup: Swift.Equatable {
+    public struct ProtectionGroup {
         /// Defines how Shield combines resource data for the group in order to detect, mitigate, and report events.
         ///
         /// * Sum - Use the total traffic across the group. This is a good choice for most cases. Examples include Elastic IP addresses for EC2 instances that scale manually or automatically.
@@ -5027,7 +5027,7 @@ extension ShieldClientTypes.ProtectionGroupArbitraryPatternLimits: Swift.Codable
 
 extension ShieldClientTypes {
     /// Limits settings on protection groups with arbitrary pattern type.
-    public struct ProtectionGroupArbitraryPatternLimits: Swift.Equatable {
+    public struct ProtectionGroupArbitraryPatternLimits {
         /// The maximum number of resources you can specify for a single arbitrary pattern in a protection group.
         /// This member is required.
         public var maxMembers: Swift.Int
@@ -5069,7 +5069,7 @@ extension ShieldClientTypes.ProtectionGroupLimits: Swift.Codable {
 
 extension ShieldClientTypes {
     /// Limits settings on protection groups for your subscription.
-    public struct ProtectionGroupLimits: Swift.Equatable {
+    public struct ProtectionGroupLimits {
         /// The maximum number of protection groups that you can have at one time.
         /// This member is required.
         public var maxProtectionGroups: Swift.Int
@@ -5145,7 +5145,7 @@ extension ShieldClientTypes.ProtectionGroupPatternTypeLimits: Swift.Codable {
 
 extension ShieldClientTypes {
     /// Limits settings by pattern type in the protection groups for your subscription.
-    public struct ProtectionGroupPatternTypeLimits: Swift.Equatable {
+    public struct ProtectionGroupPatternTypeLimits {
         /// Limits settings on protection groups with arbitrary pattern type.
         /// This member is required.
         public var arbitraryPatternLimits: ShieldClientTypes.ProtectionGroupArbitraryPatternLimits?
@@ -5193,7 +5193,7 @@ extension ShieldClientTypes.ProtectionLimits: Swift.Codable {
 
 extension ShieldClientTypes {
     /// Limits settings on protections for your subscription.
-    public struct ProtectionLimits: Swift.Equatable {
+    public struct ProtectionLimits {
         /// The maximum number of resource types that you can specify in a protection.
         /// This member is required.
         public var protectedResourceTypeLimits: [ShieldClientTypes.Limit]?
@@ -5253,7 +5253,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct ResourceAlreadyExistsExceptionBody: Swift.Equatable {
+struct ResourceAlreadyExistsExceptionBody {
     let message: Swift.String?
     let resourceType: Swift.String?
 }
@@ -5318,7 +5318,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceType: Swift.String?
 }
@@ -5365,7 +5365,7 @@ extension ShieldClientTypes.ResponseAction: Swift.Codable {
 
 extension ShieldClientTypes {
     /// Specifies the action setting that Shield Advanced should use in the WAF rules that it creates on behalf of the protected resource in response to DDoS attacks. You specify this as part of the configuration for the automatic application layer DDoS mitigation feature, when you enable or update automatic mitigation. Shield Advanced creates the WAF rules in a Shield Advanced-managed rule group, inside the web ACL that you have associated with the resource.
-    public struct ResponseAction: Swift.Equatable {
+    public struct ResponseAction {
         /// Specifies that Shield Advanced should configure its WAF rules with the WAF Block action. You must specify exactly one action, either Block or Count.
         public var block: ShieldClientTypes.BlockAction?
         /// Specifies that Shield Advanced should configure its WAF rules with the WAF Count action. You must specify exactly one action, either Block or Count.
@@ -5448,7 +5448,7 @@ extension ShieldClientTypes.SubResourceSummary: Swift.Codable {
 
 extension ShieldClientTypes {
     /// The attack information for the specified SubResource.
-    public struct SubResourceSummary: Swift.Equatable {
+    public struct SubResourceSummary {
         /// The list of attack types and associated counters.
         public var attackVectors: [ShieldClientTypes.SummarizedAttackVector]?
         /// The counters that describe the details of the attack.
@@ -5581,7 +5581,7 @@ extension ShieldClientTypes.Subscription: Swift.Codable {
 
 extension ShieldClientTypes {
     /// Information about the Shield Advanced subscription for an account.
-    public struct Subscription: Swift.Equatable {
+    public struct Subscription {
         /// If ENABLED, the subscription will be automatically renewed at the end of the existing subscription period. When you initally create a subscription, AutoRenew is set to ENABLED. You can change this by submitting an UpdateSubscription request. If the UpdateSubscription request does not included a value for AutoRenew, the existing value for AutoRenew remains unchanged.
         public var autoRenew: ShieldClientTypes.AutoRenew?
         /// The date and time your subscription will end.
@@ -5651,7 +5651,7 @@ extension ShieldClientTypes.SubscriptionLimits: Swift.Codable {
 
 extension ShieldClientTypes {
     /// Limits settings for your subscription.
-    public struct SubscriptionLimits: Swift.Equatable {
+    public struct SubscriptionLimits {
         /// Limits settings on protection groups for your subscription.
         /// This member is required.
         public var protectionGroupLimits: ShieldClientTypes.ProtectionGroupLimits?
@@ -5742,7 +5742,7 @@ extension ShieldClientTypes.SummarizedAttackVector: Swift.Codable {
 
 extension ShieldClientTypes {
     /// A summary of information about the attack.
-    public struct SummarizedAttackVector: Swift.Equatable {
+    public struct SummarizedAttackVector {
         /// The list of counters that describe the details of the attack.
         public var vectorCounters: [ShieldClientTypes.SummarizedCounter]?
         /// The attack type, for example, SNMP reflection or SYN flood.
@@ -5812,7 +5812,7 @@ extension ShieldClientTypes.SummarizedCounter: Swift.Codable {
 
 extension ShieldClientTypes {
     /// The counter that describes a DDoS attack.
-    public struct SummarizedCounter: Swift.Equatable {
+    public struct SummarizedCounter {
         /// The average value of the counter for a specified time period.
         public var average: Swift.Double
         /// The maximum value of the counter for a specified time period.
@@ -5873,7 +5873,7 @@ extension ShieldClientTypes.Tag: Swift.Codable {
 
 extension ShieldClientTypes {
     /// A tag associated with an Amazon Web Services resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing or other management. Typically, the tag key represents a category, such as "environment", and the tag value represents a specific value within that category, such as "test," "development," or "production". Or you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// Part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "customer." Tag keys are case-sensitive.
         public var key: Swift.String?
         /// Part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a category, such as "companyA" or "companyB." Tag values are case-sensitive.
@@ -5918,7 +5918,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource that you want to add or update tags for.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -5936,7 +5936,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceARN: Swift.String?
     let tags: [ShieldClientTypes.Tag]?
 }
@@ -5970,7 +5970,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -6016,7 +6016,7 @@ extension ShieldClientTypes.TimeRange: Swift.Codable {
 
 extension ShieldClientTypes {
     /// The time range.
-    public struct TimeRange: Swift.Equatable {
+    public struct TimeRange {
         /// The start time, in Unix time in seconds.
         public var fromInclusive: ClientRuntime.Date?
         /// The end time, in Unix time in seconds.
@@ -6099,7 +6099,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource that you want to remove tags from.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -6117,7 +6117,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceARN: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -6151,7 +6151,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -6194,7 +6194,7 @@ extension UpdateApplicationLayerAutomaticResponseInput {
     }
 }
 
-public struct UpdateApplicationLayerAutomaticResponseInput: Swift.Equatable {
+public struct UpdateApplicationLayerAutomaticResponseInput {
     /// Specifies the action setting that Shield Advanced should use in the WAF rules that it creates on behalf of the protected resource in response to DDoS attacks. You specify this as part of the configuration for the automatic application layer DDoS mitigation feature, when you enable or update automatic mitigation. Shield Advanced creates the WAF rules in a Shield Advanced-managed rule group, inside the web ACL that you have associated with the resource.
     /// This member is required.
     public var action: ShieldClientTypes.ResponseAction?
@@ -6212,7 +6212,7 @@ public struct UpdateApplicationLayerAutomaticResponseInput: Swift.Equatable {
     }
 }
 
-struct UpdateApplicationLayerAutomaticResponseInputBody: Swift.Equatable {
+struct UpdateApplicationLayerAutomaticResponseInputBody {
     let resourceArn: Swift.String?
     let action: ShieldClientTypes.ResponseAction?
 }
@@ -6237,7 +6237,7 @@ extension UpdateApplicationLayerAutomaticResponseOutput: ClientRuntime.HttpRespo
     }
 }
 
-public struct UpdateApplicationLayerAutomaticResponseOutput: Swift.Equatable {
+public struct UpdateApplicationLayerAutomaticResponseOutput {
 
     public init() { }
 }
@@ -6280,7 +6280,7 @@ extension UpdateEmergencyContactSettingsInput {
     }
 }
 
-public struct UpdateEmergencyContactSettingsInput: Swift.Equatable {
+public struct UpdateEmergencyContactSettingsInput {
     /// A list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive customer support. If you have proactive engagement enabled, the contact list must include at least one phone number.
     public var emergencyContactList: [ShieldClientTypes.EmergencyContact]?
 
@@ -6292,7 +6292,7 @@ public struct UpdateEmergencyContactSettingsInput: Swift.Equatable {
     }
 }
 
-struct UpdateEmergencyContactSettingsInputBody: Swift.Equatable {
+struct UpdateEmergencyContactSettingsInputBody {
     let emergencyContactList: [ShieldClientTypes.EmergencyContact]?
 }
 
@@ -6322,7 +6322,7 @@ extension UpdateEmergencyContactSettingsOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct UpdateEmergencyContactSettingsOutput: Swift.Equatable {
+public struct UpdateEmergencyContactSettingsOutput {
 
     public init() { }
 }
@@ -6380,7 +6380,7 @@ extension UpdateProtectionGroupInput {
     }
 }
 
-public struct UpdateProtectionGroupInput: Swift.Equatable {
+public struct UpdateProtectionGroupInput {
     /// Defines how Shield combines resource data for the group in order to detect, mitigate, and report events.
     ///
     /// * Sum - Use the total traffic across the group. This is a good choice for most cases. Examples include Elastic IP addresses for EC2 instances that scale manually or automatically.
@@ -6417,7 +6417,7 @@ public struct UpdateProtectionGroupInput: Swift.Equatable {
     }
 }
 
-struct UpdateProtectionGroupInputBody: Swift.Equatable {
+struct UpdateProtectionGroupInputBody {
     let protectionGroupId: Swift.String?
     let aggregation: ShieldClientTypes.ProtectionGroupAggregation?
     let pattern: ShieldClientTypes.ProtectionGroupPattern?
@@ -6463,7 +6463,7 @@ extension UpdateProtectionGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateProtectionGroupOutput: Swift.Equatable {
+public struct UpdateProtectionGroupOutput {
 
     public init() { }
 }
@@ -6502,7 +6502,7 @@ extension UpdateSubscriptionInput {
     }
 }
 
-public struct UpdateSubscriptionInput: Swift.Equatable {
+public struct UpdateSubscriptionInput {
     /// When you initally create a subscription, AutoRenew is set to ENABLED. If ENABLED, the subscription will be automatically renewed at the end of the existing subscription period. You can change this by submitting an UpdateSubscription request. If the UpdateSubscription request does not included a value for AutoRenew, the existing value for AutoRenew remains unchanged.
     public var autoRenew: ShieldClientTypes.AutoRenew?
 
@@ -6514,7 +6514,7 @@ public struct UpdateSubscriptionInput: Swift.Equatable {
     }
 }
 
-struct UpdateSubscriptionInputBody: Swift.Equatable {
+struct UpdateSubscriptionInputBody {
     let autoRenew: ShieldClientTypes.AutoRenew?
 }
 
@@ -6535,7 +6535,7 @@ extension UpdateSubscriptionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSubscriptionOutput: Swift.Equatable {
+public struct UpdateSubscriptionOutput {
 
     public init() { }
 }
@@ -6582,7 +6582,7 @@ extension ShieldClientTypes.ValidationExceptionField: Swift.Codable {
 
 extension ShieldClientTypes {
     /// Provides information about a particular parameter passed inside a request that resulted in an exception.
-    public struct ValidationExceptionField: Swift.Equatable {
+    public struct ValidationExceptionField {
         /// The message describing why the parameter failed validation.
         /// This member is required.
         public var message: Swift.String?

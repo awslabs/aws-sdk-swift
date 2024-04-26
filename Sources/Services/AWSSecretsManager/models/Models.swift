@@ -35,7 +35,7 @@ extension SecretsManagerClientTypes.APIErrorType: Swift.Codable {
 
 extension SecretsManagerClientTypes {
     /// The error Secrets Manager encountered while retrieving an individual secret as part of [BatchGetSecretValue].
-    public struct APIErrorType: Swift.Equatable {
+    public struct APIErrorType {
         /// The error Secrets Manager encountered while retrieving an individual secret as part of [BatchGetSecretValue], for example ResourceNotFoundException,InvalidParameterException, InvalidRequestException, DecryptionFailure, or AccessDeniedException.
         public var errorCode: Swift.String?
         /// A message describing the error.
@@ -95,7 +95,7 @@ extension BatchGetSecretValueInput {
     }
 }
 
-public struct BatchGetSecretValueInput: Swift.Equatable {
+public struct BatchGetSecretValueInput {
     /// The filters to choose which secrets to retrieve. You must include Filters or SecretIdList, but not both.
     public var filters: [SecretsManagerClientTypes.Filter]?
     /// The number of results to include in the response. If there are more results available, in the response, Secrets Manager includes NextToken. To get the next results, call BatchGetSecretValue again with the value from NextToken. To use this parameter, you must also use the Filters parameter.
@@ -119,7 +119,7 @@ public struct BatchGetSecretValueInput: Swift.Equatable {
     }
 }
 
-struct BatchGetSecretValueInputBody: Swift.Equatable {
+struct BatchGetSecretValueInputBody {
     let secretIdList: [Swift.String]?
     let filters: [SecretsManagerClientTypes.Filter]?
     let maxResults: Swift.Int?
@@ -181,7 +181,7 @@ extension BatchGetSecretValueOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetSecretValueOutput: Swift.Equatable {
+public struct BatchGetSecretValueOutput {
     /// A list of errors Secrets Manager encountered while attempting to retrieve individual secrets.
     public var errors: [SecretsManagerClientTypes.APIErrorType]?
     /// Secrets Manager includes this value if there's more output available than what is included in the current response. This can occur even when the response includes no values at all, such as when you ask for a filtered view of a long list. To get the next results, call BatchGetSecretValue again with this value.
@@ -201,7 +201,7 @@ public struct BatchGetSecretValueOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetSecretValueOutputBody: Swift.Equatable {
+struct BatchGetSecretValueOutputBody {
     let secretValues: [SecretsManagerClientTypes.SecretValueEntry]?
     let nextToken: Swift.String?
     let errors: [SecretsManagerClientTypes.APIErrorType]?
@@ -279,7 +279,7 @@ extension CancelRotateSecretInput {
     }
 }
 
-public struct CancelRotateSecretInput: Swift.Equatable {
+public struct CancelRotateSecretInput {
     /// The ARN or name of the secret. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See [Finding a secret from a partial ARN](https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen).
     /// This member is required.
     public var secretId: Swift.String?
@@ -292,7 +292,7 @@ public struct CancelRotateSecretInput: Swift.Equatable {
     }
 }
 
-struct CancelRotateSecretInputBody: Swift.Equatable {
+struct CancelRotateSecretInputBody {
     let secretId: Swift.String?
 }
 
@@ -324,7 +324,7 @@ extension CancelRotateSecretOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelRotateSecretOutput: Swift.Equatable {
+public struct CancelRotateSecretOutput {
     /// The ARN of the secret.
     public var arn: Swift.String?
     /// The name of the secret.
@@ -344,7 +344,7 @@ public struct CancelRotateSecretOutput: Swift.Equatable {
     }
 }
 
-struct CancelRotateSecretOutputBody: Swift.Equatable {
+struct CancelRotateSecretOutputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let versionId: Swift.String?
@@ -445,7 +445,7 @@ extension CreateSecretInput {
     }
 }
 
-public struct CreateSecretInput: Swift.Equatable {
+public struct CreateSecretInput {
     /// A list of Regions and KMS keys to replicate secrets.
     public var addReplicaRegions: [SecretsManagerClientTypes.ReplicaRegionType]?
     /// If you include SecretString or SecretBinary, then Secrets Manager creates an initial version for the secret, and this parameter specifies the unique identifier for the new version. If you use the Amazon Web Services CLI or one of the Amazon Web Services SDKs to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes it as the value for this parameter in the request. If you generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken and include it in the request. This value helps ensure idempotency. Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during a rotation. We recommend that you generate a [UUID-type](https://wikipedia.org/wiki/Universally_unique_identifier) value to ensure uniqueness of your versions within the specified secret.
@@ -499,7 +499,7 @@ public struct CreateSecretInput: Swift.Equatable {
     }
 }
 
-struct CreateSecretInputBody: Swift.Equatable {
+struct CreateSecretInputBody {
     let name: Swift.String?
     let clientRequestToken: Swift.String?
     let description: Swift.String?
@@ -583,7 +583,7 @@ extension CreateSecretOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSecretOutput: Swift.Equatable {
+public struct CreateSecretOutput {
     /// The ARN of the new secret. The ARN includes the name of the secret followed by six random characters. This ensures that if you create a new secret with the same name as a deleted secret, then users with access to the old secret don't get access to the new secret because the ARNs are different.
     public var arn: Swift.String?
     /// The name of the new secret.
@@ -613,7 +613,7 @@ public struct CreateSecretOutput: Swift.Equatable {
     }
 }
 
-struct CreateSecretOutputBody: Swift.Equatable {
+struct CreateSecretOutputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let versionId: Swift.String?
@@ -709,7 +709,7 @@ public struct DecryptionFailure: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct DecryptionFailureBody: Swift.Equatable {
+struct DecryptionFailureBody {
     let message: Swift.String?
 }
 
@@ -745,7 +745,7 @@ extension DeleteResourcePolicyInput {
     }
 }
 
-public struct DeleteResourcePolicyInput: Swift.Equatable {
+public struct DeleteResourcePolicyInput {
     /// The ARN or name of the secret to delete the attached resource-based policy for. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See [Finding a secret from a partial ARN](https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen).
     /// This member is required.
     public var secretId: Swift.String?
@@ -758,7 +758,7 @@ public struct DeleteResourcePolicyInput: Swift.Equatable {
     }
 }
 
-struct DeleteResourcePolicyInputBody: Swift.Equatable {
+struct DeleteResourcePolicyInputBody {
     let secretId: Swift.String?
 }
 
@@ -788,7 +788,7 @@ extension DeleteResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteResourcePolicyOutput: Swift.Equatable {
+public struct DeleteResourcePolicyOutput {
     /// The ARN of the secret that the resource-based policy was deleted for.
     public var arn: Swift.String?
     /// The name of the secret that the resource-based policy was deleted for.
@@ -804,7 +804,7 @@ public struct DeleteResourcePolicyOutput: Swift.Equatable {
     }
 }
 
-struct DeleteResourcePolicyOutputBody: Swift.Equatable {
+struct DeleteResourcePolicyOutputBody {
     let arn: Swift.String?
     let name: Swift.String?
 }
@@ -866,7 +866,7 @@ extension DeleteSecretInput {
     }
 }
 
-public struct DeleteSecretInput: Swift.Equatable {
+public struct DeleteSecretInput {
     /// Specifies whether to delete the secret without any recovery window. You can't use both this parameter and RecoveryWindowInDays in the same call. If you don't use either, then by default Secrets Manager uses a 30 day recovery window. Secrets Manager performs the actual deletion with an asynchronous background process, so there might be a short delay before the secret is permanently deleted. If you delete a secret and then immediately create a secret with the same name, use appropriate back off and retry logic. If you forcibly delete an already deleted or nonexistent secret, the operation does not return ResourceNotFoundException. Use this parameter with caution. This parameter causes the operation to skip the normal recovery window before the permanent deletion that Secrets Manager would normally impose with the RecoveryWindowInDays parameter. If you delete a secret with the ForceDeleteWithoutRecovery parameter, then you have no opportunity to recover the secret. You lose the secret permanently.
     public var forceDeleteWithoutRecovery: Swift.Bool?
     /// The number of days from 7 to 30 that Secrets Manager waits before permanently deleting the secret. You can't use both this parameter and ForceDeleteWithoutRecovery in the same call. If you don't use either, then by default Secrets Manager uses a 30 day recovery window.
@@ -887,7 +887,7 @@ public struct DeleteSecretInput: Swift.Equatable {
     }
 }
 
-struct DeleteSecretInputBody: Swift.Equatable {
+struct DeleteSecretInputBody {
     let secretId: Swift.String?
     let recoveryWindowInDays: Swift.Int?
     let forceDeleteWithoutRecovery: Swift.Bool?
@@ -927,7 +927,7 @@ extension DeleteSecretOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSecretOutput: Swift.Equatable {
+public struct DeleteSecretOutput {
     /// The ARN of the secret.
     public var arn: Swift.String?
     /// The date and time after which this secret Secrets Manager can permanently delete this secret, and it can no longer be restored. This value is the date and time of the delete request plus the number of days in RecoveryWindowInDays.
@@ -947,7 +947,7 @@ public struct DeleteSecretOutput: Swift.Equatable {
     }
 }
 
-struct DeleteSecretOutputBody: Swift.Equatable {
+struct DeleteSecretOutputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let deletionDate: ClientRuntime.Date?
@@ -1005,7 +1005,7 @@ extension DescribeSecretInput {
     }
 }
 
-public struct DescribeSecretInput: Swift.Equatable {
+public struct DescribeSecretInput {
     /// The ARN or name of the secret. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See [Finding a secret from a partial ARN](https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen).
     /// This member is required.
     public var secretId: Swift.String?
@@ -1018,7 +1018,7 @@ public struct DescribeSecretInput: Swift.Equatable {
     }
 }
 
-struct DescribeSecretInputBody: Swift.Equatable {
+struct DescribeSecretInputBody {
     let secretId: Swift.String?
 }
 
@@ -1080,7 +1080,7 @@ extension DescribeSecretOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeSecretOutput: Swift.Equatable {
+public struct DescribeSecretOutput {
     /// The ARN of the secret.
     public var arn: Swift.String?
     /// The date the secret was created.
@@ -1175,7 +1175,7 @@ public struct DescribeSecretOutput: Swift.Equatable {
     }
 }
 
-struct DescribeSecretOutputBody: Swift.Equatable {
+struct DescribeSecretOutputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -1345,7 +1345,7 @@ public struct EncryptionFailure: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct EncryptionFailureBody: Swift.Equatable {
+struct EncryptionFailureBody {
     let message: Swift.String?
 }
 
@@ -1400,7 +1400,7 @@ extension SecretsManagerClientTypes.Filter: Swift.Codable {
 
 extension SecretsManagerClientTypes {
     /// Allows you to add filters when you use the search function in Secrets Manager. For more information, see [Find secrets in Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/manage_search-secret.html).
-    public struct Filter: Swift.Equatable {
+    public struct Filter {
         /// The following are keys you can use:
         ///
         /// * description: Prefix match, not case-sensitive.
@@ -1527,7 +1527,7 @@ extension GetRandomPasswordInput {
     }
 }
 
-public struct GetRandomPasswordInput: Swift.Equatable {
+public struct GetRandomPasswordInput {
     /// A string of the characters that you don't want in the password.
     public var excludeCharacters: Swift.String?
     /// Specifies whether to exclude lowercase letters from the password. If you don't include this switch, the password can contain lowercase letters.
@@ -1567,7 +1567,7 @@ public struct GetRandomPasswordInput: Swift.Equatable {
     }
 }
 
-struct GetRandomPasswordInputBody: Swift.Equatable {
+struct GetRandomPasswordInputBody {
     let passwordLength: Swift.Int?
     let excludeCharacters: Swift.String?
     let excludeNumbers: Swift.Bool?
@@ -1628,7 +1628,7 @@ extension GetRandomPasswordOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRandomPasswordOutput: Swift.Equatable {
+public struct GetRandomPasswordOutput {
     /// A string with the password.
     public var randomPassword: Swift.String?
 
@@ -1640,7 +1640,7 @@ public struct GetRandomPasswordOutput: Swift.Equatable {
     }
 }
 
-struct GetRandomPasswordOutputBody: Swift.Equatable {
+struct GetRandomPasswordOutputBody {
     let randomPassword: Swift.String?
 }
 
@@ -1689,7 +1689,7 @@ extension GetResourcePolicyInput {
     }
 }
 
-public struct GetResourcePolicyInput: Swift.Equatable {
+public struct GetResourcePolicyInput {
     /// The ARN or name of the secret to retrieve the attached resource-based policy for. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See [Finding a secret from a partial ARN](https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen).
     /// This member is required.
     public var secretId: Swift.String?
@@ -1702,7 +1702,7 @@ public struct GetResourcePolicyInput: Swift.Equatable {
     }
 }
 
-struct GetResourcePolicyInputBody: Swift.Equatable {
+struct GetResourcePolicyInputBody {
     let secretId: Swift.String?
 }
 
@@ -1734,7 +1734,7 @@ extension GetResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetResourcePolicyOutput: Swift.Equatable {
+public struct GetResourcePolicyOutput {
     /// The ARN of the secret that the resource-based policy was retrieved for.
     public var arn: Swift.String?
     /// The name of the secret that the resource-based policy was retrieved for.
@@ -1754,7 +1754,7 @@ public struct GetResourcePolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetResourcePolicyOutputBody: Swift.Equatable {
+struct GetResourcePolicyOutputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let resourcePolicy: Swift.String?
@@ -1820,7 +1820,7 @@ extension GetSecretValueInput {
     }
 }
 
-public struct GetSecretValueInput: Swift.Equatable {
+public struct GetSecretValueInput {
     /// The ARN or name of the secret to retrieve. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See [Finding a secret from a partial ARN](https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen).
     /// This member is required.
     public var secretId: Swift.String?
@@ -1841,7 +1841,7 @@ public struct GetSecretValueInput: Swift.Equatable {
     }
 }
 
-struct GetSecretValueInputBody: Swift.Equatable {
+struct GetSecretValueInputBody {
     let secretId: Swift.String?
     let versionId: Swift.String?
     let versionStage: Swift.String?
@@ -1894,7 +1894,7 @@ extension GetSecretValueOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSecretValueOutput: Swift.Equatable {
+public struct GetSecretValueOutput {
     /// The ARN of the secret.
     public var arn: Swift.String?
     /// The date and time that this version of the secret was created. If you don't specify which version in VersionId or VersionStage, then Secrets Manager uses the AWSCURRENT version.
@@ -1930,7 +1930,7 @@ public struct GetSecretValueOutput: Swift.Equatable {
     }
 }
 
-struct GetSecretValueOutputBody: Swift.Equatable {
+struct GetSecretValueOutputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let versionId: Swift.String?
@@ -2033,7 +2033,7 @@ public struct InternalServiceError: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct InternalServiceErrorBody: Swift.Equatable {
+struct InternalServiceErrorBody {
     let message: Swift.String?
 }
 
@@ -2088,7 +2088,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidNextTokenExceptionBody: Swift.Equatable {
+struct InvalidNextTokenExceptionBody {
     let message: Swift.String?
 }
 
@@ -2143,7 +2143,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidParameterExceptionBody: Swift.Equatable {
+struct InvalidParameterExceptionBody {
     let message: Swift.String?
 }
 
@@ -2204,7 +2204,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InvalidRequestExceptionBody: Swift.Equatable {
+struct InvalidRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -2259,7 +2259,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -2307,7 +2307,7 @@ extension ListSecretVersionIdsInput {
     }
 }
 
-public struct ListSecretVersionIdsInput: Swift.Equatable {
+public struct ListSecretVersionIdsInput {
     /// Specifies whether to include versions of secrets that don't have any staging labels attached to them. Versions without staging labels are considered deprecated and are subject to deletion by Secrets Manager. By default, versions without staging labels aren't included.
     public var includeDeprecated: Swift.Bool?
     /// The number of results to include in the response. If there are more results available, in the response, Secrets Manager includes NextToken. To get the next results, call ListSecretVersionIds again with the value from NextToken.
@@ -2332,7 +2332,7 @@ public struct ListSecretVersionIdsInput: Swift.Equatable {
     }
 }
 
-struct ListSecretVersionIdsInputBody: Swift.Equatable {
+struct ListSecretVersionIdsInputBody {
     let secretId: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -2378,7 +2378,7 @@ extension ListSecretVersionIdsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSecretVersionIdsOutput: Swift.Equatable {
+public struct ListSecretVersionIdsOutput {
     /// The ARN of the secret.
     public var arn: Swift.String?
     /// The name of the secret.
@@ -2402,7 +2402,7 @@ public struct ListSecretVersionIdsOutput: Swift.Equatable {
     }
 }
 
-struct ListSecretVersionIdsOutputBody: Swift.Equatable {
+struct ListSecretVersionIdsOutputBody {
     let versions: [SecretsManagerClientTypes.SecretVersionsListEntry]?
     let nextToken: Swift.String?
     let arn: Swift.String?
@@ -2492,7 +2492,7 @@ extension ListSecretsInput {
     }
 }
 
-public struct ListSecretsInput: Swift.Equatable {
+public struct ListSecretsInput {
     /// The filters to apply to the list of secrets.
     public var filters: [SecretsManagerClientTypes.Filter]?
     /// Specifies whether to include secrets scheduled for deletion. By default, secrets scheduled for deletion aren't included.
@@ -2520,7 +2520,7 @@ public struct ListSecretsInput: Swift.Equatable {
     }
 }
 
-struct ListSecretsInputBody: Swift.Equatable {
+struct ListSecretsInputBody {
     let includePlannedDeletion: Swift.Bool?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -2575,7 +2575,7 @@ extension ListSecretsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSecretsOutput: Swift.Equatable {
+public struct ListSecretsOutput {
     /// Secrets Manager includes this value if there's more output available than what is included in the current response. This can occur even when the response includes no values at all, such as when you ask for a filtered view of a long list. To get the next results, call ListSecrets again with this value.
     public var nextToken: Swift.String?
     /// A list of the secrets in the account.
@@ -2591,7 +2591,7 @@ public struct ListSecretsOutput: Swift.Equatable {
     }
 }
 
-struct ListSecretsOutputBody: Swift.Equatable {
+struct ListSecretsOutputBody {
     let secretList: [SecretsManagerClientTypes.SecretListEntry]?
     let nextToken: Swift.String?
 }
@@ -2673,7 +2673,7 @@ public struct MalformedPolicyDocumentException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct MalformedPolicyDocumentExceptionBody: Swift.Equatable {
+struct MalformedPolicyDocumentExceptionBody {
     let message: Swift.String?
 }
 
@@ -2728,7 +2728,7 @@ public struct PreconditionNotMetException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct PreconditionNotMetExceptionBody: Swift.Equatable {
+struct PreconditionNotMetExceptionBody {
     let message: Swift.String?
 }
 
@@ -2783,7 +2783,7 @@ public struct PublicPolicyException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct PublicPolicyExceptionBody: Swift.Equatable {
+struct PublicPolicyExceptionBody {
     let message: Swift.String?
 }
 
@@ -2827,7 +2827,7 @@ extension PutResourcePolicyInput {
     }
 }
 
-public struct PutResourcePolicyInput: Swift.Equatable {
+public struct PutResourcePolicyInput {
     /// Specifies whether to block resource-based policies that allow broad access to the secret, for example those that use a wildcard for the principal. By default, public policies aren't blocked. Resource policy validation and the BlockPublicPolicy parameter help protect your resources by preventing public access from being granted through the resource policies that are directly attached to your secrets. In addition to using these features, carefully inspect the following policies to confirm that they do not grant public access:
     ///
     /// * Identity-based policies attached to associated Amazon Web Services principals (for example, IAM roles)
@@ -2856,7 +2856,7 @@ public struct PutResourcePolicyInput: Swift.Equatable {
     }
 }
 
-struct PutResourcePolicyInputBody: Swift.Equatable {
+struct PutResourcePolicyInputBody {
     let secretId: Swift.String?
     let resourcePolicy: Swift.String?
     let blockPublicPolicy: Swift.Bool?
@@ -2894,7 +2894,7 @@ extension PutResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutResourcePolicyOutput: Swift.Equatable {
+public struct PutResourcePolicyOutput {
     /// The ARN of the secret.
     public var arn: Swift.String?
     /// The name of the secret.
@@ -2910,7 +2910,7 @@ public struct PutResourcePolicyOutput: Swift.Equatable {
     }
 }
 
-struct PutResourcePolicyOutputBody: Swift.Equatable {
+struct PutResourcePolicyOutputBody {
     let arn: Swift.String?
     let name: Swift.String?
 }
@@ -2990,7 +2990,7 @@ extension PutSecretValueInput {
     }
 }
 
-public struct PutSecretValueInput: Swift.Equatable {
+public struct PutSecretValueInput {
     /// A unique identifier for the new version of the secret. If you use the Amazon Web Services CLI or one of the Amazon Web Services SDKs to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes it as the value for this parameter in the request. If you generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken and include it in the request. This value helps ensure idempotency. Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during a rotation. We recommend that you generate a [UUID-type](https://wikipedia.org/wiki/Universally_unique_identifier) value to ensure uniqueness of your versions within the specified secret.
     ///
     /// * If the ClientRequestToken value isn't already associated with a version of the secret then a new version of the secret is created.
@@ -3028,7 +3028,7 @@ public struct PutSecretValueInput: Swift.Equatable {
     }
 }
 
-struct PutSecretValueInputBody: Swift.Equatable {
+struct PutSecretValueInputBody {
     let secretId: Swift.String?
     let clientRequestToken: Swift.String?
     let secretBinary: ClientRuntime.Data?
@@ -3087,7 +3087,7 @@ extension PutSecretValueOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutSecretValueOutput: Swift.Equatable {
+public struct PutSecretValueOutput {
     /// The ARN of the secret.
     public var arn: Swift.String?
     /// The name of the secret.
@@ -3111,7 +3111,7 @@ public struct PutSecretValueOutput: Swift.Equatable {
     }
 }
 
-struct PutSecretValueOutputBody: Swift.Equatable {
+struct PutSecretValueOutputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let versionId: Swift.String?
@@ -3193,7 +3193,7 @@ extension RemoveRegionsFromReplicationInput {
     }
 }
 
-public struct RemoveRegionsFromReplicationInput: Swift.Equatable {
+public struct RemoveRegionsFromReplicationInput {
     /// The Regions of the replicas to remove.
     /// This member is required.
     public var removeReplicaRegions: [Swift.String]?
@@ -3211,7 +3211,7 @@ public struct RemoveRegionsFromReplicationInput: Swift.Equatable {
     }
 }
 
-struct RemoveRegionsFromReplicationInputBody: Swift.Equatable {
+struct RemoveRegionsFromReplicationInputBody {
     let secretId: Swift.String?
     let removeReplicaRegions: [Swift.String]?
 }
@@ -3254,7 +3254,7 @@ extension RemoveRegionsFromReplicationOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct RemoveRegionsFromReplicationOutput: Swift.Equatable {
+public struct RemoveRegionsFromReplicationOutput {
     /// The ARN of the primary secret.
     public var arn: Swift.String?
     /// The status of replicas for this secret after you remove Regions.
@@ -3270,7 +3270,7 @@ public struct RemoveRegionsFromReplicationOutput: Swift.Equatable {
     }
 }
 
-struct RemoveRegionsFromReplicationOutputBody: Swift.Equatable {
+struct RemoveRegionsFromReplicationOutputBody {
     let arn: Swift.String?
     let replicationStatus: [SecretsManagerClientTypes.ReplicationStatusType]?
 }
@@ -3340,7 +3340,7 @@ extension SecretsManagerClientTypes.ReplicaRegionType: Swift.Codable {
 
 extension SecretsManagerClientTypes {
     /// A custom type that specifies a Region and the KmsKeyId for a replica secret.
-    public struct ReplicaRegionType: Swift.Equatable {
+    public struct ReplicaRegionType {
         /// The ARN, key ID, or alias of the KMS key to encrypt the secret. If you don't include this field, Secrets Manager uses aws/secretsmanager.
         public var kmsKeyId: Swift.String?
         /// A Region code. For a list of Region codes, see [Name and code of Regions](https://docs.aws.amazon.com/general/latest/gr/rande.html#regional-endpoints).
@@ -3389,7 +3389,7 @@ extension ReplicateSecretToRegionsInput {
     }
 }
 
-public struct ReplicateSecretToRegionsInput: Swift.Equatable {
+public struct ReplicateSecretToRegionsInput {
     /// A list of Regions in which to replicate the secret.
     /// This member is required.
     public var addReplicaRegions: [SecretsManagerClientTypes.ReplicaRegionType]?
@@ -3411,7 +3411,7 @@ public struct ReplicateSecretToRegionsInput: Swift.Equatable {
     }
 }
 
-struct ReplicateSecretToRegionsInputBody: Swift.Equatable {
+struct ReplicateSecretToRegionsInputBody {
     let secretId: Swift.String?
     let addReplicaRegions: [SecretsManagerClientTypes.ReplicaRegionType]?
     let forceOverwriteReplicaSecret: Swift.Bool?
@@ -3458,7 +3458,7 @@ extension ReplicateSecretToRegionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ReplicateSecretToRegionsOutput: Swift.Equatable {
+public struct ReplicateSecretToRegionsOutput {
     /// The ARN of the primary secret.
     public var arn: Swift.String?
     /// The status of replication.
@@ -3474,7 +3474,7 @@ public struct ReplicateSecretToRegionsOutput: Swift.Equatable {
     }
 }
 
-struct ReplicateSecretToRegionsOutputBody: Swift.Equatable {
+struct ReplicateSecretToRegionsOutputBody {
     let arn: Swift.String?
     let replicationStatus: [SecretsManagerClientTypes.ReplicationStatusType]?
 }
@@ -3562,7 +3562,7 @@ extension SecretsManagerClientTypes.ReplicationStatusType: Swift.Codable {
 
 extension SecretsManagerClientTypes {
     /// A replication object consisting of a RegionReplicationStatus object and includes a Region, KMSKeyId, status, and status message.
-    public struct ReplicationStatusType: Swift.Equatable {
+    public struct ReplicationStatusType {
         /// Can be an ARN, Key ID, or Alias.
         public var kmsKeyId: Swift.String?
         /// The date that the secret was last accessed in the Region. This field is omitted if the secret has never been retrieved in the Region.
@@ -3631,7 +3631,7 @@ public struct ResourceExistsException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct ResourceExistsExceptionBody: Swift.Equatable {
+struct ResourceExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -3686,7 +3686,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -3722,7 +3722,7 @@ extension RestoreSecretInput {
     }
 }
 
-public struct RestoreSecretInput: Swift.Equatable {
+public struct RestoreSecretInput {
     /// The ARN or name of the secret to restore. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See [Finding a secret from a partial ARN](https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen).
     /// This member is required.
     public var secretId: Swift.String?
@@ -3735,7 +3735,7 @@ public struct RestoreSecretInput: Swift.Equatable {
     }
 }
 
-struct RestoreSecretInputBody: Swift.Equatable {
+struct RestoreSecretInputBody {
     let secretId: Swift.String?
 }
 
@@ -3765,7 +3765,7 @@ extension RestoreSecretOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RestoreSecretOutput: Swift.Equatable {
+public struct RestoreSecretOutput {
     /// The ARN of the secret that was restored.
     public var arn: Swift.String?
     /// The name of the secret that was restored.
@@ -3781,7 +3781,7 @@ public struct RestoreSecretOutput: Swift.Equatable {
     }
 }
 
-struct RestoreSecretOutputBody: Swift.Equatable {
+struct RestoreSecretOutputBody {
     let arn: Swift.String?
     let name: Swift.String?
 }
@@ -3851,7 +3851,7 @@ extension RotateSecretInput {
     }
 }
 
-public struct RotateSecretInput: Swift.Equatable {
+public struct RotateSecretInput {
     /// A unique identifier for the new version of the secret. You only need to specify this value if you implement your own retry logic and you want to ensure that Secrets Manager doesn't attempt to create a secret version twice. If you use the Amazon Web Services CLI or one of the Amazon Web Services SDKs to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes it as the value for this parameter in the request. If you generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken and include it in the request. This value helps ensure idempotency. Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during a rotation. We recommend that you generate a [UUID-type](https://wikipedia.org/wiki/Universally_unique_identifier) value to ensure uniqueness of your versions within the specified secret.
     public var clientRequestToken: Swift.String?
     /// Specifies whether to rotate the secret immediately or wait until the next scheduled rotation window. The rotation schedule is defined in [RotateSecretRequest$RotationRules]. For secrets that use a Lambda rotation function to rotate, if you don't immediately rotate the secret, Secrets Manager tests the rotation configuration by running the [testSecret] step(https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_how.html) of the Lambda rotation function. The test creates an AWSPENDING version of the secret and then removes it. By default, Secrets Manager rotates the secret immediately.
@@ -3880,7 +3880,7 @@ public struct RotateSecretInput: Swift.Equatable {
     }
 }
 
-struct RotateSecretInputBody: Swift.Equatable {
+struct RotateSecretInputBody {
     let secretId: Swift.String?
     let clientRequestToken: Swift.String?
     let rotationLambdaARN: Swift.String?
@@ -3928,7 +3928,7 @@ extension RotateSecretOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RotateSecretOutput: Swift.Equatable {
+public struct RotateSecretOutput {
     /// The ARN of the secret.
     public var arn: Swift.String?
     /// The name of the secret.
@@ -3948,7 +3948,7 @@ public struct RotateSecretOutput: Swift.Equatable {
     }
 }
 
-struct RotateSecretOutputBody: Swift.Equatable {
+struct RotateSecretOutputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let versionId: Swift.String?
@@ -4019,7 +4019,7 @@ extension SecretsManagerClientTypes.RotationRulesType: Swift.Codable {
 
 extension SecretsManagerClientTypes {
     /// A structure that defines the rotation configuration for the secret.
-    public struct RotationRulesType: Swift.Equatable {
+    public struct RotationRulesType {
         /// The number of days between rotations of the secret. You can use this value to check that your secret meets your compliance guidelines for how often secrets must be rotated. If you use this field to set the rotation schedule, Secrets Manager calculates the next rotation date based on the previous rotation. Manually updating the secret value by calling PutSecretValue or UpdateSecret is considered a valid rotation. In DescribeSecret and ListSecrets, this value is calculated from the rotation schedule after every successful rotation. In RotateSecret, you can set the rotation schedule in RotationRules with AutomaticallyAfterDays or ScheduleExpression, but not both. To set a rotation schedule in hours, use ScheduleExpression.
         public var automaticallyAfterDays: Swift.Int?
         /// The length of the rotation window in hours, for example 3h for a three hour window. Secrets Manager rotates your secret at any time during this window. The window must not extend into the next rotation window or the next UTC day. The window starts according to the ScheduleExpression. If you don't specify a Duration, for a ScheduleExpression in hours, the window automatically closes after one hour. For a ScheduleExpression in days, the window automatically closes at the end of the UTC day. For more information, including examples, see [Schedule expressions in Secrets Manager rotation](https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_schedule.html) in the Secrets Manager Users Guide.
@@ -4192,7 +4192,7 @@ extension SecretsManagerClientTypes.SecretListEntry: Swift.Codable {
 
 extension SecretsManagerClientTypes {
     /// A structure that contains the details about a secret. It does not include the encrypted SecretString and SecretBinary values. To get those values, use [GetSecretValue](https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_GetSecretValue.html) .
-    public struct SecretListEntry: Swift.Equatable {
+    public struct SecretListEntry {
         /// The Amazon Resource Name (ARN) of the secret.
         public var arn: Swift.String?
         /// The date and time when a secret was created.
@@ -4344,7 +4344,7 @@ extension SecretsManagerClientTypes.SecretValueEntry: Swift.CustomDebugStringCon
 
 extension SecretsManagerClientTypes {
     /// A structure that contains the secret value and other details for a secret.
-    public struct SecretValueEntry: Swift.Equatable {
+    public struct SecretValueEntry {
         /// The Amazon Resource Name (ARN) of the secret.
         public var arn: Swift.String?
         /// The date the secret was created.
@@ -4451,7 +4451,7 @@ extension SecretsManagerClientTypes.SecretVersionsListEntry: Swift.Codable {
 
 extension SecretsManagerClientTypes {
     /// A structure that contains information about one version of a secret.
-    public struct SecretVersionsListEntry: Swift.Equatable {
+    public struct SecretVersionsListEntry {
         /// The date and time this version of the secret was created.
         public var createdDate: ClientRuntime.Date?
         /// The KMS keys used to encrypt the secret version.
@@ -4570,7 +4570,7 @@ extension StopReplicationToReplicaInput {
     }
 }
 
-public struct StopReplicationToReplicaInput: Swift.Equatable {
+public struct StopReplicationToReplicaInput {
     /// The ARN of the primary secret.
     /// This member is required.
     public var secretId: Swift.String?
@@ -4583,7 +4583,7 @@ public struct StopReplicationToReplicaInput: Swift.Equatable {
     }
 }
 
-struct StopReplicationToReplicaInputBody: Swift.Equatable {
+struct StopReplicationToReplicaInputBody {
     let secretId: Swift.String?
 }
 
@@ -4611,7 +4611,7 @@ extension StopReplicationToReplicaOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopReplicationToReplicaOutput: Swift.Equatable {
+public struct StopReplicationToReplicaOutput {
     /// The ARN of the promoted secret. The ARN is the same as the original primary secret except the Region is changed.
     public var arn: Swift.String?
 
@@ -4623,7 +4623,7 @@ public struct StopReplicationToReplicaOutput: Swift.Equatable {
     }
 }
 
-struct StopReplicationToReplicaOutputBody: Swift.Equatable {
+struct StopReplicationToReplicaOutputBody {
     let arn: Swift.String?
 }
 
@@ -4680,7 +4680,7 @@ extension SecretsManagerClientTypes.Tag: Swift.Codable {
 
 extension SecretsManagerClientTypes {
     /// A structure that contains information about a tag.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key identifier, or name, of the tag.
         public var key: Swift.String?
         /// The string value associated with the key of the tag.
@@ -4725,7 +4725,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The identifier for the secret to attach tags to. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See [Finding a secret from a partial ARN](https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen).
     /// This member is required.
     public var secretId: Swift.String?
@@ -4743,7 +4743,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let secretId: Swift.String?
     let tags: [SecretsManagerClientTypes.Tag]?
 }
@@ -4777,7 +4777,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -4823,7 +4823,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The ARN or name of the secret. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See [Finding a secret from a partial ARN](https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen).
     /// This member is required.
     public var secretId: Swift.String?
@@ -4841,7 +4841,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let secretId: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -4875,7 +4875,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -4939,7 +4939,7 @@ extension UpdateSecretInput {
     }
 }
 
-public struct UpdateSecretInput: Swift.Equatable {
+public struct UpdateSecretInput {
     /// If you include SecretString or SecretBinary, then Secrets Manager creates a new version for the secret, and this parameter specifies the unique identifier for the new version. If you use the Amazon Web Services CLI or one of the Amazon Web Services SDKs to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes it as the value for this parameter in the request. If you generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken and include it in the request. This value helps ensure idempotency. Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during a rotation. We recommend that you generate a [UUID-type](https://wikipedia.org/wiki/Universally_unique_identifier) value to ensure uniqueness of your versions within the specified secret.
     public var clientRequestToken: Swift.String?
     /// The description of the secret.
@@ -4972,7 +4972,7 @@ public struct UpdateSecretInput: Swift.Equatable {
     }
 }
 
-struct UpdateSecretInputBody: Swift.Equatable {
+struct UpdateSecretInputBody {
     let secretId: Swift.String?
     let clientRequestToken: Swift.String?
     let description: Swift.String?
@@ -5024,7 +5024,7 @@ extension UpdateSecretOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSecretOutput: Swift.Equatable {
+public struct UpdateSecretOutput {
     /// The ARN of the secret that was updated.
     public var arn: Swift.String?
     /// The name of the secret that was updated.
@@ -5044,7 +5044,7 @@ public struct UpdateSecretOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSecretOutputBody: Swift.Equatable {
+struct UpdateSecretOutputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let versionId: Swift.String?
@@ -5120,7 +5120,7 @@ extension UpdateSecretVersionStageInput {
     }
 }
 
-public struct UpdateSecretVersionStageInput: Swift.Equatable {
+public struct UpdateSecretVersionStageInput {
     /// The ID of the version to add the staging label to. To remove a label from a version, then do not specify this parameter. If the staging label is already attached to a different version of the secret, then you must also specify the RemoveFromVersionId parameter.
     public var moveToVersionId: Swift.String?
     /// The ID of the version that the staging label is to be removed from. If the staging label you are trying to attach to one version is already attached to a different version, then you must include this parameter and specify the version that the label is to be removed from. If the label is attached and you either do not specify this parameter, or the version ID does not match, then the operation fails.
@@ -5146,7 +5146,7 @@ public struct UpdateSecretVersionStageInput: Swift.Equatable {
     }
 }
 
-struct UpdateSecretVersionStageInputBody: Swift.Equatable {
+struct UpdateSecretVersionStageInputBody {
     let secretId: Swift.String?
     let versionStage: Swift.String?
     let removeFromVersionId: Swift.String?
@@ -5188,7 +5188,7 @@ extension UpdateSecretVersionStageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSecretVersionStageOutput: Swift.Equatable {
+public struct UpdateSecretVersionStageOutput {
     /// The ARN of the secret that was updated.
     public var arn: Swift.String?
     /// The name of the secret that was updated.
@@ -5204,7 +5204,7 @@ public struct UpdateSecretVersionStageOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSecretVersionStageOutputBody: Swift.Equatable {
+struct UpdateSecretVersionStageOutputBody {
     let arn: Swift.String?
     let name: Swift.String?
 }
@@ -5263,7 +5263,7 @@ extension ValidateResourcePolicyInput {
     }
 }
 
-public struct ValidateResourcePolicyInput: Swift.Equatable {
+public struct ValidateResourcePolicyInput {
     /// A JSON-formatted string that contains an Amazon Web Services resource-based policy. The policy in the string identifies who can access or manage this secret and its versions. For example policies, see [Permissions policy examples](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access_examples.html).
     /// This member is required.
     public var resourcePolicy: Swift.String?
@@ -5280,7 +5280,7 @@ public struct ValidateResourcePolicyInput: Swift.Equatable {
     }
 }
 
-struct ValidateResourcePolicyInputBody: Swift.Equatable {
+struct ValidateResourcePolicyInputBody {
     let secretId: Swift.String?
     let resourcePolicy: Swift.String?
 }
@@ -5314,7 +5314,7 @@ extension ValidateResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ValidateResourcePolicyOutput: Swift.Equatable {
+public struct ValidateResourcePolicyOutput {
     /// True if your policy passes validation, otherwise false.
     public var policyValidationPassed: Swift.Bool
     /// Validation errors if your policy didn't pass validation.
@@ -5330,7 +5330,7 @@ public struct ValidateResourcePolicyOutput: Swift.Equatable {
     }
 }
 
-struct ValidateResourcePolicyOutputBody: Swift.Equatable {
+struct ValidateResourcePolicyOutputBody {
     let policyValidationPassed: Swift.Bool
     let validationErrors: [SecretsManagerClientTypes.ValidationErrorsEntry]?
 }
@@ -5401,7 +5401,7 @@ extension SecretsManagerClientTypes.ValidationErrorsEntry: Swift.Codable {
 
 extension SecretsManagerClientTypes {
     /// Displays errors that occurred during validation of the resource policy.
-    public struct ValidationErrorsEntry: Swift.Equatable {
+    public struct ValidationErrorsEntry {
         /// Checks the name of the policy.
         public var checkName: Swift.String?
         /// Displays error messages if validation encounters problems during validation of the resource policy.

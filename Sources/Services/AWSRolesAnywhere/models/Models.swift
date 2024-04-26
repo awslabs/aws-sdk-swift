@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -96,7 +96,7 @@ extension RolesAnywhereClientTypes.AttributeMapping: Swift.Codable {
 
 extension RolesAnywhereClientTypes {
     /// A mapping applied to the authenticating end-entity certificate.
-    public struct AttributeMapping: Swift.Equatable {
+    public struct AttributeMapping {
         /// Fields (x509Subject, x509Issuer and x509SAN) within X.509 certificates.
         public var certificateField: RolesAnywhereClientTypes.CertificateField?
         /// A list of mapping entries for every supported specifier or sub-field.
@@ -206,7 +206,7 @@ extension CreateProfileInput {
     }
 }
 
-public struct CreateProfileInput: Swift.Equatable {
+public struct CreateProfileInput {
     /// Used to determine how long sessions vended using this profile are valid for. See the Expiration section of the [CreateSession API documentation](https://docs.aws.amazon.com/rolesanywhere/latest/userguide/authentication-create-session.html#credentials-object) page for more details. In requests, if this value is not provided, the default value will be 3600.
     public var durationSeconds: Swift.Int?
     /// Specifies whether the profile is enabled.
@@ -248,7 +248,7 @@ public struct CreateProfileInput: Swift.Equatable {
     }
 }
 
-struct CreateProfileInputBody: Swift.Equatable {
+struct CreateProfileInputBody {
     let name: Swift.String?
     let requireInstanceProperties: Swift.Bool?
     let sessionPolicy: Swift.String?
@@ -331,7 +331,7 @@ extension CreateProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateProfileOutput: Swift.Equatable {
+public struct CreateProfileOutput {
     /// The state of the profile after a read or write operation.
     public var profile: RolesAnywhereClientTypes.ProfileDetail?
 
@@ -343,7 +343,7 @@ public struct CreateProfileOutput: Swift.Equatable {
     }
 }
 
-struct CreateProfileOutputBody: Swift.Equatable {
+struct CreateProfileOutputBody {
     let profile: RolesAnywhereClientTypes.ProfileDetail?
 }
 
@@ -413,7 +413,7 @@ extension CreateTrustAnchorInput {
     }
 }
 
-public struct CreateTrustAnchorInput: Swift.Equatable {
+public struct CreateTrustAnchorInput {
     /// Specifies whether the trust anchor is enabled.
     public var enabled: Swift.Bool?
     /// The name of the trust anchor.
@@ -443,7 +443,7 @@ public struct CreateTrustAnchorInput: Swift.Equatable {
     }
 }
 
-struct CreateTrustAnchorInputBody: Swift.Equatable {
+struct CreateTrustAnchorInputBody {
     let name: Swift.String?
     let source: RolesAnywhereClientTypes.Source?
     let enabled: Swift.Bool?
@@ -505,7 +505,7 @@ extension CreateTrustAnchorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateTrustAnchorOutput: Swift.Equatable {
+public struct CreateTrustAnchorOutput {
     /// The state of the trust anchor after a read or write operation.
     /// This member is required.
     public var trustAnchor: RolesAnywhereClientTypes.TrustAnchorDetail?
@@ -518,7 +518,7 @@ public struct CreateTrustAnchorOutput: Swift.Equatable {
     }
 }
 
-struct CreateTrustAnchorOutputBody: Swift.Equatable {
+struct CreateTrustAnchorOutputBody {
     let trustAnchor: RolesAnywhereClientTypes.TrustAnchorDetail?
 }
 
@@ -597,7 +597,7 @@ extension RolesAnywhereClientTypes.CredentialSummary: Swift.Codable {
 
 extension RolesAnywhereClientTypes {
     /// A record of a presented X509 credential from a temporary credential request.
-    public struct CredentialSummary: Swift.Equatable {
+    public struct CredentialSummary {
         /// Indicates whether the credential is enabled.
         public var enabled: Swift.Bool?
         /// Indicates whether the temporary credential request was successful.
@@ -694,7 +694,7 @@ extension RolesAnywhereClientTypes.CrlDetail: Swift.Codable {
 
 extension RolesAnywhereClientTypes {
     /// The state of the certificate revocation list (CRL) after a read or write operation.
-    public struct CrlDetail: Swift.Equatable {
+    public struct CrlDetail {
         /// The ISO-8601 timestamp when the certificate revocation list (CRL) was created.
         public var createdAt: ClientRuntime.Date?
         /// The ARN of the certificate revocation list (CRL).
@@ -766,7 +766,7 @@ extension DeleteAttributeMappingInput {
     }
 }
 
-public struct DeleteAttributeMappingInput: Swift.Equatable {
+public struct DeleteAttributeMappingInput {
     /// Fields (x509Subject, x509Issuer and x509SAN) within X.509 certificates.
     /// This member is required.
     public var certificateField: RolesAnywhereClientTypes.CertificateField?
@@ -788,7 +788,7 @@ public struct DeleteAttributeMappingInput: Swift.Equatable {
     }
 }
 
-struct DeleteAttributeMappingInputBody: Swift.Equatable {
+struct DeleteAttributeMappingInputBody {
 }
 
 extension DeleteAttributeMappingInputBody: Swift.Decodable {
@@ -809,7 +809,7 @@ extension DeleteAttributeMappingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAttributeMappingOutput: Swift.Equatable {
+public struct DeleteAttributeMappingOutput {
     /// The state of the profile after a read or write operation.
     /// This member is required.
     public var profile: RolesAnywhereClientTypes.ProfileDetail?
@@ -822,7 +822,7 @@ public struct DeleteAttributeMappingOutput: Swift.Equatable {
     }
 }
 
-struct DeleteAttributeMappingOutputBody: Swift.Equatable {
+struct DeleteAttributeMappingOutputBody {
     let profile: RolesAnywhereClientTypes.ProfileDetail?
 }
 
@@ -861,7 +861,7 @@ extension DeleteCrlInput {
     }
 }
 
-public struct DeleteCrlInput: Swift.Equatable {
+public struct DeleteCrlInput {
     /// The unique identifier of the certificate revocation list (CRL).
     /// This member is required.
     public var crlId: Swift.String?
@@ -874,7 +874,7 @@ public struct DeleteCrlInput: Swift.Equatable {
     }
 }
 
-struct DeleteCrlInputBody: Swift.Equatable {
+struct DeleteCrlInputBody {
 }
 
 extension DeleteCrlInputBody: Swift.Decodable {
@@ -895,7 +895,7 @@ extension DeleteCrlOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteCrlOutput: Swift.Equatable {
+public struct DeleteCrlOutput {
     /// The state of the certificate revocation list (CRL) after a read or write operation.
     /// This member is required.
     public var crl: RolesAnywhereClientTypes.CrlDetail?
@@ -908,7 +908,7 @@ public struct DeleteCrlOutput: Swift.Equatable {
     }
 }
 
-struct DeleteCrlOutputBody: Swift.Equatable {
+struct DeleteCrlOutputBody {
     let crl: RolesAnywhereClientTypes.CrlDetail?
 }
 
@@ -946,7 +946,7 @@ extension DeleteProfileInput {
     }
 }
 
-public struct DeleteProfileInput: Swift.Equatable {
+public struct DeleteProfileInput {
     /// The unique identifier of the profile.
     /// This member is required.
     public var profileId: Swift.String?
@@ -959,7 +959,7 @@ public struct DeleteProfileInput: Swift.Equatable {
     }
 }
 
-struct DeleteProfileInputBody: Swift.Equatable {
+struct DeleteProfileInputBody {
 }
 
 extension DeleteProfileInputBody: Swift.Decodable {
@@ -980,7 +980,7 @@ extension DeleteProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteProfileOutput: Swift.Equatable {
+public struct DeleteProfileOutput {
     /// The state of the profile after a read or write operation.
     public var profile: RolesAnywhereClientTypes.ProfileDetail?
 
@@ -992,7 +992,7 @@ public struct DeleteProfileOutput: Swift.Equatable {
     }
 }
 
-struct DeleteProfileOutputBody: Swift.Equatable {
+struct DeleteProfileOutputBody {
     let profile: RolesAnywhereClientTypes.ProfileDetail?
 }
 
@@ -1030,7 +1030,7 @@ extension DeleteTrustAnchorInput {
     }
 }
 
-public struct DeleteTrustAnchorInput: Swift.Equatable {
+public struct DeleteTrustAnchorInput {
     /// The unique identifier of the trust anchor.
     /// This member is required.
     public var trustAnchorId: Swift.String?
@@ -1043,7 +1043,7 @@ public struct DeleteTrustAnchorInput: Swift.Equatable {
     }
 }
 
-struct DeleteTrustAnchorInputBody: Swift.Equatable {
+struct DeleteTrustAnchorInputBody {
 }
 
 extension DeleteTrustAnchorInputBody: Swift.Decodable {
@@ -1064,7 +1064,7 @@ extension DeleteTrustAnchorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteTrustAnchorOutput: Swift.Equatable {
+public struct DeleteTrustAnchorOutput {
     /// The state of the trust anchor after a read or write operation.
     /// This member is required.
     public var trustAnchor: RolesAnywhereClientTypes.TrustAnchorDetail?
@@ -1077,7 +1077,7 @@ public struct DeleteTrustAnchorOutput: Swift.Equatable {
     }
 }
 
-struct DeleteTrustAnchorOutputBody: Swift.Equatable {
+struct DeleteTrustAnchorOutputBody {
     let trustAnchor: RolesAnywhereClientTypes.TrustAnchorDetail?
 }
 
@@ -1115,7 +1115,7 @@ extension DisableCrlInput {
     }
 }
 
-public struct DisableCrlInput: Swift.Equatable {
+public struct DisableCrlInput {
     /// The unique identifier of the certificate revocation list (CRL).
     /// This member is required.
     public var crlId: Swift.String?
@@ -1128,7 +1128,7 @@ public struct DisableCrlInput: Swift.Equatable {
     }
 }
 
-struct DisableCrlInputBody: Swift.Equatable {
+struct DisableCrlInputBody {
 }
 
 extension DisableCrlInputBody: Swift.Decodable {
@@ -1149,7 +1149,7 @@ extension DisableCrlOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisableCrlOutput: Swift.Equatable {
+public struct DisableCrlOutput {
     /// The state of the certificate revocation list (CRL) after a read or write operation.
     /// This member is required.
     public var crl: RolesAnywhereClientTypes.CrlDetail?
@@ -1162,7 +1162,7 @@ public struct DisableCrlOutput: Swift.Equatable {
     }
 }
 
-struct DisableCrlOutputBody: Swift.Equatable {
+struct DisableCrlOutputBody {
     let crl: RolesAnywhereClientTypes.CrlDetail?
 }
 
@@ -1200,7 +1200,7 @@ extension DisableProfileInput {
     }
 }
 
-public struct DisableProfileInput: Swift.Equatable {
+public struct DisableProfileInput {
     /// The unique identifier of the profile.
     /// This member is required.
     public var profileId: Swift.String?
@@ -1213,7 +1213,7 @@ public struct DisableProfileInput: Swift.Equatable {
     }
 }
 
-struct DisableProfileInputBody: Swift.Equatable {
+struct DisableProfileInputBody {
 }
 
 extension DisableProfileInputBody: Swift.Decodable {
@@ -1234,7 +1234,7 @@ extension DisableProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisableProfileOutput: Swift.Equatable {
+public struct DisableProfileOutput {
     /// The state of the profile after a read or write operation.
     public var profile: RolesAnywhereClientTypes.ProfileDetail?
 
@@ -1246,7 +1246,7 @@ public struct DisableProfileOutput: Swift.Equatable {
     }
 }
 
-struct DisableProfileOutputBody: Swift.Equatable {
+struct DisableProfileOutputBody {
     let profile: RolesAnywhereClientTypes.ProfileDetail?
 }
 
@@ -1284,7 +1284,7 @@ extension DisableTrustAnchorInput {
     }
 }
 
-public struct DisableTrustAnchorInput: Swift.Equatable {
+public struct DisableTrustAnchorInput {
     /// The unique identifier of the trust anchor.
     /// This member is required.
     public var trustAnchorId: Swift.String?
@@ -1297,7 +1297,7 @@ public struct DisableTrustAnchorInput: Swift.Equatable {
     }
 }
 
-struct DisableTrustAnchorInputBody: Swift.Equatable {
+struct DisableTrustAnchorInputBody {
 }
 
 extension DisableTrustAnchorInputBody: Swift.Decodable {
@@ -1318,7 +1318,7 @@ extension DisableTrustAnchorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisableTrustAnchorOutput: Swift.Equatable {
+public struct DisableTrustAnchorOutput {
     /// The state of the trust anchor after a read or write operation.
     /// This member is required.
     public var trustAnchor: RolesAnywhereClientTypes.TrustAnchorDetail?
@@ -1331,7 +1331,7 @@ public struct DisableTrustAnchorOutput: Swift.Equatable {
     }
 }
 
-struct DisableTrustAnchorOutputBody: Swift.Equatable {
+struct DisableTrustAnchorOutputBody {
     let trustAnchor: RolesAnywhereClientTypes.TrustAnchorDetail?
 }
 
@@ -1369,7 +1369,7 @@ extension EnableCrlInput {
     }
 }
 
-public struct EnableCrlInput: Swift.Equatable {
+public struct EnableCrlInput {
     /// The unique identifier of the certificate revocation list (CRL).
     /// This member is required.
     public var crlId: Swift.String?
@@ -1382,7 +1382,7 @@ public struct EnableCrlInput: Swift.Equatable {
     }
 }
 
-struct EnableCrlInputBody: Swift.Equatable {
+struct EnableCrlInputBody {
 }
 
 extension EnableCrlInputBody: Swift.Decodable {
@@ -1403,7 +1403,7 @@ extension EnableCrlOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct EnableCrlOutput: Swift.Equatable {
+public struct EnableCrlOutput {
     /// The state of the certificate revocation list (CRL) after a read or write operation.
     /// This member is required.
     public var crl: RolesAnywhereClientTypes.CrlDetail?
@@ -1416,7 +1416,7 @@ public struct EnableCrlOutput: Swift.Equatable {
     }
 }
 
-struct EnableCrlOutputBody: Swift.Equatable {
+struct EnableCrlOutputBody {
     let crl: RolesAnywhereClientTypes.CrlDetail?
 }
 
@@ -1454,7 +1454,7 @@ extension EnableProfileInput {
     }
 }
 
-public struct EnableProfileInput: Swift.Equatable {
+public struct EnableProfileInput {
     /// The unique identifier of the profile.
     /// This member is required.
     public var profileId: Swift.String?
@@ -1467,7 +1467,7 @@ public struct EnableProfileInput: Swift.Equatable {
     }
 }
 
-struct EnableProfileInputBody: Swift.Equatable {
+struct EnableProfileInputBody {
 }
 
 extension EnableProfileInputBody: Swift.Decodable {
@@ -1488,7 +1488,7 @@ extension EnableProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct EnableProfileOutput: Swift.Equatable {
+public struct EnableProfileOutput {
     /// The state of the profile after a read or write operation.
     public var profile: RolesAnywhereClientTypes.ProfileDetail?
 
@@ -1500,7 +1500,7 @@ public struct EnableProfileOutput: Swift.Equatable {
     }
 }
 
-struct EnableProfileOutputBody: Swift.Equatable {
+struct EnableProfileOutputBody {
     let profile: RolesAnywhereClientTypes.ProfileDetail?
 }
 
@@ -1538,7 +1538,7 @@ extension EnableTrustAnchorInput {
     }
 }
 
-public struct EnableTrustAnchorInput: Swift.Equatable {
+public struct EnableTrustAnchorInput {
     /// The unique identifier of the trust anchor.
     /// This member is required.
     public var trustAnchorId: Swift.String?
@@ -1551,7 +1551,7 @@ public struct EnableTrustAnchorInput: Swift.Equatable {
     }
 }
 
-struct EnableTrustAnchorInputBody: Swift.Equatable {
+struct EnableTrustAnchorInputBody {
 }
 
 extension EnableTrustAnchorInputBody: Swift.Decodable {
@@ -1572,7 +1572,7 @@ extension EnableTrustAnchorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct EnableTrustAnchorOutput: Swift.Equatable {
+public struct EnableTrustAnchorOutput {
     /// The state of the trust anchor after a read or write operation.
     /// This member is required.
     public var trustAnchor: RolesAnywhereClientTypes.TrustAnchorDetail?
@@ -1585,7 +1585,7 @@ public struct EnableTrustAnchorOutput: Swift.Equatable {
     }
 }
 
-struct EnableTrustAnchorOutputBody: Swift.Equatable {
+struct EnableTrustAnchorOutputBody {
     let trustAnchor: RolesAnywhereClientTypes.TrustAnchorDetail?
 }
 
@@ -1623,7 +1623,7 @@ extension GetCrlInput {
     }
 }
 
-public struct GetCrlInput: Swift.Equatable {
+public struct GetCrlInput {
     /// The unique identifier of the certificate revocation list (CRL).
     /// This member is required.
     public var crlId: Swift.String?
@@ -1636,7 +1636,7 @@ public struct GetCrlInput: Swift.Equatable {
     }
 }
 
-struct GetCrlInputBody: Swift.Equatable {
+struct GetCrlInputBody {
 }
 
 extension GetCrlInputBody: Swift.Decodable {
@@ -1657,7 +1657,7 @@ extension GetCrlOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCrlOutput: Swift.Equatable {
+public struct GetCrlOutput {
     /// The state of the certificate revocation list (CRL) after a read or write operation.
     /// This member is required.
     public var crl: RolesAnywhereClientTypes.CrlDetail?
@@ -1670,7 +1670,7 @@ public struct GetCrlOutput: Swift.Equatable {
     }
 }
 
-struct GetCrlOutputBody: Swift.Equatable {
+struct GetCrlOutputBody {
     let crl: RolesAnywhereClientTypes.CrlDetail?
 }
 
@@ -1707,7 +1707,7 @@ extension GetProfileInput {
     }
 }
 
-public struct GetProfileInput: Swift.Equatable {
+public struct GetProfileInput {
     /// The unique identifier of the profile.
     /// This member is required.
     public var profileId: Swift.String?
@@ -1720,7 +1720,7 @@ public struct GetProfileInput: Swift.Equatable {
     }
 }
 
-struct GetProfileInputBody: Swift.Equatable {
+struct GetProfileInputBody {
 }
 
 extension GetProfileInputBody: Swift.Decodable {
@@ -1741,7 +1741,7 @@ extension GetProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetProfileOutput: Swift.Equatable {
+public struct GetProfileOutput {
     /// The state of the profile after a read or write operation.
     public var profile: RolesAnywhereClientTypes.ProfileDetail?
 
@@ -1753,7 +1753,7 @@ public struct GetProfileOutput: Swift.Equatable {
     }
 }
 
-struct GetProfileOutputBody: Swift.Equatable {
+struct GetProfileOutputBody {
     let profile: RolesAnywhereClientTypes.ProfileDetail?
 }
 
@@ -1791,7 +1791,7 @@ extension GetSubjectInput {
     }
 }
 
-public struct GetSubjectInput: Swift.Equatable {
+public struct GetSubjectInput {
     /// The unique identifier of the subject.
     /// This member is required.
     public var subjectId: Swift.String?
@@ -1804,7 +1804,7 @@ public struct GetSubjectInput: Swift.Equatable {
     }
 }
 
-struct GetSubjectInputBody: Swift.Equatable {
+struct GetSubjectInputBody {
 }
 
 extension GetSubjectInputBody: Swift.Decodable {
@@ -1825,7 +1825,7 @@ extension GetSubjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSubjectOutput: Swift.Equatable {
+public struct GetSubjectOutput {
     /// The state of the subject after a read or write operation.
     public var subject: RolesAnywhereClientTypes.SubjectDetail?
 
@@ -1837,7 +1837,7 @@ public struct GetSubjectOutput: Swift.Equatable {
     }
 }
 
-struct GetSubjectOutputBody: Swift.Equatable {
+struct GetSubjectOutputBody {
     let subject: RolesAnywhereClientTypes.SubjectDetail?
 }
 
@@ -1875,7 +1875,7 @@ extension GetTrustAnchorInput {
     }
 }
 
-public struct GetTrustAnchorInput: Swift.Equatable {
+public struct GetTrustAnchorInput {
     /// The unique identifier of the trust anchor.
     /// This member is required.
     public var trustAnchorId: Swift.String?
@@ -1888,7 +1888,7 @@ public struct GetTrustAnchorInput: Swift.Equatable {
     }
 }
 
-struct GetTrustAnchorInputBody: Swift.Equatable {
+struct GetTrustAnchorInputBody {
 }
 
 extension GetTrustAnchorInputBody: Swift.Decodable {
@@ -1909,7 +1909,7 @@ extension GetTrustAnchorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTrustAnchorOutput: Swift.Equatable {
+public struct GetTrustAnchorOutput {
     /// The state of the trust anchor after a read or write operation.
     /// This member is required.
     public var trustAnchor: RolesAnywhereClientTypes.TrustAnchorDetail?
@@ -1922,7 +1922,7 @@ public struct GetTrustAnchorOutput: Swift.Equatable {
     }
 }
 
-struct GetTrustAnchorOutputBody: Swift.Equatable {
+struct GetTrustAnchorOutputBody {
     let trustAnchor: RolesAnywhereClientTypes.TrustAnchorDetail?
 }
 
@@ -1990,7 +1990,7 @@ extension ImportCrlInput {
     }
 }
 
-public struct ImportCrlInput: Swift.Equatable {
+public struct ImportCrlInput {
     /// The x509 v3 specified certificate revocation list (CRL).
     /// This member is required.
     public var crlData: ClientRuntime.Data?
@@ -2021,7 +2021,7 @@ public struct ImportCrlInput: Swift.Equatable {
     }
 }
 
-struct ImportCrlInputBody: Swift.Equatable {
+struct ImportCrlInputBody {
     let name: Swift.String?
     let crlData: ClientRuntime.Data?
     let enabled: Swift.Bool?
@@ -2074,7 +2074,7 @@ extension ImportCrlOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ImportCrlOutput: Swift.Equatable {
+public struct ImportCrlOutput {
     /// The state of the certificate revocation list (CRL) after a read or write operation.
     /// This member is required.
     public var crl: RolesAnywhereClientTypes.CrlDetail?
@@ -2087,7 +2087,7 @@ public struct ImportCrlOutput: Swift.Equatable {
     }
 }
 
-struct ImportCrlOutputBody: Swift.Equatable {
+struct ImportCrlOutputBody {
     let crl: RolesAnywhereClientTypes.CrlDetail?
 }
 
@@ -2160,7 +2160,7 @@ extension RolesAnywhereClientTypes.InstanceProperty: Swift.Codable {
 
 extension RolesAnywhereClientTypes {
     /// A key-value pair you set that identifies a property of the authenticating instance.
-    public struct InstanceProperty: Swift.Equatable {
+    public struct InstanceProperty {
         /// Indicates whether the temporary credential request was successful.
         public var failed: Swift.Bool?
         /// A list of instanceProperty objects.
@@ -2205,7 +2205,7 @@ extension ListCrlsInput {
     }
 }
 
-public struct ListCrlsInput: Swift.Equatable {
+public struct ListCrlsInput {
     /// A token that indicates where the output should continue from, if a previous request did not show all results. To get the next results, make the request again with this value.
     public var nextToken: Swift.String?
     /// The number of resources in the paginated list.
@@ -2221,7 +2221,7 @@ public struct ListCrlsInput: Swift.Equatable {
     }
 }
 
-struct ListCrlsInputBody: Swift.Equatable {
+struct ListCrlsInputBody {
 }
 
 extension ListCrlsInputBody: Swift.Decodable {
@@ -2244,7 +2244,7 @@ extension ListCrlsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCrlsOutput: Swift.Equatable {
+public struct ListCrlsOutput {
     /// A list of certificate revocation lists (CRL).
     public var crls: [RolesAnywhereClientTypes.CrlDetail]?
     /// A token that indicates where the output should continue from, if a previous request did not show all results. To get the next results, make the request again with this value.
@@ -2260,7 +2260,7 @@ public struct ListCrlsOutput: Swift.Equatable {
     }
 }
 
-struct ListCrlsOutputBody: Swift.Equatable {
+struct ListCrlsOutputBody {
     let nextToken: Swift.String?
     let crls: [RolesAnywhereClientTypes.CrlDetail]?
 }
@@ -2324,7 +2324,7 @@ extension ListProfilesInput {
     }
 }
 
-public struct ListProfilesInput: Swift.Equatable {
+public struct ListProfilesInput {
     /// A token that indicates where the output should continue from, if a previous request did not show all results. To get the next results, make the request again with this value.
     public var nextToken: Swift.String?
     /// The number of resources in the paginated list.
@@ -2340,7 +2340,7 @@ public struct ListProfilesInput: Swift.Equatable {
     }
 }
 
-struct ListProfilesInputBody: Swift.Equatable {
+struct ListProfilesInputBody {
 }
 
 extension ListProfilesInputBody: Swift.Decodable {
@@ -2363,7 +2363,7 @@ extension ListProfilesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListProfilesOutput: Swift.Equatable {
+public struct ListProfilesOutput {
     /// A token that indicates where the output should continue from, if a previous request did not show all results. To get the next results, make the request again with this value.
     public var nextToken: Swift.String?
     /// A list of profiles.
@@ -2379,7 +2379,7 @@ public struct ListProfilesOutput: Swift.Equatable {
     }
 }
 
-struct ListProfilesOutputBody: Swift.Equatable {
+struct ListProfilesOutputBody {
     let nextToken: Swift.String?
     let profiles: [RolesAnywhereClientTypes.ProfileDetail]?
 }
@@ -2443,7 +2443,7 @@ extension ListSubjectsInput {
     }
 }
 
-public struct ListSubjectsInput: Swift.Equatable {
+public struct ListSubjectsInput {
     /// A token that indicates where the output should continue from, if a previous request did not show all results. To get the next results, make the request again with this value.
     public var nextToken: Swift.String?
     /// The number of resources in the paginated list.
@@ -2459,7 +2459,7 @@ public struct ListSubjectsInput: Swift.Equatable {
     }
 }
 
-struct ListSubjectsInputBody: Swift.Equatable {
+struct ListSubjectsInputBody {
 }
 
 extension ListSubjectsInputBody: Swift.Decodable {
@@ -2482,7 +2482,7 @@ extension ListSubjectsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSubjectsOutput: Swift.Equatable {
+public struct ListSubjectsOutput {
     /// A token that indicates where the output should continue from, if a previous request did not show all results. To get the next results, make the request again with this value.
     public var nextToken: Swift.String?
     /// A list of subjects.
@@ -2498,7 +2498,7 @@ public struct ListSubjectsOutput: Swift.Equatable {
     }
 }
 
-struct ListSubjectsOutputBody: Swift.Equatable {
+struct ListSubjectsOutputBody {
     let subjects: [RolesAnywhereClientTypes.SubjectSummary]?
     let nextToken: Swift.String?
 }
@@ -2560,7 +2560,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The ARN of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2573,7 +2573,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -2594,7 +2594,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// A list of tags attached to the resource.
     public var tags: [RolesAnywhereClientTypes.Tag]?
 
@@ -2606,7 +2606,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [RolesAnywhereClientTypes.Tag]?
 }
 
@@ -2667,7 +2667,7 @@ extension ListTrustAnchorsInput {
     }
 }
 
-public struct ListTrustAnchorsInput: Swift.Equatable {
+public struct ListTrustAnchorsInput {
     /// A token that indicates where the output should continue from, if a previous request did not show all results. To get the next results, make the request again with this value.
     public var nextToken: Swift.String?
     /// The number of resources in the paginated list.
@@ -2683,7 +2683,7 @@ public struct ListTrustAnchorsInput: Swift.Equatable {
     }
 }
 
-struct ListTrustAnchorsInputBody: Swift.Equatable {
+struct ListTrustAnchorsInputBody {
 }
 
 extension ListTrustAnchorsInputBody: Swift.Decodable {
@@ -2706,7 +2706,7 @@ extension ListTrustAnchorsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTrustAnchorsOutput: Swift.Equatable {
+public struct ListTrustAnchorsOutput {
     /// A token that indicates where the output should continue from, if a previous request did not show all results. To get the next results, make the request again with this value.
     public var nextToken: Swift.String?
     /// A list of trust anchors.
@@ -2722,7 +2722,7 @@ public struct ListTrustAnchorsOutput: Swift.Equatable {
     }
 }
 
-struct ListTrustAnchorsOutputBody: Swift.Equatable {
+struct ListTrustAnchorsOutputBody {
     let nextToken: Swift.String?
     let trustAnchors: [RolesAnywhereClientTypes.TrustAnchorDetail]?
 }
@@ -2784,7 +2784,7 @@ extension RolesAnywhereClientTypes.MappingRule: Swift.Codable {
 
 extension RolesAnywhereClientTypes {
     /// A single mapping entry for each supported specifier or sub-field.
-    public struct MappingRule: Swift.Equatable {
+    public struct MappingRule {
         /// Specifier within a certificate field, such as CN, OU, or UID from the Subject field.
         /// This member is required.
         public var specifier: Swift.String?
@@ -2899,7 +2899,7 @@ extension RolesAnywhereClientTypes.NotificationSetting: Swift.Codable {
 
 extension RolesAnywhereClientTypes {
     /// Customizable notification settings that will be applied to notification events. IAM Roles Anywhere consumes these settings while notifying across multiple channels - CloudWatch metrics, EventBridge, and Health Dashboard.
-    public struct NotificationSetting: Swift.Equatable {
+    public struct NotificationSetting {
         /// The specified channel of notification. IAM Roles Anywhere uses CloudWatch metrics, EventBridge, and Health Dashboard to notify for an event. In the absence of a specific channel, IAM Roles Anywhere applies this setting to 'ALL' channels.
         public var channel: RolesAnywhereClientTypes.NotificationChannel?
         /// Indicates whether the notification setting is enabled.
@@ -2972,7 +2972,7 @@ extension RolesAnywhereClientTypes.NotificationSettingDetail: Swift.Codable {
 
 extension RolesAnywhereClientTypes {
     /// The state of a notification setting. A notification setting includes information such as event name, threshold, status of the notification setting, and the channel to notify.
-    public struct NotificationSettingDetail: Swift.Equatable {
+    public struct NotificationSettingDetail {
         /// The specified channel of notification. IAM Roles Anywhere uses CloudWatch metrics, EventBridge, and Health Dashboard to notify for an event. In the absence of a specific channel, IAM Roles Anywhere applies this setting to 'ALL' channels.
         public var channel: RolesAnywhereClientTypes.NotificationChannel?
         /// The principal that configured the notification setting. For default settings configured by IAM Roles Anywhere, the value is rolesanywhere.amazonaws.com, and for customized notifications settings, it is the respective account ID.
@@ -3031,7 +3031,7 @@ extension RolesAnywhereClientTypes.NotificationSettingKey: Swift.Codable {
 
 extension RolesAnywhereClientTypes {
     /// A notification setting key to reset. A notification setting key includes the event and the channel.
-    public struct NotificationSettingKey: Swift.Equatable {
+    public struct NotificationSettingKey {
         /// The specified channel of notification.
         public var channel: RolesAnywhereClientTypes.NotificationChannel?
         /// The notification setting event to reset.
@@ -3179,7 +3179,7 @@ extension RolesAnywhereClientTypes.ProfileDetail: Swift.Codable {
 
 extension RolesAnywhereClientTypes {
     /// The state of the profile after a read or write operation.
-    public struct ProfileDetail: Swift.Equatable {
+    public struct ProfileDetail {
         /// A mapping applied to the authenticating end-entity certificate.
         public var attributeMappings: [RolesAnywhereClientTypes.AttributeMapping]?
         /// The ISO-8601 timestamp when the profile was created.
@@ -3271,7 +3271,7 @@ extension PutAttributeMappingInput {
     }
 }
 
-public struct PutAttributeMappingInput: Swift.Equatable {
+public struct PutAttributeMappingInput {
     /// Fields (x509Subject, x509Issuer and x509SAN) within X.509 certificates.
     /// This member is required.
     public var certificateField: RolesAnywhereClientTypes.CertificateField?
@@ -3294,7 +3294,7 @@ public struct PutAttributeMappingInput: Swift.Equatable {
     }
 }
 
-struct PutAttributeMappingInputBody: Swift.Equatable {
+struct PutAttributeMappingInputBody {
     let certificateField: RolesAnywhereClientTypes.CertificateField?
     let mappingRules: [RolesAnywhereClientTypes.MappingRule]?
 }
@@ -3335,7 +3335,7 @@ extension PutAttributeMappingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutAttributeMappingOutput: Swift.Equatable {
+public struct PutAttributeMappingOutput {
     /// The state of the profile after a read or write operation.
     /// This member is required.
     public var profile: RolesAnywhereClientTypes.ProfileDetail?
@@ -3348,7 +3348,7 @@ public struct PutAttributeMappingOutput: Swift.Equatable {
     }
 }
 
-struct PutAttributeMappingOutputBody: Swift.Equatable {
+struct PutAttributeMappingOutputBody {
     let profile: RolesAnywhereClientTypes.ProfileDetail?
 }
 
@@ -3404,7 +3404,7 @@ extension PutNotificationSettingsInput {
     }
 }
 
-public struct PutNotificationSettingsInput: Swift.Equatable {
+public struct PutNotificationSettingsInput {
     /// A list of notification settings to be associated to the trust anchor.
     /// This member is required.
     public var notificationSettings: [RolesAnywhereClientTypes.NotificationSetting]?
@@ -3422,7 +3422,7 @@ public struct PutNotificationSettingsInput: Swift.Equatable {
     }
 }
 
-struct PutNotificationSettingsInputBody: Swift.Equatable {
+struct PutNotificationSettingsInputBody {
     let trustAnchorId: Swift.String?
     let notificationSettings: [RolesAnywhereClientTypes.NotificationSetting]?
 }
@@ -3463,7 +3463,7 @@ extension PutNotificationSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutNotificationSettingsOutput: Swift.Equatable {
+public struct PutNotificationSettingsOutput {
     /// The state of the trust anchor after a read or write operation.
     /// This member is required.
     public var trustAnchor: RolesAnywhereClientTypes.TrustAnchorDetail?
@@ -3476,7 +3476,7 @@ public struct PutNotificationSettingsOutput: Swift.Equatable {
     }
 }
 
-struct PutNotificationSettingsOutputBody: Swift.Equatable {
+struct PutNotificationSettingsOutputBody {
     let trustAnchor: RolesAnywhereClientTypes.TrustAnchorDetail?
 }
 
@@ -3532,7 +3532,7 @@ extension ResetNotificationSettingsInput {
     }
 }
 
-public struct ResetNotificationSettingsInput: Swift.Equatable {
+public struct ResetNotificationSettingsInput {
     /// A list of notification setting keys to reset. A notification setting key includes the event and the channel.
     /// This member is required.
     public var notificationSettingKeys: [RolesAnywhereClientTypes.NotificationSettingKey]?
@@ -3550,7 +3550,7 @@ public struct ResetNotificationSettingsInput: Swift.Equatable {
     }
 }
 
-struct ResetNotificationSettingsInputBody: Swift.Equatable {
+struct ResetNotificationSettingsInputBody {
     let trustAnchorId: Swift.String?
     let notificationSettingKeys: [RolesAnywhereClientTypes.NotificationSettingKey]?
 }
@@ -3591,7 +3591,7 @@ extension ResetNotificationSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ResetNotificationSettingsOutput: Swift.Equatable {
+public struct ResetNotificationSettingsOutput {
     /// The state of the trust anchor after a read or write operation.
     /// This member is required.
     public var trustAnchor: RolesAnywhereClientTypes.TrustAnchorDetail?
@@ -3604,7 +3604,7 @@ public struct ResetNotificationSettingsOutput: Swift.Equatable {
     }
 }
 
-struct ResetNotificationSettingsOutputBody: Swift.Equatable {
+struct ResetNotificationSettingsOutputBody {
     let trustAnchor: RolesAnywhereClientTypes.TrustAnchorDetail?
 }
 
@@ -3672,7 +3672,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -3717,7 +3717,7 @@ extension RolesAnywhereClientTypes.Source: Swift.Codable {
 
 extension RolesAnywhereClientTypes {
     /// The trust anchor type and its related certificate data.
-    public struct Source: Swift.Equatable {
+    public struct Source {
         /// The data field of the trust anchor depending on its type.
         public var sourceData: RolesAnywhereClientTypes.SourceData?
         /// The type of the trust anchor.
@@ -3772,7 +3772,7 @@ extension RolesAnywhereClientTypes.SourceData: Swift.Codable {
 
 extension RolesAnywhereClientTypes {
     /// The data field of the trust anchor depending on its type.
-    public enum SourceData: Swift.Equatable {
+    public enum SourceData {
         /// The PEM-encoded data for the certificate anchor. Included for trust anchors of type CERTIFICATE_BUNDLE.
         case x509certificatedata(Swift.String)
         /// The root certificate of the Private Certificate Authority specified by this ARN is used in trust validation for temporary credential requests. Included for trust anchors of type AWS_ACM_PCA.
@@ -3875,7 +3875,7 @@ extension RolesAnywhereClientTypes.SubjectDetail: Swift.Codable {
 
 extension RolesAnywhereClientTypes {
     /// The state of the subject after a read or write operation.
-    public struct SubjectDetail: Swift.Equatable {
+    public struct SubjectDetail {
         /// The ISO-8601 timestamp when the subject was created.
         public var createdAt: ClientRuntime.Date?
         /// The temporary session credentials vended at the last authenticating call with this subject.
@@ -3978,7 +3978,7 @@ extension RolesAnywhereClientTypes.SubjectSummary: Swift.Codable {
 
 extension RolesAnywhereClientTypes {
     /// A summary representation of subjects.
-    public struct SubjectSummary: Swift.Equatable {
+    public struct SubjectSummary {
         /// The ISO-8601 time stamp of when the certificate was first used in a temporary credential request.
         public var createdAt: ClientRuntime.Date?
         /// The enabled status of the subject.
@@ -4048,7 +4048,7 @@ extension RolesAnywhereClientTypes.Tag: Swift.CustomDebugStringConvertible {
 
 extension RolesAnywhereClientTypes {
     /// A label that consists of a key and value you define.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The tag key.
         /// This member is required.
         public var key: Swift.String?
@@ -4095,7 +4095,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The ARN of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4113,7 +4113,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceArn: Swift.String?
     let tags: [RolesAnywhereClientTypes.Tag]?
 }
@@ -4147,7 +4147,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -4205,7 +4205,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct TooManyTagsExceptionBody: Swift.Equatable {
+struct TooManyTagsExceptionBody {
     let message: Swift.String?
 }
 
@@ -4296,7 +4296,7 @@ extension RolesAnywhereClientTypes.TrustAnchorDetail: Swift.Codable {
 
 extension RolesAnywhereClientTypes {
     /// The state of the trust anchor after a read or write operation.
-    public struct TrustAnchorDetail: Swift.Equatable {
+    public struct TrustAnchorDetail {
         /// The ISO-8601 timestamp when the trust anchor was created.
         public var createdAt: ClientRuntime.Date?
         /// Indicates whether the trust anchor is enabled.
@@ -4400,7 +4400,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The ARN of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4418,7 +4418,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceArn: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -4452,7 +4452,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -4497,7 +4497,7 @@ extension UpdateCrlInput {
     }
 }
 
-public struct UpdateCrlInput: Swift.Equatable {
+public struct UpdateCrlInput {
     /// The x509 v3 specified certificate revocation list (CRL).
     public var crlData: ClientRuntime.Data?
     /// The unique identifier of the certificate revocation list (CRL).
@@ -4518,7 +4518,7 @@ public struct UpdateCrlInput: Swift.Equatable {
     }
 }
 
-struct UpdateCrlInputBody: Swift.Equatable {
+struct UpdateCrlInputBody {
     let name: Swift.String?
     let crlData: ClientRuntime.Data?
 }
@@ -4550,7 +4550,7 @@ extension UpdateCrlOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateCrlOutput: Swift.Equatable {
+public struct UpdateCrlOutput {
     /// The state of the certificate revocation list (CRL) after a read or write operation.
     /// This member is required.
     public var crl: RolesAnywhereClientTypes.CrlDetail?
@@ -4563,7 +4563,7 @@ public struct UpdateCrlOutput: Swift.Equatable {
     }
 }
 
-struct UpdateCrlOutputBody: Swift.Equatable {
+struct UpdateCrlOutputBody {
     let crl: RolesAnywhereClientTypes.CrlDetail?
 }
 
@@ -4637,7 +4637,7 @@ extension UpdateProfileInput {
     }
 }
 
-public struct UpdateProfileInput: Swift.Equatable {
+public struct UpdateProfileInput {
     /// Used to determine how long sessions vended using this profile are valid for. See the Expiration section of the [CreateSession API documentation](https://docs.aws.amazon.com/rolesanywhere/latest/userguide/authentication-create-session.html#credentials-object) page for more details. In requests, if this value is not provided, the default value will be 3600.
     public var durationSeconds: Swift.Int?
     /// A list of managed policy ARNs that apply to the vended session credentials.
@@ -4670,7 +4670,7 @@ public struct UpdateProfileInput: Swift.Equatable {
     }
 }
 
-struct UpdateProfileInputBody: Swift.Equatable {
+struct UpdateProfileInputBody {
     let name: Swift.String?
     let sessionPolicy: Swift.String?
     let roleArns: [Swift.String]?
@@ -4732,7 +4732,7 @@ extension UpdateProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateProfileOutput: Swift.Equatable {
+public struct UpdateProfileOutput {
     /// The state of the profile after a read or write operation.
     public var profile: RolesAnywhereClientTypes.ProfileDetail?
 
@@ -4744,7 +4744,7 @@ public struct UpdateProfileOutput: Swift.Equatable {
     }
 }
 
-struct UpdateProfileOutputBody: Swift.Equatable {
+struct UpdateProfileOutputBody {
     let profile: RolesAnywhereClientTypes.ProfileDetail?
 }
 
@@ -4800,7 +4800,7 @@ extension UpdateTrustAnchorInput {
     }
 }
 
-public struct UpdateTrustAnchorInput: Swift.Equatable {
+public struct UpdateTrustAnchorInput {
     /// The name of the trust anchor.
     public var name: Swift.String?
     /// The trust anchor type and its related certificate data.
@@ -4821,7 +4821,7 @@ public struct UpdateTrustAnchorInput: Swift.Equatable {
     }
 }
 
-struct UpdateTrustAnchorInputBody: Swift.Equatable {
+struct UpdateTrustAnchorInputBody {
     let name: Swift.String?
     let source: RolesAnywhereClientTypes.Source?
 }
@@ -4853,7 +4853,7 @@ extension UpdateTrustAnchorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateTrustAnchorOutput: Swift.Equatable {
+public struct UpdateTrustAnchorOutput {
     /// The state of the trust anchor after a read or write operation.
     /// This member is required.
     public var trustAnchor: RolesAnywhereClientTypes.TrustAnchorDetail?
@@ -4866,7 +4866,7 @@ public struct UpdateTrustAnchorOutput: Swift.Equatable {
     }
 }
 
-struct UpdateTrustAnchorOutputBody: Swift.Equatable {
+struct UpdateTrustAnchorOutputBody {
     let trustAnchor: RolesAnywhereClientTypes.TrustAnchorDetail?
 }
 
@@ -4934,7 +4934,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

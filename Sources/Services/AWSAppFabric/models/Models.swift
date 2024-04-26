@@ -42,7 +42,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -84,7 +84,7 @@ extension AppFabricClientTypes.ApiKeyCredential: Swift.CustomDebugStringConverti
 
 extension AppFabricClientTypes {
     /// Contains API key credential information.
-    public struct ApiKeyCredential: Swift.Equatable {
+    public struct ApiKeyCredential {
         /// An API key for an application.
         /// This member is required.
         public var apiKey: Swift.String?
@@ -174,7 +174,7 @@ extension AppFabricClientTypes.AppAuthorization: Swift.Codable {
 
 extension AppFabricClientTypes {
     /// Contains information about an app authorization.
-    public struct AppAuthorization: Swift.Equatable {
+    public struct AppAuthorization {
         /// The name of the application.
         /// This member is required.
         public var app: Swift.String?
@@ -329,7 +329,7 @@ extension AppFabricClientTypes.AppAuthorizationSummary: Swift.Codable {
 
 extension AppFabricClientTypes {
     /// Contains a summary of an app authorization.
-    public struct AppAuthorizationSummary: Swift.Equatable {
+    public struct AppAuthorizationSummary {
         /// The name of the application.
         /// This member is required.
         public var app: Swift.String?
@@ -404,7 +404,7 @@ extension AppFabricClientTypes.AppBundle: Swift.Codable {
 
 extension AppFabricClientTypes {
     /// Contains information about an app bundle.
-    public struct AppBundle: Swift.Equatable {
+    public struct AppBundle {
         /// The Amazon Resource Name (ARN) of the app bundle.
         /// This member is required.
         public var arn: Swift.String?
@@ -444,7 +444,7 @@ extension AppFabricClientTypes.AppBundleSummary: Swift.Codable {
 
 extension AppFabricClientTypes {
     /// Contains a summary of an app bundle.
-    public struct AppBundleSummary: Swift.Equatable {
+    public struct AppBundleSummary {
         /// The Amazon Resource Name (ARN) of the app bundle.
         /// This member is required.
         public var arn: Swift.String?
@@ -482,7 +482,7 @@ extension AppFabricClientTypes.AuditLogDestinationConfiguration: Swift.Codable {
 
 extension AppFabricClientTypes {
     /// Contains information about an audit log destination configuration.
-    public struct AuditLogDestinationConfiguration: Swift.Equatable {
+    public struct AuditLogDestinationConfiguration {
         /// Contains information about an audit log destination.
         /// This member is required.
         public var destination: AppFabricClientTypes.Destination?
@@ -524,7 +524,7 @@ extension AppFabricClientTypes.AuditLogProcessingConfiguration: Swift.Codable {
 
 extension AppFabricClientTypes {
     /// Contains information about an audit log processing configuration.
-    public struct AuditLogProcessingConfiguration: Swift.Equatable {
+    public struct AuditLogProcessingConfiguration {
         /// The format in which the audit logs need to be formatted.
         /// This member is required.
         public var format: AppFabricClientTypes.Format?
@@ -576,7 +576,7 @@ extension AppFabricClientTypes.AuthRequest: Swift.CustomDebugStringConvertible {
 
 extension AppFabricClientTypes {
     /// Contains authorization request information, which is required for Amazon Web Services AppFabric to get the OAuth2 access token for an application.
-    public struct AuthRequest: Swift.Equatable {
+    public struct AuthRequest {
         /// The authorization code returned by the application after permission is granted in the application OAuth page (after clicking on the AuthURL).
         /// This member is required.
         public var code: Swift.String?
@@ -655,7 +655,7 @@ extension BatchGetUserAccessTasksInput {
     }
 }
 
-public struct BatchGetUserAccessTasksInput: Swift.Equatable {
+public struct BatchGetUserAccessTasksInput {
     /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request.
     /// This member is required.
     public var appBundleIdentifier: Swift.String?
@@ -673,7 +673,7 @@ public struct BatchGetUserAccessTasksInput: Swift.Equatable {
     }
 }
 
-struct BatchGetUserAccessTasksInputBody: Swift.Equatable {
+struct BatchGetUserAccessTasksInputBody {
     let appBundleIdentifier: Swift.String?
     let taskIdList: [Swift.String]?
 }
@@ -714,7 +714,7 @@ extension BatchGetUserAccessTasksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetUserAccessTasksOutput: Swift.Equatable {
+public struct BatchGetUserAccessTasksOutput {
     /// Contains a list of user access results.
     public var userAccessResultsList: [AppFabricClientTypes.UserAccessResultItem]?
 
@@ -726,7 +726,7 @@ public struct BatchGetUserAccessTasksOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetUserAccessTasksOutputBody: Swift.Equatable {
+struct BatchGetUserAccessTasksOutputBody {
     let userAccessResultsList: [AppFabricClientTypes.UserAccessResultItem]?
 }
 
@@ -820,7 +820,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -870,7 +870,7 @@ extension ConnectAppAuthorizationInput {
     }
 }
 
-public struct ConnectAppAuthorizationInput: Swift.Equatable {
+public struct ConnectAppAuthorizationInput {
     /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app authorization to use for the request.
     /// This member is required.
     public var appAuthorizationIdentifier: Swift.String?
@@ -892,7 +892,7 @@ public struct ConnectAppAuthorizationInput: Swift.Equatable {
     }
 }
 
-struct ConnectAppAuthorizationInputBody: Swift.Equatable {
+struct ConnectAppAuthorizationInputBody {
     let authRequest: AppFabricClientTypes.AuthRequest?
 }
 
@@ -920,7 +920,7 @@ extension ConnectAppAuthorizationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ConnectAppAuthorizationOutput: Swift.Equatable {
+public struct ConnectAppAuthorizationOutput {
     /// Contains a summary of the app authorization.
     /// This member is required.
     public var appAuthorizationSummary: AppFabricClientTypes.AppAuthorizationSummary?
@@ -933,7 +933,7 @@ public struct ConnectAppAuthorizationOutput: Swift.Equatable {
     }
 }
 
-struct ConnectAppAuthorizationOutputBody: Swift.Equatable {
+struct ConnectAppAuthorizationOutputBody {
     let appAuthorizationSummary: AppFabricClientTypes.AppAuthorizationSummary?
 }
 
@@ -1010,7 +1010,7 @@ extension CreateAppAuthorizationInput {
     }
 }
 
-public struct CreateAppAuthorizationInput: Swift.Equatable {
+public struct CreateAppAuthorizationInput {
     /// The name of the application. Valid values are:
     ///
     /// * SLACK
@@ -1075,7 +1075,7 @@ public struct CreateAppAuthorizationInput: Swift.Equatable {
     }
 }
 
-struct CreateAppAuthorizationInputBody: Swift.Equatable {
+struct CreateAppAuthorizationInputBody {
     let app: Swift.String?
     let credential: AppFabricClientTypes.Credential?
     let tenant: AppFabricClientTypes.Tenant?
@@ -1132,7 +1132,7 @@ extension CreateAppAuthorizationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAppAuthorizationOutput: Swift.Equatable {
+public struct CreateAppAuthorizationOutput {
     /// Contains information about an app authorization.
     /// This member is required.
     public var appAuthorization: AppFabricClientTypes.AppAuthorization?
@@ -1145,7 +1145,7 @@ public struct CreateAppAuthorizationOutput: Swift.Equatable {
     }
 }
 
-struct CreateAppAuthorizationOutputBody: Swift.Equatable {
+struct CreateAppAuthorizationOutputBody {
     let appAuthorization: AppFabricClientTypes.AppAuthorization?
 }
 
@@ -1209,7 +1209,7 @@ extension CreateAppBundleInput {
     }
 }
 
-public struct CreateAppBundleInput: Swift.Equatable {
+public struct CreateAppBundleInput {
     /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the Key Management Service (KMS) key to use to encrypt the application data. If this is not specified, an Amazon Web Services owned key is used for encryption.
@@ -1229,7 +1229,7 @@ public struct CreateAppBundleInput: Swift.Equatable {
     }
 }
 
-struct CreateAppBundleInputBody: Swift.Equatable {
+struct CreateAppBundleInputBody {
     let clientToken: Swift.String?
     let customerManagedKeyIdentifier: Swift.String?
     let tags: [AppFabricClientTypes.Tag]?
@@ -1274,7 +1274,7 @@ extension CreateAppBundleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAppBundleOutput: Swift.Equatable {
+public struct CreateAppBundleOutput {
     /// Contains information about an app bundle.
     /// This member is required.
     public var appBundle: AppFabricClientTypes.AppBundle?
@@ -1287,7 +1287,7 @@ public struct CreateAppBundleOutput: Swift.Equatable {
     }
 }
 
-struct CreateAppBundleOutputBody: Swift.Equatable {
+struct CreateAppBundleOutputBody {
     let appBundle: AppFabricClientTypes.AppBundle?
 }
 
@@ -1360,7 +1360,7 @@ extension CreateIngestionDestinationInput {
     }
 }
 
-public struct CreateIngestionDestinationInput: Swift.Equatable {
+public struct CreateIngestionDestinationInput {
     /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request.
     /// This member is required.
     public var appBundleIdentifier: Swift.String?
@@ -1396,7 +1396,7 @@ public struct CreateIngestionDestinationInput: Swift.Equatable {
     }
 }
 
-struct CreateIngestionDestinationInputBody: Swift.Equatable {
+struct CreateIngestionDestinationInputBody {
     let processingConfiguration: AppFabricClientTypes.ProcessingConfiguration?
     let destinationConfiguration: AppFabricClientTypes.DestinationConfiguration?
     let clientToken: Swift.String?
@@ -1445,7 +1445,7 @@ extension CreateIngestionDestinationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateIngestionDestinationOutput: Swift.Equatable {
+public struct CreateIngestionDestinationOutput {
     /// Contains information about an ingestion destination.
     /// This member is required.
     public var ingestionDestination: AppFabricClientTypes.IngestionDestination?
@@ -1458,7 +1458,7 @@ public struct CreateIngestionDestinationOutput: Swift.Equatable {
     }
 }
 
-struct CreateIngestionDestinationOutputBody: Swift.Equatable {
+struct CreateIngestionDestinationOutputBody {
     let ingestionDestination: AppFabricClientTypes.IngestionDestination?
 }
 
@@ -1532,7 +1532,7 @@ extension CreateIngestionInput {
     }
 }
 
-public struct CreateIngestionInput: Swift.Equatable {
+public struct CreateIngestionInput {
     /// The name of the application. Valid values are:
     ///
     /// * SLACK
@@ -1592,7 +1592,7 @@ public struct CreateIngestionInput: Swift.Equatable {
     }
 }
 
-struct CreateIngestionInputBody: Swift.Equatable {
+struct CreateIngestionInputBody {
     let app: Swift.String?
     let tenantId: Swift.String?
     let ingestionType: AppFabricClientTypes.IngestionType?
@@ -1645,7 +1645,7 @@ extension CreateIngestionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateIngestionOutput: Swift.Equatable {
+public struct CreateIngestionOutput {
     /// Contains information about an ingestion.
     /// This member is required.
     public var ingestion: AppFabricClientTypes.Ingestion?
@@ -1658,7 +1658,7 @@ public struct CreateIngestionOutput: Swift.Equatable {
     }
 }
 
-struct CreateIngestionOutputBody: Swift.Equatable {
+struct CreateIngestionOutputBody {
     let ingestion: AppFabricClientTypes.Ingestion?
 }
 
@@ -1727,7 +1727,7 @@ extension AppFabricClientTypes.Credential: Swift.Codable {
 
 extension AppFabricClientTypes {
     /// Contains credential information for an application.
-    public enum Credential: Swift.Equatable {
+    public enum Credential {
         /// Contains OAuth2 client credential information.
         case oauth2credential(AppFabricClientTypes.Oauth2Credential)
         /// Contains API key credential information.
@@ -1750,7 +1750,7 @@ extension DeleteAppAuthorizationInput {
     }
 }
 
-public struct DeleteAppAuthorizationInput: Swift.Equatable {
+public struct DeleteAppAuthorizationInput {
     /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app authorization to use for the request.
     /// This member is required.
     public var appAuthorizationIdentifier: Swift.String?
@@ -1768,7 +1768,7 @@ public struct DeleteAppAuthorizationInput: Swift.Equatable {
     }
 }
 
-struct DeleteAppAuthorizationInputBody: Swift.Equatable {
+struct DeleteAppAuthorizationInputBody {
 }
 
 extension DeleteAppAuthorizationInputBody: Swift.Decodable {
@@ -1782,7 +1782,7 @@ extension DeleteAppAuthorizationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAppAuthorizationOutput: Swift.Equatable {
+public struct DeleteAppAuthorizationOutput {
 
     public init() { }
 }
@@ -1812,7 +1812,7 @@ extension DeleteAppBundleInput {
     }
 }
 
-public struct DeleteAppBundleInput: Swift.Equatable {
+public struct DeleteAppBundleInput {
     /// The ID or Amazon Resource Name (ARN) of the app bundle that needs to be deleted.
     /// This member is required.
     public var appBundleIdentifier: Swift.String?
@@ -1825,7 +1825,7 @@ public struct DeleteAppBundleInput: Swift.Equatable {
     }
 }
 
-struct DeleteAppBundleInputBody: Swift.Equatable {
+struct DeleteAppBundleInputBody {
 }
 
 extension DeleteAppBundleInputBody: Swift.Decodable {
@@ -1839,7 +1839,7 @@ extension DeleteAppBundleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAppBundleOutput: Swift.Equatable {
+public struct DeleteAppBundleOutput {
 
     public init() { }
 }
@@ -1875,7 +1875,7 @@ extension DeleteIngestionDestinationInput {
     }
 }
 
-public struct DeleteIngestionDestinationInput: Swift.Equatable {
+public struct DeleteIngestionDestinationInput {
     /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request.
     /// This member is required.
     public var appBundleIdentifier: Swift.String?
@@ -1898,7 +1898,7 @@ public struct DeleteIngestionDestinationInput: Swift.Equatable {
     }
 }
 
-struct DeleteIngestionDestinationInputBody: Swift.Equatable {
+struct DeleteIngestionDestinationInputBody {
 }
 
 extension DeleteIngestionDestinationInputBody: Swift.Decodable {
@@ -1912,7 +1912,7 @@ extension DeleteIngestionDestinationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteIngestionDestinationOutput: Swift.Equatable {
+public struct DeleteIngestionDestinationOutput {
 
     public init() { }
 }
@@ -1945,7 +1945,7 @@ extension DeleteIngestionInput {
     }
 }
 
-public struct DeleteIngestionInput: Swift.Equatable {
+public struct DeleteIngestionInput {
     /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request.
     /// This member is required.
     public var appBundleIdentifier: Swift.String?
@@ -1963,7 +1963,7 @@ public struct DeleteIngestionInput: Swift.Equatable {
     }
 }
 
-struct DeleteIngestionInputBody: Swift.Equatable {
+struct DeleteIngestionInputBody {
 }
 
 extension DeleteIngestionInputBody: Swift.Decodable {
@@ -1977,7 +1977,7 @@ extension DeleteIngestionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteIngestionOutput: Swift.Equatable {
+public struct DeleteIngestionOutput {
 
     public init() { }
 }
@@ -2034,7 +2034,7 @@ extension AppFabricClientTypes.Destination: Swift.Codable {
 
 extension AppFabricClientTypes {
     /// Contains information about an audit log destination.
-    public enum Destination: Swift.Equatable {
+    public enum Destination {
         /// Contains information about an Amazon S3 bucket.
         case s3bucket(AppFabricClientTypes.S3Bucket)
         /// Contains information about an Amazon Kinesis Data Firehose delivery stream.
@@ -2073,7 +2073,7 @@ extension AppFabricClientTypes.DestinationConfiguration: Swift.Codable {
 
 extension AppFabricClientTypes {
     /// Contains information about the destination of ingested data.
-    public enum DestinationConfiguration: Swift.Equatable {
+    public enum DestinationConfiguration {
         /// Contains information about an audit log destination configuration.
         case auditlog(AppFabricClientTypes.AuditLogDestinationConfiguration)
         case sdkUnknown(Swift.String)
@@ -2102,7 +2102,7 @@ extension AppFabricClientTypes.FirehoseStream: Swift.Codable {
 
 extension AppFabricClientTypes {
     /// Contains information about an Amazon Kinesis Data Firehose delivery stream.
-    public struct FirehoseStream: Swift.Equatable {
+    public struct FirehoseStream {
         /// The name of the Amazon Kinesis Data Firehose delivery stream.
         /// This member is required.
         public var streamName: Swift.String?
@@ -2162,7 +2162,7 @@ extension GetAppAuthorizationInput {
     }
 }
 
-public struct GetAppAuthorizationInput: Swift.Equatable {
+public struct GetAppAuthorizationInput {
     /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app authorization to use for the request.
     /// This member is required.
     public var appAuthorizationIdentifier: Swift.String?
@@ -2180,7 +2180,7 @@ public struct GetAppAuthorizationInput: Swift.Equatable {
     }
 }
 
-struct GetAppAuthorizationInputBody: Swift.Equatable {
+struct GetAppAuthorizationInputBody {
 }
 
 extension GetAppAuthorizationInputBody: Swift.Decodable {
@@ -2201,7 +2201,7 @@ extension GetAppAuthorizationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAppAuthorizationOutput: Swift.Equatable {
+public struct GetAppAuthorizationOutput {
     /// Contains information about an app authorization.
     /// This member is required.
     public var appAuthorization: AppFabricClientTypes.AppAuthorization?
@@ -2214,7 +2214,7 @@ public struct GetAppAuthorizationOutput: Swift.Equatable {
     }
 }
 
-struct GetAppAuthorizationOutputBody: Swift.Equatable {
+struct GetAppAuthorizationOutputBody {
     let appAuthorization: AppFabricClientTypes.AppAuthorization?
 }
 
@@ -2255,7 +2255,7 @@ extension GetAppBundleInput {
     }
 }
 
-public struct GetAppBundleInput: Swift.Equatable {
+public struct GetAppBundleInput {
     /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request.
     /// This member is required.
     public var appBundleIdentifier: Swift.String?
@@ -2268,7 +2268,7 @@ public struct GetAppBundleInput: Swift.Equatable {
     }
 }
 
-struct GetAppBundleInputBody: Swift.Equatable {
+struct GetAppBundleInputBody {
 }
 
 extension GetAppBundleInputBody: Swift.Decodable {
@@ -2289,7 +2289,7 @@ extension GetAppBundleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAppBundleOutput: Swift.Equatable {
+public struct GetAppBundleOutput {
     /// Contains information about an app bundle.
     /// This member is required.
     public var appBundle: AppFabricClientTypes.AppBundle?
@@ -2302,7 +2302,7 @@ public struct GetAppBundleOutput: Swift.Equatable {
     }
 }
 
-struct GetAppBundleOutputBody: Swift.Equatable {
+struct GetAppBundleOutputBody {
     let appBundle: AppFabricClientTypes.AppBundle?
 }
 
@@ -2349,7 +2349,7 @@ extension GetIngestionDestinationInput {
     }
 }
 
-public struct GetIngestionDestinationInput: Swift.Equatable {
+public struct GetIngestionDestinationInput {
     /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request.
     /// This member is required.
     public var appBundleIdentifier: Swift.String?
@@ -2372,7 +2372,7 @@ public struct GetIngestionDestinationInput: Swift.Equatable {
     }
 }
 
-struct GetIngestionDestinationInputBody: Swift.Equatable {
+struct GetIngestionDestinationInputBody {
 }
 
 extension GetIngestionDestinationInputBody: Swift.Decodable {
@@ -2393,7 +2393,7 @@ extension GetIngestionDestinationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetIngestionDestinationOutput: Swift.Equatable {
+public struct GetIngestionDestinationOutput {
     /// Contains information about an ingestion destination.
     /// This member is required.
     public var ingestionDestination: AppFabricClientTypes.IngestionDestination?
@@ -2406,7 +2406,7 @@ public struct GetIngestionDestinationOutput: Swift.Equatable {
     }
 }
 
-struct GetIngestionDestinationOutputBody: Swift.Equatable {
+struct GetIngestionDestinationOutputBody {
     let ingestionDestination: AppFabricClientTypes.IngestionDestination?
 }
 
@@ -2450,7 +2450,7 @@ extension GetIngestionInput {
     }
 }
 
-public struct GetIngestionInput: Swift.Equatable {
+public struct GetIngestionInput {
     /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request.
     /// This member is required.
     public var appBundleIdentifier: Swift.String?
@@ -2468,7 +2468,7 @@ public struct GetIngestionInput: Swift.Equatable {
     }
 }
 
-struct GetIngestionInputBody: Swift.Equatable {
+struct GetIngestionInputBody {
 }
 
 extension GetIngestionInputBody: Swift.Decodable {
@@ -2489,7 +2489,7 @@ extension GetIngestionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetIngestionOutput: Swift.Equatable {
+public struct GetIngestionOutput {
     /// Contains information about an ingestion.
     /// This member is required.
     public var ingestion: AppFabricClientTypes.Ingestion?
@@ -2502,7 +2502,7 @@ public struct GetIngestionOutput: Swift.Equatable {
     }
 }
 
-struct GetIngestionOutputBody: Swift.Equatable {
+struct GetIngestionOutputBody {
     let ingestion: AppFabricClientTypes.Ingestion?
 }
 
@@ -2596,7 +2596,7 @@ extension AppFabricClientTypes.Ingestion: Swift.Codable {
 
 extension AppFabricClientTypes {
     /// Contains information about an ingestion.
-    public struct Ingestion: Swift.Equatable {
+    public struct Ingestion {
         /// The name of the application.
         /// This member is required.
         public var app: Swift.String?
@@ -2709,7 +2709,7 @@ extension AppFabricClientTypes.IngestionDestination: Swift.Codable {
 
 extension AppFabricClientTypes {
     /// Contains information about an ingestion destination.
-    public struct IngestionDestination: Swift.Equatable {
+    public struct IngestionDestination {
         /// The Amazon Resource Name (ARN) of the ingestion destination.
         /// This member is required.
         public var arn: Swift.String?
@@ -2812,7 +2812,7 @@ extension AppFabricClientTypes.IngestionDestinationSummary: Swift.Codable {
 
 extension AppFabricClientTypes {
     /// Contains a summary of an ingestion destination.
-    public struct IngestionDestinationSummary: Swift.Equatable {
+    public struct IngestionDestinationSummary {
         /// The Amazon Resource Name (ARN) of the ingestion destination.
         /// This member is required.
         public var arn: Swift.String?
@@ -2898,7 +2898,7 @@ extension AppFabricClientTypes.IngestionSummary: Swift.Codable {
 
 extension AppFabricClientTypes {
     /// Contains a summary of an ingestion.
-    public struct IngestionSummary: Swift.Equatable {
+    public struct IngestionSummary {
         /// The name of the application.
         /// This member is required.
         public var app: Swift.String?
@@ -3006,7 +3006,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -3048,7 +3048,7 @@ extension ListAppAuthorizationsInput {
     }
 }
 
-public struct ListAppAuthorizationsInput: Swift.Equatable {
+public struct ListAppAuthorizationsInput {
     /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request.
     /// This member is required.
     public var appBundleIdentifier: Swift.String?
@@ -3069,7 +3069,7 @@ public struct ListAppAuthorizationsInput: Swift.Equatable {
     }
 }
 
-struct ListAppAuthorizationsInputBody: Swift.Equatable {
+struct ListAppAuthorizationsInputBody {
 }
 
 extension ListAppAuthorizationsInputBody: Swift.Decodable {
@@ -3092,7 +3092,7 @@ extension ListAppAuthorizationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAppAuthorizationsOutput: Swift.Equatable {
+public struct ListAppAuthorizationsOutput {
     /// Contains a list of app authorization summaries.
     /// This member is required.
     public var appAuthorizationSummaryList: [AppFabricClientTypes.AppAuthorizationSummary]?
@@ -3109,7 +3109,7 @@ public struct ListAppAuthorizationsOutput: Swift.Equatable {
     }
 }
 
-struct ListAppAuthorizationsOutputBody: Swift.Equatable {
+struct ListAppAuthorizationsOutputBody {
     let appAuthorizationSummaryList: [AppFabricClientTypes.AppAuthorizationSummary]?
     let nextToken: Swift.String?
 }
@@ -3176,7 +3176,7 @@ extension ListAppBundlesInput {
     }
 }
 
-public struct ListAppBundlesInput: Swift.Equatable {
+public struct ListAppBundlesInput {
     /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
     public var maxResults: Swift.Int?
     /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
@@ -3192,7 +3192,7 @@ public struct ListAppBundlesInput: Swift.Equatable {
     }
 }
 
-struct ListAppBundlesInputBody: Swift.Equatable {
+struct ListAppBundlesInputBody {
 }
 
 extension ListAppBundlesInputBody: Swift.Decodable {
@@ -3215,7 +3215,7 @@ extension ListAppBundlesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAppBundlesOutput: Swift.Equatable {
+public struct ListAppBundlesOutput {
     /// Contains a list of app bundle summaries.
     /// This member is required.
     public var appBundleSummaryList: [AppFabricClientTypes.AppBundleSummary]?
@@ -3232,7 +3232,7 @@ public struct ListAppBundlesOutput: Swift.Equatable {
     }
 }
 
-struct ListAppBundlesOutputBody: Swift.Equatable {
+struct ListAppBundlesOutputBody {
     let appBundleSummaryList: [AppFabricClientTypes.AppBundleSummary]?
     let nextToken: Swift.String?
 }
@@ -3304,7 +3304,7 @@ extension ListIngestionDestinationsInput {
     }
 }
 
-public struct ListIngestionDestinationsInput: Swift.Equatable {
+public struct ListIngestionDestinationsInput {
     /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request.
     /// This member is required.
     public var appBundleIdentifier: Swift.String?
@@ -3330,7 +3330,7 @@ public struct ListIngestionDestinationsInput: Swift.Equatable {
     }
 }
 
-struct ListIngestionDestinationsInputBody: Swift.Equatable {
+struct ListIngestionDestinationsInputBody {
 }
 
 extension ListIngestionDestinationsInputBody: Swift.Decodable {
@@ -3353,7 +3353,7 @@ extension ListIngestionDestinationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListIngestionDestinationsOutput: Swift.Equatable {
+public struct ListIngestionDestinationsOutput {
     /// Contains a list of ingestion destination summaries.
     /// This member is required.
     public var ingestionDestinations: [AppFabricClientTypes.IngestionDestinationSummary]?
@@ -3370,7 +3370,7 @@ public struct ListIngestionDestinationsOutput: Swift.Equatable {
     }
 }
 
-struct ListIngestionDestinationsOutputBody: Swift.Equatable {
+struct ListIngestionDestinationsOutputBody {
     let ingestionDestinations: [AppFabricClientTypes.IngestionDestinationSummary]?
     let nextToken: Swift.String?
 }
@@ -3440,7 +3440,7 @@ extension ListIngestionsInput {
     }
 }
 
-public struct ListIngestionsInput: Swift.Equatable {
+public struct ListIngestionsInput {
     /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request.
     /// This member is required.
     public var appBundleIdentifier: Swift.String?
@@ -3461,7 +3461,7 @@ public struct ListIngestionsInput: Swift.Equatable {
     }
 }
 
-struct ListIngestionsInputBody: Swift.Equatable {
+struct ListIngestionsInputBody {
 }
 
 extension ListIngestionsInputBody: Swift.Decodable {
@@ -3484,7 +3484,7 @@ extension ListIngestionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListIngestionsOutput: Swift.Equatable {
+public struct ListIngestionsOutput {
     /// Contains a list of ingestion summaries.
     /// This member is required.
     public var ingestions: [AppFabricClientTypes.IngestionSummary]?
@@ -3501,7 +3501,7 @@ public struct ListIngestionsOutput: Swift.Equatable {
     }
 }
 
-struct ListIngestionsOutputBody: Swift.Equatable {
+struct ListIngestionsOutputBody {
     let ingestions: [AppFabricClientTypes.IngestionSummary]?
     let nextToken: Swift.String?
 }
@@ -3555,7 +3555,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource for which you want to retrieve tags.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3568,7 +3568,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -3589,7 +3589,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// A map of the key-value pairs for the tag or tags assigned to the specified resource.
     public var tags: [AppFabricClientTypes.Tag]?
 
@@ -3601,7 +3601,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [AppFabricClientTypes.Tag]?
 }
 
@@ -3673,7 +3673,7 @@ extension AppFabricClientTypes.Oauth2Credential: Swift.CustomDebugStringConverti
 
 extension AppFabricClientTypes {
     /// Contains OAuth2 client credential information.
-    public struct Oauth2Credential: Swift.Equatable {
+    public struct Oauth2Credential {
         /// The client ID of the client application.
         /// This member is required.
         public var clientId: Swift.String?
@@ -3754,7 +3754,7 @@ extension AppFabricClientTypes.ProcessingConfiguration: Swift.Codable {
 
 extension AppFabricClientTypes {
     /// Contains information about how ingested data is processed.
-    public enum ProcessingConfiguration: Swift.Equatable {
+    public enum ProcessingConfiguration {
         /// Contains information about an audit log processing configuration.
         case auditlog(AppFabricClientTypes.AuditLogProcessingConfiguration)
         case sdkUnknown(Swift.String)
@@ -3816,7 +3816,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -3905,7 +3905,7 @@ extension AppFabricClientTypes.S3Bucket: Swift.Codable {
 
 extension AppFabricClientTypes {
     /// Contains information about an Amazon S3 bucket.
-    public struct S3Bucket: Swift.Equatable {
+    public struct S3Bucket {
         /// The name of the Amazon S3 bucket.
         /// This member is required.
         public var bucketName: Swift.String?
@@ -4024,7 +4024,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -4069,7 +4069,7 @@ extension StartIngestionInput {
     }
 }
 
-public struct StartIngestionInput: Swift.Equatable {
+public struct StartIngestionInput {
     /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request.
     /// This member is required.
     public var appBundleIdentifier: Swift.String?
@@ -4087,7 +4087,7 @@ public struct StartIngestionInput: Swift.Equatable {
     }
 }
 
-struct StartIngestionInputBody: Swift.Equatable {
+struct StartIngestionInputBody {
 }
 
 extension StartIngestionInputBody: Swift.Decodable {
@@ -4101,7 +4101,7 @@ extension StartIngestionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartIngestionOutput: Swift.Equatable {
+public struct StartIngestionOutput {
 
     public init() { }
 }
@@ -4151,7 +4151,7 @@ extension StartUserAccessTasksInput {
     }
 }
 
-public struct StartUserAccessTasksInput: Swift.Equatable {
+public struct StartUserAccessTasksInput {
     /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request.
     /// This member is required.
     public var appBundleIdentifier: Swift.String?
@@ -4169,7 +4169,7 @@ public struct StartUserAccessTasksInput: Swift.Equatable {
     }
 }
 
-struct StartUserAccessTasksInputBody: Swift.Equatable {
+struct StartUserAccessTasksInputBody {
     let appBundleIdentifier: Swift.String?
     let email: Swift.String?
 }
@@ -4201,7 +4201,7 @@ extension StartUserAccessTasksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartUserAccessTasksOutput: Swift.Equatable {
+public struct StartUserAccessTasksOutput {
     /// Contains a list of user access task information.
     public var userAccessTasksList: [AppFabricClientTypes.UserAccessTaskItem]?
 
@@ -4213,7 +4213,7 @@ public struct StartUserAccessTasksOutput: Swift.Equatable {
     }
 }
 
-struct StartUserAccessTasksOutputBody: Swift.Equatable {
+struct StartUserAccessTasksOutputBody {
     let userAccessTasksList: [AppFabricClientTypes.UserAccessTaskItem]?
 }
 
@@ -4266,7 +4266,7 @@ extension StopIngestionInput {
     }
 }
 
-public struct StopIngestionInput: Swift.Equatable {
+public struct StopIngestionInput {
     /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request.
     /// This member is required.
     public var appBundleIdentifier: Swift.String?
@@ -4284,7 +4284,7 @@ public struct StopIngestionInput: Swift.Equatable {
     }
 }
 
-struct StopIngestionInputBody: Swift.Equatable {
+struct StopIngestionInputBody {
 }
 
 extension StopIngestionInputBody: Swift.Decodable {
@@ -4298,7 +4298,7 @@ extension StopIngestionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopIngestionOutput: Swift.Equatable {
+public struct StopIngestionOutput {
 
     public init() { }
 }
@@ -4346,7 +4346,7 @@ extension AppFabricClientTypes.Tag: Swift.Codable {
 
 extension AppFabricClientTypes {
     /// The key or keys of the key-value pairs for the tag or tags assigned to a resource.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// Tag key.
         /// This member is required.
         public var key: Swift.String?
@@ -4392,7 +4392,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource that you want to tag.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4410,7 +4410,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [AppFabricClientTypes.Tag]?
 }
 
@@ -4440,7 +4440,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -4487,7 +4487,7 @@ extension AppFabricClientTypes.TaskError: Swift.Codable {
 
 extension AppFabricClientTypes {
     /// Contains information about an error returned from a user access task.
-    public struct TaskError: Swift.Equatable {
+    public struct TaskError {
         /// The code of the error.
         public var errorCode: Swift.String?
         /// The message of the error.
@@ -4532,7 +4532,7 @@ extension AppFabricClientTypes.Tenant: Swift.Codable {
 
 extension AppFabricClientTypes {
     /// Contains information about an application tenant.
-    public struct Tenant: Swift.Equatable {
+    public struct Tenant {
         /// The display name of the tenant.
         /// This member is required.
         public var tenantDisplayName: Swift.String?
@@ -4613,7 +4613,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
     let serviceCode: Swift.String?
     let quotaCode: Swift.String?
@@ -4663,7 +4663,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource that you want to untag.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4681,7 +4681,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -4695,7 +4695,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -4745,7 +4745,7 @@ extension UpdateAppAuthorizationInput {
     }
 }
 
-public struct UpdateAppAuthorizationInput: Swift.Equatable {
+public struct UpdateAppAuthorizationInput {
     /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app authorization to use for the request.
     /// This member is required.
     public var appAuthorizationIdentifier: Swift.String?
@@ -4771,7 +4771,7 @@ public struct UpdateAppAuthorizationInput: Swift.Equatable {
     }
 }
 
-struct UpdateAppAuthorizationInputBody: Swift.Equatable {
+struct UpdateAppAuthorizationInputBody {
     let credential: AppFabricClientTypes.Credential?
     let tenant: AppFabricClientTypes.Tenant?
 }
@@ -4803,7 +4803,7 @@ extension UpdateAppAuthorizationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAppAuthorizationOutput: Swift.Equatable {
+public struct UpdateAppAuthorizationOutput {
     /// Contains information about an app authorization.
     /// This member is required.
     public var appAuthorization: AppFabricClientTypes.AppAuthorization?
@@ -4816,7 +4816,7 @@ public struct UpdateAppAuthorizationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAppAuthorizationOutputBody: Swift.Equatable {
+struct UpdateAppAuthorizationOutputBody {
     let appAuthorization: AppFabricClientTypes.AppAuthorization?
 }
 
@@ -4876,7 +4876,7 @@ extension UpdateIngestionDestinationInput {
     }
 }
 
-public struct UpdateIngestionDestinationInput: Swift.Equatable {
+public struct UpdateIngestionDestinationInput {
     /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request.
     /// This member is required.
     public var appBundleIdentifier: Swift.String?
@@ -4904,7 +4904,7 @@ public struct UpdateIngestionDestinationInput: Swift.Equatable {
     }
 }
 
-struct UpdateIngestionDestinationInputBody: Swift.Equatable {
+struct UpdateIngestionDestinationInputBody {
     let destinationConfiguration: AppFabricClientTypes.DestinationConfiguration?
 }
 
@@ -4932,7 +4932,7 @@ extension UpdateIngestionDestinationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateIngestionDestinationOutput: Swift.Equatable {
+public struct UpdateIngestionDestinationOutput {
     /// Contains information about an ingestion destination.
     /// This member is required.
     public var ingestionDestination: AppFabricClientTypes.IngestionDestination?
@@ -4945,7 +4945,7 @@ public struct UpdateIngestionDestinationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateIngestionDestinationOutputBody: Swift.Equatable {
+struct UpdateIngestionDestinationOutputBody {
     let ingestionDestination: AppFabricClientTypes.IngestionDestination?
 }
 
@@ -5070,7 +5070,7 @@ extension AppFabricClientTypes.UserAccessResultItem: Swift.CustomDebugStringConv
 
 extension AppFabricClientTypes {
     /// Contains information about a user's access to an application.
-    public struct UserAccessResultItem: Swift.Equatable {
+    public struct UserAccessResultItem {
         /// The name of the application.
         public var app: Swift.String?
         /// The email address of the target user.
@@ -5175,7 +5175,7 @@ extension AppFabricClientTypes.UserAccessTaskItem: Swift.Codable {
 
 extension AppFabricClientTypes {
     /// Contains information about a user access task.
-    public struct UserAccessTaskItem: Swift.Equatable {
+    public struct UserAccessTaskItem {
         /// The name of the application.
         /// This member is required.
         public var app: Swift.String?
@@ -5256,7 +5256,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let reason: AppFabricClientTypes.ValidationExceptionReason?
     let fieldList: [AppFabricClientTypes.ValidationExceptionField]?
@@ -5316,7 +5316,7 @@ extension AppFabricClientTypes.ValidationExceptionField: Swift.Codable {
 
 extension AppFabricClientTypes {
     /// The input failed to meet the constraints specified by the Amazon Web Services service in a specified field.
-    public struct ValidationExceptionField: Swift.Equatable {
+    public struct ValidationExceptionField {
         /// A message about the validation exception.
         /// This member is required.
         public var message: Swift.String?

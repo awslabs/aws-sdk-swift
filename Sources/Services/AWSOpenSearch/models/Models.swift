@@ -35,7 +35,7 @@ extension OpenSearchClientTypes.AWSDomainInformation: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Information about an Amazon OpenSearch Service domain.
-    public struct AWSDomainInformation: Swift.Equatable {
+    public struct AWSDomainInformation {
         /// Name of the domain.
         /// This member is required.
         public var domainName: Swift.String?
@@ -69,7 +69,7 @@ extension AcceptInboundConnectionInput {
 }
 
 /// Container for the parameters to the AcceptInboundConnection operation.
-public struct AcceptInboundConnectionInput: Swift.Equatable {
+public struct AcceptInboundConnectionInput {
     /// The ID of the inbound connection to accept.
     /// This member is required.
     public var connectionId: Swift.String?
@@ -82,7 +82,7 @@ public struct AcceptInboundConnectionInput: Swift.Equatable {
     }
 }
 
-struct AcceptInboundConnectionInputBody: Swift.Equatable {
+struct AcceptInboundConnectionInputBody {
 }
 
 extension AcceptInboundConnectionInputBody: Swift.Decodable {
@@ -104,7 +104,7 @@ extension AcceptInboundConnectionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains details about the accepted inbound connection.
-public struct AcceptInboundConnectionOutput: Swift.Equatable {
+public struct AcceptInboundConnectionOutput {
     /// Information about the accepted inbound connection.
     public var connection: OpenSearchClientTypes.InboundConnection?
 
@@ -116,7 +116,7 @@ public struct AcceptInboundConnectionOutput: Swift.Equatable {
     }
 }
 
-struct AcceptInboundConnectionOutputBody: Swift.Equatable {
+struct AcceptInboundConnectionOutputBody {
     let connection: OpenSearchClientTypes.InboundConnection?
 }
 
@@ -185,7 +185,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -228,7 +228,7 @@ extension OpenSearchClientTypes.AccessPoliciesStatus: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// The configured access rules for the domain's search endpoint, and the current status of those rules.
-    public struct AccessPoliciesStatus: Swift.Equatable {
+    public struct AccessPoliciesStatus {
         /// The access policy configured for the domain. Access policies can be resource-based, IP-based, or IAM-based. For more information, see [Configuring access policies](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html#createdomain-configure-access-policies).
         /// This member is required.
         public var options: Swift.String?
@@ -394,7 +394,7 @@ extension AddDataSourceInput {
 }
 
 /// Container for the parameters to the AddDataSource operation.
-public struct AddDataSourceInput: Swift.Equatable {
+public struct AddDataSourceInput {
     /// The type of data source.
     /// This member is required.
     public var dataSourceType: OpenSearchClientTypes.DataSourceType?
@@ -421,7 +421,7 @@ public struct AddDataSourceInput: Swift.Equatable {
     }
 }
 
-struct AddDataSourceInputBody: Swift.Equatable {
+struct AddDataSourceInputBody {
     let name: Swift.String?
     let dataSourceType: OpenSearchClientTypes.DataSourceType?
     let description: Swift.String?
@@ -458,7 +458,7 @@ extension AddDataSourceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result of an AddDataSource operation.
-public struct AddDataSourceOutput: Swift.Equatable {
+public struct AddDataSourceOutput {
     /// A message associated with creation of the data source.
     public var message: Swift.String?
 
@@ -470,7 +470,7 @@ public struct AddDataSourceOutput: Swift.Equatable {
     }
 }
 
-struct AddDataSourceOutputBody: Swift.Equatable {
+struct AddDataSourceOutputBody {
     let message: Swift.String?
 }
 
@@ -531,7 +531,7 @@ extension AddTagsInput {
 }
 
 /// Container for the parameters to the AddTags operation. Specifies the tags to attach to the domain.
-public struct AddTagsInput: Swift.Equatable {
+public struct AddTagsInput {
     /// Amazon Resource Name (ARN) for the OpenSearch Service domain to which you want to attach resource tags.
     /// This member is required.
     public var arn: Swift.String?
@@ -549,7 +549,7 @@ public struct AddTagsInput: Swift.Equatable {
     }
 }
 
-struct AddTagsInputBody: Swift.Equatable {
+struct AddTagsInputBody {
     let arn: Swift.String?
     let tagList: [OpenSearchClientTypes.Tag]?
 }
@@ -583,7 +583,7 @@ extension AddTagsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AddTagsOutput: Swift.Equatable {
+public struct AddTagsOutput {
 
     public init() { }
 }
@@ -641,7 +641,7 @@ extension OpenSearchClientTypes.AdditionalLimit: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// List of limits that are specific to a given instance type.
-    public struct AdditionalLimit: Swift.Equatable {
+    public struct AdditionalLimit {
         /// * MaximumNumberOfDataNodesSupported - This attribute only applies to master nodes and specifies the maximum number of data nodes of a given instance type a master node can support.
         ///
         /// * MaximumNumberOfDataNodesWithoutMasterNode - This attribute only applies to data nodes and specifies the maximum number of data nodes of a given instance type can exist without a master node governing them.
@@ -711,7 +711,7 @@ extension OpenSearchClientTypes {
     ///
     ///
     /// For more information, see [Advanced cluster parameters](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html#createdomain-configure-advanced-options).
-    public struct AdvancedOptionsStatus: Swift.Equatable {
+    public struct AdvancedOptionsStatus {
         /// The status of advanced options for the specified domain.
         /// This member is required.
         public var options: [Swift.String:Swift.String]?
@@ -776,7 +776,7 @@ extension OpenSearchClientTypes.AdvancedSecurityOptions: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Container for fine-grained access control settings.
-    public struct AdvancedSecurityOptions: Swift.Equatable {
+    public struct AdvancedSecurityOptions {
         /// Date and time when the migration period will be disabled. Only necessary when [enabling fine-grained access control on an existing domain](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/fgac.html#fgac-enabling-existing).
         public var anonymousAuthDisableDate: ClientRuntime.Date?
         /// True if a 30-day migration period is enabled, during which administrators can create role mappings. Only necessary when [enabling fine-grained access control on an existing domain](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/fgac.html#fgac-enabling-existing).
@@ -851,7 +851,7 @@ extension OpenSearchClientTypes.AdvancedSecurityOptionsInput: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Options for enabling and configuring fine-grained access control. For more information, see [Fine-grained access control in Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/fgac.html).
-    public struct AdvancedSecurityOptionsInput: Swift.Equatable {
+    public struct AdvancedSecurityOptionsInput {
         /// True to enable a 30-day migration period during which administrators can create role mappings. Only necessary when [enabling fine-grained access control on an existing domain](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/fgac.html#fgac-enabling-existing).
         public var anonymousAuthEnabled: Swift.Bool?
         /// True to enable fine-grained access control.
@@ -908,7 +908,7 @@ extension OpenSearchClientTypes.AdvancedSecurityOptionsStatus: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// The status of fine-grained access control settings for a domain.
-    public struct AdvancedSecurityOptionsStatus: Swift.Equatable {
+    public struct AdvancedSecurityOptionsStatus {
         /// Container for fine-grained access control settings.
         /// This member is required.
         public var options: OpenSearchClientTypes.AdvancedSecurityOptions?
@@ -942,7 +942,7 @@ extension AssociatePackageInput {
 }
 
 /// Container for the request parameters to the AssociatePackage operation.
-public struct AssociatePackageInput: Swift.Equatable {
+public struct AssociatePackageInput {
     /// Name of the domain to associate the package with.
     /// This member is required.
     public var domainName: Swift.String?
@@ -960,7 +960,7 @@ public struct AssociatePackageInput: Swift.Equatable {
     }
 }
 
-struct AssociatePackageInputBody: Swift.Equatable {
+struct AssociatePackageInputBody {
 }
 
 extension AssociatePackageInputBody: Swift.Decodable {
@@ -982,7 +982,7 @@ extension AssociatePackageOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Container for the response returned by the AssociatePackage operation.
-public struct AssociatePackageOutput: Swift.Equatable {
+public struct AssociatePackageOutput {
     /// Information about a package that is associated with a domain.
     public var domainPackageDetails: OpenSearchClientTypes.DomainPackageDetails?
 
@@ -994,7 +994,7 @@ public struct AssociatePackageOutput: Swift.Equatable {
     }
 }
 
-struct AssociatePackageOutputBody: Swift.Equatable {
+struct AssociatePackageOutputBody {
     let domainPackageDetails: OpenSearchClientTypes.DomainPackageDetails?
 }
 
@@ -1049,7 +1049,7 @@ extension AuthorizeVpcEndpointAccessInput {
     }
 }
 
-public struct AuthorizeVpcEndpointAccessInput: Swift.Equatable {
+public struct AuthorizeVpcEndpointAccessInput {
     /// The Amazon Web Services account ID to grant access to.
     /// This member is required.
     public var account: Swift.String?
@@ -1067,7 +1067,7 @@ public struct AuthorizeVpcEndpointAccessInput: Swift.Equatable {
     }
 }
 
-struct AuthorizeVpcEndpointAccessInputBody: Swift.Equatable {
+struct AuthorizeVpcEndpointAccessInputBody {
     let account: Swift.String?
 }
 
@@ -1095,7 +1095,7 @@ extension AuthorizeVpcEndpointAccessOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AuthorizeVpcEndpointAccessOutput: Swift.Equatable {
+public struct AuthorizeVpcEndpointAccessOutput {
     /// Information about the Amazon Web Services account or service that was provided access to the domain.
     /// This member is required.
     public var authorizedPrincipal: OpenSearchClientTypes.AuthorizedPrincipal?
@@ -1108,7 +1108,7 @@ public struct AuthorizeVpcEndpointAccessOutput: Swift.Equatable {
     }
 }
 
-struct AuthorizeVpcEndpointAccessOutputBody: Swift.Equatable {
+struct AuthorizeVpcEndpointAccessOutputBody {
     let authorizedPrincipal: OpenSearchClientTypes.AuthorizedPrincipal?
 }
 
@@ -1167,7 +1167,7 @@ extension OpenSearchClientTypes.AuthorizedPrincipal: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Information about an Amazon Web Services account or service that has access to an Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
-    public struct AuthorizedPrincipal: Swift.Equatable {
+    public struct AuthorizedPrincipal {
         /// The [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html) that is allowed access to the domain.
         public var principal: Swift.String?
         /// The type of principal.
@@ -1212,7 +1212,7 @@ extension OpenSearchClientTypes.AutoTune: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Information about an Auto-Tune action. For more information, see [Auto-Tune for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html).
-    public struct AutoTune: Swift.Equatable {
+    public struct AutoTune {
         /// Details about an Auto-Tune action.
         public var autoTuneDetails: OpenSearchClientTypes.AutoTuneDetails?
         /// The type of Auto-Tune action.
@@ -1284,7 +1284,7 @@ extension OpenSearchClientTypes.AutoTuneDetails: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Specifies details about a scheduled Auto-Tune action. For more information, see [Auto-Tune for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html).
-    public struct AutoTuneDetails: Swift.Equatable {
+    public struct AutoTuneDetails {
         /// Container for details about a scheduled Auto-Tune action.
         public var scheduledAutoTuneDetails: OpenSearchClientTypes.ScheduledAutoTuneDetails?
 
@@ -1331,7 +1331,7 @@ extension OpenSearchClientTypes.AutoTuneMaintenanceSchedule: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// This object is deprecated. Use the domain's [off-peak window](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/off-peak.html) to schedule Auto-Tune optimizations. For migration instructions, see [Migrating from Auto-Tune maintenance windows](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/off-peak.html#off-peak-migrate). The Auto-Tune maintenance schedule. For more information, see [Auto-Tune for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html).
-    public struct AutoTuneMaintenanceSchedule: Swift.Equatable {
+    public struct AutoTuneMaintenanceSchedule {
         /// A cron expression for a recurring maintenance schedule during which Auto-Tune can deploy changes.
         public var cronExpressionForRecurrence: Swift.String?
         /// The duration of the maintenance schedule. For example, "Duration": {"Value": 2, "Unit": "HOURS"}.
@@ -1404,7 +1404,7 @@ extension OpenSearchClientTypes.AutoTuneOptions: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Auto-Tune settings when updating a domain. For more information, see [Auto-Tune for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html).
-    public struct AutoTuneOptions: Swift.Equatable {
+    public struct AutoTuneOptions {
         /// Whether Auto-Tune is enabled or disabled.
         public var desiredState: OpenSearchClientTypes.AutoTuneDesiredState?
         /// DEPRECATED. Use [off-peak window](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/off-peak.html) instead. A list of maintenance schedules during which Auto-Tune can deploy changes.
@@ -1475,7 +1475,7 @@ extension OpenSearchClientTypes.AutoTuneOptionsInput: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Options for configuring Auto-Tune. For more information, see [Auto-Tune for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html)
-    public struct AutoTuneOptionsInput: Swift.Equatable {
+    public struct AutoTuneOptionsInput {
         /// Whether Auto-Tune is enabled or disabled.
         public var desiredState: OpenSearchClientTypes.AutoTuneDesiredState?
         /// A list of maintenance schedules during which Auto-Tune can deploy changes. Maintenance windows are deprecated and have been replaced with [off-peak windows](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/off-peak.html).
@@ -1530,7 +1530,7 @@ extension OpenSearchClientTypes.AutoTuneOptionsOutput: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// The Auto-Tune settings for a domain, displayed when enabling or disabling Auto-Tune.
-    public struct AutoTuneOptionsOutput: Swift.Equatable {
+    public struct AutoTuneOptionsOutput {
         /// Any errors that occurred while enabling or disabling Auto-Tune.
         public var errorMessage: Swift.String?
         /// The current state of Auto-Tune on the domain.
@@ -1579,7 +1579,7 @@ extension OpenSearchClientTypes.AutoTuneOptionsStatus: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// The Auto-Tune status for the domain.
-    public struct AutoTuneOptionsStatus: Swift.Equatable {
+    public struct AutoTuneOptionsStatus {
         /// Auto-Tune settings for updating a domain.
         public var options: OpenSearchClientTypes.AutoTuneOptions?
         /// The current status of Auto-Tune for a domain.
@@ -1702,7 +1702,7 @@ extension OpenSearchClientTypes.AutoTuneStatus: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// The current status of Auto-Tune for the domain. For more information, see [Auto-Tune for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html).
-    public struct AutoTuneStatus: Swift.Equatable {
+    public struct AutoTuneStatus {
         /// Date and time when Auto-Tune was enabled for the domain.
         /// This member is required.
         public var creationDate: ClientRuntime.Date?
@@ -1820,7 +1820,7 @@ extension OpenSearchClientTypes.AvailabilityZoneInfo: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Information about an Availability Zone on a domain.
-    public struct AvailabilityZoneInfo: Swift.Equatable {
+    public struct AvailabilityZoneInfo {
         /// The name of the Availability Zone.
         public var availabilityZoneName: Swift.String?
         /// The number of data nodes active in the Availability Zone.
@@ -1900,7 +1900,7 @@ public struct BaseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
     }
 }
 
-struct BaseExceptionBody: Swift.Equatable {
+struct BaseExceptionBody {
     let message: Swift.String?
 }
 
@@ -1939,7 +1939,7 @@ extension CancelDomainConfigChangeInput {
     }
 }
 
-public struct CancelDomainConfigChangeInput: Swift.Equatable {
+public struct CancelDomainConfigChangeInput {
     /// The name of an OpenSearch Service domain. Domain names are unique across the domains owned by an account within an Amazon Web Services Region.
     /// This member is required.
     public var domainName: Swift.String?
@@ -1956,7 +1956,7 @@ public struct CancelDomainConfigChangeInput: Swift.Equatable {
     }
 }
 
-struct CancelDomainConfigChangeInputBody: Swift.Equatable {
+struct CancelDomainConfigChangeInputBody {
     let dryRun: Swift.Bool?
 }
 
@@ -1988,7 +1988,7 @@ extension CancelDomainConfigChangeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelDomainConfigChangeOutput: Swift.Equatable {
+public struct CancelDomainConfigChangeOutput {
     /// The unique identifiers of the changes that were cancelled.
     public var cancelledChangeIds: [Swift.String]?
     /// The domain change properties that were cancelled.
@@ -2008,7 +2008,7 @@ public struct CancelDomainConfigChangeOutput: Swift.Equatable {
     }
 }
 
-struct CancelDomainConfigChangeOutputBody: Swift.Equatable {
+struct CancelDomainConfigChangeOutputBody {
     let cancelledChangeIds: [Swift.String]?
     let cancelledChangeProperties: [OpenSearchClientTypes.CancelledChangeProperty]?
     let dryRun: Swift.Bool?
@@ -2086,7 +2086,7 @@ extension CancelServiceSoftwareUpdateInput {
 }
 
 /// Container for the request parameters to cancel a service software update.
-public struct CancelServiceSoftwareUpdateInput: Swift.Equatable {
+public struct CancelServiceSoftwareUpdateInput {
     /// Name of the OpenSearch Service domain that you want to cancel the service software update on.
     /// This member is required.
     public var domainName: Swift.String?
@@ -2099,7 +2099,7 @@ public struct CancelServiceSoftwareUpdateInput: Swift.Equatable {
     }
 }
 
-struct CancelServiceSoftwareUpdateInputBody: Swift.Equatable {
+struct CancelServiceSoftwareUpdateInputBody {
     let domainName: Swift.String?
 }
 
@@ -2128,7 +2128,7 @@ extension CancelServiceSoftwareUpdateOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Container for the response to a CancelServiceSoftwareUpdate operation. Contains the status of the update.
-public struct CancelServiceSoftwareUpdateOutput: Swift.Equatable {
+public struct CancelServiceSoftwareUpdateOutput {
     /// Container for the state of your domain relative to the latest service software.
     public var serviceSoftwareOptions: OpenSearchClientTypes.ServiceSoftwareOptions?
 
@@ -2140,7 +2140,7 @@ public struct CancelServiceSoftwareUpdateOutput: Swift.Equatable {
     }
 }
 
-struct CancelServiceSoftwareUpdateOutputBody: Swift.Equatable {
+struct CancelServiceSoftwareUpdateOutputBody {
     let serviceSoftwareOptions: OpenSearchClientTypes.ServiceSoftwareOptions?
 }
 
@@ -2203,7 +2203,7 @@ extension OpenSearchClientTypes.CancelledChangeProperty: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// A property change that was cancelled for an Amazon OpenSearch Service domain.
-    public struct CancelledChangeProperty: Swift.Equatable {
+    public struct CancelledChangeProperty {
         /// The current value of the property, after the change was cancelled.
         public var activeValue: Swift.String?
         /// The pending value of the property that was cancelled. This would have been the eventual value of the property if the chance had not been cancelled.
@@ -2276,7 +2276,7 @@ extension OpenSearchClientTypes.ChangeProgressDetails: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Container for information about a configuration change happening on a domain.
-    public struct ChangeProgressDetails: Swift.Equatable {
+    public struct ChangeProgressDetails {
         /// The ID of the configuration change.
         public var changeId: Swift.String?
         /// The current status of the configuration change.
@@ -2349,7 +2349,7 @@ extension OpenSearchClientTypes.ChangeProgressStage: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Progress details for each stage of a domain update.
-    public struct ChangeProgressStage: Swift.Equatable {
+    public struct ChangeProgressStage {
         /// The description of the stage.
         public var description: Swift.String?
         /// The most recent updated timestamp of the stage.
@@ -2486,7 +2486,7 @@ extension OpenSearchClientTypes.ChangeProgressStatusDetails: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// The progress details of a specific domain configuration change.
-    public struct ChangeProgressStatusDetails: Swift.Equatable {
+    public struct ChangeProgressStatusDetails {
         /// The unique change identifier associated with a specific domain configuration change.
         public var changeId: Swift.String?
         /// The specific stages that the domain is going through to perform the configuration change.
@@ -2623,7 +2623,7 @@ extension OpenSearchClientTypes.ClusterConfig: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Container for the cluster configuration of an OpenSearch Service domain. For more information, see [Creating and managing Amazon OpenSearch Service domains](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html).
-    public struct ClusterConfig: Swift.Equatable {
+    public struct ClusterConfig {
         /// Container for cold storage configuration options.
         public var coldStorageOptions: OpenSearchClientTypes.ColdStorageOptions?
         /// Number of dedicated master nodes in the cluster. This number must be greater than 2 and not 4, otherwise you receive a validation exception.
@@ -2708,7 +2708,7 @@ extension OpenSearchClientTypes.ClusterConfigStatus: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// The cluster configuration status for a domain.
-    public struct ClusterConfigStatus: Swift.Equatable {
+    public struct ClusterConfigStatus {
         /// Cluster configuration options for the specified domain.
         /// This member is required.
         public var options: OpenSearchClientTypes.ClusterConfig?
@@ -2767,7 +2767,7 @@ extension OpenSearchClientTypes.CognitoOptions: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Container for the parameters required to enable Cognito authentication for an OpenSearch Service domain. For more information, see [Configuring Amazon Cognito authentication for OpenSearch Dashboards](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cognito-auth.html).
-    public struct CognitoOptions: Swift.Equatable {
+    public struct CognitoOptions {
         /// Whether to enable or disable Amazon Cognito authentication for OpenSearch Dashboards.
         public var enabled: Swift.Bool?
         /// The Amazon Cognito identity pool ID that you want OpenSearch Service to use for OpenSearch Dashboards authentication.
@@ -2820,7 +2820,7 @@ extension OpenSearchClientTypes.CognitoOptionsStatus: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// The status of the Cognito options for the specified domain.
-    public struct CognitoOptionsStatus: Swift.Equatable {
+    public struct CognitoOptionsStatus {
         /// Cognito options for the specified domain.
         /// This member is required.
         public var options: OpenSearchClientTypes.CognitoOptions?
@@ -2861,7 +2861,7 @@ extension OpenSearchClientTypes.ColdStorageOptions: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Container for the parameters required to enable cold storage for an OpenSearch Service domain. For more information, see [Cold storage for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cold-storage.html).
-    public struct ColdStorageOptions: Swift.Equatable {
+    public struct ColdStorageOptions {
         /// Whether to enable or disable cold storage on the domain. You must enable UltraWarm storage to enable cold storage.
         /// This member is required.
         public var enabled: Swift.Bool?
@@ -2915,7 +2915,7 @@ extension OpenSearchClientTypes.CompatibleVersionsMap: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// A map of OpenSearch or Elasticsearch versions and the versions you can upgrade them to.
-    public struct CompatibleVersionsMap: Swift.Equatable {
+    public struct CompatibleVersionsMap {
         /// The current version that the OpenSearch Service domain is running.
         public var sourceVersion: Swift.String?
         /// The possible versions that you can upgrade the domain to.
@@ -3023,7 +3023,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -3103,7 +3103,7 @@ extension OpenSearchClientTypes.ConnectionProperties: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// The connection properties of an outbound connection.
-    public struct ConnectionProperties: Swift.Equatable {
+    public struct ConnectionProperties {
         /// The connection properties for cross cluster search.
         public var crossClusterSearch: OpenSearchClientTypes.CrossClusterSearchConnectionProperties?
         /// The Endpoint attribute cannot be modified. The endpoint of the remote domain. Applicable for VPC_ENDPOINT connection mode.
@@ -3222,7 +3222,7 @@ extension CreateDomainInput {
     }
 }
 
-public struct CreateDomainInput: Swift.Equatable {
+public struct CreateDomainInput {
     /// Identity and Access Management (IAM) policy document specifying the access policies for the new domain.
     public var accessPolicies: Swift.String?
     /// Key-value pairs to specify advanced configuration options. The following key-value pairs are supported:
@@ -3318,7 +3318,7 @@ public struct CreateDomainInput: Swift.Equatable {
     }
 }
 
-struct CreateDomainInputBody: Swift.Equatable {
+struct CreateDomainInputBody {
     let domainName: Swift.String?
     let engineVersion: Swift.String?
     let clusterConfig: OpenSearchClientTypes.ClusterConfig?
@@ -3446,7 +3446,7 @@ extension CreateDomainOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result of a CreateDomain operation. Contains the status of the newly created domain.
-public struct CreateDomainOutput: Swift.Equatable {
+public struct CreateDomainOutput {
     /// The status of the newly created domain.
     public var domainStatus: OpenSearchClientTypes.DomainStatus?
 
@@ -3458,7 +3458,7 @@ public struct CreateDomainOutput: Swift.Equatable {
     }
 }
 
-struct CreateDomainOutputBody: Swift.Equatable {
+struct CreateDomainOutputBody {
     let domainStatus: OpenSearchClientTypes.DomainStatus?
 }
 
@@ -3528,7 +3528,7 @@ extension CreateOutboundConnectionInput {
 }
 
 /// Container for the parameters to the CreateOutboundConnection operation.
-public struct CreateOutboundConnectionInput: Swift.Equatable {
+public struct CreateOutboundConnectionInput {
     /// Name of the connection.
     /// This member is required.
     public var connectionAlias: Swift.String?
@@ -3559,7 +3559,7 @@ public struct CreateOutboundConnectionInput: Swift.Equatable {
     }
 }
 
-struct CreateOutboundConnectionInputBody: Swift.Equatable {
+struct CreateOutboundConnectionInputBody {
     let localDomainInfo: OpenSearchClientTypes.DomainInformationContainer?
     let remoteDomainInfo: OpenSearchClientTypes.DomainInformationContainer?
     let connectionAlias: Swift.String?
@@ -3616,7 +3616,7 @@ extension CreateOutboundConnectionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result of a CreateOutboundConnection request. Contains details about the newly created cross-cluster connection.
-public struct CreateOutboundConnectionOutput: Swift.Equatable {
+public struct CreateOutboundConnectionOutput {
     /// Name of the connection.
     public var connectionAlias: Swift.String?
     /// The unique identifier for the created outbound connection, which is used for subsequent operations on the connection.
@@ -3652,7 +3652,7 @@ public struct CreateOutboundConnectionOutput: Swift.Equatable {
     }
 }
 
-struct CreateOutboundConnectionOutputBody: Swift.Equatable {
+struct CreateOutboundConnectionOutputBody {
     let localDomainInfo: OpenSearchClientTypes.DomainInformationContainer?
     let remoteDomainInfo: OpenSearchClientTypes.DomainInformationContainer?
     let connectionAlias: Swift.String?
@@ -3739,7 +3739,7 @@ extension CreatePackageInput {
 }
 
 /// Container for request parameters to the CreatePackage operation.
-public struct CreatePackageInput: Swift.Equatable {
+public struct CreatePackageInput {
     /// Description of the package.
     public var packageDescription: Swift.String?
     /// Unique name for the package.
@@ -3766,7 +3766,7 @@ public struct CreatePackageInput: Swift.Equatable {
     }
 }
 
-struct CreatePackageInputBody: Swift.Equatable {
+struct CreatePackageInputBody {
     let packageName: Swift.String?
     let packageType: OpenSearchClientTypes.PackageType?
     let packageDescription: Swift.String?
@@ -3807,7 +3807,7 @@ extension CreatePackageOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Container for the response returned by the CreatePackage operation.
-public struct CreatePackageOutput: Swift.Equatable {
+public struct CreatePackageOutput {
     /// Basic information about an OpenSearch Service package.
     public var packageDetails: OpenSearchClientTypes.PackageDetails?
 
@@ -3819,7 +3819,7 @@ public struct CreatePackageOutput: Swift.Equatable {
     }
 }
 
-struct CreatePackageOutputBody: Swift.Equatable {
+struct CreatePackageOutputBody {
     let packageDetails: OpenSearchClientTypes.PackageDetails?
 }
 
@@ -3880,7 +3880,7 @@ extension CreateVpcEndpointInput {
     }
 }
 
-public struct CreateVpcEndpointInput: Swift.Equatable {
+public struct CreateVpcEndpointInput {
     /// Unique, case-sensitive identifier to ensure idempotency of the request.
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the domain to create the endpoint for.
@@ -3902,7 +3902,7 @@ public struct CreateVpcEndpointInput: Swift.Equatable {
     }
 }
 
-struct CreateVpcEndpointInputBody: Swift.Equatable {
+struct CreateVpcEndpointInputBody {
     let domainArn: Swift.String?
     let vpcOptions: OpenSearchClientTypes.VPCOptions?
     let clientToken: Swift.String?
@@ -3938,7 +3938,7 @@ extension CreateVpcEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateVpcEndpointOutput: Swift.Equatable {
+public struct CreateVpcEndpointOutput {
     /// Information about the newly created VPC endpoint.
     /// This member is required.
     public var vpcEndpoint: OpenSearchClientTypes.VpcEndpoint?
@@ -3951,7 +3951,7 @@ public struct CreateVpcEndpointOutput: Swift.Equatable {
     }
 }
 
-struct CreateVpcEndpointOutputBody: Swift.Equatable {
+struct CreateVpcEndpointOutputBody {
     let vpcEndpoint: OpenSearchClientTypes.VpcEndpoint?
 }
 
@@ -4004,7 +4004,7 @@ extension OpenSearchClientTypes.CrossClusterSearchConnectionProperties: Swift.Co
 
 extension OpenSearchClientTypes {
     /// Cross-cluster search specific connection properties.
-    public struct CrossClusterSearchConnectionProperties: Swift.Equatable {
+    public struct CrossClusterSearchConnectionProperties {
         /// The status of the SkipUnavailable setting for the outbound connection. This feature allows you to specify some clusters as optional and ensure that your cross-cluster queries return partial results despite failures on one or more remote clusters.
         public var skipUnavailable: OpenSearchClientTypes.SkipUnavailableStatus?
 
@@ -4051,7 +4051,7 @@ extension OpenSearchClientTypes.DataSourceDetails: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Details about a direct-query data source.
-    public struct DataSourceDetails: Swift.Equatable {
+    public struct DataSourceDetails {
         /// The type of data source.
         public var dataSourceType: OpenSearchClientTypes.DataSourceType?
         /// A description of the data source.
@@ -4102,7 +4102,7 @@ extension OpenSearchClientTypes.DataSourceType: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// The type of data source.
-    public enum DataSourceType: Swift.Equatable {
+    public enum DataSourceType {
         /// An Amazon S3 data source.
         case s3gluedatacatalog(OpenSearchClientTypes.S3GlueDataCatalog)
         case sdkUnknown(Swift.String)
@@ -4124,7 +4124,7 @@ extension DeleteDataSourceInput {
 }
 
 /// Container for the parameters to the DeleteDataSource operation.
-public struct DeleteDataSourceInput: Swift.Equatable {
+public struct DeleteDataSourceInput {
     /// The name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
@@ -4142,7 +4142,7 @@ public struct DeleteDataSourceInput: Swift.Equatable {
     }
 }
 
-struct DeleteDataSourceInputBody: Swift.Equatable {
+struct DeleteDataSourceInputBody {
 }
 
 extension DeleteDataSourceInputBody: Swift.Decodable {
@@ -4164,7 +4164,7 @@ extension DeleteDataSourceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result of a GetDataSource operation.
-public struct DeleteDataSourceOutput: Swift.Equatable {
+public struct DeleteDataSourceOutput {
     /// A message associated with deletion of the data source.
     public var message: Swift.String?
 
@@ -4176,7 +4176,7 @@ public struct DeleteDataSourceOutput: Swift.Equatable {
     }
 }
 
-struct DeleteDataSourceOutputBody: Swift.Equatable {
+struct DeleteDataSourceOutputBody {
     let message: Swift.String?
 }
 
@@ -4219,7 +4219,7 @@ extension DeleteDomainInput {
 }
 
 /// Container for the parameters to the DeleteDomain operation.
-public struct DeleteDomainInput: Swift.Equatable {
+public struct DeleteDomainInput {
     /// The name of the domain you want to permanently delete.
     /// This member is required.
     public var domainName: Swift.String?
@@ -4232,7 +4232,7 @@ public struct DeleteDomainInput: Swift.Equatable {
     }
 }
 
-struct DeleteDomainInputBody: Swift.Equatable {
+struct DeleteDomainInputBody {
 }
 
 extension DeleteDomainInputBody: Swift.Decodable {
@@ -4254,7 +4254,7 @@ extension DeleteDomainOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The results of a DeleteDomain request. Contains the status of the pending deletion, or a "domain not found" error if the domain and all of its resources have been deleted.
-public struct DeleteDomainOutput: Swift.Equatable {
+public struct DeleteDomainOutput {
     /// The status of the domain being deleted.
     public var domainStatus: OpenSearchClientTypes.DomainStatus?
 
@@ -4266,7 +4266,7 @@ public struct DeleteDomainOutput: Swift.Equatable {
     }
 }
 
-struct DeleteDomainOutputBody: Swift.Equatable {
+struct DeleteDomainOutputBody {
     let domainStatus: OpenSearchClientTypes.DomainStatus?
 }
 
@@ -4307,7 +4307,7 @@ extension DeleteInboundConnectionInput {
 }
 
 /// Container for the parameters to the DeleteInboundConnection operation.
-public struct DeleteInboundConnectionInput: Swift.Equatable {
+public struct DeleteInboundConnectionInput {
     /// The ID of the inbound connection to permanently delete.
     /// This member is required.
     public var connectionId: Swift.String?
@@ -4320,7 +4320,7 @@ public struct DeleteInboundConnectionInput: Swift.Equatable {
     }
 }
 
-struct DeleteInboundConnectionInputBody: Swift.Equatable {
+struct DeleteInboundConnectionInputBody {
 }
 
 extension DeleteInboundConnectionInputBody: Swift.Decodable {
@@ -4342,7 +4342,7 @@ extension DeleteInboundConnectionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The results of a DeleteInboundConnection operation. Contains details about the deleted inbound connection.
-public struct DeleteInboundConnectionOutput: Swift.Equatable {
+public struct DeleteInboundConnectionOutput {
     /// The deleted inbound connection.
     public var connection: OpenSearchClientTypes.InboundConnection?
 
@@ -4354,7 +4354,7 @@ public struct DeleteInboundConnectionOutput: Swift.Equatable {
     }
 }
 
-struct DeleteInboundConnectionOutputBody: Swift.Equatable {
+struct DeleteInboundConnectionOutputBody {
     let connection: OpenSearchClientTypes.InboundConnection?
 }
 
@@ -4393,7 +4393,7 @@ extension DeleteOutboundConnectionInput {
 }
 
 /// Container for the parameters to the DeleteOutboundConnection operation.
-public struct DeleteOutboundConnectionInput: Swift.Equatable {
+public struct DeleteOutboundConnectionInput {
     /// The ID of the outbound connection you want to permanently delete.
     /// This member is required.
     public var connectionId: Swift.String?
@@ -4406,7 +4406,7 @@ public struct DeleteOutboundConnectionInput: Swift.Equatable {
     }
 }
 
-struct DeleteOutboundConnectionInputBody: Swift.Equatable {
+struct DeleteOutboundConnectionInputBody {
 }
 
 extension DeleteOutboundConnectionInputBody: Swift.Decodable {
@@ -4428,7 +4428,7 @@ extension DeleteOutboundConnectionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Details about the deleted outbound connection.
-public struct DeleteOutboundConnectionOutput: Swift.Equatable {
+public struct DeleteOutboundConnectionOutput {
     /// The deleted inbound connection.
     public var connection: OpenSearchClientTypes.OutboundConnection?
 
@@ -4440,7 +4440,7 @@ public struct DeleteOutboundConnectionOutput: Swift.Equatable {
     }
 }
 
-struct DeleteOutboundConnectionOutputBody: Swift.Equatable {
+struct DeleteOutboundConnectionOutputBody {
     let connection: OpenSearchClientTypes.OutboundConnection?
 }
 
@@ -4479,7 +4479,7 @@ extension DeletePackageInput {
 }
 
 /// Deletes a package from OpenSearch Service. The package can't be associated with any OpenSearch Service domain.
-public struct DeletePackageInput: Swift.Equatable {
+public struct DeletePackageInput {
     /// The internal ID of the package you want to delete. Use DescribePackages to find this value.
     /// This member is required.
     public var packageID: Swift.String?
@@ -4492,7 +4492,7 @@ public struct DeletePackageInput: Swift.Equatable {
     }
 }
 
-struct DeletePackageInputBody: Swift.Equatable {
+struct DeletePackageInputBody {
 }
 
 extension DeletePackageInputBody: Swift.Decodable {
@@ -4514,7 +4514,7 @@ extension DeletePackageOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Container for the response parameters to the DeletePackage operation.
-public struct DeletePackageOutput: Swift.Equatable {
+public struct DeletePackageOutput {
     /// Information about the deleted package.
     public var packageDetails: OpenSearchClientTypes.PackageDetails?
 
@@ -4526,7 +4526,7 @@ public struct DeletePackageOutput: Swift.Equatable {
     }
 }
 
-struct DeletePackageOutputBody: Swift.Equatable {
+struct DeletePackageOutputBody {
     let packageDetails: OpenSearchClientTypes.PackageDetails?
 }
 
@@ -4568,7 +4568,7 @@ extension DeleteVpcEndpointInput {
     }
 }
 
-public struct DeleteVpcEndpointInput: Swift.Equatable {
+public struct DeleteVpcEndpointInput {
     /// The unique identifier of the endpoint.
     /// This member is required.
     public var vpcEndpointId: Swift.String?
@@ -4581,7 +4581,7 @@ public struct DeleteVpcEndpointInput: Swift.Equatable {
     }
 }
 
-struct DeleteVpcEndpointInputBody: Swift.Equatable {
+struct DeleteVpcEndpointInputBody {
 }
 
 extension DeleteVpcEndpointInputBody: Swift.Decodable {
@@ -4602,7 +4602,7 @@ extension DeleteVpcEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteVpcEndpointOutput: Swift.Equatable {
+public struct DeleteVpcEndpointOutput {
     /// Information about the deleted endpoint, including its current status (DELETING or DELETE_FAILED).
     /// This member is required.
     public var vpcEndpointSummary: OpenSearchClientTypes.VpcEndpointSummary?
@@ -4615,7 +4615,7 @@ public struct DeleteVpcEndpointOutput: Swift.Equatable {
     }
 }
 
-struct DeleteVpcEndpointOutputBody: Swift.Equatable {
+struct DeleteVpcEndpointOutputBody {
     let vpcEndpointSummary: OpenSearchClientTypes.VpcEndpointSummary?
 }
 
@@ -4685,7 +4685,7 @@ public struct DependencyFailureException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct DependencyFailureExceptionBody: Swift.Equatable {
+struct DependencyFailureExceptionBody {
     let message: Swift.String?
 }
 
@@ -4770,7 +4770,7 @@ extension DescribeDomainAutoTunesInput {
 }
 
 /// Container for the parameters to the DescribeDomainAutoTunes operation.
-public struct DescribeDomainAutoTunesInput: Swift.Equatable {
+public struct DescribeDomainAutoTunesInput {
     /// Name of the domain that you want Auto-Tune details about.
     /// This member is required.
     public var domainName: Swift.String?
@@ -4791,7 +4791,7 @@ public struct DescribeDomainAutoTunesInput: Swift.Equatable {
     }
 }
 
-struct DescribeDomainAutoTunesInputBody: Swift.Equatable {
+struct DescribeDomainAutoTunesInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -4826,7 +4826,7 @@ extension DescribeDomainAutoTunesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result of a DescribeDomainAutoTunes request.
-public struct DescribeDomainAutoTunesOutput: Swift.Equatable {
+public struct DescribeDomainAutoTunesOutput {
     /// The list of setting adjustments that Auto-Tune has made to the domain.
     public var autoTunes: [OpenSearchClientTypes.AutoTune]?
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
@@ -4842,7 +4842,7 @@ public struct DescribeDomainAutoTunesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDomainAutoTunesOutputBody: Swift.Equatable {
+struct DescribeDomainAutoTunesOutputBody {
     let autoTunes: [OpenSearchClientTypes.AutoTune]?
     let nextToken: Swift.String?
 }
@@ -4908,7 +4908,7 @@ extension DescribeDomainChangeProgressInput {
 }
 
 /// Container for the parameters to the DescribeDomainChangeProgress operation.
-public struct DescribeDomainChangeProgressInput: Swift.Equatable {
+public struct DescribeDomainChangeProgressInput {
     /// The specific change ID for which you want to get progress information. If omitted, the request returns information about the most recent configuration change.
     public var changeId: Swift.String?
     /// The name of the domain to get progress information for.
@@ -4925,7 +4925,7 @@ public struct DescribeDomainChangeProgressInput: Swift.Equatable {
     }
 }
 
-struct DescribeDomainChangeProgressInputBody: Swift.Equatable {
+struct DescribeDomainChangeProgressInputBody {
 }
 
 extension DescribeDomainChangeProgressInputBody: Swift.Decodable {
@@ -4947,7 +4947,7 @@ extension DescribeDomainChangeProgressOutput: ClientRuntime.HttpResponseBinding 
 }
 
 /// The result of a DescribeDomainChangeProgress request. Contains progress information for the requested domain change.
-public struct DescribeDomainChangeProgressOutput: Swift.Equatable {
+public struct DescribeDomainChangeProgressOutput {
     /// Container for information about the stages of a configuration change happening on a domain.
     public var changeProgressStatus: OpenSearchClientTypes.ChangeProgressStatusDetails?
 
@@ -4959,7 +4959,7 @@ public struct DescribeDomainChangeProgressOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDomainChangeProgressOutputBody: Swift.Equatable {
+struct DescribeDomainChangeProgressOutputBody {
     let changeProgressStatus: OpenSearchClientTypes.ChangeProgressStatusDetails?
 }
 
@@ -5000,7 +5000,7 @@ extension DescribeDomainConfigInput {
 }
 
 /// Container for the parameters to the DescribeDomainConfig operation.
-public struct DescribeDomainConfigInput: Swift.Equatable {
+public struct DescribeDomainConfigInput {
     /// Name of the OpenSearch Service domain configuration that you want to describe.
     /// This member is required.
     public var domainName: Swift.String?
@@ -5013,7 +5013,7 @@ public struct DescribeDomainConfigInput: Swift.Equatable {
     }
 }
 
-struct DescribeDomainConfigInputBody: Swift.Equatable {
+struct DescribeDomainConfigInputBody {
 }
 
 extension DescribeDomainConfigInputBody: Swift.Decodable {
@@ -5035,7 +5035,7 @@ extension DescribeDomainConfigOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the configuration information of the requested domain.
-public struct DescribeDomainConfigOutput: Swift.Equatable {
+public struct DescribeDomainConfigOutput {
     /// Container for the configuration of the OpenSearch Service domain.
     /// This member is required.
     public var domainConfig: OpenSearchClientTypes.DomainConfig?
@@ -5048,7 +5048,7 @@ public struct DescribeDomainConfigOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDomainConfigOutputBody: Swift.Equatable {
+struct DescribeDomainConfigOutputBody {
     let domainConfig: OpenSearchClientTypes.DomainConfig?
 }
 
@@ -5089,7 +5089,7 @@ extension DescribeDomainHealthInput {
 }
 
 /// Container for the parameters to the DescribeDomainHealth operation.
-public struct DescribeDomainHealthInput: Swift.Equatable {
+public struct DescribeDomainHealthInput {
     /// The name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
@@ -5102,7 +5102,7 @@ public struct DescribeDomainHealthInput: Swift.Equatable {
     }
 }
 
-struct DescribeDomainHealthInputBody: Swift.Equatable {
+struct DescribeDomainHealthInputBody {
 }
 
 extension DescribeDomainHealthInputBody: Swift.Decodable {
@@ -5148,7 +5148,7 @@ extension DescribeDomainHealthOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result of a DescribeDomainHealth request. Contains health information for the requested domain.
-public struct DescribeDomainHealthOutput: Swift.Equatable {
+public struct DescribeDomainHealthOutput {
     /// The number of active Availability Zones configured for the domain. If the service is unable to fetch this information, it will return NotAvailable.
     public var activeAvailabilityZoneCount: Swift.String?
     /// The number of Availability Zones configured for the domain. If the service is unable to fetch this information, it will return NotAvailable.
@@ -5224,7 +5224,7 @@ public struct DescribeDomainHealthOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDomainHealthOutputBody: Swift.Equatable {
+struct DescribeDomainHealthOutputBody {
     let domainState: OpenSearchClientTypes.DomainState?
     let availabilityZoneCount: Swift.String?
     let activeAvailabilityZoneCount: Swift.String?
@@ -5323,7 +5323,7 @@ extension DescribeDomainInput {
 }
 
 /// Container for the parameters to the DescribeDomain operation.
-public struct DescribeDomainInput: Swift.Equatable {
+public struct DescribeDomainInput {
     /// The name of the domain that you want information about.
     /// This member is required.
     public var domainName: Swift.String?
@@ -5336,7 +5336,7 @@ public struct DescribeDomainInput: Swift.Equatable {
     }
 }
 
-struct DescribeDomainInputBody: Swift.Equatable {
+struct DescribeDomainInputBody {
 }
 
 extension DescribeDomainInputBody: Swift.Decodable {
@@ -5356,7 +5356,7 @@ extension DescribeDomainNodesInput {
 }
 
 /// Container for the parameters to the DescribeDomainNodes operation.
-public struct DescribeDomainNodesInput: Swift.Equatable {
+public struct DescribeDomainNodesInput {
     /// The name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
@@ -5369,7 +5369,7 @@ public struct DescribeDomainNodesInput: Swift.Equatable {
     }
 }
 
-struct DescribeDomainNodesInputBody: Swift.Equatable {
+struct DescribeDomainNodesInputBody {
 }
 
 extension DescribeDomainNodesInputBody: Swift.Decodable {
@@ -5391,7 +5391,7 @@ extension DescribeDomainNodesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result of a DescribeDomainNodes request. Contains information about the nodes on the requested domain.
-public struct DescribeDomainNodesOutput: Swift.Equatable {
+public struct DescribeDomainNodesOutput {
     /// Contains nodes information list DomainNodesStatusList with details about the all nodes on the requested domain.
     public var domainNodesStatusList: [OpenSearchClientTypes.DomainNodesStatus]?
 
@@ -5403,7 +5403,7 @@ public struct DescribeDomainNodesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDomainNodesOutputBody: Swift.Equatable {
+struct DescribeDomainNodesOutputBody {
     let domainNodesStatusList: [OpenSearchClientTypes.DomainNodesStatus]?
 }
 
@@ -5457,7 +5457,7 @@ extension DescribeDomainOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the status of the domain specified in the request.
-public struct DescribeDomainOutput: Swift.Equatable {
+public struct DescribeDomainOutput {
     /// List that contains the status of each specified OpenSearch Service domain.
     /// This member is required.
     public var domainStatus: OpenSearchClientTypes.DomainStatus?
@@ -5470,7 +5470,7 @@ public struct DescribeDomainOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDomainOutputBody: Swift.Equatable {
+struct DescribeDomainOutputBody {
     let domainStatus: OpenSearchClientTypes.DomainStatus?
 }
 
@@ -5524,7 +5524,7 @@ extension DescribeDomainsInput {
 }
 
 /// Container for the parameters to the DescribeDomains operation.
-public struct DescribeDomainsInput: Swift.Equatable {
+public struct DescribeDomainsInput {
     /// Array of OpenSearch Service domain names that you want information about. You must specify at least one domain name.
     /// This member is required.
     public var domainNames: [Swift.String]?
@@ -5537,7 +5537,7 @@ public struct DescribeDomainsInput: Swift.Equatable {
     }
 }
 
-struct DescribeDomainsInputBody: Swift.Equatable {
+struct DescribeDomainsInputBody {
     let domainNames: [Swift.String]?
 }
 
@@ -5575,7 +5575,7 @@ extension DescribeDomainsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the status of the specified domains or all domains owned by the account.
-public struct DescribeDomainsOutput: Swift.Equatable {
+public struct DescribeDomainsOutput {
     /// The status of the requested domains.
     /// This member is required.
     public var domainStatusList: [OpenSearchClientTypes.DomainStatus]?
@@ -5588,7 +5588,7 @@ public struct DescribeDomainsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDomainsOutputBody: Swift.Equatable {
+struct DescribeDomainsOutputBody {
     let domainStatusList: [OpenSearchClientTypes.DomainStatus]?
 }
 
@@ -5652,7 +5652,7 @@ extension DescribeDryRunProgressInput {
     }
 }
 
-public struct DescribeDryRunProgressInput: Swift.Equatable {
+public struct DescribeDryRunProgressInput {
     /// The name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
@@ -5673,7 +5673,7 @@ public struct DescribeDryRunProgressInput: Swift.Equatable {
     }
 }
 
-struct DescribeDryRunProgressInputBody: Swift.Equatable {
+struct DescribeDryRunProgressInputBody {
 }
 
 extension DescribeDryRunProgressInputBody: Swift.Decodable {
@@ -5698,7 +5698,7 @@ extension DescribeDryRunProgressOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDryRunProgressOutput: Swift.Equatable {
+public struct DescribeDryRunProgressOutput {
     /// Details about the changes you're planning to make on the domain.
     public var dryRunConfig: OpenSearchClientTypes.DomainStatus?
     /// The current status of the dry run, including any validation errors.
@@ -5718,7 +5718,7 @@ public struct DescribeDryRunProgressOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDryRunProgressOutputBody: Swift.Equatable {
+struct DescribeDryRunProgressOutputBody {
     let dryRunProgressStatus: OpenSearchClientTypes.DryRunProgressStatus?
     let dryRunConfig: OpenSearchClientTypes.DomainStatus?
     let dryRunResults: OpenSearchClientTypes.DryRunResults?
@@ -5789,7 +5789,7 @@ extension DescribeInboundConnectionsInput {
 }
 
 /// Container for the parameters to the DescribeInboundConnections operation.
-public struct DescribeInboundConnectionsInput: Swift.Equatable {
+public struct DescribeInboundConnectionsInput {
     /// A list of filters used to match properties for inbound cross-cluster connections.
     public var filters: [OpenSearchClientTypes.Filter]?
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
@@ -5809,7 +5809,7 @@ public struct DescribeInboundConnectionsInput: Swift.Equatable {
     }
 }
 
-struct DescribeInboundConnectionsInputBody: Swift.Equatable {
+struct DescribeInboundConnectionsInputBody {
     let filters: [OpenSearchClientTypes.Filter]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -5857,7 +5857,7 @@ extension DescribeInboundConnectionsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains a list of connections matching the filter criteria.
-public struct DescribeInboundConnectionsOutput: Swift.Equatable {
+public struct DescribeInboundConnectionsOutput {
     /// List of inbound connections.
     public var connections: [OpenSearchClientTypes.InboundConnection]?
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
@@ -5873,7 +5873,7 @@ public struct DescribeInboundConnectionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeInboundConnectionsOutputBody: Swift.Equatable {
+struct DescribeInboundConnectionsOutputBody {
     let connections: [OpenSearchClientTypes.InboundConnection]?
     let nextToken: Swift.String?
 }
@@ -5940,7 +5940,7 @@ extension DescribeInstanceTypeLimitsInput {
 }
 
 /// Container for the parameters to the DescribeInstanceTypeLimits operation.
-public struct DescribeInstanceTypeLimitsInput: Swift.Equatable {
+public struct DescribeInstanceTypeLimitsInput {
     /// The name of the domain. Only specify if you need the limits for an existing domain.
     public var domainName: Swift.String?
     /// Version of OpenSearch or Elasticsearch, in the format Elasticsearch_X.Y or OpenSearch_X.Y. Defaults to the latest version of OpenSearch.
@@ -5962,7 +5962,7 @@ public struct DescribeInstanceTypeLimitsInput: Swift.Equatable {
     }
 }
 
-struct DescribeInstanceTypeLimitsInputBody: Swift.Equatable {
+struct DescribeInstanceTypeLimitsInputBody {
 }
 
 extension DescribeInstanceTypeLimitsInputBody: Swift.Decodable {
@@ -5984,7 +5984,7 @@ extension DescribeInstanceTypeLimitsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Container for the parameters received from the DescribeInstanceTypeLimits operation.
-public struct DescribeInstanceTypeLimitsOutput: Swift.Equatable {
+public struct DescribeInstanceTypeLimitsOutput {
     /// Map that contains all applicable instance type limits.data refers to data nodes.master refers to dedicated master nodes.
     public var limitsByRole: [Swift.String:OpenSearchClientTypes.Limits]?
 
@@ -5996,7 +5996,7 @@ public struct DescribeInstanceTypeLimitsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeInstanceTypeLimitsOutputBody: Swift.Equatable {
+struct DescribeInstanceTypeLimitsOutputBody {
     let limitsByRole: [Swift.String:OpenSearchClientTypes.Limits]?
 }
 
@@ -6069,7 +6069,7 @@ extension DescribeOutboundConnectionsInput {
 }
 
 /// Container for the parameters to the DescribeOutboundConnections operation.
-public struct DescribeOutboundConnectionsInput: Swift.Equatable {
+public struct DescribeOutboundConnectionsInput {
     /// List of filter names and values that you can use for requests.
     public var filters: [OpenSearchClientTypes.Filter]?
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
@@ -6089,7 +6089,7 @@ public struct DescribeOutboundConnectionsInput: Swift.Equatable {
     }
 }
 
-struct DescribeOutboundConnectionsInputBody: Swift.Equatable {
+struct DescribeOutboundConnectionsInputBody {
     let filters: [OpenSearchClientTypes.Filter]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -6137,7 +6137,7 @@ extension DescribeOutboundConnectionsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains a list of connections matching the filter criteria.
-public struct DescribeOutboundConnectionsOutput: Swift.Equatable {
+public struct DescribeOutboundConnectionsOutput {
     /// List of outbound connections that match the filter criteria.
     public var connections: [OpenSearchClientTypes.OutboundConnection]?
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
@@ -6153,7 +6153,7 @@ public struct DescribeOutboundConnectionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeOutboundConnectionsOutputBody: Swift.Equatable {
+struct DescribeOutboundConnectionsOutputBody {
     let connections: [OpenSearchClientTypes.OutboundConnection]?
     let nextToken: Swift.String?
 }
@@ -6233,7 +6233,7 @@ extension OpenSearchClientTypes.DescribePackagesFilter: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// A filter to apply to the DescribePackage response.
-    public struct DescribePackagesFilter: Swift.Equatable {
+    public struct DescribePackagesFilter {
         /// Any field from PackageDetails.
         public var name: OpenSearchClientTypes.DescribePackagesFilterName?
         /// A non-empty list of values for the specified filter field.
@@ -6324,7 +6324,7 @@ extension DescribePackagesInput {
 }
 
 /// Container for the request parameters to the DescribePackage operation.
-public struct DescribePackagesInput: Swift.Equatable {
+public struct DescribePackagesInput {
     /// Only returns packages that match the DescribePackagesFilterList values.
     public var filters: [OpenSearchClientTypes.DescribePackagesFilter]?
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
@@ -6344,7 +6344,7 @@ public struct DescribePackagesInput: Swift.Equatable {
     }
 }
 
-struct DescribePackagesInputBody: Swift.Equatable {
+struct DescribePackagesInputBody {
     let filters: [OpenSearchClientTypes.DescribePackagesFilter]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -6392,7 +6392,7 @@ extension DescribePackagesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Container for the response returned by the DescribePackages operation.
-public struct DescribePackagesOutput: Swift.Equatable {
+public struct DescribePackagesOutput {
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
     /// Basic information about a package.
@@ -6408,7 +6408,7 @@ public struct DescribePackagesOutput: Swift.Equatable {
     }
 }
 
-struct DescribePackagesOutputBody: Swift.Equatable {
+struct DescribePackagesOutputBody {
     let packageDetailsList: [OpenSearchClientTypes.PackageDetails]?
     let nextToken: Swift.String?
 }
@@ -6480,7 +6480,7 @@ extension DescribeReservedInstanceOfferingsInput {
 }
 
 /// Container for the request parameters to a DescribeReservedInstanceOfferings operation.
-public struct DescribeReservedInstanceOfferingsInput: Swift.Equatable {
+public struct DescribeReservedInstanceOfferingsInput {
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
     public var maxResults: Swift.Int?
     /// If your initial DescribeReservedInstanceOfferings operation returns a nextToken, you can include the returned nextToken in subsequent DescribeReservedInstanceOfferings operations, which returns results in the next page.
@@ -6500,7 +6500,7 @@ public struct DescribeReservedInstanceOfferingsInput: Swift.Equatable {
     }
 }
 
-struct DescribeReservedInstanceOfferingsInputBody: Swift.Equatable {
+struct DescribeReservedInstanceOfferingsInputBody {
 }
 
 extension DescribeReservedInstanceOfferingsInputBody: Swift.Decodable {
@@ -6524,7 +6524,7 @@ extension DescribeReservedInstanceOfferingsOutput: ClientRuntime.HttpResponseBin
 }
 
 /// Container for results of a DescribeReservedInstanceOfferings request.
-public struct DescribeReservedInstanceOfferingsOutput: Swift.Equatable {
+public struct DescribeReservedInstanceOfferingsOutput {
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
     /// List of Reserved Instance offerings.
@@ -6540,7 +6540,7 @@ public struct DescribeReservedInstanceOfferingsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeReservedInstanceOfferingsOutputBody: Swift.Equatable {
+struct DescribeReservedInstanceOfferingsOutputBody {
     let nextToken: Swift.String?
     let reservedInstanceOfferings: [OpenSearchClientTypes.ReservedInstanceOffering]?
 }
@@ -6611,7 +6611,7 @@ extension DescribeReservedInstancesInput {
 }
 
 /// Container for the request parameters to the DescribeReservedInstances operation.
-public struct DescribeReservedInstancesInput: Swift.Equatable {
+public struct DescribeReservedInstancesInput {
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
     public var maxResults: Swift.Int?
     /// If your initial DescribeReservedInstances operation returns a nextToken, you can include the returned nextToken in subsequent DescribeReservedInstances operations, which returns results in the next page.
@@ -6631,7 +6631,7 @@ public struct DescribeReservedInstancesInput: Swift.Equatable {
     }
 }
 
-struct DescribeReservedInstancesInputBody: Swift.Equatable {
+struct DescribeReservedInstancesInputBody {
 }
 
 extension DescribeReservedInstancesInputBody: Swift.Decodable {
@@ -6655,7 +6655,7 @@ extension DescribeReservedInstancesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Container for results from DescribeReservedInstances
-public struct DescribeReservedInstancesOutput: Swift.Equatable {
+public struct DescribeReservedInstancesOutput {
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
     /// List of Reserved Instances in the current Region.
@@ -6671,7 +6671,7 @@ public struct DescribeReservedInstancesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeReservedInstancesOutputBody: Swift.Equatable {
+struct DescribeReservedInstancesOutputBody {
     let nextToken: Swift.String?
     let reservedInstances: [OpenSearchClientTypes.ReservedInstance]?
 }
@@ -6737,7 +6737,7 @@ extension DescribeVpcEndpointsInput {
     }
 }
 
-public struct DescribeVpcEndpointsInput: Swift.Equatable {
+public struct DescribeVpcEndpointsInput {
     /// The unique identifiers of the endpoints to get information about.
     /// This member is required.
     public var vpcEndpointIds: [Swift.String]?
@@ -6750,7 +6750,7 @@ public struct DescribeVpcEndpointsInput: Swift.Equatable {
     }
 }
 
-struct DescribeVpcEndpointsInputBody: Swift.Equatable {
+struct DescribeVpcEndpointsInputBody {
     let vpcEndpointIds: [Swift.String]?
 }
 
@@ -6789,7 +6789,7 @@ extension DescribeVpcEndpointsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeVpcEndpointsOutput: Swift.Equatable {
+public struct DescribeVpcEndpointsOutput {
     /// Any errors associated with the request.
     /// This member is required.
     public var vpcEndpointErrors: [OpenSearchClientTypes.VpcEndpointError]?
@@ -6807,7 +6807,7 @@ public struct DescribeVpcEndpointsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeVpcEndpointsOutputBody: Swift.Equatable {
+struct DescribeVpcEndpointsOutputBody {
     let vpcEndpoints: [OpenSearchClientTypes.VpcEndpoint]?
     let vpcEndpointErrors: [OpenSearchClientTypes.VpcEndpointError]?
 }
@@ -6899,7 +6899,7 @@ public struct DisabledOperationException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct DisabledOperationExceptionBody: Swift.Equatable {
+struct DisabledOperationExceptionBody {
     let message: Swift.String?
 }
 
@@ -6929,7 +6929,7 @@ extension DissociatePackageInput {
 }
 
 /// Container for the request parameters to the DissociatePackage operation.
-public struct DissociatePackageInput: Swift.Equatable {
+public struct DissociatePackageInput {
     /// Name of the domain to dissociate the package from.
     /// This member is required.
     public var domainName: Swift.String?
@@ -6947,7 +6947,7 @@ public struct DissociatePackageInput: Swift.Equatable {
     }
 }
 
-struct DissociatePackageInputBody: Swift.Equatable {
+struct DissociatePackageInputBody {
 }
 
 extension DissociatePackageInputBody: Swift.Decodable {
@@ -6969,7 +6969,7 @@ extension DissociatePackageOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Container for the response returned by an DissociatePackage operation.
-public struct DissociatePackageOutput: Swift.Equatable {
+public struct DissociatePackageOutput {
     /// Information about a package that has been dissociated from the domain.
     public var domainPackageDetails: OpenSearchClientTypes.DomainPackageDetails?
 
@@ -6981,7 +6981,7 @@ public struct DissociatePackageOutput: Swift.Equatable {
     }
 }
 
-struct DissociatePackageOutputBody: Swift.Equatable {
+struct DissociatePackageOutputBody {
     let domainPackageDetails: OpenSearchClientTypes.DomainPackageDetails?
 }
 
@@ -7154,7 +7154,7 @@ extension OpenSearchClientTypes.DomainConfig: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Container for the configuration of an OpenSearch Service domain.
-    public struct DomainConfig: Swift.Equatable {
+    public struct DomainConfig {
         /// Specifies the access policies for the domain.
         public var accessPolicies: OpenSearchClientTypes.AccessPoliciesStatus?
         /// Key-value pairs to specify advanced configuration options. For more information, see [Advanced options](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html#createdomain-configure-advanced-options).
@@ -7285,7 +7285,7 @@ extension OpenSearchClientTypes.DomainEndpointOptions: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Options to configure a custom endpoint for an OpenSearch Service domain.
-    public struct DomainEndpointOptions: Swift.Equatable {
+    public struct DomainEndpointOptions {
         /// The fully qualified URL for the custom endpoint.
         public var customEndpoint: Swift.String?
         /// The ARN for your security certificate, managed in Amazon Web Services Certificate Manager (ACM).
@@ -7348,7 +7348,7 @@ extension OpenSearchClientTypes.DomainEndpointOptionsStatus: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// The configured endpoint options for a domain and their current status.
-    public struct DomainEndpointOptionsStatus: Swift.Equatable {
+    public struct DomainEndpointOptionsStatus {
         /// Options to configure the endpoint for a domain.
         /// This member is required.
         public var options: OpenSearchClientTypes.DomainEndpointOptions?
@@ -7433,7 +7433,7 @@ extension OpenSearchClientTypes.DomainInfo: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Information about an OpenSearch Service domain.
-    public struct DomainInfo: Swift.Equatable {
+    public struct DomainInfo {
         /// Name of the domain.
         public var domainName: Swift.String?
         /// The type of search engine that the domain is running.OpenSearch for an OpenSearch engine, or Elasticsearch for a legacy Elasticsearch OSS engine.
@@ -7472,7 +7472,7 @@ extension OpenSearchClientTypes.DomainInformationContainer: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Container for information about an OpenSearch Service domain.
-    public struct DomainInformationContainer: Swift.Equatable {
+    public struct DomainInformationContainer {
         /// Information about an Amazon OpenSearch Service domain.
         public var awsDomainInformation: OpenSearchClientTypes.AWSDomainInformation?
 
@@ -7549,7 +7549,7 @@ extension OpenSearchClientTypes.DomainMaintenanceDetails: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Container for the domain maintenance details.
-    public struct DomainMaintenanceDetails: Swift.Equatable {
+    public struct DomainMaintenanceDetails {
         /// The name of the action.
         public var action: OpenSearchClientTypes.MaintenanceType?
         /// The time at which the action was created.
@@ -7654,7 +7654,7 @@ extension OpenSearchClientTypes.DomainNodesStatus: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Container for information about nodes on the domain.
-    public struct DomainNodesStatus: Swift.Equatable {
+    public struct DomainNodesStatus {
         /// The Availability Zone of the node.
         public var availabilityZone: Swift.String?
         /// The instance type information of the node.
@@ -7765,7 +7765,7 @@ extension OpenSearchClientTypes.DomainPackageDetails: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Information about a package that is associated with a domain. For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
-    public struct DomainPackageDetails: Swift.Equatable {
+    public struct DomainPackageDetails {
         /// Name of the domain that the package is associated with.
         public var domainName: Swift.String?
         /// State of the association.
@@ -8183,7 +8183,7 @@ extension OpenSearchClientTypes.DomainStatus: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// The current status of an OpenSearch Service domain.
-    public struct DomainStatus: Swift.Equatable {
+    public struct DomainStatus {
         /// Identity and Access Management (IAM) policy document specifying the access policies for the domain.
         public var accessPolicies: Swift.String?
         /// Key-value pairs that specify advanced configuration options.
@@ -8410,7 +8410,7 @@ extension OpenSearchClientTypes.DryRunProgressStatus: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Information about the progress of a pre-upgrade dry run analysis.
-    public struct DryRunProgressStatus: Swift.Equatable {
+    public struct DryRunProgressStatus {
         /// The timestamp when the dry run was initiated.
         /// This member is required.
         public var creationDate: Swift.String?
@@ -8471,7 +8471,7 @@ extension OpenSearchClientTypes.DryRunResults: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Results of a dry run performed in an update domain request.
-    public struct DryRunResults: Swift.Equatable {
+    public struct DryRunResults {
         /// Specifies the way in which OpenSearch Service will apply an update. Possible values are:
         ///
         /// * Blue/Green - The update requires a blue/green deployment.
@@ -8524,7 +8524,7 @@ extension OpenSearchClientTypes.Duration: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// The duration of a maintenance schedule. For more information, see [Auto-Tune for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html).
-    public struct Duration: Swift.Equatable {
+    public struct Duration {
         /// The unit of measurement for the duration of a maintenance schedule.
         public var unit: OpenSearchClientTypes.TimeUnit?
         /// Integer to specify the value of a maintenance schedule duration.
@@ -8587,7 +8587,7 @@ extension OpenSearchClientTypes.EBSOptions: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Container for the parameters required to enable EBS-based storage for an OpenSearch Service domain.
-    public struct EBSOptions: Swift.Equatable {
+    public struct EBSOptions {
         /// Indicates whether EBS volumes are attached to data nodes in an OpenSearch Service domain.
         public var ebsEnabled: Swift.Bool?
         /// Specifies the baseline input/output (I/O) performance of EBS volumes attached to data nodes. Applicable only for the gp3 and provisioned IOPS EBS volume types.
@@ -8644,7 +8644,7 @@ extension OpenSearchClientTypes.EBSOptionsStatus: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// The status of the EBS options for the specified OpenSearch Service domain.
-    public struct EBSOptionsStatus: Swift.Equatable {
+    public struct EBSOptionsStatus {
         /// The configured EBS options for the specified domain.
         /// This member is required.
         public var options: OpenSearchClientTypes.EBSOptions?
@@ -8691,7 +8691,7 @@ extension OpenSearchClientTypes.EncryptionAtRestOptions: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Specifies whether the domain should encrypt data at rest, and if so, the Key Management Service (KMS) key to use. Can only be used when creating a new domain or enabling encryption at rest for the first time on an existing domain. You can't modify this parameter after it's already been specified.
-    public struct EncryptionAtRestOptions: Swift.Equatable {
+    public struct EncryptionAtRestOptions {
         /// True to enable encryption at rest.
         public var enabled: Swift.Bool?
         /// The KMS key ID. Takes the form 1a2a3a4-1a2a-3a4a-5a6a-1a2a3a4a5a6a.
@@ -8736,7 +8736,7 @@ extension OpenSearchClientTypes.EncryptionAtRestOptionsStatus: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Status of the encryption at rest options for the specified OpenSearch Service domain.
-    public struct EncryptionAtRestOptionsStatus: Swift.Equatable {
+    public struct EncryptionAtRestOptionsStatus {
         /// Encryption at rest options for the specified domain.
         /// This member is required.
         public var options: OpenSearchClientTypes.EncryptionAtRestOptions?
@@ -8821,7 +8821,7 @@ extension OpenSearchClientTypes.EnvironmentInfo: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Information about the active domain environment.
-    public struct EnvironmentInfo: Swift.Equatable {
+    public struct EnvironmentInfo {
         /// A list of AvailabilityZoneInfo for the domain.
         public var availabilityZoneInformation: [OpenSearchClientTypes.AvailabilityZoneInfo]?
 
@@ -8862,7 +8862,7 @@ extension OpenSearchClientTypes.ErrorDetails: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Additional information if the package is in an error state. Null otherwise.
-    public struct ErrorDetails: Swift.Equatable {
+    public struct ErrorDetails {
         /// A message describing the error.
         public var errorMessage: Swift.String?
         /// The type of error that occurred.
@@ -8919,7 +8919,7 @@ extension OpenSearchClientTypes.Filter: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// A filter used to limit results when describing inbound or outbound cross-cluster connections. You can specify multiple values per filter. A cross-cluster connection must match at least one of the specified values for it to be returned from an operation.
-    public struct Filter: Swift.Equatable {
+    public struct Filter {
         /// The name of the filter.
         public var name: Swift.String?
         /// One or more values for the filter.
@@ -8957,7 +8957,7 @@ extension GetCompatibleVersionsInput {
 }
 
 /// Container for the request parameters to GetCompatibleVersions operation.
-public struct GetCompatibleVersionsInput: Swift.Equatable {
+public struct GetCompatibleVersionsInput {
     /// The name of an existing domain. Provide this parameter to limit the results to a single domain.
     public var domainName: Swift.String?
 
@@ -8969,7 +8969,7 @@ public struct GetCompatibleVersionsInput: Swift.Equatable {
     }
 }
 
-struct GetCompatibleVersionsInputBody: Swift.Equatable {
+struct GetCompatibleVersionsInputBody {
 }
 
 extension GetCompatibleVersionsInputBody: Swift.Decodable {
@@ -8991,7 +8991,7 @@ extension GetCompatibleVersionsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Container for the response returned by the GetCompatibleVersions operation.
-public struct GetCompatibleVersionsOutput: Swift.Equatable {
+public struct GetCompatibleVersionsOutput {
     /// A map of OpenSearch or Elasticsearch versions and the versions you can upgrade them to.
     public var compatibleVersions: [OpenSearchClientTypes.CompatibleVersionsMap]?
 
@@ -9003,7 +9003,7 @@ public struct GetCompatibleVersionsOutput: Swift.Equatable {
     }
 }
 
-struct GetCompatibleVersionsOutputBody: Swift.Equatable {
+struct GetCompatibleVersionsOutputBody {
     let compatibleVersions: [OpenSearchClientTypes.CompatibleVersionsMap]?
 }
 
@@ -9057,7 +9057,7 @@ extension GetDataSourceInput {
 }
 
 /// Container for the parameters to the GetDataSource operation.
-public struct GetDataSourceInput: Swift.Equatable {
+public struct GetDataSourceInput {
     /// The name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
@@ -9075,7 +9075,7 @@ public struct GetDataSourceInput: Swift.Equatable {
     }
 }
 
-struct GetDataSourceInputBody: Swift.Equatable {
+struct GetDataSourceInputBody {
 }
 
 extension GetDataSourceInputBody: Swift.Decodable {
@@ -9101,7 +9101,7 @@ extension GetDataSourceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result of a GetDataSource operation.
-public struct GetDataSourceOutput: Swift.Equatable {
+public struct GetDataSourceOutput {
     /// The type of data source.
     public var dataSourceType: OpenSearchClientTypes.DataSourceType?
     /// A description of the data source.
@@ -9121,7 +9121,7 @@ public struct GetDataSourceOutput: Swift.Equatable {
     }
 }
 
-struct GetDataSourceOutputBody: Swift.Equatable {
+struct GetDataSourceOutputBody {
     let dataSourceType: OpenSearchClientTypes.DataSourceType?
     let name: Swift.String?
     let description: Swift.String?
@@ -9186,7 +9186,7 @@ extension GetDomainMaintenanceStatusInput {
 }
 
 /// Container for the parameters to the GetDomainMaintenanceStatus operation.
-public struct GetDomainMaintenanceStatusInput: Swift.Equatable {
+public struct GetDomainMaintenanceStatusInput {
     /// The name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
@@ -9204,7 +9204,7 @@ public struct GetDomainMaintenanceStatusInput: Swift.Equatable {
     }
 }
 
-struct GetDomainMaintenanceStatusInputBody: Swift.Equatable {
+struct GetDomainMaintenanceStatusInputBody {
 }
 
 extension GetDomainMaintenanceStatusInputBody: Swift.Decodable {
@@ -9236,7 +9236,7 @@ extension GetDomainMaintenanceStatusOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result of a GetDomainMaintenanceStatus request that information about the requested action.
-public struct GetDomainMaintenanceStatusOutput: Swift.Equatable {
+public struct GetDomainMaintenanceStatusOutput {
     /// The action name.
     public var action: OpenSearchClientTypes.MaintenanceType?
     /// The time at which the action was created.
@@ -9268,7 +9268,7 @@ public struct GetDomainMaintenanceStatusOutput: Swift.Equatable {
     }
 }
 
-struct GetDomainMaintenanceStatusOutputBody: Swift.Equatable {
+struct GetDomainMaintenanceStatusOutputBody {
     let status: OpenSearchClientTypes.MaintenanceStatus?
     let statusMessage: Swift.String?
     let nodeId: Swift.String?
@@ -9346,7 +9346,7 @@ extension GetPackageVersionHistoryInput {
 }
 
 /// Container for the request parameters to the GetPackageVersionHistory operation.
-public struct GetPackageVersionHistoryInput: Swift.Equatable {
+public struct GetPackageVersionHistoryInput {
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
     public var maxResults: Swift.Int?
     /// If your initial GetPackageVersionHistory operation returns a nextToken, you can include the returned nextToken in subsequent GetPackageVersionHistory operations, which returns results in the next page.
@@ -9367,7 +9367,7 @@ public struct GetPackageVersionHistoryInput: Swift.Equatable {
     }
 }
 
-struct GetPackageVersionHistoryInputBody: Swift.Equatable {
+struct GetPackageVersionHistoryInputBody {
 }
 
 extension GetPackageVersionHistoryInputBody: Swift.Decodable {
@@ -9393,7 +9393,7 @@ extension GetPackageVersionHistoryOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Container for response returned by GetPackageVersionHistory operation.
-public struct GetPackageVersionHistoryOutput: Swift.Equatable {
+public struct GetPackageVersionHistoryOutput {
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
     /// The unique identifier of the package.
@@ -9413,7 +9413,7 @@ public struct GetPackageVersionHistoryOutput: Swift.Equatable {
     }
 }
 
-struct GetPackageVersionHistoryOutputBody: Swift.Equatable {
+struct GetPackageVersionHistoryOutputBody {
     let packageID: Swift.String?
     let packageVersionHistoryList: [OpenSearchClientTypes.PackageVersionHistory]?
     let nextToken: Swift.String?
@@ -9488,7 +9488,7 @@ extension GetUpgradeHistoryInput {
 }
 
 /// Container for the request parameters to the GetUpgradeHistory operation.
-public struct GetUpgradeHistoryInput: Swift.Equatable {
+public struct GetUpgradeHistoryInput {
     /// The name of an existing domain.
     /// This member is required.
     public var domainName: Swift.String?
@@ -9509,7 +9509,7 @@ public struct GetUpgradeHistoryInput: Swift.Equatable {
     }
 }
 
-struct GetUpgradeHistoryInputBody: Swift.Equatable {
+struct GetUpgradeHistoryInputBody {
 }
 
 extension GetUpgradeHistoryInputBody: Swift.Decodable {
@@ -9533,7 +9533,7 @@ extension GetUpgradeHistoryOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Container for the response returned by the GetUpgradeHistory operation.
-public struct GetUpgradeHistoryOutput: Swift.Equatable {
+public struct GetUpgradeHistoryOutput {
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
     /// A list of objects corresponding to each upgrade or upgrade eligibility check performed on a domain.
@@ -9549,7 +9549,7 @@ public struct GetUpgradeHistoryOutput: Swift.Equatable {
     }
 }
 
-struct GetUpgradeHistoryOutputBody: Swift.Equatable {
+struct GetUpgradeHistoryOutputBody {
     let upgradeHistories: [OpenSearchClientTypes.UpgradeHistory]?
     let nextToken: Swift.String?
 }
@@ -9604,7 +9604,7 @@ extension GetUpgradeStatusInput {
 }
 
 /// Container for the request parameters to the GetUpgradeStatus operation.
-public struct GetUpgradeStatusInput: Swift.Equatable {
+public struct GetUpgradeStatusInput {
     /// The domain of the domain to get upgrade status information for.
     /// This member is required.
     public var domainName: Swift.String?
@@ -9617,7 +9617,7 @@ public struct GetUpgradeStatusInput: Swift.Equatable {
     }
 }
 
-struct GetUpgradeStatusInputBody: Swift.Equatable {
+struct GetUpgradeStatusInputBody {
 }
 
 extension GetUpgradeStatusInputBody: Swift.Decodable {
@@ -9643,7 +9643,7 @@ extension GetUpgradeStatusOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Container for the response returned by the GetUpgradeStatus operation.
-public struct GetUpgradeStatusOutput: Swift.Equatable {
+public struct GetUpgradeStatusOutput {
     /// The status of the current step that an upgrade is on.
     public var stepStatus: OpenSearchClientTypes.UpgradeStatus?
     /// A string that describes the update.
@@ -9663,7 +9663,7 @@ public struct GetUpgradeStatusOutput: Swift.Equatable {
     }
 }
 
-struct GetUpgradeStatusOutputBody: Swift.Equatable {
+struct GetUpgradeStatusOutputBody {
     let upgradeStep: OpenSearchClientTypes.UpgradeStep?
     let stepStatus: OpenSearchClientTypes.UpgradeStatus?
     let upgradeName: Swift.String?
@@ -9761,7 +9761,7 @@ extension OpenSearchClientTypes.IPAddressTypeStatus: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// The IP address type status for the domain.
-    public struct IPAddressTypeStatus: Swift.Equatable {
+    public struct IPAddressTypeStatus {
         /// The IP address options for the domain.
         /// This member is required.
         public var options: OpenSearchClientTypes.IPAddressType?
@@ -9826,7 +9826,7 @@ extension OpenSearchClientTypes.InboundConnection: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Describes an inbound cross-cluster connection for Amazon OpenSearch Service. For more information, see [Cross-cluster search for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cross-cluster-search.html).
-    public struct InboundConnection: Swift.Equatable {
+    public struct InboundConnection {
         /// The unique identifier of the connection.
         public var connectionId: Swift.String?
         /// The connection mode.
@@ -9883,7 +9883,7 @@ extension OpenSearchClientTypes.InboundConnectionStatus: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// The status of an inbound cross-cluster connection for OpenSearch Service.
-    public struct InboundConnectionStatus: Swift.Equatable {
+    public struct InboundConnectionStatus {
         /// Information about the connection.
         public var message: Swift.String?
         /// The status code for the connection. Can be one of the following:
@@ -10026,7 +10026,7 @@ extension OpenSearchClientTypes.InstanceCountLimits: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Limits on the number of instances that can be created in OpenSearch Service for a given instance type.
-    public struct InstanceCountLimits: Swift.Equatable {
+    public struct InstanceCountLimits {
         /// The minimum allowed number of instances.
         public var maximumInstanceCount: Swift.Int
         /// The maximum allowed number of instances.
@@ -10065,7 +10065,7 @@ extension OpenSearchClientTypes.InstanceLimits: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Instance-related attributes that are available for a given instance type.
-    public struct InstanceLimits: Swift.Equatable {
+    public struct InstanceLimits {
         /// Limits on the number of instances that can be created for a given instance type.
         public var instanceCountLimits: OpenSearchClientTypes.InstanceCountLimits?
 
@@ -10166,7 +10166,7 @@ extension OpenSearchClientTypes.InstanceTypeDetails: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Lists all instance types and available features for a given OpenSearch or Elasticsearch version.
-    public struct InstanceTypeDetails: Swift.Equatable {
+    public struct InstanceTypeDetails {
         /// Whether fine-grained access control is supported for the instance type.
         public var advancedSecurityEnabled: Swift.Bool?
         /// Whether logging is supported for the instance type.
@@ -10248,7 +10248,7 @@ public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct InternalExceptionBody: Swift.Equatable {
+struct InternalExceptionBody {
     let message: Swift.String?
 }
 
@@ -10304,7 +10304,7 @@ public struct InvalidPaginationTokenException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct InvalidPaginationTokenExceptionBody: Swift.Equatable {
+struct InvalidPaginationTokenExceptionBody {
     let message: Swift.String?
 }
 
@@ -10360,7 +10360,7 @@ public struct InvalidTypeException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct InvalidTypeExceptionBody: Swift.Equatable {
+struct InvalidTypeExceptionBody {
     let message: Swift.String?
 }
 
@@ -10416,7 +10416,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -10489,7 +10489,7 @@ extension OpenSearchClientTypes.Limits: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Limits for a given instance type and for each of its roles.
-    public struct Limits: Swift.Equatable {
+    public struct Limits {
         /// List of additional limits that are specific to a given instance type for each of its instance roles.
         public var additionalLimits: [OpenSearchClientTypes.AdditionalLimit]?
         /// The limits for a given instance type.
@@ -10522,7 +10522,7 @@ extension ListDataSourcesInput {
 }
 
 /// Container for the parameters to the ListDataSources operation.
-public struct ListDataSourcesInput: Swift.Equatable {
+public struct ListDataSourcesInput {
     /// The name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
@@ -10535,7 +10535,7 @@ public struct ListDataSourcesInput: Swift.Equatable {
     }
 }
 
-struct ListDataSourcesInputBody: Swift.Equatable {
+struct ListDataSourcesInputBody {
 }
 
 extension ListDataSourcesInputBody: Swift.Decodable {
@@ -10557,7 +10557,7 @@ extension ListDataSourcesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result of a ListDataSources operation.
-public struct ListDataSourcesOutput: Swift.Equatable {
+public struct ListDataSourcesOutput {
     /// A list of data sources associated with specified domain.
     public var dataSources: [OpenSearchClientTypes.DataSourceDetails]?
 
@@ -10569,7 +10569,7 @@ public struct ListDataSourcesOutput: Swift.Equatable {
     }
 }
 
-struct ListDataSourcesOutputBody: Swift.Equatable {
+struct ListDataSourcesOutputBody {
     let dataSources: [OpenSearchClientTypes.DataSourceDetails]?
 }
 
@@ -10645,7 +10645,7 @@ extension ListDomainMaintenancesInput {
 }
 
 /// Container for the parameters to the ListDomainMaintenances operation.
-public struct ListDomainMaintenancesInput: Swift.Equatable {
+public struct ListDomainMaintenancesInput {
     /// The name of the action.
     public var action: OpenSearchClientTypes.MaintenanceType?
     /// The name of the domain.
@@ -10674,7 +10674,7 @@ public struct ListDomainMaintenancesInput: Swift.Equatable {
     }
 }
 
-struct ListDomainMaintenancesInputBody: Swift.Equatable {
+struct ListDomainMaintenancesInputBody {
 }
 
 extension ListDomainMaintenancesInputBody: Swift.Decodable {
@@ -10698,7 +10698,7 @@ extension ListDomainMaintenancesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result of a ListDomainMaintenances request that contains information about the requested actions.
-public struct ListDomainMaintenancesOutput: Swift.Equatable {
+public struct ListDomainMaintenancesOutput {
     /// A list of the submitted maintenance actions.
     public var domainMaintenances: [OpenSearchClientTypes.DomainMaintenanceDetails]?
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
@@ -10714,7 +10714,7 @@ public struct ListDomainMaintenancesOutput: Swift.Equatable {
     }
 }
 
-struct ListDomainMaintenancesOutputBody: Swift.Equatable {
+struct ListDomainMaintenancesOutputBody {
     let domainMaintenances: [OpenSearchClientTypes.DomainMaintenanceDetails]?
     let nextToken: Swift.String?
 }
@@ -10778,7 +10778,7 @@ extension ListDomainNamesInput {
 }
 
 /// Container for the parameters to the ListDomainNames operation.
-public struct ListDomainNamesInput: Swift.Equatable {
+public struct ListDomainNamesInput {
     /// Filters the output by domain engine type.
     public var engineType: OpenSearchClientTypes.EngineType?
 
@@ -10790,7 +10790,7 @@ public struct ListDomainNamesInput: Swift.Equatable {
     }
 }
 
-struct ListDomainNamesInputBody: Swift.Equatable {
+struct ListDomainNamesInputBody {
 }
 
 extension ListDomainNamesInputBody: Swift.Decodable {
@@ -10812,7 +10812,7 @@ extension ListDomainNamesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The results of a ListDomainNames operation. Contains the names of all domains owned by this account and their respective engine types.
-public struct ListDomainNamesOutput: Swift.Equatable {
+public struct ListDomainNamesOutput {
     /// The names of all OpenSearch Service domains owned by the current user and their respective engine types.
     public var domainNames: [OpenSearchClientTypes.DomainInfo]?
 
@@ -10824,7 +10824,7 @@ public struct ListDomainNamesOutput: Swift.Equatable {
     }
 }
 
-struct ListDomainNamesOutputBody: Swift.Equatable {
+struct ListDomainNamesOutputBody {
     let domainNames: [OpenSearchClientTypes.DomainInfo]?
 }
 
@@ -10888,7 +10888,7 @@ extension ListDomainsForPackageInput {
 }
 
 /// Container for the request parameters to the ListDomainsForPackage operation.
-public struct ListDomainsForPackageInput: Swift.Equatable {
+public struct ListDomainsForPackageInput {
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
     public var maxResults: Swift.Int?
     /// If your initial ListDomainsForPackage operation returns a nextToken, you can include the returned nextToken in subsequent ListDomainsForPackage operations, which returns results in the next page.
@@ -10909,7 +10909,7 @@ public struct ListDomainsForPackageInput: Swift.Equatable {
     }
 }
 
-struct ListDomainsForPackageInputBody: Swift.Equatable {
+struct ListDomainsForPackageInputBody {
 }
 
 extension ListDomainsForPackageInputBody: Swift.Decodable {
@@ -10933,7 +10933,7 @@ extension ListDomainsForPackageOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Container for the response parameters to the ListDomainsForPackage operation.
-public struct ListDomainsForPackageOutput: Swift.Equatable {
+public struct ListDomainsForPackageOutput {
     /// Information about all domains associated with a package.
     public var domainPackageDetailsList: [OpenSearchClientTypes.DomainPackageDetails]?
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
@@ -10949,7 +10949,7 @@ public struct ListDomainsForPackageOutput: Swift.Equatable {
     }
 }
 
-struct ListDomainsForPackageOutputBody: Swift.Equatable {
+struct ListDomainsForPackageOutputBody {
     let domainPackageDetailsList: [OpenSearchClientTypes.DomainPackageDetails]?
     let nextToken: Swift.String?
 }
@@ -11031,7 +11031,7 @@ extension ListInstanceTypeDetailsInput {
     }
 }
 
-public struct ListInstanceTypeDetailsInput: Swift.Equatable {
+public struct ListInstanceTypeDetailsInput {
     /// The name of the domain.
     public var domainName: Swift.String?
     /// The version of OpenSearch or Elasticsearch, in the format Elasticsearch_X.Y or OpenSearch_X.Y. Defaults to the latest version of OpenSearch.
@@ -11064,7 +11064,7 @@ public struct ListInstanceTypeDetailsInput: Swift.Equatable {
     }
 }
 
-struct ListInstanceTypeDetailsInputBody: Swift.Equatable {
+struct ListInstanceTypeDetailsInputBody {
 }
 
 extension ListInstanceTypeDetailsInputBody: Swift.Decodable {
@@ -11087,7 +11087,7 @@ extension ListInstanceTypeDetailsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListInstanceTypeDetailsOutput: Swift.Equatable {
+public struct ListInstanceTypeDetailsOutput {
     /// Lists all supported instance types and features for the given OpenSearch or Elasticsearch version.
     public var instanceTypeDetails: [OpenSearchClientTypes.InstanceTypeDetails]?
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
@@ -11103,7 +11103,7 @@ public struct ListInstanceTypeDetailsOutput: Swift.Equatable {
     }
 }
 
-struct ListInstanceTypeDetailsOutputBody: Swift.Equatable {
+struct ListInstanceTypeDetailsOutputBody {
     let instanceTypeDetails: [OpenSearchClientTypes.InstanceTypeDetails]?
     let nextToken: Swift.String?
 }
@@ -11173,7 +11173,7 @@ extension ListPackagesForDomainInput {
 }
 
 /// Container for the request parameters to the ListPackagesForDomain operation.
-public struct ListPackagesForDomainInput: Swift.Equatable {
+public struct ListPackagesForDomainInput {
     /// The name of the domain for which you want to list associated packages.
     /// This member is required.
     public var domainName: Swift.String?
@@ -11194,7 +11194,7 @@ public struct ListPackagesForDomainInput: Swift.Equatable {
     }
 }
 
-struct ListPackagesForDomainInputBody: Swift.Equatable {
+struct ListPackagesForDomainInputBody {
 }
 
 extension ListPackagesForDomainInputBody: Swift.Decodable {
@@ -11218,7 +11218,7 @@ extension ListPackagesForDomainOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Container for the response parameters to the ListPackagesForDomain operation.
-public struct ListPackagesForDomainOutput: Swift.Equatable {
+public struct ListPackagesForDomainOutput {
     /// List of all packages associated with a domain.
     public var domainPackageDetailsList: [OpenSearchClientTypes.DomainPackageDetails]?
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
@@ -11234,7 +11234,7 @@ public struct ListPackagesForDomainOutput: Swift.Equatable {
     }
 }
 
-struct ListPackagesForDomainOutputBody: Swift.Equatable {
+struct ListPackagesForDomainOutputBody {
     let domainPackageDetailsList: [OpenSearchClientTypes.DomainPackageDetails]?
     let nextToken: Swift.String?
 }
@@ -11304,7 +11304,7 @@ extension ListScheduledActionsInput {
     }
 }
 
-public struct ListScheduledActionsInput: Swift.Equatable {
+public struct ListScheduledActionsInput {
     /// The name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
@@ -11325,7 +11325,7 @@ public struct ListScheduledActionsInput: Swift.Equatable {
     }
 }
 
-struct ListScheduledActionsInputBody: Swift.Equatable {
+struct ListScheduledActionsInputBody {
 }
 
 extension ListScheduledActionsInputBody: Swift.Decodable {
@@ -11348,7 +11348,7 @@ extension ListScheduledActionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListScheduledActionsOutput: Swift.Equatable {
+public struct ListScheduledActionsOutput {
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
     /// A list of actions that are scheduled for the domain.
@@ -11364,7 +11364,7 @@ public struct ListScheduledActionsOutput: Swift.Equatable {
     }
 }
 
-struct ListScheduledActionsOutputBody: Swift.Equatable {
+struct ListScheduledActionsOutputBody {
     let scheduledActions: [OpenSearchClientTypes.ScheduledAction]?
     let nextToken: Swift.String?
 }
@@ -11430,7 +11430,7 @@ extension ListTagsInput {
 }
 
 /// Container for the parameters to the ListTags operation.
-public struct ListTagsInput: Swift.Equatable {
+public struct ListTagsInput {
     /// Amazon Resource Name (ARN) for the domain to view tags for.
     /// This member is required.
     public var arn: Swift.String?
@@ -11443,7 +11443,7 @@ public struct ListTagsInput: Swift.Equatable {
     }
 }
 
-struct ListTagsInputBody: Swift.Equatable {
+struct ListTagsInputBody {
 }
 
 extension ListTagsInputBody: Swift.Decodable {
@@ -11465,7 +11465,7 @@ extension ListTagsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The results of a ListTags operation.
-public struct ListTagsOutput: Swift.Equatable {
+public struct ListTagsOutput {
     /// List of resource tags associated with the specified domain.
     public var tagList: [OpenSearchClientTypes.Tag]?
 
@@ -11477,7 +11477,7 @@ public struct ListTagsOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsOutputBody: Swift.Equatable {
+struct ListTagsOutputBody {
     let tagList: [OpenSearchClientTypes.Tag]?
 }
 
@@ -11540,7 +11540,7 @@ extension ListVersionsInput {
 }
 
 /// Container for the request parameters to the ListVersions operation.
-public struct ListVersionsInput: Swift.Equatable {
+public struct ListVersionsInput {
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
     public var maxResults: Swift.Int?
     /// If your initial ListVersions operation returns a nextToken, you can include the returned nextToken in subsequent ListVersions operations, which returns results in the next page.
@@ -11556,7 +11556,7 @@ public struct ListVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListVersionsInputBody: Swift.Equatable {
+struct ListVersionsInputBody {
 }
 
 extension ListVersionsInputBody: Swift.Decodable {
@@ -11580,7 +11580,7 @@ extension ListVersionsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Container for the parameters for response received from the ListVersions operation.
-public struct ListVersionsOutput: Swift.Equatable {
+public struct ListVersionsOutput {
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
     /// A list of all versions of OpenSearch and Elasticsearch that Amazon OpenSearch Service supports.
@@ -11596,7 +11596,7 @@ public struct ListVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListVersionsOutputBody: Swift.Equatable {
+struct ListVersionsOutputBody {
     let versions: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -11661,7 +11661,7 @@ extension ListVpcEndpointAccessInput {
     }
 }
 
-public struct ListVpcEndpointAccessInput: Swift.Equatable {
+public struct ListVpcEndpointAccessInput {
     /// The name of the OpenSearch Service domain to retrieve access information for.
     /// This member is required.
     public var domainName: Swift.String?
@@ -11678,7 +11678,7 @@ public struct ListVpcEndpointAccessInput: Swift.Equatable {
     }
 }
 
-struct ListVpcEndpointAccessInputBody: Swift.Equatable {
+struct ListVpcEndpointAccessInputBody {
 }
 
 extension ListVpcEndpointAccessInputBody: Swift.Decodable {
@@ -11701,7 +11701,7 @@ extension ListVpcEndpointAccessOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListVpcEndpointAccessOutput: Swift.Equatable {
+public struct ListVpcEndpointAccessOutput {
     /// A list of [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html) that can currently access the domain.
     /// This member is required.
     public var authorizedPrincipalList: [OpenSearchClientTypes.AuthorizedPrincipal]?
@@ -11719,7 +11719,7 @@ public struct ListVpcEndpointAccessOutput: Swift.Equatable {
     }
 }
 
-struct ListVpcEndpointAccessOutputBody: Swift.Equatable {
+struct ListVpcEndpointAccessOutputBody {
     let authorizedPrincipalList: [OpenSearchClientTypes.AuthorizedPrincipal]?
     let nextToken: Swift.String?
 }
@@ -11784,7 +11784,7 @@ extension ListVpcEndpointsForDomainInput {
     }
 }
 
-public struct ListVpcEndpointsForDomainInput: Swift.Equatable {
+public struct ListVpcEndpointsForDomainInput {
     /// The name of the domain to list associated VPC endpoints for.
     /// This member is required.
     public var domainName: Swift.String?
@@ -11801,7 +11801,7 @@ public struct ListVpcEndpointsForDomainInput: Swift.Equatable {
     }
 }
 
-struct ListVpcEndpointsForDomainInputBody: Swift.Equatable {
+struct ListVpcEndpointsForDomainInputBody {
 }
 
 extension ListVpcEndpointsForDomainInputBody: Swift.Decodable {
@@ -11824,7 +11824,7 @@ extension ListVpcEndpointsForDomainOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListVpcEndpointsForDomainOutput: Swift.Equatable {
+public struct ListVpcEndpointsForDomainOutput {
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
     /// This member is required.
     public var nextToken: Swift.String?
@@ -11842,7 +11842,7 @@ public struct ListVpcEndpointsForDomainOutput: Swift.Equatable {
     }
 }
 
-struct ListVpcEndpointsForDomainOutputBody: Swift.Equatable {
+struct ListVpcEndpointsForDomainOutputBody {
     let vpcEndpointSummaryList: [OpenSearchClientTypes.VpcEndpointSummary]?
     let nextToken: Swift.String?
 }
@@ -11904,7 +11904,7 @@ extension ListVpcEndpointsInput {
     }
 }
 
-public struct ListVpcEndpointsInput: Swift.Equatable {
+public struct ListVpcEndpointsInput {
     /// If your initial ListVpcEndpoints operation returns a nextToken, you can include the returned nextToken in subsequent ListVpcEndpoints operations, which returns results in the next page.
     public var nextToken: Swift.String?
 
@@ -11916,7 +11916,7 @@ public struct ListVpcEndpointsInput: Swift.Equatable {
     }
 }
 
-struct ListVpcEndpointsInputBody: Swift.Equatable {
+struct ListVpcEndpointsInputBody {
 }
 
 extension ListVpcEndpointsInputBody: Swift.Decodable {
@@ -11939,7 +11939,7 @@ extension ListVpcEndpointsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListVpcEndpointsOutput: Swift.Equatable {
+public struct ListVpcEndpointsOutput {
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
     /// This member is required.
     public var nextToken: Swift.String?
@@ -11957,7 +11957,7 @@ public struct ListVpcEndpointsOutput: Swift.Equatable {
     }
 }
 
-struct ListVpcEndpointsOutputBody: Swift.Equatable {
+struct ListVpcEndpointsOutputBody {
     let vpcEndpointSummaryList: [OpenSearchClientTypes.VpcEndpointSummary]?
     let nextToken: Swift.String?
 }
@@ -12026,7 +12026,7 @@ extension OpenSearchClientTypes.LogPublishingOption: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Specifies whether the Amazon OpenSearch Service domain publishes the OpenSearch application and slow logs to Amazon CloudWatch. For more information, see [Monitoring OpenSearch logs with Amazon CloudWatch Logs](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createdomain-configure-slow-logs.html). After you enable log publishing, you still have to enable the collection of slow logs using the OpenSearch REST API.
-    public struct LogPublishingOption: Swift.Equatable {
+    public struct LogPublishingOption {
         /// The Amazon Resource Name (ARN) of the CloudWatch Logs group to publish logs to.
         public var cloudWatchLogsLogGroupArn: Swift.String?
         /// Whether the log should be published.
@@ -12083,7 +12083,7 @@ extension OpenSearchClientTypes.LogPublishingOptionsStatus: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// The configured log publishing options for the domain and their current status.
-    public struct LogPublishingOptionsStatus: Swift.Equatable {
+    public struct LogPublishingOptionsStatus {
         /// The log publishing options configured for the domain.
         public var options: [Swift.String:OpenSearchClientTypes.LogPublishingOption]?
         /// The status of the log publishing options for the domain.
@@ -12294,7 +12294,7 @@ extension OpenSearchClientTypes.MasterUserOptions: Swift.CustomDebugStringConver
 
 extension OpenSearchClientTypes {
     /// Credentials for the master user for a domain.
-    public struct MasterUserOptions: Swift.Equatable {
+    public struct MasterUserOptions {
         /// Amazon Resource Name (ARN) for the master user. Only specify if InternalUserDatabaseEnabled is false.
         public var masterUserARN: Swift.String?
         /// User name for the master user. Only specify if InternalUserDatabaseEnabled is true.
@@ -12355,7 +12355,7 @@ extension OpenSearchClientTypes.ModifyingProperties: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Information about the domain properties that are currently being modified.
-    public struct ModifyingProperties: Swift.Equatable {
+    public struct ModifyingProperties {
         /// The current value of the domain property that is being modified.
         public var activeValue: Swift.String?
         /// The name of the property that is currently being modified.
@@ -12441,7 +12441,7 @@ extension OpenSearchClientTypes.NodeToNodeEncryptionOptions: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Enables or disables node-to-node encryption. For more information, see [Node-to-node encryption for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/ntn.html).
-    public struct NodeToNodeEncryptionOptions: Swift.Equatable {
+    public struct NodeToNodeEncryptionOptions {
         /// True to enable node-to-node encryption.
         public var enabled: Swift.Bool?
 
@@ -12482,7 +12482,7 @@ extension OpenSearchClientTypes.NodeToNodeEncryptionOptionsStatus: Swift.Codable
 
 extension OpenSearchClientTypes {
     /// Status of the node-to-node encryption options for the specified domain.
-    public struct NodeToNodeEncryptionOptionsStatus: Swift.Equatable {
+    public struct NodeToNodeEncryptionOptionsStatus {
         /// The node-to-node encryption options for the specified domain.
         /// This member is required.
         public var options: OpenSearchClientTypes.NodeToNodeEncryptionOptions?
@@ -12558,7 +12558,7 @@ extension OpenSearchClientTypes.OffPeakWindow: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// A custom 10-hour, low-traffic window during which OpenSearch Service can perform mandatory configuration changes on the domain. These actions can include scheduled service software updates and blue/green Auto-Tune enhancements. OpenSearch Service will schedule these actions during the window that you specify. If you don't specify a window start time, it defaults to 10:00 P.M. local time. For more information, see [Defining off-peak maintenance windows for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/off-peak.html).
-    public struct OffPeakWindow: Swift.Equatable {
+    public struct OffPeakWindow {
         /// A custom start time for the off-peak window, in Coordinated Universal Time (UTC). The window length will always be 10 hours, so you can't specify an end time. For example, if you specify 11:00 P.M. UTC as a start time, the end time will automatically be set to 9:00 A.M.
         public var windowStartTime: OpenSearchClientTypes.WindowStartTime?
 
@@ -12599,7 +12599,7 @@ extension OpenSearchClientTypes.OffPeakWindowOptions: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Options for a domain's [off-peak window](https://docs.aws.amazon.com/opensearch-service/latest/APIReference/API_OffPeakWindow.html), during which OpenSearch Service can perform mandatory configuration changes on the domain.
-    public struct OffPeakWindowOptions: Swift.Equatable {
+    public struct OffPeakWindowOptions {
         /// Whether to enable an off-peak window. This option is only available when modifying a domain created prior to February 16, 2023, not when creating a new domain. All domains created after this date have the off-peak window enabled by default. You can't disable the off-peak window after it's enabled for a domain.
         public var enabled: Swift.Bool?
         /// Off-peak window settings for the domain.
@@ -12644,7 +12644,7 @@ extension OpenSearchClientTypes.OffPeakWindowOptionsStatus: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// The status of [off-peak window](https://docs.aws.amazon.com/opensearch-service/latest/APIReference/API_OffPeakWindow.html) options for a domain.
-    public struct OffPeakWindowOptionsStatus: Swift.Equatable {
+    public struct OffPeakWindowOptionsStatus {
         /// The domain's off-peak window configuration.
         public var options: OpenSearchClientTypes.OffPeakWindowOptions?
         /// The current status of off-peak window options.
@@ -13119,7 +13119,7 @@ extension OpenSearchClientTypes.OptionStatus: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Provides the current status of an entity.
-    public struct OptionStatus: Swift.Equatable {
+    public struct OptionStatus {
         /// The timestamp when the entity was created.
         /// This member is required.
         public var creationDate: ClientRuntime.Date?
@@ -13209,7 +13209,7 @@ extension OpenSearchClientTypes.OutboundConnection: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Specifies details about an outbound cross-cluster connection.
-    public struct OutboundConnection: Swift.Equatable {
+    public struct OutboundConnection {
         /// Name of the connection.
         public var connectionAlias: Swift.String?
         /// Unique identifier of the connection.
@@ -13274,7 +13274,7 @@ extension OpenSearchClientTypes.OutboundConnectionStatus: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// The status of an outbound cross-cluster connection.
-    public struct OutboundConnectionStatus: Swift.Equatable {
+    public struct OutboundConnectionStatus {
         /// Verbose information for the outbound connection.
         public var message: Swift.String?
         /// The status code for the outbound connection. Can be one of the following:
@@ -13488,7 +13488,7 @@ extension OpenSearchClientTypes.PackageDetails: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Basic information about a package.
-    public struct PackageDetails: Swift.Equatable {
+    public struct PackageDetails {
         /// The package version.
         public var availablePackageVersion: Swift.String?
         /// If the package is a ZIP-PLUGIN package, additional information about plugin properties.
@@ -13569,7 +13569,7 @@ extension OpenSearchClientTypes.PackageSource: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// The Amazon S3 location to import the package from.
-    public struct PackageSource: Swift.Equatable {
+    public struct PackageSource {
         /// The name of the Amazon S3 bucket containing the package.
         public var s3BucketName: Swift.String?
         /// Key (file name) of the package.
@@ -13708,7 +13708,7 @@ extension OpenSearchClientTypes.PackageVersionHistory: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Details about a package version.
-    public struct PackageVersionHistory: Swift.Equatable {
+    public struct PackageVersionHistory {
         /// A message associated with the package version when it was uploaded.
         public var commitMessage: Swift.String?
         /// The date and time when the package was created.
@@ -13779,7 +13779,7 @@ extension OpenSearchClientTypes.PluginProperties: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Basic information about the plugin.
-    public struct PluginProperties: Swift.Equatable {
+    public struct PluginProperties {
         /// The name of the class to load.
         public var className: Swift.String?
         /// The description of the plugin.
@@ -13902,7 +13902,7 @@ extension PurchaseReservedInstanceOfferingInput {
 }
 
 /// Container for request parameters to the PurchaseReservedInstanceOffering operation.
-public struct PurchaseReservedInstanceOfferingInput: Swift.Equatable {
+public struct PurchaseReservedInstanceOfferingInput {
     /// The number of OpenSearch instances to reserve.
     public var instanceCount: Swift.Int?
     /// A customer-specified identifier to track this reservation.
@@ -13924,7 +13924,7 @@ public struct PurchaseReservedInstanceOfferingInput: Swift.Equatable {
     }
 }
 
-struct PurchaseReservedInstanceOfferingInputBody: Swift.Equatable {
+struct PurchaseReservedInstanceOfferingInputBody {
     let reservedInstanceOfferingId: Swift.String?
     let reservationName: Swift.String?
     let instanceCount: Swift.Int?
@@ -13963,7 +13963,7 @@ extension PurchaseReservedInstanceOfferingOutput: ClientRuntime.HttpResponseBind
 }
 
 /// Represents the output of a PurchaseReservedInstanceOffering operation.
-public struct PurchaseReservedInstanceOfferingOutput: Swift.Equatable {
+public struct PurchaseReservedInstanceOfferingOutput {
     /// The customer-specified identifier used to track this reservation.
     public var reservationName: Swift.String?
     /// The ID of the Reserved Instance offering that was purchased.
@@ -13979,7 +13979,7 @@ public struct PurchaseReservedInstanceOfferingOutput: Swift.Equatable {
     }
 }
 
-struct PurchaseReservedInstanceOfferingOutputBody: Swift.Equatable {
+struct PurchaseReservedInstanceOfferingOutputBody {
     let reservedInstanceId: Swift.String?
     let reservationName: Swift.String?
 }
@@ -14042,7 +14042,7 @@ extension OpenSearchClientTypes.RecurringCharge: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Contains the specific price and frequency of a recurring charges for an OpenSearch Reserved Instance, or for a Reserved Instance offering.
-    public struct RecurringCharge: Swift.Equatable {
+    public struct RecurringCharge {
         /// The monetary amount of the recurring charge.
         public var recurringChargeAmount: Swift.Double?
         /// The frequency of the recurring charge.
@@ -14071,7 +14071,7 @@ extension RejectInboundConnectionInput {
 }
 
 /// Container for the request parameters to the RejectInboundConnection operation.
-public struct RejectInboundConnectionInput: Swift.Equatable {
+public struct RejectInboundConnectionInput {
     /// The unique identifier of the inbound connection to reject.
     /// This member is required.
     public var connectionId: Swift.String?
@@ -14084,7 +14084,7 @@ public struct RejectInboundConnectionInput: Swift.Equatable {
     }
 }
 
-struct RejectInboundConnectionInputBody: Swift.Equatable {
+struct RejectInboundConnectionInputBody {
 }
 
 extension RejectInboundConnectionInputBody: Swift.Decodable {
@@ -14106,7 +14106,7 @@ extension RejectInboundConnectionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a RejectInboundConnection operation.
-public struct RejectInboundConnectionOutput: Swift.Equatable {
+public struct RejectInboundConnectionOutput {
     /// Contains details about the rejected inbound connection.
     public var connection: OpenSearchClientTypes.InboundConnection?
 
@@ -14118,7 +14118,7 @@ public struct RejectInboundConnectionOutput: Swift.Equatable {
     }
 }
 
-struct RejectInboundConnectionOutputBody: Swift.Equatable {
+struct RejectInboundConnectionOutputBody {
     let connection: OpenSearchClientTypes.InboundConnection?
 }
 
@@ -14174,7 +14174,7 @@ extension RemoveTagsInput {
 }
 
 /// Container for the request parameters to the RemoveTags operation.
-public struct RemoveTagsInput: Swift.Equatable {
+public struct RemoveTagsInput {
     /// The Amazon Resource Name (ARN) of the domain from which you want to delete the specified tags.
     /// This member is required.
     public var arn: Swift.String?
@@ -14192,7 +14192,7 @@ public struct RemoveTagsInput: Swift.Equatable {
     }
 }
 
-struct RemoveTagsInputBody: Swift.Equatable {
+struct RemoveTagsInputBody {
     let arn: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -14226,7 +14226,7 @@ extension RemoveTagsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RemoveTagsOutput: Swift.Equatable {
+public struct RemoveTagsOutput {
 
     public init() { }
 }
@@ -14355,7 +14355,7 @@ extension OpenSearchClientTypes.ReservedInstance: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Details of an OpenSearch Reserved Instance.
-    public struct ReservedInstance: Swift.Equatable {
+    public struct ReservedInstance {
         /// The unique identifier of the billing subscription.
         public var billingSubscriptionId: Swift.Int?
         /// The currency code for the offering.
@@ -14496,7 +14496,7 @@ extension OpenSearchClientTypes.ReservedInstanceOffering: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Details of an OpenSearch Reserved Instance offering.
-    public struct ReservedInstanceOffering: Swift.Equatable {
+    public struct ReservedInstanceOffering {
         /// The currency code for the Reserved Instance offering.
         public var currencyCode: Swift.String?
         /// The duration, in seconds, for which the offering will reserve the OpenSearch instance.
@@ -14613,7 +14613,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct ResourceAlreadyExistsExceptionBody: Swift.Equatable {
+struct ResourceAlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -14669,7 +14669,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -14708,7 +14708,7 @@ extension RevokeVpcEndpointAccessInput {
     }
 }
 
-public struct RevokeVpcEndpointAccessInput: Swift.Equatable {
+public struct RevokeVpcEndpointAccessInput {
     /// The account ID to revoke access from.
     /// This member is required.
     public var account: Swift.String?
@@ -14726,7 +14726,7 @@ public struct RevokeVpcEndpointAccessInput: Swift.Equatable {
     }
 }
 
-struct RevokeVpcEndpointAccessInputBody: Swift.Equatable {
+struct RevokeVpcEndpointAccessInputBody {
     let account: Swift.String?
 }
 
@@ -14747,7 +14747,7 @@ extension RevokeVpcEndpointAccessOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RevokeVpcEndpointAccessOutput: Swift.Equatable {
+public struct RevokeVpcEndpointAccessOutput {
 
     public init() { }
 }
@@ -14821,7 +14821,7 @@ extension OpenSearchClientTypes.S3GlueDataCatalog: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Information about the Amazon S3 Glue Data Catalog.
-    public struct S3GlueDataCatalog: Swift.Equatable {
+    public struct S3GlueDataCatalog {
         /// >The Amazon Resource Name (ARN) for the S3 Glue Data Catalog.
         public var roleArn: Swift.String?
 
@@ -14862,7 +14862,7 @@ extension OpenSearchClientTypes.SAMLIdp: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// The SAML identity povider information.
-    public struct SAMLIdp: Swift.Equatable {
+    public struct SAMLIdp {
         /// The unique entity ID of the application in the SAML identity provider.
         /// This member is required.
         public var entityId: Swift.String?
@@ -14944,7 +14944,7 @@ extension OpenSearchClientTypes.SAMLOptionsInput: Swift.CustomDebugStringConvert
 
 extension OpenSearchClientTypes {
     /// The SAML authentication configuration for an Amazon OpenSearch Service domain.
-    public struct SAMLOptionsInput: Swift.Equatable {
+    public struct SAMLOptionsInput {
         /// True to enable SAML authentication for a domain.
         public var enabled: Swift.Bool?
         /// The SAML Identity Provider's information.
@@ -15027,7 +15027,7 @@ extension OpenSearchClientTypes.SAMLOptionsOutput: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Describes the SAML application configured for the domain.
-    public struct SAMLOptionsOutput: Swift.Equatable {
+    public struct SAMLOptionsOutput {
         /// True if SAML is enabled.
         public var enabled: Swift.Bool?
         /// Describes the SAML identity provider's information.
@@ -15161,7 +15161,7 @@ extension OpenSearchClientTypes.ScheduledAction: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Information about a scheduled configuration change for an OpenSearch Service domain. This actions can be a [service software update](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/service-software.html) or a [blue/green Auto-Tune enhancement](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html#auto-tune-types).
-    public struct ScheduledAction: Swift.Equatable {
+    public struct ScheduledAction {
         /// Whether or not the scheduled action is cancellable.
         public var cancellable: Swift.Bool?
         /// A description of the action to be taken.
@@ -15283,7 +15283,7 @@ extension OpenSearchClientTypes.ScheduledAutoTuneDetails: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Specifies details about a scheduled Auto-Tune action. For more information, see [Auto-Tune for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html).
-    public struct ScheduledAutoTuneDetails: Swift.Equatable {
+    public struct ScheduledAutoTuneDetails {
         /// A description of the Auto-Tune action.
         public var action: Swift.String?
         /// The type of Auto-Tune action.
@@ -15440,7 +15440,7 @@ extension OpenSearchClientTypes.ServiceSoftwareOptions: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// The current status of the service software for an Amazon OpenSearch Service domain. For more information, see [Service software updates in Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/service-software.html).
-    public struct ServiceSoftwareOptions: Swift.Equatable {
+    public struct ServiceSoftwareOptions {
         /// The timestamp, in Epoch time, until which you can manually request a service software update. After this date, we automatically update your service software.
         public var automatedUpdateDate: ClientRuntime.Date?
         /// True if you're able to cancel your service software version update. False if you can't cancel your service software update.
@@ -15565,7 +15565,7 @@ public struct SlotNotAvailableException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct SlotNotAvailableExceptionBody: Swift.Equatable {
+struct SlotNotAvailableExceptionBody {
     let slotSuggestions: [Swift.Int]?
     let message: Swift.String?
 }
@@ -15615,7 +15615,7 @@ extension OpenSearchClientTypes.SnapshotOptions: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// The time, in UTC format, when OpenSearch Service takes a daily automated snapshot of the specified domain. Default is 0 hours.
-    public struct SnapshotOptions: Swift.Equatable {
+    public struct SnapshotOptions {
         /// The time, in UTC format, when OpenSearch Service takes a daily automated snapshot of the specified domain. Default is 0 hours.
         public var automatedSnapshotStartHour: Swift.Int?
 
@@ -15656,7 +15656,7 @@ extension OpenSearchClientTypes.SnapshotOptionsStatus: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Container for information about a daily automated snapshot for an OpenSearch Service domain.
-    public struct SnapshotOptionsStatus: Swift.Equatable {
+    public struct SnapshotOptionsStatus {
         /// The daily snapshot options specified for the domain.
         /// This member is required.
         public var options: OpenSearchClientTypes.SnapshotOptions?
@@ -15697,7 +15697,7 @@ extension OpenSearchClientTypes.SoftwareUpdateOptions: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Options for configuring service software updates for a domain.
-    public struct SoftwareUpdateOptions: Swift.Equatable {
+    public struct SoftwareUpdateOptions {
         /// Whether automatic service software updates are enabled for the domain.
         public var autoSoftwareUpdateEnabled: Swift.Bool?
 
@@ -15738,7 +15738,7 @@ extension OpenSearchClientTypes.SoftwareUpdateOptionsStatus: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// The status of the service software options for a domain.
-    public struct SoftwareUpdateOptionsStatus: Swift.Equatable {
+    public struct SoftwareUpdateOptionsStatus {
         /// The service software update options for a domain.
         public var options: OpenSearchClientTypes.SoftwareUpdateOptions?
         /// The status of service software update options, including creation date and last updated date.
@@ -15784,7 +15784,7 @@ extension StartDomainMaintenanceInput {
 }
 
 /// Container for the parameters to the StartDomainMaintenance operation.
-public struct StartDomainMaintenanceInput: Swift.Equatable {
+public struct StartDomainMaintenanceInput {
     /// The name of the action.
     /// This member is required.
     public var action: OpenSearchClientTypes.MaintenanceType?
@@ -15806,7 +15806,7 @@ public struct StartDomainMaintenanceInput: Swift.Equatable {
     }
 }
 
-struct StartDomainMaintenanceInputBody: Swift.Equatable {
+struct StartDomainMaintenanceInputBody {
     let action: OpenSearchClientTypes.MaintenanceType?
     let nodeId: Swift.String?
 }
@@ -15839,7 +15839,7 @@ extension StartDomainMaintenanceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result of a StartDomainMaintenance request that information about the requested action.
-public struct StartDomainMaintenanceOutput: Swift.Equatable {
+public struct StartDomainMaintenanceOutput {
     /// The request ID of requested action.
     public var maintenanceId: Swift.String?
 
@@ -15851,7 +15851,7 @@ public struct StartDomainMaintenanceOutput: Swift.Equatable {
     }
 }
 
-struct StartDomainMaintenanceOutputBody: Swift.Equatable {
+struct StartDomainMaintenanceOutputBody {
     let maintenanceId: Swift.String?
 }
 
@@ -15911,7 +15911,7 @@ extension StartServiceSoftwareUpdateInput {
 }
 
 /// Container for the request parameters to the StartServiceSoftwareUpdate operation.
-public struct StartServiceSoftwareUpdateInput: Swift.Equatable {
+public struct StartServiceSoftwareUpdateInput {
     /// The Epoch timestamp when you want the service software update to start. You only need to specify this parameter if you set ScheduleAt to TIMESTAMP.
     public var desiredStartTime: Swift.Int?
     /// The name of the domain that you want to update to the latest service software.
@@ -15941,7 +15941,7 @@ public struct StartServiceSoftwareUpdateInput: Swift.Equatable {
     }
 }
 
-struct StartServiceSoftwareUpdateInputBody: Swift.Equatable {
+struct StartServiceSoftwareUpdateInputBody {
     let domainName: Swift.String?
     let scheduleAt: OpenSearchClientTypes.ScheduleAt?
     let desiredStartTime: Swift.Int?
@@ -15978,7 +15978,7 @@ extension StartServiceSoftwareUpdateOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a StartServiceSoftwareUpdate operation. Contains the status of the update.
-public struct StartServiceSoftwareUpdateOutput: Swift.Equatable {
+public struct StartServiceSoftwareUpdateOutput {
     /// The current status of the OpenSearch Service software update.
     public var serviceSoftwareOptions: OpenSearchClientTypes.ServiceSoftwareOptions?
 
@@ -15990,7 +15990,7 @@ public struct StartServiceSoftwareUpdateOutput: Swift.Equatable {
     }
 }
 
-struct StartServiceSoftwareUpdateOutputBody: Swift.Equatable {
+struct StartServiceSoftwareUpdateOutputBody {
     let serviceSoftwareOptions: OpenSearchClientTypes.ServiceSoftwareOptions?
 }
 
@@ -16065,7 +16065,7 @@ extension OpenSearchClientTypes.StorageType: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// A list of storage types for an Amazon OpenSearch Service domain that are available for a given intance type.
-    public struct StorageType: Swift.Equatable {
+    public struct StorageType {
         /// The storage sub-type, such as gp3 or io1.
         public var storageSubTypeName: Swift.String?
         /// Limits that are applicable for the given storage type.
@@ -16126,7 +16126,7 @@ extension OpenSearchClientTypes.StorageTypeLimit: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Limits that are applicable for the given Amazon OpenSearch Service storage type.
-    public struct StorageTypeLimit: Swift.Equatable {
+    public struct StorageTypeLimit {
         /// Name of storage limits that are applicable for the given storage type. If StorageType is ebs, the following options are available:
         ///
         /// * MinimumVolumeSize - Minimum volume size that is available for the given storage type. Can be empty if not applicable.
@@ -16218,7 +16218,7 @@ extension OpenSearchClientTypes.Tag: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// A tag (key-value pair) for an Amazon OpenSearch Service resource.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The tag key. Tag keys must be unique for the domain to which they are attached.
         /// This member is required.
         public var key: Swift.String?
@@ -16299,7 +16299,7 @@ extension UpdateDataSourceInput {
 }
 
 /// Container for the parameters to the UpdateDataSource operation.
-public struct UpdateDataSourceInput: Swift.Equatable {
+public struct UpdateDataSourceInput {
     /// The type of data source.
     /// This member is required.
     public var dataSourceType: OpenSearchClientTypes.DataSourceType?
@@ -16326,7 +16326,7 @@ public struct UpdateDataSourceInput: Swift.Equatable {
     }
 }
 
-struct UpdateDataSourceInputBody: Swift.Equatable {
+struct UpdateDataSourceInputBody {
     let dataSourceType: OpenSearchClientTypes.DataSourceType?
     let description: Swift.String?
 }
@@ -16359,7 +16359,7 @@ extension UpdateDataSourceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result of an UpdateDataSource operation.
-public struct UpdateDataSourceOutput: Swift.Equatable {
+public struct UpdateDataSourceOutput {
     /// A message associated with the updated data source.
     public var message: Swift.String?
 
@@ -16371,7 +16371,7 @@ public struct UpdateDataSourceOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDataSourceOutputBody: Swift.Equatable {
+struct UpdateDataSourceOutputBody {
     let message: Swift.String?
 }
 
@@ -16501,7 +16501,7 @@ extension UpdateDomainConfigInput {
 }
 
 /// Container for the request parameters to the UpdateDomain operation.
-public struct UpdateDomainConfigInput: Swift.Equatable {
+public struct UpdateDomainConfigInput {
     /// Identity and Access Management (IAM) access policy as a JSON-formatted string.
     public var accessPolicies: Swift.String?
     /// Key-value pairs to specify advanced configuration options. The following key-value pairs are supported:
@@ -16599,7 +16599,7 @@ public struct UpdateDomainConfigInput: Swift.Equatable {
     }
 }
 
-struct UpdateDomainConfigInputBody: Swift.Equatable {
+struct UpdateDomainConfigInputBody {
     let clusterConfig: OpenSearchClientTypes.ClusterConfig?
     let ebsOptions: OpenSearchClientTypes.EBSOptions?
     let snapshotOptions: OpenSearchClientTypes.SnapshotOptions?
@@ -16718,7 +16718,7 @@ extension UpdateDomainConfigOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The results of an UpdateDomain request. Contains the status of the domain being updated.
-public struct UpdateDomainConfigOutput: Swift.Equatable {
+public struct UpdateDomainConfigOutput {
     /// The status of the updated domain.
     /// This member is required.
     public var domainConfig: OpenSearchClientTypes.DomainConfig?
@@ -16739,7 +16739,7 @@ public struct UpdateDomainConfigOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDomainConfigOutputBody: Swift.Equatable {
+struct UpdateDomainConfigOutputBody {
     let domainConfig: OpenSearchClientTypes.DomainConfig?
     let dryRunResults: OpenSearchClientTypes.DryRunResults?
     let dryRunProgressStatus: OpenSearchClientTypes.DryRunProgressStatus?
@@ -16812,7 +16812,7 @@ extension UpdatePackageInput {
 }
 
 /// Container for request parameters to the UpdatePackage operation.
-public struct UpdatePackageInput: Swift.Equatable {
+public struct UpdatePackageInput {
     /// Commit message for the updated file, which is shown as part of GetPackageVersionHistoryResponse.
     public var commitMessage: Swift.String?
     /// A new description of the package.
@@ -16838,7 +16838,7 @@ public struct UpdatePackageInput: Swift.Equatable {
     }
 }
 
-struct UpdatePackageInputBody: Swift.Equatable {
+struct UpdatePackageInputBody {
     let packageID: Swift.String?
     let packageSource: OpenSearchClientTypes.PackageSource?
     let packageDescription: Swift.String?
@@ -16879,7 +16879,7 @@ extension UpdatePackageOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Container for the response returned by the UpdatePackage operation.
-public struct UpdatePackageOutput: Swift.Equatable {
+public struct UpdatePackageOutput {
     /// Information about a package.
     public var packageDetails: OpenSearchClientTypes.PackageDetails?
 
@@ -16891,7 +16891,7 @@ public struct UpdatePackageOutput: Swift.Equatable {
     }
 }
 
-struct UpdatePackageOutputBody: Swift.Equatable {
+struct UpdatePackageOutputBody {
     let packageDetails: OpenSearchClientTypes.PackageDetails?
 }
 
@@ -16958,7 +16958,7 @@ extension UpdateScheduledActionInput {
     }
 }
 
-public struct UpdateScheduledActionInput: Swift.Equatable {
+public struct UpdateScheduledActionInput {
     /// The unique identifier of the action to reschedule. To retrieve this ID, send a [ListScheduledActions](https://docs.aws.amazon.com/opensearch-service/latest/APIReference/API_ListScheduledActions.html) request.
     /// This member is required.
     public var actionID: Swift.String?
@@ -16996,7 +16996,7 @@ public struct UpdateScheduledActionInput: Swift.Equatable {
     }
 }
 
-struct UpdateScheduledActionInputBody: Swift.Equatable {
+struct UpdateScheduledActionInputBody {
     let actionID: Swift.String?
     let actionType: OpenSearchClientTypes.ActionType?
     let scheduleAt: OpenSearchClientTypes.ScheduleAt?
@@ -17036,7 +17036,7 @@ extension UpdateScheduledActionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateScheduledActionOutput: Swift.Equatable {
+public struct UpdateScheduledActionOutput {
     /// Information about the rescheduled action.
     public var scheduledAction: OpenSearchClientTypes.ScheduledAction?
 
@@ -17048,7 +17048,7 @@ public struct UpdateScheduledActionOutput: Swift.Equatable {
     }
 }
 
-struct UpdateScheduledActionOutputBody: Swift.Equatable {
+struct UpdateScheduledActionOutputBody {
     let scheduledAction: OpenSearchClientTypes.ScheduledAction?
 }
 
@@ -17105,7 +17105,7 @@ extension UpdateVpcEndpointInput {
     }
 }
 
-public struct UpdateVpcEndpointInput: Swift.Equatable {
+public struct UpdateVpcEndpointInput {
     /// The unique identifier of the endpoint.
     /// This member is required.
     public var vpcEndpointId: Swift.String?
@@ -17123,7 +17123,7 @@ public struct UpdateVpcEndpointInput: Swift.Equatable {
     }
 }
 
-struct UpdateVpcEndpointInputBody: Swift.Equatable {
+struct UpdateVpcEndpointInputBody {
     let vpcEndpointId: Swift.String?
     let vpcOptions: OpenSearchClientTypes.VPCOptions?
 }
@@ -17155,7 +17155,7 @@ extension UpdateVpcEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateVpcEndpointOutput: Swift.Equatable {
+public struct UpdateVpcEndpointOutput {
     /// The endpoint to be updated.
     /// This member is required.
     public var vpcEndpoint: OpenSearchClientTypes.VpcEndpoint?
@@ -17168,7 +17168,7 @@ public struct UpdateVpcEndpointOutput: Swift.Equatable {
     }
 }
 
-struct UpdateVpcEndpointOutputBody: Swift.Equatable {
+struct UpdateVpcEndpointOutputBody {
     let vpcEndpoint: OpenSearchClientTypes.VpcEndpoint?
 }
 
@@ -17236,7 +17236,7 @@ extension UpgradeDomainInput {
 }
 
 /// Container for the request parameters to the UpgradeDomain operation.
-public struct UpgradeDomainInput: Swift.Equatable {
+public struct UpgradeDomainInput {
     /// Only supports the override_main_response_version parameter and not other advanced options. You can only include this option when upgrading to an OpenSearch version. Specifies whether the domain reports its version as 7.10 so that it continues to work with Elasticsearch OSS clients and plugins.
     public var advancedOptions: [Swift.String:Swift.String]?
     /// Name of the OpenSearch Service domain that you want to upgrade.
@@ -17262,7 +17262,7 @@ public struct UpgradeDomainInput: Swift.Equatable {
     }
 }
 
-struct UpgradeDomainInputBody: Swift.Equatable {
+struct UpgradeDomainInputBody {
     let domainName: Swift.String?
     let targetVersion: Swift.String?
     let performCheckOnly: Swift.Bool?
@@ -17322,7 +17322,7 @@ extension UpgradeDomainOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Container for the response returned by UpgradeDomain operation.
-public struct UpgradeDomainOutput: Swift.Equatable {
+public struct UpgradeDomainOutput {
     /// The advanced options configuration for the domain.
     public var advancedOptions: [Swift.String:Swift.String]?
     /// Container for information about a configuration change happening on a domain.
@@ -17354,7 +17354,7 @@ public struct UpgradeDomainOutput: Swift.Equatable {
     }
 }
 
-struct UpgradeDomainOutputBody: Swift.Equatable {
+struct UpgradeDomainOutputBody {
     let upgradeId: Swift.String?
     let domainName: Swift.String?
     let targetVersion: Swift.String?
@@ -17466,7 +17466,7 @@ extension OpenSearchClientTypes.UpgradeHistory: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// History of the last 10 upgrades and upgrade eligibility checks for an Amazon OpenSearch Service domain.
-    public struct UpgradeHistory: Swift.Equatable {
+    public struct UpgradeHistory {
         /// UTC timestamp at which the upgrade API call was made, in the format yyyy-MM-ddTHH:mm:ssZ.
         public var startTimestamp: ClientRuntime.Date?
         /// A list of each step performed as part of a specific upgrade or upgrade eligibility check.
@@ -17624,7 +17624,7 @@ extension OpenSearchClientTypes.UpgradeStepItem: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Represents a single step of an upgrade or upgrade eligibility check workflow.
-    public struct UpgradeStepItem: Swift.Equatable {
+    public struct UpgradeStepItem {
         /// A list of strings containing detailed information about the errors encountered in a particular step.
         public var issues: [Swift.String]?
         /// The floating point value representing the progress percentage of a particular step.
@@ -17739,7 +17739,7 @@ extension OpenSearchClientTypes.VPCDerivedInfo: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Information about the subnets and security groups for an Amazon OpenSearch Service domain provisioned within a virtual private cloud (VPC). For more information, see [Launching your Amazon OpenSearch Service domains using a VPC](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/vpc.html). This information only exists if the domain was created with VPCOptions.
-    public struct VPCDerivedInfo: Swift.Equatable {
+    public struct VPCDerivedInfo {
         /// The list of Availability Zones associated with the VPC subnets.
         public var availabilityZones: [Swift.String]?
         /// The list of security group IDs associated with the VPC endpoints for the domain.
@@ -17792,7 +17792,7 @@ extension OpenSearchClientTypes.VPCDerivedInfoStatus: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Status of the VPC options for a specified domain.
-    public struct VPCDerivedInfoStatus: Swift.Equatable {
+    public struct VPCDerivedInfoStatus {
         /// The VPC options for the specified domain.
         /// This member is required.
         public var options: OpenSearchClientTypes.VPCDerivedInfo?
@@ -17863,7 +17863,7 @@ extension OpenSearchClientTypes.VPCOptions: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Options to specify the subnets and security groups for an Amazon OpenSearch Service VPC endpoint. For more information, see [Launching your Amazon OpenSearch Service domains using a VPC](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/vpc.html).
-    public struct VPCOptions: Swift.Equatable {
+    public struct VPCOptions {
         /// The list of security group IDs associated with the VPC endpoints for the domain. If you do not provide a security group ID, OpenSearch Service uses the default security group for the VPC.
         public var securityGroupIds: [Swift.String]?
         /// A list of subnet IDs associated with the VPC endpoints for the domain. If your domain uses multiple Availability Zones, you need to provide two subnet IDs, one per zone. Otherwise, provide only one.
@@ -17921,7 +17921,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 
@@ -17964,7 +17964,7 @@ extension OpenSearchClientTypes.ValidationFailure: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// A validation failure that occurred as the result of a pre-update validation check (verbose dry run) on a domain.
-    public struct ValidationFailure: Swift.Equatable {
+    public struct ValidationFailure {
         /// The error code of the failure.
         public var code: Swift.String?
         /// A message corresponding to the failure.
@@ -18009,7 +18009,7 @@ extension OpenSearchClientTypes.VersionStatus: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// The status of the the OpenSearch or Elasticsearch version options for the specified Amazon OpenSearch Service domain.
-    public struct VersionStatus: Swift.Equatable {
+    public struct VersionStatus {
         /// The OpenSearch or Elasticsearch version for the specified domain.
         /// This member is required.
         public var options: Swift.String?
@@ -18119,7 +18119,7 @@ extension OpenSearchClientTypes.VpcEndpoint: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// The connection endpoint for connecting to an Amazon OpenSearch Service domain through a proxy.
-    public struct VpcEndpoint: Swift.Equatable {
+    public struct VpcEndpoint {
         /// The Amazon Resource Name (ARN) of the domain associated with the endpoint.
         public var domainArn: Swift.String?
         /// The connection endpoint ID for connecting to the domain.
@@ -18186,7 +18186,7 @@ extension OpenSearchClientTypes.VpcEndpointError: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Error information when attempting to describe an Amazon OpenSearch Service-managed VPC endpoint.
-    public struct VpcEndpointError: Swift.Equatable {
+    public struct VpcEndpointError {
         /// The code associated with the error.
         public var errorCode: OpenSearchClientTypes.VpcEndpointErrorCode?
         /// A message describing the error.
@@ -18326,7 +18326,7 @@ extension OpenSearchClientTypes.VpcEndpointSummary: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// Summary information for an Amazon OpenSearch Service-managed VPC endpoint.
-    public struct VpcEndpointSummary: Swift.Equatable {
+    public struct VpcEndpointSummary {
         /// The Amazon Resource Name (ARN) of the domain associated with the endpoint.
         public var domainArn: Swift.String?
         /// The current status of the endpoint.
@@ -18379,7 +18379,7 @@ extension OpenSearchClientTypes.WindowStartTime: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// The desired start time for an [off-peak maintenance window](https://docs.aws.amazon.com/opensearch-service/latest/APIReference/API_OffPeakWindow.html).
-    public struct WindowStartTime: Swift.Equatable {
+    public struct WindowStartTime {
         /// The start hour of the window in Coordinated Universal Time (UTC), using 24-hour time. For example, 17 refers to 5:00 P.M. UTC.
         /// This member is required.
         public var hours: Swift.Int
@@ -18420,7 +18420,7 @@ extension OpenSearchClientTypes.ZoneAwarenessConfig: Swift.Codable {
 
 extension OpenSearchClientTypes {
     /// The zone awareness configuration for an Amazon OpenSearch Service domain.
-    public struct ZoneAwarenessConfig: Swift.Equatable {
+    public struct ZoneAwarenessConfig {
         /// If you enabled multiple Availability Zones, this value is the number of zones that you want the domain to use. Valid values are 2 and 3. If your domain is provisioned within a VPC, this value be equal to number of subnets.
         public var availabilityZoneCount: Swift.Int?
 

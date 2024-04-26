@@ -172,7 +172,7 @@ extension AmplifyBackendClientTypes.BackendAPIAppSyncAuthSettings: Swift.Codable
 
 extension AmplifyBackendClientTypes {
     /// The authentication settings for accessing provisioned data models in your Amplify project.
-    public struct BackendAPIAppSyncAuthSettings: Swift.Equatable {
+    public struct BackendAPIAppSyncAuthSettings {
         /// The Amazon Cognito user pool ID, if Amazon Cognito was used as an authentication setting to access your data models.
         public var cognitoUserPoolId: Swift.String?
         /// The API key description for API_KEY, if it was used as an authentication mechanism to access your data models.
@@ -241,7 +241,7 @@ extension AmplifyBackendClientTypes.BackendAPIAuthType: Swift.Codable {
 
 extension AmplifyBackendClientTypes {
     /// Describes the auth types for your configured data models.
-    public struct BackendAPIAuthType: Swift.Equatable {
+    public struct BackendAPIAuthType {
         /// Describes the authentication mode.
         public var mode: AmplifyBackendClientTypes.Mode?
         /// Describes settings for the authentication mode.
@@ -280,7 +280,7 @@ extension AmplifyBackendClientTypes.BackendAPIConflictResolution: Swift.Codable 
 
 extension AmplifyBackendClientTypes {
     /// Describes the conflict resolution configuration for your data model configured in your Amplify project.
-    public struct BackendAPIConflictResolution: Swift.Equatable {
+    public struct BackendAPIConflictResolution {
         /// The strategy for conflict resolution.
         public var resolutionStrategy: AmplifyBackendClientTypes.ResolutionStrategy?
 
@@ -357,7 +357,7 @@ extension AmplifyBackendClientTypes.BackendAPIResourceConfig: Swift.Codable {
 
 extension AmplifyBackendClientTypes {
     /// The resource config for the data model, configured as a part of the Amplify project.
-    public struct BackendAPIResourceConfig: Swift.Equatable {
+    public struct BackendAPIResourceConfig {
         /// Additional authentication methods used to interact with your data models.
         public var additionalAuthTypes: [AmplifyBackendClientTypes.BackendAPIAuthType]?
         /// The API name used to interact with the data model, configured as a part of your Amplify project.
@@ -436,7 +436,7 @@ extension AmplifyBackendClientTypes.BackendAuthAppleProviderConfig: Swift.Custom
 
 extension AmplifyBackendClientTypes {
     /// Describes Apple social federation configurations for allowing your app users to sign in using OAuth.
-    public struct BackendAuthAppleProviderConfig: Swift.Equatable {
+    public struct BackendAuthAppleProviderConfig {
         /// Describes the client_id (also called Services ID) that comes from Apple.
         public var clientId: Swift.String?
         /// Describes the key_id that comes from Apple.
@@ -495,7 +495,7 @@ extension AmplifyBackendClientTypes.BackendAuthSocialProviderConfig: Swift.Custo
 
 extension AmplifyBackendClientTypes {
     /// Describes third-party social federation configurations for allowing your app users to sign in using OAuth.
-    public struct BackendAuthSocialProviderConfig: Swift.Equatable {
+    public struct BackendAuthSocialProviderConfig {
         /// Describes the client_id, which can be obtained from the third-party social federation provider.
         public var clientId: Swift.String?
         /// Describes the client_secret, which can be obtained from third-party social federation providers.
@@ -576,7 +576,7 @@ extension AmplifyBackendClientTypes.BackendJobRespObj: Swift.Codable {
 
 extension AmplifyBackendClientTypes {
     /// The response object for this operation.
-    public struct BackendJobRespObj: Swift.Equatable {
+    public struct BackendJobRespObj {
         /// The app ID.
         /// This member is required.
         public var appId: Swift.String?
@@ -671,7 +671,7 @@ extension AmplifyBackendClientTypes.BackendStoragePermissions: Swift.Codable {
 
 extension AmplifyBackendClientTypes {
     /// Describes the read, write, and delete permissions users have against your storage S3 bucket.
-    public struct BackendStoragePermissions: Swift.Equatable {
+    public struct BackendStoragePermissions {
         /// Lists all authenticated user read, write, and delete permissions for your S3 bucket.
         /// This member is required.
         public var authenticated: [AmplifyBackendClientTypes.AuthenticatedElement]?
@@ -730,7 +730,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct BadRequestExceptionBody: Swift.Equatable {
+struct BadRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -773,7 +773,7 @@ extension CloneBackendInput {
 }
 
 /// The request body for CloneBackend.
-public struct CloneBackendInput: Swift.Equatable {
+public struct CloneBackendInput {
     /// The app ID.
     /// This member is required.
     public var appId: Swift.String?
@@ -796,7 +796,7 @@ public struct CloneBackendInput: Swift.Equatable {
     }
 }
 
-struct CloneBackendInputBody: Swift.Equatable {
+struct CloneBackendInputBody {
     let targetEnvironmentName: Swift.String?
 }
 
@@ -834,7 +834,7 @@ extension CloneBackendOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CloneBackendOutput: Swift.Equatable {
+public struct CloneBackendOutput {
     /// The app ID.
     public var appId: Swift.String?
     /// The name of the backend environment.
@@ -866,7 +866,7 @@ public struct CloneBackendOutput: Swift.Equatable {
     }
 }
 
-struct CloneBackendOutputBody: Swift.Equatable {
+struct CloneBackendOutputBody {
     let appId: Swift.String?
     let backendEnvironmentName: Swift.String?
     let error: Swift.String?
@@ -948,7 +948,7 @@ extension CreateBackendAPIInput {
 }
 
 /// The request body for CreateBackendAPI.
-public struct CreateBackendAPIInput: Swift.Equatable {
+public struct CreateBackendAPIInput {
     /// The app ID.
     /// This member is required.
     public var appId: Swift.String?
@@ -976,7 +976,7 @@ public struct CreateBackendAPIInput: Swift.Equatable {
     }
 }
 
-struct CreateBackendAPIInputBody: Swift.Equatable {
+struct CreateBackendAPIInputBody {
     let backendEnvironmentName: Swift.String?
     let resourceConfig: AmplifyBackendClientTypes.BackendAPIResourceConfig?
     let resourceName: Swift.String?
@@ -1022,7 +1022,7 @@ extension CreateBackendAPIOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateBackendAPIOutput: Swift.Equatable {
+public struct CreateBackendAPIOutput {
     /// The app ID.
     public var appId: Swift.String?
     /// The name of the backend environment.
@@ -1054,7 +1054,7 @@ public struct CreateBackendAPIOutput: Swift.Equatable {
     }
 }
 
-struct CreateBackendAPIOutputBody: Swift.Equatable {
+struct CreateBackendAPIOutputBody {
     let appId: Swift.String?
     let backendEnvironmentName: Swift.String?
     let error: Swift.String?
@@ -1142,7 +1142,7 @@ extension AmplifyBackendClientTypes.CreateBackendAuthForgotPasswordConfig: Swift
 
 extension AmplifyBackendClientTypes {
     /// (DEPRECATED) Describes the forgot password policy for authenticating into the Amplify app.
-    public struct CreateBackendAuthForgotPasswordConfig: Swift.Equatable {
+    public struct CreateBackendAuthForgotPasswordConfig {
         /// (DEPRECATED) Describes which mode to use (either SMS or email) to deliver messages to app users who want to recover their password.
         /// This member is required.
         public var deliveryMethod: AmplifyBackendClientTypes.DeliveryMethod?
@@ -1192,7 +1192,7 @@ extension AmplifyBackendClientTypes.CreateBackendAuthIdentityPoolConfig: Swift.C
 
 extension AmplifyBackendClientTypes {
     /// Describes authorization configurations for the auth resources, configured as a part of your Amplify project.
-    public struct CreateBackendAuthIdentityPoolConfig: Swift.Equatable {
+    public struct CreateBackendAuthIdentityPoolConfig {
         /// Name of the Amazon Cognito identity pool used for authorization.
         /// This member is required.
         public var identityPoolName: Swift.String?
@@ -1244,7 +1244,7 @@ extension CreateBackendAuthInput {
 }
 
 /// The request body for CreateBackendAuth.
-public struct CreateBackendAuthInput: Swift.Equatable {
+public struct CreateBackendAuthInput {
     /// The app ID.
     /// This member is required.
     public var appId: Swift.String?
@@ -1272,7 +1272,7 @@ public struct CreateBackendAuthInput: Swift.Equatable {
     }
 }
 
-struct CreateBackendAuthInputBody: Swift.Equatable {
+struct CreateBackendAuthInputBody {
     let backendEnvironmentName: Swift.String?
     let resourceConfig: AmplifyBackendClientTypes.CreateBackendAuthResourceConfig?
     let resourceName: Swift.String?
@@ -1323,7 +1323,7 @@ extension AmplifyBackendClientTypes.CreateBackendAuthMFAConfig: Swift.Codable {
 
 extension AmplifyBackendClientTypes {
     /// Describes whether to apply multi-factor authentication policies for your Amazon Cognito user pool configured as a part of your Amplify project.
-    public struct CreateBackendAuthMFAConfig: Swift.Equatable {
+    public struct CreateBackendAuthMFAConfig {
         /// Describes whether MFA should be [ON, OFF, or OPTIONAL] for authentication in your Amplify project.
         /// This member is required.
         public var mfaMode: AmplifyBackendClientTypes.MFAMode?
@@ -1429,7 +1429,7 @@ extension AmplifyBackendClientTypes.CreateBackendAuthOAuthConfig: Swift.Codable 
 
 extension AmplifyBackendClientTypes {
     /// Creates the OAuth configuration for your Amplify project.
-    public struct CreateBackendAuthOAuthConfig: Swift.Equatable {
+    public struct CreateBackendAuthOAuthConfig {
         /// The domain prefix for your Amplify app.
         public var domainPrefix: Swift.String?
         /// The OAuth grant type that you use to allow app users to authenticate from your Amplify app.
@@ -1489,7 +1489,7 @@ extension CreateBackendAuthOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateBackendAuthOutput: Swift.Equatable {
+public struct CreateBackendAuthOutput {
     /// The app ID.
     public var appId: Swift.String?
     /// The name of the backend environment.
@@ -1521,7 +1521,7 @@ public struct CreateBackendAuthOutput: Swift.Equatable {
     }
 }
 
-struct CreateBackendAuthOutputBody: Swift.Equatable {
+struct CreateBackendAuthOutputBody {
     let appId: Swift.String?
     let backendEnvironmentName: Swift.String?
     let error: Swift.String?
@@ -1610,7 +1610,7 @@ extension AmplifyBackendClientTypes.CreateBackendAuthPasswordPolicyConfig: Swift
 
 extension AmplifyBackendClientTypes {
     /// The password policy configuration for the backend to your Amplify project.
-    public struct CreateBackendAuthPasswordPolicyConfig: Swift.Equatable {
+    public struct CreateBackendAuthPasswordPolicyConfig {
         /// Additional constraints for the password used to access the backend of your Amplify project.
         public var additionalConstraints: [AmplifyBackendClientTypes.AdditionalConstraintsElement]?
         /// The minimum length of the password used to access the backend of your Amplify project.
@@ -1668,7 +1668,7 @@ extension AmplifyBackendClientTypes.CreateBackendAuthResourceConfig: Swift.Codab
 
 extension AmplifyBackendClientTypes {
     /// Defines the resource configuration when creating an auth resource in your Amplify project.
-    public struct CreateBackendAuthResourceConfig: Swift.Equatable {
+    public struct CreateBackendAuthResourceConfig {
         /// Defines whether you want to configure only authentication or both authentication and authorization settings.
         /// This member is required.
         public var authResources: AmplifyBackendClientTypes.AuthResources?
@@ -1772,7 +1772,7 @@ extension AmplifyBackendClientTypes.CreateBackendAuthUserPoolConfig: Swift.Codab
 
 extension AmplifyBackendClientTypes {
     /// Describes the Amazon Cognito user pool configuration for the auth resource to be configured for your Amplify project.
-    public struct CreateBackendAuthUserPoolConfig: Swift.Equatable {
+    public struct CreateBackendAuthUserPoolConfig {
         /// (DEPRECATED) Describes the forgotten password policy for your Amazon Cognito user pool, configured as a part of your Amplify project.
         public var forgotPassword: AmplifyBackendClientTypes.CreateBackendAuthForgotPasswordConfig?
         /// Describes whether to apply multi-factor authentication policies for your Amazon Cognito user pool configured as a part of your Amplify project.
@@ -1855,7 +1855,7 @@ extension AmplifyBackendClientTypes.CreateBackendAuthVerificationMessageConfig: 
 
 extension AmplifyBackendClientTypes {
     /// Creates an email or SMS verification message for the auth resource configured for your Amplify project.
-    public struct CreateBackendAuthVerificationMessageConfig: Swift.Equatable {
+    public struct CreateBackendAuthVerificationMessageConfig {
         /// The type of verification message to send.
         /// This member is required.
         public var deliveryMethod: AmplifyBackendClientTypes.DeliveryMethod?
@@ -1902,7 +1902,7 @@ extension CreateBackendConfigInput {
 }
 
 /// The request body for CreateBackendConfig.
-public struct CreateBackendConfigInput: Swift.Equatable {
+public struct CreateBackendConfigInput {
     /// The app ID.
     /// This member is required.
     public var appId: Swift.String?
@@ -1919,7 +1919,7 @@ public struct CreateBackendConfigInput: Swift.Equatable {
     }
 }
 
-struct CreateBackendConfigInputBody: Swift.Equatable {
+struct CreateBackendConfigInputBody {
     let backendManagerAppId: Swift.String?
 }
 
@@ -1953,7 +1953,7 @@ extension CreateBackendConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateBackendConfigOutput: Swift.Equatable {
+public struct CreateBackendConfigOutput {
     /// The app ID.
     public var appId: Swift.String?
     /// The name of the backend environment.
@@ -1977,7 +1977,7 @@ public struct CreateBackendConfigOutput: Swift.Equatable {
     }
 }
 
-struct CreateBackendConfigOutputBody: Swift.Equatable {
+struct CreateBackendConfigOutputBody {
     let appId: Swift.String?
     let backendEnvironmentName: Swift.String?
     let jobId: Swift.String?
@@ -2056,7 +2056,7 @@ extension CreateBackendInput {
 }
 
 /// The request body for CreateBackend.
-public struct CreateBackendInput: Swift.Equatable {
+public struct CreateBackendInput {
     /// The app ID.
     /// This member is required.
     public var appId: Swift.String?
@@ -2087,7 +2087,7 @@ public struct CreateBackendInput: Swift.Equatable {
     }
 }
 
-struct CreateBackendInputBody: Swift.Equatable {
+struct CreateBackendInputBody {
     let appId: Swift.String?
     let appName: Swift.String?
     let backendEnvironmentName: Swift.String?
@@ -2141,7 +2141,7 @@ extension CreateBackendOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateBackendOutput: Swift.Equatable {
+public struct CreateBackendOutput {
     /// The app ID.
     public var appId: Swift.String?
     /// The name of the backend environment.
@@ -2173,7 +2173,7 @@ public struct CreateBackendOutput: Swift.Equatable {
     }
 }
 
-struct CreateBackendOutputBody: Swift.Equatable {
+struct CreateBackendOutputBody {
     let appId: Swift.String?
     let backendEnvironmentName: Swift.String?
     let error: Swift.String?
@@ -2255,7 +2255,7 @@ extension CreateBackendStorageInput {
 }
 
 /// The request body for CreateBackendStorage.
-public struct CreateBackendStorageInput: Swift.Equatable {
+public struct CreateBackendStorageInput {
     /// The app ID.
     /// This member is required.
     public var appId: Swift.String?
@@ -2283,7 +2283,7 @@ public struct CreateBackendStorageInput: Swift.Equatable {
     }
 }
 
-struct CreateBackendStorageInputBody: Swift.Equatable {
+struct CreateBackendStorageInputBody {
     let backendEnvironmentName: Swift.String?
     let resourceConfig: AmplifyBackendClientTypes.CreateBackendStorageResourceConfig?
     let resourceName: Swift.String?
@@ -2325,7 +2325,7 @@ extension CreateBackendStorageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateBackendStorageOutput: Swift.Equatable {
+public struct CreateBackendStorageOutput {
     /// The app ID.
     public var appId: Swift.String?
     /// The name of the backend environment.
@@ -2349,7 +2349,7 @@ public struct CreateBackendStorageOutput: Swift.Equatable {
     }
 }
 
-struct CreateBackendStorageOutputBody: Swift.Equatable {
+struct CreateBackendStorageOutputBody {
     let appId: Swift.String?
     let backendEnvironmentName: Swift.String?
     let jobId: Swift.String?
@@ -2424,7 +2424,7 @@ extension AmplifyBackendClientTypes.CreateBackendStorageResourceConfig: Swift.Co
 
 extension AmplifyBackendClientTypes {
     /// The resource configuration for creating backend storage.
-    public struct CreateBackendStorageResourceConfig: Swift.Equatable {
+    public struct CreateBackendStorageResourceConfig {
         /// The name of the S3 bucket.
         public var bucketName: Swift.String?
         /// The authorization configuration for the storage S3 bucket.
@@ -2458,7 +2458,7 @@ extension CreateTokenInput {
     }
 }
 
-public struct CreateTokenInput: Swift.Equatable {
+public struct CreateTokenInput {
     /// The app ID.
     /// This member is required.
     public var appId: Swift.String?
@@ -2471,7 +2471,7 @@ public struct CreateTokenInput: Swift.Equatable {
     }
 }
 
-struct CreateTokenInputBody: Swift.Equatable {
+struct CreateTokenInputBody {
 }
 
 extension CreateTokenInputBody: Swift.Decodable {
@@ -2498,7 +2498,7 @@ extension CreateTokenOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateTokenOutput: Swift.Equatable {
+public struct CreateTokenOutput {
     /// The app ID.
     public var appId: Swift.String?
     /// One-time challenge code for authenticating into the Amplify Admin UI.
@@ -2522,7 +2522,7 @@ public struct CreateTokenOutput: Swift.Equatable {
     }
 }
 
-struct CreateTokenOutputBody: Swift.Equatable {
+struct CreateTokenOutputBody {
     let appId: Swift.String?
     let challengeCode: Swift.String?
     let sessionId: Swift.String?
@@ -2595,7 +2595,7 @@ extension DeleteBackendAPIInput {
 }
 
 /// The request body for DeleteBackendAPI.
-public struct DeleteBackendAPIInput: Swift.Equatable {
+public struct DeleteBackendAPIInput {
     /// The app ID.
     /// This member is required.
     public var appId: Swift.String?
@@ -2622,7 +2622,7 @@ public struct DeleteBackendAPIInput: Swift.Equatable {
     }
 }
 
-struct DeleteBackendAPIInputBody: Swift.Equatable {
+struct DeleteBackendAPIInputBody {
     let resourceConfig: AmplifyBackendClientTypes.BackendAPIResourceConfig?
     let resourceName: Swift.String?
 }
@@ -2664,7 +2664,7 @@ extension DeleteBackendAPIOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteBackendAPIOutput: Swift.Equatable {
+public struct DeleteBackendAPIOutput {
     /// The app ID.
     public var appId: Swift.String?
     /// The name of the backend environment.
@@ -2696,7 +2696,7 @@ public struct DeleteBackendAPIOutput: Swift.Equatable {
     }
 }
 
-struct DeleteBackendAPIOutputBody: Swift.Equatable {
+struct DeleteBackendAPIOutputBody {
     let appId: Swift.String?
     let backendEnvironmentName: Swift.String?
     let error: Swift.String?
@@ -2773,7 +2773,7 @@ extension DeleteBackendAuthInput {
 }
 
 /// The request body for DeleteBackendAuth.
-public struct DeleteBackendAuthInput: Swift.Equatable {
+public struct DeleteBackendAuthInput {
     /// The app ID.
     /// This member is required.
     public var appId: Swift.String?
@@ -2796,7 +2796,7 @@ public struct DeleteBackendAuthInput: Swift.Equatable {
     }
 }
 
-struct DeleteBackendAuthInputBody: Swift.Equatable {
+struct DeleteBackendAuthInputBody {
     let resourceName: Swift.String?
 }
 
@@ -2834,7 +2834,7 @@ extension DeleteBackendAuthOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteBackendAuthOutput: Swift.Equatable {
+public struct DeleteBackendAuthOutput {
     /// The app ID.
     public var appId: Swift.String?
     /// The name of the backend environment.
@@ -2866,7 +2866,7 @@ public struct DeleteBackendAuthOutput: Swift.Equatable {
     }
 }
 
-struct DeleteBackendAuthOutputBody: Swift.Equatable {
+struct DeleteBackendAuthOutputBody {
     let appId: Swift.String?
     let backendEnvironmentName: Swift.String?
     let error: Swift.String?
@@ -2929,7 +2929,7 @@ extension DeleteBackendInput {
     }
 }
 
-public struct DeleteBackendInput: Swift.Equatable {
+public struct DeleteBackendInput {
     /// The app ID.
     /// This member is required.
     public var appId: Swift.String?
@@ -2947,7 +2947,7 @@ public struct DeleteBackendInput: Swift.Equatable {
     }
 }
 
-struct DeleteBackendInputBody: Swift.Equatable {
+struct DeleteBackendInputBody {
 }
 
 extension DeleteBackendInputBody: Swift.Decodable {
@@ -2978,7 +2978,7 @@ extension DeleteBackendOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteBackendOutput: Swift.Equatable {
+public struct DeleteBackendOutput {
     /// The app ID.
     public var appId: Swift.String?
     /// The name of the backend environment.
@@ -3010,7 +3010,7 @@ public struct DeleteBackendOutput: Swift.Equatable {
     }
 }
 
-struct DeleteBackendOutputBody: Swift.Equatable {
+struct DeleteBackendOutputBody {
     let appId: Swift.String?
     let backendEnvironmentName: Swift.String?
     let error: Swift.String?
@@ -3091,7 +3091,7 @@ extension DeleteBackendStorageInput {
 }
 
 /// The request body for DeleteBackendStorage.
-public struct DeleteBackendStorageInput: Swift.Equatable {
+public struct DeleteBackendStorageInput {
     /// The app ID.
     /// This member is required.
     public var appId: Swift.String?
@@ -3119,7 +3119,7 @@ public struct DeleteBackendStorageInput: Swift.Equatable {
     }
 }
 
-struct DeleteBackendStorageInputBody: Swift.Equatable {
+struct DeleteBackendStorageInputBody {
     let resourceName: Swift.String?
     let serviceName: AmplifyBackendClientTypes.ServiceName?
 }
@@ -3157,7 +3157,7 @@ extension DeleteBackendStorageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteBackendStorageOutput: Swift.Equatable {
+public struct DeleteBackendStorageOutput {
     /// The app ID.
     public var appId: Swift.String?
     /// The name of the backend environment.
@@ -3181,7 +3181,7 @@ public struct DeleteBackendStorageOutput: Swift.Equatable {
     }
 }
 
-struct DeleteBackendStorageOutputBody: Swift.Equatable {
+struct DeleteBackendStorageOutputBody {
     let appId: Swift.String?
     let backendEnvironmentName: Swift.String?
     let jobId: Swift.String?
@@ -3236,7 +3236,7 @@ extension DeleteTokenInput {
     }
 }
 
-public struct DeleteTokenInput: Swift.Equatable {
+public struct DeleteTokenInput {
     /// The app ID.
     /// This member is required.
     public var appId: Swift.String?
@@ -3254,7 +3254,7 @@ public struct DeleteTokenInput: Swift.Equatable {
     }
 }
 
-struct DeleteTokenInputBody: Swift.Equatable {
+struct DeleteTokenInputBody {
 }
 
 extension DeleteTokenInputBody: Swift.Decodable {
@@ -3275,7 +3275,7 @@ extension DeleteTokenOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteTokenOutput: Swift.Equatable {
+public struct DeleteTokenOutput {
     /// Indicates whether the request succeeded or failed.
     public var isSuccess: Swift.Bool?
 
@@ -3287,7 +3287,7 @@ public struct DeleteTokenOutput: Swift.Equatable {
     }
 }
 
-struct DeleteTokenOutputBody: Swift.Equatable {
+struct DeleteTokenOutputBody {
     let isSuccess: Swift.Bool?
 }
 
@@ -3383,7 +3383,7 @@ extension AmplifyBackendClientTypes.EmailSettings: Swift.CustomDebugStringConver
 
 extension AmplifyBackendClientTypes {
     /// The configuration for the email sent when an app user forgets their password.
-    public struct EmailSettings: Swift.Equatable {
+    public struct EmailSettings {
         /// The contents of the email message.
         public var emailMessage: Swift.String?
         /// The contents of the subject line of the email message.
@@ -3441,7 +3441,7 @@ public struct GatewayTimeoutException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct GatewayTimeoutExceptionBody: Swift.Equatable {
+struct GatewayTimeoutExceptionBody {
     let message: Swift.String?
 }
 
@@ -3484,7 +3484,7 @@ extension GenerateBackendAPIModelsInput {
 }
 
 /// The request body for GenerateBackendAPIModels.
-public struct GenerateBackendAPIModelsInput: Swift.Equatable {
+public struct GenerateBackendAPIModelsInput {
     /// The app ID.
     /// This member is required.
     public var appId: Swift.String?
@@ -3507,7 +3507,7 @@ public struct GenerateBackendAPIModelsInput: Swift.Equatable {
     }
 }
 
-struct GenerateBackendAPIModelsInputBody: Swift.Equatable {
+struct GenerateBackendAPIModelsInputBody {
     let resourceName: Swift.String?
 }
 
@@ -3545,7 +3545,7 @@ extension GenerateBackendAPIModelsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GenerateBackendAPIModelsOutput: Swift.Equatable {
+public struct GenerateBackendAPIModelsOutput {
     /// The app ID.
     public var appId: Swift.String?
     /// The name of the backend environment.
@@ -3577,7 +3577,7 @@ public struct GenerateBackendAPIModelsOutput: Swift.Equatable {
     }
 }
 
-struct GenerateBackendAPIModelsOutputBody: Swift.Equatable {
+struct GenerateBackendAPIModelsOutputBody {
     let appId: Swift.String?
     let backendEnvironmentName: Swift.String?
     let error: Swift.String?
@@ -3658,7 +3658,7 @@ extension GetBackendAPIInput {
 }
 
 /// The request body for GetBackendAPI.
-public struct GetBackendAPIInput: Swift.Equatable {
+public struct GetBackendAPIInput {
     /// The app ID.
     /// This member is required.
     public var appId: Swift.String?
@@ -3685,7 +3685,7 @@ public struct GetBackendAPIInput: Swift.Equatable {
     }
 }
 
-struct GetBackendAPIInputBody: Swift.Equatable {
+struct GetBackendAPIInputBody {
     let resourceConfig: AmplifyBackendClientTypes.BackendAPIResourceConfig?
     let resourceName: Swift.String?
 }
@@ -3732,7 +3732,7 @@ extension GetBackendAPIModelsInput {
 }
 
 /// The request body for GetBackendAPIModels.
-public struct GetBackendAPIModelsInput: Swift.Equatable {
+public struct GetBackendAPIModelsInput {
     /// The app ID.
     /// This member is required.
     public var appId: Swift.String?
@@ -3755,7 +3755,7 @@ public struct GetBackendAPIModelsInput: Swift.Equatable {
     }
 }
 
-struct GetBackendAPIModelsInputBody: Swift.Equatable {
+struct GetBackendAPIModelsInputBody {
     let resourceName: Swift.String?
 }
 
@@ -3787,7 +3787,7 @@ extension GetBackendAPIModelsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBackendAPIModelsOutput: Swift.Equatable {
+public struct GetBackendAPIModelsOutput {
     /// Stringified JSON of the model introspection schema for an existing backend API resource.
     public var modelIntrospectionSchema: Swift.String?
     /// Stringified JSON of the datastore model.
@@ -3807,7 +3807,7 @@ public struct GetBackendAPIModelsOutput: Swift.Equatable {
     }
 }
 
-struct GetBackendAPIModelsOutputBody: Swift.Equatable {
+struct GetBackendAPIModelsOutputBody {
     let models: Swift.String?
     let status: AmplifyBackendClientTypes.Status?
     let modelIntrospectionSchema: Swift.String?
@@ -3865,7 +3865,7 @@ extension GetBackendAPIOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBackendAPIOutput: Swift.Equatable {
+public struct GetBackendAPIOutput {
     /// The app ID.
     public var appId: Swift.String?
     /// The name of the backend environment.
@@ -3893,7 +3893,7 @@ public struct GetBackendAPIOutput: Swift.Equatable {
     }
 }
 
-struct GetBackendAPIOutputBody: Swift.Equatable {
+struct GetBackendAPIOutputBody {
     let appId: Swift.String?
     let backendEnvironmentName: Swift.String?
     let error: Swift.String?
@@ -3966,7 +3966,7 @@ extension GetBackendAuthInput {
 }
 
 /// The request body for GetBackendAuth.
-public struct GetBackendAuthInput: Swift.Equatable {
+public struct GetBackendAuthInput {
     /// The app ID.
     /// This member is required.
     public var appId: Swift.String?
@@ -3989,7 +3989,7 @@ public struct GetBackendAuthInput: Swift.Equatable {
     }
 }
 
-struct GetBackendAuthInputBody: Swift.Equatable {
+struct GetBackendAuthInputBody {
     let resourceName: Swift.String?
 }
 
@@ -4025,7 +4025,7 @@ extension GetBackendAuthOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBackendAuthOutput: Swift.Equatable {
+public struct GetBackendAuthOutput {
     /// The app ID.
     public var appId: Swift.String?
     /// The name of the backend environment.
@@ -4053,7 +4053,7 @@ public struct GetBackendAuthOutput: Swift.Equatable {
     }
 }
 
-struct GetBackendAuthOutputBody: Swift.Equatable {
+struct GetBackendAuthOutputBody {
     let appId: Swift.String?
     let backendEnvironmentName: Swift.String?
     let error: Swift.String?
@@ -4123,7 +4123,7 @@ extension GetBackendInput {
 }
 
 /// The request body for GetBackend.
-public struct GetBackendInput: Swift.Equatable {
+public struct GetBackendInput {
     /// The app ID.
     /// This member is required.
     public var appId: Swift.String?
@@ -4140,7 +4140,7 @@ public struct GetBackendInput: Swift.Equatable {
     }
 }
 
-struct GetBackendInputBody: Swift.Equatable {
+struct GetBackendInputBody {
     let backendEnvironmentName: Swift.String?
 }
 
@@ -4172,7 +4172,7 @@ extension GetBackendJobInput {
     }
 }
 
-public struct GetBackendJobInput: Swift.Equatable {
+public struct GetBackendJobInput {
     /// The app ID.
     /// This member is required.
     public var appId: Swift.String?
@@ -4195,7 +4195,7 @@ public struct GetBackendJobInput: Swift.Equatable {
     }
 }
 
-struct GetBackendJobInputBody: Swift.Equatable {
+struct GetBackendJobInputBody {
 }
 
 extension GetBackendJobInputBody: Swift.Decodable {
@@ -4230,7 +4230,7 @@ extension GetBackendJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBackendJobOutput: Swift.Equatable {
+public struct GetBackendJobOutput {
     /// The app ID.
     public var appId: Swift.String?
     /// The name of the backend environment.
@@ -4270,7 +4270,7 @@ public struct GetBackendJobOutput: Swift.Equatable {
     }
 }
 
-struct GetBackendJobOutputBody: Swift.Equatable {
+struct GetBackendJobOutputBody {
     let appId: Swift.String?
     let backendEnvironmentName: Swift.String?
     let createTime: Swift.String?
@@ -4352,7 +4352,7 @@ extension GetBackendOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBackendOutput: Swift.Equatable {
+public struct GetBackendOutput {
     /// A stringified version of the cli.json file for your Amplify project.
     public var amplifyFeatureFlags: Swift.String?
     /// A stringified version of the current configs for your Amplify project.
@@ -4388,7 +4388,7 @@ public struct GetBackendOutput: Swift.Equatable {
     }
 }
 
-struct GetBackendOutputBody: Swift.Equatable {
+struct GetBackendOutputBody {
     let amplifyFeatureFlags: Swift.String?
     let amplifyMetaConfig: Swift.String?
     let appId: Swift.String?
@@ -4478,7 +4478,7 @@ extension GetBackendStorageInput {
 }
 
 /// The request body for GetBackendStorage.
-public struct GetBackendStorageInput: Swift.Equatable {
+public struct GetBackendStorageInput {
     /// The app ID.
     /// This member is required.
     public var appId: Swift.String?
@@ -4501,7 +4501,7 @@ public struct GetBackendStorageInput: Swift.Equatable {
     }
 }
 
-struct GetBackendStorageInputBody: Swift.Equatable {
+struct GetBackendStorageInputBody {
     let resourceName: Swift.String?
 }
 
@@ -4535,7 +4535,7 @@ extension GetBackendStorageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBackendStorageOutput: Swift.Equatable {
+public struct GetBackendStorageOutput {
     /// The app ID.
     public var appId: Swift.String?
     /// The name of the backend environment.
@@ -4559,7 +4559,7 @@ public struct GetBackendStorageOutput: Swift.Equatable {
     }
 }
 
-struct GetBackendStorageOutputBody: Swift.Equatable {
+struct GetBackendStorageOutputBody {
     let appId: Swift.String?
     let backendEnvironmentName: Swift.String?
     let resourceConfig: AmplifyBackendClientTypes.GetBackendStorageResourceConfig?
@@ -4640,7 +4640,7 @@ extension AmplifyBackendClientTypes.GetBackendStorageResourceConfig: Swift.Codab
 
 extension AmplifyBackendClientTypes {
     /// The details for a backend storage resource.
-    public struct GetBackendStorageResourceConfig: Swift.Equatable {
+    public struct GetBackendStorageResourceConfig {
         /// The name of the S3 bucket.
         public var bucketName: Swift.String?
         /// Returns True if the storage resource has been imported.
@@ -4681,7 +4681,7 @@ extension GetTokenInput {
     }
 }
 
-public struct GetTokenInput: Swift.Equatable {
+public struct GetTokenInput {
     /// The app ID.
     /// This member is required.
     public var appId: Swift.String?
@@ -4699,7 +4699,7 @@ public struct GetTokenInput: Swift.Equatable {
     }
 }
 
-struct GetTokenInputBody: Swift.Equatable {
+struct GetTokenInputBody {
 }
 
 extension GetTokenInputBody: Swift.Decodable {
@@ -4726,7 +4726,7 @@ extension GetTokenOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTokenOutput: Swift.Equatable {
+public struct GetTokenOutput {
     /// The app ID.
     public var appId: Swift.String?
     /// The one-time challenge code for authenticating into the Amplify Admin UI.
@@ -4750,7 +4750,7 @@ public struct GetTokenOutput: Swift.Equatable {
     }
 }
 
-struct GetTokenOutputBody: Swift.Equatable {
+struct GetTokenOutputBody {
     let appId: Swift.String?
     let challengeCode: Swift.String?
     let sessionId: Swift.String?
@@ -4831,7 +4831,7 @@ extension ImportBackendAuthInput {
 }
 
 /// The request body for ImportBackendAuth.
-public struct ImportBackendAuthInput: Swift.Equatable {
+public struct ImportBackendAuthInput {
     /// The app ID.
     /// This member is required.
     public var appId: Swift.String?
@@ -4868,7 +4868,7 @@ public struct ImportBackendAuthInput: Swift.Equatable {
     }
 }
 
-struct ImportBackendAuthInputBody: Swift.Equatable {
+struct ImportBackendAuthInputBody {
     let identityPoolId: Swift.String?
     let nativeClientId: Swift.String?
     let userPoolId: Swift.String?
@@ -4918,7 +4918,7 @@ extension ImportBackendAuthOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ImportBackendAuthOutput: Swift.Equatable {
+public struct ImportBackendAuthOutput {
     /// The app ID.
     public var appId: Swift.String?
     /// The name of the backend environment.
@@ -4950,7 +4950,7 @@ public struct ImportBackendAuthOutput: Swift.Equatable {
     }
 }
 
-struct ImportBackendAuthOutputBody: Swift.Equatable {
+struct ImportBackendAuthOutputBody {
     let appId: Swift.String?
     let backendEnvironmentName: Swift.String?
     let error: Swift.String?
@@ -5031,7 +5031,7 @@ extension ImportBackendStorageInput {
 }
 
 /// The request body for ImportBackendStorage.
-public struct ImportBackendStorageInput: Swift.Equatable {
+public struct ImportBackendStorageInput {
     /// The app ID.
     /// This member is required.
     public var appId: Swift.String?
@@ -5058,7 +5058,7 @@ public struct ImportBackendStorageInput: Swift.Equatable {
     }
 }
 
-struct ImportBackendStorageInputBody: Swift.Equatable {
+struct ImportBackendStorageInputBody {
     let bucketName: Swift.String?
     let serviceName: AmplifyBackendClientTypes.ServiceName?
 }
@@ -5096,7 +5096,7 @@ extension ImportBackendStorageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ImportBackendStorageOutput: Swift.Equatable {
+public struct ImportBackendStorageOutput {
     /// The app ID.
     public var appId: Swift.String?
     /// The name of the backend environment.
@@ -5120,7 +5120,7 @@ public struct ImportBackendStorageOutput: Swift.Equatable {
     }
 }
 
-struct ImportBackendStorageOutputBody: Swift.Equatable {
+struct ImportBackendStorageOutputBody {
     let appId: Swift.String?
     let backendEnvironmentName: Swift.String?
     let jobId: Swift.String?
@@ -5205,7 +5205,7 @@ extension ListBackendJobsInput {
 }
 
 /// The request body for ListBackendJobs.
-public struct ListBackendJobsInput: Swift.Equatable {
+public struct ListBackendJobsInput {
     /// The app ID.
     /// This member is required.
     public var appId: Swift.String?
@@ -5243,7 +5243,7 @@ public struct ListBackendJobsInput: Swift.Equatable {
     }
 }
 
-struct ListBackendJobsInputBody: Swift.Equatable {
+struct ListBackendJobsInputBody {
     let jobId: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -5289,7 +5289,7 @@ extension ListBackendJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBackendJobsOutput: Swift.Equatable {
+public struct ListBackendJobsOutput {
     /// An array of jobs and their properties.
     public var jobs: [AmplifyBackendClientTypes.BackendJobRespObj]?
     /// The token for the next set of results.
@@ -5305,7 +5305,7 @@ public struct ListBackendJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListBackendJobsOutputBody: Swift.Equatable {
+struct ListBackendJobsOutputBody {
     let jobs: [AmplifyBackendClientTypes.BackendJobRespObj]?
     let nextToken: Swift.String?
 }
@@ -5369,7 +5369,7 @@ extension ListS3BucketsInput {
 }
 
 /// The request body for S3Buckets.
-public struct ListS3BucketsInput: Swift.Equatable {
+public struct ListS3BucketsInput {
     /// Reserved for future use.
     public var nextToken: Swift.String?
 
@@ -5381,7 +5381,7 @@ public struct ListS3BucketsInput: Swift.Equatable {
     }
 }
 
-struct ListS3BucketsInputBody: Swift.Equatable {
+struct ListS3BucketsInputBody {
     let nextToken: Swift.String?
 }
 
@@ -5411,7 +5411,7 @@ extension ListS3BucketsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListS3BucketsOutput: Swift.Equatable {
+public struct ListS3BucketsOutput {
     /// The list of S3 buckets.
     public var buckets: [AmplifyBackendClientTypes.S3BucketInfo]?
     /// Reserved for future use.
@@ -5427,7 +5427,7 @@ public struct ListS3BucketsOutput: Swift.Equatable {
     }
 }
 
-struct ListS3BucketsOutputBody: Swift.Equatable {
+struct ListS3BucketsOutputBody {
     let buckets: [AmplifyBackendClientTypes.S3BucketInfo]?
     let nextToken: Swift.String?
 }
@@ -5509,7 +5509,7 @@ extension AmplifyBackendClientTypes.LoginAuthConfigReqObj: Swift.Codable {
 
 extension AmplifyBackendClientTypes {
     /// The request object for this operation.
-    public struct LoginAuthConfigReqObj: Swift.Equatable {
+    public struct LoginAuthConfigReqObj {
         /// The Amazon Cognito identity pool ID used for the Amplify Admin UI login authorization.
         public var awsCognitoIdentityPoolId: Swift.String?
         /// The AWS Region for the Amplify Admin UI login.
@@ -5686,7 +5686,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct NotFoundExceptionBody: Swift.Equatable {
+struct NotFoundExceptionBody {
     let message: Swift.String?
     let resourceType: Swift.String?
 }
@@ -5803,7 +5803,7 @@ extension RemoveAllBackendsInput {
 }
 
 /// The request body for RemoveAllBackends.
-public struct RemoveAllBackendsInput: Swift.Equatable {
+public struct RemoveAllBackendsInput {
     /// The app ID.
     /// This member is required.
     public var appId: Swift.String?
@@ -5820,7 +5820,7 @@ public struct RemoveAllBackendsInput: Swift.Equatable {
     }
 }
 
-struct RemoveAllBackendsInputBody: Swift.Equatable {
+struct RemoveAllBackendsInputBody {
     let cleanAmplifyApp: Swift.Bool?
 }
 
@@ -5856,7 +5856,7 @@ extension RemoveAllBackendsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RemoveAllBackendsOutput: Swift.Equatable {
+public struct RemoveAllBackendsOutput {
     /// The app ID.
     public var appId: Swift.String?
     /// If the request fails, this error is returned.
@@ -5884,7 +5884,7 @@ public struct RemoveAllBackendsOutput: Swift.Equatable {
     }
 }
 
-struct RemoveAllBackendsOutputBody: Swift.Equatable {
+struct RemoveAllBackendsOutputBody {
     let appId: Swift.String?
     let error: Swift.String?
     let jobId: Swift.String?
@@ -5940,7 +5940,7 @@ extension RemoveBackendConfigInput {
     }
 }
 
-public struct RemoveBackendConfigInput: Swift.Equatable {
+public struct RemoveBackendConfigInput {
     /// The app ID.
     /// This member is required.
     public var appId: Swift.String?
@@ -5953,7 +5953,7 @@ public struct RemoveBackendConfigInput: Swift.Equatable {
     }
 }
 
-struct RemoveBackendConfigInputBody: Swift.Equatable {
+struct RemoveBackendConfigInputBody {
 }
 
 extension RemoveBackendConfigInputBody: Swift.Decodable {
@@ -5974,7 +5974,7 @@ extension RemoveBackendConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RemoveBackendConfigOutput: Swift.Equatable {
+public struct RemoveBackendConfigOutput {
     /// If the request fails, this error is returned.
     public var error: Swift.String?
 
@@ -5986,7 +5986,7 @@ public struct RemoveBackendConfigOutput: Swift.Equatable {
     }
 }
 
-struct RemoveBackendConfigOutputBody: Swift.Equatable {
+struct RemoveBackendConfigOutputBody {
     let error: Swift.String?
 }
 
@@ -6144,7 +6144,7 @@ extension AmplifyBackendClientTypes.ResourceConfig: Swift.Codable {
 
 extension AmplifyBackendClientTypes {
     /// Defines the resource configuration for the data model in your Amplify project.
-    public struct ResourceConfig: Swift.Equatable {
+    public struct ResourceConfig {
 
         public init() { }
     }
@@ -6178,7 +6178,7 @@ extension AmplifyBackendClientTypes.S3BucketInfo: Swift.Codable {
 
 extension AmplifyBackendClientTypes {
     /// Describes the metadata of the S3 bucket.
-    public struct S3BucketInfo: Swift.Equatable {
+    public struct S3BucketInfo {
         /// The creation date of the S3 bucket.
         public var creationDate: Swift.String?
         /// The name of the S3 bucket.
@@ -6293,7 +6293,7 @@ extension AmplifyBackendClientTypes.Settings: Swift.Codable {
 
 extension AmplifyBackendClientTypes {
     /// The settings of your MFA configuration for the backend of your Amplify project.
-    public struct Settings: Swift.Equatable {
+    public struct Settings {
         /// The supported MFA types.
         public var mfaTypes: [AmplifyBackendClientTypes.MfaTypesElement]?
         /// The body of the SMS message.
@@ -6376,7 +6376,7 @@ extension AmplifyBackendClientTypes.SmsSettings: Swift.CustomDebugStringConverti
 
 extension AmplifyBackendClientTypes {
     /// SMS settings for authentication.
-    public struct SmsSettings: Swift.Equatable {
+    public struct SmsSettings {
         /// The contents of the SMS message.
         public var smsMessage: Swift.String?
 
@@ -6434,7 +6434,7 @@ extension AmplifyBackendClientTypes.SocialProviderSettings: Swift.CustomDebugStr
 
 extension AmplifyBackendClientTypes {
     /// The settings for using the social identity providers for access to your Amplify app.
-    public struct SocialProviderSettings: Swift.Equatable {
+    public struct SocialProviderSettings {
         /// Describes third-party social federation configurations for allowing your app users to sign in using OAuth.
         public var facebook: AmplifyBackendClientTypes.BackendAuthSocialProviderConfig?
         /// Describes third-party social federation configurations for allowing your app users to sign in using OAuth.
@@ -6538,7 +6538,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct TooManyRequestsExceptionBody: Swift.Equatable {
+struct TooManyRequestsExceptionBody {
     let limitType: Swift.String?
     let message: Swift.String?
 }
@@ -6624,7 +6624,7 @@ extension UpdateBackendAPIInput {
 }
 
 /// The request body for UpdateBackendAPI.
-public struct UpdateBackendAPIInput: Swift.Equatable {
+public struct UpdateBackendAPIInput {
     /// The app ID.
     /// This member is required.
     public var appId: Swift.String?
@@ -6651,7 +6651,7 @@ public struct UpdateBackendAPIInput: Swift.Equatable {
     }
 }
 
-struct UpdateBackendAPIInputBody: Swift.Equatable {
+struct UpdateBackendAPIInputBody {
     let resourceConfig: AmplifyBackendClientTypes.BackendAPIResourceConfig?
     let resourceName: Swift.String?
 }
@@ -6693,7 +6693,7 @@ extension UpdateBackendAPIOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateBackendAPIOutput: Swift.Equatable {
+public struct UpdateBackendAPIOutput {
     /// The app ID.
     public var appId: Swift.String?
     /// The name of the backend environment.
@@ -6725,7 +6725,7 @@ public struct UpdateBackendAPIOutput: Swift.Equatable {
     }
 }
 
-struct UpdateBackendAPIOutputBody: Swift.Equatable {
+struct UpdateBackendAPIOutputBody {
     let appId: Swift.String?
     let backendEnvironmentName: Swift.String?
     let error: Swift.String?
@@ -6813,7 +6813,7 @@ extension AmplifyBackendClientTypes.UpdateBackendAuthForgotPasswordConfig: Swift
 
 extension AmplifyBackendClientTypes {
     /// (DEPRECATED) Describes the forgot password policy for authenticating into the Amplify app.
-    public struct UpdateBackendAuthForgotPasswordConfig: Swift.Equatable {
+    public struct UpdateBackendAuthForgotPasswordConfig {
         /// (DEPRECATED) Describes which mode to use (either SMS or email) to deliver messages to app users that want to recover their password.
         public var deliveryMethod: AmplifyBackendClientTypes.DeliveryMethod?
         /// (DEPRECATED) The configuration for the email sent when an app user forgets their password.
@@ -6856,7 +6856,7 @@ extension AmplifyBackendClientTypes.UpdateBackendAuthIdentityPoolConfig: Swift.C
 
 extension AmplifyBackendClientTypes {
     /// Describes the authorization configuration for the Amazon Cognito identity pool, provisioned as a part of your auth resource in the Amplify project.
-    public struct UpdateBackendAuthIdentityPoolConfig: Swift.Equatable {
+    public struct UpdateBackendAuthIdentityPoolConfig {
         /// A boolean value that can be set to allow or disallow guest-level authorization into your Amplify app.
         public var unauthenticatedLogin: Swift.Bool?
 
@@ -6901,7 +6901,7 @@ extension UpdateBackendAuthInput {
 }
 
 /// The request body for UpdateBackendAuth.
-public struct UpdateBackendAuthInput: Swift.Equatable {
+public struct UpdateBackendAuthInput {
     /// The app ID.
     /// This member is required.
     public var appId: Swift.String?
@@ -6929,7 +6929,7 @@ public struct UpdateBackendAuthInput: Swift.Equatable {
     }
 }
 
-struct UpdateBackendAuthInputBody: Swift.Equatable {
+struct UpdateBackendAuthInputBody {
     let resourceConfig: AmplifyBackendClientTypes.UpdateBackendAuthResourceConfig?
     let resourceName: Swift.String?
 }
@@ -6976,7 +6976,7 @@ extension AmplifyBackendClientTypes.UpdateBackendAuthMFAConfig: Swift.Codable {
 
 extension AmplifyBackendClientTypes {
     /// Updates the multi-factor authentication (MFA) configuration for the backend of your Amplify project.
-    public struct UpdateBackendAuthMFAConfig: Swift.Equatable {
+    public struct UpdateBackendAuthMFAConfig {
         /// The MFA mode for the backend of your Amplify project.
         public var mfaMode: AmplifyBackendClientTypes.MFAMode?
         /// The settings of your MFA configuration for the backend of your Amplify project.
@@ -7081,7 +7081,7 @@ extension AmplifyBackendClientTypes.UpdateBackendAuthOAuthConfig: Swift.Codable 
 
 extension AmplifyBackendClientTypes {
     /// The OAuth configurations for authenticating users into your Amplify app.
-    public struct UpdateBackendAuthOAuthConfig: Swift.Equatable {
+    public struct UpdateBackendAuthOAuthConfig {
         /// The Amazon Cognito domain prefix used to create a hosted UI for authentication.
         public var domainPrefix: Swift.String?
         /// The OAuth grant type to allow app users to authenticate from your Amplify app.
@@ -7137,7 +7137,7 @@ extension UpdateBackendAuthOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateBackendAuthOutput: Swift.Equatable {
+public struct UpdateBackendAuthOutput {
     /// The app ID.
     public var appId: Swift.String?
     /// The name of the backend environment.
@@ -7169,7 +7169,7 @@ public struct UpdateBackendAuthOutput: Swift.Equatable {
     }
 }
 
-struct UpdateBackendAuthOutputBody: Swift.Equatable {
+struct UpdateBackendAuthOutputBody {
     let appId: Swift.String?
     let backendEnvironmentName: Swift.String?
     let error: Swift.String?
@@ -7258,7 +7258,7 @@ extension AmplifyBackendClientTypes.UpdateBackendAuthPasswordPolicyConfig: Swift
 
 extension AmplifyBackendClientTypes {
     /// Describes the password policy for your Amazon Cognito user pool configured as a part of your Amplify project.
-    public struct UpdateBackendAuthPasswordPolicyConfig: Swift.Equatable {
+    public struct UpdateBackendAuthPasswordPolicyConfig {
         /// Describes additional constraints on password requirements to sign in to the auth resource, configured as a part of your Amplify project.
         public var additionalConstraints: [AmplifyBackendClientTypes.AdditionalConstraintsElement]?
         /// Describes the minimum length of the password required to sign in to the auth resource, configured as a part of your Amplify project.
@@ -7315,7 +7315,7 @@ extension AmplifyBackendClientTypes.UpdateBackendAuthResourceConfig: Swift.Codab
 
 extension AmplifyBackendClientTypes {
     /// Defines the resource configuration when updating an authentication resource in your Amplify project.
-    public struct UpdateBackendAuthResourceConfig: Swift.Equatable {
+    public struct UpdateBackendAuthResourceConfig {
         /// Defines the service name to use when configuring an authentication resource in your Amplify project.
         /// This member is required.
         public var authResources: AmplifyBackendClientTypes.AuthResources?
@@ -7389,7 +7389,7 @@ extension AmplifyBackendClientTypes.UpdateBackendAuthUserPoolConfig: Swift.Codab
 
 extension AmplifyBackendClientTypes {
     /// Describes the Amazon Cognito user pool configuration for the authorization resource to be configured for your Amplify project on an update.
-    public struct UpdateBackendAuthUserPoolConfig: Swift.Equatable {
+    public struct UpdateBackendAuthUserPoolConfig {
         /// (DEPRECATED) Describes the forgot password policy for your Amazon Cognito user pool, configured as a part of your Amplify project.
         public var forgotPassword: AmplifyBackendClientTypes.UpdateBackendAuthForgotPasswordConfig?
         /// Describes whether to apply multi-factor authentication policies for your Amazon Cognito user pool configured as a part of your Amplify project.
@@ -7457,7 +7457,7 @@ extension AmplifyBackendClientTypes.UpdateBackendAuthVerificationMessageConfig: 
 
 extension AmplifyBackendClientTypes {
     /// Updates the configuration of the email or SMS message for the auth resource configured for your Amplify project.
-    public struct UpdateBackendAuthVerificationMessageConfig: Swift.Equatable {
+    public struct UpdateBackendAuthVerificationMessageConfig {
         /// The type of verification message to send.
         /// This member is required.
         public var deliveryMethod: AmplifyBackendClientTypes.DeliveryMethod?
@@ -7504,7 +7504,7 @@ extension UpdateBackendConfigInput {
 }
 
 /// The request body for UpdateBackendConfig.
-public struct UpdateBackendConfigInput: Swift.Equatable {
+public struct UpdateBackendConfigInput {
     /// The app ID.
     /// This member is required.
     public var appId: Swift.String?
@@ -7521,7 +7521,7 @@ public struct UpdateBackendConfigInput: Swift.Equatable {
     }
 }
 
-struct UpdateBackendConfigInputBody: Swift.Equatable {
+struct UpdateBackendConfigInputBody {
     let loginAuthConfig: AmplifyBackendClientTypes.LoginAuthConfigReqObj?
 }
 
@@ -7555,7 +7555,7 @@ extension UpdateBackendConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateBackendConfigOutput: Swift.Equatable {
+public struct UpdateBackendConfigOutput {
     /// The app ID.
     public var appId: Swift.String?
     /// The app ID for the backend manager.
@@ -7579,7 +7579,7 @@ public struct UpdateBackendConfigOutput: Swift.Equatable {
     }
 }
 
-struct UpdateBackendConfigOutputBody: Swift.Equatable {
+struct UpdateBackendConfigOutputBody {
     let appId: Swift.String?
     let backendManagerAppId: Swift.String?
     let error: Swift.String?
@@ -7655,7 +7655,7 @@ extension UpdateBackendJobInput {
 }
 
 /// The request body for GetBackendJob.
-public struct UpdateBackendJobInput: Swift.Equatable {
+public struct UpdateBackendJobInput {
     /// The app ID.
     /// This member is required.
     public var appId: Swift.String?
@@ -7686,7 +7686,7 @@ public struct UpdateBackendJobInput: Swift.Equatable {
     }
 }
 
-struct UpdateBackendJobInputBody: Swift.Equatable {
+struct UpdateBackendJobInputBody {
     let operation: Swift.String?
     let status: Swift.String?
 }
@@ -7732,7 +7732,7 @@ extension UpdateBackendJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateBackendJobOutput: Swift.Equatable {
+public struct UpdateBackendJobOutput {
     /// The app ID.
     public var appId: Swift.String?
     /// The name of the backend environment.
@@ -7772,7 +7772,7 @@ public struct UpdateBackendJobOutput: Swift.Equatable {
     }
 }
 
-struct UpdateBackendJobOutputBody: Swift.Equatable {
+struct UpdateBackendJobOutputBody {
     let appId: Swift.String?
     let backendEnvironmentName: Swift.String?
     let createTime: Swift.String?
@@ -7861,7 +7861,7 @@ extension UpdateBackendStorageInput {
 }
 
 /// The request body for UpdateBackendStorage.
-public struct UpdateBackendStorageInput: Swift.Equatable {
+public struct UpdateBackendStorageInput {
     /// The app ID.
     /// This member is required.
     public var appId: Swift.String?
@@ -7889,7 +7889,7 @@ public struct UpdateBackendStorageInput: Swift.Equatable {
     }
 }
 
-struct UpdateBackendStorageInputBody: Swift.Equatable {
+struct UpdateBackendStorageInputBody {
     let resourceConfig: AmplifyBackendClientTypes.UpdateBackendStorageResourceConfig?
     let resourceName: Swift.String?
 }
@@ -7927,7 +7927,7 @@ extension UpdateBackendStorageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateBackendStorageOutput: Swift.Equatable {
+public struct UpdateBackendStorageOutput {
     /// The app ID.
     public var appId: Swift.String?
     /// The name of the backend environment.
@@ -7951,7 +7951,7 @@ public struct UpdateBackendStorageOutput: Swift.Equatable {
     }
 }
 
-struct UpdateBackendStorageOutputBody: Swift.Equatable {
+struct UpdateBackendStorageOutputBody {
     let appId: Swift.String?
     let backendEnvironmentName: Swift.String?
     let jobId: Swift.String?
@@ -8020,7 +8020,7 @@ extension AmplifyBackendClientTypes.UpdateBackendStorageResourceConfig: Swift.Co
 
 extension AmplifyBackendClientTypes {
     /// The resource configuration for updating backend storage.
-    public struct UpdateBackendStorageResourceConfig: Swift.Equatable {
+    public struct UpdateBackendStorageResourceConfig {
         /// The authorization configuration for the storage S3 bucket.
         /// This member is required.
         public var permissions: AmplifyBackendClientTypes.BackendStoragePermissions?

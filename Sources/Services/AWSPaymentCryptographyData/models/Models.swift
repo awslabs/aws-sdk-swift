@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -78,7 +78,7 @@ extension PaymentCryptographyDataClientTypes.AmexCardSecurityCodeVersion1: Swift
 
 extension PaymentCryptographyDataClientTypes {
     /// Card data parameters that are required to generate a Card Security Code (CSC2) for an AMEX payment card.
-    public struct AmexCardSecurityCodeVersion1: Swift.Equatable {
+    public struct AmexCardSecurityCodeVersion1 {
         /// The expiry date of a payment card.
         /// This member is required.
         public var cardExpiryDate: Swift.String?
@@ -120,7 +120,7 @@ extension PaymentCryptographyDataClientTypes.AmexCardSecurityCodeVersion2: Swift
 
 extension PaymentCryptographyDataClientTypes {
     /// Card data parameters that are required to generate a Card Security Code (CSC2) for an AMEX payment card.
-    public struct AmexCardSecurityCodeVersion2: Swift.Equatable {
+    public struct AmexCardSecurityCodeVersion2 {
         /// The expiry date of a payment card.
         /// This member is required.
         public var cardExpiryDate: Swift.String?
@@ -161,7 +161,7 @@ extension PaymentCryptographyDataClientTypes.AsymmetricEncryptionAttributes: Swi
 
 extension PaymentCryptographyDataClientTypes {
     /// Parameters for plaintext encryption using asymmetric keys.
-    public struct AsymmetricEncryptionAttributes: Swift.Equatable {
+    public struct AsymmetricEncryptionAttributes {
         /// The padding to be included with the data.
         public var paddingType: PaymentCryptographyDataClientTypes.PaddingType?
 
@@ -252,7 +252,7 @@ extension PaymentCryptographyDataClientTypes.CardGenerationAttributes: Swift.Cod
 
 extension PaymentCryptographyDataClientTypes {
     /// Card data parameters that are required to generate Card Verification Values (CVV/CVV2), Dynamic Card Verification Values (dCVV/dCVV2), or Card Security Codes (CSC).
-    public enum CardGenerationAttributes: Swift.Equatable {
+    public enum CardGenerationAttributes {
         /// Card data parameters that are required to generate a Card Security Code (CSC2) for an AMEX payment card.
         case amexcardsecuritycodeversion1(PaymentCryptographyDataClientTypes.AmexCardSecurityCodeVersion1)
         /// Card data parameters that are required to generate a Card Security Code (CSC2) for an AMEX payment card.
@@ -305,7 +305,7 @@ extension PaymentCryptographyDataClientTypes.CardHolderVerificationValue: Swift.
 
 extension PaymentCryptographyDataClientTypes {
     /// Card data parameters that are required to generate a cardholder verification value for the payment card.
-    public struct CardHolderVerificationValue: Swift.Equatable {
+    public struct CardHolderVerificationValue {
         /// The transaction counter value that comes from a point of sale terminal.
         /// This member is required.
         public var applicationTransactionCounter: Swift.String?
@@ -415,7 +415,7 @@ extension PaymentCryptographyDataClientTypes.CardVerificationAttributes: Swift.C
 
 extension PaymentCryptographyDataClientTypes {
     /// Card data parameters that are requried to verify Card Verification Values (CVV/CVV2), Dynamic Card Verification Values (dCVV/dCVV2), or Card Security Codes (CSC).
-    public enum CardVerificationAttributes: Swift.Equatable {
+    public enum CardVerificationAttributes {
         /// Card data parameters that are required to generate a Card Security Code (CSC2) for an AMEX payment card.
         case amexcardsecuritycodeversion1(PaymentCryptographyDataClientTypes.AmexCardSecurityCodeVersion1)
         /// Card data parameters that are required to verify a Card Security Code (CSC2) for an AMEX payment card.
@@ -464,7 +464,7 @@ extension PaymentCryptographyDataClientTypes.CardVerificationValue1: Swift.Codab
 
 extension PaymentCryptographyDataClientTypes {
     /// Card data parameters that are required to verify CVV (Card Verification Value) for the payment card.
-    public struct CardVerificationValue1: Swift.Equatable {
+    public struct CardVerificationValue1 {
         /// The expiry date of a payment card.
         /// This member is required.
         public var cardExpiryDate: Swift.String?
@@ -505,7 +505,7 @@ extension PaymentCryptographyDataClientTypes.CardVerificationValue2: Swift.Codab
 
 extension PaymentCryptographyDataClientTypes {
     /// Card data parameters that are required to verify Card Verification Value (CVV2) for the payment card.
-    public struct CardVerificationValue2: Swift.Equatable {
+    public struct CardVerificationValue2 {
         /// The expiry date of a payment card.
         /// This member is required.
         public var cardExpiryDate: Swift.String?
@@ -557,7 +557,7 @@ extension PaymentCryptographyDataClientTypes.CryptogramAuthResponse: Swift.Codab
 
 extension PaymentCryptographyDataClientTypes {
     /// Parameters that are required for Authorization Response Cryptogram (ARPC) generation after Authorization Request Cryptogram (ARQC) verification is successful.
-    public enum CryptogramAuthResponse: Swift.Equatable {
+    public enum CryptogramAuthResponse {
         /// Parameters that are required for ARPC response generation using method1 after ARQC verification is successful.
         case arpcmethod1(PaymentCryptographyDataClientTypes.CryptogramVerificationArpcMethod1)
         /// Parameters that are required for ARPC response generation using method2 after ARQC verification is successful.
@@ -588,7 +588,7 @@ extension PaymentCryptographyDataClientTypes.CryptogramVerificationArpcMethod1: 
 
 extension PaymentCryptographyDataClientTypes {
     /// Parameters that are required for ARPC response generation using method1 after ARQC verification is successful.
-    public struct CryptogramVerificationArpcMethod1: Swift.Equatable {
+    public struct CryptogramVerificationArpcMethod1 {
         /// The auth code used to calculate APRC after ARQC verification is successful. This is the same auth code used for ARQC generation outside of Amazon Web Services Payment Cryptography.
         /// This member is required.
         public var authResponseCode: Swift.String?
@@ -630,7 +630,7 @@ extension PaymentCryptographyDataClientTypes.CryptogramVerificationArpcMethod2: 
 
 extension PaymentCryptographyDataClientTypes {
     /// Parameters that are required for ARPC response generation using method2 after ARQC verification is successful.
-    public struct CryptogramVerificationArpcMethod2: Swift.Equatable {
+    public struct CryptogramVerificationArpcMethod2 {
         /// The data indicating whether the issuer approves or declines an online transaction using an EMV chip card.
         /// This member is required.
         public var cardStatusUpdate: Swift.String?
@@ -681,7 +681,7 @@ extension DecryptDataInput {
     }
 }
 
-public struct DecryptDataInput: Swift.Equatable {
+public struct DecryptDataInput {
     /// The ciphertext to decrypt.
     /// This member is required.
     public var cipherText: Swift.String?
@@ -704,7 +704,7 @@ public struct DecryptDataInput: Swift.Equatable {
     }
 }
 
-struct DecryptDataInputBody: Swift.Equatable {
+struct DecryptDataInputBody {
     let cipherText: Swift.String?
     let decryptionAttributes: PaymentCryptographyDataClientTypes.EncryptionDecryptionAttributes?
 }
@@ -745,7 +745,7 @@ extension DecryptDataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DecryptDataOutput: Swift.Equatable {
+public struct DecryptDataOutput {
     /// The keyARN of the encryption key that Amazon Web Services Payment Cryptography uses for ciphertext decryption.
     /// This member is required.
     public var keyArn: Swift.String?
@@ -768,7 +768,7 @@ public struct DecryptDataOutput: Swift.Equatable {
     }
 }
 
-struct DecryptDataOutputBody: Swift.Equatable {
+struct DecryptDataOutputBody {
     let keyArn: Swift.String?
     let keyCheckValue: Swift.String?
     let plainText: Swift.String?
@@ -840,7 +840,7 @@ extension PaymentCryptographyDataClientTypes.DiscoverDynamicCardVerificationCode
 
 extension PaymentCryptographyDataClientTypes {
     /// Parameters that are required to generate or verify dCVC (Dynamic Card Verification Code).
-    public struct DiscoverDynamicCardVerificationCode: Swift.Equatable {
+    public struct DiscoverDynamicCardVerificationCode {
         /// The transaction counter value that comes from the terminal.
         /// This member is required.
         public var applicationTransactionCounter: Swift.String?
@@ -892,7 +892,7 @@ extension PaymentCryptographyDataClientTypes.DukptAttributes: Swift.Codable {
 
 extension PaymentCryptographyDataClientTypes {
     /// Parameters that are used for Derived Unique Key Per Transaction (DUKPT) derivation algorithm.
-    public struct DukptAttributes: Swift.Equatable {
+    public struct DukptAttributes {
         /// The key type derived using DUKPT from a Base Derivation Key (BDK) and Key Serial Number (KSN). This must be less than or equal to the strength of the BDK. For example, you can't use AES_128 as a derivation type for a BDK of AES_128 or TDES_2KEY.
         /// This member is required.
         public var dukptDerivationType: PaymentCryptographyDataClientTypes.DukptDerivationType?
@@ -945,7 +945,7 @@ extension PaymentCryptographyDataClientTypes.DukptDerivationAttributes: Swift.Co
 
 extension PaymentCryptographyDataClientTypes {
     /// Parameters required for encryption or decryption of data using DUKPT.
-    public struct DukptDerivationAttributes: Swift.Equatable {
+    public struct DukptDerivationAttributes {
         /// The key type derived using DUKPT from a Base Derivation Key (BDK) and Key Serial Number (KSN). This must be less than or equal to the strength of the BDK. For example, you can't use AES_128 as a derivation type for a BDK of AES_128 or TDES_2KEY
         public var dukptKeyDerivationType: PaymentCryptographyDataClientTypes.DukptDerivationType?
         /// The type of use of DUKPT, which can be for incoming data decryption, outgoing data encryption, or both.
@@ -1059,7 +1059,7 @@ extension PaymentCryptographyDataClientTypes.DukptEncryptionAttributes: Swift.Cu
 
 extension PaymentCryptographyDataClientTypes {
     /// Parameters that are required to encrypt plaintext data using DUKPT.
-    public struct DukptEncryptionAttributes: Swift.Equatable {
+    public struct DukptEncryptionAttributes {
         /// The key type encrypted using DUKPT from a Base Derivation Key (BDK) and Key Serial Number (KSN). This must be less than or equal to the strength of the BDK. For example, you can't use AES_128 as a derivation type for a BDK of AES_128 or TDES_2KEY
         public var dukptKeyDerivationType: PaymentCryptographyDataClientTypes.DukptDerivationType?
         /// The type of use of DUKPT, which can be incoming data decryption, outgoing data encryption, or both.
@@ -1196,7 +1196,7 @@ extension PaymentCryptographyDataClientTypes.DynamicCardVerificationCode: Swift.
 
 extension PaymentCryptographyDataClientTypes {
     /// Parameters that are required to generate or verify Dynamic Card Verification Value (dCVV).
-    public struct DynamicCardVerificationCode: Swift.Equatable {
+    public struct DynamicCardVerificationCode {
         /// The transaction counter value that comes from the terminal.
         /// This member is required.
         public var applicationTransactionCounter: Swift.String?
@@ -1265,7 +1265,7 @@ extension PaymentCryptographyDataClientTypes.DynamicCardVerificationValue: Swift
 
 extension PaymentCryptographyDataClientTypes {
     /// Parameters that are required to generate or verify Dynamic Card Verification Value (dCVV).
-    public struct DynamicCardVerificationValue: Swift.Equatable {
+    public struct DynamicCardVerificationValue {
         /// The transaction counter value that comes from the terminal.
         /// This member is required.
         public var applicationTransactionCounter: Swift.String?
@@ -1351,7 +1351,7 @@ extension PaymentCryptographyDataClientTypes.EmvEncryptionAttributes: Swift.Cust
 
 extension PaymentCryptographyDataClientTypes {
     /// Parameters for plaintext encryption using EMV keys.
-    public struct EmvEncryptionAttributes: Swift.Equatable {
+    public struct EmvEncryptionAttributes {
         /// An input used to provide the intial state. If no value is provided, Amazon Web Services Payment Cryptography defaults it to zero.
         public var initializationVector: Swift.String?
         /// The EMV derivation mode to use for ICC master key derivation as per EMV version 4.3 book 2.
@@ -1485,7 +1485,7 @@ extension EncryptDataInput {
     }
 }
 
-public struct EncryptDataInput: Swift.Equatable {
+public struct EncryptDataInput {
     /// The encryption key type and attributes for plaintext encryption.
     /// This member is required.
     public var encryptionAttributes: PaymentCryptographyDataClientTypes.EncryptionDecryptionAttributes?
@@ -1508,7 +1508,7 @@ public struct EncryptDataInput: Swift.Equatable {
     }
 }
 
-struct EncryptDataInputBody: Swift.Equatable {
+struct EncryptDataInputBody {
     let plainText: Swift.String?
     let encryptionAttributes: PaymentCryptographyDataClientTypes.EncryptionDecryptionAttributes?
 }
@@ -1549,7 +1549,7 @@ extension EncryptDataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct EncryptDataOutput: Swift.Equatable {
+public struct EncryptDataOutput {
     /// The encrypted ciphertext.
     /// This member is required.
     public var cipherText: Swift.String?
@@ -1571,7 +1571,7 @@ public struct EncryptDataOutput: Swift.Equatable {
     }
 }
 
-struct EncryptDataOutputBody: Swift.Equatable {
+struct EncryptDataOutputBody {
     let keyArn: Swift.String?
     let keyCheckValue: Swift.String?
     let cipherText: Swift.String?
@@ -1663,7 +1663,7 @@ extension PaymentCryptographyDataClientTypes.EncryptionDecryptionAttributes: Swi
 
 extension PaymentCryptographyDataClientTypes {
     /// Parameters that are required to perform encryption and decryption operations.
-    public enum EncryptionDecryptionAttributes: Swift.Equatable {
+    public enum EncryptionDecryptionAttributes {
         /// Parameters that are required to perform encryption and decryption using symmetric keys.
         case symmetric(PaymentCryptographyDataClientTypes.SymmetricEncryptionAttributes)
         /// Parameters for plaintext encryption using asymmetric keys.
@@ -1764,7 +1764,7 @@ extension GenerateCardValidationDataInput {
     }
 }
 
-public struct GenerateCardValidationDataInput: Swift.Equatable {
+public struct GenerateCardValidationDataInput {
     /// The algorithm for generating CVV or CSC values for the card within Amazon Web Services Payment Cryptography.
     /// This member is required.
     public var generationAttributes: PaymentCryptographyDataClientTypes.CardGenerationAttributes?
@@ -1791,7 +1791,7 @@ public struct GenerateCardValidationDataInput: Swift.Equatable {
     }
 }
 
-struct GenerateCardValidationDataInputBody: Swift.Equatable {
+struct GenerateCardValidationDataInputBody {
     let keyIdentifier: Swift.String?
     let primaryAccountNumber: Swift.String?
     let generationAttributes: PaymentCryptographyDataClientTypes.CardGenerationAttributes?
@@ -1835,7 +1835,7 @@ extension GenerateCardValidationDataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GenerateCardValidationDataOutput: Swift.Equatable {
+public struct GenerateCardValidationDataOutput {
     /// The keyARN of the CVK encryption key that Amazon Web Services Payment Cryptography uses to generate CVV or CSC.
     /// This member is required.
     public var keyArn: Swift.String?
@@ -1858,7 +1858,7 @@ public struct GenerateCardValidationDataOutput: Swift.Equatable {
     }
 }
 
-struct GenerateCardValidationDataOutputBody: Swift.Equatable {
+struct GenerateCardValidationDataOutputBody {
     let keyArn: Swift.String?
     let keyCheckValue: Swift.String?
     let validationData: Swift.String?
@@ -1934,7 +1934,7 @@ extension GenerateMacInput {
     }
 }
 
-public struct GenerateMacInput: Swift.Equatable {
+public struct GenerateMacInput {
     /// The attributes and data values to use for MAC generation within Amazon Web Services Payment Cryptography.
     /// This member is required.
     public var generationAttributes: PaymentCryptographyDataClientTypes.MacAttributes?
@@ -1961,7 +1961,7 @@ public struct GenerateMacInput: Swift.Equatable {
     }
 }
 
-struct GenerateMacInputBody: Swift.Equatable {
+struct GenerateMacInputBody {
     let keyIdentifier: Swift.String?
     let messageData: Swift.String?
     let generationAttributes: PaymentCryptographyDataClientTypes.MacAttributes?
@@ -2005,7 +2005,7 @@ extension GenerateMacOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GenerateMacOutput: Swift.Equatable {
+public struct GenerateMacOutput {
     /// The keyARN of the encryption key that Amazon Web Services Payment Cryptography uses for MAC generation.
     /// This member is required.
     public var keyArn: Swift.String?
@@ -2028,7 +2028,7 @@ public struct GenerateMacOutput: Swift.Equatable {
     }
 }
 
-struct GenerateMacOutputBody: Swift.Equatable {
+struct GenerateMacOutputBody {
     let keyArn: Swift.String?
     let keyCheckValue: Swift.String?
     let mac: Swift.String?
@@ -2112,7 +2112,7 @@ extension GeneratePinDataInput {
     }
 }
 
-public struct GeneratePinDataInput: Swift.Equatable {
+public struct GeneratePinDataInput {
     /// The keyARN of the PEK that Amazon Web Services Payment Cryptography uses to encrypt the PIN Block.
     /// This member is required.
     public var encryptionKeyIdentifier: Swift.String?
@@ -2149,7 +2149,7 @@ public struct GeneratePinDataInput: Swift.Equatable {
     }
 }
 
-struct GeneratePinDataInputBody: Swift.Equatable {
+struct GeneratePinDataInputBody {
     let generationKeyIdentifier: Swift.String?
     let encryptionKeyIdentifier: Swift.String?
     let generationAttributes: PaymentCryptographyDataClientTypes.PinGenerationAttributes?
@@ -2207,7 +2207,7 @@ extension GeneratePinDataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GeneratePinDataOutput: Swift.Equatable {
+public struct GeneratePinDataOutput {
     /// The PIN block encrypted under PEK from Amazon Web Services Payment Cryptography. The encrypted PIN block is a composite of PAN (Primary Account Number) and PIN (Personal Identification Number), generated in accordance with ISO 9564 standard.
     /// This member is required.
     public var encryptedPinBlock: Swift.String?
@@ -2245,7 +2245,7 @@ public struct GeneratePinDataOutput: Swift.Equatable {
     }
 }
 
-struct GeneratePinDataOutputBody: Swift.Equatable {
+struct GeneratePinDataOutputBody {
     let generationKeyArn: Swift.String?
     let generationKeyCheckValue: Swift.String?
     let encryptionKeyArn: Swift.String?
@@ -2329,7 +2329,7 @@ extension PaymentCryptographyDataClientTypes.Ibm3624NaturalPin: Swift.Codable {
 
 extension PaymentCryptographyDataClientTypes {
     /// Parameters that are required to generate or verify Ibm3624 natural PIN.
-    public struct Ibm3624NaturalPin: Swift.Equatable {
+    public struct Ibm3624NaturalPin {
         /// The decimalization table to use for IBM 3624 PIN algorithm. The table is used to convert the algorithm intermediate result from hexadecimal characters to decimal.
         /// This member is required.
         public var decimalizationTable: Swift.String?
@@ -2393,7 +2393,7 @@ extension PaymentCryptographyDataClientTypes.Ibm3624PinFromOffset: Swift.Codable
 
 extension PaymentCryptographyDataClientTypes {
     /// Parameters that are required to generate or verify Ibm3624 PIN from offset PIN.
-    public struct Ibm3624PinFromOffset: Swift.Equatable {
+    public struct Ibm3624PinFromOffset {
         /// The decimalization table to use for IBM 3624 PIN algorithm. The table is used to convert the algorithm intermediate result from hexadecimal characters to decimal.
         /// This member is required.
         public var decimalizationTable: Swift.String?
@@ -2462,7 +2462,7 @@ extension PaymentCryptographyDataClientTypes.Ibm3624PinOffset: Swift.Codable {
 
 extension PaymentCryptographyDataClientTypes {
     /// Pparameters that are required to generate or verify Ibm3624 PIN offset PIN.
-    public struct Ibm3624PinOffset: Swift.Equatable {
+    public struct Ibm3624PinOffset {
         /// The decimalization table to use for IBM 3624 PIN algorithm. The table is used to convert the algorithm intermediate result from hexadecimal characters to decimal.
         /// This member is required.
         public var decimalizationTable: Swift.String?
@@ -2531,7 +2531,7 @@ extension PaymentCryptographyDataClientTypes.Ibm3624PinVerification: Swift.Codab
 
 extension PaymentCryptographyDataClientTypes {
     /// Parameters that are required to generate or verify Ibm3624 PIN verification PIN.
-    public struct Ibm3624PinVerification: Swift.Equatable {
+    public struct Ibm3624PinVerification {
         /// The decimalization table to use for IBM 3624 PIN algorithm. The table is used to convert the algorithm intermediate result from hexadecimal characters to decimal.
         /// This member is required.
         public var decimalizationTable: Swift.String?
@@ -2594,7 +2594,7 @@ extension PaymentCryptographyDataClientTypes.Ibm3624RandomPin: Swift.Codable {
 
 extension PaymentCryptographyDataClientTypes {
     /// Parameters that are required to generate or verify Ibm3624 random PIN.
-    public struct Ibm3624RandomPin: Swift.Equatable {
+    public struct Ibm3624RandomPin {
         /// The decimalization table to use for IBM 3624 PIN algorithm. The table is used to convert the algorithm intermediate result from hexadecimal characters to decimal.
         /// This member is required.
         public var decimalizationTable: Swift.String?
@@ -2658,7 +2658,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -2754,7 +2754,7 @@ extension PaymentCryptographyDataClientTypes.MacAlgorithmDukpt: Swift.Codable {
 
 extension PaymentCryptographyDataClientTypes {
     /// Parameters required for DUKPT MAC generation and verification.
-    public struct MacAlgorithmDukpt: Swift.Equatable {
+    public struct MacAlgorithmDukpt {
         /// The key type derived using DUKPT from a Base Derivation Key (BDK) and Key Serial Number (KSN). This must be less than or equal to the strength of the BDK. For example, you can't use AES_128 as a derivation type for a BDK of AES_128 or TDES_2KEY.
         public var dukptDerivationType: PaymentCryptographyDataClientTypes.DukptDerivationType?
         /// The type of use of DUKPT, which can be MAC generation, MAC verification, or both.
@@ -2828,7 +2828,7 @@ extension PaymentCryptographyDataClientTypes.MacAlgorithmEmv: Swift.CustomDebugS
 
 extension PaymentCryptographyDataClientTypes {
     /// Parameters that are required for EMV MAC generation and verification.
-    public struct MacAlgorithmEmv: Swift.Equatable {
+    public struct MacAlgorithmEmv {
         /// The method to use when deriving the master key for EMV MAC generation or verification.
         /// This member is required.
         public var majorKeyDerivationMode: PaymentCryptographyDataClientTypes.MajorKeyDerivationMode?
@@ -2924,7 +2924,7 @@ extension PaymentCryptographyDataClientTypes.MacAttributes: Swift.Codable {
 
 extension PaymentCryptographyDataClientTypes {
     /// Parameters that are required for DUKPT, HMAC, or EMV MAC generation or verification.
-    public enum MacAttributes: Swift.Equatable {
+    public enum MacAttributes {
         /// The encryption algorithm for MAC generation or verification.
         case algorithm(PaymentCryptographyDataClientTypes.MacAlgorithm)
         /// Parameters that are required for MAC generation or verification using EMV MAC algorithm.
@@ -3081,7 +3081,7 @@ extension PaymentCryptographyDataClientTypes.PinData: Swift.Codable {
 
 extension PaymentCryptographyDataClientTypes {
     /// Parameters that are required to generate, translate, or verify PIN data.
-    public enum PinData: Swift.Equatable {
+    public enum PinData {
         /// The PIN offset value.
         case pinoffset(Swift.String)
         /// The unique data to identify a cardholder. In most cases, this is the same as cardholder's Primary Account Number (PAN). If a value is not provided, it defaults to PAN.
@@ -3160,7 +3160,7 @@ extension PaymentCryptographyDataClientTypes.PinGenerationAttributes: Swift.Coda
 
 extension PaymentCryptographyDataClientTypes {
     /// Parameters that are required for PIN data generation.
-    public enum PinGenerationAttributes: Swift.Equatable {
+    public enum PinGenerationAttributes {
         /// Parameters that are required to generate or verify Visa PIN.
         case visapin(PaymentCryptographyDataClientTypes.VisaPin)
         /// Parameters that are required to generate or verify Visa PIN Verification Value (PVV).
@@ -3215,7 +3215,7 @@ extension PaymentCryptographyDataClientTypes.PinVerificationAttributes: Swift.Co
 
 extension PaymentCryptographyDataClientTypes {
     /// Parameters that are required for PIN data verification.
-    public enum PinVerificationAttributes: Swift.Equatable {
+    public enum PinVerificationAttributes {
         /// Parameters that are required to generate or verify Visa PIN.
         case visapin(PaymentCryptographyDataClientTypes.VisaPinVerification)
         /// Parameters that are required to generate or verify Ibm3624 PIN.
@@ -3265,7 +3265,7 @@ extension ReEncryptDataInput {
     }
 }
 
-public struct ReEncryptDataInput: Swift.Equatable {
+public struct ReEncryptDataInput {
     /// Ciphertext to be encrypted. The minimum allowed length is 16 bytes and maximum allowed length is 4096 bytes.
     /// This member is required.
     public var cipherText: Swift.String?
@@ -3298,7 +3298,7 @@ public struct ReEncryptDataInput: Swift.Equatable {
     }
 }
 
-struct ReEncryptDataInputBody: Swift.Equatable {
+struct ReEncryptDataInputBody {
     let outgoingKeyIdentifier: Swift.String?
     let cipherText: Swift.String?
     let incomingEncryptionAttributes: PaymentCryptographyDataClientTypes.ReEncryptionAttributes?
@@ -3347,7 +3347,7 @@ extension ReEncryptDataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ReEncryptDataOutput: Swift.Equatable {
+public struct ReEncryptDataOutput {
     /// The encrypted ciphertext.
     /// This member is required.
     public var cipherText: Swift.String?
@@ -3370,7 +3370,7 @@ public struct ReEncryptDataOutput: Swift.Equatable {
     }
 }
 
-struct ReEncryptDataOutputBody: Swift.Equatable {
+struct ReEncryptDataOutputBody {
     let keyArn: Swift.String?
     let keyCheckValue: Swift.String?
     let cipherText: Swift.String?
@@ -3446,7 +3446,7 @@ extension PaymentCryptographyDataClientTypes.ReEncryptionAttributes: Swift.Codab
 
 extension PaymentCryptographyDataClientTypes {
     /// Parameters that are required to perform reencryption operation.
-    public enum ReEncryptionAttributes: Swift.Equatable {
+    public enum ReEncryptionAttributes {
         /// Parameters that are required to encrypt data using symmetric keys.
         case symmetric(PaymentCryptographyDataClientTypes.SymmetricEncryptionAttributes)
         /// Parameters that are required to encrypt plaintext data using DUKPT.
@@ -3496,7 +3496,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let resourceId: Swift.String?
 }
 
@@ -3544,7 +3544,7 @@ extension PaymentCryptographyDataClientTypes.SessionKeyAmex: Swift.CustomDebugSt
 
 extension PaymentCryptographyDataClientTypes {
     /// Parameters to derive session key for an Amex payment card.
-    public struct SessionKeyAmex: Swift.Equatable {
+    public struct SessionKeyAmex {
         /// A number that identifies and differentiates payment cards with the same Primary Account Number (PAN).
         /// This member is required.
         public var panSequenceNumber: Swift.String?
@@ -3625,7 +3625,7 @@ extension PaymentCryptographyDataClientTypes.SessionKeyDerivation: Swift.Codable
 
 extension PaymentCryptographyDataClientTypes {
     /// Parameters to derive a session key for Authorization Response Cryptogram (ARQC) verification.
-    public enum SessionKeyDerivation: Swift.Equatable {
+    public enum SessionKeyDerivation {
         /// Parameters to derive session key for an Emv common payment card for ARQC verification.
         case emvcommon(PaymentCryptographyDataClientTypes.SessionKeyEmvCommon)
         /// Parameters to derive session key for a Mastercard payment card for ARQC verification.
@@ -3719,7 +3719,7 @@ extension PaymentCryptographyDataClientTypes.SessionKeyDerivationValue: Swift.Co
 
 extension PaymentCryptographyDataClientTypes {
     /// Parameters to derive session key value using a MAC EMV algorithm.
-    public enum SessionKeyDerivationValue: Swift.Equatable {
+    public enum SessionKeyDerivationValue {
         /// The cryptogram provided by the terminal during transaction processing.
         case applicationcryptogram(Swift.String)
         /// The transaction counter that is provided by the terminal during transaction processing.
@@ -3767,7 +3767,7 @@ extension PaymentCryptographyDataClientTypes.SessionKeyEmv2000: Swift.CustomDebu
 
 extension PaymentCryptographyDataClientTypes {
     /// Parameters to derive session key for an Emv2000 payment card for ARQC verification.
-    public struct SessionKeyEmv2000: Swift.Equatable {
+    public struct SessionKeyEmv2000 {
         /// The transaction counter that is provided by the terminal during transaction processing.
         /// This member is required.
         public var applicationTransactionCounter: Swift.String?
@@ -3830,7 +3830,7 @@ extension PaymentCryptographyDataClientTypes.SessionKeyEmvCommon: Swift.CustomDe
 
 extension PaymentCryptographyDataClientTypes {
     /// Parameters to derive session key for an Emv common payment card for ARQC verification.
-    public struct SessionKeyEmvCommon: Swift.Equatable {
+    public struct SessionKeyEmvCommon {
         /// The transaction counter that is provided by the terminal during transaction processing.
         /// This member is required.
         public var applicationTransactionCounter: Swift.String?
@@ -3899,7 +3899,7 @@ extension PaymentCryptographyDataClientTypes.SessionKeyMastercard: Swift.CustomD
 
 extension PaymentCryptographyDataClientTypes {
     /// Parameters to derive session key for Mastercard payment card for ARQC verification.
-    public struct SessionKeyMastercard: Swift.Equatable {
+    public struct SessionKeyMastercard {
         /// The transaction counter that is provided by the terminal during transaction processing.
         /// This member is required.
         public var applicationTransactionCounter: Swift.String?
@@ -3961,7 +3961,7 @@ extension PaymentCryptographyDataClientTypes.SessionKeyVisa: Swift.CustomDebugSt
 
 extension PaymentCryptographyDataClientTypes {
     /// Parameters to derive session key for Visa payment card for ARQC verification.
-    public struct SessionKeyVisa: Swift.Equatable {
+    public struct SessionKeyVisa {
         /// A number that identifies and differentiates payment cards with the same Primary Account Number (PAN).
         /// This member is required.
         public var panSequenceNumber: Swift.String?
@@ -4019,7 +4019,7 @@ extension PaymentCryptographyDataClientTypes.SymmetricEncryptionAttributes: Swif
 
 extension PaymentCryptographyDataClientTypes {
     /// Parameters requried to encrypt plaintext data using symmetric keys.
-    public struct SymmetricEncryptionAttributes: Swift.Equatable {
+    public struct SymmetricEncryptionAttributes {
         /// An input used to provide the intial state. If no value is provided, Amazon Web Services Payment Cryptography defaults it to zero.
         public var initializationVector: Swift.String?
         /// The block cipher method to use for encryption.
@@ -4081,7 +4081,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -4146,7 +4146,7 @@ extension TranslatePinDataInput {
     }
 }
 
-public struct TranslatePinDataInput: Swift.Equatable {
+public struct TranslatePinDataInput {
     /// The encrypted PIN block data that Amazon Web Services Payment Cryptography translates.
     /// This member is required.
     public var encryptedPinBlock: Swift.String?
@@ -4187,7 +4187,7 @@ public struct TranslatePinDataInput: Swift.Equatable {
     }
 }
 
-struct TranslatePinDataInputBody: Swift.Equatable {
+struct TranslatePinDataInputBody {
     let incomingKeyIdentifier: Swift.String?
     let outgoingKeyIdentifier: Swift.String?
     let incomingTranslationAttributes: PaymentCryptographyDataClientTypes.TranslationIsoFormats?
@@ -4243,7 +4243,7 @@ extension TranslatePinDataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TranslatePinDataOutput: Swift.Equatable {
+public struct TranslatePinDataOutput {
     /// The keyARN of the encryption key that Amazon Web Services Payment Cryptography uses to encrypt outgoing PIN block data after translation.
     /// This member is required.
     public var keyArn: Swift.String?
@@ -4266,7 +4266,7 @@ public struct TranslatePinDataOutput: Swift.Equatable {
     }
 }
 
-struct TranslatePinDataOutputBody: Swift.Equatable {
+struct TranslatePinDataOutputBody {
     let pinBlock: Swift.String?
     let keyArn: Swift.String?
     let keyCheckValue: Swift.String?
@@ -4358,7 +4358,7 @@ extension PaymentCryptographyDataClientTypes.TranslationIsoFormats: Swift.Codabl
 
 extension PaymentCryptographyDataClientTypes {
     /// Parameters that are required for translation between ISO9564 PIN block formats 0,1,3,4.
-    public enum TranslationIsoFormats: Swift.Equatable {
+    public enum TranslationIsoFormats {
         /// Parameters that are required for ISO9564 PIN format 0 tranlation.
         case isoformat0(PaymentCryptographyDataClientTypes.TranslationPinDataIsoFormat034)
         /// Parameters that are required for ISO9564 PIN format 1 tranlation.
@@ -4398,7 +4398,7 @@ extension PaymentCryptographyDataClientTypes.TranslationPinDataIsoFormat034: Swi
 
 extension PaymentCryptographyDataClientTypes {
     /// Parameters that are required for tranlation between ISO9564 PIN format 0,3,4 tranlation.
-    public struct TranslationPinDataIsoFormat034: Swift.Equatable {
+    public struct TranslationPinDataIsoFormat034 {
         /// The Primary Account Number (PAN) of the cardholder. A PAN is a unique identifier for a payment credit or debit card and associates the card to a specific account holder.
         /// This member is required.
         public var primaryAccountNumber: Swift.String?
@@ -4426,7 +4426,7 @@ extension PaymentCryptographyDataClientTypes.TranslationPinDataIsoFormat1: Swift
 
 extension PaymentCryptographyDataClientTypes {
     /// Parameters that are required for ISO9564 PIN format 1 tranlation.
-    public struct TranslationPinDataIsoFormat1: Swift.Equatable {
+    public struct TranslationPinDataIsoFormat1 {
 
         public init() { }
     }
@@ -4479,7 +4479,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let fieldList: [PaymentCryptographyDataClientTypes.ValidationExceptionField]?
 }
@@ -4535,7 +4535,7 @@ extension PaymentCryptographyDataClientTypes.ValidationExceptionField: Swift.Cod
 
 extension PaymentCryptographyDataClientTypes {
     /// The request was denied due to an invalid request error.
-    public struct ValidationExceptionField: Swift.Equatable {
+    public struct ValidationExceptionField {
         /// The request was denied due to an invalid request error.
         /// This member is required.
         public var message: Swift.String?
@@ -4602,7 +4602,7 @@ public struct VerificationFailedException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct VerificationFailedExceptionBody: Swift.Equatable {
+struct VerificationFailedExceptionBody {
     let reason: PaymentCryptographyDataClientTypes.VerificationFailedReason?
     let message: Swift.String?
 }
@@ -4700,7 +4700,7 @@ extension VerifyAuthRequestCryptogramInput {
     }
 }
 
-public struct VerifyAuthRequestCryptogramInput: Swift.Equatable {
+public struct VerifyAuthRequestCryptogramInput {
     /// The auth request cryptogram imported into Amazon Web Services Payment Cryptography for ARQC verification using a major encryption key and transaction data.
     /// This member is required.
     public var authRequestCryptogram: Swift.String?
@@ -4737,7 +4737,7 @@ public struct VerifyAuthRequestCryptogramInput: Swift.Equatable {
     }
 }
 
-struct VerifyAuthRequestCryptogramInputBody: Swift.Equatable {
+struct VerifyAuthRequestCryptogramInputBody {
     let keyIdentifier: Swift.String?
     let transactionData: Swift.String?
     let authRequestCryptogram: Swift.String?
@@ -4789,7 +4789,7 @@ extension VerifyAuthRequestCryptogramOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct VerifyAuthRequestCryptogramOutput: Swift.Equatable {
+public struct VerifyAuthRequestCryptogramOutput {
     /// The result for ARQC verification or ARPC generation within Amazon Web Services Payment Cryptography.
     public var authResponseValue: Swift.String?
     /// The keyARN of the major encryption key that Amazon Web Services Payment Cryptography uses for ARQC verification.
@@ -4811,7 +4811,7 @@ public struct VerifyAuthRequestCryptogramOutput: Swift.Equatable {
     }
 }
 
-struct VerifyAuthRequestCryptogramOutputBody: Swift.Equatable {
+struct VerifyAuthRequestCryptogramOutputBody {
     let keyArn: Swift.String?
     let keyCheckValue: Swift.String?
     let authResponseValue: Swift.String?
@@ -4888,7 +4888,7 @@ extension VerifyCardValidationDataInput {
     }
 }
 
-public struct VerifyCardValidationDataInput: Swift.Equatable {
+public struct VerifyCardValidationDataInput {
     /// The keyARN of the CVK encryption key that Amazon Web Services Payment Cryptography uses to verify card data.
     /// This member is required.
     public var keyIdentifier: Swift.String?
@@ -4916,7 +4916,7 @@ public struct VerifyCardValidationDataInput: Swift.Equatable {
     }
 }
 
-struct VerifyCardValidationDataInputBody: Swift.Equatable {
+struct VerifyCardValidationDataInputBody {
     let keyIdentifier: Swift.String?
     let primaryAccountNumber: Swift.String?
     let verificationAttributes: PaymentCryptographyDataClientTypes.CardVerificationAttributes?
@@ -4958,7 +4958,7 @@ extension VerifyCardValidationDataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct VerifyCardValidationDataOutput: Swift.Equatable {
+public struct VerifyCardValidationDataOutput {
     /// The keyARN of the CVK encryption key that Amazon Web Services Payment Cryptography uses to verify CVV or CSC.
     /// This member is required.
     public var keyArn: Swift.String?
@@ -4976,7 +4976,7 @@ public struct VerifyCardValidationDataOutput: Swift.Equatable {
     }
 }
 
-struct VerifyCardValidationDataOutputBody: Swift.Equatable {
+struct VerifyCardValidationDataOutputBody {
     let keyArn: Swift.String?
     let keyCheckValue: Swift.String?
 }
@@ -5053,7 +5053,7 @@ extension VerifyMacInput {
     }
 }
 
-public struct VerifyMacInput: Swift.Equatable {
+public struct VerifyMacInput {
     /// The keyARN of the encryption key that Amazon Web Services Payment Cryptography uses to verify MAC data.
     /// This member is required.
     public var keyIdentifier: Swift.String?
@@ -5085,7 +5085,7 @@ public struct VerifyMacInput: Swift.Equatable {
     }
 }
 
-struct VerifyMacInputBody: Swift.Equatable {
+struct VerifyMacInputBody {
     let keyIdentifier: Swift.String?
     let messageData: Swift.String?
     let mac: Swift.String?
@@ -5131,7 +5131,7 @@ extension VerifyMacOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct VerifyMacOutput: Swift.Equatable {
+public struct VerifyMacOutput {
     /// The keyARN of the encryption key that Amazon Web Services Payment Cryptography uses for MAC verification.
     /// This member is required.
     public var keyArn: Swift.String?
@@ -5149,7 +5149,7 @@ public struct VerifyMacOutput: Swift.Equatable {
     }
 }
 
-struct VerifyMacOutputBody: Swift.Equatable {
+struct VerifyMacOutputBody {
     let keyArn: Swift.String?
     let keyCheckValue: Swift.String?
 }
@@ -5238,7 +5238,7 @@ extension VerifyPinDataInput {
     }
 }
 
-public struct VerifyPinDataInput: Swift.Equatable {
+public struct VerifyPinDataInput {
     /// The attributes and values for the DUKPT encrypted PIN block data.
     public var dukptAttributes: PaymentCryptographyDataClientTypes.DukptAttributes?
     /// The encrypted PIN block data that Amazon Web Services Payment Cryptography verifies.
@@ -5284,7 +5284,7 @@ public struct VerifyPinDataInput: Swift.Equatable {
     }
 }
 
-struct VerifyPinDataInputBody: Swift.Equatable {
+struct VerifyPinDataInputBody {
     let verificationKeyIdentifier: Swift.String?
     let encryptionKeyIdentifier: Swift.String?
     let verificationAttributes: PaymentCryptographyDataClientTypes.PinVerificationAttributes?
@@ -5346,7 +5346,7 @@ extension VerifyPinDataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct VerifyPinDataOutput: Swift.Equatable {
+public struct VerifyPinDataOutput {
     /// The keyARN of the PEK that Amazon Web Services Payment Cryptography uses for encrypted pin block generation.
     /// This member is required.
     public var encryptionKeyArn: Swift.String?
@@ -5374,7 +5374,7 @@ public struct VerifyPinDataOutput: Swift.Equatable {
     }
 }
 
-struct VerifyPinDataOutputBody: Swift.Equatable {
+struct VerifyPinDataOutputBody {
     let verificationKeyArn: Swift.String?
     let verificationKeyCheckValue: Swift.String?
     let encryptionKeyArn: Swift.String?
@@ -5439,7 +5439,7 @@ extension PaymentCryptographyDataClientTypes.VisaPin: Swift.Codable {
 
 extension PaymentCryptographyDataClientTypes {
     /// Parameters that are required to generate or verify Visa PIN.
-    public struct VisaPin: Swift.Equatable {
+    public struct VisaPin {
         /// The value for PIN verification index. It is used in the Visa PIN algorithm to calculate the PVV (PIN Verification Value).
         /// This member is required.
         public var pinVerificationKeyIndex: Swift.Int?
@@ -5481,7 +5481,7 @@ extension PaymentCryptographyDataClientTypes.VisaPinVerification: Swift.Codable 
 
 extension PaymentCryptographyDataClientTypes {
     /// Parameters that are required to generate or verify Visa PIN.
-    public struct VisaPinVerification: Swift.Equatable {
+    public struct VisaPinVerification {
         /// The value for PIN verification index. It is used in the Visa PIN algorithm to calculate the PVV (PIN Verification Value).
         /// This member is required.
         public var pinVerificationKeyIndex: Swift.Int?
@@ -5528,7 +5528,7 @@ extension PaymentCryptographyDataClientTypes.VisaPinVerificationValue: Swift.Cod
 
 extension PaymentCryptographyDataClientTypes {
     /// Parameters that are required to generate or verify Visa PVV (PIN Verification Value).
-    public struct VisaPinVerificationValue: Swift.Equatable {
+    public struct VisaPinVerificationValue {
         /// The encrypted PIN block data to verify.
         /// This member is required.
         public var encryptedPinBlock: Swift.String?

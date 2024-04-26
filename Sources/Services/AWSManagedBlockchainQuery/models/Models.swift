@@ -43,7 +43,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -92,7 +92,7 @@ extension ManagedBlockchainQueryClientTypes.AddressIdentifierFilter: Swift.Codab
 
 extension ManagedBlockchainQueryClientTypes {
     /// This is the container for the unique public address on the blockchain.
-    public struct AddressIdentifierFilter: Swift.Equatable {
+    public struct AddressIdentifierFilter {
         /// The container for the recipient address of the transaction.
         /// This member is required.
         public var transactionEventToAddress: [Swift.String]?
@@ -140,7 +140,7 @@ extension ManagedBlockchainQueryClientTypes.AssetContract: Swift.Codable {
 
 extension ManagedBlockchainQueryClientTypes {
     /// This container contains information about an contract.
-    public struct AssetContract: Swift.Equatable {
+    public struct AssetContract {
         /// The container for the contract identifier containing its blockchain network and address.
         /// This member is required.
         public var contractIdentifier: ManagedBlockchainQueryClientTypes.ContractIdentifier?
@@ -216,7 +216,7 @@ extension ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceErrorItem: Swift
 
 extension ManagedBlockchainQueryClientTypes {
     /// Error generated from a failed BatchGetTokenBalance request.
-    public struct BatchGetTokenBalanceErrorItem: Swift.Equatable {
+    public struct BatchGetTokenBalanceErrorItem {
         /// The container for time.
         public var atBlockchainInstant: ManagedBlockchainQueryClientTypes.BlockchainInstant?
         /// The error code associated with the error.
@@ -276,7 +276,7 @@ extension BatchGetTokenBalanceInput {
     }
 }
 
-public struct BatchGetTokenBalanceInput: Swift.Equatable {
+public struct BatchGetTokenBalanceInput {
     /// An array of BatchGetTokenBalanceInputItem objects whose balance is being requested.
     public var getTokenBalanceInputs: [ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceInputItem]?
 
@@ -288,7 +288,7 @@ public struct BatchGetTokenBalanceInput: Swift.Equatable {
     }
 }
 
-struct BatchGetTokenBalanceInputBody: Swift.Equatable {
+struct BatchGetTokenBalanceInputBody {
     let getTokenBalanceInputs: [ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceInputItem]?
 }
 
@@ -346,7 +346,7 @@ extension ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceInputItem: Swift
 
 extension ManagedBlockchainQueryClientTypes {
     /// The container for the input for getting a token balance.
-    public struct BatchGetTokenBalanceInputItem: Swift.Equatable {
+    public struct BatchGetTokenBalanceInputItem {
         /// The container for time.
         public var atBlockchainInstant: ManagedBlockchainQueryClientTypes.BlockchainInstant?
         /// The container for the owner identifier.
@@ -384,7 +384,7 @@ extension BatchGetTokenBalanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetTokenBalanceOutput: Swift.Equatable {
+public struct BatchGetTokenBalanceOutput {
     /// An array of BatchGetTokenBalanceErrorItem objects returned from the request.
     /// This member is required.
     public var errors: [ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceErrorItem]?
@@ -402,7 +402,7 @@ public struct BatchGetTokenBalanceOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetTokenBalanceOutputBody: Swift.Equatable {
+struct BatchGetTokenBalanceOutputBody {
     let tokenBalances: [ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceOutputItem]?
     let errors: [ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceErrorItem]?
 }
@@ -501,7 +501,7 @@ extension ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceOutputItem: Swif
 
 extension ManagedBlockchainQueryClientTypes {
     /// The container for the properties of a token balance output.
-    public struct BatchGetTokenBalanceOutputItem: Swift.Equatable {
+    public struct BatchGetTokenBalanceOutputItem {
         /// The container for time.
         /// This member is required.
         public var atBlockchainInstant: ManagedBlockchainQueryClientTypes.BlockchainInstant?
@@ -554,7 +554,7 @@ extension ManagedBlockchainQueryClientTypes.BlockchainInstant: Swift.Codable {
 
 extension ManagedBlockchainQueryClientTypes {
     /// The container for time.
-    public struct BlockchainInstant: Swift.Equatable {
+    public struct BlockchainInstant {
         /// The container of the Timestamp of the blockchain instant. This timestamp will only be recorded up to the second.
         public var time: ClientRuntime.Date?
 
@@ -633,7 +633,7 @@ extension ManagedBlockchainQueryClientTypes.ConfirmationStatusFilter: Swift.Coda
 
 extension ManagedBlockchainQueryClientTypes {
     /// The container for the ConfirmationStatusFilter that filters for the [ finality ](https://docs.aws.amazon.com/managed-blockchain/latest/ambq-dg/key-concepts.html#finality) of the results.
-    public struct ConfirmationStatusFilter: Swift.Equatable {
+    public struct ConfirmationStatusFilter {
         /// The container to determine whether to list results that have only reached [ finality ](https://docs.aws.amazon.com/managed-blockchain/latest/ambq-dg/key-concepts.html#finality). Transactions that have reached finality are always part of the response.
         /// This member is required.
         public var include: [ManagedBlockchainQueryClientTypes.ConfirmationStatus]?
@@ -681,7 +681,7 @@ extension ManagedBlockchainQueryClientTypes.ContractFilter: Swift.Codable {
 
 extension ManagedBlockchainQueryClientTypes {
     /// The contract or wallet address by which to filter the request.
-    public struct ContractFilter: Swift.Equatable {
+    public struct ContractFilter {
         /// The network address of the deployer.
         /// This member is required.
         public var deployerAddress: Swift.String?
@@ -733,7 +733,7 @@ extension ManagedBlockchainQueryClientTypes.ContractIdentifier: Swift.Codable {
 
 extension ManagedBlockchainQueryClientTypes {
     /// Container for the blockchain address and network information about a contract.
-    public struct ContractIdentifier: Swift.Equatable {
+    public struct ContractIdentifier {
         /// Container for the blockchain address about a contract.
         /// This member is required.
         public var contractAddress: Swift.String?
@@ -786,7 +786,7 @@ extension ManagedBlockchainQueryClientTypes.ContractMetadata: Swift.Codable {
 
 extension ManagedBlockchainQueryClientTypes {
     /// The metadata of the contract.
-    public struct ContractMetadata: Swift.Equatable {
+    public struct ContractMetadata {
         /// The decimals used by the token contract.
         public var decimals: Swift.Int?
         /// The name of the token contract.
@@ -894,7 +894,7 @@ extension GetAssetContractInput {
     }
 }
 
-public struct GetAssetContractInput: Swift.Equatable {
+public struct GetAssetContractInput {
     /// Contains the blockchain address and network information about the contract.
     /// This member is required.
     public var contractIdentifier: ManagedBlockchainQueryClientTypes.ContractIdentifier?
@@ -907,7 +907,7 @@ public struct GetAssetContractInput: Swift.Equatable {
     }
 }
 
-struct GetAssetContractInputBody: Swift.Equatable {
+struct GetAssetContractInputBody {
     let contractIdentifier: ManagedBlockchainQueryClientTypes.ContractIdentifier?
 }
 
@@ -941,7 +941,7 @@ extension GetAssetContractOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAssetContractOutput: Swift.Equatable {
+public struct GetAssetContractOutput {
     /// Contains the blockchain address and network information about the contract.
     /// This member is required.
     public var contractIdentifier: ManagedBlockchainQueryClientTypes.ContractIdentifier?
@@ -968,7 +968,7 @@ public struct GetAssetContractOutput: Swift.Equatable {
     }
 }
 
-struct GetAssetContractOutputBody: Swift.Equatable {
+struct GetAssetContractOutputBody {
     let contractIdentifier: ManagedBlockchainQueryClientTypes.ContractIdentifier?
     let tokenStandard: ManagedBlockchainQueryClientTypes.QueryTokenStandard?
     let deployerAddress: Swift.String?
@@ -1040,7 +1040,7 @@ extension GetTokenBalanceInput {
     }
 }
 
-public struct GetTokenBalanceInput: Swift.Equatable {
+public struct GetTokenBalanceInput {
     /// The time for when the TokenBalance is requested or the current time if a time is not provided in the request. This time will only be recorded up to the second.
     public var atBlockchainInstant: ManagedBlockchainQueryClientTypes.BlockchainInstant?
     /// The container for the identifier for the owner.
@@ -1062,7 +1062,7 @@ public struct GetTokenBalanceInput: Swift.Equatable {
     }
 }
 
-struct GetTokenBalanceInputBody: Swift.Equatable {
+struct GetTokenBalanceInputBody {
     let tokenIdentifier: ManagedBlockchainQueryClientTypes.TokenIdentifier?
     let ownerIdentifier: ManagedBlockchainQueryClientTypes.OwnerIdentifier?
     let atBlockchainInstant: ManagedBlockchainQueryClientTypes.BlockchainInstant?
@@ -1106,7 +1106,7 @@ extension GetTokenBalanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTokenBalanceOutput: Swift.Equatable {
+public struct GetTokenBalanceOutput {
     /// The container for time.
     /// This member is required.
     public var atBlockchainInstant: ManagedBlockchainQueryClientTypes.BlockchainInstant?
@@ -1136,7 +1136,7 @@ public struct GetTokenBalanceOutput: Swift.Equatable {
     }
 }
 
-struct GetTokenBalanceOutputBody: Swift.Equatable {
+struct GetTokenBalanceOutputBody {
     let ownerIdentifier: ManagedBlockchainQueryClientTypes.OwnerIdentifier?
     let tokenIdentifier: ManagedBlockchainQueryClientTypes.TokenIdentifier?
     let balance: Swift.String?
@@ -1212,7 +1212,7 @@ extension GetTransactionInput {
     }
 }
 
-public struct GetTransactionInput: Swift.Equatable {
+public struct GetTransactionInput {
     /// The blockchain network where the transaction occurred.
     /// This member is required.
     public var network: ManagedBlockchainQueryClientTypes.QueryNetwork?
@@ -1233,7 +1233,7 @@ public struct GetTransactionInput: Swift.Equatable {
     }
 }
 
-struct GetTransactionInputBody: Swift.Equatable {
+struct GetTransactionInputBody {
     let transactionHash: Swift.String?
     let transactionId: Swift.String?
     let network: ManagedBlockchainQueryClientTypes.QueryNetwork?
@@ -1269,7 +1269,7 @@ extension GetTransactionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTransactionOutput: Swift.Equatable {
+public struct GetTransactionOutput {
     /// Contains the details of the transaction.
     /// This member is required.
     public var transaction: ManagedBlockchainQueryClientTypes.Transaction?
@@ -1282,7 +1282,7 @@ public struct GetTransactionOutput: Swift.Equatable {
     }
 }
 
-struct GetTransactionOutputBody: Swift.Equatable {
+struct GetTransactionOutputBody {
     let transaction: ManagedBlockchainQueryClientTypes.Transaction?
 }
 
@@ -1364,7 +1364,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -1408,7 +1408,7 @@ extension ListAssetContractsInput {
     }
 }
 
-public struct ListAssetContractsInput: Swift.Equatable {
+public struct ListAssetContractsInput {
     /// Contains the filter parameter for the request.
     /// This member is required.
     public var contractFilter: ManagedBlockchainQueryClientTypes.ContractFilter?
@@ -1429,7 +1429,7 @@ public struct ListAssetContractsInput: Swift.Equatable {
     }
 }
 
-struct ListAssetContractsInputBody: Swift.Equatable {
+struct ListAssetContractsInputBody {
     let contractFilter: ManagedBlockchainQueryClientTypes.ContractFilter?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -1467,7 +1467,7 @@ extension ListAssetContractsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAssetContractsOutput: Swift.Equatable {
+public struct ListAssetContractsOutput {
     /// An array of contract objects that contain the properties for each contract.
     /// This member is required.
     public var contracts: [ManagedBlockchainQueryClientTypes.AssetContract]?
@@ -1484,7 +1484,7 @@ public struct ListAssetContractsOutput: Swift.Equatable {
     }
 }
 
-struct ListAssetContractsOutputBody: Swift.Equatable {
+struct ListAssetContractsOutputBody {
     let contracts: [ManagedBlockchainQueryClientTypes.AssetContract]?
     let nextToken: Swift.String?
 }
@@ -1576,7 +1576,7 @@ extension ListFilteredTransactionEventsInput {
     }
 }
 
-public struct ListFilteredTransactionEventsInput: Swift.Equatable {
+public struct ListFilteredTransactionEventsInput {
     /// This is the unique public address on the blockchain for which the transaction events are being requested.
     /// This member is required.
     public var addressIdentifierFilter: ManagedBlockchainQueryClientTypes.AddressIdentifierFilter?
@@ -1618,7 +1618,7 @@ public struct ListFilteredTransactionEventsInput: Swift.Equatable {
     }
 }
 
-struct ListFilteredTransactionEventsInputBody: Swift.Equatable {
+struct ListFilteredTransactionEventsInputBody {
     let network: Swift.String?
     let addressIdentifierFilter: ManagedBlockchainQueryClientTypes.AddressIdentifierFilter?
     let timeFilter: ManagedBlockchainQueryClientTypes.TimeFilter?
@@ -1676,7 +1676,7 @@ extension ListFilteredTransactionEventsOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ListFilteredTransactionEventsOutput: Swift.Equatable {
+public struct ListFilteredTransactionEventsOutput {
     /// The transaction events returned by the request.
     /// This member is required.
     public var events: [ManagedBlockchainQueryClientTypes.TransactionEvent]?
@@ -1693,7 +1693,7 @@ public struct ListFilteredTransactionEventsOutput: Swift.Equatable {
     }
 }
 
-struct ListFilteredTransactionEventsOutputBody: Swift.Equatable {
+struct ListFilteredTransactionEventsOutputBody {
     let events: [ManagedBlockchainQueryClientTypes.TransactionEvent]?
     let nextToken: Swift.String?
 }
@@ -1764,7 +1764,7 @@ extension ManagedBlockchainQueryClientTypes.ListFilteredTransactionEventsSort: S
 
 extension ManagedBlockchainQueryClientTypes {
     /// Lists all the transaction events for an address on the blockchain. This operation is only supported on the Bitcoin blockchain networks.
-    public struct ListFilteredTransactionEventsSort: Swift.Equatable {
+    public struct ListFilteredTransactionEventsSort {
         /// Container on how the results will be sorted by?
         public var sortBy: ManagedBlockchainQueryClientTypes.ListFilteredTransactionEventsSortBy?
         /// The container for the sort order for ListFilteredTransactionEvents. The SortOrder field only accepts the values ASCENDING and DESCENDING. Not providing SortOrder will default to ASCENDING.
@@ -1844,7 +1844,7 @@ extension ListTokenBalancesInput {
     }
 }
 
-public struct ListTokenBalancesInput: Swift.Equatable {
+public struct ListTokenBalancesInput {
     /// The maximum number of token balances to return. Default: 100 Even if additional results can be retrieved, the request can return less results than maxResults or an empty array of results. To retrieve the next set of results, make another request with the returned nextToken value. The value of nextToken is null when there are no more results to return
     public var maxResults: Swift.Int?
     /// The pagination token that indicates the next set of results to retrieve.
@@ -1869,7 +1869,7 @@ public struct ListTokenBalancesInput: Swift.Equatable {
     }
 }
 
-struct ListTokenBalancesInputBody: Swift.Equatable {
+struct ListTokenBalancesInputBody {
     let ownerFilter: ManagedBlockchainQueryClientTypes.OwnerFilter?
     let tokenFilter: ManagedBlockchainQueryClientTypes.TokenFilter?
     let nextToken: Swift.String?
@@ -1911,7 +1911,7 @@ extension ListTokenBalancesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTokenBalancesOutput: Swift.Equatable {
+public struct ListTokenBalancesOutput {
     /// The pagination token that indicates the next set of results to retrieve.
     public var nextToken: Swift.String?
     /// An array of TokenBalance objects. Each object contains details about the token balance.
@@ -1928,7 +1928,7 @@ public struct ListTokenBalancesOutput: Swift.Equatable {
     }
 }
 
-struct ListTokenBalancesOutputBody: Swift.Equatable {
+struct ListTokenBalancesOutputBody {
     let tokenBalances: [ManagedBlockchainQueryClientTypes.TokenBalance]?
     let nextToken: Swift.String?
 }
@@ -2008,7 +2008,7 @@ extension ListTransactionEventsInput {
     }
 }
 
-public struct ListTransactionEventsInput: Swift.Equatable {
+public struct ListTransactionEventsInput {
     /// The maximum number of transaction events to list. Default: 100 Even if additional results can be retrieved, the request can return less results than maxResults or an empty array of results. To retrieve the next set of results, make another request with the returned nextToken value. The value of nextToken is null when there are no more results to return
     public var maxResults: Swift.Int?
     /// The blockchain network where the transaction events occurred.
@@ -2037,7 +2037,7 @@ public struct ListTransactionEventsInput: Swift.Equatable {
     }
 }
 
-struct ListTransactionEventsInputBody: Swift.Equatable {
+struct ListTransactionEventsInputBody {
     let transactionHash: Swift.String?
     let transactionId: Swift.String?
     let network: ManagedBlockchainQueryClientTypes.QueryNetwork?
@@ -2083,7 +2083,7 @@ extension ListTransactionEventsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTransactionEventsOutput: Swift.Equatable {
+public struct ListTransactionEventsOutput {
     /// An array of TransactionEvent objects. Each object contains details about the transaction events.
     /// This member is required.
     public var events: [ManagedBlockchainQueryClientTypes.TransactionEvent]?
@@ -2100,7 +2100,7 @@ public struct ListTransactionEventsOutput: Swift.Equatable {
     }
 }
 
-struct ListTransactionEventsOutputBody: Swift.Equatable {
+struct ListTransactionEventsOutputBody {
     let events: [ManagedBlockchainQueryClientTypes.TransactionEvent]?
     let nextToken: Swift.String?
 }
@@ -2192,7 +2192,7 @@ extension ListTransactionsInput {
     }
 }
 
-public struct ListTransactionsInput: Swift.Equatable {
+public struct ListTransactionsInput {
     /// The address (either a contract or wallet), whose transactions are being requested.
     /// This member is required.
     public var address: Swift.String?
@@ -2234,7 +2234,7 @@ public struct ListTransactionsInput: Swift.Equatable {
     }
 }
 
-struct ListTransactionsInputBody: Swift.Equatable {
+struct ListTransactionsInputBody {
     let address: Swift.String?
     let network: ManagedBlockchainQueryClientTypes.QueryNetwork?
     let fromBlockchainInstant: ManagedBlockchainQueryClientTypes.BlockchainInstant?
@@ -2292,7 +2292,7 @@ extension ListTransactionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTransactionsOutput: Swift.Equatable {
+public struct ListTransactionsOutput {
     /// The pagination token that indicates the next set of results to retrieve.
     public var nextToken: Swift.String?
     /// The array of transactions returned by the request.
@@ -2309,7 +2309,7 @@ public struct ListTransactionsOutput: Swift.Equatable {
     }
 }
 
-struct ListTransactionsOutputBody: Swift.Equatable {
+struct ListTransactionsOutputBody {
     let transactions: [ManagedBlockchainQueryClientTypes.TransactionOutputItem]?
     let nextToken: Swift.String?
 }
@@ -2380,7 +2380,7 @@ extension ManagedBlockchainQueryClientTypes.ListTransactionsSort: Swift.Codable 
 
 extension ManagedBlockchainQueryClientTypes {
     /// The container for determining how the list transaction result will be sorted.
-    public struct ListTransactionsSort: Swift.Equatable {
+    public struct ListTransactionsSort {
         /// Defaults to the value TRANSACTION_TIMESTAMP.
         public var sortBy: ManagedBlockchainQueryClientTypes.ListTransactionsSortBy?
         /// The container for the sort order for ListTransactions. The SortOrder field only accepts the values ASCENDING and DESCENDING. Not providing SortOrder will default to ASCENDING.
@@ -2451,7 +2451,7 @@ extension ManagedBlockchainQueryClientTypes.OwnerFilter: Swift.Codable {
 
 extension ManagedBlockchainQueryClientTypes {
     /// The container for the owner information to filter by.
-    public struct OwnerFilter: Swift.Equatable {
+    public struct OwnerFilter {
         /// The contract or wallet address.
         /// This member is required.
         public var address: Swift.String?
@@ -2487,7 +2487,7 @@ extension ManagedBlockchainQueryClientTypes.OwnerIdentifier: Swift.Codable {
 
 extension ManagedBlockchainQueryClientTypes {
     /// The container for the owner identifier.
-    public struct OwnerIdentifier: Swift.Equatable {
+    public struct OwnerIdentifier {
         /// The contract or wallet address for the owner.
         /// This member is required.
         public var address: Swift.String?
@@ -2704,7 +2704,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: ManagedBlockchainQueryClientTypes.ResourceType?
@@ -2826,7 +2826,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: ManagedBlockchainQueryClientTypes.ResourceType?
@@ -2956,7 +2956,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
     let serviceCode: Swift.String?
     let quotaCode: Swift.String?
@@ -3007,7 +3007,7 @@ extension ManagedBlockchainQueryClientTypes.TimeFilter: Swift.Codable {
 
 extension ManagedBlockchainQueryClientTypes {
     /// This container is used to specify a time frame.
-    public struct TimeFilter: Swift.Equatable {
+    public struct TimeFilter {
         /// The container for time.
         public var from: ManagedBlockchainQueryClientTypes.BlockchainInstant?
         /// The container for time.
@@ -3070,7 +3070,7 @@ extension ManagedBlockchainQueryClientTypes.TokenBalance: Swift.Codable {
 
 extension ManagedBlockchainQueryClientTypes {
     /// The balance of the token.
-    public struct TokenBalance: Swift.Equatable {
+    public struct TokenBalance {
         /// The time for when the TokenBalance is requested or the current time if a time is not provided in the request. This time will only be recorded up to the second.
         /// This member is required.
         public var atBlockchainInstant: ManagedBlockchainQueryClientTypes.BlockchainInstant?
@@ -3135,7 +3135,7 @@ extension ManagedBlockchainQueryClientTypes.TokenFilter: Swift.Codable {
 
 extension ManagedBlockchainQueryClientTypes {
     /// The container of the token filter like the contract address on a given blockchain network or a unique token identifier on a given blockchain network. You must always specify the network property of this container when using this operation.
-    public struct TokenFilter: Swift.Equatable {
+    public struct TokenFilter {
         /// This is the address of the contract.
         public var contractAddress: Swift.String?
         /// The blockchain network of the token.
@@ -3191,7 +3191,7 @@ extension ManagedBlockchainQueryClientTypes.TokenIdentifier: Swift.Codable {
 
 extension ManagedBlockchainQueryClientTypes {
     /// The container for the identifier for the token including the unique token ID and its blockchain network. Only the native tokens BTC and ETH, and the ERC-20, ERC-721, and ERC 1155 token standards are supported.
-    public struct TokenIdentifier: Swift.Equatable {
+    public struct TokenIdentifier {
         /// This is the token's contract address.
         public var contractAddress: Swift.String?
         /// The blockchain network of the token.
@@ -3353,7 +3353,7 @@ extension ManagedBlockchainQueryClientTypes {
     /// * A Bitcoin transaction is a movement of BTC from one address to another.
     ///
     /// * An Ethereum transaction refers to an action initiated by an externally owned account, which is an account managed by a human, not a contract. For example, if Bob sends Alice 1 ETH, Bob's account must be debited and Alice's must be credited. This state-changing action occurs within a transaction.
-    public struct Transaction: Swift.Equatable {
+    public struct Transaction {
         /// The block hash is a unique identifier for a block. It is a fixed-size string that is calculated by using the information in the block. The block hash is used to verify the integrity of the data in the block.
         public var blockHash: Swift.String?
         /// The block number in which the transaction is recorded.
@@ -3560,7 +3560,7 @@ extension ManagedBlockchainQueryClientTypes.TransactionEvent: Swift.Codable {
 
 extension ManagedBlockchainQueryClientTypes {
     /// The container for the properties of a transaction event.
-    public struct TransactionEvent: Swift.Equatable {
+    public struct TransactionEvent {
         /// The container for time.
         public var blockchainInstant: ManagedBlockchainQueryClientTypes.BlockchainInstant?
         /// This container specifies whether the transaction has reached Finality.
@@ -3682,7 +3682,7 @@ extension ManagedBlockchainQueryClientTypes.TransactionOutputItem: Swift.Codable
 
 extension ManagedBlockchainQueryClientTypes {
     /// The container of the transaction output.
-    public struct TransactionOutputItem: Swift.Equatable {
+    public struct TransactionOutputItem {
         /// Specifies whether to list transactions that have not reached Finality.
         public var confirmationStatus: ManagedBlockchainQueryClientTypes.ConfirmationStatus?
         /// The blockchain network where the transaction occurred.
@@ -3769,7 +3769,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let reason: ManagedBlockchainQueryClientTypes.ValidationExceptionReason?
     let fieldList: [ManagedBlockchainQueryClientTypes.ValidationExceptionField]?
@@ -3829,7 +3829,7 @@ extension ManagedBlockchainQueryClientTypes.ValidationExceptionField: Swift.Coda
 
 extension ManagedBlockchainQueryClientTypes {
     /// The resource passed is invalid.
-    public struct ValidationExceptionField: Swift.Equatable {
+    public struct ValidationExceptionField {
         /// The ValidationException message.
         /// This member is required.
         public var message: Swift.String?
@@ -3908,7 +3908,7 @@ extension ManagedBlockchainQueryClientTypes.VoutFilter: Swift.Codable {
 
 extension ManagedBlockchainQueryClientTypes {
     /// This container specifies filtering attributes related to BITCOIN_VOUT event types
-    public struct VoutFilter: Swift.Equatable {
+    public struct VoutFilter {
         /// Specifies if the transaction output is spent or unspent.
         /// This member is required.
         public var voutSpent: Swift.Bool?

@@ -47,7 +47,7 @@ extension XRayClientTypes.Alias: Swift.Codable {
 
 extension XRayClientTypes {
     /// An alias for an edge.
-    public struct Alias: Swift.Equatable {
+    public struct Alias {
         /// The canonical name of the alias.
         public var name: Swift.String?
         /// A list of names for the alias, including the canonical name.
@@ -114,7 +114,7 @@ extension XRayClientTypes.AnnotationValue: Swift.Codable {
 
 extension XRayClientTypes {
     /// Value of a segment annotation. Has one of three value types: Number, Boolean, or String.
-    public enum AnnotationValue: Swift.Equatable {
+    public enum AnnotationValue {
         /// Value for a Number annotation.
         case numbervalue(Swift.Double)
         /// Value for a Boolean annotation.
@@ -147,7 +147,7 @@ extension XRayClientTypes.AnomalousService: Swift.Codable {
 
 extension XRayClientTypes {
     /// The service within the service graph that has anomalously high fault rates.
-    public struct AnomalousService: Swift.Equatable {
+    public struct AnomalousService {
         ///
         public var serviceId: XRayClientTypes.ServiceId?
 
@@ -182,7 +182,7 @@ extension XRayClientTypes.AvailabilityZoneDetail: Swift.Codable {
 
 extension XRayClientTypes {
     /// A list of Availability Zones corresponding to the segments in a trace.
-    public struct AvailabilityZoneDetail: Swift.Equatable {
+    public struct AvailabilityZoneDetail {
         /// The name of a corresponding Availability Zone.
         public var name: Swift.String?
 
@@ -247,7 +247,7 @@ extension XRayClientTypes.BackendConnectionErrors: Swift.Codable {
 
 extension XRayClientTypes {
     ///
-    public struct BackendConnectionErrors: Swift.Equatable {
+    public struct BackendConnectionErrors {
         ///
         public var connectionRefusedCount: Swift.Int?
         ///
@@ -308,7 +308,7 @@ extension BatchGetTracesInput {
     }
 }
 
-public struct BatchGetTracesInput: Swift.Equatable {
+public struct BatchGetTracesInput {
     /// Pagination token.
     public var nextToken: Swift.String?
     /// Specify the trace IDs of requests for which to retrieve segments.
@@ -325,7 +325,7 @@ public struct BatchGetTracesInput: Swift.Equatable {
     }
 }
 
-struct BatchGetTracesInputBody: Swift.Equatable {
+struct BatchGetTracesInputBody {
     let traceIds: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -370,7 +370,7 @@ extension BatchGetTracesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetTracesOutput: Swift.Equatable {
+public struct BatchGetTracesOutput {
     /// Pagination token.
     public var nextToken: Swift.String?
     /// Full traces for the specified requests.
@@ -390,7 +390,7 @@ public struct BatchGetTracesOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetTracesOutputBody: Swift.Equatable {
+struct BatchGetTracesOutputBody {
     let traces: [XRayClientTypes.Trace]?
     let unprocessedTraceIds: [Swift.String]?
     let nextToken: Swift.String?
@@ -479,7 +479,7 @@ extension CreateGroupInput {
     }
 }
 
-public struct CreateGroupInput: Swift.Equatable {
+public struct CreateGroupInput {
     /// The filter expression defining criteria by which to group traces.
     public var filterExpression: Swift.String?
     /// The case-sensitive name of the new group. Default is a reserved name and names must be unique.
@@ -520,7 +520,7 @@ public struct CreateGroupInput: Swift.Equatable {
     }
 }
 
-struct CreateGroupInputBody: Swift.Equatable {
+struct CreateGroupInputBody {
     let groupName: Swift.String?
     let filterExpression: Swift.String?
     let insightsConfiguration: XRayClientTypes.InsightsConfiguration?
@@ -569,7 +569,7 @@ extension CreateGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateGroupOutput: Swift.Equatable {
+public struct CreateGroupOutput {
     /// The group that was created. Contains the name of the group that was created, the Amazon Resource Name (ARN) of the group that was generated based on the group name, the filter expression, and the insight configuration that was assigned to the group.
     public var group: XRayClientTypes.Group?
 
@@ -581,7 +581,7 @@ public struct CreateGroupOutput: Swift.Equatable {
     }
 }
 
-struct CreateGroupOutputBody: Swift.Equatable {
+struct CreateGroupOutputBody {
     let group: XRayClientTypes.Group?
 }
 
@@ -636,7 +636,7 @@ extension CreateSamplingRuleInput {
     }
 }
 
-public struct CreateSamplingRuleInput: Swift.Equatable {
+public struct CreateSamplingRuleInput {
     /// The rule definition.
     /// This member is required.
     public var samplingRule: XRayClientTypes.SamplingRule?
@@ -665,7 +665,7 @@ public struct CreateSamplingRuleInput: Swift.Equatable {
     }
 }
 
-struct CreateSamplingRuleInputBody: Swift.Equatable {
+struct CreateSamplingRuleInputBody {
     let samplingRule: XRayClientTypes.SamplingRule?
     let tags: [XRayClientTypes.Tag]?
 }
@@ -706,7 +706,7 @@ extension CreateSamplingRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSamplingRuleOutput: Swift.Equatable {
+public struct CreateSamplingRuleOutput {
     /// The saved rule definition and metadata.
     public var samplingRuleRecord: XRayClientTypes.SamplingRuleRecord?
 
@@ -718,7 +718,7 @@ public struct CreateSamplingRuleOutput: Swift.Equatable {
     }
 }
 
-struct CreateSamplingRuleOutputBody: Swift.Equatable {
+struct CreateSamplingRuleOutputBody {
     let samplingRuleRecord: XRayClientTypes.SamplingRuleRecord?
 }
 
@@ -771,7 +771,7 @@ extension DeleteGroupInput {
     }
 }
 
-public struct DeleteGroupInput: Swift.Equatable {
+public struct DeleteGroupInput {
     /// The ARN of the group that was generated on creation.
     public var groupARN: Swift.String?
     /// The case-sensitive name of the group.
@@ -787,7 +787,7 @@ public struct DeleteGroupInput: Swift.Equatable {
     }
 }
 
-struct DeleteGroupInputBody: Swift.Equatable {
+struct DeleteGroupInputBody {
     let groupName: Swift.String?
     let groupARN: Swift.String?
 }
@@ -812,7 +812,7 @@ extension DeleteGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteGroupOutput: Swift.Equatable {
+public struct DeleteGroupOutput {
 
     public init() { }
 }
@@ -853,7 +853,7 @@ extension DeleteResourcePolicyInput {
     }
 }
 
-public struct DeleteResourcePolicyInput: Swift.Equatable {
+public struct DeleteResourcePolicyInput {
     /// The name of the resource policy to delete.
     /// This member is required.
     public var policyName: Swift.String?
@@ -870,7 +870,7 @@ public struct DeleteResourcePolicyInput: Swift.Equatable {
     }
 }
 
-struct DeleteResourcePolicyInputBody: Swift.Equatable {
+struct DeleteResourcePolicyInputBody {
     let policyName: Swift.String?
     let policyRevisionId: Swift.String?
 }
@@ -895,7 +895,7 @@ extension DeleteResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteResourcePolicyOutput: Swift.Equatable {
+public struct DeleteResourcePolicyOutput {
 
     public init() { }
 }
@@ -937,7 +937,7 @@ extension DeleteSamplingRuleInput {
     }
 }
 
-public struct DeleteSamplingRuleInput: Swift.Equatable {
+public struct DeleteSamplingRuleInput {
     /// The ARN of the sampling rule. Specify a rule by either name or ARN, but not both.
     public var ruleARN: Swift.String?
     /// The name of the sampling rule. Specify a rule by either name or ARN, but not both.
@@ -953,7 +953,7 @@ public struct DeleteSamplingRuleInput: Swift.Equatable {
     }
 }
 
-struct DeleteSamplingRuleInputBody: Swift.Equatable {
+struct DeleteSamplingRuleInputBody {
     let ruleName: Swift.String?
     let ruleARN: Swift.String?
 }
@@ -985,7 +985,7 @@ extension DeleteSamplingRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSamplingRuleOutput: Swift.Equatable {
+public struct DeleteSamplingRuleOutput {
     /// The deleted rule definition and metadata.
     public var samplingRuleRecord: XRayClientTypes.SamplingRuleRecord?
 
@@ -997,7 +997,7 @@ public struct DeleteSamplingRuleOutput: Swift.Equatable {
     }
 }
 
-struct DeleteSamplingRuleOutputBody: Swift.Equatable {
+struct DeleteSamplingRuleOutputBody {
     let samplingRuleRecord: XRayClientTypes.SamplingRuleRecord?
 }
 
@@ -1124,7 +1124,7 @@ extension XRayClientTypes.Edge: Swift.Codable {
 
 extension XRayClientTypes {
     /// Information about a connection between two services. An edge can be a synchronous connection, such as typical call between client and service, or an asynchronous link, such as a Lambda function which retrieves an event from an SNS queue.
-    public struct Edge: Swift.Equatable {
+    public struct Edge {
         /// Aliases for the edge.
         public var aliases: [XRayClientTypes.Alias]?
         /// Describes an asynchronous connection, with a value of link.
@@ -1211,7 +1211,7 @@ extension XRayClientTypes.EdgeStatistics: Swift.Codable {
 
 extension XRayClientTypes {
     /// Response statistics for an edge.
-    public struct EdgeStatistics: Swift.Equatable {
+    public struct EdgeStatistics {
         /// Information about requests that failed with a 4xx Client Error status code.
         public var errorStatistics: XRayClientTypes.ErrorStatistics?
         /// Information about requests that failed with a 5xx Server Error status code.
@@ -1274,7 +1274,7 @@ extension XRayClientTypes.EncryptionConfig: Swift.Codable {
 
 extension XRayClientTypes {
     /// A configuration document that specifies encryption configuration settings.
-    public struct EncryptionConfig: Swift.Equatable {
+    public struct EncryptionConfig {
         /// The ID of the KMS key used for encryption, if applicable.
         public var keyId: Swift.String?
         /// The encryption status. While the status is UPDATING, X-Ray may encrypt data with a combination of the new and old settings.
@@ -1399,7 +1399,7 @@ extension XRayClientTypes.ErrorRootCause: Swift.Codable {
 
 extension XRayClientTypes {
     /// The root cause of a trace summary error.
-    public struct ErrorRootCause: Swift.Equatable {
+    public struct ErrorRootCause {
         /// A flag that denotes that the root cause impacts the trace client.
         public var clientImpacting: Swift.Bool?
         /// A list of services corresponding to an error. A service identifies a segment and it contains a name, account ID, type, and inferred flag.
@@ -1462,7 +1462,7 @@ extension XRayClientTypes.ErrorRootCauseEntity: Swift.Codable {
 
 extension XRayClientTypes {
     /// A collection of segments and corresponding subsegments associated to a trace summary error.
-    public struct ErrorRootCauseEntity: Swift.Equatable {
+    public struct ErrorRootCauseEntity {
         /// The types and messages of the exceptions.
         public var exceptions: [XRayClientTypes.RootCauseException]?
         /// The name of the entity.
@@ -1559,7 +1559,7 @@ extension XRayClientTypes.ErrorRootCauseService: Swift.Codable {
 
 extension XRayClientTypes {
     /// A collection of fields identifying the services in a trace summary error.
-    public struct ErrorRootCauseService: Swift.Equatable {
+    public struct ErrorRootCauseService {
         /// The account ID associated to the service.
         public var accountId: Swift.String?
         /// The path of root cause entities found on the service.
@@ -1626,7 +1626,7 @@ extension XRayClientTypes.ErrorStatistics: Swift.Codable {
 
 extension XRayClientTypes {
     /// Information about requests that failed with a 4xx Client Error status code.
-    public struct ErrorStatistics: Swift.Equatable {
+    public struct ErrorStatistics {
         /// The number of requests that failed with untracked 4xx Client Error status codes.
         public var otherCount: Swift.Int?
         /// The number of requests that failed with a 419 throttling status code.
@@ -1687,7 +1687,7 @@ extension XRayClientTypes.FaultRootCause: Swift.Codable {
 
 extension XRayClientTypes {
     /// The root cause information for a trace summary fault.
-    public struct FaultRootCause: Swift.Equatable {
+    public struct FaultRootCause {
         /// A flag that denotes that the root cause impacts the trace client.
         public var clientImpacting: Swift.Bool?
         /// A list of corresponding services. A service identifies a segment and it contains a name, account ID, type, and inferred flag.
@@ -1750,7 +1750,7 @@ extension XRayClientTypes.FaultRootCauseEntity: Swift.Codable {
 
 extension XRayClientTypes {
     /// A collection of segments and corresponding subsegments associated to a trace summary fault error.
-    public struct FaultRootCauseEntity: Swift.Equatable {
+    public struct FaultRootCauseEntity {
         /// The types and messages of the exceptions.
         public var exceptions: [XRayClientTypes.RootCauseException]?
         /// The name of the entity.
@@ -1847,7 +1847,7 @@ extension XRayClientTypes.FaultRootCauseService: Swift.Codable {
 
 extension XRayClientTypes {
     /// A collection of fields identifying the services in a trace summary fault.
-    public struct FaultRootCauseService: Swift.Equatable {
+    public struct FaultRootCauseService {
         /// The account ID associated to the service.
         public var accountId: Swift.String?
         /// The path of root cause entities found on the service.
@@ -1908,7 +1908,7 @@ extension XRayClientTypes.FaultStatistics: Swift.Codable {
 
 extension XRayClientTypes {
     /// Information about requests that failed with a 5xx Server Error status code.
-    public struct FaultStatistics: Swift.Equatable {
+    public struct FaultStatistics {
         /// The number of requests that failed with untracked 5xx Server Error status codes.
         public var otherCount: Swift.Int?
         /// The total number of requests that failed with a 5xx Server Error status code.
@@ -1953,7 +1953,7 @@ extension XRayClientTypes.ForecastStatistics: Swift.Codable {
 
 extension XRayClientTypes {
     /// The predicted high and low fault count. This is used to determine if a service has become anomalous and if an insight should be created.
-    public struct ForecastStatistics: Swift.Equatable {
+    public struct ForecastStatistics {
         /// The upper limit of fault counts for a service.
         public var faultCountHigh: Swift.Int?
         /// The lower limit of fault counts for a service.
@@ -1978,12 +1978,12 @@ extension GetEncryptionConfigInput {
     }
 }
 
-public struct GetEncryptionConfigInput: Swift.Equatable {
+public struct GetEncryptionConfigInput {
 
     public init() { }
 }
 
-struct GetEncryptionConfigInputBody: Swift.Equatable {
+struct GetEncryptionConfigInputBody {
 }
 
 extension GetEncryptionConfigInputBody: Swift.Decodable {
@@ -2004,7 +2004,7 @@ extension GetEncryptionConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEncryptionConfigOutput: Swift.Equatable {
+public struct GetEncryptionConfigOutput {
     /// The encryption configuration document.
     public var encryptionConfig: XRayClientTypes.EncryptionConfig?
 
@@ -2016,7 +2016,7 @@ public struct GetEncryptionConfigOutput: Swift.Equatable {
     }
 }
 
-struct GetEncryptionConfigOutputBody: Swift.Equatable {
+struct GetEncryptionConfigOutputBody {
     let encryptionConfig: XRayClientTypes.EncryptionConfig?
 }
 
@@ -2068,7 +2068,7 @@ extension GetGroupInput {
     }
 }
 
-public struct GetGroupInput: Swift.Equatable {
+public struct GetGroupInput {
     /// The ARN of the group that was generated on creation.
     public var groupARN: Swift.String?
     /// The case-sensitive name of the group.
@@ -2084,7 +2084,7 @@ public struct GetGroupInput: Swift.Equatable {
     }
 }
 
-struct GetGroupInputBody: Swift.Equatable {
+struct GetGroupInputBody {
     let groupName: Swift.String?
     let groupARN: Swift.String?
 }
@@ -2116,7 +2116,7 @@ extension GetGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetGroupOutput: Swift.Equatable {
+public struct GetGroupOutput {
     /// The group that was requested. Contains the name of the group, the ARN of the group, the filter expression, and the insight configuration assigned to the group.
     public var group: XRayClientTypes.Group?
 
@@ -2128,7 +2128,7 @@ public struct GetGroupOutput: Swift.Equatable {
     }
 }
 
-struct GetGroupOutputBody: Swift.Equatable {
+struct GetGroupOutputBody {
     let group: XRayClientTypes.Group?
 }
 
@@ -2176,7 +2176,7 @@ extension GetGroupsInput {
     }
 }
 
-public struct GetGroupsInput: Swift.Equatable {
+public struct GetGroupsInput {
     /// Pagination token.
     public var nextToken: Swift.String?
 
@@ -2188,7 +2188,7 @@ public struct GetGroupsInput: Swift.Equatable {
     }
 }
 
-struct GetGroupsInputBody: Swift.Equatable {
+struct GetGroupsInputBody {
     let nextToken: Swift.String?
 }
 
@@ -2218,7 +2218,7 @@ extension GetGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetGroupsOutput: Swift.Equatable {
+public struct GetGroupsOutput {
     /// The collection of all active groups.
     public var groups: [XRayClientTypes.GroupSummary]?
     /// Pagination token.
@@ -2234,7 +2234,7 @@ public struct GetGroupsOutput: Swift.Equatable {
     }
 }
 
-struct GetGroupsOutputBody: Swift.Equatable {
+struct GetGroupsOutputBody {
     let groups: [XRayClientTypes.GroupSummary]?
     let nextToken: Swift.String?
 }
@@ -2303,7 +2303,7 @@ extension GetInsightEventsInput {
     }
 }
 
-public struct GetInsightEventsInput: Swift.Equatable {
+public struct GetInsightEventsInput {
     /// The insight's unique identifier. Use the GetInsightSummaries action to retrieve an InsightId.
     /// This member is required.
     public var insightId: Swift.String?
@@ -2324,7 +2324,7 @@ public struct GetInsightEventsInput: Swift.Equatable {
     }
 }
 
-struct GetInsightEventsInputBody: Swift.Equatable {
+struct GetInsightEventsInputBody {
     let insightId: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -2362,7 +2362,7 @@ extension GetInsightEventsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetInsightEventsOutput: Swift.Equatable {
+public struct GetInsightEventsOutput {
     /// A detailed description of the event. This includes the time of the event, client and root cause impact statistics, and the top anomalous service at the time of the event.
     public var insightEvents: [XRayClientTypes.InsightEvent]?
     /// Use this token to retrieve the next page of insight events.
@@ -2378,7 +2378,7 @@ public struct GetInsightEventsOutput: Swift.Equatable {
     }
 }
 
-struct GetInsightEventsOutputBody: Swift.Equatable {
+struct GetInsightEventsOutputBody {
     let insightEvents: [XRayClientTypes.InsightEvent]?
     let nextToken: Swift.String?
 }
@@ -2451,7 +2451,7 @@ extension GetInsightImpactGraphInput {
     }
 }
 
-public struct GetInsightImpactGraphInput: Swift.Equatable {
+public struct GetInsightImpactGraphInput {
     /// The estimated end time of the insight, in Unix time seconds. The EndTime is exclusive of the value provided. The time range between the start time and end time can't be more than six hours.
     /// This member is required.
     public var endTime: ClientRuntime.Date?
@@ -2478,7 +2478,7 @@ public struct GetInsightImpactGraphInput: Swift.Equatable {
     }
 }
 
-struct GetInsightImpactGraphInputBody: Swift.Equatable {
+struct GetInsightImpactGraphInputBody {
     let insightId: Swift.String?
     let startTime: ClientRuntime.Date?
     let endTime: ClientRuntime.Date?
@@ -2530,7 +2530,7 @@ extension GetInsightImpactGraphOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetInsightImpactGraphOutput: Swift.Equatable {
+public struct GetInsightImpactGraphOutput {
     /// The provided end time.
     public var endTime: ClientRuntime.Date?
     /// The insight's unique identifier.
@@ -2566,7 +2566,7 @@ public struct GetInsightImpactGraphOutput: Swift.Equatable {
     }
 }
 
-struct GetInsightImpactGraphOutputBody: Swift.Equatable {
+struct GetInsightImpactGraphOutputBody {
     let insightId: Swift.String?
     let startTime: ClientRuntime.Date?
     let endTime: ClientRuntime.Date?
@@ -2647,7 +2647,7 @@ extension GetInsightInput {
     }
 }
 
-public struct GetInsightInput: Swift.Equatable {
+public struct GetInsightInput {
     /// The insight's unique identifier. Use the GetInsightSummaries action to retrieve an InsightId.
     /// This member is required.
     public var insightId: Swift.String?
@@ -2660,7 +2660,7 @@ public struct GetInsightInput: Swift.Equatable {
     }
 }
 
-struct GetInsightInputBody: Swift.Equatable {
+struct GetInsightInputBody {
     let insightId: Swift.String?
 }
 
@@ -2688,7 +2688,7 @@ extension GetInsightOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetInsightOutput: Swift.Equatable {
+public struct GetInsightOutput {
     /// The summary information of an insight.
     public var insight: XRayClientTypes.Insight?
 
@@ -2700,7 +2700,7 @@ public struct GetInsightOutput: Swift.Equatable {
     }
 }
 
-struct GetInsightOutputBody: Swift.Equatable {
+struct GetInsightOutputBody {
     let insight: XRayClientTypes.Insight?
 }
 
@@ -2775,7 +2775,7 @@ extension GetInsightSummariesInput {
     }
 }
 
-public struct GetInsightSummariesInput: Swift.Equatable {
+public struct GetInsightSummariesInput {
     /// The end of the time frame in which the insights ended. The end time can't be more than 30 days old.
     /// This member is required.
     public var endTime: ClientRuntime.Date?
@@ -2813,7 +2813,7 @@ public struct GetInsightSummariesInput: Swift.Equatable {
     }
 }
 
-struct GetInsightSummariesInputBody: Swift.Equatable {
+struct GetInsightSummariesInputBody {
     let states: [XRayClientTypes.InsightState]?
     let groupARN: Swift.String?
     let groupName: Swift.String?
@@ -2876,7 +2876,7 @@ extension GetInsightSummariesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetInsightSummariesOutput: Swift.Equatable {
+public struct GetInsightSummariesOutput {
     /// The summary of each insight within the group matching the provided filters. The summary contains the InsightID, start and end time, the root cause service, the root cause and client impact statistics, the top anomalous services, and the status of the insight.
     public var insightSummaries: [XRayClientTypes.InsightSummary]?
     /// Pagination token.
@@ -2892,7 +2892,7 @@ public struct GetInsightSummariesOutput: Swift.Equatable {
     }
 }
 
-struct GetInsightSummariesOutputBody: Swift.Equatable {
+struct GetInsightSummariesOutputBody {
     let insightSummaries: [XRayClientTypes.InsightSummary]?
     let nextToken: Swift.String?
 }
@@ -2953,7 +2953,7 @@ extension GetSamplingRulesInput {
     }
 }
 
-public struct GetSamplingRulesInput: Swift.Equatable {
+public struct GetSamplingRulesInput {
     /// Pagination token.
     public var nextToken: Swift.String?
 
@@ -2965,7 +2965,7 @@ public struct GetSamplingRulesInput: Swift.Equatable {
     }
 }
 
-struct GetSamplingRulesInputBody: Swift.Equatable {
+struct GetSamplingRulesInputBody {
     let nextToken: Swift.String?
 }
 
@@ -2995,7 +2995,7 @@ extension GetSamplingRulesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSamplingRulesOutput: Swift.Equatable {
+public struct GetSamplingRulesOutput {
     /// Pagination token.
     public var nextToken: Swift.String?
     /// Rule definitions and metadata.
@@ -3011,7 +3011,7 @@ public struct GetSamplingRulesOutput: Swift.Equatable {
     }
 }
 
-struct GetSamplingRulesOutputBody: Swift.Equatable {
+struct GetSamplingRulesOutputBody {
     let samplingRuleRecords: [XRayClientTypes.SamplingRuleRecord]?
     let nextToken: Swift.String?
 }
@@ -3072,7 +3072,7 @@ extension GetSamplingStatisticSummariesInput {
     }
 }
 
-public struct GetSamplingStatisticSummariesInput: Swift.Equatable {
+public struct GetSamplingStatisticSummariesInput {
     /// Pagination token.
     public var nextToken: Swift.String?
 
@@ -3084,7 +3084,7 @@ public struct GetSamplingStatisticSummariesInput: Swift.Equatable {
     }
 }
 
-struct GetSamplingStatisticSummariesInputBody: Swift.Equatable {
+struct GetSamplingStatisticSummariesInputBody {
     let nextToken: Swift.String?
 }
 
@@ -3114,7 +3114,7 @@ extension GetSamplingStatisticSummariesOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct GetSamplingStatisticSummariesOutput: Swift.Equatable {
+public struct GetSamplingStatisticSummariesOutput {
     /// Pagination token.
     public var nextToken: Swift.String?
     /// Information about the number of requests instrumented for each sampling rule.
@@ -3130,7 +3130,7 @@ public struct GetSamplingStatisticSummariesOutput: Swift.Equatable {
     }
 }
 
-struct GetSamplingStatisticSummariesOutputBody: Swift.Equatable {
+struct GetSamplingStatisticSummariesOutputBody {
     let samplingStatisticSummaries: [XRayClientTypes.SamplingStatisticSummary]?
     let nextToken: Swift.String?
 }
@@ -3194,7 +3194,7 @@ extension GetSamplingTargetsInput {
     }
 }
 
-public struct GetSamplingTargetsInput: Swift.Equatable {
+public struct GetSamplingTargetsInput {
     /// Information about rules that the service is using to sample requests.
     /// This member is required.
     public var samplingStatisticsDocuments: [XRayClientTypes.SamplingStatisticsDocument]?
@@ -3207,7 +3207,7 @@ public struct GetSamplingTargetsInput: Swift.Equatable {
     }
 }
 
-struct GetSamplingTargetsInputBody: Swift.Equatable {
+struct GetSamplingTargetsInputBody {
     let samplingStatisticsDocuments: [XRayClientTypes.SamplingStatisticsDocument]?
 }
 
@@ -3248,7 +3248,7 @@ extension GetSamplingTargetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSamplingTargetsOutput: Swift.Equatable {
+public struct GetSamplingTargetsOutput {
     /// The last time a user changed the sampling rule configuration. If the sampling rule configuration changed since the service last retrieved it, the service should call [GetSamplingRules](https://docs.aws.amazon.com/xray/latest/api/API_GetSamplingRules.html) to get the latest version.
     public var lastRuleModification: ClientRuntime.Date?
     /// Updated rules that the service should use to sample requests.
@@ -3268,7 +3268,7 @@ public struct GetSamplingTargetsOutput: Swift.Equatable {
     }
 }
 
-struct GetSamplingTargetsOutputBody: Swift.Equatable {
+struct GetSamplingTargetsOutputBody {
     let samplingTargetDocuments: [XRayClientTypes.SamplingTargetDocument]?
     let lastRuleModification: ClientRuntime.Date?
     let unprocessedStatistics: [XRayClientTypes.UnprocessedStatistics]?
@@ -3358,7 +3358,7 @@ extension GetServiceGraphInput {
     }
 }
 
-public struct GetServiceGraphInput: Swift.Equatable {
+public struct GetServiceGraphInput {
     /// The end of the timeframe for which to generate a graph.
     /// This member is required.
     public var endTime: ClientRuntime.Date?
@@ -3388,7 +3388,7 @@ public struct GetServiceGraphInput: Swift.Equatable {
     }
 }
 
-struct GetServiceGraphInputBody: Swift.Equatable {
+struct GetServiceGraphInputBody {
     let startTime: ClientRuntime.Date?
     let endTime: ClientRuntime.Date?
     let groupName: Swift.String?
@@ -3440,7 +3440,7 @@ extension GetServiceGraphOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetServiceGraphOutput: Swift.Equatable {
+public struct GetServiceGraphOutput {
     /// A flag indicating whether the group's filter expression has been consistent, or if the returned service graph may show traces from an older version of the group's filter expression.
     public var containsOldGroupVersions: Swift.Bool
     /// The end of the time frame for which the graph was generated.
@@ -3468,7 +3468,7 @@ public struct GetServiceGraphOutput: Swift.Equatable {
     }
 }
 
-struct GetServiceGraphOutputBody: Swift.Equatable {
+struct GetServiceGraphOutputBody {
     let startTime: ClientRuntime.Date?
     let endTime: ClientRuntime.Date?
     let services: [XRayClientTypes.Service]?
@@ -3569,7 +3569,7 @@ extension GetTimeSeriesServiceStatisticsInput {
     }
 }
 
-public struct GetTimeSeriesServiceStatisticsInput: Swift.Equatable {
+public struct GetTimeSeriesServiceStatisticsInput {
     /// The end of the time frame for which to aggregate statistics.
     /// This member is required.
     public var endTime: ClientRuntime.Date?
@@ -3611,7 +3611,7 @@ public struct GetTimeSeriesServiceStatisticsInput: Swift.Equatable {
     }
 }
 
-struct GetTimeSeriesServiceStatisticsInputBody: Swift.Equatable {
+struct GetTimeSeriesServiceStatisticsInputBody {
     let startTime: ClientRuntime.Date?
     let endTime: ClientRuntime.Date?
     let groupName: Swift.String?
@@ -3671,7 +3671,7 @@ extension GetTimeSeriesServiceStatisticsOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct GetTimeSeriesServiceStatisticsOutput: Swift.Equatable {
+public struct GetTimeSeriesServiceStatisticsOutput {
     /// A flag indicating whether or not a group's filter expression has been consistent, or if a returned aggregation might show statistics from an older version of the group's filter expression.
     public var containsOldGroupVersions: Swift.Bool
     /// Pagination token.
@@ -3691,7 +3691,7 @@ public struct GetTimeSeriesServiceStatisticsOutput: Swift.Equatable {
     }
 }
 
-struct GetTimeSeriesServiceStatisticsOutputBody: Swift.Equatable {
+struct GetTimeSeriesServiceStatisticsOutputBody {
     let timeSeriesServiceStatistics: [XRayClientTypes.TimeSeriesServiceStatistics]?
     let containsOldGroupVersions: Swift.Bool
     let nextToken: Swift.String?
@@ -3763,7 +3763,7 @@ extension GetTraceGraphInput {
     }
 }
 
-public struct GetTraceGraphInput: Swift.Equatable {
+public struct GetTraceGraphInput {
     /// Pagination token.
     public var nextToken: Swift.String?
     /// Trace IDs of requests for which to generate a service graph.
@@ -3780,7 +3780,7 @@ public struct GetTraceGraphInput: Swift.Equatable {
     }
 }
 
-struct GetTraceGraphInputBody: Swift.Equatable {
+struct GetTraceGraphInputBody {
     let traceIds: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -3823,7 +3823,7 @@ extension GetTraceGraphOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTraceGraphOutput: Swift.Equatable {
+public struct GetTraceGraphOutput {
     /// Pagination token.
     public var nextToken: Swift.String?
     /// The services that have processed one of the specified requests.
@@ -3839,7 +3839,7 @@ public struct GetTraceGraphOutput: Swift.Equatable {
     }
 }
 
-struct GetTraceGraphOutputBody: Swift.Equatable {
+struct GetTraceGraphOutputBody {
     let services: [XRayClientTypes.Service]?
     let nextToken: Swift.String?
 }
@@ -3924,7 +3924,7 @@ extension GetTraceSummariesInput {
     }
 }
 
-public struct GetTraceSummariesInput: Swift.Equatable {
+public struct GetTraceSummariesInput {
     /// The end of the time frame for which to retrieve traces.
     /// This member is required.
     public var endTime: ClientRuntime.Date?
@@ -3962,7 +3962,7 @@ public struct GetTraceSummariesInput: Swift.Equatable {
     }
 }
 
-struct GetTraceSummariesInputBody: Swift.Equatable {
+struct GetTraceSummariesInputBody {
     let startTime: ClientRuntime.Date?
     let endTime: ClientRuntime.Date?
     let timeRangeType: XRayClientTypes.TimeRangeType?
@@ -4020,7 +4020,7 @@ extension GetTraceSummariesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTraceSummariesOutput: Swift.Equatable {
+public struct GetTraceSummariesOutput {
     /// The start time of this page of results.
     public var approximateTime: ClientRuntime.Date?
     /// If the requested time frame contained more than one page of results, you can use this token to retrieve the next page. The first page contains the most recent results, closest to the end of the time frame.
@@ -4044,7 +4044,7 @@ public struct GetTraceSummariesOutput: Swift.Equatable {
     }
 }
 
-struct GetTraceSummariesOutputBody: Swift.Equatable {
+struct GetTraceSummariesOutputBody {
     let traceSummaries: [XRayClientTypes.TraceSummary]?
     let approximateTime: ClientRuntime.Date?
     let tracesProcessedCount: Swift.Int?
@@ -4132,7 +4132,7 @@ extension XRayClientTypes.Group: Swift.Codable {
 
 extension XRayClientTypes {
     /// Details and metadata for a group.
-    public struct Group: Swift.Equatable {
+    public struct Group {
         /// The filter expression defining the parameters to include traces.
         public var filterExpression: Swift.String?
         /// The Amazon Resource Name (ARN) of the group generated based on the GroupName.
@@ -4201,7 +4201,7 @@ extension XRayClientTypes.GroupSummary: Swift.Codable {
 
 extension XRayClientTypes {
     /// Details for a group without metadata.
-    public struct GroupSummary: Swift.Equatable {
+    public struct GroupSummary {
         /// The filter expression defining the parameters to include traces.
         public var filterExpression: Swift.String?
         /// The ARN of the group generated based on the GroupName.
@@ -4258,7 +4258,7 @@ extension XRayClientTypes.HistogramEntry: Swift.Codable {
 
 extension XRayClientTypes {
     /// An entry in a histogram for a statistic. A histogram maps the range of observed values on the X axis, and the prevalence of each value on the Y axis.
-    public struct HistogramEntry: Swift.Equatable {
+    public struct HistogramEntry {
         /// The prevalence of the entry.
         public var count: Swift.Int
         /// The value of the entry.
@@ -4321,7 +4321,7 @@ extension XRayClientTypes.Http: Swift.Codable {
 
 extension XRayClientTypes {
     /// Information about an HTTP request.
-    public struct Http: Swift.Equatable {
+    public struct Http {
         /// The IP address of the requestor.
         public var clientIp: Swift.String?
         /// The request method.
@@ -4462,7 +4462,7 @@ extension XRayClientTypes.Insight: Swift.Codable {
 
 extension XRayClientTypes {
     /// When fault rates go outside of the expected range, X-Ray creates an insight. Insights tracks emergent issues within your applications.
-    public struct Insight: Swift.Equatable {
+    public struct Insight {
         /// The categories that label and describe the type of insight.
         public var categories: [XRayClientTypes.InsightCategory]?
         /// The impact statistics of the client side service. This includes the number of requests to the client service and whether the requests were faults or okay.
@@ -4606,7 +4606,7 @@ extension XRayClientTypes.InsightEvent: Swift.Codable {
 
 extension XRayClientTypes {
     /// X-Ray reevaluates insights periodically until they are resolved, and records each intermediate state in an event. You can review incident events in the Impact Timeline on the Inspect page in the X-Ray console.
-    public struct InsightEvent: Swift.Equatable {
+    public struct InsightEvent {
         /// The impact statistics of the client side service. This includes the number of requests to the client service and whether the requests were faults or okay.
         public var clientRequestImpactStatistics: XRayClientTypes.RequestImpactStatistics?
         /// The time, in Unix seconds, at which the event was recorded.
@@ -4657,7 +4657,7 @@ extension XRayClientTypes.InsightImpactGraphEdge: Swift.Codable {
 
 extension XRayClientTypes {
     /// The connection between two service in an insight impact graph.
-    public struct InsightImpactGraphEdge: Swift.Equatable {
+    public struct InsightImpactGraphEdge {
         /// Identifier of the edge. Unique within a service map.
         public var referenceId: Swift.Int?
 
@@ -4746,7 +4746,7 @@ extension XRayClientTypes.InsightImpactGraphService: Swift.Codable {
 
 extension XRayClientTypes {
     /// Information about an application that processed requests, users that made requests, or downstream services, resources, and applications that an application used.
-    public struct InsightImpactGraphService: Swift.Equatable {
+    public struct InsightImpactGraphService {
         /// Identifier of the Amazon Web Services account in which the service runs.
         public var accountId: Swift.String?
         /// Connections to downstream services.
@@ -4937,7 +4937,7 @@ extension XRayClientTypes.InsightSummary: Swift.Codable {
 
 extension XRayClientTypes {
     /// Information that describes an insight.
-    public struct InsightSummary: Swift.Equatable {
+    public struct InsightSummary {
         /// Categories The categories that label and describe the type of insight.
         public var categories: [XRayClientTypes.InsightCategory]?
         /// The impact statistics of the client side service. This includes the number of requests to the client service and whether the requests were faults or okay.
@@ -5026,7 +5026,7 @@ extension XRayClientTypes.InsightsConfiguration: Swift.Codable {
 
 extension XRayClientTypes {
     /// The structure containing configurations related to insights.
-    public struct InsightsConfiguration: Swift.Equatable {
+    public struct InsightsConfiguration {
         /// Set the InsightsEnabled value to true to enable insights or false to disable insights.
         public var insightsEnabled: Swift.Bool?
         /// Set the NotificationsEnabled value to true to enable insights notifications. Notifications can only be enabled on a group with InsightsEnabled set to true.
@@ -5065,7 +5065,7 @@ extension XRayClientTypes.InstanceIdDetail: Swift.Codable {
 
 extension XRayClientTypes {
     /// A list of EC2 instance IDs corresponding to the segments in a trace.
-    public struct InstanceIdDetail: Swift.Equatable {
+    public struct InstanceIdDetail {
         /// The ID of a corresponding EC2 instance.
         public var id: Swift.String?
 
@@ -5118,7 +5118,7 @@ public struct InvalidPolicyRevisionIdException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct InvalidPolicyRevisionIdExceptionBody: Swift.Equatable {
+struct InvalidPolicyRevisionIdExceptionBody {
     let message: Swift.String?
 }
 
@@ -5173,7 +5173,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InvalidRequestExceptionBody: Swift.Equatable {
+struct InvalidRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -5209,7 +5209,7 @@ extension ListResourcePoliciesInput {
     }
 }
 
-public struct ListResourcePoliciesInput: Swift.Equatable {
+public struct ListResourcePoliciesInput {
     /// Not currently supported.
     public var nextToken: Swift.String?
 
@@ -5221,7 +5221,7 @@ public struct ListResourcePoliciesInput: Swift.Equatable {
     }
 }
 
-struct ListResourcePoliciesInputBody: Swift.Equatable {
+struct ListResourcePoliciesInputBody {
     let nextToken: Swift.String?
 }
 
@@ -5251,7 +5251,7 @@ extension ListResourcePoliciesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListResourcePoliciesOutput: Swift.Equatable {
+public struct ListResourcePoliciesOutput {
     /// Pagination token. Not currently supported.
     public var nextToken: Swift.String?
     /// The list of resource policies in the target Amazon Web Services account.
@@ -5267,7 +5267,7 @@ public struct ListResourcePoliciesOutput: Swift.Equatable {
     }
 }
 
-struct ListResourcePoliciesOutputBody: Swift.Equatable {
+struct ListResourcePoliciesOutputBody {
     let resourcePolicies: [XRayClientTypes.ResourcePolicy]?
     let nextToken: Swift.String?
 }
@@ -5332,7 +5332,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// A pagination token. If multiple pages of results are returned, use the NextToken value returned with the current page of results as the value of this parameter to get the next page of results.
     public var nextToken: Swift.String?
     /// The Amazon Resource Number (ARN) of an X-Ray group or sampling rule.
@@ -5349,7 +5349,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceARN: Swift.String?
     let nextToken: Swift.String?
 }
@@ -5383,7 +5383,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// A pagination token. If multiple pages of results are returned, use the NextToken value returned with the current page of results to get the next page of results.
     public var nextToken: Swift.String?
     /// A list of tags, as key and value pairs, that is associated with the specified X-Ray group or sampling rule.
@@ -5399,7 +5399,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [XRayClientTypes.Tag]?
     let nextToken: Swift.String?
 }
@@ -5480,7 +5480,7 @@ public struct LockoutPreventionException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct LockoutPreventionExceptionBody: Swift.Equatable {
+struct LockoutPreventionExceptionBody {
     let message: Swift.String?
 }
 
@@ -5535,7 +5535,7 @@ public struct MalformedPolicyDocumentException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct MalformedPolicyDocumentExceptionBody: Swift.Equatable {
+struct MalformedPolicyDocumentExceptionBody {
     let message: Swift.String?
 }
 
@@ -5590,7 +5590,7 @@ public struct PolicyCountLimitExceededException: ClientRuntime.ModeledError, AWS
     }
 }
 
-struct PolicyCountLimitExceededExceptionBody: Swift.Equatable {
+struct PolicyCountLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -5645,7 +5645,7 @@ public struct PolicySizeLimitExceededException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct PolicySizeLimitExceededExceptionBody: Swift.Equatable {
+struct PolicySizeLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -5685,7 +5685,7 @@ extension PutEncryptionConfigInput {
     }
 }
 
-public struct PutEncryptionConfigInput: Swift.Equatable {
+public struct PutEncryptionConfigInput {
     /// An Amazon Web Services KMS key in one of the following formats:
     ///
     /// * Alias - The name of the key. For example, alias/MyKey.
@@ -5711,7 +5711,7 @@ public struct PutEncryptionConfigInput: Swift.Equatable {
     }
 }
 
-struct PutEncryptionConfigInputBody: Swift.Equatable {
+struct PutEncryptionConfigInputBody {
     let keyId: Swift.String?
     let type: XRayClientTypes.EncryptionType?
 }
@@ -5743,7 +5743,7 @@ extension PutEncryptionConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutEncryptionConfigOutput: Swift.Equatable {
+public struct PutEncryptionConfigOutput {
     /// The new encryption configuration.
     public var encryptionConfig: XRayClientTypes.EncryptionConfig?
 
@@ -5755,7 +5755,7 @@ public struct PutEncryptionConfigOutput: Swift.Equatable {
     }
 }
 
-struct PutEncryptionConfigOutputBody: Swift.Equatable {
+struct PutEncryptionConfigOutputBody {
     let encryptionConfig: XRayClientTypes.EncryptionConfig?
 }
 
@@ -5815,7 +5815,7 @@ extension PutResourcePolicyInput {
     }
 }
 
-public struct PutResourcePolicyInput: Swift.Equatable {
+public struct PutResourcePolicyInput {
     /// A flag to indicate whether to bypass the resource policy lockout safety check. Setting this value to true increases the risk that the policy becomes unmanageable. Do not set this value to true indiscriminately. Use this parameter only when you include a policy in the request and you intend to prevent the principal that is making the request from making a subsequent PutResourcePolicy request. The default value is false.
     public var bypassPolicyLockoutCheck: Swift.Bool?
     /// The resource policy document, which can be up to 5kb in size.
@@ -5841,7 +5841,7 @@ public struct PutResourcePolicyInput: Swift.Equatable {
     }
 }
 
-struct PutResourcePolicyInputBody: Swift.Equatable {
+struct PutResourcePolicyInputBody {
     let policyName: Swift.String?
     let policyDocument: Swift.String?
     let policyRevisionId: Swift.String?
@@ -5881,7 +5881,7 @@ extension PutResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutResourcePolicyOutput: Swift.Equatable {
+public struct PutResourcePolicyOutput {
     /// The resource policy document, as provided in the PutResourcePolicyRequest.
     public var resourcePolicy: XRayClientTypes.ResourcePolicy?
 
@@ -5893,7 +5893,7 @@ public struct PutResourcePolicyOutput: Swift.Equatable {
     }
 }
 
-struct PutResourcePolicyOutputBody: Swift.Equatable {
+struct PutResourcePolicyOutputBody {
     let resourcePolicy: XRayClientTypes.ResourcePolicy?
 }
 
@@ -5960,7 +5960,7 @@ extension PutTelemetryRecordsInput {
     }
 }
 
-public struct PutTelemetryRecordsInput: Swift.Equatable {
+public struct PutTelemetryRecordsInput {
     ///
     public var ec2InstanceId: Swift.String?
     ///
@@ -5985,7 +5985,7 @@ public struct PutTelemetryRecordsInput: Swift.Equatable {
     }
 }
 
-struct PutTelemetryRecordsInputBody: Swift.Equatable {
+struct PutTelemetryRecordsInputBody {
     let telemetryRecords: [XRayClientTypes.TelemetryRecord]?
     let ec2InstanceId: Swift.String?
     let hostname: Swift.String?
@@ -6027,7 +6027,7 @@ extension PutTelemetryRecordsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutTelemetryRecordsOutput: Swift.Equatable {
+public struct PutTelemetryRecordsOutput {
 
     public init() { }
 }
@@ -6067,7 +6067,7 @@ extension PutTraceSegmentsInput {
     }
 }
 
-public struct PutTraceSegmentsInput: Swift.Equatable {
+public struct PutTraceSegmentsInput {
     /// A string containing a JSON document defining one or more segments or subsegments.
     /// This member is required.
     public var traceSegmentDocuments: [Swift.String]?
@@ -6080,7 +6080,7 @@ public struct PutTraceSegmentsInput: Swift.Equatable {
     }
 }
 
-struct PutTraceSegmentsInputBody: Swift.Equatable {
+struct PutTraceSegmentsInputBody {
     let traceSegmentDocuments: [Swift.String]?
 }
 
@@ -6117,7 +6117,7 @@ extension PutTraceSegmentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutTraceSegmentsOutput: Swift.Equatable {
+public struct PutTraceSegmentsOutput {
     /// Segments that failed processing.
     public var unprocessedTraceSegments: [XRayClientTypes.UnprocessedTraceSegment]?
 
@@ -6129,7 +6129,7 @@ public struct PutTraceSegmentsOutput: Swift.Equatable {
     }
 }
 
-struct PutTraceSegmentsOutputBody: Swift.Equatable {
+struct PutTraceSegmentsOutputBody {
     let unprocessedTraceSegments: [XRayClientTypes.UnprocessedTraceSegment]?
 }
 
@@ -6199,7 +6199,7 @@ extension XRayClientTypes.RequestImpactStatistics: Swift.Codable {
 
 extension XRayClientTypes {
     /// Statistics that describe how the incident has impacted a service.
-    public struct RequestImpactStatistics: Swift.Equatable {
+    public struct RequestImpactStatistics {
         /// The number of requests that have resulted in a fault,
         public var faultCount: Swift.Int?
         /// The number of successful requests.
@@ -6242,7 +6242,7 @@ extension XRayClientTypes.ResourceARNDetail: Swift.Codable {
 
 extension XRayClientTypes {
     /// A list of resources ARNs corresponding to the segments in a trace.
-    public struct ResourceARNDetail: Swift.Equatable {
+    public struct ResourceARNDetail {
         /// The ARN of a corresponding resource.
         public var arn: Swift.String?
 
@@ -6300,7 +6300,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceName: Swift.String?
 }
@@ -6359,7 +6359,7 @@ extension XRayClientTypes.ResourcePolicy: Swift.Codable {
 
 extension XRayClientTypes {
     /// A resource policy grants one or more Amazon Web Services services and accounts permissions to access X-Ray. Each resource policy is associated with a specific Amazon Web Services account.
-    public struct ResourcePolicy: Swift.Equatable {
+    public struct ResourcePolicy {
         /// When the policy was last updated, in Unix time seconds.
         public var lastUpdatedTime: ClientRuntime.Date?
         /// The resource policy document, which can be up to 5kb in size.
@@ -6424,7 +6424,7 @@ extension XRayClientTypes.ResponseTimeRootCause: Swift.Codable {
 
 extension XRayClientTypes {
     /// The root cause information for a response time warning.
-    public struct ResponseTimeRootCause: Swift.Equatable {
+    public struct ResponseTimeRootCause {
         /// A flag that denotes that the root cause impacts the trace client.
         public var clientImpacting: Swift.Bool?
         /// A list of corresponding services. A service identifies a segment and contains a name, account ID, type, and inferred flag.
@@ -6475,7 +6475,7 @@ extension XRayClientTypes.ResponseTimeRootCauseEntity: Swift.Codable {
 
 extension XRayClientTypes {
     /// A collection of segments and corresponding subsegments associated to a response time warning.
-    public struct ResponseTimeRootCauseEntity: Swift.Equatable {
+    public struct ResponseTimeRootCauseEntity {
         /// The type and messages of the exceptions.
         public var coverage: Swift.Double?
         /// The name of the entity.
@@ -6572,7 +6572,7 @@ extension XRayClientTypes.ResponseTimeRootCauseService: Swift.Codable {
 
 extension XRayClientTypes {
     /// A collection of fields identifying the service in a response time warning.
-    public struct ResponseTimeRootCauseService: Swift.Equatable {
+    public struct ResponseTimeRootCauseService {
         /// The account ID associated to the service.
         public var accountId: Swift.String?
         /// The path of root cause entities found on the service.
@@ -6633,7 +6633,7 @@ extension XRayClientTypes.RootCauseException: Swift.Codable {
 
 extension XRayClientTypes {
     /// The exception associated with a root cause.
-    public struct RootCauseException: Swift.Equatable {
+    public struct RootCauseException {
         /// The message of the exception.
         public var message: Swift.String?
         /// The name of the exception.
@@ -6690,7 +6690,7 @@ public struct RuleLimitExceededException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct RuleLimitExceededExceptionBody: Swift.Equatable {
+struct RuleLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -6811,7 +6811,7 @@ extension XRayClientTypes.SamplingRule: Swift.Codable {
 
 extension XRayClientTypes {
     /// A sampling rule that services use to decide whether to instrument a request. Rule fields can match properties of the service, or properties of a request. The service can ignore rules that don't match its properties.
-    public struct SamplingRule: Swift.Equatable {
+    public struct SamplingRule {
         /// Matches attributes derived from the request.
         public var attributes: [Swift.String:Swift.String]?
         /// The percentage of matching requests to instrument, after the reservoir is exhausted.
@@ -6916,7 +6916,7 @@ extension XRayClientTypes.SamplingRuleRecord: Swift.Codable {
 
 extension XRayClientTypes {
     /// A [SamplingRule](https://docs.aws.amazon.com/xray/latest/api/API_SamplingRule.html) and its metadata.
-    public struct SamplingRuleRecord: Swift.Equatable {
+    public struct SamplingRuleRecord {
         /// When the rule was created.
         public var createdAt: ClientRuntime.Date?
         /// When the rule was last modified.
@@ -7037,7 +7037,7 @@ extension XRayClientTypes.SamplingRuleUpdate: Swift.Codable {
 
 extension XRayClientTypes {
     /// A document specifying changes to a sampling rule's configuration.
-    public struct SamplingRuleUpdate: Swift.Equatable {
+    public struct SamplingRuleUpdate {
         /// Matches attributes derived from the request.
         public var attributes: [Swift.String:Swift.String]?
         /// The percentage of matching requests to instrument, after the reservoir is exhausted.
@@ -7140,7 +7140,7 @@ extension XRayClientTypes.SamplingStatisticSummary: Swift.Codable {
 
 extension XRayClientTypes {
     /// Aggregated request sampling data for a sampling rule across all services for a 10-second window.
-    public struct SamplingStatisticSummary: Swift.Equatable {
+    public struct SamplingStatisticSummary {
         /// The number of requests recorded with borrowed reservoir quota.
         public var borrowCount: Swift.Int
         /// The number of requests that matched the rule.
@@ -7221,7 +7221,7 @@ extension XRayClientTypes.SamplingStatisticsDocument: Swift.Codable {
 
 extension XRayClientTypes {
     /// Request sampling results for a single rule from a service. Results are for the last 10 seconds unless the service has been assigned a longer reporting interval after a previous call to [GetSamplingTargets](https://docs.aws.amazon.com/xray/latest/api/API_GetSamplingTargets.html).
-    public struct SamplingStatisticsDocument: Swift.Equatable {
+    public struct SamplingStatisticsDocument {
         /// The number of requests recorded with borrowed reservoir quota.
         public var borrowCount: Swift.Int
         /// A unique identifier for the service in hexadecimal.
@@ -7287,7 +7287,7 @@ extension XRayClientTypes.SamplingStrategy: Swift.Codable {
 
 extension XRayClientTypes {
     /// The name and value of a sampling rule to apply to a trace summary.
-    public struct SamplingStrategy: Swift.Equatable {
+    public struct SamplingStrategy {
         /// The name of a sampling rule.
         public var name: XRayClientTypes.SamplingStrategyName?
         /// The value of a sampling rule.
@@ -7382,7 +7382,7 @@ extension XRayClientTypes.SamplingTargetDocument: Swift.Codable {
 
 extension XRayClientTypes {
     /// Temporary changes to a sampling rule configuration. To meet the global sampling target for a rule, X-Ray calculates a new reservoir for each service based on the recent sampling results of all services that called [GetSamplingTargets](https://docs.aws.amazon.com/xray/latest/api/API_GetSamplingTargets.html).
-    public struct SamplingTargetDocument: Swift.Equatable {
+    public struct SamplingTargetDocument {
         /// The percentage of matching requests to instrument, after the reservoir is exhausted.
         public var fixedRate: Swift.Double
         /// The number of seconds for the service to wait before getting sampling targets again.
@@ -7439,7 +7439,7 @@ extension XRayClientTypes.Segment: Swift.Codable {
 
 extension XRayClientTypes {
     /// A segment from a trace that has been ingested by the X-Ray service. The segment can be compiled from documents uploaded with [PutTraceSegments](https://docs.aws.amazon.com/xray/latest/api/API_PutTraceSegments.html), or an inferred segment for a downstream service, generated from a subsegment sent by the service that called it. For the full segment document schema, see [Amazon Web Services X-Ray Segment Documents](https://docs.aws.amazon.com/xray/latest/devguide/xray-api-segmentdocuments.html) in the Amazon Web Services X-Ray Developer Guide.
-    public struct Segment: Swift.Equatable {
+    public struct Segment {
         /// The segment document.
         public var document: Swift.String?
         /// The segment's ID.
@@ -7598,7 +7598,7 @@ extension XRayClientTypes.Service: Swift.Codable {
 
 extension XRayClientTypes {
     /// Information about an application that processed requests, users that made requests, or downstream services, resources, and applications that an application used.
-    public struct Service: Swift.Equatable {
+    public struct Service {
         /// Identifier of the Amazon Web Services account in which the service runs.
         public var accountId: Swift.String?
         /// A histogram that maps the spread of service durations.
@@ -7719,7 +7719,7 @@ extension XRayClientTypes.ServiceId: Swift.Codable {
 
 extension XRayClientTypes {
     ///
-    public struct ServiceId: Swift.Equatable {
+    public struct ServiceId {
         ///
         public var accountId: Swift.String?
         ///
@@ -7790,7 +7790,7 @@ extension XRayClientTypes.ServiceStatistics: Swift.Codable {
 
 extension XRayClientTypes {
     /// Response statistics for a service.
-    public struct ServiceStatistics: Swift.Equatable {
+    public struct ServiceStatistics {
         /// Information about requests that failed with a 4xx Client Error status code.
         public var errorStatistics: XRayClientTypes.ErrorStatistics?
         /// Information about requests that failed with a 5xx Server Error status code.
@@ -7853,7 +7853,7 @@ extension XRayClientTypes {
     /// * Tag keys and values are case sensitive.
     ///
     /// * Don't use aws: as a prefix for keys; it's reserved for Amazon Web Services use. You cannot edit or delete system tags.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// A tag key, such as Stage or Name. A tag key cannot be empty. The key can be a maximum of 128 characters, and can contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /
         /// This member is required.
         public var key: Swift.String?
@@ -7900,7 +7900,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Number (ARN) of an X-Ray group or sampling rule.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -7930,7 +7930,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceARN: Swift.String?
     let tags: [XRayClientTypes.Tag]?
 }
@@ -7964,7 +7964,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -8034,7 +8034,7 @@ extension XRayClientTypes.TelemetryRecord: Swift.Codable {
 
 extension XRayClientTypes {
     ///
-    public struct TelemetryRecord: Swift.Equatable {
+    public struct TelemetryRecord {
         ///
         public var backendConnectionErrors: XRayClientTypes.BackendConnectionErrors?
         ///
@@ -8108,7 +8108,7 @@ public struct ThrottledException: ClientRuntime.ModeledError, AWSClientRuntime.A
     }
 }
 
-struct ThrottledExceptionBody: Swift.Equatable {
+struct ThrottledExceptionBody {
     let message: Swift.String?
 }
 
@@ -8216,7 +8216,7 @@ extension XRayClientTypes.TimeSeriesServiceStatistics: Swift.Codable {
 
 extension XRayClientTypes {
     /// A list of TimeSeriesStatistic structures.
-    public struct TimeSeriesServiceStatistics: Swift.Equatable {
+    public struct TimeSeriesServiceStatistics {
         /// Response statistics for an edge.
         public var edgeSummaryStatistics: XRayClientTypes.EdgeStatistics?
         /// The response time histogram for the selected entities.
@@ -8290,7 +8290,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct TooManyTagsExceptionBody: Swift.Equatable {
+struct TooManyTagsExceptionBody {
     let message: Swift.String?
     let resourceName: Swift.String?
 }
@@ -8361,7 +8361,7 @@ extension XRayClientTypes.Trace: Swift.Codable {
 
 extension XRayClientTypes {
     /// A collection of segment documents with matching trace IDs.
-    public struct Trace: Swift.Equatable {
+    public struct Trace {
         /// The length of time in seconds between the start time of the root segment and the end time of the last segment that completed.
         public var duration: Swift.Double?
         /// The unique identifier for the request that generated the trace's segments and subsegments.
@@ -8646,7 +8646,7 @@ extension XRayClientTypes.TraceSummary: Swift.Codable {
 
 extension XRayClientTypes {
     /// Metadata generated from the segment documents in a trace.
-    public struct TraceSummary: Swift.Equatable {
+    public struct TraceSummary {
         /// Annotations from the trace's segment documents.
         public var annotations: [Swift.String:[XRayClientTypes.ValueWithServiceIds]]?
         /// A list of Availability Zones for any zone corresponding to the trace segments.
@@ -8779,7 +8779,7 @@ extension XRayClientTypes.TraceUser: Swift.Codable {
 
 extension XRayClientTypes {
     /// Information about a user recorded in segment documents.
-    public struct TraceUser: Swift.Equatable {
+    public struct TraceUser {
         /// Services that the user's request hit.
         public var serviceIds: [XRayClientTypes.ServiceId]?
         /// The user's name.
@@ -8830,7 +8830,7 @@ extension XRayClientTypes.UnprocessedStatistics: Swift.Codable {
 
 extension XRayClientTypes {
     /// Sampling statistics from a call to [GetSamplingTargets](https://docs.aws.amazon.com/xray/latest/api/API_GetSamplingTargets.html) that X-Ray could not process.
-    public struct UnprocessedStatistics: Swift.Equatable {
+    public struct UnprocessedStatistics {
         /// The error code.
         public var errorCode: Swift.String?
         /// The error message.
@@ -8885,7 +8885,7 @@ extension XRayClientTypes.UnprocessedTraceSegment: Swift.Codable {
 
 extension XRayClientTypes {
     /// Information about a segment that failed processing.
-    public struct UnprocessedTraceSegment: Swift.Equatable {
+    public struct UnprocessedTraceSegment {
         /// The error that caused processing to fail.
         public var errorCode: Swift.String?
         /// The segment's ID.
@@ -8934,7 +8934,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Number (ARN) of an X-Ray group or sampling rule.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -8952,7 +8952,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceARN: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -8986,7 +8986,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -9036,7 +9036,7 @@ extension UpdateGroupInput {
     }
 }
 
-public struct UpdateGroupInput: Swift.Equatable {
+public struct UpdateGroupInput {
     /// The updated filter expression defining criteria by which to group traces.
     public var filterExpression: Swift.String?
     /// The ARN that was generated upon creation.
@@ -9064,7 +9064,7 @@ public struct UpdateGroupInput: Swift.Equatable {
     }
 }
 
-struct UpdateGroupInputBody: Swift.Equatable {
+struct UpdateGroupInputBody {
     let groupName: Swift.String?
     let groupARN: Swift.String?
     let filterExpression: Swift.String?
@@ -9104,7 +9104,7 @@ extension UpdateGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateGroupOutput: Swift.Equatable {
+public struct UpdateGroupOutput {
     /// The group that was updated. Contains the name of the group that was updated, the ARN of the group that was updated, the updated filter expression, and the updated insight configuration assigned to the group.
     public var group: XRayClientTypes.Group?
 
@@ -9116,7 +9116,7 @@ public struct UpdateGroupOutput: Swift.Equatable {
     }
 }
 
-struct UpdateGroupOutputBody: Swift.Equatable {
+struct UpdateGroupOutputBody {
     let group: XRayClientTypes.Group?
 }
 
@@ -9164,7 +9164,7 @@ extension UpdateSamplingRuleInput {
     }
 }
 
-public struct UpdateSamplingRuleInput: Swift.Equatable {
+public struct UpdateSamplingRuleInput {
     /// The rule and fields to change.
     /// This member is required.
     public var samplingRuleUpdate: XRayClientTypes.SamplingRuleUpdate?
@@ -9177,7 +9177,7 @@ public struct UpdateSamplingRuleInput: Swift.Equatable {
     }
 }
 
-struct UpdateSamplingRuleInputBody: Swift.Equatable {
+struct UpdateSamplingRuleInputBody {
     let samplingRuleUpdate: XRayClientTypes.SamplingRuleUpdate?
 }
 
@@ -9205,7 +9205,7 @@ extension UpdateSamplingRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSamplingRuleOutput: Swift.Equatable {
+public struct UpdateSamplingRuleOutput {
     /// The updated rule definition and metadata.
     public var samplingRuleRecord: XRayClientTypes.SamplingRuleRecord?
 
@@ -9217,7 +9217,7 @@ public struct UpdateSamplingRuleOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSamplingRuleOutputBody: Swift.Equatable {
+struct UpdateSamplingRuleOutputBody {
     let samplingRuleRecord: XRayClientTypes.SamplingRuleRecord?
 }
 
@@ -9284,7 +9284,7 @@ extension XRayClientTypes.ValueWithServiceIds: Swift.Codable {
 
 extension XRayClientTypes {
     /// Information about a segment annotation.
-    public struct ValueWithServiceIds: Swift.Equatable {
+    public struct ValueWithServiceIds {
         /// Values of the annotation.
         public var annotationValue: XRayClientTypes.AnnotationValue?
         /// Services to which the annotation applies.

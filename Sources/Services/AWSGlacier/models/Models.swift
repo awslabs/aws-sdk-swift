@@ -19,7 +19,7 @@ extension AbortMultipartUploadInput {
 }
 
 /// Provides options to abort a multipart upload identified by the upload ID. For information about the underlying REST API, see [Abort Multipart Upload](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-multipart-abort-upload.html). For conceptual information, see [Working with Archives in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/working-with-archives.html).
-public struct AbortMultipartUploadInput: Swift.Equatable {
+public struct AbortMultipartUploadInput {
     /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
@@ -42,7 +42,7 @@ public struct AbortMultipartUploadInput: Swift.Equatable {
     }
 }
 
-struct AbortMultipartUploadInputBody: Swift.Equatable {
+struct AbortMultipartUploadInputBody {
 }
 
 extension AbortMultipartUploadInputBody: Swift.Decodable {
@@ -56,7 +56,7 @@ extension AbortMultipartUploadOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AbortMultipartUploadOutput: Swift.Equatable {
+public struct AbortMultipartUploadOutput {
 
     public init() { }
 }
@@ -89,7 +89,7 @@ extension AbortVaultLockInput {
 }
 
 /// The input values for AbortVaultLock.
-public struct AbortVaultLockInput: Swift.Equatable {
+public struct AbortVaultLockInput {
     /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
@@ -107,7 +107,7 @@ public struct AbortVaultLockInput: Swift.Equatable {
     }
 }
 
-struct AbortVaultLockInputBody: Swift.Equatable {
+struct AbortVaultLockInputBody {
 }
 
 extension AbortVaultLockInputBody: Swift.Decodable {
@@ -121,7 +121,7 @@ extension AbortVaultLockOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AbortVaultLockOutput: Swift.Equatable {
+public struct AbortVaultLockOutput {
 
     public init() { }
 }
@@ -214,7 +214,7 @@ extension AddTagsToVaultInput {
 }
 
 /// The input values for AddTagsToVault.
-public struct AddTagsToVaultInput: Swift.Equatable {
+public struct AddTagsToVaultInput {
     /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
@@ -236,7 +236,7 @@ public struct AddTagsToVaultInput: Swift.Equatable {
     }
 }
 
-struct AddTagsToVaultInputBody: Swift.Equatable {
+struct AddTagsToVaultInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -266,7 +266,7 @@ extension AddTagsToVaultOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AddTagsToVaultOutput: Swift.Equatable {
+public struct AddTagsToVaultOutput {
 
     public init() { }
 }
@@ -337,7 +337,7 @@ extension GlacierClientTypes.CSVInput: Swift.Codable {
 
 extension GlacierClientTypes {
     /// Contains information about the comma-separated value (CSV) file to select from.
-    public struct CSVInput: Swift.Equatable {
+    public struct CSVInput {
         /// A single character used to indicate that a row should be ignored when the character is present at the start of that row.
         public var comments: Swift.String?
         /// A value used to separate individual fields from each other within a record.
@@ -416,7 +416,7 @@ extension GlacierClientTypes.CSVOutput: Swift.Codable {
 
 extension GlacierClientTypes {
     /// Contains information about the comma-separated value (CSV) file that the job results are stored in.
-    public struct CSVOutput: Swift.Equatable {
+    public struct CSVOutput {
         /// A value used to separate individual fields from each other within a record.
         public var fieldDelimiter: Swift.String?
         /// A value used as an escape character where the field delimiter is part of the value.
@@ -524,7 +524,7 @@ extension CompleteMultipartUploadInput {
 }
 
 /// Provides options to complete a multipart upload operation. This informs Amazon Glacier that all the archive parts have been uploaded and Amazon S3 Glacier (Glacier) can now assemble the archive from the uploaded parts. After assembling and saving the archive to the vault, Glacier returns the URI path of the newly created archive resource.
-public struct CompleteMultipartUploadInput: Swift.Equatable {
+public struct CompleteMultipartUploadInput {
     /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
@@ -555,7 +555,7 @@ public struct CompleteMultipartUploadInput: Swift.Equatable {
     }
 }
 
-struct CompleteMultipartUploadInputBody: Swift.Equatable {
+struct CompleteMultipartUploadInputBody {
 }
 
 extension CompleteMultipartUploadInputBody: Swift.Decodable {
@@ -585,7 +585,7 @@ extension CompleteMultipartUploadOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the Amazon S3 Glacier response to your request. For information about the underlying REST API, see [Upload Archive](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-archive-post.html). For conceptual information, see [Working with Archives in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/working-with-archives.html).
-public struct CompleteMultipartUploadOutput: Swift.Equatable {
+public struct CompleteMultipartUploadOutput {
     /// The ID of the archive. This value is also included as part of the location.
     public var archiveId: Swift.String?
     /// The checksum of the archive computed by Amazon S3 Glacier.
@@ -636,7 +636,7 @@ extension CompleteVaultLockInput {
 }
 
 /// The input values for CompleteVaultLock.
-public struct CompleteVaultLockInput: Swift.Equatable {
+public struct CompleteVaultLockInput {
     /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
@@ -659,7 +659,7 @@ public struct CompleteVaultLockInput: Swift.Equatable {
     }
 }
 
-struct CompleteVaultLockInputBody: Swift.Equatable {
+struct CompleteVaultLockInputBody {
 }
 
 extension CompleteVaultLockInputBody: Swift.Decodable {
@@ -673,7 +673,7 @@ extension CompleteVaultLockOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CompleteVaultLockOutput: Swift.Equatable {
+public struct CompleteVaultLockOutput {
 
     public init() { }
 }
@@ -706,7 +706,7 @@ extension CreateVaultInput {
 }
 
 /// Provides options to create a vault.
-public struct CreateVaultInput: Swift.Equatable {
+public struct CreateVaultInput {
     /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
@@ -724,7 +724,7 @@ public struct CreateVaultInput: Swift.Equatable {
     }
 }
 
-struct CreateVaultInputBody: Swift.Equatable {
+struct CreateVaultInputBody {
 }
 
 extension CreateVaultInputBody: Swift.Decodable {
@@ -744,7 +744,7 @@ extension CreateVaultOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the Amazon S3 Glacier response to your request.
-public struct CreateVaultOutput: Swift.Equatable {
+public struct CreateVaultOutput {
     /// The URI of the vault that was created.
     public var location: Swift.String?
 
@@ -803,7 +803,7 @@ extension GlacierClientTypes.DataRetrievalPolicy: Swift.Codable {
 
 extension GlacierClientTypes {
     /// Data retrieval policy.
-    public struct DataRetrievalPolicy: Swift.Equatable {
+    public struct DataRetrievalPolicy {
         /// The policy rule. Although this is a list type, currently there must be only one rule, which contains a Strategy field and optionally a BytesPerHour field.
         public var rules: [GlacierClientTypes.DataRetrievalRule]?
 
@@ -844,7 +844,7 @@ extension GlacierClientTypes.DataRetrievalRule: Swift.Codable {
 
 extension GlacierClientTypes {
     /// Data retrieval policy rule.
-    public struct DataRetrievalRule: Swift.Equatable {
+    public struct DataRetrievalRule {
         /// The maximum number of bytes that can be retrieved in an hour. This field is required only if the value of the Strategy field is BytesPerHour. Your PUT operation will be rejected if the Strategy field is not set to BytesPerHour and you set this field.
         public var bytesPerHour: Swift.Int?
         /// The type of data retrieval policy to set. Valid values: BytesPerHour|FreeTier|None
@@ -879,7 +879,7 @@ extension DeleteArchiveInput {
 }
 
 /// Provides options for deleting an archive from an Amazon S3 Glacier vault.
-public struct DeleteArchiveInput: Swift.Equatable {
+public struct DeleteArchiveInput {
     /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
@@ -902,7 +902,7 @@ public struct DeleteArchiveInput: Swift.Equatable {
     }
 }
 
-struct DeleteArchiveInputBody: Swift.Equatable {
+struct DeleteArchiveInputBody {
 }
 
 extension DeleteArchiveInputBody: Swift.Decodable {
@@ -916,7 +916,7 @@ extension DeleteArchiveOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteArchiveOutput: Swift.Equatable {
+public struct DeleteArchiveOutput {
 
     public init() { }
 }
@@ -949,7 +949,7 @@ extension DeleteVaultAccessPolicyInput {
 }
 
 /// DeleteVaultAccessPolicy input.
-public struct DeleteVaultAccessPolicyInput: Swift.Equatable {
+public struct DeleteVaultAccessPolicyInput {
     /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
@@ -967,7 +967,7 @@ public struct DeleteVaultAccessPolicyInput: Swift.Equatable {
     }
 }
 
-struct DeleteVaultAccessPolicyInputBody: Swift.Equatable {
+struct DeleteVaultAccessPolicyInputBody {
 }
 
 extension DeleteVaultAccessPolicyInputBody: Swift.Decodable {
@@ -981,7 +981,7 @@ extension DeleteVaultAccessPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteVaultAccessPolicyOutput: Swift.Equatable {
+public struct DeleteVaultAccessPolicyOutput {
 
     public init() { }
 }
@@ -1014,7 +1014,7 @@ extension DeleteVaultInput {
 }
 
 /// Provides options for deleting a vault from Amazon S3 Glacier.
-public struct DeleteVaultInput: Swift.Equatable {
+public struct DeleteVaultInput {
     /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
@@ -1032,7 +1032,7 @@ public struct DeleteVaultInput: Swift.Equatable {
     }
 }
 
-struct DeleteVaultInputBody: Swift.Equatable {
+struct DeleteVaultInputBody {
 }
 
 extension DeleteVaultInputBody: Swift.Decodable {
@@ -1055,7 +1055,7 @@ extension DeleteVaultNotificationsInput {
 }
 
 /// Provides options for deleting a vault notification configuration from an Amazon Glacier vault.
-public struct DeleteVaultNotificationsInput: Swift.Equatable {
+public struct DeleteVaultNotificationsInput {
     /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
@@ -1073,7 +1073,7 @@ public struct DeleteVaultNotificationsInput: Swift.Equatable {
     }
 }
 
-struct DeleteVaultNotificationsInputBody: Swift.Equatable {
+struct DeleteVaultNotificationsInputBody {
 }
 
 extension DeleteVaultNotificationsInputBody: Swift.Decodable {
@@ -1087,7 +1087,7 @@ extension DeleteVaultNotificationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteVaultNotificationsOutput: Swift.Equatable {
+public struct DeleteVaultNotificationsOutput {
 
     public init() { }
 }
@@ -1111,7 +1111,7 @@ extension DeleteVaultOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteVaultOutput: Swift.Equatable {
+public struct DeleteVaultOutput {
 
     public init() { }
 }
@@ -1147,7 +1147,7 @@ extension DescribeJobInput {
 }
 
 /// Provides options for retrieving a job description.
-public struct DescribeJobInput: Swift.Equatable {
+public struct DescribeJobInput {
     /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
@@ -1170,7 +1170,7 @@ public struct DescribeJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeJobInputBody: Swift.Equatable {
+struct DescribeJobInputBody {
 }
 
 extension DescribeJobInputBody: Swift.Decodable {
@@ -1232,7 +1232,7 @@ extension DescribeJobOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the description of an Amazon S3 Glacier job.
-public struct DescribeJobOutput: Swift.Equatable {
+public struct DescribeJobOutput {
     /// The job type. This value is either ArchiveRetrieval, InventoryRetrieval, or Select.
     public var action: GlacierClientTypes.ActionCode?
     /// The archive ID requested for a select job or archive retrieval. Otherwise, this field is null.
@@ -1338,7 +1338,7 @@ public struct DescribeJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeJobOutputBody: Swift.Equatable {
+struct DescribeJobOutputBody {
     let jobId: Swift.String?
     let jobDescription: Swift.String?
     let action: GlacierClientTypes.ActionCode?
@@ -1462,7 +1462,7 @@ extension DescribeVaultInput {
 }
 
 /// Provides options for retrieving metadata for a specific vault in Amazon Glacier.
-public struct DescribeVaultInput: Swift.Equatable {
+public struct DescribeVaultInput {
     /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
@@ -1480,7 +1480,7 @@ public struct DescribeVaultInput: Swift.Equatable {
     }
 }
 
-struct DescribeVaultInputBody: Swift.Equatable {
+struct DescribeVaultInputBody {
 }
 
 extension DescribeVaultInputBody: Swift.Decodable {
@@ -1561,7 +1561,7 @@ extension DescribeVaultOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the Amazon S3 Glacier response to your request.
-public struct DescribeVaultOutput: Swift.Equatable {
+public struct DescribeVaultOutput {
     /// The Universal Coordinated Time (UTC) date when the vault was created. This value should be a string in the ISO 8601 date format, for example 2012-03-20T17:03:43.221Z.
     public var creationDate: Swift.String?
     /// The Universal Coordinated Time (UTC) date when Amazon S3 Glacier completed the last vault inventory. This value should be a string in the ISO 8601 date format, for example 2012-03-20T17:03:43.221Z.
@@ -1595,7 +1595,7 @@ public struct DescribeVaultOutput: Swift.Equatable {
 
 extension GlacierClientTypes {
     /// Contains the Amazon S3 Glacier response to your request.
-    public struct DescribeVaultOutput: Swift.Equatable {
+    public struct DescribeVaultOutput {
         /// The Universal Coordinated Time (UTC) date when the vault was created. This value should be a string in the ISO 8601 date format, for example 2012-03-20T17:03:43.221Z.
         public var creationDate: Swift.String?
         /// The Universal Coordinated Time (UTC) date when Amazon S3 Glacier completed the last vault inventory. This value should be a string in the ISO 8601 date format, for example 2012-03-20T17:03:43.221Z.
@@ -1629,7 +1629,7 @@ extension GlacierClientTypes {
 
 }
 
-struct DescribeVaultOutputBody: Swift.Equatable {
+struct DescribeVaultOutputBody {
     let vaultARN: Swift.String?
     let vaultName: Swift.String?
     let creationDate: Swift.String?
@@ -1712,7 +1712,7 @@ extension GlacierClientTypes.Encryption: Swift.Codable {
 
 extension GlacierClientTypes {
     /// Contains information about the encryption used to store the job results in Amazon S3.
-    public struct Encryption: Swift.Equatable {
+    public struct Encryption {
         /// The server-side encryption algorithm used when storing job results in Amazon S3, for example AES256 or aws:kms.
         public var encryptionType: GlacierClientTypes.EncryptionType?
         /// Optional. If the encryption type is aws:kms, you can use this value to specify the encryption context for the job results.
@@ -1841,7 +1841,7 @@ extension GetDataRetrievalPolicyInput {
 }
 
 /// Input for GetDataRetrievalPolicy.
-public struct GetDataRetrievalPolicyInput: Swift.Equatable {
+public struct GetDataRetrievalPolicyInput {
     /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
@@ -1854,7 +1854,7 @@ public struct GetDataRetrievalPolicyInput: Swift.Equatable {
     }
 }
 
-struct GetDataRetrievalPolicyInputBody: Swift.Equatable {
+struct GetDataRetrievalPolicyInputBody {
 }
 
 extension GetDataRetrievalPolicyInputBody: Swift.Decodable {
@@ -1876,7 +1876,7 @@ extension GetDataRetrievalPolicyOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the Amazon S3 Glacier response to the GetDataRetrievalPolicy request.
-public struct GetDataRetrievalPolicyOutput: Swift.Equatable {
+public struct GetDataRetrievalPolicyOutput {
     /// Contains the returned data retrieval policy in JSON format.
     public var policy: GlacierClientTypes.DataRetrievalPolicy?
 
@@ -1888,7 +1888,7 @@ public struct GetDataRetrievalPolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetDataRetrievalPolicyOutputBody: Swift.Equatable {
+struct GetDataRetrievalPolicyOutputBody {
     let policy: GlacierClientTypes.DataRetrievalPolicy?
 }
 
@@ -1945,7 +1945,7 @@ extension GetJobOutputInput {
 }
 
 /// Provides options for downloading output of an Amazon S3 Glacier job.
-public struct GetJobOutputInput: Swift.Equatable {
+public struct GetJobOutputInput {
     /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
@@ -1980,7 +1980,7 @@ public struct GetJobOutputInput: Swift.Equatable {
     }
 }
 
-struct GetJobOutputInputBody: Swift.Equatable {
+struct GetJobOutputInputBody {
 }
 
 extension GetJobOutputInputBody: Swift.Decodable {
@@ -2029,7 +2029,7 @@ extension GetJobOutputOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the Amazon S3 Glacier response to your request.
-public struct GetJobOutputOutput: Swift.Equatable {
+public struct GetJobOutputOutput {
     /// Indicates the range units accepted. For more information, see [RFC2616](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html).
     public var acceptRanges: Swift.String?
     /// The description of an archive.
@@ -2071,7 +2071,7 @@ public struct GetJobOutputOutput: Swift.Equatable {
     }
 }
 
-struct GetJobOutputOutputBody: Swift.Equatable {
+struct GetJobOutputOutputBody {
     let body: ClientRuntime.ByteStream?
     let status: Swift.Int
 }
@@ -2119,7 +2119,7 @@ extension GetVaultAccessPolicyInput {
 }
 
 /// Input for GetVaultAccessPolicy.
-public struct GetVaultAccessPolicyInput: Swift.Equatable {
+public struct GetVaultAccessPolicyInput {
     /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
@@ -2137,7 +2137,7 @@ public struct GetVaultAccessPolicyInput: Swift.Equatable {
     }
 }
 
-struct GetVaultAccessPolicyInputBody: Swift.Equatable {
+struct GetVaultAccessPolicyInputBody {
 }
 
 extension GetVaultAccessPolicyInputBody: Swift.Decodable {
@@ -2158,7 +2158,7 @@ extension GetVaultAccessPolicyOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Output for GetVaultAccessPolicy.
-public struct GetVaultAccessPolicyOutput: Swift.Equatable {
+public struct GetVaultAccessPolicyOutput {
     /// Contains the returned vault access policy as a JSON string.
     public var policy: GlacierClientTypes.VaultAccessPolicy?
 
@@ -2170,7 +2170,7 @@ public struct GetVaultAccessPolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetVaultAccessPolicyOutputBody: Swift.Equatable {
+struct GetVaultAccessPolicyOutputBody {
     let policy: GlacierClientTypes.VaultAccessPolicy?
 }
 
@@ -2214,7 +2214,7 @@ extension GetVaultLockInput {
 }
 
 /// The input values for GetVaultLock.
-public struct GetVaultLockInput: Swift.Equatable {
+public struct GetVaultLockInput {
     /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
@@ -2232,7 +2232,7 @@ public struct GetVaultLockInput: Swift.Equatable {
     }
 }
 
-struct GetVaultLockInputBody: Swift.Equatable {
+struct GetVaultLockInputBody {
 }
 
 extension GetVaultLockInputBody: Swift.Decodable {
@@ -2260,7 +2260,7 @@ extension GetVaultLockOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the Amazon S3 Glacier response to your request.
-public struct GetVaultLockOutput: Swift.Equatable {
+public struct GetVaultLockOutput {
     /// The UTC date and time at which the vault lock was put into the InProgress state.
     public var creationDate: Swift.String?
     /// The UTC date and time at which the lock ID expires. This value can be null if the vault lock is in a Locked state.
@@ -2284,7 +2284,7 @@ public struct GetVaultLockOutput: Swift.Equatable {
     }
 }
 
-struct GetVaultLockOutputBody: Swift.Equatable {
+struct GetVaultLockOutputBody {
     let policy: Swift.String?
     let state: Swift.String?
     let expirationDate: Swift.String?
@@ -2340,7 +2340,7 @@ extension GetVaultNotificationsInput {
 }
 
 /// Provides options for retrieving the notification configuration set on an Amazon Glacier vault.
-public struct GetVaultNotificationsInput: Swift.Equatable {
+public struct GetVaultNotificationsInput {
     /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
@@ -2358,7 +2358,7 @@ public struct GetVaultNotificationsInput: Swift.Equatable {
     }
 }
 
-struct GetVaultNotificationsInputBody: Swift.Equatable {
+struct GetVaultNotificationsInputBody {
 }
 
 extension GetVaultNotificationsInputBody: Swift.Decodable {
@@ -2379,7 +2379,7 @@ extension GetVaultNotificationsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the Amazon S3 Glacier response to your request.
-public struct GetVaultNotificationsOutput: Swift.Equatable {
+public struct GetVaultNotificationsOutput {
     /// Returns the notification configuration set on the vault.
     public var vaultNotificationConfig: GlacierClientTypes.VaultNotificationConfig?
 
@@ -2391,7 +2391,7 @@ public struct GetVaultNotificationsOutput: Swift.Equatable {
     }
 }
 
-struct GetVaultNotificationsOutputBody: Swift.Equatable {
+struct GetVaultNotificationsOutputBody {
     let vaultNotificationConfig: GlacierClientTypes.VaultNotificationConfig?
 }
 
@@ -2564,7 +2564,7 @@ extension GlacierClientTypes.GlacierJobDescription: Swift.Codable {
 
 extension GlacierClientTypes {
     /// Contains the description of an Amazon S3 Glacier job.
-    public struct GlacierJobDescription: Swift.Equatable {
+    public struct GlacierJobDescription {
         /// The job type. This value is either ArchiveRetrieval, InventoryRetrieval, or Select.
         public var action: GlacierClientTypes.ActionCode?
         /// The archive ID requested for a select job or archive retrieval. Otherwise, this field is null.
@@ -2699,7 +2699,7 @@ extension GlacierClientTypes.Grant: Swift.Codable {
 
 extension GlacierClientTypes {
     /// Contains information about a grant.
-    public struct Grant: Swift.Equatable {
+    public struct Grant {
         /// The grantee.
         public var grantee: GlacierClientTypes.Grantee?
         /// Specifies the permission given to the grantee.
@@ -2762,7 +2762,7 @@ extension GlacierClientTypes.Grantee: Swift.Codable {
 
 extension GlacierClientTypes {
     /// Contains information about the grantee.
-    public struct Grantee: Swift.Equatable {
+    public struct Grantee {
         /// Screen name of the grantee.
         public var displayName: Swift.String?
         /// Email address of the grantee.
@@ -2820,7 +2820,7 @@ extension InitiateJobInput {
 }
 
 /// Provides options for initiating an Amazon S3 Glacier job.
-public struct InitiateJobInput: Swift.Equatable {
+public struct InitiateJobInput {
     /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
@@ -2842,7 +2842,7 @@ public struct InitiateJobInput: Swift.Equatable {
     }
 }
 
-struct InitiateJobInputBody: Swift.Equatable {
+struct InitiateJobInputBody {
     let jobParameters: GlacierClientTypes.JobParameters?
 }
 
@@ -2879,7 +2879,7 @@ extension InitiateJobOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the Amazon S3 Glacier response to your request.
-public struct InitiateJobOutput: Swift.Equatable {
+public struct InitiateJobOutput {
     /// The ID of the job.
     public var jobId: Swift.String?
     /// The path to the location of where the select results are stored.
@@ -2943,7 +2943,7 @@ extension InitiateMultipartUploadInput {
 }
 
 /// Provides options for initiating a multipart upload to an Amazon S3 Glacier vault.
-public struct InitiateMultipartUploadInput: Swift.Equatable {
+public struct InitiateMultipartUploadInput {
     /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
@@ -2969,7 +2969,7 @@ public struct InitiateMultipartUploadInput: Swift.Equatable {
     }
 }
 
-struct InitiateMultipartUploadInputBody: Swift.Equatable {
+struct InitiateMultipartUploadInputBody {
 }
 
 extension InitiateMultipartUploadInputBody: Swift.Decodable {
@@ -2994,7 +2994,7 @@ extension InitiateMultipartUploadOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The Amazon S3 Glacier response to your request.
-public struct InitiateMultipartUploadOutput: Swift.Equatable {
+public struct InitiateMultipartUploadOutput {
     /// The relative URI path of the multipart upload ID Amazon S3 Glacier created.
     public var location: Swift.String?
     /// The ID of the multipart upload. This value is also included as part of the location.
@@ -3051,7 +3051,7 @@ extension InitiateVaultLockInput {
 }
 
 /// The input values for InitiateVaultLock.
-public struct InitiateVaultLockInput: Swift.Equatable {
+public struct InitiateVaultLockInput {
     /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
@@ -3073,7 +3073,7 @@ public struct InitiateVaultLockInput: Swift.Equatable {
     }
 }
 
-struct InitiateVaultLockInputBody: Swift.Equatable {
+struct InitiateVaultLockInputBody {
     let policy: GlacierClientTypes.VaultLockPolicy?
 }
 
@@ -3100,7 +3100,7 @@ extension InitiateVaultLockOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the Amazon S3 Glacier response to your request.
-public struct InitiateVaultLockOutput: Swift.Equatable {
+public struct InitiateVaultLockOutput {
     /// The lock ID, which is used to complete the vault locking process.
     public var lockId: Swift.String?
 
@@ -3147,7 +3147,7 @@ extension GlacierClientTypes.InputSerialization: Swift.Codable {
 
 extension GlacierClientTypes {
     /// Describes how the archive is serialized.
-    public struct InputSerialization: Swift.Equatable {
+    public struct InputSerialization {
         /// Describes the serialization of a CSV-encoded object.
         public var csv: GlacierClientTypes.CSVInput?
 
@@ -3210,7 +3210,7 @@ public struct InsufficientCapacityException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct InsufficientCapacityExceptionBody: Swift.Equatable {
+struct InsufficientCapacityExceptionBody {
     let type: Swift.String?
     let code: Swift.String?
     let message: Swift.String?
@@ -3286,7 +3286,7 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct InvalidParameterValueExceptionBody: Swift.Equatable {
+struct InvalidParameterValueExceptionBody {
     let type: Swift.String?
     let code: Swift.String?
     let message: Swift.String?
@@ -3355,7 +3355,7 @@ extension GlacierClientTypes.InventoryRetrievalJobDescription: Swift.Codable {
 
 extension GlacierClientTypes {
     /// Describes the options for a range inventory retrieval job.
-    public struct InventoryRetrievalJobDescription: Swift.Equatable {
+    public struct InventoryRetrievalJobDescription {
         /// The end of the date range in UTC for vault inventory retrieval that includes archives created before this date. This value should be a string in the ISO 8601 date format, for example 2013-03-20T17:03:43Z.
         public var endDate: Swift.String?
         /// The output format for the vault inventory list, which is set by the InitiateJob request when initiating a job to retrieve a vault inventory. Valid values are CSV and JSON.
@@ -3424,7 +3424,7 @@ extension GlacierClientTypes.InventoryRetrievalJobInput: Swift.Codable {
 
 extension GlacierClientTypes {
     /// Provides options for specifying a range inventory retrieval job.
-    public struct InventoryRetrievalJobInput: Swift.Equatable {
+    public struct InventoryRetrievalJobInput {
         /// The end of the date range in UTC for vault inventory retrieval that includes archives created before this date. This value should be a string in the ISO 8601 date format, for example 2013-03-20T17:03:43Z.
         public var endDate: Swift.String?
         /// Specifies the maximum number of inventory items returned per vault inventory retrieval request. Valid values are greater than or equal to 1.
@@ -3525,7 +3525,7 @@ extension GlacierClientTypes.JobParameters: Swift.Codable {
 
 extension GlacierClientTypes {
     /// Provides options for defining a job.
-    public struct JobParameters: Swift.Equatable {
+    public struct JobParameters {
         /// The ID of the archive that you want to retrieve. This field is required only if Type is set to select or archive-retrievalcode>. An error occurs if you specify this request parameter for an inventory retrieval job request.
         public var archiveId: Swift.String?
         /// The optional description for the job. The description must be less than or equal to 1,024 bytes. The allowable characters are 7-bit ASCII without control codes-specifically, ASCII values 32-126 decimal or 0x20-0x7E hexadecimal.
@@ -3627,7 +3627,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let type: Swift.String?
     let code: Swift.String?
     let message: Swift.String?
@@ -3689,7 +3689,7 @@ extension ListJobsInput {
 }
 
 /// Provides options for retrieving a job list for an Amazon S3 Glacier vault.
-public struct ListJobsInput: Swift.Equatable {
+public struct ListJobsInput {
     /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
@@ -3723,7 +3723,7 @@ public struct ListJobsInput: Swift.Equatable {
     }
 }
 
-struct ListJobsInputBody: Swift.Equatable {
+struct ListJobsInputBody {
 }
 
 extension ListJobsInputBody: Swift.Decodable {
@@ -3747,7 +3747,7 @@ extension ListJobsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the Amazon S3 Glacier response to your request.
-public struct ListJobsOutput: Swift.Equatable {
+public struct ListJobsOutput {
     /// A list of job objects. Each job object contains metadata describing the job.
     public var jobList: [GlacierClientTypes.GlacierJobDescription]?
     /// An opaque string used for pagination that specifies the job at which the listing of jobs should begin. You get the marker value from a previous List Jobs response. You only need to include the marker if you are continuing the pagination of the results started in a previous List Jobs request.
@@ -3763,7 +3763,7 @@ public struct ListJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListJobsOutputBody: Swift.Equatable {
+struct ListJobsOutputBody {
     let jobList: [GlacierClientTypes.GlacierJobDescription]?
     let marker: Swift.String?
 }
@@ -3836,7 +3836,7 @@ extension ListMultipartUploadsInput {
 }
 
 /// Provides options for retrieving list of in-progress multipart uploads for an Amazon Glacier vault.
-public struct ListMultipartUploadsInput: Swift.Equatable {
+public struct ListMultipartUploadsInput {
     /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
@@ -3862,7 +3862,7 @@ public struct ListMultipartUploadsInput: Swift.Equatable {
     }
 }
 
-struct ListMultipartUploadsInputBody: Swift.Equatable {
+struct ListMultipartUploadsInputBody {
 }
 
 extension ListMultipartUploadsInputBody: Swift.Decodable {
@@ -3886,7 +3886,7 @@ extension ListMultipartUploadsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the Amazon S3 Glacier response to your request.
-public struct ListMultipartUploadsOutput: Swift.Equatable {
+public struct ListMultipartUploadsOutput {
     /// An opaque string that represents where to continue pagination of the results. You use the marker in a new List Multipart Uploads request to obtain more uploads in the list. If there are no more uploads, this value is null.
     public var marker: Swift.String?
     /// A list of in-progress multipart uploads.
@@ -3902,7 +3902,7 @@ public struct ListMultipartUploadsOutput: Swift.Equatable {
     }
 }
 
-struct ListMultipartUploadsOutputBody: Swift.Equatable {
+struct ListMultipartUploadsOutputBody {
     let uploadsList: [GlacierClientTypes.UploadListElement]?
     let marker: Swift.String?
 }
@@ -3978,7 +3978,7 @@ extension ListPartsInput {
 }
 
 /// Provides options for retrieving a list of parts of an archive that have been uploaded in a specific multipart upload.
-public struct ListPartsInput: Swift.Equatable {
+public struct ListPartsInput {
     /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
@@ -4009,7 +4009,7 @@ public struct ListPartsInput: Swift.Equatable {
     }
 }
 
-struct ListPartsInputBody: Swift.Equatable {
+struct ListPartsInputBody {
 }
 
 extension ListPartsInputBody: Swift.Decodable {
@@ -4043,7 +4043,7 @@ extension ListPartsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the Amazon S3 Glacier response to your request.
-public struct ListPartsOutput: Swift.Equatable {
+public struct ListPartsOutput {
     /// The description of the archive that was specified in the Initiate Multipart Upload request.
     public var archiveDescription: Swift.String?
     /// The UTC time at which the multipart upload was initiated.
@@ -4079,7 +4079,7 @@ public struct ListPartsOutput: Swift.Equatable {
     }
 }
 
-struct ListPartsOutputBody: Swift.Equatable {
+struct ListPartsOutputBody {
     let multipartUploadId: Swift.String?
     let vaultARN: Swift.String?
     let archiveDescription: Swift.String?
@@ -4152,7 +4152,7 @@ extension ListProvisionedCapacityInput {
     }
 }
 
-public struct ListProvisionedCapacityInput: Swift.Equatable {
+public struct ListProvisionedCapacityInput {
     /// The AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, don't include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
@@ -4165,7 +4165,7 @@ public struct ListProvisionedCapacityInput: Swift.Equatable {
     }
 }
 
-struct ListProvisionedCapacityInputBody: Swift.Equatable {
+struct ListProvisionedCapacityInputBody {
 }
 
 extension ListProvisionedCapacityInputBody: Swift.Decodable {
@@ -4186,7 +4186,7 @@ extension ListProvisionedCapacityOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListProvisionedCapacityOutput: Swift.Equatable {
+public struct ListProvisionedCapacityOutput {
     /// The response body contains the following JSON fields.
     public var provisionedCapacityList: [GlacierClientTypes.ProvisionedCapacityDescription]?
 
@@ -4198,7 +4198,7 @@ public struct ListProvisionedCapacityOutput: Swift.Equatable {
     }
 }
 
-struct ListProvisionedCapacityOutputBody: Swift.Equatable {
+struct ListProvisionedCapacityOutputBody {
     let provisionedCapacityList: [GlacierClientTypes.ProvisionedCapacityDescription]?
 }
 
@@ -4250,7 +4250,7 @@ extension ListTagsForVaultInput {
 }
 
 /// The input value for ListTagsForVaultInput.
-public struct ListTagsForVaultInput: Swift.Equatable {
+public struct ListTagsForVaultInput {
     /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
@@ -4268,7 +4268,7 @@ public struct ListTagsForVaultInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForVaultInputBody: Swift.Equatable {
+struct ListTagsForVaultInputBody {
 }
 
 extension ListTagsForVaultInputBody: Swift.Decodable {
@@ -4290,7 +4290,7 @@ extension ListTagsForVaultOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the Amazon S3 Glacier response to your request.
-public struct ListTagsForVaultOutput: Swift.Equatable {
+public struct ListTagsForVaultOutput {
     /// The tags attached to the vault. Each tag is composed of a key and a value.
     public var tags: [Swift.String:Swift.String]?
 
@@ -4302,7 +4302,7 @@ public struct ListTagsForVaultOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForVaultOutputBody: Swift.Equatable {
+struct ListTagsForVaultOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -4368,7 +4368,7 @@ extension ListVaultsInput {
 }
 
 /// Provides options to retrieve the vault list owned by the calling user's account. The list provides metadata information for each vault.
-public struct ListVaultsInput: Swift.Equatable {
+public struct ListVaultsInput {
     /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
@@ -4389,7 +4389,7 @@ public struct ListVaultsInput: Swift.Equatable {
     }
 }
 
-struct ListVaultsInputBody: Swift.Equatable {
+struct ListVaultsInputBody {
 }
 
 extension ListVaultsInputBody: Swift.Decodable {
@@ -4413,7 +4413,7 @@ extension ListVaultsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the Amazon S3 Glacier response to your request.
-public struct ListVaultsOutput: Swift.Equatable {
+public struct ListVaultsOutput {
     /// The vault ARN at which to continue pagination of the results. You use the marker in another List Vaults request to obtain more vaults in the list.
     public var marker: Swift.String?
     /// List of vaults.
@@ -4429,7 +4429,7 @@ public struct ListVaultsOutput: Swift.Equatable {
     }
 }
 
-struct ListVaultsOutputBody: Swift.Equatable {
+struct ListVaultsOutputBody {
     let vaultList: [GlacierClientTypes.DescribeVaultOutput]?
     let marker: Swift.String?
 }
@@ -4524,7 +4524,7 @@ public struct MissingParameterValueException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct MissingParameterValueExceptionBody: Swift.Equatable {
+struct MissingParameterValueExceptionBody {
     let type: Swift.String?
     let code: Swift.String?
     let message: Swift.String?
@@ -4569,7 +4569,7 @@ extension GlacierClientTypes.OutputLocation: Swift.Codable {
 
 extension GlacierClientTypes {
     /// Contains information about the location where the select job results are stored.
-    public struct OutputLocation: Swift.Equatable {
+    public struct OutputLocation {
         /// Describes an S3 location that will receive the results of the job request.
         public var s3: GlacierClientTypes.S3Location?
 
@@ -4604,7 +4604,7 @@ extension GlacierClientTypes.OutputSerialization: Swift.Codable {
 
 extension GlacierClientTypes {
     /// Describes how the select output is serialized.
-    public struct OutputSerialization: Swift.Equatable {
+    public struct OutputSerialization {
         /// Describes the serialization of CSV-encoded query results.
         public var csv: GlacierClientTypes.CSVOutput?
 
@@ -4645,7 +4645,7 @@ extension GlacierClientTypes.PartListElement: Swift.Codable {
 
 extension GlacierClientTypes {
     /// A list of the part sizes of the multipart upload.
-    public struct PartListElement: Swift.Equatable {
+    public struct PartListElement {
         /// The byte range of a part, inclusive of the upper value of the range.
         public var rangeInBytes: Swift.String?
         /// The SHA256 tree hash value that Amazon S3 Glacier calculated for the part. This field is never null.
@@ -4756,7 +4756,7 @@ public struct PolicyEnforcedException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct PolicyEnforcedExceptionBody: Swift.Equatable {
+struct PolicyEnforcedExceptionBody {
     let type: Swift.String?
     let code: Swift.String?
     let message: Swift.String?
@@ -4813,7 +4813,7 @@ extension GlacierClientTypes.ProvisionedCapacityDescription: Swift.Codable {
 
 extension GlacierClientTypes {
     /// The definition for a provisioned capacity unit.
-    public struct ProvisionedCapacityDescription: Swift.Equatable {
+    public struct ProvisionedCapacityDescription {
         /// The ID that identifies the provisioned capacity unit.
         public var capacityId: Swift.String?
         /// The date that the provisioned capacity unit expires, in Universal Coordinated Time (UTC).
@@ -4845,7 +4845,7 @@ extension PurchaseProvisionedCapacityInput {
     }
 }
 
-public struct PurchaseProvisionedCapacityInput: Swift.Equatable {
+public struct PurchaseProvisionedCapacityInput {
     /// The AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, don't include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
@@ -4858,7 +4858,7 @@ public struct PurchaseProvisionedCapacityInput: Swift.Equatable {
     }
 }
 
-struct PurchaseProvisionedCapacityInputBody: Swift.Equatable {
+struct PurchaseProvisionedCapacityInputBody {
 }
 
 extension PurchaseProvisionedCapacityInputBody: Swift.Decodable {
@@ -4877,7 +4877,7 @@ extension PurchaseProvisionedCapacityOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PurchaseProvisionedCapacityOutput: Swift.Equatable {
+public struct PurchaseProvisionedCapacityOutput {
     /// The ID that identifies the provisioned capacity unit.
     public var capacityId: Swift.String?
 
@@ -4974,7 +4974,7 @@ extension RemoveTagsFromVaultInput {
 }
 
 /// The input value for RemoveTagsFromVaultInput.
-public struct RemoveTagsFromVaultInput: Swift.Equatable {
+public struct RemoveTagsFromVaultInput {
     /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
@@ -4996,7 +4996,7 @@ public struct RemoveTagsFromVaultInput: Swift.Equatable {
     }
 }
 
-struct RemoveTagsFromVaultInputBody: Swift.Equatable {
+struct RemoveTagsFromVaultInputBody {
     let tagKeys: [Swift.String]?
 }
 
@@ -5026,7 +5026,7 @@ extension RemoveTagsFromVaultOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RemoveTagsFromVaultOutput: Swift.Equatable {
+public struct RemoveTagsFromVaultOutput {
 
     public init() { }
 }
@@ -5097,7 +5097,7 @@ public struct RequestTimeoutException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct RequestTimeoutExceptionBody: Swift.Equatable {
+struct RequestTimeoutExceptionBody {
     let type: Swift.String?
     let code: Swift.String?
     let message: Swift.String?
@@ -5173,7 +5173,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let type: Swift.String?
     let code: Swift.String?
     let message: Swift.String?
@@ -5296,7 +5296,7 @@ extension GlacierClientTypes.S3Location: Swift.Codable {
 
 extension GlacierClientTypes {
     /// Contains information about the location in Amazon S3 where the select job results are stored.
-    public struct S3Location: Swift.Equatable {
+    public struct S3Location {
         /// A list of grants that control access to the staged results.
         public var accessControlList: [GlacierClientTypes.Grant]?
         /// The name of the Amazon S3 bucket where the job results are stored.
@@ -5377,7 +5377,7 @@ extension GlacierClientTypes.SelectParameters: Swift.Codable {
 
 extension GlacierClientTypes {
     /// Contains information about the parameters used for a select.
-    public struct SelectParameters: Swift.Equatable {
+    public struct SelectParameters {
         /// The expression that is used to select the object.
         public var expression: Swift.String?
         /// The type of the provided expression, for example SQL.
@@ -5455,7 +5455,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct ServiceUnavailableExceptionBody: Swift.Equatable {
+struct ServiceUnavailableExceptionBody {
     let type: Swift.String?
     let code: Swift.String?
     let message: Swift.String?
@@ -5503,7 +5503,7 @@ extension SetDataRetrievalPolicyInput {
 }
 
 /// SetDataRetrievalPolicy input.
-public struct SetDataRetrievalPolicyInput: Swift.Equatable {
+public struct SetDataRetrievalPolicyInput {
     /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
@@ -5520,7 +5520,7 @@ public struct SetDataRetrievalPolicyInput: Swift.Equatable {
     }
 }
 
-struct SetDataRetrievalPolicyInputBody: Swift.Equatable {
+struct SetDataRetrievalPolicyInputBody {
     let policy: GlacierClientTypes.DataRetrievalPolicy?
 }
 
@@ -5541,7 +5541,7 @@ extension SetDataRetrievalPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SetDataRetrievalPolicyOutput: Swift.Equatable {
+public struct SetDataRetrievalPolicyOutput {
 
     public init() { }
 }
@@ -5586,7 +5586,7 @@ extension SetVaultAccessPolicyInput {
 }
 
 /// SetVaultAccessPolicy input.
-public struct SetVaultAccessPolicyInput: Swift.Equatable {
+public struct SetVaultAccessPolicyInput {
     /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
@@ -5608,7 +5608,7 @@ public struct SetVaultAccessPolicyInput: Swift.Equatable {
     }
 }
 
-struct SetVaultAccessPolicyInputBody: Swift.Equatable {
+struct SetVaultAccessPolicyInputBody {
     let policy: GlacierClientTypes.VaultAccessPolicy?
 }
 
@@ -5629,7 +5629,7 @@ extension SetVaultAccessPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SetVaultAccessPolicyOutput: Swift.Equatable {
+public struct SetVaultAccessPolicyOutput {
 
     public init() { }
 }
@@ -5675,7 +5675,7 @@ extension SetVaultNotificationsInput {
 }
 
 /// Provides options to configure notifications that will be sent when specific events happen to a vault.
-public struct SetVaultNotificationsInput: Swift.Equatable {
+public struct SetVaultNotificationsInput {
     /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
@@ -5697,7 +5697,7 @@ public struct SetVaultNotificationsInput: Swift.Equatable {
     }
 }
 
-struct SetVaultNotificationsInputBody: Swift.Equatable {
+struct SetVaultNotificationsInputBody {
     let vaultNotificationConfig: GlacierClientTypes.VaultNotificationConfig?
 }
 
@@ -5718,7 +5718,7 @@ extension SetVaultNotificationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SetVaultNotificationsOutput: Swift.Equatable {
+public struct SetVaultNotificationsOutput {
 
     public init() { }
 }
@@ -5883,7 +5883,7 @@ extension UploadArchiveInput {
 }
 
 /// Provides options to add an archive to a vault.
-public struct UploadArchiveInput: Swift.Equatable {
+public struct UploadArchiveInput {
     /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
@@ -5913,7 +5913,7 @@ public struct UploadArchiveInput: Swift.Equatable {
     }
 }
 
-struct UploadArchiveInputBody: Swift.Equatable {
+struct UploadArchiveInputBody {
     let body: ClientRuntime.ByteStream?
 }
 
@@ -5950,7 +5950,7 @@ extension UploadArchiveOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the Amazon S3 Glacier response to your request. For information about the underlying REST API, see [Upload Archive](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-archive-post.html). For conceptual information, see [Working with Archives in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/working-with-archives.html).
-public struct UploadArchiveOutput: Swift.Equatable {
+public struct UploadArchiveOutput {
     /// The ID of the archive. This value is also included as part of the location.
     public var archiveId: Swift.String?
     /// The checksum of the archive computed by Amazon S3 Glacier.
@@ -6030,7 +6030,7 @@ extension GlacierClientTypes.UploadListElement: Swift.Codable {
 
 extension GlacierClientTypes {
     /// A list of in-progress multipart uploads for a vault.
-    public struct UploadListElement: Swift.Equatable {
+    public struct UploadListElement {
         /// The description of the archive that was specified in the Initiate Multipart Upload request.
         public var archiveDescription: Swift.String?
         /// The UTC time at which the multipart upload was initiated.
@@ -6104,7 +6104,7 @@ extension UploadMultipartPartInput {
 }
 
 /// Provides options to upload a part of an archive in a multipart upload operation.
-public struct UploadMultipartPartInput: Swift.Equatable {
+public struct UploadMultipartPartInput {
     /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
@@ -6139,7 +6139,7 @@ public struct UploadMultipartPartInput: Swift.Equatable {
     }
 }
 
-struct UploadMultipartPartInputBody: Swift.Equatable {
+struct UploadMultipartPartInputBody {
     let body: ClientRuntime.ByteStream?
 }
 
@@ -6166,7 +6166,7 @@ extension UploadMultipartPartOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the Amazon S3 Glacier response to your request.
-public struct UploadMultipartPartOutput: Swift.Equatable {
+public struct UploadMultipartPartOutput {
     /// The SHA256 tree hash that Amazon S3 Glacier computed for the uploaded part.
     public var checksum: Swift.String?
 
@@ -6214,7 +6214,7 @@ extension GlacierClientTypes.VaultAccessPolicy: Swift.Codable {
 
 extension GlacierClientTypes {
     /// Contains the vault access policy.
-    public struct VaultAccessPolicy: Swift.Equatable {
+    public struct VaultAccessPolicy {
         /// The vault access policy.
         public var policy: Swift.String?
 
@@ -6249,7 +6249,7 @@ extension GlacierClientTypes.VaultLockPolicy: Swift.Codable {
 
 extension GlacierClientTypes {
     /// Contains the vault lock policy.
-    public struct VaultLockPolicy: Swift.Equatable {
+    public struct VaultLockPolicy {
         /// The vault lock policy.
         public var policy: Swift.String?
 
@@ -6302,7 +6302,7 @@ extension GlacierClientTypes.VaultNotificationConfig: Swift.Codable {
 
 extension GlacierClientTypes {
     /// Represents a vault's notification configuration.
-    public struct VaultNotificationConfig: Swift.Equatable {
+    public struct VaultNotificationConfig {
         /// A list of one or more events for which Amazon S3 Glacier will send a notification to the specified Amazon SNS topic.
         public var events: [Swift.String]?
         /// The Amazon Simple Notification Service (Amazon SNS) topic Amazon Resource Name (ARN).

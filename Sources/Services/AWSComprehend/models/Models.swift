@@ -97,7 +97,7 @@ extension ComprehendClientTypes.AugmentedManifestsListItem: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// An augmented manifest file that provides training data for your custom model. An augmented manifest file is a labeled dataset that is produced by Amazon SageMaker Ground Truth.
-    public struct AugmentedManifestsListItem: Swift.Equatable {
+    public struct AugmentedManifestsListItem {
         /// The S3 prefix to the annotation files that are referred in the augmented manifest file.
         public var annotationDataS3Uri: Swift.String?
         /// The JSON attribute that contains the annotations for your training documents. The number of attribute names that you specify depends on whether your augmented manifest file is the output of a single labeling job or a chained labeling job. If your file is the output of a single labeling job, specify the LabelAttributeName key that was used when the job was created in Ground Truth. If your file is the output of a chained labeling job, specify the LabelAttributeName key for one or more jobs in the chain. Each LabelAttributeName key provides the annotations from an individual job.
@@ -165,7 +165,7 @@ extension BatchDetectDominantLanguageInput {
     }
 }
 
-public struct BatchDetectDominantLanguageInput: Swift.Equatable {
+public struct BatchDetectDominantLanguageInput {
     /// A list containing the UTF-8 encoded text of the input documents. The list can contain a maximum of 25 documents. Each document should contain at least 20 characters. The maximum size of each document is 5 KB.
     /// This member is required.
     public var textList: [Swift.String]?
@@ -178,7 +178,7 @@ public struct BatchDetectDominantLanguageInput: Swift.Equatable {
     }
 }
 
-struct BatchDetectDominantLanguageInputBody: Swift.Equatable {
+struct BatchDetectDominantLanguageInputBody {
     let textList: [Swift.String]?
 }
 
@@ -242,7 +242,7 @@ extension ComprehendClientTypes.BatchDetectDominantLanguageItemResult: Swift.Cod
 
 extension ComprehendClientTypes {
     /// The result of calling the operation. The operation returns one object for each document that is successfully processed by the operation.
-    public struct BatchDetectDominantLanguageItemResult: Swift.Equatable {
+    public struct BatchDetectDominantLanguageItemResult {
         /// The zero-based index of the document in the input list.
         public var index: Swift.Int?
         /// One or more [DominantLanguage] objects describing the dominant languages in the document.
@@ -280,7 +280,7 @@ extension BatchDetectDominantLanguageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchDetectDominantLanguageOutput: Swift.Equatable {
+public struct BatchDetectDominantLanguageOutput {
     /// A list containing one object for each document that contained an error. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If there are no errors in the batch, the ErrorList is empty.
     /// This member is required.
     public var errorList: [ComprehendClientTypes.BatchItemError]?
@@ -298,7 +298,7 @@ public struct BatchDetectDominantLanguageOutput: Swift.Equatable {
     }
 }
 
-struct BatchDetectDominantLanguageOutputBody: Swift.Equatable {
+struct BatchDetectDominantLanguageOutputBody {
     let resultList: [ComprehendClientTypes.BatchDetectDominantLanguageItemResult]?
     let errorList: [ComprehendClientTypes.BatchItemError]?
 }
@@ -382,7 +382,7 @@ extension BatchDetectEntitiesInput {
     }
 }
 
-public struct BatchDetectEntitiesInput: Swift.Equatable {
+public struct BatchDetectEntitiesInput {
     /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language.
     /// This member is required.
     public var languageCode: ComprehendClientTypes.LanguageCode?
@@ -400,7 +400,7 @@ public struct BatchDetectEntitiesInput: Swift.Equatable {
     }
 }
 
-struct BatchDetectEntitiesInputBody: Swift.Equatable {
+struct BatchDetectEntitiesInputBody {
     let textList: [Swift.String]?
     let languageCode: ComprehendClientTypes.LanguageCode?
 }
@@ -468,7 +468,7 @@ extension ComprehendClientTypes.BatchDetectEntitiesItemResult: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// The result of calling the operation. The operation returns one object for each document that is successfully processed by the operation.
-    public struct BatchDetectEntitiesItemResult: Swift.Equatable {
+    public struct BatchDetectEntitiesItemResult {
         /// One or more [Entity] objects, one for each entity detected in the document.
         public var entities: [ComprehendClientTypes.Entity]?
         /// The zero-based index of the document in the input list.
@@ -506,7 +506,7 @@ extension BatchDetectEntitiesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchDetectEntitiesOutput: Swift.Equatable {
+public struct BatchDetectEntitiesOutput {
     /// A list containing one object for each document that contained an error. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If there are no errors in the batch, the ErrorList is empty.
     /// This member is required.
     public var errorList: [ComprehendClientTypes.BatchItemError]?
@@ -524,7 +524,7 @@ public struct BatchDetectEntitiesOutput: Swift.Equatable {
     }
 }
 
-struct BatchDetectEntitiesOutputBody: Swift.Equatable {
+struct BatchDetectEntitiesOutputBody {
     let resultList: [ComprehendClientTypes.BatchDetectEntitiesItemResult]?
     let errorList: [ComprehendClientTypes.BatchItemError]?
 }
@@ -609,7 +609,7 @@ extension BatchDetectKeyPhrasesInput {
     }
 }
 
-public struct BatchDetectKeyPhrasesInput: Swift.Equatable {
+public struct BatchDetectKeyPhrasesInput {
     /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language.
     /// This member is required.
     public var languageCode: ComprehendClientTypes.LanguageCode?
@@ -627,7 +627,7 @@ public struct BatchDetectKeyPhrasesInput: Swift.Equatable {
     }
 }
 
-struct BatchDetectKeyPhrasesInputBody: Swift.Equatable {
+struct BatchDetectKeyPhrasesInputBody {
     let textList: [Swift.String]?
     let languageCode: ComprehendClientTypes.LanguageCode?
 }
@@ -695,7 +695,7 @@ extension ComprehendClientTypes.BatchDetectKeyPhrasesItemResult: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// The result of calling the operation. The operation returns one object for each document that is successfully processed by the operation.
-    public struct BatchDetectKeyPhrasesItemResult: Swift.Equatable {
+    public struct BatchDetectKeyPhrasesItemResult {
         /// The zero-based index of the document in the input list.
         public var index: Swift.Int?
         /// One or more [KeyPhrase] objects, one for each key phrase detected in the document.
@@ -733,7 +733,7 @@ extension BatchDetectKeyPhrasesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchDetectKeyPhrasesOutput: Swift.Equatable {
+public struct BatchDetectKeyPhrasesOutput {
     /// A list containing one object for each document that contained an error. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If there are no errors in the batch, the ErrorList is empty.
     /// This member is required.
     public var errorList: [ComprehendClientTypes.BatchItemError]?
@@ -751,7 +751,7 @@ public struct BatchDetectKeyPhrasesOutput: Swift.Equatable {
     }
 }
 
-struct BatchDetectKeyPhrasesOutputBody: Swift.Equatable {
+struct BatchDetectKeyPhrasesOutputBody {
     let resultList: [ComprehendClientTypes.BatchDetectKeyPhrasesItemResult]?
     let errorList: [ComprehendClientTypes.BatchItemError]?
 }
@@ -836,7 +836,7 @@ extension BatchDetectSentimentInput {
     }
 }
 
-public struct BatchDetectSentimentInput: Swift.Equatable {
+public struct BatchDetectSentimentInput {
     /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language.
     /// This member is required.
     public var languageCode: ComprehendClientTypes.LanguageCode?
@@ -854,7 +854,7 @@ public struct BatchDetectSentimentInput: Swift.Equatable {
     }
 }
 
-struct BatchDetectSentimentInputBody: Swift.Equatable {
+struct BatchDetectSentimentInputBody {
     let textList: [Swift.String]?
     let languageCode: ComprehendClientTypes.LanguageCode?
 }
@@ -916,7 +916,7 @@ extension ComprehendClientTypes.BatchDetectSentimentItemResult: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// The result of calling the operation. The operation returns one object for each document that is successfully processed by the operation.
-    public struct BatchDetectSentimentItemResult: Swift.Equatable {
+    public struct BatchDetectSentimentItemResult {
         /// The zero-based index of the document in the input list.
         public var index: Swift.Int?
         /// The sentiment detected in the document.
@@ -958,7 +958,7 @@ extension BatchDetectSentimentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchDetectSentimentOutput: Swift.Equatable {
+public struct BatchDetectSentimentOutput {
     /// A list containing one object for each document that contained an error. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If there are no errors in the batch, the ErrorList is empty.
     /// This member is required.
     public var errorList: [ComprehendClientTypes.BatchItemError]?
@@ -976,7 +976,7 @@ public struct BatchDetectSentimentOutput: Swift.Equatable {
     }
 }
 
-struct BatchDetectSentimentOutputBody: Swift.Equatable {
+struct BatchDetectSentimentOutputBody {
     let resultList: [ComprehendClientTypes.BatchDetectSentimentItemResult]?
     let errorList: [ComprehendClientTypes.BatchItemError]?
 }
@@ -1061,7 +1061,7 @@ extension BatchDetectSyntaxInput {
     }
 }
 
-public struct BatchDetectSyntaxInput: Swift.Equatable {
+public struct BatchDetectSyntaxInput {
     /// The language of the input documents. You can specify any of the following languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt"). All documents must be in the same language.
     /// This member is required.
     public var languageCode: ComprehendClientTypes.SyntaxLanguageCode?
@@ -1079,7 +1079,7 @@ public struct BatchDetectSyntaxInput: Swift.Equatable {
     }
 }
 
-struct BatchDetectSyntaxInputBody: Swift.Equatable {
+struct BatchDetectSyntaxInputBody {
     let textList: [Swift.String]?
     let languageCode: ComprehendClientTypes.SyntaxLanguageCode?
 }
@@ -1147,7 +1147,7 @@ extension ComprehendClientTypes.BatchDetectSyntaxItemResult: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// The result of calling the operation. The operation returns one object that is successfully processed by the operation.
-    public struct BatchDetectSyntaxItemResult: Swift.Equatable {
+    public struct BatchDetectSyntaxItemResult {
         /// The zero-based index of the document in the input list.
         public var index: Swift.Int?
         /// The syntax tokens for the words in the document, one token for each word.
@@ -1185,7 +1185,7 @@ extension BatchDetectSyntaxOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchDetectSyntaxOutput: Swift.Equatable {
+public struct BatchDetectSyntaxOutput {
     /// A list containing one object for each document that contained an error. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If there are no errors in the batch, the ErrorList is empty.
     /// This member is required.
     public var errorList: [ComprehendClientTypes.BatchItemError]?
@@ -1203,7 +1203,7 @@ public struct BatchDetectSyntaxOutput: Swift.Equatable {
     }
 }
 
-struct BatchDetectSyntaxOutputBody: Swift.Equatable {
+struct BatchDetectSyntaxOutputBody {
     let resultList: [ComprehendClientTypes.BatchDetectSyntaxItemResult]?
     let errorList: [ComprehendClientTypes.BatchItemError]?
 }
@@ -1288,7 +1288,7 @@ extension BatchDetectTargetedSentimentInput {
     }
 }
 
-public struct BatchDetectTargetedSentimentInput: Swift.Equatable {
+public struct BatchDetectTargetedSentimentInput {
     /// The language of the input documents. Currently, English is the only supported language.
     /// This member is required.
     public var languageCode: ComprehendClientTypes.LanguageCode?
@@ -1306,7 +1306,7 @@ public struct BatchDetectTargetedSentimentInput: Swift.Equatable {
     }
 }
 
-struct BatchDetectTargetedSentimentInputBody: Swift.Equatable {
+struct BatchDetectTargetedSentimentInputBody {
     let textList: [Swift.String]?
     let languageCode: ComprehendClientTypes.LanguageCode?
 }
@@ -1374,7 +1374,7 @@ extension ComprehendClientTypes.BatchDetectTargetedSentimentItemResult: Swift.Co
 
 extension ComprehendClientTypes {
     /// Analysis results for one of the documents in the batch.
-    public struct BatchDetectTargetedSentimentItemResult: Swift.Equatable {
+    public struct BatchDetectTargetedSentimentItemResult {
         /// An array of targeted sentiment entities.
         public var entities: [ComprehendClientTypes.TargetedSentimentEntity]?
         /// The zero-based index of this result in the input list.
@@ -1412,7 +1412,7 @@ extension BatchDetectTargetedSentimentOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct BatchDetectTargetedSentimentOutput: Swift.Equatable {
+public struct BatchDetectTargetedSentimentOutput {
     /// List of errors that the operation can return.
     /// This member is required.
     public var errorList: [ComprehendClientTypes.BatchItemError]?
@@ -1430,7 +1430,7 @@ public struct BatchDetectTargetedSentimentOutput: Swift.Equatable {
     }
 }
 
-struct BatchDetectTargetedSentimentOutputBody: Swift.Equatable {
+struct BatchDetectTargetedSentimentOutputBody {
     let resultList: [ComprehendClientTypes.BatchDetectTargetedSentimentItemResult]?
     let errorList: [ComprehendClientTypes.BatchItemError]?
 }
@@ -1516,7 +1516,7 @@ extension ComprehendClientTypes.BatchItemError: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Describes an error that occurred while processing a document in a batch. The operation returns on BatchItemError object for each document that contained an error.
-    public struct BatchItemError: Swift.Equatable {
+    public struct BatchItemError {
         /// The numeric error code of the error.
         public var errorCode: Swift.String?
         /// A text description of the error.
@@ -1577,7 +1577,7 @@ public struct BatchSizeLimitExceededException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct BatchSizeLimitExceededExceptionBody: Swift.Equatable {
+struct BatchSizeLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -1656,7 +1656,7 @@ extension ComprehendClientTypes.Block: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Information about each word or line of text in the input document. For additional information, see [Block](https://docs.aws.amazon.com/textract/latest/dg/API_Block.html) in the Amazon Textract API reference.
-    public struct Block: Swift.Equatable {
+    public struct Block {
         /// The block represents a line of text or one word of text.
         ///
         /// * WORD - A word that's detected on a document page. A word is one or more ISO basic Latin script characters that aren't separated by spaces.
@@ -1745,7 +1745,7 @@ extension ComprehendClientTypes.BlockReference: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// A reference to a block.
-    public struct BlockReference: Swift.Equatable {
+    public struct BlockReference {
         /// Offset of the start of the block within its parent block.
         public var beginOffset: Swift.Int?
         /// Unique identifier for the block.
@@ -1842,7 +1842,7 @@ extension ComprehendClientTypes.BoundingBox: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// The bounding box around the detected page or around an element on a document page. The left (x-coordinate) and top (y-coordinate) are coordinates that represent the top and left sides of the bounding box. Note that the upper-left corner of the image is the origin (0,0). For additional information, see [BoundingBox](https://docs.aws.amazon.com/textract/latest/dg/API_BoundingBox.html) in the Amazon Textract API reference.
-    public struct BoundingBox: Swift.Equatable {
+    public struct BoundingBox {
         /// The height of the bounding box as a ratio of the overall document page height.
         public var height: Swift.Float?
         /// The left coordinate of the bounding box as a ratio of overall document page width.
@@ -1901,7 +1901,7 @@ extension ComprehendClientTypes.ChildBlock: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Nested block contained within a block.
-    public struct ChildBlock: Swift.Equatable {
+    public struct ChildBlock {
         /// Offset of the start of the child block within its parent block.
         public var beginOffset: Swift.Int?
         /// Unique identifier for the child block.
@@ -1986,7 +1986,7 @@ extension ComprehendClientTypes.ClassifierEvaluationMetrics: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Describes the result metrics for the test data associated with an documentation classifier.
-    public struct ClassifierEvaluationMetrics: Swift.Equatable {
+    public struct ClassifierEvaluationMetrics {
         /// The fraction of the labels that were correct recognized. It is computed by dividing the number of labels in the test documents that were correctly recognized by the total number of labels in the test documents.
         public var accuracy: Swift.Double?
         /// A measure of how accurate the classifier results are for the test data. It is derived from the Precision and Recall values. The F1Score is the harmonic average of the two scores. The highest score is 1, and the worst score is 0.
@@ -2073,7 +2073,7 @@ extension ComprehendClientTypes.ClassifierMetadata: Swift.CustomDebugStringConve
 
 extension ComprehendClientTypes {
     /// Provides information about a document classifier.
-    public struct ClassifierMetadata: Swift.Equatable {
+    public struct ClassifierMetadata {
         /// Describes the result metrics for the test data associated with an documentation classifier.
         public var evaluationMetrics: ComprehendClientTypes.ClassifierEvaluationMetrics?
         /// The number of labels in the input data.
@@ -2136,7 +2136,7 @@ extension ClassifyDocumentInput {
     }
 }
 
-public struct ClassifyDocumentInput: Swift.Equatable {
+public struct ClassifyDocumentInput {
     /// Use the Bytes parameter to input a text, PDF, Word or image file. When you classify a document using a custom model, you can also use the Bytes parameter to input an Amazon Textract DetectDocumentText or AnalyzeDocument output file. To classify a document using the prompt safety classifier, use the Text parameter for input. Provide the input document as a sequence of base64-encoded bytes. If your code uses an Amazon Web Services SDK to classify documents, the SDK may encode the document file bytes for you. The maximum length of this field depends on the input document type. For details, see [ Inputs for real-time custom analysis](https://docs.aws.amazon.com/comprehend/latest/dg/idp-inputs-sync.html) in the Comprehend Developer Guide. If you use the Bytes parameter, do not use the Text parameter.
     public var bytes: ClientRuntime.Data?
     /// Provides configuration parameters to override the default actions for extracting text from PDF documents and image files.
@@ -2161,7 +2161,7 @@ public struct ClassifyDocumentInput: Swift.Equatable {
     }
 }
 
-struct ClassifyDocumentInputBody: Swift.Equatable {
+struct ClassifyDocumentInputBody {
     let text: Swift.String?
     let endpointArn: Swift.String?
     let bytes: ClientRuntime.Data?
@@ -2217,7 +2217,7 @@ extension ClassifyDocumentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ClassifyDocumentOutput: Swift.Equatable {
+public struct ClassifyDocumentOutput {
     /// The classes used by the document being analyzed. These are used for models trained in multi-class mode. Individual classes are mutually exclusive and each document is expected to have only a single class assigned to it. For example, an animal can be a dog or a cat, but not both at the same time. For prompt safety classification, the response includes only two classes (SAFE_PROMPT and UNSAFE_PROMPT), along with a confidence score for each class. The value range of the score is zero to one, where one is the highest confidence.
     public var classes: [ComprehendClientTypes.DocumentClass]?
     /// Extraction information about the document. This field is present in the response only if your request includes the Byte parameter.
@@ -2249,7 +2249,7 @@ public struct ClassifyDocumentOutput: Swift.Equatable {
     }
 }
 
-struct ClassifyDocumentOutputBody: Swift.Equatable {
+struct ClassifyDocumentOutputBody {
     let classes: [ComprehendClientTypes.DocumentClass]?
     let labels: [ComprehendClientTypes.DocumentLabel]?
     let documentMetadata: ComprehendClientTypes.DocumentMetadata?
@@ -2385,7 +2385,7 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct ConcurrentModificationExceptionBody: Swift.Equatable {
+struct ConcurrentModificationExceptionBody {
     let message: Swift.String?
 }
 
@@ -2425,7 +2425,7 @@ extension ContainsPiiEntitiesInput {
     }
 }
 
-public struct ContainsPiiEntitiesInput: Swift.Equatable {
+public struct ContainsPiiEntitiesInput {
     /// The language of the input documents.
     /// This member is required.
     public var languageCode: ComprehendClientTypes.LanguageCode?
@@ -2443,7 +2443,7 @@ public struct ContainsPiiEntitiesInput: Swift.Equatable {
     }
 }
 
-struct ContainsPiiEntitiesInputBody: Swift.Equatable {
+struct ContainsPiiEntitiesInputBody {
     let text: Swift.String?
     let languageCode: ComprehendClientTypes.LanguageCode?
 }
@@ -2475,7 +2475,7 @@ extension ContainsPiiEntitiesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ContainsPiiEntitiesOutput: Swift.Equatable {
+public struct ContainsPiiEntitiesOutput {
     /// The labels used in the document being analyzed. Individual labels represent personally identifiable information (PII) entity types.
     public var labels: [ComprehendClientTypes.EntityLabel]?
 
@@ -2487,7 +2487,7 @@ public struct ContainsPiiEntitiesOutput: Swift.Equatable {
     }
 }
 
-struct ContainsPiiEntitiesOutputBody: Swift.Equatable {
+struct ContainsPiiEntitiesOutputBody {
     let labels: [ComprehendClientTypes.EntityLabel]?
 }
 
@@ -2573,7 +2573,7 @@ extension CreateDatasetInput {
     }
 }
 
-public struct CreateDatasetInput: Swift.Equatable {
+public struct CreateDatasetInput {
     /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
     public var clientRequestToken: Swift.String?
     /// Name of the dataset.
@@ -2612,7 +2612,7 @@ public struct CreateDatasetInput: Swift.Equatable {
     }
 }
 
-struct CreateDatasetInputBody: Swift.Equatable {
+struct CreateDatasetInputBody {
     let flywheelArn: Swift.String?
     let datasetName: Swift.String?
     let datasetType: ComprehendClientTypes.DatasetType?
@@ -2673,7 +2673,7 @@ extension CreateDatasetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDatasetOutput: Swift.Equatable {
+public struct CreateDatasetOutput {
     /// The ARN of the dataset.
     public var datasetArn: Swift.String?
 
@@ -2685,7 +2685,7 @@ public struct CreateDatasetOutput: Swift.Equatable {
     }
 }
 
-struct CreateDatasetOutputBody: Swift.Equatable {
+struct CreateDatasetOutputBody {
     let datasetArn: Swift.String?
 }
 
@@ -2789,7 +2789,7 @@ extension CreateDocumentClassifierInput {
     }
 }
 
-public struct CreateDocumentClassifierInput: Swift.Equatable {
+public struct CreateDocumentClassifierInput {
     /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
     public var clientRequestToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data.
@@ -2861,7 +2861,7 @@ public struct CreateDocumentClassifierInput: Swift.Equatable {
     }
 }
 
-struct CreateDocumentClassifierInputBody: Swift.Equatable {
+struct CreateDocumentClassifierInputBody {
     let documentClassifierName: Swift.String?
     let versionName: Swift.String?
     let dataAccessRoleArn: Swift.String?
@@ -2946,7 +2946,7 @@ extension CreateDocumentClassifierOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDocumentClassifierOutput: Swift.Equatable {
+public struct CreateDocumentClassifierOutput {
     /// The Amazon Resource Name (ARN) that identifies the document classifier.
     public var documentClassifierArn: Swift.String?
 
@@ -2958,7 +2958,7 @@ public struct CreateDocumentClassifierOutput: Swift.Equatable {
     }
 }
 
-struct CreateDocumentClassifierOutputBody: Swift.Equatable {
+struct CreateDocumentClassifierOutputBody {
     let documentClassifierArn: Swift.String?
 }
 
@@ -3039,7 +3039,7 @@ extension CreateEndpointInput {
     }
 }
 
-public struct CreateEndpointInput: Swift.Equatable {
+public struct CreateEndpointInput {
     /// An idempotency token provided by the customer. If this token matches a previous endpoint creation request, Amazon Comprehend will not return a ResourceInUseException.
     public var clientRequestToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to trained custom models encrypted with a customer managed key (ModelKmsKeyId).
@@ -3077,7 +3077,7 @@ public struct CreateEndpointInput: Swift.Equatable {
     }
 }
 
-struct CreateEndpointInputBody: Swift.Equatable {
+struct CreateEndpointInputBody {
     let endpointName: Swift.String?
     let modelArn: Swift.String?
     let desiredInferenceUnits: Swift.Int?
@@ -3140,7 +3140,7 @@ extension CreateEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateEndpointOutput: Swift.Equatable {
+public struct CreateEndpointOutput {
     /// The Amazon Resource Number (ARN) of the endpoint being created.
     public var endpointArn: Swift.String?
     /// The Amazon Resource Number (ARN) of the model to which the endpoint is attached.
@@ -3156,7 +3156,7 @@ public struct CreateEndpointOutput: Swift.Equatable {
     }
 }
 
-struct CreateEndpointOutputBody: Swift.Equatable {
+struct CreateEndpointOutputBody {
     let endpointArn: Swift.String?
     let modelArn: Swift.String?
 }
@@ -3257,7 +3257,7 @@ extension CreateEntityRecognizerInput {
     }
 }
 
-public struct CreateEntityRecognizerInput: Swift.Equatable {
+public struct CreateEntityRecognizerInput {
     /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
     public var clientRequestToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data.
@@ -3321,7 +3321,7 @@ public struct CreateEntityRecognizerInput: Swift.Equatable {
     }
 }
 
-struct CreateEntityRecognizerInputBody: Swift.Equatable {
+struct CreateEntityRecognizerInputBody {
     let recognizerName: Swift.String?
     let versionName: Swift.String?
     let dataAccessRoleArn: Swift.String?
@@ -3398,7 +3398,7 @@ extension CreateEntityRecognizerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateEntityRecognizerOutput: Swift.Equatable {
+public struct CreateEntityRecognizerOutput {
     /// The Amazon Resource Name (ARN) that identifies the entity recognizer.
     public var entityRecognizerArn: Swift.String?
 
@@ -3410,7 +3410,7 @@ public struct CreateEntityRecognizerOutput: Swift.Equatable {
     }
 }
 
-struct CreateEntityRecognizerOutputBody: Swift.Equatable {
+struct CreateEntityRecognizerOutputBody {
     let entityRecognizerArn: Swift.String?
 }
 
@@ -3499,7 +3499,7 @@ extension CreateFlywheelInput {
     }
 }
 
-public struct CreateFlywheelInput: Swift.Equatable {
+public struct CreateFlywheelInput {
     /// To associate an existing model with the flywheel, specify the Amazon Resource Number (ARN) of the model version. Do not set TaskConfig or ModelType if you specify an ActiveModelArn.
     public var activeModelArn: Swift.String?
     /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
@@ -3546,7 +3546,7 @@ public struct CreateFlywheelInput: Swift.Equatable {
     }
 }
 
-struct CreateFlywheelInputBody: Swift.Equatable {
+struct CreateFlywheelInputBody {
     let flywheelName: Swift.String?
     let activeModelArn: Swift.String?
     let dataAccessRoleArn: Swift.String?
@@ -3617,7 +3617,7 @@ extension CreateFlywheelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateFlywheelOutput: Swift.Equatable {
+public struct CreateFlywheelOutput {
     /// The Amazon Resource Number (ARN) of the active model version.
     public var activeModelArn: Swift.String?
     /// The Amazon Resource Number (ARN) of the flywheel.
@@ -3633,7 +3633,7 @@ public struct CreateFlywheelOutput: Swift.Equatable {
     }
 }
 
-struct CreateFlywheelOutputBody: Swift.Equatable {
+struct CreateFlywheelOutputBody {
     let flywheelArn: Swift.String?
     let activeModelArn: Swift.String?
 }
@@ -3712,7 +3712,7 @@ extension ComprehendClientTypes.DataSecurityConfig: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Data security configuration.
-    public struct DataSecurityConfig: Swift.Equatable {
+    public struct DataSecurityConfig {
         /// ID for the KMS key that Amazon Comprehend uses to encrypt the data in the data lake.
         public var dataLakeKmsKeyId: Swift.String?
         /// ID for the KMS key that Amazon Comprehend uses to encrypt trained custom models. The ModelKmsKeyId can be either of the following formats:
@@ -3799,7 +3799,7 @@ extension ComprehendClientTypes.DatasetAugmentedManifestsListItem: Swift.Codable
 
 extension ComprehendClientTypes {
     /// An augmented manifest file that provides training data for your custom model. An augmented manifest file is a labeled dataset that is produced by Amazon SageMaker Ground Truth.
-    public struct DatasetAugmentedManifestsListItem: Swift.Equatable {
+    public struct DatasetAugmentedManifestsListItem {
         /// The S3 prefix to the annotation files that are referred in the augmented manifest file.
         public var annotationDataS3Uri: Swift.String?
         /// The JSON attribute that contains the annotations for your training documents. The number of attribute names that you specify depends on whether your augmented manifest file is the output of a single labeling job or a chained labeling job. If your file is the output of a single labeling job, specify the LabelAttributeName key that was used when the job was created in Ground Truth. If your file is the output of a chained labeling job, specify the LabelAttributeName key for one or more jobs in the chain. Each LabelAttributeName key provides the annotations from an individual job.
@@ -3890,7 +3890,7 @@ extension ComprehendClientTypes.DatasetDocumentClassifierInputDataConfig: Swift.
 
 extension ComprehendClientTypes {
     /// Describes the dataset input data configuration for a document classifier model. For more information on how the input file is formatted, see [Preparing training data](https://docs.aws.amazon.com/comprehend/latest/dg/prep-classifier-data.html) in the Comprehend Developer Guide.
-    public struct DatasetDocumentClassifierInputDataConfig: Swift.Equatable {
+    public struct DatasetDocumentClassifierInputDataConfig {
         /// Indicates the delimiter used to separate each label for training a multi-label classifier. The default delimiter between labels is a pipe (|). You can use a different character as a delimiter (if it's an allowed character) by specifying it under Delimiter for labels. If the training documents use a delimiter other than the default or the delimiter you specify, the labels on that line will be combined to make a single unique label, such as LABELLABELLABEL.
         public var labelDelimiter: Swift.String?
         /// The Amazon S3 URI for the input data. The S3 bucket must be in the same Region as the API endpoint that you are calling. The URI can point to a single input file or it can provide the prefix for a collection of input files. For example, if you use the URI S3://bucketName/prefix, if the prefix is a single file, Amazon Comprehend uses that file as input. If more than one file begins with the prefix, Amazon Comprehend uses all of them as input. This parameter is required if you set DataFormat to COMPREHEND_CSV.
@@ -3930,7 +3930,7 @@ extension ComprehendClientTypes.DatasetEntityRecognizerAnnotations: Swift.Codabl
 
 extension ComprehendClientTypes {
     /// Describes the annotations associated with a entity recognizer.
-    public struct DatasetEntityRecognizerAnnotations: Swift.Equatable {
+    public struct DatasetEntityRecognizerAnnotations {
         /// Specifies the Amazon S3 location where the training documents for an entity recognizer are located. The URI must be in the same Region as the API endpoint that you are calling.
         /// This member is required.
         public var s3Uri: Swift.String?
@@ -3972,7 +3972,7 @@ extension ComprehendClientTypes.DatasetEntityRecognizerDocuments: Swift.Codable 
 
 extension ComprehendClientTypes {
     /// Describes the documents submitted with a dataset for an entity recognizer model.
-    public struct DatasetEntityRecognizerDocuments: Swift.Equatable {
+    public struct DatasetEntityRecognizerDocuments {
         /// Specifies how the text in an input file should be processed. This is optional, and the default is ONE_DOC_PER_LINE. ONE_DOC_PER_FILE - Each file is considered a separate document. Use this option when you are processing large documents, such as newspaper articles or scientific papers. ONE_DOC_PER_LINE - Each line in a file is considered a separate document. Use this option when you are processing many short documents, such as text messages.
         public var inputFormat: ComprehendClientTypes.InputFormat?
         /// Specifies the Amazon S3 location where the documents for the dataset are located.
@@ -4012,7 +4012,7 @@ extension ComprehendClientTypes.DatasetEntityRecognizerEntityList: Swift.Codable
 
 extension ComprehendClientTypes {
     /// Describes the dataset entity list for an entity recognizer model. For more information on how the input file is formatted, see [Preparing training data](https://docs.aws.amazon.com/comprehend/latest/dg/prep-training-data-cer.html) in the Comprehend Developer Guide.
-    public struct DatasetEntityRecognizerEntityList: Swift.Equatable {
+    public struct DatasetEntityRecognizerEntityList {
         /// Specifies the Amazon S3 location where the entity list is located.
         /// This member is required.
         public var s3Uri: Swift.String?
@@ -4060,7 +4060,7 @@ extension ComprehendClientTypes.DatasetEntityRecognizerInputDataConfig: Swift.Co
 
 extension ComprehendClientTypes {
     /// Specifies the format and location of the input data. You must provide either the Annotations parameter or the EntityList parameter.
-    public struct DatasetEntityRecognizerInputDataConfig: Swift.Equatable {
+    public struct DatasetEntityRecognizerInputDataConfig {
         /// The S3 location of the annotation documents for your custom entity recognizer.
         public var annotations: ComprehendClientTypes.DatasetEntityRecognizerAnnotations?
         /// The format and location of the training documents for your custom entity recognizer.
@@ -4122,7 +4122,7 @@ extension ComprehendClientTypes.DatasetFilter: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Filter the datasets based on creation time or dataset status.
-    public struct DatasetFilter: Swift.Equatable {
+    public struct DatasetFilter {
         /// Filter the datasets to include datasets created after the specified time.
         public var creationTimeAfter: ClientRuntime.Date?
         /// Filter the datasets to include datasets created before the specified time.
@@ -4199,7 +4199,7 @@ extension ComprehendClientTypes.DatasetInputDataConfig: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Specifies the format and location of the input data for the dataset.
-    public struct DatasetInputDataConfig: Swift.Equatable {
+    public struct DatasetInputDataConfig {
         /// A list of augmented manifest files that provide training data for your custom model. An augmented manifest file is a labeled dataset that is produced by Amazon SageMaker Ground Truth.
         public var augmentedManifests: [ComprehendClientTypes.DatasetAugmentedManifestsListItem]?
         /// COMPREHEND_CSV: The data format is a two-column CSV file, where the first column contains labels and the second column contains documents. AUGMENTED_MANIFEST: The data format
@@ -4300,7 +4300,7 @@ extension ComprehendClientTypes.DatasetProperties: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Properties associated with the dataset.
-    public struct DatasetProperties: Swift.Equatable {
+    public struct DatasetProperties {
         /// Creation time of the dataset.
         public var creationTime: ClientRuntime.Date?
         /// The ARN of the dataset.
@@ -4437,7 +4437,7 @@ extension DeleteDocumentClassifierInput {
     }
 }
 
-public struct DeleteDocumentClassifierInput: Swift.Equatable {
+public struct DeleteDocumentClassifierInput {
     /// The Amazon Resource Name (ARN) that identifies the document classifier.
     /// This member is required.
     public var documentClassifierArn: Swift.String?
@@ -4450,7 +4450,7 @@ public struct DeleteDocumentClassifierInput: Swift.Equatable {
     }
 }
 
-struct DeleteDocumentClassifierInputBody: Swift.Equatable {
+struct DeleteDocumentClassifierInputBody {
     let documentClassifierArn: Swift.String?
 }
 
@@ -4471,7 +4471,7 @@ extension DeleteDocumentClassifierOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDocumentClassifierOutput: Swift.Equatable {
+public struct DeleteDocumentClassifierOutput {
 
     public init() { }
 }
@@ -4512,7 +4512,7 @@ extension DeleteEndpointInput {
     }
 }
 
-public struct DeleteEndpointInput: Swift.Equatable {
+public struct DeleteEndpointInput {
     /// The Amazon Resource Number (ARN) of the endpoint being deleted.
     /// This member is required.
     public var endpointArn: Swift.String?
@@ -4525,7 +4525,7 @@ public struct DeleteEndpointInput: Swift.Equatable {
     }
 }
 
-struct DeleteEndpointInputBody: Swift.Equatable {
+struct DeleteEndpointInputBody {
     let endpointArn: Swift.String?
 }
 
@@ -4546,7 +4546,7 @@ extension DeleteEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteEndpointOutput: Swift.Equatable {
+public struct DeleteEndpointOutput {
 
     public init() { }
 }
@@ -4586,7 +4586,7 @@ extension DeleteEntityRecognizerInput {
     }
 }
 
-public struct DeleteEntityRecognizerInput: Swift.Equatable {
+public struct DeleteEntityRecognizerInput {
     /// The Amazon Resource Name (ARN) that identifies the entity recognizer.
     /// This member is required.
     public var entityRecognizerArn: Swift.String?
@@ -4599,7 +4599,7 @@ public struct DeleteEntityRecognizerInput: Swift.Equatable {
     }
 }
 
-struct DeleteEntityRecognizerInputBody: Swift.Equatable {
+struct DeleteEntityRecognizerInputBody {
     let entityRecognizerArn: Swift.String?
 }
 
@@ -4620,7 +4620,7 @@ extension DeleteEntityRecognizerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteEntityRecognizerOutput: Swift.Equatable {
+public struct DeleteEntityRecognizerOutput {
 
     public init() { }
 }
@@ -4661,7 +4661,7 @@ extension DeleteFlywheelInput {
     }
 }
 
-public struct DeleteFlywheelInput: Swift.Equatable {
+public struct DeleteFlywheelInput {
     /// The Amazon Resource Number (ARN) of the flywheel to delete.
     /// This member is required.
     public var flywheelArn: Swift.String?
@@ -4674,7 +4674,7 @@ public struct DeleteFlywheelInput: Swift.Equatable {
     }
 }
 
-struct DeleteFlywheelInputBody: Swift.Equatable {
+struct DeleteFlywheelInputBody {
     let flywheelArn: Swift.String?
 }
 
@@ -4695,7 +4695,7 @@ extension DeleteFlywheelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteFlywheelOutput: Swift.Equatable {
+public struct DeleteFlywheelOutput {
 
     public init() { }
 }
@@ -4740,7 +4740,7 @@ extension DeleteResourcePolicyInput {
     }
 }
 
-public struct DeleteResourcePolicyInput: Swift.Equatable {
+public struct DeleteResourcePolicyInput {
     /// The revision ID of the policy to delete.
     public var policyRevisionId: Swift.String?
     /// The Amazon Resource Name (ARN) of the custom model version that has the policy to delete.
@@ -4757,7 +4757,7 @@ public struct DeleteResourcePolicyInput: Swift.Equatable {
     }
 }
 
-struct DeleteResourcePolicyInputBody: Swift.Equatable {
+struct DeleteResourcePolicyInputBody {
     let resourceArn: Swift.String?
     let policyRevisionId: Swift.String?
 }
@@ -4782,7 +4782,7 @@ extension DeleteResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteResourcePolicyOutput: Swift.Equatable {
+public struct DeleteResourcePolicyOutput {
 
     public init() { }
 }
@@ -4820,7 +4820,7 @@ extension DescribeDatasetInput {
     }
 }
 
-public struct DescribeDatasetInput: Swift.Equatable {
+public struct DescribeDatasetInput {
     /// The ARN of the dataset.
     /// This member is required.
     public var datasetArn: Swift.String?
@@ -4833,7 +4833,7 @@ public struct DescribeDatasetInput: Swift.Equatable {
     }
 }
 
-struct DescribeDatasetInputBody: Swift.Equatable {
+struct DescribeDatasetInputBody {
     let datasetArn: Swift.String?
 }
 
@@ -4861,7 +4861,7 @@ extension DescribeDatasetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDatasetOutput: Swift.Equatable {
+public struct DescribeDatasetOutput {
     /// The dataset properties.
     public var datasetProperties: ComprehendClientTypes.DatasetProperties?
 
@@ -4873,7 +4873,7 @@ public struct DescribeDatasetOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDatasetOutputBody: Swift.Equatable {
+struct DescribeDatasetOutputBody {
     let datasetProperties: ComprehendClientTypes.DatasetProperties?
 }
 
@@ -4923,7 +4923,7 @@ extension DescribeDocumentClassificationJobInput {
     }
 }
 
-public struct DescribeDocumentClassificationJobInput: Swift.Equatable {
+public struct DescribeDocumentClassificationJobInput {
     /// The identifier that Amazon Comprehend generated for the job. The StartDocumentClassificationJob operation returns this identifier in its response.
     /// This member is required.
     public var jobId: Swift.String?
@@ -4936,7 +4936,7 @@ public struct DescribeDocumentClassificationJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeDocumentClassificationJobInputBody: Swift.Equatable {
+struct DescribeDocumentClassificationJobInputBody {
     let jobId: Swift.String?
 }
 
@@ -4964,7 +4964,7 @@ extension DescribeDocumentClassificationJobOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct DescribeDocumentClassificationJobOutput: Swift.Equatable {
+public struct DescribeDocumentClassificationJobOutput {
     /// An object that describes the properties associated with the document classification job.
     public var documentClassificationJobProperties: ComprehendClientTypes.DocumentClassificationJobProperties?
 
@@ -4976,7 +4976,7 @@ public struct DescribeDocumentClassificationJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDocumentClassificationJobOutputBody: Swift.Equatable {
+struct DescribeDocumentClassificationJobOutputBody {
     let documentClassificationJobProperties: ComprehendClientTypes.DocumentClassificationJobProperties?
 }
 
@@ -5026,7 +5026,7 @@ extension DescribeDocumentClassifierInput {
     }
 }
 
-public struct DescribeDocumentClassifierInput: Swift.Equatable {
+public struct DescribeDocumentClassifierInput {
     /// The Amazon Resource Name (ARN) that identifies the document classifier. The CreateDocumentClassifier operation returns this identifier in its response.
     /// This member is required.
     public var documentClassifierArn: Swift.String?
@@ -5039,7 +5039,7 @@ public struct DescribeDocumentClassifierInput: Swift.Equatable {
     }
 }
 
-struct DescribeDocumentClassifierInputBody: Swift.Equatable {
+struct DescribeDocumentClassifierInputBody {
     let documentClassifierArn: Swift.String?
 }
 
@@ -5067,7 +5067,7 @@ extension DescribeDocumentClassifierOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDocumentClassifierOutput: Swift.Equatable {
+public struct DescribeDocumentClassifierOutput {
     /// An object that contains the properties associated with a document classifier.
     public var documentClassifierProperties: ComprehendClientTypes.DocumentClassifierProperties?
 
@@ -5079,7 +5079,7 @@ public struct DescribeDocumentClassifierOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDocumentClassifierOutputBody: Swift.Equatable {
+struct DescribeDocumentClassifierOutputBody {
     let documentClassifierProperties: ComprehendClientTypes.DocumentClassifierProperties?
 }
 
@@ -5129,7 +5129,7 @@ extension DescribeDominantLanguageDetectionJobInput {
     }
 }
 
-public struct DescribeDominantLanguageDetectionJobInput: Swift.Equatable {
+public struct DescribeDominantLanguageDetectionJobInput {
     /// The identifier that Amazon Comprehend generated for the job. The StartDominantLanguageDetectionJob operation returns this identifier in its response.
     /// This member is required.
     public var jobId: Swift.String?
@@ -5142,7 +5142,7 @@ public struct DescribeDominantLanguageDetectionJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeDominantLanguageDetectionJobInputBody: Swift.Equatable {
+struct DescribeDominantLanguageDetectionJobInputBody {
     let jobId: Swift.String?
 }
 
@@ -5170,7 +5170,7 @@ extension DescribeDominantLanguageDetectionJobOutput: ClientRuntime.HttpResponse
     }
 }
 
-public struct DescribeDominantLanguageDetectionJobOutput: Swift.Equatable {
+public struct DescribeDominantLanguageDetectionJobOutput {
     /// An object that contains the properties associated with a dominant language detection job.
     public var dominantLanguageDetectionJobProperties: ComprehendClientTypes.DominantLanguageDetectionJobProperties?
 
@@ -5182,7 +5182,7 @@ public struct DescribeDominantLanguageDetectionJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDominantLanguageDetectionJobOutputBody: Swift.Equatable {
+struct DescribeDominantLanguageDetectionJobOutputBody {
     let dominantLanguageDetectionJobProperties: ComprehendClientTypes.DominantLanguageDetectionJobProperties?
 }
 
@@ -5232,7 +5232,7 @@ extension DescribeEndpointInput {
     }
 }
 
-public struct DescribeEndpointInput: Swift.Equatable {
+public struct DescribeEndpointInput {
     /// The Amazon Resource Number (ARN) of the endpoint being described.
     /// This member is required.
     public var endpointArn: Swift.String?
@@ -5245,7 +5245,7 @@ public struct DescribeEndpointInput: Swift.Equatable {
     }
 }
 
-struct DescribeEndpointInputBody: Swift.Equatable {
+struct DescribeEndpointInputBody {
     let endpointArn: Swift.String?
 }
 
@@ -5273,7 +5273,7 @@ extension DescribeEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeEndpointOutput: Swift.Equatable {
+public struct DescribeEndpointOutput {
     /// Describes information associated with the specific endpoint.
     public var endpointProperties: ComprehendClientTypes.EndpointProperties?
 
@@ -5285,7 +5285,7 @@ public struct DescribeEndpointOutput: Swift.Equatable {
     }
 }
 
-struct DescribeEndpointOutputBody: Swift.Equatable {
+struct DescribeEndpointOutputBody {
     let endpointProperties: ComprehendClientTypes.EndpointProperties?
 }
 
@@ -5335,7 +5335,7 @@ extension DescribeEntitiesDetectionJobInput {
     }
 }
 
-public struct DescribeEntitiesDetectionJobInput: Swift.Equatable {
+public struct DescribeEntitiesDetectionJobInput {
     /// The identifier that Amazon Comprehend generated for the job. The StartEntitiesDetectionJob operation returns this identifier in its response.
     /// This member is required.
     public var jobId: Swift.String?
@@ -5348,7 +5348,7 @@ public struct DescribeEntitiesDetectionJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeEntitiesDetectionJobInputBody: Swift.Equatable {
+struct DescribeEntitiesDetectionJobInputBody {
     let jobId: Swift.String?
 }
 
@@ -5376,7 +5376,7 @@ extension DescribeEntitiesDetectionJobOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DescribeEntitiesDetectionJobOutput: Swift.Equatable {
+public struct DescribeEntitiesDetectionJobOutput {
     /// An object that contains the properties associated with an entities detection job.
     public var entitiesDetectionJobProperties: ComprehendClientTypes.EntitiesDetectionJobProperties?
 
@@ -5388,7 +5388,7 @@ public struct DescribeEntitiesDetectionJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeEntitiesDetectionJobOutputBody: Swift.Equatable {
+struct DescribeEntitiesDetectionJobOutputBody {
     let entitiesDetectionJobProperties: ComprehendClientTypes.EntitiesDetectionJobProperties?
 }
 
@@ -5438,7 +5438,7 @@ extension DescribeEntityRecognizerInput {
     }
 }
 
-public struct DescribeEntityRecognizerInput: Swift.Equatable {
+public struct DescribeEntityRecognizerInput {
     /// The Amazon Resource Name (ARN) that identifies the entity recognizer.
     /// This member is required.
     public var entityRecognizerArn: Swift.String?
@@ -5451,7 +5451,7 @@ public struct DescribeEntityRecognizerInput: Swift.Equatable {
     }
 }
 
-struct DescribeEntityRecognizerInputBody: Swift.Equatable {
+struct DescribeEntityRecognizerInputBody {
     let entityRecognizerArn: Swift.String?
 }
 
@@ -5479,7 +5479,7 @@ extension DescribeEntityRecognizerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeEntityRecognizerOutput: Swift.Equatable {
+public struct DescribeEntityRecognizerOutput {
     /// Describes information associated with an entity recognizer.
     public var entityRecognizerProperties: ComprehendClientTypes.EntityRecognizerProperties?
 
@@ -5491,7 +5491,7 @@ public struct DescribeEntityRecognizerOutput: Swift.Equatable {
     }
 }
 
-struct DescribeEntityRecognizerOutputBody: Swift.Equatable {
+struct DescribeEntityRecognizerOutputBody {
     let entityRecognizerProperties: ComprehendClientTypes.EntityRecognizerProperties?
 }
 
@@ -5541,7 +5541,7 @@ extension DescribeEventsDetectionJobInput {
     }
 }
 
-public struct DescribeEventsDetectionJobInput: Swift.Equatable {
+public struct DescribeEventsDetectionJobInput {
     /// The identifier of the events detection job.
     /// This member is required.
     public var jobId: Swift.String?
@@ -5554,7 +5554,7 @@ public struct DescribeEventsDetectionJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeEventsDetectionJobInputBody: Swift.Equatable {
+struct DescribeEventsDetectionJobInputBody {
     let jobId: Swift.String?
 }
 
@@ -5582,7 +5582,7 @@ extension DescribeEventsDetectionJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeEventsDetectionJobOutput: Swift.Equatable {
+public struct DescribeEventsDetectionJobOutput {
     /// An object that contains the properties associated with an event detection job.
     public var eventsDetectionJobProperties: ComprehendClientTypes.EventsDetectionJobProperties?
 
@@ -5594,7 +5594,7 @@ public struct DescribeEventsDetectionJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeEventsDetectionJobOutputBody: Swift.Equatable {
+struct DescribeEventsDetectionJobOutputBody {
     let eventsDetectionJobProperties: ComprehendClientTypes.EventsDetectionJobProperties?
 }
 
@@ -5644,7 +5644,7 @@ extension DescribeFlywheelInput {
     }
 }
 
-public struct DescribeFlywheelInput: Swift.Equatable {
+public struct DescribeFlywheelInput {
     /// The Amazon Resource Number (ARN) of the flywheel.
     /// This member is required.
     public var flywheelArn: Swift.String?
@@ -5657,7 +5657,7 @@ public struct DescribeFlywheelInput: Swift.Equatable {
     }
 }
 
-struct DescribeFlywheelInputBody: Swift.Equatable {
+struct DescribeFlywheelInputBody {
     let flywheelArn: Swift.String?
 }
 
@@ -5697,7 +5697,7 @@ extension DescribeFlywheelIterationInput {
     }
 }
 
-public struct DescribeFlywheelIterationInput: Swift.Equatable {
+public struct DescribeFlywheelIterationInput {
     ///
     /// This member is required.
     public var flywheelArn: Swift.String?
@@ -5715,7 +5715,7 @@ public struct DescribeFlywheelIterationInput: Swift.Equatable {
     }
 }
 
-struct DescribeFlywheelIterationInputBody: Swift.Equatable {
+struct DescribeFlywheelIterationInputBody {
     let flywheelArn: Swift.String?
     let flywheelIterationId: Swift.String?
 }
@@ -5747,7 +5747,7 @@ extension DescribeFlywheelIterationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeFlywheelIterationOutput: Swift.Equatable {
+public struct DescribeFlywheelIterationOutput {
     /// The configuration properties of a flywheel iteration.
     public var flywheelIterationProperties: ComprehendClientTypes.FlywheelIterationProperties?
 
@@ -5759,7 +5759,7 @@ public struct DescribeFlywheelIterationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeFlywheelIterationOutputBody: Swift.Equatable {
+struct DescribeFlywheelIterationOutputBody {
     let flywheelIterationProperties: ComprehendClientTypes.FlywheelIterationProperties?
 }
 
@@ -5801,7 +5801,7 @@ extension DescribeFlywheelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeFlywheelOutput: Swift.Equatable {
+public struct DescribeFlywheelOutput {
     /// The flywheel properties.
     public var flywheelProperties: ComprehendClientTypes.FlywheelProperties?
 
@@ -5813,7 +5813,7 @@ public struct DescribeFlywheelOutput: Swift.Equatable {
     }
 }
 
-struct DescribeFlywheelOutputBody: Swift.Equatable {
+struct DescribeFlywheelOutputBody {
     let flywheelProperties: ComprehendClientTypes.FlywheelProperties?
 }
 
@@ -5863,7 +5863,7 @@ extension DescribeKeyPhrasesDetectionJobInput {
     }
 }
 
-public struct DescribeKeyPhrasesDetectionJobInput: Swift.Equatable {
+public struct DescribeKeyPhrasesDetectionJobInput {
     /// The identifier that Amazon Comprehend generated for the job. The StartKeyPhrasesDetectionJob operation returns this identifier in its response.
     /// This member is required.
     public var jobId: Swift.String?
@@ -5876,7 +5876,7 @@ public struct DescribeKeyPhrasesDetectionJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeKeyPhrasesDetectionJobInputBody: Swift.Equatable {
+struct DescribeKeyPhrasesDetectionJobInputBody {
     let jobId: Swift.String?
 }
 
@@ -5904,7 +5904,7 @@ extension DescribeKeyPhrasesDetectionJobOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DescribeKeyPhrasesDetectionJobOutput: Swift.Equatable {
+public struct DescribeKeyPhrasesDetectionJobOutput {
     /// An object that contains the properties associated with a key phrases detection job.
     public var keyPhrasesDetectionJobProperties: ComprehendClientTypes.KeyPhrasesDetectionJobProperties?
 
@@ -5916,7 +5916,7 @@ public struct DescribeKeyPhrasesDetectionJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeKeyPhrasesDetectionJobOutputBody: Swift.Equatable {
+struct DescribeKeyPhrasesDetectionJobOutputBody {
     let keyPhrasesDetectionJobProperties: ComprehendClientTypes.KeyPhrasesDetectionJobProperties?
 }
 
@@ -5966,7 +5966,7 @@ extension DescribePiiEntitiesDetectionJobInput {
     }
 }
 
-public struct DescribePiiEntitiesDetectionJobInput: Swift.Equatable {
+public struct DescribePiiEntitiesDetectionJobInput {
     /// The identifier that Amazon Comprehend generated for the job. The operation returns this identifier in its response.
     /// This member is required.
     public var jobId: Swift.String?
@@ -5979,7 +5979,7 @@ public struct DescribePiiEntitiesDetectionJobInput: Swift.Equatable {
     }
 }
 
-struct DescribePiiEntitiesDetectionJobInputBody: Swift.Equatable {
+struct DescribePiiEntitiesDetectionJobInputBody {
     let jobId: Swift.String?
 }
 
@@ -6007,7 +6007,7 @@ extension DescribePiiEntitiesDetectionJobOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DescribePiiEntitiesDetectionJobOutput: Swift.Equatable {
+public struct DescribePiiEntitiesDetectionJobOutput {
     /// Provides information about a PII entities detection job.
     public var piiEntitiesDetectionJobProperties: ComprehendClientTypes.PiiEntitiesDetectionJobProperties?
 
@@ -6019,7 +6019,7 @@ public struct DescribePiiEntitiesDetectionJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribePiiEntitiesDetectionJobOutputBody: Swift.Equatable {
+struct DescribePiiEntitiesDetectionJobOutputBody {
     let piiEntitiesDetectionJobProperties: ComprehendClientTypes.PiiEntitiesDetectionJobProperties?
 }
 
@@ -6069,7 +6069,7 @@ extension DescribeResourcePolicyInput {
     }
 }
 
-public struct DescribeResourcePolicyInput: Swift.Equatable {
+public struct DescribeResourcePolicyInput {
     /// The Amazon Resource Name (ARN) of the custom model version that has the resource policy.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -6082,7 +6082,7 @@ public struct DescribeResourcePolicyInput: Swift.Equatable {
     }
 }
 
-struct DescribeResourcePolicyInputBody: Swift.Equatable {
+struct DescribeResourcePolicyInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -6116,7 +6116,7 @@ extension DescribeResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeResourcePolicyOutput: Swift.Equatable {
+public struct DescribeResourcePolicyOutput {
     /// The time at which the policy was created.
     public var creationTime: ClientRuntime.Date?
     /// The time at which the policy was last modified.
@@ -6140,7 +6140,7 @@ public struct DescribeResourcePolicyOutput: Swift.Equatable {
     }
 }
 
-struct DescribeResourcePolicyOutputBody: Swift.Equatable {
+struct DescribeResourcePolicyOutputBody {
     let resourcePolicy: Swift.String?
     let creationTime: ClientRuntime.Date?
     let lastModifiedTime: ClientRuntime.Date?
@@ -6201,7 +6201,7 @@ extension DescribeSentimentDetectionJobInput {
     }
 }
 
-public struct DescribeSentimentDetectionJobInput: Swift.Equatable {
+public struct DescribeSentimentDetectionJobInput {
     /// The identifier that Amazon Comprehend generated for the job. The operation returns this identifier in its response.
     /// This member is required.
     public var jobId: Swift.String?
@@ -6214,7 +6214,7 @@ public struct DescribeSentimentDetectionJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeSentimentDetectionJobInputBody: Swift.Equatable {
+struct DescribeSentimentDetectionJobInputBody {
     let jobId: Swift.String?
 }
 
@@ -6242,7 +6242,7 @@ extension DescribeSentimentDetectionJobOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DescribeSentimentDetectionJobOutput: Swift.Equatable {
+public struct DescribeSentimentDetectionJobOutput {
     /// An object that contains the properties associated with a sentiment detection job.
     public var sentimentDetectionJobProperties: ComprehendClientTypes.SentimentDetectionJobProperties?
 
@@ -6254,7 +6254,7 @@ public struct DescribeSentimentDetectionJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeSentimentDetectionJobOutputBody: Swift.Equatable {
+struct DescribeSentimentDetectionJobOutputBody {
     let sentimentDetectionJobProperties: ComprehendClientTypes.SentimentDetectionJobProperties?
 }
 
@@ -6304,7 +6304,7 @@ extension DescribeTargetedSentimentDetectionJobInput {
     }
 }
 
-public struct DescribeTargetedSentimentDetectionJobInput: Swift.Equatable {
+public struct DescribeTargetedSentimentDetectionJobInput {
     /// The identifier that Amazon Comprehend generated for the job. The StartTargetedSentimentDetectionJob operation returns this identifier in its response.
     /// This member is required.
     public var jobId: Swift.String?
@@ -6317,7 +6317,7 @@ public struct DescribeTargetedSentimentDetectionJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeTargetedSentimentDetectionJobInputBody: Swift.Equatable {
+struct DescribeTargetedSentimentDetectionJobInputBody {
     let jobId: Swift.String?
 }
 
@@ -6345,7 +6345,7 @@ extension DescribeTargetedSentimentDetectionJobOutput: ClientRuntime.HttpRespons
     }
 }
 
-public struct DescribeTargetedSentimentDetectionJobOutput: Swift.Equatable {
+public struct DescribeTargetedSentimentDetectionJobOutput {
     /// An object that contains the properties associated with a targeted sentiment detection job.
     public var targetedSentimentDetectionJobProperties: ComprehendClientTypes.TargetedSentimentDetectionJobProperties?
 
@@ -6357,7 +6357,7 @@ public struct DescribeTargetedSentimentDetectionJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeTargetedSentimentDetectionJobOutputBody: Swift.Equatable {
+struct DescribeTargetedSentimentDetectionJobOutputBody {
     let targetedSentimentDetectionJobProperties: ComprehendClientTypes.TargetedSentimentDetectionJobProperties?
 }
 
@@ -6407,7 +6407,7 @@ extension DescribeTopicsDetectionJobInput {
     }
 }
 
-public struct DescribeTopicsDetectionJobInput: Swift.Equatable {
+public struct DescribeTopicsDetectionJobInput {
     /// The identifier assigned by the user to the detection job.
     /// This member is required.
     public var jobId: Swift.String?
@@ -6420,7 +6420,7 @@ public struct DescribeTopicsDetectionJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeTopicsDetectionJobInputBody: Swift.Equatable {
+struct DescribeTopicsDetectionJobInputBody {
     let jobId: Swift.String?
 }
 
@@ -6448,7 +6448,7 @@ extension DescribeTopicsDetectionJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeTopicsDetectionJobOutput: Swift.Equatable {
+public struct DescribeTopicsDetectionJobOutput {
     /// The list of properties for the requested job.
     public var topicsDetectionJobProperties: ComprehendClientTypes.TopicsDetectionJobProperties?
 
@@ -6460,7 +6460,7 @@ public struct DescribeTopicsDetectionJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeTopicsDetectionJobOutputBody: Swift.Equatable {
+struct DescribeTopicsDetectionJobOutputBody {
     let topicsDetectionJobProperties: ComprehendClientTypes.TopicsDetectionJobProperties?
 }
 
@@ -6515,7 +6515,7 @@ extension DetectDominantLanguageInput {
     }
 }
 
-public struct DetectDominantLanguageInput: Swift.Equatable {
+public struct DetectDominantLanguageInput {
     /// A UTF-8 text string. The string must contain at least 20 characters. The maximum string size is 100 KB.
     /// This member is required.
     public var text: Swift.String?
@@ -6528,7 +6528,7 @@ public struct DetectDominantLanguageInput: Swift.Equatable {
     }
 }
 
-struct DetectDominantLanguageInputBody: Swift.Equatable {
+struct DetectDominantLanguageInputBody {
     let text: Swift.String?
 }
 
@@ -6562,7 +6562,7 @@ extension DetectDominantLanguageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DetectDominantLanguageOutput: Swift.Equatable {
+public struct DetectDominantLanguageOutput {
     /// Array of languages that Amazon Comprehend detected in the input text. The array is sorted in descending order of the score (the dominant language is always the first element in the array). For each language, the response returns the RFC 5646 language code and the level of confidence that Amazon Comprehend has in the accuracy of its inference. For more information about RFC 5646, see [Tags for Identifying Languages](https://tools.ietf.org/html/rfc5646) on the IETF Tools web site.
     public var languages: [ComprehendClientTypes.DominantLanguage]?
 
@@ -6574,7 +6574,7 @@ public struct DetectDominantLanguageOutput: Swift.Equatable {
     }
 }
 
-struct DetectDominantLanguageOutputBody: Swift.Equatable {
+struct DetectDominantLanguageOutputBody {
     let languages: [ComprehendClientTypes.DominantLanguage]?
 }
 
@@ -6653,7 +6653,7 @@ extension DetectEntitiesInput {
     }
 }
 
-public struct DetectEntitiesInput: Swift.Equatable {
+public struct DetectEntitiesInput {
     /// This field applies only when you use a custom entity recognition model that was trained with PDF annotations. For other cases, enter your text input in the Text field. Use the Bytes parameter to input a text, PDF, Word or image file. Using a plain-text file in the Bytes parameter is equivelent to using the Text parameter (the Entities field in the response is identical). You can also use the Bytes parameter to input an Amazon Textract DetectDocumentText or AnalyzeDocument output file. Provide the input document as a sequence of base64-encoded bytes. If your code uses an Amazon Web Services SDK to detect entities, the SDK may encode the document file bytes for you. The maximum length of this field depends on the input document type. For details, see [ Inputs for real-time custom analysis](https://docs.aws.amazon.com/comprehend/latest/dg/idp-inputs-sync.html) in the Comprehend Developer Guide. If you use the Bytes parameter, do not use the Text parameter.
     public var bytes: ClientRuntime.Data?
     /// Provides configuration parameters to override the default actions for extracting text from PDF documents and image files.
@@ -6681,7 +6681,7 @@ public struct DetectEntitiesInput: Swift.Equatable {
     }
 }
 
-struct DetectEntitiesInputBody: Swift.Equatable {
+struct DetectEntitiesInputBody {
     let text: Swift.String?
     let languageCode: ComprehendClientTypes.LanguageCode?
     let endpointArn: Swift.String?
@@ -6739,7 +6739,7 @@ extension DetectEntitiesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DetectEntitiesOutput: Swift.Equatable {
+public struct DetectEntitiesOutput {
     /// Information about each block of text in the input document. Blocks are nested. A page block contains a block for each line of text, which contains a block for each word. The Block content for a Word input document does not include a Geometry field. The Block field is not present in the response for plain-text inputs.
     public var blocks: [ComprehendClientTypes.Block]?
     /// Information about the document, discovered during text extraction. This field is present in the response only if your request used the Byte parameter.
@@ -6767,7 +6767,7 @@ public struct DetectEntitiesOutput: Swift.Equatable {
     }
 }
 
-struct DetectEntitiesOutputBody: Swift.Equatable {
+struct DetectEntitiesOutputBody {
     let entities: [ComprehendClientTypes.Entity]?
     let documentMetadata: ComprehendClientTypes.DocumentMetadata?
     let documentType: [ComprehendClientTypes.DocumentTypeListItem]?
@@ -6879,7 +6879,7 @@ extension DetectKeyPhrasesInput {
     }
 }
 
-public struct DetectKeyPhrasesInput: Swift.Equatable {
+public struct DetectKeyPhrasesInput {
     /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language.
     /// This member is required.
     public var languageCode: ComprehendClientTypes.LanguageCode?
@@ -6897,7 +6897,7 @@ public struct DetectKeyPhrasesInput: Swift.Equatable {
     }
 }
 
-struct DetectKeyPhrasesInputBody: Swift.Equatable {
+struct DetectKeyPhrasesInputBody {
     let text: Swift.String?
     let languageCode: ComprehendClientTypes.LanguageCode?
 }
@@ -6935,7 +6935,7 @@ extension DetectKeyPhrasesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DetectKeyPhrasesOutput: Swift.Equatable {
+public struct DetectKeyPhrasesOutput {
     /// A collection of key phrases that Amazon Comprehend identified in the input text. For each key phrase, the response provides the text of the key phrase, where the key phrase begins and ends, and the level of confidence that Amazon Comprehend has in the accuracy of the detection.
     public var keyPhrases: [ComprehendClientTypes.KeyPhrase]?
 
@@ -6947,7 +6947,7 @@ public struct DetectKeyPhrasesOutput: Swift.Equatable {
     }
 }
 
-struct DetectKeyPhrasesOutputBody: Swift.Equatable {
+struct DetectKeyPhrasesOutputBody {
     let keyPhrases: [ComprehendClientTypes.KeyPhrase]?
 }
 
@@ -7010,7 +7010,7 @@ extension DetectPiiEntitiesInput {
     }
 }
 
-public struct DetectPiiEntitiesInput: Swift.Equatable {
+public struct DetectPiiEntitiesInput {
     /// The language of the input text. Enter the language code for English (en) or Spanish (es).
     /// This member is required.
     public var languageCode: ComprehendClientTypes.LanguageCode?
@@ -7028,7 +7028,7 @@ public struct DetectPiiEntitiesInput: Swift.Equatable {
     }
 }
 
-struct DetectPiiEntitiesInputBody: Swift.Equatable {
+struct DetectPiiEntitiesInputBody {
     let text: Swift.String?
     let languageCode: ComprehendClientTypes.LanguageCode?
 }
@@ -7060,7 +7060,7 @@ extension DetectPiiEntitiesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DetectPiiEntitiesOutput: Swift.Equatable {
+public struct DetectPiiEntitiesOutput {
     /// A collection of PII entities identified in the input text. For each entity, the response provides the entity type, where the entity text begins and ends, and the level of confidence that Amazon Comprehend has in the detection.
     public var entities: [ComprehendClientTypes.PiiEntity]?
 
@@ -7072,7 +7072,7 @@ public struct DetectPiiEntitiesOutput: Swift.Equatable {
     }
 }
 
-struct DetectPiiEntitiesOutputBody: Swift.Equatable {
+struct DetectPiiEntitiesOutputBody {
     let entities: [ComprehendClientTypes.PiiEntity]?
 }
 
@@ -7140,7 +7140,7 @@ extension DetectSentimentInput {
     }
 }
 
-public struct DetectSentimentInput: Swift.Equatable {
+public struct DetectSentimentInput {
     /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language.
     /// This member is required.
     public var languageCode: ComprehendClientTypes.LanguageCode?
@@ -7158,7 +7158,7 @@ public struct DetectSentimentInput: Swift.Equatable {
     }
 }
 
-struct DetectSentimentInputBody: Swift.Equatable {
+struct DetectSentimentInputBody {
     let text: Swift.String?
     let languageCode: ComprehendClientTypes.LanguageCode?
 }
@@ -7198,7 +7198,7 @@ extension DetectSentimentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DetectSentimentOutput: Swift.Equatable {
+public struct DetectSentimentOutput {
     /// The inferred sentiment that Amazon Comprehend has the highest level of confidence in.
     public var sentiment: ComprehendClientTypes.SentimentType?
     /// An object that lists the sentiments, and their corresponding confidence levels.
@@ -7214,7 +7214,7 @@ public struct DetectSentimentOutput: Swift.Equatable {
     }
 }
 
-struct DetectSentimentOutputBody: Swift.Equatable {
+struct DetectSentimentOutputBody {
     let sentiment: ComprehendClientTypes.SentimentType?
     let sentimentScore: ComprehendClientTypes.SentimentScore?
 }
@@ -7277,7 +7277,7 @@ extension DetectSyntaxInput {
     }
 }
 
-public struct DetectSyntaxInput: Swift.Equatable {
+public struct DetectSyntaxInput {
     /// The language code of the input documents. You can specify any of the following languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt").
     /// This member is required.
     public var languageCode: ComprehendClientTypes.SyntaxLanguageCode?
@@ -7295,7 +7295,7 @@ public struct DetectSyntaxInput: Swift.Equatable {
     }
 }
 
-struct DetectSyntaxInputBody: Swift.Equatable {
+struct DetectSyntaxInputBody {
     let text: Swift.String?
     let languageCode: ComprehendClientTypes.SyntaxLanguageCode?
 }
@@ -7333,7 +7333,7 @@ extension DetectSyntaxOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DetectSyntaxOutput: Swift.Equatable {
+public struct DetectSyntaxOutput {
     /// A collection of syntax tokens describing the text. For each token, the response provides the text, the token type, where the text begins and ends, and the level of confidence that Amazon Comprehend has that the token is correct. For a list of token types, see [Syntax](https://docs.aws.amazon.com/comprehend/latest/dg/how-syntax.html) in the Comprehend Developer Guide.
     public var syntaxTokens: [ComprehendClientTypes.SyntaxToken]?
 
@@ -7345,7 +7345,7 @@ public struct DetectSyntaxOutput: Swift.Equatable {
     }
 }
 
-struct DetectSyntaxOutputBody: Swift.Equatable {
+struct DetectSyntaxOutputBody {
     let syntaxTokens: [ComprehendClientTypes.SyntaxToken]?
 }
 
@@ -7413,7 +7413,7 @@ extension DetectTargetedSentimentInput {
     }
 }
 
-public struct DetectTargetedSentimentInput: Swift.Equatable {
+public struct DetectTargetedSentimentInput {
     /// The language of the input documents. Currently, English is the only supported language.
     /// This member is required.
     public var languageCode: ComprehendClientTypes.LanguageCode?
@@ -7431,7 +7431,7 @@ public struct DetectTargetedSentimentInput: Swift.Equatable {
     }
 }
 
-struct DetectTargetedSentimentInputBody: Swift.Equatable {
+struct DetectTargetedSentimentInputBody {
     let text: Swift.String?
     let languageCode: ComprehendClientTypes.LanguageCode?
 }
@@ -7469,7 +7469,7 @@ extension DetectTargetedSentimentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DetectTargetedSentimentOutput: Swift.Equatable {
+public struct DetectTargetedSentimentOutput {
     /// Targeted sentiment analysis for each of the entities identified in the input text.
     public var entities: [ComprehendClientTypes.TargetedSentimentEntity]?
 
@@ -7481,7 +7481,7 @@ public struct DetectTargetedSentimentOutput: Swift.Equatable {
     }
 }
 
-struct DetectTargetedSentimentOutputBody: Swift.Equatable {
+struct DetectTargetedSentimentOutputBody {
     let entities: [ComprehendClientTypes.TargetedSentimentEntity]?
 }
 
@@ -7552,7 +7552,7 @@ extension DetectToxicContentInput {
     }
 }
 
-public struct DetectToxicContentInput: Swift.Equatable {
+public struct DetectToxicContentInput {
     /// The language of the input text. Currently, English is the only supported language.
     /// This member is required.
     public var languageCode: ComprehendClientTypes.LanguageCode?
@@ -7570,7 +7570,7 @@ public struct DetectToxicContentInput: Swift.Equatable {
     }
 }
 
-struct DetectToxicContentInputBody: Swift.Equatable {
+struct DetectToxicContentInputBody {
     let textSegments: [ComprehendClientTypes.TextSegment]?
     let languageCode: ComprehendClientTypes.LanguageCode?
 }
@@ -7611,7 +7611,7 @@ extension DetectToxicContentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DetectToxicContentOutput: Swift.Equatable {
+public struct DetectToxicContentOutput {
     /// Results of the content moderation analysis. Each entry in the results list contains a list of toxic content types identified in the text, along with a confidence score for each content type. The results list also includes a toxicity score for each entry in the results list.
     public var resultList: [ComprehendClientTypes.ToxicLabels]?
 
@@ -7623,7 +7623,7 @@ public struct DetectToxicContentOutput: Swift.Equatable {
     }
 }
 
-struct DetectToxicContentOutputBody: Swift.Equatable {
+struct DetectToxicContentOutputBody {
     let resultList: [ComprehendClientTypes.ToxicLabels]?
 }
 
@@ -7695,7 +7695,7 @@ extension ComprehendClientTypes.DocumentClass: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Specifies the class that categorizes the document being analyzed
-    public struct DocumentClass: Swift.Equatable {
+    public struct DocumentClass {
         /// The name of the class.
         public var name: Swift.String?
         /// Page number in the input document. This field is present in the response only if your request includes the Byte parameter.
@@ -7756,7 +7756,7 @@ extension ComprehendClientTypes.DocumentClassificationConfig: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Configuration required for a document classification model.
-    public struct DocumentClassificationConfig: Swift.Equatable {
+    public struct DocumentClassificationConfig {
         /// One or more labels to associate with the custom classifier.
         public var labels: [Swift.String]?
         /// Classification mode indicates whether the documents are MULTI_CLASS or MULTI_LABEL.
@@ -7814,7 +7814,7 @@ extension ComprehendClientTypes.DocumentClassificationJobFilter: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Provides information for filtering a list of document classification jobs. For more information, see the operation. You can provide only one filter parameter in each request.
-    public struct DocumentClassificationJobFilter: Swift.Equatable {
+    public struct DocumentClassificationJobFilter {
         /// Filters on the name of the job.
         public var jobName: Swift.String?
         /// Filters the list based on job status. Returns only jobs with the specified status.
@@ -7939,7 +7939,7 @@ extension ComprehendClientTypes.DocumentClassificationJobProperties: Swift.Codab
 
 extension ComprehendClientTypes {
     /// Provides information about a document classification job.
-    public struct DocumentClassificationJobProperties: Swift.Equatable {
+    public struct DocumentClassificationJobProperties {
         /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data.
         public var dataAccessRoleArn: Swift.String?
         /// The Amazon Resource Name (ARN) that identifies the document classifier.
@@ -8100,7 +8100,7 @@ extension ComprehendClientTypes.DocumentClassifierDocuments: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// The location of the training documents. This parameter is required in a request to create a semi-structured document classification model.
-    public struct DocumentClassifierDocuments: Swift.Equatable {
+    public struct DocumentClassifierDocuments {
         /// The S3 URI location of the training documents specified in the S3Uri CSV file.
         /// This member is required.
         public var s3Uri: Swift.String?
@@ -8158,7 +8158,7 @@ extension ComprehendClientTypes.DocumentClassifierFilter: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Provides information for filtering a list of document classifiers. You can only specify one filtering parameter in a request. For more information, see the ListDocumentClassifiers operation.
-    public struct DocumentClassifierFilter: Swift.Equatable {
+    public struct DocumentClassifierFilter {
         /// The name that you assigned to the document classifier
         public var documentClassifierName: Swift.String?
         /// Filters the list of classifiers based on status.
@@ -8259,7 +8259,7 @@ extension ComprehendClientTypes.DocumentClassifierInputDataConfig: Swift.Codable
 
 extension ComprehendClientTypes {
     /// The input properties for training a document classifier. For more information on how the input file is formatted, see [Preparing training data](https://docs.aws.amazon.com/comprehend/latest/dg/prep-classifier-data.html) in the Comprehend Developer Guide.
-    public struct DocumentClassifierInputDataConfig: Swift.Equatable {
+    public struct DocumentClassifierInputDataConfig {
         /// A list of augmented manifest files that provide training data for your custom model. An augmented manifest file is a labeled dataset that is produced by Amazon SageMaker Ground Truth. This parameter is required if you set DataFormat to AUGMENTED_MANIFEST.
         public var augmentedManifests: [ComprehendClientTypes.AugmentedManifestsListItem]?
         /// The format of your training data:
@@ -8382,7 +8382,7 @@ extension ComprehendClientTypes.DocumentClassifierOutputDataConfig: Swift.Codabl
 
 extension ComprehendClientTypes {
     /// Provide the location for output data from a custom classifier job. This field is mandatory if you are training a native document model.
-    public struct DocumentClassifierOutputDataConfig: Swift.Equatable {
+    public struct DocumentClassifierOutputDataConfig {
         /// The Amazon S3 prefix for the data lake location of the flywheel statistics.
         public var flywheelStatsS3Prefix: Swift.String?
         /// ID for the Amazon Web Services Key Management Service (KMS) key that Amazon Comprehend uses to encrypt the output results from an analysis job. The KmsKeyId can be one of the following formats:
@@ -8546,7 +8546,7 @@ extension ComprehendClientTypes.DocumentClassifierProperties: Swift.CustomDebugS
 
 extension ComprehendClientTypes {
     /// Provides information about a document classifier.
-    public struct DocumentClassifierProperties: Swift.Equatable {
+    public struct DocumentClassifierProperties {
         /// Information about the document classifier, including the number of documents used for training the classifier, the number of documents used for test the classifier, and an accuracy rating.
         public var classifierMetadata: ComprehendClientTypes.ClassifierMetadata?
         /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data.
@@ -8685,7 +8685,7 @@ extension ComprehendClientTypes.DocumentClassifierSummary: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Describes information about a document classifier and its versions.
-    public struct DocumentClassifierSummary: Swift.Equatable {
+    public struct DocumentClassifierSummary {
         /// The name that you assigned the document classifier.
         public var documentClassifierName: Swift.String?
         /// The time that the latest document classifier version was submitted for processing.
@@ -8748,7 +8748,7 @@ extension ComprehendClientTypes.DocumentLabel: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Specifies one of the label or labels that categorize the document being analyzed.
-    public struct DocumentLabel: Swift.Equatable {
+    public struct DocumentLabel {
         /// The name of the label.
         public var name: Swift.String?
         /// Page number where the label occurs. This field is present in the response only if your request includes the Byte parameter.
@@ -8809,7 +8809,7 @@ extension ComprehendClientTypes.DocumentMetadata: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Information about the document, discovered during text extraction.
-    public struct DocumentMetadata: Swift.Equatable {
+    public struct DocumentMetadata {
         /// List of pages in the document, with the number of characters extracted from each page.
         public var extractedCharacters: [ComprehendClientTypes.ExtractedCharactersListItem]?
         /// Number of pages in the document.
@@ -8978,7 +8978,7 @@ extension ComprehendClientTypes {
     ///
     ///
     /// DocumentReaderConfig does not apply to plain text files or Word files. For image files and PDF documents, you can override these default actions using the fields listed below. For more information, see [ Setting text extraction options](https://docs.aws.amazon.com/comprehend/latest/dg/idp-set-textract-options.html) in the Comprehend Developer Guide.
-    public struct DocumentReaderConfig: Swift.Equatable {
+    public struct DocumentReaderConfig {
         /// This field defines the Amazon Textract API operation that Amazon Comprehend uses to extract text from PDF files and image files. Enter one of the following values:
         ///
         /// * TEXTRACT_DETECT_DOCUMENT_TEXT - The Amazon Comprehend service uses the DetectDocumentText API operation.
@@ -9087,7 +9087,7 @@ extension ComprehendClientTypes.DocumentTypeListItem: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Document type for each page in the document.
-    public struct DocumentTypeListItem: Swift.Equatable {
+    public struct DocumentTypeListItem {
         /// Page number.
         public var page: Swift.Int?
         /// Document type.
@@ -9132,7 +9132,7 @@ extension ComprehendClientTypes.DominantLanguage: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Returns the code for the dominant language in the input text and the level of confidence that Amazon Comprehend has in the accuracy of the detection.
-    public struct DominantLanguage: Swift.Equatable {
+    public struct DominantLanguage {
         /// The RFC 5646 language code for the dominant language. For more information about RFC 5646, see [Tags for Identifying Languages](https://tools.ietf.org/html/rfc5646) on the IETF Tools web site.
         public var languageCode: Swift.String?
         /// The level of confidence that Amazon Comprehend has in the accuracy of the detection.
@@ -9189,7 +9189,7 @@ extension ComprehendClientTypes.DominantLanguageDetectionJobFilter: Swift.Codabl
 
 extension ComprehendClientTypes {
     /// Provides information for filtering a list of dominant language detection jobs. For more information, see the operation.
-    public struct DominantLanguageDetectionJobFilter: Swift.Equatable {
+    public struct DominantLanguageDetectionJobFilter {
         /// Filters on the name of the job.
         public var jobName: Swift.String?
         /// Filters the list of jobs based on job status. Returns only jobs with the specified status.
@@ -9302,7 +9302,7 @@ extension ComprehendClientTypes.DominantLanguageDetectionJobProperties: Swift.Co
 
 extension ComprehendClientTypes {
     /// Provides information about a dominant language detection job.
-    public struct DominantLanguageDetectionJobProperties: Swift.Equatable {
+    public struct DominantLanguageDetectionJobProperties {
         /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data.
         public var dataAccessRoleArn: Swift.String?
         /// The time that the dominant language detection job completed.
@@ -9403,7 +9403,7 @@ extension ComprehendClientTypes.EndpointFilter: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// The filter used to determine which endpoints are returned. You can filter jobs on their name, model, status, or the date and time that they were created. You can only set one filter at a time.
-    public struct EndpointFilter: Swift.Equatable {
+    public struct EndpointFilter {
         /// Specifies a date after which the returned endpoint or endpoints were created.
         public var creationTimeAfter: ClientRuntime.Date?
         /// Specifies a date before which the returned endpoint or endpoints were created.
@@ -9516,7 +9516,7 @@ extension ComprehendClientTypes.EndpointProperties: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Specifies information about the specified endpoint. For information about endpoints, see [Managing endpoints](https://docs.aws.amazon.com/comprehend/latest/dg/manage-endpoints.html).
-    public struct EndpointProperties: Swift.Equatable {
+    public struct EndpointProperties {
         /// The creation date and time of the endpoint.
         public var creationTime: ClientRuntime.Date?
         /// The number of inference units currently used by the model using this endpoint.
@@ -9654,7 +9654,7 @@ extension ComprehendClientTypes.EntitiesDetectionJobFilter: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Provides information for filtering a list of dominant language detection jobs. For more information, see the operation.
-    public struct EntitiesDetectionJobFilter: Swift.Equatable {
+    public struct EntitiesDetectionJobFilter {
         /// Filters on the name of the job.
         public var jobName: Swift.String?
         /// Filters the list of jobs based on job status. Returns only jobs with the specified status.
@@ -9785,7 +9785,7 @@ extension ComprehendClientTypes.EntitiesDetectionJobProperties: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Provides information about an entities detection job.
-    public struct EntitiesDetectionJobProperties: Swift.Equatable {
+    public struct EntitiesDetectionJobProperties {
         /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data.
         public var dataAccessRoleArn: Swift.String?
         /// The time that the entities detection job completed
@@ -9922,7 +9922,7 @@ extension ComprehendClientTypes.Entity: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Provides information about an entity.
-    public struct Entity: Swift.Equatable {
+    public struct Entity {
         /// The zero-based offset from the beginning of the source text to the first character in the entity. This field is empty for non-text input.
         public var beginOffset: Swift.Int?
         /// A reference to each block for this entity. This field is empty for plain-text input.
@@ -9983,7 +9983,7 @@ extension ComprehendClientTypes.EntityLabel: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Specifies one of the label or labels that categorize the personally identifiable information (PII) entity being analyzed.
-    public struct EntityLabel: Swift.Equatable {
+    public struct EntityLabel {
         /// The name of the label.
         public var name: ComprehendClientTypes.PiiEntityType?
         /// The level of confidence that Amazon Comprehend has in the accuracy of the detection.
@@ -10034,7 +10034,7 @@ extension ComprehendClientTypes.EntityRecognitionConfig: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Configuration required for an entity recognition model.
-    public struct EntityRecognitionConfig: Swift.Equatable {
+    public struct EntityRecognitionConfig {
         /// Up to 25 entity types that the model is trained to recognize.
         /// This member is required.
         public var entityTypes: [ComprehendClientTypes.EntityTypesListItem]?
@@ -10076,7 +10076,7 @@ extension ComprehendClientTypes.EntityRecognizerAnnotations: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Describes the annotations associated with a entity recognizer.
-    public struct EntityRecognizerAnnotations: Swift.Equatable {
+    public struct EntityRecognizerAnnotations {
         /// Specifies the Amazon S3 location where the annotations for an entity recognizer are located. The URI must be in the same Region as the API endpoint that you are calling.
         /// This member is required.
         public var s3Uri: Swift.String?
@@ -10160,7 +10160,7 @@ extension ComprehendClientTypes.EntityRecognizerDocuments: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Describes the training documents submitted with an entity recognizer.
-    public struct EntityRecognizerDocuments: Swift.Equatable {
+    public struct EntityRecognizerDocuments {
         /// Specifies how the text in an input file should be processed. This is optional, and the default is ONE_DOC_PER_LINE. ONE_DOC_PER_FILE - Each file is considered a separate document. Use this option when you are processing large documents, such as newspaper articles or scientific papers. ONE_DOC_PER_LINE - Each line in a file is considered a separate document. Use this option when you are processing many short documents, such as text messages.
         public var inputFormat: ComprehendClientTypes.InputFormat?
         /// Specifies the Amazon S3 location where the training documents for an entity recognizer are located. The URI must be in the same Region as the API endpoint that you are calling.
@@ -10204,7 +10204,7 @@ extension ComprehendClientTypes.EntityRecognizerEntityList: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Describes the entity list submitted with an entity recognizer.
-    public struct EntityRecognizerEntityList: Swift.Equatable {
+    public struct EntityRecognizerEntityList {
         /// Specifies the Amazon S3 location where the entity list is located. The URI must be in the same Region as the API endpoint that you are calling.
         /// This member is required.
         public var s3Uri: Swift.String?
@@ -10252,7 +10252,7 @@ extension ComprehendClientTypes.EntityRecognizerEvaluationMetrics: Swift.Codable
 
 extension ComprehendClientTypes {
     /// Detailed information about the accuracy of an entity recognizer.
-    public struct EntityRecognizerEvaluationMetrics: Swift.Equatable {
+    public struct EntityRecognizerEvaluationMetrics {
         /// A measure of how accurate the recognizer results are for the test data. It is derived from the Precision and Recall values. The F1Score is the harmonic average of the two scores. For plain text entity recognizer models, the range is 0 to 100, where 100 is the best score. For PDF/Word entity recognizer models, the range is 0 to 1, where 1 is the best score.
         public var f1Score: Swift.Double?
         /// A measure of the usefulness of the recognizer results in the test data. High precision means that the recognizer returned substantially more relevant results than irrelevant ones.
@@ -10313,7 +10313,7 @@ extension ComprehendClientTypes.EntityRecognizerFilter: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Provides information for filtering a list of entity recognizers. You can only specify one filtering parameter in a request. For more information, see the ListEntityRecognizers operation./>
-    public struct EntityRecognizerFilter: Swift.Equatable {
+    public struct EntityRecognizerFilter {
         /// The name that you assigned the entity recognizer.
         public var recognizerName: Swift.String?
         /// The status of an entity recognizer.
@@ -10414,7 +10414,7 @@ extension ComprehendClientTypes.EntityRecognizerInputDataConfig: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Specifies the format and location of the input data.
-    public struct EntityRecognizerInputDataConfig: Swift.Equatable {
+    public struct EntityRecognizerInputDataConfig {
         /// The S3 location of the CSV file that annotates your training documents.
         public var annotations: ComprehendClientTypes.EntityRecognizerAnnotations?
         /// A list of augmented manifest files that provide training data for your custom model. An augmented manifest file is a labeled dataset that is produced by Amazon SageMaker Ground Truth. This parameter is required if you set DataFormat to AUGMENTED_MANIFEST.
@@ -10513,7 +10513,7 @@ extension ComprehendClientTypes.EntityRecognizerMetadata: Swift.CustomDebugStrin
 
 extension ComprehendClientTypes {
     /// Detailed information about an entity recognizer.
-    public struct EntityRecognizerMetadata: Swift.Equatable {
+    public struct EntityRecognizerMetadata {
         /// Entity types from the metadata of an entity recognizer.
         public var entityTypes: [ComprehendClientTypes.EntityRecognizerMetadataEntityTypesListItem]?
         /// Detailed information about the accuracy of an entity recognizer.
@@ -10572,7 +10572,7 @@ extension ComprehendClientTypes.EntityRecognizerMetadataEntityTypesListItem: Swi
 
 extension ComprehendClientTypes {
     /// Individual item from the list of entity types in the metadata of an entity recognizer.
-    public struct EntityRecognizerMetadataEntityTypesListItem: Swift.Equatable {
+    public struct EntityRecognizerMetadataEntityTypesListItem {
         /// Detailed information about the accuracy of the entity recognizer for a specific item on the list of entity types.
         public var evaluationMetrics: ComprehendClientTypes.EntityTypesEvaluationMetrics?
         /// Indicates the number of times the given entity type was seen in the training data.
@@ -10615,7 +10615,7 @@ extension ComprehendClientTypes.EntityRecognizerOutputDataConfig: Swift.Codable 
 
 extension ComprehendClientTypes {
     /// Output data configuration.
-    public struct EntityRecognizerOutputDataConfig: Swift.Equatable {
+    public struct EntityRecognizerOutputDataConfig {
         /// The Amazon S3 prefix for the data lake location of the flywheel statistics.
         public var flywheelStatsS3Prefix: Swift.String?
 
@@ -10757,7 +10757,7 @@ extension ComprehendClientTypes.EntityRecognizerProperties: Swift.CustomDebugStr
 
 extension ComprehendClientTypes {
     /// Describes information about an entity recognizer.
-    public struct EntityRecognizerProperties: Swift.Equatable {
+    public struct EntityRecognizerProperties {
         /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data.
         public var dataAccessRoleArn: Swift.String?
         /// The time that the recognizer creation completed.
@@ -10892,7 +10892,7 @@ extension ComprehendClientTypes.EntityRecognizerSummary: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Describes the information about an entity recognizer and its versions.
-    public struct EntityRecognizerSummary: Swift.Equatable {
+    public struct EntityRecognizerSummary {
         /// The time that the latest entity recognizer version was submitted for processing.
         public var latestVersionCreatedAt: ClientRuntime.Date?
         /// The version name you assigned to the latest entity recognizer version.
@@ -11008,7 +11008,7 @@ extension ComprehendClientTypes.EntityTypesEvaluationMetrics: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Detailed information about the accuracy of an entity recognizer for a specific entity type.
-    public struct EntityTypesEvaluationMetrics: Swift.Equatable {
+    public struct EntityTypesEvaluationMetrics {
         /// A measure of how accurate the recognizer results are for a specific entity type in the test data. It is derived from the Precision and Recall values. The F1Score is the harmonic average of the two scores. The highest score is 1, and the worst score is 0.
         public var f1Score: Swift.Double?
         /// A measure of the usefulness of the recognizer results for a specific entity type in the test data. High precision means that the recognizer returned substantially more relevant results than irrelevant ones.
@@ -11051,7 +11051,7 @@ extension ComprehendClientTypes.EntityTypesListItem: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// An entity type within a labeled training dataset that Amazon Comprehend uses to train a custom entity recognizer.
-    public struct EntityTypesListItem: Swift.Equatable {
+    public struct EntityTypesListItem {
         /// An entity type within a labeled training dataset that Amazon Comprehend uses to train a custom entity recognizer. Entity types must not contain the following invalid characters: \n (line break), \\n (escaped line break, \r (carriage return), \\r (escaped carriage return), \t (tab), \\t (escaped tab), and , (comma).
         /// This member is required.
         public var type: Swift.String?
@@ -11109,7 +11109,7 @@ extension ComprehendClientTypes {
     /// * PAGE_SIZE_EXCEEDED - The maximum page size is 10 MB.
     ///
     /// * INTERNAL_SERVER_ERROR - The request encountered a service issue. Try the API request again.
-    public struct ErrorsListItem: Swift.Equatable {
+    public struct ErrorsListItem {
         /// Error code for the cause of the error.
         public var errorCode: ComprehendClientTypes.PageBasedErrorCode?
         /// Text message explaining the reason for the error.
@@ -11170,7 +11170,7 @@ extension ComprehendClientTypes.EventsDetectionJobFilter: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Provides information for filtering a list of event detection jobs.
-    public struct EventsDetectionJobFilter: Swift.Equatable {
+    public struct EventsDetectionJobFilter {
         /// Filters on the name of the events detection job.
         public var jobName: Swift.String?
         /// Filters the list of jobs based on job status. Returns only jobs with the specified status.
@@ -11295,7 +11295,7 @@ extension ComprehendClientTypes.EventsDetectionJobProperties: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Provides information about an events detection job.
-    public struct EventsDetectionJobProperties: Swift.Equatable {
+    public struct EventsDetectionJobProperties {
         /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data.
         public var dataAccessRoleArn: Swift.String?
         /// The time that the events detection job completed.
@@ -11380,7 +11380,7 @@ extension ComprehendClientTypes.ExtractedCharactersListItem: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Array of the number of characters extracted from each page.
-    public struct ExtractedCharactersListItem: Swift.Equatable {
+    public struct ExtractedCharactersListItem {
         /// Number of characters extracted from each page.
         public var count: Swift.Int?
         /// Page number.
@@ -11431,7 +11431,7 @@ extension ComprehendClientTypes.FlywheelFilter: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Filter the flywheels based on creation time or flywheel status.
-    public struct FlywheelFilter: Swift.Equatable {
+    public struct FlywheelFilter {
         /// Filter the flywheels to include flywheels created after the specified time.
         public var creationTimeAfter: ClientRuntime.Date?
         /// Filter the flywheels to include flywheels created before the specified time.
@@ -11480,7 +11480,7 @@ extension ComprehendClientTypes.FlywheelIterationFilter: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Filter the flywheel iterations based on creation time.
-    public struct FlywheelIterationFilter: Swift.Equatable {
+    public struct FlywheelIterationFilter {
         /// Filter the flywheel iterations to include iterations created after the specified time.
         public var creationTimeAfter: ClientRuntime.Date?
         /// Filter the flywheel iterations to include iterations created before the specified time.
@@ -11579,7 +11579,7 @@ extension ComprehendClientTypes.FlywheelIterationProperties: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// The configuration properties of a flywheel iteration.
-    public struct FlywheelIterationProperties: Swift.Equatable {
+    public struct FlywheelIterationProperties {
         /// The creation start time of the flywheel iteration.
         public var creationTime: ClientRuntime.Date?
         /// The completion time of this flywheel iteration.
@@ -11716,7 +11716,7 @@ extension ComprehendClientTypes.FlywheelModelEvaluationMetrics: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// The evaluation metrics associated with the evaluated model.
-    public struct FlywheelModelEvaluationMetrics: Swift.Equatable {
+    public struct FlywheelModelEvaluationMetrics {
         /// Average accuracy metric for the model.
         public var averageAccuracy: Swift.Double?
         /// The average F1 score from the evaluation metrics.
@@ -11829,7 +11829,7 @@ extension ComprehendClientTypes.FlywheelProperties: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// The flywheel properties.
-    public struct FlywheelProperties: Swift.Equatable {
+    public struct FlywheelProperties {
         /// The Amazon Resource Number (ARN) of the active model version.
         public var activeModelArn: Swift.String?
         /// Creation time of the flywheel.
@@ -11997,7 +11997,7 @@ extension ComprehendClientTypes.FlywheelSummary: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Flywheel summary information.
-    public struct FlywheelSummary: Swift.Equatable {
+    public struct FlywheelSummary {
         /// ARN of the active model version for the flywheel.
         public var activeModelArn: Swift.String?
         /// Creation time of the flywheel.
@@ -12082,7 +12082,7 @@ extension ComprehendClientTypes.Geometry: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Information about the location of items on a document page. For additional information, see [Geometry](https://docs.aws.amazon.com/textract/latest/dg/API_Geometry.html) in the Amazon Textract API reference.
-    public struct Geometry: Swift.Equatable {
+    public struct Geometry {
         /// An axis-aligned coarse representation of the location of the recognized item on the document page.
         public var boundingBox: ComprehendClientTypes.BoundingBox?
         /// Within the bounding box, a fine-grained polygon around the recognized item.
@@ -12143,7 +12143,7 @@ extension ImportModelInput {
     }
 }
 
-public struct ImportModelInput: Swift.Equatable {
+public struct ImportModelInput {
     /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend permission to use Amazon Key Management Service (KMS) to encrypt or decrypt the custom model.
     public var dataAccessRoleArn: Swift.String?
     /// ID for the KMS key that Amazon Comprehend uses to encrypt trained custom models. The ModelKmsKeyId can be either of the following formats:
@@ -12180,7 +12180,7 @@ public struct ImportModelInput: Swift.Equatable {
     }
 }
 
-struct ImportModelInputBody: Swift.Equatable {
+struct ImportModelInputBody {
     let sourceModelArn: Swift.String?
     let modelName: Swift.String?
     let versionName: Swift.String?
@@ -12237,7 +12237,7 @@ extension ImportModelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ImportModelOutput: Swift.Equatable {
+public struct ImportModelOutput {
     /// The Amazon Resource Name (ARN) of the custom model being imported.
     public var modelArn: Swift.String?
 
@@ -12249,7 +12249,7 @@ public struct ImportModelOutput: Swift.Equatable {
     }
 }
 
-struct ImportModelOutputBody: Swift.Equatable {
+struct ImportModelOutputBody {
     let modelArn: Swift.String?
 }
 
@@ -12317,7 +12317,7 @@ extension ComprehendClientTypes.InputDataConfig: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// The input properties for an inference job. The document reader config field applies only to non-text inputs for custom analysis.
-    public struct InputDataConfig: Swift.Equatable {
+    public struct InputDataConfig {
         /// Provides configuration parameters to override the default actions for extracting text from PDF documents and image files.
         public var documentReaderConfig: ComprehendClientTypes.DocumentReaderConfig?
         /// Specifies how the text in an input file should be processed:
@@ -12415,7 +12415,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -12470,7 +12470,7 @@ public struct InvalidFilterException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct InvalidFilterExceptionBody: Swift.Equatable {
+struct InvalidFilterExceptionBody {
     let message: Swift.String?
 }
 
@@ -12507,7 +12507,7 @@ extension ComprehendClientTypes.InvalidRequestDetail: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Provides additional detail about why the request failed.
-    public struct InvalidRequestDetail: Swift.Equatable {
+    public struct InvalidRequestDetail {
         /// Reason codes include the following values:
         ///
         /// * DOCUMENT_SIZE_EXCEEDED - Document size is too large. Check the size of your file and resubmit the request.
@@ -12623,7 +12623,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InvalidRequestExceptionBody: Swift.Equatable {
+struct InvalidRequestExceptionBody {
     let message: Swift.String?
     let reason: ComprehendClientTypes.InvalidRequestReason?
     let detail: ComprehendClientTypes.InvalidRequestDetail?
@@ -12715,7 +12715,7 @@ public struct JobNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct JobNotFoundExceptionBody: Swift.Equatable {
+struct JobNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -12814,7 +12814,7 @@ extension ComprehendClientTypes.KeyPhrase: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Describes a key noun phrase.
-    public struct KeyPhrase: Swift.Equatable {
+    public struct KeyPhrase {
         /// The zero-based offset from the beginning of the source text to the first character in the key phrase.
         public var beginOffset: Swift.Int?
         /// The zero-based offset from the beginning of the source text to the last character in the key phrase.
@@ -12879,7 +12879,7 @@ extension ComprehendClientTypes.KeyPhrasesDetectionJobFilter: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Provides information for filtering a list of dominant language detection jobs. For more information, see the operation.
-    public struct KeyPhrasesDetectionJobFilter: Swift.Equatable {
+    public struct KeyPhrasesDetectionJobFilter {
         /// Filters on the name of the job.
         public var jobName: Swift.String?
         /// Filters the list of jobs based on job status. Returns only jobs with the specified status.
@@ -12998,7 +12998,7 @@ extension ComprehendClientTypes.KeyPhrasesDetectionJobProperties: Swift.Codable 
 
 extension ComprehendClientTypes {
     /// Provides information about a key phrases detection job.
-    public struct KeyPhrasesDetectionJobProperties: Swift.Equatable {
+    public struct KeyPhrasesDetectionJobProperties {
         /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data.
         public var dataAccessRoleArn: Swift.String?
         /// The time that the key phrases detection job completed.
@@ -13103,7 +13103,7 @@ public struct KmsKeyValidationException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct KmsKeyValidationExceptionBody: Swift.Equatable {
+struct KmsKeyValidationExceptionBody {
     let message: Swift.String?
 }
 
@@ -13213,7 +13213,7 @@ extension ListDatasetsInput {
     }
 }
 
-public struct ListDatasetsInput: Swift.Equatable {
+public struct ListDatasetsInput {
     /// Filters the datasets to be returned in the response.
     public var filter: ComprehendClientTypes.DatasetFilter?
     /// The Amazon Resource Number (ARN) of the flywheel.
@@ -13237,7 +13237,7 @@ public struct ListDatasetsInput: Swift.Equatable {
     }
 }
 
-struct ListDatasetsInputBody: Swift.Equatable {
+struct ListDatasetsInputBody {
     let flywheelArn: Swift.String?
     let filter: ComprehendClientTypes.DatasetFilter?
     let nextToken: Swift.String?
@@ -13279,7 +13279,7 @@ extension ListDatasetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDatasetsOutput: Swift.Equatable {
+public struct ListDatasetsOutput {
     /// The dataset properties list.
     public var datasetPropertiesList: [ComprehendClientTypes.DatasetProperties]?
     /// Identifies the next page of results to return.
@@ -13295,7 +13295,7 @@ public struct ListDatasetsOutput: Swift.Equatable {
     }
 }
 
-struct ListDatasetsOutputBody: Swift.Equatable {
+struct ListDatasetsOutputBody {
     let datasetPropertiesList: [ComprehendClientTypes.DatasetProperties]?
     let nextToken: Swift.String?
 }
@@ -13367,7 +13367,7 @@ extension ListDocumentClassificationJobsInput {
     }
 }
 
-public struct ListDocumentClassificationJobsInput: Swift.Equatable {
+public struct ListDocumentClassificationJobsInput {
     /// Filters the jobs that are returned. You can filter jobs on their names, status, or the date and time that they were submitted. You can only set one filter at a time.
     public var filter: ComprehendClientTypes.DocumentClassificationJobFilter?
     /// The maximum number of results to return in each page. The default is 100.
@@ -13387,7 +13387,7 @@ public struct ListDocumentClassificationJobsInput: Swift.Equatable {
     }
 }
 
-struct ListDocumentClassificationJobsInputBody: Swift.Equatable {
+struct ListDocumentClassificationJobsInputBody {
     let filter: ComprehendClientTypes.DocumentClassificationJobFilter?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -13425,7 +13425,7 @@ extension ListDocumentClassificationJobsOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ListDocumentClassificationJobsOutput: Swift.Equatable {
+public struct ListDocumentClassificationJobsOutput {
     /// A list containing the properties of each job returned.
     public var documentClassificationJobPropertiesList: [ComprehendClientTypes.DocumentClassificationJobProperties]?
     /// Identifies the next page of results to return.
@@ -13441,7 +13441,7 @@ public struct ListDocumentClassificationJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListDocumentClassificationJobsOutputBody: Swift.Equatable {
+struct ListDocumentClassificationJobsOutputBody {
     let documentClassificationJobPropertiesList: [ComprehendClientTypes.DocumentClassificationJobProperties]?
     let nextToken: Swift.String?
 }
@@ -13508,7 +13508,7 @@ extension ListDocumentClassifierSummariesInput {
     }
 }
 
-public struct ListDocumentClassifierSummariesInput: Swift.Equatable {
+public struct ListDocumentClassifierSummariesInput {
     /// The maximum number of results to return on each page. The default is 100.
     public var maxResults: Swift.Int?
     /// Identifies the next page of results to return.
@@ -13524,7 +13524,7 @@ public struct ListDocumentClassifierSummariesInput: Swift.Equatable {
     }
 }
 
-struct ListDocumentClassifierSummariesInputBody: Swift.Equatable {
+struct ListDocumentClassifierSummariesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -13558,7 +13558,7 @@ extension ListDocumentClassifierSummariesOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ListDocumentClassifierSummariesOutput: Swift.Equatable {
+public struct ListDocumentClassifierSummariesOutput {
     /// The list of summaries of document classifiers.
     public var documentClassifierSummariesList: [ComprehendClientTypes.DocumentClassifierSummary]?
     /// Identifies the next page of results to return.
@@ -13574,7 +13574,7 @@ public struct ListDocumentClassifierSummariesOutput: Swift.Equatable {
     }
 }
 
-struct ListDocumentClassifierSummariesOutputBody: Swift.Equatable {
+struct ListDocumentClassifierSummariesOutputBody {
     let documentClassifierSummariesList: [ComprehendClientTypes.DocumentClassifierSummary]?
     let nextToken: Swift.String?
 }
@@ -13644,7 +13644,7 @@ extension ListDocumentClassifiersInput {
     }
 }
 
-public struct ListDocumentClassifiersInput: Swift.Equatable {
+public struct ListDocumentClassifiersInput {
     /// Filters the jobs that are returned. You can filter jobs on their name, status, or the date and time that they were submitted. You can only set one filter at a time.
     public var filter: ComprehendClientTypes.DocumentClassifierFilter?
     /// The maximum number of results to return in each page. The default is 100.
@@ -13664,7 +13664,7 @@ public struct ListDocumentClassifiersInput: Swift.Equatable {
     }
 }
 
-struct ListDocumentClassifiersInputBody: Swift.Equatable {
+struct ListDocumentClassifiersInputBody {
     let filter: ComprehendClientTypes.DocumentClassifierFilter?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -13702,7 +13702,7 @@ extension ListDocumentClassifiersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDocumentClassifiersOutput: Swift.Equatable {
+public struct ListDocumentClassifiersOutput {
     /// A list containing the properties of each job returned.
     public var documentClassifierPropertiesList: [ComprehendClientTypes.DocumentClassifierProperties]?
     /// Identifies the next page of results to return.
@@ -13718,7 +13718,7 @@ public struct ListDocumentClassifiersOutput: Swift.Equatable {
     }
 }
 
-struct ListDocumentClassifiersOutputBody: Swift.Equatable {
+struct ListDocumentClassifiersOutputBody {
     let documentClassifierPropertiesList: [ComprehendClientTypes.DocumentClassifierProperties]?
     let nextToken: Swift.String?
 }
@@ -13789,7 +13789,7 @@ extension ListDominantLanguageDetectionJobsInput {
     }
 }
 
-public struct ListDominantLanguageDetectionJobsInput: Swift.Equatable {
+public struct ListDominantLanguageDetectionJobsInput {
     /// Filters that jobs that are returned. You can filter jobs on their name, status, or the date and time that they were submitted. You can only set one filter at a time.
     public var filter: ComprehendClientTypes.DominantLanguageDetectionJobFilter?
     /// The maximum number of results to return in each page. The default is 100.
@@ -13809,7 +13809,7 @@ public struct ListDominantLanguageDetectionJobsInput: Swift.Equatable {
     }
 }
 
-struct ListDominantLanguageDetectionJobsInputBody: Swift.Equatable {
+struct ListDominantLanguageDetectionJobsInputBody {
     let filter: ComprehendClientTypes.DominantLanguageDetectionJobFilter?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -13847,7 +13847,7 @@ extension ListDominantLanguageDetectionJobsOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct ListDominantLanguageDetectionJobsOutput: Swift.Equatable {
+public struct ListDominantLanguageDetectionJobsOutput {
     /// A list containing the properties of each job that is returned.
     public var dominantLanguageDetectionJobPropertiesList: [ComprehendClientTypes.DominantLanguageDetectionJobProperties]?
     /// Identifies the next page of results to return.
@@ -13863,7 +13863,7 @@ public struct ListDominantLanguageDetectionJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListDominantLanguageDetectionJobsOutputBody: Swift.Equatable {
+struct ListDominantLanguageDetectionJobsOutputBody {
     let dominantLanguageDetectionJobPropertiesList: [ComprehendClientTypes.DominantLanguageDetectionJobProperties]?
     let nextToken: Swift.String?
 }
@@ -13934,7 +13934,7 @@ extension ListEndpointsInput {
     }
 }
 
-public struct ListEndpointsInput: Swift.Equatable {
+public struct ListEndpointsInput {
     /// Filters the endpoints that are returned. You can filter endpoints on their name, model, status, or the date and time that they were created. You can only set one filter at a time.
     public var filter: ComprehendClientTypes.EndpointFilter?
     /// The maximum number of results to return in each page. The default is 100.
@@ -13954,7 +13954,7 @@ public struct ListEndpointsInput: Swift.Equatable {
     }
 }
 
-struct ListEndpointsInputBody: Swift.Equatable {
+struct ListEndpointsInputBody {
     let filter: ComprehendClientTypes.EndpointFilter?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -13992,7 +13992,7 @@ extension ListEndpointsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEndpointsOutput: Swift.Equatable {
+public struct ListEndpointsOutput {
     /// Displays a list of endpoint properties being retrieved by the service in response to the request.
     public var endpointPropertiesList: [ComprehendClientTypes.EndpointProperties]?
     /// Identifies the next page of results to return.
@@ -14008,7 +14008,7 @@ public struct ListEndpointsOutput: Swift.Equatable {
     }
 }
 
-struct ListEndpointsOutputBody: Swift.Equatable {
+struct ListEndpointsOutputBody {
     let endpointPropertiesList: [ComprehendClientTypes.EndpointProperties]?
     let nextToken: Swift.String?
 }
@@ -14078,7 +14078,7 @@ extension ListEntitiesDetectionJobsInput {
     }
 }
 
-public struct ListEntitiesDetectionJobsInput: Swift.Equatable {
+public struct ListEntitiesDetectionJobsInput {
     /// Filters the jobs that are returned. You can filter jobs on their name, status, or the date and time that they were submitted. You can only set one filter at a time.
     public var filter: ComprehendClientTypes.EntitiesDetectionJobFilter?
     /// The maximum number of results to return in each page. The default is 100.
@@ -14098,7 +14098,7 @@ public struct ListEntitiesDetectionJobsInput: Swift.Equatable {
     }
 }
 
-struct ListEntitiesDetectionJobsInputBody: Swift.Equatable {
+struct ListEntitiesDetectionJobsInputBody {
     let filter: ComprehendClientTypes.EntitiesDetectionJobFilter?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -14136,7 +14136,7 @@ extension ListEntitiesDetectionJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEntitiesDetectionJobsOutput: Swift.Equatable {
+public struct ListEntitiesDetectionJobsOutput {
     /// A list containing the properties of each job that is returned.
     public var entitiesDetectionJobPropertiesList: [ComprehendClientTypes.EntitiesDetectionJobProperties]?
     /// Identifies the next page of results to return.
@@ -14152,7 +14152,7 @@ public struct ListEntitiesDetectionJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListEntitiesDetectionJobsOutputBody: Swift.Equatable {
+struct ListEntitiesDetectionJobsOutputBody {
     let entitiesDetectionJobPropertiesList: [ComprehendClientTypes.EntitiesDetectionJobProperties]?
     let nextToken: Swift.String?
 }
@@ -14219,7 +14219,7 @@ extension ListEntityRecognizerSummariesInput {
     }
 }
 
-public struct ListEntityRecognizerSummariesInput: Swift.Equatable {
+public struct ListEntityRecognizerSummariesInput {
     /// The maximum number of results to return on each page. The default is 100.
     public var maxResults: Swift.Int?
     /// Identifies the next page of results to return.
@@ -14235,7 +14235,7 @@ public struct ListEntityRecognizerSummariesInput: Swift.Equatable {
     }
 }
 
-struct ListEntityRecognizerSummariesInputBody: Swift.Equatable {
+struct ListEntityRecognizerSummariesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -14269,7 +14269,7 @@ extension ListEntityRecognizerSummariesOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ListEntityRecognizerSummariesOutput: Swift.Equatable {
+public struct ListEntityRecognizerSummariesOutput {
     /// The list entity recognizer summaries.
     public var entityRecognizerSummariesList: [ComprehendClientTypes.EntityRecognizerSummary]?
     /// Identifies the next page of results to return.
@@ -14285,7 +14285,7 @@ public struct ListEntityRecognizerSummariesOutput: Swift.Equatable {
     }
 }
 
-struct ListEntityRecognizerSummariesOutputBody: Swift.Equatable {
+struct ListEntityRecognizerSummariesOutputBody {
     let entityRecognizerSummariesList: [ComprehendClientTypes.EntityRecognizerSummary]?
     let nextToken: Swift.String?
 }
@@ -14355,7 +14355,7 @@ extension ListEntityRecognizersInput {
     }
 }
 
-public struct ListEntityRecognizersInput: Swift.Equatable {
+public struct ListEntityRecognizersInput {
     /// Filters the list of entities returned. You can filter on Status, SubmitTimeBefore, or SubmitTimeAfter. You can only set one filter at a time.
     public var filter: ComprehendClientTypes.EntityRecognizerFilter?
     /// The maximum number of results to return on each page. The default is 100.
@@ -14375,7 +14375,7 @@ public struct ListEntityRecognizersInput: Swift.Equatable {
     }
 }
 
-struct ListEntityRecognizersInputBody: Swift.Equatable {
+struct ListEntityRecognizersInputBody {
     let filter: ComprehendClientTypes.EntityRecognizerFilter?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -14413,7 +14413,7 @@ extension ListEntityRecognizersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEntityRecognizersOutput: Swift.Equatable {
+public struct ListEntityRecognizersOutput {
     /// The list of properties of an entity recognizer.
     public var entityRecognizerPropertiesList: [ComprehendClientTypes.EntityRecognizerProperties]?
     /// Identifies the next page of results to return.
@@ -14429,7 +14429,7 @@ public struct ListEntityRecognizersOutput: Swift.Equatable {
     }
 }
 
-struct ListEntityRecognizersOutputBody: Swift.Equatable {
+struct ListEntityRecognizersOutputBody {
     let entityRecognizerPropertiesList: [ComprehendClientTypes.EntityRecognizerProperties]?
     let nextToken: Swift.String?
 }
@@ -14500,7 +14500,7 @@ extension ListEventsDetectionJobsInput {
     }
 }
 
-public struct ListEventsDetectionJobsInput: Swift.Equatable {
+public struct ListEventsDetectionJobsInput {
     /// Filters the jobs that are returned. You can filter jobs on their name, status, or the date and time that they were submitted. You can only set one filter at a time.
     public var filter: ComprehendClientTypes.EventsDetectionJobFilter?
     /// The maximum number of results to return in each page.
@@ -14520,7 +14520,7 @@ public struct ListEventsDetectionJobsInput: Swift.Equatable {
     }
 }
 
-struct ListEventsDetectionJobsInputBody: Swift.Equatable {
+struct ListEventsDetectionJobsInputBody {
     let filter: ComprehendClientTypes.EventsDetectionJobFilter?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -14558,7 +14558,7 @@ extension ListEventsDetectionJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEventsDetectionJobsOutput: Swift.Equatable {
+public struct ListEventsDetectionJobsOutput {
     /// A list containing the properties of each job that is returned.
     public var eventsDetectionJobPropertiesList: [ComprehendClientTypes.EventsDetectionJobProperties]?
     /// Identifies the next page of results to return.
@@ -14574,7 +14574,7 @@ public struct ListEventsDetectionJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListEventsDetectionJobsOutputBody: Swift.Equatable {
+struct ListEventsDetectionJobsOutputBody {
     let eventsDetectionJobPropertiesList: [ComprehendClientTypes.EventsDetectionJobProperties]?
     let nextToken: Swift.String?
 }
@@ -14649,7 +14649,7 @@ extension ListFlywheelIterationHistoryInput {
     }
 }
 
-public struct ListFlywheelIterationHistoryInput: Swift.Equatable {
+public struct ListFlywheelIterationHistoryInput {
     /// Filter the flywheel iteration history based on creation time.
     public var filter: ComprehendClientTypes.FlywheelIterationFilter?
     /// The ARN of the flywheel.
@@ -14674,7 +14674,7 @@ public struct ListFlywheelIterationHistoryInput: Swift.Equatable {
     }
 }
 
-struct ListFlywheelIterationHistoryInputBody: Swift.Equatable {
+struct ListFlywheelIterationHistoryInputBody {
     let flywheelArn: Swift.String?
     let filter: ComprehendClientTypes.FlywheelIterationFilter?
     let nextToken: Swift.String?
@@ -14716,7 +14716,7 @@ extension ListFlywheelIterationHistoryOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListFlywheelIterationHistoryOutput: Swift.Equatable {
+public struct ListFlywheelIterationHistoryOutput {
     /// List of flywheel iteration properties
     public var flywheelIterationPropertiesList: [ComprehendClientTypes.FlywheelIterationProperties]?
     /// Next token
@@ -14732,7 +14732,7 @@ public struct ListFlywheelIterationHistoryOutput: Swift.Equatable {
     }
 }
 
-struct ListFlywheelIterationHistoryOutputBody: Swift.Equatable {
+struct ListFlywheelIterationHistoryOutputBody {
     let flywheelIterationPropertiesList: [ComprehendClientTypes.FlywheelIterationProperties]?
     let nextToken: Swift.String?
 }
@@ -14804,7 +14804,7 @@ extension ListFlywheelsInput {
     }
 }
 
-public struct ListFlywheelsInput: Swift.Equatable {
+public struct ListFlywheelsInput {
     /// Filters the flywheels that are returned. You can filter flywheels on their status, or the date and time that they were submitted. You can only set one filter at a time.
     public var filter: ComprehendClientTypes.FlywheelFilter?
     /// Maximum number of results to return in a response. The default is 100.
@@ -14824,7 +14824,7 @@ public struct ListFlywheelsInput: Swift.Equatable {
     }
 }
 
-struct ListFlywheelsInputBody: Swift.Equatable {
+struct ListFlywheelsInputBody {
     let filter: ComprehendClientTypes.FlywheelFilter?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -14862,7 +14862,7 @@ extension ListFlywheelsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFlywheelsOutput: Swift.Equatable {
+public struct ListFlywheelsOutput {
     /// A list of flywheel properties retrieved by the service in response to the request.
     public var flywheelSummaryList: [ComprehendClientTypes.FlywheelSummary]?
     /// Identifies the next page of results to return.
@@ -14878,7 +14878,7 @@ public struct ListFlywheelsOutput: Swift.Equatable {
     }
 }
 
-struct ListFlywheelsOutputBody: Swift.Equatable {
+struct ListFlywheelsOutputBody {
     let flywheelSummaryList: [ComprehendClientTypes.FlywheelSummary]?
     let nextToken: Swift.String?
 }
@@ -14949,7 +14949,7 @@ extension ListKeyPhrasesDetectionJobsInput {
     }
 }
 
-public struct ListKeyPhrasesDetectionJobsInput: Swift.Equatable {
+public struct ListKeyPhrasesDetectionJobsInput {
     /// Filters the jobs that are returned. You can filter jobs on their name, status, or the date and time that they were submitted. You can only set one filter at a time.
     public var filter: ComprehendClientTypes.KeyPhrasesDetectionJobFilter?
     /// The maximum number of results to return in each page. The default is 100.
@@ -14969,7 +14969,7 @@ public struct ListKeyPhrasesDetectionJobsInput: Swift.Equatable {
     }
 }
 
-struct ListKeyPhrasesDetectionJobsInputBody: Swift.Equatable {
+struct ListKeyPhrasesDetectionJobsInputBody {
     let filter: ComprehendClientTypes.KeyPhrasesDetectionJobFilter?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -15007,7 +15007,7 @@ extension ListKeyPhrasesDetectionJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListKeyPhrasesDetectionJobsOutput: Swift.Equatable {
+public struct ListKeyPhrasesDetectionJobsOutput {
     /// A list containing the properties of each job that is returned.
     public var keyPhrasesDetectionJobPropertiesList: [ComprehendClientTypes.KeyPhrasesDetectionJobProperties]?
     /// Identifies the next page of results to return.
@@ -15023,7 +15023,7 @@ public struct ListKeyPhrasesDetectionJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListKeyPhrasesDetectionJobsOutputBody: Swift.Equatable {
+struct ListKeyPhrasesDetectionJobsOutputBody {
     let keyPhrasesDetectionJobPropertiesList: [ComprehendClientTypes.KeyPhrasesDetectionJobProperties]?
     let nextToken: Swift.String?
 }
@@ -15094,7 +15094,7 @@ extension ListPiiEntitiesDetectionJobsInput {
     }
 }
 
-public struct ListPiiEntitiesDetectionJobsInput: Swift.Equatable {
+public struct ListPiiEntitiesDetectionJobsInput {
     /// Filters the jobs that are returned. You can filter jobs on their name, status, or the date and time that they were submitted. You can only set one filter at a time.
     public var filter: ComprehendClientTypes.PiiEntitiesDetectionJobFilter?
     /// The maximum number of results to return in each page.
@@ -15114,7 +15114,7 @@ public struct ListPiiEntitiesDetectionJobsInput: Swift.Equatable {
     }
 }
 
-struct ListPiiEntitiesDetectionJobsInputBody: Swift.Equatable {
+struct ListPiiEntitiesDetectionJobsInputBody {
     let filter: ComprehendClientTypes.PiiEntitiesDetectionJobFilter?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -15152,7 +15152,7 @@ extension ListPiiEntitiesDetectionJobsOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListPiiEntitiesDetectionJobsOutput: Swift.Equatable {
+public struct ListPiiEntitiesDetectionJobsOutput {
     /// Identifies the next page of results to return.
     public var nextToken: Swift.String?
     /// A list containing the properties of each job that is returned.
@@ -15168,7 +15168,7 @@ public struct ListPiiEntitiesDetectionJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListPiiEntitiesDetectionJobsOutputBody: Swift.Equatable {
+struct ListPiiEntitiesDetectionJobsOutputBody {
     let piiEntitiesDetectionJobPropertiesList: [ComprehendClientTypes.PiiEntitiesDetectionJobProperties]?
     let nextToken: Swift.String?
 }
@@ -15239,7 +15239,7 @@ extension ListSentimentDetectionJobsInput {
     }
 }
 
-public struct ListSentimentDetectionJobsInput: Swift.Equatable {
+public struct ListSentimentDetectionJobsInput {
     /// Filters the jobs that are returned. You can filter jobs on their name, status, or the date and time that they were submitted. You can only set one filter at a time.
     public var filter: ComprehendClientTypes.SentimentDetectionJobFilter?
     /// The maximum number of results to return in each page. The default is 100.
@@ -15259,7 +15259,7 @@ public struct ListSentimentDetectionJobsInput: Swift.Equatable {
     }
 }
 
-struct ListSentimentDetectionJobsInputBody: Swift.Equatable {
+struct ListSentimentDetectionJobsInputBody {
     let filter: ComprehendClientTypes.SentimentDetectionJobFilter?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -15297,7 +15297,7 @@ extension ListSentimentDetectionJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSentimentDetectionJobsOutput: Swift.Equatable {
+public struct ListSentimentDetectionJobsOutput {
     /// Identifies the next page of results to return.
     public var nextToken: Swift.String?
     /// A list containing the properties of each job that is returned.
@@ -15313,7 +15313,7 @@ public struct ListSentimentDetectionJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListSentimentDetectionJobsOutputBody: Swift.Equatable {
+struct ListSentimentDetectionJobsOutputBody {
     let sentimentDetectionJobPropertiesList: [ComprehendClientTypes.SentimentDetectionJobProperties]?
     let nextToken: Swift.String?
 }
@@ -15376,7 +15376,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the given Amazon Comprehend resource you are querying.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -15389,7 +15389,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -15419,7 +15419,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The Amazon Resource Name (ARN) of the given Amazon Comprehend resource you are querying.
     public var resourceArn: Swift.String?
     /// Tags associated with the Amazon Comprehend resource being queried. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
@@ -15435,7 +15435,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let resourceArn: Swift.String?
     let tags: [ComprehendClientTypes.Tag]?
 }
@@ -15505,7 +15505,7 @@ extension ListTargetedSentimentDetectionJobsInput {
     }
 }
 
-public struct ListTargetedSentimentDetectionJobsInput: Swift.Equatable {
+public struct ListTargetedSentimentDetectionJobsInput {
     /// Filters the jobs that are returned. You can filter jobs on their name, status, or the date and time that they were submitted. You can only set one filter at a time.
     public var filter: ComprehendClientTypes.TargetedSentimentDetectionJobFilter?
     /// The maximum number of results to return in each page. The default is 100.
@@ -15525,7 +15525,7 @@ public struct ListTargetedSentimentDetectionJobsInput: Swift.Equatable {
     }
 }
 
-struct ListTargetedSentimentDetectionJobsInputBody: Swift.Equatable {
+struct ListTargetedSentimentDetectionJobsInputBody {
     let filter: ComprehendClientTypes.TargetedSentimentDetectionJobFilter?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -15563,7 +15563,7 @@ extension ListTargetedSentimentDetectionJobsOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct ListTargetedSentimentDetectionJobsOutput: Swift.Equatable {
+public struct ListTargetedSentimentDetectionJobsOutput {
     /// Identifies the next page of results to return.
     public var nextToken: Swift.String?
     /// A list containing the properties of each job that is returned.
@@ -15579,7 +15579,7 @@ public struct ListTargetedSentimentDetectionJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListTargetedSentimentDetectionJobsOutputBody: Swift.Equatable {
+struct ListTargetedSentimentDetectionJobsOutputBody {
     let targetedSentimentDetectionJobPropertiesList: [ComprehendClientTypes.TargetedSentimentDetectionJobProperties]?
     let nextToken: Swift.String?
 }
@@ -15650,7 +15650,7 @@ extension ListTopicsDetectionJobsInput {
     }
 }
 
-public struct ListTopicsDetectionJobsInput: Swift.Equatable {
+public struct ListTopicsDetectionJobsInput {
     /// Filters the jobs that are returned. Jobs can be filtered on their name, status, or the date and time that they were submitted. You can set only one filter at a time.
     public var filter: ComprehendClientTypes.TopicsDetectionJobFilter?
     /// The maximum number of results to return in each page. The default is 100.
@@ -15670,7 +15670,7 @@ public struct ListTopicsDetectionJobsInput: Swift.Equatable {
     }
 }
 
-struct ListTopicsDetectionJobsInputBody: Swift.Equatable {
+struct ListTopicsDetectionJobsInputBody {
     let filter: ComprehendClientTypes.TopicsDetectionJobFilter?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -15708,7 +15708,7 @@ extension ListTopicsDetectionJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTopicsDetectionJobsOutput: Swift.Equatable {
+public struct ListTopicsDetectionJobsOutput {
     /// Identifies the next page of results to return.
     public var nextToken: Swift.String?
     /// A list containing the properties of each job that is returned.
@@ -15724,7 +15724,7 @@ public struct ListTopicsDetectionJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListTopicsDetectionJobsOutputBody: Swift.Equatable {
+struct ListTopicsDetectionJobsOutputBody {
     let topicsDetectionJobPropertiesList: [ComprehendClientTypes.TopicsDetectionJobProperties]?
     let nextToken: Swift.String?
 }
@@ -15794,7 +15794,7 @@ extension ComprehendClientTypes.MentionSentiment: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Contains the sentiment and sentiment score for one mention of an entity. For more information about targeted sentiment, see [Targeted sentiment](https://docs.aws.amazon.com/comprehend/latest/dg/how-targeted-sentiment.html) in the Amazon Comprehend Developer Guide.
-    public struct MentionSentiment: Swift.Equatable {
+    public struct MentionSentiment {
         /// The sentiment of the mention.
         public var sentiment: ComprehendClientTypes.SentimentType?
         /// Describes the level of confidence that Amazon Comprehend has in the accuracy of its detection of sentiments.
@@ -15921,7 +15921,7 @@ extension ComprehendClientTypes.OutputDataConfig: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Provides configuration parameters for the output of inference jobs.
-    public struct OutputDataConfig: Swift.Equatable {
+    public struct OutputDataConfig {
         /// ID for the Amazon Web Services Key Management Service (KMS) key that Amazon Comprehend uses to encrypt the output results from an analysis job. Specify the Key Id of a symmetric key, because you cannot use an asymmetric key for uploading data to S3. The KmsKeyId can be one of the following formats:
         ///
         /// * KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
@@ -16048,7 +16048,7 @@ extension ComprehendClientTypes.PartOfSpeechTag: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Identifies the part of speech represented by the token and gives the confidence that Amazon Comprehend has that the part of speech was correctly identified. For more information about the parts of speech that Amazon Comprehend can identify, see [Syntax](https://docs.aws.amazon.com/comprehend/latest/dg/how-syntax.html) in the Comprehend Developer Guide.
-    public struct PartOfSpeechTag: Swift.Equatable {
+    public struct PartOfSpeechTag {
         /// The confidence that Amazon Comprehend has that the part of speech was correctly identified.
         public var score: Swift.Float?
         /// Identifies the part of speech that the token represents.
@@ -16185,7 +16185,7 @@ extension ComprehendClientTypes.PiiEntitiesDetectionJobFilter: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Provides information for filtering a list of PII entity detection jobs.
-    public struct PiiEntitiesDetectionJobFilter: Swift.Equatable {
+    public struct PiiEntitiesDetectionJobFilter {
         /// Filters on the name of the job.
         public var jobName: Swift.String?
         /// Filters the list of jobs based on job status. Returns only jobs with the specified status.
@@ -16304,7 +16304,7 @@ extension ComprehendClientTypes.PiiEntitiesDetectionJobProperties: Swift.Codable
 
 extension ComprehendClientTypes {
     /// Provides information about a PII entities detection job.
-    public struct PiiEntitiesDetectionJobProperties: Swift.Equatable {
+    public struct PiiEntitiesDetectionJobProperties {
         /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data.
         public var dataAccessRoleArn: Swift.String?
         /// The time that the PII entities detection job completed.
@@ -16469,7 +16469,7 @@ extension ComprehendClientTypes.PiiEntity: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Provides information about a PII entity.
-    public struct PiiEntity: Swift.Equatable {
+    public struct PiiEntity {
         /// The zero-based offset from the beginning of the source text to the first character in the entity.
         public var beginOffset: Swift.Int?
         /// The zero-based offset from the beginning of the source text to the last character in the entity.
@@ -16659,7 +16659,7 @@ extension ComprehendClientTypes.PiiOutputDataConfig: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Provides configuration parameters for the output of PII entity detection jobs.
-    public struct PiiOutputDataConfig: Swift.Equatable {
+    public struct PiiOutputDataConfig {
         /// ID for the Amazon Web Services Key Management Service (KMS) key that Amazon Comprehend uses to encrypt the output results from an analysis job.
         public var kmsKeyId: Swift.String?
         /// When you use the PiiOutputDataConfig object with asynchronous operations, you specify the Amazon S3 location where you want to write the output data. For a PII entity detection job, the output file is plain text, not a compressed archive. The output file name is the same as the input file, with .out appended at the end.
@@ -16705,7 +16705,7 @@ extension ComprehendClientTypes.Point: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// The X and Y coordinates of a point on a document page. For additional information, see [Point](https://docs.aws.amazon.com/textract/latest/dg/API_Point.html) in the Amazon Textract API reference.
-    public struct Point: Swift.Equatable {
+    public struct Point {
         /// The value of the X coordinate for a point on a polygon
         public var x: Swift.Float?
         /// The value of the Y coordinate for a point on a polygon
@@ -16751,7 +16751,7 @@ extension PutResourcePolicyInput {
     }
 }
 
-public struct PutResourcePolicyInput: Swift.Equatable {
+public struct PutResourcePolicyInput {
     /// The revision ID that Amazon Comprehend assigned to the policy that you are updating. If you are creating a new policy that has no prior version, don't use this parameter. Amazon Comprehend creates the revision ID for you.
     public var policyRevisionId: Swift.String?
     /// The Amazon Resource Name (ARN) of the custom model to attach the policy to.
@@ -16773,7 +16773,7 @@ public struct PutResourcePolicyInput: Swift.Equatable {
     }
 }
 
-struct PutResourcePolicyInputBody: Swift.Equatable {
+struct PutResourcePolicyInputBody {
     let resourceArn: Swift.String?
     let resourcePolicy: Swift.String?
     let policyRevisionId: Swift.String?
@@ -16809,7 +16809,7 @@ extension PutResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutResourcePolicyOutput: Swift.Equatable {
+public struct PutResourcePolicyOutput {
     /// The revision ID of the policy. Each time you modify a policy, Amazon Comprehend assigns a new revision ID, and it deletes the prior version of the policy.
     public var policyRevisionId: Swift.String?
 
@@ -16821,7 +16821,7 @@ public struct PutResourcePolicyOutput: Swift.Equatable {
     }
 }
 
-struct PutResourcePolicyOutputBody: Swift.Equatable {
+struct PutResourcePolicyOutputBody {
     let policyRevisionId: Swift.String?
 }
 
@@ -16895,7 +16895,7 @@ extension ComprehendClientTypes.RedactionConfig: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Provides configuration parameters for PII entity redaction.
-    public struct RedactionConfig: Swift.Equatable {
+    public struct RedactionConfig {
         /// A character that replaces each character in the redacted PII entity.
         public var maskCharacter: Swift.String?
         /// Specifies whether the PII entity is redacted with the mask character or the entity type.
@@ -16985,7 +16985,7 @@ extension ComprehendClientTypes.RelationshipsListItem: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// List of child blocks for the current block.
-    public struct RelationshipsListItem: Swift.Equatable {
+    public struct RelationshipsListItem {
         /// Identifers of the child blocks.
         public var ids: [Swift.String]?
         /// Only supported relationship is a child relationship.
@@ -17042,7 +17042,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ResourceInUseExceptionBody: Swift.Equatable {
+struct ResourceInUseExceptionBody {
     let message: Swift.String?
 }
 
@@ -17097,7 +17097,7 @@ public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct ResourceLimitExceededExceptionBody: Swift.Equatable {
+struct ResourceLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -17152,7 +17152,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -17207,7 +17207,7 @@ public struct ResourceUnavailableException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct ResourceUnavailableExceptionBody: Swift.Equatable {
+struct ResourceUnavailableExceptionBody {
     let message: Swift.String?
 }
 
@@ -17262,7 +17262,7 @@ extension ComprehendClientTypes.SentimentDetectionJobFilter: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Provides information for filtering a list of dominant language detection jobs. For more information, see the operation.
-    public struct SentimentDetectionJobFilter: Swift.Equatable {
+    public struct SentimentDetectionJobFilter {
         /// Filters on the name of the job.
         public var jobName: Swift.String?
         /// Filters the list of jobs based on job status. Returns only jobs with the specified status.
@@ -17381,7 +17381,7 @@ extension ComprehendClientTypes.SentimentDetectionJobProperties: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Provides information about a sentiment detection job.
-    public struct SentimentDetectionJobProperties: Swift.Equatable {
+    public struct SentimentDetectionJobProperties {
         /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data.
         public var dataAccessRoleArn: Swift.String?
         /// The time that the sentiment detection job ended.
@@ -17486,7 +17486,7 @@ extension ComprehendClientTypes.SentimentScore: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Describes the level of confidence that Amazon Comprehend has in the accuracy of its detection of sentiments.
-    public struct SentimentScore: Swift.Equatable {
+    public struct SentimentScore {
         /// The level of confidence that Amazon Comprehend has in the accuracy of its detection of the MIXED sentiment.
         public var mixed: Swift.Float?
         /// The level of confidence that Amazon Comprehend has in the accuracy of its detection of the NEGATIVE sentiment.
@@ -17641,7 +17641,7 @@ extension StartDocumentClassificationJobInput {
     }
 }
 
-public struct StartDocumentClassificationJobInput: Swift.Equatable {
+public struct StartDocumentClassificationJobInput {
     /// A unique identifier for the request. If you do not set the client request token, Amazon Comprehend generates one.
     public var clientRequestToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data.
@@ -17696,7 +17696,7 @@ public struct StartDocumentClassificationJobInput: Swift.Equatable {
     }
 }
 
-struct StartDocumentClassificationJobInputBody: Swift.Equatable {
+struct StartDocumentClassificationJobInputBody {
     let jobName: Swift.String?
     let documentClassifierArn: Swift.String?
     let inputDataConfig: ComprehendClientTypes.InputDataConfig?
@@ -17775,7 +17775,7 @@ extension StartDocumentClassificationJobOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct StartDocumentClassificationJobOutput: Swift.Equatable {
+public struct StartDocumentClassificationJobOutput {
     /// The ARN of the custom classification model.
     public var documentClassifierArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the document classification job. It is a unique, fully qualified identifier for the job. It includes the Amazon Web Services account, Amazon Web Services Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::document-classification-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:document-classification-job/1234abcd12ab34cd56ef1234567890ab
@@ -17811,7 +17811,7 @@ public struct StartDocumentClassificationJobOutput: Swift.Equatable {
     }
 }
 
-struct StartDocumentClassificationJobOutputBody: Swift.Equatable {
+struct StartDocumentClassificationJobOutputBody {
     let jobId: Swift.String?
     let jobArn: Swift.String?
     let jobStatus: ComprehendClientTypes.JobStatus?
@@ -17908,7 +17908,7 @@ extension StartDominantLanguageDetectionJobInput {
     }
 }
 
-public struct StartDominantLanguageDetectionJobInput: Swift.Equatable {
+public struct StartDominantLanguageDetectionJobInput {
     /// A unique identifier for the request. If you do not set the client request token, Amazon Comprehend generates one.
     public var clientRequestToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data. For more information, see [Role-based permissions](https://docs.aws.amazon.com/comprehend/latest/dg/security_iam_id-based-policy-examples.html#auth-role-permissions).
@@ -17955,7 +17955,7 @@ public struct StartDominantLanguageDetectionJobInput: Swift.Equatable {
     }
 }
 
-struct StartDominantLanguageDetectionJobInputBody: Swift.Equatable {
+struct StartDominantLanguageDetectionJobInputBody {
     let inputDataConfig: ComprehendClientTypes.InputDataConfig?
     let outputDataConfig: ComprehendClientTypes.OutputDataConfig?
     let dataAccessRoleArn: Swift.String?
@@ -18024,7 +18024,7 @@ extension StartDominantLanguageDetectionJobOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct StartDominantLanguageDetectionJobOutput: Swift.Equatable {
+public struct StartDominantLanguageDetectionJobOutput {
     /// The Amazon Resource Name (ARN) of the dominant language detection job. It is a unique, fully qualified identifier for the job. It includes the Amazon Web Services account, Amazon Web Services Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::dominant-language-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:dominant-language-detection-job/1234abcd12ab34cd56ef1234567890ab
     public var jobArn: Swift.String?
     /// The identifier generated for the job. To get the status of a job, use this identifier with the operation.
@@ -18052,7 +18052,7 @@ public struct StartDominantLanguageDetectionJobOutput: Swift.Equatable {
     }
 }
 
-struct StartDominantLanguageDetectionJobOutputBody: Swift.Equatable {
+struct StartDominantLanguageDetectionJobOutputBody {
     let jobId: Swift.String?
     let jobArn: Swift.String?
     let jobStatus: ComprehendClientTypes.JobStatus?
@@ -18155,7 +18155,7 @@ extension StartEntitiesDetectionJobInput {
     }
 }
 
-public struct StartEntitiesDetectionJobInput: Swift.Equatable {
+public struct StartEntitiesDetectionJobInput {
     /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
     public var clientRequestToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data. For more information, see [Role-based permissions](https://docs.aws.amazon.com/comprehend/latest/dg/security_iam_id-based-policy-examples.html#auth-role-permissions).
@@ -18215,7 +18215,7 @@ public struct StartEntitiesDetectionJobInput: Swift.Equatable {
     }
 }
 
-struct StartEntitiesDetectionJobInputBody: Swift.Equatable {
+struct StartEntitiesDetectionJobInputBody {
     let inputDataConfig: ComprehendClientTypes.InputDataConfig?
     let outputDataConfig: ComprehendClientTypes.OutputDataConfig?
     let dataAccessRoleArn: Swift.String?
@@ -18298,7 +18298,7 @@ extension StartEntitiesDetectionJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartEntitiesDetectionJobOutput: Swift.Equatable {
+public struct StartEntitiesDetectionJobOutput {
     /// The ARN of the custom entity recognition model.
     public var entityRecognizerArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the entities detection job. It is a unique, fully qualified identifier for the job. It includes the Amazon Web Services account, Amazon Web Services Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::entities-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:entities-detection-job/1234abcd12ab34cd56ef1234567890ab
@@ -18334,7 +18334,7 @@ public struct StartEntitiesDetectionJobOutput: Swift.Equatable {
     }
 }
 
-struct StartEntitiesDetectionJobOutputBody: Swift.Equatable {
+struct StartEntitiesDetectionJobOutputBody {
     let jobId: Swift.String?
     let jobArn: Swift.String?
     let jobStatus: ComprehendClientTypes.JobStatus?
@@ -18434,7 +18434,7 @@ extension StartEventsDetectionJobInput {
     }
 }
 
-public struct StartEventsDetectionJobInput: Swift.Equatable {
+public struct StartEventsDetectionJobInput {
     /// An unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
     public var clientRequestToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data.
@@ -18479,7 +18479,7 @@ public struct StartEventsDetectionJobInput: Swift.Equatable {
     }
 }
 
-struct StartEventsDetectionJobInputBody: Swift.Equatable {
+struct StartEventsDetectionJobInputBody {
     let inputDataConfig: ComprehendClientTypes.InputDataConfig?
     let outputDataConfig: ComprehendClientTypes.OutputDataConfig?
     let dataAccessRoleArn: Swift.String?
@@ -18557,7 +18557,7 @@ extension StartEventsDetectionJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartEventsDetectionJobOutput: Swift.Equatable {
+public struct StartEventsDetectionJobOutput {
     /// The Amazon Resource Name (ARN) of the events detection job. It is a unique, fully qualified identifier for the job. It includes the Amazon Web Services account, Amazon Web Services Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::events-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:events-detection-job/1234abcd12ab34cd56ef1234567890ab
     public var jobArn: Swift.String?
     /// An unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
@@ -18577,7 +18577,7 @@ public struct StartEventsDetectionJobOutput: Swift.Equatable {
     }
 }
 
-struct StartEventsDetectionJobOutputBody: Swift.Equatable {
+struct StartEventsDetectionJobOutputBody {
     let jobId: Swift.String?
     let jobArn: Swift.String?
     let jobStatus: ComprehendClientTypes.JobStatus?
@@ -18641,7 +18641,7 @@ extension StartFlywheelIterationInput {
     }
 }
 
-public struct StartFlywheelIterationInput: Swift.Equatable {
+public struct StartFlywheelIterationInput {
     /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
     public var clientRequestToken: Swift.String?
     /// The ARN of the flywheel.
@@ -18658,7 +18658,7 @@ public struct StartFlywheelIterationInput: Swift.Equatable {
     }
 }
 
-struct StartFlywheelIterationInputBody: Swift.Equatable {
+struct StartFlywheelIterationInputBody {
     let flywheelArn: Swift.String?
     let clientRequestToken: Swift.String?
 }
@@ -18692,7 +18692,7 @@ extension StartFlywheelIterationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartFlywheelIterationOutput: Swift.Equatable {
+public struct StartFlywheelIterationOutput {
     ///
     public var flywheelArn: Swift.String?
     ///
@@ -18708,7 +18708,7 @@ public struct StartFlywheelIterationOutput: Swift.Equatable {
     }
 }
 
-struct StartFlywheelIterationOutputBody: Swift.Equatable {
+struct StartFlywheelIterationOutputBody {
     let flywheelArn: Swift.String?
     let flywheelIterationId: Swift.String?
 }
@@ -18798,7 +18798,7 @@ extension StartKeyPhrasesDetectionJobInput {
     }
 }
 
-public struct StartKeyPhrasesDetectionJobInput: Swift.Equatable {
+public struct StartKeyPhrasesDetectionJobInput {
     /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
     public var clientRequestToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data. For more information, see [Role-based permissions](https://docs.aws.amazon.com/comprehend/latest/dg/security_iam_id-based-policy-examples.html#auth-role-permissions).
@@ -18850,7 +18850,7 @@ public struct StartKeyPhrasesDetectionJobInput: Swift.Equatable {
     }
 }
 
-struct StartKeyPhrasesDetectionJobInputBody: Swift.Equatable {
+struct StartKeyPhrasesDetectionJobInputBody {
     let inputDataConfig: ComprehendClientTypes.InputDataConfig?
     let outputDataConfig: ComprehendClientTypes.OutputDataConfig?
     let dataAccessRoleArn: Swift.String?
@@ -18923,7 +18923,7 @@ extension StartKeyPhrasesDetectionJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartKeyPhrasesDetectionJobOutput: Swift.Equatable {
+public struct StartKeyPhrasesDetectionJobOutput {
     /// The Amazon Resource Name (ARN) of the key phrase detection job. It is a unique, fully qualified identifier for the job. It includes the Amazon Web Services account, Amazon Web Services Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::key-phrases-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:key-phrases-detection-job/1234abcd12ab34cd56ef1234567890ab
     public var jobArn: Swift.String?
     /// The identifier generated for the job. To get the status of a job, use this identifier with the operation.
@@ -18951,7 +18951,7 @@ public struct StartKeyPhrasesDetectionJobOutput: Swift.Equatable {
     }
 }
 
-struct StartKeyPhrasesDetectionJobOutputBody: Swift.Equatable {
+struct StartKeyPhrasesDetectionJobOutputBody {
     let jobId: Swift.String?
     let jobArn: Swift.String?
     let jobStatus: ComprehendClientTypes.JobStatus?
@@ -19046,7 +19046,7 @@ extension StartPiiEntitiesDetectionJobInput {
     }
 }
 
-public struct StartPiiEntitiesDetectionJobInput: Swift.Equatable {
+public struct StartPiiEntitiesDetectionJobInput {
     /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
     public var clientRequestToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data.
@@ -19095,7 +19095,7 @@ public struct StartPiiEntitiesDetectionJobInput: Swift.Equatable {
     }
 }
 
-struct StartPiiEntitiesDetectionJobInputBody: Swift.Equatable {
+struct StartPiiEntitiesDetectionJobInputBody {
     let inputDataConfig: ComprehendClientTypes.InputDataConfig?
     let outputDataConfig: ComprehendClientTypes.OutputDataConfig?
     let mode: ComprehendClientTypes.PiiEntitiesDetectionMode?
@@ -19168,7 +19168,7 @@ extension StartPiiEntitiesDetectionJobOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct StartPiiEntitiesDetectionJobOutput: Swift.Equatable {
+public struct StartPiiEntitiesDetectionJobOutput {
     /// The Amazon Resource Name (ARN) of the PII entity detection job. It is a unique, fully qualified identifier for the job. It includes the Amazon Web Services account, Amazon Web Services Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::pii-entities-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:pii-entities-detection-job/1234abcd12ab34cd56ef1234567890ab
     public var jobArn: Swift.String?
     /// The identifier generated for the job.
@@ -19188,7 +19188,7 @@ public struct StartPiiEntitiesDetectionJobOutput: Swift.Equatable {
     }
 }
 
-struct StartPiiEntitiesDetectionJobOutputBody: Swift.Equatable {
+struct StartPiiEntitiesDetectionJobOutputBody {
     let jobId: Swift.String?
     let jobArn: Swift.String?
     let jobStatus: ComprehendClientTypes.JobStatus?
@@ -19283,7 +19283,7 @@ extension StartSentimentDetectionJobInput {
     }
 }
 
-public struct StartSentimentDetectionJobInput: Swift.Equatable {
+public struct StartSentimentDetectionJobInput {
     /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
     public var clientRequestToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data. For more information, see [Role-based permissions](https://docs.aws.amazon.com/comprehend/latest/dg/security_iam_id-based-policy-examples.html#auth-role-permissions).
@@ -19335,7 +19335,7 @@ public struct StartSentimentDetectionJobInput: Swift.Equatable {
     }
 }
 
-struct StartSentimentDetectionJobInputBody: Swift.Equatable {
+struct StartSentimentDetectionJobInputBody {
     let inputDataConfig: ComprehendClientTypes.InputDataConfig?
     let outputDataConfig: ComprehendClientTypes.OutputDataConfig?
     let dataAccessRoleArn: Swift.String?
@@ -19408,7 +19408,7 @@ extension StartSentimentDetectionJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartSentimentDetectionJobOutput: Swift.Equatable {
+public struct StartSentimentDetectionJobOutput {
     /// The Amazon Resource Name (ARN) of the sentiment detection job. It is a unique, fully qualified identifier for the job. It includes the Amazon Web Services account, Amazon Web Services Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::sentiment-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:sentiment-detection-job/1234abcd12ab34cd56ef1234567890ab
     public var jobArn: Swift.String?
     /// The identifier generated for the job. To get the status of a job, use this identifier with the operation.
@@ -19436,7 +19436,7 @@ public struct StartSentimentDetectionJobOutput: Swift.Equatable {
     }
 }
 
-struct StartSentimentDetectionJobOutputBody: Swift.Equatable {
+struct StartSentimentDetectionJobOutputBody {
     let jobId: Swift.String?
     let jobArn: Swift.String?
     let jobStatus: ComprehendClientTypes.JobStatus?
@@ -19531,7 +19531,7 @@ extension StartTargetedSentimentDetectionJobInput {
     }
 }
 
-public struct StartTargetedSentimentDetectionJobInput: Swift.Equatable {
+public struct StartTargetedSentimentDetectionJobInput {
     /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
     public var clientRequestToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data. For more information, see [Role-based permissions](https://docs.aws.amazon.com/comprehend/latest/dg/security_iam_id-based-policy-examples.html#auth-role-permissions).
@@ -19583,7 +19583,7 @@ public struct StartTargetedSentimentDetectionJobInput: Swift.Equatable {
     }
 }
 
-struct StartTargetedSentimentDetectionJobInputBody: Swift.Equatable {
+struct StartTargetedSentimentDetectionJobInputBody {
     let inputDataConfig: ComprehendClientTypes.InputDataConfig?
     let outputDataConfig: ComprehendClientTypes.OutputDataConfig?
     let dataAccessRoleArn: Swift.String?
@@ -19656,7 +19656,7 @@ extension StartTargetedSentimentDetectionJobOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct StartTargetedSentimentDetectionJobOutput: Swift.Equatable {
+public struct StartTargetedSentimentDetectionJobOutput {
     /// The Amazon Resource Name (ARN) of the targeted sentiment detection job. It is a unique, fully qualified identifier for the job. It includes the Amazon Web Services account, Amazon Web Services Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::targeted-sentiment-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:targeted-sentiment-detection-job/1234abcd12ab34cd56ef1234567890ab
     public var jobArn: Swift.String?
     /// The identifier generated for the job. To get the status of a job, use this identifier with the DescribeTargetedSentimentDetectionJob operation.
@@ -19684,7 +19684,7 @@ public struct StartTargetedSentimentDetectionJobOutput: Swift.Equatable {
     }
 }
 
-struct StartTargetedSentimentDetectionJobOutputBody: Swift.Equatable {
+struct StartTargetedSentimentDetectionJobOutputBody {
     let jobId: Swift.String?
     let jobArn: Swift.String?
     let jobStatus: ComprehendClientTypes.JobStatus?
@@ -19779,7 +19779,7 @@ extension StartTopicsDetectionJobInput {
     }
 }
 
-public struct StartTopicsDetectionJobInput: Swift.Equatable {
+public struct StartTopicsDetectionJobInput {
     /// A unique identifier for the request. If you do not set the client request token, Amazon Comprehend generates one.
     public var clientRequestToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data. For more information, see [Role-based permissions](https://docs.aws.amazon.com/comprehend/latest/dg/security_iam_id-based-policy-examples.html#auth-role-permissions).
@@ -19830,7 +19830,7 @@ public struct StartTopicsDetectionJobInput: Swift.Equatable {
     }
 }
 
-struct StartTopicsDetectionJobInputBody: Swift.Equatable {
+struct StartTopicsDetectionJobInputBody {
     let inputDataConfig: ComprehendClientTypes.InputDataConfig?
     let outputDataConfig: ComprehendClientTypes.OutputDataConfig?
     let dataAccessRoleArn: Swift.String?
@@ -19903,7 +19903,7 @@ extension StartTopicsDetectionJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartTopicsDetectionJobOutput: Swift.Equatable {
+public struct StartTopicsDetectionJobOutput {
     /// The Amazon Resource Name (ARN) of the topics detection job. It is a unique, fully qualified identifier for the job. It includes the Amazon Web Services account, Amazon Web Services Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::topics-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:document-classification-job/1234abcd12ab34cd56ef1234567890ab
     public var jobArn: Swift.String?
     /// The identifier generated for the job. To get the status of the job, use this identifier with the DescribeTopicDetectionJob operation.
@@ -19931,7 +19931,7 @@ public struct StartTopicsDetectionJobOutput: Swift.Equatable {
     }
 }
 
-struct StartTopicsDetectionJobOutputBody: Swift.Equatable {
+struct StartTopicsDetectionJobOutputBody {
     let jobId: Swift.String?
     let jobArn: Swift.String?
     let jobStatus: ComprehendClientTypes.JobStatus?
@@ -19991,7 +19991,7 @@ extension StopDominantLanguageDetectionJobInput {
     }
 }
 
-public struct StopDominantLanguageDetectionJobInput: Swift.Equatable {
+public struct StopDominantLanguageDetectionJobInput {
     /// The identifier of the dominant language detection job to stop.
     /// This member is required.
     public var jobId: Swift.String?
@@ -20004,7 +20004,7 @@ public struct StopDominantLanguageDetectionJobInput: Swift.Equatable {
     }
 }
 
-struct StopDominantLanguageDetectionJobInputBody: Swift.Equatable {
+struct StopDominantLanguageDetectionJobInputBody {
     let jobId: Swift.String?
 }
 
@@ -20034,7 +20034,7 @@ extension StopDominantLanguageDetectionJobOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct StopDominantLanguageDetectionJobOutput: Swift.Equatable {
+public struct StopDominantLanguageDetectionJobOutput {
     /// The identifier of the dominant language detection job to stop.
     public var jobId: Swift.String?
     /// Either STOP_REQUESTED if the job is currently running, or STOPPED if the job was previously stopped with the StopDominantLanguageDetectionJob operation.
@@ -20050,7 +20050,7 @@ public struct StopDominantLanguageDetectionJobOutput: Swift.Equatable {
     }
 }
 
-struct StopDominantLanguageDetectionJobOutputBody: Swift.Equatable {
+struct StopDominantLanguageDetectionJobOutputBody {
     let jobId: Swift.String?
     let jobStatus: ComprehendClientTypes.JobStatus?
 }
@@ -20103,7 +20103,7 @@ extension StopEntitiesDetectionJobInput {
     }
 }
 
-public struct StopEntitiesDetectionJobInput: Swift.Equatable {
+public struct StopEntitiesDetectionJobInput {
     /// The identifier of the entities detection job to stop.
     /// This member is required.
     public var jobId: Swift.String?
@@ -20116,7 +20116,7 @@ public struct StopEntitiesDetectionJobInput: Swift.Equatable {
     }
 }
 
-struct StopEntitiesDetectionJobInputBody: Swift.Equatable {
+struct StopEntitiesDetectionJobInputBody {
     let jobId: Swift.String?
 }
 
@@ -20146,7 +20146,7 @@ extension StopEntitiesDetectionJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopEntitiesDetectionJobOutput: Swift.Equatable {
+public struct StopEntitiesDetectionJobOutput {
     /// The identifier of the entities detection job to stop.
     public var jobId: Swift.String?
     /// Either STOP_REQUESTED if the job is currently running, or STOPPED if the job was previously stopped with the StopEntitiesDetectionJob operation.
@@ -20162,7 +20162,7 @@ public struct StopEntitiesDetectionJobOutput: Swift.Equatable {
     }
 }
 
-struct StopEntitiesDetectionJobOutputBody: Swift.Equatable {
+struct StopEntitiesDetectionJobOutputBody {
     let jobId: Swift.String?
     let jobStatus: ComprehendClientTypes.JobStatus?
 }
@@ -20215,7 +20215,7 @@ extension StopEventsDetectionJobInput {
     }
 }
 
-public struct StopEventsDetectionJobInput: Swift.Equatable {
+public struct StopEventsDetectionJobInput {
     /// The identifier of the events detection job to stop.
     /// This member is required.
     public var jobId: Swift.String?
@@ -20228,7 +20228,7 @@ public struct StopEventsDetectionJobInput: Swift.Equatable {
     }
 }
 
-struct StopEventsDetectionJobInputBody: Swift.Equatable {
+struct StopEventsDetectionJobInputBody {
     let jobId: Swift.String?
 }
 
@@ -20258,7 +20258,7 @@ extension StopEventsDetectionJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopEventsDetectionJobOutput: Swift.Equatable {
+public struct StopEventsDetectionJobOutput {
     /// The identifier of the events detection job to stop.
     public var jobId: Swift.String?
     /// The status of the events detection job.
@@ -20274,7 +20274,7 @@ public struct StopEventsDetectionJobOutput: Swift.Equatable {
     }
 }
 
-struct StopEventsDetectionJobOutputBody: Swift.Equatable {
+struct StopEventsDetectionJobOutputBody {
     let jobId: Swift.String?
     let jobStatus: ComprehendClientTypes.JobStatus?
 }
@@ -20327,7 +20327,7 @@ extension StopKeyPhrasesDetectionJobInput {
     }
 }
 
-public struct StopKeyPhrasesDetectionJobInput: Swift.Equatable {
+public struct StopKeyPhrasesDetectionJobInput {
     /// The identifier of the key phrases detection job to stop.
     /// This member is required.
     public var jobId: Swift.String?
@@ -20340,7 +20340,7 @@ public struct StopKeyPhrasesDetectionJobInput: Swift.Equatable {
     }
 }
 
-struct StopKeyPhrasesDetectionJobInputBody: Swift.Equatable {
+struct StopKeyPhrasesDetectionJobInputBody {
     let jobId: Swift.String?
 }
 
@@ -20370,7 +20370,7 @@ extension StopKeyPhrasesDetectionJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopKeyPhrasesDetectionJobOutput: Swift.Equatable {
+public struct StopKeyPhrasesDetectionJobOutput {
     /// The identifier of the key phrases detection job to stop.
     public var jobId: Swift.String?
     /// Either STOP_REQUESTED if the job is currently running, or STOPPED if the job was previously stopped with the StopKeyPhrasesDetectionJob operation.
@@ -20386,7 +20386,7 @@ public struct StopKeyPhrasesDetectionJobOutput: Swift.Equatable {
     }
 }
 
-struct StopKeyPhrasesDetectionJobOutputBody: Swift.Equatable {
+struct StopKeyPhrasesDetectionJobOutputBody {
     let jobId: Swift.String?
     let jobStatus: ComprehendClientTypes.JobStatus?
 }
@@ -20439,7 +20439,7 @@ extension StopPiiEntitiesDetectionJobInput {
     }
 }
 
-public struct StopPiiEntitiesDetectionJobInput: Swift.Equatable {
+public struct StopPiiEntitiesDetectionJobInput {
     /// The identifier of the PII entities detection job to stop.
     /// This member is required.
     public var jobId: Swift.String?
@@ -20452,7 +20452,7 @@ public struct StopPiiEntitiesDetectionJobInput: Swift.Equatable {
     }
 }
 
-struct StopPiiEntitiesDetectionJobInputBody: Swift.Equatable {
+struct StopPiiEntitiesDetectionJobInputBody {
     let jobId: Swift.String?
 }
 
@@ -20482,7 +20482,7 @@ extension StopPiiEntitiesDetectionJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopPiiEntitiesDetectionJobOutput: Swift.Equatable {
+public struct StopPiiEntitiesDetectionJobOutput {
     /// The identifier of the PII entities detection job to stop.
     public var jobId: Swift.String?
     /// The status of the PII entities detection job.
@@ -20498,7 +20498,7 @@ public struct StopPiiEntitiesDetectionJobOutput: Swift.Equatable {
     }
 }
 
-struct StopPiiEntitiesDetectionJobOutputBody: Swift.Equatable {
+struct StopPiiEntitiesDetectionJobOutputBody {
     let jobId: Swift.String?
     let jobStatus: ComprehendClientTypes.JobStatus?
 }
@@ -20551,7 +20551,7 @@ extension StopSentimentDetectionJobInput {
     }
 }
 
-public struct StopSentimentDetectionJobInput: Swift.Equatable {
+public struct StopSentimentDetectionJobInput {
     /// The identifier of the sentiment detection job to stop.
     /// This member is required.
     public var jobId: Swift.String?
@@ -20564,7 +20564,7 @@ public struct StopSentimentDetectionJobInput: Swift.Equatable {
     }
 }
 
-struct StopSentimentDetectionJobInputBody: Swift.Equatable {
+struct StopSentimentDetectionJobInputBody {
     let jobId: Swift.String?
 }
 
@@ -20594,7 +20594,7 @@ extension StopSentimentDetectionJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopSentimentDetectionJobOutput: Swift.Equatable {
+public struct StopSentimentDetectionJobOutput {
     /// The identifier of the sentiment detection job to stop.
     public var jobId: Swift.String?
     /// Either STOP_REQUESTED if the job is currently running, or STOPPED if the job was previously stopped with the StopSentimentDetectionJob operation.
@@ -20610,7 +20610,7 @@ public struct StopSentimentDetectionJobOutput: Swift.Equatable {
     }
 }
 
-struct StopSentimentDetectionJobOutputBody: Swift.Equatable {
+struct StopSentimentDetectionJobOutputBody {
     let jobId: Swift.String?
     let jobStatus: ComprehendClientTypes.JobStatus?
 }
@@ -20663,7 +20663,7 @@ extension StopTargetedSentimentDetectionJobInput {
     }
 }
 
-public struct StopTargetedSentimentDetectionJobInput: Swift.Equatable {
+public struct StopTargetedSentimentDetectionJobInput {
     /// The identifier of the targeted sentiment detection job to stop.
     /// This member is required.
     public var jobId: Swift.String?
@@ -20676,7 +20676,7 @@ public struct StopTargetedSentimentDetectionJobInput: Swift.Equatable {
     }
 }
 
-struct StopTargetedSentimentDetectionJobInputBody: Swift.Equatable {
+struct StopTargetedSentimentDetectionJobInputBody {
     let jobId: Swift.String?
 }
 
@@ -20706,7 +20706,7 @@ extension StopTargetedSentimentDetectionJobOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct StopTargetedSentimentDetectionJobOutput: Swift.Equatable {
+public struct StopTargetedSentimentDetectionJobOutput {
     /// The identifier of the targeted sentiment detection job to stop.
     public var jobId: Swift.String?
     /// Either STOP_REQUESTED if the job is currently running, or STOPPED if the job was previously stopped with the StopSentimentDetectionJob operation.
@@ -20722,7 +20722,7 @@ public struct StopTargetedSentimentDetectionJobOutput: Swift.Equatable {
     }
 }
 
-struct StopTargetedSentimentDetectionJobOutputBody: Swift.Equatable {
+struct StopTargetedSentimentDetectionJobOutputBody {
     let jobId: Swift.String?
     let jobStatus: ComprehendClientTypes.JobStatus?
 }
@@ -20775,7 +20775,7 @@ extension StopTrainingDocumentClassifierInput {
     }
 }
 
-public struct StopTrainingDocumentClassifierInput: Swift.Equatable {
+public struct StopTrainingDocumentClassifierInput {
     /// The Amazon Resource Name (ARN) that identifies the document classifier currently being trained.
     /// This member is required.
     public var documentClassifierArn: Swift.String?
@@ -20788,7 +20788,7 @@ public struct StopTrainingDocumentClassifierInput: Swift.Equatable {
     }
 }
 
-struct StopTrainingDocumentClassifierInputBody: Swift.Equatable {
+struct StopTrainingDocumentClassifierInputBody {
     let documentClassifierArn: Swift.String?
 }
 
@@ -20809,7 +20809,7 @@ extension StopTrainingDocumentClassifierOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct StopTrainingDocumentClassifierOutput: Swift.Equatable {
+public struct StopTrainingDocumentClassifierOutput {
 
     public init() { }
 }
@@ -20848,7 +20848,7 @@ extension StopTrainingEntityRecognizerInput {
     }
 }
 
-public struct StopTrainingEntityRecognizerInput: Swift.Equatable {
+public struct StopTrainingEntityRecognizerInput {
     /// The Amazon Resource Name (ARN) that identifies the entity recognizer currently being trained.
     /// This member is required.
     public var entityRecognizerArn: Swift.String?
@@ -20861,7 +20861,7 @@ public struct StopTrainingEntityRecognizerInput: Swift.Equatable {
     }
 }
 
-struct StopTrainingEntityRecognizerInputBody: Swift.Equatable {
+struct StopTrainingEntityRecognizerInputBody {
     let entityRecognizerArn: Swift.String?
 }
 
@@ -20882,7 +20882,7 @@ extension StopTrainingEntityRecognizerOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct StopTrainingEntityRecognizerOutput: Swift.Equatable {
+public struct StopTrainingEntityRecognizerOutput {
 
     public init() { }
 }
@@ -20990,7 +20990,7 @@ extension ComprehendClientTypes.SyntaxToken: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Represents a work in the input text that was recognized and assigned a part of speech. There is one syntax token record for each word in the source text.
-    public struct SyntaxToken: Swift.Equatable {
+    public struct SyntaxToken {
         /// The zero-based offset from the beginning of the source text to the first character in the word.
         public var beginOffset: Swift.Int?
         /// The zero-based offset from the beginning of the source text to the last character in the word.
@@ -21047,7 +21047,7 @@ extension ComprehendClientTypes.Tag: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// A key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with the key-value pair ‘Department’:’Sales’ might be added to a resource to indicate its use by a particular department.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The initial part of a key-value pair that forms a tag associated with a given resource. For instance, if you want to show which resources are used by which departments, you might use “Department” as the key portion of the pair, with multiple possible values such as “sales,” “legal,” and “administration.”
         /// This member is required.
         public var key: Swift.String?
@@ -21093,7 +21093,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the given Amazon Comprehend resource to which you want to associate the tags.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -21111,7 +21111,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceArn: Swift.String?
     let tags: [ComprehendClientTypes.Tag]?
 }
@@ -21145,7 +21145,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -21204,7 +21204,7 @@ extension ComprehendClientTypes.TargetedSentimentDetectionJobFilter: Swift.Codab
 
 extension ComprehendClientTypes {
     /// Provides information for filtering a list of dominant language detection jobs. For more information, see the ListTargetedSentimentDetectionJobs operation.
-    public struct TargetedSentimentDetectionJobFilter: Swift.Equatable {
+    public struct TargetedSentimentDetectionJobFilter {
         /// Filters on the name of the job.
         public var jobName: Swift.String?
         /// Filters the list of jobs based on job status. Returns only jobs with the specified status.
@@ -21323,7 +21323,7 @@ extension ComprehendClientTypes.TargetedSentimentDetectionJobProperties: Swift.C
 
 extension ComprehendClientTypes {
     /// Provides information about a targeted sentiment detection job.
-    public struct TargetedSentimentDetectionJobProperties: Swift.Equatable {
+    public struct TargetedSentimentDetectionJobProperties {
         /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data.
         public var dataAccessRoleArn: Swift.String?
         /// The time that the targeted sentiment detection job ended.
@@ -21440,7 +21440,7 @@ extension ComprehendClientTypes.TargetedSentimentEntity: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Information about one of the entities found by targeted sentiment analysis. For more information about targeted sentiment, see [Targeted sentiment](https://docs.aws.amazon.com/comprehend/latest/dg/how-targeted-sentiment.html) in the Amazon Comprehend Developer Guide.
-    public struct TargetedSentimentEntity: Swift.Equatable {
+    public struct TargetedSentimentEntity {
         /// One or more index into the Mentions array that provides the best name for the entity group.
         public var descriptiveMentionIndex: [Swift.Int]?
         /// An array of mentions of the entity in the document. The array represents a co-reference group. See [ Co-reference group](https://docs.aws.amazon.com/comprehend/latest/dg/how-targeted-sentiment.html#how-targeted-sentiment-values) for an example.
@@ -21592,7 +21592,7 @@ extension ComprehendClientTypes.TargetedSentimentMention: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Information about one mention of an entity. The mention information includes the location of the mention in the text and the sentiment of the mention. For more information about targeted sentiment, see [Targeted sentiment](https://docs.aws.amazon.com/comprehend/latest/dg/how-targeted-sentiment.html) in the Amazon Comprehend Developer Guide.
-    public struct TargetedSentimentMention: Swift.Equatable {
+    public struct TargetedSentimentMention {
         /// The offset into the document text where the mention begins.
         public var beginOffset: Swift.Int?
         /// The offset into the document text where the mention ends.
@@ -21663,7 +21663,7 @@ extension ComprehendClientTypes.TaskConfig: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Configuration about the model associated with a flywheel.
-    public struct TaskConfig: Swift.Equatable {
+    public struct TaskConfig {
         /// Configuration required for a document classification model.
         public var documentClassificationConfig: ComprehendClientTypes.DocumentClassificationConfig?
         /// Configuration required for an entity recognition model.
@@ -21712,7 +21712,7 @@ extension ComprehendClientTypes.TextSegment: Swift.CustomDebugStringConvertible 
 
 extension ComprehendClientTypes {
     /// One of the of text strings. Each string has a size limit of 1KB.
-    public struct TextSegment: Swift.Equatable {
+    public struct TextSegment {
         /// The text content.
         /// This member is required.
         public var text: Swift.String?
@@ -21766,7 +21766,7 @@ public struct TextSizeLimitExceededException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct TextSizeLimitExceededExceptionBody: Swift.Equatable {
+struct TextSizeLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -21821,7 +21821,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct TooManyRequestsExceptionBody: Swift.Equatable {
+struct TooManyRequestsExceptionBody {
     let message: Swift.String?
 }
 
@@ -21876,7 +21876,7 @@ public struct TooManyTagKeysException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct TooManyTagKeysExceptionBody: Swift.Equatable {
+struct TooManyTagKeysExceptionBody {
     let message: Swift.String?
 }
 
@@ -21931,7 +21931,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct TooManyTagsExceptionBody: Swift.Equatable {
+struct TooManyTagsExceptionBody {
     let message: Swift.String?
 }
 
@@ -21986,7 +21986,7 @@ extension ComprehendClientTypes.TopicsDetectionJobFilter: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Provides information for filtering topic detection jobs. For more information, see .
-    public struct TopicsDetectionJobFilter: Swift.Equatable {
+    public struct TopicsDetectionJobFilter {
         ///
         public var jobName: Swift.String?
         /// Filters the list of topic detection jobs based on job status. Returns only jobs with the specified status.
@@ -22105,7 +22105,7 @@ extension ComprehendClientTypes.TopicsDetectionJobProperties: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Provides information about a topic detection job.
-    public struct TopicsDetectionJobProperties: Swift.Equatable {
+    public struct TopicsDetectionJobProperties {
         /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your job data.
         public var dataAccessRoleArn: Swift.String?
         /// The time that the topic detection job was completed.
@@ -22198,7 +22198,7 @@ extension ComprehendClientTypes.ToxicContent: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Toxic content analysis result for one string. For more information about toxicity detection, see [Toxicity detection](https://docs.aws.amazon.com/comprehend/latest/dg/toxicity-detection.html) in the Amazon Comprehend Developer Guide
-    public struct ToxicContent: Swift.Equatable {
+    public struct ToxicContent {
         /// The name of the toxic content type.
         public var name: ComprehendClientTypes.ToxicContentType?
         /// Model confidence in the detected content type. Value range is zero to one, where one is highest confidence.
@@ -22302,7 +22302,7 @@ extension ComprehendClientTypes.ToxicLabels: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Toxicity analysis result for one string. For more information about toxicity detection, see [Toxicity detection](https://docs.aws.amazon.com/comprehend/latest/dg/toxicity-detection.html) in the Amazon Comprehend Developer Guide.
-    public struct ToxicLabels: Swift.Equatable {
+    public struct ToxicLabels {
         /// Array of toxic content types identified in the string.
         public var labels: [ComprehendClientTypes.ToxicContent]?
         /// Overall toxicity score for the string. Value range is zero to one, where one is the highest confidence.
@@ -22359,7 +22359,7 @@ public struct UnsupportedLanguageException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct UnsupportedLanguageExceptionBody: Swift.Equatable {
+struct UnsupportedLanguageExceptionBody {
     let message: Swift.String?
 }
 
@@ -22402,7 +22402,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the given Amazon Comprehend resource from which you want to remove the tags.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -22420,7 +22420,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceArn: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -22454,7 +22454,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -22507,7 +22507,7 @@ extension ComprehendClientTypes.UpdateDataSecurityConfig: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Data security configuration.
-    public struct UpdateDataSecurityConfig: Swift.Equatable {
+    public struct UpdateDataSecurityConfig {
         /// ID for the KMS key that Amazon Comprehend uses to encrypt trained custom models. The ModelKmsKeyId can be either of the following formats:
         ///
         /// * KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
@@ -22569,7 +22569,7 @@ extension UpdateEndpointInput {
     }
 }
 
-public struct UpdateEndpointInput: Swift.Equatable {
+public struct UpdateEndpointInput {
     /// Data access role ARN to use in case the new model is encrypted with a customer CMK.
     public var desiredDataAccessRoleArn: Swift.String?
     /// The desired number of inference units to be used by the model using this endpoint. Each inference unit represents of a throughput of 100 characters per second.
@@ -22598,7 +22598,7 @@ public struct UpdateEndpointInput: Swift.Equatable {
     }
 }
 
-struct UpdateEndpointInputBody: Swift.Equatable {
+struct UpdateEndpointInputBody {
     let endpointArn: Swift.String?
     let desiredModelArn: Swift.String?
     let desiredInferenceUnits: Swift.Int?
@@ -22642,7 +22642,7 @@ extension UpdateEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateEndpointOutput: Swift.Equatable {
+public struct UpdateEndpointOutput {
     /// The Amazon Resource Number (ARN) of the new model.
     public var desiredModelArn: Swift.String?
 
@@ -22654,7 +22654,7 @@ public struct UpdateEndpointOutput: Swift.Equatable {
     }
 }
 
-struct UpdateEndpointOutputBody: Swift.Equatable {
+struct UpdateEndpointOutputBody {
     let desiredModelArn: Swift.String?
 }
 
@@ -22719,7 +22719,7 @@ extension UpdateFlywheelInput {
     }
 }
 
-public struct UpdateFlywheelInput: Swift.Equatable {
+public struct UpdateFlywheelInput {
     /// The Amazon Resource Number (ARN) of the active model version.
     public var activeModelArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend permission to access the flywheel data.
@@ -22744,7 +22744,7 @@ public struct UpdateFlywheelInput: Swift.Equatable {
     }
 }
 
-struct UpdateFlywheelInputBody: Swift.Equatable {
+struct UpdateFlywheelInputBody {
     let flywheelArn: Swift.String?
     let activeModelArn: Swift.String?
     let dataAccessRoleArn: Swift.String?
@@ -22784,7 +22784,7 @@ extension UpdateFlywheelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateFlywheelOutput: Swift.Equatable {
+public struct UpdateFlywheelOutput {
     /// The flywheel properties.
     public var flywheelProperties: ComprehendClientTypes.FlywheelProperties?
 
@@ -22796,7 +22796,7 @@ public struct UpdateFlywheelOutput: Swift.Equatable {
     }
 }
 
-struct UpdateFlywheelOutputBody: Swift.Equatable {
+struct UpdateFlywheelOutputBody {
     let flywheelProperties: ComprehendClientTypes.FlywheelProperties?
 }
 
@@ -22878,7 +22878,7 @@ extension ComprehendClientTypes.VpcConfig: Swift.Codable {
 
 extension ComprehendClientTypes {
     /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for the job. For more information, see [Amazon VPC](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html).
-    public struct VpcConfig: Swift.Equatable {
+    public struct VpcConfig {
         /// The ID number for a security group on an instance of your private VPC. Security groups on your VPC function serve as a virtual firewall to control inbound and outbound traffic and provides security for the resources that you’ll be accessing on the VPC. This ID number is preceded by "sg-", for instance: "sg-03b388029b0a285ea". For more information, see [Security Groups for your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html).
         /// This member is required.
         public var securityGroupIds: [Swift.String]?
@@ -22935,7 +22935,7 @@ extension ComprehendClientTypes {
     /// * The document to classify is plain text, but the classifier is a native document model.
     ///
     /// * The document to classify is semi-structured, but the classifier is a plain-text model.
-    public struct WarningsListItem: Swift.Equatable {
+    public struct WarningsListItem {
         /// Page number in the input document.
         public var page: Swift.Int?
         /// The type of warning.

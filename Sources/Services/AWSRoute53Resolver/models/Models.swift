@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -139,7 +139,7 @@ extension AssociateFirewallRuleGroupInput {
     }
 }
 
-public struct AssociateFirewallRuleGroupInput: Swift.Equatable {
+public struct AssociateFirewallRuleGroupInput {
     /// A unique string that identifies the request and that allows failed requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
     /// This member is required.
     public var creatorRequestId: Swift.String?
@@ -180,7 +180,7 @@ public struct AssociateFirewallRuleGroupInput: Swift.Equatable {
     }
 }
 
-struct AssociateFirewallRuleGroupInputBody: Swift.Equatable {
+struct AssociateFirewallRuleGroupInputBody {
     let creatorRequestId: Swift.String?
     let firewallRuleGroupId: Swift.String?
     let vpcId: Swift.String?
@@ -241,7 +241,7 @@ extension AssociateFirewallRuleGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateFirewallRuleGroupOutput: Swift.Equatable {
+public struct AssociateFirewallRuleGroupOutput {
     /// The association that you just created. The association has an ID that you can use to identify it in other requests, like update and delete.
     public var firewallRuleGroupAssociation: Route53ResolverClientTypes.FirewallRuleGroupAssociation?
 
@@ -253,7 +253,7 @@ public struct AssociateFirewallRuleGroupOutput: Swift.Equatable {
     }
 }
 
-struct AssociateFirewallRuleGroupOutputBody: Swift.Equatable {
+struct AssociateFirewallRuleGroupOutputBody {
     let firewallRuleGroupAssociation: Route53ResolverClientTypes.FirewallRuleGroupAssociation?
 }
 
@@ -310,7 +310,7 @@ extension AssociateResolverEndpointIpAddressInput {
     }
 }
 
-public struct AssociateResolverEndpointIpAddressInput: Swift.Equatable {
+public struct AssociateResolverEndpointIpAddressInput {
     /// Either the IPv4 address that you want to add to a Resolver endpoint or a subnet ID. If you specify a subnet ID, Resolver chooses an IP address for you from the available IPs in the specified subnet.
     /// This member is required.
     public var ipAddress: Route53ResolverClientTypes.IpAddressUpdate?
@@ -328,7 +328,7 @@ public struct AssociateResolverEndpointIpAddressInput: Swift.Equatable {
     }
 }
 
-struct AssociateResolverEndpointIpAddressInputBody: Swift.Equatable {
+struct AssociateResolverEndpointIpAddressInputBody {
     let resolverEndpointId: Swift.String?
     let ipAddress: Route53ResolverClientTypes.IpAddressUpdate?
 }
@@ -360,7 +360,7 @@ extension AssociateResolverEndpointIpAddressOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct AssociateResolverEndpointIpAddressOutput: Swift.Equatable {
+public struct AssociateResolverEndpointIpAddressOutput {
     /// The response to an AssociateResolverEndpointIpAddress request.
     public var resolverEndpoint: Route53ResolverClientTypes.ResolverEndpoint?
 
@@ -372,7 +372,7 @@ public struct AssociateResolverEndpointIpAddressOutput: Swift.Equatable {
     }
 }
 
-struct AssociateResolverEndpointIpAddressOutputBody: Swift.Equatable {
+struct AssociateResolverEndpointIpAddressOutputBody {
     let resolverEndpoint: Route53ResolverClientTypes.ResolverEndpoint?
 }
 
@@ -429,7 +429,7 @@ extension AssociateResolverQueryLogConfigInput {
     }
 }
 
-public struct AssociateResolverQueryLogConfigInput: Swift.Equatable {
+public struct AssociateResolverQueryLogConfigInput {
     /// The ID of the query logging configuration that you want to associate a VPC with.
     /// This member is required.
     public var resolverQueryLogConfigId: Swift.String?
@@ -447,7 +447,7 @@ public struct AssociateResolverQueryLogConfigInput: Swift.Equatable {
     }
 }
 
-struct AssociateResolverQueryLogConfigInputBody: Swift.Equatable {
+struct AssociateResolverQueryLogConfigInputBody {
     let resolverQueryLogConfigId: Swift.String?
     let resourceId: Swift.String?
 }
@@ -479,7 +479,7 @@ extension AssociateResolverQueryLogConfigOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct AssociateResolverQueryLogConfigOutput: Swift.Equatable {
+public struct AssociateResolverQueryLogConfigOutput {
     /// A complex type that contains settings for a specified association between an Amazon VPC and a query logging configuration.
     public var resolverQueryLogConfigAssociation: Route53ResolverClientTypes.ResolverQueryLogConfigAssociation?
 
@@ -491,7 +491,7 @@ public struct AssociateResolverQueryLogConfigOutput: Swift.Equatable {
     }
 }
 
-struct AssociateResolverQueryLogConfigOutputBody: Swift.Equatable {
+struct AssociateResolverQueryLogConfigOutputBody {
     let resolverQueryLogConfigAssociation: Route53ResolverClientTypes.ResolverQueryLogConfigAssociation?
 }
 
@@ -553,7 +553,7 @@ extension AssociateResolverRuleInput {
     }
 }
 
-public struct AssociateResolverRuleInput: Swift.Equatable {
+public struct AssociateResolverRuleInput {
     /// A name for the association that you're creating between a Resolver rule and a VPC.
     public var name: Swift.String?
     /// The ID of the Resolver rule that you want to associate with the VPC. To list the existing Resolver rules, use [ListResolverRules](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverRules.html).
@@ -575,7 +575,7 @@ public struct AssociateResolverRuleInput: Swift.Equatable {
     }
 }
 
-struct AssociateResolverRuleInputBody: Swift.Equatable {
+struct AssociateResolverRuleInputBody {
     let resolverRuleId: Swift.String?
     let name: Swift.String?
     let vpcId: Swift.String?
@@ -611,7 +611,7 @@ extension AssociateResolverRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateResolverRuleOutput: Swift.Equatable {
+public struct AssociateResolverRuleOutput {
     /// Information about the AssociateResolverRule request, including the status of the request.
     public var resolverRuleAssociation: Route53ResolverClientTypes.ResolverRuleAssociation?
 
@@ -623,7 +623,7 @@ public struct AssociateResolverRuleOutput: Swift.Equatable {
     }
 }
 
-struct AssociateResolverRuleOutputBody: Swift.Equatable {
+struct AssociateResolverRuleOutputBody {
     let resolverRuleAssociation: Route53ResolverClientTypes.ResolverRuleAssociation?
 }
 
@@ -795,7 +795,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -842,7 +842,7 @@ extension CreateFirewallDomainListInput {
     }
 }
 
-public struct CreateFirewallDomainListInput: Swift.Equatable {
+public struct CreateFirewallDomainListInput {
     /// A unique string that identifies the request and that allows you to retry failed requests without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
     /// This member is required.
     public var creatorRequestId: Swift.String?
@@ -864,7 +864,7 @@ public struct CreateFirewallDomainListInput: Swift.Equatable {
     }
 }
 
-struct CreateFirewallDomainListInputBody: Swift.Equatable {
+struct CreateFirewallDomainListInputBody {
     let creatorRequestId: Swift.String?
     let name: Swift.String?
     let tags: [Route53ResolverClientTypes.Tag]?
@@ -909,7 +909,7 @@ extension CreateFirewallDomainListOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateFirewallDomainListOutput: Swift.Equatable {
+public struct CreateFirewallDomainListOutput {
     /// The domain list that you just created.
     public var firewallDomainList: Route53ResolverClientTypes.FirewallDomainList?
 
@@ -921,7 +921,7 @@ public struct CreateFirewallDomainListOutput: Swift.Equatable {
     }
 }
 
-struct CreateFirewallDomainListOutputBody: Swift.Equatable {
+struct CreateFirewallDomainListOutputBody {
     let firewallDomainList: Route53ResolverClientTypes.FirewallDomainList?
 }
 
@@ -983,7 +983,7 @@ extension CreateFirewallRuleGroupInput {
     }
 }
 
-public struct CreateFirewallRuleGroupInput: Swift.Equatable {
+public struct CreateFirewallRuleGroupInput {
     /// A unique string defined by you to identify the request. This allows you to retry failed requests without the risk of running the operation twice. This can be any unique string, for example, a timestamp.
     /// This member is required.
     public var creatorRequestId: Swift.String?
@@ -1005,7 +1005,7 @@ public struct CreateFirewallRuleGroupInput: Swift.Equatable {
     }
 }
 
-struct CreateFirewallRuleGroupInputBody: Swift.Equatable {
+struct CreateFirewallRuleGroupInputBody {
     let creatorRequestId: Swift.String?
     let name: Swift.String?
     let tags: [Route53ResolverClientTypes.Tag]?
@@ -1050,7 +1050,7 @@ extension CreateFirewallRuleGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateFirewallRuleGroupOutput: Swift.Equatable {
+public struct CreateFirewallRuleGroupOutput {
     /// A collection of rules used to filter DNS network traffic.
     public var firewallRuleGroup: Route53ResolverClientTypes.FirewallRuleGroup?
 
@@ -1062,7 +1062,7 @@ public struct CreateFirewallRuleGroupOutput: Swift.Equatable {
     }
 }
 
-struct CreateFirewallRuleGroupOutputBody: Swift.Equatable {
+struct CreateFirewallRuleGroupOutputBody {
     let firewallRuleGroup: Route53ResolverClientTypes.FirewallRuleGroup?
 }
 
@@ -1153,7 +1153,7 @@ extension CreateFirewallRuleInput {
     }
 }
 
-public struct CreateFirewallRuleInput: Swift.Equatable {
+public struct CreateFirewallRuleInput {
     /// The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list:
     ///
     /// * ALLOW - Permit the request to go through.
@@ -1252,7 +1252,7 @@ public struct CreateFirewallRuleInput: Swift.Equatable {
     }
 }
 
-struct CreateFirewallRuleInputBody: Swift.Equatable {
+struct CreateFirewallRuleInputBody {
     let creatorRequestId: Swift.String?
     let firewallRuleGroupId: Swift.String?
     let firewallDomainListId: Swift.String?
@@ -1320,7 +1320,7 @@ extension CreateFirewallRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateFirewallRuleOutput: Swift.Equatable {
+public struct CreateFirewallRuleOutput {
     /// The firewall rule that you just created.
     public var firewallRule: Route53ResolverClientTypes.FirewallRule?
 
@@ -1332,7 +1332,7 @@ public struct CreateFirewallRuleOutput: Swift.Equatable {
     }
 }
 
-struct CreateFirewallRuleOutputBody: Swift.Equatable {
+struct CreateFirewallRuleOutputBody {
     let firewallRule: Route53ResolverClientTypes.FirewallRule?
 }
 
@@ -1407,7 +1407,7 @@ extension CreateOutpostResolverInput {
     }
 }
 
-public struct CreateOutpostResolverInput: Swift.Equatable {
+public struct CreateOutpostResolverInput {
     /// A unique string that identifies the request and that allows failed requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
     /// This member is required.
     public var creatorRequestId: Swift.String?
@@ -1443,7 +1443,7 @@ public struct CreateOutpostResolverInput: Swift.Equatable {
     }
 }
 
-struct CreateOutpostResolverInputBody: Swift.Equatable {
+struct CreateOutpostResolverInputBody {
     let creatorRequestId: Swift.String?
     let name: Swift.String?
     let instanceCount: Swift.Int?
@@ -1500,7 +1500,7 @@ extension CreateOutpostResolverOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateOutpostResolverOutput: Swift.Equatable {
+public struct CreateOutpostResolverOutput {
     /// Information about the CreateOutpostResolver request, including the status of the request.
     public var outpostResolver: Route53ResolverClientTypes.OutpostResolver?
 
@@ -1512,7 +1512,7 @@ public struct CreateOutpostResolverOutput: Swift.Equatable {
     }
 }
 
-struct CreateOutpostResolverOutputBody: Swift.Equatable {
+struct CreateOutpostResolverOutputBody {
     let outpostResolver: Route53ResolverClientTypes.OutpostResolver?
 }
 
@@ -1612,7 +1612,7 @@ extension CreateResolverEndpointInput {
     }
 }
 
-public struct CreateResolverEndpointInput: Swift.Equatable {
+public struct CreateResolverEndpointInput {
     /// A unique string that identifies the request and that allows failed requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
     /// This member is required.
     public var creatorRequestId: Swift.String?
@@ -1691,7 +1691,7 @@ public struct CreateResolverEndpointInput: Swift.Equatable {
     }
 }
 
-struct CreateResolverEndpointInputBody: Swift.Equatable {
+struct CreateResolverEndpointInputBody {
     let creatorRequestId: Swift.String?
     let name: Swift.String?
     let securityGroupIds: [Swift.String]?
@@ -1791,7 +1791,7 @@ extension CreateResolverEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateResolverEndpointOutput: Swift.Equatable {
+public struct CreateResolverEndpointOutput {
     /// Information about the CreateResolverEndpoint request, including the status of the request.
     public var resolverEndpoint: Route53ResolverClientTypes.ResolverEndpoint?
 
@@ -1803,7 +1803,7 @@ public struct CreateResolverEndpointOutput: Swift.Equatable {
     }
 }
 
-struct CreateResolverEndpointOutputBody: Swift.Equatable {
+struct CreateResolverEndpointOutputBody {
     let resolverEndpoint: Route53ResolverClientTypes.ResolverEndpoint?
 }
 
@@ -1872,7 +1872,7 @@ extension CreateResolverQueryLogConfigInput {
     }
 }
 
-public struct CreateResolverQueryLogConfigInput: Swift.Equatable {
+public struct CreateResolverQueryLogConfigInput {
     /// A unique string that identifies the request and that allows failed requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
     /// This member is required.
     public var creatorRequestId: Swift.String?
@@ -1905,7 +1905,7 @@ public struct CreateResolverQueryLogConfigInput: Swift.Equatable {
     }
 }
 
-struct CreateResolverQueryLogConfigInputBody: Swift.Equatable {
+struct CreateResolverQueryLogConfigInputBody {
     let name: Swift.String?
     let destinationArn: Swift.String?
     let creatorRequestId: Swift.String?
@@ -1954,7 +1954,7 @@ extension CreateResolverQueryLogConfigOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct CreateResolverQueryLogConfigOutput: Swift.Equatable {
+public struct CreateResolverQueryLogConfigOutput {
     /// Information about the CreateResolverQueryLogConfig request, including the status of the request.
     public var resolverQueryLogConfig: Route53ResolverClientTypes.ResolverQueryLogConfig?
 
@@ -1966,7 +1966,7 @@ public struct CreateResolverQueryLogConfigOutput: Swift.Equatable {
     }
 }
 
-struct CreateResolverQueryLogConfigOutputBody: Swift.Equatable {
+struct CreateResolverQueryLogConfigOutputBody {
     let resolverQueryLogConfig: Route53ResolverClientTypes.ResolverQueryLogConfig?
 }
 
@@ -2050,7 +2050,7 @@ extension CreateResolverRuleInput {
     }
 }
 
-public struct CreateResolverRuleInput: Swift.Equatable {
+public struct CreateResolverRuleInput {
     /// A unique string that identifies the request and that allows failed requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
     /// This member is required.
     public var creatorRequestId: Swift.String?
@@ -2088,7 +2088,7 @@ public struct CreateResolverRuleInput: Swift.Equatable {
     }
 }
 
-struct CreateResolverRuleInputBody: Swift.Equatable {
+struct CreateResolverRuleInputBody {
     let creatorRequestId: Swift.String?
     let name: Swift.String?
     let ruleType: Route53ResolverClientTypes.RuleTypeOption?
@@ -2158,7 +2158,7 @@ extension CreateResolverRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateResolverRuleOutput: Swift.Equatable {
+public struct CreateResolverRuleOutput {
     /// Information about the CreateResolverRule request, including the status of the request.
     public var resolverRule: Route53ResolverClientTypes.ResolverRule?
 
@@ -2170,7 +2170,7 @@ public struct CreateResolverRuleOutput: Swift.Equatable {
     }
 }
 
-struct CreateResolverRuleOutputBody: Swift.Equatable {
+struct CreateResolverRuleOutputBody {
     let resolverRule: Route53ResolverClientTypes.ResolverRule?
 }
 
@@ -2225,7 +2225,7 @@ extension DeleteFirewallDomainListInput {
     }
 }
 
-public struct DeleteFirewallDomainListInput: Swift.Equatable {
+public struct DeleteFirewallDomainListInput {
     /// The ID of the domain list that you want to delete.
     /// This member is required.
     public var firewallDomainListId: Swift.String?
@@ -2238,7 +2238,7 @@ public struct DeleteFirewallDomainListInput: Swift.Equatable {
     }
 }
 
-struct DeleteFirewallDomainListInputBody: Swift.Equatable {
+struct DeleteFirewallDomainListInputBody {
     let firewallDomainListId: Swift.String?
 }
 
@@ -2266,7 +2266,7 @@ extension DeleteFirewallDomainListOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteFirewallDomainListOutput: Swift.Equatable {
+public struct DeleteFirewallDomainListOutput {
     /// The domain list that you just deleted.
     public var firewallDomainList: Route53ResolverClientTypes.FirewallDomainList?
 
@@ -2278,7 +2278,7 @@ public struct DeleteFirewallDomainListOutput: Swift.Equatable {
     }
 }
 
-struct DeleteFirewallDomainListOutputBody: Swift.Equatable {
+struct DeleteFirewallDomainListOutputBody {
     let firewallDomainList: Route53ResolverClientTypes.FirewallDomainList?
 }
 
@@ -2329,7 +2329,7 @@ extension DeleteFirewallRuleGroupInput {
     }
 }
 
-public struct DeleteFirewallRuleGroupInput: Swift.Equatable {
+public struct DeleteFirewallRuleGroupInput {
     /// The unique identifier of the firewall rule group that you want to delete.
     /// This member is required.
     public var firewallRuleGroupId: Swift.String?
@@ -2342,7 +2342,7 @@ public struct DeleteFirewallRuleGroupInput: Swift.Equatable {
     }
 }
 
-struct DeleteFirewallRuleGroupInputBody: Swift.Equatable {
+struct DeleteFirewallRuleGroupInputBody {
     let firewallRuleGroupId: Swift.String?
 }
 
@@ -2370,7 +2370,7 @@ extension DeleteFirewallRuleGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteFirewallRuleGroupOutput: Swift.Equatable {
+public struct DeleteFirewallRuleGroupOutput {
     /// A collection of rules used to filter DNS network traffic.
     public var firewallRuleGroup: Route53ResolverClientTypes.FirewallRuleGroup?
 
@@ -2382,7 +2382,7 @@ public struct DeleteFirewallRuleGroupOutput: Swift.Equatable {
     }
 }
 
-struct DeleteFirewallRuleGroupOutputBody: Swift.Equatable {
+struct DeleteFirewallRuleGroupOutputBody {
     let firewallRuleGroup: Route53ResolverClientTypes.FirewallRuleGroup?
 }
 
@@ -2442,7 +2442,7 @@ extension DeleteFirewallRuleInput {
     }
 }
 
-public struct DeleteFirewallRuleInput: Swift.Equatable {
+public struct DeleteFirewallRuleInput {
     /// The ID of the domain list that's used in the rule.
     /// This member is required.
     public var firewallDomainListId: Swift.String?
@@ -2490,7 +2490,7 @@ public struct DeleteFirewallRuleInput: Swift.Equatable {
     }
 }
 
-struct DeleteFirewallRuleInputBody: Swift.Equatable {
+struct DeleteFirewallRuleInputBody {
     let firewallRuleGroupId: Swift.String?
     let firewallDomainListId: Swift.String?
     let qtype: Swift.String?
@@ -2526,7 +2526,7 @@ extension DeleteFirewallRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteFirewallRuleOutput: Swift.Equatable {
+public struct DeleteFirewallRuleOutput {
     /// The specification for the firewall rule that you just deleted.
     public var firewallRule: Route53ResolverClientTypes.FirewallRule?
 
@@ -2538,7 +2538,7 @@ public struct DeleteFirewallRuleOutput: Swift.Equatable {
     }
 }
 
-struct DeleteFirewallRuleOutputBody: Swift.Equatable {
+struct DeleteFirewallRuleOutputBody {
     let firewallRule: Route53ResolverClientTypes.FirewallRule?
 }
 
@@ -2588,7 +2588,7 @@ extension DeleteOutpostResolverInput {
     }
 }
 
-public struct DeleteOutpostResolverInput: Swift.Equatable {
+public struct DeleteOutpostResolverInput {
     /// A unique string that identifies the Resolver on the Outpost.
     /// This member is required.
     public var id: Swift.String?
@@ -2601,7 +2601,7 @@ public struct DeleteOutpostResolverInput: Swift.Equatable {
     }
 }
 
-struct DeleteOutpostResolverInputBody: Swift.Equatable {
+struct DeleteOutpostResolverInputBody {
     let id: Swift.String?
 }
 
@@ -2629,7 +2629,7 @@ extension DeleteOutpostResolverOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteOutpostResolverOutput: Swift.Equatable {
+public struct DeleteOutpostResolverOutput {
     /// Information about the DeleteOutpostResolver request, including the status of the request.
     public var outpostResolver: Route53ResolverClientTypes.OutpostResolver?
 
@@ -2641,7 +2641,7 @@ public struct DeleteOutpostResolverOutput: Swift.Equatable {
     }
 }
 
-struct DeleteOutpostResolverOutputBody: Swift.Equatable {
+struct DeleteOutpostResolverOutputBody {
     let outpostResolver: Route53ResolverClientTypes.OutpostResolver?
 }
 
@@ -2693,7 +2693,7 @@ extension DeleteResolverEndpointInput {
     }
 }
 
-public struct DeleteResolverEndpointInput: Swift.Equatable {
+public struct DeleteResolverEndpointInput {
     /// The ID of the Resolver endpoint that you want to delete.
     /// This member is required.
     public var resolverEndpointId: Swift.String?
@@ -2706,7 +2706,7 @@ public struct DeleteResolverEndpointInput: Swift.Equatable {
     }
 }
 
-struct DeleteResolverEndpointInputBody: Swift.Equatable {
+struct DeleteResolverEndpointInputBody {
     let resolverEndpointId: Swift.String?
 }
 
@@ -2734,7 +2734,7 @@ extension DeleteResolverEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteResolverEndpointOutput: Swift.Equatable {
+public struct DeleteResolverEndpointOutput {
     /// Information about the DeleteResolverEndpoint request, including the status of the request.
     public var resolverEndpoint: Route53ResolverClientTypes.ResolverEndpoint?
 
@@ -2746,7 +2746,7 @@ public struct DeleteResolverEndpointOutput: Swift.Equatable {
     }
 }
 
-struct DeleteResolverEndpointOutputBody: Swift.Equatable {
+struct DeleteResolverEndpointOutputBody {
     let resolverEndpoint: Route53ResolverClientTypes.ResolverEndpoint?
 }
 
@@ -2797,7 +2797,7 @@ extension DeleteResolverQueryLogConfigInput {
     }
 }
 
-public struct DeleteResolverQueryLogConfigInput: Swift.Equatable {
+public struct DeleteResolverQueryLogConfigInput {
     /// The ID of the query logging configuration that you want to delete.
     /// This member is required.
     public var resolverQueryLogConfigId: Swift.String?
@@ -2810,7 +2810,7 @@ public struct DeleteResolverQueryLogConfigInput: Swift.Equatable {
     }
 }
 
-struct DeleteResolverQueryLogConfigInputBody: Swift.Equatable {
+struct DeleteResolverQueryLogConfigInputBody {
     let resolverQueryLogConfigId: Swift.String?
 }
 
@@ -2838,7 +2838,7 @@ extension DeleteResolverQueryLogConfigOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DeleteResolverQueryLogConfigOutput: Swift.Equatable {
+public struct DeleteResolverQueryLogConfigOutput {
     /// Information about the query logging configuration that you deleted, including the status of the request.
     public var resolverQueryLogConfig: Route53ResolverClientTypes.ResolverQueryLogConfig?
 
@@ -2850,7 +2850,7 @@ public struct DeleteResolverQueryLogConfigOutput: Swift.Equatable {
     }
 }
 
-struct DeleteResolverQueryLogConfigOutputBody: Swift.Equatable {
+struct DeleteResolverQueryLogConfigOutputBody {
     let resolverQueryLogConfig: Route53ResolverClientTypes.ResolverQueryLogConfig?
 }
 
@@ -2902,7 +2902,7 @@ extension DeleteResolverRuleInput {
     }
 }
 
-public struct DeleteResolverRuleInput: Swift.Equatable {
+public struct DeleteResolverRuleInput {
     /// The ID of the Resolver rule that you want to delete.
     /// This member is required.
     public var resolverRuleId: Swift.String?
@@ -2915,7 +2915,7 @@ public struct DeleteResolverRuleInput: Swift.Equatable {
     }
 }
 
-struct DeleteResolverRuleInputBody: Swift.Equatable {
+struct DeleteResolverRuleInputBody {
     let resolverRuleId: Swift.String?
 }
 
@@ -2943,7 +2943,7 @@ extension DeleteResolverRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteResolverRuleOutput: Swift.Equatable {
+public struct DeleteResolverRuleOutput {
     /// Information about the DeleteResolverRule request, including the status of the request.
     public var resolverRule: Route53ResolverClientTypes.ResolverRule?
 
@@ -2955,7 +2955,7 @@ public struct DeleteResolverRuleOutput: Swift.Equatable {
     }
 }
 
-struct DeleteResolverRuleOutputBody: Swift.Equatable {
+struct DeleteResolverRuleOutputBody {
     let resolverRule: Route53ResolverClientTypes.ResolverRule?
 }
 
@@ -3006,7 +3006,7 @@ extension DisassociateFirewallRuleGroupInput {
     }
 }
 
-public struct DisassociateFirewallRuleGroupInput: Swift.Equatable {
+public struct DisassociateFirewallRuleGroupInput {
     /// The identifier of the [FirewallRuleGroupAssociation].
     /// This member is required.
     public var firewallRuleGroupAssociationId: Swift.String?
@@ -3019,7 +3019,7 @@ public struct DisassociateFirewallRuleGroupInput: Swift.Equatable {
     }
 }
 
-struct DisassociateFirewallRuleGroupInputBody: Swift.Equatable {
+struct DisassociateFirewallRuleGroupInputBody {
     let firewallRuleGroupAssociationId: Swift.String?
 }
 
@@ -3047,7 +3047,7 @@ extension DisassociateFirewallRuleGroupOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DisassociateFirewallRuleGroupOutput: Swift.Equatable {
+public struct DisassociateFirewallRuleGroupOutput {
     /// The firewall rule group association that you just removed.
     public var firewallRuleGroupAssociation: Route53ResolverClientTypes.FirewallRuleGroupAssociation?
 
@@ -3059,7 +3059,7 @@ public struct DisassociateFirewallRuleGroupOutput: Swift.Equatable {
     }
 }
 
-struct DisassociateFirewallRuleGroupOutputBody: Swift.Equatable {
+struct DisassociateFirewallRuleGroupOutputBody {
     let firewallRuleGroupAssociation: Route53ResolverClientTypes.FirewallRuleGroupAssociation?
 }
 
@@ -3115,7 +3115,7 @@ extension DisassociateResolverEndpointIpAddressInput {
     }
 }
 
-public struct DisassociateResolverEndpointIpAddressInput: Swift.Equatable {
+public struct DisassociateResolverEndpointIpAddressInput {
     /// The IPv4 address that you want to remove from a Resolver endpoint.
     /// This member is required.
     public var ipAddress: Route53ResolverClientTypes.IpAddressUpdate?
@@ -3133,7 +3133,7 @@ public struct DisassociateResolverEndpointIpAddressInput: Swift.Equatable {
     }
 }
 
-struct DisassociateResolverEndpointIpAddressInputBody: Swift.Equatable {
+struct DisassociateResolverEndpointIpAddressInputBody {
     let resolverEndpointId: Swift.String?
     let ipAddress: Route53ResolverClientTypes.IpAddressUpdate?
 }
@@ -3165,7 +3165,7 @@ extension DisassociateResolverEndpointIpAddressOutput: ClientRuntime.HttpRespons
     }
 }
 
-public struct DisassociateResolverEndpointIpAddressOutput: Swift.Equatable {
+public struct DisassociateResolverEndpointIpAddressOutput {
     /// The response to an DisassociateResolverEndpointIpAddress request.
     public var resolverEndpoint: Route53ResolverClientTypes.ResolverEndpoint?
 
@@ -3177,7 +3177,7 @@ public struct DisassociateResolverEndpointIpAddressOutput: Swift.Equatable {
     }
 }
 
-struct DisassociateResolverEndpointIpAddressOutputBody: Swift.Equatable {
+struct DisassociateResolverEndpointIpAddressOutputBody {
     let resolverEndpoint: Route53ResolverClientTypes.ResolverEndpoint?
 }
 
@@ -3233,7 +3233,7 @@ extension DisassociateResolverQueryLogConfigInput {
     }
 }
 
-public struct DisassociateResolverQueryLogConfigInput: Swift.Equatable {
+public struct DisassociateResolverQueryLogConfigInput {
     /// The ID of the query logging configuration that you want to disassociate a specified VPC from.
     /// This member is required.
     public var resolverQueryLogConfigId: Swift.String?
@@ -3251,7 +3251,7 @@ public struct DisassociateResolverQueryLogConfigInput: Swift.Equatable {
     }
 }
 
-struct DisassociateResolverQueryLogConfigInputBody: Swift.Equatable {
+struct DisassociateResolverQueryLogConfigInputBody {
     let resolverQueryLogConfigId: Swift.String?
     let resourceId: Swift.String?
 }
@@ -3283,7 +3283,7 @@ extension DisassociateResolverQueryLogConfigOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct DisassociateResolverQueryLogConfigOutput: Swift.Equatable {
+public struct DisassociateResolverQueryLogConfigOutput {
     /// A complex type that contains settings for the association that you deleted between an Amazon VPC and a query logging configuration.
     public var resolverQueryLogConfigAssociation: Route53ResolverClientTypes.ResolverQueryLogConfigAssociation?
 
@@ -3295,7 +3295,7 @@ public struct DisassociateResolverQueryLogConfigOutput: Swift.Equatable {
     }
 }
 
-struct DisassociateResolverQueryLogConfigOutputBody: Swift.Equatable {
+struct DisassociateResolverQueryLogConfigOutputBody {
     let resolverQueryLogConfigAssociation: Route53ResolverClientTypes.ResolverQueryLogConfigAssociation?
 }
 
@@ -3351,7 +3351,7 @@ extension DisassociateResolverRuleInput {
     }
 }
 
-public struct DisassociateResolverRuleInput: Swift.Equatable {
+public struct DisassociateResolverRuleInput {
     /// The ID of the Resolver rule that you want to disassociate from the specified VPC.
     /// This member is required.
     public var resolverRuleId: Swift.String?
@@ -3369,7 +3369,7 @@ public struct DisassociateResolverRuleInput: Swift.Equatable {
     }
 }
 
-struct DisassociateResolverRuleInputBody: Swift.Equatable {
+struct DisassociateResolverRuleInputBody {
     let vpcId: Swift.String?
     let resolverRuleId: Swift.String?
 }
@@ -3401,7 +3401,7 @@ extension DisassociateResolverRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateResolverRuleOutput: Swift.Equatable {
+public struct DisassociateResolverRuleOutput {
     /// Information about the DisassociateResolverRule request, including the status of the request.
     public var resolverRuleAssociation: Route53ResolverClientTypes.ResolverRuleAssociation?
 
@@ -3413,7 +3413,7 @@ public struct DisassociateResolverRuleOutput: Swift.Equatable {
     }
 }
 
-struct DisassociateResolverRuleOutputBody: Swift.Equatable {
+struct DisassociateResolverRuleOutputBody {
     let resolverRuleAssociation: Route53ResolverClientTypes.ResolverRuleAssociation?
 }
 
@@ -3482,7 +3482,7 @@ extension Route53ResolverClientTypes.Filter: Swift.Codable {
 
 extension Route53ResolverClientTypes {
     /// For Resolver list operations ([ListResolverEndpoints](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverEndpoints.html), [ListResolverRules](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverRules.html), [ListResolverRuleAssociations](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverRuleAssociations.html), [ListResolverQueryLogConfigs](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverQueryLogConfigs.html), [ListResolverQueryLogConfigAssociations](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverQueryLogConfigAssociations.html)), and [ListResolverDnssecConfigs](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverDnssecConfigs.html)), an optional specification to return a subset of objects. To filter objects, such as Resolver endpoints or Resolver rules, you specify Name and Values. For example, to list only inbound Resolver endpoints, specify Direction for Name and specify INBOUND for Values.
-    public struct Filter: Swift.Equatable {
+    public struct Filter {
         /// The name of the parameter that you want to use to filter objects. The valid values for Name depend on the action that you're including the filter in, [ListResolverEndpoints](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverEndpoints.html), [ListResolverRules](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverRules.html), [ListResolverRuleAssociations](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverRuleAssociations.html), [ListResolverQueryLogConfigs](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverQueryLogConfigs.html), or [ListResolverQueryLogConfigAssociations](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverQueryLogConfigAssociations.html). In early versions of Resolver, values for Name were listed as uppercase, with underscore (_) delimiters. For example, CreatorRequestId was originally listed as CREATOR_REQUEST_ID. Uppercase values for Name are still supported. ListResolverEndpoints Valid values for Name include the following:
         ///
         /// * CreatorRequestId: The value that you specified when you created the Resolver endpoint.
@@ -3628,7 +3628,7 @@ extension Route53ResolverClientTypes.FirewallConfig: Swift.Codable {
 
 extension Route53ResolverClientTypes {
     /// Configuration of the firewall behavior provided by DNS Firewall for a single VPC from Amazon Virtual Private Cloud (Amazon VPC).
-    public struct FirewallConfig: Swift.Equatable {
+    public struct FirewallConfig {
         /// Determines how DNS Firewall operates during failures, for example when all traffic that is sent to DNS Firewall fails to receive a reply.
         ///
         /// * By default, fail open is disabled, which means the failure mode is closed. This approach favors security over availability. DNS Firewall returns a failure error when it is unable to properly evaluate a query.
@@ -3765,7 +3765,7 @@ extension Route53ResolverClientTypes.FirewallDomainList: Swift.Codable {
 
 extension Route53ResolverClientTypes {
     /// High-level information about a list of firewall domains for use in a [FirewallRule]. This is returned by [GetFirewallDomainList]. To retrieve the domains that are defined for this domain list, call [ListFirewallDomains].
-    public struct FirewallDomainList: Swift.Equatable {
+    public struct FirewallDomainList {
         /// The Amazon Resource Name (ARN) of the firewall domain list.
         public var arn: Swift.String?
         /// The date and time that the domain list was created, in Unix time format and Coordinated Universal Time (UTC).
@@ -3860,7 +3860,7 @@ extension Route53ResolverClientTypes.FirewallDomainListMetadata: Swift.Codable {
 
 extension Route53ResolverClientTypes {
     /// Minimal high-level information for a firewall domain list. The action [ListFirewallDomainLists] returns an array of these objects. To retrieve full information for a firewall domain list, call [GetFirewallDomainList] and [ListFirewallDomains].
-    public struct FirewallDomainListMetadata: Swift.Equatable {
+    public struct FirewallDomainListMetadata {
         /// The Amazon Resource Name (ARN) of the firewall domain list metadata.
         public var arn: Swift.String?
         /// A unique string defined by you to identify the request. This allows you to retry failed requests without the risk of running the operation twice. This can be any unique string, for example, a timestamp.
@@ -4094,7 +4094,7 @@ extension Route53ResolverClientTypes.FirewallRule: Swift.Codable {
 
 extension Route53ResolverClientTypes {
     /// A single firewall rule in a rule group.
-    public struct FirewallRule: Swift.Equatable {
+    public struct FirewallRule {
         /// The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list:
         ///
         /// * ALLOW - Permit the request to go through.
@@ -4275,7 +4275,7 @@ extension Route53ResolverClientTypes.FirewallRuleGroup: Swift.Codable {
 
 extension Route53ResolverClientTypes {
     /// High-level information for a firewall rule group. A firewall rule group is a collection of rules that DNS Firewall uses to filter DNS network traffic for a VPC. To retrieve the rules for the rule group, call [ListFirewallRules].
-    public struct FirewallRuleGroup: Swift.Equatable {
+    public struct FirewallRuleGroup {
         /// The ARN (Amazon Resource Name) of the rule group.
         public var arn: Swift.String?
         /// The date and time that the rule group was created, in Unix time format and Coordinated Universal Time (UTC).
@@ -4422,7 +4422,7 @@ extension Route53ResolverClientTypes.FirewallRuleGroupAssociation: Swift.Codable
 
 extension Route53ResolverClientTypes {
     /// An association between a firewall rule group and a VPC, which enables DNS filtering for the VPC.
-    public struct FirewallRuleGroupAssociation: Swift.Equatable {
+    public struct FirewallRuleGroupAssociation {
         /// The Amazon Resource Name (ARN) of the firewall rule group association.
         public var arn: Swift.String?
         /// The date and time that the association was created, in Unix time format and Coordinated Universal Time (UTC).
@@ -4570,7 +4570,7 @@ extension Route53ResolverClientTypes.FirewallRuleGroupMetadata: Swift.Codable {
 
 extension Route53ResolverClientTypes {
     /// Minimal high-level information for a firewall rule group. The action [ListFirewallRuleGroups] returns an array of these objects. To retrieve full information for a firewall rule group, call [GetFirewallRuleGroup] and [ListFirewallRules].
-    public struct FirewallRuleGroupMetadata: Swift.Equatable {
+    public struct FirewallRuleGroupMetadata {
         /// The ARN (Amazon Resource Name) of the rule group.
         public var arn: Swift.String?
         /// A unique string defined by you to identify the request. This allows you to retry failed requests without the risk of running the operation twice. This can be any unique string, for example, a timestamp.
@@ -4659,7 +4659,7 @@ extension GetFirewallConfigInput {
     }
 }
 
-public struct GetFirewallConfigInput: Swift.Equatable {
+public struct GetFirewallConfigInput {
     /// The ID of the VPC from Amazon VPC that the configuration is for.
     /// This member is required.
     public var resourceId: Swift.String?
@@ -4672,7 +4672,7 @@ public struct GetFirewallConfigInput: Swift.Equatable {
     }
 }
 
-struct GetFirewallConfigInputBody: Swift.Equatable {
+struct GetFirewallConfigInputBody {
     let resourceId: Swift.String?
 }
 
@@ -4700,7 +4700,7 @@ extension GetFirewallConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetFirewallConfigOutput: Swift.Equatable {
+public struct GetFirewallConfigOutput {
     /// Configuration of the firewall behavior provided by DNS Firewall for a single VPC from AmazonVPC.
     public var firewallConfig: Route53ResolverClientTypes.FirewallConfig?
 
@@ -4712,7 +4712,7 @@ public struct GetFirewallConfigOutput: Swift.Equatable {
     }
 }
 
-struct GetFirewallConfigOutputBody: Swift.Equatable {
+struct GetFirewallConfigOutputBody {
     let firewallConfig: Route53ResolverClientTypes.FirewallConfig?
 }
 
@@ -4763,7 +4763,7 @@ extension GetFirewallDomainListInput {
     }
 }
 
-public struct GetFirewallDomainListInput: Swift.Equatable {
+public struct GetFirewallDomainListInput {
     /// The ID of the domain list.
     /// This member is required.
     public var firewallDomainListId: Swift.String?
@@ -4776,7 +4776,7 @@ public struct GetFirewallDomainListInput: Swift.Equatable {
     }
 }
 
-struct GetFirewallDomainListInputBody: Swift.Equatable {
+struct GetFirewallDomainListInputBody {
     let firewallDomainListId: Swift.String?
 }
 
@@ -4804,7 +4804,7 @@ extension GetFirewallDomainListOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetFirewallDomainListOutput: Swift.Equatable {
+public struct GetFirewallDomainListOutput {
     /// The domain list that you requested.
     public var firewallDomainList: Route53ResolverClientTypes.FirewallDomainList?
 
@@ -4816,7 +4816,7 @@ public struct GetFirewallDomainListOutput: Swift.Equatable {
     }
 }
 
-struct GetFirewallDomainListOutputBody: Swift.Equatable {
+struct GetFirewallDomainListOutputBody {
     let firewallDomainList: Route53ResolverClientTypes.FirewallDomainList?
 }
 
@@ -4866,7 +4866,7 @@ extension GetFirewallRuleGroupAssociationInput {
     }
 }
 
-public struct GetFirewallRuleGroupAssociationInput: Swift.Equatable {
+public struct GetFirewallRuleGroupAssociationInput {
     /// The identifier of the [FirewallRuleGroupAssociation].
     /// This member is required.
     public var firewallRuleGroupAssociationId: Swift.String?
@@ -4879,7 +4879,7 @@ public struct GetFirewallRuleGroupAssociationInput: Swift.Equatable {
     }
 }
 
-struct GetFirewallRuleGroupAssociationInputBody: Swift.Equatable {
+struct GetFirewallRuleGroupAssociationInputBody {
     let firewallRuleGroupAssociationId: Swift.String?
 }
 
@@ -4907,7 +4907,7 @@ extension GetFirewallRuleGroupAssociationOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct GetFirewallRuleGroupAssociationOutput: Swift.Equatable {
+public struct GetFirewallRuleGroupAssociationOutput {
     /// The association that you requested.
     public var firewallRuleGroupAssociation: Route53ResolverClientTypes.FirewallRuleGroupAssociation?
 
@@ -4919,7 +4919,7 @@ public struct GetFirewallRuleGroupAssociationOutput: Swift.Equatable {
     }
 }
 
-struct GetFirewallRuleGroupAssociationOutputBody: Swift.Equatable {
+struct GetFirewallRuleGroupAssociationOutputBody {
     let firewallRuleGroupAssociation: Route53ResolverClientTypes.FirewallRuleGroupAssociation?
 }
 
@@ -4969,7 +4969,7 @@ extension GetFirewallRuleGroupInput {
     }
 }
 
-public struct GetFirewallRuleGroupInput: Swift.Equatable {
+public struct GetFirewallRuleGroupInput {
     /// The unique identifier of the firewall rule group.
     /// This member is required.
     public var firewallRuleGroupId: Swift.String?
@@ -4982,7 +4982,7 @@ public struct GetFirewallRuleGroupInput: Swift.Equatable {
     }
 }
 
-struct GetFirewallRuleGroupInputBody: Swift.Equatable {
+struct GetFirewallRuleGroupInputBody {
     let firewallRuleGroupId: Swift.String?
 }
 
@@ -5010,7 +5010,7 @@ extension GetFirewallRuleGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetFirewallRuleGroupOutput: Swift.Equatable {
+public struct GetFirewallRuleGroupOutput {
     /// A collection of rules used to filter DNS network traffic.
     public var firewallRuleGroup: Route53ResolverClientTypes.FirewallRuleGroup?
 
@@ -5022,7 +5022,7 @@ public struct GetFirewallRuleGroupOutput: Swift.Equatable {
     }
 }
 
-struct GetFirewallRuleGroupOutputBody: Swift.Equatable {
+struct GetFirewallRuleGroupOutputBody {
     let firewallRuleGroup: Route53ResolverClientTypes.FirewallRuleGroup?
 }
 
@@ -5072,7 +5072,7 @@ extension GetFirewallRuleGroupPolicyInput {
     }
 }
 
-public struct GetFirewallRuleGroupPolicyInput: Swift.Equatable {
+public struct GetFirewallRuleGroupPolicyInput {
     /// The ARN (Amazon Resource Name) for the rule group.
     /// This member is required.
     public var arn: Swift.String?
@@ -5085,7 +5085,7 @@ public struct GetFirewallRuleGroupPolicyInput: Swift.Equatable {
     }
 }
 
-struct GetFirewallRuleGroupPolicyInputBody: Swift.Equatable {
+struct GetFirewallRuleGroupPolicyInputBody {
     let arn: Swift.String?
 }
 
@@ -5113,7 +5113,7 @@ extension GetFirewallRuleGroupPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetFirewallRuleGroupPolicyOutput: Swift.Equatable {
+public struct GetFirewallRuleGroupPolicyOutput {
     /// The Identity and Access Management (Amazon Web Services IAM) policy for sharing the specified rule group. You can use the policy to share the rule group using Resource Access Manager (RAM).
     public var firewallRuleGroupPolicy: Swift.String?
 
@@ -5125,7 +5125,7 @@ public struct GetFirewallRuleGroupPolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetFirewallRuleGroupPolicyOutputBody: Swift.Equatable {
+struct GetFirewallRuleGroupPolicyOutputBody {
     let firewallRuleGroupPolicy: Swift.String?
 }
 
@@ -5176,7 +5176,7 @@ extension GetOutpostResolverInput {
     }
 }
 
-public struct GetOutpostResolverInput: Swift.Equatable {
+public struct GetOutpostResolverInput {
     /// The ID of the Resolver on the Outpost.
     /// This member is required.
     public var id: Swift.String?
@@ -5189,7 +5189,7 @@ public struct GetOutpostResolverInput: Swift.Equatable {
     }
 }
 
-struct GetOutpostResolverInputBody: Swift.Equatable {
+struct GetOutpostResolverInputBody {
     let id: Swift.String?
 }
 
@@ -5217,7 +5217,7 @@ extension GetOutpostResolverOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetOutpostResolverOutput: Swift.Equatable {
+public struct GetOutpostResolverOutput {
     /// Information about the GetOutpostResolver request, including the status of the request.
     public var outpostResolver: Route53ResolverClientTypes.OutpostResolver?
 
@@ -5229,7 +5229,7 @@ public struct GetOutpostResolverOutput: Swift.Equatable {
     }
 }
 
-struct GetOutpostResolverOutputBody: Swift.Equatable {
+struct GetOutpostResolverOutputBody {
     let outpostResolver: Route53ResolverClientTypes.OutpostResolver?
 }
 
@@ -5280,7 +5280,7 @@ extension GetResolverConfigInput {
     }
 }
 
-public struct GetResolverConfigInput: Swift.Equatable {
+public struct GetResolverConfigInput {
     /// Resource ID of the Amazon VPC that you want to get information about.
     /// This member is required.
     public var resourceId: Swift.String?
@@ -5293,7 +5293,7 @@ public struct GetResolverConfigInput: Swift.Equatable {
     }
 }
 
-struct GetResolverConfigInputBody: Swift.Equatable {
+struct GetResolverConfigInputBody {
     let resourceId: Swift.String?
 }
 
@@ -5321,7 +5321,7 @@ extension GetResolverConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetResolverConfigOutput: Swift.Equatable {
+public struct GetResolverConfigOutput {
     /// Information about the behavior configuration of Route 53 Resolver behavior for the VPC you specified in the GetResolverConfig request.
     public var resolverConfig: Route53ResolverClientTypes.ResolverConfig?
 
@@ -5333,7 +5333,7 @@ public struct GetResolverConfigOutput: Swift.Equatable {
     }
 }
 
-struct GetResolverConfigOutputBody: Swift.Equatable {
+struct GetResolverConfigOutputBody {
     let resolverConfig: Route53ResolverClientTypes.ResolverConfig?
 }
 
@@ -5385,7 +5385,7 @@ extension GetResolverDnssecConfigInput {
     }
 }
 
-public struct GetResolverDnssecConfigInput: Swift.Equatable {
+public struct GetResolverDnssecConfigInput {
     /// The ID of the virtual private cloud (VPC) for the DNSSEC validation status.
     /// This member is required.
     public var resourceId: Swift.String?
@@ -5398,7 +5398,7 @@ public struct GetResolverDnssecConfigInput: Swift.Equatable {
     }
 }
 
-struct GetResolverDnssecConfigInputBody: Swift.Equatable {
+struct GetResolverDnssecConfigInputBody {
     let resourceId: Swift.String?
 }
 
@@ -5426,7 +5426,7 @@ extension GetResolverDnssecConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetResolverDnssecConfigOutput: Swift.Equatable {
+public struct GetResolverDnssecConfigOutput {
     /// The information about a configuration for DNSSEC validation.
     public var resolverDNSSECConfig: Route53ResolverClientTypes.ResolverDnssecConfig?
 
@@ -5438,7 +5438,7 @@ public struct GetResolverDnssecConfigOutput: Swift.Equatable {
     }
 }
 
-struct GetResolverDnssecConfigOutputBody: Swift.Equatable {
+struct GetResolverDnssecConfigOutputBody {
     let resolverDNSSECConfig: Route53ResolverClientTypes.ResolverDnssecConfig?
 }
 
@@ -5490,7 +5490,7 @@ extension GetResolverEndpointInput {
     }
 }
 
-public struct GetResolverEndpointInput: Swift.Equatable {
+public struct GetResolverEndpointInput {
     /// The ID of the Resolver endpoint that you want to get information about.
     /// This member is required.
     public var resolverEndpointId: Swift.String?
@@ -5503,7 +5503,7 @@ public struct GetResolverEndpointInput: Swift.Equatable {
     }
 }
 
-struct GetResolverEndpointInputBody: Swift.Equatable {
+struct GetResolverEndpointInputBody {
     let resolverEndpointId: Swift.String?
 }
 
@@ -5531,7 +5531,7 @@ extension GetResolverEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetResolverEndpointOutput: Swift.Equatable {
+public struct GetResolverEndpointOutput {
     /// Information about the Resolver endpoint that you specified in a GetResolverEndpoint request.
     public var resolverEndpoint: Route53ResolverClientTypes.ResolverEndpoint?
 
@@ -5543,7 +5543,7 @@ public struct GetResolverEndpointOutput: Swift.Equatable {
     }
 }
 
-struct GetResolverEndpointOutputBody: Swift.Equatable {
+struct GetResolverEndpointOutputBody {
     let resolverEndpoint: Route53ResolverClientTypes.ResolverEndpoint?
 }
 
@@ -5593,7 +5593,7 @@ extension GetResolverQueryLogConfigAssociationInput {
     }
 }
 
-public struct GetResolverQueryLogConfigAssociationInput: Swift.Equatable {
+public struct GetResolverQueryLogConfigAssociationInput {
     /// The ID of the Resolver query logging configuration association that you want to get information about.
     /// This member is required.
     public var resolverQueryLogConfigAssociationId: Swift.String?
@@ -5606,7 +5606,7 @@ public struct GetResolverQueryLogConfigAssociationInput: Swift.Equatable {
     }
 }
 
-struct GetResolverQueryLogConfigAssociationInputBody: Swift.Equatable {
+struct GetResolverQueryLogConfigAssociationInputBody {
     let resolverQueryLogConfigAssociationId: Swift.String?
 }
 
@@ -5634,7 +5634,7 @@ extension GetResolverQueryLogConfigAssociationOutput: ClientRuntime.HttpResponse
     }
 }
 
-public struct GetResolverQueryLogConfigAssociationOutput: Swift.Equatable {
+public struct GetResolverQueryLogConfigAssociationOutput {
     /// Information about the Resolver query logging configuration association that you specified in a GetQueryLogConfigAssociation request.
     public var resolverQueryLogConfigAssociation: Route53ResolverClientTypes.ResolverQueryLogConfigAssociation?
 
@@ -5646,7 +5646,7 @@ public struct GetResolverQueryLogConfigAssociationOutput: Swift.Equatable {
     }
 }
 
-struct GetResolverQueryLogConfigAssociationOutputBody: Swift.Equatable {
+struct GetResolverQueryLogConfigAssociationOutputBody {
     let resolverQueryLogConfigAssociation: Route53ResolverClientTypes.ResolverQueryLogConfigAssociation?
 }
 
@@ -5698,7 +5698,7 @@ extension GetResolverQueryLogConfigInput {
     }
 }
 
-public struct GetResolverQueryLogConfigInput: Swift.Equatable {
+public struct GetResolverQueryLogConfigInput {
     /// The ID of the Resolver query logging configuration that you want to get information about.
     /// This member is required.
     public var resolverQueryLogConfigId: Swift.String?
@@ -5711,7 +5711,7 @@ public struct GetResolverQueryLogConfigInput: Swift.Equatable {
     }
 }
 
-struct GetResolverQueryLogConfigInputBody: Swift.Equatable {
+struct GetResolverQueryLogConfigInputBody {
     let resolverQueryLogConfigId: Swift.String?
 }
 
@@ -5739,7 +5739,7 @@ extension GetResolverQueryLogConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetResolverQueryLogConfigOutput: Swift.Equatable {
+public struct GetResolverQueryLogConfigOutput {
     /// Information about the Resolver query logging configuration that you specified in a GetQueryLogConfig request.
     public var resolverQueryLogConfig: Route53ResolverClientTypes.ResolverQueryLogConfig?
 
@@ -5751,7 +5751,7 @@ public struct GetResolverQueryLogConfigOutput: Swift.Equatable {
     }
 }
 
-struct GetResolverQueryLogConfigOutputBody: Swift.Equatable {
+struct GetResolverQueryLogConfigOutputBody {
     let resolverQueryLogConfig: Route53ResolverClientTypes.ResolverQueryLogConfig?
 }
 
@@ -5803,7 +5803,7 @@ extension GetResolverQueryLogConfigPolicyInput {
     }
 }
 
-public struct GetResolverQueryLogConfigPolicyInput: Swift.Equatable {
+public struct GetResolverQueryLogConfigPolicyInput {
     /// The ARN of the query logging configuration that you want to get the query logging policy for.
     /// This member is required.
     public var arn: Swift.String?
@@ -5816,7 +5816,7 @@ public struct GetResolverQueryLogConfigPolicyInput: Swift.Equatable {
     }
 }
 
-struct GetResolverQueryLogConfigPolicyInputBody: Swift.Equatable {
+struct GetResolverQueryLogConfigPolicyInputBody {
     let arn: Swift.String?
 }
 
@@ -5844,7 +5844,7 @@ extension GetResolverQueryLogConfigPolicyOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct GetResolverQueryLogConfigPolicyOutput: Swift.Equatable {
+public struct GetResolverQueryLogConfigPolicyOutput {
     /// Information about the query logging policy for the query logging configuration that you specified in a GetResolverQueryLogConfigPolicy request.
     public var resolverQueryLogConfigPolicy: Swift.String?
 
@@ -5856,7 +5856,7 @@ public struct GetResolverQueryLogConfigPolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetResolverQueryLogConfigPolicyOutputBody: Swift.Equatable {
+struct GetResolverQueryLogConfigPolicyOutputBody {
     let resolverQueryLogConfigPolicy: Swift.String?
 }
 
@@ -5907,7 +5907,7 @@ extension GetResolverRuleAssociationInput {
     }
 }
 
-public struct GetResolverRuleAssociationInput: Swift.Equatable {
+public struct GetResolverRuleAssociationInput {
     /// The ID of the Resolver rule association that you want to get information about.
     /// This member is required.
     public var resolverRuleAssociationId: Swift.String?
@@ -5920,7 +5920,7 @@ public struct GetResolverRuleAssociationInput: Swift.Equatable {
     }
 }
 
-struct GetResolverRuleAssociationInputBody: Swift.Equatable {
+struct GetResolverRuleAssociationInputBody {
     let resolverRuleAssociationId: Swift.String?
 }
 
@@ -5948,7 +5948,7 @@ extension GetResolverRuleAssociationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetResolverRuleAssociationOutput: Swift.Equatable {
+public struct GetResolverRuleAssociationOutput {
     /// Information about the Resolver rule association that you specified in a GetResolverRuleAssociation request.
     public var resolverRuleAssociation: Route53ResolverClientTypes.ResolverRuleAssociation?
 
@@ -5960,7 +5960,7 @@ public struct GetResolverRuleAssociationOutput: Swift.Equatable {
     }
 }
 
-struct GetResolverRuleAssociationOutputBody: Swift.Equatable {
+struct GetResolverRuleAssociationOutputBody {
     let resolverRuleAssociation: Route53ResolverClientTypes.ResolverRuleAssociation?
 }
 
@@ -6010,7 +6010,7 @@ extension GetResolverRuleInput {
     }
 }
 
-public struct GetResolverRuleInput: Swift.Equatable {
+public struct GetResolverRuleInput {
     /// The ID of the Resolver rule that you want to get information about.
     /// This member is required.
     public var resolverRuleId: Swift.String?
@@ -6023,7 +6023,7 @@ public struct GetResolverRuleInput: Swift.Equatable {
     }
 }
 
-struct GetResolverRuleInputBody: Swift.Equatable {
+struct GetResolverRuleInputBody {
     let resolverRuleId: Swift.String?
 }
 
@@ -6051,7 +6051,7 @@ extension GetResolverRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetResolverRuleOutput: Swift.Equatable {
+public struct GetResolverRuleOutput {
     /// Information about the Resolver rule that you specified in a GetResolverRule request.
     public var resolverRule: Route53ResolverClientTypes.ResolverRule?
 
@@ -6063,7 +6063,7 @@ public struct GetResolverRuleOutput: Swift.Equatable {
     }
 }
 
-struct GetResolverRuleOutputBody: Swift.Equatable {
+struct GetResolverRuleOutputBody {
     let resolverRule: Route53ResolverClientTypes.ResolverRule?
 }
 
@@ -6113,7 +6113,7 @@ extension GetResolverRulePolicyInput {
     }
 }
 
-public struct GetResolverRulePolicyInput: Swift.Equatable {
+public struct GetResolverRulePolicyInput {
     /// The ID of the Resolver rule that you want to get the Resolver rule policy for.
     /// This member is required.
     public var arn: Swift.String?
@@ -6126,7 +6126,7 @@ public struct GetResolverRulePolicyInput: Swift.Equatable {
     }
 }
 
-struct GetResolverRulePolicyInputBody: Swift.Equatable {
+struct GetResolverRulePolicyInputBody {
     let arn: Swift.String?
 }
 
@@ -6154,7 +6154,7 @@ extension GetResolverRulePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetResolverRulePolicyOutput: Swift.Equatable {
+public struct GetResolverRulePolicyOutput {
     /// The Resolver rule policy for the rule that you specified in a GetResolverRulePolicy request.
     public var resolverRulePolicy: Swift.String?
 
@@ -6166,7 +6166,7 @@ public struct GetResolverRulePolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetResolverRulePolicyOutputBody: Swift.Equatable {
+struct GetResolverRulePolicyOutputBody {
     let resolverRulePolicy: Swift.String?
 }
 
@@ -6224,7 +6224,7 @@ extension ImportFirewallDomainsInput {
     }
 }
 
-public struct ImportFirewallDomainsInput: Swift.Equatable {
+public struct ImportFirewallDomainsInput {
     /// The fully qualified URL or URI of the file stored in Amazon Simple Storage Service (Amazon S3) that contains the list of domains to import. The file must be in an S3 bucket that's in the same Region as your DNS Firewall. The file must be a text file and must contain a single domain per line.
     /// This member is required.
     public var domainFileUrl: Swift.String?
@@ -6247,7 +6247,7 @@ public struct ImportFirewallDomainsInput: Swift.Equatable {
     }
 }
 
-struct ImportFirewallDomainsInputBody: Swift.Equatable {
+struct ImportFirewallDomainsInputBody {
     let firewallDomainListId: Swift.String?
     let operation: Route53ResolverClientTypes.FirewallDomainImportOperation?
     let domainFileUrl: Swift.String?
@@ -6289,7 +6289,7 @@ extension ImportFirewallDomainsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ImportFirewallDomainsOutput: Swift.Equatable {
+public struct ImportFirewallDomainsOutput {
     /// The Id of the firewall domain list that DNS Firewall just updated.
     public var id: Swift.String?
     /// The name of the domain list.
@@ -6313,7 +6313,7 @@ public struct ImportFirewallDomainsOutput: Swift.Equatable {
     }
 }
 
-struct ImportFirewallDomainsOutputBody: Swift.Equatable {
+struct ImportFirewallDomainsOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let status: Route53ResolverClientTypes.FirewallDomainListStatus?
@@ -6397,7 +6397,7 @@ public struct InternalServiceErrorException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct InternalServiceErrorExceptionBody: Swift.Equatable {
+struct InternalServiceErrorExceptionBody {
     let message: Swift.String?
 }
 
@@ -6452,7 +6452,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidNextTokenExceptionBody: Swift.Equatable {
+struct InvalidNextTokenExceptionBody {
     let message: Swift.String?
 }
 
@@ -6514,7 +6514,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidParameterExceptionBody: Swift.Equatable {
+struct InvalidParameterExceptionBody {
     let message: Swift.String?
     let fieldName: Swift.String?
 }
@@ -6573,7 +6573,7 @@ public struct InvalidPolicyDocument: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct InvalidPolicyDocumentBody: Swift.Equatable {
+struct InvalidPolicyDocumentBody {
     let message: Swift.String?
 }
 
@@ -6628,7 +6628,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InvalidRequestExceptionBody: Swift.Equatable {
+struct InvalidRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -6683,7 +6683,7 @@ public struct InvalidTagException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct InvalidTagExceptionBody: Swift.Equatable {
+struct InvalidTagExceptionBody {
     let message: Swift.String?
 }
 
@@ -6732,7 +6732,7 @@ extension Route53ResolverClientTypes.IpAddressRequest: Swift.Codable {
 
 extension Route53ResolverClientTypes {
     /// In a [CreateResolverEndpoint](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_CreateResolverEndpoint.html) request, the IP address that DNS queries originate from (for outbound endpoints) or that you forward DNS queries to (for inbound endpoints). IpAddressRequest also includes the ID of the subnet that contains the IP address.
-    public struct IpAddressRequest: Swift.Equatable {
+    public struct IpAddressRequest {
         /// The IPv4 address that you want to use for DNS queries.
         public var ip: Swift.String?
         /// The IPv6 address that you want to use for DNS queries.
@@ -6818,7 +6818,7 @@ extension Route53ResolverClientTypes.IpAddressResponse: Swift.Codable {
 
 extension Route53ResolverClientTypes {
     /// In the response to a [GetResolverEndpoint](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_GetResolverEndpoint.html) request, information about the IP addresses that the Resolver endpoint uses for DNS queries.
-    public struct IpAddressResponse: Swift.Equatable {
+    public struct IpAddressResponse {
         /// The date and time that the IP address was created, in Unix time format and Coordinated Universal Time (UTC).
         public var creationTime: Swift.String?
         /// One IPv4 address that the Resolver endpoint uses for DNS queries.
@@ -6961,7 +6961,7 @@ extension Route53ResolverClientTypes.IpAddressUpdate: Swift.Codable {
 
 extension Route53ResolverClientTypes {
     /// In an [UpdateResolverEndpoint](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_UpdateResolverEndpoint.html) request, information about an IP address to update.
-    public struct IpAddressUpdate: Swift.Equatable {
+    public struct IpAddressUpdate {
         /// The new IPv4 address.
         public var ip: Swift.String?
         /// Only when removing an IP address from a Resolver endpoint: The ID of the IP address that you want to remove. To get this ID, use [GetResolverEndpoint](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_GetResolverEndpoint.html).
@@ -7032,7 +7032,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
     let resourceType: Swift.String?
 }
@@ -7076,7 +7076,7 @@ extension ListFirewallConfigsInput {
     }
 }
 
-public struct ListFirewallConfigsInput: Swift.Equatable {
+public struct ListFirewallConfigsInput {
     /// The maximum number of objects that you want Resolver to return for this request. If more objects are available, in the response, Resolver provides a NextToken value that you can use in a subsequent call to get the next batch of objects. If you don't specify a value for MaxResults, Resolver returns up to 100 objects.
     public var maxResults: Swift.Int?
     /// For the first call to this list request, omit this value. When you request a list of objects, Resolver returns at most the number of objects specified in MaxResults. If more objects are available for retrieval, Resolver returns a NextToken value in the response. To retrieve the next batch of objects, use the token that was returned for the prior request in your next request.
@@ -7092,7 +7092,7 @@ public struct ListFirewallConfigsInput: Swift.Equatable {
     }
 }
 
-struct ListFirewallConfigsInputBody: Swift.Equatable {
+struct ListFirewallConfigsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -7126,7 +7126,7 @@ extension ListFirewallConfigsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFirewallConfigsOutput: Swift.Equatable {
+public struct ListFirewallConfigsOutput {
     /// The configurations for the firewall behavior provided by DNS Firewall for VPCs from Amazon Virtual Private Cloud (Amazon VPC).
     public var firewallConfigs: [Route53ResolverClientTypes.FirewallConfig]?
     /// If objects are still available for retrieval, Resolver returns this token in the response. To retrieve the next batch of objects, provide this token in your next request.
@@ -7142,7 +7142,7 @@ public struct ListFirewallConfigsOutput: Swift.Equatable {
     }
 }
 
-struct ListFirewallConfigsOutputBody: Swift.Equatable {
+struct ListFirewallConfigsOutputBody {
     let nextToken: Swift.String?
     let firewallConfigs: [Route53ResolverClientTypes.FirewallConfig]?
 }
@@ -7209,7 +7209,7 @@ extension ListFirewallDomainListsInput {
     }
 }
 
-public struct ListFirewallDomainListsInput: Swift.Equatable {
+public struct ListFirewallDomainListsInput {
     /// The maximum number of objects that you want Resolver to return for this request. If more objects are available, in the response, Resolver provides a NextToken value that you can use in a subsequent call to get the next batch of objects. If you don't specify a value for MaxResults, Resolver returns up to 100 objects.
     public var maxResults: Swift.Int?
     /// For the first call to this list request, omit this value. When you request a list of objects, Resolver returns at most the number of objects specified in MaxResults. If more objects are available for retrieval, Resolver returns a NextToken value in the response. To retrieve the next batch of objects, use the token that was returned for the prior request in your next request.
@@ -7225,7 +7225,7 @@ public struct ListFirewallDomainListsInput: Swift.Equatable {
     }
 }
 
-struct ListFirewallDomainListsInputBody: Swift.Equatable {
+struct ListFirewallDomainListsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -7259,7 +7259,7 @@ extension ListFirewallDomainListsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFirewallDomainListsOutput: Swift.Equatable {
+public struct ListFirewallDomainListsOutput {
     /// A list of the domain lists that you have defined. This might be a partial list of the domain lists that you've defined. For information, see MaxResults.
     public var firewallDomainLists: [Route53ResolverClientTypes.FirewallDomainListMetadata]?
     /// If objects are still available for retrieval, Resolver returns this token in the response. To retrieve the next batch of objects, provide this token in your next request.
@@ -7275,7 +7275,7 @@ public struct ListFirewallDomainListsOutput: Swift.Equatable {
     }
 }
 
-struct ListFirewallDomainListsOutputBody: Swift.Equatable {
+struct ListFirewallDomainListsOutputBody {
     let nextToken: Swift.String?
     let firewallDomainLists: [Route53ResolverClientTypes.FirewallDomainListMetadata]?
 }
@@ -7346,7 +7346,7 @@ extension ListFirewallDomainsInput {
     }
 }
 
-public struct ListFirewallDomainsInput: Swift.Equatable {
+public struct ListFirewallDomainsInput {
     /// The ID of the domain list whose domains you want to retrieve.
     /// This member is required.
     public var firewallDomainListId: Swift.String?
@@ -7367,7 +7367,7 @@ public struct ListFirewallDomainsInput: Swift.Equatable {
     }
 }
 
-struct ListFirewallDomainsInputBody: Swift.Equatable {
+struct ListFirewallDomainsInputBody {
     let firewallDomainListId: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -7405,7 +7405,7 @@ extension ListFirewallDomainsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFirewallDomainsOutput: Swift.Equatable {
+public struct ListFirewallDomainsOutput {
     /// A list of the domains in the firewall domain list. This might be a partial list of the domains that you've defined in the domain list. For information, see MaxResults.
     public var domains: [Swift.String]?
     /// If objects are still available for retrieval, Resolver returns this token in the response. To retrieve the next batch of objects, provide this token in your next request.
@@ -7421,7 +7421,7 @@ public struct ListFirewallDomainsOutput: Swift.Equatable {
     }
 }
 
-struct ListFirewallDomainsOutputBody: Swift.Equatable {
+struct ListFirewallDomainsOutputBody {
     let nextToken: Swift.String?
     let domains: [Swift.String]?
 }
@@ -7505,7 +7505,7 @@ extension ListFirewallRuleGroupAssociationsInput {
     }
 }
 
-public struct ListFirewallRuleGroupAssociationsInput: Swift.Equatable {
+public struct ListFirewallRuleGroupAssociationsInput {
     /// The unique identifier of the firewall rule group that you want to retrieve the associations for. Leave this blank to retrieve associations for any rule group.
     public var firewallRuleGroupId: Swift.String?
     /// The maximum number of objects that you want Resolver to return for this request. If more objects are available, in the response, Resolver provides a NextToken value that you can use in a subsequent call to get the next batch of objects. If you don't specify a value for MaxResults, Resolver returns up to 100 objects.
@@ -7537,7 +7537,7 @@ public struct ListFirewallRuleGroupAssociationsInput: Swift.Equatable {
     }
 }
 
-struct ListFirewallRuleGroupAssociationsInputBody: Swift.Equatable {
+struct ListFirewallRuleGroupAssociationsInputBody {
     let firewallRuleGroupId: Swift.String?
     let vpcId: Swift.String?
     let priority: Swift.Int?
@@ -7587,7 +7587,7 @@ extension ListFirewallRuleGroupAssociationsOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct ListFirewallRuleGroupAssociationsOutput: Swift.Equatable {
+public struct ListFirewallRuleGroupAssociationsOutput {
     /// A list of your firewall rule group associations. This might be a partial list of the associations that you have defined. For information, see MaxResults.
     public var firewallRuleGroupAssociations: [Route53ResolverClientTypes.FirewallRuleGroupAssociation]?
     /// If objects are still available for retrieval, Resolver returns this token in the response. To retrieve the next batch of objects, provide this token in your next request.
@@ -7603,7 +7603,7 @@ public struct ListFirewallRuleGroupAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct ListFirewallRuleGroupAssociationsOutputBody: Swift.Equatable {
+struct ListFirewallRuleGroupAssociationsOutputBody {
     let nextToken: Swift.String?
     let firewallRuleGroupAssociations: [Route53ResolverClientTypes.FirewallRuleGroupAssociation]?
 }
@@ -7670,7 +7670,7 @@ extension ListFirewallRuleGroupsInput {
     }
 }
 
-public struct ListFirewallRuleGroupsInput: Swift.Equatable {
+public struct ListFirewallRuleGroupsInput {
     /// The maximum number of objects that you want Resolver to return for this request. If more objects are available, in the response, Resolver provides a NextToken value that you can use in a subsequent call to get the next batch of objects. If you don't specify a value for MaxResults, Resolver returns up to 100 objects.
     public var maxResults: Swift.Int?
     /// For the first call to this list request, omit this value. When you request a list of objects, Resolver returns at most the number of objects specified in MaxResults. If more objects are available for retrieval, Resolver returns a NextToken value in the response. To retrieve the next batch of objects, use the token that was returned for the prior request in your next request.
@@ -7686,7 +7686,7 @@ public struct ListFirewallRuleGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListFirewallRuleGroupsInputBody: Swift.Equatable {
+struct ListFirewallRuleGroupsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -7720,7 +7720,7 @@ extension ListFirewallRuleGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFirewallRuleGroupsOutput: Swift.Equatable {
+public struct ListFirewallRuleGroupsOutput {
     /// A list of your firewall rule groups. This might be a partial list of the rule groups that you have defined. For information, see MaxResults.
     public var firewallRuleGroups: [Route53ResolverClientTypes.FirewallRuleGroupMetadata]?
     /// If objects are still available for retrieval, Resolver returns this token in the response. To retrieve the next batch of objects, provide this token in your next request.
@@ -7736,7 +7736,7 @@ public struct ListFirewallRuleGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListFirewallRuleGroupsOutputBody: Swift.Equatable {
+struct ListFirewallRuleGroupsOutputBody {
     let nextToken: Swift.String?
     let firewallRuleGroups: [Route53ResolverClientTypes.FirewallRuleGroupMetadata]?
 }
@@ -7815,7 +7815,7 @@ extension ListFirewallRulesInput {
     }
 }
 
-public struct ListFirewallRulesInput: Swift.Equatable {
+public struct ListFirewallRulesInput {
     /// Optional additional filter for the rules to retrieve. The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list:
     ///
     /// * ALLOW - Permit the request to go through.
@@ -7850,7 +7850,7 @@ public struct ListFirewallRulesInput: Swift.Equatable {
     }
 }
 
-struct ListFirewallRulesInputBody: Swift.Equatable {
+struct ListFirewallRulesInputBody {
     let firewallRuleGroupId: Swift.String?
     let priority: Swift.Int?
     let action: Route53ResolverClientTypes.Action?
@@ -7896,7 +7896,7 @@ extension ListFirewallRulesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFirewallRulesOutput: Swift.Equatable {
+public struct ListFirewallRulesOutput {
     /// A list of the rules that you have defined. This might be a partial list of the firewall rules that you've defined. For information, see MaxResults.
     public var firewallRules: [Route53ResolverClientTypes.FirewallRule]?
     /// If objects are still available for retrieval, Resolver returns this token in the response. To retrieve the next batch of objects, provide this token in your next request.
@@ -7912,7 +7912,7 @@ public struct ListFirewallRulesOutput: Swift.Equatable {
     }
 }
 
-struct ListFirewallRulesOutputBody: Swift.Equatable {
+struct ListFirewallRulesOutputBody {
     let nextToken: Swift.String?
     let firewallRules: [Route53ResolverClientTypes.FirewallRule]?
 }
@@ -7984,7 +7984,7 @@ extension ListOutpostResolversInput {
     }
 }
 
-public struct ListOutpostResolversInput: Swift.Equatable {
+public struct ListOutpostResolversInput {
     /// The maximum number of Resolvers on the Outpost that you want to return in the response to a ListOutpostResolver request. If you don't specify a value for MaxResults, the request returns up to 100 Resolvers.
     public var maxResults: Swift.Int?
     /// For the first ListOutpostResolver request, omit this value.
@@ -8004,7 +8004,7 @@ public struct ListOutpostResolversInput: Swift.Equatable {
     }
 }
 
-struct ListOutpostResolversInputBody: Swift.Equatable {
+struct ListOutpostResolversInputBody {
     let outpostArn: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -8042,7 +8042,7 @@ extension ListOutpostResolversOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListOutpostResolversOutput: Swift.Equatable {
+public struct ListOutpostResolversOutput {
     /// If more than MaxResults Resolvers match the specified criteria, you can submit another ListOutpostResolver request to get the next group of results. In the next request, specify the value of NextToken from the previous response.
     public var nextToken: Swift.String?
     /// The Resolvers on Outposts that were created by using the current Amazon Web Services account, and that match the specified filters, if any.
@@ -8058,7 +8058,7 @@ public struct ListOutpostResolversOutput: Swift.Equatable {
     }
 }
 
-struct ListOutpostResolversOutputBody: Swift.Equatable {
+struct ListOutpostResolversOutputBody {
     let outpostResolvers: [Route53ResolverClientTypes.OutpostResolver]?
     let nextToken: Swift.String?
 }
@@ -8126,7 +8126,7 @@ extension ListResolverConfigsInput {
     }
 }
 
-public struct ListResolverConfigsInput: Swift.Equatable {
+public struct ListResolverConfigsInput {
     /// The maximum number of Resolver configurations that you want to return in the response to a ListResolverConfigs request. If you don't specify a value for MaxResults, up to 100 Resolver configurations are returned.
     public var maxResults: Swift.Int?
     /// (Optional) If the current Amazon Web Services account has more than MaxResults Resolver configurations, use NextToken to get the second and subsequent pages of results. For the first ListResolverConfigs request, omit this value. For the second and subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request.
@@ -8142,7 +8142,7 @@ public struct ListResolverConfigsInput: Swift.Equatable {
     }
 }
 
-struct ListResolverConfigsInputBody: Swift.Equatable {
+struct ListResolverConfigsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -8176,7 +8176,7 @@ extension ListResolverConfigsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListResolverConfigsOutput: Swift.Equatable {
+public struct ListResolverConfigsOutput {
     /// If a response includes the last of the Resolver configurations that are associated with the current Amazon Web Services account, NextToken doesn't appear in the response. If a response doesn't include the last of the configurations, you can get more configurations by submitting another ListResolverConfigs request. Get the value of NextToken that Amazon Route 53 returned in the previous response and include it in NextToken in the next request.
     public var nextToken: Swift.String?
     /// An array that contains one ResolverConfigs element for each Resolver configuration that is associated with the current Amazon Web Services account.
@@ -8192,7 +8192,7 @@ public struct ListResolverConfigsOutput: Swift.Equatable {
     }
 }
 
-struct ListResolverConfigsOutputBody: Swift.Equatable {
+struct ListResolverConfigsOutputBody {
     let nextToken: Swift.String?
     let resolverConfigs: [Route53ResolverClientTypes.ResolverConfig]?
 }
@@ -8269,7 +8269,7 @@ extension ListResolverDnssecConfigsInput {
     }
 }
 
-public struct ListResolverDnssecConfigsInput: Swift.Equatable {
+public struct ListResolverDnssecConfigsInput {
     /// An optional specification to return a subset of objects.
     public var filters: [Route53ResolverClientTypes.Filter]?
     /// Optional: An integer that specifies the maximum number of DNSSEC configuration results that you want Amazon Route 53 to return. If you don't specify a value for MaxResults, Route 53 returns up to 100 configuration per page.
@@ -8289,7 +8289,7 @@ public struct ListResolverDnssecConfigsInput: Swift.Equatable {
     }
 }
 
-struct ListResolverDnssecConfigsInputBody: Swift.Equatable {
+struct ListResolverDnssecConfigsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let filters: [Route53ResolverClientTypes.Filter]?
@@ -8336,7 +8336,7 @@ extension ListResolverDnssecConfigsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListResolverDnssecConfigsOutput: Swift.Equatable {
+public struct ListResolverDnssecConfigsOutput {
     /// If a response includes the last of the DNSSEC configurations that are associated with the current Amazon Web Services account, NextToken doesn't appear in the response. If a response doesn't include the last of the configurations, you can get more configurations by submitting another [ListResolverDnssecConfigs](https://docs.aws.amazon.com/Route53/latest/APIReference/API_ListResolverDnssecConfigs.html) request. Get the value of NextToken that Amazon Route 53 returned in the previous response and include it in NextToken in the next request.
     public var nextToken: Swift.String?
     /// An array that contains one [ResolverDnssecConfig](https://docs.aws.amazon.com/Route53/latest/APIReference/API_ResolverDnssecConfig.html) element for each configuration for DNSSEC validation that is associated with the current Amazon Web Services account. It doesn't contain disabled DNSSEC configurations for the resource.
@@ -8352,7 +8352,7 @@ public struct ListResolverDnssecConfigsOutput: Swift.Equatable {
     }
 }
 
-struct ListResolverDnssecConfigsOutputBody: Swift.Equatable {
+struct ListResolverDnssecConfigsOutputBody {
     let nextToken: Swift.String?
     let resolverDnssecConfigs: [Route53ResolverClientTypes.ResolverDnssecConfig]?
 }
@@ -8425,7 +8425,7 @@ extension ListResolverEndpointIpAddressesInput {
     }
 }
 
-public struct ListResolverEndpointIpAddressesInput: Swift.Equatable {
+public struct ListResolverEndpointIpAddressesInput {
     /// The maximum number of IP addresses that you want to return in the response to a ListResolverEndpointIpAddresses request. If you don't specify a value for MaxResults, Resolver returns up to 100 IP addresses.
     public var maxResults: Swift.Int?
     /// For the first ListResolverEndpointIpAddresses request, omit this value. If the specified Resolver endpoint has more than MaxResults IP addresses, you can submit another ListResolverEndpointIpAddresses request to get the next group of IP addresses. In the next request, specify the value of NextToken from the previous response.
@@ -8446,7 +8446,7 @@ public struct ListResolverEndpointIpAddressesInput: Swift.Equatable {
     }
 }
 
-struct ListResolverEndpointIpAddressesInputBody: Swift.Equatable {
+struct ListResolverEndpointIpAddressesInputBody {
     let resolverEndpointId: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -8486,7 +8486,7 @@ extension ListResolverEndpointIpAddressesOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ListResolverEndpointIpAddressesOutput: Swift.Equatable {
+public struct ListResolverEndpointIpAddressesOutput {
     /// Information about the IP addresses in your VPC that DNS queries originate from (for outbound endpoints) or that you forward DNS queries to (for inbound endpoints).
     public var ipAddresses: [Route53ResolverClientTypes.IpAddressResponse]?
     /// The value that you specified for MaxResults in the request.
@@ -8506,7 +8506,7 @@ public struct ListResolverEndpointIpAddressesOutput: Swift.Equatable {
     }
 }
 
-struct ListResolverEndpointIpAddressesOutputBody: Swift.Equatable {
+struct ListResolverEndpointIpAddressesOutputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let ipAddresses: [Route53ResolverClientTypes.IpAddressResponse]?
@@ -8585,7 +8585,7 @@ extension ListResolverEndpointsInput {
     }
 }
 
-public struct ListResolverEndpointsInput: Swift.Equatable {
+public struct ListResolverEndpointsInput {
     /// An optional specification to return a subset of Resolver endpoints, such as all inbound Resolver endpoints. If you submit a second or subsequent ListResolverEndpoints request and specify the NextToken parameter, you must use the same values for Filters, if any, as in the previous request.
     public var filters: [Route53ResolverClientTypes.Filter]?
     /// The maximum number of Resolver endpoints that you want to return in the response to a ListResolverEndpoints request. If you don't specify a value for MaxResults, Resolver returns up to 100 Resolver endpoints.
@@ -8605,7 +8605,7 @@ public struct ListResolverEndpointsInput: Swift.Equatable {
     }
 }
 
-struct ListResolverEndpointsInputBody: Swift.Equatable {
+struct ListResolverEndpointsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let filters: [Route53ResolverClientTypes.Filter]?
@@ -8654,7 +8654,7 @@ extension ListResolverEndpointsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListResolverEndpointsOutput: Swift.Equatable {
+public struct ListResolverEndpointsOutput {
     /// The value that you specified for MaxResults in the request.
     public var maxResults: Swift.Int?
     /// If more than MaxResults IP addresses match the specified criteria, you can submit another ListResolverEndpoint request to get the next group of results. In the next request, specify the value of NextToken from the previous response.
@@ -8674,7 +8674,7 @@ public struct ListResolverEndpointsOutput: Swift.Equatable {
     }
 }
 
-struct ListResolverEndpointsOutputBody: Swift.Equatable {
+struct ListResolverEndpointsOutputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let resolverEndpoints: [Route53ResolverClientTypes.ResolverEndpoint]?
@@ -8761,7 +8761,7 @@ extension ListResolverQueryLogConfigAssociationsInput {
     }
 }
 
-public struct ListResolverQueryLogConfigAssociationsInput: Swift.Equatable {
+public struct ListResolverQueryLogConfigAssociationsInput {
     /// An optional specification to return a subset of query logging associations. If you submit a second or subsequent ListResolverQueryLogConfigAssociations request and specify the NextToken parameter, you must use the same values for Filters, if any, as in the previous request.
     public var filters: [Route53ResolverClientTypes.Filter]?
     /// The maximum number of query logging associations that you want to return in the response to a ListResolverQueryLogConfigAssociations request. If you don't specify a value for MaxResults, Resolver returns up to 100 query logging associations.
@@ -8820,7 +8820,7 @@ public struct ListResolverQueryLogConfigAssociationsInput: Swift.Equatable {
     }
 }
 
-struct ListResolverQueryLogConfigAssociationsInputBody: Swift.Equatable {
+struct ListResolverQueryLogConfigAssociationsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let filters: [Route53ResolverClientTypes.Filter]?
@@ -8879,7 +8879,7 @@ extension ListResolverQueryLogConfigAssociationsOutput: ClientRuntime.HttpRespon
     }
 }
 
-public struct ListResolverQueryLogConfigAssociationsOutput: Swift.Equatable {
+public struct ListResolverQueryLogConfigAssociationsOutput {
     /// If there are more than MaxResults query logging associations, you can submit another ListResolverQueryLogConfigAssociations request to get the next group of associations. In the next request, specify the value of NextToken from the previous response.
     public var nextToken: Swift.String?
     /// A list that contains one ResolverQueryLogConfigAssociations element for each query logging association that matches the values that you specified for Filter.
@@ -8903,7 +8903,7 @@ public struct ListResolverQueryLogConfigAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct ListResolverQueryLogConfigAssociationsOutputBody: Swift.Equatable {
+struct ListResolverQueryLogConfigAssociationsOutputBody {
     let nextToken: Swift.String?
     let totalCount: Swift.Int
     let totalFilteredCount: Swift.Int
@@ -8995,7 +8995,7 @@ extension ListResolverQueryLogConfigsInput {
     }
 }
 
-public struct ListResolverQueryLogConfigsInput: Swift.Equatable {
+public struct ListResolverQueryLogConfigsInput {
     /// An optional specification to return a subset of query logging configurations. If you submit a second or subsequent ListResolverQueryLogConfigs request and specify the NextToken parameter, you must use the same values for Filters, if any, as in the previous request.
     public var filters: [Route53ResolverClientTypes.Filter]?
     /// The maximum number of query logging configurations that you want to return in the response to a ListResolverQueryLogConfigs request. If you don't specify a value for MaxResults, Resolver returns up to 100 query logging configurations.
@@ -9055,7 +9055,7 @@ public struct ListResolverQueryLogConfigsInput: Swift.Equatable {
     }
 }
 
-struct ListResolverQueryLogConfigsInputBody: Swift.Equatable {
+struct ListResolverQueryLogConfigsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let filters: [Route53ResolverClientTypes.Filter]?
@@ -9114,7 +9114,7 @@ extension ListResolverQueryLogConfigsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListResolverQueryLogConfigsOutput: Swift.Equatable {
+public struct ListResolverQueryLogConfigsOutput {
     /// If there are more than MaxResults query logging configurations, you can submit another ListResolverQueryLogConfigs request to get the next group of configurations. In the next request, specify the value of NextToken from the previous response.
     public var nextToken: Swift.String?
     /// A list that contains one ResolverQueryLogConfig element for each query logging configuration that matches the values that you specified for Filter.
@@ -9138,7 +9138,7 @@ public struct ListResolverQueryLogConfigsOutput: Swift.Equatable {
     }
 }
 
-struct ListResolverQueryLogConfigsOutputBody: Swift.Equatable {
+struct ListResolverQueryLogConfigsOutputBody {
     let nextToken: Swift.String?
     let totalCount: Swift.Int
     let totalFilteredCount: Swift.Int
@@ -9222,7 +9222,7 @@ extension ListResolverRuleAssociationsInput {
     }
 }
 
-public struct ListResolverRuleAssociationsInput: Swift.Equatable {
+public struct ListResolverRuleAssociationsInput {
     /// An optional specification to return a subset of Resolver rules, such as Resolver rules that are associated with the same VPC ID. If you submit a second or subsequent ListResolverRuleAssociations request and specify the NextToken parameter, you must use the same values for Filters, if any, as in the previous request.
     public var filters: [Route53ResolverClientTypes.Filter]?
     /// The maximum number of rule associations that you want to return in the response to a ListResolverRuleAssociations request. If you don't specify a value for MaxResults, Resolver returns up to 100 rule associations.
@@ -9242,7 +9242,7 @@ public struct ListResolverRuleAssociationsInput: Swift.Equatable {
     }
 }
 
-struct ListResolverRuleAssociationsInputBody: Swift.Equatable {
+struct ListResolverRuleAssociationsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let filters: [Route53ResolverClientTypes.Filter]?
@@ -9291,7 +9291,7 @@ extension ListResolverRuleAssociationsOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListResolverRuleAssociationsOutput: Swift.Equatable {
+public struct ListResolverRuleAssociationsOutput {
     /// The value that you specified for MaxResults in the request.
     public var maxResults: Swift.Int?
     /// If more than MaxResults rule associations match the specified criteria, you can submit another ListResolverRuleAssociation request to get the next group of results. In the next request, specify the value of NextToken from the previous response.
@@ -9311,7 +9311,7 @@ public struct ListResolverRuleAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct ListResolverRuleAssociationsOutputBody: Swift.Equatable {
+struct ListResolverRuleAssociationsOutputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let resolverRuleAssociations: [Route53ResolverClientTypes.ResolverRuleAssociation]?
@@ -9390,7 +9390,7 @@ extension ListResolverRulesInput {
     }
 }
 
-public struct ListResolverRulesInput: Swift.Equatable {
+public struct ListResolverRulesInput {
     /// An optional specification to return a subset of Resolver rules, such as all Resolver rules that are associated with the same Resolver endpoint. If you submit a second or subsequent ListResolverRules request and specify the NextToken parameter, you must use the same values for Filters, if any, as in the previous request.
     public var filters: [Route53ResolverClientTypes.Filter]?
     /// The maximum number of Resolver rules that you want to return in the response to a ListResolverRules request. If you don't specify a value for MaxResults, Resolver returns up to 100 Resolver rules.
@@ -9410,7 +9410,7 @@ public struct ListResolverRulesInput: Swift.Equatable {
     }
 }
 
-struct ListResolverRulesInputBody: Swift.Equatable {
+struct ListResolverRulesInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let filters: [Route53ResolverClientTypes.Filter]?
@@ -9459,7 +9459,7 @@ extension ListResolverRulesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListResolverRulesOutput: Swift.Equatable {
+public struct ListResolverRulesOutput {
     /// The value that you specified for MaxResults in the request.
     public var maxResults: Swift.Int?
     /// If more than MaxResults Resolver rules match the specified criteria, you can submit another ListResolverRules request to get the next group of results. In the next request, specify the value of NextToken from the previous response.
@@ -9479,7 +9479,7 @@ public struct ListResolverRulesOutput: Swift.Equatable {
     }
 }
 
-struct ListResolverRulesOutputBody: Swift.Equatable {
+struct ListResolverRulesOutputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let resolverRules: [Route53ResolverClientTypes.ResolverRule]?
@@ -9555,7 +9555,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The maximum number of tags that you want to return in the response to a ListTagsForResource request. If you don't specify a value for MaxResults, Resolver returns up to 100 tags.
     public var maxResults: Swift.Int?
     /// For the first ListTagsForResource request, omit this value. If you have more than MaxResults tags, you can submit another ListTagsForResource request to get the next group of tags for the resource. In the next request, specify the value of NextToken from the previous response.
@@ -9576,7 +9576,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceArn: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -9614,7 +9614,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// If more than MaxResults tags match the specified criteria, you can submit another ListTagsForResource request to get the next group of results. In the next request, specify the value of NextToken from the previous response.
     public var nextToken: Swift.String?
     /// The tags that are associated with the resource that you specified in the ListTagsForResource request.
@@ -9630,7 +9630,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Route53ResolverClientTypes.Tag]?
     let nextToken: Swift.String?
 }
@@ -9788,7 +9788,7 @@ extension Route53ResolverClientTypes.OutpostResolver: Swift.Codable {
 
 extension Route53ResolverClientTypes {
     /// A complex type that contains settings for an existing Resolver on an Outpost.
-    public struct OutpostResolver: Swift.Equatable {
+    public struct OutpostResolver {
         /// The ARN (Amazon Resource Name) for the Resolver on an Outpost.
         public var arn: Swift.String?
         /// The date and time that the Outpost Resolver was created, in Unix time format and Coordinated Universal Time (UTC).
@@ -9948,7 +9948,7 @@ extension PutFirewallRuleGroupPolicyInput {
     }
 }
 
-public struct PutFirewallRuleGroupPolicyInput: Swift.Equatable {
+public struct PutFirewallRuleGroupPolicyInput {
     /// The ARN (Amazon Resource Name) for the rule group that you want to share.
     /// This member is required.
     public var arn: Swift.String?
@@ -9966,7 +9966,7 @@ public struct PutFirewallRuleGroupPolicyInput: Swift.Equatable {
     }
 }
 
-struct PutFirewallRuleGroupPolicyInputBody: Swift.Equatable {
+struct PutFirewallRuleGroupPolicyInputBody {
     let arn: Swift.String?
     let firewallRuleGroupPolicy: Swift.String?
 }
@@ -9998,7 +9998,7 @@ extension PutFirewallRuleGroupPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutFirewallRuleGroupPolicyOutput: Swift.Equatable {
+public struct PutFirewallRuleGroupPolicyOutput {
     ///
     public var returnValue: Swift.Bool
 
@@ -10010,7 +10010,7 @@ public struct PutFirewallRuleGroupPolicyOutput: Swift.Equatable {
     }
 }
 
-struct PutFirewallRuleGroupPolicyOutputBody: Swift.Equatable {
+struct PutFirewallRuleGroupPolicyOutputBody {
     let returnValue: Swift.Bool
 }
 
@@ -10065,7 +10065,7 @@ extension PutResolverQueryLogConfigPolicyInput {
     }
 }
 
-public struct PutResolverQueryLogConfigPolicyInput: Swift.Equatable {
+public struct PutResolverQueryLogConfigPolicyInput {
     /// The Amazon Resource Name (ARN) of the account that you want to share rules with.
     /// This member is required.
     public var arn: Swift.String?
@@ -10092,7 +10092,7 @@ public struct PutResolverQueryLogConfigPolicyInput: Swift.Equatable {
     }
 }
 
-struct PutResolverQueryLogConfigPolicyInputBody: Swift.Equatable {
+struct PutResolverQueryLogConfigPolicyInputBody {
     let arn: Swift.String?
     let resolverQueryLogConfigPolicy: Swift.String?
 }
@@ -10125,7 +10125,7 @@ extension PutResolverQueryLogConfigPolicyOutput: ClientRuntime.HttpResponseBindi
 }
 
 /// The response to a PutResolverQueryLogConfigPolicy request.
-public struct PutResolverQueryLogConfigPolicyOutput: Swift.Equatable {
+public struct PutResolverQueryLogConfigPolicyOutput {
     /// Whether the PutResolverQueryLogConfigPolicy request was successful.
     public var returnValue: Swift.Bool
 
@@ -10137,7 +10137,7 @@ public struct PutResolverQueryLogConfigPolicyOutput: Swift.Equatable {
     }
 }
 
-struct PutResolverQueryLogConfigPolicyOutputBody: Swift.Equatable {
+struct PutResolverQueryLogConfigPolicyOutputBody {
     let returnValue: Swift.Bool
 }
 
@@ -10193,7 +10193,7 @@ extension PutResolverRulePolicyInput {
     }
 }
 
-public struct PutResolverRulePolicyInput: Swift.Equatable {
+public struct PutResolverRulePolicyInput {
     /// The Amazon Resource Name (ARN) of the rule that you want to share with another account.
     /// This member is required.
     public var arn: Swift.String?
@@ -10224,7 +10224,7 @@ public struct PutResolverRulePolicyInput: Swift.Equatable {
     }
 }
 
-struct PutResolverRulePolicyInputBody: Swift.Equatable {
+struct PutResolverRulePolicyInputBody {
     let arn: Swift.String?
     let resolverRulePolicy: Swift.String?
 }
@@ -10257,7 +10257,7 @@ extension PutResolverRulePolicyOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response to a PutResolverRulePolicy request.
-public struct PutResolverRulePolicyOutput: Swift.Equatable {
+public struct PutResolverRulePolicyOutput {
     /// Whether the PutResolverRulePolicy request was successful.
     public var returnValue: Swift.Bool
 
@@ -10269,7 +10269,7 @@ public struct PutResolverRulePolicyOutput: Swift.Equatable {
     }
 }
 
-struct PutResolverRulePolicyOutputBody: Swift.Equatable {
+struct PutResolverRulePolicyOutputBody {
     let returnValue: Swift.Bool
 }
 
@@ -10383,7 +10383,7 @@ extension Route53ResolverClientTypes.ResolverConfig: Swift.Codable {
 
 extension Route53ResolverClientTypes {
     /// A complex type that contains information about a Resolver configuration for a VPC.
-    public struct ResolverConfig: Swift.Equatable {
+    public struct ResolverConfig {
         /// The status of whether or not the Resolver will create autodefined rules for reverse DNS lookups. This is enabled by default. The status can be one of following:
         ///
         /// * ENABLING: Autodefined rules for reverse DNS lookups are being enabled but are not complete.
@@ -10500,7 +10500,7 @@ extension Route53ResolverClientTypes.ResolverDnssecConfig: Swift.Codable {
 
 extension Route53ResolverClientTypes {
     /// A complex type that contains information about a configuration for DNSSEC validation.
-    public struct ResolverDnssecConfig: Swift.Equatable {
+    public struct ResolverDnssecConfig {
         /// The ID for a configuration for DNSSEC validation.
         public var id: Swift.String?
         /// The owner account ID of the virtual private cloud (VPC) for a configuration for DNSSEC validation.
@@ -10669,7 +10669,7 @@ extension Route53ResolverClientTypes.ResolverEndpoint: Swift.Codable {
 
 extension Route53ResolverClientTypes {
     /// In the response to a [CreateResolverEndpoint](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_CreateResolverEndpoint.html), [DeleteResolverEndpoint](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_DeleteResolverEndpoint.html), [GetResolverEndpoint](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_GetResolverEndpoint.html), Updates the name, or ResolverEndpointType for an endpoint, or [UpdateResolverEndpoint](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_UpdateResolverEndpoint.html) request, a complex type that contains settings for an existing inbound or outbound Resolver endpoint.
-    public struct ResolverEndpoint: Swift.Equatable {
+    public struct ResolverEndpoint {
         /// The ARN (Amazon Resource Name) for the Resolver endpoint.
         public var arn: Swift.String?
         /// The date and time that the endpoint was created, in Unix time format and Coordinated Universal Time (UTC).
@@ -10975,7 +10975,7 @@ extension Route53ResolverClientTypes.ResolverQueryLogConfig: Swift.Codable {
 
 extension Route53ResolverClientTypes {
     /// In the response to a [CreateResolverQueryLogConfig](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_CreateResolverQueryLogConfig.html), [DeleteResolverQueryLogConfig](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_DeleteResolverQueryLogConfig.html), [GetResolverQueryLogConfig](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_GetResolverQueryLogConfig.html), or [ListResolverQueryLogConfigs](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverQueryLogConfigs.html) request, a complex type that contains settings for one query logging configuration.
-    public struct ResolverQueryLogConfig: Swift.Equatable {
+    public struct ResolverQueryLogConfig {
         /// The ARN for the query logging configuration.
         public var arn: Swift.String?
         /// The number of VPCs that are associated with the query logging configuration.
@@ -11094,7 +11094,7 @@ extension Route53ResolverClientTypes.ResolverQueryLogConfigAssociation: Swift.Co
 
 extension Route53ResolverClientTypes {
     /// In the response to an [AssociateResolverQueryLogConfig](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_AssociateResolverQueryLogConfig.html), [DisassociateResolverQueryLogConfig](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_DisassociateResolverQueryLogConfig.html), [GetResolverQueryLogConfigAssociation](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_GetResolverQueryLogConfigAssociation.html), or [ListResolverQueryLogConfigAssociations](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverQueryLogConfigAssociations.html), request, a complex type that contains settings for a specified association between an Amazon VPC and a query logging configuration.
-    public struct ResolverQueryLogConfigAssociation: Swift.Equatable {
+    public struct ResolverQueryLogConfigAssociation {
         /// The date and time that the VPC was associated with the query logging configuration, in Unix time format and Coordinated Universal Time (UTC).
         public var creationTime: Swift.String?
         /// If the value of Status is FAILED, the value of Error indicates the cause:
@@ -11375,7 +11375,7 @@ extension Route53ResolverClientTypes.ResolverRule: Swift.Codable {
 
 extension Route53ResolverClientTypes {
     /// For queries that originate in your VPC, detailed information about a Resolver rule, which specifies how to route DNS queries out of the VPC. The ResolverRule parameter appears in the response to a [CreateResolverRule](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_CreateResolverRule.html), [DeleteResolverRule](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_DeleteResolverRule.html), [GetResolverRule](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_GetResolverRule.html), [ListResolverRules](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverRules.html), or [UpdateResolverRule](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_UpdateResolverRule.html) request.
-    public struct ResolverRule: Swift.Equatable {
+    public struct ResolverRule {
         /// The ARN (Amazon Resource Name) for the Resolver rule specified by Id.
         public var arn: Swift.String?
         /// The date and time that the Resolver rule was created, in Unix time format and Coordinated Universal Time (UTC).
@@ -11492,7 +11492,7 @@ extension Route53ResolverClientTypes.ResolverRuleAssociation: Swift.Codable {
 
 extension Route53ResolverClientTypes {
     /// In the response to an [AssociateResolverRule](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_AssociateResolverRule.html), [DisassociateResolverRule](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_DisassociateResolverRule.html), or [ListResolverRuleAssociations](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverRuleAssociations.html) request, provides information about an association between a Resolver rule and a VPC. The association determines which DNS queries that originate in the VPC are forwarded to your network.
-    public struct ResolverRuleAssociation: Swift.Equatable {
+    public struct ResolverRuleAssociation {
         /// The ID of the association between a Resolver rule and a VPC. Resolver assigns this value when you submit an [AssociateResolverRule](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_AssociateResolverRule.html) request.
         public var id: Swift.String?
         /// The name of an association between a Resolver rule and a VPC.
@@ -11612,7 +11612,7 @@ extension Route53ResolverClientTypes.ResolverRuleConfig: Swift.Codable {
 
 extension Route53ResolverClientTypes {
     /// In an [UpdateResolverRule](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_UpdateResolverRule.html) request, information about the changes that you want to make.
-    public struct ResolverRuleConfig: Swift.Equatable {
+    public struct ResolverRuleConfig {
         /// The new name for the Resolver rule. The name that you specify appears in the Resolver dashboard in the Route 53 console.
         public var name: Swift.String?
         /// The ID of the new outbound Resolver endpoint that you want to use to route DNS queries to the IP addresses that you specify in TargetIps.
@@ -11717,7 +11717,7 @@ public struct ResourceExistsException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct ResourceExistsExceptionBody: Swift.Equatable {
+struct ResourceExistsExceptionBody {
     let message: Swift.String?
     let resourceType: Swift.String?
 }
@@ -11782,7 +11782,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ResourceInUseExceptionBody: Swift.Equatable {
+struct ResourceInUseExceptionBody {
     let message: Swift.String?
     let resourceType: Swift.String?
 }
@@ -11847,7 +11847,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceType: Swift.String?
 }
@@ -11912,7 +11912,7 @@ public struct ResourceUnavailableException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct ResourceUnavailableExceptionBody: Swift.Equatable {
+struct ResourceUnavailableExceptionBody {
     let message: Swift.String?
     let resourceType: Swift.String?
 }
@@ -12008,7 +12008,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -12118,7 +12118,7 @@ extension Route53ResolverClientTypes.Tag: Swift.Codable {
 
 extension Route53ResolverClientTypes {
     /// One tag that you want to add to the specified resource. A tag consists of a Key (a name for the tag) and a Value.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The name for the tag. For example, if you want to associate Resolver resources with the account IDs of your customers for billing purposes, the value of Key might be account-id.
         /// This member is required.
         public var key: Swift.String?
@@ -12165,7 +12165,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) for the resource that you want to add tags to. To get the ARN for a resource, use the applicable Get or List command:
     ///
     /// * [GetResolverEndpoint](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_GetResolverEndpoint.html)
@@ -12195,7 +12195,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceArn: Swift.String?
     let tags: [Route53ResolverClientTypes.Tag]?
 }
@@ -12229,7 +12229,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -12290,7 +12290,7 @@ extension Route53ResolverClientTypes.TargetAddress: Swift.Codable {
 
 extension Route53ResolverClientTypes {
     /// In a [CreateResolverRule](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_CreateResolverRule.html) request, an array of the IPs that you want to forward DNS queries to.
-    public struct TargetAddress: Swift.Equatable {
+    public struct TargetAddress {
         /// One IPv4 address that you want to forward DNS queries to.
         public var ip: Swift.String?
         /// One IPv6 address that you want to forward DNS queries to.
@@ -12378,7 +12378,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -12433,7 +12433,7 @@ public struct UnknownResourceException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct UnknownResourceExceptionBody: Swift.Equatable {
+struct UnknownResourceExceptionBody {
     let message: Swift.String?
 }
 
@@ -12476,7 +12476,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) for the resource that you want to remove tags from. To get the ARN for a resource, use the applicable Get or List command:
     ///
     /// * [GetResolverEndpoint](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_GetResolverEndpoint.html)
@@ -12506,7 +12506,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceArn: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -12540,7 +12540,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -12584,7 +12584,7 @@ extension UpdateFirewallConfigInput {
     }
 }
 
-public struct UpdateFirewallConfigInput: Swift.Equatable {
+public struct UpdateFirewallConfigInput {
     /// Determines how Route 53 Resolver handles queries during failures, for example when all traffic that is sent to DNS Firewall fails to receive a reply.
     ///
     /// * By default, fail open is disabled, which means the failure mode is closed. This approach favors security over availability. DNS Firewall blocks queries that it is unable to evaluate properly.
@@ -12609,7 +12609,7 @@ public struct UpdateFirewallConfigInput: Swift.Equatable {
     }
 }
 
-struct UpdateFirewallConfigInputBody: Swift.Equatable {
+struct UpdateFirewallConfigInputBody {
     let resourceId: Swift.String?
     let firewallFailOpen: Route53ResolverClientTypes.FirewallFailOpenStatus?
 }
@@ -12641,7 +12641,7 @@ extension UpdateFirewallConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateFirewallConfigOutput: Swift.Equatable {
+public struct UpdateFirewallConfigOutput {
     /// Configuration of the firewall behavior provided by DNS Firewall for a single VPC.
     public var firewallConfig: Route53ResolverClientTypes.FirewallConfig?
 
@@ -12653,7 +12653,7 @@ public struct UpdateFirewallConfigOutput: Swift.Equatable {
     }
 }
 
-struct UpdateFirewallConfigOutputBody: Swift.Equatable {
+struct UpdateFirewallConfigOutputBody {
     let firewallConfig: Route53ResolverClientTypes.FirewallConfig?
 }
 
@@ -12715,7 +12715,7 @@ extension UpdateFirewallDomainsInput {
     }
 }
 
-public struct UpdateFirewallDomainsInput: Swift.Equatable {
+public struct UpdateFirewallDomainsInput {
     /// A list of domains to use in the update operation. There is a limit of 1000 domains per request. Each domain specification in your domain list must satisfy the following requirements:
     ///
     /// * It can optionally start with * (asterisk).
@@ -12750,7 +12750,7 @@ public struct UpdateFirewallDomainsInput: Swift.Equatable {
     }
 }
 
-struct UpdateFirewallDomainsInputBody: Swift.Equatable {
+struct UpdateFirewallDomainsInputBody {
     let firewallDomainListId: Swift.String?
     let operation: Route53ResolverClientTypes.FirewallDomainUpdateOperation?
     let domains: [Swift.String]?
@@ -12801,7 +12801,7 @@ extension UpdateFirewallDomainsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateFirewallDomainsOutput: Swift.Equatable {
+public struct UpdateFirewallDomainsOutput {
     /// The ID of the firewall domain list that DNS Firewall just updated.
     public var id: Swift.String?
     /// The name of the domain list.
@@ -12825,7 +12825,7 @@ public struct UpdateFirewallDomainsOutput: Swift.Equatable {
     }
 }
 
-struct UpdateFirewallDomainsOutputBody: Swift.Equatable {
+struct UpdateFirewallDomainsOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let status: Route53ResolverClientTypes.FirewallDomainListStatus?
@@ -12902,7 +12902,7 @@ extension UpdateFirewallRuleGroupAssociationInput {
     }
 }
 
-public struct UpdateFirewallRuleGroupAssociationInput: Swift.Equatable {
+public struct UpdateFirewallRuleGroupAssociationInput {
     /// The identifier of the [FirewallRuleGroupAssociation].
     /// This member is required.
     public var firewallRuleGroupAssociationId: Swift.String?
@@ -12927,7 +12927,7 @@ public struct UpdateFirewallRuleGroupAssociationInput: Swift.Equatable {
     }
 }
 
-struct UpdateFirewallRuleGroupAssociationInputBody: Swift.Equatable {
+struct UpdateFirewallRuleGroupAssociationInputBody {
     let firewallRuleGroupAssociationId: Swift.String?
     let priority: Swift.Int?
     let mutationProtection: Route53ResolverClientTypes.MutationProtectionStatus?
@@ -12967,7 +12967,7 @@ extension UpdateFirewallRuleGroupAssociationOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct UpdateFirewallRuleGroupAssociationOutput: Swift.Equatable {
+public struct UpdateFirewallRuleGroupAssociationOutput {
     /// The association that you just updated.
     public var firewallRuleGroupAssociation: Route53ResolverClientTypes.FirewallRuleGroupAssociation?
 
@@ -12979,7 +12979,7 @@ public struct UpdateFirewallRuleGroupAssociationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateFirewallRuleGroupAssociationOutputBody: Swift.Equatable {
+struct UpdateFirewallRuleGroupAssociationOutputBody {
     let firewallRuleGroupAssociation: Route53ResolverClientTypes.FirewallRuleGroupAssociation?
 }
 
@@ -13067,7 +13067,7 @@ extension UpdateFirewallRuleInput {
     }
 }
 
-public struct UpdateFirewallRuleInput: Swift.Equatable {
+public struct UpdateFirewallRuleInput {
     /// The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list:
     ///
     /// * ALLOW - Permit the request to go through.
@@ -13155,7 +13155,7 @@ public struct UpdateFirewallRuleInput: Swift.Equatable {
     }
 }
 
-struct UpdateFirewallRuleInputBody: Swift.Equatable {
+struct UpdateFirewallRuleInputBody {
     let firewallRuleGroupId: Swift.String?
     let firewallDomainListId: Swift.String?
     let priority: Swift.Int?
@@ -13219,7 +13219,7 @@ extension UpdateFirewallRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateFirewallRuleOutput: Swift.Equatable {
+public struct UpdateFirewallRuleOutput {
     /// The firewall rule that you just updated.
     public var firewallRule: Route53ResolverClientTypes.FirewallRule?
 
@@ -13231,7 +13231,7 @@ public struct UpdateFirewallRuleOutput: Swift.Equatable {
     }
 }
 
-struct UpdateFirewallRuleOutputBody: Swift.Equatable {
+struct UpdateFirewallRuleOutputBody {
     let firewallRule: Route53ResolverClientTypes.FirewallRule?
 }
 
@@ -13290,7 +13290,7 @@ extension Route53ResolverClientTypes.UpdateIpAddress: Swift.Codable {
 
 extension Route53ResolverClientTypes {
     /// Provides information about the IP address type in response to [UpdateResolverEndpoint](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_UpdateResolverEndpoint.html).
-    public struct UpdateIpAddress: Swift.Equatable {
+    public struct UpdateIpAddress {
         /// The ID of the IP address, specified by the ResolverEndpointId.
         /// This member is required.
         public var ipId: Swift.String?
@@ -13342,7 +13342,7 @@ extension UpdateOutpostResolverInput {
     }
 }
 
-public struct UpdateOutpostResolverInput: Swift.Equatable {
+public struct UpdateOutpostResolverInput {
     /// A unique string that identifies Resolver on an Outpost.
     /// This member is required.
     public var id: Swift.String?
@@ -13367,7 +13367,7 @@ public struct UpdateOutpostResolverInput: Swift.Equatable {
     }
 }
 
-struct UpdateOutpostResolverInputBody: Swift.Equatable {
+struct UpdateOutpostResolverInputBody {
     let id: Swift.String?
     let name: Swift.String?
     let instanceCount: Swift.Int?
@@ -13407,7 +13407,7 @@ extension UpdateOutpostResolverOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateOutpostResolverOutput: Swift.Equatable {
+public struct UpdateOutpostResolverOutput {
     /// The response to an UpdateOutpostResolver request.
     public var outpostResolver: Route53ResolverClientTypes.OutpostResolver?
 
@@ -13419,7 +13419,7 @@ public struct UpdateOutpostResolverOutput: Swift.Equatable {
     }
 }
 
-struct UpdateOutpostResolverOutputBody: Swift.Equatable {
+struct UpdateOutpostResolverOutputBody {
     let outpostResolver: Route53ResolverClientTypes.OutpostResolver?
 }
 
@@ -13476,7 +13476,7 @@ extension UpdateResolverConfigInput {
     }
 }
 
-public struct UpdateResolverConfigInput: Swift.Equatable {
+public struct UpdateResolverConfigInput {
     /// Indicates whether or not the Resolver will create autodefined rules for reverse DNS lookups. This is enabled by default. Disabling this option will also affect EC2-Classic instances using ClassicLink. For more information, see [ClassicLink](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-classiclink.html) in the Amazon EC2 guide. We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see [Migrate from EC2-Classic to a VPC](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-migrate.html) in the Amazon EC2 guide and the blog [EC2-Classic Networking is Retiring – Here’s How to Prepare](http://aws.amazon.com/blogs/aws/ec2-classic-is-retiring-heres-how-to-prepare/). It can take some time for the status change to be completed.
     /// This member is required.
     public var autodefinedReverseFlag: Route53ResolverClientTypes.AutodefinedReverseFlag?
@@ -13494,7 +13494,7 @@ public struct UpdateResolverConfigInput: Swift.Equatable {
     }
 }
 
-struct UpdateResolverConfigInputBody: Swift.Equatable {
+struct UpdateResolverConfigInputBody {
     let resourceId: Swift.String?
     let autodefinedReverseFlag: Route53ResolverClientTypes.AutodefinedReverseFlag?
 }
@@ -13526,7 +13526,7 @@ extension UpdateResolverConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateResolverConfigOutput: Swift.Equatable {
+public struct UpdateResolverConfigOutput {
     /// An array that contains settings for the specified Resolver configuration.
     public var resolverConfig: Route53ResolverClientTypes.ResolverConfig?
 
@@ -13538,7 +13538,7 @@ public struct UpdateResolverConfigOutput: Swift.Equatable {
     }
 }
 
-struct UpdateResolverConfigOutputBody: Swift.Equatable {
+struct UpdateResolverConfigOutputBody {
     let resolverConfig: Route53ResolverClientTypes.ResolverConfig?
 }
 
@@ -13597,7 +13597,7 @@ extension UpdateResolverDnssecConfigInput {
     }
 }
 
-public struct UpdateResolverDnssecConfigInput: Swift.Equatable {
+public struct UpdateResolverDnssecConfigInput {
     /// The ID of the virtual private cloud (VPC) that you're updating the DNSSEC validation status for.
     /// This member is required.
     public var resourceId: Swift.String?
@@ -13615,7 +13615,7 @@ public struct UpdateResolverDnssecConfigInput: Swift.Equatable {
     }
 }
 
-struct UpdateResolverDnssecConfigInputBody: Swift.Equatable {
+struct UpdateResolverDnssecConfigInputBody {
     let resourceId: Swift.String?
     let validation: Route53ResolverClientTypes.Validation?
 }
@@ -13647,7 +13647,7 @@ extension UpdateResolverDnssecConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateResolverDnssecConfigOutput: Swift.Equatable {
+public struct UpdateResolverDnssecConfigOutput {
     /// A complex type that contains settings for the specified DNSSEC configuration.
     public var resolverDNSSECConfig: Route53ResolverClientTypes.ResolverDnssecConfig?
 
@@ -13659,7 +13659,7 @@ public struct UpdateResolverDnssecConfigOutput: Swift.Equatable {
     }
 }
 
-struct UpdateResolverDnssecConfigOutputBody: Swift.Equatable {
+struct UpdateResolverDnssecConfigOutputBody {
     let resolverDNSSECConfig: Route53ResolverClientTypes.ResolverDnssecConfig?
 }
 
@@ -13733,7 +13733,7 @@ extension UpdateResolverEndpointInput {
     }
 }
 
-public struct UpdateResolverEndpointInput: Swift.Equatable {
+public struct UpdateResolverEndpointInput {
     /// The name of the Resolver endpoint that you want to update.
     public var name: Swift.String?
     /// The protocols you want to use for the endpoint. DoH-FIPS is applicable for inbound endpoints only. For an inbound endpoint you can apply the protocols as follows:
@@ -13788,7 +13788,7 @@ public struct UpdateResolverEndpointInput: Swift.Equatable {
     }
 }
 
-struct UpdateResolverEndpointInputBody: Swift.Equatable {
+struct UpdateResolverEndpointInputBody {
     let resolverEndpointId: Swift.String?
     let name: Swift.String?
     let resolverEndpointType: Route53ResolverClientTypes.ResolverEndpointType?
@@ -13850,7 +13850,7 @@ extension UpdateResolverEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateResolverEndpointOutput: Swift.Equatable {
+public struct UpdateResolverEndpointOutput {
     /// The response to an UpdateResolverEndpoint request.
     public var resolverEndpoint: Route53ResolverClientTypes.ResolverEndpoint?
 
@@ -13862,7 +13862,7 @@ public struct UpdateResolverEndpointOutput: Swift.Equatable {
     }
 }
 
-struct UpdateResolverEndpointOutputBody: Swift.Equatable {
+struct UpdateResolverEndpointOutputBody {
     let resolverEndpoint: Route53ResolverClientTypes.ResolverEndpoint?
 }
 
@@ -13918,7 +13918,7 @@ extension UpdateResolverRuleInput {
     }
 }
 
-public struct UpdateResolverRuleInput: Swift.Equatable {
+public struct UpdateResolverRuleInput {
     /// The new settings for the Resolver rule.
     /// This member is required.
     public var config: Route53ResolverClientTypes.ResolverRuleConfig?
@@ -13936,7 +13936,7 @@ public struct UpdateResolverRuleInput: Swift.Equatable {
     }
 }
 
-struct UpdateResolverRuleInputBody: Swift.Equatable {
+struct UpdateResolverRuleInputBody {
     let resolverRuleId: Swift.String?
     let config: Route53ResolverClientTypes.ResolverRuleConfig?
 }
@@ -13968,7 +13968,7 @@ extension UpdateResolverRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateResolverRuleOutput: Swift.Equatable {
+public struct UpdateResolverRuleOutput {
     /// The response to an UpdateResolverRule request.
     public var resolverRule: Route53ResolverClientTypes.ResolverRule?
 
@@ -13980,7 +13980,7 @@ public struct UpdateResolverRuleOutput: Swift.Equatable {
     }
 }
 
-struct UpdateResolverRuleOutputBody: Swift.Equatable {
+struct UpdateResolverRuleOutputBody {
     let resolverRule: Route53ResolverClientTypes.ResolverRule?
 }
 
@@ -14088,7 +14088,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

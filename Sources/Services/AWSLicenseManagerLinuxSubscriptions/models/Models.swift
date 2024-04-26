@@ -47,7 +47,7 @@ extension LicenseManagerLinuxSubscriptionsClientTypes.Filter: Swift.Codable {
 
 extension LicenseManagerLinuxSubscriptionsClientTypes {
     /// A filter object that is used to return more specific results from a describe operation. Filters can be used to match a set of resources by specific criteria.
-    public struct Filter: Swift.Equatable {
+    public struct Filter {
         /// The type of name to filter by.
         public var name: Swift.String?
         /// An operator for filtering results.
@@ -76,12 +76,12 @@ extension GetServiceSettingsInput {
     }
 }
 
-public struct GetServiceSettingsInput: Swift.Equatable {
+public struct GetServiceSettingsInput {
 
     public init() { }
 }
 
-struct GetServiceSettingsInputBody: Swift.Equatable {
+struct GetServiceSettingsInputBody {
 }
 
 extension GetServiceSettingsInputBody: Swift.Decodable {
@@ -110,7 +110,7 @@ extension GetServiceSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetServiceSettingsOutput: Swift.Equatable {
+public struct GetServiceSettingsOutput {
     /// The Region in which License Manager displays the aggregated data for Linux subscriptions.
     public var homeRegions: [Swift.String]?
     /// Lists if discovery has been enabled for Linux subscriptions.
@@ -138,7 +138,7 @@ public struct GetServiceSettingsOutput: Swift.Equatable {
     }
 }
 
-struct GetServiceSettingsOutputBody: Swift.Equatable {
+struct GetServiceSettingsOutputBody {
     let linuxSubscriptionsDiscovery: LicenseManagerLinuxSubscriptionsClientTypes.LinuxSubscriptionsDiscovery?
     let linuxSubscriptionsDiscoverySettings: LicenseManagerLinuxSubscriptionsClientTypes.LinuxSubscriptionsDiscoverySettings?
     let status: LicenseManagerLinuxSubscriptionsClientTypes.Status?
@@ -288,7 +288,7 @@ extension LicenseManagerLinuxSubscriptionsClientTypes.Instance: Swift.Codable {
 
 extension LicenseManagerLinuxSubscriptionsClientTypes {
     /// Details discovered information about a running instance using Linux subscriptions.
-    public struct Instance: Swift.Equatable {
+    public struct Instance {
         /// The account ID which owns the instance.
         public var accountID: Swift.String?
         /// The AMI ID used to launch the instance.
@@ -377,7 +377,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -468,7 +468,7 @@ extension LicenseManagerLinuxSubscriptionsClientTypes.LinuxSubscriptionsDiscover
 
 extension LicenseManagerLinuxSubscriptionsClientTypes {
     /// Lists the settings defined for discovering Linux subscriptions.
-    public struct LinuxSubscriptionsDiscoverySettings: Swift.Equatable {
+    public struct LinuxSubscriptionsDiscoverySettings {
         /// Details if you have enabled resource discovery across your accounts in Organizations.
         /// This member is required.
         public var organizationIntegration: LicenseManagerLinuxSubscriptionsClientTypes.OrganizationIntegration?
@@ -520,7 +520,7 @@ extension ListLinuxSubscriptionInstancesInput {
 }
 
 /// NextToken length limit is half of ddb accepted limit. Increase this limit if parameters in request increases.
-public struct ListLinuxSubscriptionInstancesInput: Swift.Equatable {
+public struct ListLinuxSubscriptionInstancesInput {
     /// An array of structures that you can use to filter the results to those that match one or more sets of key-value pairs that you specify. For example, you can filter by the name of AmiID with an optional operator to see subscriptions that match, partially match, or don't match a certain Amazon Machine Image (AMI) ID. The valid names for this filter are:
     ///
     /// * AmiID
@@ -565,7 +565,7 @@ public struct ListLinuxSubscriptionInstancesInput: Swift.Equatable {
     }
 }
 
-struct ListLinuxSubscriptionInstancesInputBody: Swift.Equatable {
+struct ListLinuxSubscriptionInstancesInputBody {
     let filters: [LicenseManagerLinuxSubscriptionsClientTypes.Filter]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -612,7 +612,7 @@ extension ListLinuxSubscriptionInstancesOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ListLinuxSubscriptionInstancesOutput: Swift.Equatable {
+public struct ListLinuxSubscriptionInstancesOutput {
     /// An array that contains instance objects.
     public var instances: [LicenseManagerLinuxSubscriptionsClientTypes.Instance]?
     /// Token for the next set of results.
@@ -628,7 +628,7 @@ public struct ListLinuxSubscriptionInstancesOutput: Swift.Equatable {
     }
 }
 
-struct ListLinuxSubscriptionInstancesOutputBody: Swift.Equatable {
+struct ListLinuxSubscriptionInstancesOutputBody {
     let instances: [LicenseManagerLinuxSubscriptionsClientTypes.Instance]?
     let nextToken: Swift.String?
 }
@@ -702,7 +702,7 @@ extension ListLinuxSubscriptionsInput {
 }
 
 /// NextToken length limit is half of ddb accepted limit. Increase this limit if parameters in request increases.
-public struct ListLinuxSubscriptionsInput: Swift.Equatable {
+public struct ListLinuxSubscriptionsInput {
     /// An array of structures that you can use to filter the results to those that match one or more sets of key-value pairs that you specify. For example, you can filter by the name of Subscription with an optional operator to see subscriptions that match, partially match, or don't match a certain subscription's name. The valid names for this filter are:
     ///
     /// * Subscription
@@ -733,7 +733,7 @@ public struct ListLinuxSubscriptionsInput: Swift.Equatable {
     }
 }
 
-struct ListLinuxSubscriptionsInputBody: Swift.Equatable {
+struct ListLinuxSubscriptionsInputBody {
     let filters: [LicenseManagerLinuxSubscriptionsClientTypes.Filter]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -780,7 +780,7 @@ extension ListLinuxSubscriptionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListLinuxSubscriptionsOutput: Swift.Equatable {
+public struct ListLinuxSubscriptionsOutput {
     /// Token for the next set of results.
     public var nextToken: Swift.String?
     /// An array that contains subscription objects.
@@ -796,7 +796,7 @@ public struct ListLinuxSubscriptionsOutput: Swift.Equatable {
     }
 }
 
-struct ListLinuxSubscriptionsOutputBody: Swift.Equatable {
+struct ListLinuxSubscriptionsOutputBody {
     let subscriptions: [LicenseManagerLinuxSubscriptionsClientTypes.Subscription]?
     let nextToken: Swift.String?
 }
@@ -985,7 +985,7 @@ extension LicenseManagerLinuxSubscriptionsClientTypes.Subscription: Swift.Codabl
 
 extension LicenseManagerLinuxSubscriptionsClientTypes {
     /// An object which details a discovered Linux subscription.
-    public struct Subscription: Swift.Equatable {
+    public struct Subscription {
         /// The total amount of running instances using this subscription.
         public var instanceCount: Swift.Int?
         /// The name of the subscription.
@@ -1046,7 +1046,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -1090,7 +1090,7 @@ extension UpdateServiceSettingsInput {
     }
 }
 
-public struct UpdateServiceSettingsInput: Swift.Equatable {
+public struct UpdateServiceSettingsInput {
     /// Describes if updates are allowed to the service settings for Linux subscriptions. If you allow updates, you can aggregate Linux subscription data in more than one home Region.
     public var allowUpdate: Swift.Bool?
     /// Describes if the discovery of Linux subscriptions is enabled.
@@ -1112,7 +1112,7 @@ public struct UpdateServiceSettingsInput: Swift.Equatable {
     }
 }
 
-struct UpdateServiceSettingsInputBody: Swift.Equatable {
+struct UpdateServiceSettingsInputBody {
     let linuxSubscriptionsDiscovery: LicenseManagerLinuxSubscriptionsClientTypes.LinuxSubscriptionsDiscovery?
     let linuxSubscriptionsDiscoverySettings: LicenseManagerLinuxSubscriptionsClientTypes.LinuxSubscriptionsDiscoverySettings?
     let allowUpdate: Swift.Bool?
@@ -1156,7 +1156,7 @@ extension UpdateServiceSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateServiceSettingsOutput: Swift.Equatable {
+public struct UpdateServiceSettingsOutput {
     /// The Region in which License Manager displays the aggregated data for Linux subscriptions.
     public var homeRegions: [Swift.String]?
     /// Lists if discovery has been enabled for Linux subscriptions.
@@ -1184,7 +1184,7 @@ public struct UpdateServiceSettingsOutput: Swift.Equatable {
     }
 }
 
-struct UpdateServiceSettingsOutputBody: Swift.Equatable {
+struct UpdateServiceSettingsOutputBody {
     let linuxSubscriptionsDiscovery: LicenseManagerLinuxSubscriptionsClientTypes.LinuxSubscriptionsDiscovery?
     let linuxSubscriptionsDiscoverySettings: LicenseManagerLinuxSubscriptionsClientTypes.LinuxSubscriptionsDiscoverySettings?
     let status: LicenseManagerLinuxSubscriptionsClientTypes.Status?
@@ -1286,7 +1286,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

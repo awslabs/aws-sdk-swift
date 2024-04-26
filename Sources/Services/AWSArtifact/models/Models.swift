@@ -76,7 +76,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -113,7 +113,7 @@ extension ArtifactClientTypes.AccountSettings: Swift.Codable {
 
 extension ArtifactClientTypes {
     /// Account settings for the customer.
-    public struct AccountSettings: Swift.Equatable {
+    public struct AccountSettings {
         /// Notification subscription status of the customer.
         public var notificationSubscriptionStatus: ArtifactClientTypes.NotificationSubscriptionStatus?
 
@@ -183,7 +183,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -214,12 +214,12 @@ extension GetAccountSettingsInput {
     }
 }
 
-public struct GetAccountSettingsInput: Swift.Equatable {
+public struct GetAccountSettingsInput {
 
     public init() { }
 }
 
-struct GetAccountSettingsInputBody: Swift.Equatable {
+struct GetAccountSettingsInputBody {
 }
 
 extension GetAccountSettingsInputBody: Swift.Decodable {
@@ -240,7 +240,7 @@ extension GetAccountSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAccountSettingsOutput: Swift.Equatable {
+public struct GetAccountSettingsOutput {
     /// Account settings for the customer.
     public var accountSettings: ArtifactClientTypes.AccountSettings?
 
@@ -252,7 +252,7 @@ public struct GetAccountSettingsOutput: Swift.Equatable {
     }
 }
 
-struct GetAccountSettingsOutputBody: Swift.Equatable {
+struct GetAccountSettingsOutputBody {
     let accountSettings: ArtifactClientTypes.AccountSettings?
 }
 
@@ -316,7 +316,7 @@ extension GetReportInput {
     }
 }
 
-public struct GetReportInput: Swift.Equatable {
+public struct GetReportInput {
     /// Unique resource ID for the report resource.
     /// This member is required.
     public var reportId: Swift.String?
@@ -338,7 +338,7 @@ public struct GetReportInput: Swift.Equatable {
     }
 }
 
-struct GetReportInputBody: Swift.Equatable {
+struct GetReportInputBody {
 }
 
 extension GetReportInputBody: Swift.Decodable {
@@ -372,7 +372,7 @@ extension GetReportMetadataInput {
     }
 }
 
-public struct GetReportMetadataInput: Swift.Equatable {
+public struct GetReportMetadataInput {
     /// Unique resource ID for the report resource.
     /// This member is required.
     public var reportId: Swift.String?
@@ -389,7 +389,7 @@ public struct GetReportMetadataInput: Swift.Equatable {
     }
 }
 
-struct GetReportMetadataInputBody: Swift.Equatable {
+struct GetReportMetadataInputBody {
 }
 
 extension GetReportMetadataInputBody: Swift.Decodable {
@@ -410,7 +410,7 @@ extension GetReportMetadataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetReportMetadataOutput: Swift.Equatable {
+public struct GetReportMetadataOutput {
     /// Report resource detail.
     public var reportDetails: ArtifactClientTypes.ReportDetail?
 
@@ -422,7 +422,7 @@ public struct GetReportMetadataOutput: Swift.Equatable {
     }
 }
 
-struct GetReportMetadataOutputBody: Swift.Equatable {
+struct GetReportMetadataOutputBody {
     let reportDetails: ArtifactClientTypes.ReportDetail?
 }
 
@@ -466,7 +466,7 @@ extension GetReportOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetReportOutput: Swift.Equatable {
+public struct GetReportOutput {
     /// Presigned S3 url to access the report content.
     public var documentPresignedUrl: Swift.String?
 
@@ -478,7 +478,7 @@ public struct GetReportOutput: Swift.Equatable {
     }
 }
 
-struct GetReportOutputBody: Swift.Equatable {
+struct GetReportOutputBody {
     let documentPresignedUrl: Swift.String?
 }
 
@@ -536,7 +536,7 @@ extension GetTermForReportInput {
     }
 }
 
-public struct GetTermForReportInput: Swift.Equatable {
+public struct GetTermForReportInput {
     /// Unique resource ID for the report resource.
     /// This member is required.
     public var reportId: Swift.String?
@@ -553,7 +553,7 @@ public struct GetTermForReportInput: Swift.Equatable {
     }
 }
 
-struct GetTermForReportInputBody: Swift.Equatable {
+struct GetTermForReportInputBody {
 }
 
 extension GetTermForReportInputBody: Swift.Decodable {
@@ -576,7 +576,7 @@ extension GetTermForReportOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTermForReportOutput: Swift.Equatable {
+public struct GetTermForReportOutput {
     /// Presigned S3 url to access the term content.
     public var documentPresignedUrl: Swift.String?
     /// Unique token representing this request event.
@@ -592,7 +592,7 @@ public struct GetTermForReportOutput: Swift.Equatable {
     }
 }
 
-struct GetTermForReportOutputBody: Swift.Equatable {
+struct GetTermForReportOutputBody {
     let documentPresignedUrl: Swift.String?
     let termToken: Swift.String?
 }
@@ -678,7 +678,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -717,7 +717,7 @@ extension ListReportsInput {
     }
 }
 
-public struct ListReportsInput: Swift.Equatable {
+public struct ListReportsInput {
     /// Maximum number of resources to return in the paginated response.
     public var maxResults: Swift.Int?
     /// Pagination token to request the next page of resources.
@@ -733,7 +733,7 @@ public struct ListReportsInput: Swift.Equatable {
     }
 }
 
-struct ListReportsInputBody: Swift.Equatable {
+struct ListReportsInputBody {
 }
 
 extension ListReportsInputBody: Swift.Decodable {
@@ -756,7 +756,7 @@ extension ListReportsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListReportsOutput: Swift.Equatable {
+public struct ListReportsOutput {
     /// Pagination token to request the next page of resources.
     public var nextToken: Swift.String?
     /// List of report resources.
@@ -772,7 +772,7 @@ public struct ListReportsOutput: Swift.Equatable {
     }
 }
 
-struct ListReportsOutputBody: Swift.Equatable {
+struct ListReportsOutputBody {
     let reports: [ArtifactClientTypes.ReportSummary]?
     let nextToken: Swift.String?
 }
@@ -905,7 +905,7 @@ extension PutAccountSettingsInput {
     }
 }
 
-public struct PutAccountSettingsInput: Swift.Equatable {
+public struct PutAccountSettingsInput {
     /// Desired notification subscription status.
     public var notificationSubscriptionStatus: ArtifactClientTypes.NotificationSubscriptionStatus?
 
@@ -917,7 +917,7 @@ public struct PutAccountSettingsInput: Swift.Equatable {
     }
 }
 
-struct PutAccountSettingsInputBody: Swift.Equatable {
+struct PutAccountSettingsInputBody {
     let notificationSubscriptionStatus: ArtifactClientTypes.NotificationSubscriptionStatus?
 }
 
@@ -945,7 +945,7 @@ extension PutAccountSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutAccountSettingsOutput: Swift.Equatable {
+public struct PutAccountSettingsOutput {
     /// Account settings for the customer.
     public var accountSettings: ArtifactClientTypes.AccountSettings?
 
@@ -957,7 +957,7 @@ public struct PutAccountSettingsOutput: Swift.Equatable {
     }
 }
 
-struct PutAccountSettingsOutputBody: Swift.Equatable {
+struct PutAccountSettingsOutputBody {
     let accountSettings: ArtifactClientTypes.AccountSettings?
 }
 
@@ -1125,7 +1125,7 @@ extension ArtifactClientTypes.ReportDetail: Swift.Codable {
 
 extension ArtifactClientTypes {
     /// Full detail for report resource metadata.
-    public struct ReportDetail: Swift.Equatable {
+    public struct ReportDetail {
         /// Acceptance type for report.
         public var acceptanceType: ArtifactClientTypes.AcceptanceType?
         /// ARN for the report resource.
@@ -1314,7 +1314,7 @@ extension ArtifactClientTypes.ReportSummary: Swift.Codable {
 
 extension ArtifactClientTypes {
     /// Summary for report resource.
-    public struct ReportSummary: Swift.Equatable {
+    public struct ReportSummary {
         /// ARN for the report resource.
         public var arn: Swift.String?
         /// Category for the report resource.
@@ -1434,7 +1434,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -1526,7 +1526,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -1619,7 +1619,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
     let serviceCode: Swift.String?
     let quotaCode: Swift.String?
@@ -1734,7 +1734,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let reason: ArtifactClientTypes.ValidationExceptionReason?
     let fieldList: [ArtifactClientTypes.ValidationExceptionField]?
@@ -1794,7 +1794,7 @@ extension ArtifactClientTypes.ValidationExceptionField: Swift.Codable {
 
 extension ArtifactClientTypes {
     /// Validation exception message and name.
-    public struct ValidationExceptionField: Swift.Equatable {
+    public struct ValidationExceptionField {
         /// Message describing why the field failed validation.
         /// This member is required.
         public var message: Swift.String?

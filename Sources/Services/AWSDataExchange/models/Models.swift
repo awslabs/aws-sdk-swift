@@ -43,7 +43,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -80,7 +80,7 @@ extension DataExchangeClientTypes.Action: Swift.Codable {
 
 extension DataExchangeClientTypes {
     /// What occurs after a certain event.
-    public struct Action: Swift.Equatable {
+    public struct Action {
         /// Details for the export revision to Amazon S3 action.
         public var exportRevisionToS3: DataExchangeClientTypes.AutoExportRevisionToS3RequestDetails?
 
@@ -163,7 +163,7 @@ extension DataExchangeClientTypes.ApiGatewayApiAsset: Swift.Codable {
 
 extension DataExchangeClientTypes {
     /// The API Gateway API that is the asset.
-    public struct ApiGatewayApiAsset: Swift.Equatable {
+    public struct ApiGatewayApiAsset {
         /// The API description of the API asset.
         public var apiDescription: Swift.String?
         /// The API endpoint of the API asset.
@@ -242,7 +242,7 @@ extension DataExchangeClientTypes.AssetDestinationEntry: Swift.Codable {
 
 extension DataExchangeClientTypes {
     /// The destination for the asset.
-    public struct AssetDestinationEntry: Swift.Equatable {
+    public struct AssetDestinationEntry {
         /// The unique identifier for the asset.
         /// This member is required.
         public var assetId: Swift.String?
@@ -311,7 +311,7 @@ extension DataExchangeClientTypes.AssetDetails: Swift.Codable {
 
 extension DataExchangeClientTypes {
     /// Details about the asset.
-    public struct AssetDetails: Swift.Equatable {
+    public struct AssetDetails {
         /// Information about the API Gateway API asset.
         public var apiGatewayApiAsset: DataExchangeClientTypes.ApiGatewayApiAsset?
         /// The AWS Lake Formation data permission that is the asset.
@@ -416,7 +416,7 @@ extension DataExchangeClientTypes.AssetEntry: Swift.Codable {
 
 extension DataExchangeClientTypes {
     /// An asset in AWS Data Exchange is a piece of data (Amazon S3 object) or a means of fulfilling data (Amazon Redshift datashare or Amazon API Gateway API, AWS Lake Formation data permission, or Amazon S3 data access). The asset can be a structured data file, an image file, or some other data file that can be stored as an Amazon S3 object, an Amazon API Gateway API, or an Amazon Redshift datashare, an AWS Lake Formation data permission, or an Amazon S3 data access. When you create an import job for your files, API Gateway APIs, Amazon Redshift datashares, AWS Lake Formation data permission, or Amazon S3 data access, you create an asset in AWS Data Exchange.
-    public struct AssetEntry: Swift.Equatable {
+    public struct AssetEntry {
         /// The ARN for the asset.
         /// This member is required.
         public var arn: Swift.String?
@@ -502,7 +502,7 @@ extension DataExchangeClientTypes.AssetSourceEntry: Swift.Codable {
 
 extension DataExchangeClientTypes {
     /// The source of the assets.
-    public struct AssetSourceEntry: Swift.Equatable {
+    public struct AssetSourceEntry {
         /// The Amazon S3 bucket that's part of the source of the asset.
         /// This member is required.
         public var bucket: Swift.String?
@@ -590,7 +590,7 @@ extension DataExchangeClientTypes.AutoExportRevisionDestinationEntry: Swift.Coda
 
 extension DataExchangeClientTypes {
     /// A revision destination is the Amazon S3 bucket folder destination to where the export will be sent.
-    public struct AutoExportRevisionDestinationEntry: Swift.Equatable {
+    public struct AutoExportRevisionDestinationEntry {
         /// The Amazon S3 bucket that is the destination for the event action.
         /// This member is required.
         public var bucket: Swift.String?
@@ -636,7 +636,7 @@ extension DataExchangeClientTypes.AutoExportRevisionToS3RequestDetails: Swift.Co
 
 extension DataExchangeClientTypes {
     /// Details of the operation to be performed by the job.
-    public struct AutoExportRevisionToS3RequestDetails: Swift.Equatable {
+    public struct AutoExportRevisionToS3RequestDetails {
         /// Encryption configuration for the auto export job.
         public var encryption: DataExchangeClientTypes.ExportServerSideEncryption?
         /// A revision destination is the Amazon S3 bucket folder destination to where the export will be sent.
@@ -665,7 +665,7 @@ extension CancelJobInput {
     }
 }
 
-public struct CancelJobInput: Swift.Equatable {
+public struct CancelJobInput {
     /// The unique identifier for a job.
     /// This member is required.
     public var jobId: Swift.String?
@@ -678,7 +678,7 @@ public struct CancelJobInput: Swift.Equatable {
     }
 }
 
-struct CancelJobInputBody: Swift.Equatable {
+struct CancelJobInputBody {
 }
 
 extension CancelJobInputBody: Swift.Decodable {
@@ -692,7 +692,7 @@ extension CancelJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelJobOutput: Swift.Equatable {
+public struct CancelJobOutput {
 
     public init() { }
 }
@@ -812,7 +812,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: DataExchangeClientTypes.ResourceType?
@@ -871,7 +871,7 @@ extension CreateDataSetInput {
     }
 }
 
-public struct CreateDataSetInput: Swift.Equatable {
+public struct CreateDataSetInput {
     /// The type of asset that is added to a data set.
     /// This member is required.
     public var assetType: DataExchangeClientTypes.AssetType?
@@ -898,7 +898,7 @@ public struct CreateDataSetInput: Swift.Equatable {
     }
 }
 
-struct CreateDataSetInputBody: Swift.Equatable {
+struct CreateDataSetInputBody {
     let assetType: DataExchangeClientTypes.AssetType?
     let description: Swift.String?
     let name: Swift.String?
@@ -967,7 +967,7 @@ extension CreateDataSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDataSetOutput: Swift.Equatable {
+public struct CreateDataSetOutput {
     /// The ARN for the data set.
     public var arn: Swift.String?
     /// The type of asset that is added to a data set.
@@ -1019,7 +1019,7 @@ public struct CreateDataSetOutput: Swift.Equatable {
     }
 }
 
-struct CreateDataSetOutputBody: Swift.Equatable {
+struct CreateDataSetOutputBody {
     let arn: Swift.String?
     let assetType: DataExchangeClientTypes.AssetType?
     let createdAt: ClientRuntime.Date?
@@ -1123,7 +1123,7 @@ extension CreateEventActionInput {
     }
 }
 
-public struct CreateEventActionInput: Swift.Equatable {
+public struct CreateEventActionInput {
     /// What occurs after a certain event.
     /// This member is required.
     public var action: DataExchangeClientTypes.Action?
@@ -1141,7 +1141,7 @@ public struct CreateEventActionInput: Swift.Equatable {
     }
 }
 
-struct CreateEventActionInputBody: Swift.Equatable {
+struct CreateEventActionInputBody {
     let action: DataExchangeClientTypes.Action?
     let event: DataExchangeClientTypes.Event?
 }
@@ -1183,7 +1183,7 @@ extension CreateEventActionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateEventActionOutput: Swift.Equatable {
+public struct CreateEventActionOutput {
     /// What occurs after a certain event.
     public var action: DataExchangeClientTypes.Action?
     /// The ARN for the event action.
@@ -1215,7 +1215,7 @@ public struct CreateEventActionOutput: Swift.Equatable {
     }
 }
 
-struct CreateEventActionOutputBody: Swift.Equatable {
+struct CreateEventActionOutputBody {
     let action: DataExchangeClientTypes.Action?
     let arn: Swift.String?
     let createdAt: ClientRuntime.Date?
@@ -1290,7 +1290,7 @@ extension CreateJobInput {
     }
 }
 
-public struct CreateJobInput: Swift.Equatable {
+public struct CreateJobInput {
     /// The details for the CreateJob request.
     /// This member is required.
     public var details: DataExchangeClientTypes.RequestDetails?
@@ -1308,7 +1308,7 @@ public struct CreateJobInput: Swift.Equatable {
     }
 }
 
-struct CreateJobInputBody: Swift.Equatable {
+struct CreateJobInputBody {
     let details: DataExchangeClientTypes.RequestDetails?
     let type: DataExchangeClientTypes.ModelType?
 }
@@ -1354,7 +1354,7 @@ extension CreateJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateJobOutput: Swift.Equatable {
+public struct CreateJobOutput {
     /// The ARN for the job.
     public var arn: Swift.String?
     /// The date and time that the job was created, in ISO 8601 format.
@@ -1394,7 +1394,7 @@ public struct CreateJobOutput: Swift.Equatable {
     }
 }
 
-struct CreateJobOutputBody: Swift.Equatable {
+struct CreateJobOutputBody {
     let arn: Swift.String?
     let createdAt: ClientRuntime.Date?
     let details: DataExchangeClientTypes.ResponseDetails?
@@ -1493,7 +1493,7 @@ extension CreateRevisionInput {
     }
 }
 
-public struct CreateRevisionInput: Swift.Equatable {
+public struct CreateRevisionInput {
     /// An optional comment about the revision.
     public var comment: Swift.String?
     /// The unique identifier for a data set.
@@ -1514,7 +1514,7 @@ public struct CreateRevisionInput: Swift.Equatable {
     }
 }
 
-struct CreateRevisionInputBody: Swift.Equatable {
+struct CreateRevisionInputBody {
     let comment: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
@@ -1577,7 +1577,7 @@ extension CreateRevisionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRevisionOutput: Swift.Equatable {
+public struct CreateRevisionOutput {
     /// The ARN for the revision.
     public var arn: Swift.String?
     /// An optional comment about the revision.
@@ -1633,7 +1633,7 @@ public struct CreateRevisionOutput: Swift.Equatable {
     }
 }
 
-struct CreateRevisionOutputBody: Swift.Equatable {
+struct CreateRevisionOutputBody {
     let arn: Swift.String?
     let comment: Swift.String?
     let createdAt: ClientRuntime.Date?
@@ -1750,7 +1750,7 @@ extension DataExchangeClientTypes.CreateS3DataAccessFromS3BucketRequestDetails: 
 
 extension DataExchangeClientTypes {
     /// Details of the operation to create an Amazon S3 data access from an S3 bucket.
-    public struct CreateS3DataAccessFromS3BucketRequestDetails: Swift.Equatable {
+    public struct CreateS3DataAccessFromS3BucketRequestDetails {
         /// Details about the S3 data access source asset.
         /// This member is required.
         public var assetSource: DataExchangeClientTypes.S3DataAccessAssetSourceEntry?
@@ -1808,7 +1808,7 @@ extension DataExchangeClientTypes.CreateS3DataAccessFromS3BucketResponseDetails:
 
 extension DataExchangeClientTypes {
     /// Details about the response of the operation to create an S3 data access from an S3 bucket.
-    public struct CreateS3DataAccessFromS3BucketResponseDetails: Swift.Equatable {
+    public struct CreateS3DataAccessFromS3BucketResponseDetails {
         /// Details about the asset source from an Amazon S3 bucket.
         /// This member is required.
         public var assetSource: DataExchangeClientTypes.S3DataAccessAssetSourceEntry?
@@ -1910,7 +1910,7 @@ extension DataExchangeClientTypes.DataSetEntry: Swift.Codable {
 
 extension DataExchangeClientTypes {
     /// A data set is an AWS resource with one or more revisions.
-    public struct DataSetEntry: Swift.Equatable {
+    public struct DataSetEntry {
         /// The ARN for the data set.
         /// This member is required.
         public var arn: Swift.String?
@@ -1989,7 +1989,7 @@ extension DataExchangeClientTypes.DataUpdateRequestDetails: Swift.Codable {
 
 extension DataExchangeClientTypes {
     /// Extra details specific to a data update type notification.
-    public struct DataUpdateRequestDetails: Swift.Equatable {
+    public struct DataUpdateRequestDetails {
         /// A datetime in the past when the data was updated. This typically means that the underlying resource supporting the data set was updated.
         public var dataUpdatedAt: ClientRuntime.Date?
 
@@ -2036,7 +2036,7 @@ extension DataExchangeClientTypes.DatabaseLFTagPolicy: Swift.Codable {
 
 extension DataExchangeClientTypes {
     /// The LF-tag policy for database resources.
-    public struct DatabaseLFTagPolicy: Swift.Equatable {
+    public struct DatabaseLFTagPolicy {
         /// A list of LF-tag conditions that apply to database resources.
         /// This member is required.
         public var expression: [DataExchangeClientTypes.LFTag]?
@@ -2102,7 +2102,7 @@ extension DataExchangeClientTypes.DatabaseLFTagPolicyAndPermissions: Swift.Codab
 
 extension DataExchangeClientTypes {
     /// The LF-tag policy and permissions for database resources.
-    public struct DatabaseLFTagPolicyAndPermissions: Swift.Equatable {
+    public struct DatabaseLFTagPolicyAndPermissions {
         /// A list of LF-tag conditions that apply to database resources.
         /// This member is required.
         public var expression: [DataExchangeClientTypes.LFTag]?
@@ -2167,7 +2167,7 @@ extension DeleteAssetInput {
     }
 }
 
-public struct DeleteAssetInput: Swift.Equatable {
+public struct DeleteAssetInput {
     /// The unique identifier for an asset.
     /// This member is required.
     public var assetId: Swift.String?
@@ -2190,7 +2190,7 @@ public struct DeleteAssetInput: Swift.Equatable {
     }
 }
 
-struct DeleteAssetInputBody: Swift.Equatable {
+struct DeleteAssetInputBody {
 }
 
 extension DeleteAssetInputBody: Swift.Decodable {
@@ -2204,7 +2204,7 @@ extension DeleteAssetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAssetOutput: Swift.Equatable {
+public struct DeleteAssetOutput {
 
     public init() { }
 }
@@ -2235,7 +2235,7 @@ extension DeleteDataSetInput {
     }
 }
 
-public struct DeleteDataSetInput: Swift.Equatable {
+public struct DeleteDataSetInput {
     /// The unique identifier for a data set.
     /// This member is required.
     public var dataSetId: Swift.String?
@@ -2248,7 +2248,7 @@ public struct DeleteDataSetInput: Swift.Equatable {
     }
 }
 
-struct DeleteDataSetInputBody: Swift.Equatable {
+struct DeleteDataSetInputBody {
 }
 
 extension DeleteDataSetInputBody: Swift.Decodable {
@@ -2262,7 +2262,7 @@ extension DeleteDataSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDataSetOutput: Swift.Equatable {
+public struct DeleteDataSetOutput {
 
     public init() { }
 }
@@ -2293,7 +2293,7 @@ extension DeleteEventActionInput {
     }
 }
 
-public struct DeleteEventActionInput: Swift.Equatable {
+public struct DeleteEventActionInput {
     /// The unique identifier for the event action.
     /// This member is required.
     public var eventActionId: Swift.String?
@@ -2306,7 +2306,7 @@ public struct DeleteEventActionInput: Swift.Equatable {
     }
 }
 
-struct DeleteEventActionInputBody: Swift.Equatable {
+struct DeleteEventActionInputBody {
 }
 
 extension DeleteEventActionInputBody: Swift.Decodable {
@@ -2320,7 +2320,7 @@ extension DeleteEventActionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteEventActionOutput: Swift.Equatable {
+public struct DeleteEventActionOutput {
 
     public init() { }
 }
@@ -2352,7 +2352,7 @@ extension DeleteRevisionInput {
     }
 }
 
-public struct DeleteRevisionInput: Swift.Equatable {
+public struct DeleteRevisionInput {
     /// The unique identifier for a data set.
     /// This member is required.
     public var dataSetId: Swift.String?
@@ -2370,7 +2370,7 @@ public struct DeleteRevisionInput: Swift.Equatable {
     }
 }
 
-struct DeleteRevisionInputBody: Swift.Equatable {
+struct DeleteRevisionInputBody {
 }
 
 extension DeleteRevisionInputBody: Swift.Decodable {
@@ -2384,7 +2384,7 @@ extension DeleteRevisionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRevisionOutput: Swift.Equatable {
+public struct DeleteRevisionOutput {
 
     public init() { }
 }
@@ -2426,7 +2426,7 @@ extension DataExchangeClientTypes.DeprecationRequestDetails: Swift.Codable {
 
 extension DataExchangeClientTypes {
     /// Extra details specific to a deprecation type notification.
-    public struct DeprecationRequestDetails: Swift.Equatable {
+    public struct DeprecationRequestDetails {
         /// A datetime in the future when the data set will be deprecated.
         /// This member is required.
         public var deprecationAt: ClientRuntime.Date?
@@ -2480,7 +2480,7 @@ extension DataExchangeClientTypes.Details: Swift.Codable {
 
 extension DataExchangeClientTypes {
     /// Information about the job error.
-    public struct Details: Swift.Equatable {
+    public struct Details {
         /// Information about the job error.
         public var importAssetFromSignedUrlJobErrorDetails: DataExchangeClientTypes.ImportAssetFromSignedUrlJobErrorDetails?
         /// Details about the job error.
@@ -2519,7 +2519,7 @@ extension DataExchangeClientTypes.Event: Swift.Codable {
 
 extension DataExchangeClientTypes {
     /// What occurs to start an action.
-    public struct Event: Swift.Equatable {
+    public struct Event {
         /// What occurs to start the revision publish action.
         public var revisionPublished: DataExchangeClientTypes.RevisionPublished?
 
@@ -2584,7 +2584,7 @@ extension DataExchangeClientTypes.EventActionEntry: Swift.Codable {
 
 extension DataExchangeClientTypes {
     /// An event action is an object that defines the relationship between a specific event and an automated action that will be taken on behalf of the customer.
-    public struct EventActionEntry: Swift.Equatable {
+    public struct EventActionEntry {
         /// What occurs after a certain event.
         /// This member is required.
         public var action: DataExchangeClientTypes.Action?
@@ -2689,7 +2689,7 @@ extension DataExchangeClientTypes.ExportAssetToSignedUrlRequestDetails: Swift.Co
 
 extension DataExchangeClientTypes {
     /// Details of the operation to be performed by the job.
-    public struct ExportAssetToSignedUrlRequestDetails: Swift.Equatable {
+    public struct ExportAssetToSignedUrlRequestDetails {
         /// The unique identifier for the asset that is exported to a signed URL.
         /// This member is required.
         public var assetId: Swift.String?
@@ -2759,7 +2759,7 @@ extension DataExchangeClientTypes.ExportAssetToSignedUrlResponseDetails: Swift.C
 
 extension DataExchangeClientTypes {
     /// The details of the export to signed URL response.
-    public struct ExportAssetToSignedUrlResponseDetails: Swift.Equatable {
+    public struct ExportAssetToSignedUrlResponseDetails {
         /// The unique identifier for the asset associated with this export job.
         /// This member is required.
         public var assetId: Swift.String?
@@ -2843,7 +2843,7 @@ extension DataExchangeClientTypes.ExportAssetsToS3RequestDetails: Swift.Codable 
 
 extension DataExchangeClientTypes {
     /// Details of the operation to be performed by the job.
-    public struct ExportAssetsToS3RequestDetails: Swift.Equatable {
+    public struct ExportAssetsToS3RequestDetails {
         /// The destination for the asset.
         /// This member is required.
         public var assetDestinations: [DataExchangeClientTypes.AssetDestinationEntry]?
@@ -2923,7 +2923,7 @@ extension DataExchangeClientTypes.ExportAssetsToS3ResponseDetails: Swift.Codable
 
 extension DataExchangeClientTypes {
     /// Details about the export to Amazon S3 response.
-    public struct ExportAssetsToS3ResponseDetails: Swift.Equatable {
+    public struct ExportAssetsToS3ResponseDetails {
         /// The destination in Amazon S3 where the asset is exported.
         /// This member is required.
         public var assetDestinations: [DataExchangeClientTypes.AssetDestinationEntry]?
@@ -2997,7 +2997,7 @@ extension DataExchangeClientTypes.ExportRevisionsToS3RequestDetails: Swift.Codab
 
 extension DataExchangeClientTypes {
     /// Details of the operation to be performed by the job.
-    public struct ExportRevisionsToS3RequestDetails: Swift.Equatable {
+    public struct ExportRevisionsToS3RequestDetails {
         /// The unique identifier for the data set associated with this export job.
         /// This member is required.
         public var dataSetId: Swift.String?
@@ -3072,7 +3072,7 @@ extension DataExchangeClientTypes.ExportRevisionsToS3ResponseDetails: Swift.Coda
 
 extension DataExchangeClientTypes {
     /// Details about the export revisions to Amazon S3 response.
-    public struct ExportRevisionsToS3ResponseDetails: Swift.Equatable {
+    public struct ExportRevisionsToS3ResponseDetails {
         /// The unique identifier for the data set associated with this export job.
         /// This member is required.
         public var dataSetId: Swift.String?
@@ -3127,7 +3127,7 @@ extension DataExchangeClientTypes.ExportServerSideEncryption: Swift.Codable {
 
 extension DataExchangeClientTypes {
     /// Encryption configuration of the export job. Includes the encryption type in addition to the AWS KMS key. The KMS key is only necessary if you chose the KMS encryption type.
-    public struct ExportServerSideEncryption: Swift.Equatable {
+    public struct ExportServerSideEncryption {
         /// The Amazon Resource Name (ARN) of the AWS KMS key you want to use to encrypt the Amazon S3 objects. This parameter is required if you choose aws:kms as an encryption type.
         public var kmsKeyArn: Swift.String?
         /// The type of server side encryption used for encrypting the objects in Amazon S3.
@@ -3162,7 +3162,7 @@ extension GetAssetInput {
     }
 }
 
-public struct GetAssetInput: Swift.Equatable {
+public struct GetAssetInput {
     /// The unique identifier for an asset.
     /// This member is required.
     public var assetId: Swift.String?
@@ -3185,7 +3185,7 @@ public struct GetAssetInput: Swift.Equatable {
     }
 }
 
-struct GetAssetInputBody: Swift.Equatable {
+struct GetAssetInputBody {
 }
 
 extension GetAssetInputBody: Swift.Decodable {
@@ -3224,7 +3224,7 @@ extension GetAssetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAssetOutput: Swift.Equatable {
+public struct GetAssetOutput {
     /// The ARN for the asset.
     public var arn: Swift.String?
     /// Details about the asset.
@@ -3272,7 +3272,7 @@ public struct GetAssetOutput: Swift.Equatable {
     }
 }
 
-struct GetAssetOutputBody: Swift.Equatable {
+struct GetAssetOutputBody {
     let arn: Swift.String?
     let assetDetails: DataExchangeClientTypes.AssetDetails?
     let assetType: DataExchangeClientTypes.AssetType?
@@ -3348,7 +3348,7 @@ extension GetDataSetInput {
     }
 }
 
-public struct GetDataSetInput: Swift.Equatable {
+public struct GetDataSetInput {
     /// The unique identifier for a data set.
     /// This member is required.
     public var dataSetId: Swift.String?
@@ -3361,7 +3361,7 @@ public struct GetDataSetInput: Swift.Equatable {
     }
 }
 
-struct GetDataSetInputBody: Swift.Equatable {
+struct GetDataSetInputBody {
 }
 
 extension GetDataSetInputBody: Swift.Decodable {
@@ -3402,7 +3402,7 @@ extension GetDataSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDataSetOutput: Swift.Equatable {
+public struct GetDataSetOutput {
     /// The ARN for the data set.
     public var arn: Swift.String?
     /// The type of asset that is added to a data set.
@@ -3454,7 +3454,7 @@ public struct GetDataSetOutput: Swift.Equatable {
     }
 }
 
-struct GetDataSetOutputBody: Swift.Equatable {
+struct GetDataSetOutputBody {
     let arn: Swift.String?
     let assetType: DataExchangeClientTypes.AssetType?
     let createdAt: ClientRuntime.Date?
@@ -3543,7 +3543,7 @@ extension GetEventActionInput {
     }
 }
 
-public struct GetEventActionInput: Swift.Equatable {
+public struct GetEventActionInput {
     /// The unique identifier for the event action.
     /// This member is required.
     public var eventActionId: Swift.String?
@@ -3556,7 +3556,7 @@ public struct GetEventActionInput: Swift.Equatable {
     }
 }
 
-struct GetEventActionInputBody: Swift.Equatable {
+struct GetEventActionInputBody {
 }
 
 extension GetEventActionInputBody: Swift.Decodable {
@@ -3587,7 +3587,7 @@ extension GetEventActionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEventActionOutput: Swift.Equatable {
+public struct GetEventActionOutput {
     /// What occurs after a certain event.
     public var action: DataExchangeClientTypes.Action?
     /// The ARN for the event action.
@@ -3619,7 +3619,7 @@ public struct GetEventActionOutput: Swift.Equatable {
     }
 }
 
-struct GetEventActionOutputBody: Swift.Equatable {
+struct GetEventActionOutputBody {
     let action: DataExchangeClientTypes.Action?
     let arn: Swift.String?
     let createdAt: ClientRuntime.Date?
@@ -3679,7 +3679,7 @@ extension GetJobInput {
     }
 }
 
-public struct GetJobInput: Swift.Equatable {
+public struct GetJobInput {
     /// The unique identifier for a job.
     /// This member is required.
     public var jobId: Swift.String?
@@ -3692,7 +3692,7 @@ public struct GetJobInput: Swift.Equatable {
     }
 }
 
-struct GetJobInputBody: Swift.Equatable {
+struct GetJobInputBody {
 }
 
 extension GetJobInputBody: Swift.Decodable {
@@ -3727,7 +3727,7 @@ extension GetJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetJobOutput: Swift.Equatable {
+public struct GetJobOutput {
     /// The ARN for the job.
     public var arn: Swift.String?
     /// The date and time that the job was created, in ISO 8601 format.
@@ -3767,7 +3767,7 @@ public struct GetJobOutput: Swift.Equatable {
     }
 }
 
-struct GetJobOutputBody: Swift.Equatable {
+struct GetJobOutputBody {
     let arn: Swift.String?
     let createdAt: ClientRuntime.Date?
     let details: DataExchangeClientTypes.ResponseDetails?
@@ -3847,7 +3847,7 @@ extension GetRevisionInput {
     }
 }
 
-public struct GetRevisionInput: Swift.Equatable {
+public struct GetRevisionInput {
     /// The unique identifier for a data set.
     /// This member is required.
     public var dataSetId: Swift.String?
@@ -3865,7 +3865,7 @@ public struct GetRevisionInput: Swift.Equatable {
     }
 }
 
-struct GetRevisionInputBody: Swift.Equatable {
+struct GetRevisionInputBody {
 }
 
 extension GetRevisionInputBody: Swift.Decodable {
@@ -3908,7 +3908,7 @@ extension GetRevisionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRevisionOutput: Swift.Equatable {
+public struct GetRevisionOutput {
     /// The ARN for the revision.
     public var arn: Swift.String?
     /// An optional comment about the revision.
@@ -3964,7 +3964,7 @@ public struct GetRevisionOutput: Swift.Equatable {
     }
 }
 
-struct GetRevisionOutputBody: Swift.Equatable {
+struct GetRevisionOutputBody {
     let arn: Swift.String?
     let comment: Swift.String?
     let createdAt: ClientRuntime.Date?
@@ -4116,7 +4116,7 @@ extension DataExchangeClientTypes.ImportAssetFromApiGatewayApiRequestDetails: Sw
 
 extension DataExchangeClientTypes {
     /// The request details.
-    public struct ImportAssetFromApiGatewayApiRequestDetails: Swift.Equatable {
+    public struct ImportAssetFromApiGatewayApiRequestDetails {
         /// The API description. Markdown supported.
         public var apiDescription: Swift.String?
         /// The API Gateway API ID.
@@ -4250,7 +4250,7 @@ extension DataExchangeClientTypes.ImportAssetFromApiGatewayApiResponseDetails: S
 
 extension DataExchangeClientTypes {
     /// The response details.
-    public struct ImportAssetFromApiGatewayApiResponseDetails: Swift.Equatable {
+    public struct ImportAssetFromApiGatewayApiResponseDetails {
         /// The API description.
         public var apiDescription: Swift.String?
         /// The API ID.
@@ -4334,7 +4334,7 @@ extension DataExchangeClientTypes.ImportAssetFromSignedUrlJobErrorDetails: Swift
 
 extension DataExchangeClientTypes {
     /// Details about the job error.
-    public struct ImportAssetFromSignedUrlJobErrorDetails: Swift.Equatable {
+    public struct ImportAssetFromSignedUrlJobErrorDetails {
         /// Details about the job error.
         /// This member is required.
         public var assetName: Swift.String?
@@ -4388,7 +4388,7 @@ extension DataExchangeClientTypes.ImportAssetFromSignedUrlRequestDetails: Swift.
 
 extension DataExchangeClientTypes {
     /// Details of the operation to be performed by the job.
-    public struct ImportAssetFromSignedUrlRequestDetails: Swift.Equatable {
+    public struct ImportAssetFromSignedUrlRequestDetails {
         /// The name of the asset. When importing from Amazon S3, the Amazon S3 object key is used as the asset name.
         /// This member is required.
         public var assetName: Swift.String?
@@ -4469,7 +4469,7 @@ extension DataExchangeClientTypes.ImportAssetFromSignedUrlResponseDetails: Swift
 
 extension DataExchangeClientTypes {
     /// The details in the response for an import request, including the signed URL and other information.
-    public struct ImportAssetFromSignedUrlResponseDetails: Swift.Equatable {
+    public struct ImportAssetFromSignedUrlResponseDetails {
         /// The name for the asset associated with this import job.
         /// This member is required.
         public var assetName: Swift.String?
@@ -4557,7 +4557,7 @@ extension DataExchangeClientTypes.ImportAssetsFromLakeFormationTagPolicyRequestD
 
 extension DataExchangeClientTypes {
     /// Details about the assets imported from an AWS Lake Formation tag policy request.
-    public struct ImportAssetsFromLakeFormationTagPolicyRequestDetails: Swift.Equatable {
+    public struct ImportAssetsFromLakeFormationTagPolicyRequestDetails {
         /// The identifier for the AWS Glue Data Catalog.
         /// This member is required.
         public var catalogId: Swift.String?
@@ -4646,7 +4646,7 @@ extension DataExchangeClientTypes.ImportAssetsFromLakeFormationTagPolicyResponse
 
 extension DataExchangeClientTypes {
     /// Details from an import AWS Lake Formation tag policy job response.
-    public struct ImportAssetsFromLakeFormationTagPolicyResponseDetails: Swift.Equatable {
+    public struct ImportAssetsFromLakeFormationTagPolicyResponseDetails {
         /// The identifier for the AWS Glue Data Catalog.
         /// This member is required.
         public var catalogId: Swift.String?
@@ -4729,7 +4729,7 @@ extension DataExchangeClientTypes.ImportAssetsFromRedshiftDataSharesRequestDetai
 
 extension DataExchangeClientTypes {
     /// Details from an import from Amazon Redshift datashare request.
-    public struct ImportAssetsFromRedshiftDataSharesRequestDetails: Swift.Equatable {
+    public struct ImportAssetsFromRedshiftDataSharesRequestDetails {
         /// A list of Amazon Redshift datashare assets.
         /// This member is required.
         public var assetSources: [DataExchangeClientTypes.RedshiftDataShareAssetSourceEntry]?
@@ -4799,7 +4799,7 @@ extension DataExchangeClientTypes.ImportAssetsFromRedshiftDataSharesResponseDeta
 
 extension DataExchangeClientTypes {
     /// Details from an import from Amazon Redshift datashare response.
-    public struct ImportAssetsFromRedshiftDataSharesResponseDetails: Swift.Equatable {
+    public struct ImportAssetsFromRedshiftDataSharesResponseDetails {
         /// A list of Amazon Redshift datashare asset sources.
         /// This member is required.
         public var assetSources: [DataExchangeClientTypes.RedshiftDataShareAssetSourceEntry]?
@@ -4869,7 +4869,7 @@ extension DataExchangeClientTypes.ImportAssetsFromS3RequestDetails: Swift.Codabl
 
 extension DataExchangeClientTypes {
     /// Details of the operation to be performed by the job.
-    public struct ImportAssetsFromS3RequestDetails: Swift.Equatable {
+    public struct ImportAssetsFromS3RequestDetails {
         /// Is a list of Amazon S3 bucket and object key pairs.
         /// This member is required.
         public var assetSources: [DataExchangeClientTypes.AssetSourceEntry]?
@@ -4939,7 +4939,7 @@ extension DataExchangeClientTypes.ImportAssetsFromS3ResponseDetails: Swift.Codab
 
 extension DataExchangeClientTypes {
     /// Details from an import from Amazon S3 response.
-    public struct ImportAssetsFromS3ResponseDetails: Swift.Equatable {
+    public struct ImportAssetsFromS3ResponseDetails {
         /// Is a list of Amazon S3 bucket and object key pairs.
         /// This member is required.
         public var assetSources: [DataExchangeClientTypes.AssetSourceEntry]?
@@ -5005,7 +5005,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -5096,7 +5096,7 @@ extension DataExchangeClientTypes.JobEntry: Swift.Codable {
 
 extension DataExchangeClientTypes {
     /// AWS Data Exchange Jobs are asynchronous import or export operations used to create or copy assets. A data set owner can both import and export as they see fit. Someone with an entitlement to a data set can only export. Jobs are deleted 90 days after they are created.
-    public struct JobEntry: Swift.Equatable {
+    public struct JobEntry {
         /// The ARN for the job.
         /// This member is required.
         public var arn: Swift.String?
@@ -5202,7 +5202,7 @@ extension DataExchangeClientTypes.JobError: Swift.Codable {
 
 extension DataExchangeClientTypes {
     /// An error that occurred with the job request.
-    public struct JobError: Swift.Equatable {
+    public struct JobError {
         /// The code for the job error.
         /// This member is required.
         public var code: DataExchangeClientTypes.Code?
@@ -5339,7 +5339,7 @@ extension DataExchangeClientTypes.KmsKeyToGrant: Swift.Codable {
 
 extension DataExchangeClientTypes {
     /// The Amazon Resource Name (ARN) of the AWS KMS key used to encrypt the shared S3 objects.
-    public struct KmsKeyToGrant: Swift.Equatable {
+    public struct KmsKeyToGrant {
         /// The AWS KMS CMK (Key Management System Customer Managed Key) used to encrypt S3 objects in the shared S3 Bucket. AWS Data exchange will create a KMS grant for each subscriber to allow them to access and decrypt their entitled data that is encrypted using this KMS key specified.
         /// This member is required.
         public var kmsKeyArn: Swift.String?
@@ -5413,7 +5413,7 @@ extension DataExchangeClientTypes.LFResourceDetails: Swift.Codable {
 
 extension DataExchangeClientTypes {
     /// Details about the AWS Lake Formation resource (Table or Database) included in the AWS Lake Formation data permission.
-    public struct LFResourceDetails: Swift.Equatable {
+    public struct LFResourceDetails {
         /// Details about the database resource included in the AWS Lake Formation data permission.
         public var database: DataExchangeClientTypes.DatabaseLFTagPolicy?
         /// Details about the table resource included in the AWS Lake Formation data permission.
@@ -5502,7 +5502,7 @@ extension DataExchangeClientTypes.LFTag: Swift.Codable {
 
 extension DataExchangeClientTypes {
     /// A structure that allows an LF-admin to grant permissions on certain conditions.
-    public struct LFTag: Swift.Equatable {
+    public struct LFTag {
         /// The key name for the LF-tag.
         /// This member is required.
         public var tagKey: Swift.String?
@@ -5555,7 +5555,7 @@ extension DataExchangeClientTypes.LFTagPolicyDetails: Swift.Codable {
 
 extension DataExchangeClientTypes {
     /// Details about the LF-tag policy.
-    public struct LFTagPolicyDetails: Swift.Equatable {
+    public struct LFTagPolicyDetails {
         /// The identifier for the AWS Glue Data Catalog.
         /// This member is required.
         public var catalogId: Swift.String?
@@ -5631,7 +5631,7 @@ extension DataExchangeClientTypes.LakeFormationDataPermissionAsset: Swift.Codabl
 
 extension DataExchangeClientTypes {
     /// The AWS Lake Formation data permission asset.
-    public struct LakeFormationDataPermissionAsset: Swift.Equatable {
+    public struct LakeFormationDataPermissionAsset {
         /// Details about the AWS Lake Formation data permission.
         /// This member is required.
         public var lakeFormationDataPermissionDetails: DataExchangeClientTypes.LakeFormationDataPermissionDetails?
@@ -5681,7 +5681,7 @@ extension DataExchangeClientTypes.LakeFormationDataPermissionDetails: Swift.Coda
 
 extension DataExchangeClientTypes {
     /// Details about the AWS Lake Formation data permission.
-    public struct LakeFormationDataPermissionDetails: Swift.Equatable {
+    public struct LakeFormationDataPermissionDetails {
         /// Details about the LF-tag policy.
         public var lfTagPolicy: DataExchangeClientTypes.LFTagPolicyDetails?
 
@@ -5751,7 +5751,7 @@ extension DataExchangeClientTypes.LakeFormationTagPolicyDetails: Swift.Codable {
 
 extension DataExchangeClientTypes {
     /// Extra details specific to the affected scope in this LF data set.
-    public struct LakeFormationTagPolicyDetails: Swift.Equatable {
+    public struct LakeFormationTagPolicyDetails {
         /// The underlying Glue database that the notification is referring to.
         public var database: Swift.String?
         /// The underlying Glue table that the notification is referring to.
@@ -5905,7 +5905,7 @@ extension ListDataSetRevisionsInput {
     }
 }
 
-public struct ListDataSetRevisionsInput: Swift.Equatable {
+public struct ListDataSetRevisionsInput {
     /// The unique identifier for a data set.
     /// This member is required.
     public var dataSetId: Swift.String?
@@ -5926,7 +5926,7 @@ public struct ListDataSetRevisionsInput: Swift.Equatable {
     }
 }
 
-struct ListDataSetRevisionsInputBody: Swift.Equatable {
+struct ListDataSetRevisionsInputBody {
 }
 
 extension ListDataSetRevisionsInputBody: Swift.Decodable {
@@ -5949,7 +5949,7 @@ extension ListDataSetRevisionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDataSetRevisionsOutput: Swift.Equatable {
+public struct ListDataSetRevisionsOutput {
     /// The token value retrieved from a previous call to access the next page of results.
     public var nextToken: Swift.String?
     /// The asset objects listed by the request.
@@ -5965,7 +5965,7 @@ public struct ListDataSetRevisionsOutput: Swift.Equatable {
     }
 }
 
-struct ListDataSetRevisionsOutputBody: Swift.Equatable {
+struct ListDataSetRevisionsOutputBody {
     let nextToken: Swift.String?
     let revisions: [DataExchangeClientTypes.RevisionEntry]?
 }
@@ -6035,7 +6035,7 @@ extension ListDataSetsInput {
     }
 }
 
-public struct ListDataSetsInput: Swift.Equatable {
+public struct ListDataSetsInput {
     /// The maximum number of results returned by a single call.
     public var maxResults: Swift.Int?
     /// The token value retrieved from a previous call to access the next page of results.
@@ -6055,7 +6055,7 @@ public struct ListDataSetsInput: Swift.Equatable {
     }
 }
 
-struct ListDataSetsInputBody: Swift.Equatable {
+struct ListDataSetsInputBody {
 }
 
 extension ListDataSetsInputBody: Swift.Decodable {
@@ -6078,7 +6078,7 @@ extension ListDataSetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDataSetsOutput: Swift.Equatable {
+public struct ListDataSetsOutput {
     /// The data set objects listed by the request.
     public var dataSets: [DataExchangeClientTypes.DataSetEntry]?
     /// The token value retrieved from a previous call to access the next page of results.
@@ -6094,7 +6094,7 @@ public struct ListDataSetsOutput: Swift.Equatable {
     }
 }
 
-struct ListDataSetsOutputBody: Swift.Equatable {
+struct ListDataSetsOutputBody {
     let dataSets: [DataExchangeClientTypes.DataSetEntry]?
     let nextToken: Swift.String?
 }
@@ -6164,7 +6164,7 @@ extension ListEventActionsInput {
     }
 }
 
-public struct ListEventActionsInput: Swift.Equatable {
+public struct ListEventActionsInput {
     /// The unique identifier for the event source.
     public var eventSourceId: Swift.String?
     /// The maximum number of results returned by a single call.
@@ -6184,7 +6184,7 @@ public struct ListEventActionsInput: Swift.Equatable {
     }
 }
 
-struct ListEventActionsInputBody: Swift.Equatable {
+struct ListEventActionsInputBody {
 }
 
 extension ListEventActionsInputBody: Swift.Decodable {
@@ -6207,7 +6207,7 @@ extension ListEventActionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEventActionsOutput: Swift.Equatable {
+public struct ListEventActionsOutput {
     /// The event action objects listed by the request.
     public var eventActions: [DataExchangeClientTypes.EventActionEntry]?
     /// The token value retrieved from a previous call to access the next page of results.
@@ -6223,7 +6223,7 @@ public struct ListEventActionsOutput: Swift.Equatable {
     }
 }
 
-struct ListEventActionsOutputBody: Swift.Equatable {
+struct ListEventActionsOutputBody {
     let eventActions: [DataExchangeClientTypes.EventActionEntry]?
     let nextToken: Swift.String?
 }
@@ -6297,7 +6297,7 @@ extension ListJobsInput {
     }
 }
 
-public struct ListJobsInput: Swift.Equatable {
+public struct ListJobsInput {
     /// The unique identifier for a data set.
     public var dataSetId: Swift.String?
     /// The maximum number of results returned by a single call.
@@ -6321,7 +6321,7 @@ public struct ListJobsInput: Swift.Equatable {
     }
 }
 
-struct ListJobsInputBody: Swift.Equatable {
+struct ListJobsInputBody {
 }
 
 extension ListJobsInputBody: Swift.Decodable {
@@ -6344,7 +6344,7 @@ extension ListJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListJobsOutput: Swift.Equatable {
+public struct ListJobsOutput {
     /// The jobs listed by the request.
     public var jobs: [DataExchangeClientTypes.JobEntry]?
     /// The token value retrieved from a previous call to access the next page of results.
@@ -6360,7 +6360,7 @@ public struct ListJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListJobsOutputBody: Swift.Equatable {
+struct ListJobsOutputBody {
     let jobs: [DataExchangeClientTypes.JobEntry]?
     let nextToken: Swift.String?
 }
@@ -6432,7 +6432,7 @@ extension ListRevisionAssetsInput {
     }
 }
 
-public struct ListRevisionAssetsInput: Swift.Equatable {
+public struct ListRevisionAssetsInput {
     /// The unique identifier for a data set.
     /// This member is required.
     public var dataSetId: Swift.String?
@@ -6458,7 +6458,7 @@ public struct ListRevisionAssetsInput: Swift.Equatable {
     }
 }
 
-struct ListRevisionAssetsInputBody: Swift.Equatable {
+struct ListRevisionAssetsInputBody {
 }
 
 extension ListRevisionAssetsInputBody: Swift.Decodable {
@@ -6481,7 +6481,7 @@ extension ListRevisionAssetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRevisionAssetsOutput: Swift.Equatable {
+public struct ListRevisionAssetsOutput {
     /// The asset objects listed by the request.
     public var assets: [DataExchangeClientTypes.AssetEntry]?
     /// The token value retrieved from a previous call to access the next page of results.
@@ -6497,7 +6497,7 @@ public struct ListRevisionAssetsOutput: Swift.Equatable {
     }
 }
 
-struct ListRevisionAssetsOutputBody: Swift.Equatable {
+struct ListRevisionAssetsOutputBody {
     let assets: [DataExchangeClientTypes.AssetEntry]?
     let nextToken: Swift.String?
 }
@@ -6550,7 +6550,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// An Amazon Resource Name (ARN) that uniquely identifies an AWS resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -6563,7 +6563,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -6584,7 +6584,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// A label that consists of a customer-defined key and an optional value.
     public var tags: [Swift.String:Swift.String]?
 
@@ -6596,7 +6596,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -6664,7 +6664,7 @@ extension DataExchangeClientTypes.NotificationDetails: Swift.Codable {
 
 extension DataExchangeClientTypes {
     /// Extra details specific to this notification.
-    public struct NotificationDetails: Swift.Equatable {
+    public struct NotificationDetails {
         /// Extra details specific to a data update type notification.
         public var dataUpdate: DataExchangeClientTypes.DataUpdateRequestDetails?
         /// Extra details specific to a deprecation type notification.
@@ -6777,7 +6777,7 @@ extension DataExchangeClientTypes.OriginDetails: Swift.Codable {
 
 extension DataExchangeClientTypes {
     /// Details about the origin of the data set.
-    public struct OriginDetails: Swift.Equatable {
+    public struct OriginDetails {
         /// The product ID of the origin of the data set.
         public var productId: Swift.String?
 
@@ -6841,7 +6841,7 @@ extension DataExchangeClientTypes.RedshiftDataShareAsset: Swift.Codable {
 
 extension DataExchangeClientTypes {
     /// The Amazon Redshift datashare asset.
-    public struct RedshiftDataShareAsset: Swift.Equatable {
+    public struct RedshiftDataShareAsset {
         /// The Amazon Resource Name (ARN) of the datashare asset.
         /// This member is required.
         public var arn: Swift.String?
@@ -6877,7 +6877,7 @@ extension DataExchangeClientTypes.RedshiftDataShareAssetSourceEntry: Swift.Codab
 
 extension DataExchangeClientTypes {
     /// The source of the Amazon Redshift datashare asset.
-    public struct RedshiftDataShareAssetSourceEntry: Swift.Equatable {
+    public struct RedshiftDataShareAssetSourceEntry {
         /// The Amazon Resource Name (ARN) of the datashare asset.
         /// This member is required.
         public var dataShareArn: Swift.String?
@@ -6943,7 +6943,7 @@ extension DataExchangeClientTypes.RedshiftDataShareDetails: Swift.Codable {
 
 extension DataExchangeClientTypes {
     /// Extra details specific to the affected scope in this Redshift data set.
-    public struct RedshiftDataShareDetails: Swift.Equatable {
+    public struct RedshiftDataShareDetails {
         /// The ARN of the underlying Redshift data share that is being affected by this notification.
         /// This member is required.
         public var arn: Swift.String?
@@ -7048,7 +7048,7 @@ extension DataExchangeClientTypes.RequestDetails: Swift.Codable {
 
 extension DataExchangeClientTypes {
     /// The details for the request.
-    public struct RequestDetails: Swift.Equatable {
+    public struct RequestDetails {
         /// Details of the request to create S3 data access from the Amazon S3 bucket.
         public var createS3DataAccessFromS3Bucket: DataExchangeClientTypes.CreateS3DataAccessFromS3BucketRequestDetails?
         /// Details about the export to signed URL request.
@@ -7147,7 +7147,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: DataExchangeClientTypes.ResourceType?
@@ -7281,7 +7281,7 @@ extension DataExchangeClientTypes.ResponseDetails: Swift.Codable {
 
 extension DataExchangeClientTypes {
     /// Details for the response.
-    public struct ResponseDetails: Swift.Equatable {
+    public struct ResponseDetails {
         /// Response details from the CreateS3DataAccessFromS3Bucket job.
         public var createS3DataAccessFromS3Bucket: DataExchangeClientTypes.CreateS3DataAccessFromS3BucketResponseDetails?
         /// Details for the export to signed URL response.
@@ -7360,7 +7360,7 @@ extension DataExchangeClientTypes.RevisionDestinationEntry: Swift.Codable {
 
 extension DataExchangeClientTypes {
     /// The destination where the assets in the revision will be exported.
-    public struct RevisionDestinationEntry: Swift.Equatable {
+    public struct RevisionDestinationEntry {
         /// The Amazon S3 bucket that is the destination for the assets in the revision.
         /// This member is required.
         public var bucket: Swift.String?
@@ -7465,7 +7465,7 @@ extension DataExchangeClientTypes.RevisionEntry: Swift.Codable {
 
 extension DataExchangeClientTypes {
     /// A revision is a container for one or more assets.
-    public struct RevisionEntry: Swift.Equatable {
+    public struct RevisionEntry {
         /// The ARN for the revision.
         /// This member is required.
         public var arn: Swift.String?
@@ -7545,7 +7545,7 @@ extension DataExchangeClientTypes.RevisionPublished: Swift.Codable {
 
 extension DataExchangeClientTypes {
     /// Information about the published revision.
-    public struct RevisionPublished: Swift.Equatable {
+    public struct RevisionPublished {
         /// The data set ID of the published revision.
         /// This member is required.
         public var dataSetId: Swift.String?
@@ -7586,7 +7586,7 @@ extension RevokeRevisionInput {
     }
 }
 
-public struct RevokeRevisionInput: Swift.Equatable {
+public struct RevokeRevisionInput {
     /// The unique identifier for a data set.
     /// This member is required.
     public var dataSetId: Swift.String?
@@ -7609,7 +7609,7 @@ public struct RevokeRevisionInput: Swift.Equatable {
     }
 }
 
-struct RevokeRevisionInputBody: Swift.Equatable {
+struct RevokeRevisionInputBody {
     let revocationComment: Swift.String?
 }
 
@@ -7657,7 +7657,7 @@ extension RevokeRevisionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RevokeRevisionOutput: Swift.Equatable {
+public struct RevokeRevisionOutput {
     /// The ARN for the revision.
     public var arn: Swift.String?
     /// An optional comment about the revision.
@@ -7709,7 +7709,7 @@ public struct RevokeRevisionOutput: Swift.Equatable {
     }
 }
 
-struct RevokeRevisionOutputBody: Swift.Equatable {
+struct RevokeRevisionOutputBody {
     let arn: Swift.String?
     let comment: Swift.String?
     let createdAt: ClientRuntime.Date?
@@ -7868,7 +7868,7 @@ extension DataExchangeClientTypes.S3DataAccessAsset: Swift.Codable {
 
 extension DataExchangeClientTypes {
     /// The Amazon S3 data access that is the asset.
-    public struct S3DataAccessAsset: Swift.Equatable {
+    public struct S3DataAccessAsset {
         /// The Amazon S3 bucket hosting data to be shared in the S3 data access.
         /// This member is required.
         public var bucket: Swift.String?
@@ -7978,7 +7978,7 @@ extension DataExchangeClientTypes.S3DataAccessAssetSourceEntry: Swift.Codable {
 
 extension DataExchangeClientTypes {
     /// Source details for an Amazon S3 data access asset.
-    public struct S3DataAccessAssetSourceEntry: Swift.Equatable {
+    public struct S3DataAccessAssetSourceEntry {
         /// The Amazon S3 bucket used for hosting shared data in the Amazon S3 data access.
         /// This member is required.
         public var bucket: Swift.String?
@@ -8056,7 +8056,7 @@ extension DataExchangeClientTypes.S3DataAccessDetails: Swift.Codable {
 
 extension DataExchangeClientTypes {
     /// Extra details specific to the affected scope in this S3 Data Access data set.
-    public struct S3DataAccessDetails: Swift.Equatable {
+    public struct S3DataAccessDetails {
         /// A list of the key prefixes affected by this notification. This can have up to 50 entries.
         public var keyPrefixes: [Swift.String]?
         /// A list of the keys affected by this notification. This can have up to 50 entries.
@@ -8095,7 +8095,7 @@ extension DataExchangeClientTypes.S3SnapshotAsset: Swift.Codable {
 
 extension DataExchangeClientTypes {
     /// The Amazon S3 object that is the asset.
-    public struct S3SnapshotAsset: Swift.Equatable {
+    public struct S3SnapshotAsset {
         /// The size of the Amazon S3 object that is the object.
         /// This member is required.
         public var size: Swift.Double?
@@ -8143,7 +8143,7 @@ extension DataExchangeClientTypes.SchemaChangeDetails: Swift.Codable {
 
 extension DataExchangeClientTypes {
     /// Object encompassing information about a schema change to a single, particular field, a notification can have up to 100 of these.
-    public struct SchemaChangeDetails: Swift.Equatable {
+    public struct SchemaChangeDetails {
         /// Description of what's changing about this field. This value can be up to 512 characters long.
         public var description: Swift.String?
         /// Name of the changing field. This value can be up to 255 characters long.
@@ -8206,7 +8206,7 @@ extension DataExchangeClientTypes.SchemaChangeRequestDetails: Swift.Codable {
 
 extension DataExchangeClientTypes {
     /// Extra details specific to this schema change type notification.
-    public struct SchemaChangeRequestDetails: Swift.Equatable {
+    public struct SchemaChangeRequestDetails {
         /// List of schema changes happening in the scope of this notification. This can have up to 100 entries.
         public var changes: [DataExchangeClientTypes.SchemaChangeDetails]?
         /// A date in the future when the schema change is taking effect.
@@ -8329,7 +8329,7 @@ extension DataExchangeClientTypes.ScopeDetails: Swift.Codable {
 
 extension DataExchangeClientTypes {
     /// Details about the scope of the notifications such as the affected resources.
-    public struct ScopeDetails: Swift.Equatable {
+    public struct ScopeDetails {
         /// Underlying LF resources that will be affected by this notification.
         public var lakeFormationTagPolicies: [DataExchangeClientTypes.LakeFormationTagPolicyDetails]?
         /// Underlying Redshift resources that will be affected by this notification.
@@ -8416,7 +8416,7 @@ extension SendApiAssetInput {
     }
 }
 
-public struct SendApiAssetInput: Swift.Equatable {
+public struct SendApiAssetInput {
     /// Asset ID value for the API request.
     /// This member is required.
     public var assetId: Swift.String?
@@ -8459,7 +8459,7 @@ public struct SendApiAssetInput: Swift.Equatable {
     }
 }
 
-struct SendApiAssetInputBody: Swift.Equatable {
+struct SendApiAssetInputBody {
     let body: Swift.String?
 }
 
@@ -8496,7 +8496,7 @@ extension SendApiAssetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SendApiAssetOutput: Swift.Equatable {
+public struct SendApiAssetOutput {
     /// The response body from the underlying API tracked by the API asset.
     public var body: Swift.String?
     /// The response headers from the underlying API tracked by the API asset.
@@ -8512,7 +8512,7 @@ public struct SendApiAssetOutput: Swift.Equatable {
     }
 }
 
-struct SendApiAssetOutputBody: Swift.Equatable {
+struct SendApiAssetOutputBody {
     let body: Swift.String?
 }
 
@@ -8582,7 +8582,7 @@ extension SendDataSetNotificationInput {
     }
 }
 
-public struct SendDataSetNotificationInput: Swift.Equatable {
+public struct SendDataSetNotificationInput {
     /// Idempotency key for the notification, this key allows us to deduplicate notifications that are sent in quick succession erroneously.
     public var clientToken: Swift.String?
     /// Free-form text field for providers to add information about their notifications.
@@ -8616,7 +8616,7 @@ public struct SendDataSetNotificationInput: Swift.Equatable {
     }
 }
 
-struct SendDataSetNotificationInputBody: Swift.Equatable {
+struct SendDataSetNotificationInputBody {
     let scope: DataExchangeClientTypes.ScopeDetails?
     let clientToken: Swift.String?
     let comment: Swift.String?
@@ -8653,7 +8653,7 @@ extension SendDataSetNotificationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SendDataSetNotificationOutput: Swift.Equatable {
+public struct SendDataSetNotificationOutput {
 
     public init() { }
 }
@@ -8759,7 +8759,7 @@ public struct ServiceLimitExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceLimitExceededExceptionBody: Swift.Equatable {
+struct ServiceLimitExceededExceptionBody {
     let limitName: DataExchangeClientTypes.LimitName?
     let limitValue: Swift.Double?
     let message: Swift.String?
@@ -8793,7 +8793,7 @@ extension StartJobInput {
     }
 }
 
-public struct StartJobInput: Swift.Equatable {
+public struct StartJobInput {
     /// The unique identifier for a job.
     /// This member is required.
     public var jobId: Swift.String?
@@ -8806,7 +8806,7 @@ public struct StartJobInput: Swift.Equatable {
     }
 }
 
-struct StartJobInputBody: Swift.Equatable {
+struct StartJobInputBody {
 }
 
 extension StartJobInputBody: Swift.Decodable {
@@ -8820,7 +8820,7 @@ extension StartJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartJobOutput: Swift.Equatable {
+public struct StartJobOutput {
 
     public init() { }
 }
@@ -8918,7 +8918,7 @@ extension DataExchangeClientTypes.TableLFTagPolicy: Swift.Codable {
 
 extension DataExchangeClientTypes {
     /// The LF-tag policy for a table resource.
-    public struct TableLFTagPolicy: Swift.Equatable {
+    public struct TableLFTagPolicy {
         /// A list of LF-tag conditions that apply to table resources.
         /// This member is required.
         public var expression: [DataExchangeClientTypes.LFTag]?
@@ -8984,7 +8984,7 @@ extension DataExchangeClientTypes.TableLFTagPolicyAndPermissions: Swift.Codable 
 
 extension DataExchangeClientTypes {
     /// The LF-tag policy and permissions that apply to table resources.
-    public struct TableLFTagPolicyAndPermissions: Swift.Equatable {
+    public struct TableLFTagPolicyAndPermissions {
         /// A list of LF-tag conditions that apply to table resources.
         /// This member is required.
         public var expression: [DataExchangeClientTypes.LFTag]?
@@ -9062,7 +9062,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// An Amazon Resource Name (ARN) that uniquely identifies an AWS resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -9080,7 +9080,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -9110,7 +9110,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -9166,7 +9166,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -9261,7 +9261,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// An Amazon Resource Name (ARN) that uniquely identifies an AWS resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -9279,7 +9279,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -9293,7 +9293,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -9337,7 +9337,7 @@ extension UpdateAssetInput {
     }
 }
 
-public struct UpdateAssetInput: Swift.Equatable {
+public struct UpdateAssetInput {
     /// The unique identifier for an asset.
     /// This member is required.
     public var assetId: Swift.String?
@@ -9365,7 +9365,7 @@ public struct UpdateAssetInput: Swift.Equatable {
     }
 }
 
-struct UpdateAssetInputBody: Swift.Equatable {
+struct UpdateAssetInputBody {
     let name: Swift.String?
 }
 
@@ -9411,7 +9411,7 @@ extension UpdateAssetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAssetOutput: Swift.Equatable {
+public struct UpdateAssetOutput {
     /// The ARN for the asset.
     public var arn: Swift.String?
     /// Details about the asset.
@@ -9459,7 +9459,7 @@ public struct UpdateAssetOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAssetOutputBody: Swift.Equatable {
+struct UpdateAssetOutputBody {
     let arn: Swift.String?
     let assetDetails: DataExchangeClientTypes.AssetDetails?
     let assetType: DataExchangeClientTypes.AssetType?
@@ -9554,7 +9554,7 @@ extension UpdateDataSetInput {
     }
 }
 
-public struct UpdateDataSetInput: Swift.Equatable {
+public struct UpdateDataSetInput {
     /// The unique identifier for a data set.
     /// This member is required.
     public var dataSetId: Swift.String?
@@ -9575,7 +9575,7 @@ public struct UpdateDataSetInput: Swift.Equatable {
     }
 }
 
-struct UpdateDataSetInputBody: Swift.Equatable {
+struct UpdateDataSetInputBody {
     let description: Swift.String?
     let name: Swift.String?
 }
@@ -9625,7 +9625,7 @@ extension UpdateDataSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDataSetOutput: Swift.Equatable {
+public struct UpdateDataSetOutput {
     /// The ARN for the data set.
     public var arn: Swift.String?
     /// The type of asset that is added to a data set.
@@ -9673,7 +9673,7 @@ public struct UpdateDataSetOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDataSetOutputBody: Swift.Equatable {
+struct UpdateDataSetOutputBody {
     let arn: Swift.String?
     let assetType: DataExchangeClientTypes.AssetType?
     let createdAt: ClientRuntime.Date?
@@ -9763,7 +9763,7 @@ extension UpdateEventActionInput {
     }
 }
 
-public struct UpdateEventActionInput: Swift.Equatable {
+public struct UpdateEventActionInput {
     /// What occurs after a certain event.
     public var action: DataExchangeClientTypes.Action?
     /// The unique identifier for the event action.
@@ -9780,7 +9780,7 @@ public struct UpdateEventActionInput: Swift.Equatable {
     }
 }
 
-struct UpdateEventActionInputBody: Swift.Equatable {
+struct UpdateEventActionInputBody {
     let action: DataExchangeClientTypes.Action?
 }
 
@@ -9818,7 +9818,7 @@ extension UpdateEventActionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateEventActionOutput: Swift.Equatable {
+public struct UpdateEventActionOutput {
     /// What occurs after a certain event.
     public var action: DataExchangeClientTypes.Action?
     /// The ARN for the event action.
@@ -9850,7 +9850,7 @@ public struct UpdateEventActionOutput: Swift.Equatable {
     }
 }
 
-struct UpdateEventActionOutputBody: Swift.Equatable {
+struct UpdateEventActionOutputBody {
     let action: DataExchangeClientTypes.Action?
     let arn: Swift.String?
     let createdAt: ClientRuntime.Date?
@@ -9931,7 +9931,7 @@ extension UpdateRevisionInput {
     }
 }
 
-public struct UpdateRevisionInput: Swift.Equatable {
+public struct UpdateRevisionInput {
     /// An optional comment about the revision.
     public var comment: Swift.String?
     /// The unique identifier for a data set.
@@ -9957,7 +9957,7 @@ public struct UpdateRevisionInput: Swift.Equatable {
     }
 }
 
-struct UpdateRevisionInputBody: Swift.Equatable {
+struct UpdateRevisionInputBody {
     let comment: Swift.String?
     let finalized: Swift.Bool?
 }
@@ -10009,7 +10009,7 @@ extension UpdateRevisionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateRevisionOutput: Swift.Equatable {
+public struct UpdateRevisionOutput {
     /// The ARN for the revision.
     public var arn: Swift.String?
     /// An optional comment about the revision.
@@ -10061,7 +10061,7 @@ public struct UpdateRevisionOutput: Swift.Equatable {
     }
 }
 
-struct UpdateRevisionOutputBody: Swift.Equatable {
+struct UpdateRevisionOutputBody {
     let arn: Swift.String?
     let comment: Swift.String?
     let createdAt: ClientRuntime.Date?
@@ -10180,7 +10180,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let exceptionCause: DataExchangeClientTypes.ExceptionCause?
 }

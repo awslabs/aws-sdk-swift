@@ -42,7 +42,7 @@ public struct AccountActionRequiredException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct AccountActionRequiredExceptionBody: Swift.Equatable {
+struct AccountActionRequiredExceptionBody {
     let message: Swift.String?
 }
 
@@ -98,7 +98,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct BadRequestExceptionBody: Swift.Equatable {
+struct BadRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -177,7 +177,7 @@ extension MobileClientTypes.BundleDetails: Swift.Codable {
 
 extension MobileClientTypes {
     /// The details of the bundle.
-    public struct BundleDetails: Swift.Equatable {
+    public struct BundleDetails {
         /// Developer desktop or mobile app or website platforms.
         public var availablePlatforms: [MobileClientTypes.Platform]?
         /// Unique bundle identifier.
@@ -252,7 +252,7 @@ extension CreateProjectInput {
 }
 
 /// Request structure used to request a project be created.
-public struct CreateProjectInput: Swift.Equatable {
+public struct CreateProjectInput {
     /// ZIP or YAML file which contains configuration settings to be used when creating the project. This may be the contents of the file downloaded from the URL provided in an export project operation.
     public var contents: ClientRuntime.Data?
     /// Name of the project.
@@ -276,7 +276,7 @@ public struct CreateProjectInput: Swift.Equatable {
     }
 }
 
-struct CreateProjectInputBody: Swift.Equatable {
+struct CreateProjectInputBody {
     let contents: ClientRuntime.Data?
 }
 
@@ -305,7 +305,7 @@ extension CreateProjectOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Result structure used in response to a request to create a project.
-public struct CreateProjectOutput: Swift.Equatable {
+public struct CreateProjectOutput {
     /// Detailed information about the created AWS Mobile Hub project.
     public var details: MobileClientTypes.ProjectDetails?
 
@@ -317,7 +317,7 @@ public struct CreateProjectOutput: Swift.Equatable {
     }
 }
 
-struct CreateProjectOutputBody: Swift.Equatable {
+struct CreateProjectOutputBody {
     let details: MobileClientTypes.ProjectDetails?
 }
 
@@ -361,7 +361,7 @@ extension DeleteProjectInput {
 }
 
 /// Request structure used to request a project be deleted.
-public struct DeleteProjectInput: Swift.Equatable {
+public struct DeleteProjectInput {
     /// Unique project identifier.
     /// This member is required.
     public var projectId: Swift.String?
@@ -374,7 +374,7 @@ public struct DeleteProjectInput: Swift.Equatable {
     }
 }
 
-struct DeleteProjectInputBody: Swift.Equatable {
+struct DeleteProjectInputBody {
 }
 
 extension DeleteProjectInputBody: Swift.Decodable {
@@ -398,7 +398,7 @@ extension DeleteProjectOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Result structure used in response to request to delete a project.
-public struct DeleteProjectOutput: Swift.Equatable {
+public struct DeleteProjectOutput {
     /// Resources which were deleted.
     public var deletedResources: [MobileClientTypes.Resource]?
     /// Resources which were not deleted, due to a risk of losing potentially important data or files.
@@ -414,7 +414,7 @@ public struct DeleteProjectOutput: Swift.Equatable {
     }
 }
 
-struct DeleteProjectOutputBody: Swift.Equatable {
+struct DeleteProjectOutputBody {
     let deletedResources: [MobileClientTypes.Resource]?
     let orphanedResources: [MobileClientTypes.Resource]?
 }
@@ -478,7 +478,7 @@ extension DescribeBundleInput {
 }
 
 /// Request structure to request the details of a specific bundle.
-public struct DescribeBundleInput: Swift.Equatable {
+public struct DescribeBundleInput {
     /// Unique bundle identifier.
     /// This member is required.
     public var bundleId: Swift.String?
@@ -491,7 +491,7 @@ public struct DescribeBundleInput: Swift.Equatable {
     }
 }
 
-struct DescribeBundleInputBody: Swift.Equatable {
+struct DescribeBundleInputBody {
 }
 
 extension DescribeBundleInputBody: Swift.Decodable {
@@ -513,7 +513,7 @@ extension DescribeBundleOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Result structure contains the details of the bundle.
-public struct DescribeBundleOutput: Swift.Equatable {
+public struct DescribeBundleOutput {
     /// The details of the bundle.
     public var details: MobileClientTypes.BundleDetails?
 
@@ -525,7 +525,7 @@ public struct DescribeBundleOutput: Swift.Equatable {
     }
 }
 
-struct DescribeBundleOutputBody: Swift.Equatable {
+struct DescribeBundleOutputBody {
     let details: MobileClientTypes.BundleDetails?
 }
 
@@ -583,7 +583,7 @@ extension DescribeProjectInput {
 }
 
 /// Request structure used to request details about a project.
-public struct DescribeProjectInput: Swift.Equatable {
+public struct DescribeProjectInput {
     /// Unique project identifier.
     /// This member is required.
     public var projectId: Swift.String?
@@ -600,7 +600,7 @@ public struct DescribeProjectInput: Swift.Equatable {
     }
 }
 
-struct DescribeProjectInputBody: Swift.Equatable {
+struct DescribeProjectInputBody {
 }
 
 extension DescribeProjectInputBody: Swift.Decodable {
@@ -622,7 +622,7 @@ extension DescribeProjectOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Result structure used for requests of project details.
-public struct DescribeProjectOutput: Swift.Equatable {
+public struct DescribeProjectOutput {
     /// Detailed information about an AWS Mobile Hub project.
     public var details: MobileClientTypes.ProjectDetails?
 
@@ -634,7 +634,7 @@ public struct DescribeProjectOutput: Swift.Equatable {
     }
 }
 
-struct DescribeProjectOutputBody: Swift.Equatable {
+struct DescribeProjectOutputBody {
     let details: MobileClientTypes.ProjectDetails?
 }
 
@@ -693,7 +693,7 @@ extension ExportBundleInput {
 }
 
 /// Request structure used to request generation of custom SDK and tool packages required to integrate mobile web or app clients with backed AWS resources.
-public struct ExportBundleInput: Swift.Equatable {
+public struct ExportBundleInput {
     /// Unique bundle identifier.
     /// This member is required.
     public var bundleId: Swift.String?
@@ -714,7 +714,7 @@ public struct ExportBundleInput: Swift.Equatable {
     }
 }
 
-struct ExportBundleInputBody: Swift.Equatable {
+struct ExportBundleInputBody {
 }
 
 extension ExportBundleInputBody: Swift.Decodable {
@@ -736,7 +736,7 @@ extension ExportBundleOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Result structure which contains link to download custom-generated SDK and tool packages used to integrate mobile web or app clients with backed AWS resources.
-public struct ExportBundleOutput: Swift.Equatable {
+public struct ExportBundleOutput {
     /// URL which contains the custom-generated SDK and tool packages used to integrate the client mobile app or web app with the AWS resources created by the AWS Mobile Hub project.
     public var downloadUrl: Swift.String?
 
@@ -748,7 +748,7 @@ public struct ExportBundleOutput: Swift.Equatable {
     }
 }
 
-struct ExportBundleOutputBody: Swift.Equatable {
+struct ExportBundleOutputBody {
     let downloadUrl: Swift.String?
 }
 
@@ -791,7 +791,7 @@ extension ExportProjectInput {
 }
 
 /// Request structure used in requests to export project configuration details.
-public struct ExportProjectInput: Swift.Equatable {
+public struct ExportProjectInput {
     /// Unique project identifier.
     /// This member is required.
     public var projectId: Swift.String?
@@ -804,7 +804,7 @@ public struct ExportProjectInput: Swift.Equatable {
     }
 }
 
-struct ExportProjectInputBody: Swift.Equatable {
+struct ExportProjectInputBody {
 }
 
 extension ExportProjectInputBody: Swift.Decodable {
@@ -830,7 +830,7 @@ extension ExportProjectOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Result structure used for requests to export project configuration details.
-public struct ExportProjectOutput: Swift.Equatable {
+public struct ExportProjectOutput {
     /// URL which can be used to download the exported project configuation file(s).
     public var downloadUrl: Swift.String?
     /// URL which can be shared to allow other AWS users to create their own project in AWS Mobile Hub with the same configuration as the specified project. This URL pertains to a snapshot in time of the project configuration that is created when this API is called. If you want to share additional changes to your project configuration, then you will need to create and share a new snapshot by calling this method again.
@@ -850,7 +850,7 @@ public struct ExportProjectOutput: Swift.Equatable {
     }
 }
 
-struct ExportProjectOutputBody: Swift.Equatable {
+struct ExportProjectOutputBody {
     let downloadUrl: Swift.String?
     let shareUrl: Swift.String?
     let snapshotId: Swift.String?
@@ -930,7 +930,7 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InternalFailureExceptionBody: Swift.Equatable {
+struct InternalFailureExceptionBody {
     let message: Swift.String?
 }
 
@@ -995,7 +995,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -1035,7 +1035,7 @@ extension ListBundlesInput {
 }
 
 /// Request structure to request all available bundles.
-public struct ListBundlesInput: Swift.Equatable {
+public struct ListBundlesInput {
     /// Maximum number of records to list in a single response.
     public var maxResults: Swift.Int?
     /// Pagination token. Set to null to start listing bundles from start. If non-null pagination token is returned in a result, then pass its value in here in another request to list more bundles.
@@ -1051,7 +1051,7 @@ public struct ListBundlesInput: Swift.Equatable {
     }
 }
 
-struct ListBundlesInputBody: Swift.Equatable {
+struct ListBundlesInputBody {
 }
 
 extension ListBundlesInputBody: Swift.Decodable {
@@ -1075,7 +1075,7 @@ extension ListBundlesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Result structure contains a list of all available bundles with details.
-public struct ListBundlesOutput: Swift.Equatable {
+public struct ListBundlesOutput {
     /// A list of bundles.
     public var bundleList: [MobileClientTypes.BundleDetails]?
     /// Pagination token. If non-null pagination token is returned in a result, then pass its value in another request to fetch more entries.
@@ -1091,7 +1091,7 @@ public struct ListBundlesOutput: Swift.Equatable {
     }
 }
 
-struct ListBundlesOutputBody: Swift.Equatable {
+struct ListBundlesOutputBody {
     let bundleList: [MobileClientTypes.BundleDetails]?
     let nextToken: Swift.String?
 }
@@ -1159,7 +1159,7 @@ extension ListProjectsInput {
 }
 
 /// Request structure used to request projects list in AWS Mobile Hub.
-public struct ListProjectsInput: Swift.Equatable {
+public struct ListProjectsInput {
     /// Maximum number of records to list in a single response.
     public var maxResults: Swift.Int?
     /// Pagination token. Set to null to start listing projects from start. If non-null pagination token is returned in a result, then pass its value in here in another request to list more projects.
@@ -1175,7 +1175,7 @@ public struct ListProjectsInput: Swift.Equatable {
     }
 }
 
-struct ListProjectsInputBody: Swift.Equatable {
+struct ListProjectsInputBody {
 }
 
 extension ListProjectsInputBody: Swift.Decodable {
@@ -1199,7 +1199,7 @@ extension ListProjectsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Result structure used for requests to list projects in AWS Mobile Hub.
-public struct ListProjectsOutput: Swift.Equatable {
+public struct ListProjectsOutput {
     /// Pagination token. Set to null to start listing records from start. If non-null pagination token is returned in a result, then pass its value in here in another request to list more entries.
     public var nextToken: Swift.String?
     /// List of projects.
@@ -1215,7 +1215,7 @@ public struct ListProjectsOutput: Swift.Equatable {
     }
 }
 
-struct ListProjectsOutputBody: Swift.Equatable {
+struct ListProjectsOutputBody {
     let projects: [MobileClientTypes.ProjectSummary]?
     let nextToken: Swift.String?
 }
@@ -1301,7 +1301,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct NotFoundExceptionBody: Swift.Equatable {
+struct NotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -1440,7 +1440,7 @@ extension MobileClientTypes.ProjectDetails: Swift.Codable {
 
 extension MobileClientTypes {
     /// Detailed information about an AWS Mobile Hub project.
-    public struct ProjectDetails: Swift.Equatable {
+    public struct ProjectDetails {
         /// Website URL for this project in the AWS Mobile Hub console.
         public var consoleUrl: Swift.String?
         /// Date the project was created.
@@ -1545,7 +1545,7 @@ extension MobileClientTypes.ProjectSummary: Swift.Codable {
 
 extension MobileClientTypes {
     /// Summary information about an AWS Mobile Hub project.
-    public struct ProjectSummary: Swift.Equatable {
+    public struct ProjectSummary {
         /// Name of the project.
         public var name: Swift.String?
         /// Unique project identifier.
@@ -1620,7 +1620,7 @@ extension MobileClientTypes.Resource: Swift.Codable {
 
 extension MobileClientTypes {
     /// Information about an instance of an AWS resource associated with a project.
-    public struct Resource: Swift.Equatable {
+    public struct Resource {
         /// AWS resource name which uniquely identifies the resource in AWS systems.
         public var arn: Swift.String?
         /// Key-value attribute pairs.
@@ -1699,7 +1699,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct ServiceUnavailableExceptionBody: Swift.Equatable {
+struct ServiceUnavailableExceptionBody {
     let message: Swift.String?
 }
 
@@ -1764,7 +1764,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct TooManyRequestsExceptionBody: Swift.Equatable {
+struct TooManyRequestsExceptionBody {
     let message: Swift.String?
 }
 
@@ -1820,7 +1820,7 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct UnauthorizedExceptionBody: Swift.Equatable {
+struct UnauthorizedExceptionBody {
     let message: Swift.String?
 }
 
@@ -1871,7 +1871,7 @@ extension UpdateProjectInput {
 }
 
 /// Request structure used for requests to update project configuration.
-public struct UpdateProjectInput: Swift.Equatable {
+public struct UpdateProjectInput {
     /// ZIP or YAML file which contains project configuration to be updated. This should be the contents of the file downloaded from the URL provided in an export project operation.
     public var contents: ClientRuntime.Data?
     /// Unique project identifier.
@@ -1888,7 +1888,7 @@ public struct UpdateProjectInput: Swift.Equatable {
     }
 }
 
-struct UpdateProjectInputBody: Swift.Equatable {
+struct UpdateProjectInputBody {
     let contents: ClientRuntime.Data?
 }
 
@@ -1917,7 +1917,7 @@ extension UpdateProjectOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Result structure used for requests to updated project configuration.
-public struct UpdateProjectOutput: Swift.Equatable {
+public struct UpdateProjectOutput {
     /// Detailed information about the updated AWS Mobile Hub project.
     public var details: MobileClientTypes.ProjectDetails?
 
@@ -1929,7 +1929,7 @@ public struct UpdateProjectOutput: Swift.Equatable {
     }
 }
 
-struct UpdateProjectOutputBody: Swift.Equatable {
+struct UpdateProjectOutputBody {
     let details: MobileClientTypes.ProjectDetails?
 }
 

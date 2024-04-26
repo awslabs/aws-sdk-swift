@@ -42,7 +42,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -114,7 +114,7 @@ extension IvschatClientTypes.CloudWatchLogsDestinationConfiguration: Swift.Codab
 
 extension IvschatClientTypes {
     /// Specifies a CloudWatch Logs location where chat logs will be stored.
-    public struct CloudWatchLogsDestinationConfiguration: Swift.Equatable {
+    public struct CloudWatchLogsDestinationConfiguration {
         /// Name of the Amazon Cloudwatch Logs destination where chat activity will be logged.
         /// This member is required.
         public var logGroupName: Swift.String?
@@ -183,7 +183,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: IvschatClientTypes.ResourceType?
@@ -254,7 +254,7 @@ extension CreateChatTokenInput {
     }
 }
 
-public struct CreateChatTokenInput: Swift.Equatable {
+public struct CreateChatTokenInput {
     /// Application-provided attributes to encode into the token and attach to a chat session. Map keys and values can contain UTF-8 encoded text. The maximum length of this field is 1 KB total.
     public var attributes: [Swift.String:Swift.String]?
     /// Set of capabilities that the user is allowed to perform in the room. Default: None (the capability to view messages is implicitly included in all requests).
@@ -284,7 +284,7 @@ public struct CreateChatTokenInput: Swift.Equatable {
     }
 }
 
-struct CreateChatTokenInputBody: Swift.Equatable {
+struct CreateChatTokenInputBody {
     let roomIdentifier: Swift.String?
     let userId: Swift.String?
     let capabilities: [IvschatClientTypes.ChatTokenCapability]?
@@ -355,7 +355,7 @@ extension CreateChatTokenOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateChatTokenOutput: Swift.Equatable {
+public struct CreateChatTokenOutput {
     /// Time after which an end user's session is no longer valid. This is an ISO 8601 timestamp; note that this is returned as a string.
     public var sessionExpirationTime: ClientRuntime.Date?
     /// The issued client token, encrypted.
@@ -375,7 +375,7 @@ public struct CreateChatTokenOutput: Swift.Equatable {
     }
 }
 
-struct CreateChatTokenOutputBody: Swift.Equatable {
+struct CreateChatTokenOutputBody {
     let token: Swift.String?
     let tokenExpirationTime: ClientRuntime.Date?
     let sessionExpirationTime: ClientRuntime.Date?
@@ -444,7 +444,7 @@ extension CreateLoggingConfigurationInput {
     }
 }
 
-public struct CreateLoggingConfigurationInput: Swift.Equatable {
+public struct CreateLoggingConfigurationInput {
     /// A complex type that contains a destination configuration for where chat content will be logged. There can be only one type of destination (cloudWatchLogs, firehose, or s3) in a destinationConfiguration.
     /// This member is required.
     public var destinationConfiguration: IvschatClientTypes.DestinationConfiguration?
@@ -465,7 +465,7 @@ public struct CreateLoggingConfigurationInput: Swift.Equatable {
     }
 }
 
-struct CreateLoggingConfigurationInputBody: Swift.Equatable {
+struct CreateLoggingConfigurationInputBody {
     let name: Swift.String?
     let destinationConfiguration: IvschatClientTypes.DestinationConfiguration?
     let tags: [Swift.String:Swift.String]?
@@ -524,7 +524,7 @@ extension CreateLoggingConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateLoggingConfigurationOutput: Swift.Equatable {
+public struct CreateLoggingConfigurationOutput {
     /// Logging-configuration ARN, assigned by the system.
     public var arn: Swift.String?
     /// Time when the logging configuration was created. This is an ISO 8601 timestamp; note that this is returned as a string.
@@ -564,7 +564,7 @@ public struct CreateLoggingConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct CreateLoggingConfigurationOutputBody: Swift.Equatable {
+struct CreateLoggingConfigurationOutputBody {
     let arn: Swift.String?
     let id: Swift.String?
     let createTime: ClientRuntime.Date?
@@ -708,7 +708,7 @@ extension CreateRoomInput {
     }
 }
 
-public struct CreateRoomInput: Swift.Equatable {
+public struct CreateRoomInput {
     /// Array of logging-configuration identifiers attached to the room.
     public var loggingConfigurationIdentifiers: [Swift.String]?
     /// Maximum number of characters in a single message. Messages are expected to be UTF-8 encoded and this limit applies specifically to rune/code-point count, not number of bytes. Default: 500.
@@ -740,7 +740,7 @@ public struct CreateRoomInput: Swift.Equatable {
     }
 }
 
-struct CreateRoomInputBody: Swift.Equatable {
+struct CreateRoomInputBody {
     let name: Swift.String?
     let maximumMessageRatePerSecond: Swift.Int?
     let maximumMessageLength: Swift.Int?
@@ -824,7 +824,7 @@ extension CreateRoomOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRoomOutput: Swift.Equatable {
+public struct CreateRoomOutput {
     /// Room ARN, assigned by the system.
     public var arn: Swift.String?
     /// Time when the room was created. This is an ISO 8601 timestamp; note that this is returned as a string.
@@ -872,7 +872,7 @@ public struct CreateRoomOutput: Swift.Equatable {
     }
 }
 
-struct CreateRoomOutputBody: Swift.Equatable {
+struct CreateRoomOutputBody {
     let arn: Swift.String?
     let id: Swift.String?
     let name: Swift.String?
@@ -978,7 +978,7 @@ extension DeleteLoggingConfigurationInput {
     }
 }
 
-public struct DeleteLoggingConfigurationInput: Swift.Equatable {
+public struct DeleteLoggingConfigurationInput {
     /// Identifier of the logging configuration to be deleted.
     /// This member is required.
     public var identifier: Swift.String?
@@ -991,7 +991,7 @@ public struct DeleteLoggingConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DeleteLoggingConfigurationInputBody: Swift.Equatable {
+struct DeleteLoggingConfigurationInputBody {
     let identifier: Swift.String?
 }
 
@@ -1012,7 +1012,7 @@ extension DeleteLoggingConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteLoggingConfigurationOutput: Swift.Equatable {
+public struct DeleteLoggingConfigurationOutput {
 
     public init() { }
 }
@@ -1060,7 +1060,7 @@ extension DeleteMessageInput {
     }
 }
 
-public struct DeleteMessageInput: Swift.Equatable {
+public struct DeleteMessageInput {
     /// ID of the message to be deleted. This is the Id field in the received message (see [ Message (Subscribe)](https://docs.aws.amazon.com/ivs/latest/chatmsgapireference/actions-message-subscribe.html) in the Chat Messaging API).
     /// This member is required.
     public var id: Swift.String?
@@ -1082,7 +1082,7 @@ public struct DeleteMessageInput: Swift.Equatable {
     }
 }
 
-struct DeleteMessageInputBody: Swift.Equatable {
+struct DeleteMessageInputBody {
     let roomIdentifier: Swift.String?
     let id: Swift.String?
     let reason: Swift.String?
@@ -1118,7 +1118,7 @@ extension DeleteMessageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteMessageOutput: Swift.Equatable {
+public struct DeleteMessageOutput {
     /// Operation identifier, generated by Amazon IVS Chat.
     public var id: Swift.String?
 
@@ -1130,7 +1130,7 @@ public struct DeleteMessageOutput: Swift.Equatable {
     }
 }
 
-struct DeleteMessageOutputBody: Swift.Equatable {
+struct DeleteMessageOutputBody {
     let id: Swift.String?
 }
 
@@ -1181,7 +1181,7 @@ extension DeleteRoomInput {
     }
 }
 
-public struct DeleteRoomInput: Swift.Equatable {
+public struct DeleteRoomInput {
     /// Identifier of the room to be deleted. Currently this must be an ARN.
     /// This member is required.
     public var identifier: Swift.String?
@@ -1194,7 +1194,7 @@ public struct DeleteRoomInput: Swift.Equatable {
     }
 }
 
-struct DeleteRoomInputBody: Swift.Equatable {
+struct DeleteRoomInputBody {
     let identifier: Swift.String?
 }
 
@@ -1215,7 +1215,7 @@ extension DeleteRoomOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRoomOutput: Swift.Equatable {
+public struct DeleteRoomOutput {
 
     public init() { }
 }
@@ -1279,7 +1279,7 @@ extension IvschatClientTypes.DestinationConfiguration: Swift.Codable {
 
 extension IvschatClientTypes {
     /// A complex type that describes a location where chat logs will be stored. Each member represents the configuration of one log destination. For logging, you define only one type of destination (for CloudWatch Logs, Kinesis Firehose, or S3).
-    public enum DestinationConfiguration: Swift.Equatable {
+    public enum DestinationConfiguration {
         /// An Amazon S3 destination configuration where chat activity will be logged.
         case s3(IvschatClientTypes.S3DestinationConfiguration)
         /// An Amazon CloudWatch Logs destination configuration where chat activity will be logged.
@@ -1324,7 +1324,7 @@ extension DisconnectUserInput {
     }
 }
 
-public struct DisconnectUserInput: Swift.Equatable {
+public struct DisconnectUserInput {
     /// Reason for disconnecting the user.
     public var reason: Swift.String?
     /// Identifier of the room from which the user's clients should be disconnected. Currently this must be an ARN.
@@ -1346,7 +1346,7 @@ public struct DisconnectUserInput: Swift.Equatable {
     }
 }
 
-struct DisconnectUserInputBody: Swift.Equatable {
+struct DisconnectUserInputBody {
     let roomIdentifier: Swift.String?
     let userId: Swift.String?
     let reason: Swift.String?
@@ -1375,7 +1375,7 @@ extension DisconnectUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisconnectUserOutput: Swift.Equatable {
+public struct DisconnectUserOutput {
 
     public init() { }
 }
@@ -1448,7 +1448,7 @@ extension IvschatClientTypes.FirehoseDestinationConfiguration: Swift.Codable {
 
 extension IvschatClientTypes {
     /// Specifies a Kinesis Firehose location where chat logs will be stored.
-    public struct FirehoseDestinationConfiguration: Swift.Equatable {
+    public struct FirehoseDestinationConfiguration {
         /// Name of the Amazon Kinesis Firehose delivery stream where chat activity will be logged.
         /// This member is required.
         public var deliveryStreamName: Swift.String?
@@ -1483,7 +1483,7 @@ extension GetLoggingConfigurationInput {
     }
 }
 
-public struct GetLoggingConfigurationInput: Swift.Equatable {
+public struct GetLoggingConfigurationInput {
     /// Identifier of the logging configuration to be retrieved.
     /// This member is required.
     public var identifier: Swift.String?
@@ -1496,7 +1496,7 @@ public struct GetLoggingConfigurationInput: Swift.Equatable {
     }
 }
 
-struct GetLoggingConfigurationInputBody: Swift.Equatable {
+struct GetLoggingConfigurationInputBody {
     let identifier: Swift.String?
 }
 
@@ -1538,7 +1538,7 @@ extension GetLoggingConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLoggingConfigurationOutput: Swift.Equatable {
+public struct GetLoggingConfigurationOutput {
     /// Logging-configuration ARN, from the request (if identifier was an ARN).
     public var arn: Swift.String?
     /// Time when the logging configuration was created. This is an ISO 8601 timestamp; note that this is returned as a string.
@@ -1578,7 +1578,7 @@ public struct GetLoggingConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetLoggingConfigurationOutputBody: Swift.Equatable {
+struct GetLoggingConfigurationOutputBody {
     let arn: Swift.String?
     let id: Swift.String?
     let createTime: ClientRuntime.Date?
@@ -1664,7 +1664,7 @@ extension GetRoomInput {
     }
 }
 
-public struct GetRoomInput: Swift.Equatable {
+public struct GetRoomInput {
     /// Identifier of the room for which the configuration is to be retrieved. Currently this must be an ARN.
     /// This member is required.
     public var identifier: Swift.String?
@@ -1677,7 +1677,7 @@ public struct GetRoomInput: Swift.Equatable {
     }
 }
 
-struct GetRoomInputBody: Swift.Equatable {
+struct GetRoomInputBody {
     let identifier: Swift.String?
 }
 
@@ -1723,7 +1723,7 @@ extension GetRoomOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRoomOutput: Swift.Equatable {
+public struct GetRoomOutput {
     /// Room ARN, from the request (if identifier was an ARN).
     public var arn: Swift.String?
     /// Time when the room was created. This is an ISO 8601 timestamp; note that this is returned as a string.
@@ -1771,7 +1771,7 @@ public struct GetRoomOutput: Swift.Equatable {
     }
 }
 
-struct GetRoomOutputBody: Swift.Equatable {
+struct GetRoomOutputBody {
     let arn: Swift.String?
     let id: Swift.String?
     let name: Swift.String?
@@ -1894,7 +1894,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -1936,7 +1936,7 @@ extension ListLoggingConfigurationsInput {
     }
 }
 
-public struct ListLoggingConfigurationsInput: Swift.Equatable {
+public struct ListLoggingConfigurationsInput {
     /// Maximum number of logging configurations to return. Default: 50.
     public var maxResults: Swift.Int?
     /// The first logging configurations to retrieve. This is used for pagination; see the nextToken response field.
@@ -1952,7 +1952,7 @@ public struct ListLoggingConfigurationsInput: Swift.Equatable {
     }
 }
 
-struct ListLoggingConfigurationsInputBody: Swift.Equatable {
+struct ListLoggingConfigurationsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -1986,7 +1986,7 @@ extension ListLoggingConfigurationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListLoggingConfigurationsOutput: Swift.Equatable {
+public struct ListLoggingConfigurationsOutput {
     /// List of the matching logging configurations (summary information only). There is only one type of destination (cloudWatchLogs, firehose, or s3) in a destinationConfiguration.
     /// This member is required.
     public var loggingConfigurations: [IvschatClientTypes.LoggingConfigurationSummary]?
@@ -2003,7 +2003,7 @@ public struct ListLoggingConfigurationsOutput: Swift.Equatable {
     }
 }
 
-struct ListLoggingConfigurationsOutputBody: Swift.Equatable {
+struct ListLoggingConfigurationsOutputBody {
     let loggingConfigurations: [IvschatClientTypes.LoggingConfigurationSummary]?
     let nextToken: Swift.String?
 }
@@ -2080,7 +2080,7 @@ extension ListRoomsInput {
     }
 }
 
-public struct ListRoomsInput: Swift.Equatable {
+public struct ListRoomsInput {
     /// Logging-configuration identifier.
     public var loggingConfigurationIdentifier: Swift.String?
     /// Maximum number of rooms to return. Default: 50.
@@ -2108,7 +2108,7 @@ public struct ListRoomsInput: Swift.Equatable {
     }
 }
 
-struct ListRoomsInputBody: Swift.Equatable {
+struct ListRoomsInputBody {
     let name: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -2154,7 +2154,7 @@ extension ListRoomsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRoomsOutput: Swift.Equatable {
+public struct ListRoomsOutput {
     /// If there are more rooms than maxResults, use nextToken in the request to get the next set.
     public var nextToken: Swift.String?
     /// List of the matching rooms (summary information only).
@@ -2171,7 +2171,7 @@ public struct ListRoomsOutput: Swift.Equatable {
     }
 }
 
-struct ListRoomsOutputBody: Swift.Equatable {
+struct ListRoomsOutputBody {
     let rooms: [IvschatClientTypes.RoomSummary]?
     let nextToken: Swift.String?
 }
@@ -2223,7 +2223,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The ARN of the resource to be retrieved. The ARN must be URL-encoded.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2236,7 +2236,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -2257,7 +2257,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// Tags attached to the resource. Array of maps, each of the form string:string (key:value).
     /// This member is required.
     public var tags: [Swift.String:Swift.String]?
@@ -2270,7 +2270,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -2430,7 +2430,7 @@ extension IvschatClientTypes.LoggingConfigurationSummary: Swift.Codable {
 
 extension IvschatClientTypes {
     /// Summary information about a logging configuration.
-    public struct LoggingConfigurationSummary: Swift.Equatable {
+    public struct LoggingConfigurationSummary {
         /// Logging-configuration ARN.
         public var arn: Swift.String?
         /// Time when the logging configuration was created. This is an ISO 8601 timestamp; note that this is returned as a string.
@@ -2499,7 +2499,7 @@ extension IvschatClientTypes.MessageReviewHandler: Swift.Codable {
 
 extension IvschatClientTypes {
     /// Configuration information for optional message review.
-    public struct MessageReviewHandler: Swift.Equatable {
+    public struct MessageReviewHandler {
         /// Specifies the fallback behavior (whether the message is allowed or denied) if the handler does not return a valid response, encounters an error, or times out. (For the timeout period, see [ Service Quotas](https://docs.aws.amazon.com/ivs/latest/userguide/service-quotas.html).) If allowed, the message is delivered with returned content to all users connected to the room. If denied, the message is not delivered to any user. Default: ALLOW.
         public var fallbackResult: IvschatClientTypes.FallbackResult?
         /// Identifier of the message review handler. Currently this must be an ARN of a lambda function.
@@ -2557,7 +2557,7 @@ public struct PendingVerification: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct PendingVerificationBody: Swift.Equatable {
+struct PendingVerificationBody {
     let message: Swift.String?
 }
 
@@ -2627,7 +2627,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: IvschatClientTypes.ResourceType?
@@ -2767,7 +2767,7 @@ extension IvschatClientTypes.RoomSummary: Swift.Codable {
 
 extension IvschatClientTypes {
     /// Summary information about a room.
-    public struct RoomSummary: Swift.Equatable {
+    public struct RoomSummary {
         /// Room ARN.
         public var arn: Swift.String?
         /// Time when the room was created. This is an ISO 8601 timestamp; note that this is returned as a string.
@@ -2830,7 +2830,7 @@ extension IvschatClientTypes.S3DestinationConfiguration: Swift.Codable {
 
 extension IvschatClientTypes {
     /// Specifies an S3 location where chat logs will be stored.
-    public struct S3DestinationConfiguration: Swift.Equatable {
+    public struct S3DestinationConfiguration {
         /// Name of the Amazon S3 bucket where chat activity will be logged.
         /// This member is required.
         public var bucketName: Swift.String?
@@ -2876,7 +2876,7 @@ extension SendEventInput {
     }
 }
 
-public struct SendEventInput: Swift.Equatable {
+public struct SendEventInput {
     /// Application-defined metadata to attach to the event sent to clients. The maximum length of the metadata is 1 KB total.
     public var attributes: [Swift.String:Swift.String]?
     /// Application-defined name of the event to send to clients.
@@ -2898,7 +2898,7 @@ public struct SendEventInput: Swift.Equatable {
     }
 }
 
-struct SendEventInputBody: Swift.Equatable {
+struct SendEventInputBody {
     let roomIdentifier: Swift.String?
     let eventName: Swift.String?
     let attributes: [Swift.String:Swift.String]?
@@ -2943,7 +2943,7 @@ extension SendEventOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SendEventOutput: Swift.Equatable {
+public struct SendEventOutput {
     /// An identifier generated by Amazon IVS Chat. This identifier must be used in subsequent operations for this message, such as DeleteMessage.
     public var id: Swift.String?
 
@@ -2955,7 +2955,7 @@ public struct SendEventOutput: Swift.Equatable {
     }
 }
 
-struct SendEventOutputBody: Swift.Equatable {
+struct SendEventOutputBody {
     let id: Swift.String?
 }
 
@@ -3047,7 +3047,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: IvschatClientTypes.ResourceType?
@@ -3101,7 +3101,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The ARN of the resource to be tagged. The ARN must be URL-encoded.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3119,7 +3119,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -3149,7 +3149,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -3228,7 +3228,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: IvschatClientTypes.ResourceType?
@@ -3282,7 +3282,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The ARN of the resource to be untagged. The ARN must be URL-encoded.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3300,7 +3300,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -3314,7 +3314,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -3360,7 +3360,7 @@ extension UpdateLoggingConfigurationInput {
     }
 }
 
-public struct UpdateLoggingConfigurationInput: Swift.Equatable {
+public struct UpdateLoggingConfigurationInput {
     /// A complex type that contains a destination configuration for where chat content will be logged. There can be only one type of destination (cloudWatchLogs, firehose, or s3) in a destinationConfiguration.
     public var destinationConfiguration: IvschatClientTypes.DestinationConfiguration?
     /// Identifier of the logging configuration to be updated.
@@ -3381,7 +3381,7 @@ public struct UpdateLoggingConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateLoggingConfigurationInputBody: Swift.Equatable {
+struct UpdateLoggingConfigurationInputBody {
     let identifier: Swift.String?
     let name: Swift.String?
     let destinationConfiguration: IvschatClientTypes.DestinationConfiguration?
@@ -3431,7 +3431,7 @@ extension UpdateLoggingConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateLoggingConfigurationOutput: Swift.Equatable {
+public struct UpdateLoggingConfigurationOutput {
     /// Logging-configuration ARN, from the request (if identifier was an ARN).
     public var arn: Swift.String?
     /// Time when the logging configuration was created. This is an ISO 8601 timestamp; note that this is returned as a string.
@@ -3471,7 +3471,7 @@ public struct UpdateLoggingConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateLoggingConfigurationOutputBody: Swift.Equatable {
+struct UpdateLoggingConfigurationOutputBody {
     let arn: Swift.String?
     let id: Swift.String?
     let createTime: ClientRuntime.Date?
@@ -3611,7 +3611,7 @@ extension UpdateRoomInput {
     }
 }
 
-public struct UpdateRoomInput: Swift.Equatable {
+public struct UpdateRoomInput {
     /// Identifier of the room to be updated. Currently this must be an ARN.
     /// This member is required.
     public var identifier: Swift.String?
@@ -3644,7 +3644,7 @@ public struct UpdateRoomInput: Swift.Equatable {
     }
 }
 
-struct UpdateRoomInputBody: Swift.Equatable {
+struct UpdateRoomInputBody {
     let identifier: Swift.String?
     let name: Swift.String?
     let maximumMessageRatePerSecond: Swift.Int?
@@ -3719,7 +3719,7 @@ extension UpdateRoomOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateRoomOutput: Swift.Equatable {
+public struct UpdateRoomOutput {
     /// Room ARN, from the request (if identifier was an ARN).
     public var arn: Swift.String?
     /// Time when the room was created. This is an ISO 8601 timestamp; note that this is returned as a string.
@@ -3767,7 +3767,7 @@ public struct UpdateRoomOutput: Swift.Equatable {
     }
 }
 
-struct UpdateRoomOutputBody: Swift.Equatable {
+struct UpdateRoomOutputBody {
     let arn: Swift.String?
     let id: Swift.String?
     let name: Swift.String?
@@ -3904,7 +3904,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let reason: IvschatClientTypes.ValidationExceptionReason?
     let fieldList: [IvschatClientTypes.ValidationExceptionField]?
@@ -3964,7 +3964,7 @@ extension IvschatClientTypes.ValidationExceptionField: Swift.Codable {
 
 extension IvschatClientTypes {
     /// This object is used in the ValidationException error.
-    public struct ValidationExceptionField: Swift.Equatable {
+    public struct ValidationExceptionField {
         /// Explanation of the reason for the validation error.
         /// This member is required.
         public var message: Swift.String?

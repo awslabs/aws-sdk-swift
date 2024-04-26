@@ -41,7 +41,7 @@ public struct AWSOrganizationsNotInUseException: ClientRuntime.ModeledError, AWS
     }
 }
 
-struct AWSOrganizationsNotInUseExceptionBody: Swift.Equatable {
+struct AWSOrganizationsNotInUseExceptionBody {
     let message: Swift.String?
 }
 
@@ -77,7 +77,7 @@ extension AcceptHandshakeInput {
     }
 }
 
-public struct AcceptHandshakeInput: Swift.Equatable {
+public struct AcceptHandshakeInput {
     /// The unique identifier (ID) of the handshake that you want to accept. The [regex pattern](http://wikipedia.org/wiki/regex) for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits.
     /// This member is required.
     public var handshakeId: Swift.String?
@@ -90,7 +90,7 @@ public struct AcceptHandshakeInput: Swift.Equatable {
     }
 }
 
-struct AcceptHandshakeInputBody: Swift.Equatable {
+struct AcceptHandshakeInputBody {
     let handshakeId: Swift.String?
 }
 
@@ -118,7 +118,7 @@ extension AcceptHandshakeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AcceptHandshakeOutput: Swift.Equatable {
+public struct AcceptHandshakeOutput {
     /// A structure that contains details about the accepted handshake.
     public var handshake: OrganizationsClientTypes.Handshake?
 
@@ -130,7 +130,7 @@ public struct AcceptHandshakeOutput: Swift.Equatable {
     }
 }
 
-struct AcceptHandshakeOutputBody: Swift.Equatable {
+struct AcceptHandshakeOutputBody {
     let handshake: OrganizationsClientTypes.Handshake?
 }
 
@@ -206,7 +206,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -266,7 +266,7 @@ public struct AccessDeniedForDependencyException: ClientRuntime.ModeledError, AW
     }
 }
 
-struct AccessDeniedForDependencyExceptionBody: Swift.Equatable {
+struct AccessDeniedForDependencyExceptionBody {
     let message: Swift.String?
     let reason: OrganizationsClientTypes.AccessDeniedForDependencyExceptionReason?
 }
@@ -377,7 +377,7 @@ extension OrganizationsClientTypes.Account: Swift.CustomDebugStringConvertible {
 
 extension OrganizationsClientTypes {
     /// Contains information about an Amazon Web Services account that is a member of an organization.
-    public struct Account: Swift.Equatable {
+    public struct Account {
         /// The Amazon Resource Name (ARN) of the account. For more information about ARNs in Organizations, see [ARN Formats Supported by Organizations](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies) in the Amazon Web Services Service Authorization Reference.
         public var arn: Swift.String?
         /// The email address associated with the Amazon Web Services account. The [regex pattern](http://wikipedia.org/wiki/regex) for this parameter is a string of characters that represents a standard internet email address.
@@ -454,7 +454,7 @@ public struct AccountAlreadyClosedException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct AccountAlreadyClosedExceptionBody: Swift.Equatable {
+struct AccountAlreadyClosedExceptionBody {
     let message: Swift.String?
 }
 
@@ -509,7 +509,7 @@ public struct AccountAlreadyRegisteredException: ClientRuntime.ModeledError, AWS
     }
 }
 
-struct AccountAlreadyRegisteredExceptionBody: Swift.Equatable {
+struct AccountAlreadyRegisteredExceptionBody {
     let message: Swift.String?
 }
 
@@ -596,7 +596,7 @@ public struct AccountNotFoundException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct AccountNotFoundExceptionBody: Swift.Equatable {
+struct AccountNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -651,7 +651,7 @@ public struct AccountNotRegisteredException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct AccountNotRegisteredExceptionBody: Swift.Equatable {
+struct AccountNotRegisteredExceptionBody {
     let message: Swift.String?
 }
 
@@ -706,7 +706,7 @@ public struct AccountOwnerNotVerifiedException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct AccountOwnerNotVerifiedExceptionBody: Swift.Equatable {
+struct AccountOwnerNotVerifiedExceptionBody {
     let message: Swift.String?
 }
 
@@ -834,7 +834,7 @@ public struct AlreadyInOrganizationException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct AlreadyInOrganizationExceptionBody: Swift.Equatable {
+struct AlreadyInOrganizationExceptionBody {
     let message: Swift.String?
 }
 
@@ -874,7 +874,7 @@ extension AttachPolicyInput {
     }
 }
 
-public struct AttachPolicyInput: Swift.Equatable {
+public struct AttachPolicyInput {
     /// The unique identifier (ID) of the policy that you want to attach to the target. You can get the ID for the policy by calling the [ListPolicies] operation. The [regex pattern](http://wikipedia.org/wiki/regex) for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_).
     /// This member is required.
     public var policyId: Swift.String?
@@ -898,7 +898,7 @@ public struct AttachPolicyInput: Swift.Equatable {
     }
 }
 
-struct AttachPolicyInputBody: Swift.Equatable {
+struct AttachPolicyInputBody {
     let policyId: Swift.String?
     let targetId: Swift.String?
 }
@@ -923,7 +923,7 @@ extension AttachPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AttachPolicyOutput: Swift.Equatable {
+public struct AttachPolicyOutput {
 
     public init() { }
 }
@@ -971,7 +971,7 @@ extension CancelHandshakeInput {
     }
 }
 
-public struct CancelHandshakeInput: Swift.Equatable {
+public struct CancelHandshakeInput {
     /// The unique identifier (ID) of the handshake that you want to cancel. You can get the ID from the [ListHandshakesForOrganization] operation. The [regex pattern](http://wikipedia.org/wiki/regex) for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits.
     /// This member is required.
     public var handshakeId: Swift.String?
@@ -984,7 +984,7 @@ public struct CancelHandshakeInput: Swift.Equatable {
     }
 }
 
-struct CancelHandshakeInputBody: Swift.Equatable {
+struct CancelHandshakeInputBody {
     let handshakeId: Swift.String?
 }
 
@@ -1012,7 +1012,7 @@ extension CancelHandshakeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelHandshakeOutput: Swift.Equatable {
+public struct CancelHandshakeOutput {
     /// A structure that contains details about the handshake that you canceled.
     public var handshake: OrganizationsClientTypes.Handshake?
 
@@ -1024,7 +1024,7 @@ public struct CancelHandshakeOutput: Swift.Equatable {
     }
 }
 
-struct CancelHandshakeOutputBody: Swift.Equatable {
+struct CancelHandshakeOutputBody {
     let handshake: OrganizationsClientTypes.Handshake?
 }
 
@@ -1085,7 +1085,7 @@ extension OrganizationsClientTypes.Child: Swift.Codable {
 
 extension OrganizationsClientTypes {
     /// Contains a list of child entities, either OUs or accounts.
-    public struct Child: Swift.Equatable {
+    public struct Child {
         /// The unique identifier (ID) of this child entity. The [regex pattern](http://wikipedia.org/wiki/regex) for a child ID string requires one of the following:
         ///
         /// * Account - A string that consists of exactly 12 digits.
@@ -1146,7 +1146,7 @@ public struct ChildNotFoundException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ChildNotFoundExceptionBody: Swift.Equatable {
+struct ChildNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -1214,7 +1214,7 @@ extension CloseAccountInput {
     }
 }
 
-public struct CloseAccountInput: Swift.Equatable {
+public struct CloseAccountInput {
     /// Retrieves the Amazon Web Services account Id for the current CloseAccount API request.
     /// This member is required.
     public var accountId: Swift.String?
@@ -1227,7 +1227,7 @@ public struct CloseAccountInput: Swift.Equatable {
     }
 }
 
-struct CloseAccountInputBody: Swift.Equatable {
+struct CloseAccountInputBody {
     let accountId: Swift.String?
 }
 
@@ -1248,7 +1248,7 @@ extension CloseAccountOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CloseAccountOutput: Swift.Equatable {
+public struct CloseAccountOutput {
 
     public init() { }
 }
@@ -1313,7 +1313,7 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct ConcurrentModificationExceptionBody: Swift.Equatable {
+struct ConcurrentModificationExceptionBody {
     let message: Swift.String?
 }
 
@@ -1368,7 +1368,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -1496,7 +1496,7 @@ public struct ConstraintViolationException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct ConstraintViolationExceptionBody: Swift.Equatable {
+struct ConstraintViolationExceptionBody {
     let message: Swift.String?
     let reason: OrganizationsClientTypes.ConstraintViolationExceptionReason?
 }
@@ -1759,7 +1759,7 @@ extension CreateAccountInput {
     }
 }
 
-public struct CreateAccountInput: Swift.Equatable {
+public struct CreateAccountInput {
     /// The friendly name of the member account.
     /// This member is required.
     public var accountName: Swift.String?
@@ -1815,7 +1815,7 @@ public struct CreateAccountInput: Swift.Equatable {
     }
 }
 
-struct CreateAccountInputBody: Swift.Equatable {
+struct CreateAccountInputBody {
     let email: Swift.String?
     let accountName: Swift.String?
     let roleName: Swift.String?
@@ -1868,7 +1868,7 @@ extension CreateAccountOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAccountOutput: Swift.Equatable {
+public struct CreateAccountOutput {
     /// A structure that contains details about the request to create an account. This response structure might not be fully populated when you first receive it because account creation is an asynchronous process. You can pass the returned CreateAccountStatus ID as a parameter to [DescribeCreateAccountStatus] to get status about the progress of the request at later times. You can also check the CloudTrail log for the CreateAccountResult event. For more information, see [Logging and monitoring in Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_security_incident-response.html) in the Organizations User Guide.
     public var createAccountStatus: OrganizationsClientTypes.CreateAccountStatus?
 
@@ -1880,7 +1880,7 @@ public struct CreateAccountOutput: Swift.Equatable {
     }
 }
 
-struct CreateAccountOutputBody: Swift.Equatable {
+struct CreateAccountOutputBody {
     let createAccountStatus: OrganizationsClientTypes.CreateAccountStatus?
 }
 
@@ -2018,7 +2018,7 @@ extension OrganizationsClientTypes.CreateAccountStatus: Swift.CustomDebugStringC
 
 extension OrganizationsClientTypes {
     /// Contains the status about a [CreateAccount] or [CreateGovCloudAccount] request to create an Amazon Web Services account or an Amazon Web Services GovCloud (US) account in an organization.
-    public struct CreateAccountStatus: Swift.Equatable {
+    public struct CreateAccountStatus {
         /// If the account was created successfully, the unique identifier (ID) of the new account. The [regex pattern](http://wikipedia.org/wiki/regex) for an account ID string requires exactly 12 digits.
         public var accountId: Swift.String?
         /// The account name given to the account when it was created.
@@ -2127,7 +2127,7 @@ public struct CreateAccountStatusNotFoundException: ClientRuntime.ModeledError, 
     }
 }
 
-struct CreateAccountStatusNotFoundExceptionBody: Swift.Equatable {
+struct CreateAccountStatusNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -2187,7 +2187,7 @@ extension CreateGovCloudAccountInput {
     }
 }
 
-public struct CreateGovCloudAccountInput: Swift.Equatable {
+public struct CreateGovCloudAccountInput {
     /// The friendly name of the member account. The account name can consist of only the characters [a-z],[A-Z],[0-9], hyphen (-), or dot (.) You can't separate characters with a dash (–).
     /// This member is required.
     public var accountName: Swift.String?
@@ -2243,7 +2243,7 @@ public struct CreateGovCloudAccountInput: Swift.Equatable {
     }
 }
 
-struct CreateGovCloudAccountInputBody: Swift.Equatable {
+struct CreateGovCloudAccountInputBody {
     let email: Swift.String?
     let accountName: Swift.String?
     let roleName: Swift.String?
@@ -2296,7 +2296,7 @@ extension CreateGovCloudAccountOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateGovCloudAccountOutput: Swift.Equatable {
+public struct CreateGovCloudAccountOutput {
     /// Contains the status about a [CreateAccount] or [CreateGovCloudAccount] request to create an Amazon Web Services account or an Amazon Web Services GovCloud (US) account in an organization.
     public var createAccountStatus: OrganizationsClientTypes.CreateAccountStatus?
 
@@ -2308,7 +2308,7 @@ public struct CreateGovCloudAccountOutput: Swift.Equatable {
     }
 }
 
-struct CreateGovCloudAccountOutputBody: Swift.Equatable {
+struct CreateGovCloudAccountOutputBody {
     let createAccountStatus: OrganizationsClientTypes.CreateAccountStatus?
 }
 
@@ -2363,7 +2363,7 @@ extension CreateOrganizationInput {
     }
 }
 
-public struct CreateOrganizationInput: Swift.Equatable {
+public struct CreateOrganizationInput {
     /// Specifies the feature set supported by the new organization. Each feature set supports different levels of functionality.
     ///
     /// * CONSOLIDATED_BILLING: All member accounts have their bills consolidated to and paid by the management account. For more information, see [Consolidated billing](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#feature-set-cb-only) in the Organizations User Guide. The consolidated billing feature subset isn't available for organizations in the Amazon Web Services GovCloud (US) Region.
@@ -2379,7 +2379,7 @@ public struct CreateOrganizationInput: Swift.Equatable {
     }
 }
 
-struct CreateOrganizationInputBody: Swift.Equatable {
+struct CreateOrganizationInputBody {
     let featureSet: OrganizationsClientTypes.OrganizationFeatureSet?
 }
 
@@ -2407,7 +2407,7 @@ extension CreateOrganizationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateOrganizationOutput: Swift.Equatable {
+public struct CreateOrganizationOutput {
     /// A structure that contains details about the newly created organization.
     public var organization: OrganizationsClientTypes.Organization?
 
@@ -2419,7 +2419,7 @@ public struct CreateOrganizationOutput: Swift.Equatable {
     }
 }
 
-struct CreateOrganizationOutputBody: Swift.Equatable {
+struct CreateOrganizationOutputBody {
     let organization: OrganizationsClientTypes.Organization?
 }
 
@@ -2484,7 +2484,7 @@ extension CreateOrganizationalUnitInput {
     }
 }
 
-public struct CreateOrganizationalUnitInput: Swift.Equatable {
+public struct CreateOrganizationalUnitInput {
     /// The friendly name to assign to the new OU.
     /// This member is required.
     public var name: Swift.String?
@@ -2510,7 +2510,7 @@ public struct CreateOrganizationalUnitInput: Swift.Equatable {
     }
 }
 
-struct CreateOrganizationalUnitInputBody: Swift.Equatable {
+struct CreateOrganizationalUnitInputBody {
     let parentId: Swift.String?
     let name: Swift.String?
     let tags: [OrganizationsClientTypes.Tag]?
@@ -2555,7 +2555,7 @@ extension CreateOrganizationalUnitOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateOrganizationalUnitOutput: Swift.Equatable {
+public struct CreateOrganizationalUnitOutput {
     /// A structure that contains details about the newly created OU.
     public var organizationalUnit: OrganizationsClientTypes.OrganizationalUnit?
 
@@ -2567,7 +2567,7 @@ public struct CreateOrganizationalUnitOutput: Swift.Equatable {
     }
 }
 
-struct CreateOrganizationalUnitOutputBody: Swift.Equatable {
+struct CreateOrganizationalUnitOutputBody {
     let organizationalUnit: OrganizationsClientTypes.OrganizationalUnit?
 }
 
@@ -2641,7 +2641,7 @@ extension CreatePolicyInput {
     }
 }
 
-public struct CreatePolicyInput: Swift.Equatable {
+public struct CreatePolicyInput {
     /// The policy text content to add to the new policy. The text that you supply must adhere to the rules of the policy type you specify in the Type parameter. The maximum size of a policy document depends on the policy's type. For more information, see [Maximum and minimum values](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html#min-max-values) in the Organizations User Guide.
     /// This member is required.
     public var content: Swift.String?
@@ -2681,7 +2681,7 @@ public struct CreatePolicyInput: Swift.Equatable {
     }
 }
 
-struct CreatePolicyInputBody: Swift.Equatable {
+struct CreatePolicyInputBody {
     let content: Swift.String?
     let description: Swift.String?
     let name: Swift.String?
@@ -2734,7 +2734,7 @@ extension CreatePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePolicyOutput: Swift.Equatable {
+public struct CreatePolicyOutput {
     /// A structure that contains details about the newly created policy.
     public var policy: OrganizationsClientTypes.Policy?
 
@@ -2746,7 +2746,7 @@ public struct CreatePolicyOutput: Swift.Equatable {
     }
 }
 
-struct CreatePolicyOutputBody: Swift.Equatable {
+struct CreatePolicyOutputBody {
     let policy: OrganizationsClientTypes.Policy?
 }
 
@@ -2803,7 +2803,7 @@ extension DeclineHandshakeInput {
     }
 }
 
-public struct DeclineHandshakeInput: Swift.Equatable {
+public struct DeclineHandshakeInput {
     /// The unique identifier (ID) of the handshake that you want to decline. You can get the ID from the [ListHandshakesForAccount] operation. The [regex pattern](http://wikipedia.org/wiki/regex) for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits.
     /// This member is required.
     public var handshakeId: Swift.String?
@@ -2816,7 +2816,7 @@ public struct DeclineHandshakeInput: Swift.Equatable {
     }
 }
 
-struct DeclineHandshakeInputBody: Swift.Equatable {
+struct DeclineHandshakeInputBody {
     let handshakeId: Swift.String?
 }
 
@@ -2844,7 +2844,7 @@ extension DeclineHandshakeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeclineHandshakeOutput: Swift.Equatable {
+public struct DeclineHandshakeOutput {
     /// A structure that contains details about the declined handshake. The state is updated to show the value DECLINED.
     public var handshake: OrganizationsClientTypes.Handshake?
 
@@ -2856,7 +2856,7 @@ public struct DeclineHandshakeOutput: Swift.Equatable {
     }
 }
 
-struct DeclineHandshakeOutputBody: Swift.Equatable {
+struct DeclineHandshakeOutputBody {
     let handshake: OrganizationsClientTypes.Handshake?
 }
 
@@ -2958,7 +2958,7 @@ extension OrganizationsClientTypes.DelegatedAdministrator: Swift.CustomDebugStri
 
 extension OrganizationsClientTypes {
     /// Contains information about the delegated administrator.
-    public struct DelegatedAdministrator: Swift.Equatable {
+    public struct DelegatedAdministrator {
         /// The Amazon Resource Name (ARN) of the delegated administrator's account.
         public var arn: Swift.String?
         /// The date when the account was made a delegated administrator.
@@ -3027,7 +3027,7 @@ extension OrganizationsClientTypes.DelegatedService: Swift.Codable {
 
 extension OrganizationsClientTypes {
     /// Contains information about the Amazon Web Services service for which the account is a delegated administrator.
-    public struct DelegatedService: Swift.Equatable {
+    public struct DelegatedService {
         /// The date that the account became a delegated administrator for this service.
         public var delegationEnabledDate: ClientRuntime.Date?
         /// The name of an Amazon Web Services service that can request an operation for the specified service. This is typically in the form of a URL, such as:  servicename.amazonaws.com.
@@ -3060,12 +3060,12 @@ extension DeleteOrganizationInput {
     }
 }
 
-public struct DeleteOrganizationInput: Swift.Equatable {
+public struct DeleteOrganizationInput {
 
     public init() { }
 }
 
-struct DeleteOrganizationInputBody: Swift.Equatable {
+struct DeleteOrganizationInputBody {
 }
 
 extension DeleteOrganizationInputBody: Swift.Decodable {
@@ -3079,7 +3079,7 @@ extension DeleteOrganizationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteOrganizationOutput: Swift.Equatable {
+public struct DeleteOrganizationOutput {
 
     public init() { }
 }
@@ -3121,7 +3121,7 @@ extension DeleteOrganizationalUnitInput {
     }
 }
 
-public struct DeleteOrganizationalUnitInput: Swift.Equatable {
+public struct DeleteOrganizationalUnitInput {
     /// The unique identifier (ID) of the organizational unit that you want to delete. You can get the ID from the [ListOrganizationalUnitsForParent] operation. The [regex pattern](http://wikipedia.org/wiki/regex) for an organizational unit ID string requires "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that contains the OU). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits.
     /// This member is required.
     public var organizationalUnitId: Swift.String?
@@ -3134,7 +3134,7 @@ public struct DeleteOrganizationalUnitInput: Swift.Equatable {
     }
 }
 
-struct DeleteOrganizationalUnitInputBody: Swift.Equatable {
+struct DeleteOrganizationalUnitInputBody {
     let organizationalUnitId: Swift.String?
 }
 
@@ -3155,7 +3155,7 @@ extension DeleteOrganizationalUnitOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteOrganizationalUnitOutput: Swift.Equatable {
+public struct DeleteOrganizationalUnitOutput {
 
     public init() { }
 }
@@ -3198,7 +3198,7 @@ extension DeletePolicyInput {
     }
 }
 
-public struct DeletePolicyInput: Swift.Equatable {
+public struct DeletePolicyInput {
     /// The unique identifier (ID) of the policy that you want to delete. You can get the ID from the [ListPolicies] or [ListPoliciesForTarget] operations. The [regex pattern](http://wikipedia.org/wiki/regex) for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_).
     /// This member is required.
     public var policyId: Swift.String?
@@ -3211,7 +3211,7 @@ public struct DeletePolicyInput: Swift.Equatable {
     }
 }
 
-struct DeletePolicyInputBody: Swift.Equatable {
+struct DeletePolicyInputBody {
     let policyId: Swift.String?
 }
 
@@ -3232,7 +3232,7 @@ extension DeletePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePolicyOutput: Swift.Equatable {
+public struct DeletePolicyOutput {
 
     public init() { }
 }
@@ -3271,12 +3271,12 @@ extension DeleteResourcePolicyInput {
     }
 }
 
-public struct DeleteResourcePolicyInput: Swift.Equatable {
+public struct DeleteResourcePolicyInput {
 
     public init() { }
 }
 
-struct DeleteResourcePolicyInputBody: Swift.Equatable {
+struct DeleteResourcePolicyInputBody {
 }
 
 extension DeleteResourcePolicyInputBody: Swift.Decodable {
@@ -3290,7 +3290,7 @@ extension DeleteResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteResourcePolicyOutput: Swift.Equatable {
+public struct DeleteResourcePolicyOutput {
 
     public init() { }
 }
@@ -3337,7 +3337,7 @@ extension DeregisterDelegatedAdministratorInput {
     }
 }
 
-public struct DeregisterDelegatedAdministratorInput: Swift.Equatable {
+public struct DeregisterDelegatedAdministratorInput {
     /// The account ID number of the member account in the organization that you want to deregister as a delegated administrator.
     /// This member is required.
     public var accountId: Swift.String?
@@ -3355,7 +3355,7 @@ public struct DeregisterDelegatedAdministratorInput: Swift.Equatable {
     }
 }
 
-struct DeregisterDelegatedAdministratorInputBody: Swift.Equatable {
+struct DeregisterDelegatedAdministratorInputBody {
     let accountId: Swift.String?
     let servicePrincipal: Swift.String?
 }
@@ -3380,7 +3380,7 @@ extension DeregisterDelegatedAdministratorOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DeregisterDelegatedAdministratorOutput: Swift.Equatable {
+public struct DeregisterDelegatedAdministratorOutput {
 
     public init() { }
 }
@@ -3425,7 +3425,7 @@ extension DescribeAccountInput {
     }
 }
 
-public struct DescribeAccountInput: Swift.Equatable {
+public struct DescribeAccountInput {
     /// The unique identifier (ID) of the Amazon Web Services account that you want information about. You can get the ID from the [ListAccounts] or [ListAccountsForParent] operations. The [regex pattern](http://wikipedia.org/wiki/regex) for an account ID string requires exactly 12 digits.
     /// This member is required.
     public var accountId: Swift.String?
@@ -3438,7 +3438,7 @@ public struct DescribeAccountInput: Swift.Equatable {
     }
 }
 
-struct DescribeAccountInputBody: Swift.Equatable {
+struct DescribeAccountInputBody {
     let accountId: Swift.String?
 }
 
@@ -3466,7 +3466,7 @@ extension DescribeAccountOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAccountOutput: Swift.Equatable {
+public struct DescribeAccountOutput {
     /// A structure that contains information about the requested account.
     public var account: OrganizationsClientTypes.Account?
 
@@ -3478,7 +3478,7 @@ public struct DescribeAccountOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAccountOutputBody: Swift.Equatable {
+struct DescribeAccountOutputBody {
     let account: OrganizationsClientTypes.Account?
 }
 
@@ -3530,7 +3530,7 @@ extension DescribeCreateAccountStatusInput {
     }
 }
 
-public struct DescribeCreateAccountStatusInput: Swift.Equatable {
+public struct DescribeCreateAccountStatusInput {
     /// Specifies the Id value that uniquely identifies the CreateAccount request. You can get the value from the CreateAccountStatus.Id response in an earlier [CreateAccount] request, or from the [ListCreateAccountStatus] operation. The [regex pattern](http://wikipedia.org/wiki/regex) for a create account request ID string requires "car-" followed by from 8 to 32 lowercase letters or digits.
     /// This member is required.
     public var createAccountRequestId: Swift.String?
@@ -3543,7 +3543,7 @@ public struct DescribeCreateAccountStatusInput: Swift.Equatable {
     }
 }
 
-struct DescribeCreateAccountStatusInputBody: Swift.Equatable {
+struct DescribeCreateAccountStatusInputBody {
     let createAccountRequestId: Swift.String?
 }
 
@@ -3571,7 +3571,7 @@ extension DescribeCreateAccountStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeCreateAccountStatusOutput: Swift.Equatable {
+public struct DescribeCreateAccountStatusOutput {
     /// A structure that contains the current status of an account creation request.
     public var createAccountStatus: OrganizationsClientTypes.CreateAccountStatus?
 
@@ -3583,7 +3583,7 @@ public struct DescribeCreateAccountStatusOutput: Swift.Equatable {
     }
 }
 
-struct DescribeCreateAccountStatusOutputBody: Swift.Equatable {
+struct DescribeCreateAccountStatusOutputBody {
     let createAccountStatus: OrganizationsClientTypes.CreateAccountStatus?
 }
 
@@ -3640,7 +3640,7 @@ extension DescribeEffectivePolicyInput {
     }
 }
 
-public struct DescribeEffectivePolicyInput: Swift.Equatable {
+public struct DescribeEffectivePolicyInput {
     /// The type of policy that you want information about. You can specify one of the following values:
     ///
     /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
@@ -3663,7 +3663,7 @@ public struct DescribeEffectivePolicyInput: Swift.Equatable {
     }
 }
 
-struct DescribeEffectivePolicyInputBody: Swift.Equatable {
+struct DescribeEffectivePolicyInputBody {
     let policyType: OrganizationsClientTypes.EffectivePolicyType?
     let targetId: Swift.String?
 }
@@ -3695,7 +3695,7 @@ extension DescribeEffectivePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeEffectivePolicyOutput: Swift.Equatable {
+public struct DescribeEffectivePolicyOutput {
     /// The contents of the effective policy.
     public var effectivePolicy: OrganizationsClientTypes.EffectivePolicy?
 
@@ -3707,7 +3707,7 @@ public struct DescribeEffectivePolicyOutput: Swift.Equatable {
     }
 }
 
-struct DescribeEffectivePolicyOutputBody: Swift.Equatable {
+struct DescribeEffectivePolicyOutputBody {
     let effectivePolicy: OrganizationsClientTypes.EffectivePolicy?
 }
 
@@ -3762,7 +3762,7 @@ extension DescribeHandshakeInput {
     }
 }
 
-public struct DescribeHandshakeInput: Swift.Equatable {
+public struct DescribeHandshakeInput {
     /// The unique identifier (ID) of the handshake that you want information about. You can get the ID from the original call to [InviteAccountToOrganization], or from a call to [ListHandshakesForAccount] or [ListHandshakesForOrganization]. The [regex pattern](http://wikipedia.org/wiki/regex) for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits.
     /// This member is required.
     public var handshakeId: Swift.String?
@@ -3775,7 +3775,7 @@ public struct DescribeHandshakeInput: Swift.Equatable {
     }
 }
 
-struct DescribeHandshakeInputBody: Swift.Equatable {
+struct DescribeHandshakeInputBody {
     let handshakeId: Swift.String?
 }
 
@@ -3803,7 +3803,7 @@ extension DescribeHandshakeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeHandshakeOutput: Swift.Equatable {
+public struct DescribeHandshakeOutput {
     /// A structure that contains information about the specified handshake.
     public var handshake: OrganizationsClientTypes.Handshake?
 
@@ -3815,7 +3815,7 @@ public struct DescribeHandshakeOutput: Swift.Equatable {
     }
 }
 
-struct DescribeHandshakeOutputBody: Swift.Equatable {
+struct DescribeHandshakeOutputBody {
     let handshake: OrganizationsClientTypes.Handshake?
 }
 
@@ -3862,12 +3862,12 @@ extension DescribeOrganizationInput {
     }
 }
 
-public struct DescribeOrganizationInput: Swift.Equatable {
+public struct DescribeOrganizationInput {
 
     public init() { }
 }
 
-struct DescribeOrganizationInputBody: Swift.Equatable {
+struct DescribeOrganizationInputBody {
 }
 
 extension DescribeOrganizationInputBody: Swift.Decodable {
@@ -3888,7 +3888,7 @@ extension DescribeOrganizationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeOrganizationOutput: Swift.Equatable {
+public struct DescribeOrganizationOutput {
     /// A structure that contains information about the organization. The AvailablePolicyTypes part of the response is deprecated, and you shouldn't use it in your apps. It doesn't include any policy type supported by Organizations other than SCPs. To determine which policy types are enabled in your organization, use the [ListRoots] operation.
     public var organization: OrganizationsClientTypes.Organization?
 
@@ -3900,7 +3900,7 @@ public struct DescribeOrganizationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeOrganizationOutputBody: Swift.Equatable {
+struct DescribeOrganizationOutputBody {
     let organization: OrganizationsClientTypes.Organization?
 }
 
@@ -3951,7 +3951,7 @@ extension DescribeOrganizationalUnitInput {
     }
 }
 
-public struct DescribeOrganizationalUnitInput: Swift.Equatable {
+public struct DescribeOrganizationalUnitInput {
     /// The unique identifier (ID) of the organizational unit that you want details about. You can get the ID from the [ListOrganizationalUnitsForParent] operation. The [regex pattern](http://wikipedia.org/wiki/regex) for an organizational unit ID string requires "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that contains the OU). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits.
     /// This member is required.
     public var organizationalUnitId: Swift.String?
@@ -3964,7 +3964,7 @@ public struct DescribeOrganizationalUnitInput: Swift.Equatable {
     }
 }
 
-struct DescribeOrganizationalUnitInputBody: Swift.Equatable {
+struct DescribeOrganizationalUnitInputBody {
     let organizationalUnitId: Swift.String?
 }
 
@@ -3992,7 +3992,7 @@ extension DescribeOrganizationalUnitOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeOrganizationalUnitOutput: Swift.Equatable {
+public struct DescribeOrganizationalUnitOutput {
     /// A structure that contains details about the specified OU.
     public var organizationalUnit: OrganizationsClientTypes.OrganizationalUnit?
 
@@ -4004,7 +4004,7 @@ public struct DescribeOrganizationalUnitOutput: Swift.Equatable {
     }
 }
 
-struct DescribeOrganizationalUnitOutputBody: Swift.Equatable {
+struct DescribeOrganizationalUnitOutputBody {
     let organizationalUnit: OrganizationsClientTypes.OrganizationalUnit?
 }
 
@@ -4056,7 +4056,7 @@ extension DescribePolicyInput {
     }
 }
 
-public struct DescribePolicyInput: Swift.Equatable {
+public struct DescribePolicyInput {
     /// The unique identifier (ID) of the policy that you want details about. You can get the ID from the [ListPolicies] or [ListPoliciesForTarget] operations. The [regex pattern](http://wikipedia.org/wiki/regex) for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_).
     /// This member is required.
     public var policyId: Swift.String?
@@ -4069,7 +4069,7 @@ public struct DescribePolicyInput: Swift.Equatable {
     }
 }
 
-struct DescribePolicyInputBody: Swift.Equatable {
+struct DescribePolicyInputBody {
     let policyId: Swift.String?
 }
 
@@ -4097,7 +4097,7 @@ extension DescribePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribePolicyOutput: Swift.Equatable {
+public struct DescribePolicyOutput {
     /// A structure that contains details about the specified policy.
     public var policy: OrganizationsClientTypes.Policy?
 
@@ -4109,7 +4109,7 @@ public struct DescribePolicyOutput: Swift.Equatable {
     }
 }
 
-struct DescribePolicyOutputBody: Swift.Equatable {
+struct DescribePolicyOutputBody {
     let policy: OrganizationsClientTypes.Policy?
 }
 
@@ -4157,12 +4157,12 @@ extension DescribeResourcePolicyInput {
     }
 }
 
-public struct DescribeResourcePolicyInput: Swift.Equatable {
+public struct DescribeResourcePolicyInput {
 
     public init() { }
 }
 
-struct DescribeResourcePolicyInputBody: Swift.Equatable {
+struct DescribeResourcePolicyInputBody {
 }
 
 extension DescribeResourcePolicyInputBody: Swift.Decodable {
@@ -4183,7 +4183,7 @@ extension DescribeResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeResourcePolicyOutput: Swift.Equatable {
+public struct DescribeResourcePolicyOutput {
     /// A structure that contains details about the resource policy.
     public var resourcePolicy: OrganizationsClientTypes.ResourcePolicy?
 
@@ -4195,7 +4195,7 @@ public struct DescribeResourcePolicyOutput: Swift.Equatable {
     }
 }
 
-struct DescribeResourcePolicyOutputBody: Swift.Equatable {
+struct DescribeResourcePolicyOutputBody {
     let resourcePolicy: OrganizationsClientTypes.ResourcePolicy?
 }
 
@@ -4267,7 +4267,7 @@ public struct DestinationParentNotFoundException: ClientRuntime.ModeledError, AW
     }
 }
 
-struct DestinationParentNotFoundExceptionBody: Swift.Equatable {
+struct DestinationParentNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -4307,7 +4307,7 @@ extension DetachPolicyInput {
     }
 }
 
-public struct DetachPolicyInput: Swift.Equatable {
+public struct DetachPolicyInput {
     /// The unique identifier (ID) of the policy you want to detach. You can get the ID from the [ListPolicies] or [ListPoliciesForTarget] operations. The [regex pattern](http://wikipedia.org/wiki/regex) for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_).
     /// This member is required.
     public var policyId: Swift.String?
@@ -4331,7 +4331,7 @@ public struct DetachPolicyInput: Swift.Equatable {
     }
 }
 
-struct DetachPolicyInputBody: Swift.Equatable {
+struct DetachPolicyInputBody {
     let policyId: Swift.String?
     let targetId: Swift.String?
 }
@@ -4356,7 +4356,7 @@ extension DetachPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DetachPolicyOutput: Swift.Equatable {
+public struct DetachPolicyOutput {
 
     public init() { }
 }
@@ -4403,7 +4403,7 @@ extension DisableAWSServiceAccessInput {
     }
 }
 
-public struct DisableAWSServiceAccessInput: Swift.Equatable {
+public struct DisableAWSServiceAccessInput {
     /// The service principal name of the Amazon Web Services service for which you want to disable integration with your organization. This is typically in the form of a URL, such as  service-abbreviation.amazonaws.com.
     /// This member is required.
     public var servicePrincipal: Swift.String?
@@ -4416,7 +4416,7 @@ public struct DisableAWSServiceAccessInput: Swift.Equatable {
     }
 }
 
-struct DisableAWSServiceAccessInputBody: Swift.Equatable {
+struct DisableAWSServiceAccessInputBody {
     let servicePrincipal: Swift.String?
 }
 
@@ -4437,7 +4437,7 @@ extension DisableAWSServiceAccessOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisableAWSServiceAccessOutput: Swift.Equatable {
+public struct DisableAWSServiceAccessOutput {
 
     public init() { }
 }
@@ -4484,7 +4484,7 @@ extension DisablePolicyTypeInput {
     }
 }
 
-public struct DisablePolicyTypeInput: Swift.Equatable {
+public struct DisablePolicyTypeInput {
     /// The policy type that you want to disable in this root. You can specify one of the following values:
     ///
     /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
@@ -4510,7 +4510,7 @@ public struct DisablePolicyTypeInput: Swift.Equatable {
     }
 }
 
-struct DisablePolicyTypeInputBody: Swift.Equatable {
+struct DisablePolicyTypeInputBody {
     let rootId: Swift.String?
     let policyType: OrganizationsClientTypes.PolicyType?
 }
@@ -4542,7 +4542,7 @@ extension DisablePolicyTypeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisablePolicyTypeOutput: Swift.Equatable {
+public struct DisablePolicyTypeOutput {
     /// A structure that shows the root with the updated list of enabled policy types.
     public var root: OrganizationsClientTypes.Root?
 
@@ -4554,7 +4554,7 @@ public struct DisablePolicyTypeOutput: Swift.Equatable {
     }
 }
 
-struct DisablePolicyTypeOutputBody: Swift.Equatable {
+struct DisablePolicyTypeOutputBody {
     let root: OrganizationsClientTypes.Root?
 }
 
@@ -4630,7 +4630,7 @@ public struct DuplicateAccountException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct DuplicateAccountExceptionBody: Swift.Equatable {
+struct DuplicateAccountExceptionBody {
     let message: Swift.String?
 }
 
@@ -4685,7 +4685,7 @@ public struct DuplicateHandshakeException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct DuplicateHandshakeExceptionBody: Swift.Equatable {
+struct DuplicateHandshakeExceptionBody {
     let message: Swift.String?
 }
 
@@ -4740,7 +4740,7 @@ public struct DuplicateOrganizationalUnitException: ClientRuntime.ModeledError, 
     }
 }
 
-struct DuplicateOrganizationalUnitExceptionBody: Swift.Equatable {
+struct DuplicateOrganizationalUnitExceptionBody {
     let message: Swift.String?
 }
 
@@ -4795,7 +4795,7 @@ public struct DuplicatePolicyAttachmentException: ClientRuntime.ModeledError, AW
     }
 }
 
-struct DuplicatePolicyAttachmentExceptionBody: Swift.Equatable {
+struct DuplicatePolicyAttachmentExceptionBody {
     let message: Swift.String?
 }
 
@@ -4850,7 +4850,7 @@ public struct DuplicatePolicyException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct DuplicatePolicyExceptionBody: Swift.Equatable {
+struct DuplicatePolicyExceptionBody {
     let message: Swift.String?
 }
 
@@ -4905,7 +4905,7 @@ extension OrganizationsClientTypes.EffectivePolicy: Swift.Codable {
 
 extension OrganizationsClientTypes {
     /// Contains rules to be applied to the affected accounts. The effective policy is the aggregation of any policies the account inherits, plus any policy directly attached to the account.
-    public struct EffectivePolicy: Swift.Equatable {
+    public struct EffectivePolicy {
         /// The time of the last update to this policy.
         public var lastUpdatedTimestamp: ClientRuntime.Date?
         /// The text content of the policy.
@@ -4970,7 +4970,7 @@ public struct EffectivePolicyNotFoundException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct EffectivePolicyNotFoundExceptionBody: Swift.Equatable {
+struct EffectivePolicyNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -5041,7 +5041,7 @@ extension EnableAWSServiceAccessInput {
     }
 }
 
-public struct EnableAWSServiceAccessInput: Swift.Equatable {
+public struct EnableAWSServiceAccessInput {
     /// The service principal name of the Amazon Web Services service for which you want to enable integration with your organization. This is typically in the form of a URL, such as  service-abbreviation.amazonaws.com.
     /// This member is required.
     public var servicePrincipal: Swift.String?
@@ -5054,7 +5054,7 @@ public struct EnableAWSServiceAccessInput: Swift.Equatable {
     }
 }
 
-struct EnableAWSServiceAccessInputBody: Swift.Equatable {
+struct EnableAWSServiceAccessInputBody {
     let servicePrincipal: Swift.String?
 }
 
@@ -5075,7 +5075,7 @@ extension EnableAWSServiceAccessOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct EnableAWSServiceAccessOutput: Swift.Equatable {
+public struct EnableAWSServiceAccessOutput {
 
     public init() { }
 }
@@ -5113,12 +5113,12 @@ extension EnableAllFeaturesInput {
     }
 }
 
-public struct EnableAllFeaturesInput: Swift.Equatable {
+public struct EnableAllFeaturesInput {
 
     public init() { }
 }
 
-struct EnableAllFeaturesInputBody: Swift.Equatable {
+struct EnableAllFeaturesInputBody {
 }
 
 extension EnableAllFeaturesInputBody: Swift.Decodable {
@@ -5139,7 +5139,7 @@ extension EnableAllFeaturesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct EnableAllFeaturesOutput: Swift.Equatable {
+public struct EnableAllFeaturesOutput {
     /// A structure that contains details about the handshake created to support this request to enable all features in the organization.
     public var handshake: OrganizationsClientTypes.Handshake?
 
@@ -5151,7 +5151,7 @@ public struct EnableAllFeaturesOutput: Swift.Equatable {
     }
 }
 
-struct EnableAllFeaturesOutputBody: Swift.Equatable {
+struct EnableAllFeaturesOutputBody {
     let handshake: OrganizationsClientTypes.Handshake?
 }
 
@@ -5208,7 +5208,7 @@ extension EnablePolicyTypeInput {
     }
 }
 
-public struct EnablePolicyTypeInput: Swift.Equatable {
+public struct EnablePolicyTypeInput {
     /// The policy type that you want to enable. You can specify one of the following values:
     ///
     /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
@@ -5234,7 +5234,7 @@ public struct EnablePolicyTypeInput: Swift.Equatable {
     }
 }
 
-struct EnablePolicyTypeInputBody: Swift.Equatable {
+struct EnablePolicyTypeInputBody {
     let rootId: Swift.String?
     let policyType: OrganizationsClientTypes.PolicyType?
 }
@@ -5266,7 +5266,7 @@ extension EnablePolicyTypeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct EnablePolicyTypeOutput: Swift.Equatable {
+public struct EnablePolicyTypeOutput {
     /// A structure that shows the root with the updated list of enabled policy types.
     public var root: OrganizationsClientTypes.Root?
 
@@ -5278,7 +5278,7 @@ public struct EnablePolicyTypeOutput: Swift.Equatable {
     }
 }
 
-struct EnablePolicyTypeOutputBody: Swift.Equatable {
+struct EnablePolicyTypeOutputBody {
     let root: OrganizationsClientTypes.Root?
 }
 
@@ -5343,7 +5343,7 @@ extension OrganizationsClientTypes.EnabledServicePrincipal: Swift.Codable {
 
 extension OrganizationsClientTypes {
     /// A structure that contains details of a service principal that represents an Amazon Web Services service that is enabled to integrate with Organizations.
-    public struct EnabledServicePrincipal: Swift.Equatable {
+    public struct EnabledServicePrincipal {
         /// The date that the service principal was enabled for integration with Organizations.
         public var dateEnabled: ClientRuntime.Date?
         /// The name of the service principal. This is typically in the form of a URL, such as:  servicename.amazonaws.com.
@@ -5400,7 +5400,7 @@ public struct FinalizingOrganizationException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct FinalizingOrganizationExceptionBody: Swift.Equatable {
+struct FinalizingOrganizationExceptionBody {
     let message: Swift.String?
 }
 
@@ -5503,7 +5503,7 @@ extension OrganizationsClientTypes.Handshake: Swift.Codable {
 
 extension OrganizationsClientTypes {
     /// Contains information that must be exchanged to securely establish a relationship between two accounts (an originator and a recipient). For example, when a management account (the originator) invites another account (the recipient) to join its organization, the two accounts exchange information as a series of handshake requests and responses. Note: Handshakes that are CANCELED, ACCEPTED, DECLINED, or EXPIRED show up in lists for only 30 days after entering that state After that they are deleted.
-    public struct Handshake: Swift.Equatable {
+    public struct Handshake {
         /// The type of handshake, indicating what action occurs when the recipient accepts the handshake. The following handshake types are supported:
         ///
         /// * INVITE: This type of handshake represents a request to join an organization. It is always sent from the management account to only non-member accounts.
@@ -5602,7 +5602,7 @@ public struct HandshakeAlreadyInStateException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct HandshakeAlreadyInStateExceptionBody: Swift.Equatable {
+struct HandshakeAlreadyInStateExceptionBody {
     let message: Swift.String?
 }
 
@@ -5680,7 +5680,7 @@ public struct HandshakeConstraintViolationException: ClientRuntime.ModeledError,
     }
 }
 
-struct HandshakeConstraintViolationExceptionBody: Swift.Equatable {
+struct HandshakeConstraintViolationExceptionBody {
     let message: Swift.String?
     let reason: OrganizationsClientTypes.HandshakeConstraintViolationExceptionReason?
 }
@@ -5783,7 +5783,7 @@ extension OrganizationsClientTypes.HandshakeFilter: Swift.Codable {
 
 extension OrganizationsClientTypes {
     /// Specifies the criteria that are used to select the handshakes for the operation.
-    public struct HandshakeFilter: Swift.Equatable {
+    public struct HandshakeFilter {
         /// Specifies the type of handshake action. If you specify ActionType, you cannot also specify ParentHandshakeId.
         public var actionType: OrganizationsClientTypes.ActionType?
         /// Specifies the parent handshake. Only used for handshake types that are a child of another type. If you specify ParentHandshakeId, you cannot also specify ActionType. The [regex pattern](http://wikipedia.org/wiki/regex) for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits.
@@ -5840,7 +5840,7 @@ public struct HandshakeNotFoundException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct HandshakeNotFoundExceptionBody: Swift.Equatable {
+struct HandshakeNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -5888,7 +5888,7 @@ extension OrganizationsClientTypes.HandshakeParty: Swift.CustomDebugStringConver
 
 extension OrganizationsClientTypes {
     /// Identifies a participant in a handshake.
-    public struct HandshakeParty: Swift.Equatable {
+    public struct HandshakeParty {
         /// The unique identifier (ID) for the party. The [regex pattern](http://wikipedia.org/wiki/regex) for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits.
         /// This member is required.
         public var id: Swift.String?
@@ -5993,7 +5993,7 @@ extension OrganizationsClientTypes.HandshakeResource: Swift.CustomDebugStringCon
 
 extension OrganizationsClientTypes {
     /// Contains additional data that is needed to process a handshake.
-    public struct HandshakeResource: Swift.Equatable {
+    public struct HandshakeResource {
         /// When needed, contains an additional array of HandshakeResource objects.
         public var resources: [OrganizationsClientTypes.HandshakeResource]?
         /// The type of information being passed, specifying how the value is to be interpreted by the other party:
@@ -6192,7 +6192,7 @@ public struct InvalidHandshakeTransitionException: ClientRuntime.ModeledError, A
     }
 }
 
-struct InvalidHandshakeTransitionExceptionBody: Swift.Equatable {
+struct InvalidHandshakeTransitionExceptionBody {
     let message: Swift.String?
 }
 
@@ -6300,7 +6300,7 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct InvalidInputExceptionBody: Swift.Equatable {
+struct InvalidInputExceptionBody {
     let message: Swift.String?
     let reason: OrganizationsClientTypes.InvalidInputExceptionReason?
 }
@@ -6466,7 +6466,7 @@ extension InviteAccountToOrganizationInput {
     }
 }
 
-public struct InviteAccountToOrganizationInput: Swift.Equatable {
+public struct InviteAccountToOrganizationInput {
     /// Additional information that you want to include in the generated email to the recipient account owner.
     public var notes: Swift.String?
     /// A list of tags that you want to attach to the account when it becomes a member of the organization. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null. For more information about tagging, see [Tagging Organizations resources](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tagging.html) in the Organizations User Guide. Any tags in the request are checked for compliance with any applicable tag policies when the request is made. The request is rejected if the tags in the request don't match the requirements of the policy at that time. Tag policy compliance is not checked again when the invitation is accepted and the tags are actually attached to the account. That means that if the tag policy changes between the invitation and the acceptance, then that tags could potentially be non-compliant. If any one of the tags is not valid or if you exceed the allowed number of tags for an account, then the entire request fails and invitations are not sent.
@@ -6487,7 +6487,7 @@ public struct InviteAccountToOrganizationInput: Swift.Equatable {
     }
 }
 
-struct InviteAccountToOrganizationInputBody: Swift.Equatable {
+struct InviteAccountToOrganizationInputBody {
     let target: OrganizationsClientTypes.HandshakeParty?
     let notes: Swift.String?
     let tags: [OrganizationsClientTypes.Tag]?
@@ -6532,7 +6532,7 @@ extension InviteAccountToOrganizationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct InviteAccountToOrganizationOutput: Swift.Equatable {
+public struct InviteAccountToOrganizationOutput {
     /// A structure that contains details about the handshake that is created to support this invitation request.
     public var handshake: OrganizationsClientTypes.Handshake?
 
@@ -6544,7 +6544,7 @@ public struct InviteAccountToOrganizationOutput: Swift.Equatable {
     }
 }
 
-struct InviteAccountToOrganizationOutputBody: Swift.Equatable {
+struct InviteAccountToOrganizationOutputBody {
     let handshake: OrganizationsClientTypes.Handshake?
 }
 
@@ -6596,12 +6596,12 @@ extension LeaveOrganizationInput {
     }
 }
 
-public struct LeaveOrganizationInput: Swift.Equatable {
+public struct LeaveOrganizationInput {
 
     public init() { }
 }
 
-struct LeaveOrganizationInputBody: Swift.Equatable {
+struct LeaveOrganizationInputBody {
 }
 
 extension LeaveOrganizationInputBody: Swift.Decodable {
@@ -6615,7 +6615,7 @@ extension LeaveOrganizationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct LeaveOrganizationOutput: Swift.Equatable {
+public struct LeaveOrganizationOutput {
 
     public init() { }
 }
@@ -6663,7 +6663,7 @@ extension ListAWSServiceAccessForOrganizationInput {
     }
 }
 
-public struct ListAWSServiceAccessForOrganizationInput: Swift.Equatable {
+public struct ListAWSServiceAccessForOrganizationInput {
     /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
     /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
@@ -6679,7 +6679,7 @@ public struct ListAWSServiceAccessForOrganizationInput: Swift.Equatable {
     }
 }
 
-struct ListAWSServiceAccessForOrganizationInputBody: Swift.Equatable {
+struct ListAWSServiceAccessForOrganizationInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -6713,7 +6713,7 @@ extension ListAWSServiceAccessForOrganizationOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct ListAWSServiceAccessForOrganizationOutput: Swift.Equatable {
+public struct ListAWSServiceAccessForOrganizationOutput {
     /// A list of the service principals for the services that are enabled to integrate with your organization. Each principal is a structure that includes the name and the date that it was enabled for integration with Organizations.
     public var enabledServicePrincipals: [OrganizationsClientTypes.EnabledServicePrincipal]?
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
@@ -6729,7 +6729,7 @@ public struct ListAWSServiceAccessForOrganizationOutput: Swift.Equatable {
     }
 }
 
-struct ListAWSServiceAccessForOrganizationOutputBody: Swift.Equatable {
+struct ListAWSServiceAccessForOrganizationOutputBody {
     let enabledServicePrincipals: [OrganizationsClientTypes.EnabledServicePrincipal]?
     let nextToken: Swift.String?
 }
@@ -6803,7 +6803,7 @@ extension ListAccountsForParentInput {
     }
 }
 
-public struct ListAccountsForParentInput: Swift.Equatable {
+public struct ListAccountsForParentInput {
     /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
     /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
@@ -6824,7 +6824,7 @@ public struct ListAccountsForParentInput: Swift.Equatable {
     }
 }
 
-struct ListAccountsForParentInputBody: Swift.Equatable {
+struct ListAccountsForParentInputBody {
     let parentId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -6862,7 +6862,7 @@ extension ListAccountsForParentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAccountsForParentOutput: Swift.Equatable {
+public struct ListAccountsForParentOutput {
     /// A list of the accounts in the specified root or OU.
     public var accounts: [OrganizationsClientTypes.Account]?
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
@@ -6878,7 +6878,7 @@ public struct ListAccountsForParentOutput: Swift.Equatable {
     }
 }
 
-struct ListAccountsForParentOutputBody: Swift.Equatable {
+struct ListAccountsForParentOutputBody {
     let accounts: [OrganizationsClientTypes.Account]?
     let nextToken: Swift.String?
 }
@@ -6947,7 +6947,7 @@ extension ListAccountsInput {
     }
 }
 
-public struct ListAccountsInput: Swift.Equatable {
+public struct ListAccountsInput {
     /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
     /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
@@ -6963,7 +6963,7 @@ public struct ListAccountsInput: Swift.Equatable {
     }
 }
 
-struct ListAccountsInputBody: Swift.Equatable {
+struct ListAccountsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -6997,7 +6997,7 @@ extension ListAccountsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAccountsOutput: Swift.Equatable {
+public struct ListAccountsOutput {
     /// A list of objects in the organization.
     public var accounts: [OrganizationsClientTypes.Account]?
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
@@ -7013,7 +7013,7 @@ public struct ListAccountsOutput: Swift.Equatable {
     }
 }
 
-struct ListAccountsOutputBody: Swift.Equatable {
+struct ListAccountsOutputBody {
     let accounts: [OrganizationsClientTypes.Account]?
     let nextToken: Swift.String?
 }
@@ -7089,7 +7089,7 @@ extension ListChildrenInput {
     }
 }
 
-public struct ListChildrenInput: Swift.Equatable {
+public struct ListChildrenInput {
     /// Filters the output to include only the specified child type.
     /// This member is required.
     public var childType: OrganizationsClientTypes.ChildType?
@@ -7119,7 +7119,7 @@ public struct ListChildrenInput: Swift.Equatable {
     }
 }
 
-struct ListChildrenInputBody: Swift.Equatable {
+struct ListChildrenInputBody {
     let parentId: Swift.String?
     let childType: OrganizationsClientTypes.ChildType?
     let nextToken: Swift.String?
@@ -7161,7 +7161,7 @@ extension ListChildrenOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListChildrenOutput: Swift.Equatable {
+public struct ListChildrenOutput {
     /// The list of children of the specified parent container.
     public var children: [OrganizationsClientTypes.Child]?
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
@@ -7177,7 +7177,7 @@ public struct ListChildrenOutput: Swift.Equatable {
     }
 }
 
-struct ListChildrenOutputBody: Swift.Equatable {
+struct ListChildrenOutputBody {
     let children: [OrganizationsClientTypes.Child]?
     let nextToken: Swift.String?
 }
@@ -7253,7 +7253,7 @@ extension ListCreateAccountStatusInput {
     }
 }
 
-public struct ListCreateAccountStatusInput: Swift.Equatable {
+public struct ListCreateAccountStatusInput {
     /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
     /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
@@ -7273,7 +7273,7 @@ public struct ListCreateAccountStatusInput: Swift.Equatable {
     }
 }
 
-struct ListCreateAccountStatusInputBody: Swift.Equatable {
+struct ListCreateAccountStatusInputBody {
     let states: [OrganizationsClientTypes.CreateAccountState]?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -7320,7 +7320,7 @@ extension ListCreateAccountStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCreateAccountStatusOutput: Swift.Equatable {
+public struct ListCreateAccountStatusOutput {
     /// A list of objects with details about the requests. Certain elements, such as the accountId number, are present in the output only after the account has been successfully created.
     public var createAccountStatuses: [OrganizationsClientTypes.CreateAccountStatus]?
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
@@ -7336,7 +7336,7 @@ public struct ListCreateAccountStatusOutput: Swift.Equatable {
     }
 }
 
-struct ListCreateAccountStatusOutputBody: Swift.Equatable {
+struct ListCreateAccountStatusOutputBody {
     let createAccountStatuses: [OrganizationsClientTypes.CreateAccountStatus]?
     let nextToken: Swift.String?
 }
@@ -7409,7 +7409,7 @@ extension ListDelegatedAdministratorsInput {
     }
 }
 
-public struct ListDelegatedAdministratorsInput: Swift.Equatable {
+public struct ListDelegatedAdministratorsInput {
     /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
     /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
@@ -7429,7 +7429,7 @@ public struct ListDelegatedAdministratorsInput: Swift.Equatable {
     }
 }
 
-struct ListDelegatedAdministratorsInputBody: Swift.Equatable {
+struct ListDelegatedAdministratorsInputBody {
     let servicePrincipal: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -7467,7 +7467,7 @@ extension ListDelegatedAdministratorsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDelegatedAdministratorsOutput: Swift.Equatable {
+public struct ListDelegatedAdministratorsOutput {
     /// The list of delegated administrators in your organization.
     public var delegatedAdministrators: [OrganizationsClientTypes.DelegatedAdministrator]?
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
@@ -7483,7 +7483,7 @@ public struct ListDelegatedAdministratorsOutput: Swift.Equatable {
     }
 }
 
-struct ListDelegatedAdministratorsOutputBody: Swift.Equatable {
+struct ListDelegatedAdministratorsOutputBody {
     let delegatedAdministrators: [OrganizationsClientTypes.DelegatedAdministrator]?
     let nextToken: Swift.String?
 }
@@ -7557,7 +7557,7 @@ extension ListDelegatedServicesForAccountInput {
     }
 }
 
-public struct ListDelegatedServicesForAccountInput: Swift.Equatable {
+public struct ListDelegatedServicesForAccountInput {
     /// The account ID number of a delegated administrator account in the organization.
     /// This member is required.
     public var accountId: Swift.String?
@@ -7578,7 +7578,7 @@ public struct ListDelegatedServicesForAccountInput: Swift.Equatable {
     }
 }
 
-struct ListDelegatedServicesForAccountInputBody: Swift.Equatable {
+struct ListDelegatedServicesForAccountInputBody {
     let accountId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -7616,7 +7616,7 @@ extension ListDelegatedServicesForAccountOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ListDelegatedServicesForAccountOutput: Swift.Equatable {
+public struct ListDelegatedServicesForAccountOutput {
     /// The services for which the account is a delegated administrator.
     public var delegatedServices: [OrganizationsClientTypes.DelegatedService]?
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
@@ -7632,7 +7632,7 @@ public struct ListDelegatedServicesForAccountOutput: Swift.Equatable {
     }
 }
 
-struct ListDelegatedServicesForAccountOutputBody: Swift.Equatable {
+struct ListDelegatedServicesForAccountOutputBody {
     let delegatedServices: [OrganizationsClientTypes.DelegatedService]?
     let nextToken: Swift.String?
 }
@@ -7708,7 +7708,7 @@ extension ListHandshakesForAccountInput {
     }
 }
 
-public struct ListHandshakesForAccountInput: Swift.Equatable {
+public struct ListHandshakesForAccountInput {
     /// Filters the handshakes that you want included in the response. The default is all types. Use the ActionType element to limit the output to only a specified type, such as INVITE, ENABLE_ALL_FEATURES, or APPROVE_ALL_FEATURES. Alternatively, for the ENABLE_ALL_FEATURES handshake that generates a separate child handshake for each member account, you can specify ParentHandshakeId to see only the handshakes that were generated by that parent request.
     public var filter: OrganizationsClientTypes.HandshakeFilter?
     /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
@@ -7728,7 +7728,7 @@ public struct ListHandshakesForAccountInput: Swift.Equatable {
     }
 }
 
-struct ListHandshakesForAccountInputBody: Swift.Equatable {
+struct ListHandshakesForAccountInputBody {
     let filter: OrganizationsClientTypes.HandshakeFilter?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -7766,7 +7766,7 @@ extension ListHandshakesForAccountOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListHandshakesForAccountOutput: Swift.Equatable {
+public struct ListHandshakesForAccountOutput {
     /// A list of [Handshake] objects with details about each of the handshakes that is associated with the specified account.
     public var handshakes: [OrganizationsClientTypes.Handshake]?
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
@@ -7782,7 +7782,7 @@ public struct ListHandshakesForAccountOutput: Swift.Equatable {
     }
 }
 
-struct ListHandshakesForAccountOutputBody: Swift.Equatable {
+struct ListHandshakesForAccountOutputBody {
     let handshakes: [OrganizationsClientTypes.Handshake]?
     let nextToken: Swift.String?
 }
@@ -7854,7 +7854,7 @@ extension ListHandshakesForOrganizationInput {
     }
 }
 
-public struct ListHandshakesForOrganizationInput: Swift.Equatable {
+public struct ListHandshakesForOrganizationInput {
     /// A filter of the handshakes that you want included in the response. The default is all types. Use the ActionType element to limit the output to only a specified type, such as INVITE, ENABLE-ALL-FEATURES, or APPROVE-ALL-FEATURES. Alternatively, for the ENABLE-ALL-FEATURES handshake that generates a separate child handshake for each member account, you can specify the ParentHandshakeId to see only the handshakes that were generated by that parent request.
     public var filter: OrganizationsClientTypes.HandshakeFilter?
     /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
@@ -7874,7 +7874,7 @@ public struct ListHandshakesForOrganizationInput: Swift.Equatable {
     }
 }
 
-struct ListHandshakesForOrganizationInputBody: Swift.Equatable {
+struct ListHandshakesForOrganizationInputBody {
     let filter: OrganizationsClientTypes.HandshakeFilter?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -7912,7 +7912,7 @@ extension ListHandshakesForOrganizationOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ListHandshakesForOrganizationOutput: Swift.Equatable {
+public struct ListHandshakesForOrganizationOutput {
     /// A list of [Handshake] objects with details about each of the handshakes that are associated with an organization.
     public var handshakes: [OrganizationsClientTypes.Handshake]?
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
@@ -7928,7 +7928,7 @@ public struct ListHandshakesForOrganizationOutput: Swift.Equatable {
     }
 }
 
-struct ListHandshakesForOrganizationOutputBody: Swift.Equatable {
+struct ListHandshakesForOrganizationOutputBody {
     let handshakes: [OrganizationsClientTypes.Handshake]?
     let nextToken: Swift.String?
 }
@@ -8001,7 +8001,7 @@ extension ListOrganizationalUnitsForParentInput {
     }
 }
 
-public struct ListOrganizationalUnitsForParentInput: Swift.Equatable {
+public struct ListOrganizationalUnitsForParentInput {
     /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
     /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
@@ -8026,7 +8026,7 @@ public struct ListOrganizationalUnitsForParentInput: Swift.Equatable {
     }
 }
 
-struct ListOrganizationalUnitsForParentInputBody: Swift.Equatable {
+struct ListOrganizationalUnitsForParentInputBody {
     let parentId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -8064,7 +8064,7 @@ extension ListOrganizationalUnitsForParentOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct ListOrganizationalUnitsForParentOutput: Swift.Equatable {
+public struct ListOrganizationalUnitsForParentOutput {
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
     /// A list of the OUs in the specified root or parent OU.
@@ -8080,7 +8080,7 @@ public struct ListOrganizationalUnitsForParentOutput: Swift.Equatable {
     }
 }
 
-struct ListOrganizationalUnitsForParentOutputBody: Swift.Equatable {
+struct ListOrganizationalUnitsForParentOutputBody {
     let organizationalUnits: [OrganizationsClientTypes.OrganizationalUnit]?
     let nextToken: Swift.String?
 }
@@ -8153,7 +8153,7 @@ extension ListParentsInput {
     }
 }
 
-public struct ListParentsInput: Swift.Equatable {
+public struct ListParentsInput {
     /// The unique identifier (ID) of the OU or account whose parent containers you want to list. Don't specify a root. The [regex pattern](http://wikipedia.org/wiki/regex) for a child ID string requires one of the following:
     ///
     /// * Account - A string that consists of exactly 12 digits.
@@ -8178,7 +8178,7 @@ public struct ListParentsInput: Swift.Equatable {
     }
 }
 
-struct ListParentsInputBody: Swift.Equatable {
+struct ListParentsInputBody {
     let childId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -8216,7 +8216,7 @@ extension ListParentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListParentsOutput: Swift.Equatable {
+public struct ListParentsOutput {
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
     /// A list of parents for the specified child account or OU.
@@ -8232,7 +8232,7 @@ public struct ListParentsOutput: Swift.Equatable {
     }
 }
 
-struct ListParentsOutputBody: Swift.Equatable {
+struct ListParentsOutputBody {
     let parents: [OrganizationsClientTypes.Parent]?
     let nextToken: Swift.String?
 }
@@ -8309,7 +8309,7 @@ extension ListPoliciesForTargetInput {
     }
 }
 
-public struct ListPoliciesForTargetInput: Swift.Equatable {
+public struct ListPoliciesForTargetInput {
     /// The type of policy that you want to include in the returned list. You must specify one of the following values:
     ///
     /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
@@ -8349,7 +8349,7 @@ public struct ListPoliciesForTargetInput: Swift.Equatable {
     }
 }
 
-struct ListPoliciesForTargetInputBody: Swift.Equatable {
+struct ListPoliciesForTargetInputBody {
     let targetId: Swift.String?
     let filter: OrganizationsClientTypes.PolicyType?
     let nextToken: Swift.String?
@@ -8391,7 +8391,7 @@ extension ListPoliciesForTargetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPoliciesForTargetOutput: Swift.Equatable {
+public struct ListPoliciesForTargetOutput {
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
     /// The list of policies that match the criteria in the request.
@@ -8407,7 +8407,7 @@ public struct ListPoliciesForTargetOutput: Swift.Equatable {
     }
 }
 
-struct ListPoliciesForTargetOutputBody: Swift.Equatable {
+struct ListPoliciesForTargetOutputBody {
     let policies: [OrganizationsClientTypes.PolicySummary]?
     let nextToken: Swift.String?
 }
@@ -8481,7 +8481,7 @@ extension ListPoliciesInput {
     }
 }
 
-public struct ListPoliciesInput: Swift.Equatable {
+public struct ListPoliciesInput {
     /// Specifies the type of policy that you want to include in the response. You must specify one of the following values:
     ///
     /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
@@ -8510,7 +8510,7 @@ public struct ListPoliciesInput: Swift.Equatable {
     }
 }
 
-struct ListPoliciesInputBody: Swift.Equatable {
+struct ListPoliciesInputBody {
     let filter: OrganizationsClientTypes.PolicyType?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -8548,7 +8548,7 @@ extension ListPoliciesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPoliciesOutput: Swift.Equatable {
+public struct ListPoliciesOutput {
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
     /// A list of policies that match the filter criteria in the request. The output list doesn't include the policy contents. To see the content for a policy, see [DescribePolicy].
@@ -8564,7 +8564,7 @@ public struct ListPoliciesOutput: Swift.Equatable {
     }
 }
 
-struct ListPoliciesOutputBody: Swift.Equatable {
+struct ListPoliciesOutputBody {
     let policies: [OrganizationsClientTypes.PolicySummary]?
     let nextToken: Swift.String?
 }
@@ -8633,7 +8633,7 @@ extension ListRootsInput {
     }
 }
 
-public struct ListRootsInput: Swift.Equatable {
+public struct ListRootsInput {
     /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
     /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
@@ -8649,7 +8649,7 @@ public struct ListRootsInput: Swift.Equatable {
     }
 }
 
-struct ListRootsInputBody: Swift.Equatable {
+struct ListRootsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -8683,7 +8683,7 @@ extension ListRootsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRootsOutput: Swift.Equatable {
+public struct ListRootsOutput {
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
     /// A list of roots that are defined in an organization.
@@ -8699,7 +8699,7 @@ public struct ListRootsOutput: Swift.Equatable {
     }
 }
 
-struct ListRootsOutputBody: Swift.Equatable {
+struct ListRootsOutputBody {
     let roots: [OrganizationsClientTypes.Root]?
     let nextToken: Swift.String?
 }
@@ -8767,7 +8767,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
     public var nextToken: Swift.String?
     /// The ID of the resource with the tags to list. You can specify any of the following taggable resources.
@@ -8792,7 +8792,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceId: Swift.String?
     let nextToken: Swift.String?
 }
@@ -8826,7 +8826,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
     /// The tags that are assigned to the resource.
@@ -8842,7 +8842,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [OrganizationsClientTypes.Tag]?
     let nextToken: Swift.String?
 }
@@ -8915,7 +8915,7 @@ extension ListTargetsForPolicyInput {
     }
 }
 
-public struct ListTargetsForPolicyInput: Swift.Equatable {
+public struct ListTargetsForPolicyInput {
     /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
     /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
@@ -8936,7 +8936,7 @@ public struct ListTargetsForPolicyInput: Swift.Equatable {
     }
 }
 
-struct ListTargetsForPolicyInputBody: Swift.Equatable {
+struct ListTargetsForPolicyInputBody {
     let policyId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -8974,7 +8974,7 @@ extension ListTargetsForPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTargetsForPolicyOutput: Swift.Equatable {
+public struct ListTargetsForPolicyOutput {
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
     /// A list of structures, each of which contains details about one of the entities to which the specified policy is attached.
@@ -8990,7 +8990,7 @@ public struct ListTargetsForPolicyOutput: Swift.Equatable {
     }
 }
 
-struct ListTargetsForPolicyOutputBody: Swift.Equatable {
+struct ListTargetsForPolicyOutputBody {
     let targets: [OrganizationsClientTypes.PolicyTargetSummary]?
     let nextToken: Swift.String?
 }
@@ -9075,7 +9075,7 @@ public struct MalformedPolicyDocumentException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct MalformedPolicyDocumentExceptionBody: Swift.Equatable {
+struct MalformedPolicyDocumentExceptionBody {
     let message: Swift.String?
 }
 
@@ -9130,7 +9130,7 @@ public struct MasterCannotLeaveOrganizationException: ClientRuntime.ModeledError
     }
 }
 
-struct MasterCannotLeaveOrganizationExceptionBody: Swift.Equatable {
+struct MasterCannotLeaveOrganizationExceptionBody {
     let message: Swift.String?
 }
 
@@ -9174,7 +9174,7 @@ extension MoveAccountInput {
     }
 }
 
-public struct MoveAccountInput: Swift.Equatable {
+public struct MoveAccountInput {
     /// The unique identifier (ID) of the account that you want to move. The [regex pattern](http://wikipedia.org/wiki/regex) for an account ID string requires exactly 12 digits.
     /// This member is required.
     public var accountId: Swift.String?
@@ -9205,7 +9205,7 @@ public struct MoveAccountInput: Swift.Equatable {
     }
 }
 
-struct MoveAccountInputBody: Swift.Equatable {
+struct MoveAccountInputBody {
     let accountId: Swift.String?
     let sourceParentId: Swift.String?
     let destinationParentId: Swift.String?
@@ -9234,7 +9234,7 @@ extension MoveAccountOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct MoveAccountOutput: Swift.Equatable {
+public struct MoveAccountOutput {
 
     public init() { }
 }
@@ -9333,7 +9333,7 @@ extension OrganizationsClientTypes.Organization: Swift.CustomDebugStringConverti
 
 extension OrganizationsClientTypes {
     /// Contains details about an organization. An organization is a collection of accounts that are centrally managed together using consolidated billing, organized hierarchically with organizational units (OUs), and controlled with policies .
-    public struct Organization: Swift.Equatable {
+    public struct Organization {
         /// The Amazon Resource Name (ARN) of an organization. For more information about ARNs in Organizations, see [ARN Formats Supported by Organizations](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies) in the Amazon Web Services Service Authorization Reference.
         public var arn: Swift.String?
         /// Do not use. This field is deprecated and doesn't provide complete information about the policies in your organization. To determine the policies that are enabled and available for use in your organization, use the [ListRoots] operation instead.
@@ -9442,7 +9442,7 @@ public struct OrganizationNotEmptyException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct OrganizationNotEmptyExceptionBody: Swift.Equatable {
+struct OrganizationNotEmptyExceptionBody {
     let message: Swift.String?
 }
 
@@ -9491,7 +9491,7 @@ extension OrganizationsClientTypes.OrganizationalUnit: Swift.Codable {
 
 extension OrganizationsClientTypes {
     /// Contains details about an organizational unit (OU). An OU is a container of Amazon Web Services accounts within a root of an organization. Policies that are attached to an OU apply to all accounts contained in that OU and in any child OUs.
-    public struct OrganizationalUnit: Swift.Equatable {
+    public struct OrganizationalUnit {
         /// The Amazon Resource Name (ARN) of this OU. For more information about ARNs in Organizations, see [ARN Formats Supported by Organizations](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies) in the Amazon Web Services Service Authorization Reference.
         public var arn: Swift.String?
         /// The unique identifier (ID) associated with this OU. The ID is unique to the organization only. The [regex pattern](http://wikipedia.org/wiki/regex) for an organizational unit ID string requires "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that contains the OU). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits.
@@ -9552,7 +9552,7 @@ public struct OrganizationalUnitNotEmptyException: ClientRuntime.ModeledError, A
     }
 }
 
-struct OrganizationalUnitNotEmptyExceptionBody: Swift.Equatable {
+struct OrganizationalUnitNotEmptyExceptionBody {
     let message: Swift.String?
 }
 
@@ -9607,7 +9607,7 @@ public struct OrganizationalUnitNotFoundException: ClientRuntime.ModeledError, A
     }
 }
 
-struct OrganizationalUnitNotFoundExceptionBody: Swift.Equatable {
+struct OrganizationalUnitNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -9652,7 +9652,7 @@ extension OrganizationsClientTypes.Parent: Swift.Codable {
 
 extension OrganizationsClientTypes {
     /// Contains information about either a root or an organizational unit (OU) that can contain OUs or accounts in an organization.
-    public struct Parent: Swift.Equatable {
+    public struct Parent {
         /// The unique identifier (ID) of the parent entity. The [regex pattern](http://wikipedia.org/wiki/regex) for a parent ID string requires one of the following:
         ///
         /// * Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or digits.
@@ -9713,7 +9713,7 @@ public struct ParentNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct ParentNotFoundExceptionBody: Swift.Equatable {
+struct ParentNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -9788,7 +9788,7 @@ extension OrganizationsClientTypes.Policy: Swift.Codable {
 
 extension OrganizationsClientTypes {
     /// Contains rules to be applied to the affected accounts. Policies can be attached directly to accounts, or to roots and OUs to affect all accounts in those hierarchies.
-    public struct Policy: Swift.Equatable {
+    public struct Policy {
         /// The text content of the policy.
         public var content: Swift.String?
         /// A structure that contains additional details about the policy.
@@ -9845,7 +9845,7 @@ public struct PolicyChangesInProgressException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct PolicyChangesInProgressExceptionBody: Swift.Equatable {
+struct PolicyChangesInProgressExceptionBody {
     let message: Swift.String?
 }
 
@@ -9900,7 +9900,7 @@ public struct PolicyInUseException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct PolicyInUseExceptionBody: Swift.Equatable {
+struct PolicyInUseExceptionBody {
     let message: Swift.String?
 }
 
@@ -9955,7 +9955,7 @@ public struct PolicyNotAttachedException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct PolicyNotAttachedExceptionBody: Swift.Equatable {
+struct PolicyNotAttachedExceptionBody {
     let message: Swift.String?
 }
 
@@ -10010,7 +10010,7 @@ public struct PolicyNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct PolicyNotFoundExceptionBody: Swift.Equatable {
+struct PolicyNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -10077,7 +10077,7 @@ extension OrganizationsClientTypes.PolicySummary: Swift.Codable {
 
 extension OrganizationsClientTypes {
     /// Contains information about a policy, but does not include the content. To see the content of a policy, see [DescribePolicy].
-    public struct PolicySummary: Swift.Equatable {
+    public struct PolicySummary {
         /// The Amazon Resource Name (ARN) of the policy. For more information about ARNs in Organizations, see [ARN Formats Supported by Organizations](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies) in the Amazon Web Services Service Authorization Reference.
         public var arn: Swift.String?
         /// A boolean value that indicates whether the specified policy is an Amazon Web Services managed policy. If true, then you can attach the policy to roots, OUs, or accounts, but you cannot edit it.
@@ -10150,7 +10150,7 @@ extension OrganizationsClientTypes.PolicyTargetSummary: Swift.Codable {
 
 extension OrganizationsClientTypes {
     /// Contains information about a root, OU, or account that a policy is attached to.
-    public struct PolicyTargetSummary: Swift.Equatable {
+    public struct PolicyTargetSummary {
         /// The Amazon Resource Name (ARN) of the policy target. For more information about ARNs in Organizations, see [ARN Formats Supported by Organizations](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies) in the Amazon Web Services Service Authorization Reference.
         public var arn: Swift.String?
         /// The friendly name of the policy target. The [regex pattern](http://wikipedia.org/wiki/regex) that is used to validate this parameter is a string of any of the characters in the ASCII character range.
@@ -10259,7 +10259,7 @@ public struct PolicyTypeAlreadyEnabledException: ClientRuntime.ModeledError, AWS
     }
 }
 
-struct PolicyTypeAlreadyEnabledExceptionBody: Swift.Equatable {
+struct PolicyTypeAlreadyEnabledExceptionBody {
     let message: Swift.String?
 }
 
@@ -10314,7 +10314,7 @@ public struct PolicyTypeNotAvailableForOrganizationException: ClientRuntime.Mode
     }
 }
 
-struct PolicyTypeNotAvailableForOrganizationExceptionBody: Swift.Equatable {
+struct PolicyTypeNotAvailableForOrganizationExceptionBody {
     let message: Swift.String?
 }
 
@@ -10369,7 +10369,7 @@ public struct PolicyTypeNotEnabledException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct PolicyTypeNotEnabledExceptionBody: Swift.Equatable {
+struct PolicyTypeNotEnabledExceptionBody {
     let message: Swift.String?
 }
 
@@ -10447,7 +10447,7 @@ extension OrganizationsClientTypes.PolicyTypeSummary: Swift.Codable {
 
 extension OrganizationsClientTypes {
     /// Contains information about a policy type and its status in the associated root.
-    public struct PolicyTypeSummary: Swift.Equatable {
+    public struct PolicyTypeSummary {
         /// The status of the policy type as it relates to the associated root. To attach a policy of the specified type to a root or to an OU or account in that root, it must be available in the organization and enabled for that root.
         public var status: OrganizationsClientTypes.PolicyTypeStatus?
         /// The name of the policy type.
@@ -10492,7 +10492,7 @@ extension PutResourcePolicyInput {
     }
 }
 
-public struct PutResourcePolicyInput: Swift.Equatable {
+public struct PutResourcePolicyInput {
     /// If provided, the new content for the resource policy. The text must be correctly formatted JSON that complies with the syntax for the resource policy's type. For more information, see [SCP syntax](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps_syntax.html) in the Organizations User Guide.
     /// This member is required.
     public var content: Swift.String?
@@ -10509,7 +10509,7 @@ public struct PutResourcePolicyInput: Swift.Equatable {
     }
 }
 
-struct PutResourcePolicyInputBody: Swift.Equatable {
+struct PutResourcePolicyInputBody {
     let content: Swift.String?
     let tags: [OrganizationsClientTypes.Tag]?
 }
@@ -10550,7 +10550,7 @@ extension PutResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutResourcePolicyOutput: Swift.Equatable {
+public struct PutResourcePolicyOutput {
     /// A structure that contains details about the resource policy.
     public var resourcePolicy: OrganizationsClientTypes.ResourcePolicy?
 
@@ -10562,7 +10562,7 @@ public struct PutResourcePolicyOutput: Swift.Equatable {
     }
 }
 
-struct PutResourcePolicyOutputBody: Swift.Equatable {
+struct PutResourcePolicyOutputBody {
     let resourcePolicy: OrganizationsClientTypes.ResourcePolicy?
 }
 
@@ -10620,7 +10620,7 @@ extension RegisterDelegatedAdministratorInput {
     }
 }
 
-public struct RegisterDelegatedAdministratorInput: Swift.Equatable {
+public struct RegisterDelegatedAdministratorInput {
     /// The account ID number of the member account in the organization to register as a delegated administrator.
     /// This member is required.
     public var accountId: Swift.String?
@@ -10638,7 +10638,7 @@ public struct RegisterDelegatedAdministratorInput: Swift.Equatable {
     }
 }
 
-struct RegisterDelegatedAdministratorInputBody: Swift.Equatable {
+struct RegisterDelegatedAdministratorInputBody {
     let accountId: Swift.String?
     let servicePrincipal: Swift.String?
 }
@@ -10663,7 +10663,7 @@ extension RegisterDelegatedAdministratorOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct RegisterDelegatedAdministratorOutput: Swift.Equatable {
+public struct RegisterDelegatedAdministratorOutput {
 
     public init() { }
 }
@@ -10708,7 +10708,7 @@ extension RemoveAccountFromOrganizationInput {
     }
 }
 
-public struct RemoveAccountFromOrganizationInput: Swift.Equatable {
+public struct RemoveAccountFromOrganizationInput {
     /// The unique identifier (ID) of the member account that you want to remove from the organization. The [regex pattern](http://wikipedia.org/wiki/regex) for an account ID string requires exactly 12 digits.
     /// This member is required.
     public var accountId: Swift.String?
@@ -10721,7 +10721,7 @@ public struct RemoveAccountFromOrganizationInput: Swift.Equatable {
     }
 }
 
-struct RemoveAccountFromOrganizationInputBody: Swift.Equatable {
+struct RemoveAccountFromOrganizationInputBody {
     let accountId: Swift.String?
 }
 
@@ -10742,7 +10742,7 @@ extension RemoveAccountFromOrganizationOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct RemoveAccountFromOrganizationOutput: Swift.Equatable {
+public struct RemoveAccountFromOrganizationOutput {
 
     public init() { }
 }
@@ -10793,7 +10793,7 @@ extension OrganizationsClientTypes.ResourcePolicy: Swift.Codable {
 
 extension OrganizationsClientTypes {
     /// A structure that contains details about a resource policy.
-    public struct ResourcePolicy: Swift.Equatable {
+    public struct ResourcePolicy {
         /// The policy text of the resource policy.
         public var content: Swift.String?
         /// A structure that contains resource policy ID and Amazon Resource Name (ARN).
@@ -10850,7 +10850,7 @@ public struct ResourcePolicyNotFoundException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct ResourcePolicyNotFoundExceptionBody: Swift.Equatable {
+struct ResourcePolicyNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -10893,7 +10893,7 @@ extension OrganizationsClientTypes.ResourcePolicySummary: Swift.Codable {
 
 extension OrganizationsClientTypes {
     /// A structure that contains resource policy ID and Amazon Resource Name (ARN).
-    public struct ResourcePolicySummary: Swift.Equatable {
+    public struct ResourcePolicySummary {
         /// The Amazon Resource Name (ARN) of the resource policy.
         public var arn: Swift.String?
         /// The unique identifier (ID) of the resource policy.
@@ -10962,7 +10962,7 @@ extension OrganizationsClientTypes.Root: Swift.Codable {
 
 extension OrganizationsClientTypes {
     /// Contains details about a root. A root is a top-level parent node in the hierarchy of an organization that can contain organizational units (OUs) and accounts. The root contains every Amazon Web Services account in the organization.
-    public struct Root: Swift.Equatable {
+    public struct Root {
         /// The Amazon Resource Name (ARN) of the root. For more information about ARNs in Organizations, see [ARN Formats Supported by Organizations](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies) in the Amazon Web Services Service Authorization Reference.
         public var arn: Swift.String?
         /// The unique identifier (ID) for the root. The ID is unique to the organization only. The [regex pattern](http://wikipedia.org/wiki/regex) for a root ID string requires "r-" followed by from 4 to 32 lowercase letters or digits.
@@ -11027,7 +11027,7 @@ public struct RootNotFoundException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct RootNotFoundExceptionBody: Swift.Equatable {
+struct RootNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -11082,7 +11082,7 @@ public struct ServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     }
 }
 
-struct ServiceExceptionBody: Swift.Equatable {
+struct ServiceExceptionBody {
     let message: Swift.String?
 }
 
@@ -11137,7 +11137,7 @@ public struct SourceParentNotFoundException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct SourceParentNotFoundExceptionBody: Swift.Equatable {
+struct SourceParentNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -11188,7 +11188,7 @@ extension OrganizationsClientTypes {
     /// * Organization root
     ///
     /// * Policy
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key identifier, or name, of the tag.
         /// This member is required.
         public var key: Swift.String?
@@ -11235,7 +11235,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The ID of the resource to add a tag to. You can specify any of the following taggable resources.
     ///
     /// * Amazon Web Services account – specify the account ID number.
@@ -11261,7 +11261,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceId: Swift.String?
     let tags: [OrganizationsClientTypes.Tag]?
 }
@@ -11295,7 +11295,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -11357,7 +11357,7 @@ public struct TargetNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct TargetNotFoundExceptionBody: Swift.Equatable {
+struct TargetNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -11452,7 +11452,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct TooManyRequestsExceptionBody: Swift.Equatable {
+struct TooManyRequestsExceptionBody {
     let type: Swift.String?
     let message: Swift.String?
 }
@@ -11511,7 +11511,7 @@ public struct UnsupportedAPIEndpointException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct UnsupportedAPIEndpointExceptionBody: Swift.Equatable {
+struct UnsupportedAPIEndpointExceptionBody {
     let message: Swift.String?
 }
 
@@ -11554,7 +11554,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The ID of the resource to remove a tag from. You can specify any of the following taggable resources.
     ///
     /// * Amazon Web Services account – specify the account ID number.
@@ -11580,7 +11580,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceId: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -11614,7 +11614,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -11661,7 +11661,7 @@ extension UpdateOrganizationalUnitInput {
     }
 }
 
-public struct UpdateOrganizationalUnitInput: Swift.Equatable {
+public struct UpdateOrganizationalUnitInput {
     /// The new name that you want to assign to the OU. The [regex pattern](http://wikipedia.org/wiki/regex) that is used to validate this parameter is a string of any of the characters in the ASCII character range.
     public var name: Swift.String?
     /// The unique identifier (ID) of the OU that you want to rename. You can get the ID from the [ListOrganizationalUnitsForParent] operation. The [regex pattern](http://wikipedia.org/wiki/regex) for an organizational unit ID string requires "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that contains the OU). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits.
@@ -11678,7 +11678,7 @@ public struct UpdateOrganizationalUnitInput: Swift.Equatable {
     }
 }
 
-struct UpdateOrganizationalUnitInputBody: Swift.Equatable {
+struct UpdateOrganizationalUnitInputBody {
     let organizationalUnitId: Swift.String?
     let name: Swift.String?
 }
@@ -11710,7 +11710,7 @@ extension UpdateOrganizationalUnitOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateOrganizationalUnitOutput: Swift.Equatable {
+public struct UpdateOrganizationalUnitOutput {
     /// A structure that contains the details about the specified OU, including its new name.
     public var organizationalUnit: OrganizationsClientTypes.OrganizationalUnit?
 
@@ -11722,7 +11722,7 @@ public struct UpdateOrganizationalUnitOutput: Swift.Equatable {
     }
 }
 
-struct UpdateOrganizationalUnitOutputBody: Swift.Equatable {
+struct UpdateOrganizationalUnitOutputBody {
     let organizationalUnit: OrganizationsClientTypes.OrganizationalUnit?
 }
 
@@ -11788,7 +11788,7 @@ extension UpdatePolicyInput {
     }
 }
 
-public struct UpdatePolicyInput: Swift.Equatable {
+public struct UpdatePolicyInput {
     /// If provided, the new content for the policy. The text must be correctly formatted JSON that complies with the syntax for the policy's type. For more information, see [SCP syntax](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps_syntax.html) in the Organizations User Guide. The maximum size of a policy document depends on the policy's type. For more information, see [Maximum and minimum values](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html#min-max-values) in the Organizations User Guide.
     public var content: Swift.String?
     /// If provided, the new description for the policy.
@@ -11813,7 +11813,7 @@ public struct UpdatePolicyInput: Swift.Equatable {
     }
 }
 
-struct UpdatePolicyInputBody: Swift.Equatable {
+struct UpdatePolicyInputBody {
     let policyId: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -11853,7 +11853,7 @@ extension UpdatePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePolicyOutput: Swift.Equatable {
+public struct UpdatePolicyOutput {
     /// A structure that contains details about the updated policy, showing the requested changes.
     public var policy: OrganizationsClientTypes.Policy?
 
@@ -11865,7 +11865,7 @@ public struct UpdatePolicyOutput: Swift.Equatable {
     }
 }
 
-struct UpdatePolicyOutputBody: Swift.Equatable {
+struct UpdatePolicyOutputBody {
     let policy: OrganizationsClientTypes.Policy?
 }
 

@@ -35,7 +35,7 @@ extension OpsWorksCMClientTypes.AccountAttribute: Swift.Codable {
 
 extension OpsWorksCMClientTypes {
     /// Stores account attributes.
-    public struct AccountAttribute: Swift.Equatable {
+    public struct AccountAttribute {
         /// The maximum allowed value.
         public var maximum: Swift.Int?
         /// The attribute name. The following are supported attribute names.
@@ -92,7 +92,7 @@ extension AssociateNodeInput {
     }
 }
 
-public struct AssociateNodeInput: Swift.Equatable {
+public struct AssociateNodeInput {
     /// Engine attributes used for associating the node. Attributes accepted in a AssociateNode request for Chef
     ///
     /// * CHEF_ORGANIZATION: The Chef organization with which the node is associated. By default only one organization named default can exist.
@@ -124,7 +124,7 @@ public struct AssociateNodeInput: Swift.Equatable {
     }
 }
 
-struct AssociateNodeInputBody: Swift.Equatable {
+struct AssociateNodeInputBody {
     let serverName: Swift.String?
     let nodeName: Swift.String?
     let engineAttributes: [OpsWorksCMClientTypes.EngineAttribute]?
@@ -169,7 +169,7 @@ extension AssociateNodeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateNodeOutput: Swift.Equatable {
+public struct AssociateNodeOutput {
     /// Contains a token which can be passed to the DescribeNodeAssociationStatus API call to get the status of the association request.
     public var nodeAssociationStatusToken: Swift.String?
 
@@ -181,7 +181,7 @@ public struct AssociateNodeOutput: Swift.Equatable {
     }
 }
 
-struct AssociateNodeOutputBody: Swift.Equatable {
+struct AssociateNodeOutputBody {
     let nodeAssociationStatusToken: Swift.String?
 }
 
@@ -393,7 +393,7 @@ extension OpsWorksCMClientTypes.Backup: Swift.Codable {
 
 extension OpsWorksCMClientTypes {
     /// Describes a single backup.
-    public struct Backup: Swift.Equatable {
+    public struct Backup {
         /// The ARN of the backup.
         public var backupArn: Swift.String?
         /// The generated ID of the backup. Example: myServerName-yyyyMMddHHmmssSSS
@@ -602,7 +602,7 @@ extension CreateBackupInput {
     }
 }
 
-public struct CreateBackupInput: Swift.Equatable {
+public struct CreateBackupInput {
     /// A user-defined description of the backup.
     public var description: Swift.String?
     /// The name of the server that you want to back up.
@@ -633,7 +633,7 @@ public struct CreateBackupInput: Swift.Equatable {
     }
 }
 
-struct CreateBackupInputBody: Swift.Equatable {
+struct CreateBackupInputBody {
     let serverName: Swift.String?
     let description: Swift.String?
     let tags: [OpsWorksCMClientTypes.Tag]?
@@ -678,7 +678,7 @@ extension CreateBackupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateBackupOutput: Swift.Equatable {
+public struct CreateBackupOutput {
     /// Backup created by request.
     public var backup: OpsWorksCMClientTypes.Backup?
 
@@ -690,7 +690,7 @@ public struct CreateBackupOutput: Swift.Equatable {
     }
 }
 
-struct CreateBackupOutputBody: Swift.Equatable {
+struct CreateBackupOutputBody {
     let backup: OpsWorksCMClientTypes.Backup?
 }
 
@@ -837,7 +837,7 @@ extension CreateServerInput {
     }
 }
 
-public struct CreateServerInput: Swift.Equatable {
+public struct CreateServerInput {
     /// Associate a public IP address with a server that you are launching. Valid values are true or false. The default value is true.
     public var associatePublicIpAddress: Swift.Bool?
     /// If you specify this field, AWS OpsWorks CM creates the server by using the backup represented by BackupId.
@@ -974,7 +974,7 @@ public struct CreateServerInput: Swift.Equatable {
     }
 }
 
-struct CreateServerInputBody: Swift.Equatable {
+struct CreateServerInputBody {
     let associatePublicIpAddress: Swift.Bool?
     let customDomain: Swift.String?
     let customCertificate: Swift.String?
@@ -1118,7 +1118,7 @@ extension CreateServerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateServerOutput: Swift.Equatable {
+public struct CreateServerOutput {
     /// The server that is created by the request.
     public var server: OpsWorksCMClientTypes.Server?
 
@@ -1130,7 +1130,7 @@ public struct CreateServerOutput: Swift.Equatable {
     }
 }
 
-struct CreateServerOutputBody: Swift.Equatable {
+struct CreateServerOutputBody {
     let server: OpsWorksCMClientTypes.Server?
 }
 
@@ -1180,7 +1180,7 @@ extension DeleteBackupInput {
     }
 }
 
-public struct DeleteBackupInput: Swift.Equatable {
+public struct DeleteBackupInput {
     /// The ID of the backup to delete. Run the DescribeBackups command to get a list of backup IDs. Backup IDs are in the format ServerName-yyyyMMddHHmmssSSS.
     /// This member is required.
     public var backupId: Swift.String?
@@ -1193,7 +1193,7 @@ public struct DeleteBackupInput: Swift.Equatable {
     }
 }
 
-struct DeleteBackupInputBody: Swift.Equatable {
+struct DeleteBackupInputBody {
     let backupId: Swift.String?
 }
 
@@ -1214,7 +1214,7 @@ extension DeleteBackupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteBackupOutput: Swift.Equatable {
+public struct DeleteBackupOutput {
 
     public init() { }
 }
@@ -1252,7 +1252,7 @@ extension DeleteServerInput {
     }
 }
 
-public struct DeleteServerInput: Swift.Equatable {
+public struct DeleteServerInput {
     /// The ID of the server to delete.
     /// This member is required.
     public var serverName: Swift.String?
@@ -1265,7 +1265,7 @@ public struct DeleteServerInput: Swift.Equatable {
     }
 }
 
-struct DeleteServerInputBody: Swift.Equatable {
+struct DeleteServerInputBody {
     let serverName: Swift.String?
 }
 
@@ -1286,7 +1286,7 @@ extension DeleteServerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteServerOutput: Swift.Equatable {
+public struct DeleteServerOutput {
 
     public init() { }
 }
@@ -1319,12 +1319,12 @@ extension DescribeAccountAttributesInput {
     }
 }
 
-public struct DescribeAccountAttributesInput: Swift.Equatable {
+public struct DescribeAccountAttributesInput {
 
     public init() { }
 }
 
-struct DescribeAccountAttributesInputBody: Swift.Equatable {
+struct DescribeAccountAttributesInputBody {
 }
 
 extension DescribeAccountAttributesInputBody: Swift.Decodable {
@@ -1345,7 +1345,7 @@ extension DescribeAccountAttributesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAccountAttributesOutput: Swift.Equatable {
+public struct DescribeAccountAttributesOutput {
     /// The attributes that are currently set for the account.
     public var attributes: [OpsWorksCMClientTypes.AccountAttribute]?
 
@@ -1357,7 +1357,7 @@ public struct DescribeAccountAttributesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAccountAttributesOutputBody: Swift.Equatable {
+struct DescribeAccountAttributesOutputBody {
     let attributes: [OpsWorksCMClientTypes.AccountAttribute]?
 }
 
@@ -1424,7 +1424,7 @@ extension DescribeBackupsInput {
     }
 }
 
-public struct DescribeBackupsInput: Swift.Equatable {
+public struct DescribeBackupsInput {
     /// Describes a single backup.
     public var backupId: Swift.String?
     /// This is not currently implemented for DescribeBackups requests.
@@ -1448,7 +1448,7 @@ public struct DescribeBackupsInput: Swift.Equatable {
     }
 }
 
-struct DescribeBackupsInputBody: Swift.Equatable {
+struct DescribeBackupsInputBody {
     let backupId: Swift.String?
     let serverName: Swift.String?
     let nextToken: Swift.String?
@@ -1490,7 +1490,7 @@ extension DescribeBackupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeBackupsOutput: Swift.Equatable {
+public struct DescribeBackupsOutput {
     /// Contains the response to a DescribeBackups request.
     public var backups: [OpsWorksCMClientTypes.Backup]?
     /// This is not currently implemented for DescribeBackups requests.
@@ -1506,7 +1506,7 @@ public struct DescribeBackupsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeBackupsOutputBody: Swift.Equatable {
+struct DescribeBackupsOutputBody {
     let backups: [OpsWorksCMClientTypes.Backup]?
     let nextToken: Swift.String?
 }
@@ -1576,7 +1576,7 @@ extension DescribeEventsInput {
     }
 }
 
-public struct DescribeEventsInput: Swift.Equatable {
+public struct DescribeEventsInput {
     /// To receive a paginated response, use this parameter to specify the maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
     public var maxResults: Swift.Int?
     /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call DescribeEvents again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur.
@@ -1597,7 +1597,7 @@ public struct DescribeEventsInput: Swift.Equatable {
     }
 }
 
-struct DescribeEventsInputBody: Swift.Equatable {
+struct DescribeEventsInputBody {
     let serverName: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -1635,7 +1635,7 @@ extension DescribeEventsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeEventsOutput: Swift.Equatable {
+public struct DescribeEventsOutput {
     /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call DescribeEvents again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur.
     public var nextToken: Swift.String?
     /// Contains the response to a DescribeEvents request.
@@ -1651,7 +1651,7 @@ public struct DescribeEventsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeEventsOutputBody: Swift.Equatable {
+struct DescribeEventsOutputBody {
     let serverEvents: [OpsWorksCMClientTypes.ServerEvent]?
     let nextToken: Swift.String?
 }
@@ -1717,7 +1717,7 @@ extension DescribeNodeAssociationStatusInput {
     }
 }
 
-public struct DescribeNodeAssociationStatusInput: Swift.Equatable {
+public struct DescribeNodeAssociationStatusInput {
     /// The token returned in either the AssociateNodeResponse or the DisassociateNodeResponse.
     /// This member is required.
     public var nodeAssociationStatusToken: Swift.String?
@@ -1735,7 +1735,7 @@ public struct DescribeNodeAssociationStatusInput: Swift.Equatable {
     }
 }
 
-struct DescribeNodeAssociationStatusInputBody: Swift.Equatable {
+struct DescribeNodeAssociationStatusInputBody {
     let nodeAssociationStatusToken: Swift.String?
     let serverName: Swift.String?
 }
@@ -1769,7 +1769,7 @@ extension DescribeNodeAssociationStatusOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DescribeNodeAssociationStatusOutput: Swift.Equatable {
+public struct DescribeNodeAssociationStatusOutput {
     /// Attributes specific to the node association. In Puppet, the attibute PUPPET_NODE_CERT contains the signed certificate (the result of the CSR).
     public var engineAttributes: [OpsWorksCMClientTypes.EngineAttribute]?
     /// The status of the association or disassociation request. Possible values:
@@ -1791,7 +1791,7 @@ public struct DescribeNodeAssociationStatusOutput: Swift.Equatable {
     }
 }
 
-struct DescribeNodeAssociationStatusOutputBody: Swift.Equatable {
+struct DescribeNodeAssociationStatusOutputBody {
     let nodeAssociationStatus: OpsWorksCMClientTypes.NodeAssociationStatus?
     let engineAttributes: [OpsWorksCMClientTypes.EngineAttribute]?
 }
@@ -1860,7 +1860,7 @@ extension DescribeServersInput {
     }
 }
 
-public struct DescribeServersInput: Swift.Equatable {
+public struct DescribeServersInput {
     /// This is not currently implemented for DescribeServers requests.
     public var maxResults: Swift.Int?
     /// This is not currently implemented for DescribeServers requests.
@@ -1880,7 +1880,7 @@ public struct DescribeServersInput: Swift.Equatable {
     }
 }
 
-struct DescribeServersInputBody: Swift.Equatable {
+struct DescribeServersInputBody {
     let serverName: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -1918,7 +1918,7 @@ extension DescribeServersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeServersOutput: Swift.Equatable {
+public struct DescribeServersOutput {
     /// This is not currently implemented for DescribeServers requests.
     public var nextToken: Swift.String?
     /// Contains the response to a DescribeServers request. For Chef Automate servers: If DescribeServersResponse$Servers$EngineAttributes includes CHEF_MAJOR_UPGRADE_AVAILABLE, you can upgrade the Chef Automate server to Chef Automate 2. To be eligible for upgrade, a server running Chef Automate 1 must have had at least one successful maintenance run after November 1, 2019. For Puppet servers: DescribeServersResponse$Servers$EngineAttributes contains the following two responses:
@@ -1938,7 +1938,7 @@ public struct DescribeServersOutput: Swift.Equatable {
     }
 }
 
-struct DescribeServersOutputBody: Swift.Equatable {
+struct DescribeServersOutputBody {
     let servers: [OpsWorksCMClientTypes.Server]?
     let nextToken: Swift.String?
 }
@@ -2011,7 +2011,7 @@ extension DisassociateNodeInput {
     }
 }
 
-public struct DisassociateNodeInput: Swift.Equatable {
+public struct DisassociateNodeInput {
     /// Engine attributes that are used for disassociating the node. No attributes are required for Puppet. Attributes required in a DisassociateNode request for Chef
     ///
     /// * CHEF_ORGANIZATION: The Chef organization with which the node was associated. By default only one organization named default can exist.
@@ -2035,7 +2035,7 @@ public struct DisassociateNodeInput: Swift.Equatable {
     }
 }
 
-struct DisassociateNodeInputBody: Swift.Equatable {
+struct DisassociateNodeInputBody {
     let serverName: Swift.String?
     let nodeName: Swift.String?
     let engineAttributes: [OpsWorksCMClientTypes.EngineAttribute]?
@@ -2080,7 +2080,7 @@ extension DisassociateNodeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateNodeOutput: Swift.Equatable {
+public struct DisassociateNodeOutput {
     /// Contains a token which can be passed to the DescribeNodeAssociationStatus API call to get the status of the disassociation request.
     public var nodeAssociationStatusToken: Swift.String?
 
@@ -2092,7 +2092,7 @@ public struct DisassociateNodeOutput: Swift.Equatable {
     }
 }
 
-struct DisassociateNodeOutputBody: Swift.Equatable {
+struct DisassociateNodeOutputBody {
     let nodeAssociationStatusToken: Swift.String?
 }
 
@@ -2153,7 +2153,7 @@ extension OpsWorksCMClientTypes.EngineAttribute: Swift.CustomDebugStringConverti
 
 extension OpsWorksCMClientTypes {
     /// A name and value pair that is specific to the engine of the server.
-    public struct EngineAttribute: Swift.Equatable {
+    public struct EngineAttribute {
         /// The name of the engine attribute.
         public var name: Swift.String?
         /// The value of the engine attribute.
@@ -2202,7 +2202,7 @@ extension ExportServerEngineAttributeInput {
     }
 }
 
-public struct ExportServerEngineAttributeInput: Swift.Equatable {
+public struct ExportServerEngineAttributeInput {
     /// The name of the export attribute. Currently, the supported export attribute is Userdata. This exports a user data script that includes parameters and values provided in the InputAttributes list.
     /// This member is required.
     public var exportAttributeName: Swift.String?
@@ -2232,7 +2232,7 @@ public struct ExportServerEngineAttributeInput: Swift.Equatable {
     }
 }
 
-struct ExportServerEngineAttributeInputBody: Swift.Equatable {
+struct ExportServerEngineAttributeInputBody {
     let exportAttributeName: Swift.String?
     let serverName: Swift.String?
     let inputAttributes: [OpsWorksCMClientTypes.EngineAttribute]?
@@ -2279,7 +2279,7 @@ extension ExportServerEngineAttributeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ExportServerEngineAttributeOutput: Swift.Equatable {
+public struct ExportServerEngineAttributeOutput {
     /// The requested engine attribute pair with attribute name and value.
     public var engineAttribute: OpsWorksCMClientTypes.EngineAttribute?
     /// The server name used in the request.
@@ -2295,7 +2295,7 @@ public struct ExportServerEngineAttributeOutput: Swift.Equatable {
     }
 }
 
-struct ExportServerEngineAttributeOutputBody: Swift.Equatable {
+struct ExportServerEngineAttributeOutputBody {
     let engineAttribute: OpsWorksCMClientTypes.EngineAttribute?
     let serverName: Swift.String?
 }
@@ -2368,7 +2368,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidNextTokenExceptionBody: Swift.Equatable {
+struct InvalidNextTokenExceptionBody {
     let message: Swift.String?
 }
 
@@ -2424,7 +2424,7 @@ public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct InvalidStateExceptionBody: Swift.Equatable {
+struct InvalidStateExceptionBody {
     let message: Swift.String?
 }
 
@@ -2480,7 +2480,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -2524,7 +2524,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// To receive a paginated response, use this parameter to specify the maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
     public var maxResults: Swift.Int?
     /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call ListTagsForResource again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur.
@@ -2545,7 +2545,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -2583,7 +2583,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// A token that you can use as the value of NextToken in subsequent calls to the API to show more results.
     public var nextToken: Swift.String?
     /// Tags that have been applied to the resource.
@@ -2599,7 +2599,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [OpsWorksCMClientTypes.Tag]?
     let nextToken: Swift.String?
 }
@@ -2756,7 +2756,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct ResourceAlreadyExistsExceptionBody: Swift.Equatable {
+struct ResourceAlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -2812,7 +2812,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -2860,7 +2860,7 @@ extension RestoreServerInput {
     }
 }
 
-public struct RestoreServerInput: Swift.Equatable {
+public struct RestoreServerInput {
     /// The ID of the backup that you want to use to restore a server.
     /// This member is required.
     public var backupId: Swift.String?
@@ -2886,7 +2886,7 @@ public struct RestoreServerInput: Swift.Equatable {
     }
 }
 
-struct RestoreServerInputBody: Swift.Equatable {
+struct RestoreServerInputBody {
     let backupId: Swift.String?
     let serverName: Swift.String?
     let instanceType: Swift.String?
@@ -2926,7 +2926,7 @@ extension RestoreServerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RestoreServerOutput: Swift.Equatable {
+public struct RestoreServerOutput {
     /// Describes a configuration management server.
     public var server: OpsWorksCMClientTypes.Server?
 
@@ -2938,7 +2938,7 @@ public struct RestoreServerOutput: Swift.Equatable {
     }
 }
 
-struct RestoreServerOutputBody: Swift.Equatable {
+struct RestoreServerOutputBody {
     let server: OpsWorksCMClientTypes.Server?
 }
 
@@ -3162,7 +3162,7 @@ extension OpsWorksCMClientTypes.Server: Swift.Codable {
 
 extension OpsWorksCMClientTypes {
     /// Describes a configuration management server.
-    public struct Server: Swift.Equatable {
+    public struct Server {
         /// Associate a public IP address with a server that you are launching.
         public var associatePublicIpAddress: Swift.Bool?
         /// The number of automated backups to keep.
@@ -3318,7 +3318,7 @@ extension OpsWorksCMClientTypes.ServerEvent: Swift.Codable {
 
 extension OpsWorksCMClientTypes {
     /// An event that is related to the server, such as the start of maintenance or backup.
-    public struct ServerEvent: Swift.Equatable {
+    public struct ServerEvent {
         /// The time when the event occurred.
         public var createdAt: ClientRuntime.Date?
         /// The Amazon S3 URL of the event's log file.
@@ -3436,7 +3436,7 @@ extension StartMaintenanceInput {
     }
 }
 
-public struct StartMaintenanceInput: Swift.Equatable {
+public struct StartMaintenanceInput {
     /// Engine attributes that are specific to the server on which you want to run maintenance. Attributes accepted in a StartMaintenance request for Chef
     ///
     /// * CHEF_MAJOR_UPGRADE: If a Chef Automate server is eligible for upgrade to Chef Automate 2, add this engine attribute to a StartMaintenance request and set the value to true to upgrade the server to Chef Automate 2. For more information, see [Upgrade an AWS OpsWorks for Chef Automate Server to Chef Automate 2](https://docs.aws.amazon.com/opsworks/latest/userguide/opscm-a2upgrade.html).
@@ -3455,7 +3455,7 @@ public struct StartMaintenanceInput: Swift.Equatable {
     }
 }
 
-struct StartMaintenanceInputBody: Swift.Equatable {
+struct StartMaintenanceInputBody {
     let serverName: Swift.String?
     let engineAttributes: [OpsWorksCMClientTypes.EngineAttribute]?
 }
@@ -3496,7 +3496,7 @@ extension StartMaintenanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartMaintenanceOutput: Swift.Equatable {
+public struct StartMaintenanceOutput {
     /// Contains the response to a StartMaintenance request.
     public var server: OpsWorksCMClientTypes.Server?
 
@@ -3508,7 +3508,7 @@ public struct StartMaintenanceOutput: Swift.Equatable {
     }
 }
 
-struct StartMaintenanceOutputBody: Swift.Equatable {
+struct StartMaintenanceOutputBody {
     let server: OpsWorksCMClientTypes.Server?
 }
 
@@ -3564,7 +3564,7 @@ extension OpsWorksCMClientTypes.Tag: Swift.Codable {
 
 extension OpsWorksCMClientTypes {
     /// A map that contains tag keys and tag values to attach to an AWS OpsWorks for Chef Automate or AWS OpsWorks for Puppet Enterprise server. Leading and trailing white spaces are trimmed from both the key and value. A maximum of 50 user-applied tags is allowed for tag-supported AWS OpsWorks-CM resources.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// A tag key, such as Stage or Name. A tag key cannot be empty. The key can be a maximum of 127 characters, and can contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /
         /// This member is required.
         public var key: Swift.String?
@@ -3611,7 +3611,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Number (ARN) of a resource to which you want to apply tags. For example, arn:aws:opsworks-cm:us-west-2:123456789012:server/test-owcm-server/EXAMPLE-66b0-4196-8274-d1a2bEXAMPLE.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3639,7 +3639,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceArn: Swift.String?
     let tags: [OpsWorksCMClientTypes.Tag]?
 }
@@ -3673,7 +3673,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -3718,7 +3718,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Number (ARN) of a resource from which you want to remove tags. For example, arn:aws:opsworks-cm:us-west-2:123456789012:server/test-owcm-server/EXAMPLE-66b0-4196-8274-d1a2bEXAMPLE.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3736,7 +3736,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceArn: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -3770,7 +3770,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -3816,7 +3816,7 @@ extension UpdateServerEngineAttributesInput {
     }
 }
 
-public struct UpdateServerEngineAttributesInput: Swift.Equatable {
+public struct UpdateServerEngineAttributesInput {
     /// The name of the engine attribute to update.
     /// This member is required.
     public var attributeName: Swift.String?
@@ -3838,7 +3838,7 @@ public struct UpdateServerEngineAttributesInput: Swift.Equatable {
     }
 }
 
-struct UpdateServerEngineAttributesInputBody: Swift.Equatable {
+struct UpdateServerEngineAttributesInputBody {
     let serverName: Swift.String?
     let attributeName: Swift.String?
     let attributeValue: Swift.String?
@@ -3874,7 +3874,7 @@ extension UpdateServerEngineAttributesOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct UpdateServerEngineAttributesOutput: Swift.Equatable {
+public struct UpdateServerEngineAttributesOutput {
     /// Contains the response to an UpdateServerEngineAttributes request.
     public var server: OpsWorksCMClientTypes.Server?
 
@@ -3886,7 +3886,7 @@ public struct UpdateServerEngineAttributesOutput: Swift.Equatable {
     }
 }
 
-struct UpdateServerEngineAttributesOutputBody: Swift.Equatable {
+struct UpdateServerEngineAttributesOutputBody {
     let server: OpsWorksCMClientTypes.Server?
 }
 
@@ -3951,7 +3951,7 @@ extension UpdateServerInput {
     }
 }
 
-public struct UpdateServerInput: Swift.Equatable {
+public struct UpdateServerInput {
     /// Sets the number of automated backups that you want to keep.
     public var backupRetentionCount: Swift.Int?
     /// Setting DisableAutomatedBackup to true disables automated or scheduled backups. Automated backups are enabled by default.
@@ -3980,7 +3980,7 @@ public struct UpdateServerInput: Swift.Equatable {
     }
 }
 
-struct UpdateServerInputBody: Swift.Equatable {
+struct UpdateServerInputBody {
     let disableAutomatedBackup: Swift.Bool?
     let backupRetentionCount: Swift.Int?
     let serverName: Swift.String?
@@ -4024,7 +4024,7 @@ extension UpdateServerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateServerOutput: Swift.Equatable {
+public struct UpdateServerOutput {
     /// Contains the response to a UpdateServer request.
     public var server: OpsWorksCMClientTypes.Server?
 
@@ -4036,7 +4036,7 @@ public struct UpdateServerOutput: Swift.Equatable {
     }
 }
 
-struct UpdateServerOutputBody: Swift.Equatable {
+struct UpdateServerOutputBody {
     let server: OpsWorksCMClientTypes.Server?
 }
 
@@ -4105,7 +4105,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -90,7 +90,7 @@ extension MigrationHubClientTypes.ApplicationState: Swift.Codable {
 
 extension MigrationHubClientTypes {
     /// The state of an application discovered through Migration Hub import, the AWS Agentless Discovery Connector, or the AWS Application Discovery Agent.
-    public struct ApplicationState: Swift.Equatable {
+    public struct ApplicationState {
         /// The configurationId from the Application Discovery Service that uniquely identifies an application.
         public var applicationId: Swift.String?
         /// The current status of an application.
@@ -179,7 +179,7 @@ extension AssociateCreatedArtifactInput {
     }
 }
 
-public struct AssociateCreatedArtifactInput: Swift.Equatable {
+public struct AssociateCreatedArtifactInput {
     /// An ARN of the AWS resource related to the migration (e.g., AMI, EC2 instance, RDS instance, etc.)
     /// This member is required.
     public var createdArtifact: MigrationHubClientTypes.CreatedArtifact?
@@ -206,7 +206,7 @@ public struct AssociateCreatedArtifactInput: Swift.Equatable {
     }
 }
 
-struct AssociateCreatedArtifactInputBody: Swift.Equatable {
+struct AssociateCreatedArtifactInputBody {
     let progressUpdateStream: Swift.String?
     let migrationTaskName: Swift.String?
     let createdArtifact: MigrationHubClientTypes.CreatedArtifact?
@@ -239,7 +239,7 @@ extension AssociateCreatedArtifactOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateCreatedArtifactOutput: Swift.Equatable {
+public struct AssociateCreatedArtifactOutput {
 
     public init() { }
 }
@@ -295,7 +295,7 @@ extension AssociateDiscoveredResourceInput {
     }
 }
 
-public struct AssociateDiscoveredResourceInput: Swift.Equatable {
+public struct AssociateDiscoveredResourceInput {
     /// Object representing a Resource.
     /// This member is required.
     public var discoveredResource: MigrationHubClientTypes.DiscoveredResource?
@@ -322,7 +322,7 @@ public struct AssociateDiscoveredResourceInput: Swift.Equatable {
     }
 }
 
-struct AssociateDiscoveredResourceInputBody: Swift.Equatable {
+struct AssociateDiscoveredResourceInputBody {
     let progressUpdateStream: Swift.String?
     let migrationTaskName: Swift.String?
     let discoveredResource: MigrationHubClientTypes.DiscoveredResource?
@@ -355,7 +355,7 @@ extension AssociateDiscoveredResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateDiscoveredResourceOutput: Swift.Equatable {
+public struct AssociateDiscoveredResourceOutput {
 
     public init() { }
 }
@@ -404,7 +404,7 @@ extension CreateProgressUpdateStreamInput {
     }
 }
 
-public struct CreateProgressUpdateStreamInput: Swift.Equatable {
+public struct CreateProgressUpdateStreamInput {
     /// Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
     public var dryRun: Swift.Bool?
     /// The name of the ProgressUpdateStream. Do not store personal data in this field.
@@ -421,7 +421,7 @@ public struct CreateProgressUpdateStreamInput: Swift.Equatable {
     }
 }
 
-struct CreateProgressUpdateStreamInputBody: Swift.Equatable {
+struct CreateProgressUpdateStreamInputBody {
     let progressUpdateStreamName: Swift.String?
     let dryRun: Swift.Bool?
 }
@@ -446,7 +446,7 @@ extension CreateProgressUpdateStreamOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateProgressUpdateStreamOutput: Swift.Equatable {
+public struct CreateProgressUpdateStreamOutput {
 
     public init() { }
 }
@@ -496,7 +496,7 @@ extension MigrationHubClientTypes.CreatedArtifact: Swift.Codable {
 
 extension MigrationHubClientTypes {
     /// An ARN of the AWS cloud resource target receiving the migration (e.g., AMI, EC2 instance, RDS instance, etc.).
-    public struct CreatedArtifact: Swift.Equatable {
+    public struct CreatedArtifact {
         /// A description that can be free-form text to record additional detail about the artifact for clarity or for later reference.
         public var description: Swift.String?
         /// An ARN that uniquely identifies the result of a migration task.
@@ -539,7 +539,7 @@ extension DeleteProgressUpdateStreamInput {
     }
 }
 
-public struct DeleteProgressUpdateStreamInput: Swift.Equatable {
+public struct DeleteProgressUpdateStreamInput {
     /// Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
     public var dryRun: Swift.Bool?
     /// The name of the ProgressUpdateStream. Do not store personal data in this field.
@@ -556,7 +556,7 @@ public struct DeleteProgressUpdateStreamInput: Swift.Equatable {
     }
 }
 
-struct DeleteProgressUpdateStreamInputBody: Swift.Equatable {
+struct DeleteProgressUpdateStreamInputBody {
     let progressUpdateStreamName: Swift.String?
     let dryRun: Swift.Bool?
 }
@@ -581,7 +581,7 @@ extension DeleteProgressUpdateStreamOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteProgressUpdateStreamOutput: Swift.Equatable {
+public struct DeleteProgressUpdateStreamOutput {
 
     public init() { }
 }
@@ -625,7 +625,7 @@ extension DescribeApplicationStateInput {
     }
 }
 
-public struct DescribeApplicationStateInput: Swift.Equatable {
+public struct DescribeApplicationStateInput {
     /// The configurationId in Application Discovery Service that uniquely identifies the grouped application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -638,7 +638,7 @@ public struct DescribeApplicationStateInput: Swift.Equatable {
     }
 }
 
-struct DescribeApplicationStateInputBody: Swift.Equatable {
+struct DescribeApplicationStateInputBody {
     let applicationId: Swift.String?
 }
 
@@ -668,7 +668,7 @@ extension DescribeApplicationStateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeApplicationStateOutput: Swift.Equatable {
+public struct DescribeApplicationStateOutput {
     /// Status of the application - Not Started, In-Progress, Complete.
     public var applicationStatus: MigrationHubClientTypes.ApplicationStatus?
     /// The timestamp when the application status was last updated.
@@ -684,7 +684,7 @@ public struct DescribeApplicationStateOutput: Swift.Equatable {
     }
 }
 
-struct DescribeApplicationStateOutputBody: Swift.Equatable {
+struct DescribeApplicationStateOutputBody {
     let applicationStatus: MigrationHubClientTypes.ApplicationStatus?
     let lastUpdatedTime: ClientRuntime.Date?
 }
@@ -746,7 +746,7 @@ extension DescribeMigrationTaskInput {
     }
 }
 
-public struct DescribeMigrationTaskInput: Swift.Equatable {
+public struct DescribeMigrationTaskInput {
     /// The identifier given to the MigrationTask. Do not store personal data in this field.
     /// This member is required.
     public var migrationTaskName: Swift.String?
@@ -764,7 +764,7 @@ public struct DescribeMigrationTaskInput: Swift.Equatable {
     }
 }
 
-struct DescribeMigrationTaskInputBody: Swift.Equatable {
+struct DescribeMigrationTaskInputBody {
     let progressUpdateStream: Swift.String?
     let migrationTaskName: Swift.String?
 }
@@ -796,7 +796,7 @@ extension DescribeMigrationTaskOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeMigrationTaskOutput: Swift.Equatable {
+public struct DescribeMigrationTaskOutput {
     /// Object encapsulating information about the migration task.
     public var migrationTask: MigrationHubClientTypes.MigrationTask?
 
@@ -808,7 +808,7 @@ public struct DescribeMigrationTaskOutput: Swift.Equatable {
     }
 }
 
-struct DescribeMigrationTaskOutputBody: Swift.Equatable {
+struct DescribeMigrationTaskOutputBody {
     let migrationTask: MigrationHubClientTypes.MigrationTask?
 }
 
@@ -873,7 +873,7 @@ extension DisassociateCreatedArtifactInput {
     }
 }
 
-public struct DisassociateCreatedArtifactInput: Swift.Equatable {
+public struct DisassociateCreatedArtifactInput {
     /// An ARN of the AWS resource related to the migration (e.g., AMI, EC2 instance, RDS instance, etc.)
     /// This member is required.
     public var createdArtifactName: Swift.String?
@@ -900,7 +900,7 @@ public struct DisassociateCreatedArtifactInput: Swift.Equatable {
     }
 }
 
-struct DisassociateCreatedArtifactInputBody: Swift.Equatable {
+struct DisassociateCreatedArtifactInputBody {
     let progressUpdateStream: Swift.String?
     let migrationTaskName: Swift.String?
     let createdArtifactName: Swift.String?
@@ -933,7 +933,7 @@ extension DisassociateCreatedArtifactOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateCreatedArtifactOutput: Swift.Equatable {
+public struct DisassociateCreatedArtifactOutput {
 
     public init() { }
 }
@@ -989,7 +989,7 @@ extension DisassociateDiscoveredResourceInput {
     }
 }
 
-public struct DisassociateDiscoveredResourceInput: Swift.Equatable {
+public struct DisassociateDiscoveredResourceInput {
     /// ConfigurationId of the Application Discovery Service resource to be disassociated.
     /// This member is required.
     public var configurationId: Swift.String?
@@ -1016,7 +1016,7 @@ public struct DisassociateDiscoveredResourceInput: Swift.Equatable {
     }
 }
 
-struct DisassociateDiscoveredResourceInputBody: Swift.Equatable {
+struct DisassociateDiscoveredResourceInputBody {
     let progressUpdateStream: Swift.String?
     let migrationTaskName: Swift.String?
     let configurationId: Swift.String?
@@ -1049,7 +1049,7 @@ extension DisassociateDiscoveredResourceOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DisassociateDiscoveredResourceOutput: Swift.Equatable {
+public struct DisassociateDiscoveredResourceOutput {
 
     public init() { }
 }
@@ -1100,7 +1100,7 @@ extension MigrationHubClientTypes.DiscoveredResource: Swift.Codable {
 
 extension MigrationHubClientTypes {
     /// Object representing the on-premises resource being migrated.
-    public struct DiscoveredResource: Swift.Equatable {
+    public struct DiscoveredResource {
         /// The configurationId in Application Discovery Service that uniquely identifies the on-premise resource.
         /// This member is required.
         public var configurationId: Swift.String?
@@ -1158,7 +1158,7 @@ public struct DryRunOperation: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     }
 }
 
-struct DryRunOperationBody: Swift.Equatable {
+struct DryRunOperationBody {
     let message: Swift.String?
 }
 
@@ -1213,7 +1213,7 @@ public struct HomeRegionNotSetException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct HomeRegionNotSetExceptionBody: Swift.Equatable {
+struct HomeRegionNotSetExceptionBody {
     let message: Swift.String?
 }
 
@@ -1257,7 +1257,7 @@ extension ImportMigrationTaskInput {
     }
 }
 
-public struct ImportMigrationTaskInput: Swift.Equatable {
+public struct ImportMigrationTaskInput {
     /// Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
     public var dryRun: Swift.Bool?
     /// Unique identifier that references the migration task. Do not store personal data in this field.
@@ -1279,7 +1279,7 @@ public struct ImportMigrationTaskInput: Swift.Equatable {
     }
 }
 
-struct ImportMigrationTaskInputBody: Swift.Equatable {
+struct ImportMigrationTaskInputBody {
     let progressUpdateStream: Swift.String?
     let migrationTaskName: Swift.String?
     let dryRun: Swift.Bool?
@@ -1308,7 +1308,7 @@ extension ImportMigrationTaskOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ImportMigrationTaskOutput: Swift.Equatable {
+public struct ImportMigrationTaskOutput {
 
     public init() { }
 }
@@ -1371,7 +1371,7 @@ public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct InternalServerErrorBody: Swift.Equatable {
+struct InternalServerErrorBody {
     let message: Swift.String?
 }
 
@@ -1426,7 +1426,7 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct InvalidInputExceptionBody: Swift.Equatable {
+struct InvalidInputExceptionBody {
     let message: Swift.String?
 }
 
@@ -1473,7 +1473,7 @@ extension ListApplicationStatesInput {
     }
 }
 
-public struct ListApplicationStatesInput: Swift.Equatable {
+public struct ListApplicationStatesInput {
     /// The configurationIds from the Application Discovery Service that uniquely identifies your applications.
     public var applicationIds: [Swift.String]?
     /// Maximum number of results to be returned per page.
@@ -1493,7 +1493,7 @@ public struct ListApplicationStatesInput: Swift.Equatable {
     }
 }
 
-struct ListApplicationStatesInputBody: Swift.Equatable {
+struct ListApplicationStatesInputBody {
     let applicationIds: [Swift.String]?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -1540,7 +1540,7 @@ extension ListApplicationStatesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListApplicationStatesOutput: Swift.Equatable {
+public struct ListApplicationStatesOutput {
     /// A list of Applications that exist in Application Discovery Service.
     public var applicationStateList: [MigrationHubClientTypes.ApplicationState]?
     /// If a NextToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in NextToken.
@@ -1556,7 +1556,7 @@ public struct ListApplicationStatesOutput: Swift.Equatable {
     }
 }
 
-struct ListApplicationStatesOutputBody: Swift.Equatable {
+struct ListApplicationStatesOutputBody {
     let applicationStateList: [MigrationHubClientTypes.ApplicationState]?
     let nextToken: Swift.String?
 }
@@ -1633,7 +1633,7 @@ extension ListCreatedArtifactsInput {
     }
 }
 
-public struct ListCreatedArtifactsInput: Swift.Equatable {
+public struct ListCreatedArtifactsInput {
     /// Maximum number of results to be returned per page.
     public var maxResults: Swift.Int?
     /// Unique identifier that references the migration task. Do not store personal data in this field.
@@ -1659,7 +1659,7 @@ public struct ListCreatedArtifactsInput: Swift.Equatable {
     }
 }
 
-struct ListCreatedArtifactsInputBody: Swift.Equatable {
+struct ListCreatedArtifactsInputBody {
     let progressUpdateStream: Swift.String?
     let migrationTaskName: Swift.String?
     let nextToken: Swift.String?
@@ -1701,7 +1701,7 @@ extension ListCreatedArtifactsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCreatedArtifactsOutput: Swift.Equatable {
+public struct ListCreatedArtifactsOutput {
     /// List of created artifacts up to the maximum number of results specified in the request.
     public var createdArtifactList: [MigrationHubClientTypes.CreatedArtifact]?
     /// If there are more created artifacts than the max result, return the next token to be passed to the next call as a bookmark of where to start from.
@@ -1717,7 +1717,7 @@ public struct ListCreatedArtifactsOutput: Swift.Equatable {
     }
 }
 
-struct ListCreatedArtifactsOutputBody: Swift.Equatable {
+struct ListCreatedArtifactsOutputBody {
     let nextToken: Swift.String?
     let createdArtifactList: [MigrationHubClientTypes.CreatedArtifact]?
 }
@@ -1795,7 +1795,7 @@ extension ListDiscoveredResourcesInput {
     }
 }
 
-public struct ListDiscoveredResourcesInput: Swift.Equatable {
+public struct ListDiscoveredResourcesInput {
     /// The maximum number of results returned per page.
     public var maxResults: Swift.Int?
     /// The name of the MigrationTask. Do not store personal data in this field.
@@ -1821,7 +1821,7 @@ public struct ListDiscoveredResourcesInput: Swift.Equatable {
     }
 }
 
-struct ListDiscoveredResourcesInputBody: Swift.Equatable {
+struct ListDiscoveredResourcesInputBody {
     let progressUpdateStream: Swift.String?
     let migrationTaskName: Swift.String?
     let nextToken: Swift.String?
@@ -1863,7 +1863,7 @@ extension ListDiscoveredResourcesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDiscoveredResourcesOutput: Swift.Equatable {
+public struct ListDiscoveredResourcesOutput {
     /// Returned list of discovered resources associated with the given MigrationTask.
     public var discoveredResourceList: [MigrationHubClientTypes.DiscoveredResource]?
     /// If there are more discovered resources than the max result, return the next token to be passed to the next call as a bookmark of where to start from.
@@ -1879,7 +1879,7 @@ public struct ListDiscoveredResourcesOutput: Swift.Equatable {
     }
 }
 
-struct ListDiscoveredResourcesOutputBody: Swift.Equatable {
+struct ListDiscoveredResourcesOutputBody {
     let nextToken: Swift.String?
     let discoveredResourceList: [MigrationHubClientTypes.DiscoveredResource]?
 }
@@ -1953,7 +1953,7 @@ extension ListMigrationTasksInput {
     }
 }
 
-public struct ListMigrationTasksInput: Swift.Equatable {
+public struct ListMigrationTasksInput {
     /// Value to specify how many results are returned per page.
     public var maxResults: Swift.Int?
     /// If a NextToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in NextToken.
@@ -1973,7 +1973,7 @@ public struct ListMigrationTasksInput: Swift.Equatable {
     }
 }
 
-struct ListMigrationTasksInputBody: Swift.Equatable {
+struct ListMigrationTasksInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let resourceName: Swift.String?
@@ -2011,7 +2011,7 @@ extension ListMigrationTasksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMigrationTasksOutput: Swift.Equatable {
+public struct ListMigrationTasksOutput {
     /// Lists the migration task's summary which includes: MigrationTaskName, ProgressPercent, ProgressUpdateStream, Status, and the UpdateDateTime for each task.
     public var migrationTaskSummaryList: [MigrationHubClientTypes.MigrationTaskSummary]?
     /// If there are more migration tasks than the max result, return the next token to be passed to the next call as a bookmark of where to start from.
@@ -2027,7 +2027,7 @@ public struct ListMigrationTasksOutput: Swift.Equatable {
     }
 }
 
-struct ListMigrationTasksOutputBody: Swift.Equatable {
+struct ListMigrationTasksOutputBody {
     let nextToken: Swift.String?
     let migrationTaskSummaryList: [MigrationHubClientTypes.MigrationTaskSummary]?
 }
@@ -2098,7 +2098,7 @@ extension ListProgressUpdateStreamsInput {
     }
 }
 
-public struct ListProgressUpdateStreamsInput: Swift.Equatable {
+public struct ListProgressUpdateStreamsInput {
     /// Filter to limit the maximum number of results to list per page.
     public var maxResults: Swift.Int?
     /// If a NextToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in NextToken.
@@ -2114,7 +2114,7 @@ public struct ListProgressUpdateStreamsInput: Swift.Equatable {
     }
 }
 
-struct ListProgressUpdateStreamsInputBody: Swift.Equatable {
+struct ListProgressUpdateStreamsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -2148,7 +2148,7 @@ extension ListProgressUpdateStreamsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListProgressUpdateStreamsOutput: Swift.Equatable {
+public struct ListProgressUpdateStreamsOutput {
     /// If there are more streams created than the max result, return the next token to be passed to the next call as a bookmark of where to start from.
     public var nextToken: Swift.String?
     /// List of progress update streams up to the max number of results passed in the input.
@@ -2164,7 +2164,7 @@ public struct ListProgressUpdateStreamsOutput: Swift.Equatable {
     }
 }
 
-struct ListProgressUpdateStreamsOutputBody: Swift.Equatable {
+struct ListProgressUpdateStreamsOutputBody {
     let progressUpdateStreamSummaryList: [MigrationHubClientTypes.ProgressUpdateStreamSummary]?
     let nextToken: Swift.String?
 }
@@ -2268,7 +2268,7 @@ extension MigrationHubClientTypes.MigrationTask: Swift.Codable {
 
 extension MigrationHubClientTypes {
     /// Represents a migration task in a migration tool.
-    public struct MigrationTask: Swift.Equatable {
+    public struct MigrationTask {
         /// Unique identifier that references the migration task. Do not store personal data in this field.
         public var migrationTaskName: Swift.String?
         /// A name that identifies the vendor of the migration tool being used.
@@ -2349,7 +2349,7 @@ extension MigrationHubClientTypes.MigrationTaskSummary: Swift.Codable {
 
 extension MigrationHubClientTypes {
     /// MigrationTaskSummary includes MigrationTaskName, ProgressPercent, ProgressUpdateStream, Status, and UpdateDateTime for each task.
-    public struct MigrationTaskSummary: Swift.Equatable {
+    public struct MigrationTaskSummary {
         /// Unique identifier that references the migration task. Do not store personal data in this field.
         public var migrationTaskName: Swift.String?
         /// Indication of the percentage completion of the task.
@@ -2415,7 +2415,7 @@ extension NotifyApplicationStateInput {
     }
 }
 
-public struct NotifyApplicationStateInput: Swift.Equatable {
+public struct NotifyApplicationStateInput {
     /// The configurationId in Application Discovery Service that uniquely identifies the grouped application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -2441,7 +2441,7 @@ public struct NotifyApplicationStateInput: Swift.Equatable {
     }
 }
 
-struct NotifyApplicationStateInputBody: Swift.Equatable {
+struct NotifyApplicationStateInputBody {
     let applicationId: Swift.String?
     let status: MigrationHubClientTypes.ApplicationStatus?
     let updateDateTime: ClientRuntime.Date?
@@ -2474,7 +2474,7 @@ extension NotifyApplicationStateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct NotifyApplicationStateOutput: Swift.Equatable {
+public struct NotifyApplicationStateOutput {
 
     public init() { }
 }
@@ -2539,7 +2539,7 @@ extension NotifyMigrationTaskStateInput {
     }
 }
 
-public struct NotifyMigrationTaskStateInput: Swift.Equatable {
+public struct NotifyMigrationTaskStateInput {
     /// Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
     public var dryRun: Swift.Bool?
     /// Unique identifier that references the migration task. Do not store personal data in this field.
@@ -2576,7 +2576,7 @@ public struct NotifyMigrationTaskStateInput: Swift.Equatable {
     }
 }
 
-struct NotifyMigrationTaskStateInputBody: Swift.Equatable {
+struct NotifyMigrationTaskStateInputBody {
     let progressUpdateStream: Swift.String?
     let migrationTaskName: Swift.String?
     let task: MigrationHubClientTypes.Task?
@@ -2617,7 +2617,7 @@ extension NotifyMigrationTaskStateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct NotifyMigrationTaskStateOutput: Swift.Equatable {
+public struct NotifyMigrationTaskStateOutput {
 
     public init() { }
 }
@@ -2680,7 +2680,7 @@ public struct PolicyErrorException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct PolicyErrorExceptionBody: Swift.Equatable {
+struct PolicyErrorExceptionBody {
     let message: Swift.String?
 }
 
@@ -2717,7 +2717,7 @@ extension MigrationHubClientTypes.ProgressUpdateStreamSummary: Swift.Codable {
 
 extension MigrationHubClientTypes {
     /// Summary of the AWS resource used for access control that is implicitly linked to your AWS account.
-    public struct ProgressUpdateStreamSummary: Swift.Equatable {
+    public struct ProgressUpdateStreamSummary {
         /// The name of the ProgressUpdateStream. Do not store personal data in this field.
         public var progressUpdateStreamName: Swift.String?
 
@@ -2766,7 +2766,7 @@ extension PutResourceAttributesInput {
     }
 }
 
-public struct PutResourceAttributesInput: Swift.Equatable {
+public struct PutResourceAttributesInput {
     /// Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
     public var dryRun: Swift.Bool?
     /// Unique identifier that references the migration task. Do not store personal data in this field.
@@ -2797,7 +2797,7 @@ public struct PutResourceAttributesInput: Swift.Equatable {
     }
 }
 
-struct PutResourceAttributesInputBody: Swift.Equatable {
+struct PutResourceAttributesInputBody {
     let progressUpdateStream: Swift.String?
     let migrationTaskName: Swift.String?
     let resourceAttributeList: [MigrationHubClientTypes.ResourceAttribute]?
@@ -2839,7 +2839,7 @@ extension PutResourceAttributesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutResourceAttributesOutput: Swift.Equatable {
+public struct PutResourceAttributesOutput {
 
     public init() { }
 }
@@ -2890,7 +2890,7 @@ extension MigrationHubClientTypes.ResourceAttribute: Swift.Codable {
 
 extension MigrationHubClientTypes {
     /// Attribute associated with a resource. Note the corresponding format required per type listed below: IPV4 x.x.x.x where x is an integer in the range [0,255] IPV6 y : y : y : y : y : y : y : y where y is a hexadecimal between 0 and FFFF. [0, FFFF] MAC_ADDRESS ^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$ FQDN ^[^<>{}\\/?,=\p{Cntrl}]{1,256}$
-    public struct ResourceAttribute: Swift.Equatable {
+    public struct ResourceAttribute {
         /// Type of resource.
         /// This member is required.
         public var type: MigrationHubClientTypes.ResourceAttributeType?
@@ -3005,7 +3005,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -3060,7 +3060,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct ServiceUnavailableExceptionBody: Swift.Equatable {
+struct ServiceUnavailableExceptionBody {
     let message: Swift.String?
 }
 
@@ -3147,7 +3147,7 @@ extension MigrationHubClientTypes.Task: Swift.Codable {
 
 extension MigrationHubClientTypes {
     /// Task object encapsulating task information.
-    public struct Task: Swift.Equatable {
+    public struct Task {
         /// Indication of the percentage completion of the task.
         public var progressPercent: Swift.Int?
         /// Status of the task - Not Started, In-Progress, Complete.
@@ -3220,7 +3220,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -3275,7 +3275,7 @@ public struct UnauthorizedOperation: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct UnauthorizedOperationBody: Swift.Equatable {
+struct UnauthorizedOperationBody {
     let message: Swift.String?
 }
 

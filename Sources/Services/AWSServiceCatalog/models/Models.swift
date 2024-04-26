@@ -30,7 +30,7 @@ extension AcceptPortfolioShareInput {
     }
 }
 
-public struct AcceptPortfolioShareInput: Swift.Equatable {
+public struct AcceptPortfolioShareInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -64,7 +64,7 @@ public struct AcceptPortfolioShareInput: Swift.Equatable {
     }
 }
 
-struct AcceptPortfolioShareInputBody: Swift.Equatable {
+struct AcceptPortfolioShareInputBody {
     let acceptLanguage: Swift.String?
     let portfolioId: Swift.String?
     let portfolioShareType: ServiceCatalogClientTypes.PortfolioShareType?
@@ -93,7 +93,7 @@ extension AcceptPortfolioShareOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AcceptPortfolioShareOutput: Swift.Equatable {
+public struct AcceptPortfolioShareOutput {
 
     public init() { }
 }
@@ -138,7 +138,7 @@ extension ServiceCatalogClientTypes.AccessLevelFilter: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// The access level to use to filter results.
-    public struct AccessLevelFilter: Swift.Equatable {
+    public struct AccessLevelFilter {
         /// The access level.
         ///
         /// * Account - Filter results based on the account.
@@ -256,7 +256,7 @@ extension AssociateBudgetWithResourceInput {
     }
 }
 
-public struct AssociateBudgetWithResourceInput: Swift.Equatable {
+public struct AssociateBudgetWithResourceInput {
     /// The name of the budget you want to associate.
     /// This member is required.
     public var budgetName: Swift.String?
@@ -274,7 +274,7 @@ public struct AssociateBudgetWithResourceInput: Swift.Equatable {
     }
 }
 
-struct AssociateBudgetWithResourceInputBody: Swift.Equatable {
+struct AssociateBudgetWithResourceInputBody {
     let budgetName: Swift.String?
     let resourceId: Swift.String?
 }
@@ -299,7 +299,7 @@ extension AssociateBudgetWithResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateBudgetWithResourceOutput: Swift.Equatable {
+public struct AssociateBudgetWithResourceOutput {
 
     public init() { }
 }
@@ -350,7 +350,7 @@ extension AssociatePrincipalWithPortfolioInput {
     }
 }
 
-public struct AssociatePrincipalWithPortfolioInput: Swift.Equatable {
+public struct AssociatePrincipalWithPortfolioInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -400,7 +400,7 @@ public struct AssociatePrincipalWithPortfolioInput: Swift.Equatable {
     }
 }
 
-struct AssociatePrincipalWithPortfolioInputBody: Swift.Equatable {
+struct AssociatePrincipalWithPortfolioInputBody {
     let acceptLanguage: Swift.String?
     let portfolioId: Swift.String?
     let principalARN: Swift.String?
@@ -433,7 +433,7 @@ extension AssociatePrincipalWithPortfolioOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct AssociatePrincipalWithPortfolioOutput: Swift.Equatable {
+public struct AssociatePrincipalWithPortfolioOutput {
 
     public init() { }
 }
@@ -483,7 +483,7 @@ extension AssociateProductWithPortfolioInput {
     }
 }
 
-public struct AssociateProductWithPortfolioInput: Swift.Equatable {
+public struct AssociateProductWithPortfolioInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -513,7 +513,7 @@ public struct AssociateProductWithPortfolioInput: Swift.Equatable {
     }
 }
 
-struct AssociateProductWithPortfolioInputBody: Swift.Equatable {
+struct AssociateProductWithPortfolioInputBody {
     let acceptLanguage: Swift.String?
     let productId: Swift.String?
     let portfolioId: Swift.String?
@@ -546,7 +546,7 @@ extension AssociateProductWithPortfolioOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct AssociateProductWithPortfolioOutput: Swift.Equatable {
+public struct AssociateProductWithPortfolioOutput {
 
     public init() { }
 }
@@ -600,7 +600,7 @@ extension AssociateServiceActionWithProvisioningArtifactInput {
     }
 }
 
-public struct AssociateServiceActionWithProvisioningArtifactInput: Swift.Equatable {
+public struct AssociateServiceActionWithProvisioningArtifactInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -635,7 +635,7 @@ public struct AssociateServiceActionWithProvisioningArtifactInput: Swift.Equatab
     }
 }
 
-struct AssociateServiceActionWithProvisioningArtifactInputBody: Swift.Equatable {
+struct AssociateServiceActionWithProvisioningArtifactInputBody {
     let productId: Swift.String?
     let provisioningArtifactId: Swift.String?
     let serviceActionId: Swift.String?
@@ -672,7 +672,7 @@ extension AssociateServiceActionWithProvisioningArtifactOutput: ClientRuntime.Ht
     }
 }
 
-public struct AssociateServiceActionWithProvisioningArtifactOutput: Swift.Equatable {
+public struct AssociateServiceActionWithProvisioningArtifactOutput {
 
     public init() { }
 }
@@ -715,7 +715,7 @@ extension AssociateTagOptionWithResourceInput {
     }
 }
 
-public struct AssociateTagOptionWithResourceInput: Swift.Equatable {
+public struct AssociateTagOptionWithResourceInput {
     /// The resource identifier.
     /// This member is required.
     public var resourceId: Swift.String?
@@ -733,7 +733,7 @@ public struct AssociateTagOptionWithResourceInput: Swift.Equatable {
     }
 }
 
-struct AssociateTagOptionWithResourceInputBody: Swift.Equatable {
+struct AssociateTagOptionWithResourceInputBody {
     let resourceId: Swift.String?
     let tagOptionId: Swift.String?
 }
@@ -758,7 +758,7 @@ extension AssociateTagOptionWithResourceOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct AssociateTagOptionWithResourceOutput: Swift.Equatable {
+public struct AssociateTagOptionWithResourceOutput {
 
     public init() { }
 }
@@ -806,7 +806,7 @@ extension BatchAssociateServiceActionWithProvisioningArtifactInput {
     }
 }
 
-public struct BatchAssociateServiceActionWithProvisioningArtifactInput: Swift.Equatable {
+public struct BatchAssociateServiceActionWithProvisioningArtifactInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -827,7 +827,7 @@ public struct BatchAssociateServiceActionWithProvisioningArtifactInput: Swift.Eq
     }
 }
 
-struct BatchAssociateServiceActionWithProvisioningArtifactInputBody: Swift.Equatable {
+struct BatchAssociateServiceActionWithProvisioningArtifactInputBody {
     let serviceActionAssociations: [ServiceCatalogClientTypes.ServiceActionAssociation]?
     let acceptLanguage: Swift.String?
 }
@@ -868,7 +868,7 @@ extension BatchAssociateServiceActionWithProvisioningArtifactOutput: ClientRunti
     }
 }
 
-public struct BatchAssociateServiceActionWithProvisioningArtifactOutput: Swift.Equatable {
+public struct BatchAssociateServiceActionWithProvisioningArtifactOutput {
     /// An object that contains a list of errors, along with information to help you identify the self-service action.
     public var failedServiceActionAssociations: [ServiceCatalogClientTypes.FailedServiceActionAssociation]?
 
@@ -880,7 +880,7 @@ public struct BatchAssociateServiceActionWithProvisioningArtifactOutput: Swift.E
     }
 }
 
-struct BatchAssociateServiceActionWithProvisioningArtifactOutputBody: Swift.Equatable {
+struct BatchAssociateServiceActionWithProvisioningArtifactOutputBody {
     let failedServiceActionAssociations: [ServiceCatalogClientTypes.FailedServiceActionAssociation]?
 }
 
@@ -943,7 +943,7 @@ extension BatchDisassociateServiceActionFromProvisioningArtifactInput {
     }
 }
 
-public struct BatchDisassociateServiceActionFromProvisioningArtifactInput: Swift.Equatable {
+public struct BatchDisassociateServiceActionFromProvisioningArtifactInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -964,7 +964,7 @@ public struct BatchDisassociateServiceActionFromProvisioningArtifactInput: Swift
     }
 }
 
-struct BatchDisassociateServiceActionFromProvisioningArtifactInputBody: Swift.Equatable {
+struct BatchDisassociateServiceActionFromProvisioningArtifactInputBody {
     let serviceActionAssociations: [ServiceCatalogClientTypes.ServiceActionAssociation]?
     let acceptLanguage: Swift.String?
 }
@@ -1005,7 +1005,7 @@ extension BatchDisassociateServiceActionFromProvisioningArtifactOutput: ClientRu
     }
 }
 
-public struct BatchDisassociateServiceActionFromProvisioningArtifactOutput: Swift.Equatable {
+public struct BatchDisassociateServiceActionFromProvisioningArtifactOutput {
     /// An object that contains a list of errors, along with information to help you identify the self-service action.
     public var failedServiceActionAssociations: [ServiceCatalogClientTypes.FailedServiceActionAssociation]?
 
@@ -1017,7 +1017,7 @@ public struct BatchDisassociateServiceActionFromProvisioningArtifactOutput: Swif
     }
 }
 
-struct BatchDisassociateServiceActionFromProvisioningArtifactOutputBody: Swift.Equatable {
+struct BatchDisassociateServiceActionFromProvisioningArtifactOutputBody {
     let failedServiceActionAssociations: [ServiceCatalogClientTypes.FailedServiceActionAssociation]?
 }
 
@@ -1074,7 +1074,7 @@ extension ServiceCatalogClientTypes.BudgetDetail: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// Information about a budget.
-    public struct BudgetDetail: Swift.Equatable {
+    public struct BudgetDetail {
         /// Name of the associated budget.
         public var budgetName: Swift.String?
 
@@ -1144,7 +1144,7 @@ extension ServiceCatalogClientTypes.CloudWatchDashboard: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// Information about a CloudWatch dashboard.
-    public struct CloudWatchDashboard: Swift.Equatable {
+    public struct CloudWatchDashboard {
         /// The name of the CloudWatch dashboard.
         public var name: Swift.String?
 
@@ -1197,7 +1197,7 @@ extension ServiceCatalogClientTypes.CodeStarParameters: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// The subtype containing details about the Codestar connection Type.
-    public struct CodeStarParameters: Swift.Equatable {
+    public struct CodeStarParameters {
         /// The absolute path wehre the artifact resides within the repo and branch, formatted as "folder/file.json."
         /// This member is required.
         public var artifactPath: Swift.String?
@@ -1278,7 +1278,7 @@ extension ServiceCatalogClientTypes.ConstraintDetail: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// Information about a constraint.
-    public struct ConstraintDetail: Swift.Equatable {
+    public struct ConstraintDetail {
         /// The identifier of the constraint.
         public var constraintId: Swift.String?
         /// The description of the constraint.
@@ -1347,7 +1347,7 @@ extension ServiceCatalogClientTypes.ConstraintSummary: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// Summary information about a constraint.
-    public struct ConstraintSummary: Swift.Equatable {
+    public struct ConstraintSummary {
         /// The description of the constraint.
         public var description: Swift.String?
         /// The type of constraint.
@@ -1455,7 +1455,7 @@ extension CopyProductInput {
     }
 }
 
-public struct CopyProductInput: Swift.Equatable {
+public struct CopyProductInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -1497,7 +1497,7 @@ public struct CopyProductInput: Swift.Equatable {
     }
 }
 
-struct CopyProductInputBody: Swift.Equatable {
+struct CopyProductInputBody {
     let acceptLanguage: Swift.String?
     let sourceProductArn: Swift.String?
     let targetProductId: Swift.String?
@@ -1576,7 +1576,7 @@ extension CopyProductOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CopyProductOutput: Swift.Equatable {
+public struct CopyProductOutput {
     /// The token to use to track the progress of the operation.
     public var copyProductToken: Swift.String?
 
@@ -1588,7 +1588,7 @@ public struct CopyProductOutput: Swift.Equatable {
     }
 }
 
-struct CopyProductOutputBody: Swift.Equatable {
+struct CopyProductOutputBody {
     let copyProductToken: Swift.String?
 }
 
@@ -1695,7 +1695,7 @@ extension CreateConstraintInput {
     }
 }
 
-public struct CreateConstraintInput: Swift.Equatable {
+public struct CreateConstraintInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -1750,7 +1750,7 @@ public struct CreateConstraintInput: Swift.Equatable {
     }
 }
 
-struct CreateConstraintInputBody: Swift.Equatable {
+struct CreateConstraintInputBody {
     let acceptLanguage: Swift.String?
     let portfolioId: Swift.String?
     let productId: Swift.String?
@@ -1806,7 +1806,7 @@ extension CreateConstraintOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateConstraintOutput: Swift.Equatable {
+public struct CreateConstraintOutput {
     /// Information about the constraint.
     public var constraintDetail: ServiceCatalogClientTypes.ConstraintDetail?
     /// The constraint parameters.
@@ -1826,7 +1826,7 @@ public struct CreateConstraintOutput: Swift.Equatable {
     }
 }
 
-struct CreateConstraintOutputBody: Swift.Equatable {
+struct CreateConstraintOutputBody {
     let constraintDetail: ServiceCatalogClientTypes.ConstraintDetail?
     let constraintParameters: Swift.String?
     let status: ServiceCatalogClientTypes.Status?
@@ -1907,7 +1907,7 @@ extension CreatePortfolioInput {
     }
 }
 
-public struct CreatePortfolioInput: Swift.Equatable {
+public struct CreatePortfolioInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -1946,7 +1946,7 @@ public struct CreatePortfolioInput: Swift.Equatable {
     }
 }
 
-struct CreatePortfolioInputBody: Swift.Equatable {
+struct CreatePortfolioInputBody {
     let acceptLanguage: Swift.String?
     let displayName: Swift.String?
     let description: Swift.String?
@@ -2005,7 +2005,7 @@ extension CreatePortfolioOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePortfolioOutput: Swift.Equatable {
+public struct CreatePortfolioOutput {
     /// Information about the portfolio.
     public var portfolioDetail: ServiceCatalogClientTypes.PortfolioDetail?
     /// Information about the tags associated with the portfolio.
@@ -2021,7 +2021,7 @@ public struct CreatePortfolioOutput: Swift.Equatable {
     }
 }
 
-struct CreatePortfolioOutputBody: Swift.Equatable {
+struct CreatePortfolioOutputBody {
     let portfolioDetail: ServiceCatalogClientTypes.PortfolioDetail?
     let tags: [ServiceCatalogClientTypes.Tag]?
 }
@@ -2103,7 +2103,7 @@ extension CreatePortfolioShareInput {
     }
 }
 
-public struct CreatePortfolioShareInput: Swift.Equatable {
+public struct CreatePortfolioShareInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -2140,7 +2140,7 @@ public struct CreatePortfolioShareInput: Swift.Equatable {
     }
 }
 
-struct CreatePortfolioShareInputBody: Swift.Equatable {
+struct CreatePortfolioShareInputBody {
     let acceptLanguage: Swift.String?
     let portfolioId: Swift.String?
     let accountId: Swift.String?
@@ -2188,7 +2188,7 @@ extension CreatePortfolioShareOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePortfolioShareOutput: Swift.Equatable {
+public struct CreatePortfolioShareOutput {
     /// The portfolio shares a unique identifier that only returns if the portfolio is shared to an organization node.
     public var portfolioShareToken: Swift.String?
 
@@ -2200,7 +2200,7 @@ public struct CreatePortfolioShareOutput: Swift.Equatable {
     }
 }
 
-struct CreatePortfolioShareOutputBody: Swift.Equatable {
+struct CreatePortfolioShareOutputBody {
     let portfolioShareToken: Swift.String?
 }
 
@@ -2302,7 +2302,7 @@ extension CreateProductInput {
     }
 }
 
-public struct CreateProductInput: Swift.Equatable {
+public struct CreateProductInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -2374,7 +2374,7 @@ public struct CreateProductInput: Swift.Equatable {
     }
 }
 
-struct CreateProductInputBody: Swift.Equatable {
+struct CreateProductInputBody {
     let acceptLanguage: Swift.String?
     let name: Swift.String?
     let owner: Swift.String?
@@ -2463,7 +2463,7 @@ extension CreateProductOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateProductOutput: Swift.Equatable {
+public struct CreateProductOutput {
     /// Information about the product view.
     public var productViewDetail: ServiceCatalogClientTypes.ProductViewDetail?
     /// Information about the provisioning artifact.
@@ -2483,7 +2483,7 @@ public struct CreateProductOutput: Swift.Equatable {
     }
 }
 
-struct CreateProductOutputBody: Swift.Equatable {
+struct CreateProductOutputBody {
     let productViewDetail: ServiceCatalogClientTypes.ProductViewDetail?
     let provisioningArtifactDetail: ServiceCatalogClientTypes.ProvisioningArtifactDetail?
     let tags: [ServiceCatalogClientTypes.Tag]?
@@ -2598,7 +2598,7 @@ extension CreateProvisionedProductPlanInput {
     }
 }
 
-public struct CreateProvisionedProductPlanInput: Swift.Equatable {
+public struct CreateProvisionedProductPlanInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -2660,7 +2660,7 @@ public struct CreateProvisionedProductPlanInput: Swift.Equatable {
     }
 }
 
-struct CreateProvisionedProductPlanInputBody: Swift.Equatable {
+struct CreateProvisionedProductPlanInputBody {
     let acceptLanguage: Swift.String?
     let planName: Swift.String?
     let planType: ServiceCatalogClientTypes.ProvisionedProductPlanType?
@@ -2763,7 +2763,7 @@ extension CreateProvisionedProductPlanOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct CreateProvisionedProductPlanOutput: Swift.Equatable {
+public struct CreateProvisionedProductPlanOutput {
     /// The plan identifier.
     public var planId: Swift.String?
     /// The name of the plan.
@@ -2791,7 +2791,7 @@ public struct CreateProvisionedProductPlanOutput: Swift.Equatable {
     }
 }
 
-struct CreateProvisionedProductPlanOutputBody: Swift.Equatable {
+struct CreateProvisionedProductPlanOutputBody {
     let planName: Swift.String?
     let planId: Swift.String?
     let provisionProductId: Swift.String?
@@ -2868,7 +2868,7 @@ extension CreateProvisioningArtifactInput {
     }
 }
 
-public struct CreateProvisioningArtifactInput: Swift.Equatable {
+public struct CreateProvisioningArtifactInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -2899,7 +2899,7 @@ public struct CreateProvisioningArtifactInput: Swift.Equatable {
     }
 }
 
-struct CreateProvisioningArtifactInputBody: Swift.Equatable {
+struct CreateProvisioningArtifactInputBody {
     let acceptLanguage: Swift.String?
     let productId: Swift.String?
     let parameters: ServiceCatalogClientTypes.ProvisioningArtifactProperties?
@@ -2943,7 +2943,7 @@ extension CreateProvisioningArtifactOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateProvisioningArtifactOutput: Swift.Equatable {
+public struct CreateProvisioningArtifactOutput {
     /// Specify the template source with one of the following options, but not both. Keys accepted: [ LoadTemplateFromURL, ImportFromPhysicalId ]. Use the URL of the CloudFormation template in Amazon S3 or GitHub in JSON format. LoadTemplateFromURL Use the URL of the CloudFormation template in Amazon S3 or GitHub in JSON format. ImportFromPhysicalId Use the physical id of the resource that contains the template; currently supports CloudFormation stack ARN.
     public var info: [Swift.String:Swift.String]?
     /// Information about the provisioning artifact.
@@ -2963,7 +2963,7 @@ public struct CreateProvisioningArtifactOutput: Swift.Equatable {
     }
 }
 
-struct CreateProvisioningArtifactOutputBody: Swift.Equatable {
+struct CreateProvisioningArtifactOutputBody {
     let provisioningArtifactDetail: ServiceCatalogClientTypes.ProvisioningArtifactDetail?
     let info: [Swift.String:Swift.String]?
     let status: ServiceCatalogClientTypes.Status?
@@ -3052,7 +3052,7 @@ extension CreateServiceActionInput {
     }
 }
 
-public struct CreateServiceActionInput: Swift.Equatable {
+public struct CreateServiceActionInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -3092,7 +3092,7 @@ public struct CreateServiceActionInput: Swift.Equatable {
     }
 }
 
-struct CreateServiceActionInputBody: Swift.Equatable {
+struct CreateServiceActionInputBody {
     let name: Swift.String?
     let definitionType: ServiceCatalogClientTypes.ServiceActionDefinitionType?
     let definition: [Swift.String:Swift.String]?
@@ -3149,7 +3149,7 @@ extension CreateServiceActionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateServiceActionOutput: Swift.Equatable {
+public struct CreateServiceActionOutput {
     /// An object containing information about the self-service action.
     public var serviceActionDetail: ServiceCatalogClientTypes.ServiceActionDetail?
 
@@ -3161,7 +3161,7 @@ public struct CreateServiceActionOutput: Swift.Equatable {
     }
 }
 
-struct CreateServiceActionOutputBody: Swift.Equatable {
+struct CreateServiceActionOutputBody {
     let serviceActionDetail: ServiceCatalogClientTypes.ServiceActionDetail?
 }
 
@@ -3213,7 +3213,7 @@ extension CreateTagOptionInput {
     }
 }
 
-public struct CreateTagOptionInput: Swift.Equatable {
+public struct CreateTagOptionInput {
     /// The TagOption key.
     /// This member is required.
     public var key: Swift.String?
@@ -3231,7 +3231,7 @@ public struct CreateTagOptionInput: Swift.Equatable {
     }
 }
 
-struct CreateTagOptionInputBody: Swift.Equatable {
+struct CreateTagOptionInputBody {
     let key: Swift.String?
     let value: Swift.String?
 }
@@ -3263,7 +3263,7 @@ extension CreateTagOptionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateTagOptionOutput: Swift.Equatable {
+public struct CreateTagOptionOutput {
     /// Information about the TagOption.
     public var tagOptionDetail: ServiceCatalogClientTypes.TagOptionDetail?
 
@@ -3275,7 +3275,7 @@ public struct CreateTagOptionOutput: Swift.Equatable {
     }
 }
 
-struct CreateTagOptionOutputBody: Swift.Equatable {
+struct CreateTagOptionOutputBody {
     let tagOptionDetail: ServiceCatalogClientTypes.TagOptionDetail?
 }
 
@@ -3328,7 +3328,7 @@ extension DeleteConstraintInput {
     }
 }
 
-public struct DeleteConstraintInput: Swift.Equatable {
+public struct DeleteConstraintInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -3349,7 +3349,7 @@ public struct DeleteConstraintInput: Swift.Equatable {
     }
 }
 
-struct DeleteConstraintInputBody: Swift.Equatable {
+struct DeleteConstraintInputBody {
     let acceptLanguage: Swift.String?
     let id: Swift.String?
 }
@@ -3374,7 +3374,7 @@ extension DeleteConstraintOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteConstraintOutput: Swift.Equatable {
+public struct DeleteConstraintOutput {
 
     public init() { }
 }
@@ -3415,7 +3415,7 @@ extension DeletePortfolioInput {
     }
 }
 
-public struct DeletePortfolioInput: Swift.Equatable {
+public struct DeletePortfolioInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -3436,7 +3436,7 @@ public struct DeletePortfolioInput: Swift.Equatable {
     }
 }
 
-struct DeletePortfolioInputBody: Swift.Equatable {
+struct DeletePortfolioInputBody {
     let acceptLanguage: Swift.String?
     let id: Swift.String?
 }
@@ -3461,7 +3461,7 @@ extension DeletePortfolioOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePortfolioOutput: Swift.Equatable {
+public struct DeletePortfolioOutput {
 
     public init() { }
 }
@@ -3512,7 +3512,7 @@ extension DeletePortfolioShareInput {
     }
 }
 
-public struct DeletePortfolioShareInput: Swift.Equatable {
+public struct DeletePortfolioShareInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -3541,7 +3541,7 @@ public struct DeletePortfolioShareInput: Swift.Equatable {
     }
 }
 
-struct DeletePortfolioShareInputBody: Swift.Equatable {
+struct DeletePortfolioShareInputBody {
     let acceptLanguage: Swift.String?
     let portfolioId: Swift.String?
     let accountId: Swift.String?
@@ -3581,7 +3581,7 @@ extension DeletePortfolioShareOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePortfolioShareOutput: Swift.Equatable {
+public struct DeletePortfolioShareOutput {
     /// The portfolio share unique identifier. This will only be returned if delete is made to an organization node.
     public var portfolioShareToken: Swift.String?
 
@@ -3593,7 +3593,7 @@ public struct DeletePortfolioShareOutput: Swift.Equatable {
     }
 }
 
-struct DeletePortfolioShareOutputBody: Swift.Equatable {
+struct DeletePortfolioShareOutputBody {
     let portfolioShareToken: Swift.String?
 }
 
@@ -3647,7 +3647,7 @@ extension DeleteProductInput {
     }
 }
 
-public struct DeleteProductInput: Swift.Equatable {
+public struct DeleteProductInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -3668,7 +3668,7 @@ public struct DeleteProductInput: Swift.Equatable {
     }
 }
 
-struct DeleteProductInputBody: Swift.Equatable {
+struct DeleteProductInputBody {
     let acceptLanguage: Swift.String?
     let id: Swift.String?
 }
@@ -3693,7 +3693,7 @@ extension DeleteProductOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteProductOutput: Swift.Equatable {
+public struct DeleteProductOutput {
 
     public init() { }
 }
@@ -3740,7 +3740,7 @@ extension DeleteProvisionedProductPlanInput {
     }
 }
 
-public struct DeleteProvisionedProductPlanInput: Swift.Equatable {
+public struct DeleteProvisionedProductPlanInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -3765,7 +3765,7 @@ public struct DeleteProvisionedProductPlanInput: Swift.Equatable {
     }
 }
 
-struct DeleteProvisionedProductPlanInputBody: Swift.Equatable {
+struct DeleteProvisionedProductPlanInputBody {
     let acceptLanguage: Swift.String?
     let planId: Swift.String?
     let ignoreErrors: Swift.Bool?
@@ -3794,7 +3794,7 @@ extension DeleteProvisionedProductPlanOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DeleteProvisionedProductPlanOutput: Swift.Equatable {
+public struct DeleteProvisionedProductPlanOutput {
 
     public init() { }
 }
@@ -3839,7 +3839,7 @@ extension DeleteProvisioningArtifactInput {
     }
 }
 
-public struct DeleteProvisioningArtifactInput: Swift.Equatable {
+public struct DeleteProvisioningArtifactInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -3865,7 +3865,7 @@ public struct DeleteProvisioningArtifactInput: Swift.Equatable {
     }
 }
 
-struct DeleteProvisioningArtifactInputBody: Swift.Equatable {
+struct DeleteProvisioningArtifactInputBody {
     let acceptLanguage: Swift.String?
     let productId: Swift.String?
     let provisioningArtifactId: Swift.String?
@@ -3894,7 +3894,7 @@ extension DeleteProvisioningArtifactOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteProvisioningArtifactOutput: Swift.Equatable {
+public struct DeleteProvisioningArtifactOutput {
 
     public init() { }
 }
@@ -3940,7 +3940,7 @@ extension DeleteServiceActionInput {
     }
 }
 
-public struct DeleteServiceActionInput: Swift.Equatable {
+public struct DeleteServiceActionInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -3965,7 +3965,7 @@ public struct DeleteServiceActionInput: Swift.Equatable {
     }
 }
 
-struct DeleteServiceActionInputBody: Swift.Equatable {
+struct DeleteServiceActionInputBody {
     let id: Swift.String?
     let acceptLanguage: Swift.String?
     let idempotencyToken: Swift.String?
@@ -3994,7 +3994,7 @@ extension DeleteServiceActionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteServiceActionOutput: Swift.Equatable {
+public struct DeleteServiceActionOutput {
 
     public init() { }
 }
@@ -4026,7 +4026,7 @@ extension DeleteTagOptionInput {
     }
 }
 
-public struct DeleteTagOptionInput: Swift.Equatable {
+public struct DeleteTagOptionInput {
     /// The TagOption identifier.
     /// This member is required.
     public var id: Swift.String?
@@ -4039,7 +4039,7 @@ public struct DeleteTagOptionInput: Swift.Equatable {
     }
 }
 
-struct DeleteTagOptionInputBody: Swift.Equatable {
+struct DeleteTagOptionInputBody {
 }
 
 extension DeleteTagOptionInputBody: Swift.Decodable {
@@ -4053,7 +4053,7 @@ extension DeleteTagOptionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteTagOptionOutput: Swift.Equatable {
+public struct DeleteTagOptionOutput {
 
     public init() { }
 }
@@ -4095,7 +4095,7 @@ extension DescribeConstraintInput {
     }
 }
 
-public struct DescribeConstraintInput: Swift.Equatable {
+public struct DescribeConstraintInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -4116,7 +4116,7 @@ public struct DescribeConstraintInput: Swift.Equatable {
     }
 }
 
-struct DescribeConstraintInputBody: Swift.Equatable {
+struct DescribeConstraintInputBody {
     let acceptLanguage: Swift.String?
     let id: Swift.String?
 }
@@ -4152,7 +4152,7 @@ extension DescribeConstraintOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeConstraintOutput: Swift.Equatable {
+public struct DescribeConstraintOutput {
     /// Information about the constraint.
     public var constraintDetail: ServiceCatalogClientTypes.ConstraintDetail?
     /// The constraint parameters.
@@ -4172,7 +4172,7 @@ public struct DescribeConstraintOutput: Swift.Equatable {
     }
 }
 
-struct DescribeConstraintOutputBody: Swift.Equatable {
+struct DescribeConstraintOutputBody {
     let constraintDetail: ServiceCatalogClientTypes.ConstraintDetail?
     let constraintParameters: Swift.String?
     let status: ServiceCatalogClientTypes.Status?
@@ -4231,7 +4231,7 @@ extension DescribeCopyProductStatusInput {
     }
 }
 
-public struct DescribeCopyProductStatusInput: Swift.Equatable {
+public struct DescribeCopyProductStatusInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -4252,7 +4252,7 @@ public struct DescribeCopyProductStatusInput: Swift.Equatable {
     }
 }
 
-struct DescribeCopyProductStatusInputBody: Swift.Equatable {
+struct DescribeCopyProductStatusInputBody {
     let acceptLanguage: Swift.String?
     let copyProductToken: Swift.String?
 }
@@ -4288,7 +4288,7 @@ extension DescribeCopyProductStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeCopyProductStatusOutput: Swift.Equatable {
+public struct DescribeCopyProductStatusOutput {
     /// The status of the copy product operation.
     public var copyProductStatus: ServiceCatalogClientTypes.CopyProductStatus?
     /// The status message.
@@ -4308,7 +4308,7 @@ public struct DescribeCopyProductStatusOutput: Swift.Equatable {
     }
 }
 
-struct DescribeCopyProductStatusOutputBody: Swift.Equatable {
+struct DescribeCopyProductStatusOutputBody {
     let copyProductStatus: ServiceCatalogClientTypes.CopyProductStatus?
     let targetProductId: Swift.String?
     let statusDetail: Swift.String?
@@ -4367,7 +4367,7 @@ extension DescribePortfolioInput {
     }
 }
 
-public struct DescribePortfolioInput: Swift.Equatable {
+public struct DescribePortfolioInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -4388,7 +4388,7 @@ public struct DescribePortfolioInput: Swift.Equatable {
     }
 }
 
-struct DescribePortfolioInputBody: Swift.Equatable {
+struct DescribePortfolioInputBody {
     let acceptLanguage: Swift.String?
     let id: Swift.String?
 }
@@ -4426,7 +4426,7 @@ extension DescribePortfolioOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribePortfolioOutput: Swift.Equatable {
+public struct DescribePortfolioOutput {
     /// Information about the associated budgets.
     public var budgets: [ServiceCatalogClientTypes.BudgetDetail]?
     /// Information about the portfolio.
@@ -4450,7 +4450,7 @@ public struct DescribePortfolioOutput: Swift.Equatable {
     }
 }
 
-struct DescribePortfolioOutputBody: Swift.Equatable {
+struct DescribePortfolioOutputBody {
     let portfolioDetail: ServiceCatalogClientTypes.PortfolioDetail?
     let tags: [ServiceCatalogClientTypes.Tag]?
     let tagOptions: [ServiceCatalogClientTypes.TagOptionDetail]?
@@ -4536,7 +4536,7 @@ extension DescribePortfolioShareStatusInput {
     }
 }
 
-public struct DescribePortfolioShareStatusInput: Swift.Equatable {
+public struct DescribePortfolioShareStatusInput {
     /// The token for the portfolio share operation. This token is returned either by CreatePortfolioShare or by DeletePortfolioShare.
     /// This member is required.
     public var portfolioShareToken: Swift.String?
@@ -4549,7 +4549,7 @@ public struct DescribePortfolioShareStatusInput: Swift.Equatable {
     }
 }
 
-struct DescribePortfolioShareStatusInputBody: Swift.Equatable {
+struct DescribePortfolioShareStatusInputBody {
     let portfolioShareToken: Swift.String?
 }
 
@@ -4585,7 +4585,7 @@ extension DescribePortfolioShareStatusOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DescribePortfolioShareStatusOutput: Swift.Equatable {
+public struct DescribePortfolioShareStatusOutput {
     /// Organization node identifier. It can be either account id, organizational unit id or organization id.
     public var organizationNodeValue: Swift.String?
     /// The portfolio identifier.
@@ -4613,7 +4613,7 @@ public struct DescribePortfolioShareStatusOutput: Swift.Equatable {
     }
 }
 
-struct DescribePortfolioShareStatusOutputBody: Swift.Equatable {
+struct DescribePortfolioShareStatusOutputBody {
     let portfolioShareToken: Swift.String?
     let portfolioId: Swift.String?
     let organizationNodeValue: Swift.String?
@@ -4728,7 +4728,7 @@ extension DescribePortfolioSharesInput {
     }
 }
 
-public struct DescribePortfolioSharesInput: Swift.Equatable {
+public struct DescribePortfolioSharesInput {
     /// The maximum number of items to return with this call.
     public var pageSize: Swift.Int?
     /// The page token for the next set of results. To retrieve the first set of results, use null.
@@ -4754,7 +4754,7 @@ public struct DescribePortfolioSharesInput: Swift.Equatable {
     }
 }
 
-struct DescribePortfolioSharesInputBody: Swift.Equatable {
+struct DescribePortfolioSharesInputBody {
     let portfolioId: Swift.String?
     let type: ServiceCatalogClientTypes.DescribePortfolioShareType?
     let pageToken: Swift.String?
@@ -4796,7 +4796,7 @@ extension DescribePortfolioSharesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribePortfolioSharesOutput: Swift.Equatable {
+public struct DescribePortfolioSharesOutput {
     /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
     public var nextPageToken: Swift.String?
     /// Summaries about each of the portfolio shares.
@@ -4812,7 +4812,7 @@ public struct DescribePortfolioSharesOutput: Swift.Equatable {
     }
 }
 
-struct DescribePortfolioSharesOutputBody: Swift.Equatable {
+struct DescribePortfolioSharesOutputBody {
     let nextPageToken: Swift.String?
     let portfolioShareDetails: [ServiceCatalogClientTypes.PortfolioShareDetail]?
 }
@@ -4885,7 +4885,7 @@ extension DescribeProductAsAdminInput {
     }
 }
 
-public struct DescribeProductAsAdminInput: Swift.Equatable {
+public struct DescribeProductAsAdminInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -4913,7 +4913,7 @@ public struct DescribeProductAsAdminInput: Swift.Equatable {
     }
 }
 
-struct DescribeProductAsAdminInputBody: Swift.Equatable {
+struct DescribeProductAsAdminInputBody {
     let acceptLanguage: Swift.String?
     let id: Swift.String?
     let name: Swift.String?
@@ -4961,7 +4961,7 @@ extension DescribeProductAsAdminOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeProductAsAdminOutput: Swift.Equatable {
+public struct DescribeProductAsAdminOutput {
     /// Information about the associated budgets.
     public var budgets: [ServiceCatalogClientTypes.BudgetDetail]?
     /// Information about the product view.
@@ -4989,7 +4989,7 @@ public struct DescribeProductAsAdminOutput: Swift.Equatable {
     }
 }
 
-struct DescribeProductAsAdminOutputBody: Swift.Equatable {
+struct DescribeProductAsAdminOutputBody {
     let productViewDetail: ServiceCatalogClientTypes.ProductViewDetail?
     let provisioningArtifactSummaries: [ServiceCatalogClientTypes.ProvisioningArtifactSummary]?
     let tags: [ServiceCatalogClientTypes.Tag]?
@@ -5097,7 +5097,7 @@ extension DescribeProductInput {
     }
 }
 
-public struct DescribeProductInput: Swift.Equatable {
+public struct DescribeProductInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -5121,7 +5121,7 @@ public struct DescribeProductInput: Swift.Equatable {
     }
 }
 
-struct DescribeProductInputBody: Swift.Equatable {
+struct DescribeProductInputBody {
     let acceptLanguage: Swift.String?
     let id: Swift.String?
     let name: Swift.String?
@@ -5163,7 +5163,7 @@ extension DescribeProductOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeProductOutput: Swift.Equatable {
+public struct DescribeProductOutput {
     /// Information about the associated budgets.
     public var budgets: [ServiceCatalogClientTypes.BudgetDetail]?
     /// Information about the associated launch paths.
@@ -5187,7 +5187,7 @@ public struct DescribeProductOutput: Swift.Equatable {
     }
 }
 
-struct DescribeProductOutputBody: Swift.Equatable {
+struct DescribeProductOutputBody {
     let productViewSummary: ServiceCatalogClientTypes.ProductViewSummary?
     let provisioningArtifacts: [ServiceCatalogClientTypes.ProvisioningArtifact]?
     let budgets: [ServiceCatalogClientTypes.BudgetDetail]?
@@ -5278,7 +5278,7 @@ extension DescribeProductViewInput {
     }
 }
 
-public struct DescribeProductViewInput: Swift.Equatable {
+public struct DescribeProductViewInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -5299,7 +5299,7 @@ public struct DescribeProductViewInput: Swift.Equatable {
     }
 }
 
-struct DescribeProductViewInputBody: Swift.Equatable {
+struct DescribeProductViewInputBody {
     let acceptLanguage: Swift.String?
     let id: Swift.String?
 }
@@ -5333,7 +5333,7 @@ extension DescribeProductViewOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeProductViewOutput: Swift.Equatable {
+public struct DescribeProductViewOutput {
     /// Summary information about the product.
     public var productViewSummary: ServiceCatalogClientTypes.ProductViewSummary?
     /// Information about the provisioning artifacts for the product.
@@ -5349,7 +5349,7 @@ public struct DescribeProductViewOutput: Swift.Equatable {
     }
 }
 
-struct DescribeProductViewOutputBody: Swift.Equatable {
+struct DescribeProductViewOutputBody {
     let productViewSummary: ServiceCatalogClientTypes.ProductViewSummary?
     let provisioningArtifacts: [ServiceCatalogClientTypes.ProvisioningArtifact]?
 }
@@ -5419,7 +5419,7 @@ extension DescribeProvisionedProductInput {
 }
 
 /// DescribeProvisionedProductAPI input structure. AcceptLanguage - [Optional] The language code for localization. Id - [Optional] The provisioned product identifier. Name - [Optional] Another provisioned product identifier. Customers must provide either Id or Name.
-public struct DescribeProvisionedProductInput: Swift.Equatable {
+public struct DescribeProvisionedProductInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -5443,7 +5443,7 @@ public struct DescribeProvisionedProductInput: Swift.Equatable {
     }
 }
 
-struct DescribeProvisionedProductInputBody: Swift.Equatable {
+struct DescribeProvisionedProductInputBody {
     let acceptLanguage: Swift.String?
     let id: Swift.String?
     let name: Swift.String?
@@ -5481,7 +5481,7 @@ extension DescribeProvisionedProductOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeProvisionedProductOutput: Swift.Equatable {
+public struct DescribeProvisionedProductOutput {
     /// Any CloudWatch dashboards that were created when provisioning the product.
     public var cloudWatchDashboards: [ServiceCatalogClientTypes.CloudWatchDashboard]?
     /// Information about the provisioned product.
@@ -5497,7 +5497,7 @@ public struct DescribeProvisionedProductOutput: Swift.Equatable {
     }
 }
 
-struct DescribeProvisionedProductOutputBody: Swift.Equatable {
+struct DescribeProvisionedProductOutputBody {
     let provisionedProductDetail: ServiceCatalogClientTypes.ProvisionedProductDetail?
     let cloudWatchDashboards: [ServiceCatalogClientTypes.CloudWatchDashboard]?
 }
@@ -5570,7 +5570,7 @@ extension DescribeProvisionedProductPlanInput {
     }
 }
 
-public struct DescribeProvisionedProductPlanInput: Swift.Equatable {
+public struct DescribeProvisionedProductPlanInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -5599,7 +5599,7 @@ public struct DescribeProvisionedProductPlanInput: Swift.Equatable {
     }
 }
 
-struct DescribeProvisionedProductPlanInputBody: Swift.Equatable {
+struct DescribeProvisionedProductPlanInputBody {
     let acceptLanguage: Swift.String?
     let planId: Swift.String?
     let pageSize: Swift.Int?
@@ -5643,7 +5643,7 @@ extension DescribeProvisionedProductPlanOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DescribeProvisionedProductPlanOutput: Swift.Equatable {
+public struct DescribeProvisionedProductPlanOutput {
     /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
     public var nextPageToken: Swift.String?
     /// Information about the plan.
@@ -5663,7 +5663,7 @@ public struct DescribeProvisionedProductPlanOutput: Swift.Equatable {
     }
 }
 
-struct DescribeProvisionedProductPlanOutputBody: Swift.Equatable {
+struct DescribeProvisionedProductPlanOutputBody {
     let provisionedProductPlanDetails: ServiceCatalogClientTypes.ProvisionedProductPlanDetails?
     let resourceChanges: [ServiceCatalogClientTypes.ResourceChange]?
     let nextPageToken: Swift.String?
@@ -5752,7 +5752,7 @@ extension DescribeProvisioningArtifactInput {
     }
 }
 
-public struct DescribeProvisioningArtifactInput: Swift.Equatable {
+public struct DescribeProvisioningArtifactInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -5792,7 +5792,7 @@ public struct DescribeProvisioningArtifactInput: Swift.Equatable {
     }
 }
 
-struct DescribeProvisioningArtifactInputBody: Swift.Equatable {
+struct DescribeProvisioningArtifactInputBody {
     let acceptLanguage: Swift.String?
     let provisioningArtifactId: Swift.String?
     let productId: Swift.String?
@@ -5850,7 +5850,7 @@ extension DescribeProvisioningArtifactOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DescribeProvisioningArtifactOutput: Swift.Equatable {
+public struct DescribeProvisioningArtifactOutput {
     /// The URL of the CloudFormation template in Amazon S3 or GitHub in JSON format.
     public var info: [Swift.String:Swift.String]?
     /// Information about the provisioning artifact.
@@ -5874,7 +5874,7 @@ public struct DescribeProvisioningArtifactOutput: Swift.Equatable {
     }
 }
 
-struct DescribeProvisioningArtifactOutputBody: Swift.Equatable {
+struct DescribeProvisioningArtifactOutputBody {
     let provisioningArtifactDetail: ServiceCatalogClientTypes.ProvisioningArtifactDetail?
     let info: [Swift.String:Swift.String]?
     let status: ServiceCatalogClientTypes.Status?
@@ -5976,7 +5976,7 @@ extension DescribeProvisioningParametersInput {
     }
 }
 
-public struct DescribeProvisioningParametersInput: Swift.Equatable {
+public struct DescribeProvisioningParametersInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -6016,7 +6016,7 @@ public struct DescribeProvisioningParametersInput: Swift.Equatable {
     }
 }
 
-struct DescribeProvisioningParametersInputBody: Swift.Equatable {
+struct DescribeProvisioningParametersInputBody {
     let acceptLanguage: Swift.String?
     let productId: Swift.String?
     let productName: Swift.String?
@@ -6080,7 +6080,7 @@ extension DescribeProvisioningParametersOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DescribeProvisioningParametersOutput: Swift.Equatable {
+public struct DescribeProvisioningParametersOutput {
     /// Information about the constraints used to provision the product.
     public var constraintSummaries: [ServiceCatalogClientTypes.ConstraintSummary]?
     /// A list of the keys and descriptions of the outputs. These outputs can be referenced from a provisioned product launched from this provisioning artifact.
@@ -6117,7 +6117,7 @@ public struct DescribeProvisioningParametersOutput: Swift.Equatable {
     }
 }
 
-struct DescribeProvisioningParametersOutputBody: Swift.Equatable {
+struct DescribeProvisioningParametersOutputBody {
     let provisioningArtifactParameters: [ServiceCatalogClientTypes.ProvisioningArtifactParameter]?
     let constraintSummaries: [ServiceCatalogClientTypes.ConstraintSummary]?
     let usageInstructions: [ServiceCatalogClientTypes.UsageInstruction]?
@@ -6255,7 +6255,7 @@ extension DescribeRecordInput {
     }
 }
 
-public struct DescribeRecordInput: Swift.Equatable {
+public struct DescribeRecordInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -6284,7 +6284,7 @@ public struct DescribeRecordInput: Swift.Equatable {
     }
 }
 
-struct DescribeRecordInputBody: Swift.Equatable {
+struct DescribeRecordInputBody {
     let acceptLanguage: Swift.String?
     let id: Swift.String?
     let pageToken: Swift.String?
@@ -6328,7 +6328,7 @@ extension DescribeRecordOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeRecordOutput: Swift.Equatable {
+public struct DescribeRecordOutput {
     /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
     public var nextPageToken: Swift.String?
     /// Information about the product.
@@ -6348,7 +6348,7 @@ public struct DescribeRecordOutput: Swift.Equatable {
     }
 }
 
-struct DescribeRecordOutputBody: Swift.Equatable {
+struct DescribeRecordOutputBody {
     let recordDetail: ServiceCatalogClientTypes.RecordDetail?
     let recordOutputs: [ServiceCatalogClientTypes.RecordOutput]?
     let nextPageToken: Swift.String?
@@ -6420,7 +6420,7 @@ extension DescribeServiceActionExecutionParametersInput {
     }
 }
 
-public struct DescribeServiceActionExecutionParametersInput: Swift.Equatable {
+public struct DescribeServiceActionExecutionParametersInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -6446,7 +6446,7 @@ public struct DescribeServiceActionExecutionParametersInput: Swift.Equatable {
     }
 }
 
-struct DescribeServiceActionExecutionParametersInputBody: Swift.Equatable {
+struct DescribeServiceActionExecutionParametersInputBody {
     let provisionedProductId: Swift.String?
     let serviceActionId: Swift.String?
     let acceptLanguage: Swift.String?
@@ -6482,7 +6482,7 @@ extension DescribeServiceActionExecutionParametersOutput: ClientRuntime.HttpResp
     }
 }
 
-public struct DescribeServiceActionExecutionParametersOutput: Swift.Equatable {
+public struct DescribeServiceActionExecutionParametersOutput {
     /// The parameters of the self-service action.
     public var serviceActionParameters: [ServiceCatalogClientTypes.ExecutionParameter]?
 
@@ -6494,7 +6494,7 @@ public struct DescribeServiceActionExecutionParametersOutput: Swift.Equatable {
     }
 }
 
-struct DescribeServiceActionExecutionParametersOutputBody: Swift.Equatable {
+struct DescribeServiceActionExecutionParametersOutputBody {
     let serviceActionParameters: [ServiceCatalogClientTypes.ExecutionParameter]?
 }
 
@@ -6555,7 +6555,7 @@ extension DescribeServiceActionInput {
     }
 }
 
-public struct DescribeServiceActionInput: Swift.Equatable {
+public struct DescribeServiceActionInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -6576,7 +6576,7 @@ public struct DescribeServiceActionInput: Swift.Equatable {
     }
 }
 
-struct DescribeServiceActionInputBody: Swift.Equatable {
+struct DescribeServiceActionInputBody {
     let id: Swift.String?
     let acceptLanguage: Swift.String?
 }
@@ -6608,7 +6608,7 @@ extension DescribeServiceActionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeServiceActionOutput: Swift.Equatable {
+public struct DescribeServiceActionOutput {
     /// Detailed information about the self-service action.
     public var serviceActionDetail: ServiceCatalogClientTypes.ServiceActionDetail?
 
@@ -6620,7 +6620,7 @@ public struct DescribeServiceActionOutput: Swift.Equatable {
     }
 }
 
-struct DescribeServiceActionOutputBody: Swift.Equatable {
+struct DescribeServiceActionOutputBody {
     let serviceActionDetail: ServiceCatalogClientTypes.ServiceActionDetail?
 }
 
@@ -6662,7 +6662,7 @@ extension DescribeTagOptionInput {
     }
 }
 
-public struct DescribeTagOptionInput: Swift.Equatable {
+public struct DescribeTagOptionInput {
     /// The TagOption identifier.
     /// This member is required.
     public var id: Swift.String?
@@ -6675,7 +6675,7 @@ public struct DescribeTagOptionInput: Swift.Equatable {
     }
 }
 
-struct DescribeTagOptionInputBody: Swift.Equatable {
+struct DescribeTagOptionInputBody {
 }
 
 extension DescribeTagOptionInputBody: Swift.Decodable {
@@ -6696,7 +6696,7 @@ extension DescribeTagOptionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeTagOptionOutput: Swift.Equatable {
+public struct DescribeTagOptionOutput {
     /// Information about the TagOption.
     public var tagOptionDetail: ServiceCatalogClientTypes.TagOptionDetail?
 
@@ -6708,7 +6708,7 @@ public struct DescribeTagOptionOutput: Swift.Equatable {
     }
 }
 
-struct DescribeTagOptionOutputBody: Swift.Equatable {
+struct DescribeTagOptionOutputBody {
     let tagOptionDetail: ServiceCatalogClientTypes.TagOptionDetail?
 }
 
@@ -6751,12 +6751,12 @@ extension DisableAWSOrganizationsAccessInput {
     }
 }
 
-public struct DisableAWSOrganizationsAccessInput: Swift.Equatable {
+public struct DisableAWSOrganizationsAccessInput {
 
     public init() { }
 }
 
-struct DisableAWSOrganizationsAccessInputBody: Swift.Equatable {
+struct DisableAWSOrganizationsAccessInputBody {
 }
 
 extension DisableAWSOrganizationsAccessInputBody: Swift.Decodable {
@@ -6770,7 +6770,7 @@ extension DisableAWSOrganizationsAccessOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DisableAWSOrganizationsAccessOutput: Swift.Equatable {
+public struct DisableAWSOrganizationsAccessOutput {
 
     public init() { }
 }
@@ -6812,7 +6812,7 @@ extension DisassociateBudgetFromResourceInput {
     }
 }
 
-public struct DisassociateBudgetFromResourceInput: Swift.Equatable {
+public struct DisassociateBudgetFromResourceInput {
     /// The name of the budget you want to disassociate.
     /// This member is required.
     public var budgetName: Swift.String?
@@ -6830,7 +6830,7 @@ public struct DisassociateBudgetFromResourceInput: Swift.Equatable {
     }
 }
 
-struct DisassociateBudgetFromResourceInputBody: Swift.Equatable {
+struct DisassociateBudgetFromResourceInputBody {
     let budgetName: Swift.String?
     let resourceId: Swift.String?
 }
@@ -6855,7 +6855,7 @@ extension DisassociateBudgetFromResourceOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DisassociateBudgetFromResourceOutput: Swift.Equatable {
+public struct DisassociateBudgetFromResourceOutput {
 
     public init() { }
 }
@@ -6903,7 +6903,7 @@ extension DisassociatePrincipalFromPortfolioInput {
     }
 }
 
-public struct DisassociatePrincipalFromPortfolioInput: Swift.Equatable {
+public struct DisassociatePrincipalFromPortfolioInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -6933,7 +6933,7 @@ public struct DisassociatePrincipalFromPortfolioInput: Swift.Equatable {
     }
 }
 
-struct DisassociatePrincipalFromPortfolioInputBody: Swift.Equatable {
+struct DisassociatePrincipalFromPortfolioInputBody {
     let acceptLanguage: Swift.String?
     let portfolioId: Swift.String?
     let principalARN: Swift.String?
@@ -6966,7 +6966,7 @@ extension DisassociatePrincipalFromPortfolioOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct DisassociatePrincipalFromPortfolioOutput: Swift.Equatable {
+public struct DisassociatePrincipalFromPortfolioOutput {
 
     public init() { }
 }
@@ -7011,7 +7011,7 @@ extension DisassociateProductFromPortfolioInput {
     }
 }
 
-public struct DisassociateProductFromPortfolioInput: Swift.Equatable {
+public struct DisassociateProductFromPortfolioInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -7037,7 +7037,7 @@ public struct DisassociateProductFromPortfolioInput: Swift.Equatable {
     }
 }
 
-struct DisassociateProductFromPortfolioInputBody: Swift.Equatable {
+struct DisassociateProductFromPortfolioInputBody {
     let acceptLanguage: Swift.String?
     let productId: Swift.String?
     let portfolioId: Swift.String?
@@ -7066,7 +7066,7 @@ extension DisassociateProductFromPortfolioOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DisassociateProductFromPortfolioOutput: Swift.Equatable {
+public struct DisassociateProductFromPortfolioOutput {
 
     public init() { }
 }
@@ -7120,7 +7120,7 @@ extension DisassociateServiceActionFromProvisioningArtifactInput {
     }
 }
 
-public struct DisassociateServiceActionFromProvisioningArtifactInput: Swift.Equatable {
+public struct DisassociateServiceActionFromProvisioningArtifactInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -7155,7 +7155,7 @@ public struct DisassociateServiceActionFromProvisioningArtifactInput: Swift.Equa
     }
 }
 
-struct DisassociateServiceActionFromProvisioningArtifactInputBody: Swift.Equatable {
+struct DisassociateServiceActionFromProvisioningArtifactInputBody {
     let productId: Swift.String?
     let provisioningArtifactId: Swift.String?
     let serviceActionId: Swift.String?
@@ -7192,7 +7192,7 @@ extension DisassociateServiceActionFromProvisioningArtifactOutput: ClientRuntime
     }
 }
 
-public struct DisassociateServiceActionFromProvisioningArtifactOutput: Swift.Equatable {
+public struct DisassociateServiceActionFromProvisioningArtifactOutput {
 
     public init() { }
 }
@@ -7223,7 +7223,7 @@ extension DisassociateTagOptionFromResourceInput {
     }
 }
 
-public struct DisassociateTagOptionFromResourceInput: Swift.Equatable {
+public struct DisassociateTagOptionFromResourceInput {
     /// The resource identifier.
     /// This member is required.
     public var resourceId: Swift.String?
@@ -7241,7 +7241,7 @@ public struct DisassociateTagOptionFromResourceInput: Swift.Equatable {
     }
 }
 
-struct DisassociateTagOptionFromResourceInputBody: Swift.Equatable {
+struct DisassociateTagOptionFromResourceInputBody {
 }
 
 extension DisassociateTagOptionFromResourceInputBody: Swift.Decodable {
@@ -7255,7 +7255,7 @@ extension DisassociateTagOptionFromResourceOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct DisassociateTagOptionFromResourceOutput: Swift.Equatable {
+public struct DisassociateTagOptionFromResourceOutput {
 
     public init() { }
 }
@@ -7311,7 +7311,7 @@ public struct DuplicateResourceException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct DuplicateResourceExceptionBody: Swift.Equatable {
+struct DuplicateResourceExceptionBody {
     let message: Swift.String?
 }
 
@@ -7342,12 +7342,12 @@ extension EnableAWSOrganizationsAccessInput {
     }
 }
 
-public struct EnableAWSOrganizationsAccessInput: Swift.Equatable {
+public struct EnableAWSOrganizationsAccessInput {
 
     public init() { }
 }
 
-struct EnableAWSOrganizationsAccessInputBody: Swift.Equatable {
+struct EnableAWSOrganizationsAccessInputBody {
 }
 
 extension EnableAWSOrganizationsAccessInputBody: Swift.Decodable {
@@ -7361,7 +7361,7 @@ extension EnableAWSOrganizationsAccessOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct EnableAWSOrganizationsAccessOutput: Swift.Equatable {
+public struct EnableAWSOrganizationsAccessOutput {
 
     public init() { }
 }
@@ -7400,7 +7400,7 @@ extension ServiceCatalogClientTypes.EngineWorkflowResourceIdentifier: Swift.Coda
 
 extension ServiceCatalogClientTypes {
     /// The ID for the provisioned product resources that are part of a resource group.
-    public struct EngineWorkflowResourceIdentifier: Swift.Equatable {
+    public struct EngineWorkflowResourceIdentifier {
         /// The unique key-value pair for a tag that identifies provisioned product resources.
         public var uniqueTag: ServiceCatalogClientTypes.UniqueTagResourceIdentifier?
 
@@ -7506,7 +7506,7 @@ extension ExecuteProvisionedProductPlanInput {
     }
 }
 
-public struct ExecuteProvisionedProductPlanInput: Swift.Equatable {
+public struct ExecuteProvisionedProductPlanInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -7532,7 +7532,7 @@ public struct ExecuteProvisionedProductPlanInput: Swift.Equatable {
     }
 }
 
-struct ExecuteProvisionedProductPlanInputBody: Swift.Equatable {
+struct ExecuteProvisionedProductPlanInputBody {
     let acceptLanguage: Swift.String?
     let planId: Swift.String?
     let idempotencyToken: Swift.String?
@@ -7568,7 +7568,7 @@ extension ExecuteProvisionedProductPlanOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ExecuteProvisionedProductPlanOutput: Swift.Equatable {
+public struct ExecuteProvisionedProductPlanOutput {
     /// Information about the result of provisioning the product.
     public var recordDetail: ServiceCatalogClientTypes.RecordDetail?
 
@@ -7580,7 +7580,7 @@ public struct ExecuteProvisionedProductPlanOutput: Swift.Equatable {
     }
 }
 
-struct ExecuteProvisionedProductPlanOutputBody: Swift.Equatable {
+struct ExecuteProvisionedProductPlanOutputBody {
     let recordDetail: ServiceCatalogClientTypes.RecordDetail?
 }
 
@@ -7651,7 +7651,7 @@ extension ExecuteProvisionedProductServiceActionInput {
     }
 }
 
-public struct ExecuteProvisionedProductServiceActionInput: Swift.Equatable {
+public struct ExecuteProvisionedProductServiceActionInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -7686,7 +7686,7 @@ public struct ExecuteProvisionedProductServiceActionInput: Swift.Equatable {
     }
 }
 
-struct ExecuteProvisionedProductServiceActionInputBody: Swift.Equatable {
+struct ExecuteProvisionedProductServiceActionInputBody {
     let provisionedProductId: Swift.String?
     let serviceActionId: Swift.String?
     let executeToken: Swift.String?
@@ -7746,7 +7746,7 @@ extension ExecuteProvisionedProductServiceActionOutput: ClientRuntime.HttpRespon
     }
 }
 
-public struct ExecuteProvisionedProductServiceActionOutput: Swift.Equatable {
+public struct ExecuteProvisionedProductServiceActionOutput {
     /// An object containing detailed information about the result of provisioning the product.
     public var recordDetail: ServiceCatalogClientTypes.RecordDetail?
 
@@ -7758,7 +7758,7 @@ public struct ExecuteProvisionedProductServiceActionOutput: Swift.Equatable {
     }
 }
 
-struct ExecuteProvisionedProductServiceActionOutputBody: Swift.Equatable {
+struct ExecuteProvisionedProductServiceActionOutputBody {
     let recordDetail: ServiceCatalogClientTypes.RecordDetail?
 }
 
@@ -7832,7 +7832,7 @@ extension ServiceCatalogClientTypes.ExecutionParameter: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// Details of an execution parameter value that is passed to a self-service action when executed on a provisioned product.
-    public struct ExecutionParameter: Swift.Equatable {
+    public struct ExecutionParameter {
         /// The default values for the execution parameter.
         public var defaultValues: [Swift.String]?
         /// The name of the execution parameter.
@@ -7899,7 +7899,7 @@ extension ServiceCatalogClientTypes.FailedServiceActionAssociation: Swift.Codabl
 
 extension ServiceCatalogClientTypes {
     /// An object containing information about the error, along with identifying information about the self-service action and its associations.
-    public struct FailedServiceActionAssociation: Swift.Equatable {
+    public struct FailedServiceActionAssociation {
         /// The error code. Valid values are listed below.
         public var errorCode: ServiceCatalogClientTypes.ServiceActionAssociationErrorCode?
         /// A text description of the error.
@@ -7944,12 +7944,12 @@ extension GetAWSOrganizationsAccessStatusInput {
     }
 }
 
-public struct GetAWSOrganizationsAccessStatusInput: Swift.Equatable {
+public struct GetAWSOrganizationsAccessStatusInput {
 
     public init() { }
 }
 
-struct GetAWSOrganizationsAccessStatusInputBody: Swift.Equatable {
+struct GetAWSOrganizationsAccessStatusInputBody {
 }
 
 extension GetAWSOrganizationsAccessStatusInputBody: Swift.Decodable {
@@ -7970,7 +7970,7 @@ extension GetAWSOrganizationsAccessStatusOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct GetAWSOrganizationsAccessStatusOutput: Swift.Equatable {
+public struct GetAWSOrganizationsAccessStatusOutput {
     /// The status of the portfolio share feature.
     public var accessStatus: ServiceCatalogClientTypes.AccessStatus?
 
@@ -7982,7 +7982,7 @@ public struct GetAWSOrganizationsAccessStatusOutput: Swift.Equatable {
     }
 }
 
-struct GetAWSOrganizationsAccessStatusOutputBody: Swift.Equatable {
+struct GetAWSOrganizationsAccessStatusOutputBody {
     let accessStatus: ServiceCatalogClientTypes.AccessStatus?
 }
 
@@ -8053,7 +8053,7 @@ extension GetProvisionedProductOutputsInput {
     }
 }
 
-public struct GetProvisionedProductOutputsInput: Swift.Equatable {
+public struct GetProvisionedProductOutputsInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -8089,7 +8089,7 @@ public struct GetProvisionedProductOutputsInput: Swift.Equatable {
     }
 }
 
-struct GetProvisionedProductOutputsInputBody: Swift.Equatable {
+struct GetProvisionedProductOutputsInputBody {
     let acceptLanguage: Swift.String?
     let provisionedProductId: Swift.String?
     let provisionedProductName: Swift.String?
@@ -8148,7 +8148,7 @@ extension GetProvisionedProductOutputsOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct GetProvisionedProductOutputsOutput: Swift.Equatable {
+public struct GetProvisionedProductOutputsOutput {
     /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
     public var nextPageToken: Swift.String?
     /// Information about the product created as the result of a request. For example, the output for a CloudFormation-backed product that creates an S3 bucket would include the S3 bucket URL.
@@ -8164,7 +8164,7 @@ public struct GetProvisionedProductOutputsOutput: Swift.Equatable {
     }
 }
 
-struct GetProvisionedProductOutputsOutputBody: Swift.Equatable {
+struct GetProvisionedProductOutputsOutputBody {
     let outputs: [ServiceCatalogClientTypes.RecordOutput]?
     let nextPageToken: Swift.String?
 }
@@ -8245,7 +8245,7 @@ extension ImportAsProvisionedProductInput {
     }
 }
 
-public struct ImportAsProvisionedProductInput: Swift.Equatable {
+public struct ImportAsProvisionedProductInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -8286,7 +8286,7 @@ public struct ImportAsProvisionedProductInput: Swift.Equatable {
     }
 }
 
-struct ImportAsProvisionedProductInputBody: Swift.Equatable {
+struct ImportAsProvisionedProductInputBody {
     let acceptLanguage: Swift.String?
     let productId: Swift.String?
     let provisioningArtifactId: Swift.String?
@@ -8334,7 +8334,7 @@ extension ImportAsProvisionedProductOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ImportAsProvisionedProductOutput: Swift.Equatable {
+public struct ImportAsProvisionedProductOutput {
     /// Information about a request operation.
     public var recordDetail: ServiceCatalogClientTypes.RecordDetail?
 
@@ -8346,7 +8346,7 @@ public struct ImportAsProvisionedProductOutput: Swift.Equatable {
     }
 }
 
-struct ImportAsProvisionedProductOutputBody: Swift.Equatable {
+struct ImportAsProvisionedProductOutputBody {
     let recordDetail: ServiceCatalogClientTypes.RecordDetail?
 }
 
@@ -8415,7 +8415,7 @@ public struct InvalidParametersException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct InvalidParametersExceptionBody: Swift.Equatable {
+struct InvalidParametersExceptionBody {
     let message: Swift.String?
 }
 
@@ -8470,7 +8470,7 @@ public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct InvalidStateExceptionBody: Swift.Equatable {
+struct InvalidStateExceptionBody {
     let message: Swift.String?
 }
 
@@ -8541,7 +8541,7 @@ extension ServiceCatalogClientTypes {
     /// * LastSuccessfulSyncTime
     ///
     /// * LastSuccessfulSyncProvisioningArtifactID
-    public struct LastSync: Swift.Equatable {
+    public struct LastSync {
         /// The ProvisioningArtifactID of the ProvisioningArtifact created from the latest successful sync.
         public var lastSuccessfulSyncProvisioningArtifactId: Swift.String?
         /// The time of the latest successful sync from the source repo artifact to the Service Catalog product.
@@ -8630,7 +8630,7 @@ extension ServiceCatalogClientTypes.LaunchPath: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// A launch path object.
-    public struct LaunchPath: Swift.Equatable {
+    public struct LaunchPath {
         /// The identifier of the launch path.
         public var id: Swift.String?
         /// The name of the launch path.
@@ -8711,7 +8711,7 @@ extension ServiceCatalogClientTypes.LaunchPathSummary: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// Summary information about a product path for a user.
-    public struct LaunchPathSummary: Swift.Equatable {
+    public struct LaunchPathSummary {
         /// The constraints on the portfolio-product relationship.
         public var constraintSummaries: [ServiceCatalogClientTypes.ConstraintSummary]?
         /// The identifier of the product path.
@@ -8776,7 +8776,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -8824,7 +8824,7 @@ extension ListAcceptedPortfolioSharesInput {
     }
 }
 
-public struct ListAcceptedPortfolioSharesInput: Swift.Equatable {
+public struct ListAcceptedPortfolioSharesInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -8858,7 +8858,7 @@ public struct ListAcceptedPortfolioSharesInput: Swift.Equatable {
     }
 }
 
-struct ListAcceptedPortfolioSharesInputBody: Swift.Equatable {
+struct ListAcceptedPortfolioSharesInputBody {
     let acceptLanguage: Swift.String?
     let pageToken: Swift.String?
     let pageSize: Swift.Int?
@@ -8900,7 +8900,7 @@ extension ListAcceptedPortfolioSharesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAcceptedPortfolioSharesOutput: Swift.Equatable {
+public struct ListAcceptedPortfolioSharesOutput {
     /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
     public var nextPageToken: Swift.String?
     /// Information about the portfolios.
@@ -8916,7 +8916,7 @@ public struct ListAcceptedPortfolioSharesOutput: Swift.Equatable {
     }
 }
 
-struct ListAcceptedPortfolioSharesOutputBody: Swift.Equatable {
+struct ListAcceptedPortfolioSharesOutputBody {
     let portfolioDetails: [ServiceCatalogClientTypes.PortfolioDetail]?
     let nextPageToken: Swift.String?
 }
@@ -8989,7 +8989,7 @@ extension ListBudgetsForResourceInput {
     }
 }
 
-public struct ListBudgetsForResourceInput: Swift.Equatable {
+public struct ListBudgetsForResourceInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -9018,7 +9018,7 @@ public struct ListBudgetsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListBudgetsForResourceInputBody: Swift.Equatable {
+struct ListBudgetsForResourceInputBody {
     let acceptLanguage: Swift.String?
     let resourceId: Swift.String?
     let pageSize: Swift.Int?
@@ -9060,7 +9060,7 @@ extension ListBudgetsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBudgetsForResourceOutput: Swift.Equatable {
+public struct ListBudgetsForResourceOutput {
     /// Information about the associated budgets.
     public var budgets: [ServiceCatalogClientTypes.BudgetDetail]?
     /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
@@ -9076,7 +9076,7 @@ public struct ListBudgetsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListBudgetsForResourceOutputBody: Swift.Equatable {
+struct ListBudgetsForResourceOutputBody {
     let budgets: [ServiceCatalogClientTypes.BudgetDetail]?
     let nextPageToken: Swift.String?
 }
@@ -9153,7 +9153,7 @@ extension ListConstraintsForPortfolioInput {
     }
 }
 
-public struct ListConstraintsForPortfolioInput: Swift.Equatable {
+public struct ListConstraintsForPortfolioInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -9186,7 +9186,7 @@ public struct ListConstraintsForPortfolioInput: Swift.Equatable {
     }
 }
 
-struct ListConstraintsForPortfolioInputBody: Swift.Equatable {
+struct ListConstraintsForPortfolioInputBody {
     let acceptLanguage: Swift.String?
     let portfolioId: Swift.String?
     let productId: Swift.String?
@@ -9232,7 +9232,7 @@ extension ListConstraintsForPortfolioOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListConstraintsForPortfolioOutput: Swift.Equatable {
+public struct ListConstraintsForPortfolioOutput {
     /// Information about the constraints.
     public var constraintDetails: [ServiceCatalogClientTypes.ConstraintDetail]?
     /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
@@ -9248,7 +9248,7 @@ public struct ListConstraintsForPortfolioOutput: Swift.Equatable {
     }
 }
 
-struct ListConstraintsForPortfolioOutputBody: Swift.Equatable {
+struct ListConstraintsForPortfolioOutputBody {
     let constraintDetails: [ServiceCatalogClientTypes.ConstraintDetail]?
     let nextPageToken: Swift.String?
 }
@@ -9321,7 +9321,7 @@ extension ListLaunchPathsInput {
     }
 }
 
-public struct ListLaunchPathsInput: Swift.Equatable {
+public struct ListLaunchPathsInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -9350,7 +9350,7 @@ public struct ListLaunchPathsInput: Swift.Equatable {
     }
 }
 
-struct ListLaunchPathsInputBody: Swift.Equatable {
+struct ListLaunchPathsInputBody {
     let acceptLanguage: Swift.String?
     let productId: Swift.String?
     let pageSize: Swift.Int?
@@ -9392,7 +9392,7 @@ extension ListLaunchPathsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListLaunchPathsOutput: Swift.Equatable {
+public struct ListLaunchPathsOutput {
     /// Information about the launch path.
     public var launchPathSummaries: [ServiceCatalogClientTypes.LaunchPathSummary]?
     /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
@@ -9408,7 +9408,7 @@ public struct ListLaunchPathsOutput: Swift.Equatable {
     }
 }
 
-struct ListLaunchPathsOutputBody: Swift.Equatable {
+struct ListLaunchPathsOutputBody {
     let launchPathSummaries: [ServiceCatalogClientTypes.LaunchPathSummary]?
     let nextPageToken: Swift.String?
 }
@@ -9485,7 +9485,7 @@ extension ListOrganizationPortfolioAccessInput {
     }
 }
 
-public struct ListOrganizationPortfolioAccessInput: Swift.Equatable {
+public struct ListOrganizationPortfolioAccessInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -9525,7 +9525,7 @@ public struct ListOrganizationPortfolioAccessInput: Swift.Equatable {
     }
 }
 
-struct ListOrganizationPortfolioAccessInputBody: Swift.Equatable {
+struct ListOrganizationPortfolioAccessInputBody {
     let acceptLanguage: Swift.String?
     let portfolioId: Swift.String?
     let organizationNodeType: ServiceCatalogClientTypes.OrganizationNodeType?
@@ -9571,7 +9571,7 @@ extension ListOrganizationPortfolioAccessOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ListOrganizationPortfolioAccessOutput: Swift.Equatable {
+public struct ListOrganizationPortfolioAccessOutput {
     /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
     public var nextPageToken: Swift.String?
     /// Displays information about the organization nodes.
@@ -9587,7 +9587,7 @@ public struct ListOrganizationPortfolioAccessOutput: Swift.Equatable {
     }
 }
 
-struct ListOrganizationPortfolioAccessOutputBody: Swift.Equatable {
+struct ListOrganizationPortfolioAccessOutputBody {
     let organizationNodes: [ServiceCatalogClientTypes.OrganizationNode]?
     let nextPageToken: Swift.String?
 }
@@ -9665,7 +9665,7 @@ extension ListPortfolioAccessInput {
     }
 }
 
-public struct ListPortfolioAccessInput: Swift.Equatable {
+public struct ListPortfolioAccessInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -9698,7 +9698,7 @@ public struct ListPortfolioAccessInput: Swift.Equatable {
     }
 }
 
-struct ListPortfolioAccessInputBody: Swift.Equatable {
+struct ListPortfolioAccessInputBody {
     let acceptLanguage: Swift.String?
     let portfolioId: Swift.String?
     let organizationParentId: Swift.String?
@@ -9744,7 +9744,7 @@ extension ListPortfolioAccessOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPortfolioAccessOutput: Swift.Equatable {
+public struct ListPortfolioAccessOutput {
     /// Information about the Amazon Web Services accounts with access to the portfolio.
     public var accountIds: [Swift.String]?
     /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
@@ -9760,7 +9760,7 @@ public struct ListPortfolioAccessOutput: Swift.Equatable {
     }
 }
 
-struct ListPortfolioAccessOutputBody: Swift.Equatable {
+struct ListPortfolioAccessOutputBody {
     let accountIds: [Swift.String]?
     let nextPageToken: Swift.String?
 }
@@ -9833,7 +9833,7 @@ extension ListPortfoliosForProductInput {
     }
 }
 
-public struct ListPortfoliosForProductInput: Swift.Equatable {
+public struct ListPortfoliosForProductInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -9862,7 +9862,7 @@ public struct ListPortfoliosForProductInput: Swift.Equatable {
     }
 }
 
-struct ListPortfoliosForProductInputBody: Swift.Equatable {
+struct ListPortfoliosForProductInputBody {
     let acceptLanguage: Swift.String?
     let productId: Swift.String?
     let pageToken: Swift.String?
@@ -9904,7 +9904,7 @@ extension ListPortfoliosForProductOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPortfoliosForProductOutput: Swift.Equatable {
+public struct ListPortfoliosForProductOutput {
     /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
     public var nextPageToken: Swift.String?
     /// Information about the portfolios.
@@ -9920,7 +9920,7 @@ public struct ListPortfoliosForProductOutput: Swift.Equatable {
     }
 }
 
-struct ListPortfoliosForProductOutputBody: Swift.Equatable {
+struct ListPortfoliosForProductOutputBody {
     let portfolioDetails: [ServiceCatalogClientTypes.PortfolioDetail]?
     let nextPageToken: Swift.String?
 }
@@ -9989,7 +9989,7 @@ extension ListPortfoliosInput {
     }
 }
 
-public struct ListPortfoliosInput: Swift.Equatable {
+public struct ListPortfoliosInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -10013,7 +10013,7 @@ public struct ListPortfoliosInput: Swift.Equatable {
     }
 }
 
-struct ListPortfoliosInputBody: Swift.Equatable {
+struct ListPortfoliosInputBody {
     let acceptLanguage: Swift.String?
     let pageToken: Swift.String?
     let pageSize: Swift.Int?
@@ -10051,7 +10051,7 @@ extension ListPortfoliosOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPortfoliosOutput: Swift.Equatable {
+public struct ListPortfoliosOutput {
     /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
     public var nextPageToken: Swift.String?
     /// Information about the portfolios.
@@ -10067,7 +10067,7 @@ public struct ListPortfoliosOutput: Swift.Equatable {
     }
 }
 
-struct ListPortfoliosOutputBody: Swift.Equatable {
+struct ListPortfoliosOutputBody {
     let portfolioDetails: [ServiceCatalogClientTypes.PortfolioDetail]?
     let nextPageToken: Swift.String?
 }
@@ -10139,7 +10139,7 @@ extension ListPrincipalsForPortfolioInput {
     }
 }
 
-public struct ListPrincipalsForPortfolioInput: Swift.Equatable {
+public struct ListPrincipalsForPortfolioInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -10168,7 +10168,7 @@ public struct ListPrincipalsForPortfolioInput: Swift.Equatable {
     }
 }
 
-struct ListPrincipalsForPortfolioInputBody: Swift.Equatable {
+struct ListPrincipalsForPortfolioInputBody {
     let acceptLanguage: Swift.String?
     let portfolioId: Swift.String?
     let pageSize: Swift.Int?
@@ -10210,7 +10210,7 @@ extension ListPrincipalsForPortfolioOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPrincipalsForPortfolioOutput: Swift.Equatable {
+public struct ListPrincipalsForPortfolioOutput {
     /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
     public var nextPageToken: Swift.String?
     /// The PrincipalARNs and corresponding PrincipalTypes associated with the portfolio.
@@ -10226,7 +10226,7 @@ public struct ListPrincipalsForPortfolioOutput: Swift.Equatable {
     }
 }
 
-struct ListPrincipalsForPortfolioOutputBody: Swift.Equatable {
+struct ListPrincipalsForPortfolioOutputBody {
     let principals: [ServiceCatalogClientTypes.Principal]?
     let nextPageToken: Swift.String?
 }
@@ -10303,7 +10303,7 @@ extension ListProvisionedProductPlansInput {
     }
 }
 
-public struct ListProvisionedProductPlansInput: Swift.Equatable {
+public struct ListProvisionedProductPlansInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -10335,7 +10335,7 @@ public struct ListProvisionedProductPlansInput: Swift.Equatable {
     }
 }
 
-struct ListProvisionedProductPlansInputBody: Swift.Equatable {
+struct ListProvisionedProductPlansInputBody {
     let acceptLanguage: Swift.String?
     let provisionProductId: Swift.String?
     let pageSize: Swift.Int?
@@ -10381,7 +10381,7 @@ extension ListProvisionedProductPlansOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListProvisionedProductPlansOutput: Swift.Equatable {
+public struct ListProvisionedProductPlansOutput {
     /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
     public var nextPageToken: Swift.String?
     /// Information about the plans.
@@ -10397,7 +10397,7 @@ public struct ListProvisionedProductPlansOutput: Swift.Equatable {
     }
 }
 
-struct ListProvisionedProductPlansOutputBody: Swift.Equatable {
+struct ListProvisionedProductPlansOutputBody {
     let provisionedProductPlans: [ServiceCatalogClientTypes.ProvisionedProductPlanSummary]?
     let nextPageToken: Swift.String?
 }
@@ -10470,7 +10470,7 @@ extension ListProvisioningArtifactsForServiceActionInput {
     }
 }
 
-public struct ListProvisioningArtifactsForServiceActionInput: Swift.Equatable {
+public struct ListProvisioningArtifactsForServiceActionInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -10499,7 +10499,7 @@ public struct ListProvisioningArtifactsForServiceActionInput: Swift.Equatable {
     }
 }
 
-struct ListProvisioningArtifactsForServiceActionInputBody: Swift.Equatable {
+struct ListProvisioningArtifactsForServiceActionInputBody {
     let serviceActionId: Swift.String?
     let pageSize: Swift.Int?
     let pageToken: Swift.String?
@@ -10541,7 +10541,7 @@ extension ListProvisioningArtifactsForServiceActionOutput: ClientRuntime.HttpRes
     }
 }
 
-public struct ListProvisioningArtifactsForServiceActionOutput: Swift.Equatable {
+public struct ListProvisioningArtifactsForServiceActionOutput {
     /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
     public var nextPageToken: Swift.String?
     /// An array of objects with information about product views and provisioning artifacts.
@@ -10557,7 +10557,7 @@ public struct ListProvisioningArtifactsForServiceActionOutput: Swift.Equatable {
     }
 }
 
-struct ListProvisioningArtifactsForServiceActionOutputBody: Swift.Equatable {
+struct ListProvisioningArtifactsForServiceActionOutputBody {
     let provisioningArtifactViews: [ServiceCatalogClientTypes.ProvisioningArtifactView]?
     let nextPageToken: Swift.String?
 }
@@ -10622,7 +10622,7 @@ extension ListProvisioningArtifactsInput {
     }
 }
 
-public struct ListProvisioningArtifactsInput: Swift.Equatable {
+public struct ListProvisioningArtifactsInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -10643,7 +10643,7 @@ public struct ListProvisioningArtifactsInput: Swift.Equatable {
     }
 }
 
-struct ListProvisioningArtifactsInputBody: Swift.Equatable {
+struct ListProvisioningArtifactsInputBody {
     let acceptLanguage: Swift.String?
     let productId: Swift.String?
 }
@@ -10677,7 +10677,7 @@ extension ListProvisioningArtifactsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListProvisioningArtifactsOutput: Swift.Equatable {
+public struct ListProvisioningArtifactsOutput {
     /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
     public var nextPageToken: Swift.String?
     /// Information about the provisioning artifacts.
@@ -10693,7 +10693,7 @@ public struct ListProvisioningArtifactsOutput: Swift.Equatable {
     }
 }
 
-struct ListProvisioningArtifactsOutputBody: Swift.Equatable {
+struct ListProvisioningArtifactsOutputBody {
     let provisioningArtifactDetails: [ServiceCatalogClientTypes.ProvisioningArtifactDetail]?
     let nextPageToken: Swift.String?
 }
@@ -10770,7 +10770,7 @@ extension ListRecordHistoryInput {
     }
 }
 
-public struct ListRecordHistoryInput: Swift.Equatable {
+public struct ListRecordHistoryInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -10802,7 +10802,7 @@ public struct ListRecordHistoryInput: Swift.Equatable {
     }
 }
 
-struct ListRecordHistoryInputBody: Swift.Equatable {
+struct ListRecordHistoryInputBody {
     let acceptLanguage: Swift.String?
     let accessLevelFilter: ServiceCatalogClientTypes.AccessLevelFilter?
     let searchFilter: ServiceCatalogClientTypes.ListRecordHistorySearchFilter?
@@ -10848,7 +10848,7 @@ extension ListRecordHistoryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRecordHistoryOutput: Swift.Equatable {
+public struct ListRecordHistoryOutput {
     /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
     public var nextPageToken: Swift.String?
     /// The records, in reverse chronological order.
@@ -10864,7 +10864,7 @@ public struct ListRecordHistoryOutput: Swift.Equatable {
     }
 }
 
-struct ListRecordHistoryOutputBody: Swift.Equatable {
+struct ListRecordHistoryOutputBody {
     let recordDetails: [ServiceCatalogClientTypes.RecordDetail]?
     let nextPageToken: Swift.String?
 }
@@ -10931,7 +10931,7 @@ extension ServiceCatalogClientTypes.ListRecordHistorySearchFilter: Swift.Codable
 
 extension ServiceCatalogClientTypes {
     /// The search filter to use when listing history records.
-    public struct ListRecordHistorySearchFilter: Swift.Equatable {
+    public struct ListRecordHistorySearchFilter {
         /// The filter key.
         ///
         /// * product - Filter results based on the specified product identifier.
@@ -10968,7 +10968,7 @@ extension ListResourcesForTagOptionInput {
     }
 }
 
-public struct ListResourcesForTagOptionInput: Swift.Equatable {
+public struct ListResourcesForTagOptionInput {
     /// The maximum number of items to return with this call.
     public var pageSize: Swift.Int?
     /// The page token for the next set of results. To retrieve the first set of results, use null.
@@ -10997,7 +10997,7 @@ public struct ListResourcesForTagOptionInput: Swift.Equatable {
     }
 }
 
-struct ListResourcesForTagOptionInputBody: Swift.Equatable {
+struct ListResourcesForTagOptionInputBody {
 }
 
 extension ListResourcesForTagOptionInputBody: Swift.Decodable {
@@ -11020,7 +11020,7 @@ extension ListResourcesForTagOptionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListResourcesForTagOptionOutput: Swift.Equatable {
+public struct ListResourcesForTagOptionOutput {
     /// The page token for the next set of results. To retrieve the first set of results, use null.
     public var pageToken: Swift.String?
     /// Information about the resources.
@@ -11036,7 +11036,7 @@ public struct ListResourcesForTagOptionOutput: Swift.Equatable {
     }
 }
 
-struct ListResourcesForTagOptionOutputBody: Swift.Equatable {
+struct ListResourcesForTagOptionOutputBody {
     let resourceDetails: [ServiceCatalogClientTypes.ResourceDetail]?
     let pageToken: Swift.String?
 }
@@ -11114,7 +11114,7 @@ extension ListServiceActionsForProvisioningArtifactInput {
     }
 }
 
-public struct ListServiceActionsForProvisioningArtifactInput: Swift.Equatable {
+public struct ListServiceActionsForProvisioningArtifactInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -11148,7 +11148,7 @@ public struct ListServiceActionsForProvisioningArtifactInput: Swift.Equatable {
     }
 }
 
-struct ListServiceActionsForProvisioningArtifactInputBody: Swift.Equatable {
+struct ListServiceActionsForProvisioningArtifactInputBody {
     let productId: Swift.String?
     let provisioningArtifactId: Swift.String?
     let pageSize: Swift.Int?
@@ -11194,7 +11194,7 @@ extension ListServiceActionsForProvisioningArtifactOutput: ClientRuntime.HttpRes
     }
 }
 
-public struct ListServiceActionsForProvisioningArtifactOutput: Swift.Equatable {
+public struct ListServiceActionsForProvisioningArtifactOutput {
     /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
     public var nextPageToken: Swift.String?
     /// An object containing information about the self-service actions associated with the provisioning artifact.
@@ -11210,7 +11210,7 @@ public struct ListServiceActionsForProvisioningArtifactOutput: Swift.Equatable {
     }
 }
 
-struct ListServiceActionsForProvisioningArtifactOutputBody: Swift.Equatable {
+struct ListServiceActionsForProvisioningArtifactOutputBody {
     let serviceActionSummaries: [ServiceCatalogClientTypes.ServiceActionSummary]?
     let nextPageToken: Swift.String?
 }
@@ -11279,7 +11279,7 @@ extension ListServiceActionsInput {
     }
 }
 
-public struct ListServiceActionsInput: Swift.Equatable {
+public struct ListServiceActionsInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -11303,7 +11303,7 @@ public struct ListServiceActionsInput: Swift.Equatable {
     }
 }
 
-struct ListServiceActionsInputBody: Swift.Equatable {
+struct ListServiceActionsInputBody {
     let acceptLanguage: Swift.String?
     let pageSize: Swift.Int?
     let pageToken: Swift.String?
@@ -11341,7 +11341,7 @@ extension ListServiceActionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListServiceActionsOutput: Swift.Equatable {
+public struct ListServiceActionsOutput {
     /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
     public var nextPageToken: Swift.String?
     /// An object containing information about the service actions associated with the provisioning artifact.
@@ -11357,7 +11357,7 @@ public struct ListServiceActionsOutput: Swift.Equatable {
     }
 }
 
-struct ListServiceActionsOutputBody: Swift.Equatable {
+struct ListServiceActionsOutputBody {
     let serviceActionSummaries: [ServiceCatalogClientTypes.ServiceActionSummary]?
     let nextPageToken: Swift.String?
 }
@@ -11429,7 +11429,7 @@ extension ListStackInstancesForProvisionedProductInput {
     }
 }
 
-public struct ListStackInstancesForProvisionedProductInput: Swift.Equatable {
+public struct ListStackInstancesForProvisionedProductInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -11458,7 +11458,7 @@ public struct ListStackInstancesForProvisionedProductInput: Swift.Equatable {
     }
 }
 
-struct ListStackInstancesForProvisionedProductInputBody: Swift.Equatable {
+struct ListStackInstancesForProvisionedProductInputBody {
     let acceptLanguage: Swift.String?
     let provisionedProductId: Swift.String?
     let pageToken: Swift.String?
@@ -11500,7 +11500,7 @@ extension ListStackInstancesForProvisionedProductOutput: ClientRuntime.HttpRespo
     }
 }
 
-public struct ListStackInstancesForProvisionedProductOutput: Swift.Equatable {
+public struct ListStackInstancesForProvisionedProductOutput {
     /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
     public var nextPageToken: Swift.String?
     /// List of stack instances.
@@ -11516,7 +11516,7 @@ public struct ListStackInstancesForProvisionedProductOutput: Swift.Equatable {
     }
 }
 
-struct ListStackInstancesForProvisionedProductOutputBody: Swift.Equatable {
+struct ListStackInstancesForProvisionedProductOutputBody {
     let stackInstances: [ServiceCatalogClientTypes.StackInstance]?
     let nextPageToken: Swift.String?
 }
@@ -11590,7 +11590,7 @@ extension ServiceCatalogClientTypes.ListTagOptionsFilters: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// Filters to use when listing TagOptions.
-    public struct ListTagOptionsFilters: Swift.Equatable {
+    public struct ListTagOptionsFilters {
         /// The active state.
         public var active: Swift.Bool?
         /// The TagOption key.
@@ -11640,7 +11640,7 @@ extension ListTagOptionsInput {
     }
 }
 
-public struct ListTagOptionsInput: Swift.Equatable {
+public struct ListTagOptionsInput {
     /// The search filters. If no search filters are specified, the output includes all TagOptions.
     public var filters: ServiceCatalogClientTypes.ListTagOptionsFilters?
     /// The maximum number of items to return with this call.
@@ -11660,7 +11660,7 @@ public struct ListTagOptionsInput: Swift.Equatable {
     }
 }
 
-struct ListTagOptionsInputBody: Swift.Equatable {
+struct ListTagOptionsInputBody {
     let filters: ServiceCatalogClientTypes.ListTagOptionsFilters?
     let pageSize: Swift.Int?
     let pageToken: Swift.String?
@@ -11698,7 +11698,7 @@ extension ListTagOptionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagOptionsOutput: Swift.Equatable {
+public struct ListTagOptionsOutput {
     /// The page token for the next set of results. To retrieve the first set of results, use null.
     public var pageToken: Swift.String?
     /// Information about the TagOptions.
@@ -11714,7 +11714,7 @@ public struct ListTagOptionsOutput: Swift.Equatable {
     }
 }
 
-struct ListTagOptionsOutputBody: Swift.Equatable {
+struct ListTagOptionsOutputBody {
     let tagOptionDetails: [ServiceCatalogClientTypes.TagOptionDetail]?
     let pageToken: Swift.String?
 }
@@ -11802,7 +11802,7 @@ extension NotifyProvisionProductEngineWorkflowResultInput {
     }
 }
 
-public struct NotifyProvisionProductEngineWorkflowResultInput: Swift.Equatable {
+public struct NotifyProvisionProductEngineWorkflowResultInput {
     /// The reason why the provisioning engine execution failed.
     public var failureReason: Swift.String?
     /// The idempotency token that identifies the provisioning engine execution.
@@ -11842,7 +11842,7 @@ public struct NotifyProvisionProductEngineWorkflowResultInput: Swift.Equatable {
     }
 }
 
-struct NotifyProvisionProductEngineWorkflowResultInputBody: Swift.Equatable {
+struct NotifyProvisionProductEngineWorkflowResultInputBody {
     let workflowToken: Swift.String?
     let recordId: Swift.String?
     let status: ServiceCatalogClientTypes.EngineWorkflowStatus?
@@ -11896,7 +11896,7 @@ extension NotifyProvisionProductEngineWorkflowResultOutput: ClientRuntime.HttpRe
     }
 }
 
-public struct NotifyProvisionProductEngineWorkflowResultOutput: Swift.Equatable {
+public struct NotifyProvisionProductEngineWorkflowResultOutput {
 
     public init() { }
 }
@@ -11949,7 +11949,7 @@ extension NotifyTerminateProvisionedProductEngineWorkflowResultInput {
     }
 }
 
-public struct NotifyTerminateProvisionedProductEngineWorkflowResultInput: Swift.Equatable {
+public struct NotifyTerminateProvisionedProductEngineWorkflowResultInput {
     /// The reason why the terminate engine execution failed.
     public var failureReason: Swift.String?
     /// The idempotency token that identifies the terminate engine execution.
@@ -11981,7 +11981,7 @@ public struct NotifyTerminateProvisionedProductEngineWorkflowResultInput: Swift.
     }
 }
 
-struct NotifyTerminateProvisionedProductEngineWorkflowResultInputBody: Swift.Equatable {
+struct NotifyTerminateProvisionedProductEngineWorkflowResultInputBody {
     let workflowToken: Swift.String?
     let recordId: Swift.String?
     let status: ServiceCatalogClientTypes.EngineWorkflowStatus?
@@ -12018,7 +12018,7 @@ extension NotifyTerminateProvisionedProductEngineWorkflowResultOutput: ClientRun
     }
 }
 
-public struct NotifyTerminateProvisionedProductEngineWorkflowResultOutput: Swift.Equatable {
+public struct NotifyTerminateProvisionedProductEngineWorkflowResultOutput {
 
     public init() { }
 }
@@ -12078,7 +12078,7 @@ extension NotifyUpdateProvisionedProductEngineWorkflowResultInput {
     }
 }
 
-public struct NotifyUpdateProvisionedProductEngineWorkflowResultInput: Swift.Equatable {
+public struct NotifyUpdateProvisionedProductEngineWorkflowResultInput {
     /// The reason why the update engine execution failed.
     public var failureReason: Swift.String?
     /// The idempotency token that identifies the update engine execution.
@@ -12114,7 +12114,7 @@ public struct NotifyUpdateProvisionedProductEngineWorkflowResultInput: Swift.Equ
     }
 }
 
-struct NotifyUpdateProvisionedProductEngineWorkflowResultInputBody: Swift.Equatable {
+struct NotifyUpdateProvisionedProductEngineWorkflowResultInputBody {
     let workflowToken: Swift.String?
     let recordId: Swift.String?
     let status: ServiceCatalogClientTypes.EngineWorkflowStatus?
@@ -12164,7 +12164,7 @@ extension NotifyUpdateProvisionedProductEngineWorkflowResultOutput: ClientRuntim
     }
 }
 
-public struct NotifyUpdateProvisionedProductEngineWorkflowResultOutput: Swift.Equatable {
+public struct NotifyUpdateProvisionedProductEngineWorkflowResultOutput {
 
     public init() { }
 }
@@ -12220,7 +12220,7 @@ public struct OperationNotSupportedException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct OperationNotSupportedExceptionBody: Swift.Equatable {
+struct OperationNotSupportedExceptionBody {
     let message: Swift.String?
 }
 
@@ -12263,7 +12263,7 @@ extension ServiceCatalogClientTypes.OrganizationNode: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// Information about the organization node.
-    public struct OrganizationNode: Swift.Equatable {
+    public struct OrganizationNode {
         /// The organization node type.
         public var type: ServiceCatalogClientTypes.OrganizationNodeType?
         /// The identifier of the organization node.
@@ -12385,7 +12385,7 @@ extension ServiceCatalogClientTypes.ParameterConstraints: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// The constraints that the administrator has put on the parameter.
-    public struct ParameterConstraints: Swift.Equatable {
+    public struct ParameterConstraints {
         /// A regular expression that represents the patterns that allow for String types. The pattern must match the entire parameter value provided.
         public var allowedPattern: Swift.String?
         /// The values that the administrator has allowed for the parameter.
@@ -12474,7 +12474,7 @@ extension ServiceCatalogClientTypes.PortfolioDetail: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// Information about a portfolio.
-    public struct PortfolioDetail: Swift.Equatable {
+    public struct PortfolioDetail {
         /// The ARN assigned to the portfolio.
         public var arn: Swift.String?
         /// The UTC time stamp of the creation time.
@@ -12553,7 +12553,7 @@ extension ServiceCatalogClientTypes.PortfolioShareDetail: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// Information about the portfolio share.
-    public struct PortfolioShareDetail: Swift.Equatable {
+    public struct PortfolioShareDetail {
         /// Indicates whether the shared portfolio is imported by the recipient account. If the recipient is in an organization node, the share is automatically imported, and the field is always set to true.
         public var accepted: Swift.Bool
         /// The identifier of the recipient entity that received the portfolio share. The recipient entity can be one of the following: 1. An external account. 2. An organziation member account. 3. An organzational unit (OU). 4. The organization itself. (This shares with every account in the organization).
@@ -12645,7 +12645,7 @@ extension ServiceCatalogClientTypes.Principal: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// Information about a principal.
-    public struct Principal: Swift.Equatable {
+    public struct Principal {
         /// The ARN of the principal (user, role, or group). This field allows for an ARN with no accountID, with or without wildcard characters if the PrincipalType is an IAM_PATTERN. For more information, review [associate-principal-with-portfolio](https://docs.aws.amazon.com/cli/latest/reference/servicecatalog/associate-principal-with-portfolio.html#options) in the Amazon Web Services CLI Command Reference.
         public var principalARN: Swift.String?
         /// The principal type. The supported value is IAM if you use a fully defined ARN, or IAM_PATTERN if you use an ARN with no accountID, with or without wildcard characters.
@@ -12792,7 +12792,7 @@ extension ServiceCatalogClientTypes.ProductViewAggregationValue: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// A single product view aggregation value/count pair, containing metadata about each product to which the calling user has access.
-    public struct ProductViewAggregationValue: Swift.Equatable {
+    public struct ProductViewAggregationValue {
         /// An approximate count of the products that match the value.
         public var approximateCount: Swift.Int
         /// The value of the product view aggregation.
@@ -12855,7 +12855,7 @@ extension ServiceCatalogClientTypes.ProductViewDetail: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// Information about a product view.
-    public struct ProductViewDetail: Swift.Equatable {
+    public struct ProductViewDetail {
         /// The UTC time stamp of the creation time.
         public var createdTime: ClientRuntime.Date?
         /// The ARN of the product.
@@ -13045,7 +13045,7 @@ extension ServiceCatalogClientTypes.ProductViewSummary: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// Summary information about a product view.
-    public struct ProductViewSummary: Swift.Equatable {
+    public struct ProductViewSummary {
         /// The distributor of the product. Contact the product administrator for the significance of this value.
         public var distributor: Swift.String?
         /// Indicates whether the product has a default path. If the product does not have a default path, call [ListLaunchPaths] to disambiguate between paths. Otherwise, [ListLaunchPaths] is not required, and the output of [ProductViewSummary] can be used directly with [DescribeProvisioningParameters].
@@ -13208,7 +13208,7 @@ extension ProvisionProductInput {
     }
 }
 
-public struct ProvisionProductInput: Swift.Equatable {
+public struct ProvisionProductInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -13274,7 +13274,7 @@ public struct ProvisionProductInput: Swift.Equatable {
     }
 }
 
-struct ProvisionProductInputBody: Swift.Equatable {
+struct ProvisionProductInputBody {
     let acceptLanguage: Swift.String?
     let productId: Swift.String?
     let productName: Swift.String?
@@ -13377,7 +13377,7 @@ extension ProvisionProductOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ProvisionProductOutput: Swift.Equatable {
+public struct ProvisionProductOutput {
     /// Information about the result of provisioning the product.
     public var recordDetail: ServiceCatalogClientTypes.RecordDetail?
 
@@ -13389,7 +13389,7 @@ public struct ProvisionProductOutput: Swift.Equatable {
     }
 }
 
-struct ProvisionProductOutputBody: Swift.Equatable {
+struct ProvisionProductOutputBody {
     let recordDetail: ServiceCatalogClientTypes.RecordDetail?
 }
 
@@ -13559,7 +13559,7 @@ extension ServiceCatalogClientTypes.ProvisionedProductAttribute: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// Information about a provisioned product.
-    public struct ProvisionedProductAttribute: Swift.Equatable {
+    public struct ProvisionedProductAttribute {
         /// The ARN of the provisioned product.
         public var arn: Swift.String?
         /// The UTC time stamp of the creation time.
@@ -13770,7 +13770,7 @@ extension ServiceCatalogClientTypes.ProvisionedProductDetail: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// Information about a provisioned product.
-    public struct ProvisionedProductDetail: Swift.Equatable {
+    public struct ProvisionedProductDetail {
         /// The ARN of the provisioned product.
         public var arn: Swift.String?
         /// The UTC time stamp of the creation time.
@@ -14003,7 +14003,7 @@ extension ServiceCatalogClientTypes.ProvisionedProductPlanDetails: Swift.Codable
 
 extension ServiceCatalogClientTypes {
     /// Information about a plan.
-    public struct ProvisionedProductPlanDetails: Swift.Equatable {
+    public struct ProvisionedProductPlanDetails {
         /// The UTC time stamp of the creation time.
         public var createdTime: ClientRuntime.Date?
         /// Passed to CloudFormation. The SNS topic ARNs to which to publish stack-related events.
@@ -14168,7 +14168,7 @@ extension ServiceCatalogClientTypes.ProvisionedProductPlanSummary: Swift.Codable
 
 extension ServiceCatalogClientTypes {
     /// Summary information about a plan.
-    public struct ProvisionedProductPlanSummary: Swift.Equatable {
+    public struct ProvisionedProductPlanSummary {
         /// The plan identifier.
         public var planId: Swift.String?
         /// The name of the plan.
@@ -14346,7 +14346,7 @@ extension ServiceCatalogClientTypes.ProvisioningArtifact: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// Information about a provisioning artifact. A provisioning artifact is also known as a product version.
-    public struct ProvisioningArtifact: Swift.Equatable {
+    public struct ProvisioningArtifact {
         /// The UTC time stamp of the creation time.
         public var createdTime: ClientRuntime.Date?
         /// The description of the provisioning artifact.
@@ -14439,7 +14439,7 @@ extension ServiceCatalogClientTypes.ProvisioningArtifactDetail: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// Information about a provisioning artifact (also known as a version) for a product.
-    public struct ProvisioningArtifactDetail: Swift.Equatable {
+    public struct ProvisioningArtifactDetail {
         /// Indicates whether the product version is active.
         public var active: Swift.Bool?
         /// The UTC time stamp of the creation time.
@@ -14548,7 +14548,7 @@ extension ServiceCatalogClientTypes.ProvisioningArtifactOutput: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// Provisioning artifact output.
-    public struct ProvisioningArtifactOutput: Swift.Equatable {
+    public struct ProvisioningArtifactOutput {
         /// Description of the provisioning artifact output key.
         public var description: Swift.String?
         /// The provisioning artifact output key.
@@ -14617,7 +14617,7 @@ extension ServiceCatalogClientTypes.ProvisioningArtifactParameter: Swift.Codable
 
 extension ServiceCatalogClientTypes {
     /// Information about a parameter used to provision a product.
-    public struct ProvisioningArtifactParameter: Swift.Equatable {
+    public struct ProvisioningArtifactParameter {
         /// The default value.
         public var defaultValue: Swift.String?
         /// The description of the parameter.
@@ -14702,7 +14702,7 @@ extension ServiceCatalogClientTypes.ProvisioningArtifactPreferences: Swift.Codab
 
 extension ServiceCatalogClientTypes {
     /// The user-defined preferences that will be applied during product provisioning, unless overridden by ProvisioningPreferences or UpdateProvisioningPreferences. For more information on maximum concurrent accounts and failure tolerance, see [Stack set operation options](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-concepts.html#stackset-ops-options) in the CloudFormation User Guide.
-    public struct ProvisioningArtifactPreferences: Swift.Equatable {
+    public struct ProvisioningArtifactPreferences {
         /// One or more Amazon Web Services accounts where stack instances are deployed from the stack set. These accounts can be scoped in ProvisioningPreferences$StackSetAccounts and UpdateProvisioningPreferences$StackSetAccounts. Applicable only to a CFN_STACKSET provisioned product type.
         public var stackSetAccounts: [Swift.String]?
         /// One or more Amazon Web Services Regions where stack instances are deployed from the stack set. These Regions can be scoped in ProvisioningPreferences$StackSetRegions and UpdateProvisioningPreferences$StackSetRegions. Applicable only to a CFN_STACKSET provisioned product type.
@@ -14777,7 +14777,7 @@ extension ServiceCatalogClientTypes.ProvisioningArtifactProperties: Swift.Codabl
 
 extension ServiceCatalogClientTypes {
     /// Information about a provisioning artifact (also known as a version) for a product.
-    public struct ProvisioningArtifactProperties: Swift.Equatable {
+    public struct ProvisioningArtifactProperties {
         /// The description of the provisioning artifact, including how it differs from the previous provisioning artifact.
         public var description: Swift.String?
         /// If set to true, Service Catalog stops validating the specified provisioning artifact even if it is invalid. Service Catalog does not support template validation for the TERRAFORM_OS product type.
@@ -14901,7 +14901,7 @@ extension ServiceCatalogClientTypes.ProvisioningArtifactSummary: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// Summary information about a provisioning artifact (also known as a version) for a product.
-    public struct ProvisioningArtifactSummary: Swift.Equatable {
+    public struct ProvisioningArtifactSummary {
         /// The UTC time stamp of the creation time.
         public var createdTime: ClientRuntime.Date?
         /// The description of the provisioning artifact.
@@ -15002,7 +15002,7 @@ extension ServiceCatalogClientTypes.ProvisioningArtifactView: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// An object that contains summary information about a product view and a provisioning artifact.
-    public struct ProvisioningArtifactView: Swift.Equatable {
+    public struct ProvisioningArtifactView {
         /// Summary information about a product view.
         public var productViewSummary: ServiceCatalogClientTypes.ProductViewSummary?
         /// Information about a provisioning artifact. A provisioning artifact is also known as a product version.
@@ -15047,7 +15047,7 @@ extension ServiceCatalogClientTypes.ProvisioningParameter: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// Information about a parameter used to provision a product.
-    public struct ProvisioningParameter: Swift.Equatable {
+    public struct ProvisioningParameter {
         /// The parameter key.
         public var key: Swift.String?
         /// The parameter value.
@@ -15140,7 +15140,7 @@ extension ServiceCatalogClientTypes.ProvisioningPreferences: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// The user-defined preferences that will be applied when updating a provisioned product. Not all preferences are applicable to all provisioned product type One or more Amazon Web Services accounts that will have access to the provisioned product. Applicable only to a CFN_STACKSET provisioned product type. The Amazon Web Services accounts specified should be within the list of accounts in the STACKSET constraint. To get the list of accounts in the STACKSET constraint, use the DescribeProvisioningParameters operation. If no values are specified, the default value is all accounts from the STACKSET constraint.
-    public struct ProvisioningPreferences: Swift.Equatable {
+    public struct ProvisioningPreferences {
         /// One or more Amazon Web Services accounts where the provisioned product will be available. Applicable only to a CFN_STACKSET provisioned product type. The specified accounts should be within the list of accounts from the STACKSET constraint. To get the list of accounts in the STACKSET constraint, use the DescribeProvisioningParameters operation. If no values are specified, the default value is all acounts from the STACKSET constraint.
         public var stackSetAccounts: [Swift.String]?
         /// The number of accounts, per Region, for which this operation can fail before Service Catalog stops the operation in that Region. If the operation is stopped in a Region, Service Catalog doesn't attempt the operation in any subsequent Regions. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetFailureToleranceCount or StackSetFailureTolerancePercentage, but not both. The default value is 0 if no value is specified.
@@ -15297,7 +15297,7 @@ extension ServiceCatalogClientTypes.RecordDetail: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// Information about a request operation.
-    public struct RecordDetail: Swift.Equatable {
+    public struct RecordDetail {
         /// The UTC time stamp of the creation time.
         public var createdTime: ClientRuntime.Date?
         /// The ARN of the launch role associated with the provisioned product.
@@ -15406,7 +15406,7 @@ extension ServiceCatalogClientTypes.RecordError: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// The error code and description resulting from an operation.
-    public struct RecordError: Swift.Equatable {
+    public struct RecordError {
         /// The numeric value of the error.
         public var code: Swift.String?
         /// The description of the error.
@@ -15457,7 +15457,7 @@ extension ServiceCatalogClientTypes.RecordOutput: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// The output for the product created as the result of a request. For example, the output for a CloudFormation-backed product that creates an S3 bucket would include the S3 bucket URL.
-    public struct RecordOutput: Swift.Equatable {
+    public struct RecordOutput {
         /// The description of the output.
         public var description: Swift.String?
         /// The output key.
@@ -15547,7 +15547,7 @@ extension ServiceCatalogClientTypes.RecordTag: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// Information about a tag, which is a key-value pair.
-    public struct RecordTag: Swift.Equatable {
+    public struct RecordTag {
         /// The key for this tag.
         public var key: Swift.String?
         /// The value for this tag.
@@ -15593,7 +15593,7 @@ extension RejectPortfolioShareInput {
     }
 }
 
-public struct RejectPortfolioShareInput: Swift.Equatable {
+public struct RejectPortfolioShareInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -15627,7 +15627,7 @@ public struct RejectPortfolioShareInput: Swift.Equatable {
     }
 }
 
-struct RejectPortfolioShareInputBody: Swift.Equatable {
+struct RejectPortfolioShareInputBody {
     let acceptLanguage: Swift.String?
     let portfolioId: Swift.String?
     let portfolioShareType: ServiceCatalogClientTypes.PortfolioShareType?
@@ -15656,7 +15656,7 @@ extension RejectPortfolioShareOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RejectPortfolioShareOutput: Swift.Equatable {
+public struct RejectPortfolioShareOutput {
 
     public init() { }
 }
@@ -15867,7 +15867,7 @@ extension ServiceCatalogClientTypes.ResourceChange: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// Information about a resource change that will occur when a plan is executed.
-    public struct ResourceChange: Swift.Equatable {
+    public struct ResourceChange {
         /// The change action.
         public var action: ServiceCatalogClientTypes.ChangeAction?
         /// Information about the resource changes.
@@ -15938,7 +15938,7 @@ extension ServiceCatalogClientTypes.ResourceChangeDetail: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// Information about a change to a resource attribute.
-    public struct ResourceChangeDetail: Swift.Equatable {
+    public struct ResourceChangeDetail {
         /// The ID of the entity that caused the change.
         public var causingEntity: Swift.String?
         /// For static evaluations, the value of the resource attribute will change and the new value is known. For dynamic evaluations, the value might change, and any new value will be determined when the plan is updated.
@@ -16005,7 +16005,7 @@ extension ServiceCatalogClientTypes.ResourceDetail: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// Information about a resource.
-    public struct ResourceDetail: Swift.Equatable {
+    public struct ResourceDetail {
         /// The ARN of the resource.
         public var arn: Swift.String?
         /// The creation time of the resource.
@@ -16074,7 +16074,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ResourceInUseExceptionBody: Swift.Equatable {
+struct ResourceInUseExceptionBody {
     let message: Swift.String?
 }
 
@@ -16129,7 +16129,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -16178,7 +16178,7 @@ extension ServiceCatalogClientTypes.ResourceTargetDefinition: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// Information about a change to a resource attribute.
-    public struct ResourceTargetDefinition: Swift.Equatable {
+    public struct ResourceTargetDefinition {
         /// The attribute to be changed.
         public var attribute: ServiceCatalogClientTypes.ResourceAttribute?
         /// If the attribute is Properties, the value is the name of the property. Otherwise, the value is null.
@@ -16232,7 +16232,7 @@ extension ScanProvisionedProductsInput {
     }
 }
 
-public struct ScanProvisionedProductsInput: Swift.Equatable {
+public struct ScanProvisionedProductsInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -16260,7 +16260,7 @@ public struct ScanProvisionedProductsInput: Swift.Equatable {
     }
 }
 
-struct ScanProvisionedProductsInputBody: Swift.Equatable {
+struct ScanProvisionedProductsInputBody {
     let acceptLanguage: Swift.String?
     let accessLevelFilter: ServiceCatalogClientTypes.AccessLevelFilter?
     let pageSize: Swift.Int?
@@ -16302,7 +16302,7 @@ extension ScanProvisionedProductsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ScanProvisionedProductsOutput: Swift.Equatable {
+public struct ScanProvisionedProductsOutput {
     /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
     public var nextPageToken: Swift.String?
     /// Information about the provisioned products.
@@ -16318,7 +16318,7 @@ public struct ScanProvisionedProductsOutput: Swift.Equatable {
     }
 }
 
-struct ScanProvisionedProductsOutputBody: Swift.Equatable {
+struct ScanProvisionedProductsOutputBody {
     let provisionedProducts: [ServiceCatalogClientTypes.ProvisionedProductDetail]?
     let nextPageToken: Swift.String?
 }
@@ -16412,7 +16412,7 @@ extension SearchProductsAsAdminInput {
     }
 }
 
-public struct SearchProductsAsAdminInput: Swift.Equatable {
+public struct SearchProductsAsAdminInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -16456,7 +16456,7 @@ public struct SearchProductsAsAdminInput: Swift.Equatable {
     }
 }
 
-struct SearchProductsAsAdminInputBody: Swift.Equatable {
+struct SearchProductsAsAdminInputBody {
     let acceptLanguage: Swift.String?
     let portfolioId: Swift.String?
     let filters: [Swift.String:[Swift.String]]?
@@ -16530,7 +16530,7 @@ extension SearchProductsAsAdminOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchProductsAsAdminOutput: Swift.Equatable {
+public struct SearchProductsAsAdminOutput {
     /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
     public var nextPageToken: Swift.String?
     /// Information about the product views.
@@ -16546,7 +16546,7 @@ public struct SearchProductsAsAdminOutput: Swift.Equatable {
     }
 }
 
-struct SearchProductsAsAdminOutputBody: Swift.Equatable {
+struct SearchProductsAsAdminOutputBody {
     let productViewDetails: [ServiceCatalogClientTypes.ProductViewDetail]?
     let nextPageToken: Swift.String?
 }
@@ -16633,7 +16633,7 @@ extension SearchProductsInput {
     }
 }
 
-public struct SearchProductsInput: Swift.Equatable {
+public struct SearchProductsInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -16669,7 +16669,7 @@ public struct SearchProductsInput: Swift.Equatable {
     }
 }
 
-struct SearchProductsInputBody: Swift.Equatable {
+struct SearchProductsInputBody {
     let acceptLanguage: Swift.String?
     let filters: [Swift.String:[Swift.String]]?
     let pageSize: Swift.Int?
@@ -16737,7 +16737,7 @@ extension SearchProductsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchProductsOutput: Swift.Equatable {
+public struct SearchProductsOutput {
     /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
     public var nextPageToken: Swift.String?
     /// The product view aggregations.
@@ -16757,7 +16757,7 @@ public struct SearchProductsOutput: Swift.Equatable {
     }
 }
 
-struct SearchProductsOutputBody: Swift.Equatable {
+struct SearchProductsOutputBody {
     let productViewSummaries: [ServiceCatalogClientTypes.ProductViewSummary]?
     let productViewAggregations: [Swift.String:[ServiceCatalogClientTypes.ProductViewAggregationValue]]?
     let nextPageToken: Swift.String?
@@ -16867,7 +16867,7 @@ extension SearchProvisionedProductsInput {
     }
 }
 
-public struct SearchProvisionedProductsInput: Swift.Equatable {
+public struct SearchProvisionedProductsInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -16907,7 +16907,7 @@ public struct SearchProvisionedProductsInput: Swift.Equatable {
     }
 }
 
-struct SearchProvisionedProductsInputBody: Swift.Equatable {
+struct SearchProvisionedProductsInputBody {
     let acceptLanguage: Swift.String?
     let accessLevelFilter: ServiceCatalogClientTypes.AccessLevelFilter?
     let filters: [Swift.String:[Swift.String]]?
@@ -16979,7 +16979,7 @@ extension SearchProvisionedProductsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchProvisionedProductsOutput: Swift.Equatable {
+public struct SearchProvisionedProductsOutput {
     /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
     public var nextPageToken: Swift.String?
     /// Information about the provisioned products.
@@ -16999,7 +16999,7 @@ public struct SearchProvisionedProductsOutput: Swift.Equatable {
     }
 }
 
-struct SearchProvisionedProductsOutputBody: Swift.Equatable {
+struct SearchProvisionedProductsOutputBody {
     let provisionedProducts: [ServiceCatalogClientTypes.ProvisionedProductAttribute]?
     let totalResultsCount: Swift.Int
     let nextPageToken: Swift.String?
@@ -17076,7 +17076,7 @@ extension ServiceCatalogClientTypes.ServiceActionAssociation: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// A self-service action association consisting of the Action ID, the Product ID, and the Provisioning Artifact ID.
-    public struct ServiceActionAssociation: Swift.Equatable {
+    public struct ServiceActionAssociation {
         /// The product identifier. For example, prod-abcdzk7xy33qa.
         /// This member is required.
         public var productId: Swift.String?
@@ -17251,7 +17251,7 @@ extension ServiceCatalogClientTypes.ServiceActionDetail: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// An object containing detailed information about the self-service action.
-    public struct ServiceActionDetail: Swift.Equatable {
+    public struct ServiceActionDetail {
         /// A map that defines the self-service action.
         public var definition: [Swift.String:Swift.String]?
         /// Summary information about the self-service action.
@@ -17308,7 +17308,7 @@ extension ServiceCatalogClientTypes.ServiceActionSummary: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// Detailed information about the self-service action.
-    public struct ServiceActionSummary: Swift.Equatable {
+    public struct ServiceActionSummary {
         /// The self-service action definition type. For example, SSM_AUTOMATION.
         public var definitionType: ServiceCatalogClientTypes.ServiceActionDefinitionType?
         /// The self-service action description.
@@ -17387,7 +17387,7 @@ extension ServiceCatalogClientTypes.ShareDetails: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// Information about the portfolio share operation.
-    public struct ShareDetails: Swift.Equatable {
+    public struct ShareDetails {
         /// List of errors.
         public var shareErrors: [ServiceCatalogClientTypes.ShareError]?
         /// List of accounts for whom the operation succeeded.
@@ -17450,7 +17450,7 @@ extension ServiceCatalogClientTypes.ShareError: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// Errors that occurred during the portfolio share operation.
-    public struct ShareError: Swift.Equatable {
+    public struct ShareError {
         /// List of accounts impacted by the error.
         public var accounts: [Swift.String]?
         /// Error type that happened when processing the operation.
@@ -17572,7 +17572,7 @@ extension ServiceCatalogClientTypes.SourceConnection: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// A top level ProductViewDetail response containing details about the product’s connection. Service Catalog returns this field for the CreateProduct, UpdateProduct, DescribeProductAsAdmin, and SearchProductAsAdmin APIs. This response contains the same fields as the ConnectionParameters request, with the addition of the LastSync response.
-    public struct SourceConnection: Swift.Equatable {
+    public struct SourceConnection {
         /// The connection details based on the connection Type.
         /// This member is required.
         public var connectionParameters: ServiceCatalogClientTypes.SourceConnectionParameters?
@@ -17624,7 +17624,7 @@ extension ServiceCatalogClientTypes.SourceConnectionDetail: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// Provides details about the configured SourceConnection.
-    public struct SourceConnectionDetail: Swift.Equatable {
+    public struct SourceConnectionDetail {
         /// The connection details based on the connection Type.
         public var connectionParameters: ServiceCatalogClientTypes.SourceConnectionParameters?
         /// Provides details about the product's connection sync and contains the following sub-fields.
@@ -17677,7 +17677,7 @@ extension ServiceCatalogClientTypes.SourceConnectionParameters: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// Provides connection details.
-    public struct SourceConnectionParameters: Swift.Equatable {
+    public struct SourceConnectionParameters {
         /// Provides ConnectionType details.
         public var codeStar: ServiceCatalogClientTypes.CodeStarParameters?
 
@@ -17753,7 +17753,7 @@ extension ServiceCatalogClientTypes.StackInstance: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// An CloudFormation stack, in a specific account and Region, that's part of a stack set operation. A stack instance is a reference to an attempted or actual stack in a given account within a given Region. A stack instance can exist without a stack—for example, if the stack couldn't be created for some reason. A stack instance is associated with only one stack set. Each stack instance contains the ID of its associated stack set, as well as the ID of the actual stack and the stack status.
-    public struct StackInstance: Swift.Equatable {
+    public struct StackInstance {
         /// The name of the Amazon Web Services account that the stack instance is associated with.
         public var account: Swift.String?
         /// The name of the Amazon Web Services Region that the stack instance is associated with.
@@ -17913,7 +17913,7 @@ extension ServiceCatalogClientTypes.Tag: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// Information about a tag. A tag is a key-value pair. Tags are propagated to the resources created when provisioning a product.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The tag key.
         /// This member is required.
         public var key: Swift.String?
@@ -17978,7 +17978,7 @@ extension ServiceCatalogClientTypes.TagOptionDetail: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// Information about a TagOption.
-    public struct TagOptionDetail: Swift.Equatable {
+    public struct TagOptionDetail {
         /// The TagOption active state.
         public var active: Swift.Bool?
         /// The TagOption identifier.
@@ -18047,7 +18047,7 @@ public struct TagOptionNotMigratedException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct TagOptionNotMigratedExceptionBody: Swift.Equatable {
+struct TagOptionNotMigratedExceptionBody {
     let message: Swift.String?
 }
 
@@ -18102,7 +18102,7 @@ extension ServiceCatalogClientTypes.TagOptionSummary: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// Summary information about a TagOption.
-    public struct TagOptionSummary: Swift.Equatable {
+    public struct TagOptionSummary {
         /// The TagOption key.
         public var key: Swift.String?
         /// The TagOption value.
@@ -18160,7 +18160,7 @@ extension TerminateProvisionedProductInput {
     }
 }
 
-public struct TerminateProvisionedProductInput: Swift.Equatable {
+public struct TerminateProvisionedProductInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -18197,7 +18197,7 @@ public struct TerminateProvisionedProductInput: Swift.Equatable {
     }
 }
 
-struct TerminateProvisionedProductInputBody: Swift.Equatable {
+struct TerminateProvisionedProductInputBody {
     let provisionedProductName: Swift.String?
     let provisionedProductId: Swift.String?
     let terminateToken: Swift.String?
@@ -18245,7 +18245,7 @@ extension TerminateProvisionedProductOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TerminateProvisionedProductOutput: Swift.Equatable {
+public struct TerminateProvisionedProductOutput {
     /// Information about the result of this request.
     public var recordDetail: ServiceCatalogClientTypes.RecordDetail?
 
@@ -18257,7 +18257,7 @@ public struct TerminateProvisionedProductOutput: Swift.Equatable {
     }
 }
 
-struct TerminateProvisionedProductOutputBody: Swift.Equatable {
+struct TerminateProvisionedProductOutputBody {
     let recordDetail: ServiceCatalogClientTypes.RecordDetail?
 }
 
@@ -18311,7 +18311,7 @@ extension ServiceCatalogClientTypes.UniqueTagResourceIdentifier: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// The unique key-value pair for a tag that identifies provisioned product resources.
-    public struct UniqueTagResourceIdentifier: Swift.Equatable {
+    public struct UniqueTagResourceIdentifier {
         /// A unique key that's attached to a resource.
         public var key: Swift.String?
         /// A unique value that's attached to a resource.
@@ -18361,7 +18361,7 @@ extension UpdateConstraintInput {
     }
 }
 
-public struct UpdateConstraintInput: Swift.Equatable {
+public struct UpdateConstraintInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -18390,7 +18390,7 @@ public struct UpdateConstraintInput: Swift.Equatable {
     }
 }
 
-struct UpdateConstraintInputBody: Swift.Equatable {
+struct UpdateConstraintInputBody {
     let acceptLanguage: Swift.String?
     let id: Swift.String?
     let description: Swift.String?
@@ -18434,7 +18434,7 @@ extension UpdateConstraintOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateConstraintOutput: Swift.Equatable {
+public struct UpdateConstraintOutput {
     /// Information about the constraint.
     public var constraintDetail: ServiceCatalogClientTypes.ConstraintDetail?
     /// The constraint parameters.
@@ -18454,7 +18454,7 @@ public struct UpdateConstraintOutput: Swift.Equatable {
     }
 }
 
-struct UpdateConstraintOutputBody: Swift.Equatable {
+struct UpdateConstraintOutputBody {
     let constraintDetail: ServiceCatalogClientTypes.ConstraintDetail?
     let constraintParameters: Swift.String?
     let status: ServiceCatalogClientTypes.Status?
@@ -18540,7 +18540,7 @@ extension UpdatePortfolioInput {
     }
 }
 
-public struct UpdatePortfolioInput: Swift.Equatable {
+public struct UpdatePortfolioInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -18581,7 +18581,7 @@ public struct UpdatePortfolioInput: Swift.Equatable {
     }
 }
 
-struct UpdatePortfolioInputBody: Swift.Equatable {
+struct UpdatePortfolioInputBody {
     let acceptLanguage: Swift.String?
     let id: Swift.String?
     let displayName: Swift.String?
@@ -18653,7 +18653,7 @@ extension UpdatePortfolioOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePortfolioOutput: Swift.Equatable {
+public struct UpdatePortfolioOutput {
     /// Information about the portfolio.
     public var portfolioDetail: ServiceCatalogClientTypes.PortfolioDetail?
     /// Information about the tags associated with the portfolio.
@@ -18669,7 +18669,7 @@ public struct UpdatePortfolioOutput: Swift.Equatable {
     }
 }
 
-struct UpdatePortfolioOutputBody: Swift.Equatable {
+struct UpdatePortfolioOutputBody {
     let portfolioDetail: ServiceCatalogClientTypes.PortfolioDetail?
     let tags: [ServiceCatalogClientTypes.Tag]?
 }
@@ -18752,7 +18752,7 @@ extension UpdatePortfolioShareInput {
     }
 }
 
-public struct UpdatePortfolioShareInput: Swift.Equatable {
+public struct UpdatePortfolioShareInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -18789,7 +18789,7 @@ public struct UpdatePortfolioShareInput: Swift.Equatable {
     }
 }
 
-struct UpdatePortfolioShareInputBody: Swift.Equatable {
+struct UpdatePortfolioShareInputBody {
     let acceptLanguage: Swift.String?
     let portfolioId: Swift.String?
     let accountId: Swift.String?
@@ -18839,7 +18839,7 @@ extension UpdatePortfolioShareOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePortfolioShareOutput: Swift.Equatable {
+public struct UpdatePortfolioShareOutput {
     /// The token that tracks the status of the UpdatePortfolioShare operation for external account to account or organizational type sharing.
     public var portfolioShareToken: Swift.String?
     /// The status of UpdatePortfolioShare operation. You can also obtain the operation status using DescribePortfolioShareStatus API.
@@ -18855,7 +18855,7 @@ public struct UpdatePortfolioShareOutput: Swift.Equatable {
     }
 }
 
-struct UpdatePortfolioShareOutputBody: Swift.Equatable {
+struct UpdatePortfolioShareOutputBody {
     let portfolioShareToken: Swift.String?
     let status: ServiceCatalogClientTypes.ShareStatus?
 }
@@ -18959,7 +18959,7 @@ extension UpdateProductInput {
     }
 }
 
-public struct UpdateProductInput: Swift.Equatable {
+public struct UpdateProductInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -19024,7 +19024,7 @@ public struct UpdateProductInput: Swift.Equatable {
     }
 }
 
-struct UpdateProductInputBody: Swift.Equatable {
+struct UpdateProductInputBody {
     let acceptLanguage: Swift.String?
     let id: Swift.String?
     let name: Swift.String?
@@ -19116,7 +19116,7 @@ extension UpdateProductOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateProductOutput: Swift.Equatable {
+public struct UpdateProductOutput {
     /// Information about the product view.
     public var productViewDetail: ServiceCatalogClientTypes.ProductViewDetail?
     /// Information about the tags associated with the product.
@@ -19132,7 +19132,7 @@ public struct UpdateProductOutput: Swift.Equatable {
     }
 }
 
-struct UpdateProductOutputBody: Swift.Equatable {
+struct UpdateProductOutputBody {
     let productViewDetail: ServiceCatalogClientTypes.ProductViewDetail?
     let tags: [ServiceCatalogClientTypes.Tag]?
 }
@@ -19248,7 +19248,7 @@ extension UpdateProvisionedProductInput {
     }
 }
 
-public struct UpdateProvisionedProductInput: Swift.Equatable {
+public struct UpdateProvisionedProductInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -19313,7 +19313,7 @@ public struct UpdateProvisionedProductInput: Swift.Equatable {
     }
 }
 
-struct UpdateProvisionedProductInputBody: Swift.Equatable {
+struct UpdateProvisionedProductInputBody {
     let acceptLanguage: Swift.String?
     let provisionedProductName: Swift.String?
     let provisionedProductId: Swift.String?
@@ -19407,7 +19407,7 @@ extension UpdateProvisionedProductOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateProvisionedProductOutput: Swift.Equatable {
+public struct UpdateProvisionedProductOutput {
     /// Information about the result of the request.
     public var recordDetail: ServiceCatalogClientTypes.RecordDetail?
 
@@ -19419,7 +19419,7 @@ public struct UpdateProvisionedProductOutput: Swift.Equatable {
     }
 }
 
-struct UpdateProvisionedProductOutputBody: Swift.Equatable {
+struct UpdateProvisionedProductOutputBody {
     let recordDetail: ServiceCatalogClientTypes.RecordDetail?
 }
 
@@ -19482,7 +19482,7 @@ extension UpdateProvisionedProductPropertiesInput {
     }
 }
 
-public struct UpdateProvisionedProductPropertiesInput: Swift.Equatable {
+public struct UpdateProvisionedProductPropertiesInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -19513,7 +19513,7 @@ public struct UpdateProvisionedProductPropertiesInput: Swift.Equatable {
     }
 }
 
-struct UpdateProvisionedProductPropertiesInputBody: Swift.Equatable {
+struct UpdateProvisionedProductPropertiesInputBody {
     let acceptLanguage: Swift.String?
     let provisionedProductId: Swift.String?
     let provisionedProductProperties: [Swift.String:Swift.String]?
@@ -19568,7 +19568,7 @@ extension UpdateProvisionedProductPropertiesOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct UpdateProvisionedProductPropertiesOutput: Swift.Equatable {
+public struct UpdateProvisionedProductPropertiesOutput {
     /// The provisioned product identifier.
     public var provisionedProductId: Swift.String?
     /// A map that contains the properties updated.
@@ -19592,7 +19592,7 @@ public struct UpdateProvisionedProductPropertiesOutput: Swift.Equatable {
     }
 }
 
-struct UpdateProvisionedProductPropertiesOutputBody: Swift.Equatable {
+struct UpdateProvisionedProductPropertiesOutputBody {
     let provisionedProductId: Swift.String?
     let provisionedProductProperties: [Swift.String:Swift.String]?
     let recordId: Swift.String?
@@ -19686,7 +19686,7 @@ extension UpdateProvisioningArtifactInput {
     }
 }
 
-public struct UpdateProvisioningArtifactInput: Swift.Equatable {
+public struct UpdateProvisioningArtifactInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -19728,7 +19728,7 @@ public struct UpdateProvisioningArtifactInput: Swift.Equatable {
     }
 }
 
-struct UpdateProvisioningArtifactInputBody: Swift.Equatable {
+struct UpdateProvisioningArtifactInputBody {
     let acceptLanguage: Swift.String?
     let productId: Swift.String?
     let provisioningArtifactId: Swift.String?
@@ -19784,7 +19784,7 @@ extension UpdateProvisioningArtifactOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateProvisioningArtifactOutput: Swift.Equatable {
+public struct UpdateProvisioningArtifactOutput {
     /// The URL of the CloudFormation template in Amazon S3 or GitHub in JSON format.
     public var info: [Swift.String:Swift.String]?
     /// Information about the provisioning artifact.
@@ -19804,7 +19804,7 @@ public struct UpdateProvisioningArtifactOutput: Swift.Equatable {
     }
 }
 
-struct UpdateProvisioningArtifactOutputBody: Swift.Equatable {
+struct UpdateProvisioningArtifactOutputBody {
     let provisioningArtifactDetail: ServiceCatalogClientTypes.ProvisioningArtifactDetail?
     let info: [Swift.String:Swift.String]?
     let status: ServiceCatalogClientTypes.Status?
@@ -19882,7 +19882,7 @@ extension ServiceCatalogClientTypes.UpdateProvisioningParameter: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// The parameter key-value pair used to update a provisioned product.
-    public struct UpdateProvisioningParameter: Swift.Equatable {
+    public struct UpdateProvisioningParameter {
         /// The parameter key.
         public var key: Swift.String?
         /// If set to true, Value is ignored and the previous parameter value is kept.
@@ -19985,7 +19985,7 @@ extension ServiceCatalogClientTypes.UpdateProvisioningPreferences: Swift.Codable
 
 extension ServiceCatalogClientTypes {
     /// The user-defined preferences that will be applied when updating a provisioned product. Not all preferences are applicable to all provisioned product types.
-    public struct UpdateProvisioningPreferences: Swift.Equatable {
+    public struct UpdateProvisioningPreferences {
         /// One or more Amazon Web Services accounts that will have access to the provisioned product. Applicable only to a CFN_STACKSET provisioned product type. The Amazon Web Services accounts specified should be within the list of accounts in the STACKSET constraint. To get the list of accounts in the STACKSET constraint, use the DescribeProvisioningParameters operation. If no values are specified, the default value is all accounts from the STACKSET constraint.
         public var stackSetAccounts: [Swift.String]?
         /// The number of accounts, per Region, for which this operation can fail before Service Catalog stops the operation in that Region. If the operation is stopped in a Region, Service Catalog doesn't attempt the operation in any subsequent Regions. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetFailureToleranceCount or StackSetFailureTolerancePercentage, but not both. The default value is 0 if no value is specified.
@@ -20062,7 +20062,7 @@ extension UpdateServiceActionInput {
     }
 }
 
-public struct UpdateServiceActionInput: Swift.Equatable {
+public struct UpdateServiceActionInput {
     /// The language code.
     ///
     /// * jp - Japanese
@@ -20095,7 +20095,7 @@ public struct UpdateServiceActionInput: Swift.Equatable {
     }
 }
 
-struct UpdateServiceActionInputBody: Swift.Equatable {
+struct UpdateServiceActionInputBody {
     let id: Swift.String?
     let name: Swift.String?
     let definition: [Swift.String:Swift.String]?
@@ -20148,7 +20148,7 @@ extension UpdateServiceActionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateServiceActionOutput: Swift.Equatable {
+public struct UpdateServiceActionOutput {
     /// Detailed information about the self-service action.
     public var serviceActionDetail: ServiceCatalogClientTypes.ServiceActionDetail?
 
@@ -20160,7 +20160,7 @@ public struct UpdateServiceActionOutput: Swift.Equatable {
     }
 }
 
-struct UpdateServiceActionOutputBody: Swift.Equatable {
+struct UpdateServiceActionOutputBody {
     let serviceActionDetail: ServiceCatalogClientTypes.ServiceActionDetail?
 }
 
@@ -20216,7 +20216,7 @@ extension UpdateTagOptionInput {
     }
 }
 
-public struct UpdateTagOptionInput: Swift.Equatable {
+public struct UpdateTagOptionInput {
     /// The updated active state.
     public var active: Swift.Bool?
     /// The TagOption identifier.
@@ -20237,7 +20237,7 @@ public struct UpdateTagOptionInput: Swift.Equatable {
     }
 }
 
-struct UpdateTagOptionInputBody: Swift.Equatable {
+struct UpdateTagOptionInputBody {
     let id: Swift.String?
     let value: Swift.String?
     let active: Swift.Bool?
@@ -20273,7 +20273,7 @@ extension UpdateTagOptionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateTagOptionOutput: Swift.Equatable {
+public struct UpdateTagOptionOutput {
     /// Information about the TagOption.
     public var tagOptionDetail: ServiceCatalogClientTypes.TagOptionDetail?
 
@@ -20285,7 +20285,7 @@ public struct UpdateTagOptionOutput: Swift.Equatable {
     }
 }
 
-struct UpdateTagOptionOutputBody: Swift.Equatable {
+struct UpdateTagOptionOutputBody {
     let tagOptionDetail: ServiceCatalogClientTypes.TagOptionDetail?
 }
 
@@ -20342,7 +20342,7 @@ extension ServiceCatalogClientTypes.UsageInstruction: Swift.Codable {
 
 extension ServiceCatalogClientTypes {
     /// Additional information provided by the administrator.
-    public struct UsageInstruction: Swift.Equatable {
+    public struct UsageInstruction {
         /// The usage instruction type for the value.
         public var type: Swift.String?
         /// The usage instruction value for this type.

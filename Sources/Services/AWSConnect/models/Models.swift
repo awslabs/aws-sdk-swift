@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -78,7 +78,7 @@ extension ConnectClientTypes.ActionSummary: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about an action.
-    public struct ActionSummary: Swift.Equatable {
+    public struct ActionSummary {
         /// The action type.
         /// This member is required.
         public var actionType: ConnectClientTypes.ActionType?
@@ -169,7 +169,7 @@ extension ActivateEvaluationFormInput {
     }
 }
 
-public struct ActivateEvaluationFormInput: Swift.Equatable {
+public struct ActivateEvaluationFormInput {
     /// The unique identifier for the evaluation form.
     /// This member is required.
     public var evaluationFormId: Swift.String?
@@ -192,7 +192,7 @@ public struct ActivateEvaluationFormInput: Swift.Equatable {
     }
 }
 
-struct ActivateEvaluationFormInputBody: Swift.Equatable {
+struct ActivateEvaluationFormInputBody {
     let evaluationFormVersion: Swift.Int?
 }
 
@@ -224,7 +224,7 @@ extension ActivateEvaluationFormOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ActivateEvaluationFormOutput: Swift.Equatable {
+public struct ActivateEvaluationFormOutput {
     /// The Amazon Resource Name (ARN) for the evaluation form resource.
     /// This member is required.
     public var evaluationFormArn: Swift.String?
@@ -247,7 +247,7 @@ public struct ActivateEvaluationFormOutput: Swift.Equatable {
     }
 }
 
-struct ActivateEvaluationFormOutputBody: Swift.Equatable {
+struct ActivateEvaluationFormOutputBody {
     let evaluationFormId: Swift.String?
     let evaluationFormArn: Swift.String?
     let evaluationFormVersion: Swift.Int
@@ -351,7 +351,7 @@ extension ConnectClientTypes.AgentConfig: Swift.Codable {
 
 extension ConnectClientTypes {
     /// The distribution of agents between the instance and its replica(s).
-    public struct AgentConfig: Swift.Equatable {
+    public struct AgentConfig {
         /// Information about traffic distributions.
         /// This member is required.
         public var distributions: [ConnectClientTypes.Distribution]?
@@ -423,7 +423,7 @@ extension ConnectClientTypes.AgentContactReference: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about the [contact](https://docs.aws.amazon.com/connect/latest/APIReference/API_Contact.html) associated to the user.
-    public struct AgentContactReference: Swift.Equatable {
+    public struct AgentContactReference {
         /// The [state of the contact](https://docs.aws.amazon.com/connect/latest/adminguide/about-contact-states.html). When AgentContactState is set to CONNECTED_ONHOLD, StateStartTimestamp is not changed. Instead, StateStartTimestamp reflects the time the contact was CONNECTED to the agent.
         public var agentContactState: ConnectClientTypes.ContactState?
         /// The channel of the contact.
@@ -566,7 +566,7 @@ extension ConnectClientTypes.AgentHierarchyGroups: Swift.Codable {
 
 extension ConnectClientTypes {
     /// A structure that defines search criteria for contacts using agent hierarchy group levels. For more information about agent hierarchies, see [Set Up Agent Hierarchies](https://docs.aws.amazon.com/connect/latest/adminguide/agent-hierarchy.html) in the Amazon Connect Administrator Guide.
-    public struct AgentHierarchyGroups: Swift.Equatable {
+    public struct AgentHierarchyGroups {
         /// The identifiers for level 1 hierarchy groups.
         public var l1Ids: [Swift.String]?
         /// The identifiers for level 2 hierarchy groups.
@@ -629,7 +629,7 @@ extension ConnectClientTypes.AgentInfo: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about the agent who accepted the contact.
-    public struct AgentInfo: Swift.Equatable {
+    public struct AgentInfo {
         /// Agent pause duration for a contact in seconds.
         public var agentPauseDurationInSeconds: Swift.Int?
         /// The timestamp when the contact was connected to the agent.
@@ -738,7 +738,7 @@ extension ConnectClientTypes.AgentStatus: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains information about an agent status.
-    public struct AgentStatus: Swift.Equatable {
+    public struct AgentStatus {
         /// The Amazon Resource Name (ARN) of the agent status.
         public var agentStatusARN: Swift.String?
         /// The identifier of the agent status.
@@ -821,7 +821,7 @@ extension ConnectClientTypes.AgentStatusReference: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about the agent's status.
-    public struct AgentStatusReference: Swift.Equatable {
+    public struct AgentStatusReference {
         /// The Amazon Resource Name (ARN) of the agent's status.
         public var statusArn: Swift.String?
         /// The name of the agent status.
@@ -926,7 +926,7 @@ extension ConnectClientTypes.AgentStatusSummary: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Summary information for an agent status.
-    public struct AgentStatusSummary: Swift.Equatable {
+    public struct AgentStatusSummary {
         /// The Amazon Resource Name (ARN) for the agent status.
         public var arn: Swift.String?
         /// The identifier for an agent status.
@@ -1022,7 +1022,7 @@ extension ConnectClientTypes.AllowedCapabilities: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about the capabilities enabled for participants of the contact.
-    public struct AllowedCapabilities: Swift.Equatable {
+    public struct AllowedCapabilities {
         /// Information about the agent's video sharing capabilities.
         public var agent: ConnectClientTypes.ParticipantCapabilities?
         /// Information about the customer's video sharing capabilities.
@@ -1079,7 +1079,7 @@ extension ConnectClientTypes.AnalyticsDataAssociationResult: Swift.Codable {
 
 extension ConnectClientTypes {
     /// This API is in preview release for Amazon Connect and is subject to change. Information about associations that are successfully created: DataSetId, TargetAccountId, ResourceShareId, ResourceShareArn.
-    public struct AnalyticsDataAssociationResult: Swift.Equatable {
+    public struct AnalyticsDataAssociationResult {
         /// The identifier of the dataset.
         public var dataSetId: Swift.String?
         /// The Amazon Resource Name (ARN) of the Resource Access Manager share.
@@ -1132,7 +1132,7 @@ extension ConnectClientTypes.AnswerMachineDetectionConfig: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Configuration of the answering machine detection.
-    public struct AnswerMachineDetectionConfig: Swift.Equatable {
+    public struct AnswerMachineDetectionConfig {
         /// Wait for the answering machine prompt.
         public var awaitAnswerMachinePrompt: Swift.Bool
         /// The flag to indicate if answer machine detection analysis needs to be performed for a voice call. If set to true, TrafficType must be set as CAMPAIGN.
@@ -1189,7 +1189,7 @@ extension ConnectClientTypes.Application: Swift.Codable {
 
 extension ConnectClientTypes {
     /// This API is in preview release for Amazon Connect and is subject to change. A third-party application's metadata.
-    public struct Application: Swift.Equatable {
+    public struct Application {
         /// The permissions that the agent is granted on the application. Only the ACCESS permission is supported.
         public var applicationPermissions: [Swift.String]?
         /// Namespace of the application that you want to give access to.
@@ -1255,7 +1255,7 @@ extension ConnectClientTypes.AssignContactCategoryActionDefinition: Swift.Codabl
 
 extension ConnectClientTypes {
     /// This action must be set if TriggerEventSource is one of the following values: OnPostCallAnalysisAvailable | OnRealTimeCallAnalysisAvailable | OnRealTimeChatAnalysisAvailable | OnPostChatAnalysisAvailable. Contact is categorized using the rule name. RuleName is used as ContactCategory.
-    public struct AssignContactCategoryActionDefinition: Swift.Equatable {
+    public struct AssignContactCategoryActionDefinition {
 
         public init() { }
     }
@@ -1289,7 +1289,7 @@ extension AssociateAnalyticsDataSetInput {
     }
 }
 
-public struct AssociateAnalyticsDataSetInput: Swift.Equatable {
+public struct AssociateAnalyticsDataSetInput {
     /// The identifier of the dataset to associate with the target account.
     /// This member is required.
     public var dataSetId: Swift.String?
@@ -1311,7 +1311,7 @@ public struct AssociateAnalyticsDataSetInput: Swift.Equatable {
     }
 }
 
-struct AssociateAnalyticsDataSetInputBody: Swift.Equatable {
+struct AssociateAnalyticsDataSetInputBody {
     let dataSetId: Swift.String?
     let targetAccountId: Swift.String?
 }
@@ -1349,7 +1349,7 @@ extension AssociateAnalyticsDataSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateAnalyticsDataSetOutput: Swift.Equatable {
+public struct AssociateAnalyticsDataSetOutput {
     /// The identifier of the dataset that was associated.
     public var dataSetId: Swift.String?
     /// The Amazon Resource Name (ARN) of the Resource Access Manager share.
@@ -1373,7 +1373,7 @@ public struct AssociateAnalyticsDataSetOutput: Swift.Equatable {
     }
 }
 
-struct AssociateAnalyticsDataSetOutputBody: Swift.Equatable {
+struct AssociateAnalyticsDataSetOutputBody {
     let dataSetId: Swift.String?
     let targetAccountId: Swift.String?
     let resourceShareId: Swift.String?
@@ -1439,7 +1439,7 @@ extension AssociateApprovedOriginInput {
     }
 }
 
-public struct AssociateApprovedOriginInput: Swift.Equatable {
+public struct AssociateApprovedOriginInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -1457,7 +1457,7 @@ public struct AssociateApprovedOriginInput: Swift.Equatable {
     }
 }
 
-struct AssociateApprovedOriginInputBody: Swift.Equatable {
+struct AssociateApprovedOriginInputBody {
     let origin: Swift.String?
 }
 
@@ -1478,7 +1478,7 @@ extension AssociateApprovedOriginOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateApprovedOriginOutput: Swift.Equatable {
+public struct AssociateApprovedOriginOutput {
 
     public init() { }
 }
@@ -1527,7 +1527,7 @@ extension AssociateBotInput {
     }
 }
 
-public struct AssociateBotInput: Swift.Equatable {
+public struct AssociateBotInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -1548,7 +1548,7 @@ public struct AssociateBotInput: Swift.Equatable {
     }
 }
 
-struct AssociateBotInputBody: Swift.Equatable {
+struct AssociateBotInputBody {
     let lexBot: ConnectClientTypes.LexBot?
     let lexV2Bot: ConnectClientTypes.LexV2Bot?
 }
@@ -1573,7 +1573,7 @@ extension AssociateBotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateBotOutput: Swift.Equatable {
+public struct AssociateBotOutput {
 
     public init() { }
 }
@@ -1621,7 +1621,7 @@ extension AssociateDefaultVocabularyInput {
     }
 }
 
-public struct AssociateDefaultVocabularyInput: Swift.Equatable {
+public struct AssociateDefaultVocabularyInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -1643,7 +1643,7 @@ public struct AssociateDefaultVocabularyInput: Swift.Equatable {
     }
 }
 
-struct AssociateDefaultVocabularyInputBody: Swift.Equatable {
+struct AssociateDefaultVocabularyInputBody {
     let vocabularyId: Swift.String?
 }
 
@@ -1664,7 +1664,7 @@ extension AssociateDefaultVocabularyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateDefaultVocabularyOutput: Swift.Equatable {
+public struct AssociateDefaultVocabularyOutput {
 
     public init() { }
 }
@@ -1715,7 +1715,7 @@ extension AssociateFlowInput {
     }
 }
 
-public struct AssociateFlowInput: Swift.Equatable {
+public struct AssociateFlowInput {
     /// The identifier of the flow.
     /// This member is required.
     public var flowId: Swift.String?
@@ -1743,7 +1743,7 @@ public struct AssociateFlowInput: Swift.Equatable {
     }
 }
 
-struct AssociateFlowInputBody: Swift.Equatable {
+struct AssociateFlowInputBody {
     let resourceId: Swift.String?
     let flowId: Swift.String?
     let resourceType: ConnectClientTypes.FlowAssociationResourceType?
@@ -1772,7 +1772,7 @@ extension AssociateFlowOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateFlowOutput: Swift.Equatable {
+public struct AssociateFlowOutput {
 
     public init() { }
 }
@@ -1820,7 +1820,7 @@ extension AssociateInstanceStorageConfigInput {
     }
 }
 
-public struct AssociateInstanceStorageConfigInput: Swift.Equatable {
+public struct AssociateInstanceStorageConfigInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -1850,7 +1850,7 @@ public struct AssociateInstanceStorageConfigInput: Swift.Equatable {
     }
 }
 
-struct AssociateInstanceStorageConfigInputBody: Swift.Equatable {
+struct AssociateInstanceStorageConfigInputBody {
     let resourceType: ConnectClientTypes.InstanceStorageResourceType?
     let storageConfig: ConnectClientTypes.InstanceStorageConfig?
 }
@@ -1882,7 +1882,7 @@ extension AssociateInstanceStorageConfigOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct AssociateInstanceStorageConfigOutput: Swift.Equatable {
+public struct AssociateInstanceStorageConfigOutput {
     /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
     public var associationId: Swift.String?
 
@@ -1894,7 +1894,7 @@ public struct AssociateInstanceStorageConfigOutput: Swift.Equatable {
     }
 }
 
-struct AssociateInstanceStorageConfigOutputBody: Swift.Equatable {
+struct AssociateInstanceStorageConfigOutputBody {
     let associationId: Swift.String?
 }
 
@@ -1949,7 +1949,7 @@ extension AssociateLambdaFunctionInput {
     }
 }
 
-public struct AssociateLambdaFunctionInput: Swift.Equatable {
+public struct AssociateLambdaFunctionInput {
     /// The Amazon Resource Name (ARN) for the Lambda function being associated. Maximum number of characters allowed is 140.
     /// This member is required.
     public var functionArn: Swift.String?
@@ -1967,7 +1967,7 @@ public struct AssociateLambdaFunctionInput: Swift.Equatable {
     }
 }
 
-struct AssociateLambdaFunctionInputBody: Swift.Equatable {
+struct AssociateLambdaFunctionInputBody {
     let functionArn: Swift.String?
 }
 
@@ -1988,7 +1988,7 @@ extension AssociateLambdaFunctionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateLambdaFunctionOutput: Swift.Equatable {
+public struct AssociateLambdaFunctionOutput {
 
     public init() { }
 }
@@ -2033,7 +2033,7 @@ extension AssociateLexBotInput {
     }
 }
 
-public struct AssociateLexBotInput: Swift.Equatable {
+public struct AssociateLexBotInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -2051,7 +2051,7 @@ public struct AssociateLexBotInput: Swift.Equatable {
     }
 }
 
-struct AssociateLexBotInputBody: Swift.Equatable {
+struct AssociateLexBotInputBody {
     let lexBot: ConnectClientTypes.LexBot?
 }
 
@@ -2072,7 +2072,7 @@ extension AssociateLexBotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateLexBotOutput: Swift.Equatable {
+public struct AssociateLexBotOutput {
 
     public init() { }
 }
@@ -2121,7 +2121,7 @@ extension AssociatePhoneNumberContactFlowInput {
     }
 }
 
-public struct AssociatePhoneNumberContactFlowInput: Swift.Equatable {
+public struct AssociatePhoneNumberContactFlowInput {
     /// The identifier of the flow.
     /// This member is required.
     public var contactFlowId: Swift.String?
@@ -2144,7 +2144,7 @@ public struct AssociatePhoneNumberContactFlowInput: Swift.Equatable {
     }
 }
 
-struct AssociatePhoneNumberContactFlowInputBody: Swift.Equatable {
+struct AssociatePhoneNumberContactFlowInputBody {
     let instanceId: Swift.String?
     let contactFlowId: Swift.String?
 }
@@ -2169,7 +2169,7 @@ extension AssociatePhoneNumberContactFlowOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct AssociatePhoneNumberContactFlowOutput: Swift.Equatable {
+public struct AssociatePhoneNumberContactFlowOutput {
 
     public init() { }
 }
@@ -2218,7 +2218,7 @@ extension AssociateQueueQuickConnectsInput {
     }
 }
 
-public struct AssociateQueueQuickConnectsInput: Swift.Equatable {
+public struct AssociateQueueQuickConnectsInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -2241,7 +2241,7 @@ public struct AssociateQueueQuickConnectsInput: Swift.Equatable {
     }
 }
 
-struct AssociateQueueQuickConnectsInputBody: Swift.Equatable {
+struct AssociateQueueQuickConnectsInputBody {
     let quickConnectIds: [Swift.String]?
 }
 
@@ -2271,7 +2271,7 @@ extension AssociateQueueQuickConnectsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateQueueQuickConnectsOutput: Swift.Equatable {
+public struct AssociateQueueQuickConnectsOutput {
 
     public init() { }
 }
@@ -2321,7 +2321,7 @@ extension AssociateRoutingProfileQueuesInput {
     }
 }
 
-public struct AssociateRoutingProfileQueuesInput: Swift.Equatable {
+public struct AssociateRoutingProfileQueuesInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -2344,7 +2344,7 @@ public struct AssociateRoutingProfileQueuesInput: Swift.Equatable {
     }
 }
 
-struct AssociateRoutingProfileQueuesInputBody: Swift.Equatable {
+struct AssociateRoutingProfileQueuesInputBody {
     let queueConfigs: [ConnectClientTypes.RoutingProfileQueueConfig]?
 }
 
@@ -2374,7 +2374,7 @@ extension AssociateRoutingProfileQueuesOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct AssociateRoutingProfileQueuesOutput: Swift.Equatable {
+public struct AssociateRoutingProfileQueuesOutput {
 
     public init() { }
 }
@@ -2417,7 +2417,7 @@ extension AssociateSecurityKeyInput {
     }
 }
 
-public struct AssociateSecurityKeyInput: Swift.Equatable {
+public struct AssociateSecurityKeyInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -2435,7 +2435,7 @@ public struct AssociateSecurityKeyInput: Swift.Equatable {
     }
 }
 
-struct AssociateSecurityKeyInputBody: Swift.Equatable {
+struct AssociateSecurityKeyInputBody {
     let key: Swift.String?
 }
 
@@ -2463,7 +2463,7 @@ extension AssociateSecurityKeyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateSecurityKeyOutput: Swift.Equatable {
+public struct AssociateSecurityKeyOutput {
     /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
     public var associationId: Swift.String?
 
@@ -2475,7 +2475,7 @@ public struct AssociateSecurityKeyOutput: Swift.Equatable {
     }
 }
 
-struct AssociateSecurityKeyOutputBody: Swift.Equatable {
+struct AssociateSecurityKeyOutputBody {
     let associationId: Swift.String?
 }
 
@@ -2535,7 +2535,7 @@ extension AssociateTrafficDistributionGroupUserInput {
     }
 }
 
-public struct AssociateTrafficDistributionGroupUserInput: Swift.Equatable {
+public struct AssociateTrafficDistributionGroupUserInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -2558,7 +2558,7 @@ public struct AssociateTrafficDistributionGroupUserInput: Swift.Equatable {
     }
 }
 
-struct AssociateTrafficDistributionGroupUserInputBody: Swift.Equatable {
+struct AssociateTrafficDistributionGroupUserInputBody {
     let userId: Swift.String?
     let instanceId: Swift.String?
 }
@@ -2583,7 +2583,7 @@ extension AssociateTrafficDistributionGroupUserOutput: ClientRuntime.HttpRespons
     }
 }
 
-public struct AssociateTrafficDistributionGroupUserOutput: Swift.Equatable {
+public struct AssociateTrafficDistributionGroupUserOutput {
 
     public init() { }
 }
@@ -2633,7 +2633,7 @@ extension AssociateUserProficienciesInput {
     }
 }
 
-public struct AssociateUserProficienciesInput: Swift.Equatable {
+public struct AssociateUserProficienciesInput {
     /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN of the instance).
     /// This member is required.
     public var instanceId: Swift.String?
@@ -2656,7 +2656,7 @@ public struct AssociateUserProficienciesInput: Swift.Equatable {
     }
 }
 
-struct AssociateUserProficienciesInputBody: Swift.Equatable {
+struct AssociateUserProficienciesInputBody {
     let userProficiencies: [ConnectClientTypes.UserProficiency]?
 }
 
@@ -2686,7 +2686,7 @@ extension AssociateUserProficienciesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateUserProficienciesOutput: Swift.Equatable {
+public struct AssociateUserProficienciesOutput {
 
     public init() { }
 }
@@ -2739,7 +2739,7 @@ extension ConnectClientTypes.AttachmentReference: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about a reference when the referenceType is ATTACHMENT. Otherwise, null.
-    public struct AttachmentReference: Swift.Equatable {
+    public struct AttachmentReference {
         /// Identifier of the attachment reference.
         public var name: Swift.String?
         /// Status of the attachment reference type.
@@ -2793,7 +2793,7 @@ extension ConnectClientTypes.Attendee: Swift.CustomDebugStringConvertible {
 
 extension ConnectClientTypes {
     /// The attendee information, including attendee ID and join token.
-    public struct Attendee: Swift.Equatable {
+    public struct Attendee {
         /// The Amazon Chime SDK attendee ID.
         public var attendeeId: Swift.String?
         /// The join token used by the Amazon Chime SDK attendee.
@@ -2838,7 +2838,7 @@ extension ConnectClientTypes.Attribute: Swift.Codable {
 
 extension ConnectClientTypes {
     /// A toggle for an individual feature at the instance level.
-    public struct Attribute: Swift.Equatable {
+    public struct Attribute {
         /// The type of attribute.
         public var attributeType: ConnectClientTypes.InstanceAttributeType?
         /// The value of the attribute.
@@ -2895,7 +2895,7 @@ extension ConnectClientTypes.AttributeAndCondition: Swift.Codable {
 
 extension ConnectClientTypes {
     /// A list of conditions which would be applied together with an AND condition.
-    public struct AttributeAndCondition: Swift.Equatable {
+    public struct AttributeAndCondition {
         /// A leaf node condition which can be used to specify a hierarchy group condition.
         public var hierarchyGroupCondition: ConnectClientTypes.HierarchyGroupCondition?
         /// A leaf node condition which can be used to specify a tag condition.
@@ -2934,7 +2934,7 @@ extension ConnectClientTypes.AudioFeatures: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Has audio-specific configurations as the operating parameter for Echo Reduction.
-    public struct AudioFeatures: Swift.Equatable {
+    public struct AudioFeatures {
         /// Makes echo reduction available to clients who connect to the meeting.
         public var echoReduction: ConnectClientTypes.MeetingFeatureStatus?
 
@@ -2981,7 +2981,7 @@ extension ConnectClientTypes.AvailableNumberSummary: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about available phone numbers.
-    public struct AvailableNumberSummary: Swift.Equatable {
+    public struct AvailableNumberSummary {
         /// The phone number. Phone numbers are formatted [+] [country code] [subscriber number including area code].
         public var phoneNumber: Swift.String?
         /// The ISO country code.
@@ -3033,7 +3033,7 @@ extension BatchAssociateAnalyticsDataSetInput {
     }
 }
 
-public struct BatchAssociateAnalyticsDataSetInput: Swift.Equatable {
+public struct BatchAssociateAnalyticsDataSetInput {
     /// An array of dataset identifiers to associate.
     /// This member is required.
     public var dataSetIds: [Swift.String]?
@@ -3055,7 +3055,7 @@ public struct BatchAssociateAnalyticsDataSetInput: Swift.Equatable {
     }
 }
 
-struct BatchAssociateAnalyticsDataSetInputBody: Swift.Equatable {
+struct BatchAssociateAnalyticsDataSetInputBody {
     let dataSetIds: [Swift.String]?
     let targetAccountId: Swift.String?
 }
@@ -3098,7 +3098,7 @@ extension BatchAssociateAnalyticsDataSetOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct BatchAssociateAnalyticsDataSetOutput: Swift.Equatable {
+public struct BatchAssociateAnalyticsDataSetOutput {
     /// Information about associations that are successfully created: DataSetId, TargetAccountId, ResourceShareId, ResourceShareArn.
     public var created: [ConnectClientTypes.AnalyticsDataAssociationResult]?
     /// A list of errors for datasets that aren't successfully associated with the target account.
@@ -3114,7 +3114,7 @@ public struct BatchAssociateAnalyticsDataSetOutput: Swift.Equatable {
     }
 }
 
-struct BatchAssociateAnalyticsDataSetOutputBody: Swift.Equatable {
+struct BatchAssociateAnalyticsDataSetOutputBody {
     let created: [ConnectClientTypes.AnalyticsDataAssociationResult]?
     let errors: [ConnectClientTypes.ErrorResult]?
 }
@@ -3197,7 +3197,7 @@ extension BatchDisassociateAnalyticsDataSetInput {
     }
 }
 
-public struct BatchDisassociateAnalyticsDataSetInput: Swift.Equatable {
+public struct BatchDisassociateAnalyticsDataSetInput {
     /// An array of associated dataset identifiers to remove.
     /// This member is required.
     public var dataSetIds: [Swift.String]?
@@ -3219,7 +3219,7 @@ public struct BatchDisassociateAnalyticsDataSetInput: Swift.Equatable {
     }
 }
 
-struct BatchDisassociateAnalyticsDataSetInputBody: Swift.Equatable {
+struct BatchDisassociateAnalyticsDataSetInputBody {
     let dataSetIds: [Swift.String]?
     let targetAccountId: Swift.String?
 }
@@ -3262,7 +3262,7 @@ extension BatchDisassociateAnalyticsDataSetOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct BatchDisassociateAnalyticsDataSetOutput: Swift.Equatable {
+public struct BatchDisassociateAnalyticsDataSetOutput {
     /// An array of successfully disassociated dataset identifiers.
     public var deleted: [Swift.String]?
     /// A list of errors for any datasets not successfully removed.
@@ -3278,7 +3278,7 @@ public struct BatchDisassociateAnalyticsDataSetOutput: Swift.Equatable {
     }
 }
 
-struct BatchDisassociateAnalyticsDataSetOutputBody: Swift.Equatable {
+struct BatchDisassociateAnalyticsDataSetOutputBody {
     let deleted: [Swift.String]?
     let errors: [ConnectClientTypes.ErrorResult]?
 }
@@ -3361,7 +3361,7 @@ extension BatchGetFlowAssociationInput {
     }
 }
 
-public struct BatchGetFlowAssociationInput: Swift.Equatable {
+public struct BatchGetFlowAssociationInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -3383,7 +3383,7 @@ public struct BatchGetFlowAssociationInput: Swift.Equatable {
     }
 }
 
-struct BatchGetFlowAssociationInputBody: Swift.Equatable {
+struct BatchGetFlowAssociationInputBody {
     let resourceIds: [Swift.String]?
     let resourceType: ConnectClientTypes.ListFlowAssociationResourceType?
 }
@@ -3424,7 +3424,7 @@ extension BatchGetFlowAssociationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetFlowAssociationOutput: Swift.Equatable {
+public struct BatchGetFlowAssociationOutput {
     /// Information about flow associations.
     public var flowAssociationSummaryList: [ConnectClientTypes.FlowAssociationSummary]?
 
@@ -3436,7 +3436,7 @@ public struct BatchGetFlowAssociationOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetFlowAssociationOutputBody: Swift.Equatable {
+struct BatchGetFlowAssociationOutputBody {
     let flowAssociationSummaryList: [ConnectClientTypes.FlowAssociationSummary]?
 }
 
@@ -3507,7 +3507,7 @@ extension BatchPutContactInput {
     }
 }
 
-public struct BatchPutContactInput: Swift.Equatable {
+public struct BatchPutContactInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
     /// List of individual contact requests.
@@ -3529,7 +3529,7 @@ public struct BatchPutContactInput: Swift.Equatable {
     }
 }
 
-struct BatchPutContactInputBody: Swift.Equatable {
+struct BatchPutContactInputBody {
     let clientToken: Swift.String?
     let contactDataRequestList: [ConnectClientTypes.ContactDataRequest]?
 }
@@ -3572,7 +3572,7 @@ extension BatchPutContactOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchPutContactOutput: Swift.Equatable {
+public struct BatchPutContactOutput {
     /// List of requests for which contact creation failed.
     public var failedRequestList: [ConnectClientTypes.FailedRequest]?
     /// List of requests for which contact was successfully created.
@@ -3588,7 +3588,7 @@ public struct BatchPutContactOutput: Swift.Equatable {
     }
 }
 
-struct BatchPutContactOutputBody: Swift.Equatable {
+struct BatchPutContactOutputBody {
     let successfulRequestList: [ConnectClientTypes.SuccessfulRequest]?
     let failedRequestList: [ConnectClientTypes.FailedRequest]?
 }
@@ -3695,7 +3695,7 @@ extension ConnectClientTypes.Campaign: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information associated with a campaign.
-    public struct Campaign: Swift.Equatable {
+    public struct Campaign {
         /// A unique identifier for a campaign.
         public var campaignId: Swift.String?
 
@@ -3783,7 +3783,7 @@ extension ConnectClientTypes {
     /// * Sending a chat event, such as typing
     ///
     /// * Disconnecting from a chat
-    public struct ChatEvent: Swift.Equatable {
+    public struct ChatEvent {
         /// Content of the message or event. This is required when Type is MESSAGE and for certain ContentTypes when Type is EVENT.
         ///
         /// * For allowed message content, see the Content parameter in the [SendMessage](https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_SendMessage.html) topic in the Amazon Connect Participant Service API Reference.
@@ -3876,7 +3876,7 @@ extension ConnectClientTypes.ChatMessage: Swift.Codable {
 
 extension ConnectClientTypes {
     /// A chat message.
-    public struct ChatMessage: Swift.Equatable {
+    public struct ChatMessage {
         /// The content of the chat message.
         ///
         /// * For text/plain and text/markdown, the Length Constraints are Minimum of 1, Maximum of 1024.
@@ -3935,7 +3935,7 @@ extension ConnectClientTypes.ChatParticipantRoleConfig: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Configuration information for the chat participant role.
-    public struct ChatParticipantRoleConfig: Swift.Equatable {
+    public struct ChatParticipantRoleConfig {
         /// A list of participant timers. You can specify any unique combination of role and timer type. Duplicate entries error out the request with a 400.
         /// This member is required.
         public var participantTimerConfigList: [ConnectClientTypes.ParticipantTimerConfiguration]?
@@ -3971,7 +3971,7 @@ extension ConnectClientTypes.ChatStreamingConfiguration: Swift.Codable {
 
 extension ConnectClientTypes {
     /// The streaming configuration, such as the Amazon SNS streaming endpoint.
-    public struct ChatStreamingConfiguration: Swift.Equatable {
+    public struct ChatStreamingConfiguration {
         /// The Amazon Resource Name (ARN) of the standard Amazon SNS topic. The Amazon Resource Name (ARN) of the streaming endpoint that is used to publish real-time message streaming for chat conversations.
         /// This member is required.
         public var streamingEndpointArn: Swift.String?
@@ -4029,7 +4029,7 @@ extension ClaimPhoneNumberInput {
     }
 }
 
-public struct ClaimPhoneNumberInput: Swift.Equatable {
+public struct ClaimPhoneNumberInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/). Pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     public var clientToken: Swift.String?
     /// The identifier of the Amazon Connect instance that phone numbers are claimed to. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance. You must enter InstanceId or TargetArn.
@@ -4062,7 +4062,7 @@ public struct ClaimPhoneNumberInput: Swift.Equatable {
     }
 }
 
-struct ClaimPhoneNumberInputBody: Swift.Equatable {
+struct ClaimPhoneNumberInputBody {
     let targetArn: Swift.String?
     let instanceId: Swift.String?
     let phoneNumber: Swift.String?
@@ -4121,7 +4121,7 @@ extension ClaimPhoneNumberOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ClaimPhoneNumberOutput: Swift.Equatable {
+public struct ClaimPhoneNumberOutput {
     /// The Amazon Resource Name (ARN) of the phone number.
     public var phoneNumberArn: Swift.String?
     /// A unique identifier for the phone number.
@@ -4137,7 +4137,7 @@ public struct ClaimPhoneNumberOutput: Swift.Equatable {
     }
 }
 
-struct ClaimPhoneNumberOutputBody: Swift.Equatable {
+struct ClaimPhoneNumberOutputBody {
     let phoneNumberId: Swift.String?
     let phoneNumberArn: Swift.String?
 }
@@ -4266,7 +4266,7 @@ extension ConnectClientTypes.ClaimedPhoneNumberSummary: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about a phone number that has been claimed to your Amazon Connect instance or traffic distribution group.
-    public struct ClaimedPhoneNumberSummary: Swift.Equatable {
+    public struct ClaimedPhoneNumberSummary {
         /// The identifier of the Amazon Connect instance that phone numbers are claimed to. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
         public var instanceId: Swift.String?
         /// The phone number. Phone numbers are formatted [+] [country code] [subscriber number including area code].
@@ -4397,7 +4397,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -4442,7 +4442,7 @@ extension ConnectClientTypes.ConnectionData: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information required to join the call.
-    public struct ConnectionData: Swift.Equatable {
+    public struct ConnectionData {
         /// The attendee information, including attendee ID and join token.
         public var attendee: ConnectClientTypes.Attendee?
         /// A meeting created using the Amazon Chime SDK.
@@ -4630,7 +4630,7 @@ extension ConnectClientTypes.Contact: Swift.CustomDebugStringConvertible {
 
 extension ConnectClientTypes {
     /// Contains information about a contact.
-    public struct Contact: Swift.Equatable {
+    public struct Contact {
         /// Information about the agent who accepted the contact.
         public var agentInfo: ConnectClientTypes.AgentInfo?
         /// The Amazon Resource Name (ARN) for the contact.
@@ -4753,7 +4753,7 @@ extension ConnectClientTypes.ContactAnalysis: Swift.Codable {
 
 extension ConnectClientTypes {
     /// A structure that defines search criteria for contacts using analysis outputs from Amazon Connect Contact Lens.
-    public struct ContactAnalysis: Swift.Equatable {
+    public struct ContactAnalysis {
         /// Search criteria based on transcript analyzed by Amazon Connect Contact Lens.
         public var transcript: ConnectClientTypes.Transcript?
 
@@ -4830,7 +4830,7 @@ extension ConnectClientTypes.ContactDataRequest: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Request object with information to create a contact.
-    public struct ContactDataRequest: Swift.Equatable {
+    public struct ContactDataRequest {
         /// List of attributes to be stored in a contact.
         public var attributes: [Swift.String:Swift.String]?
         /// Structure to store information associated with a campaign.
@@ -4897,7 +4897,7 @@ extension ConnectClientTypes.ContactFilter: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Filters user data based on the contact information that is associated to the users. It contains a list of [contact states](https://docs.aws.amazon.com/connect/latest/adminguide/about-contact-states.html).
-    public struct ContactFilter: Swift.Equatable {
+    public struct ContactFilter {
         /// A list of up to 9 [contact states](https://docs.aws.amazon.com/connect/latest/adminguide/about-contact-states.html).
         public var contactStates: [ConnectClientTypes.ContactState]?
 
@@ -4986,7 +4986,7 @@ extension ConnectClientTypes.ContactFlow: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains information about a flow.
-    public struct ContactFlow: Swift.Equatable {
+    public struct ContactFlow {
         /// The Amazon Resource Name (ARN) of the flow.
         public var arn: Swift.String?
         /// The JSON string that represents the content of the flow. For an example, see [Example flow in Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language-example.html). Length Constraints: Minimum length of 1. Maximum length of 256000.
@@ -5103,7 +5103,7 @@ extension ConnectClientTypes.ContactFlowModule: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains information about a flow module.
-    public struct ContactFlowModule: Swift.Equatable {
+    public struct ContactFlowModule {
         /// The Amazon Resource Name (ARN).
         public var arn: Swift.String?
         /// The JSON string that represents the content of the flow. For an example, see [Example flow in Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language-example.html).
@@ -5248,7 +5248,7 @@ extension ConnectClientTypes.ContactFlowModuleSummary: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains summary information about a flow.
-    public struct ContactFlowModuleSummary: Swift.Equatable {
+    public struct ContactFlowModuleSummary {
         /// The Amazon Resource Name (ARN) of the flow module.
         public var arn: Swift.String?
         /// The identifier of the flow module.
@@ -5313,7 +5313,7 @@ public struct ContactFlowNotPublishedException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct ContactFlowNotPublishedExceptionBody: Swift.Equatable {
+struct ContactFlowNotPublishedExceptionBody {
     let message: Swift.String?
 }
 
@@ -5406,7 +5406,7 @@ extension ConnectClientTypes.ContactFlowSummary: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains summary information about a flow. You can also create and update flows using the [Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language.html).
-    public struct ContactFlowSummary: Swift.Equatable {
+    public struct ContactFlowSummary {
         /// The Amazon Resource Name (ARN) of the flow.
         public var arn: Swift.String?
         /// The type of flow.
@@ -5582,7 +5582,7 @@ public struct ContactNotFoundException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct ContactNotFoundExceptionBody: Swift.Equatable {
+struct ContactNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -5679,7 +5679,7 @@ extension ConnectClientTypes.ContactSearchSummary: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information of returned contact.
-    public struct ContactSearchSummary: Swift.Equatable {
+    public struct ContactSearchSummary {
         /// Information about the agent who accepted the contact.
         public var agentInfo: ConnectClientTypes.ContactSearchSummaryAgentInfo?
         /// The Amazon Resource Name (ARN) of the contact.
@@ -5760,7 +5760,7 @@ extension ConnectClientTypes.ContactSearchSummaryAgentInfo: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about the agent who accepted the contact.
-    public struct ContactSearchSummaryAgentInfo: Swift.Equatable {
+    public struct ContactSearchSummaryAgentInfo {
         /// The timestamp when the contact was connected to the agent.
         public var connectedToAgentTimestamp: ClientRuntime.Date?
         /// The identifier of the agent who accepted the contact.
@@ -5805,7 +5805,7 @@ extension ConnectClientTypes.ContactSearchSummaryQueueInfo: Swift.Codable {
 
 extension ConnectClientTypes {
     /// If this contact was queued, this contains information about the queue.
-    public struct ContactSearchSummaryQueueInfo: Swift.Equatable {
+    public struct ContactSearchSummaryQueueInfo {
         /// The timestamp when the contact was added to the queue.
         public var enqueueTimestamp: ClientRuntime.Date?
         /// The unique identifier for the queue.
@@ -5949,7 +5949,7 @@ extension ConnectClientTypes {
     /// * Top level list specifies conditions that need to be applied with OR operator
     ///
     /// * Inner list specifies conditions that need to be applied with AND operator.
-    public struct ControlPlaneTagFilter: Swift.Equatable {
+    public struct ControlPlaneTagFilter {
         /// A list of conditions which would be applied together with an AND condition.
         public var andConditions: [ConnectClientTypes.TagCondition]?
         /// A list of conditions which would be applied together with an OR condition.
@@ -6029,7 +6029,7 @@ extension ConnectClientTypes {
     ///
     ///
     /// Only one field can be populated. Maximum number of allowed Tag conditions is 25. Maximum number of allowed Hierarchy Group conditions is 20.
-    public struct ControlPlaneUserAttributeFilter: Swift.Equatable {
+    public struct ControlPlaneUserAttributeFilter {
         /// A list of conditions which would be applied together with an AND condition.
         public var andCondition: ConnectClientTypes.AttributeAndCondition?
         /// A leaf node condition which can be used to specify a hierarchy group condition.
@@ -6097,7 +6097,7 @@ extension CreateAgentStatusInput {
     }
 }
 
-public struct CreateAgentStatusInput: Swift.Equatable {
+public struct CreateAgentStatusInput {
     /// The description of the status.
     public var description: Swift.String?
     /// The display order of the status.
@@ -6132,7 +6132,7 @@ public struct CreateAgentStatusInput: Swift.Equatable {
     }
 }
 
-struct CreateAgentStatusInputBody: Swift.Equatable {
+struct CreateAgentStatusInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let state: ConnectClientTypes.AgentStatusState?
@@ -6187,7 +6187,7 @@ extension CreateAgentStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAgentStatusOutput: Swift.Equatable {
+public struct CreateAgentStatusOutput {
     /// The Amazon Resource Name (ARN) of the agent status.
     public var agentStatusARN: Swift.String?
     /// The identifier of the agent status.
@@ -6203,7 +6203,7 @@ public struct CreateAgentStatusOutput: Swift.Equatable {
     }
 }
 
-struct CreateAgentStatusOutputBody: Swift.Equatable {
+struct CreateAgentStatusOutputBody {
     let agentStatusARN: Swift.String?
     let agentStatusId: Swift.String?
 }
@@ -6279,7 +6279,7 @@ extension ConnectClientTypes.CreateCaseActionDefinition: Swift.Codable {
 
 extension ConnectClientTypes {
     /// The CreateCase action definition.
-    public struct CreateCaseActionDefinition: Swift.Equatable {
+    public struct CreateCaseActionDefinition {
         /// An array of objects with Field ID and Value data.
         /// This member is required.
         public var fields: [ConnectClientTypes.FieldValue]?
@@ -6341,7 +6341,7 @@ extension CreateContactFlowInput {
     }
 }
 
-public struct CreateContactFlowInput: Swift.Equatable {
+public struct CreateContactFlowInput {
     /// The JSON string that represents the content of the flow. For an example, see [Example flow in Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language-example.html). Length Constraints: Minimum length of 1. Maximum length of 256000.
     /// This member is required.
     public var content: Swift.String?
@@ -6377,7 +6377,7 @@ public struct CreateContactFlowInput: Swift.Equatable {
     }
 }
 
-struct CreateContactFlowInputBody: Swift.Equatable {
+struct CreateContactFlowInputBody {
     let name: Swift.String?
     let type: ConnectClientTypes.ContactFlowType?
     let description: Swift.String?
@@ -6460,7 +6460,7 @@ extension CreateContactFlowModuleInput {
     }
 }
 
-public struct CreateContactFlowModuleInput: Swift.Equatable {
+public struct CreateContactFlowModuleInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
     /// The JSON string that represents the content of the flow. For an example, see [Example flow in Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language-example.html).
@@ -6495,7 +6495,7 @@ public struct CreateContactFlowModuleInput: Swift.Equatable {
     }
 }
 
-struct CreateContactFlowModuleInputBody: Swift.Equatable {
+struct CreateContactFlowModuleInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let content: Swift.String?
@@ -6550,7 +6550,7 @@ extension CreateContactFlowModuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateContactFlowModuleOutput: Swift.Equatable {
+public struct CreateContactFlowModuleOutput {
     /// The Amazon Resource Name (ARN) of the flow module.
     public var arn: Swift.String?
     /// The identifier of the flow module.
@@ -6566,7 +6566,7 @@ public struct CreateContactFlowModuleOutput: Swift.Equatable {
     }
 }
 
-struct CreateContactFlowModuleOutputBody: Swift.Equatable {
+struct CreateContactFlowModuleOutputBody {
     let id: Swift.String?
     let arn: Swift.String?
 }
@@ -6620,7 +6620,7 @@ extension CreateContactFlowOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateContactFlowOutput: Swift.Equatable {
+public struct CreateContactFlowOutput {
     /// The Amazon Resource Name (ARN) of the flow.
     public var contactFlowArn: Swift.String?
     /// The identifier of the flow.
@@ -6636,7 +6636,7 @@ public struct CreateContactFlowOutput: Swift.Equatable {
     }
 }
 
-struct CreateContactFlowOutputBody: Swift.Equatable {
+struct CreateContactFlowOutputBody {
     let contactFlowId: Swift.String?
     let contactFlowArn: Swift.String?
 }
@@ -6716,7 +6716,7 @@ extension CreateEvaluationFormInput {
     }
 }
 
-public struct CreateEvaluationFormInput: Swift.Equatable {
+public struct CreateEvaluationFormInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
     /// The description of the evaluation form.
@@ -6751,7 +6751,7 @@ public struct CreateEvaluationFormInput: Swift.Equatable {
     }
 }
 
-struct CreateEvaluationFormInputBody: Swift.Equatable {
+struct CreateEvaluationFormInputBody {
     let title: Swift.String?
     let description: Swift.String?
     let items: [ConnectClientTypes.EvaluationFormItem]?
@@ -6806,7 +6806,7 @@ extension CreateEvaluationFormOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateEvaluationFormOutput: Swift.Equatable {
+public struct CreateEvaluationFormOutput {
     /// The Amazon Resource Name (ARN) for the evaluation form resource.
     /// This member is required.
     public var evaluationFormArn: Swift.String?
@@ -6824,7 +6824,7 @@ public struct CreateEvaluationFormOutput: Swift.Equatable {
     }
 }
 
-struct CreateEvaluationFormOutputBody: Swift.Equatable {
+struct CreateEvaluationFormOutputBody {
     let evaluationFormId: Swift.String?
     let evaluationFormArn: Swift.String?
 }
@@ -6905,7 +6905,7 @@ extension CreateHoursOfOperationInput {
     }
 }
 
-public struct CreateHoursOfOperationInput: Swift.Equatable {
+public struct CreateHoursOfOperationInput {
     /// Configuration information for the hours of operation: day, start time, and end time.
     /// This member is required.
     public var config: [ConnectClientTypes.HoursOfOperationConfig]?
@@ -6941,7 +6941,7 @@ public struct CreateHoursOfOperationInput: Swift.Equatable {
     }
 }
 
-struct CreateHoursOfOperationInputBody: Swift.Equatable {
+struct CreateHoursOfOperationInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let timeZone: Swift.String?
@@ -7005,7 +7005,7 @@ extension CreateHoursOfOperationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateHoursOfOperationOutput: Swift.Equatable {
+public struct CreateHoursOfOperationOutput {
     /// The Amazon Resource Name (ARN) for the hours of operation.
     public var hoursOfOperationArn: Swift.String?
     /// The identifier for the hours of operation.
@@ -7021,7 +7021,7 @@ public struct CreateHoursOfOperationOutput: Swift.Equatable {
     }
 }
 
-struct CreateHoursOfOperationOutputBody: Swift.Equatable {
+struct CreateHoursOfOperationOutputBody {
     let hoursOfOperationId: Swift.String?
     let hoursOfOperationArn: Swift.String?
 }
@@ -7110,7 +7110,7 @@ extension CreateInstanceInput {
     }
 }
 
-public struct CreateInstanceInput: Swift.Equatable {
+public struct CreateInstanceInput {
     /// The idempotency token.
     public var clientToken: Swift.String?
     /// The identifier for the directory.
@@ -7149,7 +7149,7 @@ public struct CreateInstanceInput: Swift.Equatable {
     }
 }
 
-struct CreateInstanceInputBody: Swift.Equatable {
+struct CreateInstanceInputBody {
     let clientToken: Swift.String?
     let identityManagementType: ConnectClientTypes.DirectoryType?
     let instanceAlias: Swift.String?
@@ -7212,7 +7212,7 @@ extension CreateInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateInstanceOutput: Swift.Equatable {
+public struct CreateInstanceOutput {
     /// The Amazon Resource Name (ARN) of the instance.
     public var arn: Swift.String?
     /// The identifier for the instance.
@@ -7228,7 +7228,7 @@ public struct CreateInstanceOutput: Swift.Equatable {
     }
 }
 
-struct CreateInstanceOutputBody: Swift.Equatable {
+struct CreateInstanceOutputBody {
     let id: Swift.String?
     let arn: Swift.String?
 }
@@ -7309,7 +7309,7 @@ extension CreateIntegrationAssociationInput {
     }
 }
 
-public struct CreateIntegrationAssociationInput: Swift.Equatable {
+public struct CreateIntegrationAssociationInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -7348,7 +7348,7 @@ public struct CreateIntegrationAssociationInput: Swift.Equatable {
     }
 }
 
-struct CreateIntegrationAssociationInputBody: Swift.Equatable {
+struct CreateIntegrationAssociationInputBody {
     let integrationType: ConnectClientTypes.IntegrationType?
     let integrationArn: Swift.String?
     let sourceApplicationUrl: Swift.String?
@@ -7407,7 +7407,7 @@ extension CreateIntegrationAssociationOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct CreateIntegrationAssociationOutput: Swift.Equatable {
+public struct CreateIntegrationAssociationOutput {
     /// The Amazon Resource Name (ARN) for the association.
     public var integrationAssociationArn: Swift.String?
     /// The identifier for the integration association.
@@ -7423,7 +7423,7 @@ public struct CreateIntegrationAssociationOutput: Swift.Equatable {
     }
 }
 
-struct CreateIntegrationAssociationOutputBody: Swift.Equatable {
+struct CreateIntegrationAssociationOutputBody {
     let integrationAssociationId: Swift.String?
     let integrationAssociationArn: Swift.String?
 }
@@ -7490,7 +7490,7 @@ extension CreateParticipantInput {
     }
 }
 
-public struct CreateParticipantInput: Swift.Equatable {
+public struct CreateParticipantInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
     /// The identifier of the contact in this instance of Amazon Connect. Only contacts in the CHAT channel are supported.
@@ -7517,7 +7517,7 @@ public struct CreateParticipantInput: Swift.Equatable {
     }
 }
 
-struct CreateParticipantInputBody: Swift.Equatable {
+struct CreateParticipantInputBody {
     let instanceId: Swift.String?
     let contactId: Swift.String?
     let clientToken: Swift.String?
@@ -7559,7 +7559,7 @@ extension CreateParticipantOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateParticipantOutput: Swift.Equatable {
+public struct CreateParticipantOutput {
     /// The token used by the chat participant to call CreateParticipantConnection. The participant token is valid for the lifetime of a chat participant.
     public var participantCredentials: ConnectClientTypes.ParticipantTokenCredentials?
     /// The identifier for a chat participant. The participantId for a chat participant is the same throughout the chat lifecycle.
@@ -7575,7 +7575,7 @@ public struct CreateParticipantOutput: Swift.Equatable {
     }
 }
 
-struct CreateParticipantOutputBody: Swift.Equatable {
+struct CreateParticipantOutputBody {
     let participantCredentials: ConnectClientTypes.ParticipantTokenCredentials?
     let participantId: Swift.String?
 }
@@ -7644,7 +7644,7 @@ extension CreatePersistentContactAssociationInput {
     }
 }
 
-public struct CreatePersistentContactAssociationInput: Swift.Equatable {
+public struct CreatePersistentContactAssociationInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
     /// This is the contactId of the current contact that the CreatePersistentContactAssociation API is being called from.
@@ -7719,7 +7719,7 @@ public struct CreatePersistentContactAssociationInput: Swift.Equatable {
     }
 }
 
-struct CreatePersistentContactAssociationInputBody: Swift.Equatable {
+struct CreatePersistentContactAssociationInputBody {
     let rehydrationType: ConnectClientTypes.RehydrationType?
     let sourceContactId: Swift.String?
     let clientToken: Swift.String?
@@ -7755,7 +7755,7 @@ extension CreatePersistentContactAssociationOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct CreatePersistentContactAssociationOutput: Swift.Equatable {
+public struct CreatePersistentContactAssociationOutput {
     /// The contactId from which a persistent chat session is started. This field is populated only for persistent chat.
     public var continuedFromContactId: Swift.String?
 
@@ -7767,7 +7767,7 @@ public struct CreatePersistentContactAssociationOutput: Swift.Equatable {
     }
 }
 
-struct CreatePersistentContactAssociationOutputBody: Swift.Equatable {
+struct CreatePersistentContactAssociationOutputBody {
     let continuedFromContactId: Swift.String?
 }
 
@@ -7826,7 +7826,7 @@ extension CreatePredefinedAttributeInput {
     }
 }
 
-public struct CreatePredefinedAttributeInput: Swift.Equatable {
+public struct CreatePredefinedAttributeInput {
     /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -7849,7 +7849,7 @@ public struct CreatePredefinedAttributeInput: Swift.Equatable {
     }
 }
 
-struct CreatePredefinedAttributeInputBody: Swift.Equatable {
+struct CreatePredefinedAttributeInputBody {
     let name: Swift.String?
     let values: ConnectClientTypes.PredefinedAttributeValues?
 }
@@ -7874,7 +7874,7 @@ extension CreatePredefinedAttributeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePredefinedAttributeOutput: Swift.Equatable {
+public struct CreatePredefinedAttributeOutput {
 
     public init() { }
 }
@@ -7934,7 +7934,7 @@ extension CreatePromptInput {
     }
 }
 
-public struct CreatePromptInput: Swift.Equatable {
+public struct CreatePromptInput {
     /// The description of the prompt.
     public var description: Swift.String?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
@@ -7965,7 +7965,7 @@ public struct CreatePromptInput: Swift.Equatable {
     }
 }
 
-struct CreatePromptInputBody: Swift.Equatable {
+struct CreatePromptInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let s3Uri: Swift.String?
@@ -8016,7 +8016,7 @@ extension CreatePromptOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePromptOutput: Swift.Equatable {
+public struct CreatePromptOutput {
     /// The Amazon Resource Name (ARN) of the prompt.
     public var promptARN: Swift.String?
     /// A unique identifier for the prompt.
@@ -8032,7 +8032,7 @@ public struct CreatePromptOutput: Swift.Equatable {
     }
 }
 
-struct CreatePromptOutputBody: Swift.Equatable {
+struct CreatePromptOutputBody {
     let promptARN: Swift.String?
     let promptId: Swift.String?
 }
@@ -8121,7 +8121,7 @@ extension CreateQueueInput {
     }
 }
 
-public struct CreateQueueInput: Swift.Equatable {
+public struct CreateQueueInput {
     /// The description of the queue.
     public var description: Swift.String?
     /// The identifier for the hours of operation.
@@ -8164,7 +8164,7 @@ public struct CreateQueueInput: Swift.Equatable {
     }
 }
 
-struct CreateQueueInputBody: Swift.Equatable {
+struct CreateQueueInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let outboundCallerConfig: ConnectClientTypes.OutboundCallerConfig?
@@ -8236,7 +8236,7 @@ extension CreateQueueOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateQueueOutput: Swift.Equatable {
+public struct CreateQueueOutput {
     /// The Amazon Resource Name (ARN) of the queue.
     public var queueArn: Swift.String?
     /// The identifier for the queue.
@@ -8252,7 +8252,7 @@ public struct CreateQueueOutput: Swift.Equatable {
     }
 }
 
-struct CreateQueueOutputBody: Swift.Equatable {
+struct CreateQueueOutputBody {
     let queueArn: Swift.String?
     let queueId: Swift.String?
 }
@@ -8327,7 +8327,7 @@ extension CreateQuickConnectInput {
     }
 }
 
-public struct CreateQuickConnectInput: Swift.Equatable {
+public struct CreateQuickConnectInput {
     /// The description of the quick connect.
     public var description: Swift.String?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
@@ -8358,7 +8358,7 @@ public struct CreateQuickConnectInput: Swift.Equatable {
     }
 }
 
-struct CreateQuickConnectInputBody: Swift.Equatable {
+struct CreateQuickConnectInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let quickConnectConfig: ConnectClientTypes.QuickConnectConfig?
@@ -8409,7 +8409,7 @@ extension CreateQuickConnectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateQuickConnectOutput: Swift.Equatable {
+public struct CreateQuickConnectOutput {
     /// The Amazon Resource Name (ARN) for the quick connect.
     public var quickConnectARN: Swift.String?
     /// The identifier for the quick connect.
@@ -8425,7 +8425,7 @@ public struct CreateQuickConnectOutput: Swift.Equatable {
     }
 }
 
-struct CreateQuickConnectOutputBody: Swift.Equatable {
+struct CreateQuickConnectOutputBody {
     let quickConnectARN: Swift.String?
     let quickConnectId: Swift.String?
 }
@@ -8518,7 +8518,7 @@ extension CreateRoutingProfileInput {
     }
 }
 
-public struct CreateRoutingProfileInput: Swift.Equatable {
+public struct CreateRoutingProfileInput {
     /// Whether agents with this routing profile will have their routing order calculated based on longest idle time or time since their last inbound contact.
     public var agentAvailabilityTimer: ConnectClientTypes.AgentAvailabilityTimer?
     /// The default outbound queue for the routing profile.
@@ -8563,7 +8563,7 @@ public struct CreateRoutingProfileInput: Swift.Equatable {
     }
 }
 
-struct CreateRoutingProfileInputBody: Swift.Equatable {
+struct CreateRoutingProfileInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let defaultOutboundQueueId: Swift.String?
@@ -8644,7 +8644,7 @@ extension CreateRoutingProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRoutingProfileOutput: Swift.Equatable {
+public struct CreateRoutingProfileOutput {
     /// The Amazon Resource Name (ARN) of the routing profile.
     public var routingProfileArn: Swift.String?
     /// The identifier of the routing profile.
@@ -8660,7 +8660,7 @@ public struct CreateRoutingProfileOutput: Swift.Equatable {
     }
 }
 
-struct CreateRoutingProfileOutputBody: Swift.Equatable {
+struct CreateRoutingProfileOutputBody {
     let routingProfileArn: Swift.String?
     let routingProfileId: Swift.String?
 }
@@ -8743,7 +8743,7 @@ extension CreateRuleInput {
     }
 }
 
-public struct CreateRuleInput: Swift.Equatable {
+public struct CreateRuleInput {
     /// A list of actions to be run when the rule is triggered.
     /// This member is required.
     public var actions: [ConnectClientTypes.RuleAction]?
@@ -8785,7 +8785,7 @@ public struct CreateRuleInput: Swift.Equatable {
     }
 }
 
-struct CreateRuleInputBody: Swift.Equatable {
+struct CreateRuleInputBody {
     let name: Swift.String?
     let triggerEventSource: ConnectClientTypes.RuleTriggerEventSource?
     let function: Swift.String?
@@ -8844,7 +8844,7 @@ extension CreateRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRuleOutput: Swift.Equatable {
+public struct CreateRuleOutput {
     /// The Amazon Resource Name (ARN) of the rule.
     /// This member is required.
     public var ruleArn: Swift.String?
@@ -8862,7 +8862,7 @@ public struct CreateRuleOutput: Swift.Equatable {
     }
 }
 
-struct CreateRuleOutputBody: Swift.Equatable {
+struct CreateRuleOutputBody {
     let ruleArn: Swift.String?
     let ruleId: Swift.String?
 }
@@ -8972,7 +8972,7 @@ extension CreateSecurityProfileInput {
     }
 }
 
-public struct CreateSecurityProfileInput: Swift.Equatable {
+public struct CreateSecurityProfileInput {
     /// The identifier of the hierarchy group that a security profile uses to restrict access to resources in Amazon Connect.
     public var allowedAccessControlHierarchyGroupId: Swift.String?
     /// The list of tags that a security profile uses to restrict access to resources in Amazon Connect.
@@ -9022,7 +9022,7 @@ public struct CreateSecurityProfileInput: Swift.Equatable {
     }
 }
 
-struct CreateSecurityProfileInputBody: Swift.Equatable {
+struct CreateSecurityProfileInputBody {
     let securityProfileName: Swift.String?
     let description: Swift.String?
     let permissions: [Swift.String]?
@@ -9138,7 +9138,7 @@ extension CreateSecurityProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSecurityProfileOutput: Swift.Equatable {
+public struct CreateSecurityProfileOutput {
     /// The Amazon Resource Name (ARN) for the security profile.
     public var securityProfileArn: Swift.String?
     /// The identifier for the security profle.
@@ -9154,7 +9154,7 @@ public struct CreateSecurityProfileOutput: Swift.Equatable {
     }
 }
 
-struct CreateSecurityProfileOutputBody: Swift.Equatable {
+struct CreateSecurityProfileOutputBody {
     let securityProfileId: Swift.String?
     let securityProfileArn: Swift.String?
 }
@@ -9245,7 +9245,7 @@ extension CreateTaskTemplateInput {
     }
 }
 
-public struct CreateTaskTemplateInput: Swift.Equatable {
+public struct CreateTaskTemplateInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
     /// Constraints that are applicable to the fields listed.
@@ -9292,7 +9292,7 @@ public struct CreateTaskTemplateInput: Swift.Equatable {
     }
 }
 
-struct CreateTaskTemplateInputBody: Swift.Equatable {
+struct CreateTaskTemplateInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let contactFlowId: Swift.String?
@@ -9359,7 +9359,7 @@ extension CreateTaskTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateTaskTemplateOutput: Swift.Equatable {
+public struct CreateTaskTemplateOutput {
     /// The Amazon Resource Name (ARN) for the task template resource.
     /// This member is required.
     public var arn: Swift.String?
@@ -9377,7 +9377,7 @@ public struct CreateTaskTemplateOutput: Swift.Equatable {
     }
 }
 
-struct CreateTaskTemplateOutputBody: Swift.Equatable {
+struct CreateTaskTemplateOutputBody {
     let id: Swift.String?
     let arn: Swift.String?
 }
@@ -9452,7 +9452,7 @@ extension CreateTrafficDistributionGroupInput {
     }
 }
 
-public struct CreateTrafficDistributionGroupInput: Swift.Equatable {
+public struct CreateTrafficDistributionGroupInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
     /// A description for the traffic distribution group.
@@ -9482,7 +9482,7 @@ public struct CreateTrafficDistributionGroupInput: Swift.Equatable {
     }
 }
 
-struct CreateTrafficDistributionGroupInputBody: Swift.Equatable {
+struct CreateTrafficDistributionGroupInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let instanceId: Swift.String?
@@ -9537,7 +9537,7 @@ extension CreateTrafficDistributionGroupOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct CreateTrafficDistributionGroupOutput: Swift.Equatable {
+public struct CreateTrafficDistributionGroupOutput {
     /// The Amazon Resource Name (ARN) of the traffic distribution group.
     public var arn: Swift.String?
     /// The identifier of the traffic distribution group. This can be the ID or the ARN if the API is being called in the Region where the traffic distribution group was created. The ARN must be provided if the call is from the replicated Region.
@@ -9553,7 +9553,7 @@ public struct CreateTrafficDistributionGroupOutput: Swift.Equatable {
     }
 }
 
-struct CreateTrafficDistributionGroupOutputBody: Swift.Equatable {
+struct CreateTrafficDistributionGroupOutputBody {
     let id: Swift.String?
     let arn: Swift.String?
 }
@@ -9624,7 +9624,7 @@ extension CreateUseCaseInput {
     }
 }
 
-public struct CreateUseCaseInput: Swift.Equatable {
+public struct CreateUseCaseInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -9651,7 +9651,7 @@ public struct CreateUseCaseInput: Swift.Equatable {
     }
 }
 
-struct CreateUseCaseInputBody: Swift.Equatable {
+struct CreateUseCaseInputBody {
     let useCaseType: ConnectClientTypes.UseCaseType?
     let tags: [Swift.String:Swift.String]?
 }
@@ -9694,7 +9694,7 @@ extension CreateUseCaseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateUseCaseOutput: Swift.Equatable {
+public struct CreateUseCaseOutput {
     /// The Amazon Resource Name (ARN) for the use case.
     public var useCaseArn: Swift.String?
     /// The identifier of the use case.
@@ -9710,7 +9710,7 @@ public struct CreateUseCaseOutput: Swift.Equatable {
     }
 }
 
-struct CreateUseCaseOutputBody: Swift.Equatable {
+struct CreateUseCaseOutputBody {
     let useCaseId: Swift.String?
     let useCaseArn: Swift.String?
 }
@@ -9779,7 +9779,7 @@ extension CreateUserHierarchyGroupInput {
     }
 }
 
-public struct CreateUserHierarchyGroupInput: Swift.Equatable {
+public struct CreateUserHierarchyGroupInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -9805,7 +9805,7 @@ public struct CreateUserHierarchyGroupInput: Swift.Equatable {
     }
 }
 
-struct CreateUserHierarchyGroupInputBody: Swift.Equatable {
+struct CreateUserHierarchyGroupInputBody {
     let name: Swift.String?
     let parentGroupId: Swift.String?
     let tags: [Swift.String:Swift.String]?
@@ -9852,7 +9852,7 @@ extension CreateUserHierarchyGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateUserHierarchyGroupOutput: Swift.Equatable {
+public struct CreateUserHierarchyGroupOutput {
     /// The Amazon Resource Name (ARN) of the hierarchy group.
     public var hierarchyGroupArn: Swift.String?
     /// The identifier of the hierarchy group.
@@ -9868,7 +9868,7 @@ public struct CreateUserHierarchyGroupOutput: Swift.Equatable {
     }
 }
 
-struct CreateUserHierarchyGroupOutputBody: Swift.Equatable {
+struct CreateUserHierarchyGroupOutputBody {
     let hierarchyGroupId: Swift.String?
     let hierarchyGroupArn: Swift.String?
 }
@@ -9971,7 +9971,7 @@ extension CreateUserInput {
     }
 }
 
-public struct CreateUserInput: Swift.Equatable {
+public struct CreateUserInput {
     /// The identifier of the user account in the directory used for identity management. If Amazon Connect cannot access the directory, you can specify this identifier to authenticate users. If you include the identifier, we assume that Amazon Connect cannot access the directory. Otherwise, the identity information is used to authenticate users from your directory. This parameter is required if you are using an existing directory for identity management in Amazon Connect when Amazon Connect cannot access your directory to authenticate users. If you are using SAML for identity management and include this parameter, an error is returned.
     public var directoryUserId: Swift.String?
     /// The identifier of the hierarchy group for the user.
@@ -10030,7 +10030,7 @@ public struct CreateUserInput: Swift.Equatable {
     }
 }
 
-struct CreateUserInputBody: Swift.Equatable {
+struct CreateUserInputBody {
     let username: Swift.String?
     let password: Swift.String?
     let identityInfo: ConnectClientTypes.UserIdentityInfo?
@@ -10110,7 +10110,7 @@ extension CreateUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateUserOutput: Swift.Equatable {
+public struct CreateUserOutput {
     /// The Amazon Resource Name (ARN) of the user account.
     public var userArn: Swift.String?
     /// The identifier of the user account.
@@ -10126,7 +10126,7 @@ public struct CreateUserOutput: Swift.Equatable {
     }
 }
 
-struct CreateUserOutputBody: Swift.Equatable {
+struct CreateUserOutputBody {
     let userId: Swift.String?
     let userArn: Swift.String?
 }
@@ -10214,7 +10214,7 @@ extension CreateViewInput {
     }
 }
 
-public struct CreateViewInput: Swift.Equatable {
+public struct CreateViewInput {
     /// A unique Id for each create view request to avoid duplicate view creation. For example, the view is idempotent ClientToken is provided.
     public var clientToken: Swift.String?
     /// View content containing all content necessary to render a view except for runtime input data. The total uncompressed content has a maximum file size of 400kB.
@@ -10254,7 +10254,7 @@ public struct CreateViewInput: Swift.Equatable {
     }
 }
 
-struct CreateViewInputBody: Swift.Equatable {
+struct CreateViewInputBody {
     let clientToken: Swift.String?
     let status: ConnectClientTypes.ViewStatus?
     let content: ConnectClientTypes.ViewInputContent?
@@ -10311,7 +10311,7 @@ extension CreateViewOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateViewOutput: Swift.Equatable {
+public struct CreateViewOutput {
     /// A view resource object. Contains metadata and content necessary to render the view.
     public var view: ConnectClientTypes.View?
 
@@ -10323,7 +10323,7 @@ public struct CreateViewOutput: Swift.Equatable {
     }
 }
 
-struct CreateViewOutputBody: Swift.Equatable {
+struct CreateViewOutputBody {
     let view: ConnectClientTypes.View?
 }
 
@@ -10388,7 +10388,7 @@ extension CreateViewVersionInput {
     }
 }
 
-public struct CreateViewVersionInput: Swift.Equatable {
+public struct CreateViewVersionInput {
     /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -10414,7 +10414,7 @@ public struct CreateViewVersionInput: Swift.Equatable {
     }
 }
 
-struct CreateViewVersionInputBody: Swift.Equatable {
+struct CreateViewVersionInputBody {
     let versionDescription: Swift.String?
     let viewContentSha256: Swift.String?
 }
@@ -10446,7 +10446,7 @@ extension CreateViewVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateViewVersionOutput: Swift.Equatable {
+public struct CreateViewVersionOutput {
     /// All view data is contained within the View object.
     public var view: ConnectClientTypes.View?
 
@@ -10458,7 +10458,7 @@ public struct CreateViewVersionOutput: Swift.Equatable {
     }
 }
 
-struct CreateViewVersionOutputBody: Swift.Equatable {
+struct CreateViewVersionOutputBody {
     let view: ConnectClientTypes.View?
 }
 
@@ -10534,7 +10534,7 @@ extension CreateVocabularyInput {
     }
 }
 
-public struct CreateVocabularyInput: Swift.Equatable {
+public struct CreateVocabularyInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/). If a create request is received more than once with same client token, subsequent requests return the previous response without creating a vocabulary again.
     public var clientToken: Swift.String?
     /// The content of the custom vocabulary in plain-text format with a table of values. Each row in the table represents a word or a phrase, described with Phrase, IPA, SoundsLike, and DisplayAs fields. Separate the fields with TAB characters. The size limit is 50KB. For more information, see [Create a custom vocabulary using a table](https://docs.aws.amazon.com/transcribe/latest/dg/custom-vocabulary.html#create-vocabulary-table).
@@ -10570,7 +10570,7 @@ public struct CreateVocabularyInput: Swift.Equatable {
     }
 }
 
-struct CreateVocabularyInputBody: Swift.Equatable {
+struct CreateVocabularyInputBody {
     let clientToken: Swift.String?
     let vocabularyName: Swift.String?
     let languageCode: ConnectClientTypes.VocabularyLanguageCode?
@@ -10627,7 +10627,7 @@ extension CreateVocabularyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateVocabularyOutput: Swift.Equatable {
+public struct CreateVocabularyOutput {
     /// The current state of the custom vocabulary.
     /// This member is required.
     public var state: ConnectClientTypes.VocabularyState?
@@ -10650,7 +10650,7 @@ public struct CreateVocabularyOutput: Swift.Equatable {
     }
 }
 
-struct CreateVocabularyOutputBody: Swift.Equatable {
+struct CreateVocabularyOutputBody {
     let vocabularyArn: Swift.String?
     let vocabularyId: Swift.String?
     let state: ConnectClientTypes.VocabularyState?
@@ -10736,7 +10736,7 @@ extension ConnectClientTypes.Credentials: Swift.CustomDebugStringConvertible {
 
 extension ConnectClientTypes {
     /// Contains credentials to use for federation.
-    public struct Credentials: Swift.Equatable {
+    public struct Credentials {
         /// An access token generated for a federated user to access Amazon Connect.
         public var accessToken: Swift.String?
         /// A token generated with an expiration time for the session a user is logged in to Amazon Connect.
@@ -10783,7 +10783,7 @@ extension ConnectClientTypes.CrossChannelBehavior: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Defines the cross-channel routing behavior that allows an agent working on a contact in one channel to be offered a contact from a different channel.
-    public struct CrossChannelBehavior: Swift.Equatable {
+    public struct CrossChannelBehavior {
         /// Specifies the other channels that can be routed to an agent handling their current channel.
         /// This member is required.
         public var behaviorType: ConnectClientTypes.BehaviorType?
@@ -10825,7 +10825,7 @@ extension ConnectClientTypes.CurrentMetric: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains information about a real-time metric. For a description of each metric, see [Real-time Metrics Definitions](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html) in the Amazon Connect Administrator Guide.
-    public struct CurrentMetric: Swift.Equatable {
+    public struct CurrentMetric {
         /// The name of the metric.
         public var name: ConnectClientTypes.CurrentMetricName?
         /// The unit for the metric.
@@ -10870,7 +10870,7 @@ extension ConnectClientTypes.CurrentMetricData: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains the data for a real-time metric.
-    public struct CurrentMetricData: Swift.Equatable {
+    public struct CurrentMetricData {
         /// Information about the metric.
         public var metric: ConnectClientTypes.CurrentMetric?
         /// The value of the metric.
@@ -10993,7 +10993,7 @@ extension ConnectClientTypes.CurrentMetricResult: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains information about a set of real-time metrics.
-    public struct CurrentMetricResult: Swift.Equatable {
+    public struct CurrentMetricResult {
         /// The set of metrics.
         public var collections: [ConnectClientTypes.CurrentMetricData]?
         /// The dimensions for the metrics.
@@ -11038,7 +11038,7 @@ extension ConnectClientTypes.CurrentMetricSortCriteria: Swift.Codable {
 
 extension ConnectClientTypes {
     /// The way to sort the resulting response based on metrics. By default resources are sorted based on AGENTS_ONLINE, DESCENDING. The metric collection is sorted based on the input metrics.
-    public struct CurrentMetricSortCriteria: Swift.Equatable {
+    public struct CurrentMetricSortCriteria {
         /// The current metric names.
         public var sortByMetric: ConnectClientTypes.CurrentMetricName?
         /// The way to sort.
@@ -11083,7 +11083,7 @@ extension ConnectClientTypes.DateReference: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about a reference when the referenceType is DATE. Otherwise, null.
-    public struct DateReference: Swift.Equatable {
+    public struct DateReference {
         /// Identifier of the date reference.
         public var name: Swift.String?
         /// A valid date.
@@ -11127,7 +11127,7 @@ extension DeactivateEvaluationFormInput {
     }
 }
 
-public struct DeactivateEvaluationFormInput: Swift.Equatable {
+public struct DeactivateEvaluationFormInput {
     /// The unique identifier for the evaluation form.
     /// This member is required.
     public var evaluationFormId: Swift.String?
@@ -11150,7 +11150,7 @@ public struct DeactivateEvaluationFormInput: Swift.Equatable {
     }
 }
 
-struct DeactivateEvaluationFormInputBody: Swift.Equatable {
+struct DeactivateEvaluationFormInputBody {
     let evaluationFormVersion: Swift.Int?
 }
 
@@ -11182,7 +11182,7 @@ extension DeactivateEvaluationFormOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeactivateEvaluationFormOutput: Swift.Equatable {
+public struct DeactivateEvaluationFormOutput {
     /// The Amazon Resource Name (ARN) for the evaluation form resource.
     /// This member is required.
     public var evaluationFormArn: Swift.String?
@@ -11205,7 +11205,7 @@ public struct DeactivateEvaluationFormOutput: Swift.Equatable {
     }
 }
 
-struct DeactivateEvaluationFormOutputBody: Swift.Equatable {
+struct DeactivateEvaluationFormOutputBody {
     let evaluationFormId: Swift.String?
     let evaluationFormArn: Swift.String?
     let evaluationFormVersion: Swift.Int
@@ -11283,7 +11283,7 @@ extension ConnectClientTypes.DefaultVocabulary: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains information about a default vocabulary.
-    public struct DefaultVocabulary: Swift.Equatable {
+    public struct DefaultVocabulary {
         /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
         /// This member is required.
         public var instanceId: Swift.String?
@@ -11326,7 +11326,7 @@ extension DeleteContactEvaluationInput {
     }
 }
 
-public struct DeleteContactEvaluationInput: Swift.Equatable {
+public struct DeleteContactEvaluationInput {
     /// A unique identifier for the contact evaluation.
     /// This member is required.
     public var evaluationId: Swift.String?
@@ -11344,7 +11344,7 @@ public struct DeleteContactEvaluationInput: Swift.Equatable {
     }
 }
 
-struct DeleteContactEvaluationInputBody: Swift.Equatable {
+struct DeleteContactEvaluationInputBody {
 }
 
 extension DeleteContactEvaluationInputBody: Swift.Decodable {
@@ -11358,7 +11358,7 @@ extension DeleteContactEvaluationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteContactEvaluationOutput: Swift.Equatable {
+public struct DeleteContactEvaluationOutput {
 
     public init() { }
 }
@@ -11391,7 +11391,7 @@ extension DeleteContactFlowInput {
     }
 }
 
-public struct DeleteContactFlowInput: Swift.Equatable {
+public struct DeleteContactFlowInput {
     /// The identifier of the flow.
     /// This member is required.
     public var contactFlowId: Swift.String?
@@ -11409,7 +11409,7 @@ public struct DeleteContactFlowInput: Swift.Equatable {
     }
 }
 
-struct DeleteContactFlowInputBody: Swift.Equatable {
+struct DeleteContactFlowInputBody {
 }
 
 extension DeleteContactFlowInputBody: Swift.Decodable {
@@ -11431,7 +11431,7 @@ extension DeleteContactFlowModuleInput {
     }
 }
 
-public struct DeleteContactFlowModuleInput: Swift.Equatable {
+public struct DeleteContactFlowModuleInput {
     /// The identifier of the flow module.
     /// This member is required.
     public var contactFlowModuleId: Swift.String?
@@ -11449,7 +11449,7 @@ public struct DeleteContactFlowModuleInput: Swift.Equatable {
     }
 }
 
-struct DeleteContactFlowModuleInputBody: Swift.Equatable {
+struct DeleteContactFlowModuleInputBody {
 }
 
 extension DeleteContactFlowModuleInputBody: Swift.Decodable {
@@ -11463,7 +11463,7 @@ extension DeleteContactFlowModuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteContactFlowModuleOutput: Swift.Equatable {
+public struct DeleteContactFlowModuleOutput {
 
     public init() { }
 }
@@ -11489,7 +11489,7 @@ extension DeleteContactFlowOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteContactFlowOutput: Swift.Equatable {
+public struct DeleteContactFlowOutput {
 
     public init() { }
 }
@@ -11535,7 +11535,7 @@ extension DeleteEvaluationFormInput {
     }
 }
 
-public struct DeleteEvaluationFormInput: Swift.Equatable {
+public struct DeleteEvaluationFormInput {
     /// The unique identifier for the evaluation form.
     /// This member is required.
     public var evaluationFormId: Swift.String?
@@ -11557,7 +11557,7 @@ public struct DeleteEvaluationFormInput: Swift.Equatable {
     }
 }
 
-struct DeleteEvaluationFormInputBody: Swift.Equatable {
+struct DeleteEvaluationFormInputBody {
 }
 
 extension DeleteEvaluationFormInputBody: Swift.Decodable {
@@ -11571,7 +11571,7 @@ extension DeleteEvaluationFormOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteEvaluationFormOutput: Swift.Equatable {
+public struct DeleteEvaluationFormOutput {
 
     public init() { }
 }
@@ -11604,7 +11604,7 @@ extension DeleteHoursOfOperationInput {
     }
 }
 
-public struct DeleteHoursOfOperationInput: Swift.Equatable {
+public struct DeleteHoursOfOperationInput {
     /// The identifier for the hours of operation.
     /// This member is required.
     public var hoursOfOperationId: Swift.String?
@@ -11622,7 +11622,7 @@ public struct DeleteHoursOfOperationInput: Swift.Equatable {
     }
 }
 
-struct DeleteHoursOfOperationInputBody: Swift.Equatable {
+struct DeleteHoursOfOperationInputBody {
 }
 
 extension DeleteHoursOfOperationInputBody: Swift.Decodable {
@@ -11636,7 +11636,7 @@ extension DeleteHoursOfOperationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteHoursOfOperationOutput: Swift.Equatable {
+public struct DeleteHoursOfOperationOutput {
 
     public init() { }
 }
@@ -11666,7 +11666,7 @@ extension DeleteInstanceInput {
     }
 }
 
-public struct DeleteInstanceInput: Swift.Equatable {
+public struct DeleteInstanceInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -11679,7 +11679,7 @@ public struct DeleteInstanceInput: Swift.Equatable {
     }
 }
 
-struct DeleteInstanceInputBody: Swift.Equatable {
+struct DeleteInstanceInputBody {
 }
 
 extension DeleteInstanceInputBody: Swift.Decodable {
@@ -11693,7 +11693,7 @@ extension DeleteInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteInstanceOutput: Swift.Equatable {
+public struct DeleteInstanceOutput {
 
     public init() { }
 }
@@ -11724,7 +11724,7 @@ extension DeleteIntegrationAssociationInput {
     }
 }
 
-public struct DeleteIntegrationAssociationInput: Swift.Equatable {
+public struct DeleteIntegrationAssociationInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -11742,7 +11742,7 @@ public struct DeleteIntegrationAssociationInput: Swift.Equatable {
     }
 }
 
-struct DeleteIntegrationAssociationInputBody: Swift.Equatable {
+struct DeleteIntegrationAssociationInputBody {
 }
 
 extension DeleteIntegrationAssociationInputBody: Swift.Decodable {
@@ -11756,7 +11756,7 @@ extension DeleteIntegrationAssociationOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DeleteIntegrationAssociationOutput: Swift.Equatable {
+public struct DeleteIntegrationAssociationOutput {
 
     public init() { }
 }
@@ -11788,7 +11788,7 @@ extension DeletePredefinedAttributeInput {
     }
 }
 
-public struct DeletePredefinedAttributeInput: Swift.Equatable {
+public struct DeletePredefinedAttributeInput {
     /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -11806,7 +11806,7 @@ public struct DeletePredefinedAttributeInput: Swift.Equatable {
     }
 }
 
-struct DeletePredefinedAttributeInputBody: Swift.Equatable {
+struct DeletePredefinedAttributeInputBody {
 }
 
 extension DeletePredefinedAttributeInputBody: Swift.Decodable {
@@ -11820,7 +11820,7 @@ extension DeletePredefinedAttributeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePredefinedAttributeOutput: Swift.Equatable {
+public struct DeletePredefinedAttributeOutput {
 
     public init() { }
 }
@@ -11854,7 +11854,7 @@ extension DeletePromptInput {
     }
 }
 
-public struct DeletePromptInput: Swift.Equatable {
+public struct DeletePromptInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -11872,7 +11872,7 @@ public struct DeletePromptInput: Swift.Equatable {
     }
 }
 
-struct DeletePromptInputBody: Swift.Equatable {
+struct DeletePromptInputBody {
 }
 
 extension DeletePromptInputBody: Swift.Decodable {
@@ -11886,7 +11886,7 @@ extension DeletePromptOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePromptOutput: Swift.Equatable {
+public struct DeletePromptOutput {
 
     public init() { }
 }
@@ -11919,7 +11919,7 @@ extension DeleteQueueInput {
     }
 }
 
-public struct DeleteQueueInput: Swift.Equatable {
+public struct DeleteQueueInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -11937,7 +11937,7 @@ public struct DeleteQueueInput: Swift.Equatable {
     }
 }
 
-struct DeleteQueueInputBody: Swift.Equatable {
+struct DeleteQueueInputBody {
 }
 
 extension DeleteQueueInputBody: Swift.Decodable {
@@ -11951,7 +11951,7 @@ extension DeleteQueueOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteQueueOutput: Swift.Equatable {
+public struct DeleteQueueOutput {
 
     public init() { }
 }
@@ -11985,7 +11985,7 @@ extension DeleteQuickConnectInput {
     }
 }
 
-public struct DeleteQuickConnectInput: Swift.Equatable {
+public struct DeleteQuickConnectInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -12003,7 +12003,7 @@ public struct DeleteQuickConnectInput: Swift.Equatable {
     }
 }
 
-struct DeleteQuickConnectInputBody: Swift.Equatable {
+struct DeleteQuickConnectInputBody {
 }
 
 extension DeleteQuickConnectInputBody: Swift.Decodable {
@@ -12017,7 +12017,7 @@ extension DeleteQuickConnectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteQuickConnectOutput: Swift.Equatable {
+public struct DeleteQuickConnectOutput {
 
     public init() { }
 }
@@ -12050,7 +12050,7 @@ extension DeleteRoutingProfileInput {
     }
 }
 
-public struct DeleteRoutingProfileInput: Swift.Equatable {
+public struct DeleteRoutingProfileInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -12068,7 +12068,7 @@ public struct DeleteRoutingProfileInput: Swift.Equatable {
     }
 }
 
-struct DeleteRoutingProfileInputBody: Swift.Equatable {
+struct DeleteRoutingProfileInputBody {
 }
 
 extension DeleteRoutingProfileInputBody: Swift.Decodable {
@@ -12082,7 +12082,7 @@ extension DeleteRoutingProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRoutingProfileOutput: Swift.Equatable {
+public struct DeleteRoutingProfileOutput {
 
     public init() { }
 }
@@ -12116,7 +12116,7 @@ extension DeleteRuleInput {
     }
 }
 
-public struct DeleteRuleInput: Swift.Equatable {
+public struct DeleteRuleInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -12134,7 +12134,7 @@ public struct DeleteRuleInput: Swift.Equatable {
     }
 }
 
-struct DeleteRuleInputBody: Swift.Equatable {
+struct DeleteRuleInputBody {
 }
 
 extension DeleteRuleInputBody: Swift.Decodable {
@@ -12148,7 +12148,7 @@ extension DeleteRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRuleOutput: Swift.Equatable {
+public struct DeleteRuleOutput {
 
     public init() { }
 }
@@ -12181,7 +12181,7 @@ extension DeleteSecurityProfileInput {
     }
 }
 
-public struct DeleteSecurityProfileInput: Swift.Equatable {
+public struct DeleteSecurityProfileInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -12199,7 +12199,7 @@ public struct DeleteSecurityProfileInput: Swift.Equatable {
     }
 }
 
-struct DeleteSecurityProfileInputBody: Swift.Equatable {
+struct DeleteSecurityProfileInputBody {
 }
 
 extension DeleteSecurityProfileInputBody: Swift.Decodable {
@@ -12213,7 +12213,7 @@ extension DeleteSecurityProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSecurityProfileOutput: Swift.Equatable {
+public struct DeleteSecurityProfileOutput {
 
     public init() { }
 }
@@ -12248,7 +12248,7 @@ extension DeleteTaskTemplateInput {
     }
 }
 
-public struct DeleteTaskTemplateInput: Swift.Equatable {
+public struct DeleteTaskTemplateInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -12266,7 +12266,7 @@ public struct DeleteTaskTemplateInput: Swift.Equatable {
     }
 }
 
-struct DeleteTaskTemplateInputBody: Swift.Equatable {
+struct DeleteTaskTemplateInputBody {
 }
 
 extension DeleteTaskTemplateInputBody: Swift.Decodable {
@@ -12280,7 +12280,7 @@ extension DeleteTaskTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteTaskTemplateOutput: Swift.Equatable {
+public struct DeleteTaskTemplateOutput {
 
     public init() { }
 }
@@ -12310,7 +12310,7 @@ extension DeleteTrafficDistributionGroupInput {
     }
 }
 
-public struct DeleteTrafficDistributionGroupInput: Swift.Equatable {
+public struct DeleteTrafficDistributionGroupInput {
     /// The identifier of the traffic distribution group. This can be the ID or the ARN if the API is being called in the Region where the traffic distribution group was created. The ARN must be provided if the call is from the replicated Region.
     /// This member is required.
     public var trafficDistributionGroupId: Swift.String?
@@ -12323,7 +12323,7 @@ public struct DeleteTrafficDistributionGroupInput: Swift.Equatable {
     }
 }
 
-struct DeleteTrafficDistributionGroupInputBody: Swift.Equatable {
+struct DeleteTrafficDistributionGroupInputBody {
 }
 
 extension DeleteTrafficDistributionGroupInputBody: Swift.Decodable {
@@ -12337,7 +12337,7 @@ extension DeleteTrafficDistributionGroupOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DeleteTrafficDistributionGroupOutput: Swift.Equatable {
+public struct DeleteTrafficDistributionGroupOutput {
 
     public init() { }
 }
@@ -12373,7 +12373,7 @@ extension DeleteUseCaseInput {
     }
 }
 
-public struct DeleteUseCaseInput: Swift.Equatable {
+public struct DeleteUseCaseInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -12396,7 +12396,7 @@ public struct DeleteUseCaseInput: Swift.Equatable {
     }
 }
 
-struct DeleteUseCaseInputBody: Swift.Equatable {
+struct DeleteUseCaseInputBody {
 }
 
 extension DeleteUseCaseInputBody: Swift.Decodable {
@@ -12410,7 +12410,7 @@ extension DeleteUseCaseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteUseCaseOutput: Swift.Equatable {
+public struct DeleteUseCaseOutput {
 
     public init() { }
 }
@@ -12442,7 +12442,7 @@ extension DeleteUserHierarchyGroupInput {
     }
 }
 
-public struct DeleteUserHierarchyGroupInput: Swift.Equatable {
+public struct DeleteUserHierarchyGroupInput {
     /// The identifier of the hierarchy group.
     /// This member is required.
     public var hierarchyGroupId: Swift.String?
@@ -12460,7 +12460,7 @@ public struct DeleteUserHierarchyGroupInput: Swift.Equatable {
     }
 }
 
-struct DeleteUserHierarchyGroupInputBody: Swift.Equatable {
+struct DeleteUserHierarchyGroupInputBody {
 }
 
 extension DeleteUserHierarchyGroupInputBody: Swift.Decodable {
@@ -12474,7 +12474,7 @@ extension DeleteUserHierarchyGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteUserHierarchyGroupOutput: Swift.Equatable {
+public struct DeleteUserHierarchyGroupOutput {
 
     public init() { }
 }
@@ -12508,7 +12508,7 @@ extension DeleteUserInput {
     }
 }
 
-public struct DeleteUserInput: Swift.Equatable {
+public struct DeleteUserInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -12526,7 +12526,7 @@ public struct DeleteUserInput: Swift.Equatable {
     }
 }
 
-struct DeleteUserInputBody: Swift.Equatable {
+struct DeleteUserInputBody {
 }
 
 extension DeleteUserInputBody: Swift.Decodable {
@@ -12540,7 +12540,7 @@ extension DeleteUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteUserOutput: Swift.Equatable {
+public struct DeleteUserOutput {
 
     public init() { }
 }
@@ -12573,7 +12573,7 @@ extension DeleteViewInput {
     }
 }
 
-public struct DeleteViewInput: Swift.Equatable {
+public struct DeleteViewInput {
     /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -12591,7 +12591,7 @@ public struct DeleteViewInput: Swift.Equatable {
     }
 }
 
-struct DeleteViewInputBody: Swift.Equatable {
+struct DeleteViewInputBody {
 }
 
 extension DeleteViewInputBody: Swift.Decodable {
@@ -12605,7 +12605,7 @@ extension DeleteViewOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteViewOutput: Swift.Equatable {
+public struct DeleteViewOutput {
 
     public init() { }
 }
@@ -12643,7 +12643,7 @@ extension DeleteViewVersionInput {
     }
 }
 
-public struct DeleteViewVersionInput: Swift.Equatable {
+public struct DeleteViewVersionInput {
     /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -12666,7 +12666,7 @@ public struct DeleteViewVersionInput: Swift.Equatable {
     }
 }
 
-struct DeleteViewVersionInputBody: Swift.Equatable {
+struct DeleteViewVersionInputBody {
 }
 
 extension DeleteViewVersionInputBody: Swift.Decodable {
@@ -12680,7 +12680,7 @@ extension DeleteViewVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteViewVersionOutput: Swift.Equatable {
+public struct DeleteViewVersionOutput {
 
     public init() { }
 }
@@ -12715,7 +12715,7 @@ extension DeleteVocabularyInput {
     }
 }
 
-public struct DeleteVocabularyInput: Swift.Equatable {
+public struct DeleteVocabularyInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -12733,7 +12733,7 @@ public struct DeleteVocabularyInput: Swift.Equatable {
     }
 }
 
-struct DeleteVocabularyInputBody: Swift.Equatable {
+struct DeleteVocabularyInputBody {
 }
 
 extension DeleteVocabularyInputBody: Swift.Decodable {
@@ -12758,7 +12758,7 @@ extension DeleteVocabularyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteVocabularyOutput: Swift.Equatable {
+public struct DeleteVocabularyOutput {
     /// The current state of the custom vocabulary.
     /// This member is required.
     public var state: ConnectClientTypes.VocabularyState?
@@ -12781,7 +12781,7 @@ public struct DeleteVocabularyOutput: Swift.Equatable {
     }
 }
 
-struct DeleteVocabularyOutputBody: Swift.Equatable {
+struct DeleteVocabularyOutputBody {
     let vocabularyArn: Swift.String?
     let vocabularyId: Swift.String?
     let state: ConnectClientTypes.VocabularyState?
@@ -12834,7 +12834,7 @@ extension DescribeAgentStatusInput {
     }
 }
 
-public struct DescribeAgentStatusInput: Swift.Equatable {
+public struct DescribeAgentStatusInput {
     /// The identifier for the agent status.
     /// This member is required.
     public var agentStatusId: Swift.String?
@@ -12852,7 +12852,7 @@ public struct DescribeAgentStatusInput: Swift.Equatable {
     }
 }
 
-struct DescribeAgentStatusInputBody: Swift.Equatable {
+struct DescribeAgentStatusInputBody {
 }
 
 extension DescribeAgentStatusInputBody: Swift.Decodable {
@@ -12873,7 +12873,7 @@ extension DescribeAgentStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAgentStatusOutput: Swift.Equatable {
+public struct DescribeAgentStatusOutput {
     /// The agent status.
     public var agentStatus: ConnectClientTypes.AgentStatus?
 
@@ -12885,7 +12885,7 @@ public struct DescribeAgentStatusOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAgentStatusOutputBody: Swift.Equatable {
+struct DescribeAgentStatusOutputBody {
     let agentStatus: ConnectClientTypes.AgentStatus?
 }
 
@@ -12929,7 +12929,7 @@ extension DescribeContactEvaluationInput {
     }
 }
 
-public struct DescribeContactEvaluationInput: Swift.Equatable {
+public struct DescribeContactEvaluationInput {
     /// A unique identifier for the contact evaluation.
     /// This member is required.
     public var evaluationId: Swift.String?
@@ -12947,7 +12947,7 @@ public struct DescribeContactEvaluationInput: Swift.Equatable {
     }
 }
 
-struct DescribeContactEvaluationInputBody: Swift.Equatable {
+struct DescribeContactEvaluationInputBody {
 }
 
 extension DescribeContactEvaluationInputBody: Swift.Decodable {
@@ -12970,7 +12970,7 @@ extension DescribeContactEvaluationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeContactEvaluationOutput: Swift.Equatable {
+public struct DescribeContactEvaluationOutput {
     /// Information about the evaluation form completed for a specific contact.
     /// This member is required.
     public var evaluation: ConnectClientTypes.Evaluation?
@@ -12988,7 +12988,7 @@ public struct DescribeContactEvaluationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeContactEvaluationOutputBody: Swift.Equatable {
+struct DescribeContactEvaluationOutputBody {
     let evaluation: ConnectClientTypes.Evaluation?
     let evaluationForm: ConnectClientTypes.EvaluationFormContent?
 }
@@ -13035,7 +13035,7 @@ extension DescribeContactFlowInput {
     }
 }
 
-public struct DescribeContactFlowInput: Swift.Equatable {
+public struct DescribeContactFlowInput {
     /// The identifier of the flow.
     /// This member is required.
     public var contactFlowId: Swift.String?
@@ -13053,7 +13053,7 @@ public struct DescribeContactFlowInput: Swift.Equatable {
     }
 }
 
-struct DescribeContactFlowInputBody: Swift.Equatable {
+struct DescribeContactFlowInputBody {
 }
 
 extension DescribeContactFlowInputBody: Swift.Decodable {
@@ -13075,7 +13075,7 @@ extension DescribeContactFlowModuleInput {
     }
 }
 
-public struct DescribeContactFlowModuleInput: Swift.Equatable {
+public struct DescribeContactFlowModuleInput {
     /// The identifier of the flow module.
     /// This member is required.
     public var contactFlowModuleId: Swift.String?
@@ -13093,7 +13093,7 @@ public struct DescribeContactFlowModuleInput: Swift.Equatable {
     }
 }
 
-struct DescribeContactFlowModuleInputBody: Swift.Equatable {
+struct DescribeContactFlowModuleInputBody {
 }
 
 extension DescribeContactFlowModuleInputBody: Swift.Decodable {
@@ -13114,7 +13114,7 @@ extension DescribeContactFlowModuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeContactFlowModuleOutput: Swift.Equatable {
+public struct DescribeContactFlowModuleOutput {
     /// Information about the flow module.
     public var contactFlowModule: ConnectClientTypes.ContactFlowModule?
 
@@ -13126,7 +13126,7 @@ public struct DescribeContactFlowModuleOutput: Swift.Equatable {
     }
 }
 
-struct DescribeContactFlowModuleOutputBody: Swift.Equatable {
+struct DescribeContactFlowModuleOutputBody {
     let contactFlowModule: ConnectClientTypes.ContactFlowModule?
 }
 
@@ -13170,7 +13170,7 @@ extension DescribeContactFlowOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeContactFlowOutput: Swift.Equatable {
+public struct DescribeContactFlowOutput {
     /// Information about the flow.
     public var contactFlow: ConnectClientTypes.ContactFlow?
 
@@ -13182,7 +13182,7 @@ public struct DescribeContactFlowOutput: Swift.Equatable {
     }
 }
 
-struct DescribeContactFlowOutputBody: Swift.Equatable {
+struct DescribeContactFlowOutputBody {
     let contactFlow: ConnectClientTypes.ContactFlow?
 }
 
@@ -13227,7 +13227,7 @@ extension DescribeContactInput {
     }
 }
 
-public struct DescribeContactInput: Swift.Equatable {
+public struct DescribeContactInput {
     /// The identifier of the contact.
     /// This member is required.
     public var contactId: Swift.String?
@@ -13245,7 +13245,7 @@ public struct DescribeContactInput: Swift.Equatable {
     }
 }
 
-struct DescribeContactInputBody: Swift.Equatable {
+struct DescribeContactInputBody {
 }
 
 extension DescribeContactInputBody: Swift.Decodable {
@@ -13266,7 +13266,7 @@ extension DescribeContactOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeContactOutput: Swift.Equatable {
+public struct DescribeContactOutput {
     /// Information about the contact.
     public var contact: ConnectClientTypes.Contact?
 
@@ -13278,7 +13278,7 @@ public struct DescribeContactOutput: Swift.Equatable {
     }
 }
 
-struct DescribeContactOutputBody: Swift.Equatable {
+struct DescribeContactOutputBody {
     let contact: ConnectClientTypes.Contact?
 }
 
@@ -13334,7 +13334,7 @@ extension DescribeEvaluationFormInput {
     }
 }
 
-public struct DescribeEvaluationFormInput: Swift.Equatable {
+public struct DescribeEvaluationFormInput {
     /// A unique identifier for the contact evaluation.
     /// This member is required.
     public var evaluationFormId: Swift.String?
@@ -13356,7 +13356,7 @@ public struct DescribeEvaluationFormInput: Swift.Equatable {
     }
 }
 
-struct DescribeEvaluationFormInputBody: Swift.Equatable {
+struct DescribeEvaluationFormInputBody {
 }
 
 extension DescribeEvaluationFormInputBody: Swift.Decodable {
@@ -13377,7 +13377,7 @@ extension DescribeEvaluationFormOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeEvaluationFormOutput: Swift.Equatable {
+public struct DescribeEvaluationFormOutput {
     /// Information about the evaluation form.
     /// This member is required.
     public var evaluationForm: ConnectClientTypes.EvaluationForm?
@@ -13390,7 +13390,7 @@ public struct DescribeEvaluationFormOutput: Swift.Equatable {
     }
 }
 
-struct DescribeEvaluationFormOutputBody: Swift.Equatable {
+struct DescribeEvaluationFormOutputBody {
     let evaluationForm: ConnectClientTypes.EvaluationForm?
 }
 
@@ -13433,7 +13433,7 @@ extension DescribeHoursOfOperationInput {
     }
 }
 
-public struct DescribeHoursOfOperationInput: Swift.Equatable {
+public struct DescribeHoursOfOperationInput {
     /// The identifier for the hours of operation.
     /// This member is required.
     public var hoursOfOperationId: Swift.String?
@@ -13451,7 +13451,7 @@ public struct DescribeHoursOfOperationInput: Swift.Equatable {
     }
 }
 
-struct DescribeHoursOfOperationInputBody: Swift.Equatable {
+struct DescribeHoursOfOperationInputBody {
 }
 
 extension DescribeHoursOfOperationInputBody: Swift.Decodable {
@@ -13472,7 +13472,7 @@ extension DescribeHoursOfOperationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeHoursOfOperationOutput: Swift.Equatable {
+public struct DescribeHoursOfOperationOutput {
     /// The hours of operation.
     public var hoursOfOperation: ConnectClientTypes.HoursOfOperation?
 
@@ -13484,7 +13484,7 @@ public struct DescribeHoursOfOperationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeHoursOfOperationOutputBody: Swift.Equatable {
+struct DescribeHoursOfOperationOutputBody {
     let hoursOfOperation: ConnectClientTypes.HoursOfOperation?
 }
 
@@ -13528,7 +13528,7 @@ extension DescribeInstanceAttributeInput {
     }
 }
 
-public struct DescribeInstanceAttributeInput: Swift.Equatable {
+public struct DescribeInstanceAttributeInput {
     /// The type of attribute.
     /// This member is required.
     public var attributeType: ConnectClientTypes.InstanceAttributeType?
@@ -13546,7 +13546,7 @@ public struct DescribeInstanceAttributeInput: Swift.Equatable {
     }
 }
 
-struct DescribeInstanceAttributeInputBody: Swift.Equatable {
+struct DescribeInstanceAttributeInputBody {
 }
 
 extension DescribeInstanceAttributeInputBody: Swift.Decodable {
@@ -13567,7 +13567,7 @@ extension DescribeInstanceAttributeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeInstanceAttributeOutput: Swift.Equatable {
+public struct DescribeInstanceAttributeOutput {
     /// The type of attribute.
     public var attribute: ConnectClientTypes.Attribute?
 
@@ -13579,7 +13579,7 @@ public struct DescribeInstanceAttributeOutput: Swift.Equatable {
     }
 }
 
-struct DescribeInstanceAttributeOutputBody: Swift.Equatable {
+struct DescribeInstanceAttributeOutputBody {
     let attribute: ConnectClientTypes.Attribute?
 }
 
@@ -13620,7 +13620,7 @@ extension DescribeInstanceInput {
     }
 }
 
-public struct DescribeInstanceInput: Swift.Equatable {
+public struct DescribeInstanceInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -13633,7 +13633,7 @@ public struct DescribeInstanceInput: Swift.Equatable {
     }
 }
 
-struct DescribeInstanceInputBody: Swift.Equatable {
+struct DescribeInstanceInputBody {
 }
 
 extension DescribeInstanceInputBody: Swift.Decodable {
@@ -13654,7 +13654,7 @@ extension DescribeInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeInstanceOutput: Swift.Equatable {
+public struct DescribeInstanceOutput {
     /// The name of the instance.
     public var instance: ConnectClientTypes.Instance?
 
@@ -13666,7 +13666,7 @@ public struct DescribeInstanceOutput: Swift.Equatable {
     }
 }
 
-struct DescribeInstanceOutputBody: Swift.Equatable {
+struct DescribeInstanceOutputBody {
     let instance: ConnectClientTypes.Instance?
 }
 
@@ -13722,7 +13722,7 @@ extension DescribeInstanceStorageConfigInput {
     }
 }
 
-public struct DescribeInstanceStorageConfigInput: Swift.Equatable {
+public struct DescribeInstanceStorageConfigInput {
     /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
     /// This member is required.
     public var associationId: Swift.String?
@@ -13745,7 +13745,7 @@ public struct DescribeInstanceStorageConfigInput: Swift.Equatable {
     }
 }
 
-struct DescribeInstanceStorageConfigInputBody: Swift.Equatable {
+struct DescribeInstanceStorageConfigInputBody {
 }
 
 extension DescribeInstanceStorageConfigInputBody: Swift.Decodable {
@@ -13766,7 +13766,7 @@ extension DescribeInstanceStorageConfigOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DescribeInstanceStorageConfigOutput: Swift.Equatable {
+public struct DescribeInstanceStorageConfigOutput {
     /// A valid storage type.
     public var storageConfig: ConnectClientTypes.InstanceStorageConfig?
 
@@ -13778,7 +13778,7 @@ public struct DescribeInstanceStorageConfigOutput: Swift.Equatable {
     }
 }
 
-struct DescribeInstanceStorageConfigOutputBody: Swift.Equatable {
+struct DescribeInstanceStorageConfigOutputBody {
     let storageConfig: ConnectClientTypes.InstanceStorageConfig?
 }
 
@@ -13819,7 +13819,7 @@ extension DescribePhoneNumberInput {
     }
 }
 
-public struct DescribePhoneNumberInput: Swift.Equatable {
+public struct DescribePhoneNumberInput {
     /// A unique identifier for the phone number.
     /// This member is required.
     public var phoneNumberId: Swift.String?
@@ -13832,7 +13832,7 @@ public struct DescribePhoneNumberInput: Swift.Equatable {
     }
 }
 
-struct DescribePhoneNumberInputBody: Swift.Equatable {
+struct DescribePhoneNumberInputBody {
 }
 
 extension DescribePhoneNumberInputBody: Swift.Decodable {
@@ -13853,7 +13853,7 @@ extension DescribePhoneNumberOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribePhoneNumberOutput: Swift.Equatable {
+public struct DescribePhoneNumberOutput {
     /// Information about a phone number that's been claimed to your Amazon Connect instance or traffic distribution group.
     public var claimedPhoneNumberSummary: ConnectClientTypes.ClaimedPhoneNumberSummary?
 
@@ -13865,7 +13865,7 @@ public struct DescribePhoneNumberOutput: Swift.Equatable {
     }
 }
 
-struct DescribePhoneNumberOutputBody: Swift.Equatable {
+struct DescribePhoneNumberOutputBody {
     let claimedPhoneNumberSummary: ConnectClientTypes.ClaimedPhoneNumberSummary?
 }
 
@@ -13909,7 +13909,7 @@ extension DescribePredefinedAttributeInput {
     }
 }
 
-public struct DescribePredefinedAttributeInput: Swift.Equatable {
+public struct DescribePredefinedAttributeInput {
     /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -13927,7 +13927,7 @@ public struct DescribePredefinedAttributeInput: Swift.Equatable {
     }
 }
 
-struct DescribePredefinedAttributeInputBody: Swift.Equatable {
+struct DescribePredefinedAttributeInputBody {
 }
 
 extension DescribePredefinedAttributeInputBody: Swift.Decodable {
@@ -13948,7 +13948,7 @@ extension DescribePredefinedAttributeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribePredefinedAttributeOutput: Swift.Equatable {
+public struct DescribePredefinedAttributeOutput {
     /// Information about the predefined attribute.
     public var predefinedAttribute: ConnectClientTypes.PredefinedAttribute?
 
@@ -13960,7 +13960,7 @@ public struct DescribePredefinedAttributeOutput: Swift.Equatable {
     }
 }
 
-struct DescribePredefinedAttributeOutputBody: Swift.Equatable {
+struct DescribePredefinedAttributeOutputBody {
     let predefinedAttribute: ConnectClientTypes.PredefinedAttribute?
 }
 
@@ -14004,7 +14004,7 @@ extension DescribePromptInput {
     }
 }
 
-public struct DescribePromptInput: Swift.Equatable {
+public struct DescribePromptInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -14022,7 +14022,7 @@ public struct DescribePromptInput: Swift.Equatable {
     }
 }
 
-struct DescribePromptInputBody: Swift.Equatable {
+struct DescribePromptInputBody {
 }
 
 extension DescribePromptInputBody: Swift.Decodable {
@@ -14043,7 +14043,7 @@ extension DescribePromptOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribePromptOutput: Swift.Equatable {
+public struct DescribePromptOutput {
     /// Information about the prompt.
     public var prompt: ConnectClientTypes.Prompt?
 
@@ -14055,7 +14055,7 @@ public struct DescribePromptOutput: Swift.Equatable {
     }
 }
 
-struct DescribePromptOutputBody: Swift.Equatable {
+struct DescribePromptOutputBody {
     let prompt: ConnectClientTypes.Prompt?
 }
 
@@ -14099,7 +14099,7 @@ extension DescribeQueueInput {
     }
 }
 
-public struct DescribeQueueInput: Swift.Equatable {
+public struct DescribeQueueInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -14117,7 +14117,7 @@ public struct DescribeQueueInput: Swift.Equatable {
     }
 }
 
-struct DescribeQueueInputBody: Swift.Equatable {
+struct DescribeQueueInputBody {
 }
 
 extension DescribeQueueInputBody: Swift.Decodable {
@@ -14138,7 +14138,7 @@ extension DescribeQueueOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeQueueOutput: Swift.Equatable {
+public struct DescribeQueueOutput {
     /// The name of the queue.
     public var queue: ConnectClientTypes.Queue?
 
@@ -14150,7 +14150,7 @@ public struct DescribeQueueOutput: Swift.Equatable {
     }
 }
 
-struct DescribeQueueOutputBody: Swift.Equatable {
+struct DescribeQueueOutputBody {
     let queue: ConnectClientTypes.Queue?
 }
 
@@ -14194,7 +14194,7 @@ extension DescribeQuickConnectInput {
     }
 }
 
-public struct DescribeQuickConnectInput: Swift.Equatable {
+public struct DescribeQuickConnectInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -14212,7 +14212,7 @@ public struct DescribeQuickConnectInput: Swift.Equatable {
     }
 }
 
-struct DescribeQuickConnectInputBody: Swift.Equatable {
+struct DescribeQuickConnectInputBody {
 }
 
 extension DescribeQuickConnectInputBody: Swift.Decodable {
@@ -14233,7 +14233,7 @@ extension DescribeQuickConnectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeQuickConnectOutput: Swift.Equatable {
+public struct DescribeQuickConnectOutput {
     /// Information about the quick connect.
     public var quickConnect: ConnectClientTypes.QuickConnect?
 
@@ -14245,7 +14245,7 @@ public struct DescribeQuickConnectOutput: Swift.Equatable {
     }
 }
 
-struct DescribeQuickConnectOutputBody: Swift.Equatable {
+struct DescribeQuickConnectOutputBody {
     let quickConnect: ConnectClientTypes.QuickConnect?
 }
 
@@ -14289,7 +14289,7 @@ extension DescribeRoutingProfileInput {
     }
 }
 
-public struct DescribeRoutingProfileInput: Swift.Equatable {
+public struct DescribeRoutingProfileInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -14307,7 +14307,7 @@ public struct DescribeRoutingProfileInput: Swift.Equatable {
     }
 }
 
-struct DescribeRoutingProfileInputBody: Swift.Equatable {
+struct DescribeRoutingProfileInputBody {
 }
 
 extension DescribeRoutingProfileInputBody: Swift.Decodable {
@@ -14328,7 +14328,7 @@ extension DescribeRoutingProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeRoutingProfileOutput: Swift.Equatable {
+public struct DescribeRoutingProfileOutput {
     /// The routing profile.
     public var routingProfile: ConnectClientTypes.RoutingProfile?
 
@@ -14340,7 +14340,7 @@ public struct DescribeRoutingProfileOutput: Swift.Equatable {
     }
 }
 
-struct DescribeRoutingProfileOutputBody: Swift.Equatable {
+struct DescribeRoutingProfileOutputBody {
     let routingProfile: ConnectClientTypes.RoutingProfile?
 }
 
@@ -14384,7 +14384,7 @@ extension DescribeRuleInput {
     }
 }
 
-public struct DescribeRuleInput: Swift.Equatable {
+public struct DescribeRuleInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -14402,7 +14402,7 @@ public struct DescribeRuleInput: Swift.Equatable {
     }
 }
 
-struct DescribeRuleInputBody: Swift.Equatable {
+struct DescribeRuleInputBody {
 }
 
 extension DescribeRuleInputBody: Swift.Decodable {
@@ -14423,7 +14423,7 @@ extension DescribeRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeRuleOutput: Swift.Equatable {
+public struct DescribeRuleOutput {
     /// Information about the rule.
     /// This member is required.
     public var rule: ConnectClientTypes.Rule?
@@ -14436,7 +14436,7 @@ public struct DescribeRuleOutput: Swift.Equatable {
     }
 }
 
-struct DescribeRuleOutputBody: Swift.Equatable {
+struct DescribeRuleOutputBody {
     let rule: ConnectClientTypes.Rule?
 }
 
@@ -14480,7 +14480,7 @@ extension DescribeSecurityProfileInput {
     }
 }
 
-public struct DescribeSecurityProfileInput: Swift.Equatable {
+public struct DescribeSecurityProfileInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -14498,7 +14498,7 @@ public struct DescribeSecurityProfileInput: Swift.Equatable {
     }
 }
 
-struct DescribeSecurityProfileInputBody: Swift.Equatable {
+struct DescribeSecurityProfileInputBody {
 }
 
 extension DescribeSecurityProfileInputBody: Swift.Decodable {
@@ -14519,7 +14519,7 @@ extension DescribeSecurityProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeSecurityProfileOutput: Swift.Equatable {
+public struct DescribeSecurityProfileOutput {
     /// The security profile.
     public var securityProfile: ConnectClientTypes.SecurityProfile?
 
@@ -14531,7 +14531,7 @@ public struct DescribeSecurityProfileOutput: Swift.Equatable {
     }
 }
 
-struct DescribeSecurityProfileOutputBody: Swift.Equatable {
+struct DescribeSecurityProfileOutputBody {
     let securityProfile: ConnectClientTypes.SecurityProfile?
 }
 
@@ -14572,7 +14572,7 @@ extension DescribeTrafficDistributionGroupInput {
     }
 }
 
-public struct DescribeTrafficDistributionGroupInput: Swift.Equatable {
+public struct DescribeTrafficDistributionGroupInput {
     /// The identifier of the traffic distribution group. This can be the ID or the ARN if the API is being called in the Region where the traffic distribution group was created. The ARN must be provided if the call is from the replicated Region.
     /// This member is required.
     public var trafficDistributionGroupId: Swift.String?
@@ -14585,7 +14585,7 @@ public struct DescribeTrafficDistributionGroupInput: Swift.Equatable {
     }
 }
 
-struct DescribeTrafficDistributionGroupInputBody: Swift.Equatable {
+struct DescribeTrafficDistributionGroupInputBody {
 }
 
 extension DescribeTrafficDistributionGroupInputBody: Swift.Decodable {
@@ -14606,7 +14606,7 @@ extension DescribeTrafficDistributionGroupOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DescribeTrafficDistributionGroupOutput: Swift.Equatable {
+public struct DescribeTrafficDistributionGroupOutput {
     /// Information about the traffic distribution group.
     public var trafficDistributionGroup: ConnectClientTypes.TrafficDistributionGroup?
 
@@ -14618,7 +14618,7 @@ public struct DescribeTrafficDistributionGroupOutput: Swift.Equatable {
     }
 }
 
-struct DescribeTrafficDistributionGroupOutputBody: Swift.Equatable {
+struct DescribeTrafficDistributionGroupOutputBody {
     let trafficDistributionGroup: ConnectClientTypes.TrafficDistributionGroup?
 }
 
@@ -14662,7 +14662,7 @@ extension DescribeUserHierarchyGroupInput {
     }
 }
 
-public struct DescribeUserHierarchyGroupInput: Swift.Equatable {
+public struct DescribeUserHierarchyGroupInput {
     /// The identifier of the hierarchy group.
     /// This member is required.
     public var hierarchyGroupId: Swift.String?
@@ -14680,7 +14680,7 @@ public struct DescribeUserHierarchyGroupInput: Swift.Equatable {
     }
 }
 
-struct DescribeUserHierarchyGroupInputBody: Swift.Equatable {
+struct DescribeUserHierarchyGroupInputBody {
 }
 
 extension DescribeUserHierarchyGroupInputBody: Swift.Decodable {
@@ -14701,7 +14701,7 @@ extension DescribeUserHierarchyGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeUserHierarchyGroupOutput: Swift.Equatable {
+public struct DescribeUserHierarchyGroupOutput {
     /// Information about the hierarchy group.
     public var hierarchyGroup: ConnectClientTypes.HierarchyGroup?
 
@@ -14713,7 +14713,7 @@ public struct DescribeUserHierarchyGroupOutput: Swift.Equatable {
     }
 }
 
-struct DescribeUserHierarchyGroupOutputBody: Swift.Equatable {
+struct DescribeUserHierarchyGroupOutputBody {
     let hierarchyGroup: ConnectClientTypes.HierarchyGroup?
 }
 
@@ -14754,7 +14754,7 @@ extension DescribeUserHierarchyStructureInput {
     }
 }
 
-public struct DescribeUserHierarchyStructureInput: Swift.Equatable {
+public struct DescribeUserHierarchyStructureInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -14767,7 +14767,7 @@ public struct DescribeUserHierarchyStructureInput: Swift.Equatable {
     }
 }
 
-struct DescribeUserHierarchyStructureInputBody: Swift.Equatable {
+struct DescribeUserHierarchyStructureInputBody {
 }
 
 extension DescribeUserHierarchyStructureInputBody: Swift.Decodable {
@@ -14788,7 +14788,7 @@ extension DescribeUserHierarchyStructureOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DescribeUserHierarchyStructureOutput: Swift.Equatable {
+public struct DescribeUserHierarchyStructureOutput {
     /// Information about the hierarchy structure.
     public var hierarchyStructure: ConnectClientTypes.HierarchyStructure?
 
@@ -14800,7 +14800,7 @@ public struct DescribeUserHierarchyStructureOutput: Swift.Equatable {
     }
 }
 
-struct DescribeUserHierarchyStructureOutputBody: Swift.Equatable {
+struct DescribeUserHierarchyStructureOutputBody {
     let hierarchyStructure: ConnectClientTypes.HierarchyStructure?
 }
 
@@ -14844,7 +14844,7 @@ extension DescribeUserInput {
     }
 }
 
-public struct DescribeUserInput: Swift.Equatable {
+public struct DescribeUserInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -14862,7 +14862,7 @@ public struct DescribeUserInput: Swift.Equatable {
     }
 }
 
-struct DescribeUserInputBody: Swift.Equatable {
+struct DescribeUserInputBody {
 }
 
 extension DescribeUserInputBody: Swift.Decodable {
@@ -14883,7 +14883,7 @@ extension DescribeUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeUserOutput: Swift.Equatable {
+public struct DescribeUserOutput {
     /// Information about the user account and configuration settings.
     public var user: ConnectClientTypes.User?
 
@@ -14895,7 +14895,7 @@ public struct DescribeUserOutput: Swift.Equatable {
     }
 }
 
-struct DescribeUserOutputBody: Swift.Equatable {
+struct DescribeUserOutputBody {
     let user: ConnectClientTypes.User?
 }
 
@@ -14939,7 +14939,7 @@ extension DescribeViewInput {
     }
 }
 
-public struct DescribeViewInput: Swift.Equatable {
+public struct DescribeViewInput {
     /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -14957,7 +14957,7 @@ public struct DescribeViewInput: Swift.Equatable {
     }
 }
 
-struct DescribeViewInputBody: Swift.Equatable {
+struct DescribeViewInputBody {
 }
 
 extension DescribeViewInputBody: Swift.Decodable {
@@ -14978,7 +14978,7 @@ extension DescribeViewOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeViewOutput: Swift.Equatable {
+public struct DescribeViewOutput {
     /// All view data is contained within the View object.
     public var view: ConnectClientTypes.View?
 
@@ -14990,7 +14990,7 @@ public struct DescribeViewOutput: Swift.Equatable {
     }
 }
 
-struct DescribeViewOutputBody: Swift.Equatable {
+struct DescribeViewOutputBody {
     let view: ConnectClientTypes.View?
 }
 
@@ -15035,7 +15035,7 @@ extension DescribeVocabularyInput {
     }
 }
 
-public struct DescribeVocabularyInput: Swift.Equatable {
+public struct DescribeVocabularyInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -15053,7 +15053,7 @@ public struct DescribeVocabularyInput: Swift.Equatable {
     }
 }
 
-struct DescribeVocabularyInputBody: Swift.Equatable {
+struct DescribeVocabularyInputBody {
 }
 
 extension DescribeVocabularyInputBody: Swift.Decodable {
@@ -15074,7 +15074,7 @@ extension DescribeVocabularyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeVocabularyOutput: Swift.Equatable {
+public struct DescribeVocabularyOutput {
     /// A list of specific words that you want Contact Lens for Amazon Connect to recognize in your audio input. They are generally domain-specific words and phrases, words that Contact Lens is not recognizing, or proper nouns.
     /// This member is required.
     public var vocabulary: ConnectClientTypes.Vocabulary?
@@ -15087,7 +15087,7 @@ public struct DescribeVocabularyOutput: Swift.Equatable {
     }
 }
 
-struct DescribeVocabularyOutputBody: Swift.Equatable {
+struct DescribeVocabularyOutputBody {
     let vocabulary: ConnectClientTypes.Vocabulary?
 }
 
@@ -15158,7 +15158,7 @@ public struct DestinationNotAllowedException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct DestinationNotAllowedExceptionBody: Swift.Equatable {
+struct DestinationNotAllowedExceptionBody {
     let message: Swift.String?
 }
 
@@ -15213,7 +15213,7 @@ extension ConnectClientTypes.Dimensions: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains information about the dimensions for a set of metrics.
-    public struct Dimensions: Swift.Equatable {
+    public struct Dimensions {
         /// The channel used for grouping and filters.
         public var channel: ConnectClientTypes.Channel?
         /// Information about the queue for which metrics are returned.
@@ -15301,7 +15301,7 @@ extension DisassociateAnalyticsDataSetInput {
     }
 }
 
-public struct DisassociateAnalyticsDataSetInput: Swift.Equatable {
+public struct DisassociateAnalyticsDataSetInput {
     /// The identifier of the dataset to remove.
     /// This member is required.
     public var dataSetId: Swift.String?
@@ -15323,7 +15323,7 @@ public struct DisassociateAnalyticsDataSetInput: Swift.Equatable {
     }
 }
 
-struct DisassociateAnalyticsDataSetInputBody: Swift.Equatable {
+struct DisassociateAnalyticsDataSetInputBody {
     let dataSetId: Swift.String?
     let targetAccountId: Swift.String?
 }
@@ -15348,7 +15348,7 @@ extension DisassociateAnalyticsDataSetOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DisassociateAnalyticsDataSetOutput: Swift.Equatable {
+public struct DisassociateAnalyticsDataSetOutput {
 
     public init() { }
 }
@@ -15392,7 +15392,7 @@ extension DisassociateApprovedOriginInput {
     }
 }
 
-public struct DisassociateApprovedOriginInput: Swift.Equatable {
+public struct DisassociateApprovedOriginInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -15410,7 +15410,7 @@ public struct DisassociateApprovedOriginInput: Swift.Equatable {
     }
 }
 
-struct DisassociateApprovedOriginInputBody: Swift.Equatable {
+struct DisassociateApprovedOriginInputBody {
 }
 
 extension DisassociateApprovedOriginInputBody: Swift.Decodable {
@@ -15424,7 +15424,7 @@ extension DisassociateApprovedOriginOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateApprovedOriginOutput: Swift.Equatable {
+public struct DisassociateApprovedOriginOutput {
 
     public init() { }
 }
@@ -15471,7 +15471,7 @@ extension DisassociateBotInput {
     }
 }
 
-public struct DisassociateBotInput: Swift.Equatable {
+public struct DisassociateBotInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -15492,7 +15492,7 @@ public struct DisassociateBotInput: Swift.Equatable {
     }
 }
 
-struct DisassociateBotInputBody: Swift.Equatable {
+struct DisassociateBotInputBody {
     let lexBot: ConnectClientTypes.LexBot?
     let lexV2Bot: ConnectClientTypes.LexV2Bot?
 }
@@ -15517,7 +15517,7 @@ extension DisassociateBotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateBotOutput: Swift.Equatable {
+public struct DisassociateBotOutput {
 
     public init() { }
 }
@@ -15552,7 +15552,7 @@ extension DisassociateFlowInput {
     }
 }
 
-public struct DisassociateFlowInput: Swift.Equatable {
+public struct DisassociateFlowInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -15575,7 +15575,7 @@ public struct DisassociateFlowInput: Swift.Equatable {
     }
 }
 
-struct DisassociateFlowInputBody: Swift.Equatable {
+struct DisassociateFlowInputBody {
 }
 
 extension DisassociateFlowInputBody: Swift.Decodable {
@@ -15589,7 +15589,7 @@ extension DisassociateFlowOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateFlowOutput: Swift.Equatable {
+public struct DisassociateFlowOutput {
 
     public init() { }
 }
@@ -15637,7 +15637,7 @@ extension DisassociateInstanceStorageConfigInput {
     }
 }
 
-public struct DisassociateInstanceStorageConfigInput: Swift.Equatable {
+public struct DisassociateInstanceStorageConfigInput {
     /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
     /// This member is required.
     public var associationId: Swift.String?
@@ -15660,7 +15660,7 @@ public struct DisassociateInstanceStorageConfigInput: Swift.Equatable {
     }
 }
 
-struct DisassociateInstanceStorageConfigInputBody: Swift.Equatable {
+struct DisassociateInstanceStorageConfigInputBody {
 }
 
 extension DisassociateInstanceStorageConfigInputBody: Swift.Decodable {
@@ -15674,7 +15674,7 @@ extension DisassociateInstanceStorageConfigOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct DisassociateInstanceStorageConfigOutput: Swift.Equatable {
+public struct DisassociateInstanceStorageConfigOutput {
 
     public init() { }
 }
@@ -15718,7 +15718,7 @@ extension DisassociateLambdaFunctionInput {
     }
 }
 
-public struct DisassociateLambdaFunctionInput: Swift.Equatable {
+public struct DisassociateLambdaFunctionInput {
     /// The Amazon Resource Name (ARN) of the Lambda function being disassociated.
     /// This member is required.
     public var functionArn: Swift.String?
@@ -15736,7 +15736,7 @@ public struct DisassociateLambdaFunctionInput: Swift.Equatable {
     }
 }
 
-struct DisassociateLambdaFunctionInputBody: Swift.Equatable {
+struct DisassociateLambdaFunctionInputBody {
 }
 
 extension DisassociateLambdaFunctionInputBody: Swift.Decodable {
@@ -15750,7 +15750,7 @@ extension DisassociateLambdaFunctionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateLambdaFunctionOutput: Swift.Equatable {
+public struct DisassociateLambdaFunctionOutput {
 
     public init() { }
 }
@@ -15800,7 +15800,7 @@ extension DisassociateLexBotInput {
     }
 }
 
-public struct DisassociateLexBotInput: Swift.Equatable {
+public struct DisassociateLexBotInput {
     /// The name of the Amazon Lex bot. Maximum character limit of 50.
     /// This member is required.
     public var botName: Swift.String?
@@ -15823,7 +15823,7 @@ public struct DisassociateLexBotInput: Swift.Equatable {
     }
 }
 
-struct DisassociateLexBotInputBody: Swift.Equatable {
+struct DisassociateLexBotInputBody {
 }
 
 extension DisassociateLexBotInputBody: Swift.Decodable {
@@ -15837,7 +15837,7 @@ extension DisassociateLexBotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateLexBotOutput: Swift.Equatable {
+public struct DisassociateLexBotOutput {
 
     public init() { }
 }
@@ -15881,7 +15881,7 @@ extension DisassociatePhoneNumberContactFlowInput {
     }
 }
 
-public struct DisassociatePhoneNumberContactFlowInput: Swift.Equatable {
+public struct DisassociatePhoneNumberContactFlowInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -15899,7 +15899,7 @@ public struct DisassociatePhoneNumberContactFlowInput: Swift.Equatable {
     }
 }
 
-struct DisassociatePhoneNumberContactFlowInputBody: Swift.Equatable {
+struct DisassociatePhoneNumberContactFlowInputBody {
 }
 
 extension DisassociatePhoneNumberContactFlowInputBody: Swift.Decodable {
@@ -15913,7 +15913,7 @@ extension DisassociatePhoneNumberContactFlowOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct DisassociatePhoneNumberContactFlowOutput: Swift.Equatable {
+public struct DisassociatePhoneNumberContactFlowOutput {
 
     public init() { }
 }
@@ -15962,7 +15962,7 @@ extension DisassociateQueueQuickConnectsInput {
     }
 }
 
-public struct DisassociateQueueQuickConnectsInput: Swift.Equatable {
+public struct DisassociateQueueQuickConnectsInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -15985,7 +15985,7 @@ public struct DisassociateQueueQuickConnectsInput: Swift.Equatable {
     }
 }
 
-struct DisassociateQueueQuickConnectsInputBody: Swift.Equatable {
+struct DisassociateQueueQuickConnectsInputBody {
     let quickConnectIds: [Swift.String]?
 }
 
@@ -16015,7 +16015,7 @@ extension DisassociateQueueQuickConnectsOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DisassociateQueueQuickConnectsOutput: Swift.Equatable {
+public struct DisassociateQueueQuickConnectsOutput {
 
     public init() { }
 }
@@ -16064,7 +16064,7 @@ extension DisassociateRoutingProfileQueuesInput {
     }
 }
 
-public struct DisassociateRoutingProfileQueuesInput: Swift.Equatable {
+public struct DisassociateRoutingProfileQueuesInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -16087,7 +16087,7 @@ public struct DisassociateRoutingProfileQueuesInput: Swift.Equatable {
     }
 }
 
-struct DisassociateRoutingProfileQueuesInputBody: Swift.Equatable {
+struct DisassociateRoutingProfileQueuesInputBody {
     let queueReferences: [ConnectClientTypes.RoutingProfileQueueReference]?
 }
 
@@ -16117,7 +16117,7 @@ extension DisassociateRoutingProfileQueuesOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DisassociateRoutingProfileQueuesOutput: Swift.Equatable {
+public struct DisassociateRoutingProfileQueuesOutput {
 
     public init() { }
 }
@@ -16150,7 +16150,7 @@ extension DisassociateSecurityKeyInput {
     }
 }
 
-public struct DisassociateSecurityKeyInput: Swift.Equatable {
+public struct DisassociateSecurityKeyInput {
     /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
     /// This member is required.
     public var associationId: Swift.String?
@@ -16168,7 +16168,7 @@ public struct DisassociateSecurityKeyInput: Swift.Equatable {
     }
 }
 
-struct DisassociateSecurityKeyInputBody: Swift.Equatable {
+struct DisassociateSecurityKeyInputBody {
 }
 
 extension DisassociateSecurityKeyInputBody: Swift.Decodable {
@@ -16182,7 +16182,7 @@ extension DisassociateSecurityKeyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateSecurityKeyOutput: Swift.Equatable {
+public struct DisassociateSecurityKeyOutput {
 
     public init() { }
 }
@@ -16232,7 +16232,7 @@ extension DisassociateTrafficDistributionGroupUserInput {
     }
 }
 
-public struct DisassociateTrafficDistributionGroupUserInput: Swift.Equatable {
+public struct DisassociateTrafficDistributionGroupUserInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -16255,7 +16255,7 @@ public struct DisassociateTrafficDistributionGroupUserInput: Swift.Equatable {
     }
 }
 
-struct DisassociateTrafficDistributionGroupUserInputBody: Swift.Equatable {
+struct DisassociateTrafficDistributionGroupUserInputBody {
 }
 
 extension DisassociateTrafficDistributionGroupUserInputBody: Swift.Decodable {
@@ -16269,7 +16269,7 @@ extension DisassociateTrafficDistributionGroupUserOutput: ClientRuntime.HttpResp
     }
 }
 
-public struct DisassociateTrafficDistributionGroupUserOutput: Swift.Equatable {
+public struct DisassociateTrafficDistributionGroupUserOutput {
 
     public init() { }
 }
@@ -16319,7 +16319,7 @@ extension DisassociateUserProficienciesInput {
     }
 }
 
-public struct DisassociateUserProficienciesInput: Swift.Equatable {
+public struct DisassociateUserProficienciesInput {
     /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -16342,7 +16342,7 @@ public struct DisassociateUserProficienciesInput: Swift.Equatable {
     }
 }
 
-struct DisassociateUserProficienciesInputBody: Swift.Equatable {
+struct DisassociateUserProficienciesInputBody {
     let userProficiencies: [ConnectClientTypes.UserProficiencyDisassociate]?
 }
 
@@ -16372,7 +16372,7 @@ extension DisassociateUserProficienciesOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DisassociateUserProficienciesOutput: Swift.Equatable {
+public struct DisassociateUserProficienciesOutput {
 
     public init() { }
 }
@@ -16413,7 +16413,7 @@ extension ConnectClientTypes.DisconnectReason: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains details about why a contact was disconnected. Only Amazon Connect outbound campaigns can provide this field.
-    public struct DisconnectReason: Swift.Equatable {
+    public struct DisconnectReason {
         /// A code that indicates how the contact was terminated.
         public var code: Swift.String?
 
@@ -16453,7 +16453,7 @@ extension DismissUserContactInput {
     }
 }
 
-public struct DismissUserContactInput: Swift.Equatable {
+public struct DismissUserContactInput {
     /// The identifier of the contact.
     /// This member is required.
     public var contactId: Swift.String?
@@ -16476,7 +16476,7 @@ public struct DismissUserContactInput: Swift.Equatable {
     }
 }
 
-struct DismissUserContactInputBody: Swift.Equatable {
+struct DismissUserContactInputBody {
     let contactId: Swift.String?
 }
 
@@ -16497,7 +16497,7 @@ extension DismissUserContactOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DismissUserContactOutput: Swift.Equatable {
+public struct DismissUserContactOutput {
 
     public init() { }
 }
@@ -16545,7 +16545,7 @@ extension ConnectClientTypes.Distribution: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about a traffic distribution.
-    public struct Distribution: Swift.Equatable {
+    public struct Distribution {
         /// The percentage of the traffic that is distributed, in increments of 10.
         /// This member is required.
         public var percentage: Swift.Int
@@ -16604,7 +16604,7 @@ public struct DuplicateResourceException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct DuplicateResourceExceptionBody: Swift.Equatable {
+struct DuplicateResourceExceptionBody {
     let message: Swift.String?
 }
 
@@ -16647,7 +16647,7 @@ extension ConnectClientTypes.EmailReference: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about a reference when the referenceType is EMAIL. Otherwise, null.
-    public struct EmailReference: Swift.Equatable {
+    public struct EmailReference {
         /// Identifier of the email reference.
         public var name: Swift.String?
         /// A valid email address.
@@ -16678,7 +16678,7 @@ extension ConnectClientTypes.EmptyFieldValue: Swift.Codable {
 
 extension ConnectClientTypes {
     /// An empty value.
-    public struct EmptyFieldValue: Swift.Equatable {
+    public struct EmptyFieldValue {
 
         public init() { }
     }
@@ -16712,7 +16712,7 @@ extension ConnectClientTypes.EncryptionConfig: Swift.Codable {
 
 extension ConnectClientTypes {
     /// The encryption configuration.
-    public struct EncryptionConfig: Swift.Equatable {
+    public struct EncryptionConfig {
         /// The type of encryption.
         /// This member is required.
         public var encryptionType: ConnectClientTypes.EncryptionType?
@@ -16774,7 +16774,7 @@ extension ConnectClientTypes.EndAssociatedTasksActionDefinition: Swift.Codable {
 
 extension ConnectClientTypes {
     /// End associated tasks related to a case.
-    public struct EndAssociatedTasksActionDefinition: Swift.Equatable {
+    public struct EndAssociatedTasksActionDefinition {
 
         public init() { }
     }
@@ -16808,7 +16808,7 @@ extension ConnectClientTypes.Endpoint: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about the endpoint.
-    public struct Endpoint: Swift.Equatable {
+    public struct Endpoint {
         /// Address of the endpoint.
         public var address: Swift.String?
         /// Type of the endpoint.
@@ -16888,7 +16888,7 @@ extension ConnectClientTypes.ErrorResult: Swift.Codable {
 
 extension ConnectClientTypes {
     /// This API is in preview release for Amazon Connect and is subject to change. List of errors for dataset association failures.
-    public struct ErrorResult: Swift.Equatable {
+    public struct ErrorResult {
         /// The error code.
         public var errorCode: Swift.String?
         /// The corresponding error message for the error code.
@@ -17029,7 +17029,7 @@ extension ConnectClientTypes.Evaluation: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about a contact evaluation.
-    public struct Evaluation: Swift.Equatable {
+    public struct Evaluation {
         /// A map of question identifiers to answer value.
         /// This member is required.
         public var answers: [Swift.String:ConnectClientTypes.EvaluationAnswerOutput]?
@@ -17132,7 +17132,7 @@ extension ConnectClientTypes.EvaluationAnswerData: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about answer data for a contact evaluation. Answer data must be either string, numeric, or not applicable.
-    public enum EvaluationAnswerData: Swift.Equatable {
+    public enum EvaluationAnswerData {
         /// The string value for an answer in a contact evaluation.
         case stringvalue(Swift.String)
         /// The numeric value for an answer in a contact evaluation.
@@ -17165,7 +17165,7 @@ extension ConnectClientTypes.EvaluationAnswerInput: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about input answers for a contact evaluation.
-    public struct EvaluationAnswerInput: Swift.Equatable {
+    public struct EvaluationAnswerInput {
         /// The value for an answer in a contact evaluation.
         public var value: ConnectClientTypes.EvaluationAnswerData?
 
@@ -17206,7 +17206,7 @@ extension ConnectClientTypes.EvaluationAnswerOutput: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about output answers for a contact evaluation.
-    public struct EvaluationAnswerOutput: Swift.Equatable {
+    public struct EvaluationAnswerOutput {
         /// The system suggested value for an answer in a contact evaluation.
         public var systemSuggestedValue: ConnectClientTypes.EvaluationAnswerData?
         /// The value for an answer in a contact evaluation.
@@ -17347,7 +17347,7 @@ extension ConnectClientTypes.EvaluationForm: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about the evaluation form.
-    public struct EvaluationForm: Swift.Equatable {
+    public struct EvaluationForm {
         /// The Amazon Resource Name (ARN) of the user who created the evaluation form.
         /// This member is required.
         public var createdBy: Swift.String?
@@ -17493,7 +17493,7 @@ extension ConnectClientTypes.EvaluationFormContent: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about an evaluation form used in a contact evaluation.
-    public struct EvaluationFormContent: Swift.Equatable {
+    public struct EvaluationFormContent {
         /// The description of the evaluation form.
         public var description: Swift.String?
         /// The Amazon Resource Name (ARN) for the evaluation form resource.
@@ -17573,7 +17573,7 @@ extension ConnectClientTypes.EvaluationFormItem: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about an item from an evaluation form. The item must be either a section or a question.
-    public indirect enum EvaluationFormItem: Swift.Equatable {
+    public indirect enum EvaluationFormItem {
         /// The information of the section.
         case section(ConnectClientTypes.EvaluationFormSection)
         /// The information of the question.
@@ -17612,7 +17612,7 @@ extension ConnectClientTypes.EvaluationFormNumericQuestionAutomation: Swift.Coda
 
 extension ConnectClientTypes {
     /// Information about the automation configuration in numeric questions.
-    public enum EvaluationFormNumericQuestionAutomation: Swift.Equatable {
+    public enum EvaluationFormNumericQuestionAutomation {
         /// The property value of the automation.
         case propertyvalue(ConnectClientTypes.NumericQuestionPropertyValueAutomation)
         case sdkUnknown(Swift.String)
@@ -17659,7 +17659,7 @@ extension ConnectClientTypes.EvaluationFormNumericQuestionOption: Swift.Codable 
 
 extension ConnectClientTypes {
     /// Information about the option range used for scoring in numeric questions.
-    public struct EvaluationFormNumericQuestionOption: Swift.Equatable {
+    public struct EvaluationFormNumericQuestionOption {
         /// The flag to mark the option as automatic fail. If an automatic fail answer is provided, the overall evaluation gets a score of 0.
         public var automaticFail: Swift.Bool
         /// The maximum answer value of the range option.
@@ -17738,7 +17738,7 @@ extension ConnectClientTypes.EvaluationFormNumericQuestionProperties: Swift.Coda
 
 extension ConnectClientTypes {
     /// Information about properties for a numeric question in an evaluation form.
-    public struct EvaluationFormNumericQuestionProperties: Swift.Equatable {
+    public struct EvaluationFormNumericQuestionProperties {
         /// The automation properties of the numeric question.
         public var automation: ConnectClientTypes.EvaluationFormNumericQuestionAutomation?
         /// The maximum answer value.
@@ -17823,7 +17823,7 @@ extension ConnectClientTypes.EvaluationFormQuestion: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about a question from an evaluation form.
-    public struct EvaluationFormQuestion: Swift.Equatable {
+    public struct EvaluationFormQuestion {
         /// The instructions of the section.
         public var instructions: Swift.String?
         /// The flag to enable not applicable answers to the question.
@@ -17936,7 +17936,7 @@ extension ConnectClientTypes.EvaluationFormQuestionTypeProperties: Swift.Codable
 
 extension ConnectClientTypes {
     /// Information about properties for a question in an evaluation form. The question type properties must be either for a numeric question or a single select question.
-    public enum EvaluationFormQuestionTypeProperties: Swift.Equatable {
+    public enum EvaluationFormQuestionTypeProperties {
         /// The properties of the numeric question.
         case numeric(ConnectClientTypes.EvaluationFormNumericQuestionProperties)
         /// The properties of the numeric question.
@@ -18037,7 +18037,7 @@ extension ConnectClientTypes.EvaluationFormScoringStrategy: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about scoring strategy for an evaluation form.
-    public struct EvaluationFormScoringStrategy: Swift.Equatable {
+    public struct EvaluationFormScoringStrategy {
         /// The scoring mode of the evaluation form.
         /// This member is required.
         public var mode: ConnectClientTypes.EvaluationFormScoringMode?
@@ -18114,7 +18114,7 @@ extension ConnectClientTypes.EvaluationFormSection: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about a section from an evaluation form. A section can contain sections and/or questions. Evaluation forms can only contain sections and subsections (two level nesting).
-    public struct EvaluationFormSection: Swift.Equatable {
+    public struct EvaluationFormSection {
         /// The instructions of the section.
         public var instructions: Swift.String?
         /// The items of the section.
@@ -18186,7 +18186,7 @@ extension ConnectClientTypes.EvaluationFormSingleSelectQuestionAutomation: Swift
 
 extension ConnectClientTypes {
     /// Information about the automation configuration in single select questions. Automation options are evaluated in order, and the first matched option is applied. If no automation option matches, and there is a default option, then the default option is applied.
-    public struct EvaluationFormSingleSelectQuestionAutomation: Swift.Equatable {
+    public struct EvaluationFormSingleSelectQuestionAutomation {
         /// The identifier of the default answer option, when none of the automation options match the criteria.
         public var defaultOptionRefId: Swift.String?
         /// The automation options of the single select question.
@@ -18234,7 +18234,7 @@ extension ConnectClientTypes.EvaluationFormSingleSelectQuestionAutomationOption:
 
 extension ConnectClientTypes {
     /// Information about the automation option of a single select question.
-    public enum EvaluationFormSingleSelectQuestionAutomationOption: Swift.Equatable {
+    public enum EvaluationFormSingleSelectQuestionAutomationOption {
         /// The automation option based on a rule category for the single select question.
         case rulecategory(ConnectClientTypes.SingleSelectQuestionRuleCategoryAutomation)
         case sdkUnknown(Swift.String)
@@ -18313,7 +18313,7 @@ extension ConnectClientTypes.EvaluationFormSingleSelectQuestionOption: Swift.Cod
 
 extension ConnectClientTypes {
     /// Information about the automation configuration in single select questions.
-    public struct EvaluationFormSingleSelectQuestionOption: Swift.Equatable {
+    public struct EvaluationFormSingleSelectQuestionOption {
         /// The flag to mark the option as automatic fail. If an automatic fail answer is provided, the overall evaluation gets a score of 0.
         public var automaticFail: Swift.Bool
         /// The identifier of the answer option. An identifier must be unique within the question.
@@ -18386,7 +18386,7 @@ extension ConnectClientTypes.EvaluationFormSingleSelectQuestionProperties: Swift
 
 extension ConnectClientTypes {
     /// Information about the options in single select questions.
-    public struct EvaluationFormSingleSelectQuestionProperties: Swift.Equatable {
+    public struct EvaluationFormSingleSelectQuestionProperties {
         /// The display mode of the single select question.
         public var automation: ConnectClientTypes.EvaluationFormSingleSelectQuestionAutomation?
         /// The display mode of the single select question.
@@ -18490,7 +18490,7 @@ extension ConnectClientTypes.EvaluationFormSummary: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Summary information about an evaluation form.
-    public struct EvaluationFormSummary: Swift.Equatable {
+    public struct EvaluationFormSummary {
         /// The version of the active evaluation form version.
         public var activeVersion: Swift.Int?
         /// The Amazon Resource Name (ARN) of the user who created the evaluation form.
@@ -18653,7 +18653,7 @@ extension ConnectClientTypes.EvaluationFormVersionSummary: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Summary information about an evaluation form.
-    public struct EvaluationFormVersionSummary: Swift.Equatable {
+    public struct EvaluationFormVersionSummary {
         /// The Amazon Resource Name (ARN) of the user who created the evaluation form.
         /// This member is required.
         public var createdBy: Swift.String?
@@ -18747,7 +18747,7 @@ extension ConnectClientTypes.EvaluationMetadata: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Metadata information about a contact evaluation.
-    public struct EvaluationMetadata: Swift.Equatable {
+    public struct EvaluationMetadata {
         /// The identifier of the agent who performed the contact.
         public var contactAgentId: Swift.String?
         /// The identifier of the contact in this instance of Amazon Connect.
@@ -18796,7 +18796,7 @@ extension ConnectClientTypes.EvaluationNote: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about notes for a contact evaluation.
-    public struct EvaluationNote: Swift.Equatable {
+    public struct EvaluationNote {
         /// The note for an item (section or question) in a contact evaluation. Even though a note in an evaluation can have up to 3072 chars, there is also a limit on the total number of chars for all the notes in the evaluation combined. Assuming there are N questions in the evaluation being submitted, then the max char limit for all notes combined is N x 1024.
         public var value: Swift.String?
 
@@ -18843,7 +18843,7 @@ extension ConnectClientTypes.EvaluationScore: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about scores of a contact evaluation item (section or question).
-    public struct EvaluationScore: Swift.Equatable {
+    public struct EvaluationScore {
         /// The flag that marks the item as automatic fail. If the item or a child item gets an automatic fail answer, this flag will be true.
         public var automaticFail: Swift.Bool
         /// The flag to mark the item as not applicable for scoring.
@@ -18966,7 +18966,7 @@ extension ConnectClientTypes.EvaluationSummary: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Summary information about a contact evaluation.
-    public struct EvaluationSummary: Swift.Equatable {
+    public struct EvaluationSummary {
         /// The timestamp for when the evaluation was created.
         /// This member is required.
         public var createdTime: ClientRuntime.Date?
@@ -19041,7 +19041,7 @@ extension ConnectClientTypes.EventBridgeActionDefinition: Swift.Codable {
 
 extension ConnectClientTypes {
     /// The EventBridge action definition.
-    public struct EventBridgeActionDefinition: Swift.Equatable {
+    public struct EventBridgeActionDefinition {
         /// The name.
         /// This member is required.
         public var name: Swift.String?
@@ -19148,7 +19148,7 @@ extension ConnectClientTypes.FailedRequest: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Request for which contact failed to be generated.
-    public struct FailedRequest: Swift.Equatable {
+    public struct FailedRequest {
         /// Reason code for the failure.
         public var failureReasonCode: ConnectClientTypes.FailureReasonCode?
         /// Why the request to create a contact failed.
@@ -19253,7 +19253,7 @@ extension ConnectClientTypes.FieldValue: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Object for case field values.
-    public struct FieldValue: Swift.Equatable {
+    public struct FieldValue {
         /// Unique identifier of a field.
         /// This member is required.
         public var id: Swift.String?
@@ -19312,7 +19312,7 @@ extension ConnectClientTypes.FieldValueUnion: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Object to store union of Field values.
-    public struct FieldValueUnion: Swift.Equatable {
+    public struct FieldValueUnion {
         /// A Boolean number value type.
         public var booleanValue: Swift.Bool
         /// a Double number value type.
@@ -19377,7 +19377,7 @@ extension ConnectClientTypes.FilterV2: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains the filter to apply when retrieving metrics with the [GetMetricDataV2](https://docs.aws.amazon.com/connect/latest/APIReference/API_GetMetricDataV2.html) API.
-    public struct FilterV2: Swift.Equatable {
+    public struct FilterV2 {
         /// The key to use for filtering data. For example, QUEUE, ROUTING_PROFILE, AGENT, CHANNEL, AGENT_HIERARCHY_LEVEL_ONE, AGENT_HIERARCHY_LEVEL_TWO, AGENT_HIERARCHY_LEVEL_THREE, AGENT_HIERARCHY_LEVEL_FOUR, AGENT_HIERARCHY_LEVEL_FIVE. There must be at least 1 key and a maximum 5 keys.
         public var filterKey: Swift.String?
         /// The identifiers to use for filtering data. For example, if you have a filter key of QUEUE, you would add queue IDs or ARNs in FilterValues.
@@ -19482,7 +19482,7 @@ extension ConnectClientTypes.Filters: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains the filter to apply when retrieving metrics.
-    public struct Filters: Swift.Equatable {
+    public struct Filters {
         /// The channel to use to filter the metrics.
         public var channels: [ConnectClientTypes.Channel]?
         /// The queues to use to filter the metrics. You should specify at least one queue, and can specify up to 100 queues per request. The GetCurrentMetricsData API in particular requires a queue when you include a Filter in your request.
@@ -19570,7 +19570,7 @@ extension ConnectClientTypes.FlowAssociationSummary: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about flow associations.
-    public struct FlowAssociationSummary: Swift.Equatable {
+    public struct FlowAssociationSummary {
         /// The identifier of the flow.
         public var flowId: Swift.String?
         /// The identifier of the resource.
@@ -19605,7 +19605,7 @@ extension GetContactAttributesInput {
     }
 }
 
-public struct GetContactAttributesInput: Swift.Equatable {
+public struct GetContactAttributesInput {
     /// The identifier of the initial contact.
     /// This member is required.
     public var initialContactId: Swift.String?
@@ -19623,7 +19623,7 @@ public struct GetContactAttributesInput: Swift.Equatable {
     }
 }
 
-struct GetContactAttributesInputBody: Swift.Equatable {
+struct GetContactAttributesInputBody {
 }
 
 extension GetContactAttributesInputBody: Swift.Decodable {
@@ -19644,7 +19644,7 @@ extension GetContactAttributesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetContactAttributesOutput: Swift.Equatable {
+public struct GetContactAttributesOutput {
     /// Information about the attributes.
     public var attributes: [Swift.String:Swift.String]?
 
@@ -19656,7 +19656,7 @@ public struct GetContactAttributesOutput: Swift.Equatable {
     }
 }
 
-struct GetContactAttributesOutputBody: Swift.Equatable {
+struct GetContactAttributesOutputBody {
     let attributes: [Swift.String:Swift.String]?
 }
 
@@ -19746,7 +19746,7 @@ extension GetCurrentMetricDataInput {
     }
 }
 
-public struct GetCurrentMetricDataInput: Swift.Equatable {
+public struct GetCurrentMetricDataInput {
     /// The metrics to retrieve. Specify the name and unit for each metric. The following metrics are available. For a description of all the metrics, see [Real-time Metrics Definitions](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html) in the Amazon Connect Administrator Guide. AGENTS_AFTER_CONTACT_WORK Unit: COUNT Name in real-time metrics report: [ACW](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#aftercallwork-real-time) AGENTS_AVAILABLE Unit: COUNT Name in real-time metrics report: [Available](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#available-real-time) AGENTS_ERROR Unit: COUNT Name in real-time metrics report: [Error](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#error-real-time) AGENTS_NON_PRODUCTIVE Unit: COUNT Name in real-time metrics report: [NPT (Non-Productive Time)](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#non-productive-time-real-time) AGENTS_ON_CALL Unit: COUNT Name in real-time metrics report: [On contact](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#on-call-real-time) AGENTS_ON_CONTACT Unit: COUNT Name in real-time metrics report: [On contact](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#on-call-real-time) AGENTS_ONLINE Unit: COUNT Name in real-time metrics report: [Online](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#online-real-time) AGENTS_STAFFED Unit: COUNT Name in real-time metrics report: [Staffed](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#staffed-real-time) CONTACTS_IN_QUEUE Unit: COUNT Name in real-time metrics report: [In queue](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#in-queue-real-time) CONTACTS_SCHEDULED Unit: COUNT Name in real-time metrics report: [Scheduled](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#scheduled-real-time) OLDEST_CONTACT_AGE Unit: SECONDS When you use groupings, Unit says SECONDS and the Value is returned in SECONDS. When you do not use groupings, Unit says SECONDS but the Value is returned in MILLISECONDS. For example, if you get a response like this: { "Metric": { "Name": "OLDEST_CONTACT_AGE", "Unit": "SECONDS" }, "Value": 24113.0 } The actual OLDEST_CONTACT_AGE is 24 seconds. When the filter RoutingStepExpression is used, this metric is still calculated from enqueue time. For example, if a contact that has been queued under  for 10 seconds has expired and  becomes active, then OLDEST_CONTACT_AGE for this queue will be counted starting from 10, not 0. Name in real-time metrics report: [Oldest](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#oldest-real-time) SLOTS_ACTIVE Unit: COUNT Name in real-time metrics report: [Active](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#active-real-time) SLOTS_AVAILABLE Unit: COUNT Name in real-time metrics report: [Availability](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#availability-real-time)
     /// This member is required.
     public var currentMetrics: [ConnectClientTypes.CurrentMetric]?
@@ -19806,7 +19806,7 @@ public struct GetCurrentMetricDataInput: Swift.Equatable {
     }
 }
 
-struct GetCurrentMetricDataInputBody: Swift.Equatable {
+struct GetCurrentMetricDataInputBody {
     let filters: ConnectClientTypes.Filters?
     let groupings: [ConnectClientTypes.Grouping]?
     let currentMetrics: [ConnectClientTypes.CurrentMetric]?
@@ -19887,7 +19887,7 @@ extension GetCurrentMetricDataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCurrentMetricDataOutput: Swift.Equatable {
+public struct GetCurrentMetricDataOutput {
     /// The total count of the result, regardless of the current page size.
     public var approximateTotalCount: Swift.Int?
     /// The time at which the metrics were retrieved and cached for pagination.
@@ -19911,7 +19911,7 @@ public struct GetCurrentMetricDataOutput: Swift.Equatable {
     }
 }
 
-struct GetCurrentMetricDataOutputBody: Swift.Equatable {
+struct GetCurrentMetricDataOutputBody {
     let nextToken: Swift.String?
     let metricResults: [ConnectClientTypes.CurrentMetricResult]?
     let dataSnapshotTime: ClientRuntime.Date?
@@ -19994,7 +19994,7 @@ extension GetCurrentUserDataInput {
     }
 }
 
-public struct GetCurrentUserDataInput: Swift.Equatable {
+public struct GetCurrentUserDataInput {
     /// The filters to apply to returned user data. You can filter up to the following limits:
     ///
     /// * Queues: 100
@@ -20033,7 +20033,7 @@ public struct GetCurrentUserDataInput: Swift.Equatable {
     }
 }
 
-struct GetCurrentUserDataInputBody: Swift.Equatable {
+struct GetCurrentUserDataInputBody {
     let filters: ConnectClientTypes.UserDataFilters?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -20073,7 +20073,7 @@ extension GetCurrentUserDataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCurrentUserDataOutput: Swift.Equatable {
+public struct GetCurrentUserDataOutput {
     /// The total count of the result, regardless of the current page size.
     public var approximateTotalCount: Swift.Int?
     /// If there are additional results, this is the token for the next set of results.
@@ -20093,7 +20093,7 @@ public struct GetCurrentUserDataOutput: Swift.Equatable {
     }
 }
 
-struct GetCurrentUserDataOutputBody: Swift.Equatable {
+struct GetCurrentUserDataOutputBody {
     let nextToken: Swift.String?
     let userDataList: [ConnectClientTypes.UserData]?
     let approximateTotalCount: Swift.Int?
@@ -20151,7 +20151,7 @@ extension GetFederationTokenInput {
     }
 }
 
-public struct GetFederationTokenInput: Swift.Equatable {
+public struct GetFederationTokenInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -20164,7 +20164,7 @@ public struct GetFederationTokenInput: Swift.Equatable {
     }
 }
 
-struct GetFederationTokenInputBody: Swift.Equatable {
+struct GetFederationTokenInputBody {
 }
 
 extension GetFederationTokenInputBody: Swift.Decodable {
@@ -20196,7 +20196,7 @@ extension GetFederationTokenOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetFederationTokenOutput: Swift.Equatable {
+public struct GetFederationTokenOutput {
     /// The credentials to use for federation.
     public var credentials: ConnectClientTypes.Credentials?
     /// The URL to sign into the user's instance.
@@ -20220,7 +20220,7 @@ public struct GetFederationTokenOutput: Swift.Equatable {
     }
 }
 
-struct GetFederationTokenOutputBody: Swift.Equatable {
+struct GetFederationTokenOutputBody {
     let credentials: ConnectClientTypes.Credentials?
     let signInUrl: Swift.String?
     let userArn: Swift.String?
@@ -20280,7 +20280,7 @@ extension GetFlowAssociationInput {
     }
 }
 
-public struct GetFlowAssociationInput: Swift.Equatable {
+public struct GetFlowAssociationInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -20303,7 +20303,7 @@ public struct GetFlowAssociationInput: Swift.Equatable {
     }
 }
 
-struct GetFlowAssociationInputBody: Swift.Equatable {
+struct GetFlowAssociationInputBody {
 }
 
 extension GetFlowAssociationInputBody: Swift.Decodable {
@@ -20328,7 +20328,7 @@ extension GetFlowAssociationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetFlowAssociationOutput: Swift.Equatable {
+public struct GetFlowAssociationOutput {
     /// The identifier of the flow.
     public var flowId: Swift.String?
     /// The identifier of the resource.
@@ -20348,7 +20348,7 @@ public struct GetFlowAssociationOutput: Swift.Equatable {
     }
 }
 
-struct GetFlowAssociationOutputBody: Swift.Equatable {
+struct GetFlowAssociationOutputBody {
     let resourceId: Swift.String?
     let flowId: Swift.String?
     let resourceType: ConnectClientTypes.FlowAssociationResourceType?
@@ -20441,7 +20441,7 @@ extension GetMetricDataInput {
     }
 }
 
-public struct GetMetricDataInput: Swift.Equatable {
+public struct GetMetricDataInput {
     /// The timestamp, in UNIX Epoch time format, at which to end the reporting interval for the retrieval of historical metrics data. The time must be specified using an interval of 5 minutes, such as 11:00, 11:05, 11:10, and must be later than the start time timestamp. The time range between the start and end time must be less than 24 hours.
     /// This member is required.
     public var endTime: ClientRuntime.Date?
@@ -20486,7 +20486,7 @@ public struct GetMetricDataInput: Swift.Equatable {
     }
 }
 
-struct GetMetricDataInputBody: Swift.Equatable {
+struct GetMetricDataInputBody {
     let startTime: ClientRuntime.Date?
     let endTime: ClientRuntime.Date?
     let filters: ConnectClientTypes.Filters?
@@ -20558,7 +20558,7 @@ extension GetMetricDataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMetricDataOutput: Swift.Equatable {
+public struct GetMetricDataOutput {
     /// Information about the historical metrics. If no grouping is specified, a summary of metric data is returned.
     public var metricResults: [ConnectClientTypes.HistoricalMetricResult]?
     /// If there are additional results, this is the token for the next set of results. The token expires after 5 minutes from the time it is created. Subsequent requests that use the token must use the same request parameters as the request that generated the token.
@@ -20574,7 +20574,7 @@ public struct GetMetricDataOutput: Swift.Equatable {
     }
 }
 
-struct GetMetricDataOutputBody: Swift.Equatable {
+struct GetMetricDataOutputBody {
     let nextToken: Swift.String?
     let metricResults: [ConnectClientTypes.HistoricalMetricResult]?
 }
@@ -20679,7 +20679,7 @@ extension GetMetricDataV2Input {
     }
 }
 
-public struct GetMetricDataV2Input: Swift.Equatable {
+public struct GetMetricDataV2Input {
     /// The timestamp, in UNIX Epoch time format, at which to end the reporting interval for the retrieval of historical metrics data. The time must be later than the start time timestamp. It cannot be later than the current timestamp.
     /// This member is required.
     public var endTime: ClientRuntime.Date?
@@ -20768,7 +20768,7 @@ public struct GetMetricDataV2Input: Swift.Equatable {
     }
 }
 
-struct GetMetricDataV2InputBody: Swift.Equatable {
+struct GetMetricDataV2InputBody {
     let resourceArn: Swift.String?
     let startTime: ClientRuntime.Date?
     let endTime: ClientRuntime.Date?
@@ -20857,7 +20857,7 @@ extension GetMetricDataV2Output: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMetricDataV2Output: Swift.Equatable {
+public struct GetMetricDataV2Output {
     /// Information about the metrics requested in the API request If no grouping is specified, a summary of metric data is returned.
     public var metricResults: [ConnectClientTypes.MetricResultV2]?
     /// If there are additional results, this is the token for the next set of results.
@@ -20873,7 +20873,7 @@ public struct GetMetricDataV2Output: Swift.Equatable {
     }
 }
 
-struct GetMetricDataV2OutputBody: Swift.Equatable {
+struct GetMetricDataV2OutputBody {
     let nextToken: Swift.String?
     let metricResults: [ConnectClientTypes.MetricResultV2]?
 }
@@ -20930,7 +20930,7 @@ extension GetPromptFileInput {
     }
 }
 
-public struct GetPromptFileInput: Swift.Equatable {
+public struct GetPromptFileInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -20948,7 +20948,7 @@ public struct GetPromptFileInput: Swift.Equatable {
     }
 }
 
-struct GetPromptFileInputBody: Swift.Equatable {
+struct GetPromptFileInputBody {
 }
 
 extension GetPromptFileInputBody: Swift.Decodable {
@@ -20973,7 +20973,7 @@ extension GetPromptFileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPromptFileOutput: Swift.Equatable {
+public struct GetPromptFileOutput {
     /// The Amazon Web Services Region where this resource was last modified.
     public var lastModifiedRegion: Swift.String?
     /// The timestamp when this resource was last modified.
@@ -20993,7 +20993,7 @@ public struct GetPromptFileOutput: Swift.Equatable {
     }
 }
 
-struct GetPromptFileOutputBody: Swift.Equatable {
+struct GetPromptFileOutputBody {
     let promptPresignedUrl: Swift.String?
     let lastModifiedTime: ClientRuntime.Date?
     let lastModifiedRegion: Swift.String?
@@ -21057,7 +21057,7 @@ extension GetTaskTemplateInput {
     }
 }
 
-public struct GetTaskTemplateInput: Swift.Equatable {
+public struct GetTaskTemplateInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -21079,7 +21079,7 @@ public struct GetTaskTemplateInput: Swift.Equatable {
     }
 }
 
-struct GetTaskTemplateInputBody: Swift.Equatable {
+struct GetTaskTemplateInputBody {
 }
 
 extension GetTaskTemplateInputBody: Swift.Decodable {
@@ -21124,7 +21124,7 @@ extension GetTaskTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTaskTemplateOutput: Swift.Equatable {
+public struct GetTaskTemplateOutput {
     /// The Amazon Resource Name (ARN).
     /// This member is required.
     public var arn: Swift.String?
@@ -21187,7 +21187,7 @@ public struct GetTaskTemplateOutput: Swift.Equatable {
     }
 }
 
-struct GetTaskTemplateOutputBody: Swift.Equatable {
+struct GetTaskTemplateOutputBody {
     let instanceId: Swift.String?
     let id: Swift.String?
     let arn: Swift.String?
@@ -21294,7 +21294,7 @@ extension GetTrafficDistributionInput {
     }
 }
 
-public struct GetTrafficDistributionInput: Swift.Equatable {
+public struct GetTrafficDistributionInput {
     /// The identifier of the traffic distribution group. This can be the ID or the ARN if the API is being called in the Region where the traffic distribution group was created. The ARN must be provided if the call is from the replicated Region.
     /// This member is required.
     public var id: Swift.String?
@@ -21307,7 +21307,7 @@ public struct GetTrafficDistributionInput: Swift.Equatable {
     }
 }
 
-struct GetTrafficDistributionInputBody: Swift.Equatable {
+struct GetTrafficDistributionInputBody {
 }
 
 extension GetTrafficDistributionInputBody: Swift.Decodable {
@@ -21336,7 +21336,7 @@ extension GetTrafficDistributionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTrafficDistributionOutput: Swift.Equatable {
+public struct GetTrafficDistributionOutput {
     /// The distribution of agents between the instance and its replica(s).
     public var agentConfig: ConnectClientTypes.AgentConfig?
     /// The Amazon Resource Name (ARN) of the traffic distribution group.
@@ -21364,7 +21364,7 @@ public struct GetTrafficDistributionOutput: Swift.Equatable {
     }
 }
 
-struct GetTrafficDistributionOutputBody: Swift.Equatable {
+struct GetTrafficDistributionOutputBody {
     let telephonyConfig: ConnectClientTypes.TelephonyConfig?
     let id: Swift.String?
     let arn: Swift.String?
@@ -21524,7 +21524,7 @@ extension ConnectClientTypes.HierarchyGroup: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains information about a hierarchy group.
-    public struct HierarchyGroup: Swift.Equatable {
+    public struct HierarchyGroup {
         /// The Amazon Resource Name (ARN) of the hierarchy group.
         public var arn: Swift.String?
         /// Information about the levels in the hierarchy group.
@@ -21593,7 +21593,7 @@ extension ConnectClientTypes.HierarchyGroupCondition: Swift.Codable {
 
 extension ConnectClientTypes {
     /// A leaf node condition which can be used to specify a hierarchy group condition.
-    public struct HierarchyGroupCondition: Swift.Equatable {
+    public struct HierarchyGroupCondition {
         /// The type of hierarchy group match.
         public var hierarchyGroupMatchType: ConnectClientTypes.HierarchyGroupMatchType?
         /// The value in the hierarchy group condition.
@@ -21688,7 +21688,7 @@ extension ConnectClientTypes.HierarchyGroupSummary: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains summary information about a hierarchy group.
-    public struct HierarchyGroupSummary: Swift.Equatable {
+    public struct HierarchyGroupSummary {
         /// The Amazon Resource Name (ARN) of the hierarchy group.
         public var arn: Swift.String?
         /// The identifier of the hierarchy group.
@@ -21745,7 +21745,7 @@ extension ConnectClientTypes.HierarchyGroupSummaryReference: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about the hierarchy group.
-    public struct HierarchyGroupSummaryReference: Swift.Equatable {
+    public struct HierarchyGroupSummaryReference {
         /// The Amazon Resource Name (ARN) for the hierarchy group.
         public var arn: Swift.String?
         /// The unique identifier for the hierarchy group.
@@ -21808,7 +21808,7 @@ extension ConnectClientTypes.HierarchyLevel: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains information about a hierarchy level.
-    public struct HierarchyLevel: Swift.Equatable {
+    public struct HierarchyLevel {
         /// The Amazon Resource Name (ARN) of the hierarchy level.
         public var arn: Swift.String?
         /// The identifier of the hierarchy level.
@@ -21859,7 +21859,7 @@ extension ConnectClientTypes.HierarchyLevelUpdate: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains information about the hierarchy level to update.
-    public struct HierarchyLevelUpdate: Swift.Equatable {
+    public struct HierarchyLevelUpdate {
         /// The name of the user hierarchy level. Must not be more than 50 characters.
         /// This member is required.
         public var name: Swift.String?
@@ -21919,7 +21919,7 @@ extension ConnectClientTypes.HierarchyPath: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains information about the levels of a hierarchy group.
-    public struct HierarchyPath: Swift.Equatable {
+    public struct HierarchyPath {
         /// Information about level five.
         public var levelFive: ConnectClientTypes.HierarchyGroupSummary?
         /// Information about level four.
@@ -21994,7 +21994,7 @@ extension ConnectClientTypes.HierarchyPathReference: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about the levels in the hierarchy group.
-    public struct HierarchyPathReference: Swift.Equatable {
+    public struct HierarchyPathReference {
         /// Information about level five.
         public var levelFive: ConnectClientTypes.HierarchyGroupSummaryReference?
         /// Information about level four.
@@ -22069,7 +22069,7 @@ extension ConnectClientTypes.HierarchyStructure: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains information about a hierarchy structure.
-    public struct HierarchyStructure: Swift.Equatable {
+    public struct HierarchyStructure {
         /// Information about level five.
         public var levelFive: ConnectClientTypes.HierarchyLevel?
         /// Information about level four.
@@ -22144,7 +22144,7 @@ extension ConnectClientTypes.HierarchyStructureUpdate: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains information about the level hierarchy to update.
-    public struct HierarchyStructureUpdate: Swift.Equatable {
+    public struct HierarchyStructureUpdate {
         /// The update for level five.
         public var levelFive: ConnectClientTypes.HierarchyLevelUpdate?
         /// The update for level four.
@@ -22213,7 +22213,7 @@ extension ConnectClientTypes.HistoricalMetric: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains information about a historical metric. For a description of each metric, see [Historical Metrics Definitions](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html) in the Amazon Connect Administrator Guide.
-    public struct HistoricalMetric: Swift.Equatable {
+    public struct HistoricalMetric {
         /// The name of the metric.
         public var name: ConnectClientTypes.HistoricalMetricName?
         /// The statistic for the metric.
@@ -22266,7 +22266,7 @@ extension ConnectClientTypes.HistoricalMetricData: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains the data for a historical metric.
-    public struct HistoricalMetricData: Swift.Equatable {
+    public struct HistoricalMetricData {
         /// Information about the metric.
         public var metric: ConnectClientTypes.HistoricalMetric?
         /// The value of the metric.
@@ -22425,7 +22425,7 @@ extension ConnectClientTypes.HistoricalMetricResult: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains information about the historical metrics retrieved.
-    public struct HistoricalMetricResult: Swift.Equatable {
+    public struct HistoricalMetricResult {
         /// The set of metrics.
         public var collections: [ConnectClientTypes.HistoricalMetricData]?
         /// The dimension for the metrics.
@@ -22536,7 +22536,7 @@ extension ConnectClientTypes.HoursOfOperation: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about of the hours of operation.
-    public struct HoursOfOperation: Swift.Equatable {
+    public struct HoursOfOperation {
         /// Configuration information for the hours of operation.
         public var config: [ConnectClientTypes.HoursOfOperationConfig]?
         /// The description for the hours of operation.
@@ -22615,7 +22615,7 @@ extension ConnectClientTypes.HoursOfOperationConfig: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains information about the hours of operation.
-    public struct HoursOfOperationConfig: Swift.Equatable {
+    public struct HoursOfOperationConfig {
         /// The day that the hours of operation applies to.
         /// This member is required.
         public var day: ConnectClientTypes.HoursOfOperationDays?
@@ -22744,7 +22744,7 @@ extension ConnectClientTypes.HoursOfOperationSearchCriteria: Swift.Codable {
 
 extension ConnectClientTypes {
     /// The search criteria to be used to return hours of operations.
-    public struct HoursOfOperationSearchCriteria: Swift.Equatable {
+    public struct HoursOfOperationSearchCriteria {
         /// A list of conditions which would be applied together with an AND condition.
         public var andConditions: [ConnectClientTypes.HoursOfOperationSearchCriteria]?
         /// A list of conditions which would be applied together with an OR condition.
@@ -22787,7 +22787,7 @@ extension ConnectClientTypes.HoursOfOperationSearchFilter: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Filters to be applied to search results.
-    public struct HoursOfOperationSearchFilter: Swift.Equatable {
+    public struct HoursOfOperationSearchFilter {
         /// An object that can be used to specify Tag conditions inside the SearchFilter. This accepts an OR of AND (List of List) input where:
         ///
         /// * Top level list specifies conditions that need to be applied with OR operator
@@ -22850,7 +22850,7 @@ extension ConnectClientTypes.HoursOfOperationSummary: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains summary information about hours of operation for a contact center.
-    public struct HoursOfOperationSummary: Swift.Equatable {
+    public struct HoursOfOperationSummary {
         /// The Amazon Resource Name (ARN) of the hours of operation.
         public var arn: Swift.String?
         /// The identifier of the hours of operation.
@@ -22907,7 +22907,7 @@ extension ConnectClientTypes.HoursOfOperationTimeSlice: Swift.Codable {
 
 extension ConnectClientTypes {
     /// The start time or end time for an hours of operation.
-    public struct HoursOfOperationTimeSlice: Swift.Equatable {
+    public struct HoursOfOperationTimeSlice {
         /// The hours.
         /// This member is required.
         public var hours: Swift.Int?
@@ -22966,7 +22966,7 @@ public struct IdempotencyException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct IdempotencyExceptionBody: Swift.Equatable {
+struct IdempotencyExceptionBody {
     let message: Swift.String?
 }
 
@@ -23021,7 +23021,7 @@ extension ImportPhoneNumberInput {
     }
 }
 
-public struct ImportPhoneNumberInput: Swift.Equatable {
+public struct ImportPhoneNumberInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
@@ -23051,7 +23051,7 @@ public struct ImportPhoneNumberInput: Swift.Equatable {
     }
 }
 
-struct ImportPhoneNumberInputBody: Swift.Equatable {
+struct ImportPhoneNumberInputBody {
     let instanceId: Swift.String?
     let sourcePhoneNumberArn: Swift.String?
     let phoneNumberDescription: Swift.String?
@@ -23106,7 +23106,7 @@ extension ImportPhoneNumberOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ImportPhoneNumberOutput: Swift.Equatable {
+public struct ImportPhoneNumberOutput {
     /// The Amazon Resource Name (ARN) of the phone number.
     public var phoneNumberArn: Swift.String?
     /// A unique identifier for the phone number.
@@ -23122,7 +23122,7 @@ public struct ImportPhoneNumberOutput: Swift.Equatable {
     }
 }
 
-struct ImportPhoneNumberOutputBody: Swift.Equatable {
+struct ImportPhoneNumberOutputBody {
     let phoneNumberId: Swift.String?
     let phoneNumberArn: Swift.String?
 }
@@ -23262,7 +23262,7 @@ extension ConnectClientTypes.Instance: Swift.CustomDebugStringConvertible {
 
 extension ConnectClientTypes {
     /// The Amazon Connect instance.
-    public struct Instance: Swift.Equatable {
+    public struct Instance {
         /// The Amazon Resource Name (ARN) of the instance.
         public var arn: Swift.String?
         /// When the instance was created.
@@ -23435,7 +23435,7 @@ extension ConnectClientTypes.InstanceStatusReason: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Relevant details why the instance was not successfully created.
-    public struct InstanceStatusReason: Swift.Equatable {
+    public struct InstanceStatusReason {
         /// The message.
         public var message: Swift.String?
 
@@ -23500,7 +23500,7 @@ extension ConnectClientTypes.InstanceStorageConfig: Swift.Codable {
 
 extension ConnectClientTypes {
     /// The storage configuration for the instance.
-    public struct InstanceStorageConfig: Swift.Equatable {
+    public struct InstanceStorageConfig {
         /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
         public var associationId: Swift.String?
         /// The configuration of the Kinesis Firehose delivery stream.
@@ -23677,7 +23677,7 @@ extension ConnectClientTypes.InstanceSummary: Swift.CustomDebugStringConvertible
 
 extension ConnectClientTypes {
     /// Information about the instance.
-    public struct InstanceSummary: Swift.Equatable {
+    public struct InstanceSummary {
         /// The Amazon Resource Name (ARN) of the instance.
         public var arn: Swift.String?
         /// When the instance was created.
@@ -23790,7 +23790,7 @@ extension ConnectClientTypes.IntegrationAssociationSummary: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains summary information about the associated AppIntegrations.
-    public struct IntegrationAssociationSummary: Swift.Equatable {
+    public struct IntegrationAssociationSummary {
         /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
         public var instanceId: Swift.String?
         /// The Amazon Resource Name (ARN) for the AppIntegration.
@@ -23925,7 +23925,7 @@ public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InternalServiceExceptionBody: Swift.Equatable {
+struct InternalServiceExceptionBody {
     let message: Swift.String?
 }
 
@@ -23968,7 +23968,7 @@ extension ConnectClientTypes.IntervalDetails: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about the interval period to use for returning results.
-    public struct IntervalDetails: Swift.Equatable {
+    public struct IntervalDetails {
         /// IntervalPeriod: An aggregated grouping applied to request metrics. Valid IntervalPeriod values are: FIFTEEN_MIN | THIRTY_MIN | HOUR | DAY | WEEK | TOTAL. For example, if IntervalPeriod is selected THIRTY_MIN, StartTime and EndTime differs by 1 day, then Amazon Connect returns 48 results in the response. Each result is aggregated by the THIRTY_MIN period. By default Amazon Connect aggregates results based on the TOTAL interval period. The following list describes restrictions on StartTime and EndTime based on what IntervalPeriod is requested.
         ///
         /// * FIFTEEN_MIN: The difference between StartTime and EndTime must be less than 3 days.
@@ -24082,7 +24082,7 @@ public struct InvalidContactFlowException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct InvalidContactFlowExceptionBody: Swift.Equatable {
+struct InvalidContactFlowExceptionBody {
     let problems: [ConnectClientTypes.ProblemDetail]?
 }
 
@@ -24146,7 +24146,7 @@ public struct InvalidContactFlowModuleException: ClientRuntime.ModeledError, AWS
     }
 }
 
-struct InvalidContactFlowModuleExceptionBody: Swift.Equatable {
+struct InvalidContactFlowModuleExceptionBody {
     let problems: [ConnectClientTypes.ProblemDetail]?
 }
 
@@ -24211,7 +24211,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidParameterExceptionBody: Swift.Equatable {
+struct InvalidParameterExceptionBody {
     let message: Swift.String?
 }
 
@@ -24267,7 +24267,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InvalidRequestExceptionBody: Swift.Equatable {
+struct InvalidRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -24304,7 +24304,7 @@ extension ConnectClientTypes.InvisibleFieldInfo: Swift.Codable {
 
 extension ConnectClientTypes {
     /// A field that is invisible to an agent.
-    public struct InvisibleFieldInfo: Swift.Equatable {
+    public struct InvisibleFieldInfo {
         /// Identifier of the invisible field.
         public var id: ConnectClientTypes.TaskTemplateFieldIdentifier?
 
@@ -24339,7 +24339,7 @@ extension ConnectClientTypes.KinesisFirehoseConfig: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Configuration information of a Kinesis Data Firehose delivery stream.
-    public struct KinesisFirehoseConfig: Swift.Equatable {
+    public struct KinesisFirehoseConfig {
         /// The Amazon Resource Name (ARN) of the delivery stream.
         /// This member is required.
         public var firehoseArn: Swift.String?
@@ -24375,7 +24375,7 @@ extension ConnectClientTypes.KinesisStreamConfig: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Configuration information of a Kinesis data stream.
-    public struct KinesisStreamConfig: Swift.Equatable {
+    public struct KinesisStreamConfig {
         /// The Amazon Resource Name (ARN) of the data stream.
         /// This member is required.
         public var streamArn: Swift.String?
@@ -24423,7 +24423,7 @@ extension ConnectClientTypes.KinesisVideoStreamConfig: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Configuration information of a Kinesis video stream.
-    public struct KinesisVideoStreamConfig: Swift.Equatable {
+    public struct KinesisVideoStreamConfig {
         /// The encryption configuration.
         /// This member is required.
         public var encryptionConfig: ConnectClientTypes.EncryptionConfig?
@@ -24475,7 +24475,7 @@ extension ConnectClientTypes.LexBot: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Configuration information of an Amazon Lex bot.
-    public struct LexBot: Swift.Equatable {
+    public struct LexBot {
         /// The Amazon Web Services Region where the Amazon Lex bot was created.
         /// This member is required.
         public var lexRegion: Swift.String?
@@ -24522,7 +24522,7 @@ extension ConnectClientTypes.LexBotConfig: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Configuration information of an Amazon Lex or Amazon Lex V2 bot.
-    public struct LexBotConfig: Swift.Equatable {
+    public struct LexBotConfig {
         /// Configuration information of an Amazon Lex bot.
         public var lexBot: ConnectClientTypes.LexBot?
         /// Configuration information of an Amazon Lex V2 bot.
@@ -24561,7 +24561,7 @@ extension ConnectClientTypes.LexV2Bot: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Configuration information of an Amazon Lex V2 bot.
-    public struct LexV2Bot: Swift.Equatable {
+    public struct LexV2Bot {
         /// The Amazon Resource Name (ARN) of the Amazon Lex V2 bot.
         public var aliasArn: Swift.String?
 
@@ -24647,7 +24647,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -24695,7 +24695,7 @@ extension ListAgentStatusesInput {
     }
 }
 
-public struct ListAgentStatusesInput: Swift.Equatable {
+public struct ListAgentStatusesInput {
     /// Available agent status types.
     public var agentStatusTypes: [ConnectClientTypes.AgentStatusType]?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
@@ -24720,7 +24720,7 @@ public struct ListAgentStatusesInput: Swift.Equatable {
     }
 }
 
-struct ListAgentStatusesInputBody: Swift.Equatable {
+struct ListAgentStatusesInputBody {
 }
 
 extension ListAgentStatusesInputBody: Swift.Decodable {
@@ -24743,7 +24743,7 @@ extension ListAgentStatusesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAgentStatusesOutput: Swift.Equatable {
+public struct ListAgentStatusesOutput {
     /// A summary of agent statuses.
     public var agentStatusSummaryList: [ConnectClientTypes.AgentStatusSummary]?
     /// If there are additional results, this is the token for the next set of results.
@@ -24759,7 +24759,7 @@ public struct ListAgentStatusesOutput: Swift.Equatable {
     }
 }
 
-struct ListAgentStatusesOutputBody: Swift.Equatable {
+struct ListAgentStatusesOutputBody {
     let nextToken: Swift.String?
     let agentStatusSummaryList: [ConnectClientTypes.AgentStatusSummary]?
 }
@@ -24833,7 +24833,7 @@ extension ListAnalyticsDataAssociationsInput {
     }
 }
 
-public struct ListAnalyticsDataAssociationsInput: Swift.Equatable {
+public struct ListAnalyticsDataAssociationsInput {
     /// The identifier of the dataset to get the association status.
     public var dataSetId: Swift.String?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
@@ -24858,7 +24858,7 @@ public struct ListAnalyticsDataAssociationsInput: Swift.Equatable {
     }
 }
 
-struct ListAnalyticsDataAssociationsInputBody: Swift.Equatable {
+struct ListAnalyticsDataAssociationsInputBody {
 }
 
 extension ListAnalyticsDataAssociationsInputBody: Swift.Decodable {
@@ -24881,7 +24881,7 @@ extension ListAnalyticsDataAssociationsOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ListAnalyticsDataAssociationsOutput: Swift.Equatable {
+public struct ListAnalyticsDataAssociationsOutput {
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
     /// An array of successful results: DataSetId, TargetAccountId, ResourceShareId, ResourceShareArn. This is a paginated API, so nextToken is given if there are more results to be returned.
@@ -24897,7 +24897,7 @@ public struct ListAnalyticsDataAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct ListAnalyticsDataAssociationsOutputBody: Swift.Equatable {
+struct ListAnalyticsDataAssociationsOutputBody {
     let results: [ConnectClientTypes.AnalyticsDataAssociationResult]?
     let nextToken: Swift.String?
 }
@@ -24967,7 +24967,7 @@ extension ListApprovedOriginsInput {
     }
 }
 
-public struct ListApprovedOriginsInput: Swift.Equatable {
+public struct ListApprovedOriginsInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -24988,7 +24988,7 @@ public struct ListApprovedOriginsInput: Swift.Equatable {
     }
 }
 
-struct ListApprovedOriginsInputBody: Swift.Equatable {
+struct ListApprovedOriginsInputBody {
 }
 
 extension ListApprovedOriginsInputBody: Swift.Decodable {
@@ -25011,7 +25011,7 @@ extension ListApprovedOriginsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListApprovedOriginsOutput: Swift.Equatable {
+public struct ListApprovedOriginsOutput {
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
     /// The approved origins.
@@ -25027,7 +25027,7 @@ public struct ListApprovedOriginsOutput: Swift.Equatable {
     }
 }
 
-struct ListApprovedOriginsOutputBody: Swift.Equatable {
+struct ListApprovedOriginsOutputBody {
     let origins: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -25103,7 +25103,7 @@ extension ListBotsInput {
     }
 }
 
-public struct ListBotsInput: Swift.Equatable {
+public struct ListBotsInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -25129,7 +25129,7 @@ public struct ListBotsInput: Swift.Equatable {
     }
 }
 
-struct ListBotsInputBody: Swift.Equatable {
+struct ListBotsInputBody {
 }
 
 extension ListBotsInputBody: Swift.Decodable {
@@ -25152,7 +25152,7 @@ extension ListBotsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBotsOutput: Swift.Equatable {
+public struct ListBotsOutput {
     /// The names and Amazon Web Services Regions of the Amazon Lex or Amazon Lex V2 bots associated with the specified instance.
     public var lexBots: [ConnectClientTypes.LexBotConfig]?
     /// If there are additional results, this is the token for the next set of results.
@@ -25168,7 +25168,7 @@ public struct ListBotsOutput: Swift.Equatable {
     }
 }
 
-struct ListBotsOutputBody: Swift.Equatable {
+struct ListBotsOutputBody {
     let lexBots: [ConnectClientTypes.LexBotConfig]?
     let nextToken: Swift.String?
 }
@@ -25239,7 +25239,7 @@ extension ListContactEvaluationsInput {
     }
 }
 
-public struct ListContactEvaluationsInput: Swift.Equatable {
+public struct ListContactEvaluationsInput {
     /// The identifier of the contact in this instance of Amazon Connect.
     /// This member is required.
     public var contactId: Swift.String?
@@ -25261,7 +25261,7 @@ public struct ListContactEvaluationsInput: Swift.Equatable {
     }
 }
 
-struct ListContactEvaluationsInputBody: Swift.Equatable {
+struct ListContactEvaluationsInputBody {
 }
 
 extension ListContactEvaluationsInputBody: Swift.Decodable {
@@ -25284,7 +25284,7 @@ extension ListContactEvaluationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListContactEvaluationsOutput: Swift.Equatable {
+public struct ListContactEvaluationsOutput {
     /// Provides details about a list of contact evaluations belonging to an instance.
     /// This member is required.
     public var evaluationSummaryList: [ConnectClientTypes.EvaluationSummary]?
@@ -25301,7 +25301,7 @@ public struct ListContactEvaluationsOutput: Swift.Equatable {
     }
 }
 
-struct ListContactEvaluationsOutputBody: Swift.Equatable {
+struct ListContactEvaluationsOutputBody {
     let evaluationSummaryList: [ConnectClientTypes.EvaluationSummary]?
     let nextToken: Swift.String?
 }
@@ -25374,7 +25374,7 @@ extension ListContactFlowModulesInput {
     }
 }
 
-public struct ListContactFlowModulesInput: Swift.Equatable {
+public struct ListContactFlowModulesInput {
     /// The state of the flow module.
     public var contactFlowModuleState: ConnectClientTypes.ContactFlowModuleState?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
@@ -25399,7 +25399,7 @@ public struct ListContactFlowModulesInput: Swift.Equatable {
     }
 }
 
-struct ListContactFlowModulesInputBody: Swift.Equatable {
+struct ListContactFlowModulesInputBody {
 }
 
 extension ListContactFlowModulesInputBody: Swift.Decodable {
@@ -25422,7 +25422,7 @@ extension ListContactFlowModulesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListContactFlowModulesOutput: Swift.Equatable {
+public struct ListContactFlowModulesOutput {
     /// Information about the flow module.
     public var contactFlowModulesSummaryList: [ConnectClientTypes.ContactFlowModuleSummary]?
     /// If there are additional results, this is the token for the next set of results.
@@ -25438,7 +25438,7 @@ public struct ListContactFlowModulesOutput: Swift.Equatable {
     }
 }
 
-struct ListContactFlowModulesOutputBody: Swift.Equatable {
+struct ListContactFlowModulesOutputBody {
     let contactFlowModulesSummaryList: [ConnectClientTypes.ContactFlowModuleSummary]?
     let nextToken: Swift.String?
 }
@@ -25515,7 +25515,7 @@ extension ListContactFlowsInput {
     }
 }
 
-public struct ListContactFlowsInput: Swift.Equatable {
+public struct ListContactFlowsInput {
     /// The type of flow.
     public var contactFlowTypes: [ConnectClientTypes.ContactFlowType]?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
@@ -25540,7 +25540,7 @@ public struct ListContactFlowsInput: Swift.Equatable {
     }
 }
 
-struct ListContactFlowsInputBody: Swift.Equatable {
+struct ListContactFlowsInputBody {
 }
 
 extension ListContactFlowsInputBody: Swift.Decodable {
@@ -25563,7 +25563,7 @@ extension ListContactFlowsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListContactFlowsOutput: Swift.Equatable {
+public struct ListContactFlowsOutput {
     /// Information about the flows.
     public var contactFlowSummaryList: [ConnectClientTypes.ContactFlowSummary]?
     /// If there are additional results, this is the token for the next set of results.
@@ -25579,7 +25579,7 @@ public struct ListContactFlowsOutput: Swift.Equatable {
     }
 }
 
-struct ListContactFlowsOutputBody: Swift.Equatable {
+struct ListContactFlowsOutputBody {
     let contactFlowSummaryList: [ConnectClientTypes.ContactFlowSummary]?
     let nextToken: Swift.String?
 }
@@ -25656,7 +25656,7 @@ extension ListContactReferencesInput {
     }
 }
 
-public struct ListContactReferencesInput: Swift.Equatable {
+public struct ListContactReferencesInput {
     /// The identifier of the initial contact.
     /// This member is required.
     public var contactId: Swift.String?
@@ -25683,7 +25683,7 @@ public struct ListContactReferencesInput: Swift.Equatable {
     }
 }
 
-struct ListContactReferencesInputBody: Swift.Equatable {
+struct ListContactReferencesInputBody {
 }
 
 extension ListContactReferencesInputBody: Swift.Decodable {
@@ -25706,7 +25706,7 @@ extension ListContactReferencesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListContactReferencesOutput: Swift.Equatable {
+public struct ListContactReferencesOutput {
     /// If there are additional results, this is the token for the next set of results. This is always returned as null in the response.
     public var nextToken: Swift.String?
     /// Information about the flows.
@@ -25722,7 +25722,7 @@ public struct ListContactReferencesOutput: Swift.Equatable {
     }
 }
 
-struct ListContactReferencesOutputBody: Swift.Equatable {
+struct ListContactReferencesOutputBody {
     let referenceSummaryList: [ConnectClientTypes.ReferenceSummary]?
     let nextToken: Swift.String?
 }
@@ -25797,7 +25797,7 @@ extension ListDefaultVocabulariesInput {
     }
 }
 
-public struct ListDefaultVocabulariesInput: Swift.Equatable {
+public struct ListDefaultVocabulariesInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -25822,7 +25822,7 @@ public struct ListDefaultVocabulariesInput: Swift.Equatable {
     }
 }
 
-struct ListDefaultVocabulariesInputBody: Swift.Equatable {
+struct ListDefaultVocabulariesInputBody {
     let languageCode: ConnectClientTypes.VocabularyLanguageCode?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -25860,7 +25860,7 @@ extension ListDefaultVocabulariesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDefaultVocabulariesOutput: Swift.Equatable {
+public struct ListDefaultVocabulariesOutput {
     /// A list of default vocabularies.
     /// This member is required.
     public var defaultVocabularyList: [ConnectClientTypes.DefaultVocabulary]?
@@ -25877,7 +25877,7 @@ public struct ListDefaultVocabulariesOutput: Swift.Equatable {
     }
 }
 
-struct ListDefaultVocabulariesOutputBody: Swift.Equatable {
+struct ListDefaultVocabulariesOutputBody {
     let defaultVocabularyList: [ConnectClientTypes.DefaultVocabulary]?
     let nextToken: Swift.String?
 }
@@ -25949,7 +25949,7 @@ extension ListEvaluationFormVersionsInput {
     }
 }
 
-public struct ListEvaluationFormVersionsInput: Swift.Equatable {
+public struct ListEvaluationFormVersionsInput {
     /// The unique identifier for the evaluation form.
     /// This member is required.
     public var evaluationFormId: Swift.String?
@@ -25975,7 +25975,7 @@ public struct ListEvaluationFormVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListEvaluationFormVersionsInputBody: Swift.Equatable {
+struct ListEvaluationFormVersionsInputBody {
 }
 
 extension ListEvaluationFormVersionsInputBody: Swift.Decodable {
@@ -25998,7 +25998,7 @@ extension ListEvaluationFormVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEvaluationFormVersionsOutput: Swift.Equatable {
+public struct ListEvaluationFormVersionsOutput {
     /// Provides details about a list of evaluation forms belonging to an instance.
     /// This member is required.
     public var evaluationFormVersionSummaryList: [ConnectClientTypes.EvaluationFormVersionSummary]?
@@ -26015,7 +26015,7 @@ public struct ListEvaluationFormVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListEvaluationFormVersionsOutputBody: Swift.Equatable {
+struct ListEvaluationFormVersionsOutputBody {
     let evaluationFormVersionSummaryList: [ConnectClientTypes.EvaluationFormVersionSummary]?
     let nextToken: Swift.String?
 }
@@ -26084,7 +26084,7 @@ extension ListEvaluationFormsInput {
     }
 }
 
-public struct ListEvaluationFormsInput: Swift.Equatable {
+public struct ListEvaluationFormsInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -26105,7 +26105,7 @@ public struct ListEvaluationFormsInput: Swift.Equatable {
     }
 }
 
-struct ListEvaluationFormsInputBody: Swift.Equatable {
+struct ListEvaluationFormsInputBody {
 }
 
 extension ListEvaluationFormsInputBody: Swift.Decodable {
@@ -26128,7 +26128,7 @@ extension ListEvaluationFormsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEvaluationFormsOutput: Swift.Equatable {
+public struct ListEvaluationFormsOutput {
     /// Provides details about a list of evaluation forms belonging to an instance.
     /// This member is required.
     public var evaluationFormSummaryList: [ConnectClientTypes.EvaluationFormSummary]?
@@ -26145,7 +26145,7 @@ public struct ListEvaluationFormsOutput: Swift.Equatable {
     }
 }
 
-struct ListEvaluationFormsOutputBody: Swift.Equatable {
+struct ListEvaluationFormsOutputBody {
     let evaluationFormSummaryList: [ConnectClientTypes.EvaluationFormSummary]?
     let nextToken: Swift.String?
 }
@@ -26247,7 +26247,7 @@ extension ListFlowAssociationsInput {
     }
 }
 
-public struct ListFlowAssociationsInput: Swift.Equatable {
+public struct ListFlowAssociationsInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -26272,7 +26272,7 @@ public struct ListFlowAssociationsInput: Swift.Equatable {
     }
 }
 
-struct ListFlowAssociationsInputBody: Swift.Equatable {
+struct ListFlowAssociationsInputBody {
 }
 
 extension ListFlowAssociationsInputBody: Swift.Decodable {
@@ -26295,7 +26295,7 @@ extension ListFlowAssociationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFlowAssociationsOutput: Swift.Equatable {
+public struct ListFlowAssociationsOutput {
     /// Summary of flow associations.
     public var flowAssociationSummaryList: [ConnectClientTypes.FlowAssociationSummary]?
     /// If there are additional results, this is the token for the next set of results.
@@ -26311,7 +26311,7 @@ public struct ListFlowAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct ListFlowAssociationsOutputBody: Swift.Equatable {
+struct ListFlowAssociationsOutputBody {
     let flowAssociationSummaryList: [ConnectClientTypes.FlowAssociationSummary]?
     let nextToken: Swift.String?
 }
@@ -26382,7 +26382,7 @@ extension ListHoursOfOperationsInput {
     }
 }
 
-public struct ListHoursOfOperationsInput: Swift.Equatable {
+public struct ListHoursOfOperationsInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -26403,7 +26403,7 @@ public struct ListHoursOfOperationsInput: Swift.Equatable {
     }
 }
 
-struct ListHoursOfOperationsInputBody: Swift.Equatable {
+struct ListHoursOfOperationsInputBody {
 }
 
 extension ListHoursOfOperationsInputBody: Swift.Decodable {
@@ -26426,7 +26426,7 @@ extension ListHoursOfOperationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListHoursOfOperationsOutput: Swift.Equatable {
+public struct ListHoursOfOperationsOutput {
     /// Information about the hours of operation.
     public var hoursOfOperationSummaryList: [ConnectClientTypes.HoursOfOperationSummary]?
     /// If there are additional results, this is the token for the next set of results.
@@ -26442,7 +26442,7 @@ public struct ListHoursOfOperationsOutput: Swift.Equatable {
     }
 }
 
-struct ListHoursOfOperationsOutputBody: Swift.Equatable {
+struct ListHoursOfOperationsOutputBody {
     let hoursOfOperationSummaryList: [ConnectClientTypes.HoursOfOperationSummary]?
     let nextToken: Swift.String?
 }
@@ -26512,7 +26512,7 @@ extension ListInstanceAttributesInput {
     }
 }
 
-public struct ListInstanceAttributesInput: Swift.Equatable {
+public struct ListInstanceAttributesInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -26533,7 +26533,7 @@ public struct ListInstanceAttributesInput: Swift.Equatable {
     }
 }
 
-struct ListInstanceAttributesInputBody: Swift.Equatable {
+struct ListInstanceAttributesInputBody {
 }
 
 extension ListInstanceAttributesInputBody: Swift.Decodable {
@@ -26556,7 +26556,7 @@ extension ListInstanceAttributesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListInstanceAttributesOutput: Swift.Equatable {
+public struct ListInstanceAttributesOutput {
     /// The attribute types.
     public var attributes: [ConnectClientTypes.Attribute]?
     /// If there are additional results, this is the token for the next set of results.
@@ -26572,7 +26572,7 @@ public struct ListInstanceAttributesOutput: Swift.Equatable {
     }
 }
 
-struct ListInstanceAttributesOutputBody: Swift.Equatable {
+struct ListInstanceAttributesOutputBody {
     let attributes: [ConnectClientTypes.Attribute]?
     let nextToken: Swift.String?
 }
@@ -26648,7 +26648,7 @@ extension ListInstanceStorageConfigsInput {
     }
 }
 
-public struct ListInstanceStorageConfigsInput: Swift.Equatable {
+public struct ListInstanceStorageConfigsInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -26674,7 +26674,7 @@ public struct ListInstanceStorageConfigsInput: Swift.Equatable {
     }
 }
 
-struct ListInstanceStorageConfigsInputBody: Swift.Equatable {
+struct ListInstanceStorageConfigsInputBody {
 }
 
 extension ListInstanceStorageConfigsInputBody: Swift.Decodable {
@@ -26697,7 +26697,7 @@ extension ListInstanceStorageConfigsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListInstanceStorageConfigsOutput: Swift.Equatable {
+public struct ListInstanceStorageConfigsOutput {
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
     /// A valid storage type.
@@ -26713,7 +26713,7 @@ public struct ListInstanceStorageConfigsOutput: Swift.Equatable {
     }
 }
 
-struct ListInstanceStorageConfigsOutputBody: Swift.Equatable {
+struct ListInstanceStorageConfigsOutputBody {
     let storageConfigs: [ConnectClientTypes.InstanceStorageConfig]?
     let nextToken: Swift.String?
 }
@@ -26780,7 +26780,7 @@ extension ListInstancesInput {
     }
 }
 
-public struct ListInstancesInput: Swift.Equatable {
+public struct ListInstancesInput {
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -26796,7 +26796,7 @@ public struct ListInstancesInput: Swift.Equatable {
     }
 }
 
-struct ListInstancesInputBody: Swift.Equatable {
+struct ListInstancesInputBody {
 }
 
 extension ListInstancesInputBody: Swift.Decodable {
@@ -26819,7 +26819,7 @@ extension ListInstancesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListInstancesOutput: Swift.Equatable {
+public struct ListInstancesOutput {
     /// Information about the instances.
     public var instanceSummaryList: [ConnectClientTypes.InstanceSummary]?
     /// If there are additional results, this is the token for the next set of results.
@@ -26835,7 +26835,7 @@ public struct ListInstancesOutput: Swift.Equatable {
     }
 }
 
-struct ListInstancesOutputBody: Swift.Equatable {
+struct ListInstancesOutputBody {
     let instanceSummaryList: [ConnectClientTypes.InstanceSummary]?
     let nextToken: Swift.String?
 }
@@ -26910,7 +26910,7 @@ extension ListIntegrationAssociationsInput {
     }
 }
 
-public struct ListIntegrationAssociationsInput: Swift.Equatable {
+public struct ListIntegrationAssociationsInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -26939,7 +26939,7 @@ public struct ListIntegrationAssociationsInput: Swift.Equatable {
     }
 }
 
-struct ListIntegrationAssociationsInputBody: Swift.Equatable {
+struct ListIntegrationAssociationsInputBody {
 }
 
 extension ListIntegrationAssociationsInputBody: Swift.Decodable {
@@ -26962,7 +26962,7 @@ extension ListIntegrationAssociationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListIntegrationAssociationsOutput: Swift.Equatable {
+public struct ListIntegrationAssociationsOutput {
     /// The associations.
     public var integrationAssociationSummaryList: [ConnectClientTypes.IntegrationAssociationSummary]?
     /// If there are additional results, this is the token for the next set of results.
@@ -26978,7 +26978,7 @@ public struct ListIntegrationAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct ListIntegrationAssociationsOutputBody: Swift.Equatable {
+struct ListIntegrationAssociationsOutputBody {
     let integrationAssociationSummaryList: [ConnectClientTypes.IntegrationAssociationSummary]?
     let nextToken: Swift.String?
 }
@@ -27047,7 +27047,7 @@ extension ListLambdaFunctionsInput {
     }
 }
 
-public struct ListLambdaFunctionsInput: Swift.Equatable {
+public struct ListLambdaFunctionsInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -27068,7 +27068,7 @@ public struct ListLambdaFunctionsInput: Swift.Equatable {
     }
 }
 
-struct ListLambdaFunctionsInputBody: Swift.Equatable {
+struct ListLambdaFunctionsInputBody {
 }
 
 extension ListLambdaFunctionsInputBody: Swift.Decodable {
@@ -27091,7 +27091,7 @@ extension ListLambdaFunctionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListLambdaFunctionsOutput: Swift.Equatable {
+public struct ListLambdaFunctionsOutput {
     /// The Lambdafunction ARNs associated with the specified instance.
     public var lambdaFunctions: [Swift.String]?
     /// If there are additional results, this is the token for the next set of results.
@@ -27107,7 +27107,7 @@ public struct ListLambdaFunctionsOutput: Swift.Equatable {
     }
 }
 
-struct ListLambdaFunctionsOutputBody: Swift.Equatable {
+struct ListLambdaFunctionsOutputBody {
     let lambdaFunctions: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -27177,7 +27177,7 @@ extension ListLexBotsInput {
     }
 }
 
-public struct ListLexBotsInput: Swift.Equatable {
+public struct ListLexBotsInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -27198,7 +27198,7 @@ public struct ListLexBotsInput: Swift.Equatable {
     }
 }
 
-struct ListLexBotsInputBody: Swift.Equatable {
+struct ListLexBotsInputBody {
 }
 
 extension ListLexBotsInputBody: Swift.Decodable {
@@ -27221,7 +27221,7 @@ extension ListLexBotsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListLexBotsOutput: Swift.Equatable {
+public struct ListLexBotsOutput {
     /// The names and Amazon Web Services Regions of the Amazon Lex bots associated with the specified instance.
     public var lexBots: [ConnectClientTypes.LexBot]?
     /// If there are additional results, this is the token for the next set of results.
@@ -27237,7 +27237,7 @@ public struct ListLexBotsOutput: Swift.Equatable {
     }
 }
 
-struct ListLexBotsOutputBody: Swift.Equatable {
+struct ListLexBotsOutputBody {
     let lexBots: [ConnectClientTypes.LexBot]?
     let nextToken: Swift.String?
 }
@@ -27319,7 +27319,7 @@ extension ListPhoneNumbersInput {
     }
 }
 
-public struct ListPhoneNumbersInput: Swift.Equatable {
+public struct ListPhoneNumbersInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -27348,7 +27348,7 @@ public struct ListPhoneNumbersInput: Swift.Equatable {
     }
 }
 
-struct ListPhoneNumbersInputBody: Swift.Equatable {
+struct ListPhoneNumbersInputBody {
 }
 
 extension ListPhoneNumbersInputBody: Swift.Decodable {
@@ -27371,7 +27371,7 @@ extension ListPhoneNumbersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPhoneNumbersOutput: Swift.Equatable {
+public struct ListPhoneNumbersOutput {
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
     /// Information about the phone numbers.
@@ -27387,7 +27387,7 @@ public struct ListPhoneNumbersOutput: Swift.Equatable {
     }
 }
 
-struct ListPhoneNumbersOutputBody: Swift.Equatable {
+struct ListPhoneNumbersOutputBody {
     let phoneNumberSummaryList: [ConnectClientTypes.PhoneNumberSummary]?
     let nextToken: Swift.String?
 }
@@ -27500,7 +27500,7 @@ extension ConnectClientTypes.ListPhoneNumbersSummary: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about phone numbers that have been claimed to your Amazon Connect instance or traffic distribution group.
-    public struct ListPhoneNumbersSummary: Swift.Equatable {
+    public struct ListPhoneNumbersSummary {
         /// The identifier of the Amazon Connect instance that phone numbers are claimed to. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
         public var instanceId: Swift.String?
         /// The phone number. Phone numbers are formatted [+] [country code] [subscriber number including area code].
@@ -27596,7 +27596,7 @@ extension ListPhoneNumbersV2Input {
     }
 }
 
-public struct ListPhoneNumbersV2Input: Swift.Equatable {
+public struct ListPhoneNumbersV2Input {
     /// The identifier of the Amazon Connect instance that phone numbers are claimed to. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance. If both TargetArn and InstanceId are not provided, this API lists numbers claimed to all the Amazon Connect instances belonging to your account in the same AWS Region as the request.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -27632,7 +27632,7 @@ public struct ListPhoneNumbersV2Input: Swift.Equatable {
     }
 }
 
-struct ListPhoneNumbersV2InputBody: Swift.Equatable {
+struct ListPhoneNumbersV2InputBody {
     let targetArn: Swift.String?
     let instanceId: Swift.String?
     let maxResults: Swift.Int?
@@ -27704,7 +27704,7 @@ extension ListPhoneNumbersV2Output: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPhoneNumbersV2Output: Swift.Equatable {
+public struct ListPhoneNumbersV2Output {
     /// Information about phone numbers that have been claimed to your Amazon Connect instances or traffic distribution groups.
     public var listPhoneNumbersSummaryList: [ConnectClientTypes.ListPhoneNumbersSummary]?
     /// If there are additional results, this is the token for the next set of results.
@@ -27720,7 +27720,7 @@ public struct ListPhoneNumbersV2Output: Swift.Equatable {
     }
 }
 
-struct ListPhoneNumbersV2OutputBody: Swift.Equatable {
+struct ListPhoneNumbersV2OutputBody {
     let nextToken: Swift.String?
     let listPhoneNumbersSummaryList: [ConnectClientTypes.ListPhoneNumbersSummary]?
 }
@@ -27790,7 +27790,7 @@ extension ListPredefinedAttributesInput {
     }
 }
 
-public struct ListPredefinedAttributesInput: Swift.Equatable {
+public struct ListPredefinedAttributesInput {
     /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -27811,7 +27811,7 @@ public struct ListPredefinedAttributesInput: Swift.Equatable {
     }
 }
 
-struct ListPredefinedAttributesInputBody: Swift.Equatable {
+struct ListPredefinedAttributesInputBody {
 }
 
 extension ListPredefinedAttributesInputBody: Swift.Decodable {
@@ -27834,7 +27834,7 @@ extension ListPredefinedAttributesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPredefinedAttributesOutput: Swift.Equatable {
+public struct ListPredefinedAttributesOutput {
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
     /// Summary of the predefined attributes.
@@ -27850,7 +27850,7 @@ public struct ListPredefinedAttributesOutput: Swift.Equatable {
     }
 }
 
-struct ListPredefinedAttributesOutputBody: Swift.Equatable {
+struct ListPredefinedAttributesOutputBody {
     let nextToken: Swift.String?
     let predefinedAttributeSummaryList: [ConnectClientTypes.PredefinedAttributeSummary]?
 }
@@ -27920,7 +27920,7 @@ extension ListPromptsInput {
     }
 }
 
-public struct ListPromptsInput: Swift.Equatable {
+public struct ListPromptsInput {
     /// The identifier of the Amazon Connect instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -27941,7 +27941,7 @@ public struct ListPromptsInput: Swift.Equatable {
     }
 }
 
-struct ListPromptsInputBody: Swift.Equatable {
+struct ListPromptsInputBody {
 }
 
 extension ListPromptsInputBody: Swift.Decodable {
@@ -27964,7 +27964,7 @@ extension ListPromptsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPromptsOutput: Swift.Equatable {
+public struct ListPromptsOutput {
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
     /// Information about the prompts.
@@ -27980,7 +27980,7 @@ public struct ListPromptsOutput: Swift.Equatable {
     }
 }
 
-struct ListPromptsOutputBody: Swift.Equatable {
+struct ListPromptsOutputBody {
     let promptSummaryList: [ConnectClientTypes.PromptSummary]?
     let nextToken: Swift.String?
 }
@@ -28053,7 +28053,7 @@ extension ListQueueQuickConnectsInput {
     }
 }
 
-public struct ListQueueQuickConnectsInput: Swift.Equatable {
+public struct ListQueueQuickConnectsInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -28079,7 +28079,7 @@ public struct ListQueueQuickConnectsInput: Swift.Equatable {
     }
 }
 
-struct ListQueueQuickConnectsInputBody: Swift.Equatable {
+struct ListQueueQuickConnectsInputBody {
 }
 
 extension ListQueueQuickConnectsInputBody: Swift.Decodable {
@@ -28106,7 +28106,7 @@ extension ListQueueQuickConnectsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListQueueQuickConnectsOutput: Swift.Equatable {
+public struct ListQueueQuickConnectsOutput {
     /// The Amazon Web Services Region where this resource was last modified.
     public var lastModifiedRegion: Swift.String?
     /// The timestamp when this resource was last modified.
@@ -28130,7 +28130,7 @@ public struct ListQueueQuickConnectsOutput: Swift.Equatable {
     }
 }
 
-struct ListQueueQuickConnectsOutputBody: Swift.Equatable {
+struct ListQueueQuickConnectsOutputBody {
     let nextToken: Swift.String?
     let quickConnectSummaryList: [ConnectClientTypes.QuickConnectSummary]?
     let lastModifiedTime: ClientRuntime.Date?
@@ -28214,7 +28214,7 @@ extension ListQueuesInput {
     }
 }
 
-public struct ListQueuesInput: Swift.Equatable {
+public struct ListQueuesInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -28239,7 +28239,7 @@ public struct ListQueuesInput: Swift.Equatable {
     }
 }
 
-struct ListQueuesInputBody: Swift.Equatable {
+struct ListQueuesInputBody {
 }
 
 extension ListQueuesInputBody: Swift.Decodable {
@@ -28262,7 +28262,7 @@ extension ListQueuesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListQueuesOutput: Swift.Equatable {
+public struct ListQueuesOutput {
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
     /// Information about the queues.
@@ -28278,7 +28278,7 @@ public struct ListQueuesOutput: Swift.Equatable {
     }
 }
 
-struct ListQueuesOutputBody: Swift.Equatable {
+struct ListQueuesOutputBody {
     let queueSummaryList: [ConnectClientTypes.QueueSummary]?
     let nextToken: Swift.String?
 }
@@ -28354,7 +28354,7 @@ extension ListQuickConnectsInput {
     }
 }
 
-public struct ListQuickConnectsInput: Swift.Equatable {
+public struct ListQuickConnectsInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -28379,7 +28379,7 @@ public struct ListQuickConnectsInput: Swift.Equatable {
     }
 }
 
-struct ListQuickConnectsInputBody: Swift.Equatable {
+struct ListQuickConnectsInputBody {
 }
 
 extension ListQuickConnectsInputBody: Swift.Decodable {
@@ -28402,7 +28402,7 @@ extension ListQuickConnectsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListQuickConnectsOutput: Swift.Equatable {
+public struct ListQuickConnectsOutput {
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
     /// Information about the quick connects.
@@ -28418,7 +28418,7 @@ public struct ListQuickConnectsOutput: Swift.Equatable {
     }
 }
 
-struct ListQuickConnectsOutputBody: Swift.Equatable {
+struct ListQuickConnectsOutputBody {
     let quickConnectSummaryList: [ConnectClientTypes.QuickConnectSummary]?
     let nextToken: Swift.String?
 }
@@ -28503,7 +28503,7 @@ extension ListRealtimeContactAnalysisSegmentsV2Input {
     }
 }
 
-public struct ListRealtimeContactAnalysisSegmentsV2Input: Swift.Equatable {
+public struct ListRealtimeContactAnalysisSegmentsV2Input {
     /// The identifier of the contact in this instance of Amazon Connect.
     /// This member is required.
     public var contactId: Swift.String?
@@ -28539,7 +28539,7 @@ public struct ListRealtimeContactAnalysisSegmentsV2Input: Swift.Equatable {
     }
 }
 
-struct ListRealtimeContactAnalysisSegmentsV2InputBody: Swift.Equatable {
+struct ListRealtimeContactAnalysisSegmentsV2InputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let outputType: ConnectClientTypes.RealTimeContactAnalysisOutputType?
@@ -28594,7 +28594,7 @@ extension ListRealtimeContactAnalysisSegmentsV2Output: ClientRuntime.HttpRespons
     }
 }
 
-public struct ListRealtimeContactAnalysisSegmentsV2Output: Swift.Equatable {
+public struct ListRealtimeContactAnalysisSegmentsV2Output {
     /// The channel of the contact. Voice will not be returned.
     /// This member is required.
     public var channel: ConnectClientTypes.RealTimeContactAnalysisSupportedChannel?
@@ -28621,7 +28621,7 @@ public struct ListRealtimeContactAnalysisSegmentsV2Output: Swift.Equatable {
     }
 }
 
-struct ListRealtimeContactAnalysisSegmentsV2OutputBody: Swift.Equatable {
+struct ListRealtimeContactAnalysisSegmentsV2OutputBody {
     let channel: ConnectClientTypes.RealTimeContactAnalysisSupportedChannel?
     let status: ConnectClientTypes.RealTimeContactAnalysisStatus?
     let segments: [ConnectClientTypes.RealtimeContactAnalysisSegment]?
@@ -28703,7 +28703,7 @@ extension ListRoutingProfileQueuesInput {
     }
 }
 
-public struct ListRoutingProfileQueuesInput: Swift.Equatable {
+public struct ListRoutingProfileQueuesInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -28729,7 +28729,7 @@ public struct ListRoutingProfileQueuesInput: Swift.Equatable {
     }
 }
 
-struct ListRoutingProfileQueuesInputBody: Swift.Equatable {
+struct ListRoutingProfileQueuesInputBody {
 }
 
 extension ListRoutingProfileQueuesInputBody: Swift.Decodable {
@@ -28756,7 +28756,7 @@ extension ListRoutingProfileQueuesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRoutingProfileQueuesOutput: Swift.Equatable {
+public struct ListRoutingProfileQueuesOutput {
     /// The Amazon Web Services Region where this resource was last modified.
     public var lastModifiedRegion: Swift.String?
     /// The timestamp when this resource was last modified.
@@ -28780,7 +28780,7 @@ public struct ListRoutingProfileQueuesOutput: Swift.Equatable {
     }
 }
 
-struct ListRoutingProfileQueuesOutputBody: Swift.Equatable {
+struct ListRoutingProfileQueuesOutputBody {
     let nextToken: Swift.String?
     let routingProfileQueueConfigSummaryList: [ConnectClientTypes.RoutingProfileQueueConfigSummary]?
     let lastModifiedTime: ClientRuntime.Date?
@@ -28858,7 +28858,7 @@ extension ListRoutingProfilesInput {
     }
 }
 
-public struct ListRoutingProfilesInput: Swift.Equatable {
+public struct ListRoutingProfilesInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -28879,7 +28879,7 @@ public struct ListRoutingProfilesInput: Swift.Equatable {
     }
 }
 
-struct ListRoutingProfilesInputBody: Swift.Equatable {
+struct ListRoutingProfilesInputBody {
 }
 
 extension ListRoutingProfilesInputBody: Swift.Decodable {
@@ -28902,7 +28902,7 @@ extension ListRoutingProfilesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRoutingProfilesOutput: Swift.Equatable {
+public struct ListRoutingProfilesOutput {
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
     /// Information about the routing profiles.
@@ -28918,7 +28918,7 @@ public struct ListRoutingProfilesOutput: Swift.Equatable {
     }
 }
 
-struct ListRoutingProfilesOutputBody: Swift.Equatable {
+struct ListRoutingProfilesOutputBody {
     let routingProfileSummaryList: [ConnectClientTypes.RoutingProfileSummary]?
     let nextToken: Swift.String?
 }
@@ -28996,7 +28996,7 @@ extension ListRulesInput {
     }
 }
 
-public struct ListRulesInput: Swift.Equatable {
+public struct ListRulesInput {
     /// The name of the event source.
     public var eventSourceName: ConnectClientTypes.EventSourceName?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
@@ -29025,7 +29025,7 @@ public struct ListRulesInput: Swift.Equatable {
     }
 }
 
-struct ListRulesInputBody: Swift.Equatable {
+struct ListRulesInputBody {
 }
 
 extension ListRulesInputBody: Swift.Decodable {
@@ -29048,7 +29048,7 @@ extension ListRulesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRulesOutput: Swift.Equatable {
+public struct ListRulesOutput {
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
     /// Summary information about a rule.
@@ -29065,7 +29065,7 @@ public struct ListRulesOutput: Swift.Equatable {
     }
 }
 
-struct ListRulesOutputBody: Swift.Equatable {
+struct ListRulesOutputBody {
     let ruleSummaryList: [ConnectClientTypes.RuleSummary]?
     let nextToken: Swift.String?
 }
@@ -29135,7 +29135,7 @@ extension ListSecurityKeysInput {
     }
 }
 
-public struct ListSecurityKeysInput: Swift.Equatable {
+public struct ListSecurityKeysInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -29156,7 +29156,7 @@ public struct ListSecurityKeysInput: Swift.Equatable {
     }
 }
 
-struct ListSecurityKeysInputBody: Swift.Equatable {
+struct ListSecurityKeysInputBody {
 }
 
 extension ListSecurityKeysInputBody: Swift.Decodable {
@@ -29179,7 +29179,7 @@ extension ListSecurityKeysOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSecurityKeysOutput: Swift.Equatable {
+public struct ListSecurityKeysOutput {
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
     /// The security keys.
@@ -29195,7 +29195,7 @@ public struct ListSecurityKeysOutput: Swift.Equatable {
     }
 }
 
-struct ListSecurityKeysOutputBody: Swift.Equatable {
+struct ListSecurityKeysOutputBody {
     let securityKeys: [ConnectClientTypes.SecurityKey]?
     let nextToken: Swift.String?
 }
@@ -29268,7 +29268,7 @@ extension ListSecurityProfileApplicationsInput {
     }
 }
 
-public struct ListSecurityProfileApplicationsInput: Swift.Equatable {
+public struct ListSecurityProfileApplicationsInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -29294,7 +29294,7 @@ public struct ListSecurityProfileApplicationsInput: Swift.Equatable {
     }
 }
 
-struct ListSecurityProfileApplicationsInputBody: Swift.Equatable {
+struct ListSecurityProfileApplicationsInputBody {
 }
 
 extension ListSecurityProfileApplicationsInputBody: Swift.Decodable {
@@ -29321,7 +29321,7 @@ extension ListSecurityProfileApplicationsOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ListSecurityProfileApplicationsOutput: Swift.Equatable {
+public struct ListSecurityProfileApplicationsOutput {
     /// A list of the third-party application's metadata.
     public var applications: [ConnectClientTypes.Application]?
     /// The Amazon Web Services Region where this resource was last modified.
@@ -29345,7 +29345,7 @@ public struct ListSecurityProfileApplicationsOutput: Swift.Equatable {
     }
 }
 
-struct ListSecurityProfileApplicationsOutputBody: Swift.Equatable {
+struct ListSecurityProfileApplicationsOutputBody {
     let applications: [ConnectClientTypes.Application]?
     let nextToken: Swift.String?
     let lastModifiedTime: ClientRuntime.Date?
@@ -29426,7 +29426,7 @@ extension ListSecurityProfilePermissionsInput {
     }
 }
 
-public struct ListSecurityProfilePermissionsInput: Swift.Equatable {
+public struct ListSecurityProfilePermissionsInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -29452,7 +29452,7 @@ public struct ListSecurityProfilePermissionsInput: Swift.Equatable {
     }
 }
 
-struct ListSecurityProfilePermissionsInputBody: Swift.Equatable {
+struct ListSecurityProfilePermissionsInputBody {
 }
 
 extension ListSecurityProfilePermissionsInputBody: Swift.Decodable {
@@ -29479,7 +29479,7 @@ extension ListSecurityProfilePermissionsOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ListSecurityProfilePermissionsOutput: Swift.Equatable {
+public struct ListSecurityProfilePermissionsOutput {
     /// The Amazon Web Services Region where this resource was last modified.
     public var lastModifiedRegion: Swift.String?
     /// The timestamp when this resource was last modified.
@@ -29503,7 +29503,7 @@ public struct ListSecurityProfilePermissionsOutput: Swift.Equatable {
     }
 }
 
-struct ListSecurityProfilePermissionsOutputBody: Swift.Equatable {
+struct ListSecurityProfilePermissionsOutputBody {
     let permissions: [Swift.String]?
     let nextToken: Swift.String?
     let lastModifiedTime: ClientRuntime.Date?
@@ -29581,7 +29581,7 @@ extension ListSecurityProfilesInput {
     }
 }
 
-public struct ListSecurityProfilesInput: Swift.Equatable {
+public struct ListSecurityProfilesInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -29602,7 +29602,7 @@ public struct ListSecurityProfilesInput: Swift.Equatable {
     }
 }
 
-struct ListSecurityProfilesInputBody: Swift.Equatable {
+struct ListSecurityProfilesInputBody {
 }
 
 extension ListSecurityProfilesInputBody: Swift.Decodable {
@@ -29625,7 +29625,7 @@ extension ListSecurityProfilesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSecurityProfilesOutput: Swift.Equatable {
+public struct ListSecurityProfilesOutput {
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
     /// Information about the security profiles.
@@ -29641,7 +29641,7 @@ public struct ListSecurityProfilesOutput: Swift.Equatable {
     }
 }
 
-struct ListSecurityProfilesOutputBody: Swift.Equatable {
+struct ListSecurityProfilesOutputBody {
     let securityProfileSummaryList: [ConnectClientTypes.SecurityProfileSummary]?
     let nextToken: Swift.String?
 }
@@ -29695,7 +29695,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource. All Amazon Connect resources (instances, queues, flows, routing profiles, etc) have an ARN. To locate the ARN for an instance, for example, see [Find your Amazon Connect instance ID/ARN](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html).
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -29708,7 +29708,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -29729,7 +29729,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// Information about the tags.
     public var tags: [Swift.String:Swift.String]?
 
@@ -29741,7 +29741,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -29815,7 +29815,7 @@ extension ListTaskTemplatesInput {
     }
 }
 
-public struct ListTaskTemplatesInput: Swift.Equatable {
+public struct ListTaskTemplatesInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -29844,7 +29844,7 @@ public struct ListTaskTemplatesInput: Swift.Equatable {
     }
 }
 
-struct ListTaskTemplatesInputBody: Swift.Equatable {
+struct ListTaskTemplatesInputBody {
 }
 
 extension ListTaskTemplatesInputBody: Swift.Decodable {
@@ -29867,7 +29867,7 @@ extension ListTaskTemplatesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTaskTemplatesOutput: Swift.Equatable {
+public struct ListTaskTemplatesOutput {
     /// If there are additional results, this is the token for the next set of results. This is always returned as a null in the response.
     public var nextToken: Swift.String?
     /// Provides details about a list of task templates belonging to an instance.
@@ -29883,7 +29883,7 @@ public struct ListTaskTemplatesOutput: Swift.Equatable {
     }
 }
 
-struct ListTaskTemplatesOutputBody: Swift.Equatable {
+struct ListTaskTemplatesOutputBody {
     let taskTemplates: [ConnectClientTypes.TaskTemplateMetadata]?
     let nextToken: Swift.String?
 }
@@ -29953,7 +29953,7 @@ extension ListTrafficDistributionGroupUsersInput {
     }
 }
 
-public struct ListTrafficDistributionGroupUsersInput: Swift.Equatable {
+public struct ListTrafficDistributionGroupUsersInput {
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -29974,7 +29974,7 @@ public struct ListTrafficDistributionGroupUsersInput: Swift.Equatable {
     }
 }
 
-struct ListTrafficDistributionGroupUsersInputBody: Swift.Equatable {
+struct ListTrafficDistributionGroupUsersInputBody {
 }
 
 extension ListTrafficDistributionGroupUsersInputBody: Swift.Decodable {
@@ -29997,7 +29997,7 @@ extension ListTrafficDistributionGroupUsersOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct ListTrafficDistributionGroupUsersOutput: Swift.Equatable {
+public struct ListTrafficDistributionGroupUsersOutput {
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
     /// A list of traffic distribution group users.
@@ -30013,7 +30013,7 @@ public struct ListTrafficDistributionGroupUsersOutput: Swift.Equatable {
     }
 }
 
-struct ListTrafficDistributionGroupUsersOutputBody: Swift.Equatable {
+struct ListTrafficDistributionGroupUsersOutputBody {
     let nextToken: Swift.String?
     let trafficDistributionGroupUserSummaryList: [ConnectClientTypes.TrafficDistributionGroupUserSummary]?
 }
@@ -30084,7 +30084,7 @@ extension ListTrafficDistributionGroupsInput {
     }
 }
 
-public struct ListTrafficDistributionGroupsInput: Swift.Equatable {
+public struct ListTrafficDistributionGroupsInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -30104,7 +30104,7 @@ public struct ListTrafficDistributionGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListTrafficDistributionGroupsInputBody: Swift.Equatable {
+struct ListTrafficDistributionGroupsInputBody {
 }
 
 extension ListTrafficDistributionGroupsInputBody: Swift.Decodable {
@@ -30127,7 +30127,7 @@ extension ListTrafficDistributionGroupsOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ListTrafficDistributionGroupsOutput: Swift.Equatable {
+public struct ListTrafficDistributionGroupsOutput {
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
     /// A list of traffic distribution groups.
@@ -30143,7 +30143,7 @@ public struct ListTrafficDistributionGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListTrafficDistributionGroupsOutputBody: Swift.Equatable {
+struct ListTrafficDistributionGroupsOutputBody {
     let nextToken: Swift.String?
     let trafficDistributionGroupSummaryList: [ConnectClientTypes.TrafficDistributionGroupSummary]?
 }
@@ -30216,7 +30216,7 @@ extension ListUseCasesInput {
 }
 
 /// Provides summary information about the use cases for the specified integration association.
-public struct ListUseCasesInput: Swift.Equatable {
+public struct ListUseCasesInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -30242,7 +30242,7 @@ public struct ListUseCasesInput: Swift.Equatable {
     }
 }
 
-struct ListUseCasesInputBody: Swift.Equatable {
+struct ListUseCasesInputBody {
 }
 
 extension ListUseCasesInputBody: Swift.Decodable {
@@ -30265,7 +30265,7 @@ extension ListUseCasesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListUseCasesOutput: Swift.Equatable {
+public struct ListUseCasesOutput {
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
     /// The use cases.
@@ -30281,7 +30281,7 @@ public struct ListUseCasesOutput: Swift.Equatable {
     }
 }
 
-struct ListUseCasesOutputBody: Swift.Equatable {
+struct ListUseCasesOutputBody {
     let useCaseSummaryList: [ConnectClientTypes.UseCase]?
     let nextToken: Swift.String?
 }
@@ -30350,7 +30350,7 @@ extension ListUserHierarchyGroupsInput {
     }
 }
 
-public struct ListUserHierarchyGroupsInput: Swift.Equatable {
+public struct ListUserHierarchyGroupsInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -30371,7 +30371,7 @@ public struct ListUserHierarchyGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListUserHierarchyGroupsInputBody: Swift.Equatable {
+struct ListUserHierarchyGroupsInputBody {
 }
 
 extension ListUserHierarchyGroupsInputBody: Swift.Decodable {
@@ -30394,7 +30394,7 @@ extension ListUserHierarchyGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListUserHierarchyGroupsOutput: Swift.Equatable {
+public struct ListUserHierarchyGroupsOutput {
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
     /// Information about the hierarchy groups.
@@ -30410,7 +30410,7 @@ public struct ListUserHierarchyGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListUserHierarchyGroupsOutputBody: Swift.Equatable {
+struct ListUserHierarchyGroupsOutputBody {
     let userHierarchyGroupSummaryList: [ConnectClientTypes.HierarchyGroupSummary]?
     let nextToken: Swift.String?
 }
@@ -30483,7 +30483,7 @@ extension ListUserProficienciesInput {
     }
 }
 
-public struct ListUserProficienciesInput: Swift.Equatable {
+public struct ListUserProficienciesInput {
     /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -30509,7 +30509,7 @@ public struct ListUserProficienciesInput: Swift.Equatable {
     }
 }
 
-struct ListUserProficienciesInputBody: Swift.Equatable {
+struct ListUserProficienciesInputBody {
 }
 
 extension ListUserProficienciesInputBody: Swift.Decodable {
@@ -30536,7 +30536,7 @@ extension ListUserProficienciesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListUserProficienciesOutput: Swift.Equatable {
+public struct ListUserProficienciesOutput {
     /// The region in which a user's proficiencies were last modified.
     public var lastModifiedRegion: Swift.String?
     /// The last time that the user's proficiencies are were modified.
@@ -30560,7 +30560,7 @@ public struct ListUserProficienciesOutput: Swift.Equatable {
     }
 }
 
-struct ListUserProficienciesOutputBody: Swift.Equatable {
+struct ListUserProficienciesOutputBody {
     let nextToken: Swift.String?
     let userProficiencyList: [ConnectClientTypes.UserProficiency]?
     let lastModifiedTime: ClientRuntime.Date?
@@ -30638,7 +30638,7 @@ extension ListUsersInput {
     }
 }
 
-public struct ListUsersInput: Swift.Equatable {
+public struct ListUsersInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -30659,7 +30659,7 @@ public struct ListUsersInput: Swift.Equatable {
     }
 }
 
-struct ListUsersInputBody: Swift.Equatable {
+struct ListUsersInputBody {
 }
 
 extension ListUsersInputBody: Swift.Decodable {
@@ -30682,7 +30682,7 @@ extension ListUsersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListUsersOutput: Swift.Equatable {
+public struct ListUsersOutput {
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
     /// Information about the users.
@@ -30698,7 +30698,7 @@ public struct ListUsersOutput: Swift.Equatable {
     }
 }
 
-struct ListUsersOutputBody: Swift.Equatable {
+struct ListUsersOutputBody {
     let userSummaryList: [ConnectClientTypes.UserSummary]?
     let nextToken: Swift.String?
 }
@@ -30771,7 +30771,7 @@ extension ListViewVersionsInput {
     }
 }
 
-public struct ListViewVersionsInput: Swift.Equatable {
+public struct ListViewVersionsInput {
     /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -30797,7 +30797,7 @@ public struct ListViewVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListViewVersionsInputBody: Swift.Equatable {
+struct ListViewVersionsInputBody {
 }
 
 extension ListViewVersionsInputBody: Swift.Decodable {
@@ -30820,7 +30820,7 @@ extension ListViewVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListViewVersionsOutput: Swift.Equatable {
+public struct ListViewVersionsOutput {
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// A list of view version summaries.
@@ -30836,7 +30836,7 @@ public struct ListViewVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListViewVersionsOutputBody: Swift.Equatable {
+struct ListViewVersionsOutputBody {
     let viewVersionSummaryList: [ConnectClientTypes.ViewVersionSummary]?
     let nextToken: Swift.String?
 }
@@ -30911,7 +30911,7 @@ extension ListViewsInput {
     }
 }
 
-public struct ListViewsInput: Swift.Equatable {
+public struct ListViewsInput {
     /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -30936,7 +30936,7 @@ public struct ListViewsInput: Swift.Equatable {
     }
 }
 
-struct ListViewsInputBody: Swift.Equatable {
+struct ListViewsInputBody {
 }
 
 extension ListViewsInputBody: Swift.Decodable {
@@ -30959,7 +30959,7 @@ extension ListViewsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListViewsOutput: Swift.Equatable {
+public struct ListViewsOutput {
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// A list of view summaries.
@@ -30975,7 +30975,7 @@ public struct ListViewsOutput: Swift.Equatable {
     }
 }
 
-struct ListViewsOutputBody: Swift.Equatable {
+struct ListViewsOutputBody {
     let viewsSummaryList: [ConnectClientTypes.ViewSummary]?
     let nextToken: Swift.String?
 }
@@ -31059,7 +31059,7 @@ public struct MaximumResultReturnedException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct MaximumResultReturnedExceptionBody: Swift.Equatable {
+struct MaximumResultReturnedExceptionBody {
     let message: Swift.String?
 }
 
@@ -31108,7 +31108,7 @@ extension ConnectClientTypes.MediaConcurrency: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains information about which channels are supported, and how many contacts an agent can have on a channel simultaneously.
-    public struct MediaConcurrency: Swift.Equatable {
+    public struct MediaConcurrency {
         /// The channels that agents can handle in the Contact Control Panel (CCP).
         /// This member is required.
         public var channel: ConnectClientTypes.Channel?
@@ -31177,7 +31177,7 @@ extension ConnectClientTypes.MediaPlacement: Swift.Codable {
 
 extension ConnectClientTypes {
     /// A set of endpoints used by clients to connect to the media service group for an Amazon Chime SDK meeting.
-    public struct MediaPlacement: Swift.Equatable {
+    public struct MediaPlacement {
         /// The audio fallback URL.
         public var audioFallbackUrl: Swift.String?
         /// The audio host URL.
@@ -31246,7 +31246,7 @@ extension ConnectClientTypes.Meeting: Swift.Codable {
 
 extension ConnectClientTypes {
     /// A meeting created using the Amazon Chime SDK.
-    public struct Meeting: Swift.Equatable {
+    public struct Meeting {
         /// The media placement for the meeting.
         public var mediaPlacement: ConnectClientTypes.MediaPlacement?
         /// The Amazon Web Services Region in which you create the meeting.
@@ -31325,7 +31325,7 @@ extension ConnectClientTypes.MeetingFeaturesConfiguration: Swift.Codable {
 
 extension ConnectClientTypes {
     /// The configuration settings of the features available to a meeting.
-    public struct MeetingFeaturesConfiguration: Swift.Equatable {
+    public struct MeetingFeaturesConfiguration {
         /// The configuration settings for the audio features available to a meeting.
         public var audio: ConnectClientTypes.AudioFeatures?
 
@@ -31366,7 +31366,7 @@ extension ConnectClientTypes.MetricDataV2: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains the name, thresholds, and metric filters.
-    public struct MetricDataV2: Swift.Equatable {
+    public struct MetricDataV2 {
         /// The metric name, thresholds, and metric filters of the returned metric.
         public var metric: ConnectClientTypes.MetricV2?
         /// The corresponding value of the metric returned in the response.
@@ -31429,7 +31429,7 @@ extension ConnectClientTypes.MetricFilterV2: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains information about the filter used when retrieving metrics. MetricFiltersV2 can be used on the following metrics: AVG_AGENT_CONNECTING_TIME, CONTACTS_CREATED, CONTACTS_HANDLED, SUM_CONTACTS_DISCONNECTED.
-    public struct MetricFilterV2: Swift.Equatable {
+    public struct MetricFilterV2 {
         /// The key to use for filtering data. Valid metric filter keys: INITIATION_METHOD, DISCONNECT_REASON. These are the same values as the InitiationMethod and DisconnectReason in the contact record. For more information, see [ContactTraceRecord](https://docs.aws.amazon.com/connect/latest/adminguide/ctr-data-model.html#ctr-ContactTraceRecord) in the Amazon Connect Administrator's Guide.
         public var metricFilterKey: Swift.String?
         /// The values to use for filtering data. Valid metric filter values for INITIATION_METHOD: INBOUND | OUTBOUND | TRANSFER | QUEUE_TRANSFER | CALLBACK | API Valid metric filter values for DISCONNECT_REASON: CUSTOMER_DISCONNECT | AGENT_DISCONNECT | THIRD_PARTY_DISCONNECT | TELECOM_PROBLEM | BARGED | CONTACT_FLOW_DISCONNECT | OTHER | EXPIRED | API
@@ -31484,7 +31484,7 @@ extension ConnectClientTypes.MetricInterval: Swift.Codable {
 
 extension ConnectClientTypes {
     /// The interval period with the start and end time for the metrics.
-    public struct MetricInterval: Swift.Equatable {
+    public struct MetricInterval {
         /// The timestamp, in UNIX Epoch time format. End time is based on the interval period selected. For example, If IntervalPeriod is selected THIRTY_MIN, StartTime and EndTime in the API request differs by 1 day, then 48 results are returned in the response. Each result is aggregated by the 30 minutes period, with each StartTime and EndTime differing by 30 minutes.
         public var endTime: ClientRuntime.Date?
         /// The interval period provided in the API request.
@@ -31563,7 +31563,7 @@ extension ConnectClientTypes.MetricResultV2: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains information about the metric results.
-    public struct MetricResultV2: Swift.Equatable {
+    public struct MetricResultV2 {
         /// The set of metrics.
         public var collections: [ConnectClientTypes.MetricDataV2]?
         /// The dimension for the metrics.
@@ -31642,7 +31642,7 @@ extension ConnectClientTypes.MetricV2: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains information about the metric.
-    public struct MetricV2: Swift.Equatable {
+    public struct MetricV2 {
         /// Contains the filters to be used when returning data.
         public var metricFilters: [ConnectClientTypes.MetricFilterV2]?
         /// The name of the metric. This parameter is required. The following Required = No is incorrect.
@@ -31735,7 +31735,7 @@ extension MonitorContactInput {
     }
 }
 
-public struct MonitorContactInput: Swift.Equatable {
+public struct MonitorContactInput {
     /// Specify which monitoring actions the user is allowed to take. For example, whether the user is allowed to escalate from silent monitoring to barge. AllowedMonitorCapabilities is required if barge is enabled.
     public var allowedMonitorCapabilities: [ConnectClientTypes.MonitorCapability]?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
@@ -31766,7 +31766,7 @@ public struct MonitorContactInput: Swift.Equatable {
     }
 }
 
-struct MonitorContactInputBody: Swift.Equatable {
+struct MonitorContactInputBody {
     let instanceId: Swift.String?
     let contactId: Swift.String?
     let userId: Swift.String?
@@ -31821,7 +31821,7 @@ extension MonitorContactOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct MonitorContactOutput: Swift.Equatable {
+public struct MonitorContactOutput {
     /// The ARN of the contact.
     public var contactArn: Swift.String?
     /// The identifier of the contact.
@@ -31837,7 +31837,7 @@ public struct MonitorContactOutput: Swift.Equatable {
     }
 }
 
-struct MonitorContactOutputBody: Swift.Equatable {
+struct MonitorContactOutputBody {
     let contactId: Swift.String?
     let contactArn: Swift.String?
 }
@@ -31937,7 +31937,7 @@ extension ConnectClientTypes.NewSessionDetails: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Payload of chat properties to apply when starting a new contact.
-    public struct NewSessionDetails: Swift.Equatable {
+    public struct NewSessionDetails {
         /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
         public var attributes: [Swift.String:Swift.String]?
         /// The customer's details.
@@ -32072,7 +32072,7 @@ extension ConnectClientTypes.NotificationRecipientType: Swift.Codable {
 
 extension ConnectClientTypes {
     /// The type of notification recipient.
-    public struct NotificationRecipientType: Swift.Equatable {
+    public struct NotificationRecipientType {
         /// A list of user IDs.
         public var userIds: [Swift.String]?
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Amazon Connect users with the specified tags will be notified.
@@ -32117,7 +32117,7 @@ extension ConnectClientTypes.NumberReference: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about a reference when the referenceType is NUMBER. Otherwise, null.
-    public struct NumberReference: Swift.Equatable {
+    public struct NumberReference {
         /// Identifier of the number reference.
         public var name: Swift.String?
         /// A valid number.
@@ -32214,7 +32214,7 @@ extension ConnectClientTypes {
     /// * Percentages have a minimum value of 0 and maximum value of 100.
     ///
     /// * NUMBER_OF_INTERRUPTIONS has a minimum value of 0 and maximum value of 1000.
-    public struct NumericQuestionPropertyValueAutomation: Swift.Equatable {
+    public struct NumericQuestionPropertyValueAutomation {
         /// The property label of the automation.
         /// This member is required.
         public var label: ConnectClientTypes.NumericQuestionPropertyAutomationLabel?
@@ -32262,7 +32262,7 @@ extension ConnectClientTypes.OutboundCallerConfig: Swift.Codable {
 
 extension ConnectClientTypes {
     /// The outbound caller ID name, number, and outbound whisper flow.
-    public struct OutboundCallerConfig: Swift.Equatable {
+    public struct OutboundCallerConfig {
         /// The caller ID name.
         public var outboundCallerIdName: Swift.String?
         /// The caller ID number.
@@ -32324,7 +32324,7 @@ public struct OutboundContactNotPermittedException: ClientRuntime.ModeledError, 
     }
 }
 
-struct OutboundContactNotPermittedExceptionBody: Swift.Equatable {
+struct OutboundContactNotPermittedExceptionBody {
     let message: Swift.String?
 }
 
@@ -32379,7 +32379,7 @@ public struct OutputTypeNotFoundException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct OutputTypeNotFoundExceptionBody: Swift.Equatable {
+struct OutputTypeNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -32416,7 +32416,7 @@ extension ConnectClientTypes.ParticipantCapabilities: Swift.Codable {
 
 extension ConnectClientTypes {
     /// The configuration for the allowed capabilities for participants present over the call.
-    public struct ParticipantCapabilities: Swift.Equatable {
+    public struct ParticipantCapabilities {
         /// The configuration having the video sharing capabilities for participants over the call.
         public var video: ConnectClientTypes.VideoCapability?
 
@@ -32451,7 +32451,7 @@ extension ConnectClientTypes.ParticipantDetails: Swift.Codable {
 
 extension ConnectClientTypes {
     /// The customer's details.
-    public struct ParticipantDetails: Swift.Equatable {
+    public struct ParticipantDetails {
         /// Display name of the participant.
         /// This member is required.
         public var displayName: Swift.String?
@@ -32493,7 +32493,7 @@ extension ConnectClientTypes.ParticipantDetailsToAdd: Swift.Codable {
 
 extension ConnectClientTypes {
     /// The details to add for the participant.
-    public struct ParticipantDetailsToAdd: Swift.Equatable {
+    public struct ParticipantDetailsToAdd {
         /// The display name of the participant.
         public var displayName: Swift.String?
         /// The role of the participant being added.
@@ -32614,7 +32614,7 @@ extension ConnectClientTypes.ParticipantTimerConfiguration: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Configuration information for the timer. After the timer configuration is set, it persists for the duration of the chat. It persists across new contacts in the chain, for example, transfer contacts. For more information about how chat timeouts work, see [Set up chat timeouts for human participants](https://docs.aws.amazon.com/connect/latest/adminguide/setup-chat-timeouts.html).
-    public struct ParticipantTimerConfiguration: Swift.Equatable {
+    public struct ParticipantTimerConfiguration {
         /// The role of the participant in the chat conversation.
         /// This member is required.
         public var participantRole: ConnectClientTypes.TimerEligibleParticipantRoles?
@@ -32708,7 +32708,7 @@ extension ConnectClientTypes.ParticipantTimerValue: Swift.Codable {
 
 extension ConnectClientTypes {
     /// The value of the timer. Either the timer action (Unset to delete the timer), or the duration of the timer in minutes. Only one value can be set. For more information about how chat timeouts work, see [Set up chat timeouts for human participants](https://docs.aws.amazon.com/connect/latest/adminguide/setup-chat-timeouts.html).
-    public enum ParticipantTimerValue: Swift.Equatable {
+    public enum ParticipantTimerValue {
         /// The timer action. Currently only one value is allowed: Unset. It deletes a timer.
         case participanttimeraction(ConnectClientTypes.ParticipantTimerAction)
         /// The duration of a timer, in minutes.
@@ -32745,7 +32745,7 @@ extension ConnectClientTypes.ParticipantTokenCredentials: Swift.Codable {
 
 extension ConnectClientTypes {
     /// The credentials used by the participant.
-    public struct ParticipantTokenCredentials: Swift.Equatable {
+    public struct ParticipantTokenCredentials {
         /// The expiration of the token. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
         public var expiry: Swift.String?
         /// The token used by the chat participant to call [CreateParticipantConnection](https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_CreateParticipantConnection.html). The participant token is valid for the lifetime of a chat participant.
@@ -32791,7 +32791,7 @@ extension PauseContactInput {
     }
 }
 
-public struct PauseContactInput: Swift.Equatable {
+public struct PauseContactInput {
     /// The identifier of the flow.
     public var contactFlowId: Swift.String?
     /// The identifier of the contact.
@@ -32813,7 +32813,7 @@ public struct PauseContactInput: Swift.Equatable {
     }
 }
 
-struct PauseContactInputBody: Swift.Equatable {
+struct PauseContactInputBody {
     let contactId: Swift.String?
     let instanceId: Swift.String?
     let contactFlowId: Swift.String?
@@ -32842,7 +32842,7 @@ extension PauseContactOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PauseContactOutput: Swift.Equatable {
+public struct PauseContactOutput {
 
     public init() { }
 }
@@ -32892,7 +32892,7 @@ extension ConnectClientTypes.PersistentChat: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Enable persistent chats. For more information about enabling persistent chat, and for example use cases and how to configure for them, see [Enable persistent chat](https://docs.aws.amazon.com/connect/latest/adminguide/chat-persistence.html).
-    public struct PersistentChat: Swift.Equatable {
+    public struct PersistentChat {
         /// The contactId that is used for rehydration depends on the rehydration type. RehydrationType is required for persistent chat.
         ///
         /// * ENTIRE_PAST_SESSION: Rehydrates a chat from the most recently terminated past chat contact of the specified past ended chat session. To use this type, provide the initialContactId of the past ended chat session in the sourceContactId field. In this type, Amazon Connect determines the most recent chat contact on the specified chat session that has ended, and uses it to start a persistent chat.
@@ -33675,7 +33675,7 @@ extension ConnectClientTypes.PhoneNumberQuickConnectConfig: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains information about a phone number for a quick connect.
-    public struct PhoneNumberQuickConnectConfig: Swift.Equatable {
+    public struct PhoneNumberQuickConnectConfig {
         /// The phone number in E.164 format.
         /// This member is required.
         public var phoneNumber: Swift.String?
@@ -33723,7 +33723,7 @@ extension ConnectClientTypes {
     /// * IN_PROGRESS means a [ClaimPhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_ClaimPhoneNumber.html), [UpdatePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdatePhoneNumber.html), or [UpdatePhoneNumberMetadata](https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdatePhoneNumberMetadata.html) operation is still in progress and has not yet completed. You can call [DescribePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribePhoneNumber.html) at a later time to verify if the previous operation has completed.
     ///
     /// * FAILED indicates that the previous [ClaimPhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_ClaimPhoneNumber.html) or [UpdatePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdatePhoneNumber.html) operation has failed. It will include a message indicating the failure reason. A common reason for a failure may be that the TargetArn value you are claiming or updating a phone number to has reached its limit of total claimed numbers. If you received a FAILED status from a ClaimPhoneNumber API call, you have one day to retry claiming the phone number before the number is released back to the inventory for other customers to claim.
-    public struct PhoneNumberStatus: Swift.Equatable {
+    public struct PhoneNumberStatus {
         /// The status message.
         public var message: Swift.String?
         /// The status.
@@ -33786,7 +33786,7 @@ extension ConnectClientTypes.PhoneNumberSummary: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains summary information about a phone number for a contact center.
-    public struct PhoneNumberSummary: Swift.Equatable {
+    public struct PhoneNumberSummary {
         /// The Amazon Resource Name (ARN) of the phone number.
         public var arn: Swift.String?
         /// The identifier of the phone number.
@@ -33969,7 +33969,7 @@ extension ConnectClientTypes.PredefinedAttribute: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about a predefined attribute.
-    public struct PredefinedAttribute: Swift.Equatable {
+    public struct PredefinedAttribute {
         /// Last modified region.
         public var lastModifiedRegion: Swift.String?
         /// Last modified time.
@@ -34052,7 +34052,7 @@ extension ConnectClientTypes.PredefinedAttributeSearchCriteria: Swift.Codable {
 
 extension ConnectClientTypes {
     /// The search criteria to be used to return predefined attributes.
-    public struct PredefinedAttributeSearchCriteria: Swift.Equatable {
+    public struct PredefinedAttributeSearchCriteria {
         /// A list of conditions which would be applied together with an AND condition.
         public var andConditions: [ConnectClientTypes.PredefinedAttributeSearchCriteria]?
         /// A list of conditions which would be applied together with an OR condition.
@@ -34107,7 +34107,7 @@ extension ConnectClientTypes.PredefinedAttributeSummary: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Summary of a predefined attribute.
-    public struct PredefinedAttributeSummary: Swift.Equatable {
+    public struct PredefinedAttributeSummary {
         /// Last modified region.
         public var lastModifiedRegion: Swift.String?
         /// Last modified time.
@@ -34170,7 +34170,7 @@ extension ConnectClientTypes.PredefinedAttributeValues: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about values of a predefined attribute.
-    public enum PredefinedAttributeValues: Swift.Equatable {
+    public enum PredefinedAttributeValues {
         /// Predefined attribute values of type string list.
         case stringlist([Swift.String])
         case sdkUnknown(Swift.String)
@@ -34199,7 +34199,7 @@ extension ConnectClientTypes.ProblemDetail: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about a problem detail.
-    public struct ProblemDetail: Swift.Equatable {
+    public struct ProblemDetail {
         /// The problem detail's message.
         public var message: Swift.String?
 
@@ -34282,7 +34282,7 @@ extension ConnectClientTypes.Prompt: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about a prompt.
-    public struct Prompt: Swift.Equatable {
+    public struct Prompt {
         /// The description of the prompt.
         public var description: Swift.String?
         /// The Amazon Web Services Region where this resource was last modified.
@@ -34377,7 +34377,7 @@ extension ConnectClientTypes.PromptSearchCriteria: Swift.Codable {
 
 extension ConnectClientTypes {
     /// The search criteria to be used to return prompts.
-    public struct PromptSearchCriteria: Swift.Equatable {
+    public struct PromptSearchCriteria {
         /// A list of conditions which would be applied together with an AND condition.
         public var andConditions: [ConnectClientTypes.PromptSearchCriteria]?
         /// A list of conditions which would be applied together with an OR condition.
@@ -34420,7 +34420,7 @@ extension ConnectClientTypes.PromptSearchFilter: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Filters to be applied to search results.
-    public struct PromptSearchFilter: Swift.Equatable {
+    public struct PromptSearchFilter {
         /// An object that can be used to specify Tag conditions inside the SearchFilter. This accepts an OR of AND (List of List) input where:
         ///
         /// * Top level list specifies conditions that need to be applied with OR operator
@@ -34483,7 +34483,7 @@ extension ConnectClientTypes.PromptSummary: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains information about the prompt.
-    public struct PromptSummary: Swift.Equatable {
+    public struct PromptSummary {
         /// The Amazon Resource Name (ARN) of the prompt.
         public var arn: Swift.String?
         /// The identifier of the prompt.
@@ -34558,7 +34558,7 @@ public struct PropertyValidationException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct PropertyValidationExceptionBody: Swift.Equatable {
+struct PropertyValidationExceptionBody {
     let message: Swift.String?
     let propertyList: [ConnectClientTypes.PropertyValidationExceptionProperty]?
 }
@@ -34620,7 +34620,7 @@ extension ConnectClientTypes.PropertyValidationExceptionProperty: Swift.Codable 
 
 extension ConnectClientTypes {
     /// Contains information about why a property is not valid.
-    public struct PropertyValidationExceptionProperty: Swift.Equatable {
+    public struct PropertyValidationExceptionProperty {
         /// A message describing why the property is not valid.
         /// This member is required.
         public var message: Swift.String?
@@ -34715,7 +34715,7 @@ extension PutUserStatusInput {
     }
 }
 
-public struct PutUserStatusInput: Swift.Equatable {
+public struct PutUserStatusInput {
     /// The identifier of the agent status.
     /// This member is required.
     public var agentStatusId: Swift.String?
@@ -34738,7 +34738,7 @@ public struct PutUserStatusInput: Swift.Equatable {
     }
 }
 
-struct PutUserStatusInputBody: Swift.Equatable {
+struct PutUserStatusInputBody {
     let agentStatusId: Swift.String?
 }
 
@@ -34759,7 +34759,7 @@ extension PutUserStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutUserStatusOutput: Swift.Equatable {
+public struct PutUserStatusOutput {
 
     public init() { }
 }
@@ -34873,7 +34873,7 @@ extension ConnectClientTypes.Queue: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains information about a queue.
-    public struct Queue: Swift.Equatable {
+    public struct Queue {
         /// The description of the queue.
         public var description: Swift.String?
         /// The identifier for the hours of operation.
@@ -34954,7 +34954,7 @@ extension ConnectClientTypes.QueueInfo: Swift.Codable {
 
 extension ConnectClientTypes {
     /// If this contact was queued, this contains information about the queue.
-    public struct QueueInfo: Swift.Equatable {
+    public struct QueueInfo {
         /// The timestamp when the contact was added to the queue.
         public var enqueueTimestamp: ClientRuntime.Date?
         /// The unique identifier for the queue.
@@ -34999,7 +34999,7 @@ extension ConnectClientTypes.QueueQuickConnectConfig: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains information about a queue for a quick connect. The flow must be of type Transfer to Queue.
-    public struct QueueQuickConnectConfig: Swift.Equatable {
+    public struct QueueQuickConnectConfig {
         /// The identifier of the flow.
         /// This member is required.
         public var contactFlowId: Swift.String?
@@ -35046,7 +35046,7 @@ extension ConnectClientTypes.QueueReference: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains information about a queue resource for which metrics are returned.
-    public struct QueueReference: Swift.Equatable {
+    public struct QueueReference {
         /// The Amazon Resource Name (ARN) of the queue.
         public var arn: Swift.String?
         /// The identifier of the queue.
@@ -35127,7 +35127,7 @@ extension ConnectClientTypes.QueueSearchCriteria: Swift.Codable {
 
 extension ConnectClientTypes {
     /// The search criteria to be used to return queues. The name and description fields support "contains" queries with a minimum of 2 characters and a maximum of 25 characters. Any queries with character lengths outside of this range will throw invalid results.
-    public struct QueueSearchCriteria: Swift.Equatable {
+    public struct QueueSearchCriteria {
         /// A list of conditions which would be applied together with an AND condition.
         public var andConditions: [ConnectClientTypes.QueueSearchCriteria]?
         /// A list of conditions which would be applied together with an OR condition.
@@ -35174,7 +35174,7 @@ extension ConnectClientTypes.QueueSearchFilter: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Filters to be applied to search results.
-    public struct QueueSearchFilter: Swift.Equatable {
+    public struct QueueSearchFilter {
         /// An object that can be used to specify Tag conditions inside the SearchFilter. This accepts an OR of AND (List of List) input where:
         ///
         /// * Top level list specifies conditions that need to be applied with OR operator
@@ -35275,7 +35275,7 @@ extension ConnectClientTypes.QueueSummary: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains summary information about a queue.
-    public struct QueueSummary: Swift.Equatable {
+    public struct QueueSummary {
         /// The Amazon Resource Name (ARN) of the queue.
         public var arn: Swift.String?
         /// The identifier of the queue.
@@ -35416,7 +35416,7 @@ extension ConnectClientTypes.QuickConnect: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains information about a quick connect.
-    public struct QuickConnect: Swift.Equatable {
+    public struct QuickConnect {
         /// The description.
         public var description: Swift.String?
         /// The Amazon Web Services Region where this resource was last modified.
@@ -35497,7 +35497,7 @@ extension ConnectClientTypes.QuickConnectConfig: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains configuration settings for a quick connect.
-    public struct QuickConnectConfig: Swift.Equatable {
+    public struct QuickConnectConfig {
         /// The phone configuration. This is required only if QuickConnectType is PHONE_NUMBER.
         public var phoneConfig: ConnectClientTypes.PhoneNumberQuickConnectConfig?
         /// The queue configuration. This is required only if QuickConnectType is QUEUE.
@@ -35581,7 +35581,7 @@ extension ConnectClientTypes.QuickConnectSearchCriteria: Swift.Codable {
 
 extension ConnectClientTypes {
     /// The search criteria to be used to return quick connects.
-    public struct QuickConnectSearchCriteria: Swift.Equatable {
+    public struct QuickConnectSearchCriteria {
         /// A list of conditions which would be applied together with an AND condition.
         public var andConditions: [ConnectClientTypes.QuickConnectSearchCriteria]?
         /// A list of conditions which would be applied together with an OR condition.
@@ -35624,7 +35624,7 @@ extension ConnectClientTypes.QuickConnectSearchFilter: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Filters to be applied to search results.
-    public struct QuickConnectSearchFilter: Swift.Equatable {
+    public struct QuickConnectSearchFilter {
         /// An object that can be used to specify Tag conditions inside the SearchFilter. This accepts an OR of AND (List of List) input where:
         ///
         /// * Top level list specifies conditions that need to be applied with OR operator
@@ -35693,7 +35693,7 @@ extension ConnectClientTypes.QuickConnectSummary: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains summary information about a quick connect.
-    public struct QuickConnectSummary: Swift.Equatable {
+    public struct QuickConnectSummary {
         /// The Amazon Resource Name (ARN) of the quick connect.
         public var arn: Swift.String?
         /// The identifier for the quick connect.
@@ -35783,7 +35783,7 @@ extension ConnectClientTypes.ReadOnlyFieldInfo: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Indicates a field that is read-only to an agent.
-    public struct ReadOnlyFieldInfo: Swift.Equatable {
+    public struct ReadOnlyFieldInfo {
         /// Identifier of the read-only field.
         public var id: ConnectClientTypes.TaskTemplateFieldIdentifier?
 
@@ -35836,7 +35836,7 @@ extension ConnectClientTypes.RealTimeContactAnalysisAttachment: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Object that describes attached file.
-    public struct RealTimeContactAnalysisAttachment: Swift.Equatable {
+    public struct RealTimeContactAnalysisAttachment {
         /// A unique identifier for the attachment.
         /// This member is required.
         public var attachmentId: Swift.String?
@@ -35897,7 +35897,7 @@ extension ConnectClientTypes.RealTimeContactAnalysisCategoryDetails: Swift.Codab
 
 extension ConnectClientTypes {
     /// Provides information about the category rule that was matched.
-    public struct RealTimeContactAnalysisCategoryDetails: Swift.Equatable {
+    public struct RealTimeContactAnalysisCategoryDetails {
         /// List of PointOfInterest - objects describing a single match of a rule.
         /// This member is required.
         public var pointsOfInterest: [ConnectClientTypes.RealTimeContactAnalysisPointOfInterest]?
@@ -35939,7 +35939,7 @@ extension ConnectClientTypes.RealTimeContactAnalysisCharacterInterval: Swift.Cod
 
 extension ConnectClientTypes {
     /// Begin and end offsets for a part of text.
-    public struct RealTimeContactAnalysisCharacterInterval: Swift.Equatable {
+    public struct RealTimeContactAnalysisCharacterInterval {
         /// The beginning of the character interval.
         /// This member is required.
         public var beginOffsetChar: Swift.Int
@@ -35992,7 +35992,7 @@ extension ConnectClientTypes.RealTimeContactAnalysisIssueDetected: Swift.Codable
 
 extension ConnectClientTypes {
     /// Potential issues that are detected based on an artificial intelligence analysis of each turn in the conversation.
-    public struct RealTimeContactAnalysisIssueDetected: Swift.Equatable {
+    public struct RealTimeContactAnalysisIssueDetected {
         /// List of the transcript items (segments) that are associated with a given issue.
         /// This member is required.
         public var transcriptItems: [ConnectClientTypes.RealTimeContactAnalysisTranscriptItemWithContent]?
@@ -36072,7 +36072,7 @@ extension ConnectClientTypes.RealTimeContactAnalysisPointOfInterest: Swift.Codab
 
 extension ConnectClientTypes {
     /// The section of the contact transcript segment that category rule was detected.
-    public struct RealTimeContactAnalysisPointOfInterest: Swift.Equatable {
+    public struct RealTimeContactAnalysisPointOfInterest {
         /// List of the transcript items (segments) that are associated with a given point of interest.
         public var transcriptItems: [ConnectClientTypes.RealTimeContactAnalysisTranscriptItemWithCharacterOffsets]?
 
@@ -36149,7 +36149,7 @@ extension ConnectClientTypes.RealTimeContactAnalysisSegmentAttachments: Swift.Co
 
 extension ConnectClientTypes {
     /// Segment containing list of attachments.
-    public struct RealTimeContactAnalysisSegmentAttachments: Swift.Equatable {
+    public struct RealTimeContactAnalysisSegmentAttachments {
         /// List of objects describing an individual attachment.
         /// This member is required.
         public var attachments: [ConnectClientTypes.RealTimeContactAnalysisAttachment]?
@@ -36221,7 +36221,7 @@ extension ConnectClientTypes.RealTimeContactAnalysisSegmentCategories: Swift.Cod
 
 extension ConnectClientTypes {
     /// The matched category rules.
-    public struct RealTimeContactAnalysisSegmentCategories: Swift.Equatable {
+    public struct RealTimeContactAnalysisSegmentCategories {
         /// Map between the name of the matched rule and RealTimeContactAnalysisCategoryDetails.
         /// This member is required.
         public var matchedDetails: [Swift.String:ConnectClientTypes.RealTimeContactAnalysisCategoryDetails]?
@@ -36287,7 +36287,7 @@ extension ConnectClientTypes.RealTimeContactAnalysisSegmentEvent: Swift.Codable 
 
 extension ConnectClientTypes {
     /// Segment type describing a contact event.
-    public struct RealTimeContactAnalysisSegmentEvent: Swift.Equatable {
+    public struct RealTimeContactAnalysisSegmentEvent {
         /// The display name of the participant. Can be redacted.
         public var displayName: Swift.String?
         /// Type of the event. For example, application/vnd.amazonaws.connect.event.participant.left.
@@ -36357,7 +36357,7 @@ extension ConnectClientTypes.RealTimeContactAnalysisSegmentIssues: Swift.Codable
 
 extension ConnectClientTypes {
     /// Segment type containing a list of detected issues.
-    public struct RealTimeContactAnalysisSegmentIssues: Swift.Equatable {
+    public struct RealTimeContactAnalysisSegmentIssues {
         /// List of the issues detected.
         /// This member is required.
         public var issuesDetected: [ConnectClientTypes.RealTimeContactAnalysisIssueDetected]?
@@ -36441,7 +36441,7 @@ extension ConnectClientTypes.RealTimeContactAnalysisSegmentTranscript: Swift.Cod
 
 extension ConnectClientTypes {
     /// The analyzed transcript segment.
-    public struct RealTimeContactAnalysisSegmentTranscript: Swift.Equatable {
+    public struct RealTimeContactAnalysisSegmentTranscript {
         /// The content of the transcript. Can be redacted.
         /// This member is required.
         public var content: Swift.String?
@@ -36664,7 +36664,7 @@ extension ConnectClientTypes.RealTimeContactAnalysisTimeData: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Object describing time with which the segment is associated. It can have different representations of time. Currently supported: absoluteTime
-    public enum RealTimeContactAnalysisTimeData: Swift.Equatable {
+    public enum RealTimeContactAnalysisTimeData {
         /// Time represented in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
         case absolutetime(ClientRuntime.Date)
         case sdkUnknown(Swift.String)
@@ -36705,7 +36705,7 @@ extension ConnectClientTypes.RealTimeContactAnalysisTranscriptItemRedaction: Swi
 
 extension ConnectClientTypes {
     /// Object describing redaction applied to the segment.
-    public struct RealTimeContactAnalysisTranscriptItemRedaction: Swift.Equatable {
+    public struct RealTimeContactAnalysisTranscriptItemRedaction {
         /// List of character intervals each describing a part of the text that was redacted. For OutputType.Raw, part of the original text that contains data that can be redacted. For  OutputType.Redacted, part of the string with redaction tag.
         public var characterOffsets: [ConnectClientTypes.RealTimeContactAnalysisCharacterInterval]?
 
@@ -36746,7 +36746,7 @@ extension ConnectClientTypes.RealTimeContactAnalysisTranscriptItemWithCharacterO
 
 extension ConnectClientTypes {
     /// Transcript representation containing Id and list of character intervals that are associated with analysis data. For example, this object within a RealTimeContactAnalysisPointOfInterest in Category.MatchedDetails would have character interval describing part of the text that matched category.
-    public struct RealTimeContactAnalysisTranscriptItemWithCharacterOffsets: Swift.Equatable {
+    public struct RealTimeContactAnalysisTranscriptItemWithCharacterOffsets {
         /// List of character intervals within transcript content/text.
         public var characterOffsets: ConnectClientTypes.RealTimeContactAnalysisCharacterInterval?
         /// Transcript identifier. Matches the identifier from one of the TranscriptSegments.
@@ -36798,7 +36798,7 @@ extension ConnectClientTypes.RealTimeContactAnalysisTranscriptItemWithContent: S
 
 extension ConnectClientTypes {
     /// Transcript representation containing Id, Content and list of character intervals that are associated with analysis data. For example, this object within an issue detected would describe both content that contains identified issue and intervals where that content is taken from.
-    public struct RealTimeContactAnalysisTranscriptItemWithContent: Swift.Equatable {
+    public struct RealTimeContactAnalysisTranscriptItemWithContent {
         /// Begin and end offsets for a part of text.
         public var characterOffsets: ConnectClientTypes.RealTimeContactAnalysisCharacterInterval?
         /// Part of the transcript content that contains identified issue. Can be redacted
@@ -36882,7 +36882,7 @@ extension ConnectClientTypes.RealtimeContactAnalysisSegment: Swift.Codable {
 
 extension ConnectClientTypes {
     /// An analyzed segment for a real-time analysis session.
-    public enum RealtimeContactAnalysisSegment: Swift.Equatable {
+    public enum RealtimeContactAnalysisSegment {
         /// The analyzed transcript segment.
         case transcript(ConnectClientTypes.RealTimeContactAnalysisSegmentTranscript)
         /// The matched category rules.
@@ -36925,7 +36925,7 @@ extension ConnectClientTypes.Reference: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Well-formed data on a contact, used by agents to complete a contact request. You can have up to 4,096 UTF-8 bytes across all references for a contact.
-    public struct Reference: Swift.Equatable {
+    public struct Reference {
         /// The type of the reference. DATE must be of type Epoch timestamp.
         /// This member is required.
         public var type: ConnectClientTypes.ReferenceType?
@@ -37046,7 +37046,7 @@ extension ConnectClientTypes.ReferenceSummary: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains summary information about a reference. ReferenceSummary contains only one non null field between the URL and attachment based on the reference type.
-    public enum ReferenceSummary: Swift.Equatable {
+    public enum ReferenceSummary {
         /// Information about the reference when the referenceType is URL. Otherwise, null.
         case url(ConnectClientTypes.UrlReference)
         /// Information about the reference when the referenceType is ATTACHMENT. Otherwise, null.
@@ -37162,7 +37162,7 @@ extension ReleasePhoneNumberInput {
     }
 }
 
-public struct ReleasePhoneNumberInput: Swift.Equatable {
+public struct ReleasePhoneNumberInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
     /// A unique identifier for the phone number.
@@ -37179,7 +37179,7 @@ public struct ReleasePhoneNumberInput: Swift.Equatable {
     }
 }
 
-struct ReleasePhoneNumberInputBody: Swift.Equatable {
+struct ReleasePhoneNumberInputBody {
 }
 
 extension ReleasePhoneNumberInputBody: Swift.Decodable {
@@ -37193,7 +37193,7 @@ extension ReleasePhoneNumberOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ReleasePhoneNumberOutput: Swift.Equatable {
+public struct ReleasePhoneNumberOutput {
 
     public init() { }
 }
@@ -37251,7 +37251,7 @@ extension ReplicateInstanceInput {
     }
 }
 
-public struct ReplicateInstanceInput: Swift.Equatable {
+public struct ReplicateInstanceInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance. You can provide the InstanceId, or the entire ARN.
@@ -37278,7 +37278,7 @@ public struct ReplicateInstanceInput: Swift.Equatable {
     }
 }
 
-struct ReplicateInstanceInputBody: Swift.Equatable {
+struct ReplicateInstanceInputBody {
     let replicaRegion: Swift.String?
     let clientToken: Swift.String?
     let replicaAlias: Swift.String?
@@ -37316,7 +37316,7 @@ extension ReplicateInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ReplicateInstanceOutput: Swift.Equatable {
+public struct ReplicateInstanceOutput {
     /// The Amazon Resource Name (ARN) of the replicated instance.
     public var arn: Swift.String?
     /// The identifier of the replicated instance. You can find the instanceId in the ARN of the instance. The replicated instance has the same identifier as the instance it was replicated from.
@@ -37332,7 +37332,7 @@ public struct ReplicateInstanceOutput: Swift.Equatable {
     }
 }
 
-struct ReplicateInstanceOutputBody: Swift.Equatable {
+struct ReplicateInstanceOutputBody {
     let id: Swift.String?
     let arn: Swift.String?
 }
@@ -37391,7 +37391,7 @@ extension ConnectClientTypes.RequiredFieldInfo: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about a required field.
-    public struct RequiredFieldInfo: Swift.Equatable {
+    public struct RequiredFieldInfo {
         /// The unique identifier for the field.
         public var id: ConnectClientTypes.TaskTemplateFieldIdentifier?
 
@@ -37444,7 +37444,7 @@ public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceConflictExceptionBody: Swift.Equatable {
+struct ResourceConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -37511,7 +37511,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ResourceInUseExceptionBody: Swift.Equatable {
+struct ResourceInUseExceptionBody {
     let message: Swift.String?
     let resourceType: ConnectClientTypes.ResourceType?
     let resourceId: Swift.String?
@@ -37575,7 +37575,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -37630,7 +37630,7 @@ public struct ResourceNotReadyException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotReadyExceptionBody: Swift.Equatable {
+struct ResourceNotReadyExceptionBody {
     let message: Swift.String?
 }
 
@@ -37667,7 +37667,7 @@ extension ConnectClientTypes.ResourceTagsSearchCriteria: Swift.Codable {
 
 extension ConnectClientTypes {
     /// The search criteria to be used to search tags.
-    public struct ResourceTagsSearchCriteria: Swift.Equatable {
+    public struct ResourceTagsSearchCriteria {
         /// The search criteria to be used to return tags.
         public var tagSearchCondition: ConnectClientTypes.TagSearchCondition?
 
@@ -37759,7 +37759,7 @@ extension ResumeContactInput {
     }
 }
 
-public struct ResumeContactInput: Swift.Equatable {
+public struct ResumeContactInput {
     /// The identifier of the flow.
     public var contactFlowId: Swift.String?
     /// The identifier of the contact.
@@ -37781,7 +37781,7 @@ public struct ResumeContactInput: Swift.Equatable {
     }
 }
 
-struct ResumeContactInputBody: Swift.Equatable {
+struct ResumeContactInputBody {
     let contactId: Swift.String?
     let instanceId: Swift.String?
     let contactFlowId: Swift.String?
@@ -37810,7 +37810,7 @@ extension ResumeContactOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ResumeContactOutput: Swift.Equatable {
+public struct ResumeContactOutput {
 
     public init() { }
 }
@@ -37860,7 +37860,7 @@ extension ResumeContactRecordingInput {
     }
 }
 
-public struct ResumeContactRecordingInput: Swift.Equatable {
+public struct ResumeContactRecordingInput {
     /// The identifier of the contact.
     /// This member is required.
     public var contactId: Swift.String?
@@ -37883,7 +37883,7 @@ public struct ResumeContactRecordingInput: Swift.Equatable {
     }
 }
 
-struct ResumeContactRecordingInputBody: Swift.Equatable {
+struct ResumeContactRecordingInputBody {
     let instanceId: Swift.String?
     let contactId: Swift.String?
     let initialContactId: Swift.String?
@@ -37912,7 +37912,7 @@ extension ResumeContactRecordingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ResumeContactRecordingOutput: Swift.Equatable {
+public struct ResumeContactRecordingOutput {
 
     public init() { }
 }
@@ -38053,7 +38053,7 @@ extension ConnectClientTypes.RoutingProfile: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains information about a routing profile.
-    public struct RoutingProfile: Swift.Equatable {
+    public struct RoutingProfile {
         /// Whether agents with this routing profile will have their routing order calculated based on time since their last inbound contact or longest idle time.
         public var agentAvailabilityTimer: ConnectClientTypes.AgentAvailabilityTimer?
         /// The identifier of the default outbound queue for this routing profile.
@@ -38152,7 +38152,7 @@ extension ConnectClientTypes.RoutingProfileQueueConfig: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains information about the queue and channel for which priority and delay can be set.
-    public struct RoutingProfileQueueConfig: Swift.Equatable {
+    public struct RoutingProfileQueueConfig {
         /// The delay, in seconds, a contact should be in the queue before they are routed to an available agent. For more information, see [Queues: priority and delay](https://docs.aws.amazon.com/connect/latest/adminguide/concepts-routing-profiles-priority.html) in the Amazon Connect Administrator Guide.
         /// This member is required.
         public var delay: Swift.Int?
@@ -38228,7 +38228,7 @@ extension ConnectClientTypes.RoutingProfileQueueConfigSummary: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains summary information about a routing profile queue.
-    public struct RoutingProfileQueueConfigSummary: Swift.Equatable {
+    public struct RoutingProfileQueueConfigSummary {
         /// The channels this queue supports.
         /// This member is required.
         public var channel: ConnectClientTypes.Channel?
@@ -38295,7 +38295,7 @@ extension ConnectClientTypes.RoutingProfileQueueReference: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains the channel and queue identifier for a routing profile.
-    public struct RoutingProfileQueueReference: Swift.Equatable {
+    public struct RoutingProfileQueueReference {
         /// The channels agents can handle in the Contact Control Panel (CCP) for this routing profile.
         /// This member is required.
         public var channel: ConnectClientTypes.Channel?
@@ -38342,7 +38342,7 @@ extension ConnectClientTypes.RoutingProfileReference: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about the routing profile assigned to the user.
-    public struct RoutingProfileReference: Swift.Equatable {
+    public struct RoutingProfileReference {
         /// The Amazon Resource Name (ARN) of the routing profile.
         public var arn: Swift.String?
         /// The identifier of the routing profile.
@@ -38417,7 +38417,7 @@ extension ConnectClientTypes.RoutingProfileSearchCriteria: Swift.Codable {
 
 extension ConnectClientTypes {
     /// The search criteria to be used to return routing profiles. The name and description fields support "contains" queries with a minimum of 2 characters and a maximum of 25 characters. Any queries with character lengths outside of this range will throw invalid results.
-    public struct RoutingProfileSearchCriteria: Swift.Equatable {
+    public struct RoutingProfileSearchCriteria {
         /// A list of conditions which would be applied together with an AND condition.
         public var andConditions: [ConnectClientTypes.RoutingProfileSearchCriteria]?
         /// A list of conditions which would be applied together with an OR condition.
@@ -38460,7 +38460,7 @@ extension ConnectClientTypes.RoutingProfileSearchFilter: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Filters to be applied to search results.
-    public struct RoutingProfileSearchFilter: Swift.Equatable {
+    public struct RoutingProfileSearchFilter {
         /// An object that can be used to specify Tag conditions inside the SearchFilter. This accepts an OR of AND (List of List) input where:
         ///
         /// * Top level list specifies conditions that need to be applied with OR operator
@@ -38523,7 +38523,7 @@ extension ConnectClientTypes.RoutingProfileSummary: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains summary information about a routing profile.
-    public struct RoutingProfileSummary: Swift.Equatable {
+    public struct RoutingProfileSummary {
         /// The Amazon Resource Name (ARN) of the routing profile.
         public var arn: Swift.String?
         /// The identifier of the routing profile.
@@ -38658,7 +38658,7 @@ extension ConnectClientTypes.Rule: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about a rule.
-    public struct Rule: Swift.Equatable {
+    public struct Rule {
         /// A list of actions to be run when the rule is triggered.
         /// This member is required.
         public var actions: [ConnectClientTypes.RuleAction]?
@@ -38791,7 +38791,7 @@ extension ConnectClientTypes.RuleAction: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about the action to be performed when a rule is triggered.
-    public struct RuleAction: Swift.Equatable {
+    public struct RuleAction {
         /// The type of action that creates a rule.
         /// This member is required.
         public var actionType: ConnectClientTypes.ActionType?
@@ -38945,7 +38945,7 @@ extension ConnectClientTypes.RuleSummary: Swift.Codable {
 
 extension ConnectClientTypes {
     /// A list of ActionTypes associated with a rule.
-    public struct RuleSummary: Swift.Equatable {
+    public struct RuleSummary {
         /// A list of ActionTypes associated with a rule.
         /// This member is required.
         public var actionSummaries: [ConnectClientTypes.ActionSummary]?
@@ -39022,7 +39022,7 @@ extension ConnectClientTypes.RuleTriggerEventSource: Swift.Codable {
 
 extension ConnectClientTypes {
     /// The name of the event source. This field is required if TriggerEventSource is one of the following values: OnZendeskTicketCreate | OnZendeskTicketStatusUpdate | OnSalesforceCaseCreate | OnContactEvaluationSubmit | OnMetricDataUpdate.
-    public struct RuleTriggerEventSource: Swift.Equatable {
+    public struct RuleTriggerEventSource {
         /// The name of the event source.
         /// This member is required.
         public var eventSourceName: ConnectClientTypes.EventSourceName?
@@ -39074,7 +39074,7 @@ extension ConnectClientTypes.S3Config: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about the Amazon Simple Storage Service (Amazon S3) storage type.
-    public struct S3Config: Swift.Equatable {
+    public struct S3Config {
         /// The S3 bucket name.
         /// This member is required.
         public var bucketName: Swift.String?
@@ -39142,7 +39142,7 @@ extension SearchAvailablePhoneNumbersInput {
     }
 }
 
-public struct SearchAvailablePhoneNumbersInput: Swift.Equatable {
+public struct SearchAvailablePhoneNumbersInput {
     /// The identifier of the Amazon Connect instance that phone numbers are claimed to. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance. You must enter InstanceId or TargetArn.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -39180,7 +39180,7 @@ public struct SearchAvailablePhoneNumbersInput: Swift.Equatable {
     }
 }
 
-struct SearchAvailablePhoneNumbersInputBody: Swift.Equatable {
+struct SearchAvailablePhoneNumbersInputBody {
     let targetArn: Swift.String?
     let instanceId: Swift.String?
     let phoneNumberCountryCode: ConnectClientTypes.PhoneNumberCountryCode?
@@ -39234,7 +39234,7 @@ extension SearchAvailablePhoneNumbersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchAvailablePhoneNumbersOutput: Swift.Equatable {
+public struct SearchAvailablePhoneNumbersOutput {
     /// A list of available phone numbers that you can claim to your Amazon Connect instance or traffic distribution group.
     public var availableNumbersList: [ConnectClientTypes.AvailableNumberSummary]?
     /// If there are additional results, this is the token for the next set of results.
@@ -39250,7 +39250,7 @@ public struct SearchAvailablePhoneNumbersOutput: Swift.Equatable {
     }
 }
 
-struct SearchAvailablePhoneNumbersOutputBody: Swift.Equatable {
+struct SearchAvailablePhoneNumbersOutputBody {
     let nextToken: Swift.String?
     let availableNumbersList: [ConnectClientTypes.AvailableNumberSummary]?
 }
@@ -39333,7 +39333,7 @@ extension SearchContactsInput {
     }
 }
 
-public struct SearchContactsInput: Swift.Equatable {
+public struct SearchContactsInput {
     /// The identifier of Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -39367,7 +39367,7 @@ public struct SearchContactsInput: Swift.Equatable {
     }
 }
 
-struct SearchContactsInputBody: Swift.Equatable {
+struct SearchContactsInputBody {
     let instanceId: Swift.String?
     let timeRange: ConnectClientTypes.SearchContactsTimeRange?
     let searchCriteria: ConnectClientTypes.SearchCriteria?
@@ -39451,7 +39451,7 @@ extension SearchContactsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchContactsOutput: Swift.Equatable {
+public struct SearchContactsOutput {
     /// Information about the contacts.
     /// This member is required.
     public var contacts: [ConnectClientTypes.ContactSearchSummary]?
@@ -39472,7 +39472,7 @@ public struct SearchContactsOutput: Swift.Equatable {
     }
 }
 
-struct SearchContactsOutputBody: Swift.Equatable {
+struct SearchContactsOutputBody {
     let contacts: [ConnectClientTypes.ContactSearchSummary]?
     let nextToken: Swift.String?
     let totalCount: Swift.Int?
@@ -39553,7 +39553,7 @@ extension ConnectClientTypes.SearchContactsTimeRange: Swift.Codable {
 
 extension ConnectClientTypes {
     /// A structure of time range that you want to search results.
-    public struct SearchContactsTimeRange: Swift.Equatable {
+    public struct SearchContactsTimeRange {
         /// The end time of the time range.
         /// This member is required.
         public var endTime: ClientRuntime.Date?
@@ -39721,7 +39721,7 @@ extension ConnectClientTypes.SearchCriteria: Swift.Codable {
 
 extension ConnectClientTypes {
     /// A structure of search criteria to be used to return contacts.
-    public struct SearchCriteria: Swift.Equatable {
+    public struct SearchCriteria {
         /// The agent hierarchy groups of the agent at the time of handling the contact.
         public var agentHierarchyGroups: ConnectClientTypes.AgentHierarchyGroups?
         /// The identifiers of agents who handled the contacts.
@@ -39795,7 +39795,7 @@ extension SearchHoursOfOperationsInput {
     }
 }
 
-public struct SearchHoursOfOperationsInput: Swift.Equatable {
+public struct SearchHoursOfOperationsInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -39824,7 +39824,7 @@ public struct SearchHoursOfOperationsInput: Swift.Equatable {
     }
 }
 
-struct SearchHoursOfOperationsInputBody: Swift.Equatable {
+struct SearchHoursOfOperationsInputBody {
     let instanceId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -39872,7 +39872,7 @@ extension SearchHoursOfOperationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchHoursOfOperationsOutput: Swift.Equatable {
+public struct SearchHoursOfOperationsOutput {
     /// The total number of hours of operations which matched your search query.
     public var approximateTotalCount: Swift.Int?
     /// Information about the hours of operations.
@@ -39892,7 +39892,7 @@ public struct SearchHoursOfOperationsOutput: Swift.Equatable {
     }
 }
 
-struct SearchHoursOfOperationsOutputBody: Swift.Equatable {
+struct SearchHoursOfOperationsOutputBody {
     let hoursOfOperations: [ConnectClientTypes.HoursOfOperation]?
     let nextToken: Swift.String?
     let approximateTotalCount: Swift.Int?
@@ -39972,7 +39972,7 @@ extension SearchPredefinedAttributesInput {
     }
 }
 
-public struct SearchPredefinedAttributesInput: Swift.Equatable {
+public struct SearchPredefinedAttributesInput {
     /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -39997,7 +39997,7 @@ public struct SearchPredefinedAttributesInput: Swift.Equatable {
     }
 }
 
-struct SearchPredefinedAttributesInputBody: Swift.Equatable {
+struct SearchPredefinedAttributesInputBody {
     let instanceId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -40041,7 +40041,7 @@ extension SearchPredefinedAttributesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchPredefinedAttributesOutput: Swift.Equatable {
+public struct SearchPredefinedAttributesOutput {
     /// The approximate number of predefined attributes which matched your search query.
     public var approximateTotalCount: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -40061,7 +40061,7 @@ public struct SearchPredefinedAttributesOutput: Swift.Equatable {
     }
 }
 
-struct SearchPredefinedAttributesOutputBody: Swift.Equatable {
+struct SearchPredefinedAttributesOutputBody {
     let predefinedAttributes: [ConnectClientTypes.PredefinedAttribute]?
     let nextToken: Swift.String?
     let approximateTotalCount: Swift.Int?
@@ -40145,7 +40145,7 @@ extension SearchPromptsInput {
     }
 }
 
-public struct SearchPromptsInput: Swift.Equatable {
+public struct SearchPromptsInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -40174,7 +40174,7 @@ public struct SearchPromptsInput: Swift.Equatable {
     }
 }
 
-struct SearchPromptsInputBody: Swift.Equatable {
+struct SearchPromptsInputBody {
     let instanceId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -40222,7 +40222,7 @@ extension SearchPromptsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchPromptsOutput: Swift.Equatable {
+public struct SearchPromptsOutput {
     /// The total number of quick connects which matched your search query.
     public var approximateTotalCount: Swift.Int?
     /// If there are additional results, this is the token for the next set of results.
@@ -40242,7 +40242,7 @@ public struct SearchPromptsOutput: Swift.Equatable {
     }
 }
 
-struct SearchPromptsOutputBody: Swift.Equatable {
+struct SearchPromptsOutputBody {
     let prompts: [ConnectClientTypes.Prompt]?
     let nextToken: Swift.String?
     let approximateTotalCount: Swift.Int?
@@ -40326,7 +40326,7 @@ extension SearchQueuesInput {
     }
 }
 
-public struct SearchQueuesInput: Swift.Equatable {
+public struct SearchQueuesInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -40355,7 +40355,7 @@ public struct SearchQueuesInput: Swift.Equatable {
     }
 }
 
-struct SearchQueuesInputBody: Swift.Equatable {
+struct SearchQueuesInputBody {
     let instanceId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -40403,7 +40403,7 @@ extension SearchQueuesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchQueuesOutput: Swift.Equatable {
+public struct SearchQueuesOutput {
     /// The total number of queues which matched your search query.
     public var approximateTotalCount: Swift.Int?
     /// If there are additional results, this is the token for the next set of results.
@@ -40423,7 +40423,7 @@ public struct SearchQueuesOutput: Swift.Equatable {
     }
 }
 
-struct SearchQueuesOutputBody: Swift.Equatable {
+struct SearchQueuesOutputBody {
     let queues: [ConnectClientTypes.Queue]?
     let nextToken: Swift.String?
     let approximateTotalCount: Swift.Int?
@@ -40507,7 +40507,7 @@ extension SearchQuickConnectsInput {
     }
 }
 
-public struct SearchQuickConnectsInput: Swift.Equatable {
+public struct SearchQuickConnectsInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -40536,7 +40536,7 @@ public struct SearchQuickConnectsInput: Swift.Equatable {
     }
 }
 
-struct SearchQuickConnectsInputBody: Swift.Equatable {
+struct SearchQuickConnectsInputBody {
     let instanceId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -40584,7 +40584,7 @@ extension SearchQuickConnectsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchQuickConnectsOutput: Swift.Equatable {
+public struct SearchQuickConnectsOutput {
     /// The total number of quick connects which matched your search query.
     public var approximateTotalCount: Swift.Int?
     /// If there are additional results, this is the token for the next set of results.
@@ -40604,7 +40604,7 @@ public struct SearchQuickConnectsOutput: Swift.Equatable {
     }
 }
 
-struct SearchQuickConnectsOutputBody: Swift.Equatable {
+struct SearchQuickConnectsOutputBody {
     let quickConnects: [ConnectClientTypes.QuickConnect]?
     let nextToken: Swift.String?
     let approximateTotalCount: Swift.Int?
@@ -40691,7 +40691,7 @@ extension SearchResourceTagsInput {
     }
 }
 
-public struct SearchResourceTagsInput: Swift.Equatable {
+public struct SearchResourceTagsInput {
     /// The identifier of the Amazon Connect instance. You can find the instanceId in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -40720,7 +40720,7 @@ public struct SearchResourceTagsInput: Swift.Equatable {
     }
 }
 
-struct SearchResourceTagsInputBody: Swift.Equatable {
+struct SearchResourceTagsInputBody {
     let instanceId: Swift.String?
     let resourceTypes: [Swift.String]?
     let nextToken: Swift.String?
@@ -40775,7 +40775,7 @@ extension SearchResourceTagsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchResourceTagsOutput: Swift.Equatable {
+public struct SearchResourceTagsOutput {
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
     /// A list of tags used in the Amazon Connect instance.
@@ -40791,7 +40791,7 @@ public struct SearchResourceTagsOutput: Swift.Equatable {
     }
 }
 
-struct SearchResourceTagsOutputBody: Swift.Equatable {
+struct SearchResourceTagsOutputBody {
     let tags: [ConnectClientTypes.TagSet]?
     let nextToken: Swift.String?
 }
@@ -40872,7 +40872,7 @@ extension SearchRoutingProfilesInput {
     }
 }
 
-public struct SearchRoutingProfilesInput: Swift.Equatable {
+public struct SearchRoutingProfilesInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -40901,7 +40901,7 @@ public struct SearchRoutingProfilesInput: Swift.Equatable {
     }
 }
 
-struct SearchRoutingProfilesInputBody: Swift.Equatable {
+struct SearchRoutingProfilesInputBody {
     let instanceId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -40949,7 +40949,7 @@ extension SearchRoutingProfilesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchRoutingProfilesOutput: Swift.Equatable {
+public struct SearchRoutingProfilesOutput {
     /// The total number of routing profiles which matched your search query.
     public var approximateTotalCount: Swift.Int?
     /// If there are additional results, this is the token for the next set of results.
@@ -40969,7 +40969,7 @@ public struct SearchRoutingProfilesOutput: Swift.Equatable {
     }
 }
 
-struct SearchRoutingProfilesOutputBody: Swift.Equatable {
+struct SearchRoutingProfilesOutputBody {
     let routingProfiles: [ConnectClientTypes.RoutingProfile]?
     let nextToken: Swift.String?
     let approximateTotalCount: Swift.Int?
@@ -41053,7 +41053,7 @@ extension SearchSecurityProfilesInput {
     }
 }
 
-public struct SearchSecurityProfilesInput: Swift.Equatable {
+public struct SearchSecurityProfilesInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -41082,7 +41082,7 @@ public struct SearchSecurityProfilesInput: Swift.Equatable {
     }
 }
 
-struct SearchSecurityProfilesInputBody: Swift.Equatable {
+struct SearchSecurityProfilesInputBody {
     let instanceId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -41130,7 +41130,7 @@ extension SearchSecurityProfilesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchSecurityProfilesOutput: Swift.Equatable {
+public struct SearchSecurityProfilesOutput {
     /// The total number of security profiles which matched your search query.
     public var approximateTotalCount: Swift.Int?
     /// If there are additional results, this is the token for the next set of results.
@@ -41150,7 +41150,7 @@ public struct SearchSecurityProfilesOutput: Swift.Equatable {
     }
 }
 
-struct SearchSecurityProfilesOutputBody: Swift.Equatable {
+struct SearchSecurityProfilesOutputBody {
     let securityProfiles: [ConnectClientTypes.SecurityProfileSearchSummary]?
     let nextToken: Swift.String?
     let approximateTotalCount: Swift.Int?
@@ -41234,7 +41234,7 @@ extension SearchUsersInput {
     }
 }
 
-public struct SearchUsersInput: Swift.Equatable {
+public struct SearchUsersInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance. InstanceID is a required field. The "Required: No" below is incorrect.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -41263,7 +41263,7 @@ public struct SearchUsersInput: Swift.Equatable {
     }
 }
 
-struct SearchUsersInputBody: Swift.Equatable {
+struct SearchUsersInputBody {
     let instanceId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -41311,7 +41311,7 @@ extension SearchUsersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchUsersOutput: Swift.Equatable {
+public struct SearchUsersOutput {
     /// The total number of users who matched your search query.
     public var approximateTotalCount: Swift.Int?
     /// If there are additional results, this is the token for the next set of results.
@@ -41331,7 +41331,7 @@ public struct SearchUsersOutput: Swift.Equatable {
     }
 }
 
-struct SearchUsersOutputBody: Swift.Equatable {
+struct SearchUsersOutputBody {
     let users: [ConnectClientTypes.UserSearchSummary]?
     let nextToken: Swift.String?
     let approximateTotalCount: Swift.Int?
@@ -41418,7 +41418,7 @@ extension SearchVocabulariesInput {
     }
 }
 
-public struct SearchVocabulariesInput: Swift.Equatable {
+public struct SearchVocabulariesInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -41451,7 +41451,7 @@ public struct SearchVocabulariesInput: Swift.Equatable {
     }
 }
 
-struct SearchVocabulariesInputBody: Swift.Equatable {
+struct SearchVocabulariesInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let state: ConnectClientTypes.VocabularyState?
@@ -41497,7 +41497,7 @@ extension SearchVocabulariesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchVocabulariesOutput: Swift.Equatable {
+public struct SearchVocabulariesOutput {
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
     /// The list of the available custom vocabularies.
@@ -41513,7 +41513,7 @@ public struct SearchVocabulariesOutput: Swift.Equatable {
     }
 }
 
-struct SearchVocabulariesOutputBody: Swift.Equatable {
+struct SearchVocabulariesOutputBody {
     let vocabularySummaryList: [ConnectClientTypes.VocabularySummary]?
     let nextToken: Swift.String?
 }
@@ -41595,7 +41595,7 @@ extension ConnectClientTypes.SearchableContactAttributes: Swift.Codable {
 
 extension ConnectClientTypes {
     /// A structure that defines search criteria based on user-defined contact attributes that are configured for contact search.
-    public struct SearchableContactAttributes: Swift.Equatable {
+    public struct SearchableContactAttributes {
         /// The list of criteria based on user-defined contact attributes that are configured for contact search.
         /// This member is required.
         public var criteria: [ConnectClientTypes.SearchableContactAttributesCriteria]?
@@ -41658,7 +41658,7 @@ extension ConnectClientTypes.SearchableContactAttributesCriteria: Swift.CustomDe
 
 extension ConnectClientTypes {
     /// The search criteria based on user-defned contact attribute key and values to search on.
-    public struct SearchableContactAttributesCriteria: Swift.Equatable {
+    public struct SearchableContactAttributesCriteria {
         /// The key containing a searchable user-defined contact attribute.
         /// This member is required.
         public var key: Swift.String?
@@ -41740,7 +41740,7 @@ extension ConnectClientTypes.SecurityKey: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Configuration information of the security key.
-    public struct SecurityKey: Swift.Equatable {
+    public struct SecurityKey {
         /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
         public var associationId: Swift.String?
         /// When the security key was created.
@@ -41897,7 +41897,7 @@ extension ConnectClientTypes.SecurityProfile: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains information about a security profile.
-    public struct SecurityProfile: Swift.Equatable {
+    public struct SecurityProfile {
         /// The identifier of the hierarchy group that a security profile uses to restrict access to resources in Amazon Connect.
         public var allowedAccessControlHierarchyGroupId: Swift.String?
         /// The list of tags that a security profile uses to restrict access to resources in Amazon Connect.
@@ -42012,7 +42012,7 @@ extension ConnectClientTypes.SecurityProfileSearchCriteria: Swift.Codable {
 
 extension ConnectClientTypes {
     /// The search criteria to be used to return security profiles. The name field support "contains" queries with a minimum of 2 characters and maximum of 25 characters. Any queries with character lengths outside of this range will throw invalid results.
-    public struct SecurityProfileSearchCriteria: Swift.Equatable {
+    public struct SecurityProfileSearchCriteria {
         /// A list of conditions which would be applied together with an AND condition.
         public var andConditions: [ConnectClientTypes.SecurityProfileSearchCriteria]?
         /// A list of conditions which would be applied together with an OR condition.
@@ -42097,7 +42097,7 @@ extension ConnectClientTypes.SecurityProfileSearchSummary: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about the returned security profiles.
-    public struct SecurityProfileSearchSummary: Swift.Equatable {
+    public struct SecurityProfileSearchSummary {
         /// The Amazon Resource Name (ARN) of the security profile.
         public var arn: Swift.String?
         /// The description of the security profile.
@@ -42176,7 +42176,7 @@ extension ConnectClientTypes.SecurityProfileSummary: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains information about a security profile.
-    public struct SecurityProfileSummary: Swift.Equatable {
+    public struct SecurityProfileSummary {
         /// The Amazon Resource Name (ARN) of the security profile.
         public var arn: Swift.String?
         /// The identifier of the security profile.
@@ -42227,7 +42227,7 @@ extension ConnectClientTypes.SecurityProfilesSearchFilter: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Filters to be applied to search results.
-    public struct SecurityProfilesSearchFilter: Swift.Equatable {
+    public struct SecurityProfilesSearchFilter {
         /// An object that can be used to specify Tag conditions inside the SearchFilter. This accepts an OR of AND (List of List) input where:
         ///
         /// * Top level list specifies conditions that need to be applied with OR operator
@@ -42266,7 +42266,7 @@ extension ConnectClientTypes.SegmentAttributeValue: Swift.Codable {
 
 extension ConnectClientTypes {
     /// A value for a segment attribute. This is structured as a map where the key is valueString and the value is a string.
-    public struct SegmentAttributeValue: Swift.Equatable {
+    public struct SegmentAttributeValue {
         /// The value of a segment attribute.
         public var valueString: Swift.String?
 
@@ -42316,7 +42316,7 @@ extension SendChatIntegrationEventInput {
     }
 }
 
-public struct SendChatIntegrationEventInput: Swift.Equatable {
+public struct SendChatIntegrationEventInput {
     /// Chat system identifier, used in part to uniquely identify chat. This is associated with the Amazon Connect instance and flow to be used to start chats. For SMS, this is the phone number destination of inbound SMS messages represented by an Amazon Pinpoint phone number ARN.
     /// This member is required.
     public var destinationId: Swift.String?
@@ -42347,7 +42347,7 @@ public struct SendChatIntegrationEventInput: Swift.Equatable {
     }
 }
 
-struct SendChatIntegrationEventInputBody: Swift.Equatable {
+struct SendChatIntegrationEventInputBody {
     let sourceId: Swift.String?
     let destinationId: Swift.String?
     let subtype: Swift.String?
@@ -42393,7 +42393,7 @@ extension SendChatIntegrationEventOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SendChatIntegrationEventOutput: Swift.Equatable {
+public struct SendChatIntegrationEventOutput {
     /// Identifier of chat contact used to handle integration event. This may be null if the integration event is not valid without an already existing chat contact.
     public var initialContactId: Swift.String?
     /// Whether handling the integration event resulted in creating a new chat or acting on existing chat.
@@ -42409,7 +42409,7 @@ public struct SendChatIntegrationEventOutput: Swift.Equatable {
     }
 }
 
-struct SendChatIntegrationEventOutputBody: Swift.Equatable {
+struct SendChatIntegrationEventOutputBody {
     let initialContactId: Swift.String?
     let newChatCreated: Swift.Bool?
 }
@@ -42489,7 +42489,7 @@ extension ConnectClientTypes.SendNotificationActionDefinition: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about the send notification action.
-    public struct SendNotificationActionDefinition: Swift.Equatable {
+    public struct SendNotificationActionDefinition {
         /// Notification content. Supports variable injection. For more information, see [JSONPath reference](https://docs.aws.amazon.com/connect/latest/adminguide/contact-lens-variable-injection.html) in the Amazon Connect Administrators Guide.
         /// This member is required.
         public var content: Swift.String?
@@ -42562,7 +42562,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -42611,7 +42611,7 @@ extension ConnectClientTypes.SignInConfig: Swift.Codable {
 
 extension ConnectClientTypes {
     /// The distribution that determines which Amazon Web Services Regions should be used to sign in agents in to both the instance and its replica(s).
-    public struct SignInConfig: Swift.Equatable {
+    public struct SignInConfig {
         /// Information about traffic distributions.
         /// This member is required.
         public var distributions: [ConnectClientTypes.SignInDistribution]?
@@ -42653,7 +42653,7 @@ extension ConnectClientTypes.SignInDistribution: Swift.Codable {
 
 extension ConnectClientTypes {
     /// The distribution of sign in traffic between the instance and its replica(s).
-    public struct SignInDistribution: Swift.Equatable {
+    public struct SignInDistribution {
         /// Whether sign in distribution is enabled.
         /// This member is required.
         public var enabled: Swift.Bool
@@ -42706,7 +42706,7 @@ extension ConnectClientTypes.SingleSelectQuestionRuleCategoryAutomation: Swift.C
 
 extension ConnectClientTypes {
     /// Information about the automation option based on a rule category for a single select question.
-    public struct SingleSelectQuestionRuleCategoryAutomation: Swift.Equatable {
+    public struct SingleSelectQuestionRuleCategoryAutomation {
         /// The category name, as defined in Rules.
         /// This member is required.
         public var category: Swift.String?
@@ -42790,7 +42790,7 @@ extension ConnectClientTypes.Sort: Swift.Codable {
 
 extension ConnectClientTypes {
     /// A structure that defineds the field name to sort by and a sort order.
-    public struct Sort: Swift.Equatable {
+    public struct Sort {
         /// The name of the field on which to sort.
         /// This member is required.
         public var fieldName: ConnectClientTypes.SortableFieldName?
@@ -42990,7 +42990,7 @@ extension StartChatContactInput {
     }
 }
 
-public struct StartChatContactInput: Swift.Equatable {
+public struct StartChatContactInput {
     /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
     public var attributes: [Swift.String:Swift.String]?
     /// The total duration of the newly started chat session. If not specified, the chat session duration defaults to 25 hour. The minimum configurable time is 60 minutes. The maximum configurable time is 10,080 minutes (7 days).
@@ -43045,7 +43045,7 @@ public struct StartChatContactInput: Swift.Equatable {
     }
 }
 
-struct StartChatContactInputBody: Swift.Equatable {
+struct StartChatContactInputBody {
     let instanceId: Swift.String?
     let contactFlowId: Swift.String?
     let attributes: [Swift.String:Swift.String]?
@@ -43146,7 +43146,7 @@ extension StartChatContactOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartChatContactOutput: Swift.Equatable {
+public struct StartChatContactOutput {
     /// The identifier of this contact within the Amazon Connect instance.
     public var contactId: Swift.String?
     /// The contactId from which a persistent chat session is started. This field is populated only for persistent chats.
@@ -43170,7 +43170,7 @@ public struct StartChatContactOutput: Swift.Equatable {
     }
 }
 
-struct StartChatContactOutputBody: Swift.Equatable {
+struct StartChatContactOutputBody {
     let contactId: Swift.String?
     let participantId: Swift.String?
     let participantToken: Swift.String?
@@ -43244,7 +43244,7 @@ extension StartContactEvaluationInput {
     }
 }
 
-public struct StartContactEvaluationInput: Swift.Equatable {
+public struct StartContactEvaluationInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
     /// The identifier of the contact in this instance of Amazon Connect.
@@ -43271,7 +43271,7 @@ public struct StartContactEvaluationInput: Swift.Equatable {
     }
 }
 
-struct StartContactEvaluationInputBody: Swift.Equatable {
+struct StartContactEvaluationInputBody {
     let contactId: Swift.String?
     let evaluationFormId: Swift.String?
     let clientToken: Swift.String?
@@ -43309,7 +43309,7 @@ extension StartContactEvaluationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartContactEvaluationOutput: Swift.Equatable {
+public struct StartContactEvaluationOutput {
     /// The Amazon Resource Name (ARN) for the contact evaluation resource.
     /// This member is required.
     public var evaluationArn: Swift.String?
@@ -43327,7 +43327,7 @@ public struct StartContactEvaluationOutput: Swift.Equatable {
     }
 }
 
-struct StartContactEvaluationOutputBody: Swift.Equatable {
+struct StartContactEvaluationOutputBody {
     let evaluationId: Swift.String?
     let evaluationArn: Swift.String?
 }
@@ -43395,7 +43395,7 @@ extension StartContactRecordingInput {
     }
 }
 
-public struct StartContactRecordingInput: Swift.Equatable {
+public struct StartContactRecordingInput {
     /// The identifier of the contact.
     /// This member is required.
     public var contactId: Swift.String?
@@ -43423,7 +43423,7 @@ public struct StartContactRecordingInput: Swift.Equatable {
     }
 }
 
-struct StartContactRecordingInputBody: Swift.Equatable {
+struct StartContactRecordingInputBody {
     let instanceId: Swift.String?
     let contactId: Swift.String?
     let initialContactId: Swift.String?
@@ -43456,7 +43456,7 @@ extension StartContactRecordingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartContactRecordingOutput: Swift.Equatable {
+public struct StartContactRecordingOutput {
 
     public init() { }
 }
@@ -43507,7 +43507,7 @@ extension StartContactStreamingInput {
     }
 }
 
-public struct StartContactStreamingInput: Swift.Equatable {
+public struct StartContactStreamingInput {
     /// The streaming configuration, such as the Amazon SNS streaming endpoint.
     /// This member is required.
     public var chatStreamingConfiguration: ConnectClientTypes.ChatStreamingConfiguration?
@@ -43535,7 +43535,7 @@ public struct StartContactStreamingInput: Swift.Equatable {
     }
 }
 
-struct StartContactStreamingInputBody: Swift.Equatable {
+struct StartContactStreamingInputBody {
     let instanceId: Swift.String?
     let contactId: Swift.String?
     let chatStreamingConfiguration: ConnectClientTypes.ChatStreamingConfiguration?
@@ -43575,7 +43575,7 @@ extension StartContactStreamingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartContactStreamingOutput: Swift.Equatable {
+public struct StartContactStreamingOutput {
     /// The identifier of the streaming configuration enabled.
     /// This member is required.
     public var streamingId: Swift.String?
@@ -43588,7 +43588,7 @@ public struct StartContactStreamingOutput: Swift.Equatable {
     }
 }
 
-struct StartContactStreamingOutputBody: Swift.Equatable {
+struct StartContactStreamingOutputBody {
     let streamingId: Swift.String?
 }
 
@@ -43702,7 +43702,7 @@ extension StartOutboundVoiceContactInput {
     }
 }
 
-public struct StartOutboundVoiceContactInput: Swift.Equatable {
+public struct StartOutboundVoiceContactInput {
     /// Configuration of the answering machine detection for this outbound call.
     public var answerMachineDetectionConfig: ConnectClientTypes.AnswerMachineDetectionConfig?
     /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
@@ -43769,7 +43769,7 @@ public struct StartOutboundVoiceContactInput: Swift.Equatable {
     }
 }
 
-struct StartOutboundVoiceContactInputBody: Swift.Equatable {
+struct StartOutboundVoiceContactInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let references: [Swift.String:ConnectClientTypes.Reference]?
@@ -43867,7 +43867,7 @@ extension StartOutboundVoiceContactOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartOutboundVoiceContactOutput: Swift.Equatable {
+public struct StartOutboundVoiceContactOutput {
     /// The identifier of this contact within the Amazon Connect instance.
     public var contactId: Swift.String?
 
@@ -43879,7 +43879,7 @@ public struct StartOutboundVoiceContactOutput: Swift.Equatable {
     }
 }
 
-struct StartOutboundVoiceContactOutputBody: Swift.Equatable {
+struct StartOutboundVoiceContactOutputBody {
     let contactId: Swift.String?
 }
 
@@ -43987,7 +43987,7 @@ extension StartTaskContactInput {
     }
 }
 
-public struct StartTaskContactInput: Swift.Equatable {
+public struct StartTaskContactInput {
     /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
     public var attributes: [Swift.String:Swift.String]?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
@@ -44045,7 +44045,7 @@ public struct StartTaskContactInput: Swift.Equatable {
     }
 }
 
-struct StartTaskContactInputBody: Swift.Equatable {
+struct StartTaskContactInputBody {
     let instanceId: Swift.String?
     let previousContactId: Swift.String?
     let contactFlowId: Swift.String?
@@ -44135,7 +44135,7 @@ extension StartTaskContactOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartTaskContactOutput: Swift.Equatable {
+public struct StartTaskContactOutput {
     /// The identifier of this contact within the Amazon Connect instance.
     public var contactId: Swift.String?
 
@@ -44147,7 +44147,7 @@ public struct StartTaskContactOutput: Swift.Equatable {
     }
 }
 
-struct StartTaskContactOutputBody: Swift.Equatable {
+struct StartTaskContactOutputBody {
     let contactId: Swift.String?
 }
 
@@ -44242,7 +44242,7 @@ extension StartWebRTCContactInput {
     }
 }
 
-public struct StartWebRTCContactInput: Swift.Equatable {
+public struct StartWebRTCContactInput {
     /// Information about the video sharing capabilities of the participants (customer, agent).
     public var allowedCapabilities: ConnectClientTypes.AllowedCapabilities?
     /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, -, and _ characters.
@@ -44289,7 +44289,7 @@ public struct StartWebRTCContactInput: Swift.Equatable {
     }
 }
 
-struct StartWebRTCContactInputBody: Swift.Equatable {
+struct StartWebRTCContactInputBody {
     let attributes: [Swift.String:Swift.String]?
     let clientToken: Swift.String?
     let contactFlowId: Swift.String?
@@ -44373,7 +44373,7 @@ extension StartWebRTCContactOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartWebRTCContactOutput: Swift.Equatable {
+public struct StartWebRTCContactOutput {
     /// Information required for the client application (mobile application or website) to connect to the call.
     public var connectionData: ConnectClientTypes.ConnectionData?
     /// The identifier of the contact in this instance of Amazon Connect.
@@ -44397,7 +44397,7 @@ public struct StartWebRTCContactOutput: Swift.Equatable {
     }
 }
 
-struct StartWebRTCContactOutputBody: Swift.Equatable {
+struct StartWebRTCContactOutputBody {
     let connectionData: ConnectClientTypes.ConnectionData?
     let contactId: Swift.String?
     let participantId: Swift.String?
@@ -44503,7 +44503,7 @@ extension StopContactInput {
     }
 }
 
-public struct StopContactInput: Swift.Equatable {
+public struct StopContactInput {
     /// The ID of the contact.
     /// This member is required.
     public var contactId: Swift.String?
@@ -44525,7 +44525,7 @@ public struct StopContactInput: Swift.Equatable {
     }
 }
 
-struct StopContactInputBody: Swift.Equatable {
+struct StopContactInputBody {
     let contactId: Swift.String?
     let instanceId: Swift.String?
     let disconnectReason: ConnectClientTypes.DisconnectReason?
@@ -44554,7 +44554,7 @@ extension StopContactOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopContactOutput: Swift.Equatable {
+public struct StopContactOutput {
 
     public init() { }
 }
@@ -44602,7 +44602,7 @@ extension StopContactRecordingInput {
     }
 }
 
-public struct StopContactRecordingInput: Swift.Equatable {
+public struct StopContactRecordingInput {
     /// The identifier of the contact.
     /// This member is required.
     public var contactId: Swift.String?
@@ -44625,7 +44625,7 @@ public struct StopContactRecordingInput: Swift.Equatable {
     }
 }
 
-struct StopContactRecordingInputBody: Swift.Equatable {
+struct StopContactRecordingInputBody {
     let instanceId: Swift.String?
     let contactId: Swift.String?
     let initialContactId: Swift.String?
@@ -44654,7 +44654,7 @@ extension StopContactRecordingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopContactRecordingOutput: Swift.Equatable {
+public struct StopContactRecordingOutput {
 
     public init() { }
 }
@@ -44700,7 +44700,7 @@ extension StopContactStreamingInput {
     }
 }
 
-public struct StopContactStreamingInput: Swift.Equatable {
+public struct StopContactStreamingInput {
     /// The identifier of the contact. This is the identifier of the contact that is associated with the first interaction with the contact center.
     /// This member is required.
     public var contactId: Swift.String?
@@ -44723,7 +44723,7 @@ public struct StopContactStreamingInput: Swift.Equatable {
     }
 }
 
-struct StopContactStreamingInputBody: Swift.Equatable {
+struct StopContactStreamingInputBody {
     let instanceId: Swift.String?
     let contactId: Swift.String?
     let streamingId: Swift.String?
@@ -44752,7 +44752,7 @@ extension StopContactStreamingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopContactStreamingOutput: Swift.Equatable {
+public struct StopContactStreamingOutput {
 
     public init() { }
 }
@@ -44877,7 +44877,7 @@ extension ConnectClientTypes.StringCondition: Swift.Codable {
 
 extension ConnectClientTypes {
     /// A leaf node condition which can be used to specify a string condition. The currently supported values for FieldName are name and description.
-    public struct StringCondition: Swift.Equatable {
+    public struct StringCondition {
         /// The type of comparison to be made when evaluating the string condition.
         public var comparisonType: ConnectClientTypes.StringComparisonType?
         /// The name of the field in the string condition.
@@ -44926,7 +44926,7 @@ extension ConnectClientTypes.StringReference: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about a reference when the referenceType is STRING. Otherwise, null.
-    public struct StringReference: Swift.Equatable {
+    public struct StringReference {
         /// Identifier of the string reference.
         public var name: Swift.String?
         /// A valid string.
@@ -44965,7 +44965,7 @@ extension ConnectClientTypes.SubmitAutoEvaluationActionDefinition: Swift.Codable
 
 extension ConnectClientTypes {
     /// Information about the submit automated evaluation action.
-    public struct SubmitAutoEvaluationActionDefinition: Swift.Equatable {
+    public struct SubmitAutoEvaluationActionDefinition {
         /// The identifier of the auto-evaluation enabled form.
         /// This member is required.
         public var evaluationFormId: Swift.String?
@@ -45016,7 +45016,7 @@ extension SubmitContactEvaluationInput {
     }
 }
 
-public struct SubmitContactEvaluationInput: Swift.Equatable {
+public struct SubmitContactEvaluationInput {
     /// A map of question identifiers to answer value.
     public var answers: [Swift.String:ConnectClientTypes.EvaluationAnswerInput]?
     /// A unique identifier for the contact evaluation.
@@ -45042,7 +45042,7 @@ public struct SubmitContactEvaluationInput: Swift.Equatable {
     }
 }
 
-struct SubmitContactEvaluationInputBody: Swift.Equatable {
+struct SubmitContactEvaluationInputBody {
     let answers: [Swift.String:ConnectClientTypes.EvaluationAnswerInput]?
     let notes: [Swift.String:ConnectClientTypes.EvaluationNote]?
 }
@@ -45094,7 +45094,7 @@ extension SubmitContactEvaluationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SubmitContactEvaluationOutput: Swift.Equatable {
+public struct SubmitContactEvaluationOutput {
     /// The Amazon Resource Name (ARN) for the contact evaluation resource.
     /// This member is required.
     public var evaluationArn: Swift.String?
@@ -45112,7 +45112,7 @@ public struct SubmitContactEvaluationOutput: Swift.Equatable {
     }
 }
 
-struct SubmitContactEvaluationOutputBody: Swift.Equatable {
+struct SubmitContactEvaluationOutputBody {
     let evaluationId: Swift.String?
     let evaluationArn: Swift.String?
 }
@@ -45174,7 +45174,7 @@ extension ConnectClientTypes.SuccessfulRequest: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Request for which contact was successfully created.
-    public struct SuccessfulRequest: Swift.Equatable {
+    public struct SuccessfulRequest {
         /// The contactId of the contact that was created successfully.
         public var contactId: Swift.String?
         /// Request identifier provided in the API call in the ContactDataRequest to create a contact.
@@ -45220,7 +45220,7 @@ extension SuspendContactRecordingInput {
     }
 }
 
-public struct SuspendContactRecordingInput: Swift.Equatable {
+public struct SuspendContactRecordingInput {
     /// The identifier of the contact.
     /// This member is required.
     public var contactId: Swift.String?
@@ -45243,7 +45243,7 @@ public struct SuspendContactRecordingInput: Swift.Equatable {
     }
 }
 
-struct SuspendContactRecordingInputBody: Swift.Equatable {
+struct SuspendContactRecordingInputBody {
     let instanceId: Swift.String?
     let contactId: Swift.String?
     let initialContactId: Swift.String?
@@ -45272,7 +45272,7 @@ extension SuspendContactRecordingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SuspendContactRecordingOutput: Swift.Equatable {
+public struct SuspendContactRecordingOutput {
 
     public init() { }
 }
@@ -45317,7 +45317,7 @@ extension ConnectClientTypes.TagCondition: Swift.Codable {
 
 extension ConnectClientTypes {
     /// A leaf node condition which can be used to specify a tag condition, for example, HAVE BPO = 123.
-    public struct TagCondition: Swift.Equatable {
+    public struct TagCondition {
         /// The tag key in the tag condition.
         public var tagKey: Swift.String?
         /// The tag value in the tag condition.
@@ -45366,7 +45366,7 @@ extension TagContactInput {
     }
 }
 
-public struct TagContactInput: Swift.Equatable {
+public struct TagContactInput {
     /// The identifier of the contact in this instance of Amazon Connect.
     /// This member is required.
     public var contactId: Swift.String?
@@ -45389,7 +45389,7 @@ public struct TagContactInput: Swift.Equatable {
     }
 }
 
-struct TagContactInputBody: Swift.Equatable {
+struct TagContactInputBody {
     let contactId: Swift.String?
     let instanceId: Swift.String?
     let tags: [Swift.String:Swift.String]?
@@ -45427,7 +45427,7 @@ extension TagContactOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagContactOutput: Swift.Equatable {
+public struct TagContactOutput {
 
     public init() { }
 }
@@ -45473,7 +45473,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -45491,7 +45491,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -45521,7 +45521,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -45580,7 +45580,7 @@ extension ConnectClientTypes.TagSearchCondition: Swift.Codable {
 
 extension ConnectClientTypes {
     /// The search criteria to be used to return tags.
-    public struct TagSearchCondition: Swift.Equatable {
+    public struct TagSearchCondition {
         /// The tag key used in the tag search condition.
         public var tagKey: Swift.String?
         /// The type of comparison to be made when evaluating the tag key in tag search condition.
@@ -45633,7 +45633,7 @@ extension ConnectClientTypes.TagSet: Swift.Codable {
 
 extension ConnectClientTypes {
     /// A tag set contains tag key and tag value.
-    public struct TagSet: Swift.Equatable {
+    public struct TagSet {
         /// The tag key in the tagSet.
         public var key: Swift.String?
         /// The tag value in the tagSet.
@@ -45702,7 +45702,7 @@ extension ConnectClientTypes.TaskActionDefinition: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about the task action.
-    public struct TaskActionDefinition: Swift.Equatable {
+    public struct TaskActionDefinition {
         /// The identifier of the flow.
         /// This member is required.
         public var contactFlowId: Swift.String?
@@ -45799,7 +45799,7 @@ extension ConnectClientTypes.TaskTemplateConstraints: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Describes constraints that apply to the template fields.
-    public struct TaskTemplateConstraints: Swift.Equatable {
+    public struct TaskTemplateConstraints {
         /// Lists the fields that are invisible to agents.
         public var invisibleFields: [ConnectClientTypes.InvisibleFieldInfo]?
         /// Lists the fields that are read-only to agents, and cannot be edited.
@@ -45848,7 +45848,7 @@ extension ConnectClientTypes.TaskTemplateDefaultFieldValue: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Describes a default field and its corresponding value.
-    public struct TaskTemplateDefaultFieldValue: Swift.Equatable {
+    public struct TaskTemplateDefaultFieldValue {
         /// Default value for the field.
         public var defaultValue: Swift.String?
         /// Identifier of a field.
@@ -45899,7 +45899,7 @@ extension ConnectClientTypes.TaskTemplateDefaults: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Describes default values for fields on a template.
-    public struct TaskTemplateDefaults: Swift.Equatable {
+    public struct TaskTemplateDefaults {
         /// Default value for the field.
         public var defaultFieldValues: [ConnectClientTypes.TaskTemplateDefaultFieldValue]?
 
@@ -45964,7 +45964,7 @@ extension ConnectClientTypes.TaskTemplateField: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Describes a single task template field.
-    public struct TaskTemplateField: Swift.Equatable {
+    public struct TaskTemplateField {
         /// The description of the field.
         public var description: Swift.String?
         /// The unique identifier for the field.
@@ -46012,7 +46012,7 @@ extension ConnectClientTypes.TaskTemplateFieldIdentifier: Swift.Codable {
 
 extension ConnectClientTypes {
     /// The identifier of the task template field.
-    public struct TaskTemplateFieldIdentifier: Swift.Equatable {
+    public struct TaskTemplateFieldIdentifier {
         /// The name of the task template field.
         public var name: Swift.String?
 
@@ -46145,7 +46145,7 @@ extension ConnectClientTypes.TaskTemplateMetadata: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains summary information about the task template.
-    public struct TaskTemplateMetadata: Swift.Equatable {
+    public struct TaskTemplateMetadata {
         /// The Amazon Resource Name (ARN) of the task template.
         public var arn: Swift.String?
         /// The timestamp when the task template was created.
@@ -46248,7 +46248,7 @@ extension ConnectClientTypes.TelephonyConfig: Swift.Codable {
 
 extension ConnectClientTypes {
     /// The distribution of traffic between the instance and its replicas.
-    public struct TelephonyConfig: Swift.Equatable {
+    public struct TelephonyConfig {
         /// Information about traffic distributions.
         /// This member is required.
         public var distributions: [ConnectClientTypes.Distribution]?
@@ -46290,7 +46290,7 @@ extension ConnectClientTypes.Threshold: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains information about the threshold for service level metrics.
-    public struct Threshold: Swift.Equatable {
+    public struct Threshold {
         /// The type of comparison. Only "less than" (LT) comparisons are supported.
         public var comparison: ConnectClientTypes.Comparison?
         /// The threshold value to compare.
@@ -46335,7 +46335,7 @@ extension ConnectClientTypes.ThresholdV2: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains information about the threshold for service level metrics.
-    public struct ThresholdV2: Swift.Equatable {
+    public struct ThresholdV2 {
         /// The type of comparison. Only "less than" (LT) comparisons are supported.
         public var comparison: Swift.String?
         /// The threshold value to compare.
@@ -46392,7 +46392,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -46479,7 +46479,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct TooManyRequestsExceptionBody: Swift.Equatable {
+struct TooManyRequestsExceptionBody {
     let message: Swift.String?
 }
 
@@ -46570,7 +46570,7 @@ extension ConnectClientTypes.TrafficDistributionGroup: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about a traffic distribution group.
-    public struct TrafficDistributionGroup: Swift.Equatable {
+    public struct TrafficDistributionGroup {
         /// The Amazon Resource Name (ARN) of the traffic distribution group.
         public var arn: Swift.String?
         /// The description of the traffic distribution group.
@@ -46719,7 +46719,7 @@ extension ConnectClientTypes.TrafficDistributionGroupSummary: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about traffic distribution groups.
-    public struct TrafficDistributionGroupSummary: Swift.Equatable {
+    public struct TrafficDistributionGroupSummary {
         /// The Amazon Resource Name (ARN) of the traffic distribution group.
         public var arn: Swift.String?
         /// The identifier of the traffic distribution group. This can be the ID or the ARN if the API is being called in the Region where the traffic distribution group was created. The ARN must be provided if the call is from the replicated Region.
@@ -46786,7 +46786,7 @@ extension ConnectClientTypes.TrafficDistributionGroupUserSummary: Swift.Codable 
 
 extension ConnectClientTypes {
     /// Summary information about a traffic distribution group user.
-    public struct TrafficDistributionGroupUserSummary: Swift.Equatable {
+    public struct TrafficDistributionGroupUserSummary {
         /// The identifier for the user. This can be the ID or the ARN of the user.
         public var userId: Swift.String?
 
@@ -46871,7 +46871,7 @@ extension ConnectClientTypes.Transcript: Swift.Codable {
 
 extension ConnectClientTypes {
     /// A structure that defines search criteria and matching logic to search for contacts by matching text with transcripts analyzed by Amazon Connect Contact Lens.
-    public struct Transcript: Swift.Equatable {
+    public struct Transcript {
         /// The list of search criteria based on Contact Lens conversational analytics transcript.
         /// This member is required.
         public var criteria: [ConnectClientTypes.TranscriptCriteria]?
@@ -46935,7 +46935,7 @@ extension ConnectClientTypes.TranscriptCriteria: Swift.Codable {
 
 extension ConnectClientTypes {
     /// A structure that defines search criteria base on words or phrases, participants in the Contact Lens conversational analytics transcript.
-    public struct TranscriptCriteria: Swift.Equatable {
+    public struct TranscriptCriteria {
         /// The match type combining search criteria using multiple search texts in a transcript criteria.
         /// This member is required.
         public var matchType: ConnectClientTypes.SearchContactsMatchType?
@@ -47000,7 +47000,7 @@ extension TransferContactInput {
     }
 }
 
-public struct TransferContactInput: Swift.Equatable {
+public struct TransferContactInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
     /// The identifier of the flow.
@@ -47035,7 +47035,7 @@ public struct TransferContactInput: Swift.Equatable {
     }
 }
 
-struct TransferContactInputBody: Swift.Equatable {
+struct TransferContactInputBody {
     let instanceId: Swift.String?
     let contactId: Swift.String?
     let queueId: Swift.String?
@@ -47085,7 +47085,7 @@ extension TransferContactOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TransferContactOutput: Swift.Equatable {
+public struct TransferContactOutput {
     /// The Amazon Resource Name (ARN) of the contact.
     public var contactArn: Swift.String?
     /// The identifier of the contact in this instance of Amazon Connect.
@@ -47101,7 +47101,7 @@ public struct TransferContactOutput: Swift.Equatable {
     }
 }
 
-struct TransferContactOutputBody: Swift.Equatable {
+struct TransferContactOutputBody {
     let contactId: Swift.String?
     let contactArn: Swift.String?
 }
@@ -47202,7 +47202,7 @@ extension UntagContactInput {
     }
 }
 
-public struct UntagContactInput: Swift.Equatable {
+public struct UntagContactInput {
     /// The identifier of the contact in this instance of Amazon Connect.
     /// This member is required.
     public var contactId: Swift.String?
@@ -47225,7 +47225,7 @@ public struct UntagContactInput: Swift.Equatable {
     }
 }
 
-struct UntagContactInputBody: Swift.Equatable {
+struct UntagContactInputBody {
 }
 
 extension UntagContactInputBody: Swift.Decodable {
@@ -47239,7 +47239,7 @@ extension UntagContactOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagContactOutput: Swift.Equatable {
+public struct UntagContactOutput {
 
     public init() { }
 }
@@ -47285,7 +47285,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -47303,7 +47303,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -47317,7 +47317,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -47379,7 +47379,7 @@ extension UpdateAgentStatusInput {
     }
 }
 
-public struct UpdateAgentStatusInput: Swift.Equatable {
+public struct UpdateAgentStatusInput {
     /// The identifier of the agent status.
     /// This member is required.
     public var agentStatusId: Swift.String?
@@ -47417,7 +47417,7 @@ public struct UpdateAgentStatusInput: Swift.Equatable {
     }
 }
 
-struct UpdateAgentStatusInputBody: Swift.Equatable {
+struct UpdateAgentStatusInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let state: ConnectClientTypes.AgentStatusState?
@@ -47454,7 +47454,7 @@ extension UpdateAgentStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAgentStatusOutput: Swift.Equatable {
+public struct UpdateAgentStatusOutput {
 
     public init() { }
 }
@@ -47509,7 +47509,7 @@ extension ConnectClientTypes.UpdateCaseActionDefinition: Swift.Codable {
 
 extension ConnectClientTypes {
     /// The UpdateCase action definition.
-    public struct UpdateCaseActionDefinition: Swift.Equatable {
+    public struct UpdateCaseActionDefinition {
         /// An array of objects with Field ID and Value data.
         /// This member is required.
         public var fields: [ConnectClientTypes.FieldValue]?
@@ -47555,7 +47555,7 @@ extension UpdateContactAttributesInput {
     }
 }
 
-public struct UpdateContactAttributesInput: Swift.Equatable {
+public struct UpdateContactAttributesInput {
     /// The Amazon Connect attributes. These attributes can be accessed in flows just like any other contact attributes. You can have up to 32,768 UTF-8 bytes across all attributes for a contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
     /// This member is required.
     public var attributes: [Swift.String:Swift.String]?
@@ -47578,7 +47578,7 @@ public struct UpdateContactAttributesInput: Swift.Equatable {
     }
 }
 
-struct UpdateContactAttributesInputBody: Swift.Equatable {
+struct UpdateContactAttributesInputBody {
     let initialContactId: Swift.String?
     let instanceId: Swift.String?
     let attributes: [Swift.String:Swift.String]?
@@ -47616,7 +47616,7 @@ extension UpdateContactAttributesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateContactAttributesOutput: Swift.Equatable {
+public struct UpdateContactAttributesOutput {
 
     public init() { }
 }
@@ -47671,7 +47671,7 @@ extension UpdateContactEvaluationInput {
     }
 }
 
-public struct UpdateContactEvaluationInput: Swift.Equatable {
+public struct UpdateContactEvaluationInput {
     /// A map of question identifiers to answer value.
     public var answers: [Swift.String:ConnectClientTypes.EvaluationAnswerInput]?
     /// A unique identifier for the contact evaluation.
@@ -47697,7 +47697,7 @@ public struct UpdateContactEvaluationInput: Swift.Equatable {
     }
 }
 
-struct UpdateContactEvaluationInputBody: Swift.Equatable {
+struct UpdateContactEvaluationInputBody {
     let answers: [Swift.String:ConnectClientTypes.EvaluationAnswerInput]?
     let notes: [Swift.String:ConnectClientTypes.EvaluationNote]?
 }
@@ -47749,7 +47749,7 @@ extension UpdateContactEvaluationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateContactEvaluationOutput: Swift.Equatable {
+public struct UpdateContactEvaluationOutput {
     /// The Amazon Resource Name (ARN) for the contact evaluation resource.
     /// This member is required.
     public var evaluationArn: Swift.String?
@@ -47767,7 +47767,7 @@ public struct UpdateContactEvaluationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateContactEvaluationOutputBody: Swift.Equatable {
+struct UpdateContactEvaluationOutputBody {
     let evaluationId: Swift.String?
     let evaluationArn: Swift.String?
 }
@@ -47828,7 +47828,7 @@ extension UpdateContactFlowContentInput {
     }
 }
 
-public struct UpdateContactFlowContentInput: Swift.Equatable {
+public struct UpdateContactFlowContentInput {
     /// The identifier of the flow.
     /// This member is required.
     public var contactFlowId: Swift.String?
@@ -47851,7 +47851,7 @@ public struct UpdateContactFlowContentInput: Swift.Equatable {
     }
 }
 
-struct UpdateContactFlowContentInputBody: Swift.Equatable {
+struct UpdateContactFlowContentInputBody {
     let content: Swift.String?
 }
 
@@ -47872,7 +47872,7 @@ extension UpdateContactFlowContentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateContactFlowContentOutput: Swift.Equatable {
+public struct UpdateContactFlowContentOutput {
 
     public init() { }
 }
@@ -47927,7 +47927,7 @@ extension UpdateContactFlowMetadataInput {
     }
 }
 
-public struct UpdateContactFlowMetadataInput: Swift.Equatable {
+public struct UpdateContactFlowMetadataInput {
     /// The identifier of the flow.
     /// This member is required.
     public var contactFlowId: Swift.String?
@@ -47957,7 +47957,7 @@ public struct UpdateContactFlowMetadataInput: Swift.Equatable {
     }
 }
 
-struct UpdateContactFlowMetadataInputBody: Swift.Equatable {
+struct UpdateContactFlowMetadataInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let contactFlowState: ConnectClientTypes.ContactFlowState?
@@ -47986,7 +47986,7 @@ extension UpdateContactFlowMetadataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateContactFlowMetadataOutput: Swift.Equatable {
+public struct UpdateContactFlowMetadataOutput {
 
     public init() { }
 }
@@ -48033,7 +48033,7 @@ extension UpdateContactFlowModuleContentInput {
     }
 }
 
-public struct UpdateContactFlowModuleContentInput: Swift.Equatable {
+public struct UpdateContactFlowModuleContentInput {
     /// The identifier of the flow module.
     /// This member is required.
     public var contactFlowModuleId: Swift.String?
@@ -48056,7 +48056,7 @@ public struct UpdateContactFlowModuleContentInput: Swift.Equatable {
     }
 }
 
-struct UpdateContactFlowModuleContentInputBody: Swift.Equatable {
+struct UpdateContactFlowModuleContentInputBody {
     let content: Swift.String?
 }
 
@@ -48077,7 +48077,7 @@ extension UpdateContactFlowModuleContentOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct UpdateContactFlowModuleContentOutput: Swift.Equatable {
+public struct UpdateContactFlowModuleContentOutput {
 
     public init() { }
 }
@@ -48132,7 +48132,7 @@ extension UpdateContactFlowModuleMetadataInput {
     }
 }
 
-public struct UpdateContactFlowModuleMetadataInput: Swift.Equatable {
+public struct UpdateContactFlowModuleMetadataInput {
     /// The identifier of the flow module.
     /// This member is required.
     public var contactFlowModuleId: Swift.String?
@@ -48162,7 +48162,7 @@ public struct UpdateContactFlowModuleMetadataInput: Swift.Equatable {
     }
 }
 
-struct UpdateContactFlowModuleMetadataInputBody: Swift.Equatable {
+struct UpdateContactFlowModuleMetadataInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let state: ConnectClientTypes.ContactFlowModuleState?
@@ -48191,7 +48191,7 @@ extension UpdateContactFlowModuleMetadataOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct UpdateContactFlowModuleMetadataOutput: Swift.Equatable {
+public struct UpdateContactFlowModuleMetadataOutput {
 
     public init() { }
 }
@@ -48243,7 +48243,7 @@ extension UpdateContactFlowNameInput {
     }
 }
 
-public struct UpdateContactFlowNameInput: Swift.Equatable {
+public struct UpdateContactFlowNameInput {
     /// The identifier of the flow.
     /// This member is required.
     public var contactFlowId: Swift.String?
@@ -48269,7 +48269,7 @@ public struct UpdateContactFlowNameInput: Swift.Equatable {
     }
 }
 
-struct UpdateContactFlowNameInputBody: Swift.Equatable {
+struct UpdateContactFlowNameInputBody {
     let name: Swift.String?
     let description: Swift.String?
 }
@@ -48294,7 +48294,7 @@ extension UpdateContactFlowNameOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateContactFlowNameOutput: Swift.Equatable {
+public struct UpdateContactFlowNameOutput {
 
     public init() { }
 }
@@ -48357,7 +48357,7 @@ extension UpdateContactInput {
     }
 }
 
-public struct UpdateContactInput: Swift.Equatable {
+public struct UpdateContactInput {
     /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with your contact center.
     /// This member is required.
     public var contactId: Swift.String?
@@ -48387,7 +48387,7 @@ public struct UpdateContactInput: Swift.Equatable {
     }
 }
 
-struct UpdateContactInputBody: Swift.Equatable {
+struct UpdateContactInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let references: [Swift.String:ConnectClientTypes.Reference]?
@@ -48425,7 +48425,7 @@ extension UpdateContactOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateContactOutput: Swift.Equatable {
+public struct UpdateContactOutput {
 
     public init() { }
 }
@@ -48475,7 +48475,7 @@ extension UpdateContactRoutingDataInput {
     }
 }
 
-public struct UpdateContactRoutingDataInput: Swift.Equatable {
+public struct UpdateContactRoutingDataInput {
     /// The identifier of the contact in this instance of Amazon Connect.
     /// This member is required.
     public var contactId: Swift.String?
@@ -48501,7 +48501,7 @@ public struct UpdateContactRoutingDataInput: Swift.Equatable {
     }
 }
 
-struct UpdateContactRoutingDataInputBody: Swift.Equatable {
+struct UpdateContactRoutingDataInputBody {
     let queueTimeAdjustmentSeconds: Swift.Int?
     let queuePriority: Swift.Int?
 }
@@ -48526,7 +48526,7 @@ extension UpdateContactRoutingDataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateContactRoutingDataOutput: Swift.Equatable {
+public struct UpdateContactRoutingDataOutput {
 
     public init() { }
 }
@@ -48575,7 +48575,7 @@ extension UpdateContactScheduleInput {
     }
 }
 
-public struct UpdateContactScheduleInput: Swift.Equatable {
+public struct UpdateContactScheduleInput {
     /// The identifier of the contact.
     /// This member is required.
     public var contactId: Swift.String?
@@ -48598,7 +48598,7 @@ public struct UpdateContactScheduleInput: Swift.Equatable {
     }
 }
 
-struct UpdateContactScheduleInputBody: Swift.Equatable {
+struct UpdateContactScheduleInputBody {
     let instanceId: Swift.String?
     let contactId: Swift.String?
     let scheduledTime: ClientRuntime.Date?
@@ -48627,7 +48627,7 @@ extension UpdateContactScheduleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateContactScheduleOutput: Swift.Equatable {
+public struct UpdateContactScheduleOutput {
 
     public init() { }
 }
@@ -48701,7 +48701,7 @@ extension UpdateEvaluationFormInput {
     }
 }
 
-public struct UpdateEvaluationFormInput: Swift.Equatable {
+public struct UpdateEvaluationFormInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
     /// A flag indicating whether the operation must create a new version.
@@ -48750,7 +48750,7 @@ public struct UpdateEvaluationFormInput: Swift.Equatable {
     }
 }
 
-struct UpdateEvaluationFormInputBody: Swift.Equatable {
+struct UpdateEvaluationFormInputBody {
     let evaluationFormVersion: Swift.Int?
     let createNewVersion: Swift.Bool?
     let title: Swift.String?
@@ -48815,7 +48815,7 @@ extension UpdateEvaluationFormOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateEvaluationFormOutput: Swift.Equatable {
+public struct UpdateEvaluationFormOutput {
     /// The Amazon Resource Name (ARN) for the contact evaluation resource.
     /// This member is required.
     public var evaluationFormArn: Swift.String?
@@ -48838,7 +48838,7 @@ public struct UpdateEvaluationFormOutput: Swift.Equatable {
     }
 }
 
-struct UpdateEvaluationFormOutputBody: Swift.Equatable {
+struct UpdateEvaluationFormOutputBody {
     let evaluationFormId: Swift.String?
     let evaluationFormArn: Swift.String?
     let evaluationFormVersion: Swift.Int
@@ -48919,7 +48919,7 @@ extension UpdateHoursOfOperationInput {
     }
 }
 
-public struct UpdateHoursOfOperationInput: Swift.Equatable {
+public struct UpdateHoursOfOperationInput {
     /// Configuration information of the hours of operation.
     public var config: [ConnectClientTypes.HoursOfOperationConfig]?
     /// The description of the hours of operation.
@@ -48953,7 +48953,7 @@ public struct UpdateHoursOfOperationInput: Swift.Equatable {
     }
 }
 
-struct UpdateHoursOfOperationInputBody: Swift.Equatable {
+struct UpdateHoursOfOperationInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let timeZone: Swift.String?
@@ -48995,7 +48995,7 @@ extension UpdateHoursOfOperationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateHoursOfOperationOutput: Swift.Equatable {
+public struct UpdateHoursOfOperationOutput {
 
     public init() { }
 }
@@ -49042,7 +49042,7 @@ extension UpdateInstanceAttributeInput {
     }
 }
 
-public struct UpdateInstanceAttributeInput: Swift.Equatable {
+public struct UpdateInstanceAttributeInput {
     /// The type of attribute. Only allowlisted customers can consume USE_CUSTOM_TTS_VOICES. To access this feature, contact Amazon Web Services Support for allowlisting.
     /// This member is required.
     public var attributeType: ConnectClientTypes.InstanceAttributeType?
@@ -49065,7 +49065,7 @@ public struct UpdateInstanceAttributeInput: Swift.Equatable {
     }
 }
 
-struct UpdateInstanceAttributeInputBody: Swift.Equatable {
+struct UpdateInstanceAttributeInputBody {
     let value: Swift.String?
 }
 
@@ -49086,7 +49086,7 @@ extension UpdateInstanceAttributeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateInstanceAttributeOutput: Swift.Equatable {
+public struct UpdateInstanceAttributeOutput {
 
     public init() { }
 }
@@ -49146,7 +49146,7 @@ extension UpdateInstanceStorageConfigInput {
     }
 }
 
-public struct UpdateInstanceStorageConfigInput: Swift.Equatable {
+public struct UpdateInstanceStorageConfigInput {
     /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
     /// This member is required.
     public var associationId: Swift.String?
@@ -49174,7 +49174,7 @@ public struct UpdateInstanceStorageConfigInput: Swift.Equatable {
     }
 }
 
-struct UpdateInstanceStorageConfigInputBody: Swift.Equatable {
+struct UpdateInstanceStorageConfigInputBody {
     let storageConfig: ConnectClientTypes.InstanceStorageConfig?
 }
 
@@ -49195,7 +49195,7 @@ extension UpdateInstanceStorageConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateInstanceStorageConfigOutput: Swift.Equatable {
+public struct UpdateInstanceStorageConfigOutput {
 
     public init() { }
 }
@@ -49244,7 +49244,7 @@ extension ConnectClientTypes.UpdateParticipantRoleConfigChannelInfo: Swift.Codab
 
 extension ConnectClientTypes {
     /// Configuration information for the chat participant role.
-    public enum UpdateParticipantRoleConfigChannelInfo: Swift.Equatable {
+    public enum UpdateParticipantRoleConfigChannelInfo {
         /// Configuration information for the chat participant role.
         case chat(ConnectClientTypes.ChatParticipantRoleConfig)
         case sdkUnknown(Swift.String)
@@ -49278,7 +49278,7 @@ extension UpdateParticipantRoleConfigInput {
     }
 }
 
-public struct UpdateParticipantRoleConfigInput: Swift.Equatable {
+public struct UpdateParticipantRoleConfigInput {
     /// The Amazon Connect channel you want to configure.
     /// This member is required.
     public var channelConfiguration: ConnectClientTypes.UpdateParticipantRoleConfigChannelInfo?
@@ -49301,7 +49301,7 @@ public struct UpdateParticipantRoleConfigInput: Swift.Equatable {
     }
 }
 
-struct UpdateParticipantRoleConfigInputBody: Swift.Equatable {
+struct UpdateParticipantRoleConfigInputBody {
     let channelConfiguration: ConnectClientTypes.UpdateParticipantRoleConfigChannelInfo?
 }
 
@@ -49322,7 +49322,7 @@ extension UpdateParticipantRoleConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateParticipantRoleConfigOutput: Swift.Equatable {
+public struct UpdateParticipantRoleConfigOutput {
 
     public init() { }
 }
@@ -49374,7 +49374,7 @@ extension UpdatePhoneNumberInput {
     }
 }
 
-public struct UpdatePhoneNumberInput: Swift.Equatable {
+public struct UpdatePhoneNumberInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
     /// The identifier of the Amazon Connect instance that phone numbers are claimed to. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance. You must enter InstanceId or TargetArn.
@@ -49399,7 +49399,7 @@ public struct UpdatePhoneNumberInput: Swift.Equatable {
     }
 }
 
-struct UpdatePhoneNumberInputBody: Swift.Equatable {
+struct UpdatePhoneNumberInputBody {
     let targetArn: Swift.String?
     let instanceId: Swift.String?
     let clientToken: Swift.String?
@@ -49450,7 +49450,7 @@ extension UpdatePhoneNumberMetadataInput {
     }
 }
 
-public struct UpdatePhoneNumberMetadataInput: Swift.Equatable {
+public struct UpdatePhoneNumberMetadataInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
     /// The description of the phone number.
@@ -49471,7 +49471,7 @@ public struct UpdatePhoneNumberMetadataInput: Swift.Equatable {
     }
 }
 
-struct UpdatePhoneNumberMetadataInputBody: Swift.Equatable {
+struct UpdatePhoneNumberMetadataInputBody {
     let phoneNumberDescription: Swift.String?
     let clientToken: Swift.String?
 }
@@ -49496,7 +49496,7 @@ extension UpdatePhoneNumberMetadataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePhoneNumberMetadataOutput: Swift.Equatable {
+public struct UpdatePhoneNumberMetadataOutput {
 
     public init() { }
 }
@@ -49533,7 +49533,7 @@ extension UpdatePhoneNumberOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePhoneNumberOutput: Swift.Equatable {
+public struct UpdatePhoneNumberOutput {
     /// The Amazon Resource Name (ARN) of the phone number.
     public var phoneNumberArn: Swift.String?
     /// A unique identifier for the phone number.
@@ -49549,7 +49549,7 @@ public struct UpdatePhoneNumberOutput: Swift.Equatable {
     }
 }
 
-struct UpdatePhoneNumberOutputBody: Swift.Equatable {
+struct UpdatePhoneNumberOutputBody {
     let phoneNumberId: Swift.String?
     let phoneNumberArn: Swift.String?
 }
@@ -49612,7 +49612,7 @@ extension UpdatePredefinedAttributeInput {
     }
 }
 
-public struct UpdatePredefinedAttributeInput: Swift.Equatable {
+public struct UpdatePredefinedAttributeInput {
     /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -49634,7 +49634,7 @@ public struct UpdatePredefinedAttributeInput: Swift.Equatable {
     }
 }
 
-struct UpdatePredefinedAttributeInputBody: Swift.Equatable {
+struct UpdatePredefinedAttributeInputBody {
     let values: ConnectClientTypes.PredefinedAttributeValues?
 }
 
@@ -49655,7 +49655,7 @@ extension UpdatePredefinedAttributeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePredefinedAttributeOutput: Swift.Equatable {
+public struct UpdatePredefinedAttributeOutput {
 
     public init() { }
 }
@@ -49709,7 +49709,7 @@ extension UpdatePromptInput {
     }
 }
 
-public struct UpdatePromptInput: Swift.Equatable {
+public struct UpdatePromptInput {
     /// A description of the prompt.
     public var description: Swift.String?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
@@ -49739,7 +49739,7 @@ public struct UpdatePromptInput: Swift.Equatable {
     }
 }
 
-struct UpdatePromptInputBody: Swift.Equatable {
+struct UpdatePromptInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let s3Uri: Swift.String?
@@ -49777,7 +49777,7 @@ extension UpdatePromptOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePromptOutput: Swift.Equatable {
+public struct UpdatePromptOutput {
     /// The Amazon Resource Name (ARN) of the prompt.
     public var promptARN: Swift.String?
     /// A unique identifier for the prompt.
@@ -49793,7 +49793,7 @@ public struct UpdatePromptOutput: Swift.Equatable {
     }
 }
 
-struct UpdatePromptOutputBody: Swift.Equatable {
+struct UpdatePromptOutputBody {
     let promptARN: Swift.String?
     let promptId: Swift.String?
 }
@@ -49854,7 +49854,7 @@ extension UpdateQueueHoursOfOperationInput {
     }
 }
 
-public struct UpdateQueueHoursOfOperationInput: Swift.Equatable {
+public struct UpdateQueueHoursOfOperationInput {
     /// The identifier for the hours of operation.
     /// This member is required.
     public var hoursOfOperationId: Swift.String?
@@ -49877,7 +49877,7 @@ public struct UpdateQueueHoursOfOperationInput: Swift.Equatable {
     }
 }
 
-struct UpdateQueueHoursOfOperationInputBody: Swift.Equatable {
+struct UpdateQueueHoursOfOperationInputBody {
     let hoursOfOperationId: Swift.String?
 }
 
@@ -49898,7 +49898,7 @@ extension UpdateQueueHoursOfOperationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateQueueHoursOfOperationOutput: Swift.Equatable {
+public struct UpdateQueueHoursOfOperationOutput {
 
     public init() { }
 }
@@ -49944,7 +49944,7 @@ extension UpdateQueueMaxContactsInput {
     }
 }
 
-public struct UpdateQueueMaxContactsInput: Swift.Equatable {
+public struct UpdateQueueMaxContactsInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -49966,7 +49966,7 @@ public struct UpdateQueueMaxContactsInput: Swift.Equatable {
     }
 }
 
-struct UpdateQueueMaxContactsInputBody: Swift.Equatable {
+struct UpdateQueueMaxContactsInputBody {
     let maxContacts: Swift.Int?
 }
 
@@ -49987,7 +49987,7 @@ extension UpdateQueueMaxContactsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateQueueMaxContactsOutput: Swift.Equatable {
+public struct UpdateQueueMaxContactsOutput {
 
     public init() { }
 }
@@ -50037,7 +50037,7 @@ extension UpdateQueueNameInput {
     }
 }
 
-public struct UpdateQueueNameInput: Swift.Equatable {
+public struct UpdateQueueNameInput {
     /// The description of the queue.
     public var description: Swift.String?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
@@ -50063,7 +50063,7 @@ public struct UpdateQueueNameInput: Swift.Equatable {
     }
 }
 
-struct UpdateQueueNameInputBody: Swift.Equatable {
+struct UpdateQueueNameInputBody {
     let name: Swift.String?
     let description: Swift.String?
 }
@@ -50088,7 +50088,7 @@ extension UpdateQueueNameOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateQueueNameOutput: Swift.Equatable {
+public struct UpdateQueueNameOutput {
 
     public init() { }
 }
@@ -50135,7 +50135,7 @@ extension UpdateQueueOutboundCallerConfigInput {
     }
 }
 
-public struct UpdateQueueOutboundCallerConfigInput: Swift.Equatable {
+public struct UpdateQueueOutboundCallerConfigInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -50158,7 +50158,7 @@ public struct UpdateQueueOutboundCallerConfigInput: Swift.Equatable {
     }
 }
 
-struct UpdateQueueOutboundCallerConfigInputBody: Swift.Equatable {
+struct UpdateQueueOutboundCallerConfigInputBody {
     let outboundCallerConfig: ConnectClientTypes.OutboundCallerConfig?
 }
 
@@ -50179,7 +50179,7 @@ extension UpdateQueueOutboundCallerConfigOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct UpdateQueueOutboundCallerConfigOutput: Swift.Equatable {
+public struct UpdateQueueOutboundCallerConfigOutput {
 
     public init() { }
 }
@@ -50225,7 +50225,7 @@ extension UpdateQueueStatusInput {
     }
 }
 
-public struct UpdateQueueStatusInput: Swift.Equatable {
+public struct UpdateQueueStatusInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -50248,7 +50248,7 @@ public struct UpdateQueueStatusInput: Swift.Equatable {
     }
 }
 
-struct UpdateQueueStatusInputBody: Swift.Equatable {
+struct UpdateQueueStatusInputBody {
     let status: ConnectClientTypes.QueueStatus?
 }
 
@@ -50269,7 +50269,7 @@ extension UpdateQueueStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateQueueStatusOutput: Swift.Equatable {
+public struct UpdateQueueStatusOutput {
 
     public init() { }
 }
@@ -50315,7 +50315,7 @@ extension UpdateQuickConnectConfigInput {
     }
 }
 
-public struct UpdateQuickConnectConfigInput: Swift.Equatable {
+public struct UpdateQuickConnectConfigInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -50338,7 +50338,7 @@ public struct UpdateQuickConnectConfigInput: Swift.Equatable {
     }
 }
 
-struct UpdateQuickConnectConfigInputBody: Swift.Equatable {
+struct UpdateQuickConnectConfigInputBody {
     let quickConnectConfig: ConnectClientTypes.QuickConnectConfig?
 }
 
@@ -50359,7 +50359,7 @@ extension UpdateQuickConnectConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateQuickConnectConfigOutput: Swift.Equatable {
+public struct UpdateQuickConnectConfigOutput {
 
     public init() { }
 }
@@ -50409,7 +50409,7 @@ extension UpdateQuickConnectNameInput {
     }
 }
 
-public struct UpdateQuickConnectNameInput: Swift.Equatable {
+public struct UpdateQuickConnectNameInput {
     /// The description of the quick connect.
     public var description: Swift.String?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
@@ -50435,7 +50435,7 @@ public struct UpdateQuickConnectNameInput: Swift.Equatable {
     }
 }
 
-struct UpdateQuickConnectNameInputBody: Swift.Equatable {
+struct UpdateQuickConnectNameInputBody {
     let name: Swift.String?
     let description: Swift.String?
 }
@@ -50460,7 +50460,7 @@ extension UpdateQuickConnectNameOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateQuickConnectNameOutput: Swift.Equatable {
+public struct UpdateQuickConnectNameOutput {
 
     public init() { }
 }
@@ -50506,7 +50506,7 @@ extension UpdateRoutingProfileAgentAvailabilityTimerInput {
     }
 }
 
-public struct UpdateRoutingProfileAgentAvailabilityTimerInput: Swift.Equatable {
+public struct UpdateRoutingProfileAgentAvailabilityTimerInput {
     /// Whether agents with this routing profile will have their routing order calculated based on time since their last inbound contact or longest idle time.
     /// This member is required.
     public var agentAvailabilityTimer: ConnectClientTypes.AgentAvailabilityTimer?
@@ -50529,7 +50529,7 @@ public struct UpdateRoutingProfileAgentAvailabilityTimerInput: Swift.Equatable {
     }
 }
 
-struct UpdateRoutingProfileAgentAvailabilityTimerInputBody: Swift.Equatable {
+struct UpdateRoutingProfileAgentAvailabilityTimerInputBody {
     let agentAvailabilityTimer: ConnectClientTypes.AgentAvailabilityTimer?
 }
 
@@ -50550,7 +50550,7 @@ extension UpdateRoutingProfileAgentAvailabilityTimerOutput: ClientRuntime.HttpRe
     }
 }
 
-public struct UpdateRoutingProfileAgentAvailabilityTimerOutput: Swift.Equatable {
+public struct UpdateRoutingProfileAgentAvailabilityTimerOutput {
 
     public init() { }
 }
@@ -50599,7 +50599,7 @@ extension UpdateRoutingProfileConcurrencyInput {
     }
 }
 
-public struct UpdateRoutingProfileConcurrencyInput: Swift.Equatable {
+public struct UpdateRoutingProfileConcurrencyInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -50622,7 +50622,7 @@ public struct UpdateRoutingProfileConcurrencyInput: Swift.Equatable {
     }
 }
 
-struct UpdateRoutingProfileConcurrencyInputBody: Swift.Equatable {
+struct UpdateRoutingProfileConcurrencyInputBody {
     let mediaConcurrencies: [ConnectClientTypes.MediaConcurrency]?
 }
 
@@ -50652,7 +50652,7 @@ extension UpdateRoutingProfileConcurrencyOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct UpdateRoutingProfileConcurrencyOutput: Swift.Equatable {
+public struct UpdateRoutingProfileConcurrencyOutput {
 
     public init() { }
 }
@@ -50698,7 +50698,7 @@ extension UpdateRoutingProfileDefaultOutboundQueueInput {
     }
 }
 
-public struct UpdateRoutingProfileDefaultOutboundQueueInput: Swift.Equatable {
+public struct UpdateRoutingProfileDefaultOutboundQueueInput {
     /// The identifier for the default outbound queue.
     /// This member is required.
     public var defaultOutboundQueueId: Swift.String?
@@ -50721,7 +50721,7 @@ public struct UpdateRoutingProfileDefaultOutboundQueueInput: Swift.Equatable {
     }
 }
 
-struct UpdateRoutingProfileDefaultOutboundQueueInputBody: Swift.Equatable {
+struct UpdateRoutingProfileDefaultOutboundQueueInputBody {
     let defaultOutboundQueueId: Swift.String?
 }
 
@@ -50742,7 +50742,7 @@ extension UpdateRoutingProfileDefaultOutboundQueueOutput: ClientRuntime.HttpResp
     }
 }
 
-public struct UpdateRoutingProfileDefaultOutboundQueueOutput: Swift.Equatable {
+public struct UpdateRoutingProfileDefaultOutboundQueueOutput {
 
     public init() { }
 }
@@ -50792,7 +50792,7 @@ extension UpdateRoutingProfileNameInput {
     }
 }
 
-public struct UpdateRoutingProfileNameInput: Swift.Equatable {
+public struct UpdateRoutingProfileNameInput {
     /// The description of the routing profile. Must not be more than 250 characters.
     public var description: Swift.String?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
@@ -50818,7 +50818,7 @@ public struct UpdateRoutingProfileNameInput: Swift.Equatable {
     }
 }
 
-struct UpdateRoutingProfileNameInputBody: Swift.Equatable {
+struct UpdateRoutingProfileNameInputBody {
     let name: Swift.String?
     let description: Swift.String?
 }
@@ -50843,7 +50843,7 @@ extension UpdateRoutingProfileNameOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateRoutingProfileNameOutput: Swift.Equatable {
+public struct UpdateRoutingProfileNameOutput {
 
     public init() { }
 }
@@ -50893,7 +50893,7 @@ extension UpdateRoutingProfileQueuesInput {
     }
 }
 
-public struct UpdateRoutingProfileQueuesInput: Swift.Equatable {
+public struct UpdateRoutingProfileQueuesInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -50916,7 +50916,7 @@ public struct UpdateRoutingProfileQueuesInput: Swift.Equatable {
     }
 }
 
-struct UpdateRoutingProfileQueuesInputBody: Swift.Equatable {
+struct UpdateRoutingProfileQueuesInputBody {
     let queueConfigs: [ConnectClientTypes.RoutingProfileQueueConfig]?
 }
 
@@ -50946,7 +50946,7 @@ extension UpdateRoutingProfileQueuesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateRoutingProfileQueuesOutput: Swift.Equatable {
+public struct UpdateRoutingProfileQueuesOutput {
 
     public init() { }
 }
@@ -51007,7 +51007,7 @@ extension UpdateRuleInput {
     }
 }
 
-public struct UpdateRuleInput: Swift.Equatable {
+public struct UpdateRuleInput {
     /// A list of actions to be run when the rule is triggered.
     /// This member is required.
     public var actions: [ConnectClientTypes.RuleAction]?
@@ -51045,7 +51045,7 @@ public struct UpdateRuleInput: Swift.Equatable {
     }
 }
 
-struct UpdateRuleInputBody: Swift.Equatable {
+struct UpdateRuleInputBody {
     let name: Swift.String?
     let function: Swift.String?
     let actions: [ConnectClientTypes.RuleAction]?
@@ -51087,7 +51087,7 @@ extension UpdateRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateRuleOutput: Swift.Equatable {
+public struct UpdateRuleOutput {
 
     public init() { }
 }
@@ -51173,7 +51173,7 @@ extension UpdateSecurityProfileInput {
     }
 }
 
-public struct UpdateSecurityProfileInput: Swift.Equatable {
+public struct UpdateSecurityProfileInput {
     /// The identifier of the hierarchy group that a security profile uses to restrict access to resources in Amazon Connect.
     public var allowedAccessControlHierarchyGroupId: Swift.String?
     /// The list of tags that a security profile uses to restrict access to resources in Amazon Connect.
@@ -51219,7 +51219,7 @@ public struct UpdateSecurityProfileInput: Swift.Equatable {
     }
 }
 
-struct UpdateSecurityProfileInputBody: Swift.Equatable {
+struct UpdateSecurityProfileInputBody {
     let description: Swift.String?
     let permissions: [Swift.String]?
     let allowedAccessControlTags: [Swift.String:Swift.String]?
@@ -51309,7 +51309,7 @@ extension UpdateSecurityProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSecurityProfileOutput: Swift.Equatable {
+public struct UpdateSecurityProfileOutput {
 
     public init() { }
 }
@@ -51382,7 +51382,7 @@ extension UpdateTaskTemplateInput {
     }
 }
 
-public struct UpdateTaskTemplateInput: Swift.Equatable {
+public struct UpdateTaskTemplateInput {
     /// Constraints that are applicable to the fields listed.
     public var constraints: ConnectClientTypes.TaskTemplateConstraints?
     /// The identifier of the flow that runs by default when a task is created by referencing this template.
@@ -51428,7 +51428,7 @@ public struct UpdateTaskTemplateInput: Swift.Equatable {
     }
 }
 
-struct UpdateTaskTemplateInputBody: Swift.Equatable {
+struct UpdateTaskTemplateInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let contactFlowId: Swift.String?
@@ -51511,7 +51511,7 @@ extension UpdateTaskTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateTaskTemplateOutput: Swift.Equatable {
+public struct UpdateTaskTemplateOutput {
     /// The Amazon Resource Name (ARN) for the task template resource.
     public var arn: Swift.String?
     /// Constraints that are applicable to the fields listed.
@@ -51567,7 +51567,7 @@ public struct UpdateTaskTemplateOutput: Swift.Equatable {
     }
 }
 
-struct UpdateTaskTemplateOutputBody: Swift.Equatable {
+struct UpdateTaskTemplateOutputBody {
     let instanceId: Swift.String?
     let id: Swift.String?
     let arn: Swift.String?
@@ -51683,7 +51683,7 @@ extension UpdateTrafficDistributionInput {
     }
 }
 
-public struct UpdateTrafficDistributionInput: Swift.Equatable {
+public struct UpdateTrafficDistributionInput {
     /// The distribution of agents between the instance and its replica(s).
     public var agentConfig: ConnectClientTypes.AgentConfig?
     /// The identifier of the traffic distribution group. This can be the ID or the ARN if the API is being called in the Region where the traffic distribution group was created. The ARN must be provided if the call is from the replicated Region.
@@ -51708,7 +51708,7 @@ public struct UpdateTrafficDistributionInput: Swift.Equatable {
     }
 }
 
-struct UpdateTrafficDistributionInputBody: Swift.Equatable {
+struct UpdateTrafficDistributionInputBody {
     let telephonyConfig: ConnectClientTypes.TelephonyConfig?
     let signInConfig: ConnectClientTypes.SignInConfig?
     let agentConfig: ConnectClientTypes.AgentConfig?
@@ -51737,7 +51737,7 @@ extension UpdateTrafficDistributionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateTrafficDistributionOutput: Swift.Equatable {
+public struct UpdateTrafficDistributionOutput {
 
     public init() { }
 }
@@ -51784,7 +51784,7 @@ extension UpdateUserHierarchyGroupNameInput {
     }
 }
 
-public struct UpdateUserHierarchyGroupNameInput: Swift.Equatable {
+public struct UpdateUserHierarchyGroupNameInput {
     /// The identifier of the hierarchy group.
     /// This member is required.
     public var hierarchyGroupId: Swift.String?
@@ -51807,7 +51807,7 @@ public struct UpdateUserHierarchyGroupNameInput: Swift.Equatable {
     }
 }
 
-struct UpdateUserHierarchyGroupNameInputBody: Swift.Equatable {
+struct UpdateUserHierarchyGroupNameInputBody {
     let name: Swift.String?
 }
 
@@ -51828,7 +51828,7 @@ extension UpdateUserHierarchyGroupNameOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct UpdateUserHierarchyGroupNameOutput: Swift.Equatable {
+public struct UpdateUserHierarchyGroupNameOutput {
 
     public init() { }
 }
@@ -51875,7 +51875,7 @@ extension UpdateUserHierarchyInput {
     }
 }
 
-public struct UpdateUserHierarchyInput: Swift.Equatable {
+public struct UpdateUserHierarchyInput {
     /// The identifier of the hierarchy group.
     public var hierarchyGroupId: Swift.String?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
@@ -51897,7 +51897,7 @@ public struct UpdateUserHierarchyInput: Swift.Equatable {
     }
 }
 
-struct UpdateUserHierarchyInputBody: Swift.Equatable {
+struct UpdateUserHierarchyInputBody {
     let hierarchyGroupId: Swift.String?
 }
 
@@ -51918,7 +51918,7 @@ extension UpdateUserHierarchyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateUserHierarchyOutput: Swift.Equatable {
+public struct UpdateUserHierarchyOutput {
 
     public init() { }
 }
@@ -51961,7 +51961,7 @@ extension UpdateUserHierarchyStructureInput {
     }
 }
 
-public struct UpdateUserHierarchyStructureInput: Swift.Equatable {
+public struct UpdateUserHierarchyStructureInput {
     /// The hierarchy levels to update.
     /// This member is required.
     public var hierarchyStructure: ConnectClientTypes.HierarchyStructureUpdate?
@@ -51979,7 +51979,7 @@ public struct UpdateUserHierarchyStructureInput: Swift.Equatable {
     }
 }
 
-struct UpdateUserHierarchyStructureInputBody: Swift.Equatable {
+struct UpdateUserHierarchyStructureInputBody {
     let hierarchyStructure: ConnectClientTypes.HierarchyStructureUpdate?
 }
 
@@ -52000,7 +52000,7 @@ extension UpdateUserHierarchyStructureOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct UpdateUserHierarchyStructureOutput: Swift.Equatable {
+public struct UpdateUserHierarchyStructureOutput {
 
     public init() { }
 }
@@ -52047,7 +52047,7 @@ extension UpdateUserIdentityInfoInput {
     }
 }
 
-public struct UpdateUserIdentityInfoInput: Swift.Equatable {
+public struct UpdateUserIdentityInfoInput {
     /// The identity information for the user.
     /// This member is required.
     public var identityInfo: ConnectClientTypes.UserIdentityInfo?
@@ -52070,7 +52070,7 @@ public struct UpdateUserIdentityInfoInput: Swift.Equatable {
     }
 }
 
-struct UpdateUserIdentityInfoInputBody: Swift.Equatable {
+struct UpdateUserIdentityInfoInputBody {
     let identityInfo: ConnectClientTypes.UserIdentityInfo?
 }
 
@@ -52091,7 +52091,7 @@ extension UpdateUserIdentityInfoOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateUserIdentityInfoOutput: Swift.Equatable {
+public struct UpdateUserIdentityInfoOutput {
 
     public init() { }
 }
@@ -52137,7 +52137,7 @@ extension UpdateUserPhoneConfigInput {
     }
 }
 
-public struct UpdateUserPhoneConfigInput: Swift.Equatable {
+public struct UpdateUserPhoneConfigInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -52160,7 +52160,7 @@ public struct UpdateUserPhoneConfigInput: Swift.Equatable {
     }
 }
 
-struct UpdateUserPhoneConfigInputBody: Swift.Equatable {
+struct UpdateUserPhoneConfigInputBody {
     let phoneConfig: ConnectClientTypes.UserPhoneConfig?
 }
 
@@ -52181,7 +52181,7 @@ extension UpdateUserPhoneConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateUserPhoneConfigOutput: Swift.Equatable {
+public struct UpdateUserPhoneConfigOutput {
 
     public init() { }
 }
@@ -52230,7 +52230,7 @@ extension UpdateUserProficienciesInput {
     }
 }
 
-public struct UpdateUserProficienciesInput: Swift.Equatable {
+public struct UpdateUserProficienciesInput {
     /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -52253,7 +52253,7 @@ public struct UpdateUserProficienciesInput: Swift.Equatable {
     }
 }
 
-struct UpdateUserProficienciesInputBody: Swift.Equatable {
+struct UpdateUserProficienciesInputBody {
     let userProficiencies: [ConnectClientTypes.UserProficiency]?
 }
 
@@ -52283,7 +52283,7 @@ extension UpdateUserProficienciesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateUserProficienciesOutput: Swift.Equatable {
+public struct UpdateUserProficienciesOutput {
 
     public init() { }
 }
@@ -52329,7 +52329,7 @@ extension UpdateUserRoutingProfileInput {
     }
 }
 
-public struct UpdateUserRoutingProfileInput: Swift.Equatable {
+public struct UpdateUserRoutingProfileInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -52352,7 +52352,7 @@ public struct UpdateUserRoutingProfileInput: Swift.Equatable {
     }
 }
 
-struct UpdateUserRoutingProfileInputBody: Swift.Equatable {
+struct UpdateUserRoutingProfileInputBody {
     let routingProfileId: Swift.String?
 }
 
@@ -52373,7 +52373,7 @@ extension UpdateUserRoutingProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateUserRoutingProfileOutput: Swift.Equatable {
+public struct UpdateUserRoutingProfileOutput {
 
     public init() { }
 }
@@ -52422,7 +52422,7 @@ extension UpdateUserSecurityProfilesInput {
     }
 }
 
-public struct UpdateUserSecurityProfilesInput: Swift.Equatable {
+public struct UpdateUserSecurityProfilesInput {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -52445,7 +52445,7 @@ public struct UpdateUserSecurityProfilesInput: Swift.Equatable {
     }
 }
 
-struct UpdateUserSecurityProfilesInputBody: Swift.Equatable {
+struct UpdateUserSecurityProfilesInputBody {
     let securityProfileIds: [Swift.String]?
 }
 
@@ -52475,7 +52475,7 @@ extension UpdateUserSecurityProfilesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateUserSecurityProfilesOutput: Swift.Equatable {
+public struct UpdateUserSecurityProfilesOutput {
 
     public init() { }
 }
@@ -52525,7 +52525,7 @@ extension UpdateViewContentInput {
     }
 }
 
-public struct UpdateViewContentInput: Swift.Equatable {
+public struct UpdateViewContentInput {
     /// View content containing all content necessary to render a view except for runtime input data and the runtime input schema, which is auto-generated by this operation. The total uncompressed content has a maximum file size of 400kB.
     /// This member is required.
     public var content: ConnectClientTypes.ViewInputContent?
@@ -52553,7 +52553,7 @@ public struct UpdateViewContentInput: Swift.Equatable {
     }
 }
 
-struct UpdateViewContentInputBody: Swift.Equatable {
+struct UpdateViewContentInputBody {
     let status: ConnectClientTypes.ViewStatus?
     let content: ConnectClientTypes.ViewInputContent?
 }
@@ -52585,7 +52585,7 @@ extension UpdateViewContentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateViewContentOutput: Swift.Equatable {
+public struct UpdateViewContentOutput {
     /// A view resource object. Contains metadata and content necessary to render the view.
     public var view: ConnectClientTypes.View?
 
@@ -52597,7 +52597,7 @@ public struct UpdateViewContentOutput: Swift.Equatable {
     }
 }
 
-struct UpdateViewContentOutputBody: Swift.Equatable {
+struct UpdateViewContentOutputBody {
     let view: ConnectClientTypes.View?
 }
 
@@ -52665,7 +52665,7 @@ extension UpdateViewMetadataInput {
     }
 }
 
-public struct UpdateViewMetadataInput: Swift.Equatable {
+public struct UpdateViewMetadataInput {
     /// The description of the view.
     public var description: Swift.String?
     /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -52691,7 +52691,7 @@ public struct UpdateViewMetadataInput: Swift.Equatable {
     }
 }
 
-struct UpdateViewMetadataInputBody: Swift.Equatable {
+struct UpdateViewMetadataInputBody {
     let name: Swift.String?
     let description: Swift.String?
 }
@@ -52716,7 +52716,7 @@ extension UpdateViewMetadataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateViewMetadataOutput: Swift.Equatable {
+public struct UpdateViewMetadataOutput {
 
     public init() { }
 }
@@ -52766,7 +52766,7 @@ extension ConnectClientTypes.UrlReference: Swift.Codable {
 
 extension ConnectClientTypes {
     /// The URL reference.
-    public struct UrlReference: Swift.Equatable {
+    public struct UrlReference {
         /// Identifier of the URL reference.
         public var name: Swift.String?
         /// A valid URL.
@@ -52817,7 +52817,7 @@ extension ConnectClientTypes.UseCase: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains the use case.
-    public struct UseCase: Swift.Equatable {
+    public struct UseCase {
         /// The Amazon Resource Name (ARN) for the use case.
         public var useCaseArn: Swift.String?
         /// The identifier for the use case.
@@ -52982,7 +52982,7 @@ extension ConnectClientTypes.User: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains information about a user account for an Amazon Connect instance.
-    public struct User: Swift.Equatable {
+    public struct User {
         /// The Amazon Resource Name (ARN) of the user account.
         public var arn: Swift.String?
         /// The identifier of the user account in the directory used for identity management.
@@ -53157,7 +53157,7 @@ extension ConnectClientTypes.UserData: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Data for a user.
-    public struct UserData: Swift.Equatable {
+    public struct UserData {
         /// A map of active slots by channel. The key is a channel name. The value is an integer: the number of active slots.
         public var activeSlotsByChannel: [Swift.String:Swift.Int]?
         /// A map of available slots by channel. The key is a channel name. The value is an integer: the available number of slots.
@@ -53296,7 +53296,7 @@ extension ConnectClientTypes.UserDataFilters: Swift.Codable {
 
 extension ConnectClientTypes {
     /// A filter for the user data.
-    public struct UserDataFilters: Swift.Equatable {
+    public struct UserDataFilters {
         /// A list of up to 100 agent IDs or ARNs.
         public var agents: [Swift.String]?
         /// A filter for the user data based on the contact information that is associated to the user. It contains a list of contact states.
@@ -53376,7 +53376,7 @@ extension ConnectClientTypes.UserIdentityInfo: Swift.CustomDebugStringConvertibl
 
 extension ConnectClientTypes {
     /// Contains information about the identity of a user. For Amazon Connect instances that are created with the EXISTING_DIRECTORY identity management type, FirstName, LastName, and Email cannot be updated from within Amazon Connect because they are managed by the directory.
-    public struct UserIdentityInfo: Swift.Equatable {
+    public struct UserIdentityInfo {
         /// The email address. If you are using SAML for identity management and include this parameter, an error is returned.
         public var email: Swift.String?
         /// The first name. This is required if you are using Amazon Connect or SAML for identity management.
@@ -53438,7 +53438,7 @@ extension ConnectClientTypes.UserIdentityInfoLite: Swift.CustomDebugStringConver
 
 extension ConnectClientTypes {
     /// The user's first name and last name.
-    public struct UserIdentityInfoLite: Swift.Equatable {
+    public struct UserIdentityInfoLite {
         /// The user's first name.
         public var firstName: Swift.String?
         /// The user's last name.
@@ -53495,7 +53495,7 @@ public struct UserNotFoundException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct UserNotFoundExceptionBody: Swift.Equatable {
+struct UserNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -53550,7 +53550,7 @@ extension ConnectClientTypes.UserPhoneConfig: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains information about the phone configuration settings for a user.
-    public struct UserPhoneConfig: Swift.Equatable {
+    public struct UserPhoneConfig {
         /// The After Call Work (ACW) timeout setting, in seconds. This parameter has a minimum value of 0 and a maximum value of 2,000,000 seconds (24 days). Enter 0 if you don't want to allocate a specific amount of ACW time. It essentially means an indefinite amount of time. When the conversation ends, ACW starts; the agent must choose Close contact to end ACW. When returned by a SearchUsers call, AfterContactWorkTimeLimit is returned in milliseconds.
         public var afterContactWorkTimeLimit: Swift.Int
         /// The Auto accept setting.
@@ -53610,7 +53610,7 @@ extension ConnectClientTypes.UserProficiency: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about proficiency of a user.
-    public struct UserProficiency: Swift.Equatable {
+    public struct UserProficiency {
         /// The name of user's proficiency. You must use name of predefined attribute present in the Amazon Connect instance.
         /// This member is required.
         public var attributeName: Swift.String?
@@ -53662,7 +53662,7 @@ extension ConnectClientTypes.UserProficiencyDisassociate: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about proficiency to be disassociated from the user.
-    public struct UserProficiencyDisassociate: Swift.Equatable {
+    public struct UserProficiencyDisassociate {
         /// The name of user's proficiency.
         /// This member is required.
         public var attributeName: Swift.String?
@@ -53709,7 +53709,7 @@ extension ConnectClientTypes.UserQuickConnectConfig: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains information about the quick connect configuration settings for a user. The contact flow must be of type Transfer to Agent.
-    public struct UserQuickConnectConfig: Swift.Equatable {
+    public struct UserQuickConnectConfig {
         /// The identifier of the flow.
         /// This member is required.
         public var contactFlowId: Swift.String?
@@ -53756,7 +53756,7 @@ extension ConnectClientTypes.UserReference: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about the user.
-    public struct UserReference: Swift.Equatable {
+    public struct UserReference {
         /// The Amazon Resource Name (ARN) for the user.
         public var arn: Swift.String?
         /// The unique identifier for the user.
@@ -53837,7 +53837,7 @@ extension ConnectClientTypes.UserSearchCriteria: Swift.Codable {
 
 extension ConnectClientTypes {
     /// The search criteria to be used to return users. The name and description fields support "contains" queries with a minimum of 2 characters and a maximum of 25 characters. Any queries with character lengths outside of this range will throw invalid results.
-    public struct UserSearchCriteria: Swift.Equatable {
+    public struct UserSearchCriteria {
         /// A list of conditions which would be applied together with an AND condition.
         public var andConditions: [ConnectClientTypes.UserSearchCriteria]?
         /// A leaf node condition which can be used to specify a hierarchy group condition.
@@ -53890,7 +53890,7 @@ extension ConnectClientTypes.UserSearchFilter: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Filters to be applied to search results.
-    public struct UserSearchFilter: Swift.Equatable {
+    public struct UserSearchFilter {
         /// An object that can be used to specify Tag conditions inside the SearchFilter. This accepts an OR of AND (List of List) input where:
         ///
         /// * Top level list specifies conditions that need to be applied with OR operator
@@ -54018,7 +54018,7 @@ extension ConnectClientTypes.UserSearchSummary: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about the returned users.
-    public struct UserSearchSummary: Swift.Equatable {
+    public struct UserSearchSummary {
         /// The Amazon Resource Name (ARN) of the user.
         public var arn: Swift.String?
         /// The directory identifier of the user.
@@ -54113,7 +54113,7 @@ extension ConnectClientTypes.UserSummary: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains summary information about a user.
-    public struct UserSummary: Swift.Equatable {
+    public struct UserSummary {
         /// The Amazon Resource Name (ARN) of the user account.
         public var arn: Swift.String?
         /// The identifier of the user account.
@@ -54282,7 +54282,7 @@ extension ConnectClientTypes.View: Swift.CustomDebugStringConvertible {
 
 extension ConnectClientTypes {
     /// A view resource object. Contains metadata and content necessary to render the view.
-    public struct View: Swift.Equatable {
+    public struct View {
         /// The Amazon Resource Name (ARN) of the view.
         public var arn: Swift.String?
         /// View content containing all content necessary to render a view except for runtime input data.
@@ -54394,7 +54394,7 @@ extension ConnectClientTypes.ViewContent: Swift.CustomDebugStringConvertible {
 
 extension ConnectClientTypes {
     /// View content containing all content necessary to render a view except for runtime input data.
-    public struct ViewContent: Swift.Equatable {
+    public struct ViewContent {
         /// A list of possible actions from the view.
         public var actions: [Swift.String]?
         /// The data schema matching data that the view template must be provided to render.
@@ -54455,7 +54455,7 @@ extension ConnectClientTypes.ViewInputContent: Swift.Codable {
 
 extension ConnectClientTypes {
     /// View content containing all content necessary to render a view except for runtime input data and the runtime input schema, which is auto-generated by this operation.
-    public struct ViewInputContent: Swift.Equatable {
+    public struct ViewInputContent {
         /// A list of possible actions from the view.
         public var actions: [Swift.String]?
         /// The view template representing the structure of the view.
@@ -54561,7 +54561,7 @@ extension ConnectClientTypes.ViewSummary: Swift.CustomDebugStringConvertible {
 
 extension ConnectClientTypes {
     /// A summary of a view's metadata.
-    public struct ViewSummary: Swift.Equatable {
+    public struct ViewSummary {
         /// The Amazon Resource Name (ARN) of the view.
         public var arn: Swift.String?
         /// The description of the view.
@@ -54689,7 +54689,7 @@ extension ConnectClientTypes.ViewVersionSummary: Swift.CustomDebugStringConverti
 
 extension ConnectClientTypes {
     /// A summary of a view version's metadata.
-    public struct ViewVersionSummary: Swift.Equatable {
+    public struct ViewVersionSummary {
         /// The Amazon Resource Name (ARN) of the view version.
         public var arn: Swift.String?
         /// The description of the view version.
@@ -54808,7 +54808,7 @@ extension ConnectClientTypes.Vocabulary: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains information about a custom vocabulary.
-    public struct Vocabulary: Swift.Equatable {
+    public struct Vocabulary {
         /// The Amazon Resource Name (ARN) of the custom vocabulary.
         /// This member is required.
         public var arn: Swift.String?
@@ -55050,7 +55050,7 @@ extension ConnectClientTypes.VocabularySummary: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains summary information about the custom vocabulary.
-    public struct VocabularySummary: Swift.Equatable {
+    public struct VocabularySummary {
         /// The Amazon Resource Name (ARN) of the custom vocabulary.
         /// This member is required.
         public var arn: Swift.String?
@@ -55115,7 +55115,7 @@ extension ConnectClientTypes.VoiceRecordingConfiguration: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Contains information about the recording configuration settings.
-    public struct VoiceRecordingConfiguration: Swift.Equatable {
+    public struct VoiceRecordingConfiguration {
         /// Identifies which track is being recorded.
         public var voiceRecordingTrack: ConnectClientTypes.VoiceRecordingTrack?
 
@@ -55185,7 +55185,7 @@ extension ConnectClientTypes.WisdomInfo: Swift.Codable {
 
 extension ConnectClientTypes {
     /// Information about Amazon Connect Wisdom.
-    public struct WisdomInfo: Swift.Equatable {
+    public struct WisdomInfo {
         /// The Amazon Resource Name (ARN) of the Wisdom session.
         public var sessionArn: Swift.String?
 

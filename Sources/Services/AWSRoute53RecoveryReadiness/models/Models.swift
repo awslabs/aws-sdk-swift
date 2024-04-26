@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -138,7 +138,7 @@ extension Route53RecoveryReadinessClientTypes.CellOutput: Swift.Codable {
 
 extension Route53RecoveryReadinessClientTypes {
     /// Information about a cell.
-    public struct CellOutput: Swift.Equatable {
+    public struct CellOutput {
         /// The Amazon Resource Name (ARN) for the cell.
         /// This member is required.
         public var cellArn: Swift.String?
@@ -211,7 +211,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -261,7 +261,7 @@ extension CreateCellInput {
     }
 }
 
-public struct CreateCellInput: Swift.Equatable {
+public struct CreateCellInput {
     /// The name of the cell to create.
     /// This member is required.
     public var cellName: Swift.String?
@@ -282,7 +282,7 @@ public struct CreateCellInput: Swift.Equatable {
     }
 }
 
-struct CreateCellInputBody: Swift.Equatable {
+struct CreateCellInputBody {
     let cellName: Swift.String?
     let cells: [Swift.String]?
     let tags: [Swift.String:Swift.String]?
@@ -344,7 +344,7 @@ extension CreateCellOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateCellOutput: Swift.Equatable {
+public struct CreateCellOutput {
     /// The Amazon Resource Name (ARN) for the cell.
     public var cellArn: Swift.String?
     /// The name of the cell.
@@ -372,7 +372,7 @@ public struct CreateCellOutput: Swift.Equatable {
     }
 }
 
-struct CreateCellOutputBody: Swift.Equatable {
+struct CreateCellOutputBody {
     let cellArn: Swift.String?
     let cellName: Swift.String?
     let cells: [Swift.String]?
@@ -466,7 +466,7 @@ extension CreateCrossAccountAuthorizationInput {
     }
 }
 
-public struct CreateCrossAccountAuthorizationInput: Swift.Equatable {
+public struct CreateCrossAccountAuthorizationInput {
     /// The cross-account authorization.
     /// This member is required.
     public var crossAccountAuthorization: Swift.String?
@@ -479,7 +479,7 @@ public struct CreateCrossAccountAuthorizationInput: Swift.Equatable {
     }
 }
 
-struct CreateCrossAccountAuthorizationInputBody: Swift.Equatable {
+struct CreateCrossAccountAuthorizationInputBody {
     let crossAccountAuthorization: Swift.String?
 }
 
@@ -507,7 +507,7 @@ extension CreateCrossAccountAuthorizationOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct CreateCrossAccountAuthorizationOutput: Swift.Equatable {
+public struct CreateCrossAccountAuthorizationOutput {
     /// The cross-account authorization.
     public var crossAccountAuthorization: Swift.String?
 
@@ -519,7 +519,7 @@ public struct CreateCrossAccountAuthorizationOutput: Swift.Equatable {
     }
 }
 
-struct CreateCrossAccountAuthorizationOutputBody: Swift.Equatable {
+struct CreateCrossAccountAuthorizationOutputBody {
     let crossAccountAuthorization: Swift.String?
 }
 
@@ -581,7 +581,7 @@ extension CreateReadinessCheckInput {
     }
 }
 
-public struct CreateReadinessCheckInput: Swift.Equatable {
+public struct CreateReadinessCheckInput {
     /// The name of the readiness check to create.
     /// This member is required.
     public var readinessCheckName: Swift.String?
@@ -603,7 +603,7 @@ public struct CreateReadinessCheckInput: Swift.Equatable {
     }
 }
 
-struct CreateReadinessCheckInputBody: Swift.Equatable {
+struct CreateReadinessCheckInputBody {
     let readinessCheckName: Swift.String?
     let resourceSetName: Swift.String?
     let tags: [Swift.String:Swift.String]?
@@ -654,7 +654,7 @@ extension CreateReadinessCheckOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateReadinessCheckOutput: Swift.Equatable {
+public struct CreateReadinessCheckOutput {
     /// The Amazon Resource Name (ARN) associated with a readiness check.
     public var readinessCheckArn: Swift.String?
     /// Name of a readiness check.
@@ -678,7 +678,7 @@ public struct CreateReadinessCheckOutput: Swift.Equatable {
     }
 }
 
-struct CreateReadinessCheckOutputBody: Swift.Equatable {
+struct CreateReadinessCheckOutputBody {
     let readinessCheckArn: Swift.String?
     let readinessCheckName: Swift.String?
     let resourceSet: Swift.String?
@@ -764,7 +764,7 @@ extension CreateRecoveryGroupInput {
     }
 }
 
-public struct CreateRecoveryGroupInput: Swift.Equatable {
+public struct CreateRecoveryGroupInput {
     /// A list of the cell Amazon Resource Names (ARNs) in the recovery group.
     public var cells: [Swift.String]?
     /// The name of the recovery group to create.
@@ -785,7 +785,7 @@ public struct CreateRecoveryGroupInput: Swift.Equatable {
     }
 }
 
-struct CreateRecoveryGroupInputBody: Swift.Equatable {
+struct CreateRecoveryGroupInputBody {
     let cells: [Swift.String]?
     let recoveryGroupName: Swift.String?
     let tags: [Swift.String:Swift.String]?
@@ -845,7 +845,7 @@ extension CreateRecoveryGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRecoveryGroupOutput: Swift.Equatable {
+public struct CreateRecoveryGroupOutput {
     /// A list of a cell's Amazon Resource Names (ARNs).
     public var cells: [Swift.String]?
     /// The Amazon Resource Name (ARN) for the recovery group.
@@ -869,7 +869,7 @@ public struct CreateRecoveryGroupOutput: Swift.Equatable {
     }
 }
 
-struct CreateRecoveryGroupOutputBody: Swift.Equatable {
+struct CreateRecoveryGroupOutputBody {
     let cells: [Swift.String]?
     let recoveryGroupArn: Swift.String?
     let recoveryGroupName: Swift.String?
@@ -968,7 +968,7 @@ extension CreateResourceSetInput {
     }
 }
 
-public struct CreateResourceSetInput: Swift.Equatable {
+public struct CreateResourceSetInput {
     /// The name of the resource set to create.
     /// This member is required.
     public var resourceSetName: Swift.String?
@@ -995,7 +995,7 @@ public struct CreateResourceSetInput: Swift.Equatable {
     }
 }
 
-struct CreateResourceSetInputBody: Swift.Equatable {
+struct CreateResourceSetInputBody {
     let resourceSetName: Swift.String?
     let resourceSetType: Swift.String?
     let resources: [Route53RecoveryReadinessClientTypes.Resource]?
@@ -1061,7 +1061,7 @@ extension CreateResourceSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateResourceSetOutput: Swift.Equatable {
+public struct CreateResourceSetOutput {
     /// The Amazon Resource Name (ARN) for the resource set.
     public var resourceSetArn: Swift.String?
     /// The name of the resource set.
@@ -1089,7 +1089,7 @@ public struct CreateResourceSetOutput: Swift.Equatable {
     }
 }
 
-struct CreateResourceSetOutputBody: Swift.Equatable {
+struct CreateResourceSetOutputBody {
     let resourceSetArn: Swift.String?
     let resourceSetName: Swift.String?
     let resourceSetType: Swift.String?
@@ -1199,7 +1199,7 @@ extension Route53RecoveryReadinessClientTypes.DNSTargetResource: Swift.Codable {
 
 extension Route53RecoveryReadinessClientTypes {
     /// A component for DNS/routing control readiness checks and architecture checks.
-    public struct DNSTargetResource: Swift.Equatable {
+    public struct DNSTargetResource {
         /// The domain name that acts as an ingress point to a portion of the customer application.
         public var domainName: Swift.String?
         /// The hosted zone Amazon Resource Name (ARN) that contains the DNS record with the provided name of the target resource.
@@ -1239,7 +1239,7 @@ extension DeleteCellInput {
     }
 }
 
-public struct DeleteCellInput: Swift.Equatable {
+public struct DeleteCellInput {
     /// The name of the cell.
     /// This member is required.
     public var cellName: Swift.String?
@@ -1252,7 +1252,7 @@ public struct DeleteCellInput: Swift.Equatable {
     }
 }
 
-struct DeleteCellInputBody: Swift.Equatable {
+struct DeleteCellInputBody {
 }
 
 extension DeleteCellInputBody: Swift.Decodable {
@@ -1266,7 +1266,7 @@ extension DeleteCellOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteCellOutput: Swift.Equatable {
+public struct DeleteCellOutput {
 
     public init() { }
 }
@@ -1296,7 +1296,7 @@ extension DeleteCrossAccountAuthorizationInput {
     }
 }
 
-public struct DeleteCrossAccountAuthorizationInput: Swift.Equatable {
+public struct DeleteCrossAccountAuthorizationInput {
     /// The cross-account authorization.
     /// This member is required.
     public var crossAccountAuthorization: Swift.String?
@@ -1309,7 +1309,7 @@ public struct DeleteCrossAccountAuthorizationInput: Swift.Equatable {
     }
 }
 
-struct DeleteCrossAccountAuthorizationInputBody: Swift.Equatable {
+struct DeleteCrossAccountAuthorizationInputBody {
 }
 
 extension DeleteCrossAccountAuthorizationInputBody: Swift.Decodable {
@@ -1323,7 +1323,7 @@ extension DeleteCrossAccountAuthorizationOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DeleteCrossAccountAuthorizationOutput: Swift.Equatable {
+public struct DeleteCrossAccountAuthorizationOutput {
 
     public init() { }
 }
@@ -1352,7 +1352,7 @@ extension DeleteReadinessCheckInput {
     }
 }
 
-public struct DeleteReadinessCheckInput: Swift.Equatable {
+public struct DeleteReadinessCheckInput {
     /// Name of a readiness check.
     /// This member is required.
     public var readinessCheckName: Swift.String?
@@ -1365,7 +1365,7 @@ public struct DeleteReadinessCheckInput: Swift.Equatable {
     }
 }
 
-struct DeleteReadinessCheckInputBody: Swift.Equatable {
+struct DeleteReadinessCheckInputBody {
 }
 
 extension DeleteReadinessCheckInputBody: Swift.Decodable {
@@ -1379,7 +1379,7 @@ extension DeleteReadinessCheckOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteReadinessCheckOutput: Swift.Equatable {
+public struct DeleteReadinessCheckOutput {
 
     public init() { }
 }
@@ -1409,7 +1409,7 @@ extension DeleteRecoveryGroupInput {
     }
 }
 
-public struct DeleteRecoveryGroupInput: Swift.Equatable {
+public struct DeleteRecoveryGroupInput {
     /// The name of a recovery group.
     /// This member is required.
     public var recoveryGroupName: Swift.String?
@@ -1422,7 +1422,7 @@ public struct DeleteRecoveryGroupInput: Swift.Equatable {
     }
 }
 
-struct DeleteRecoveryGroupInputBody: Swift.Equatable {
+struct DeleteRecoveryGroupInputBody {
 }
 
 extension DeleteRecoveryGroupInputBody: Swift.Decodable {
@@ -1436,7 +1436,7 @@ extension DeleteRecoveryGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRecoveryGroupOutput: Swift.Equatable {
+public struct DeleteRecoveryGroupOutput {
 
     public init() { }
 }
@@ -1466,7 +1466,7 @@ extension DeleteResourceSetInput {
     }
 }
 
-public struct DeleteResourceSetInput: Swift.Equatable {
+public struct DeleteResourceSetInput {
     /// Name of a resource set.
     /// This member is required.
     public var resourceSetName: Swift.String?
@@ -1479,7 +1479,7 @@ public struct DeleteResourceSetInput: Swift.Equatable {
     }
 }
 
-struct DeleteResourceSetInputBody: Swift.Equatable {
+struct DeleteResourceSetInputBody {
 }
 
 extension DeleteResourceSetInputBody: Swift.Decodable {
@@ -1493,7 +1493,7 @@ extension DeleteResourceSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteResourceSetOutput: Swift.Equatable {
+public struct DeleteResourceSetOutput {
 
     public init() { }
 }
@@ -1539,7 +1539,7 @@ extension GetArchitectureRecommendationsInput {
     }
 }
 
-public struct GetArchitectureRecommendationsInput: Swift.Equatable {
+public struct GetArchitectureRecommendationsInput {
     /// The number of objects that you want to return with this call.
     public var maxResults: Swift.Int?
     /// The token that identifies which batch of results you want to see.
@@ -1560,7 +1560,7 @@ public struct GetArchitectureRecommendationsInput: Swift.Equatable {
     }
 }
 
-struct GetArchitectureRecommendationsInputBody: Swift.Equatable {
+struct GetArchitectureRecommendationsInputBody {
 }
 
 extension GetArchitectureRecommendationsInputBody: Swift.Decodable {
@@ -1585,7 +1585,7 @@ extension GetArchitectureRecommendationsOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct GetArchitectureRecommendationsOutput: Swift.Equatable {
+public struct GetArchitectureRecommendationsOutput {
     /// The time that a recovery group was last assessed for recommendations, in UTC ISO-8601 format.
     public var lastAuditTimestamp: ClientRuntime.Date?
     /// The token that identifies which batch of results you want to see.
@@ -1605,7 +1605,7 @@ public struct GetArchitectureRecommendationsOutput: Swift.Equatable {
     }
 }
 
-struct GetArchitectureRecommendationsOutputBody: Swift.Equatable {
+struct GetArchitectureRecommendationsOutputBody {
     let lastAuditTimestamp: ClientRuntime.Date?
     let nextToken: Swift.String?
     let recommendations: [Route53RecoveryReadinessClientTypes.Recommendation]?
@@ -1663,7 +1663,7 @@ extension GetCellInput {
     }
 }
 
-public struct GetCellInput: Swift.Equatable {
+public struct GetCellInput {
     /// The name of the cell.
     /// This member is required.
     public var cellName: Swift.String?
@@ -1676,7 +1676,7 @@ public struct GetCellInput: Swift.Equatable {
     }
 }
 
-struct GetCellInputBody: Swift.Equatable {
+struct GetCellInputBody {
 }
 
 extension GetCellInputBody: Swift.Decodable {
@@ -1705,7 +1705,7 @@ extension GetCellOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCellOutput: Swift.Equatable {
+public struct GetCellOutput {
     /// The Amazon Resource Name (ARN) for the cell.
     public var cellArn: Swift.String?
     /// The name of the cell.
@@ -1733,7 +1733,7 @@ public struct GetCellOutput: Swift.Equatable {
     }
 }
 
-struct GetCellOutputBody: Swift.Equatable {
+struct GetCellOutputBody {
     let cellArn: Swift.String?
     let cellName: Swift.String?
     let cells: [Swift.String]?
@@ -1833,7 +1833,7 @@ extension GetCellReadinessSummaryInput {
     }
 }
 
-public struct GetCellReadinessSummaryInput: Swift.Equatable {
+public struct GetCellReadinessSummaryInput {
     /// The name of the cell.
     /// This member is required.
     public var cellName: Swift.String?
@@ -1854,7 +1854,7 @@ public struct GetCellReadinessSummaryInput: Swift.Equatable {
     }
 }
 
-struct GetCellReadinessSummaryInputBody: Swift.Equatable {
+struct GetCellReadinessSummaryInputBody {
 }
 
 extension GetCellReadinessSummaryInputBody: Swift.Decodable {
@@ -1879,7 +1879,7 @@ extension GetCellReadinessSummaryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCellReadinessSummaryOutput: Swift.Equatable {
+public struct GetCellReadinessSummaryOutput {
     /// The token that identifies which batch of results you want to see.
     public var nextToken: Swift.String?
     /// The readiness at a cell level.
@@ -1899,7 +1899,7 @@ public struct GetCellReadinessSummaryOutput: Swift.Equatable {
     }
 }
 
-struct GetCellReadinessSummaryOutputBody: Swift.Equatable {
+struct GetCellReadinessSummaryOutputBody {
     let nextToken: Swift.String?
     let readiness: Route53RecoveryReadinessClientTypes.Readiness?
     let readinessChecks: [Route53RecoveryReadinessClientTypes.ReadinessCheckSummary]?
@@ -1957,7 +1957,7 @@ extension GetReadinessCheckInput {
     }
 }
 
-public struct GetReadinessCheckInput: Swift.Equatable {
+public struct GetReadinessCheckInput {
     /// Name of a readiness check.
     /// This member is required.
     public var readinessCheckName: Swift.String?
@@ -1970,7 +1970,7 @@ public struct GetReadinessCheckInput: Swift.Equatable {
     }
 }
 
-struct GetReadinessCheckInputBody: Swift.Equatable {
+struct GetReadinessCheckInputBody {
 }
 
 extension GetReadinessCheckInputBody: Swift.Decodable {
@@ -1997,7 +1997,7 @@ extension GetReadinessCheckOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetReadinessCheckOutput: Swift.Equatable {
+public struct GetReadinessCheckOutput {
     /// The Amazon Resource Name (ARN) associated with a readiness check.
     public var readinessCheckArn: Swift.String?
     /// Name of a readiness check.
@@ -2021,7 +2021,7 @@ public struct GetReadinessCheckOutput: Swift.Equatable {
     }
 }
 
-struct GetReadinessCheckOutputBody: Swift.Equatable {
+struct GetReadinessCheckOutputBody {
     let readinessCheckArn: Swift.String?
     let readinessCheckName: Swift.String?
     let resourceSet: Swift.String?
@@ -2102,7 +2102,7 @@ extension GetReadinessCheckResourceStatusInput {
     }
 }
 
-public struct GetReadinessCheckResourceStatusInput: Swift.Equatable {
+public struct GetReadinessCheckResourceStatusInput {
     /// The number of objects that you want to return with this call.
     public var maxResults: Swift.Int?
     /// The token that identifies which batch of results you want to see.
@@ -2128,7 +2128,7 @@ public struct GetReadinessCheckResourceStatusInput: Swift.Equatable {
     }
 }
 
-struct GetReadinessCheckResourceStatusInputBody: Swift.Equatable {
+struct GetReadinessCheckResourceStatusInputBody {
 }
 
 extension GetReadinessCheckResourceStatusInputBody: Swift.Decodable {
@@ -2153,7 +2153,7 @@ extension GetReadinessCheckResourceStatusOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct GetReadinessCheckResourceStatusOutput: Swift.Equatable {
+public struct GetReadinessCheckResourceStatusOutput {
     /// The token that identifies which batch of results you want to see.
     public var nextToken: Swift.String?
     /// The readiness at a rule level.
@@ -2173,7 +2173,7 @@ public struct GetReadinessCheckResourceStatusOutput: Swift.Equatable {
     }
 }
 
-struct GetReadinessCheckResourceStatusOutputBody: Swift.Equatable {
+struct GetReadinessCheckResourceStatusOutputBody {
     let nextToken: Swift.String?
     let readiness: Route53RecoveryReadinessClientTypes.Readiness?
     let rules: [Route53RecoveryReadinessClientTypes.RuleResult]?
@@ -2247,7 +2247,7 @@ extension GetReadinessCheckStatusInput {
     }
 }
 
-public struct GetReadinessCheckStatusInput: Swift.Equatable {
+public struct GetReadinessCheckStatusInput {
     /// The number of objects that you want to return with this call.
     public var maxResults: Swift.Int?
     /// The token that identifies which batch of results you want to see.
@@ -2268,7 +2268,7 @@ public struct GetReadinessCheckStatusInput: Swift.Equatable {
     }
 }
 
-struct GetReadinessCheckStatusInputBody: Swift.Equatable {
+struct GetReadinessCheckStatusInputBody {
 }
 
 extension GetReadinessCheckStatusInputBody: Swift.Decodable {
@@ -2295,7 +2295,7 @@ extension GetReadinessCheckStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetReadinessCheckStatusOutput: Swift.Equatable {
+public struct GetReadinessCheckStatusOutput {
     /// Top level messages for readiness check status
     public var messages: [Route53RecoveryReadinessClientTypes.Message]?
     /// The token that identifies which batch of results you want to see.
@@ -2319,7 +2319,7 @@ public struct GetReadinessCheckStatusOutput: Swift.Equatable {
     }
 }
 
-struct GetReadinessCheckStatusOutputBody: Swift.Equatable {
+struct GetReadinessCheckStatusOutputBody {
     let messages: [Route53RecoveryReadinessClientTypes.Message]?
     let nextToken: Swift.String?
     let readiness: Route53RecoveryReadinessClientTypes.Readiness?
@@ -2390,7 +2390,7 @@ extension GetRecoveryGroupInput {
     }
 }
 
-public struct GetRecoveryGroupInput: Swift.Equatable {
+public struct GetRecoveryGroupInput {
     /// The name of a recovery group.
     /// This member is required.
     public var recoveryGroupName: Swift.String?
@@ -2403,7 +2403,7 @@ public struct GetRecoveryGroupInput: Swift.Equatable {
     }
 }
 
-struct GetRecoveryGroupInputBody: Swift.Equatable {
+struct GetRecoveryGroupInputBody {
 }
 
 extension GetRecoveryGroupInputBody: Swift.Decodable {
@@ -2430,7 +2430,7 @@ extension GetRecoveryGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRecoveryGroupOutput: Swift.Equatable {
+public struct GetRecoveryGroupOutput {
     /// A list of a cell's Amazon Resource Names (ARNs).
     public var cells: [Swift.String]?
     /// The Amazon Resource Name (ARN) for the recovery group.
@@ -2454,7 +2454,7 @@ public struct GetRecoveryGroupOutput: Swift.Equatable {
     }
 }
 
-struct GetRecoveryGroupOutputBody: Swift.Equatable {
+struct GetRecoveryGroupOutputBody {
     let cells: [Swift.String]?
     let recoveryGroupArn: Swift.String?
     let recoveryGroupName: Swift.String?
@@ -2541,7 +2541,7 @@ extension GetRecoveryGroupReadinessSummaryInput {
     }
 }
 
-public struct GetRecoveryGroupReadinessSummaryInput: Swift.Equatable {
+public struct GetRecoveryGroupReadinessSummaryInput {
     /// The number of objects that you want to return with this call.
     public var maxResults: Swift.Int?
     /// The token that identifies which batch of results you want to see.
@@ -2562,7 +2562,7 @@ public struct GetRecoveryGroupReadinessSummaryInput: Swift.Equatable {
     }
 }
 
-struct GetRecoveryGroupReadinessSummaryInputBody: Swift.Equatable {
+struct GetRecoveryGroupReadinessSummaryInputBody {
 }
 
 extension GetRecoveryGroupReadinessSummaryInputBody: Swift.Decodable {
@@ -2587,7 +2587,7 @@ extension GetRecoveryGroupReadinessSummaryOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct GetRecoveryGroupReadinessSummaryOutput: Swift.Equatable {
+public struct GetRecoveryGroupReadinessSummaryOutput {
     /// The token that identifies which batch of results you want to see.
     public var nextToken: Swift.String?
     /// The readiness status at a recovery group level.
@@ -2607,7 +2607,7 @@ public struct GetRecoveryGroupReadinessSummaryOutput: Swift.Equatable {
     }
 }
 
-struct GetRecoveryGroupReadinessSummaryOutputBody: Swift.Equatable {
+struct GetRecoveryGroupReadinessSummaryOutputBody {
     let nextToken: Swift.String?
     let readiness: Route53RecoveryReadinessClientTypes.Readiness?
     let readinessChecks: [Route53RecoveryReadinessClientTypes.ReadinessCheckSummary]?
@@ -2665,7 +2665,7 @@ extension GetResourceSetInput {
     }
 }
 
-public struct GetResourceSetInput: Swift.Equatable {
+public struct GetResourceSetInput {
     /// Name of a resource set.
     /// This member is required.
     public var resourceSetName: Swift.String?
@@ -2678,7 +2678,7 @@ public struct GetResourceSetInput: Swift.Equatable {
     }
 }
 
-struct GetResourceSetInputBody: Swift.Equatable {
+struct GetResourceSetInputBody {
 }
 
 extension GetResourceSetInputBody: Swift.Decodable {
@@ -2707,7 +2707,7 @@ extension GetResourceSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetResourceSetOutput: Swift.Equatable {
+public struct GetResourceSetOutput {
     /// The Amazon Resource Name (ARN) for the resource set.
     public var resourceSetArn: Swift.String?
     /// The name of the resource set.
@@ -2735,7 +2735,7 @@ public struct GetResourceSetOutput: Swift.Equatable {
     }
 }
 
-struct GetResourceSetOutputBody: Swift.Equatable {
+struct GetResourceSetOutputBody {
     let resourceSetArn: Swift.String?
     let resourceSetName: Swift.String?
     let resourceSetType: Swift.String?
@@ -2839,7 +2839,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -2878,7 +2878,7 @@ extension ListCellsInput {
     }
 }
 
-public struct ListCellsInput: Swift.Equatable {
+public struct ListCellsInput {
     /// The number of objects that you want to return with this call.
     public var maxResults: Swift.Int?
     /// The token that identifies which batch of results you want to see.
@@ -2894,7 +2894,7 @@ public struct ListCellsInput: Swift.Equatable {
     }
 }
 
-struct ListCellsInputBody: Swift.Equatable {
+struct ListCellsInputBody {
 }
 
 extension ListCellsInputBody: Swift.Decodable {
@@ -2917,7 +2917,7 @@ extension ListCellsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCellsOutput: Swift.Equatable {
+public struct ListCellsOutput {
     /// A list of cells.
     public var cells: [Route53RecoveryReadinessClientTypes.CellOutput]?
     /// The token that identifies which batch of results you want to see.
@@ -2933,7 +2933,7 @@ public struct ListCellsOutput: Swift.Equatable {
     }
 }
 
-struct ListCellsOutputBody: Swift.Equatable {
+struct ListCellsOutputBody {
     let cells: [Route53RecoveryReadinessClientTypes.CellOutput]?
     let nextToken: Swift.String?
 }
@@ -2999,7 +2999,7 @@ extension ListCrossAccountAuthorizationsInput {
     }
 }
 
-public struct ListCrossAccountAuthorizationsInput: Swift.Equatable {
+public struct ListCrossAccountAuthorizationsInput {
     /// The number of objects that you want to return with this call.
     public var maxResults: Swift.Int?
     /// The token that identifies which batch of results you want to see.
@@ -3015,7 +3015,7 @@ public struct ListCrossAccountAuthorizationsInput: Swift.Equatable {
     }
 }
 
-struct ListCrossAccountAuthorizationsInputBody: Swift.Equatable {
+struct ListCrossAccountAuthorizationsInputBody {
 }
 
 extension ListCrossAccountAuthorizationsInputBody: Swift.Decodable {
@@ -3038,7 +3038,7 @@ extension ListCrossAccountAuthorizationsOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ListCrossAccountAuthorizationsOutput: Swift.Equatable {
+public struct ListCrossAccountAuthorizationsOutput {
     /// A list of cross-account authorizations.
     public var crossAccountAuthorizations: [Swift.String]?
     /// The token that identifies which batch of results you want to see.
@@ -3054,7 +3054,7 @@ public struct ListCrossAccountAuthorizationsOutput: Swift.Equatable {
     }
 }
 
-struct ListCrossAccountAuthorizationsOutputBody: Swift.Equatable {
+struct ListCrossAccountAuthorizationsOutputBody {
     let crossAccountAuthorizations: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -3120,7 +3120,7 @@ extension ListReadinessChecksInput {
     }
 }
 
-public struct ListReadinessChecksInput: Swift.Equatable {
+public struct ListReadinessChecksInput {
     /// The number of objects that you want to return with this call.
     public var maxResults: Swift.Int?
     /// The token that identifies which batch of results you want to see.
@@ -3136,7 +3136,7 @@ public struct ListReadinessChecksInput: Swift.Equatable {
     }
 }
 
-struct ListReadinessChecksInputBody: Swift.Equatable {
+struct ListReadinessChecksInputBody {
 }
 
 extension ListReadinessChecksInputBody: Swift.Decodable {
@@ -3159,7 +3159,7 @@ extension ListReadinessChecksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListReadinessChecksOutput: Swift.Equatable {
+public struct ListReadinessChecksOutput {
     /// The token that identifies which batch of results you want to see.
     public var nextToken: Swift.String?
     /// A list of readiness checks associated with the account.
@@ -3175,7 +3175,7 @@ public struct ListReadinessChecksOutput: Swift.Equatable {
     }
 }
 
-struct ListReadinessChecksOutputBody: Swift.Equatable {
+struct ListReadinessChecksOutputBody {
     let nextToken: Swift.String?
     let readinessChecks: [Route53RecoveryReadinessClientTypes.ReadinessCheckOutput]?
 }
@@ -3241,7 +3241,7 @@ extension ListRecoveryGroupsInput {
     }
 }
 
-public struct ListRecoveryGroupsInput: Swift.Equatable {
+public struct ListRecoveryGroupsInput {
     /// The number of objects that you want to return with this call.
     public var maxResults: Swift.Int?
     /// The token that identifies which batch of results you want to see.
@@ -3257,7 +3257,7 @@ public struct ListRecoveryGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListRecoveryGroupsInputBody: Swift.Equatable {
+struct ListRecoveryGroupsInputBody {
 }
 
 extension ListRecoveryGroupsInputBody: Swift.Decodable {
@@ -3280,7 +3280,7 @@ extension ListRecoveryGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRecoveryGroupsOutput: Swift.Equatable {
+public struct ListRecoveryGroupsOutput {
     /// The token that identifies which batch of results you want to see.
     public var nextToken: Swift.String?
     /// A list of recovery groups.
@@ -3296,7 +3296,7 @@ public struct ListRecoveryGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListRecoveryGroupsOutputBody: Swift.Equatable {
+struct ListRecoveryGroupsOutputBody {
     let nextToken: Swift.String?
     let recoveryGroups: [Route53RecoveryReadinessClientTypes.RecoveryGroupOutput]?
 }
@@ -3362,7 +3362,7 @@ extension ListResourceSetsInput {
     }
 }
 
-public struct ListResourceSetsInput: Swift.Equatable {
+public struct ListResourceSetsInput {
     /// The number of objects that you want to return with this call.
     public var maxResults: Swift.Int?
     /// The token that identifies which batch of results you want to see.
@@ -3378,7 +3378,7 @@ public struct ListResourceSetsInput: Swift.Equatable {
     }
 }
 
-struct ListResourceSetsInputBody: Swift.Equatable {
+struct ListResourceSetsInputBody {
 }
 
 extension ListResourceSetsInputBody: Swift.Decodable {
@@ -3401,7 +3401,7 @@ extension ListResourceSetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListResourceSetsOutput: Swift.Equatable {
+public struct ListResourceSetsOutput {
     /// The token that identifies which batch of results you want to see.
     public var nextToken: Swift.String?
     /// A list of resource sets associated with the account.
@@ -3417,7 +3417,7 @@ public struct ListResourceSetsOutput: Swift.Equatable {
     }
 }
 
-struct ListResourceSetsOutputBody: Swift.Equatable {
+struct ListResourceSetsOutputBody {
     let nextToken: Swift.String?
     let resourceSets: [Route53RecoveryReadinessClientTypes.ResourceSetOutput]?
 }
@@ -3487,7 +3487,7 @@ extension ListRulesInput {
     }
 }
 
-public struct ListRulesInput: Swift.Equatable {
+public struct ListRulesInput {
     /// The number of objects that you want to return with this call.
     public var maxResults: Swift.Int?
     /// The token that identifies which batch of results you want to see.
@@ -3507,7 +3507,7 @@ public struct ListRulesInput: Swift.Equatable {
     }
 }
 
-struct ListRulesInputBody: Swift.Equatable {
+struct ListRulesInputBody {
 }
 
 extension ListRulesInputBody: Swift.Decodable {
@@ -3563,7 +3563,7 @@ extension ListRulesOutput: ClientRuntime.HttpResponseBinding {
 
 extension Route53RecoveryReadinessClientTypes {
     /// Readiness rule information, including the resource type, rule ID, and rule description.
-    public struct ListRulesOutput: Swift.Equatable {
+    public struct ListRulesOutput {
         /// The resource type that the readiness rule applies to.
         /// This member is required.
         public var resourceType: Swift.String?
@@ -3588,7 +3588,7 @@ extension Route53RecoveryReadinessClientTypes {
 
 }
 
-public struct ListRulesOutput: Swift.Equatable {
+public struct ListRulesOutput {
     /// The token that identifies which batch of results you want to see.
     public var nextToken: Swift.String?
     /// A list of readiness rules for a specific resource type.
@@ -3604,7 +3604,7 @@ public struct ListRulesOutput: Swift.Equatable {
     }
 }
 
-struct ListRulesOutputBody: Swift.Equatable {
+struct ListRulesOutputBody {
     let nextToken: Swift.String?
     let rules: [Route53RecoveryReadinessClientTypes.ListRulesOutput]?
 }
@@ -3657,7 +3657,7 @@ extension ListTagsForResourcesInput {
     }
 }
 
-public struct ListTagsForResourcesInput: Swift.Equatable {
+public struct ListTagsForResourcesInput {
     /// The Amazon Resource Name (ARN) for a resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3670,7 +3670,7 @@ public struct ListTagsForResourcesInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourcesInputBody: Swift.Equatable {
+struct ListTagsForResourcesInputBody {
 }
 
 extension ListTagsForResourcesInputBody: Swift.Decodable {
@@ -3691,7 +3691,7 @@ extension ListTagsForResourcesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourcesOutput: Swift.Equatable {
+public struct ListTagsForResourcesOutput {
     ///
     public var tags: [Swift.String:Swift.String]?
 
@@ -3703,7 +3703,7 @@ public struct ListTagsForResourcesOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourcesOutputBody: Swift.Equatable {
+struct ListTagsForResourcesOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -3762,7 +3762,7 @@ extension Route53RecoveryReadinessClientTypes.Message: Swift.Codable {
 
 extension Route53RecoveryReadinessClientTypes {
     /// Information relating to readiness check status.
-    public struct Message: Swift.Equatable {
+    public struct Message {
         /// The text of a readiness check message.
         public var messageText: Swift.String?
 
@@ -3797,7 +3797,7 @@ extension Route53RecoveryReadinessClientTypes.NLBResource: Swift.Codable {
 
 extension Route53RecoveryReadinessClientTypes {
     /// The Network Load Balancer resource that a DNS target resource points to.
-    public struct NLBResource: Swift.Equatable {
+    public struct NLBResource {
         /// The Network Load Balancer resource Amazon Resource Name (ARN).
         public var arn: Swift.String?
 
@@ -3838,7 +3838,7 @@ extension Route53RecoveryReadinessClientTypes.R53ResourceRecord: Swift.Codable {
 
 extension Route53RecoveryReadinessClientTypes {
     /// The Route 53 resource that a DNS target resource record points to.
-    public struct R53ResourceRecord: Swift.Equatable {
+    public struct R53ResourceRecord {
         /// The DNS target domain name.
         public var domainName: Swift.String?
         /// The Route 53 Resource Record Set ID.
@@ -3946,7 +3946,7 @@ extension Route53RecoveryReadinessClientTypes.ReadinessCheckOutput: Swift.Codabl
 
 extension Route53RecoveryReadinessClientTypes {
     /// A readiness check.
-    public struct ReadinessCheckOutput: Swift.Equatable {
+    public struct ReadinessCheckOutput {
         /// The Amazon Resource Name (ARN) associated with a readiness check.
         /// This member is required.
         public var readinessCheckArn: Swift.String?
@@ -4001,7 +4001,7 @@ extension Route53RecoveryReadinessClientTypes.ReadinessCheckSummary: Swift.Codab
 
 extension Route53RecoveryReadinessClientTypes {
     /// Summary of all readiness check statuses in a recovery group, paginated in GetRecoveryGroupReadinessSummary and GetCellReadinessSummary.
-    public struct ReadinessCheckSummary: Swift.Equatable {
+    public struct ReadinessCheckSummary {
         /// The readiness status of this readiness check.
         public var readiness: Route53RecoveryReadinessClientTypes.Readiness?
         /// The name of a readiness check.
@@ -4040,7 +4040,7 @@ extension Route53RecoveryReadinessClientTypes.Recommendation: Swift.Codable {
 
 extension Route53RecoveryReadinessClientTypes {
     /// Recommendations that are provided to make an application more recovery resilient.
-    public struct Recommendation: Swift.Equatable {
+    public struct Recommendation {
         /// Text of the recommendations that are provided to make an application more recovery resilient.
         /// This member is required.
         public var recommendationText: Swift.String?
@@ -4118,7 +4118,7 @@ extension Route53RecoveryReadinessClientTypes.RecoveryGroupOutput: Swift.Codable
 
 extension Route53RecoveryReadinessClientTypes {
     /// A representation of the application, typically containing multiple cells.
-    public struct RecoveryGroupOutput: Swift.Equatable {
+    public struct RecoveryGroupOutput {
         /// A list of a cell's Amazon Resource Names (ARNs).
         /// This member is required.
         public var cells: [Swift.String]?
@@ -4198,7 +4198,7 @@ extension Route53RecoveryReadinessClientTypes.Resource: Swift.Codable {
 
 extension Route53RecoveryReadinessClientTypes {
     /// The resource element of a resource set.
-    public struct Resource: Swift.Equatable {
+    public struct Resource {
         /// The component identifier of the resource, generated when DNS target resource is used.
         public var componentId: Swift.String?
         /// The DNS target resource.
@@ -4263,7 +4263,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -4318,7 +4318,7 @@ extension Route53RecoveryReadinessClientTypes.ResourceResult: Swift.Codable {
 
 extension Route53RecoveryReadinessClientTypes {
     /// The result of a successful Resource request, with status for an individual resource.
-    public struct ResourceResult: Swift.Equatable {
+    public struct ResourceResult {
         /// The component id of the resource.
         public var componentId: Swift.String?
         /// The time (UTC) that the resource was last checked for readiness, in ISO-8601 format.
@@ -4415,7 +4415,7 @@ extension Route53RecoveryReadinessClientTypes.ResourceSetOutput: Swift.Codable {
 
 extension Route53RecoveryReadinessClientTypes {
     /// A collection of resources of the same type.
-    public struct ResourceSetOutput: Swift.Equatable {
+    public struct ResourceSetOutput {
         /// The Amazon Resource Name (ARN) for the resource set.
         /// This member is required.
         public var resourceSetArn: Swift.String?
@@ -4502,7 +4502,7 @@ extension Route53RecoveryReadinessClientTypes.RuleResult: Swift.Codable {
 
 extension Route53RecoveryReadinessClientTypes {
     /// The result of a successful Rule request, with status for an individual rule.
-    public struct RuleResult: Swift.Equatable {
+    public struct RuleResult {
         /// The time the resource was last checked for readiness, in ISO-8601 format, UTC.
         /// This member is required.
         public var lastCheckedTimestamp: ClientRuntime.Date?
@@ -4558,7 +4558,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) for a resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4576,7 +4576,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -4606,7 +4606,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -4651,7 +4651,7 @@ extension Route53RecoveryReadinessClientTypes.TargetResource: Swift.Codable {
 
 extension Route53RecoveryReadinessClientTypes {
     /// The target resource that the Route 53 record points to.
-    public struct TargetResource: Swift.Equatable {
+    public struct TargetResource {
         /// The Network Load Balancer Resource.
         public var nlbResource: Route53RecoveryReadinessClientTypes.NLBResource?
         /// The Route 53 resource.
@@ -4708,7 +4708,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -4750,7 +4750,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) for a resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4768,7 +4768,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -4782,7 +4782,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -4826,7 +4826,7 @@ extension UpdateCellInput {
     }
 }
 
-public struct UpdateCellInput: Swift.Equatable {
+public struct UpdateCellInput {
     /// The name of the cell.
     /// This member is required.
     public var cellName: Swift.String?
@@ -4844,7 +4844,7 @@ public struct UpdateCellInput: Swift.Equatable {
     }
 }
 
-struct UpdateCellInputBody: Swift.Equatable {
+struct UpdateCellInputBody {
     let cells: [Swift.String]?
 }
 
@@ -4889,7 +4889,7 @@ extension UpdateCellOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateCellOutput: Swift.Equatable {
+public struct UpdateCellOutput {
     /// The Amazon Resource Name (ARN) for the cell.
     public var cellArn: Swift.String?
     /// The name of the cell.
@@ -4917,7 +4917,7 @@ public struct UpdateCellOutput: Swift.Equatable {
     }
 }
 
-struct UpdateCellOutputBody: Swift.Equatable {
+struct UpdateCellOutputBody {
     let cellArn: Swift.String?
     let cellName: Swift.String?
     let cells: [Swift.String]?
@@ -5015,7 +5015,7 @@ extension UpdateReadinessCheckInput {
 }
 
 /// Name of a readiness check to describe.
-public struct UpdateReadinessCheckInput: Swift.Equatable {
+public struct UpdateReadinessCheckInput {
     /// Name of a readiness check.
     /// This member is required.
     public var readinessCheckName: Swift.String?
@@ -5033,7 +5033,7 @@ public struct UpdateReadinessCheckInput: Swift.Equatable {
     }
 }
 
-struct UpdateReadinessCheckInputBody: Swift.Equatable {
+struct UpdateReadinessCheckInputBody {
     let resourceSetName: Swift.String?
 }
 
@@ -5067,7 +5067,7 @@ extension UpdateReadinessCheckOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateReadinessCheckOutput: Swift.Equatable {
+public struct UpdateReadinessCheckOutput {
     /// The Amazon Resource Name (ARN) associated with a readiness check.
     public var readinessCheckArn: Swift.String?
     /// Name of a readiness check.
@@ -5091,7 +5091,7 @@ public struct UpdateReadinessCheckOutput: Swift.Equatable {
     }
 }
 
-struct UpdateReadinessCheckOutputBody: Swift.Equatable {
+struct UpdateReadinessCheckOutputBody {
     let readinessCheckArn: Swift.String?
     let readinessCheckName: Swift.String?
     let resourceSet: Swift.String?
@@ -5170,7 +5170,7 @@ extension UpdateRecoveryGroupInput {
 }
 
 /// Name of a recovery group.
-public struct UpdateRecoveryGroupInput: Swift.Equatable {
+public struct UpdateRecoveryGroupInput {
     /// A list of cell Amazon Resource Names (ARNs). This list completely replaces the previous list.
     /// This member is required.
     public var cells: [Swift.String]?
@@ -5188,7 +5188,7 @@ public struct UpdateRecoveryGroupInput: Swift.Equatable {
     }
 }
 
-struct UpdateRecoveryGroupInputBody: Swift.Equatable {
+struct UpdateRecoveryGroupInputBody {
     let cells: [Swift.String]?
 }
 
@@ -5231,7 +5231,7 @@ extension UpdateRecoveryGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateRecoveryGroupOutput: Swift.Equatable {
+public struct UpdateRecoveryGroupOutput {
     /// A list of a cell's Amazon Resource Names (ARNs).
     public var cells: [Swift.String]?
     /// The Amazon Resource Name (ARN) for the recovery group.
@@ -5255,7 +5255,7 @@ public struct UpdateRecoveryGroupOutput: Swift.Equatable {
     }
 }
 
-struct UpdateRecoveryGroupOutputBody: Swift.Equatable {
+struct UpdateRecoveryGroupOutputBody {
     let cells: [Swift.String]?
     let recoveryGroupArn: Swift.String?
     let recoveryGroupName: Swift.String?
@@ -5347,7 +5347,7 @@ extension UpdateResourceSetInput {
 }
 
 /// Name of a resource set.
-public struct UpdateResourceSetInput: Swift.Equatable {
+public struct UpdateResourceSetInput {
     /// Name of a resource set.
     /// This member is required.
     public var resourceSetName: Swift.String?
@@ -5370,7 +5370,7 @@ public struct UpdateResourceSetInput: Swift.Equatable {
     }
 }
 
-struct UpdateResourceSetInputBody: Swift.Equatable {
+struct UpdateResourceSetInputBody {
     let resourceSetType: Swift.String?
     let resources: [Route53RecoveryReadinessClientTypes.Resource]?
 }
@@ -5419,7 +5419,7 @@ extension UpdateResourceSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateResourceSetOutput: Swift.Equatable {
+public struct UpdateResourceSetOutput {
     /// The Amazon Resource Name (ARN) for the resource set.
     public var resourceSetArn: Swift.String?
     /// The name of the resource set.
@@ -5447,7 +5447,7 @@ public struct UpdateResourceSetOutput: Swift.Equatable {
     }
 }
 
-struct UpdateResourceSetOutputBody: Swift.Equatable {
+struct UpdateResourceSetOutputBody {
     let resourceSetArn: Swift.String?
     let resourceSetName: Swift.String?
     let resourceSetType: Swift.String?
@@ -5551,7 +5551,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -132,7 +132,7 @@ extension ManagedBlockchainClientTypes.Accessor: Swift.Codable {
 
 extension ManagedBlockchainClientTypes {
     /// The properties of the Accessor.
-    public struct Accessor: Swift.Equatable {
+    public struct Accessor {
         /// The Amazon Resource Name (ARN) of the accessor. For more information about ARNs and their format, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
         public var arn: Swift.String?
         /// The billing token is a property of the Accessor. Use this token to when making calls to the blockchain network. The billing token is used to track your accessor token for billing requests.
@@ -301,7 +301,7 @@ extension ManagedBlockchainClientTypes.AccessorSummary: Swift.Codable {
 
 extension ManagedBlockchainClientTypes {
     /// A summary of accessor properties.
-    public struct AccessorSummary: Swift.Equatable {
+    public struct AccessorSummary {
         /// The Amazon Resource Name (ARN) of the accessor. For more information about ARNs and their format, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
         public var arn: Swift.String?
         /// The creation date and time of the accessor.
@@ -397,7 +397,7 @@ extension ManagedBlockchainClientTypes.ApprovalThresholdPolicy: Swift.Codable {
 
 extension ManagedBlockchainClientTypes {
     /// A policy type that defines the voting rules for the network. The rules decide if a proposal is approved. Approval may be based on criteria such as the percentage of YES votes and the duration of the proposal. The policy applies to all proposals and is specified when the network is created. Applies only to Hyperledger Fabric.
-    public struct ApprovalThresholdPolicy: Swift.Equatable {
+    public struct ApprovalThresholdPolicy {
         /// The duration from the time that a proposal is created until it expires. If members cast neither the required number of YES votes to approve the proposal nor the number of NO votes required to reject it before the duration expires, the proposal is EXPIRED and ProposalActions aren't carried out.
         public var proposalDurationInHours: Swift.Int?
         /// Determines whether the vote percentage must be greater than the ThresholdPercentage or must be greater than or equal to the ThresholdPercentage to be approved.
@@ -454,7 +454,7 @@ extension CreateAccessorInput {
     }
 }
 
-public struct CreateAccessorInput: Swift.Equatable {
+public struct CreateAccessorInput {
     /// The type of accessor. Currently, accessor type is restricted to BILLING_TOKEN.
     /// This member is required.
     public var accessorType: ManagedBlockchainClientTypes.AccessorType?
@@ -484,7 +484,7 @@ public struct CreateAccessorInput: Swift.Equatable {
     }
 }
 
-struct CreateAccessorInputBody: Swift.Equatable {
+struct CreateAccessorInputBody {
     let clientRequestToken: Swift.String?
     let accessorType: ManagedBlockchainClientTypes.AccessorType?
     let tags: [Swift.String:Swift.String]?
@@ -537,7 +537,7 @@ extension CreateAccessorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAccessorOutput: Swift.Equatable {
+public struct CreateAccessorOutput {
     /// The unique identifier of the accessor.
     public var accessorId: Swift.String?
     /// The billing token is a property of the Accessor. Use this token to when making calls to the blockchain network. The billing token is used to track your accessor token for billing requests.
@@ -557,7 +557,7 @@ public struct CreateAccessorOutput: Swift.Equatable {
     }
 }
 
-struct CreateAccessorOutputBody: Swift.Equatable {
+struct CreateAccessorOutputBody {
     let accessorId: Swift.String?
     let billingToken: Swift.String?
     let networkType: ManagedBlockchainClientTypes.AccessorNetworkType?
@@ -629,7 +629,7 @@ extension CreateMemberInput {
     }
 }
 
-public struct CreateMemberInput: Swift.Equatable {
+public struct CreateMemberInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time. This identifier is required only if you make a service request directly using an HTTP client. It is generated automatically if you use an Amazon Web Services SDK or the CLI.
     /// This member is required.
     public var clientRequestToken: Swift.String?
@@ -657,7 +657,7 @@ public struct CreateMemberInput: Swift.Equatable {
     }
 }
 
-struct CreateMemberInputBody: Swift.Equatable {
+struct CreateMemberInputBody {
     let clientRequestToken: Swift.String?
     let invitationId: Swift.String?
     let memberConfiguration: ManagedBlockchainClientTypes.MemberConfiguration?
@@ -693,7 +693,7 @@ extension CreateMemberOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateMemberOutput: Swift.Equatable {
+public struct CreateMemberOutput {
     /// The unique identifier of the member.
     public var memberId: Swift.String?
 
@@ -705,7 +705,7 @@ public struct CreateMemberOutput: Swift.Equatable {
     }
 }
 
-struct CreateMemberOutputBody: Swift.Equatable {
+struct CreateMemberOutputBody {
     let memberId: Swift.String?
 }
 
@@ -795,7 +795,7 @@ extension CreateNetworkInput {
     }
 }
 
-public struct CreateNetworkInput: Swift.Equatable {
+public struct CreateNetworkInput {
     /// This is a unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than once. This identifier is required only if you make a service request directly using an HTTP client. It is generated automatically if you use an Amazon Web Services SDK or the Amazon Web Services CLI.
     /// This member is required.
     public var clientRequestToken: Swift.String?
@@ -845,7 +845,7 @@ public struct CreateNetworkInput: Swift.Equatable {
     }
 }
 
-struct CreateNetworkInputBody: Swift.Equatable {
+struct CreateNetworkInputBody {
     let clientRequestToken: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -916,7 +916,7 @@ extension CreateNetworkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateNetworkOutput: Swift.Equatable {
+public struct CreateNetworkOutput {
     /// The unique identifier for the first member within the network.
     public var memberId: Swift.String?
     /// The unique identifier for the network.
@@ -932,7 +932,7 @@ public struct CreateNetworkOutput: Swift.Equatable {
     }
 }
 
-struct CreateNetworkOutputBody: Swift.Equatable {
+struct CreateNetworkOutputBody {
     let networkId: Swift.String?
     let memberId: Swift.String?
 }
@@ -1007,7 +1007,7 @@ extension CreateNodeInput {
     }
 }
 
-public struct CreateNodeInput: Swift.Equatable {
+public struct CreateNodeInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time. This identifier is required only if you make a service request directly using an HTTP client. It is generated automatically if you use an Amazon Web Services SDK or the CLI.
     /// This member is required.
     public var clientRequestToken: Swift.String?
@@ -1042,7 +1042,7 @@ public struct CreateNodeInput: Swift.Equatable {
     }
 }
 
-struct CreateNodeInputBody: Swift.Equatable {
+struct CreateNodeInputBody {
     let clientRequestToken: Swift.String?
     let memberId: Swift.String?
     let nodeConfiguration: ManagedBlockchainClientTypes.NodeConfiguration?
@@ -1091,7 +1091,7 @@ extension CreateNodeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateNodeOutput: Swift.Equatable {
+public struct CreateNodeOutput {
     /// The unique identifier of the node.
     public var nodeId: Swift.String?
 
@@ -1103,7 +1103,7 @@ public struct CreateNodeOutput: Swift.Equatable {
     }
 }
 
-struct CreateNodeOutputBody: Swift.Equatable {
+struct CreateNodeOutputBody {
     let nodeId: Swift.String?
 }
 
@@ -1180,7 +1180,7 @@ extension CreateProposalInput {
     }
 }
 
-public struct CreateProposalInput: Swift.Equatable {
+public struct CreateProposalInput {
     /// The type of actions proposed, such as inviting a member or removing a member. The types of Actions in a proposal are mutually exclusive. For example, a proposal with Invitations actions cannot also contain Removals actions.
     /// This member is required.
     public var actions: ManagedBlockchainClientTypes.ProposalActions?
@@ -1216,7 +1216,7 @@ public struct CreateProposalInput: Swift.Equatable {
     }
 }
 
-struct CreateProposalInputBody: Swift.Equatable {
+struct CreateProposalInputBody {
     let clientRequestToken: Swift.String?
     let memberId: Swift.String?
     let actions: ManagedBlockchainClientTypes.ProposalActions?
@@ -1269,7 +1269,7 @@ extension CreateProposalOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateProposalOutput: Swift.Equatable {
+public struct CreateProposalOutput {
     /// The unique identifier of the proposal.
     public var proposalId: Swift.String?
 
@@ -1281,7 +1281,7 @@ public struct CreateProposalOutput: Swift.Equatable {
     }
 }
 
-struct CreateProposalOutputBody: Swift.Equatable {
+struct CreateProposalOutputBody {
     let proposalId: Swift.String?
 }
 
@@ -1324,7 +1324,7 @@ extension DeleteAccessorInput {
     }
 }
 
-public struct DeleteAccessorInput: Swift.Equatable {
+public struct DeleteAccessorInput {
     /// The unique identifier of the accessor.
     /// This member is required.
     public var accessorId: Swift.String?
@@ -1337,7 +1337,7 @@ public struct DeleteAccessorInput: Swift.Equatable {
     }
 }
 
-struct DeleteAccessorInputBody: Swift.Equatable {
+struct DeleteAccessorInputBody {
 }
 
 extension DeleteAccessorInputBody: Swift.Decodable {
@@ -1351,7 +1351,7 @@ extension DeleteAccessorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAccessorOutput: Swift.Equatable {
+public struct DeleteAccessorOutput {
 
     public init() { }
 }
@@ -1384,7 +1384,7 @@ extension DeleteMemberInput {
     }
 }
 
-public struct DeleteMemberInput: Swift.Equatable {
+public struct DeleteMemberInput {
     /// The unique identifier of the member to remove.
     /// This member is required.
     public var memberId: Swift.String?
@@ -1402,7 +1402,7 @@ public struct DeleteMemberInput: Swift.Equatable {
     }
 }
 
-struct DeleteMemberInputBody: Swift.Equatable {
+struct DeleteMemberInputBody {
 }
 
 extension DeleteMemberInputBody: Swift.Decodable {
@@ -1416,7 +1416,7 @@ extension DeleteMemberOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteMemberOutput: Swift.Equatable {
+public struct DeleteMemberOutput {
 
     public init() { }
 }
@@ -1462,7 +1462,7 @@ extension DeleteNodeInput {
     }
 }
 
-public struct DeleteNodeInput: Swift.Equatable {
+public struct DeleteNodeInput {
     /// The unique identifier of the member that owns this node. Applies only to Hyperledger Fabric and is required for Hyperledger Fabric.
     public var memberId: Swift.String?
     /// The unique identifier of the network that the node is on. Ethereum public networks have the following NetworkIds:
@@ -1488,7 +1488,7 @@ public struct DeleteNodeInput: Swift.Equatable {
     }
 }
 
-struct DeleteNodeInputBody: Swift.Equatable {
+struct DeleteNodeInputBody {
 }
 
 extension DeleteNodeInputBody: Swift.Decodable {
@@ -1502,7 +1502,7 @@ extension DeleteNodeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteNodeOutput: Swift.Equatable {
+public struct DeleteNodeOutput {
 
     public init() { }
 }
@@ -1597,7 +1597,7 @@ extension GetAccessorInput {
     }
 }
 
-public struct GetAccessorInput: Swift.Equatable {
+public struct GetAccessorInput {
     /// The unique identifier of the accessor.
     /// This member is required.
     public var accessorId: Swift.String?
@@ -1610,7 +1610,7 @@ public struct GetAccessorInput: Swift.Equatable {
     }
 }
 
-struct GetAccessorInputBody: Swift.Equatable {
+struct GetAccessorInputBody {
 }
 
 extension GetAccessorInputBody: Swift.Decodable {
@@ -1631,7 +1631,7 @@ extension GetAccessorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAccessorOutput: Swift.Equatable {
+public struct GetAccessorOutput {
     /// The properties of the accessor.
     public var accessor: ManagedBlockchainClientTypes.Accessor?
 
@@ -1643,7 +1643,7 @@ public struct GetAccessorOutput: Swift.Equatable {
     }
 }
 
-struct GetAccessorOutputBody: Swift.Equatable {
+struct GetAccessorOutputBody {
     let accessor: ManagedBlockchainClientTypes.Accessor?
 }
 
@@ -1687,7 +1687,7 @@ extension GetMemberInput {
     }
 }
 
-public struct GetMemberInput: Swift.Equatable {
+public struct GetMemberInput {
     /// The unique identifier of the member.
     /// This member is required.
     public var memberId: Swift.String?
@@ -1705,7 +1705,7 @@ public struct GetMemberInput: Swift.Equatable {
     }
 }
 
-struct GetMemberInputBody: Swift.Equatable {
+struct GetMemberInputBody {
 }
 
 extension GetMemberInputBody: Swift.Decodable {
@@ -1726,7 +1726,7 @@ extension GetMemberOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMemberOutput: Swift.Equatable {
+public struct GetMemberOutput {
     /// The properties of a member.
     public var member: ManagedBlockchainClientTypes.Member?
 
@@ -1738,7 +1738,7 @@ public struct GetMemberOutput: Swift.Equatable {
     }
 }
 
-struct GetMemberOutputBody: Swift.Equatable {
+struct GetMemberOutputBody {
     let member: ManagedBlockchainClientTypes.Member?
 }
 
@@ -1779,7 +1779,7 @@ extension GetNetworkInput {
     }
 }
 
-public struct GetNetworkInput: Swift.Equatable {
+public struct GetNetworkInput {
     /// The unique identifier of the network to get information about.
     /// This member is required.
     public var networkId: Swift.String?
@@ -1792,7 +1792,7 @@ public struct GetNetworkInput: Swift.Equatable {
     }
 }
 
-struct GetNetworkInputBody: Swift.Equatable {
+struct GetNetworkInputBody {
 }
 
 extension GetNetworkInputBody: Swift.Decodable {
@@ -1813,7 +1813,7 @@ extension GetNetworkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetNetworkOutput: Swift.Equatable {
+public struct GetNetworkOutput {
     /// An object containing network configuration parameters.
     public var network: ManagedBlockchainClientTypes.Network?
 
@@ -1825,7 +1825,7 @@ public struct GetNetworkOutput: Swift.Equatable {
     }
 }
 
-struct GetNetworkOutputBody: Swift.Equatable {
+struct GetNetworkOutputBody {
     let network: ManagedBlockchainClientTypes.Network?
 }
 
@@ -1881,7 +1881,7 @@ extension GetNodeInput {
     }
 }
 
-public struct GetNodeInput: Swift.Equatable {
+public struct GetNodeInput {
     /// The unique identifier of the member that owns the node. Applies only to Hyperledger Fabric and is required for Hyperledger Fabric.
     public var memberId: Swift.String?
     /// The unique identifier of the network that the node is on.
@@ -1903,7 +1903,7 @@ public struct GetNodeInput: Swift.Equatable {
     }
 }
 
-struct GetNodeInputBody: Swift.Equatable {
+struct GetNodeInputBody {
 }
 
 extension GetNodeInputBody: Swift.Decodable {
@@ -1924,7 +1924,7 @@ extension GetNodeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetNodeOutput: Swift.Equatable {
+public struct GetNodeOutput {
     /// Properties of the node configuration.
     public var node: ManagedBlockchainClientTypes.Node?
 
@@ -1936,7 +1936,7 @@ public struct GetNodeOutput: Swift.Equatable {
     }
 }
 
-struct GetNodeOutputBody: Swift.Equatable {
+struct GetNodeOutputBody {
     let node: ManagedBlockchainClientTypes.Node?
 }
 
@@ -1980,7 +1980,7 @@ extension GetProposalInput {
     }
 }
 
-public struct GetProposalInput: Swift.Equatable {
+public struct GetProposalInput {
     /// The unique identifier of the network for which the proposal is made.
     /// This member is required.
     public var networkId: Swift.String?
@@ -1998,7 +1998,7 @@ public struct GetProposalInput: Swift.Equatable {
     }
 }
 
-struct GetProposalInputBody: Swift.Equatable {
+struct GetProposalInputBody {
 }
 
 extension GetProposalInputBody: Swift.Decodable {
@@ -2019,7 +2019,7 @@ extension GetProposalOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetProposalOutput: Swift.Equatable {
+public struct GetProposalOutput {
     /// Information about a proposal.
     public var proposal: ManagedBlockchainClientTypes.Proposal?
 
@@ -2031,7 +2031,7 @@ public struct GetProposalOutput: Swift.Equatable {
     }
 }
 
-struct GetProposalOutputBody: Swift.Equatable {
+struct GetProposalOutputBody {
     let proposal: ManagedBlockchainClientTypes.Proposal?
 }
 
@@ -2101,7 +2101,7 @@ public struct IllegalActionException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct IllegalActionExceptionBody: Swift.Equatable {
+struct IllegalActionExceptionBody {
     let message: Swift.String?
 }
 
@@ -2177,7 +2177,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InvalidRequestExceptionBody: Swift.Equatable {
+struct InvalidRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -2244,7 +2244,7 @@ extension ManagedBlockchainClientTypes.Invitation: Swift.Codable {
 
 extension ManagedBlockchainClientTypes {
     /// An invitation to an Amazon Web Services account to create a member and join the network. Applies only to Hyperledger Fabric.
-    public struct Invitation: Swift.Equatable {
+    public struct Invitation {
         /// The Amazon Resource Name (ARN) of the invitation. For more information about ARNs and their format, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
         public var arn: Swift.String?
         /// The date and time that the invitation was created.
@@ -2350,7 +2350,7 @@ extension ManagedBlockchainClientTypes.InviteAction: Swift.Codable {
 
 extension ManagedBlockchainClientTypes {
     /// An action to invite a specific Amazon Web Services account to create a member and join the network. The InviteAction is carried out when a Proposal is APPROVED. Applies only to Hyperledger Fabric.
-    public struct InviteAction: Swift.Equatable {
+    public struct InviteAction {
         /// The Amazon Web Services account ID to invite.
         /// This member is required.
         public var principal: Swift.String?
@@ -2392,7 +2392,7 @@ extension ListAccessorsInput {
     }
 }
 
-public struct ListAccessorsInput: Swift.Equatable {
+public struct ListAccessorsInput {
     /// The maximum number of accessors to list.
     public var maxResults: Swift.Int?
     /// The blockchain network that the Accessor token is created for. Use the value ETHEREUM_MAINNET_AND_GOERLI for all existing Accessors tokens that were created before the networkType property was introduced.
@@ -2412,7 +2412,7 @@ public struct ListAccessorsInput: Swift.Equatable {
     }
 }
 
-struct ListAccessorsInputBody: Swift.Equatable {
+struct ListAccessorsInputBody {
 }
 
 extension ListAccessorsInputBody: Swift.Decodable {
@@ -2435,7 +2435,7 @@ extension ListAccessorsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAccessorsOutput: Swift.Equatable {
+public struct ListAccessorsOutput {
     /// An array of AccessorSummary objects that contain configuration properties for each accessor.
     public var accessors: [ManagedBlockchainClientTypes.AccessorSummary]?
     /// The pagination token that indicates the next set of results to retrieve.
@@ -2451,7 +2451,7 @@ public struct ListAccessorsOutput: Swift.Equatable {
     }
 }
 
-struct ListAccessorsOutputBody: Swift.Equatable {
+struct ListAccessorsOutputBody {
     let accessors: [ManagedBlockchainClientTypes.AccessorSummary]?
     let nextToken: Swift.String?
 }
@@ -2517,7 +2517,7 @@ extension ListInvitationsInput {
     }
 }
 
-public struct ListInvitationsInput: Swift.Equatable {
+public struct ListInvitationsInput {
     /// The maximum number of invitations to return.
     public var maxResults: Swift.Int?
     /// The pagination token that indicates the next set of results to retrieve.
@@ -2533,7 +2533,7 @@ public struct ListInvitationsInput: Swift.Equatable {
     }
 }
 
-struct ListInvitationsInputBody: Swift.Equatable {
+struct ListInvitationsInputBody {
 }
 
 extension ListInvitationsInputBody: Swift.Decodable {
@@ -2556,7 +2556,7 @@ extension ListInvitationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListInvitationsOutput: Swift.Equatable {
+public struct ListInvitationsOutput {
     /// The invitations for the network.
     public var invitations: [ManagedBlockchainClientTypes.Invitation]?
     /// The pagination token that indicates the next set of results to retrieve.
@@ -2572,7 +2572,7 @@ public struct ListInvitationsOutput: Swift.Equatable {
     }
 }
 
-struct ListInvitationsOutputBody: Swift.Equatable {
+struct ListInvitationsOutputBody {
     let invitations: [ManagedBlockchainClientTypes.Invitation]?
     let nextToken: Swift.String?
 }
@@ -2655,7 +2655,7 @@ extension ListMembersInput {
     }
 }
 
-public struct ListMembersInput: Swift.Equatable {
+public struct ListMembersInput {
     /// An optional Boolean value. If provided, the request is limited either to members that the current Amazon Web Services account owns (true) or that other Amazon Web Services accountsn own (false). If omitted, all members are listed.
     public var isOwned: Swift.Bool?
     /// The maximum number of members to return in the request.
@@ -2688,7 +2688,7 @@ public struct ListMembersInput: Swift.Equatable {
     }
 }
 
-struct ListMembersInputBody: Swift.Equatable {
+struct ListMembersInputBody {
 }
 
 extension ListMembersInputBody: Swift.Decodable {
@@ -2711,7 +2711,7 @@ extension ListMembersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMembersOutput: Swift.Equatable {
+public struct ListMembersOutput {
     /// An array of MemberSummary objects. Each object contains details about a network member.
     public var members: [ManagedBlockchainClientTypes.MemberSummary]?
     /// The pagination token that indicates the next set of results to retrieve.
@@ -2727,7 +2727,7 @@ public struct ListMembersOutput: Swift.Equatable {
     }
 }
 
-struct ListMembersOutputBody: Swift.Equatable {
+struct ListMembersOutputBody {
     let members: [ManagedBlockchainClientTypes.MemberSummary]?
     let nextToken: Swift.String?
 }
@@ -2805,7 +2805,7 @@ extension ListNetworksInput {
     }
 }
 
-public struct ListNetworksInput: Swift.Equatable {
+public struct ListNetworksInput {
     /// An optional framework specifier. If provided, only networks of this framework type are listed.
     public var framework: ManagedBlockchainClientTypes.Framework?
     /// The maximum number of networks to list.
@@ -2833,7 +2833,7 @@ public struct ListNetworksInput: Swift.Equatable {
     }
 }
 
-struct ListNetworksInputBody: Swift.Equatable {
+struct ListNetworksInputBody {
 }
 
 extension ListNetworksInputBody: Swift.Decodable {
@@ -2856,7 +2856,7 @@ extension ListNetworksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListNetworksOutput: Swift.Equatable {
+public struct ListNetworksOutput {
     /// An array of NetworkSummary objects that contain configuration properties for each network.
     public var networks: [ManagedBlockchainClientTypes.NetworkSummary]?
     /// The pagination token that indicates the next set of results to retrieve.
@@ -2872,7 +2872,7 @@ public struct ListNetworksOutput: Swift.Equatable {
     }
 }
 
-struct ListNetworksOutputBody: Swift.Equatable {
+struct ListNetworksOutputBody {
     let networks: [ManagedBlockchainClientTypes.NetworkSummary]?
     let nextToken: Swift.String?
 }
@@ -2949,7 +2949,7 @@ extension ListNodesInput {
     }
 }
 
-public struct ListNodesInput: Swift.Equatable {
+public struct ListNodesInput {
     /// The maximum number of nodes to list.
     public var maxResults: Swift.Int?
     /// The unique identifier of the member who owns the nodes to list. Applies only to Hyperledger Fabric and is required for Hyperledger Fabric.
@@ -2978,7 +2978,7 @@ public struct ListNodesInput: Swift.Equatable {
     }
 }
 
-struct ListNodesInputBody: Swift.Equatable {
+struct ListNodesInputBody {
 }
 
 extension ListNodesInputBody: Swift.Decodable {
@@ -3001,7 +3001,7 @@ extension ListNodesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListNodesOutput: Swift.Equatable {
+public struct ListNodesOutput {
     /// The pagination token that indicates the next set of results to retrieve.
     public var nextToken: Swift.String?
     /// An array of NodeSummary objects that contain configuration properties for each node.
@@ -3017,7 +3017,7 @@ public struct ListNodesOutput: Swift.Equatable {
     }
 }
 
-struct ListNodesOutputBody: Swift.Equatable {
+struct ListNodesOutputBody {
     let nodes: [ManagedBlockchainClientTypes.NodeSummary]?
     let nextToken: Swift.String?
 }
@@ -3089,7 +3089,7 @@ extension ListProposalVotesInput {
     }
 }
 
-public struct ListProposalVotesInput: Swift.Equatable {
+public struct ListProposalVotesInput {
     /// The maximum number of votes to return.
     public var maxResults: Swift.Int?
     /// The unique identifier of the network.
@@ -3115,7 +3115,7 @@ public struct ListProposalVotesInput: Swift.Equatable {
     }
 }
 
-struct ListProposalVotesInputBody: Swift.Equatable {
+struct ListProposalVotesInputBody {
 }
 
 extension ListProposalVotesInputBody: Swift.Decodable {
@@ -3138,7 +3138,7 @@ extension ListProposalVotesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListProposalVotesOutput: Swift.Equatable {
+public struct ListProposalVotesOutput {
     /// The pagination token that indicates the next set of results to retrieve.
     public var nextToken: Swift.String?
     /// The list of votes.
@@ -3154,7 +3154,7 @@ public struct ListProposalVotesOutput: Swift.Equatable {
     }
 }
 
-struct ListProposalVotesOutputBody: Swift.Equatable {
+struct ListProposalVotesOutputBody {
     let proposalVotes: [ManagedBlockchainClientTypes.VoteSummary]?
     let nextToken: Swift.String?
 }
@@ -3223,7 +3223,7 @@ extension ListProposalsInput {
     }
 }
 
-public struct ListProposalsInput: Swift.Equatable {
+public struct ListProposalsInput {
     /// The maximum number of proposals to return.
     public var maxResults: Swift.Int?
     /// The unique identifier of the network.
@@ -3244,7 +3244,7 @@ public struct ListProposalsInput: Swift.Equatable {
     }
 }
 
-struct ListProposalsInputBody: Swift.Equatable {
+struct ListProposalsInputBody {
 }
 
 extension ListProposalsInputBody: Swift.Decodable {
@@ -3267,7 +3267,7 @@ extension ListProposalsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListProposalsOutput: Swift.Equatable {
+public struct ListProposalsOutput {
     /// The pagination token that indicates the next set of results to retrieve.
     public var nextToken: Swift.String?
     /// The summary of each proposal made on the network.
@@ -3283,7 +3283,7 @@ public struct ListProposalsOutput: Swift.Equatable {
     }
 }
 
-struct ListProposalsOutputBody: Swift.Equatable {
+struct ListProposalsOutputBody {
     let proposals: [ManagedBlockchainClientTypes.ProposalSummary]?
     let nextToken: Swift.String?
 }
@@ -3337,7 +3337,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource. For more information about ARNs and their format, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3350,7 +3350,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -3371,7 +3371,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The tags assigned to the resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -3383,7 +3383,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -3443,7 +3443,7 @@ extension ManagedBlockchainClientTypes.LogConfiguration: Swift.Codable {
 
 extension ManagedBlockchainClientTypes {
     /// A configuration for logging events.
-    public struct LogConfiguration: Swift.Equatable {
+    public struct LogConfiguration {
         /// Indicates whether logging is enabled.
         public var enabled: Swift.Bool?
 
@@ -3478,7 +3478,7 @@ extension ManagedBlockchainClientTypes.LogConfigurations: Swift.Codable {
 
 extension ManagedBlockchainClientTypes {
     /// A collection of log configurations.
-    public struct LogConfigurations: Swift.Equatable {
+    public struct LogConfigurations {
         /// Parameters for publishing logs to Amazon CloudWatch Logs.
         public var cloudwatch: ManagedBlockchainClientTypes.LogConfiguration?
 
@@ -3587,7 +3587,7 @@ extension ManagedBlockchainClientTypes.Member: Swift.Codable {
 
 extension ManagedBlockchainClientTypes {
     /// Member configuration properties. Applies only to Hyperledger Fabric.
-    public struct Member: Swift.Equatable {
+    public struct Member {
         /// The Amazon Resource Name (ARN) of the member. For more information about ARNs and their format, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
         public var arn: Swift.String?
         /// The date and time that the member was created.
@@ -3718,7 +3718,7 @@ extension ManagedBlockchainClientTypes.MemberConfiguration: Swift.Codable {
 
 extension ManagedBlockchainClientTypes {
     /// Configuration properties of the member. Applies only to Hyperledger Fabric.
-    public struct MemberConfiguration: Swift.Equatable {
+    public struct MemberConfiguration {
         /// An optional description of the member.
         public var description: Swift.String?
         /// Configuration properties of the blockchain framework relevant to the member.
@@ -3785,7 +3785,7 @@ extension ManagedBlockchainClientTypes.MemberFabricAttributes: Swift.Codable {
 
 extension ManagedBlockchainClientTypes {
     /// Attributes of Hyperledger Fabric for a member in a Managed Blockchain network using the Hyperledger Fabric framework.
-    public struct MemberFabricAttributes: Swift.Equatable {
+    public struct MemberFabricAttributes {
         /// The user name for the initial administrator user for the member.
         public var adminUsername: Swift.String?
         /// The endpoint used to access the member's certificate authority.
@@ -3835,7 +3835,7 @@ extension ManagedBlockchainClientTypes.MemberFabricConfiguration: Swift.CustomDe
 
 extension ManagedBlockchainClientTypes {
     /// Configuration properties for Hyperledger Fabric for a member in a Managed Blockchain network that is using the Hyperledger Fabric framework.
-    public struct MemberFabricConfiguration: Swift.Equatable {
+    public struct MemberFabricConfiguration {
         /// The password for the member's initial administrative user. The AdminPassword must be at least 8 characters long and no more than 32 characters. It must contain at least one uppercase letter, one lowercase letter, and one digit. It cannot have a single quotation mark (‘), a double quotation marks (“), a forward slash(/), a backward slash(\), @, or a space.
         /// This member is required.
         public var adminPassword: Swift.String?
@@ -3876,7 +3876,7 @@ extension ManagedBlockchainClientTypes.MemberFabricLogPublishingConfiguration: S
 
 extension ManagedBlockchainClientTypes {
     /// Configuration properties for logging events associated with a member of a Managed Blockchain network using the Hyperledger Fabric framework.
-    public struct MemberFabricLogPublishingConfiguration: Swift.Equatable {
+    public struct MemberFabricLogPublishingConfiguration {
         /// Configuration properties for logging events associated with a member's Certificate Authority (CA). CA logs help you determine when a member in your account joins the network, or when new peers register with a member CA.
         public var caLogs: ManagedBlockchainClientTypes.LogConfigurations?
 
@@ -3911,7 +3911,7 @@ extension ManagedBlockchainClientTypes.MemberFrameworkAttributes: Swift.Codable 
 
 extension ManagedBlockchainClientTypes {
     /// Attributes relevant to a member for the blockchain framework that the Managed Blockchain network uses.
-    public struct MemberFrameworkAttributes: Swift.Equatable {
+    public struct MemberFrameworkAttributes {
         /// Attributes of Hyperledger Fabric relevant to a member on a Managed Blockchain network that uses Hyperledger Fabric.
         public var fabric: ManagedBlockchainClientTypes.MemberFabricAttributes?
 
@@ -3946,7 +3946,7 @@ extension ManagedBlockchainClientTypes.MemberFrameworkConfiguration: Swift.Codab
 
 extension ManagedBlockchainClientTypes {
     /// Configuration properties relevant to a member for the blockchain framework that the Managed Blockchain network uses.
-    public struct MemberFrameworkConfiguration: Swift.Equatable {
+    public struct MemberFrameworkConfiguration {
         /// Attributes of Hyperledger Fabric for a member on a Managed Blockchain network that uses Hyperledger Fabric.
         public var fabric: ManagedBlockchainClientTypes.MemberFabricConfiguration?
 
@@ -3981,7 +3981,7 @@ extension ManagedBlockchainClientTypes.MemberLogPublishingConfiguration: Swift.C
 
 extension ManagedBlockchainClientTypes {
     /// Configuration properties for logging events associated with a member of a Managed Blockchain network.
-    public struct MemberLogPublishingConfiguration: Swift.Equatable {
+    public struct MemberLogPublishingConfiguration {
         /// Configuration properties for logging events associated with a member of a Managed Blockchain network using the Hyperledger Fabric framework.
         public var fabric: ManagedBlockchainClientTypes.MemberFabricLogPublishingConfiguration?
 
@@ -4099,7 +4099,7 @@ extension ManagedBlockchainClientTypes.MemberSummary: Swift.Codable {
 
 extension ManagedBlockchainClientTypes {
     /// A summary of configuration properties for a member. Applies only to Hyperledger Fabric.
-    public struct MemberSummary: Swift.Equatable {
+    public struct MemberSummary {
         /// The Amazon Resource Name (ARN) of the member. For more information about ARNs and their format, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
         public var arn: Swift.String?
         /// The date and time that the member was created.
@@ -4250,7 +4250,7 @@ extension ManagedBlockchainClientTypes.Network: Swift.Codable {
 
 extension ManagedBlockchainClientTypes {
     /// Network configuration properties.
-    public struct Network: Swift.Equatable {
+    public struct Network {
         /// The Amazon Resource Name (ARN) of the network. For more information about ARNs and their format, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
         public var arn: Swift.String?
         /// The date and time that the network was created.
@@ -4329,7 +4329,7 @@ extension ManagedBlockchainClientTypes.NetworkEthereumAttributes: Swift.Codable 
 
 extension ManagedBlockchainClientTypes {
     /// Attributes of Ethereum for a network.
-    public struct NetworkEthereumAttributes: Swift.Equatable {
+    public struct NetworkEthereumAttributes {
         /// The Ethereum CHAIN_ID associated with the Ethereum network. Chain IDs are as follows:
         ///
         /// * mainnet = 1
@@ -4374,7 +4374,7 @@ extension ManagedBlockchainClientTypes.NetworkFabricAttributes: Swift.Codable {
 
 extension ManagedBlockchainClientTypes {
     /// Attributes of Hyperledger Fabric for a network.
-    public struct NetworkFabricAttributes: Swift.Equatable {
+    public struct NetworkFabricAttributes {
         /// The edition of Amazon Managed Blockchain that Hyperledger Fabric uses. For more information, see [Amazon Managed Blockchain Pricing](http://aws.amazon.com/managed-blockchain/pricing/).
         public var edition: ManagedBlockchainClientTypes.Edition?
         /// The endpoint of the ordering service for the network.
@@ -4413,7 +4413,7 @@ extension ManagedBlockchainClientTypes.NetworkFabricConfiguration: Swift.Codable
 
 extension ManagedBlockchainClientTypes {
     /// Hyperledger Fabric configuration properties for the network.
-    public struct NetworkFabricConfiguration: Swift.Equatable {
+    public struct NetworkFabricConfiguration {
         /// The edition of Amazon Managed Blockchain that the network uses. For more information, see [Amazon Managed Blockchain Pricing](http://aws.amazon.com/managed-blockchain/pricing/).
         /// This member is required.
         public var edition: ManagedBlockchainClientTypes.Edition?
@@ -4455,7 +4455,7 @@ extension ManagedBlockchainClientTypes.NetworkFrameworkAttributes: Swift.Codable
 
 extension ManagedBlockchainClientTypes {
     /// Attributes relevant to the network for the blockchain framework that the network uses.
-    public struct NetworkFrameworkAttributes: Swift.Equatable {
+    public struct NetworkFrameworkAttributes {
         /// Attributes of an Ethereum network for Managed Blockchain resources participating in an Ethereum network.
         public var ethereum: ManagedBlockchainClientTypes.NetworkEthereumAttributes?
         /// Attributes of Hyperledger Fabric for a Managed Blockchain network that uses Hyperledger Fabric.
@@ -4494,7 +4494,7 @@ extension ManagedBlockchainClientTypes.NetworkFrameworkConfiguration: Swift.Coda
 
 extension ManagedBlockchainClientTypes {
     /// Configuration properties relevant to the network for the blockchain framework that the network uses.
-    public struct NetworkFrameworkConfiguration: Swift.Equatable {
+    public struct NetworkFrameworkConfiguration {
         /// Hyperledger Fabric configuration properties for a Managed Blockchain network that uses Hyperledger Fabric.
         public var fabric: ManagedBlockchainClientTypes.NetworkFabricConfiguration?
 
@@ -4612,7 +4612,7 @@ extension ManagedBlockchainClientTypes.NetworkSummary: Swift.Codable {
 
 extension ManagedBlockchainClientTypes {
     /// A summary of network configuration properties.
-    public struct NetworkSummary: Swift.Equatable {
+    public struct NetworkSummary {
         /// The Amazon Resource Name (ARN) of the network. For more information about ARNs and their format, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
         public var arn: Swift.String?
         /// The date and time that the network was created.
@@ -4759,7 +4759,7 @@ extension ManagedBlockchainClientTypes.Node: Swift.Codable {
 
 extension ManagedBlockchainClientTypes {
     /// Configuration properties of a node.
-    public struct Node: Swift.Equatable {
+    public struct Node {
         /// The Amazon Resource Name (ARN) of the node. For more information about ARNs and their format, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
         public var arn: Swift.String?
         /// The Availability Zone in which the node exists. Required for Ethereum nodes.
@@ -4878,7 +4878,7 @@ extension ManagedBlockchainClientTypes.NodeConfiguration: Swift.Codable {
 
 extension ManagedBlockchainClientTypes {
     /// Configuration properties of a node.
-    public struct NodeConfiguration: Swift.Equatable {
+    public struct NodeConfiguration {
         /// The Availability Zone in which the node exists. Required for Ethereum nodes.
         public var availabilityZone: Swift.String?
         /// The Amazon Managed Blockchain instance type for the node.
@@ -4932,7 +4932,7 @@ extension ManagedBlockchainClientTypes.NodeEthereumAttributes: Swift.Codable {
 
 extension ManagedBlockchainClientTypes {
     /// Attributes of an Ethereum node.
-    public struct NodeEthereumAttributes: Swift.Equatable {
+    public struct NodeEthereumAttributes {
         /// The endpoint on which the Ethereum node listens to run Ethereum API methods over HTTP connections from a client. Use this endpoint in client code for smart contracts when using an HTTP connection. Connections to this endpoint are authenticated using [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
         public var httpEndpoint: Swift.String?
         /// The endpoint on which the Ethereum node listens to run Ethereum JSON-RPC methods over WebSocket connections from a client. Use this endpoint in client code for smart contracts when using a WebSocket connection. Connections to this endpoint are authenticated using [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
@@ -4977,7 +4977,7 @@ extension ManagedBlockchainClientTypes.NodeFabricAttributes: Swift.Codable {
 
 extension ManagedBlockchainClientTypes {
     /// Attributes of Hyperledger Fabric for a peer node on a Hyperledger Fabric network on Managed Blockchain.
-    public struct NodeFabricAttributes: Swift.Equatable {
+    public struct NodeFabricAttributes {
         /// The endpoint that identifies the peer node for all services except peer channel-based event services.
         public var peerEndpoint: Swift.String?
         /// The endpoint that identifies the peer node for peer channel-based event services.
@@ -5022,7 +5022,7 @@ extension ManagedBlockchainClientTypes.NodeFabricLogPublishingConfiguration: Swi
 
 extension ManagedBlockchainClientTypes {
     /// Configuration properties for logging events associated with a peer node owned by a member in a Managed Blockchain network.
-    public struct NodeFabricLogPublishingConfiguration: Swift.Equatable {
+    public struct NodeFabricLogPublishingConfiguration {
         /// Configuration properties for logging events associated with chaincode execution on a peer node. Chaincode logs contain the results of instantiating, invoking, and querying the chaincode. A peer can run multiple instances of chaincode. When enabled, a log stream is created for all chaincodes, with an individual log stream for each chaincode.
         public var chaincodeLogs: ManagedBlockchainClientTypes.LogConfigurations?
         /// Configuration properties for a peer node log. Peer node logs contain messages generated when your client submits transaction proposals to peer nodes, requests to join channels, enrolls an admin peer, and lists the chaincode instances on a peer node.
@@ -5067,7 +5067,7 @@ extension ManagedBlockchainClientTypes.NodeFrameworkAttributes: Swift.Codable {
 
 extension ManagedBlockchainClientTypes {
     /// Attributes relevant to a node on a Managed Blockchain network for the blockchain framework that the network uses.
-    public struct NodeFrameworkAttributes: Swift.Equatable {
+    public struct NodeFrameworkAttributes {
         /// Attributes of Ethereum for a node on a Managed Blockchain network that uses Ethereum.
         public var ethereum: ManagedBlockchainClientTypes.NodeEthereumAttributes?
         /// Attributes of Hyperledger Fabric for a peer node on a Managed Blockchain network that uses Hyperledger Fabric.
@@ -5106,7 +5106,7 @@ extension ManagedBlockchainClientTypes.NodeLogPublishingConfiguration: Swift.Cod
 
 extension ManagedBlockchainClientTypes {
     /// Configuration properties for logging events associated with a peer node on a Hyperledger Fabric network on Managed Blockchain.
-    public struct NodeLogPublishingConfiguration: Swift.Equatable {
+    public struct NodeLogPublishingConfiguration {
         /// Configuration properties for logging events associated with a node that is owned by a member of a Managed Blockchain network using the Hyperledger Fabric framework.
         public var fabric: ManagedBlockchainClientTypes.NodeFabricLogPublishingConfiguration?
 
@@ -5224,7 +5224,7 @@ extension ManagedBlockchainClientTypes.NodeSummary: Swift.Codable {
 
 extension ManagedBlockchainClientTypes {
     /// A summary of configuration properties for a node.
-    public struct NodeSummary: Swift.Equatable {
+    public struct NodeSummary {
         /// The Amazon Resource Name (ARN) of the node. For more information about ARNs and their format, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
         public var arn: Swift.String?
         /// The Availability Zone in which the node exists.
@@ -5369,7 +5369,7 @@ extension ManagedBlockchainClientTypes.Proposal: Swift.Codable {
 
 extension ManagedBlockchainClientTypes {
     /// Properties of a proposal on a Managed Blockchain network. Applies only to Hyperledger Fabric.
-    public struct Proposal: Swift.Equatable {
+    public struct Proposal {
         /// The actions to perform on the network if the proposal is APPROVED.
         public var actions: ManagedBlockchainClientTypes.ProposalActions?
         /// The Amazon Resource Name (ARN) of the proposal. For more information about ARNs and their format, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
@@ -5496,7 +5496,7 @@ extension ManagedBlockchainClientTypes.ProposalActions: Swift.Codable {
 
 extension ManagedBlockchainClientTypes {
     /// The actions to carry out if a proposal is APPROVED. Applies only to Hyperledger Fabric.
-    public struct ProposalActions: Swift.Equatable {
+    public struct ProposalActions {
         /// The actions to perform for an APPROVED proposal to invite an Amazon Web Services account to create a member and join the network.
         public var invitations: [ManagedBlockchainClientTypes.InviteAction]?
         /// The actions to perform for an APPROVED proposal to remove a member from the network, which deletes the member and all associated member resources from the network.
@@ -5618,7 +5618,7 @@ extension ManagedBlockchainClientTypes.ProposalSummary: Swift.Codable {
 
 extension ManagedBlockchainClientTypes {
     /// Properties of a proposal. Applies only to Hyperledger Fabric.
-    public struct ProposalSummary: Swift.Equatable {
+    public struct ProposalSummary {
         /// The Amazon Resource Name (ARN) of the proposal. For more information about ARNs and their format, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
         public var arn: Swift.String?
         /// The date and time that the proposal was created.
@@ -5680,7 +5680,7 @@ extension RejectInvitationInput {
     }
 }
 
-public struct RejectInvitationInput: Swift.Equatable {
+public struct RejectInvitationInput {
     /// The unique identifier of the invitation to reject.
     /// This member is required.
     public var invitationId: Swift.String?
@@ -5693,7 +5693,7 @@ public struct RejectInvitationInput: Swift.Equatable {
     }
 }
 
-struct RejectInvitationInputBody: Swift.Equatable {
+struct RejectInvitationInputBody {
 }
 
 extension RejectInvitationInputBody: Swift.Decodable {
@@ -5707,7 +5707,7 @@ extension RejectInvitationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RejectInvitationOutput: Swift.Equatable {
+public struct RejectInvitationOutput {
 
     public init() { }
 }
@@ -5749,7 +5749,7 @@ extension ManagedBlockchainClientTypes.RemoveAction: Swift.Codable {
 
 extension ManagedBlockchainClientTypes {
     /// An action to remove a member from a Managed Blockchain network as the result of a removal proposal that is APPROVED. The member and all associated resources are deleted from the network. Applies only to Hyperledger Fabric.
-    public struct RemoveAction: Swift.Equatable {
+    public struct RemoveAction {
         /// The unique identifier of the member to remove.
         /// This member is required.
         public var memberId: Swift.String?
@@ -5803,7 +5803,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct ResourceAlreadyExistsExceptionBody: Swift.Equatable {
+struct ResourceAlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -5858,7 +5858,7 @@ public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct ResourceLimitExceededExceptionBody: Swift.Equatable {
+struct ResourceLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -5919,7 +5919,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceName: Swift.String?
 }
@@ -5978,7 +5978,7 @@ public struct ResourceNotReadyException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotReadyExceptionBody: Swift.Equatable {
+struct ResourceNotReadyExceptionBody {
     let message: Swift.String?
 }
 
@@ -6052,7 +6052,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource. For more information about ARNs and their format, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -6070,7 +6070,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -6100,7 +6100,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -6218,7 +6218,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct TooManyTagsExceptionBody: Swift.Equatable {
+struct TooManyTagsExceptionBody {
     let message: Swift.String?
     let resourceName: Swift.String?
 }
@@ -6264,7 +6264,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource. For more information about ARNs and their format, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -6282,7 +6282,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -6296,7 +6296,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -6341,7 +6341,7 @@ extension UpdateMemberInput {
     }
 }
 
-public struct UpdateMemberInput: Swift.Equatable {
+public struct UpdateMemberInput {
     /// Configuration properties for publishing to Amazon CloudWatch Logs.
     public var logPublishingConfiguration: ManagedBlockchainClientTypes.MemberLogPublishingConfiguration?
     /// The unique identifier of the member.
@@ -6363,7 +6363,7 @@ public struct UpdateMemberInput: Swift.Equatable {
     }
 }
 
-struct UpdateMemberInputBody: Swift.Equatable {
+struct UpdateMemberInputBody {
     let logPublishingConfiguration: ManagedBlockchainClientTypes.MemberLogPublishingConfiguration?
 }
 
@@ -6384,7 +6384,7 @@ extension UpdateMemberOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateMemberOutput: Swift.Equatable {
+public struct UpdateMemberOutput {
 
     public init() { }
 }
@@ -6434,7 +6434,7 @@ extension UpdateNodeInput {
     }
 }
 
-public struct UpdateNodeInput: Swift.Equatable {
+public struct UpdateNodeInput {
     /// Configuration properties for publishing to Amazon CloudWatch Logs.
     public var logPublishingConfiguration: ManagedBlockchainClientTypes.NodeLogPublishingConfiguration?
     /// The unique identifier of the member that owns the node. Applies only to Hyperledger Fabric.
@@ -6460,7 +6460,7 @@ public struct UpdateNodeInput: Swift.Equatable {
     }
 }
 
-struct UpdateNodeInputBody: Swift.Equatable {
+struct UpdateNodeInputBody {
     let memberId: Swift.String?
     let logPublishingConfiguration: ManagedBlockchainClientTypes.NodeLogPublishingConfiguration?
 }
@@ -6485,7 +6485,7 @@ extension UpdateNodeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateNodeOutput: Swift.Equatable {
+public struct UpdateNodeOutput {
 
     public init() { }
 }
@@ -6535,7 +6535,7 @@ extension VoteOnProposalInput {
     }
 }
 
-public struct VoteOnProposalInput: Swift.Equatable {
+public struct VoteOnProposalInput {
     /// The unique identifier of the network.
     /// This member is required.
     public var networkId: Swift.String?
@@ -6563,7 +6563,7 @@ public struct VoteOnProposalInput: Swift.Equatable {
     }
 }
 
-struct VoteOnProposalInputBody: Swift.Equatable {
+struct VoteOnProposalInputBody {
     let voterMemberId: Swift.String?
     let vote: ManagedBlockchainClientTypes.VoteValue?
 }
@@ -6588,7 +6588,7 @@ extension VoteOnProposalOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct VoteOnProposalOutput: Swift.Equatable {
+public struct VoteOnProposalOutput {
 
     public init() { }
 }
@@ -6642,7 +6642,7 @@ extension ManagedBlockchainClientTypes.VoteSummary: Swift.Codable {
 
 extension ManagedBlockchainClientTypes {
     /// Properties of an individual vote that a member cast for a proposal. Applies only to Hyperledger Fabric.
-    public struct VoteSummary: Swift.Equatable {
+    public struct VoteSummary {
         /// The unique identifier of the member that cast the vote.
         public var memberId: Swift.String?
         /// The name of the member that cast the vote.
@@ -6717,7 +6717,7 @@ extension ManagedBlockchainClientTypes.VotingPolicy: Swift.Codable {
 
 extension ManagedBlockchainClientTypes {
     /// The voting rules for the network to decide if a proposal is accepted Applies only to Hyperledger Fabric.
-    public struct VotingPolicy: Swift.Equatable {
+    public struct VotingPolicy {
         /// Defines the rules for the network for voting on proposals, such as the percentage of YES votes required for the proposal to be approved and the duration of the proposal. The policy applies to all proposals and is specified when the network is created.
         public var approvalThresholdPolicy: ManagedBlockchainClientTypes.ApprovalThresholdPolicy?
 

@@ -163,7 +163,7 @@ extension DynamoDBStreamsClientTypes.AttributeValue: Swift.Codable {
 
 extension DynamoDBStreamsClientTypes {
     /// Represents the data for an attribute. Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself. For more information, see [Data Types](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.NamingRulesDataTypes.html#HowItWorks.DataTypes) in the Amazon DynamoDB Developer Guide.
-    public indirect enum AttributeValue: Swift.Equatable {
+    public indirect enum AttributeValue {
         /// An attribute of type String. For example: "S": "Hello"
         case s(Swift.String)
         /// An attribute of type Number. For example: "N": "123.45" Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
@@ -218,7 +218,7 @@ extension DescribeStreamInput {
 }
 
 /// Represents the input of a DescribeStream operation.
-public struct DescribeStreamInput: Swift.Equatable {
+public struct DescribeStreamInput {
     /// The shard ID of the first item that this operation will evaluate. Use the value that was returned for LastEvaluatedShardId in the previous operation.
     public var exclusiveStartShardId: Swift.String?
     /// The maximum number of shard objects to return. The upper limit is 100.
@@ -239,7 +239,7 @@ public struct DescribeStreamInput: Swift.Equatable {
     }
 }
 
-struct DescribeStreamInputBody: Swift.Equatable {
+struct DescribeStreamInputBody {
     let streamArn: Swift.String?
     let limit: Swift.Int?
     let exclusiveStartShardId: Swift.String?
@@ -276,7 +276,7 @@ extension DescribeStreamOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a DescribeStream operation.
-public struct DescribeStreamOutput: Swift.Equatable {
+public struct DescribeStreamOutput {
     /// A complete description of the stream, including its creation date and time, the DynamoDB table associated with the stream, the shard IDs within the stream, and the beginning and ending sequence numbers of stream records within the shards.
     public var streamDescription: DynamoDBStreamsClientTypes.StreamDescription?
 
@@ -288,7 +288,7 @@ public struct DescribeStreamOutput: Swift.Equatable {
     }
 }
 
-struct DescribeStreamOutputBody: Swift.Equatable {
+struct DescribeStreamOutputBody {
     let streamDescription: DynamoDBStreamsClientTypes.StreamDescription?
 }
 
@@ -358,7 +358,7 @@ public struct ExpiredIteratorException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct ExpiredIteratorExceptionBody: Swift.Equatable {
+struct ExpiredIteratorExceptionBody {
     let message: Swift.String?
 }
 
@@ -399,7 +399,7 @@ extension GetRecordsInput {
 }
 
 /// Represents the input of a GetRecords operation.
-public struct GetRecordsInput: Swift.Equatable {
+public struct GetRecordsInput {
     /// The maximum number of records to return from the shard. The upper limit is 1000.
     public var limit: Swift.Int?
     /// A shard iterator that was retrieved from a previous GetShardIterator operation. This iterator can be used to access the stream records in this shard.
@@ -416,7 +416,7 @@ public struct GetRecordsInput: Swift.Equatable {
     }
 }
 
-struct GetRecordsInputBody: Swift.Equatable {
+struct GetRecordsInputBody {
     let shardIterator: Swift.String?
     let limit: Swift.Int?
 }
@@ -451,7 +451,7 @@ extension GetRecordsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a GetRecords operation.
-public struct GetRecordsOutput: Swift.Equatable {
+public struct GetRecordsOutput {
     /// The next position in the shard from which to start sequentially reading stream records. If set to null, the shard has been closed and the requested iterator will not return any more data.
     public var nextShardIterator: Swift.String?
     /// The stream records from the shard, which were retrieved using the shard iterator.
@@ -467,7 +467,7 @@ public struct GetRecordsOutput: Swift.Equatable {
     }
 }
 
-struct GetRecordsOutputBody: Swift.Equatable {
+struct GetRecordsOutputBody {
     let records: [DynamoDBStreamsClientTypes.Record]?
     let nextShardIterator: Swift.String?
 }
@@ -544,7 +544,7 @@ extension GetShardIteratorInput {
 }
 
 /// Represents the input of a GetShardIterator operation.
-public struct GetShardIteratorInput: Swift.Equatable {
+public struct GetShardIteratorInput {
     /// The sequence number of a stream record in the shard from which to start reading.
     public var sequenceNumber: Swift.String?
     /// The identifier of the shard. The iterator will be returned for this shard ID.
@@ -579,7 +579,7 @@ public struct GetShardIteratorInput: Swift.Equatable {
     }
 }
 
-struct GetShardIteratorInputBody: Swift.Equatable {
+struct GetShardIteratorInputBody {
     let streamArn: Swift.String?
     let shardId: Swift.String?
     let shardIteratorType: DynamoDBStreamsClientTypes.ShardIteratorType?
@@ -620,7 +620,7 @@ extension GetShardIteratorOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a GetShardIterator operation.
-public struct GetShardIteratorOutput: Swift.Equatable {
+public struct GetShardIteratorOutput {
     /// The position in the shard from which to start reading stream records sequentially. A shard iterator specifies this position using the sequence number of a stream record in a shard.
     public var shardIterator: Swift.String?
 
@@ -632,7 +632,7 @@ public struct GetShardIteratorOutput: Swift.Equatable {
     }
 }
 
-struct GetShardIteratorOutputBody: Swift.Equatable {
+struct GetShardIteratorOutputBody {
     let shardIterator: Swift.String?
 }
 
@@ -688,7 +688,7 @@ extension DynamoDBStreamsClientTypes.Identity: Swift.Codable {
 
 extension DynamoDBStreamsClientTypes {
     /// Contains details about the type of identity that made the request.
-    public struct Identity: Swift.Equatable {
+    public struct Identity {
         /// A unique identifier for the entity that made the call. For Time To Live, the principalId is "dynamodb.amazonaws.com".
         public var principalId: Swift.String?
         /// The type of the identity. For Time To Live, the type is "Service".
@@ -746,7 +746,7 @@ public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct InternalServerErrorBody: Swift.Equatable {
+struct InternalServerErrorBody {
     let message: Swift.String?
 }
 
@@ -789,7 +789,7 @@ extension DynamoDBStreamsClientTypes.KeySchemaElement: Swift.Codable {
 
 extension DynamoDBStreamsClientTypes {
     /// Represents a single element of a key schema. A key schema specifies the attributes that make up the primary key of a table, or the key attributes of an index. A KeySchemaElement represents exactly one attribute of the primary key. For example, a simple primary key would be represented by one KeySchemaElement (for the partition key). A composite primary key would require one KeySchemaElement for the partition key, and another KeySchemaElement for the sort key. A KeySchemaElement must be a scalar, top-level attribute (not a nested attribute). The data type must be one of String, Number, or Binary. The attribute cannot be nested within a List or a Map.
-    public struct KeySchemaElement: Swift.Equatable {
+    public struct KeySchemaElement {
         /// The name of a key attribute.
         /// This member is required.
         public var attributeName: Swift.String?
@@ -888,7 +888,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -933,7 +933,7 @@ extension ListStreamsInput {
 }
 
 /// Represents the input of a ListStreams operation.
-public struct ListStreamsInput: Swift.Equatable {
+public struct ListStreamsInput {
     /// The ARN (Amazon Resource Name) of the first item that this operation will evaluate. Use the value that was returned for LastEvaluatedStreamArn in the previous operation.
     public var exclusiveStartStreamArn: Swift.String?
     /// The maximum number of streams to return. The upper limit is 100.
@@ -953,7 +953,7 @@ public struct ListStreamsInput: Swift.Equatable {
     }
 }
 
-struct ListStreamsInputBody: Swift.Equatable {
+struct ListStreamsInputBody {
     let tableName: Swift.String?
     let limit: Swift.Int?
     let exclusiveStartStreamArn: Swift.String?
@@ -992,7 +992,7 @@ extension ListStreamsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a ListStreams operation.
-public struct ListStreamsOutput: Swift.Equatable {
+public struct ListStreamsOutput {
     /// The stream ARN of the item where the operation stopped, inclusive of the previous result set. Use this value to start a new operation, excluding this value in the new request. If LastEvaluatedStreamArn is empty, then the "last page" of results has been processed and there is no more data to be retrieved. If LastEvaluatedStreamArn is not empty, it does not necessarily mean that there is more data in the result set. The only way to know when you have reached the end of the result set is when LastEvaluatedStreamArn is empty.
     public var lastEvaluatedStreamArn: Swift.String?
     /// A list of stream descriptors associated with the current account and endpoint.
@@ -1008,7 +1008,7 @@ public struct ListStreamsOutput: Swift.Equatable {
     }
 }
 
-struct ListStreamsOutputBody: Swift.Equatable {
+struct ListStreamsOutputBody {
     let streams: [DynamoDBStreamsClientTypes.Stream]?
     let lastEvaluatedStreamArn: Swift.String?
 }
@@ -1141,7 +1141,7 @@ extension DynamoDBStreamsClientTypes.Record: Swift.Codable {
 
 extension DynamoDBStreamsClientTypes {
     /// A description of a unique event within a stream.
-    public struct Record: Swift.Equatable {
+    public struct Record {
         /// The region in which the GetRecords request was received.
         public var awsRegion: Swift.String?
         /// The main body of the stream record, containing all of the DynamoDB-specific fields.
@@ -1229,7 +1229,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -1272,7 +1272,7 @@ extension DynamoDBStreamsClientTypes.SequenceNumberRange: Swift.Codable {
 
 extension DynamoDBStreamsClientTypes {
     /// The beginning and ending sequence numbers for the stream records contained within a shard.
-    public struct SequenceNumberRange: Swift.Equatable {
+    public struct SequenceNumberRange {
         /// The last sequence number for the stream records contained within a shard. String contains numeric characters only.
         public var endingSequenceNumber: Swift.String?
         /// The first sequence number for the stream records contained within a shard. String contains numeric characters only.
@@ -1323,7 +1323,7 @@ extension DynamoDBStreamsClientTypes.Shard: Swift.Codable {
 
 extension DynamoDBStreamsClientTypes {
     /// A uniquely identified group of stream records within a stream.
-    public struct Shard: Swift.Equatable {
+    public struct Shard {
         /// The shard ID of the current shard's parent.
         public var parentShardId: Swift.String?
         /// The range of possible sequence numbers for the shard.
@@ -1416,7 +1416,7 @@ extension DynamoDBStreamsClientTypes.Stream: Swift.Codable {
 
 extension DynamoDBStreamsClientTypes {
     /// Represents all of the data describing a particular stream.
-    public struct Stream: Swift.Equatable {
+    public struct Stream {
         /// The Amazon Resource Name (ARN) for the stream.
         public var streamArn: Swift.String?
         /// A timestamp, in ISO 8601 format, for this stream. Note that LatestStreamLabel is not a unique identifier for the stream, because it is possible that a stream from another table might have the same timestamp. However, the combination of the following three elements is guaranteed to be unique:
@@ -1537,7 +1537,7 @@ extension DynamoDBStreamsClientTypes.StreamDescription: Swift.Codable {
 
 extension DynamoDBStreamsClientTypes {
     /// Represents all of the data describing a particular stream.
-    public struct StreamDescription: Swift.Equatable {
+    public struct StreamDescription {
         /// The date and time when the request to create this stream was issued.
         public var creationRequestDateTime: ClientRuntime.Date?
         /// The key attribute(s) of the stream's DynamoDB table.
@@ -1698,7 +1698,7 @@ extension DynamoDBStreamsClientTypes.StreamRecord: Swift.Codable {
 
 extension DynamoDBStreamsClientTypes {
     /// A description of a single data modification that was performed on an item in a DynamoDB table.
-    public struct StreamRecord: Swift.Equatable {
+    public struct StreamRecord {
         /// The approximate date and time when the stream record was created, in [UNIX epoch time](http://www.epochconverter.com/) format and rounded down to the closest second.
         public var approximateCreationDateTime: ClientRuntime.Date?
         /// The primary key attribute(s) for the DynamoDB item that was modified.
@@ -1864,7 +1864,7 @@ public struct TrimmedDataAccessException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct TrimmedDataAccessExceptionBody: Swift.Equatable {
+struct TrimmedDataAccessExceptionBody {
     let message: Swift.String?
 }
 

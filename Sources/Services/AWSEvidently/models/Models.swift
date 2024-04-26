@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -83,7 +83,7 @@ extension BatchEvaluateFeatureInput {
     }
 }
 
-public struct BatchEvaluateFeatureInput: Swift.Equatable {
+public struct BatchEvaluateFeatureInput {
     /// The name or ARN of the project that contains the feature being evaluated.
     /// This member is required.
     public var project: Swift.String?
@@ -101,7 +101,7 @@ public struct BatchEvaluateFeatureInput: Swift.Equatable {
     }
 }
 
-struct BatchEvaluateFeatureInputBody: Swift.Equatable {
+struct BatchEvaluateFeatureInputBody {
     let requests: [EvidentlyClientTypes.EvaluationRequest]?
 }
 
@@ -138,7 +138,7 @@ extension BatchEvaluateFeatureOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchEvaluateFeatureOutput: Swift.Equatable {
+public struct BatchEvaluateFeatureOutput {
     /// An array of structures, where each structure displays the results of one feature evaluation assignment to one user session.
     public var results: [EvidentlyClientTypes.EvaluationResult]?
 
@@ -150,7 +150,7 @@ public struct BatchEvaluateFeatureOutput: Swift.Equatable {
     }
 }
 
-struct BatchEvaluateFeatureOutputBody: Swift.Equatable {
+struct BatchEvaluateFeatureOutputBody {
     let results: [EvidentlyClientTypes.EvaluationResult]?
 }
 
@@ -242,7 +242,7 @@ extension EvidentlyClientTypes.CloudWatchLogsDestination: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// A structure containing the CloudWatch Logs log group where the project stores evaluation events.
-    public struct CloudWatchLogsDestination: Swift.Equatable {
+    public struct CloudWatchLogsDestination {
         /// The name of the log group where the project stores evaluation events.
         public var logGroup: Swift.String?
 
@@ -277,7 +277,7 @@ extension EvidentlyClientTypes.CloudWatchLogsDestinationConfig: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// A structure containing the CloudWatch Logs log group where the project stores evaluation events.
-    public struct CloudWatchLogsDestinationConfig: Swift.Equatable {
+    public struct CloudWatchLogsDestinationConfig {
         /// The name of the log group where the project stores evaluation events.
         public var logGroup: Swift.String?
 
@@ -342,7 +342,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -430,7 +430,7 @@ extension CreateExperimentInput {
     }
 }
 
-public struct CreateExperimentInput: Swift.Equatable {
+public struct CreateExperimentInput {
     /// An optional description of the experiment.
     public var description: Swift.String?
     /// An array of structures that defines the metrics used for the experiment, and whether a higher or lower value for each metric is the goal.
@@ -482,7 +482,7 @@ public struct CreateExperimentInput: Swift.Equatable {
     }
 }
 
-struct CreateExperimentInputBody: Swift.Equatable {
+struct CreateExperimentInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let treatments: [EvidentlyClientTypes.TreatmentConfig]?
@@ -569,7 +569,7 @@ extension CreateExperimentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateExperimentOutput: Swift.Equatable {
+public struct CreateExperimentOutput {
     /// A structure containing the configuration details of the experiment that you created.
     /// This member is required.
     public var experiment: EvidentlyClientTypes.Experiment?
@@ -582,7 +582,7 @@ public struct CreateExperimentOutput: Swift.Equatable {
     }
 }
 
-struct CreateExperimentOutputBody: Swift.Equatable {
+struct CreateExperimentOutputBody {
     let experiment: EvidentlyClientTypes.Experiment?
 }
 
@@ -669,7 +669,7 @@ extension CreateFeatureInput {
     }
 }
 
-public struct CreateFeatureInput: Swift.Equatable {
+public struct CreateFeatureInput {
     /// The name of the variation to use as the default variation. The default variation is served to users who are not allocated to any ongoing launches or experiments of this feature. This variation must also be listed in the variations structure. If you omit defaultVariation, the first variation listed in the variations structure is used as the default variation.
     public var defaultVariation: Swift.String?
     /// An optional description of the feature.
@@ -712,7 +712,7 @@ public struct CreateFeatureInput: Swift.Equatable {
     }
 }
 
-struct CreateFeatureInputBody: Swift.Equatable {
+struct CreateFeatureInputBody {
     let name: Swift.String?
     let evaluationStrategy: EvidentlyClientTypes.FeatureEvaluationStrategy?
     let description: Swift.String?
@@ -791,7 +791,7 @@ extension CreateFeatureOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateFeatureOutput: Swift.Equatable {
+public struct CreateFeatureOutput {
     /// A structure that contains information about the new feature.
     public var feature: EvidentlyClientTypes.Feature?
 
@@ -803,7 +803,7 @@ public struct CreateFeatureOutput: Swift.Equatable {
     }
 }
 
-struct CreateFeatureOutputBody: Swift.Equatable {
+struct CreateFeatureOutputBody {
     let feature: EvidentlyClientTypes.Feature?
 }
 
@@ -890,7 +890,7 @@ extension CreateLaunchInput {
     }
 }
 
-public struct CreateLaunchInput: Swift.Equatable {
+public struct CreateLaunchInput {
     /// An optional description for the launch.
     public var description: Swift.String?
     /// An array of structures that contains the feature and variations that are to be used for the launch.
@@ -933,7 +933,7 @@ public struct CreateLaunchInput: Swift.Equatable {
     }
 }
 
-struct CreateLaunchInputBody: Swift.Equatable {
+struct CreateLaunchInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let scheduledSplitsConfig: EvidentlyClientTypes.ScheduledSplitsLaunchConfig?
@@ -1012,7 +1012,7 @@ extension CreateLaunchOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateLaunchOutput: Swift.Equatable {
+public struct CreateLaunchOutput {
     /// A structure that contains the configuration of the launch that was created.
     /// This member is required.
     public var launch: EvidentlyClientTypes.Launch?
@@ -1025,7 +1025,7 @@ public struct CreateLaunchOutput: Swift.Equatable {
     }
 }
 
-struct CreateLaunchOutputBody: Swift.Equatable {
+struct CreateLaunchOutputBody {
     let launch: EvidentlyClientTypes.Launch?
 }
 
@@ -1095,7 +1095,7 @@ extension CreateProjectInput {
     }
 }
 
-public struct CreateProjectInput: Swift.Equatable {
+public struct CreateProjectInput {
     /// Use this parameter if the project will use client-side evaluation powered by AppConfig. Client-side evaluation allows your application to assign variations to user sessions locally instead of by calling the [EvaluateFeature](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_EvaluateFeature.html) operation. This mitigates the latency and availability risks that come with an API call. For more information, see [ Client-side evaluation - powered by AppConfig.](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Evidently-client-side-evaluation.html) This parameter is a structure that contains information about the AppConfig application and environment that will be used as for client-side evaluation. To create a project that uses client-side evaluation, you must have the evidently:ExportProjectAsConfiguration permission.
     public var appConfigResource: EvidentlyClientTypes.ProjectAppConfigResourceConfig?
     /// A structure that contains information about where Evidently is to store evaluation events for longer term storage, if you choose to do so. If you choose not to store these events, Evidently deletes them after using them to produce metrics and other experiment results that you can view.
@@ -1124,7 +1124,7 @@ public struct CreateProjectInput: Swift.Equatable {
     }
 }
 
-struct CreateProjectInputBody: Swift.Equatable {
+struct CreateProjectInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let dataDelivery: EvidentlyClientTypes.ProjectDataDeliveryConfig?
@@ -1177,7 +1177,7 @@ extension CreateProjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateProjectOutput: Swift.Equatable {
+public struct CreateProjectOutput {
     /// A structure that contains information about the created project.
     /// This member is required.
     public var project: EvidentlyClientTypes.Project?
@@ -1190,7 +1190,7 @@ public struct CreateProjectOutput: Swift.Equatable {
     }
 }
 
-struct CreateProjectOutputBody: Swift.Equatable {
+struct CreateProjectOutputBody {
     let project: EvidentlyClientTypes.Project?
 }
 
@@ -1255,7 +1255,7 @@ extension CreateSegmentInput {
     }
 }
 
-public struct CreateSegmentInput: Swift.Equatable {
+public struct CreateSegmentInput {
     /// An optional description for this segment.
     public var description: Swift.String?
     /// A name for the segment.
@@ -1281,7 +1281,7 @@ public struct CreateSegmentInput: Swift.Equatable {
     }
 }
 
-struct CreateSegmentInputBody: Swift.Equatable {
+struct CreateSegmentInputBody {
     let name: Swift.String?
     let pattern: Swift.String?
     let description: Swift.String?
@@ -1330,7 +1330,7 @@ extension CreateSegmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSegmentOutput: Swift.Equatable {
+public struct CreateSegmentOutput {
     /// A structure that contains the complete information about the segment that was just created.
     /// This member is required.
     public var segment: EvidentlyClientTypes.Segment?
@@ -1343,7 +1343,7 @@ public struct CreateSegmentOutput: Swift.Equatable {
     }
 }
 
-struct CreateSegmentOutputBody: Swift.Equatable {
+struct CreateSegmentOutputBody {
     let segment: EvidentlyClientTypes.Segment?
 }
 
@@ -1386,7 +1386,7 @@ extension DeleteExperimentInput {
     }
 }
 
-public struct DeleteExperimentInput: Swift.Equatable {
+public struct DeleteExperimentInput {
     /// The name of the experiment to delete.
     /// This member is required.
     public var experiment: Swift.String?
@@ -1404,7 +1404,7 @@ public struct DeleteExperimentInput: Swift.Equatable {
     }
 }
 
-struct DeleteExperimentInputBody: Swift.Equatable {
+struct DeleteExperimentInputBody {
 }
 
 extension DeleteExperimentInputBody: Swift.Decodable {
@@ -1418,7 +1418,7 @@ extension DeleteExperimentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteExperimentOutput: Swift.Equatable {
+public struct DeleteExperimentOutput {
 
     public init() { }
 }
@@ -1452,7 +1452,7 @@ extension DeleteFeatureInput {
     }
 }
 
-public struct DeleteFeatureInput: Swift.Equatable {
+public struct DeleteFeatureInput {
     /// The name of the feature to delete.
     /// This member is required.
     public var feature: Swift.String?
@@ -1470,7 +1470,7 @@ public struct DeleteFeatureInput: Swift.Equatable {
     }
 }
 
-struct DeleteFeatureInputBody: Swift.Equatable {
+struct DeleteFeatureInputBody {
 }
 
 extension DeleteFeatureInputBody: Swift.Decodable {
@@ -1484,7 +1484,7 @@ extension DeleteFeatureOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteFeatureOutput: Swift.Equatable {
+public struct DeleteFeatureOutput {
 
     public init() { }
 }
@@ -1517,7 +1517,7 @@ extension DeleteLaunchInput {
     }
 }
 
-public struct DeleteLaunchInput: Swift.Equatable {
+public struct DeleteLaunchInput {
     /// The name of the launch to delete.
     /// This member is required.
     public var launch: Swift.String?
@@ -1535,7 +1535,7 @@ public struct DeleteLaunchInput: Swift.Equatable {
     }
 }
 
-struct DeleteLaunchInputBody: Swift.Equatable {
+struct DeleteLaunchInputBody {
 }
 
 extension DeleteLaunchInputBody: Swift.Decodable {
@@ -1549,7 +1549,7 @@ extension DeleteLaunchOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteLaunchOutput: Swift.Equatable {
+public struct DeleteLaunchOutput {
 
     public init() { }
 }
@@ -1579,7 +1579,7 @@ extension DeleteProjectInput {
     }
 }
 
-public struct DeleteProjectInput: Swift.Equatable {
+public struct DeleteProjectInput {
     /// The name or ARN of the project to delete.
     /// This member is required.
     public var project: Swift.String?
@@ -1592,7 +1592,7 @@ public struct DeleteProjectInput: Swift.Equatable {
     }
 }
 
-struct DeleteProjectInputBody: Swift.Equatable {
+struct DeleteProjectInputBody {
 }
 
 extension DeleteProjectInputBody: Swift.Decodable {
@@ -1606,7 +1606,7 @@ extension DeleteProjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteProjectOutput: Swift.Equatable {
+public struct DeleteProjectOutput {
 
     public init() { }
 }
@@ -1636,7 +1636,7 @@ extension DeleteSegmentInput {
     }
 }
 
-public struct DeleteSegmentInput: Swift.Equatable {
+public struct DeleteSegmentInput {
     /// Specifies the segment to delete.
     /// This member is required.
     public var segment: Swift.String?
@@ -1649,7 +1649,7 @@ public struct DeleteSegmentInput: Swift.Equatable {
     }
 }
 
-struct DeleteSegmentInputBody: Swift.Equatable {
+struct DeleteSegmentInputBody {
 }
 
 extension DeleteSegmentInputBody: Swift.Decodable {
@@ -1663,7 +1663,7 @@ extension DeleteSegmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSegmentOutput: Swift.Equatable {
+public struct DeleteSegmentOutput {
 
     public init() { }
 }
@@ -1713,7 +1713,7 @@ extension EvaluateFeatureInput {
     }
 }
 
-public struct EvaluateFeatureInput: Swift.Equatable {
+public struct EvaluateFeatureInput {
     /// An internal ID that represents a unique user of the application. This entityID is checked against any override rules assigned for this feature.
     /// This member is required.
     public var entityId: Swift.String?
@@ -1740,7 +1740,7 @@ public struct EvaluateFeatureInput: Swift.Equatable {
     }
 }
 
-struct EvaluateFeatureInputBody: Swift.Equatable {
+struct EvaluateFeatureInputBody {
     let entityId: Swift.String?
     let evaluationContext: Swift.String?
 }
@@ -1778,7 +1778,7 @@ extension EvaluateFeatureOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct EvaluateFeatureOutput: Swift.Equatable {
+public struct EvaluateFeatureOutput {
     /// If this user was assigned to a launch or experiment, this field lists the launch or experiment name.
     public var details: Swift.String?
     /// Specifies the reason that the user session was assigned this variation. Possible values include DEFAULT, meaning the user was served the default variation; LAUNCH_RULE_MATCH, if the user session was enrolled in a launch; EXPERIMENT_RULE_MATCH, if the user session was enrolled in an experiment; or ENTITY_OVERRIDES_MATCH, if the user's entityId matches an override rule.
@@ -1802,7 +1802,7 @@ public struct EvaluateFeatureOutput: Swift.Equatable {
     }
 }
 
-struct EvaluateFeatureOutputBody: Swift.Equatable {
+struct EvaluateFeatureOutputBody {
     let variation: Swift.String?
     let value: EvidentlyClientTypes.VariableValue?
     let reason: Swift.String?
@@ -1877,7 +1877,7 @@ extension EvidentlyClientTypes.EvaluationRequest: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// This structure assigns a feature variation to one user session.
-    public struct EvaluationRequest: Swift.Equatable {
+    public struct EvaluationRequest {
         /// An internal ID that represents a unique user session of the application. This entityID is checked against any override rules assigned for this feature.
         /// This member is required.
         public var entityId: Swift.String?
@@ -1958,7 +1958,7 @@ extension EvidentlyClientTypes.EvaluationResult: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// This structure displays the results of one feature evaluation assignment to one user session.
-    public struct EvaluationResult: Swift.Equatable {
+    public struct EvaluationResult {
         /// If this user was assigned to a launch or experiment, this field lists the launch or experiment name.
         public var details: Swift.String?
         /// An internal ID that represents a unique user session of the application.
@@ -2025,7 +2025,7 @@ extension EvidentlyClientTypes.EvaluationRule: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// A structure that contains the information about an evaluation rule for this feature, if it is used in a launch or experiment.
-    public struct EvaluationRule: Swift.Equatable {
+    public struct EvaluationRule {
         /// The name of the experiment or launch.
         public var name: Swift.String?
         /// This value is aws.evidently.splits if this is an evaluation rule for a launch, and it is aws.evidently.onlineab if this is an evaluation rule for an experiment.
@@ -2077,7 +2077,7 @@ extension EvidentlyClientTypes.Event: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// A structure that contains the information about one evaluation event or custom event sent to Evidently. This is a JSON payload. If this event specifies a pre-defined event type, the payload must follow the defined event schema.
-    public struct Event: Swift.Equatable {
+    public struct Event {
         /// The event data.
         /// This member is required.
         public var data: Swift.String?
@@ -2295,7 +2295,7 @@ extension EvidentlyClientTypes.Experiment: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// A structure containing the configuration details of an experiment.
-    public struct Experiment: Swift.Equatable {
+    public struct Experiment {
         /// The ARN of the experiment.
         /// This member is required.
         public var arn: Swift.String?
@@ -2439,7 +2439,7 @@ extension EvidentlyClientTypes.ExperimentExecution: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// This structure contains the date and time that the experiment started and ended.
-    public struct ExperimentExecution: Swift.Equatable {
+    public struct ExperimentExecution {
         /// The date and time that the experiment ended.
         public var endedTime: ClientRuntime.Date?
         /// The date and time that the experiment started.
@@ -2496,7 +2496,7 @@ extension EvidentlyClientTypes.ExperimentReport: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// A structure that contains results of an experiment.
-    public struct ExperimentReport: Swift.Equatable {
+    public struct ExperimentReport {
         /// The content of the report.
         public var content: Swift.String?
         /// The name of the metric that is analyzed in this experiment report.
@@ -2681,7 +2681,7 @@ extension EvidentlyClientTypes.ExperimentResultsData: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// A structure that contains experiment results for one metric that is monitored in the experiment.
-    public struct ExperimentResultsData: Swift.Equatable {
+    public struct ExperimentResultsData {
         /// The name of the metric.
         public var metricName: Swift.String?
         /// The experiment statistic that these results pertain to.
@@ -2728,7 +2728,7 @@ extension EvidentlyClientTypes.ExperimentSchedule: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// This structure contains the time and date that Evidently completed the analysis of the experiment.
-    public struct ExperimentSchedule: Swift.Equatable {
+    public struct ExperimentSchedule {
         /// The time and date that Evidently completed the analysis of the experiment.
         public var analysisCompleteTime: ClientRuntime.Date?
 
@@ -2991,7 +2991,7 @@ extension EvidentlyClientTypes.Feature: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// This structure contains information about one Evidently feature in your account.
-    public struct Feature: Swift.Equatable {
+    public struct Feature {
         /// The ARN of the feature.
         /// This member is required.
         public var arn: Swift.String?
@@ -3228,7 +3228,7 @@ extension EvidentlyClientTypes.FeatureSummary: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// This structure contains information about one Evidently feature in your account.
-    public struct FeatureSummary: Swift.Equatable {
+    public struct FeatureSummary {
         /// The ARN of the feature.
         /// This member is required.
         public var arn: Swift.String?
@@ -3297,7 +3297,7 @@ extension GetExperimentInput {
     }
 }
 
-public struct GetExperimentInput: Swift.Equatable {
+public struct GetExperimentInput {
     /// The name of the experiment that you want to see the details of.
     /// This member is required.
     public var experiment: Swift.String?
@@ -3315,7 +3315,7 @@ public struct GetExperimentInput: Swift.Equatable {
     }
 }
 
-struct GetExperimentInputBody: Swift.Equatable {
+struct GetExperimentInputBody {
 }
 
 extension GetExperimentInputBody: Swift.Decodable {
@@ -3336,7 +3336,7 @@ extension GetExperimentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetExperimentOutput: Swift.Equatable {
+public struct GetExperimentOutput {
     /// A structure containing the configuration details of the experiment.
     public var experiment: EvidentlyClientTypes.Experiment?
 
@@ -3348,7 +3348,7 @@ public struct GetExperimentOutput: Swift.Equatable {
     }
 }
 
-struct GetExperimentOutputBody: Swift.Equatable {
+struct GetExperimentOutputBody {
     let experiment: EvidentlyClientTypes.Experiment?
 }
 
@@ -3444,7 +3444,7 @@ extension GetExperimentResultsInput {
     }
 }
 
-public struct GetExperimentResultsInput: Swift.Equatable {
+public struct GetExperimentResultsInput {
     /// The statistic used to calculate experiment results. Currently the only valid value is mean, which uses the mean of the collected values as the statistic.
     public var baseStat: EvidentlyClientTypes.ExperimentBaseStat?
     /// The date and time that the experiment ended, if it is completed. This must be no longer than 30 days after the experiment start time.
@@ -3504,7 +3504,7 @@ public struct GetExperimentResultsInput: Swift.Equatable {
     }
 }
 
-struct GetExperimentResultsInputBody: Swift.Equatable {
+struct GetExperimentResultsInputBody {
     let startTime: ClientRuntime.Date?
     let endTime: ClientRuntime.Date?
     let metricNames: [Swift.String]?
@@ -3602,7 +3602,7 @@ extension GetExperimentResultsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetExperimentResultsOutput: Swift.Equatable {
+public struct GetExperimentResultsOutput {
     /// If the experiment doesn't yet have enough events to provide valid results, this field is returned with the message Not enough events to generate results. If there are enough events to provide valid results, this field is not returned.
     public var details: Swift.String?
     /// An array of structures that include the reports that you requested.
@@ -3626,7 +3626,7 @@ public struct GetExperimentResultsOutput: Swift.Equatable {
     }
 }
 
-struct GetExperimentResultsOutputBody: Swift.Equatable {
+struct GetExperimentResultsOutputBody {
     let resultsData: [EvidentlyClientTypes.ExperimentResultsData]?
     let reports: [EvidentlyClientTypes.ExperimentReport]?
     let timestamps: [ClientRuntime.Date]?
@@ -3709,7 +3709,7 @@ extension GetFeatureInput {
     }
 }
 
-public struct GetFeatureInput: Swift.Equatable {
+public struct GetFeatureInput {
     /// The name of the feature that you want to retrieve information for.
     /// This member is required.
     public var feature: Swift.String?
@@ -3727,7 +3727,7 @@ public struct GetFeatureInput: Swift.Equatable {
     }
 }
 
-struct GetFeatureInputBody: Swift.Equatable {
+struct GetFeatureInputBody {
 }
 
 extension GetFeatureInputBody: Swift.Decodable {
@@ -3748,7 +3748,7 @@ extension GetFeatureOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetFeatureOutput: Swift.Equatable {
+public struct GetFeatureOutput {
     /// A structure containing the configuration details of the feature.
     /// This member is required.
     public var feature: EvidentlyClientTypes.Feature?
@@ -3761,7 +3761,7 @@ public struct GetFeatureOutput: Swift.Equatable {
     }
 }
 
-struct GetFeatureOutputBody: Swift.Equatable {
+struct GetFeatureOutputBody {
     let feature: EvidentlyClientTypes.Feature?
 }
 
@@ -3804,7 +3804,7 @@ extension GetLaunchInput {
     }
 }
 
-public struct GetLaunchInput: Swift.Equatable {
+public struct GetLaunchInput {
     /// The name of the launch that you want to see the details of.
     /// This member is required.
     public var launch: Swift.String?
@@ -3822,7 +3822,7 @@ public struct GetLaunchInput: Swift.Equatable {
     }
 }
 
-struct GetLaunchInputBody: Swift.Equatable {
+struct GetLaunchInputBody {
 }
 
 extension GetLaunchInputBody: Swift.Decodable {
@@ -3843,7 +3843,7 @@ extension GetLaunchOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLaunchOutput: Swift.Equatable {
+public struct GetLaunchOutput {
     /// A structure containing the configuration details of the launch.
     public var launch: EvidentlyClientTypes.Launch?
 
@@ -3855,7 +3855,7 @@ public struct GetLaunchOutput: Swift.Equatable {
     }
 }
 
-struct GetLaunchOutputBody: Swift.Equatable {
+struct GetLaunchOutputBody {
     let launch: EvidentlyClientTypes.Launch?
 }
 
@@ -3895,7 +3895,7 @@ extension GetProjectInput {
     }
 }
 
-public struct GetProjectInput: Swift.Equatable {
+public struct GetProjectInput {
     /// The name or ARN of the project that you want to see the details of.
     /// This member is required.
     public var project: Swift.String?
@@ -3908,7 +3908,7 @@ public struct GetProjectInput: Swift.Equatable {
     }
 }
 
-struct GetProjectInputBody: Swift.Equatable {
+struct GetProjectInputBody {
 }
 
 extension GetProjectInputBody: Swift.Decodable {
@@ -3929,7 +3929,7 @@ extension GetProjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetProjectOutput: Swift.Equatable {
+public struct GetProjectOutput {
     /// A structure containing the configuration details of the project.
     /// This member is required.
     public var project: EvidentlyClientTypes.Project?
@@ -3942,7 +3942,7 @@ public struct GetProjectOutput: Swift.Equatable {
     }
 }
 
-struct GetProjectOutputBody: Swift.Equatable {
+struct GetProjectOutputBody {
     let project: EvidentlyClientTypes.Project?
 }
 
@@ -3982,7 +3982,7 @@ extension GetSegmentInput {
     }
 }
 
-public struct GetSegmentInput: Swift.Equatable {
+public struct GetSegmentInput {
     /// The ARN of the segment to return information for.
     /// This member is required.
     public var segment: Swift.String?
@@ -3995,7 +3995,7 @@ public struct GetSegmentInput: Swift.Equatable {
     }
 }
 
-struct GetSegmentInputBody: Swift.Equatable {
+struct GetSegmentInputBody {
 }
 
 extension GetSegmentInputBody: Swift.Decodable {
@@ -4016,7 +4016,7 @@ extension GetSegmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSegmentOutput: Swift.Equatable {
+public struct GetSegmentOutput {
     /// A structure that contains the complete information about the segment.
     /// This member is required.
     public var segment: EvidentlyClientTypes.Segment?
@@ -4029,7 +4029,7 @@ public struct GetSegmentOutput: Swift.Equatable {
     }
 }
 
-struct GetSegmentOutputBody: Swift.Equatable {
+struct GetSegmentOutputBody {
     let segment: EvidentlyClientTypes.Segment?
 }
 
@@ -4098,7 +4098,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -4255,7 +4255,7 @@ extension EvidentlyClientTypes.Launch: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// This structure contains the configuration details of one Evidently launch.
-    public struct Launch: Swift.Equatable {
+    public struct Launch {
         /// The ARN of the launch.
         /// This member is required.
         public var arn: Swift.String?
@@ -4358,7 +4358,7 @@ extension EvidentlyClientTypes.LaunchExecution: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// This structure contains information about the start and end times of the launch.
-    public struct LaunchExecution: Swift.Equatable {
+    public struct LaunchExecution {
         /// The date and time that the launch ended.
         public var endedTime: ClientRuntime.Date?
         /// The date and time that the launch started.
@@ -4421,7 +4421,7 @@ extension EvidentlyClientTypes.LaunchGroup: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// A structure that defines one launch group in a launch. A launch group is a variation of the feature that you are including in the launch.
-    public struct LaunchGroup: Swift.Equatable {
+    public struct LaunchGroup {
         /// A description of the launch group.
         public var description: Swift.String?
         /// The feature variation for this launch group. This is a key-value pair.
@@ -4484,7 +4484,7 @@ extension EvidentlyClientTypes.LaunchGroupConfig: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// A structure that defines one launch group in a launch. A launch group is a variation of the feature that you are including in the launch.
-    public struct LaunchGroupConfig: Swift.Equatable {
+    public struct LaunchGroupConfig {
         /// A description of the launch group.
         public var description: Swift.String?
         /// The feature that this launch is using.
@@ -4645,7 +4645,7 @@ extension ListExperimentsInput {
     }
 }
 
-public struct ListExperimentsInput: Swift.Equatable {
+public struct ListExperimentsInput {
     /// The maximum number of results to include in the response.
     public var maxResults: Swift.Int?
     /// The token to use when requesting the next set of results. You received this token from a previous ListExperiments operation.
@@ -4670,7 +4670,7 @@ public struct ListExperimentsInput: Swift.Equatable {
     }
 }
 
-struct ListExperimentsInputBody: Swift.Equatable {
+struct ListExperimentsInputBody {
 }
 
 extension ListExperimentsInputBody: Swift.Decodable {
@@ -4693,7 +4693,7 @@ extension ListExperimentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListExperimentsOutput: Swift.Equatable {
+public struct ListExperimentsOutput {
     /// An array of structures that contain the configuration details of the experiments in the specified project.
     public var experiments: [EvidentlyClientTypes.Experiment]?
     /// The token to use in a subsequent ListExperiments operation to return the next set of results.
@@ -4709,7 +4709,7 @@ public struct ListExperimentsOutput: Swift.Equatable {
     }
 }
 
-struct ListExperimentsOutputBody: Swift.Equatable {
+struct ListExperimentsOutputBody {
     let experiments: [EvidentlyClientTypes.Experiment]?
     let nextToken: Swift.String?
 }
@@ -4777,7 +4777,7 @@ extension ListFeaturesInput {
     }
 }
 
-public struct ListFeaturesInput: Swift.Equatable {
+public struct ListFeaturesInput {
     /// The maximum number of results to include in the response.
     public var maxResults: Swift.Int?
     /// The token to use when requesting the next set of results. You received this token from a previous ListFeatures operation.
@@ -4798,7 +4798,7 @@ public struct ListFeaturesInput: Swift.Equatable {
     }
 }
 
-struct ListFeaturesInputBody: Swift.Equatable {
+struct ListFeaturesInputBody {
 }
 
 extension ListFeaturesInputBody: Swift.Decodable {
@@ -4821,7 +4821,7 @@ extension ListFeaturesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFeaturesOutput: Swift.Equatable {
+public struct ListFeaturesOutput {
     /// An array of structures that contain the configuration details of the features in the specified project.
     public var features: [EvidentlyClientTypes.FeatureSummary]?
     /// The token to use in a subsequent ListFeatures operation to return the next set of results.
@@ -4837,7 +4837,7 @@ public struct ListFeaturesOutput: Swift.Equatable {
     }
 }
 
-struct ListFeaturesOutputBody: Swift.Equatable {
+struct ListFeaturesOutputBody {
     let features: [EvidentlyClientTypes.FeatureSummary]?
     let nextToken: Swift.String?
 }
@@ -4910,7 +4910,7 @@ extension ListLaunchesInput {
     }
 }
 
-public struct ListLaunchesInput: Swift.Equatable {
+public struct ListLaunchesInput {
     /// The maximum number of results to include in the response.
     public var maxResults: Swift.Int?
     /// The token to use when requesting the next set of results. You received this token from a previous ListLaunches operation.
@@ -4935,7 +4935,7 @@ public struct ListLaunchesInput: Swift.Equatable {
     }
 }
 
-struct ListLaunchesInputBody: Swift.Equatable {
+struct ListLaunchesInputBody {
 }
 
 extension ListLaunchesInputBody: Swift.Decodable {
@@ -4958,7 +4958,7 @@ extension ListLaunchesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListLaunchesOutput: Swift.Equatable {
+public struct ListLaunchesOutput {
     /// An array of structures that contain the configuration details of the launches in the specified project.
     public var launches: [EvidentlyClientTypes.Launch]?
     /// The token to use in a subsequent ListLaunches operation to return the next set of results.
@@ -4974,7 +4974,7 @@ public struct ListLaunchesOutput: Swift.Equatable {
     }
 }
 
-struct ListLaunchesOutputBody: Swift.Equatable {
+struct ListLaunchesOutputBody {
     let launches: [EvidentlyClientTypes.Launch]?
     let nextToken: Swift.String?
 }
@@ -5039,7 +5039,7 @@ extension ListProjectsInput {
     }
 }
 
-public struct ListProjectsInput: Swift.Equatable {
+public struct ListProjectsInput {
     /// The maximum number of results to include in the response.
     public var maxResults: Swift.Int?
     /// The token to use when requesting the next set of results. You received this token from a previous ListProjects operation.
@@ -5055,7 +5055,7 @@ public struct ListProjectsInput: Swift.Equatable {
     }
 }
 
-struct ListProjectsInputBody: Swift.Equatable {
+struct ListProjectsInputBody {
 }
 
 extension ListProjectsInputBody: Swift.Decodable {
@@ -5078,7 +5078,7 @@ extension ListProjectsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListProjectsOutput: Swift.Equatable {
+public struct ListProjectsOutput {
     /// The token to use in a subsequent ListProjects operation to return the next set of results.
     public var nextToken: Swift.String?
     /// An array of structures that contain the configuration details of the projects in the Region.
@@ -5094,7 +5094,7 @@ public struct ListProjectsOutput: Swift.Equatable {
     }
 }
 
-struct ListProjectsOutputBody: Swift.Equatable {
+struct ListProjectsOutputBody {
     let projects: [EvidentlyClientTypes.ProjectSummary]?
     let nextToken: Swift.String?
 }
@@ -5168,7 +5168,7 @@ extension ListSegmentReferencesInput {
     }
 }
 
-public struct ListSegmentReferencesInput: Swift.Equatable {
+public struct ListSegmentReferencesInput {
     /// The maximum number of results to include in the response. If you omit this, the default of 50 is used.
     public var maxResults: Swift.Int?
     /// The token to use when requesting the next set of results. You received this token from a previous ListSegmentReferences operation.
@@ -5194,7 +5194,7 @@ public struct ListSegmentReferencesInput: Swift.Equatable {
     }
 }
 
-struct ListSegmentReferencesInputBody: Swift.Equatable {
+struct ListSegmentReferencesInputBody {
 }
 
 extension ListSegmentReferencesInputBody: Swift.Decodable {
@@ -5217,7 +5217,7 @@ extension ListSegmentReferencesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSegmentReferencesOutput: Swift.Equatable {
+public struct ListSegmentReferencesOutput {
     /// The token to use in a subsequent ListSegmentReferences operation to return the next set of results.
     public var nextToken: Swift.String?
     /// An array of structures, where each structure contains information about one experiment or launch that uses this segment.
@@ -5233,7 +5233,7 @@ public struct ListSegmentReferencesOutput: Swift.Equatable {
     }
 }
 
-struct ListSegmentReferencesOutputBody: Swift.Equatable {
+struct ListSegmentReferencesOutputBody {
     let referencedBy: [EvidentlyClientTypes.RefResource]?
     let nextToken: Swift.String?
 }
@@ -5299,7 +5299,7 @@ extension ListSegmentsInput {
     }
 }
 
-public struct ListSegmentsInput: Swift.Equatable {
+public struct ListSegmentsInput {
     /// The maximum number of results to include in the response. If you omit this, the default of 50 is used.
     public var maxResults: Swift.Int?
     /// The token to use when requesting the next set of results. You received this token from a previous ListSegments operation.
@@ -5315,7 +5315,7 @@ public struct ListSegmentsInput: Swift.Equatable {
     }
 }
 
-struct ListSegmentsInputBody: Swift.Equatable {
+struct ListSegmentsInputBody {
 }
 
 extension ListSegmentsInputBody: Swift.Decodable {
@@ -5338,7 +5338,7 @@ extension ListSegmentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSegmentsOutput: Swift.Equatable {
+public struct ListSegmentsOutput {
     /// The token to use in a subsequent ListSegments operation to return the next set of results.
     public var nextToken: Swift.String?
     /// An array of structures that contain information about the segments in this Region.
@@ -5354,7 +5354,7 @@ public struct ListSegmentsOutput: Swift.Equatable {
     }
 }
 
-struct ListSegmentsOutputBody: Swift.Equatable {
+struct ListSegmentsOutputBody {
     let segments: [EvidentlyClientTypes.Segment]?
     let nextToken: Swift.String?
 }
@@ -5406,7 +5406,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The ARN of the resource that you want to see the tags of.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -5419,7 +5419,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -5440,7 +5440,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The list of tag keys and values associated with the resource you specified.
     public var tags: [Swift.String:Swift.String]?
 
@@ -5452,7 +5452,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -5535,7 +5535,7 @@ extension EvidentlyClientTypes.MetricDefinition: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// This structure defines a metric that is being used to evaluate the variations during a launch or experiment.
-    public struct MetricDefinition: Swift.Equatable {
+    public struct MetricDefinition {
         /// The entity, such as a user or session, that does an action that causes a metric value to be recorded.
         public var entityIdKey: Swift.String?
         /// The EventBridge event pattern that defines how the metric is recorded. For more information about EventBridge event patterns, see [Amazon EventBridge event patterns](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-event-patterns.html).
@@ -5610,7 +5610,7 @@ extension EvidentlyClientTypes.MetricDefinitionConfig: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// This structure defines a metric that you want to use to evaluate the variations during a launch or experiment.
-    public struct MetricDefinitionConfig: Swift.Equatable {
+    public struct MetricDefinitionConfig {
         /// The entity, such as a user or session, that does an action that causes a metric value to be recorded. An example is userDetails.userID.
         /// This member is required.
         public var entityIdKey: Swift.String?
@@ -5670,7 +5670,7 @@ extension EvidentlyClientTypes.MetricGoal: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// A structure that tells Evidently whether higher or lower values are desired for a metric that is used in an experiment.
-    public struct MetricGoal: Swift.Equatable {
+    public struct MetricGoal {
         /// INCREASE means that a variation with a higher number for this metric is performing better. DECREASE means that a variation with a lower number for this metric is performing better.
         public var desiredChange: EvidentlyClientTypes.ChangeDirectionEnum?
         /// A structure that contains details about the metric.
@@ -5716,7 +5716,7 @@ extension EvidentlyClientTypes.MetricGoalConfig: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// Use this structure to tell Evidently whether higher or lower values are desired for a metric that is used in an experiment.
-    public struct MetricGoalConfig: Swift.Equatable {
+    public struct MetricGoalConfig {
         /// INCREASE means that a variation with a higher number for this metric is performing better. DECREASE means that a variation with a lower number for this metric is performing better.
         public var desiredChange: EvidentlyClientTypes.ChangeDirectionEnum?
         /// A structure that contains details about the metric.
@@ -5756,7 +5756,7 @@ extension EvidentlyClientTypes.MetricMonitor: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// A structure that defines a metric to be used to monitor performance of the variations during a launch.
-    public struct MetricMonitor: Swift.Equatable {
+    public struct MetricMonitor {
         /// A structure that defines the metric.
         /// This member is required.
         public var metricDefinition: EvidentlyClientTypes.MetricDefinition?
@@ -5792,7 +5792,7 @@ extension EvidentlyClientTypes.MetricMonitorConfig: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// A structure that defines a metric to be used to monitor performance of the variations during a launch.
-    public struct MetricMonitorConfig: Swift.Equatable {
+    public struct MetricMonitorConfig {
         /// A structure that defines the metric.
         /// This member is required.
         public var metricDefinition: EvidentlyClientTypes.MetricDefinitionConfig?
@@ -5846,7 +5846,7 @@ extension EvidentlyClientTypes.OnlineAbConfig: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// A structure that contains the configuration of which variation to use as the "control" version. The "control" version is used for comparison with other variations. This structure also specifies how much experiment traffic is allocated to each variation.
-    public struct OnlineAbConfig: Swift.Equatable {
+    public struct OnlineAbConfig {
         /// The name of the variation that is to be the default variation that the other variations are compared to.
         public var controlTreatmentName: Swift.String?
         /// A set of key-value pairs. The keys are variation names, and the values are the portion of experiment traffic to be assigned to that variation. Specify the traffic portion in thousandths of a percent, so 20,000 for a variation would allocate 20% of the experiment traffic to that variation.
@@ -5903,7 +5903,7 @@ extension EvidentlyClientTypes.OnlineAbDefinition: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// A structure that contains the configuration of which variation to use as the "control" version. The "control" version is used for comparison with other variations. This structure also specifies how much experiment traffic is allocated to each variation.
-    public struct OnlineAbDefinition: Swift.Equatable {
+    public struct OnlineAbDefinition {
         /// The name of the variation that is the default variation that the other variations are compared to.
         public var controlTreatmentName: Swift.String?
         /// A set of key-value pairs. The keys are variation names, and the values are the portion of experiment traffic to be assigned to that variation. The traffic portion is specified in thousandths of a percent, so 20,000 for a variation would allocate 20% of the experiment traffic to that variation.
@@ -6032,7 +6032,7 @@ extension EvidentlyClientTypes.Project: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// This structure defines a project, which is the logical object in Evidently that can contain features, launches, and experiments. Use projects to group similar features together.
-    public struct Project: Swift.Equatable {
+    public struct Project {
         /// The number of ongoing experiments currently in the project.
         public var activeExperimentCount: Swift.Int?
         /// The number of ongoing launches currently in the project.
@@ -6136,7 +6136,7 @@ extension EvidentlyClientTypes.ProjectAppConfigResource: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// This is a structure that defines the configuration of how your application integrates with AppConfig to run client-side evaluation.
-    public struct ProjectAppConfigResource: Swift.Equatable {
+    public struct ProjectAppConfigResource {
         /// The ID of the AppConfig application to use for client-side evaluation.
         /// This member is required.
         public var applicationId: Swift.String?
@@ -6188,7 +6188,7 @@ extension EvidentlyClientTypes.ProjectAppConfigResourceConfig: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// Use this parameter to configure client-side evaluation for your project. Client-side evaluation allows your application to assign variations to user sessions locally instead of by calling the [EvaluateFeature](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_EvaluateFeature.html) operation to assign the variations. This mitigates the latency and availability risks that come with an API call. ProjectAppConfigResource is a structure that defines the configuration of how your application integrates with AppConfig to run client-side evaluation.
-    public struct ProjectAppConfigResourceConfig: Swift.Equatable {
+    public struct ProjectAppConfigResourceConfig {
         /// The ID of the AppConfig application to use for client-side evaluation.
         public var applicationId: Swift.String?
         /// The ID of the AppConfig environment to use for client-side evaluation. This must be an environment that is within the application that you specify for applicationId.
@@ -6233,7 +6233,7 @@ extension EvidentlyClientTypes.ProjectDataDelivery: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// A structure that contains information about where Evidently is to store evaluation events for longer term storage.
-    public struct ProjectDataDelivery: Swift.Equatable {
+    public struct ProjectDataDelivery {
         /// If the project stores evaluation events in CloudWatch Logs, this structure stores the log group name.
         public var cloudWatchLogs: EvidentlyClientTypes.CloudWatchLogsDestination?
         /// If the project stores evaluation events in an Amazon S3 bucket, this structure stores the bucket name and bucket prefix.
@@ -6278,7 +6278,7 @@ extension EvidentlyClientTypes.ProjectDataDeliveryConfig: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// A structure that contains information about where Evidently is to store evaluation events for longer term storage.
-    public struct ProjectDataDeliveryConfig: Swift.Equatable {
+    public struct ProjectDataDeliveryConfig {
         /// If the project stores evaluation events in CloudWatch Logs, this structure stores the log group name.
         public var cloudWatchLogs: EvidentlyClientTypes.CloudWatchLogsDestinationConfig?
         /// If the project stores evaluation events in an Amazon S3 bucket, this structure stores the bucket name and bucket prefix.
@@ -6427,7 +6427,7 @@ extension EvidentlyClientTypes.ProjectSummary: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// A structure that contains configuration information about an Evidently project.
-    public struct ProjectSummary: Swift.Equatable {
+    public struct ProjectSummary {
         /// The number of experiments currently in the project.
         public var activeExperimentCount: Swift.Int?
         /// The number of ongoing launches currently in the project.
@@ -6516,7 +6516,7 @@ extension PutProjectEventsInput {
     }
 }
 
-public struct PutProjectEventsInput: Swift.Equatable {
+public struct PutProjectEventsInput {
     /// An array of event structures that contain the performance data that is being sent to Evidently.
     /// This member is required.
     public var events: [EvidentlyClientTypes.Event]?
@@ -6534,7 +6534,7 @@ public struct PutProjectEventsInput: Swift.Equatable {
     }
 }
 
-struct PutProjectEventsInputBody: Swift.Equatable {
+struct PutProjectEventsInputBody {
     let events: [EvidentlyClientTypes.Event]?
 }
 
@@ -6573,7 +6573,7 @@ extension PutProjectEventsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutProjectEventsOutput: Swift.Equatable {
+public struct PutProjectEventsOutput {
     /// A structure that contains Evidently's response to the sent events, including an event ID and error codes, if any.
     public var eventResults: [EvidentlyClientTypes.PutProjectEventsResultEntry]?
     /// The number of events in the operation that could not be used by Evidently.
@@ -6589,7 +6589,7 @@ public struct PutProjectEventsOutput: Swift.Equatable {
     }
 }
 
-struct PutProjectEventsOutputBody: Swift.Equatable {
+struct PutProjectEventsOutputBody {
     let failedEventCount: Swift.Int?
     let eventResults: [EvidentlyClientTypes.PutProjectEventsResultEntry]?
 }
@@ -6665,7 +6665,7 @@ extension EvidentlyClientTypes.PutProjectEventsResultEntry: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// A structure that contains Evidently's response to the sent events, including an event ID and error codes, if any.
-    public struct PutProjectEventsResultEntry: Swift.Equatable {
+    public struct PutProjectEventsResultEntry {
         /// If the PutProjectEvents operation has an error, the error code is returned here.
         public var errorCode: Swift.String?
         /// If the PutProjectEvents operation has an error, the error message is returned here.
@@ -6744,7 +6744,7 @@ extension EvidentlyClientTypes.RefResource: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// A structure that contains information about one experiment or launch that uses the specified segment.
-    public struct RefResource: Swift.Equatable {
+    public struct RefResource {
         /// The ARN of the experiment or launch.
         public var arn: Swift.String?
         /// The day and time that this experiment or launch ended.
@@ -6835,7 +6835,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -6886,7 +6886,7 @@ extension EvidentlyClientTypes.S3Destination: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// If the project stores evaluation events in an Amazon S3 bucket, this structure stores the bucket name and bucket prefix.
-    public struct S3Destination: Swift.Equatable {
+    public struct S3Destination {
         /// The name of the bucket in which Evidently stores evaluation events.
         public var bucket: Swift.String?
         /// The bucket prefix in which Evidently stores evaluation events.
@@ -6931,7 +6931,7 @@ extension EvidentlyClientTypes.S3DestinationConfig: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// If the project stores evaluation events in an Amazon S3 bucket, this structure stores the bucket name and bucket prefix.
-    public struct S3DestinationConfig: Swift.Equatable {
+    public struct S3DestinationConfig {
         /// The name of the bucket in which Evidently stores evaluation events.
         public var bucket: Swift.String?
         /// The bucket prefix in which Evidently stores evaluation events.
@@ -7006,7 +7006,7 @@ extension EvidentlyClientTypes.ScheduledSplit: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// This structure defines the traffic allocation percentages among the feature variations during one step of a launch, and the start time of that step.
-    public struct ScheduledSplit: Swift.Equatable {
+    public struct ScheduledSplit {
         /// The traffic allocation percentages among the feature variations during one step of a launch. This is a set of key-value pairs. The keys are variation names. The values represent the percentage of traffic to allocate to that variation during this step. The values is expressed in thousandths of a percent, so assigning a weight of 50000 assigns 50% of traffic to that variation. If the sum of the weights for all the variations in a segment override does not add up to 100,000, then the remaining traffic that matches this segment is not assigned by this segment override, and instead moves on to the next segment override or the default traffic split.
         public var groupWeights: [Swift.String:Swift.Int]?
         /// Use this parameter to specify different traffic splits for one or more audience segments. A segment is a portion of your audience that share one or more characteristics. Examples could be Chrome browser users, users in Europe, or Firefox browser users in Europe who also fit other criteria that your application collects, such as age. This parameter is an array of up to six segment override objects. Each of these objects specifies a segment that you have already created, and defines the traffic split for that segment.
@@ -7086,7 +7086,7 @@ extension EvidentlyClientTypes.ScheduledSplitConfig: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// This structure defines the traffic allocation percentages among the feature variations during one step of a launch, and the start time of that step.
-    public struct ScheduledSplitConfig: Swift.Equatable {
+    public struct ScheduledSplitConfig {
         /// The traffic allocation percentages among the feature variations during one step of a launch. This is a set of key-value pairs. The keys are variation names. The values represent the percentage of traffic to allocate to that variation during this step. The values is expressed in thousandths of a percent, so assigning a weight of 50000 assigns 50% of traffic to that variation. If the sum of the weights for all the variations in a segment override does not add up to 100,000, then the remaining traffic that matches this segment is not assigned by this segment override, and instead moves on to the next segment override or the default traffic split.
         /// This member is required.
         public var groupWeights: [Swift.String:Swift.Int]?
@@ -7143,7 +7143,7 @@ extension EvidentlyClientTypes.ScheduledSplitsLaunchConfig: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// An array of structures that define the traffic allocation percentages among the feature variations during each step of a launch. This also defines the start time of each step.
-    public struct ScheduledSplitsLaunchConfig: Swift.Equatable {
+    public struct ScheduledSplitsLaunchConfig {
         /// An array of structures that define the traffic allocation percentages among the feature variations during each step of the launch. This also defines the start time of each step.
         /// This member is required.
         public var steps: [EvidentlyClientTypes.ScheduledSplitConfig]?
@@ -7191,7 +7191,7 @@ extension EvidentlyClientTypes.ScheduledSplitsLaunchDefinition: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// An array of structures that define the traffic allocation percentages among the feature variations during each step of a launch. This also defines the start time of each step.
-    public struct ScheduledSplitsLaunchDefinition: Swift.Equatable {
+    public struct ScheduledSplitsLaunchDefinition {
         /// An array of structures that define the traffic allocation percentages among the feature variations during each step of the launch. This also defines the start time of each step.
         public var steps: [EvidentlyClientTypes.ScheduledSplit]?
 
@@ -7286,7 +7286,7 @@ extension EvidentlyClientTypes.Segment: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// This structure contains information about one audience segment. You can use segments in your experiments and launches to narrow the user sessions used for experiment or launch to only the user sessions that match one or more criteria.
-    public struct Segment: Swift.Equatable {
+    public struct Segment {
         /// The ARN of the segment.
         /// This member is required.
         public var arn: Swift.String?
@@ -7382,7 +7382,7 @@ extension EvidentlyClientTypes.SegmentOverride: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// This structure specifies a segment that you have already created, and defines the traffic split for that segment to be used in a launch.
-    public struct SegmentOverride: Swift.Equatable {
+    public struct SegmentOverride {
         /// A number indicating the order to use to evaluate segment overrides, if there are more than one. Segment overrides with lower numbers are evaluated first.
         /// This member is required.
         public var evaluationOrder: Swift.Int?
@@ -7502,7 +7502,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -7573,7 +7573,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct ServiceUnavailableExceptionBody: Swift.Equatable {
+struct ServiceUnavailableExceptionBody {
     let message: Swift.String?
 }
 
@@ -7615,7 +7615,7 @@ extension StartExperimentInput {
     }
 }
 
-public struct StartExperimentInput: Swift.Equatable {
+public struct StartExperimentInput {
     /// The date and time to end the experiment. This must be no more than 30 days after the experiment starts.
     /// This member is required.
     public var analysisCompleteTime: ClientRuntime.Date?
@@ -7638,7 +7638,7 @@ public struct StartExperimentInput: Swift.Equatable {
     }
 }
 
-struct StartExperimentInputBody: Swift.Equatable {
+struct StartExperimentInputBody {
     let analysisCompleteTime: ClientRuntime.Date?
 }
 
@@ -7666,7 +7666,7 @@ extension StartExperimentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartExperimentOutput: Swift.Equatable {
+public struct StartExperimentOutput {
     /// A timestamp that indicates when the experiment started.
     public var startedTime: ClientRuntime.Date?
 
@@ -7678,7 +7678,7 @@ public struct StartExperimentOutput: Swift.Equatable {
     }
 }
 
-struct StartExperimentOutputBody: Swift.Equatable {
+struct StartExperimentOutputBody {
     let startedTime: ClientRuntime.Date?
 }
 
@@ -7723,7 +7723,7 @@ extension StartLaunchInput {
     }
 }
 
-public struct StartLaunchInput: Swift.Equatable {
+public struct StartLaunchInput {
     /// The name of the launch to start.
     /// This member is required.
     public var launch: Swift.String?
@@ -7741,7 +7741,7 @@ public struct StartLaunchInput: Swift.Equatable {
     }
 }
 
-struct StartLaunchInputBody: Swift.Equatable {
+struct StartLaunchInputBody {
 }
 
 extension StartLaunchInputBody: Swift.Decodable {
@@ -7762,7 +7762,7 @@ extension StartLaunchOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartLaunchOutput: Swift.Equatable {
+public struct StartLaunchOutput {
     /// A structure that contains information about the launch that was started.
     /// This member is required.
     public var launch: EvidentlyClientTypes.Launch?
@@ -7775,7 +7775,7 @@ public struct StartLaunchOutput: Swift.Equatable {
     }
 }
 
-struct StartLaunchOutputBody: Swift.Equatable {
+struct StartLaunchOutputBody {
     let launch: EvidentlyClientTypes.Launch?
 }
 
@@ -7837,7 +7837,7 @@ extension StopExperimentInput {
     }
 }
 
-public struct StopExperimentInput: Swift.Equatable {
+public struct StopExperimentInput {
     /// Specify whether the experiment is to be considered COMPLETED or CANCELLED after it stops.
     public var desiredState: EvidentlyClientTypes.ExperimentStopDesiredState?
     /// The name of the experiment to stop.
@@ -7863,7 +7863,7 @@ public struct StopExperimentInput: Swift.Equatable {
     }
 }
 
-struct StopExperimentInputBody: Swift.Equatable {
+struct StopExperimentInputBody {
     let desiredState: EvidentlyClientTypes.ExperimentStopDesiredState?
     let reason: Swift.String?
 }
@@ -7895,7 +7895,7 @@ extension StopExperimentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopExperimentOutput: Swift.Equatable {
+public struct StopExperimentOutput {
     /// The date and time that the experiment stopped.
     public var endedTime: ClientRuntime.Date?
 
@@ -7907,7 +7907,7 @@ public struct StopExperimentOutput: Swift.Equatable {
     }
 }
 
-struct StopExperimentOutputBody: Swift.Equatable {
+struct StopExperimentOutputBody {
     let endedTime: ClientRuntime.Date?
 }
 
@@ -7969,7 +7969,7 @@ extension StopLaunchInput {
     }
 }
 
-public struct StopLaunchInput: Swift.Equatable {
+public struct StopLaunchInput {
     /// Specify whether to consider the launch as COMPLETED or CANCELLED after it stops.
     public var desiredState: EvidentlyClientTypes.LaunchStopDesiredState?
     /// The name of the launch to stop.
@@ -7995,7 +7995,7 @@ public struct StopLaunchInput: Swift.Equatable {
     }
 }
 
-struct StopLaunchInputBody: Swift.Equatable {
+struct StopLaunchInputBody {
     let desiredState: EvidentlyClientTypes.LaunchStopDesiredState?
     let reason: Swift.String?
 }
@@ -8027,7 +8027,7 @@ extension StopLaunchOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopLaunchOutput: Swift.Equatable {
+public struct StopLaunchOutput {
     /// The date and time that the launch stopped.
     public var endedTime: ClientRuntime.Date?
 
@@ -8039,7 +8039,7 @@ public struct StopLaunchOutput: Swift.Equatable {
     }
 }
 
-struct StopLaunchOutputBody: Swift.Equatable {
+struct StopLaunchOutputBody {
     let endedTime: ClientRuntime.Date?
 }
 
@@ -8095,7 +8095,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The ARN of the CloudWatch Evidently resource that you're adding tags to.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -8113,7 +8113,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -8143,7 +8143,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -8185,7 +8185,7 @@ extension TestSegmentPatternInput {
     }
 }
 
-public struct TestSegmentPatternInput: Swift.Equatable {
+public struct TestSegmentPatternInput {
     /// The pattern to test.
     /// This member is required.
     public var pattern: Swift.String?
@@ -8203,7 +8203,7 @@ public struct TestSegmentPatternInput: Swift.Equatable {
     }
 }
 
-struct TestSegmentPatternInputBody: Swift.Equatable {
+struct TestSegmentPatternInputBody {
     let pattern: Swift.String?
     let payload: Swift.String?
 }
@@ -8235,7 +8235,7 @@ extension TestSegmentPatternOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TestSegmentPatternOutput: Swift.Equatable {
+public struct TestSegmentPatternOutput {
     /// Returns true if the pattern matches the payload.
     /// This member is required.
     public var match: Swift.Bool?
@@ -8248,7 +8248,7 @@ public struct TestSegmentPatternOutput: Swift.Equatable {
     }
 }
 
-struct TestSegmentPatternOutputBody: Swift.Equatable {
+struct TestSegmentPatternOutputBody {
     let match: Swift.Bool?
 }
 
@@ -8328,7 +8328,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
     let serviceCode: Swift.String?
     let quotaCode: Swift.String?
@@ -8397,7 +8397,7 @@ extension EvidentlyClientTypes.Treatment: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// A structure that defines one treatment in an experiment. A treatment is a variation of the feature that you are including in the experiment.
-    public struct Treatment: Swift.Equatable {
+    public struct Treatment {
         /// The description of the treatment.
         public var description: Swift.String?
         /// The feature variation used for this treatment. This is a key-value pair. The key is the feature name, and the value is the variation name.
@@ -8459,7 +8459,7 @@ extension EvidentlyClientTypes.TreatmentConfig: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// A structure that defines one treatment in an experiment. A treatment is a variation of the feature that you are including in the experiment.
-    public struct TreatmentConfig: Swift.Equatable {
+    public struct TreatmentConfig {
         /// A description for this treatment.
         public var description: Swift.String?
         /// The feature that this experiment is testing.
@@ -8514,7 +8514,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The ARN of the CloudWatch Evidently resource that you're removing tags from.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -8532,7 +8532,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -8546,7 +8546,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -8624,7 +8624,7 @@ extension UpdateExperimentInput {
     }
 }
 
-public struct UpdateExperimentInput: Swift.Equatable {
+public struct UpdateExperimentInput {
     /// An optional description of the experiment.
     public var description: Swift.String?
     /// The name of the experiment to update.
@@ -8674,7 +8674,7 @@ public struct UpdateExperimentInput: Swift.Equatable {
     }
 }
 
-struct UpdateExperimentInputBody: Swift.Equatable {
+struct UpdateExperimentInputBody {
     let description: Swift.String?
     let treatments: [EvidentlyClientTypes.TreatmentConfig]?
     let metricGoals: [EvidentlyClientTypes.MetricGoalConfig]?
@@ -8748,7 +8748,7 @@ extension UpdateExperimentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateExperimentOutput: Swift.Equatable {
+public struct UpdateExperimentOutput {
     /// A structure containing the configuration details of the experiment that was updated.
     /// This member is required.
     public var experiment: EvidentlyClientTypes.Experiment?
@@ -8761,7 +8761,7 @@ public struct UpdateExperimentOutput: Swift.Equatable {
     }
 }
 
-struct UpdateExperimentOutputBody: Swift.Equatable {
+struct UpdateExperimentOutputBody {
     let experiment: EvidentlyClientTypes.Experiment?
 }
 
@@ -8846,7 +8846,7 @@ extension UpdateFeatureInput {
     }
 }
 
-public struct UpdateFeatureInput: Swift.Equatable {
+public struct UpdateFeatureInput {
     /// To update variation configurations for this feature, or add new ones, specify this structure. In this array, include any variations that you want to add or update. If the array includes a variation name that already exists for this feature, it is updated. If it includes a new variation name, it is added as a new variation.
     public var addOrUpdateVariations: [EvidentlyClientTypes.VariationConfig]?
     /// The name of the variation to use as the default variation. The default variation is served to users who are not allocated to any ongoing launches or experiments of this feature.
@@ -8888,7 +8888,7 @@ public struct UpdateFeatureInput: Swift.Equatable {
     }
 }
 
-struct UpdateFeatureInputBody: Swift.Equatable {
+struct UpdateFeatureInputBody {
     let evaluationStrategy: EvidentlyClientTypes.FeatureEvaluationStrategy?
     let description: Swift.String?
     let addOrUpdateVariations: [EvidentlyClientTypes.VariationConfig]?
@@ -8963,7 +8963,7 @@ extension UpdateFeatureOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateFeatureOutput: Swift.Equatable {
+public struct UpdateFeatureOutput {
     /// A structure that contains information about the updated feature.
     /// This member is required.
     public var feature: EvidentlyClientTypes.Feature?
@@ -8976,7 +8976,7 @@ public struct UpdateFeatureOutput: Swift.Equatable {
     }
 }
 
-struct UpdateFeatureOutputBody: Swift.Equatable {
+struct UpdateFeatureOutputBody {
     let feature: EvidentlyClientTypes.Feature?
 }
 
@@ -9055,7 +9055,7 @@ extension UpdateLaunchInput {
     }
 }
 
-public struct UpdateLaunchInput: Swift.Equatable {
+public struct UpdateLaunchInput {
     /// An optional description for the launch.
     public var description: Swift.String?
     /// An array of structures that contains the feature and variations that are to be used for the launch.
@@ -9093,7 +9093,7 @@ public struct UpdateLaunchInput: Swift.Equatable {
     }
 }
 
-struct UpdateLaunchInputBody: Swift.Equatable {
+struct UpdateLaunchInputBody {
     let description: Swift.String?
     let groups: [EvidentlyClientTypes.LaunchGroupConfig]?
     let metricMonitors: [EvidentlyClientTypes.MetricMonitorConfig]?
@@ -9155,7 +9155,7 @@ extension UpdateLaunchOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateLaunchOutput: Swift.Equatable {
+public struct UpdateLaunchOutput {
     /// A structure that contains the new configuration of the launch that was updated.
     /// This member is required.
     public var launch: EvidentlyClientTypes.Launch?
@@ -9168,7 +9168,7 @@ public struct UpdateLaunchOutput: Swift.Equatable {
     }
 }
 
-struct UpdateLaunchOutputBody: Swift.Equatable {
+struct UpdateLaunchOutputBody {
     let launch: EvidentlyClientTypes.Launch?
 }
 
@@ -9225,7 +9225,7 @@ extension UpdateProjectDataDeliveryInput {
     }
 }
 
-public struct UpdateProjectDataDeliveryInput: Swift.Equatable {
+public struct UpdateProjectDataDeliveryInput {
     /// A structure containing the CloudWatch Logs log group where you want to store evaluation events.
     public var cloudWatchLogs: EvidentlyClientTypes.CloudWatchLogsDestinationConfig?
     /// The name or ARN of the project that you want to modify the data storage options for.
@@ -9246,7 +9246,7 @@ public struct UpdateProjectDataDeliveryInput: Swift.Equatable {
     }
 }
 
-struct UpdateProjectDataDeliveryInputBody: Swift.Equatable {
+struct UpdateProjectDataDeliveryInputBody {
     let s3Destination: EvidentlyClientTypes.S3DestinationConfig?
     let cloudWatchLogs: EvidentlyClientTypes.CloudWatchLogsDestinationConfig?
 }
@@ -9278,7 +9278,7 @@ extension UpdateProjectDataDeliveryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateProjectDataDeliveryOutput: Swift.Equatable {
+public struct UpdateProjectDataDeliveryOutput {
     /// A structure containing details about the project that you updated.
     /// This member is required.
     public var project: EvidentlyClientTypes.Project?
@@ -9291,7 +9291,7 @@ public struct UpdateProjectDataDeliveryOutput: Swift.Equatable {
     }
 }
 
-struct UpdateProjectDataDeliveryOutputBody: Swift.Equatable {
+struct UpdateProjectDataDeliveryOutputBody {
     let project: EvidentlyClientTypes.Project?
 }
 
@@ -9349,7 +9349,7 @@ extension UpdateProjectInput {
     }
 }
 
-public struct UpdateProjectInput: Swift.Equatable {
+public struct UpdateProjectInput {
     /// Use this parameter if the project will use client-side evaluation powered by AppConfig. Client-side evaluation allows your application to assign variations to user sessions locally instead of by calling the [EvaluateFeature](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_EvaluateFeature.html) operation. This mitigates the latency and availability risks that come with an API call. allows you to This parameter is a structure that contains information about the AppConfig application that will be used for client-side evaluation.
     public var appConfigResource: EvidentlyClientTypes.ProjectAppConfigResourceConfig?
     /// An optional description of the project.
@@ -9370,7 +9370,7 @@ public struct UpdateProjectInput: Swift.Equatable {
     }
 }
 
-struct UpdateProjectInputBody: Swift.Equatable {
+struct UpdateProjectInputBody {
     let appConfigResource: EvidentlyClientTypes.ProjectAppConfigResourceConfig?
     let description: Swift.String?
 }
@@ -9402,7 +9402,7 @@ extension UpdateProjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateProjectOutput: Swift.Equatable {
+public struct UpdateProjectOutput {
     /// A structure containing information about the updated project.
     /// This member is required.
     public var project: EvidentlyClientTypes.Project?
@@ -9415,7 +9415,7 @@ public struct UpdateProjectOutput: Swift.Equatable {
     }
 }
 
-struct UpdateProjectOutputBody: Swift.Equatable {
+struct UpdateProjectOutputBody {
     let project: EvidentlyClientTypes.Project?
 }
 
@@ -9497,7 +9497,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let reason: EvidentlyClientTypes.ValidationExceptionReason?
     let fieldList: [EvidentlyClientTypes.ValidationExceptionField]?
@@ -9557,7 +9557,7 @@ extension EvidentlyClientTypes.ValidationExceptionField: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// A structure containing an error name and message.
-    public struct ValidationExceptionField: Swift.Equatable {
+    public struct ValidationExceptionField {
         /// The error message.
         /// This member is required.
         public var message: Swift.String?
@@ -9668,7 +9668,7 @@ extension EvidentlyClientTypes.VariableValue: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// The value assigned to a feature variation. This structure must contain exactly one field. It can be boolValue, doubleValue, longValue, or stringValue.
-    public enum VariableValue: Swift.Equatable {
+    public enum VariableValue {
         /// If this feature uses the Boolean variation type, this field contains the Boolean value of this variation.
         case boolvalue(Swift.Bool)
         /// If this feature uses the string variation type, this field contains the string value of this variation.
@@ -9709,7 +9709,7 @@ extension EvidentlyClientTypes.Variation: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// This structure contains the name and variation value of one variation of a feature.
-    public struct Variation: Swift.Equatable {
+    public struct Variation {
         /// The name of the variation.
         public var name: Swift.String?
         /// The value assigned to this variation.
@@ -9754,7 +9754,7 @@ extension EvidentlyClientTypes.VariationConfig: Swift.Codable {
 
 extension EvidentlyClientTypes {
     /// This structure contains the name and variation value of one variation of a feature.
-    public struct VariationConfig: Swift.Equatable {
+    public struct VariationConfig {
         /// The name of the variation.
         /// This member is required.
         public var name: Swift.String?

@@ -47,7 +47,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
     let reason: PinpointSMSVoiceV2ClientTypes.AccessDeniedExceptionReason?
 }
@@ -126,7 +126,7 @@ extension PinpointSMSVoiceV2ClientTypes.AccountAttribute: Swift.Codable {
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// Displays the attributes associated with a single Amazon Web Services account.
-    public struct AccountAttribute: Swift.Equatable {
+    public struct AccountAttribute {
         /// The name of the account attribute.
         /// This member is required.
         public var name: PinpointSMSVoiceV2ClientTypes.AccountAttributeName?
@@ -208,7 +208,7 @@ extension PinpointSMSVoiceV2ClientTypes.AccountLimit: Swift.Codable {
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// The current resource quotas associated with an Amazon Web Services account.
-    public struct AccountLimit: Swift.Equatable {
+    public struct AccountLimit {
         /// The Amazon Web Services set limit for that resource type, in US dollars.
         /// This member is required.
         public var max: Swift.Int
@@ -315,7 +315,7 @@ extension AssociateOriginationIdentityInput {
     }
 }
 
-public struct AssociateOriginationIdentityInput: Swift.Equatable {
+public struct AssociateOriginationIdentityInput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The new two-character code, in ISO 3166-1 alpha-2 format, for the country or region of the origination identity.
@@ -342,7 +342,7 @@ public struct AssociateOriginationIdentityInput: Swift.Equatable {
     }
 }
 
-struct AssociateOriginationIdentityInputBody: Swift.Equatable {
+struct AssociateOriginationIdentityInputBody {
     let poolId: Swift.String?
     let originationIdentity: Swift.String?
     let isoCountryCode: Swift.String?
@@ -390,7 +390,7 @@ extension AssociateOriginationIdentityOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct AssociateOriginationIdentityOutput: Swift.Equatable {
+public struct AssociateOriginationIdentityOutput {
     /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
     public var isoCountryCode: Swift.String?
     /// The PhoneNumberId or SenderId of the origination identity.
@@ -418,7 +418,7 @@ public struct AssociateOriginationIdentityOutput: Swift.Equatable {
     }
 }
 
-struct AssociateOriginationIdentityOutputBody: Swift.Equatable {
+struct AssociateOriginationIdentityOutputBody {
     let poolArn: Swift.String?
     let poolId: Swift.String?
     let originationIdentityArn: Swift.String?
@@ -561,7 +561,7 @@ extension PinpointSMSVoiceV2ClientTypes.CloudWatchLogsDestination: Swift.Codable
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// Contains the destination configuration to use when publishing message sending events.
-    public struct CloudWatchLogsDestination: Swift.Equatable {
+    public struct CloudWatchLogsDestination {
         /// The Amazon Resource Name (ARN) of an Amazon Identity and Access Management (IAM) role that is able to write event data to an Amazon CloudWatch destination.
         /// This member is required.
         public var iamRoleArn: Swift.String?
@@ -620,7 +620,7 @@ extension PinpointSMSVoiceV2ClientTypes.ConfigurationSetFilter: Swift.Codable {
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// The information for configuration sets that meet a specified criteria.
-    public struct ConfigurationSetFilter: Swift.Equatable {
+    public struct ConfigurationSetFilter {
         /// The name of the attribute to filter on.
         /// This member is required.
         public var name: PinpointSMSVoiceV2ClientTypes.ConfigurationSetFilterName?
@@ -741,7 +741,7 @@ extension PinpointSMSVoiceV2ClientTypes.ConfigurationSetInformation: Swift.Codab
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// Information related to a given configuration set in your Amazon Web Services account.
-    public struct ConfigurationSetInformation: Swift.Equatable {
+    public struct ConfigurationSetInformation {
         /// The Resource Name (ARN) of the ConfigurationSet.
         /// This member is required.
         public var configurationSetArn: Swift.String?
@@ -836,7 +836,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let reason: PinpointSMSVoiceV2ClientTypes.ConflictExceptionReason?
     let resourceType: PinpointSMSVoiceV2ClientTypes.ResourceType?
@@ -1014,7 +1014,7 @@ extension CreateConfigurationSetInput {
     }
 }
 
-public struct CreateConfigurationSetInput: Swift.Equatable {
+public struct CreateConfigurationSetInput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The name to use for the new configuration set.
@@ -1035,7 +1035,7 @@ public struct CreateConfigurationSetInput: Swift.Equatable {
     }
 }
 
-struct CreateConfigurationSetInputBody: Swift.Equatable {
+struct CreateConfigurationSetInputBody {
     let configurationSetName: Swift.String?
     let tags: [PinpointSMSVoiceV2ClientTypes.Tag]?
     let clientToken: Swift.String?
@@ -1086,7 +1086,7 @@ extension CreateConfigurationSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateConfigurationSetOutput: Swift.Equatable {
+public struct CreateConfigurationSetOutput {
     /// The Amazon Resource Name (ARN) of the newly created configuration set.
     public var configurationSetArn: Swift.String?
     /// The name of the new configuration set.
@@ -1110,7 +1110,7 @@ public struct CreateConfigurationSetOutput: Swift.Equatable {
     }
 }
 
-struct CreateConfigurationSetOutputBody: Swift.Equatable {
+struct CreateConfigurationSetOutputBody {
     let configurationSetArn: Swift.String?
     let configurationSetName: Swift.String?
     let tags: [PinpointSMSVoiceV2ClientTypes.Tag]?
@@ -1210,7 +1210,7 @@ extension CreateEventDestinationInput {
     }
 }
 
-public struct CreateEventDestinationInput: Swift.Equatable {
+public struct CreateEventDestinationInput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// An object that contains information about an event destination for logging to Amazon CloudWatch logs.
@@ -1249,7 +1249,7 @@ public struct CreateEventDestinationInput: Swift.Equatable {
     }
 }
 
-struct CreateEventDestinationInputBody: Swift.Equatable {
+struct CreateEventDestinationInputBody {
     let configurationSetName: Swift.String?
     let eventDestinationName: Swift.String?
     let matchingEventTypes: [PinpointSMSVoiceV2ClientTypes.EventType]?
@@ -1314,7 +1314,7 @@ extension CreateEventDestinationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateEventDestinationOutput: Swift.Equatable {
+public struct CreateEventDestinationOutput {
     /// The ARN of the configuration set.
     public var configurationSetArn: Swift.String?
     /// The name of the configuration set.
@@ -1334,7 +1334,7 @@ public struct CreateEventDestinationOutput: Swift.Equatable {
     }
 }
 
-struct CreateEventDestinationOutputBody: Swift.Equatable {
+struct CreateEventDestinationOutputBody {
     let configurationSetArn: Swift.String?
     let configurationSetName: Swift.String?
     let eventDestination: PinpointSMSVoiceV2ClientTypes.EventDestination?
@@ -1406,7 +1406,7 @@ extension CreateOptOutListInput {
     }
 }
 
-public struct CreateOptOutListInput: Swift.Equatable {
+public struct CreateOptOutListInput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The name of the new OptOutList.
@@ -1427,7 +1427,7 @@ public struct CreateOptOutListInput: Swift.Equatable {
     }
 }
 
-struct CreateOptOutListInputBody: Swift.Equatable {
+struct CreateOptOutListInputBody {
     let optOutListName: Swift.String?
     let tags: [PinpointSMSVoiceV2ClientTypes.Tag]?
     let clientToken: Swift.String?
@@ -1478,7 +1478,7 @@ extension CreateOptOutListOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateOptOutListOutput: Swift.Equatable {
+public struct CreateOptOutListOutput {
     /// The time when the pool was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     public var createdTimestamp: ClientRuntime.Date?
     /// The Amazon Resource Name (ARN) for the OptOutList.
@@ -1502,7 +1502,7 @@ public struct CreateOptOutListOutput: Swift.Equatable {
     }
 }
 
-struct CreateOptOutListOutputBody: Swift.Equatable {
+struct CreateOptOutListOutputBody {
     let optOutListArn: Swift.String?
     let optOutListName: Swift.String?
     let tags: [PinpointSMSVoiceV2ClientTypes.Tag]?
@@ -1598,7 +1598,7 @@ extension CreatePoolInput {
     }
 }
 
-public struct CreatePoolInput: Swift.Equatable {
+public struct CreatePoolInput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// By default this is set to false. When set to true the pool can't be deleted. You can change this value using the [UpdatePool] action.
@@ -1633,7 +1633,7 @@ public struct CreatePoolInput: Swift.Equatable {
     }
 }
 
-struct CreatePoolInputBody: Swift.Equatable {
+struct CreatePoolInputBody {
     let originationIdentity: Swift.String?
     let isoCountryCode: Swift.String?
     let messageType: PinpointSMSVoiceV2ClientTypes.MessageType?
@@ -1714,7 +1714,7 @@ extension CreatePoolOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePoolOutput: Swift.Equatable {
+public struct CreatePoolOutput {
     /// The time when the pool was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     public var createdTimestamp: ClientRuntime.Date?
     /// When set to true deletion protection is enabled. By default this is set to false.
@@ -1780,7 +1780,7 @@ public struct CreatePoolOutput: Swift.Equatable {
     }
 }
 
-struct CreatePoolOutputBody: Swift.Equatable {
+struct CreatePoolOutputBody {
     let poolArn: Swift.String?
     let poolId: Swift.String?
     let status: PinpointSMSVoiceV2ClientTypes.PoolStatus?
@@ -1894,7 +1894,7 @@ extension CreateRegistrationAssociationInput {
     }
 }
 
-public struct CreateRegistrationAssociationInput: Swift.Equatable {
+public struct CreateRegistrationAssociationInput {
     /// The unique identifier for the registration.
     /// This member is required.
     public var registrationId: Swift.String?
@@ -1912,7 +1912,7 @@ public struct CreateRegistrationAssociationInput: Swift.Equatable {
     }
 }
 
-struct CreateRegistrationAssociationInputBody: Swift.Equatable {
+struct CreateRegistrationAssociationInputBody {
     let registrationId: Swift.String?
     let resourceId: Swift.String?
 }
@@ -1958,7 +1958,7 @@ extension CreateRegistrationAssociationOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct CreateRegistrationAssociationOutput: Swift.Equatable {
+public struct CreateRegistrationAssociationOutput {
     /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
     public var isoCountryCode: Swift.String?
     /// The phone number associated with the registration in E.164 format.
@@ -2004,7 +2004,7 @@ public struct CreateRegistrationAssociationOutput: Swift.Equatable {
     }
 }
 
-struct CreateRegistrationAssociationOutputBody: Swift.Equatable {
+struct CreateRegistrationAssociationOutputBody {
     let registrationArn: Swift.String?
     let registrationId: Swift.String?
     let registrationType: Swift.String?
@@ -2100,7 +2100,7 @@ extension CreateRegistrationAttachmentInput {
     }
 }
 
-public struct CreateRegistrationAttachmentInput: Swift.Equatable {
+public struct CreateRegistrationAttachmentInput {
     /// The registration file to upload. The maximum file size is 1MiB and valid file extensions are PDF, JPEG and PNG.
     public var attachmentBody: ClientRuntime.Data?
     /// A URL to the required registration file. For example, you can provide the S3 object URL.
@@ -2124,7 +2124,7 @@ public struct CreateRegistrationAttachmentInput: Swift.Equatable {
     }
 }
 
-struct CreateRegistrationAttachmentInputBody: Swift.Equatable {
+struct CreateRegistrationAttachmentInputBody {
     let attachmentBody: ClientRuntime.Data?
     let attachmentUrl: Swift.String?
     let tags: [PinpointSMSVoiceV2ClientTypes.Tag]?
@@ -2181,7 +2181,7 @@ extension CreateRegistrationAttachmentOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct CreateRegistrationAttachmentOutput: Swift.Equatable {
+public struct CreateRegistrationAttachmentOutput {
     /// The status of the registration attachment.
     ///
     /// * UPLOAD_IN_PROGRESS The attachment is being uploaded.
@@ -2221,7 +2221,7 @@ public struct CreateRegistrationAttachmentOutput: Swift.Equatable {
     }
 }
 
-struct CreateRegistrationAttachmentOutputBody: Swift.Equatable {
+struct CreateRegistrationAttachmentOutputBody {
     let registrationAttachmentArn: Swift.String?
     let registrationAttachmentId: Swift.String?
     let attachmentStatus: PinpointSMSVoiceV2ClientTypes.AttachmentStatus?
@@ -2309,7 +2309,7 @@ extension CreateRegistrationInput {
     }
 }
 
-public struct CreateRegistrationInput: Swift.Equatable {
+public struct CreateRegistrationInput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The type of registration form to create. The list of RegistrationTypes can be found using the [DescribeRegistrationTypeDefinitions] action.
@@ -2330,7 +2330,7 @@ public struct CreateRegistrationInput: Swift.Equatable {
     }
 }
 
-struct CreateRegistrationInputBody: Swift.Equatable {
+struct CreateRegistrationInputBody {
     let registrationType: Swift.String?
     let tags: [PinpointSMSVoiceV2ClientTypes.Tag]?
     let clientToken: Swift.String?
@@ -2389,7 +2389,7 @@ extension CreateRegistrationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRegistrationOutput: Swift.Equatable {
+public struct CreateRegistrationOutput {
     /// Metadata about a given registration which is specific to that registration type.
     public var additionalAttributes: [Swift.String:Swift.String]?
     /// The time when the registration was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
@@ -2451,7 +2451,7 @@ public struct CreateRegistrationOutput: Swift.Equatable {
     }
 }
 
-struct CreateRegistrationOutputBody: Swift.Equatable {
+struct CreateRegistrationOutputBody {
     let registrationArn: Swift.String?
     let registrationId: Swift.String?
     let registrationType: Swift.String?
@@ -2549,7 +2549,7 @@ extension CreateRegistrationVersionInput {
     }
 }
 
-public struct CreateRegistrationVersionInput: Swift.Equatable {
+public struct CreateRegistrationVersionInput {
     /// The unique identifier for the registration.
     /// This member is required.
     public var registrationId: Swift.String?
@@ -2562,7 +2562,7 @@ public struct CreateRegistrationVersionInput: Swift.Equatable {
     }
 }
 
-struct CreateRegistrationVersionInputBody: Swift.Equatable {
+struct CreateRegistrationVersionInputBody {
     let registrationId: Swift.String?
 }
 
@@ -2598,7 +2598,7 @@ extension CreateRegistrationVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRegistrationVersionOutput: Swift.Equatable {
+public struct CreateRegistrationVersionOutput {
     /// The Amazon Resource Name (ARN) for the registration.
     /// This member is required.
     public var registrationArn: Swift.String?
@@ -2647,7 +2647,7 @@ public struct CreateRegistrationVersionOutput: Swift.Equatable {
     }
 }
 
-struct CreateRegistrationVersionOutputBody: Swift.Equatable {
+struct CreateRegistrationVersionOutputBody {
     let registrationArn: Swift.String?
     let registrationId: Swift.String?
     let versionNumber: Swift.Int?
@@ -2727,7 +2727,7 @@ extension CreateVerifiedDestinationNumberInput {
     }
 }
 
-public struct CreateVerifiedDestinationNumberInput: Swift.Equatable {
+public struct CreateVerifiedDestinationNumberInput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The verified destination phone number, in E.164 format.
@@ -2748,7 +2748,7 @@ public struct CreateVerifiedDestinationNumberInput: Swift.Equatable {
     }
 }
 
-struct CreateVerifiedDestinationNumberInputBody: Swift.Equatable {
+struct CreateVerifiedDestinationNumberInputBody {
     let destinationPhoneNumber: Swift.String?
     let tags: [PinpointSMSVoiceV2ClientTypes.Tag]?
     let clientToken: Swift.String?
@@ -2803,7 +2803,7 @@ extension CreateVerifiedDestinationNumberOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct CreateVerifiedDestinationNumberOutput: Swift.Equatable {
+public struct CreateVerifiedDestinationNumberOutput {
     /// The time when the verified phone number was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     /// This member is required.
     public var createdTimestamp: ClientRuntime.Date?
@@ -2844,7 +2844,7 @@ public struct CreateVerifiedDestinationNumberOutput: Swift.Equatable {
     }
 }
 
-struct CreateVerifiedDestinationNumberOutputBody: Swift.Equatable {
+struct CreateVerifiedDestinationNumberOutputBody {
     let verifiedDestinationNumberArn: Swift.String?
     let verifiedDestinationNumberId: Swift.String?
     let destinationPhoneNumber: Swift.String?
@@ -2925,7 +2925,7 @@ extension DeleteConfigurationSetInput {
     }
 }
 
-public struct DeleteConfigurationSetInput: Swift.Equatable {
+public struct DeleteConfigurationSetInput {
     /// The name of the configuration set or the configuration set ARN that you want to delete. The ConfigurationSetName and ConfigurationSetArn can be found using the [DescribeConfigurationSets] action.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -2938,7 +2938,7 @@ public struct DeleteConfigurationSetInput: Swift.Equatable {
     }
 }
 
-struct DeleteConfigurationSetInputBody: Swift.Equatable {
+struct DeleteConfigurationSetInputBody {
     let configurationSetName: Swift.String?
 }
 
@@ -2976,7 +2976,7 @@ extension DeleteConfigurationSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteConfigurationSetOutput: Swift.Equatable {
+public struct DeleteConfigurationSetOutput {
     /// The Amazon Resource Name (ARN) of the deleted configuration set.
     public var configurationSetArn: Swift.String?
     /// The name of the deleted configuration set.
@@ -3008,7 +3008,7 @@ public struct DeleteConfigurationSetOutput: Swift.Equatable {
     }
 }
 
-struct DeleteConfigurationSetOutputBody: Swift.Equatable {
+struct DeleteConfigurationSetOutputBody {
     let configurationSetArn: Swift.String?
     let configurationSetName: Swift.String?
     let eventDestinations: [PinpointSMSVoiceV2ClientTypes.EventDestination]?
@@ -3088,7 +3088,7 @@ extension DeleteDefaultMessageTypeInput {
     }
 }
 
-public struct DeleteDefaultMessageTypeInput: Swift.Equatable {
+public struct DeleteDefaultMessageTypeInput {
     /// The name of the configuration set or the configuration set Amazon Resource Name (ARN) to delete the default message type from. The ConfigurationSetName and ConfigurationSetArn can be found using the [DescribeConfigurationSets] action.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -3101,7 +3101,7 @@ public struct DeleteDefaultMessageTypeInput: Swift.Equatable {
     }
 }
 
-struct DeleteDefaultMessageTypeInputBody: Swift.Equatable {
+struct DeleteDefaultMessageTypeInputBody {
     let configurationSetName: Swift.String?
 }
 
@@ -3133,7 +3133,7 @@ extension DeleteDefaultMessageTypeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDefaultMessageTypeOutput: Swift.Equatable {
+public struct DeleteDefaultMessageTypeOutput {
     /// The Amazon Resource Name (ARN) of the configuration set.
     public var configurationSetArn: Swift.String?
     /// The name of the configuration set.
@@ -3153,7 +3153,7 @@ public struct DeleteDefaultMessageTypeOutput: Swift.Equatable {
     }
 }
 
-struct DeleteDefaultMessageTypeOutputBody: Swift.Equatable {
+struct DeleteDefaultMessageTypeOutputBody {
     let configurationSetArn: Swift.String?
     let configurationSetName: Swift.String?
     let messageType: PinpointSMSVoiceV2ClientTypes.MessageType?
@@ -3212,7 +3212,7 @@ extension DeleteDefaultSenderIdInput {
     }
 }
 
-public struct DeleteDefaultSenderIdInput: Swift.Equatable {
+public struct DeleteDefaultSenderIdInput {
     /// The name of the configuration set or the configuration set Amazon Resource Name (ARN) to delete the default sender ID from. The ConfigurationSetName and ConfigurationSetArn can be found using the [DescribeConfigurationSets] action.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -3225,7 +3225,7 @@ public struct DeleteDefaultSenderIdInput: Swift.Equatable {
     }
 }
 
-struct DeleteDefaultSenderIdInputBody: Swift.Equatable {
+struct DeleteDefaultSenderIdInputBody {
     let configurationSetName: Swift.String?
 }
 
@@ -3257,7 +3257,7 @@ extension DeleteDefaultSenderIdOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDefaultSenderIdOutput: Swift.Equatable {
+public struct DeleteDefaultSenderIdOutput {
     /// The Amazon Resource Name (ARN) of the configuration set.
     public var configurationSetArn: Swift.String?
     /// The name of the configuration set.
@@ -3277,7 +3277,7 @@ public struct DeleteDefaultSenderIdOutput: Swift.Equatable {
     }
 }
 
-struct DeleteDefaultSenderIdOutputBody: Swift.Equatable {
+struct DeleteDefaultSenderIdOutputBody {
     let configurationSetArn: Swift.String?
     let configurationSetName: Swift.String?
     let senderId: Swift.String?
@@ -3340,7 +3340,7 @@ extension DeleteEventDestinationInput {
     }
 }
 
-public struct DeleteEventDestinationInput: Swift.Equatable {
+public struct DeleteEventDestinationInput {
     /// The name of the configuration set or the configuration set's Amazon Resource Name (ARN) to remove the event destination from. The ConfigurateSetName and ConfigurationSetArn can be found using the [DescribeConfigurationSets] action.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -3358,7 +3358,7 @@ public struct DeleteEventDestinationInput: Swift.Equatable {
     }
 }
 
-struct DeleteEventDestinationInputBody: Swift.Equatable {
+struct DeleteEventDestinationInputBody {
     let configurationSetName: Swift.String?
     let eventDestinationName: Swift.String?
 }
@@ -3394,7 +3394,7 @@ extension DeleteEventDestinationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteEventDestinationOutput: Swift.Equatable {
+public struct DeleteEventDestinationOutput {
     /// The Amazon Resource Name (ARN) of the configuration set.
     public var configurationSetArn: Swift.String?
     /// The name of the configuration set the event destination was deleted from.
@@ -3414,7 +3414,7 @@ public struct DeleteEventDestinationOutput: Swift.Equatable {
     }
 }
 
-struct DeleteEventDestinationOutputBody: Swift.Equatable {
+struct DeleteEventDestinationOutputBody {
     let configurationSetArn: Swift.String?
     let configurationSetName: Swift.String?
     let eventDestination: PinpointSMSVoiceV2ClientTypes.EventDestination?
@@ -3477,7 +3477,7 @@ extension DeleteKeywordInput {
     }
 }
 
-public struct DeleteKeywordInput: Swift.Equatable {
+public struct DeleteKeywordInput {
     /// The keyword to delete.
     /// This member is required.
     public var keyword: Swift.String?
@@ -3495,7 +3495,7 @@ public struct DeleteKeywordInput: Swift.Equatable {
     }
 }
 
-struct DeleteKeywordInputBody: Swift.Equatable {
+struct DeleteKeywordInputBody {
     let originationIdentity: Swift.String?
     let keyword: Swift.String?
 }
@@ -3535,7 +3535,7 @@ extension DeleteKeywordOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteKeywordOutput: Swift.Equatable {
+public struct DeleteKeywordOutput {
     /// The keyword that was deleted.
     public var keyword: Swift.String?
     /// The action that was associated with the deleted keyword.
@@ -3563,7 +3563,7 @@ public struct DeleteKeywordOutput: Swift.Equatable {
     }
 }
 
-struct DeleteKeywordOutputBody: Swift.Equatable {
+struct DeleteKeywordOutputBody {
     let originationIdentityArn: Swift.String?
     let originationIdentity: Swift.String?
     let keyword: Swift.String?
@@ -3631,7 +3631,7 @@ extension DeleteOptOutListInput {
     }
 }
 
-public struct DeleteOptOutListInput: Swift.Equatable {
+public struct DeleteOptOutListInput {
     /// The OptOutListName or OptOutListArn of the OptOutList to delete. You can use [DescribeOptOutLists] to find the values for OptOutListName and OptOutListArn.
     /// This member is required.
     public var optOutListName: Swift.String?
@@ -3644,7 +3644,7 @@ public struct DeleteOptOutListInput: Swift.Equatable {
     }
 }
 
-struct DeleteOptOutListInputBody: Swift.Equatable {
+struct DeleteOptOutListInputBody {
     let optOutListName: Swift.String?
 }
 
@@ -3676,7 +3676,7 @@ extension DeleteOptOutListOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteOptOutListOutput: Swift.Equatable {
+public struct DeleteOptOutListOutput {
     /// The time when the OptOutList was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     public var createdTimestamp: ClientRuntime.Date?
     /// The Amazon Resource Name (ARN) of the OptOutList that was removed.
@@ -3696,7 +3696,7 @@ public struct DeleteOptOutListOutput: Swift.Equatable {
     }
 }
 
-struct DeleteOptOutListOutputBody: Swift.Equatable {
+struct DeleteOptOutListOutputBody {
     let optOutListArn: Swift.String?
     let optOutListName: Swift.String?
     let createdTimestamp: ClientRuntime.Date?
@@ -3760,7 +3760,7 @@ extension DeleteOptedOutNumberInput {
     }
 }
 
-public struct DeleteOptedOutNumberInput: Swift.Equatable {
+public struct DeleteOptedOutNumberInput {
     /// The OptOutListName or OptOutListArn to remove the phone number from.
     /// This member is required.
     public var optOutListName: Swift.String?
@@ -3778,7 +3778,7 @@ public struct DeleteOptedOutNumberInput: Swift.Equatable {
     }
 }
 
-struct DeleteOptedOutNumberInputBody: Swift.Equatable {
+struct DeleteOptedOutNumberInputBody {
     let optOutListName: Swift.String?
     let optedOutNumber: Swift.String?
 }
@@ -3818,7 +3818,7 @@ extension DeleteOptedOutNumberOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteOptedOutNumberOutput: Swift.Equatable {
+public struct DeleteOptedOutNumberOutput {
     /// This is true if it was the end user who requested their phone number be removed.
     public var endUserOptedOut: Swift.Bool
     /// The OptOutListArn that the phone number was removed from.
@@ -3846,7 +3846,7 @@ public struct DeleteOptedOutNumberOutput: Swift.Equatable {
     }
 }
 
-struct DeleteOptedOutNumberOutputBody: Swift.Equatable {
+struct DeleteOptedOutNumberOutputBody {
     let optOutListArn: Swift.String?
     let optOutListName: Swift.String?
     let optedOutNumber: Swift.String?
@@ -3914,7 +3914,7 @@ extension DeletePoolInput {
     }
 }
 
-public struct DeletePoolInput: Swift.Equatable {
+public struct DeletePoolInput {
     /// The PoolId or PoolArn of the pool to delete. You can use [DescribePools] to find the values for PoolId and PoolArn .
     /// This member is required.
     public var poolId: Swift.String?
@@ -3927,7 +3927,7 @@ public struct DeletePoolInput: Swift.Equatable {
     }
 }
 
-struct DeletePoolInputBody: Swift.Equatable {
+struct DeletePoolInputBody {
     let poolId: Swift.String?
 }
 
@@ -3975,7 +3975,7 @@ extension DeletePoolOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePoolOutput: Swift.Equatable {
+public struct DeletePoolOutput {
     /// The time when the pool was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     public var createdTimestamp: ClientRuntime.Date?
     /// The message type that was associated with the deleted pool.
@@ -4033,7 +4033,7 @@ public struct DeletePoolOutput: Swift.Equatable {
     }
 }
 
-struct DeletePoolOutputBody: Swift.Equatable {
+struct DeletePoolOutputBody {
     let poolArn: Swift.String?
     let poolId: Swift.String?
     let status: PinpointSMSVoiceV2ClientTypes.PoolStatus?
@@ -4125,7 +4125,7 @@ extension DeleteRegistrationAttachmentInput {
     }
 }
 
-public struct DeleteRegistrationAttachmentInput: Swift.Equatable {
+public struct DeleteRegistrationAttachmentInput {
     /// The unique identifier for the registration attachment.
     /// This member is required.
     public var registrationAttachmentId: Swift.String?
@@ -4138,7 +4138,7 @@ public struct DeleteRegistrationAttachmentInput: Swift.Equatable {
     }
 }
 
-struct DeleteRegistrationAttachmentInputBody: Swift.Equatable {
+struct DeleteRegistrationAttachmentInputBody {
     let registrationAttachmentId: Swift.String?
 }
 
@@ -4174,7 +4174,7 @@ extension DeleteRegistrationAttachmentOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DeleteRegistrationAttachmentOutput: Swift.Equatable {
+public struct DeleteRegistrationAttachmentOutput {
     /// The status of the registration attachment.
     ///
     /// * UPLOAD_IN_PROGRESS The attachment is being uploaded.
@@ -4214,7 +4214,7 @@ public struct DeleteRegistrationAttachmentOutput: Swift.Equatable {
     }
 }
 
-struct DeleteRegistrationAttachmentOutputBody: Swift.Equatable {
+struct DeleteRegistrationAttachmentOutputBody {
     let registrationAttachmentArn: Swift.String?
     let registrationAttachmentId: Swift.String?
     let attachmentStatus: PinpointSMSVoiceV2ClientTypes.AttachmentStatus?
@@ -4286,7 +4286,7 @@ extension DeleteRegistrationFieldValueInput {
     }
 }
 
-public struct DeleteRegistrationFieldValueInput: Swift.Equatable {
+public struct DeleteRegistrationFieldValueInput {
     /// The path to the registration form field. You can use [DescribeRegistrationFieldDefinitions] for a list of FieldPaths.
     /// This member is required.
     public var fieldPath: Swift.String?
@@ -4304,7 +4304,7 @@ public struct DeleteRegistrationFieldValueInput: Swift.Equatable {
     }
 }
 
-struct DeleteRegistrationFieldValueInputBody: Swift.Equatable {
+struct DeleteRegistrationFieldValueInputBody {
     let registrationId: Swift.String?
     let fieldPath: Swift.String?
 }
@@ -4348,7 +4348,7 @@ extension DeleteRegistrationFieldValueOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DeleteRegistrationFieldValueOutput: Swift.Equatable {
+public struct DeleteRegistrationFieldValueOutput {
     /// The path to the registration form field.
     /// This member is required.
     public var fieldPath: Swift.String?
@@ -4388,7 +4388,7 @@ public struct DeleteRegistrationFieldValueOutput: Swift.Equatable {
     }
 }
 
-struct DeleteRegistrationFieldValueOutputBody: Swift.Equatable {
+struct DeleteRegistrationFieldValueOutputBody {
     let registrationArn: Swift.String?
     let registrationId: Swift.String?
     let versionNumber: Swift.Int?
@@ -4473,7 +4473,7 @@ extension DeleteRegistrationInput {
     }
 }
 
-public struct DeleteRegistrationInput: Swift.Equatable {
+public struct DeleteRegistrationInput {
     /// The unique identifier for the registration.
     /// This member is required.
     public var registrationId: Swift.String?
@@ -4486,7 +4486,7 @@ public struct DeleteRegistrationInput: Swift.Equatable {
     }
 }
 
-struct DeleteRegistrationInputBody: Swift.Equatable {
+struct DeleteRegistrationInputBody {
     let registrationId: Swift.String?
 }
 
@@ -4530,7 +4530,7 @@ extension DeleteRegistrationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRegistrationOutput: Swift.Equatable {
+public struct DeleteRegistrationOutput {
     /// Metadata about a given registration which is specific to that registration type.
     public var additionalAttributes: [Swift.String:Swift.String]?
     /// The version number of the registration that was approved.
@@ -4596,7 +4596,7 @@ public struct DeleteRegistrationOutput: Swift.Equatable {
     }
 }
 
-struct DeleteRegistrationOutputBody: Swift.Equatable {
+struct DeleteRegistrationOutputBody {
     let registrationArn: Swift.String?
     let registrationId: Swift.String?
     let registrationType: Swift.String?
@@ -4684,12 +4684,12 @@ extension DeleteTextMessageSpendLimitOverrideInput {
     }
 }
 
-public struct DeleteTextMessageSpendLimitOverrideInput: Swift.Equatable {
+public struct DeleteTextMessageSpendLimitOverrideInput {
 
     public init() { }
 }
 
-struct DeleteTextMessageSpendLimitOverrideInputBody: Swift.Equatable {
+struct DeleteTextMessageSpendLimitOverrideInputBody {
 }
 
 extension DeleteTextMessageSpendLimitOverrideInputBody: Swift.Decodable {
@@ -4710,7 +4710,7 @@ extension DeleteTextMessageSpendLimitOverrideOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct DeleteTextMessageSpendLimitOverrideOutput: Swift.Equatable {
+public struct DeleteTextMessageSpendLimitOverrideOutput {
     /// The current monthly limit, in US dollars.
     public var monthlyLimit: Swift.Int?
 
@@ -4722,7 +4722,7 @@ public struct DeleteTextMessageSpendLimitOverrideOutput: Swift.Equatable {
     }
 }
 
-struct DeleteTextMessageSpendLimitOverrideOutputBody: Swift.Equatable {
+struct DeleteTextMessageSpendLimitOverrideOutputBody {
     let monthlyLimit: Swift.Int?
 }
 
@@ -4772,7 +4772,7 @@ extension DeleteVerifiedDestinationNumberInput {
     }
 }
 
-public struct DeleteVerifiedDestinationNumberInput: Swift.Equatable {
+public struct DeleteVerifiedDestinationNumberInput {
     /// The unique identifier for the verified destination phone number.
     /// This member is required.
     public var verifiedDestinationNumberId: Swift.String?
@@ -4785,7 +4785,7 @@ public struct DeleteVerifiedDestinationNumberInput: Swift.Equatable {
     }
 }
 
-struct DeleteVerifiedDestinationNumberInputBody: Swift.Equatable {
+struct DeleteVerifiedDestinationNumberInputBody {
     let verifiedDestinationNumberId: Swift.String?
 }
 
@@ -4819,7 +4819,7 @@ extension DeleteVerifiedDestinationNumberOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DeleteVerifiedDestinationNumberOutput: Swift.Equatable {
+public struct DeleteVerifiedDestinationNumberOutput {
     /// The time when the destination phone number was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     /// This member is required.
     public var createdTimestamp: ClientRuntime.Date?
@@ -4847,7 +4847,7 @@ public struct DeleteVerifiedDestinationNumberOutput: Swift.Equatable {
     }
 }
 
-struct DeleteVerifiedDestinationNumberOutputBody: Swift.Equatable {
+struct DeleteVerifiedDestinationNumberOutputBody {
     let verifiedDestinationNumberArn: Swift.String?
     let verifiedDestinationNumberId: Swift.String?
     let destinationPhoneNumber: Swift.String?
@@ -4906,12 +4906,12 @@ extension DeleteVoiceMessageSpendLimitOverrideInput {
     }
 }
 
-public struct DeleteVoiceMessageSpendLimitOverrideInput: Swift.Equatable {
+public struct DeleteVoiceMessageSpendLimitOverrideInput {
 
     public init() { }
 }
 
-struct DeleteVoiceMessageSpendLimitOverrideInputBody: Swift.Equatable {
+struct DeleteVoiceMessageSpendLimitOverrideInputBody {
 }
 
 extension DeleteVoiceMessageSpendLimitOverrideInputBody: Swift.Decodable {
@@ -4932,7 +4932,7 @@ extension DeleteVoiceMessageSpendLimitOverrideOutput: ClientRuntime.HttpResponse
     }
 }
 
-public struct DeleteVoiceMessageSpendLimitOverrideOutput: Swift.Equatable {
+public struct DeleteVoiceMessageSpendLimitOverrideOutput {
     /// The current monthly limit, in US dollars.
     public var monthlyLimit: Swift.Int?
 
@@ -4944,7 +4944,7 @@ public struct DeleteVoiceMessageSpendLimitOverrideOutput: Swift.Equatable {
     }
 }
 
-struct DeleteVoiceMessageSpendLimitOverrideOutputBody: Swift.Equatable {
+struct DeleteVoiceMessageSpendLimitOverrideOutputBody {
     let monthlyLimit: Swift.Int?
 }
 
@@ -4998,7 +4998,7 @@ extension DescribeAccountAttributesInput {
     }
 }
 
-public struct DescribeAccountAttributesInput: Swift.Equatable {
+public struct DescribeAccountAttributesInput {
     /// The maximum number of results to return per each request.
     public var maxResults: Swift.Int?
     /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
@@ -5014,7 +5014,7 @@ public struct DescribeAccountAttributesInput: Swift.Equatable {
     }
 }
 
-struct DescribeAccountAttributesInputBody: Swift.Equatable {
+struct DescribeAccountAttributesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -5048,7 +5048,7 @@ extension DescribeAccountAttributesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAccountAttributesOutput: Swift.Equatable {
+public struct DescribeAccountAttributesOutput {
     /// An array of AccountAttributes objects.
     public var accountAttributes: [PinpointSMSVoiceV2ClientTypes.AccountAttribute]?
     /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
@@ -5064,7 +5064,7 @@ public struct DescribeAccountAttributesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAccountAttributesOutputBody: Swift.Equatable {
+struct DescribeAccountAttributesOutputBody {
     let accountAttributes: [PinpointSMSVoiceV2ClientTypes.AccountAttribute]?
     let nextToken: Swift.String?
 }
@@ -5131,7 +5131,7 @@ extension DescribeAccountLimitsInput {
     }
 }
 
-public struct DescribeAccountLimitsInput: Swift.Equatable {
+public struct DescribeAccountLimitsInput {
     /// The maximum number of results to return per each request.
     public var maxResults: Swift.Int?
     /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
@@ -5147,7 +5147,7 @@ public struct DescribeAccountLimitsInput: Swift.Equatable {
     }
 }
 
-struct DescribeAccountLimitsInputBody: Swift.Equatable {
+struct DescribeAccountLimitsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -5181,7 +5181,7 @@ extension DescribeAccountLimitsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAccountLimitsOutput: Swift.Equatable {
+public struct DescribeAccountLimitsOutput {
     /// An array of AccountLimit objects that show the current spend limits.
     public var accountLimits: [PinpointSMSVoiceV2ClientTypes.AccountLimit]?
     /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
@@ -5197,7 +5197,7 @@ public struct DescribeAccountLimitsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAccountLimitsOutputBody: Swift.Equatable {
+struct DescribeAccountLimitsOutputBody {
     let accountLimits: [PinpointSMSVoiceV2ClientTypes.AccountLimit]?
     let nextToken: Swift.String?
 }
@@ -5278,7 +5278,7 @@ extension DescribeConfigurationSetsInput {
     }
 }
 
-public struct DescribeConfigurationSetsInput: Swift.Equatable {
+public struct DescribeConfigurationSetsInput {
     /// An array of strings. Each element can be either a ConfigurationSetName or ConfigurationSetArn.
     public var configurationSetNames: [Swift.String]?
     /// An array of filters to apply to the results that are returned.
@@ -5302,7 +5302,7 @@ public struct DescribeConfigurationSetsInput: Swift.Equatable {
     }
 }
 
-struct DescribeConfigurationSetsInputBody: Swift.Equatable {
+struct DescribeConfigurationSetsInputBody {
     let configurationSetNames: [Swift.String]?
     let filters: [PinpointSMSVoiceV2ClientTypes.ConfigurationSetFilter]?
     let nextToken: Swift.String?
@@ -5362,7 +5362,7 @@ extension DescribeConfigurationSetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeConfigurationSetsOutput: Swift.Equatable {
+public struct DescribeConfigurationSetsOutput {
     /// An array of ConfigurationSets objects.
     public var configurationSets: [PinpointSMSVoiceV2ClientTypes.ConfigurationSetInformation]?
     /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
@@ -5378,7 +5378,7 @@ public struct DescribeConfigurationSetsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeConfigurationSetsOutputBody: Swift.Equatable {
+struct DescribeConfigurationSetsOutputBody {
     let configurationSets: [PinpointSMSVoiceV2ClientTypes.ConfigurationSetInformation]?
     let nextToken: Swift.String?
 }
@@ -5464,7 +5464,7 @@ extension DescribeKeywordsInput {
     }
 }
 
-public struct DescribeKeywordsInput: Swift.Equatable {
+public struct DescribeKeywordsInput {
     /// An array of keyword filters to filter the results.
     public var filters: [PinpointSMSVoiceV2ClientTypes.KeywordFilter]?
     /// An array of keywords to search for.
@@ -5493,7 +5493,7 @@ public struct DescribeKeywordsInput: Swift.Equatable {
     }
 }
 
-struct DescribeKeywordsInputBody: Swift.Equatable {
+struct DescribeKeywordsInputBody {
     let originationIdentity: Swift.String?
     let keywords: [Swift.String]?
     let filters: [PinpointSMSVoiceV2ClientTypes.KeywordFilter]?
@@ -5561,7 +5561,7 @@ extension DescribeKeywordsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeKeywordsOutput: Swift.Equatable {
+public struct DescribeKeywordsOutput {
     /// An array of KeywordInformation objects that contain the results.
     public var keywords: [PinpointSMSVoiceV2ClientTypes.KeywordInformation]?
     /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
@@ -5585,7 +5585,7 @@ public struct DescribeKeywordsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeKeywordsOutputBody: Swift.Equatable {
+struct DescribeKeywordsOutputBody {
     let originationIdentityArn: Swift.String?
     let originationIdentity: Swift.String?
     let keywords: [PinpointSMSVoiceV2ClientTypes.KeywordInformation]?
@@ -5668,7 +5668,7 @@ extension DescribeOptOutListsInput {
     }
 }
 
-public struct DescribeOptOutListsInput: Swift.Equatable {
+public struct DescribeOptOutListsInput {
     /// The maximum number of results to return per each request.
     public var maxResults: Swift.Int?
     /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
@@ -5688,7 +5688,7 @@ public struct DescribeOptOutListsInput: Swift.Equatable {
     }
 }
 
-struct DescribeOptOutListsInputBody: Swift.Equatable {
+struct DescribeOptOutListsInputBody {
     let optOutListNames: [Swift.String]?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -5735,7 +5735,7 @@ extension DescribeOptOutListsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeOptOutListsOutput: Swift.Equatable {
+public struct DescribeOptOutListsOutput {
     /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
     public var nextToken: Swift.String?
     /// An array of OptOutListInformation objects that contain the details for the requested OptOutLists.
@@ -5751,7 +5751,7 @@ public struct DescribeOptOutListsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeOptOutListsOutputBody: Swift.Equatable {
+struct DescribeOptOutListsOutputBody {
     let optOutLists: [PinpointSMSVoiceV2ClientTypes.OptOutListInformation]?
     let nextToken: Swift.String?
 }
@@ -5837,7 +5837,7 @@ extension DescribeOptedOutNumbersInput {
     }
 }
 
-public struct DescribeOptedOutNumbersInput: Swift.Equatable {
+public struct DescribeOptedOutNumbersInput {
     /// An array of OptedOutFilter objects to filter the results on.
     public var filters: [PinpointSMSVoiceV2ClientTypes.OptedOutFilter]?
     /// The maximum number of results to return per each request.
@@ -5866,7 +5866,7 @@ public struct DescribeOptedOutNumbersInput: Swift.Equatable {
     }
 }
 
-struct DescribeOptedOutNumbersInputBody: Swift.Equatable {
+struct DescribeOptedOutNumbersInputBody {
     let optOutListName: Swift.String?
     let optedOutNumbers: [Swift.String]?
     let filters: [PinpointSMSVoiceV2ClientTypes.OptedOutFilter]?
@@ -5934,7 +5934,7 @@ extension DescribeOptedOutNumbersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeOptedOutNumbersOutput: Swift.Equatable {
+public struct DescribeOptedOutNumbersOutput {
     /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
     public var nextToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the OptOutList.
@@ -5958,7 +5958,7 @@ public struct DescribeOptedOutNumbersOutput: Swift.Equatable {
     }
 }
 
-struct DescribeOptedOutNumbersOutputBody: Swift.Equatable {
+struct DescribeOptedOutNumbersOutputBody {
     let optOutListArn: Swift.String?
     let optOutListName: Swift.String?
     let optedOutNumbers: [PinpointSMSVoiceV2ClientTypes.OptedOutNumberInformation]?
@@ -6048,7 +6048,7 @@ extension DescribePhoneNumbersInput {
     }
 }
 
-public struct DescribePhoneNumbersInput: Swift.Equatable {
+public struct DescribePhoneNumbersInput {
     /// An array of PhoneNumberFilter objects to filter the results.
     public var filters: [PinpointSMSVoiceV2ClientTypes.PhoneNumberFilter]?
     /// The maximum number of results to return per each request.
@@ -6072,7 +6072,7 @@ public struct DescribePhoneNumbersInput: Swift.Equatable {
     }
 }
 
-struct DescribePhoneNumbersInputBody: Swift.Equatable {
+struct DescribePhoneNumbersInputBody {
     let phoneNumberIds: [Swift.String]?
     let filters: [PinpointSMSVoiceV2ClientTypes.PhoneNumberFilter]?
     let nextToken: Swift.String?
@@ -6132,7 +6132,7 @@ extension DescribePhoneNumbersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribePhoneNumbersOutput: Swift.Equatable {
+public struct DescribePhoneNumbersOutput {
     /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
     public var nextToken: Swift.String?
     /// An array of PhoneNumberInformation objects that contain the details for the requested phone numbers.
@@ -6148,7 +6148,7 @@ public struct DescribePhoneNumbersOutput: Swift.Equatable {
     }
 }
 
-struct DescribePhoneNumbersOutputBody: Swift.Equatable {
+struct DescribePhoneNumbersOutputBody {
     let phoneNumbers: [PinpointSMSVoiceV2ClientTypes.PhoneNumberInformation]?
     let nextToken: Swift.String?
 }
@@ -6230,7 +6230,7 @@ extension DescribePoolsInput {
     }
 }
 
-public struct DescribePoolsInput: Swift.Equatable {
+public struct DescribePoolsInput {
     /// An array of PoolFilter objects to filter the results.
     public var filters: [PinpointSMSVoiceV2ClientTypes.PoolFilter]?
     /// The maximum number of results to return per each request.
@@ -6254,7 +6254,7 @@ public struct DescribePoolsInput: Swift.Equatable {
     }
 }
 
-struct DescribePoolsInputBody: Swift.Equatable {
+struct DescribePoolsInputBody {
     let poolIds: [Swift.String]?
     let filters: [PinpointSMSVoiceV2ClientTypes.PoolFilter]?
     let nextToken: Swift.String?
@@ -6314,7 +6314,7 @@ extension DescribePoolsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribePoolsOutput: Swift.Equatable {
+public struct DescribePoolsOutput {
     /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
     public var nextToken: Swift.String?
     /// An array of PoolInformation objects that contain the details for the requested pools.
@@ -6330,7 +6330,7 @@ public struct DescribePoolsOutput: Swift.Equatable {
     }
 }
 
-struct DescribePoolsOutputBody: Swift.Equatable {
+struct DescribePoolsOutputBody {
     let pools: [PinpointSMSVoiceV2ClientTypes.PoolInformation]?
     let nextToken: Swift.String?
 }
@@ -6412,7 +6412,7 @@ extension DescribeRegistrationAttachmentsInput {
     }
 }
 
-public struct DescribeRegistrationAttachmentsInput: Swift.Equatable {
+public struct DescribeRegistrationAttachmentsInput {
     /// An array of RegistrationAttachmentFilter objects to filter the results.
     public var filters: [PinpointSMSVoiceV2ClientTypes.RegistrationAttachmentFilter]?
     /// The maximum number of results to return per each request.
@@ -6436,7 +6436,7 @@ public struct DescribeRegistrationAttachmentsInput: Swift.Equatable {
     }
 }
 
-struct DescribeRegistrationAttachmentsInputBody: Swift.Equatable {
+struct DescribeRegistrationAttachmentsInputBody {
     let registrationAttachmentIds: [Swift.String]?
     let filters: [PinpointSMSVoiceV2ClientTypes.RegistrationAttachmentFilter]?
     let nextToken: Swift.String?
@@ -6496,7 +6496,7 @@ extension DescribeRegistrationAttachmentsOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DescribeRegistrationAttachmentsOutput: Swift.Equatable {
+public struct DescribeRegistrationAttachmentsOutput {
     /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
     public var nextToken: Swift.String?
     /// An array of RegistrationAttachments objects that contain the details for the requested registration attachments.
@@ -6513,7 +6513,7 @@ public struct DescribeRegistrationAttachmentsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeRegistrationAttachmentsOutputBody: Swift.Equatable {
+struct DescribeRegistrationAttachmentsOutputBody {
     let registrationAttachments: [PinpointSMSVoiceV2ClientTypes.RegistrationAttachmentsInformation]?
     let nextToken: Swift.String?
 }
@@ -6596,7 +6596,7 @@ extension DescribeRegistrationFieldDefinitionsInput {
     }
 }
 
-public struct DescribeRegistrationFieldDefinitionsInput: Swift.Equatable {
+public struct DescribeRegistrationFieldDefinitionsInput {
     /// An array of paths to the registration form field.
     public var fieldPaths: [Swift.String]?
     /// The maximum number of results to return per each request.
@@ -6625,7 +6625,7 @@ public struct DescribeRegistrationFieldDefinitionsInput: Swift.Equatable {
     }
 }
 
-struct DescribeRegistrationFieldDefinitionsInputBody: Swift.Equatable {
+struct DescribeRegistrationFieldDefinitionsInputBody {
     let registrationType: Swift.String?
     let sectionPath: Swift.String?
     let fieldPaths: [Swift.String]?
@@ -6682,7 +6682,7 @@ extension DescribeRegistrationFieldDefinitionsOutput: ClientRuntime.HttpResponse
     }
 }
 
-public struct DescribeRegistrationFieldDefinitionsOutput: Swift.Equatable {
+public struct DescribeRegistrationFieldDefinitionsOutput {
     /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
     public var nextToken: Swift.String?
     /// An array of RegistrationFieldDefinitions objects that contain the details for the requested fields.
@@ -6704,7 +6704,7 @@ public struct DescribeRegistrationFieldDefinitionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeRegistrationFieldDefinitionsOutputBody: Swift.Equatable {
+struct DescribeRegistrationFieldDefinitionsOutputBody {
     let registrationType: Swift.String?
     let registrationFieldDefinitions: [PinpointSMSVoiceV2ClientTypes.RegistrationFieldDefinition]?
     let nextToken: Swift.String?
@@ -6794,7 +6794,7 @@ extension DescribeRegistrationFieldValuesInput {
     }
 }
 
-public struct DescribeRegistrationFieldValuesInput: Swift.Equatable {
+public struct DescribeRegistrationFieldValuesInput {
     /// An array of paths to the registration form field.
     public var fieldPaths: [Swift.String]?
     /// The maximum number of results to return per each request.
@@ -6827,7 +6827,7 @@ public struct DescribeRegistrationFieldValuesInput: Swift.Equatable {
     }
 }
 
-struct DescribeRegistrationFieldValuesInputBody: Swift.Equatable {
+struct DescribeRegistrationFieldValuesInputBody {
     let registrationId: Swift.String?
     let versionNumber: Swift.Int?
     let sectionPath: Swift.String?
@@ -6892,7 +6892,7 @@ extension DescribeRegistrationFieldValuesOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DescribeRegistrationFieldValuesOutput: Swift.Equatable {
+public struct DescribeRegistrationFieldValuesOutput {
     /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
     public var nextToken: Swift.String?
     /// The Amazon Resource Name (ARN) for the registration.
@@ -6924,7 +6924,7 @@ public struct DescribeRegistrationFieldValuesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeRegistrationFieldValuesOutputBody: Swift.Equatable {
+struct DescribeRegistrationFieldValuesOutputBody {
     let registrationArn: Swift.String?
     let registrationId: Swift.String?
     let versionNumber: Swift.Int?
@@ -7015,7 +7015,7 @@ extension DescribeRegistrationSectionDefinitionsInput {
     }
 }
 
-public struct DescribeRegistrationSectionDefinitionsInput: Swift.Equatable {
+public struct DescribeRegistrationSectionDefinitionsInput {
     /// The maximum number of results to return per each request.
     public var maxResults: Swift.Int?
     /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
@@ -7040,7 +7040,7 @@ public struct DescribeRegistrationSectionDefinitionsInput: Swift.Equatable {
     }
 }
 
-struct DescribeRegistrationSectionDefinitionsInputBody: Swift.Equatable {
+struct DescribeRegistrationSectionDefinitionsInputBody {
     let registrationType: Swift.String?
     let sectionPaths: [Swift.String]?
     let nextToken: Swift.String?
@@ -7093,7 +7093,7 @@ extension DescribeRegistrationSectionDefinitionsOutput: ClientRuntime.HttpRespon
     }
 }
 
-public struct DescribeRegistrationSectionDefinitionsOutput: Swift.Equatable {
+public struct DescribeRegistrationSectionDefinitionsOutput {
     /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
     public var nextToken: Swift.String?
     /// An array of RegistrationSectionDefinition objects.
@@ -7115,7 +7115,7 @@ public struct DescribeRegistrationSectionDefinitionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeRegistrationSectionDefinitionsOutputBody: Swift.Equatable {
+struct DescribeRegistrationSectionDefinitionsOutputBody {
     let registrationType: Swift.String?
     let registrationSectionDefinitions: [PinpointSMSVoiceV2ClientTypes.RegistrationSectionDefinition]?
     let nextToken: Swift.String?
@@ -7200,7 +7200,7 @@ extension DescribeRegistrationTypeDefinitionsInput {
     }
 }
 
-public struct DescribeRegistrationTypeDefinitionsInput: Swift.Equatable {
+public struct DescribeRegistrationTypeDefinitionsInput {
     /// An array of RegistrationFilter objects to filter the results.
     public var filters: [PinpointSMSVoiceV2ClientTypes.RegistrationTypeFilter]?
     /// The maximum number of results to return per each request.
@@ -7224,7 +7224,7 @@ public struct DescribeRegistrationTypeDefinitionsInput: Swift.Equatable {
     }
 }
 
-struct DescribeRegistrationTypeDefinitionsInputBody: Swift.Equatable {
+struct DescribeRegistrationTypeDefinitionsInputBody {
     let registrationTypes: [Swift.String]?
     let filters: [PinpointSMSVoiceV2ClientTypes.RegistrationTypeFilter]?
     let nextToken: Swift.String?
@@ -7284,7 +7284,7 @@ extension DescribeRegistrationTypeDefinitionsOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct DescribeRegistrationTypeDefinitionsOutput: Swift.Equatable {
+public struct DescribeRegistrationTypeDefinitionsOutput {
     /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
     public var nextToken: Swift.String?
     /// The type of registration form. The list of RegistrationTypes can be found using the [DescribeRegistrationTypeDefinitions] action.
@@ -7301,7 +7301,7 @@ public struct DescribeRegistrationTypeDefinitionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeRegistrationTypeDefinitionsOutputBody: Swift.Equatable {
+struct DescribeRegistrationTypeDefinitionsOutputBody {
     let registrationTypeDefinitions: [PinpointSMSVoiceV2ClientTypes.RegistrationTypeDefinition]?
     let nextToken: Swift.String?
 }
@@ -7386,7 +7386,7 @@ extension DescribeRegistrationVersionsInput {
     }
 }
 
-public struct DescribeRegistrationVersionsInput: Swift.Equatable {
+public struct DescribeRegistrationVersionsInput {
     /// An array of RegistrationVersionFilter objects to filter the results.
     public var filters: [PinpointSMSVoiceV2ClientTypes.RegistrationVersionFilter]?
     /// The maximum number of results to return per each request.
@@ -7415,7 +7415,7 @@ public struct DescribeRegistrationVersionsInput: Swift.Equatable {
     }
 }
 
-struct DescribeRegistrationVersionsInputBody: Swift.Equatable {
+struct DescribeRegistrationVersionsInputBody {
     let registrationId: Swift.String?
     let versionNumbers: [Swift.Int]?
     let filters: [PinpointSMSVoiceV2ClientTypes.RegistrationVersionFilter]?
@@ -7483,7 +7483,7 @@ extension DescribeRegistrationVersionsOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DescribeRegistrationVersionsOutput: Swift.Equatable {
+public struct DescribeRegistrationVersionsOutput {
     /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
     public var nextToken: Swift.String?
     /// The Amazon Resource Name (ARN) for the registration.
@@ -7510,7 +7510,7 @@ public struct DescribeRegistrationVersionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeRegistrationVersionsOutputBody: Swift.Equatable {
+struct DescribeRegistrationVersionsOutputBody {
     let registrationArn: Swift.String?
     let registrationId: Swift.String?
     let registrationVersions: [PinpointSMSVoiceV2ClientTypes.RegistrationVersionInformation]?
@@ -7600,7 +7600,7 @@ extension DescribeRegistrationsInput {
     }
 }
 
-public struct DescribeRegistrationsInput: Swift.Equatable {
+public struct DescribeRegistrationsInput {
     /// An array of RegistrationFilter objects to filter the results.
     public var filters: [PinpointSMSVoiceV2ClientTypes.RegistrationFilter]?
     /// The maximum number of results to return per each request.
@@ -7624,7 +7624,7 @@ public struct DescribeRegistrationsInput: Swift.Equatable {
     }
 }
 
-struct DescribeRegistrationsInputBody: Swift.Equatable {
+struct DescribeRegistrationsInputBody {
     let registrationIds: [Swift.String]?
     let filters: [PinpointSMSVoiceV2ClientTypes.RegistrationFilter]?
     let nextToken: Swift.String?
@@ -7684,7 +7684,7 @@ extension DescribeRegistrationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeRegistrationsOutput: Swift.Equatable {
+public struct DescribeRegistrationsOutput {
     /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
     public var nextToken: Swift.String?
     /// An array of RegistrationInformation objects.
@@ -7701,7 +7701,7 @@ public struct DescribeRegistrationsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeRegistrationsOutputBody: Swift.Equatable {
+struct DescribeRegistrationsOutputBody {
     let registrations: [PinpointSMSVoiceV2ClientTypes.RegistrationInformation]?
     let nextToken: Swift.String?
 }
@@ -7783,7 +7783,7 @@ extension DescribeSenderIdsInput {
     }
 }
 
-public struct DescribeSenderIdsInput: Swift.Equatable {
+public struct DescribeSenderIdsInput {
     /// An array of SenderIdFilter objects to filter the results.
     public var filters: [PinpointSMSVoiceV2ClientTypes.SenderIdFilter]?
     /// The maximum number of results to return per each request.
@@ -7807,7 +7807,7 @@ public struct DescribeSenderIdsInput: Swift.Equatable {
     }
 }
 
-struct DescribeSenderIdsInputBody: Swift.Equatable {
+struct DescribeSenderIdsInputBody {
     let senderIds: [PinpointSMSVoiceV2ClientTypes.SenderIdAndCountry]?
     let filters: [PinpointSMSVoiceV2ClientTypes.SenderIdFilter]?
     let nextToken: Swift.String?
@@ -7867,7 +7867,7 @@ extension DescribeSenderIdsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeSenderIdsOutput: Swift.Equatable {
+public struct DescribeSenderIdsOutput {
     /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
     public var nextToken: Swift.String?
     /// An array of SernderIdInformation objects that contain the details for the requested SenderIds.
@@ -7883,7 +7883,7 @@ public struct DescribeSenderIdsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeSenderIdsOutputBody: Swift.Equatable {
+struct DescribeSenderIdsOutputBody {
     let senderIds: [PinpointSMSVoiceV2ClientTypes.SenderIdInformation]?
     let nextToken: Swift.String?
 }
@@ -7951,7 +7951,7 @@ extension DescribeSpendLimitsInput {
     }
 }
 
-public struct DescribeSpendLimitsInput: Swift.Equatable {
+public struct DescribeSpendLimitsInput {
     /// The maximum number of results to return per each request.
     public var maxResults: Swift.Int?
     /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
@@ -7967,7 +7967,7 @@ public struct DescribeSpendLimitsInput: Swift.Equatable {
     }
 }
 
-struct DescribeSpendLimitsInputBody: Swift.Equatable {
+struct DescribeSpendLimitsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -8001,7 +8001,7 @@ extension DescribeSpendLimitsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeSpendLimitsOutput: Swift.Equatable {
+public struct DescribeSpendLimitsOutput {
     /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
     public var nextToken: Swift.String?
     /// An array of SpendLimit objects that contain the details for the requested spend limits.
@@ -8017,7 +8017,7 @@ public struct DescribeSpendLimitsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeSpendLimitsOutputBody: Swift.Equatable {
+struct DescribeSpendLimitsOutputBody {
     let spendLimits: [PinpointSMSVoiceV2ClientTypes.SpendLimit]?
     let nextToken: Swift.String?
 }
@@ -8105,7 +8105,7 @@ extension DescribeVerifiedDestinationNumbersInput {
     }
 }
 
-public struct DescribeVerifiedDestinationNumbersInput: Swift.Equatable {
+public struct DescribeVerifiedDestinationNumbersInput {
     /// An array of verified destination phone number, in E.164 format.
     public var destinationPhoneNumbers: [Swift.String]?
     /// An array of VerifiedDestinationNumberFilter objects to filter the results.
@@ -8133,7 +8133,7 @@ public struct DescribeVerifiedDestinationNumbersInput: Swift.Equatable {
     }
 }
 
-struct DescribeVerifiedDestinationNumbersInputBody: Swift.Equatable {
+struct DescribeVerifiedDestinationNumbersInputBody {
     let verifiedDestinationNumberIds: [Swift.String]?
     let destinationPhoneNumbers: [Swift.String]?
     let filters: [PinpointSMSVoiceV2ClientTypes.VerifiedDestinationNumberFilter]?
@@ -8206,7 +8206,7 @@ extension DescribeVerifiedDestinationNumbersOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct DescribeVerifiedDestinationNumbersOutput: Swift.Equatable {
+public struct DescribeVerifiedDestinationNumbersOutput {
     /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
     public var nextToken: Swift.String?
     /// An array of VerifiedDestinationNumberInformation objects
@@ -8223,7 +8223,7 @@ public struct DescribeVerifiedDestinationNumbersOutput: Swift.Equatable {
     }
 }
 
-struct DescribeVerifiedDestinationNumbersOutputBody: Swift.Equatable {
+struct DescribeVerifiedDestinationNumbersOutputBody {
     let verifiedDestinationNumbers: [PinpointSMSVoiceV2ClientTypes.VerifiedDestinationNumberInformation]?
     let nextToken: Swift.String?
 }
@@ -8331,7 +8331,7 @@ extension DisassociateOriginationIdentityInput {
     }
 }
 
-public struct DisassociateOriginationIdentityInput: Swift.Equatable {
+public struct DisassociateOriginationIdentityInput {
     /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
@@ -8358,7 +8358,7 @@ public struct DisassociateOriginationIdentityInput: Swift.Equatable {
     }
 }
 
-struct DisassociateOriginationIdentityInputBody: Swift.Equatable {
+struct DisassociateOriginationIdentityInputBody {
     let poolId: Swift.String?
     let originationIdentity: Swift.String?
     let isoCountryCode: Swift.String?
@@ -8406,7 +8406,7 @@ extension DisassociateOriginationIdentityOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DisassociateOriginationIdentityOutput: Swift.Equatable {
+public struct DisassociateOriginationIdentityOutput {
     /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
     public var isoCountryCode: Swift.String?
     /// The PhoneNumberId or SenderId of the origination identity.
@@ -8434,7 +8434,7 @@ public struct DisassociateOriginationIdentityOutput: Swift.Equatable {
     }
 }
 
-struct DisassociateOriginationIdentityOutputBody: Swift.Equatable {
+struct DisassociateOriginationIdentityOutputBody {
     let poolArn: Swift.String?
     let poolId: Swift.String?
     let originationIdentityArn: Swift.String?
@@ -8502,7 +8502,7 @@ extension DiscardRegistrationVersionInput {
     }
 }
 
-public struct DiscardRegistrationVersionInput: Swift.Equatable {
+public struct DiscardRegistrationVersionInput {
     /// The unique identifier for the registration.
     /// This member is required.
     public var registrationId: Swift.String?
@@ -8515,7 +8515,7 @@ public struct DiscardRegistrationVersionInput: Swift.Equatable {
     }
 }
 
-struct DiscardRegistrationVersionInputBody: Swift.Equatable {
+struct DiscardRegistrationVersionInputBody {
     let registrationId: Swift.String?
 }
 
@@ -8551,7 +8551,7 @@ extension DiscardRegistrationVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DiscardRegistrationVersionOutput: Swift.Equatable {
+public struct DiscardRegistrationVersionOutput {
     /// The Amazon Resource Name (ARN) for the registration.
     /// This member is required.
     public var registrationArn: Swift.String?
@@ -8600,7 +8600,7 @@ public struct DiscardRegistrationVersionOutput: Swift.Equatable {
     }
 }
 
-struct DiscardRegistrationVersionOutputBody: Swift.Equatable {
+struct DiscardRegistrationVersionOutputBody {
     let registrationArn: Swift.String?
     let registrationId: Swift.String?
     let versionNumber: Swift.Int?
@@ -8711,7 +8711,7 @@ extension PinpointSMSVoiceV2ClientTypes.EventDestination: Swift.Codable {
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// Contains information about an event destination. Event destinations are associated with configuration sets, which enable you to publish message sending events to CloudWatch, Kinesis Data Firehose,or Amazon SNS.
-    public struct EventDestination: Swift.Equatable {
+    public struct EventDestination {
         /// An object that contains information about an event destination that sends logging events to Amazon CloudWatch logs.
         public var cloudWatchLogsDestination: PinpointSMSVoiceV2ClientTypes.CloudWatchLogsDestination?
         /// When set to true events will be logged.
@@ -8964,7 +8964,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
     let requestId: Swift.String?
 }
@@ -9058,7 +9058,7 @@ extension PinpointSMSVoiceV2ClientTypes.KeywordFilter: Swift.Codable {
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// The information for keywords that meet a specified criteria.
-    public struct KeywordFilter: Swift.Equatable {
+    public struct KeywordFilter {
         /// The name of the attribute to filter on.
         /// This member is required.
         public var name: PinpointSMSVoiceV2ClientTypes.KeywordFilterName?
@@ -9140,7 +9140,7 @@ extension PinpointSMSVoiceV2ClientTypes.KeywordInformation: Swift.Codable {
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// The information for all keywords in a pool.
-    public struct KeywordInformation: Swift.Equatable {
+    public struct KeywordInformation {
         /// The keyword as a string.
         /// This member is required.
         public var keyword: Swift.String?
@@ -9192,7 +9192,7 @@ extension PinpointSMSVoiceV2ClientTypes.KinesisFirehoseDestination: Swift.Codabl
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// Contains the delivery stream Amazon Resource Name (ARN), and the ARN of the Identity and Access Management (IAM) role associated with an Kinesis Data Firehose event destination. Event destinations, such as Kinesis Data Firehose, are associated with configuration sets, which enable you to publish message sending events.
-    public struct KinesisFirehoseDestination: Swift.Equatable {
+    public struct KinesisFirehoseDestination {
         /// The Amazon Resource Name (ARN) of the delivery stream.
         /// This member is required.
         public var deliveryStreamArn: Swift.String?
@@ -9312,7 +9312,7 @@ extension ListPoolOriginationIdentitiesInput {
     }
 }
 
-public struct ListPoolOriginationIdentitiesInput: Swift.Equatable {
+public struct ListPoolOriginationIdentitiesInput {
     /// An array of PoolOriginationIdentitiesFilter objects to filter the results..
     public var filters: [PinpointSMSVoiceV2ClientTypes.PoolOriginationIdentitiesFilter]?
     /// The maximum number of results to return per each request.
@@ -9337,7 +9337,7 @@ public struct ListPoolOriginationIdentitiesInput: Swift.Equatable {
     }
 }
 
-struct ListPoolOriginationIdentitiesInputBody: Swift.Equatable {
+struct ListPoolOriginationIdentitiesInputBody {
     let poolId: Swift.String?
     let filters: [PinpointSMSVoiceV2ClientTypes.PoolOriginationIdentitiesFilter]?
     let nextToken: Swift.String?
@@ -9392,7 +9392,7 @@ extension ListPoolOriginationIdentitiesOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ListPoolOriginationIdentitiesOutput: Swift.Equatable {
+public struct ListPoolOriginationIdentitiesOutput {
     /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
     public var nextToken: Swift.String?
     /// An array of any OriginationIdentityMetadata objects.
@@ -9416,7 +9416,7 @@ public struct ListPoolOriginationIdentitiesOutput: Swift.Equatable {
     }
 }
 
-struct ListPoolOriginationIdentitiesOutputBody: Swift.Equatable {
+struct ListPoolOriginationIdentitiesOutputBody {
     let poolArn: Swift.String?
     let poolId: Swift.String?
     let originationIdentities: [PinpointSMSVoiceV2ClientTypes.OriginationIdentityMetadata]?
@@ -9503,7 +9503,7 @@ extension ListRegistrationAssociationsInput {
     }
 }
 
-public struct ListRegistrationAssociationsInput: Swift.Equatable {
+public struct ListRegistrationAssociationsInput {
     /// An array of RegistrationAssociationFilter to apply to the results that are returned.
     public var filters: [PinpointSMSVoiceV2ClientTypes.RegistrationAssociationFilter]?
     /// The maximum number of results to return per each request.
@@ -9528,7 +9528,7 @@ public struct ListRegistrationAssociationsInput: Swift.Equatable {
     }
 }
 
-struct ListRegistrationAssociationsInputBody: Swift.Equatable {
+struct ListRegistrationAssociationsInputBody {
     let registrationId: Swift.String?
     let filters: [PinpointSMSVoiceV2ClientTypes.RegistrationAssociationFilter]?
     let nextToken: Swift.String?
@@ -9585,7 +9585,7 @@ extension ListRegistrationAssociationsOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListRegistrationAssociationsOutput: Swift.Equatable {
+public struct ListRegistrationAssociationsOutput {
     /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
     public var nextToken: Swift.String?
     /// The Amazon Resource Name (ARN) for the registration.
@@ -9617,7 +9617,7 @@ public struct ListRegistrationAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct ListRegistrationAssociationsOutputBody: Swift.Equatable {
+struct ListRegistrationAssociationsOutputBody {
     let registrationArn: Swift.String?
     let registrationId: Swift.String?
     let registrationType: Swift.String?
@@ -9693,7 +9693,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource to query for.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -9706,7 +9706,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -9736,7 +9736,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The ARN of the resource.
     public var resourceArn: Swift.String?
     /// An array of key and value pair tags that are associated with the resource.
@@ -9752,7 +9752,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let resourceArn: Swift.String?
     let tags: [PinpointSMSVoiceV2ClientTypes.Tag]?
 }
@@ -9975,7 +9975,7 @@ extension PinpointSMSVoiceV2ClientTypes.OptOutListInformation: Swift.Codable {
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// The information for all OptOutList in an Amazon Web Services account.
-    public struct OptOutListInformation: Swift.Equatable {
+    public struct OptOutListInformation {
         /// The time when the OutOutList was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
         /// This member is required.
         public var createdTimestamp: ClientRuntime.Date?
@@ -10039,7 +10039,7 @@ extension PinpointSMSVoiceV2ClientTypes.OptedOutFilter: Swift.Codable {
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// The information for opted out numbers that meet a specified criteria.
-    public struct OptedOutFilter: Swift.Equatable {
+    public struct OptedOutFilter {
         /// The name of the attribute to filter on.
         /// This member is required.
         public var name: PinpointSMSVoiceV2ClientTypes.OptedOutFilterName?
@@ -10121,7 +10121,7 @@ extension PinpointSMSVoiceV2ClientTypes.OptedOutNumberInformation: Swift.Codable
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// The information for an opted out number in an Amazon Web Services account.
-    public struct OptedOutNumberInformation: Swift.Equatable {
+    public struct OptedOutNumberInformation {
         /// This is set to true if it was the end recipient that opted out.
         /// This member is required.
         public var endUserOptedOut: Swift.Bool
@@ -10203,7 +10203,7 @@ extension PinpointSMSVoiceV2ClientTypes.OriginationIdentityMetadata: Swift.Codab
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// The metadata for an origination identity associated with a pool.
-    public struct OriginationIdentityMetadata: Swift.Equatable {
+    public struct OriginationIdentityMetadata {
         /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
         /// This member is required.
         public var isoCountryCode: Swift.String?
@@ -10276,7 +10276,7 @@ extension PinpointSMSVoiceV2ClientTypes.PhoneNumberFilter: Swift.Codable {
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// The information for a phone number that meets a specified criteria.
-    public struct PhoneNumberFilter: Swift.Equatable {
+    public struct PhoneNumberFilter {
         /// The name of the attribute to filter on.
         /// This member is required.
         public var name: PinpointSMSVoiceV2ClientTypes.PhoneNumberFilterName?
@@ -10487,7 +10487,7 @@ extension PinpointSMSVoiceV2ClientTypes.PhoneNumberInformation: Swift.Codable {
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// The information for a phone number, in E.164 format, in an Amazon Web Services account.
-    public struct PhoneNumberInformation: Swift.Equatable {
+    public struct PhoneNumberInformation {
         /// The time when the phone number was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
         /// This member is required.
         public var createdTimestamp: ClientRuntime.Date?
@@ -10623,7 +10623,7 @@ extension PinpointSMSVoiceV2ClientTypes.PoolFilter: Swift.Codable {
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// The information for a pool that meets a specified criteria.
-    public struct PoolFilter: Swift.Equatable {
+    public struct PoolFilter {
         /// The name of the attribute to filter on.
         /// This member is required.
         public var name: PinpointSMSVoiceV2ClientTypes.PoolFilterName?
@@ -10780,7 +10780,7 @@ extension PinpointSMSVoiceV2ClientTypes.PoolInformation: Swift.Codable {
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// The information for a pool in an Amazon Web Services account.
-    public struct PoolInformation: Swift.Equatable {
+    public struct PoolInformation {
         /// The time when the pool was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
         /// This member is required.
         public var createdTimestamp: ClientRuntime.Date?
@@ -10887,7 +10887,7 @@ extension PinpointSMSVoiceV2ClientTypes.PoolOriginationIdentitiesFilter: Swift.C
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// Information about origination identities associated with a pool that meets a specified criteria.
-    public struct PoolOriginationIdentitiesFilter: Swift.Equatable {
+    public struct PoolOriginationIdentitiesFilter {
         /// The name of the attribute to filter on.
         /// This member is required.
         public var name: PinpointSMSVoiceV2ClientTypes.PoolOriginationIdentitiesFilterName?
@@ -11006,7 +11006,7 @@ extension PutKeywordInput {
     }
 }
 
-public struct PutKeywordInput: Swift.Equatable {
+public struct PutKeywordInput {
     /// The new keyword to add.
     /// This member is required.
     public var keyword: Swift.String?
@@ -11039,7 +11039,7 @@ public struct PutKeywordInput: Swift.Equatable {
     }
 }
 
-struct PutKeywordInputBody: Swift.Equatable {
+struct PutKeywordInputBody {
     let originationIdentity: Swift.String?
     let keyword: Swift.String?
     let keywordMessage: Swift.String?
@@ -11087,7 +11087,7 @@ extension PutKeywordOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutKeywordOutput: Swift.Equatable {
+public struct PutKeywordOutput {
     /// The keyword that was added.
     public var keyword: Swift.String?
     /// The action to perform when the keyword is used.
@@ -11115,7 +11115,7 @@ public struct PutKeywordOutput: Swift.Equatable {
     }
 }
 
-struct PutKeywordOutputBody: Swift.Equatable {
+struct PutKeywordOutputBody {
     let originationIdentityArn: Swift.String?
     let originationIdentity: Swift.String?
     let keyword: Swift.String?
@@ -11188,7 +11188,7 @@ extension PutOptedOutNumberInput {
     }
 }
 
-public struct PutOptedOutNumberInput: Swift.Equatable {
+public struct PutOptedOutNumberInput {
     /// The OptOutListName or OptOutListArn to add the phone number to.
     /// This member is required.
     public var optOutListName: Swift.String?
@@ -11206,7 +11206,7 @@ public struct PutOptedOutNumberInput: Swift.Equatable {
     }
 }
 
-struct PutOptedOutNumberInputBody: Swift.Equatable {
+struct PutOptedOutNumberInputBody {
     let optOutListName: Swift.String?
     let optedOutNumber: Swift.String?
 }
@@ -11246,7 +11246,7 @@ extension PutOptedOutNumberOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutOptedOutNumberOutput: Swift.Equatable {
+public struct PutOptedOutNumberOutput {
     /// This is true if it was the end user who requested their phone number be removed.
     public var endUserOptedOut: Swift.Bool
     /// The OptOutListArn that the phone number was removed from.
@@ -11274,7 +11274,7 @@ public struct PutOptedOutNumberOutput: Swift.Equatable {
     }
 }
 
-struct PutOptedOutNumberOutputBody: Swift.Equatable {
+struct PutOptedOutNumberOutputBody {
     let optOutListArn: Swift.String?
     let optOutListName: Swift.String?
     let optedOutNumber: Swift.String?
@@ -11360,7 +11360,7 @@ extension PutRegistrationFieldValueInput {
     }
 }
 
-public struct PutRegistrationFieldValueInput: Swift.Equatable {
+public struct PutRegistrationFieldValueInput {
     /// The path to the registration form field. You can use [DescribeRegistrationFieldDefinitions] for a list of FieldPaths.
     /// This member is required.
     public var fieldPath: Swift.String?
@@ -11390,7 +11390,7 @@ public struct PutRegistrationFieldValueInput: Swift.Equatable {
     }
 }
 
-struct PutRegistrationFieldValueInputBody: Swift.Equatable {
+struct PutRegistrationFieldValueInputBody {
     let registrationId: Swift.String?
     let fieldPath: Swift.String?
     let selectChoices: [Swift.String]?
@@ -11455,7 +11455,7 @@ extension PutRegistrationFieldValueOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutRegistrationFieldValueOutput: Swift.Equatable {
+public struct PutRegistrationFieldValueOutput {
     /// The path to the registration form field. You can use [DescribeRegistrationFieldDefinitions] for a list of FieldPaths.
     /// This member is required.
     public var fieldPath: Swift.String?
@@ -11495,7 +11495,7 @@ public struct PutRegistrationFieldValueOutput: Swift.Equatable {
     }
 }
 
-struct PutRegistrationFieldValueOutputBody: Swift.Equatable {
+struct PutRegistrationFieldValueOutputBody {
     let registrationArn: Swift.String?
     let registrationId: Swift.String?
     let versionNumber: Swift.Int?
@@ -11634,7 +11634,7 @@ extension PinpointSMSVoiceV2ClientTypes.RegistrationAssociationFilter: Swift.Cod
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// The filter definition for filtering registrations that meets a specified criteria.
-    public struct RegistrationAssociationFilter: Swift.Equatable {
+    public struct RegistrationAssociationFilter {
         /// The name of the attribute to filter on.
         /// This member is required.
         public var name: PinpointSMSVoiceV2ClientTypes.RegistrationAssociationFilterName?
@@ -11731,7 +11731,7 @@ extension PinpointSMSVoiceV2ClientTypes.RegistrationAssociationMetadata: Swift.C
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// Metadata for the origination identity that is associated with the registration.
-    public struct RegistrationAssociationMetadata: Swift.Equatable {
+    public struct RegistrationAssociationMetadata {
         /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
         public var isoCountryCode: Swift.String?
         /// The phone number associated with the registration in E.164 format.
@@ -11803,7 +11803,7 @@ extension PinpointSMSVoiceV2ClientTypes.RegistrationAttachmentFilter: Swift.Coda
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// The filter definition for filtering registration attachments that meets a specified criteria.
-    public struct RegistrationAttachmentFilter: Swift.Equatable {
+    public struct RegistrationAttachmentFilter {
         /// The name of the attribute to filter on.
         /// This member is required.
         public var name: PinpointSMSVoiceV2ClientTypes.RegistrationAttachmentFilterName?
@@ -11897,7 +11897,7 @@ extension PinpointSMSVoiceV2ClientTypes.RegistrationAttachmentsInformation: Swif
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// Provides information on the specified registration attachments.
-    public struct RegistrationAttachmentsInformation: Swift.Equatable {
+    public struct RegistrationAttachmentsInformation {
         /// The status of the registration attachment.
         ///
         /// * UPLOAD_IN_PROGRESS The attachment is being uploaded.
@@ -11984,7 +11984,7 @@ extension PinpointSMSVoiceV2ClientTypes.RegistrationDeniedReasonInformation: Swi
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// Provides the reason a registration was rejected.
-    public struct RegistrationDeniedReasonInformation: Swift.Equatable {
+    public struct RegistrationDeniedReasonInformation {
         /// The link to the document.
         public var documentationLink: Swift.String?
         /// The title of the document.
@@ -12108,7 +12108,7 @@ extension PinpointSMSVoiceV2ClientTypes.RegistrationFieldDefinition: Swift.Codab
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// Provides a description of the specified field.
-    public struct RegistrationFieldDefinition: Swift.Equatable {
+    public struct RegistrationFieldDefinition {
         /// An array of RegistrationFieldDisplayHints objects for the field.
         /// This member is required.
         public var displayHints: PinpointSMSVoiceV2ClientTypes.RegistrationFieldDisplayHints?
@@ -12226,7 +12226,7 @@ extension PinpointSMSVoiceV2ClientTypes.RegistrationFieldDisplayHints: Swift.Cod
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// Provides help information on the registration field.
-    public struct RegistrationFieldDisplayHints: Swift.Equatable {
+    public struct RegistrationFieldDisplayHints {
         /// The link to the document the display hint is associated with.
         public var documentationLink: Swift.String?
         /// The title of the document the display hint is associated with.
@@ -12327,7 +12327,7 @@ extension PinpointSMSVoiceV2ClientTypes.RegistrationFieldValueInformation: Swift
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// Provides the values of the specified field.
-    public struct RegistrationFieldValueInformation: Swift.Equatable {
+    public struct RegistrationFieldValueInformation {
         /// A description of why the registration was denied.
         public var deniedReason: Swift.String?
         /// The path to the registration form field. You can use [DescribeRegistrationFieldDefinitions] for a list of FieldPaths.
@@ -12397,7 +12397,7 @@ extension PinpointSMSVoiceV2ClientTypes.RegistrationFilter: Swift.Codable {
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// The filter definition for filtering registrations that meets a specified criteria.
-    public struct RegistrationFilter: Swift.Equatable {
+    public struct RegistrationFilter {
         /// The name of the attribute to filter on.
         /// This member is required.
         public var name: PinpointSMSVoiceV2ClientTypes.RegistrationFilterName?
@@ -12530,7 +12530,7 @@ extension PinpointSMSVoiceV2ClientTypes.RegistrationInformation: Swift.Codable {
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// Provides information about the requested registration.
-    public struct RegistrationInformation: Swift.Equatable {
+    public struct RegistrationInformation {
         /// Metadata about a given registration which is specific to that registration type.
         public var additionalAttributes: [Swift.String:Swift.String]?
         /// The version number of the registration that was approved.
@@ -12625,7 +12625,7 @@ extension PinpointSMSVoiceV2ClientTypes.RegistrationSectionDefinition: Swift.Cod
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// Provides information on the specified section definition.
-    public struct RegistrationSectionDefinition: Swift.Equatable {
+    public struct RegistrationSectionDefinition {
         /// The path to the section of the registration.
         /// This member is required.
         public var displayHints: PinpointSMSVoiceV2ClientTypes.RegistrationSectionDisplayHints?
@@ -12690,7 +12690,7 @@ extension PinpointSMSVoiceV2ClientTypes.RegistrationSectionDisplayHints: Swift.C
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// Provides help information on the registration section.
-    public struct RegistrationSectionDisplayHints: Swift.Equatable {
+    public struct RegistrationSectionDisplayHints {
         /// The link to the document the display hint is associated with.
         public var documentationLink: Swift.String?
         /// The title of the document the display hint is associated with.
@@ -12817,7 +12817,7 @@ extension PinpointSMSVoiceV2ClientTypes.RegistrationTypeDefinition: Swift.Codabl
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// Provides information on the supported registration type.
-    public struct RegistrationTypeDefinition: Swift.Equatable {
+    public struct RegistrationTypeDefinition {
         /// Provides help information on the registration.
         /// This member is required.
         public var displayHints: PinpointSMSVoiceV2ClientTypes.RegistrationTypeDisplayHints?
@@ -12886,7 +12886,7 @@ extension PinpointSMSVoiceV2ClientTypes.RegistrationTypeDisplayHints: Swift.Coda
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// Provides help information on the registration type.
-    public struct RegistrationTypeDisplayHints: Swift.Equatable {
+    public struct RegistrationTypeDisplayHints {
         /// The link to the document the display hint is associated with.
         public var documentationLink: Swift.String?
         /// The title of the document the display hint is associated with.
@@ -12956,7 +12956,7 @@ extension PinpointSMSVoiceV2ClientTypes.RegistrationTypeFilter: Swift.Codable {
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// The filter definition for filtering registration types that meets a specified criteria.
-    public struct RegistrationTypeFilter: Swift.Equatable {
+    public struct RegistrationTypeFilter {
         /// The name of the attribute to filter on.
         /// This member is required.
         public var name: PinpointSMSVoiceV2ClientTypes.RegistrationTypeFilterName?
@@ -13047,7 +13047,7 @@ extension PinpointSMSVoiceV2ClientTypes.RegistrationVersionFilter: Swift.Codable
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// The filter definition for filtering registration versions that meets a specified criteria.
-    public struct RegistrationVersionFilter: Swift.Equatable {
+    public struct RegistrationVersionFilter {
         /// The name of the attribute to filter on.
         /// This member is required.
         public var name: PinpointSMSVoiceV2ClientTypes.RegistrationVersionFilterName?
@@ -13147,7 +13147,7 @@ extension PinpointSMSVoiceV2ClientTypes.RegistrationVersionInformation: Swift.Co
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// Provides information about the specified version of the registration.
-    public struct RegistrationVersionInformation: Swift.Equatable {
+    public struct RegistrationVersionInformation {
         /// An array of RegistrationDeniedReasonInformation objects.
         public var deniedReasons: [PinpointSMSVoiceV2ClientTypes.RegistrationDeniedReasonInformation]?
         /// The status of the registration.
@@ -13305,7 +13305,7 @@ extension PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatusHistory: Swift.
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// The RegistrationVersionStatusHistory object contains the time stamps for when the reservations status changes.
-    public struct RegistrationVersionStatusHistory: Swift.Equatable {
+    public struct RegistrationVersionStatusHistory {
         /// The time when the registration was in the approved state, in [UNIX epoch time](https://www.epochconverter.com/) format.
         public var approvedTimestamp: ClientRuntime.Date?
         /// The time when the registration was in the archived state, in [UNIX epoch time](https://www.epochconverter.com/) format.
@@ -13368,7 +13368,7 @@ extension ReleasePhoneNumberInput {
     }
 }
 
-public struct ReleasePhoneNumberInput: Swift.Equatable {
+public struct ReleasePhoneNumberInput {
     /// The PhoneNumberId or PhoneNumberArn of the phone number to release. You can use [DescribePhoneNumbers] to get the values for PhoneNumberId and PhoneNumberArn.
     /// This member is required.
     public var phoneNumberId: Swift.String?
@@ -13381,7 +13381,7 @@ public struct ReleasePhoneNumberInput: Swift.Equatable {
     }
 }
 
-struct ReleasePhoneNumberInputBody: Swift.Equatable {
+struct ReleasePhoneNumberInputBody {
     let phoneNumberId: Swift.String?
 }
 
@@ -13439,7 +13439,7 @@ extension ReleasePhoneNumberOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ReleasePhoneNumberOutput: Swift.Equatable {
+public struct ReleasePhoneNumberOutput {
     /// The time when the phone number was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     public var createdTimestamp: ClientRuntime.Date?
     /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
@@ -13511,7 +13511,7 @@ public struct ReleasePhoneNumberOutput: Swift.Equatable {
     }
 }
 
-struct ReleasePhoneNumberOutputBody: Swift.Equatable {
+struct ReleasePhoneNumberOutputBody {
     let phoneNumberArn: Swift.String?
     let phoneNumberId: Swift.String?
     let phoneNumber: Swift.String?
@@ -13636,7 +13636,7 @@ extension ReleaseSenderIdInput {
     }
 }
 
-public struct ReleaseSenderIdInput: Swift.Equatable {
+public struct ReleaseSenderIdInput {
     /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
     /// This member is required.
     public var isoCountryCode: Swift.String?
@@ -13654,7 +13654,7 @@ public struct ReleaseSenderIdInput: Swift.Equatable {
     }
 }
 
-struct ReleaseSenderIdInputBody: Swift.Equatable {
+struct ReleaseSenderIdInputBody {
     let senderId: Swift.String?
     let isoCountryCode: Swift.String?
 }
@@ -13698,7 +13698,7 @@ extension ReleaseSenderIdOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ReleaseSenderIdOutput: Swift.Equatable {
+public struct ReleaseSenderIdOutput {
     /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
     /// This member is required.
     public var isoCountryCode: Swift.String?
@@ -13740,7 +13740,7 @@ public struct ReleaseSenderIdOutput: Swift.Equatable {
     }
 }
 
-struct ReleaseSenderIdOutputBody: Swift.Equatable {
+struct ReleaseSenderIdOutputBody {
     let senderIdArn: Swift.String?
     let senderId: Swift.String?
     let isoCountryCode: Swift.String?
@@ -13867,7 +13867,7 @@ extension RequestPhoneNumberInput {
     }
 }
 
-public struct RequestPhoneNumberInput: Swift.Equatable {
+public struct RequestPhoneNumberInput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// By default this is set to false. When set to true the phone number can't be deleted.
@@ -13919,7 +13919,7 @@ public struct RequestPhoneNumberInput: Swift.Equatable {
     }
 }
 
-struct RequestPhoneNumberInputBody: Swift.Equatable {
+struct RequestPhoneNumberInputBody {
     let isoCountryCode: Swift.String?
     let messageType: PinpointSMSVoiceV2ClientTypes.MessageType?
     let numberCapabilities: [PinpointSMSVoiceV2ClientTypes.NumberCapability]?
@@ -14037,7 +14037,7 @@ extension RequestPhoneNumberOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RequestPhoneNumberOutput: Swift.Equatable {
+public struct RequestPhoneNumberOutput {
     /// The time when the phone number was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     public var createdTimestamp: ClientRuntime.Date?
     /// By default this is set to false. When set to true the phone number can't be deleted.
@@ -14121,7 +14121,7 @@ public struct RequestPhoneNumberOutput: Swift.Equatable {
     }
 }
 
-struct RequestPhoneNumberOutputBody: Swift.Equatable {
+struct RequestPhoneNumberOutputBody {
     let phoneNumberArn: Swift.String?
     let phoneNumberId: Swift.String?
     let phoneNumber: Swift.String?
@@ -14290,7 +14290,7 @@ extension RequestSenderIdInput {
     }
 }
 
-public struct RequestSenderIdInput: Swift.Equatable {
+public struct RequestSenderIdInput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// By default this is set to false. When set to true the sender ID can't be deleted.
@@ -14324,7 +14324,7 @@ public struct RequestSenderIdInput: Swift.Equatable {
     }
 }
 
-struct RequestSenderIdInputBody: Swift.Equatable {
+struct RequestSenderIdInputBody {
     let senderId: Swift.String?
     let isoCountryCode: Swift.String?
     let messageTypes: [PinpointSMSVoiceV2ClientTypes.MessageType]?
@@ -14404,7 +14404,7 @@ extension RequestSenderIdOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RequestSenderIdOutput: Swift.Equatable {
+public struct RequestSenderIdOutput {
     /// By default this is set to false. When set to true the sender ID can't be deleted.
     /// This member is required.
     public var deletionProtectionEnabled: Swift.Bool
@@ -14451,7 +14451,7 @@ public struct RequestSenderIdOutput: Swift.Equatable {
     }
 }
 
-struct RequestSenderIdOutputBody: Swift.Equatable {
+struct RequestSenderIdOutputBody {
     let senderIdArn: Swift.String?
     let senderId: Swift.String?
     let isoCountryCode: Swift.String?
@@ -14618,7 +14618,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceType: PinpointSMSVoiceV2ClientTypes.ResourceType?
     let resourceId: Swift.String?
@@ -14737,7 +14737,7 @@ extension PinpointSMSVoiceV2ClientTypes.SelectOptionDescription: Swift.Codable {
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// A description of each select option.
-    public struct SelectOptionDescription: Swift.Equatable {
+    public struct SelectOptionDescription {
         /// A description of the option meaning.
         public var description: Swift.String?
         /// The value of the option.
@@ -14805,7 +14805,7 @@ extension PinpointSMSVoiceV2ClientTypes.SelectValidation: Swift.Codable {
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// Validation rules for a select field.
-    public struct SelectValidation: Swift.Equatable {
+    public struct SelectValidation {
         /// The maximum number of choices for the select.
         /// This member is required.
         public var maxChoices: Swift.Int?
@@ -14880,7 +14880,7 @@ extension SendDestinationNumberVerificationCodeInput {
     }
 }
 
-public struct SendDestinationNumberVerificationCodeInput: Swift.Equatable {
+public struct SendDestinationNumberVerificationCodeInput {
     /// The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn.
     public var configurationSetName: Swift.String?
     /// You can specify custom data in this field. If you do, that data is logged to the event destination.
@@ -14918,7 +14918,7 @@ public struct SendDestinationNumberVerificationCodeInput: Swift.Equatable {
     }
 }
 
-struct SendDestinationNumberVerificationCodeInputBody: Swift.Equatable {
+struct SendDestinationNumberVerificationCodeInputBody {
     let verifiedDestinationNumberId: Swift.String?
     let verificationChannel: PinpointSMSVoiceV2ClientTypes.VerificationChannel?
     let languageCode: PinpointSMSVoiceV2ClientTypes.LanguageCode?
@@ -14988,7 +14988,7 @@ extension SendDestinationNumberVerificationCodeOutput: ClientRuntime.HttpRespons
     }
 }
 
-public struct SendDestinationNumberVerificationCodeOutput: Swift.Equatable {
+public struct SendDestinationNumberVerificationCodeOutput {
     /// The unique identifier for the message.
     /// This member is required.
     public var messageId: Swift.String?
@@ -15001,7 +15001,7 @@ public struct SendDestinationNumberVerificationCodeOutput: Swift.Equatable {
     }
 }
 
-struct SendDestinationNumberVerificationCodeOutputBody: Swift.Equatable {
+struct SendDestinationNumberVerificationCodeOutputBody {
     let messageId: Swift.String?
 }
 
@@ -15100,7 +15100,7 @@ extension SendTextMessageInput {
     }
 }
 
-public struct SendTextMessageInput: Swift.Equatable {
+public struct SendTextMessageInput {
     /// The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn.
     public var configurationSetName: Swift.String?
     /// You can specify custom data in this field. If you do, that data is logged to the event destination.
@@ -15153,7 +15153,7 @@ public struct SendTextMessageInput: Swift.Equatable {
     }
 }
 
-struct SendTextMessageInputBody: Swift.Equatable {
+struct SendTextMessageInputBody {
     let destinationPhoneNumber: Swift.String?
     let originationIdentity: Swift.String?
     let messageBody: Swift.String?
@@ -15239,7 +15239,7 @@ extension SendTextMessageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SendTextMessageOutput: Swift.Equatable {
+public struct SendTextMessageOutput {
     /// The unique identifier for the message.
     public var messageId: Swift.String?
 
@@ -15251,7 +15251,7 @@ public struct SendTextMessageOutput: Swift.Equatable {
     }
 }
 
-struct SendTextMessageOutputBody: Swift.Equatable {
+struct SendTextMessageOutputBody {
     let messageId: Swift.String?
 }
 
@@ -15343,7 +15343,7 @@ extension SendVoiceMessageInput {
     }
 }
 
-public struct SendVoiceMessageInput: Swift.Equatable {
+public struct SendVoiceMessageInput {
     /// The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn.
     public var configurationSetName: Swift.String?
     /// You can specify custom data in this field. If you do, that data is logged to the event destination.
@@ -15397,7 +15397,7 @@ public struct SendVoiceMessageInput: Swift.Equatable {
     }
 }
 
-struct SendVoiceMessageInputBody: Swift.Equatable {
+struct SendVoiceMessageInputBody {
     let destinationPhoneNumber: Swift.String?
     let originationIdentity: Swift.String?
     let messageBody: Swift.String?
@@ -15470,7 +15470,7 @@ extension SendVoiceMessageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SendVoiceMessageOutput: Swift.Equatable {
+public struct SendVoiceMessageOutput {
     /// The unique identifier for the message.
     public var messageId: Swift.String?
 
@@ -15482,7 +15482,7 @@ public struct SendVoiceMessageOutput: Swift.Equatable {
     }
 }
 
-struct SendVoiceMessageOutputBody: Swift.Equatable {
+struct SendVoiceMessageOutputBody {
     let messageId: Swift.String?
 }
 
@@ -15542,7 +15542,7 @@ extension PinpointSMSVoiceV2ClientTypes.SenderIdAndCountry: Swift.Codable {
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// The alphanumeric sender ID in a specific country that you want to describe. For more information on sender IDs see [Requesting sender IDs for SMS messaging with Amazon Pinpoint ](https://docs.aws.amazon.com/pinpoint/latest/userguide/channels-sms-awssupport-sender-id.html) in the Amazon Pinpoint User Guide.
-    public struct SenderIdAndCountry: Swift.Equatable {
+    public struct SenderIdAndCountry {
         /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
         /// This member is required.
         public var isoCountryCode: Swift.String?
@@ -15601,7 +15601,7 @@ extension PinpointSMSVoiceV2ClientTypes.SenderIdFilter: Swift.Codable {
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// The information for a sender ID that meets a specified criteria.
-    public struct SenderIdFilter: Swift.Equatable {
+    public struct SenderIdFilter {
         /// The name of the attribute to filter on.
         /// This member is required.
         public var name: PinpointSMSVoiceV2ClientTypes.SenderIdFilterName?
@@ -15737,7 +15737,7 @@ extension PinpointSMSVoiceV2ClientTypes.SenderIdInformation: Swift.Codable {
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// The information for all SenderIds in an Amazon Web Services account.
-    public struct SenderIdInformation: Swift.Equatable {
+    public struct SenderIdInformation {
         /// By default this is set to false. When set to true the sender ID can't be deleted.
         /// This member is required.
         public var deletionProtectionEnabled: Swift.Bool
@@ -15831,7 +15831,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
     let reason: PinpointSMSVoiceV2ClientTypes.ServiceQuotaExceededExceptionReason?
 }
@@ -15964,7 +15964,7 @@ extension SetDefaultMessageTypeInput {
     }
 }
 
-public struct SetDefaultMessageTypeInput: Swift.Equatable {
+public struct SetDefaultMessageTypeInput {
     /// The configuration set to update with a new default message type. This field can be the ConsigurationSetName or ConfigurationSetArn.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -15982,7 +15982,7 @@ public struct SetDefaultMessageTypeInput: Swift.Equatable {
     }
 }
 
-struct SetDefaultMessageTypeInputBody: Swift.Equatable {
+struct SetDefaultMessageTypeInputBody {
     let configurationSetName: Swift.String?
     let messageType: PinpointSMSVoiceV2ClientTypes.MessageType?
 }
@@ -16018,7 +16018,7 @@ extension SetDefaultMessageTypeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SetDefaultMessageTypeOutput: Swift.Equatable {
+public struct SetDefaultMessageTypeOutput {
     /// The Amazon Resource Name (ARN) of the updated configuration set.
     public var configurationSetArn: Swift.String?
     /// The name of the configuration set that was updated.
@@ -16038,7 +16038,7 @@ public struct SetDefaultMessageTypeOutput: Swift.Equatable {
     }
 }
 
-struct SetDefaultMessageTypeOutputBody: Swift.Equatable {
+struct SetDefaultMessageTypeOutputBody {
     let configurationSetArn: Swift.String?
     let configurationSetName: Swift.String?
     let messageType: PinpointSMSVoiceV2ClientTypes.MessageType?
@@ -16101,7 +16101,7 @@ extension SetDefaultSenderIdInput {
     }
 }
 
-public struct SetDefaultSenderIdInput: Swift.Equatable {
+public struct SetDefaultSenderIdInput {
     /// The configuration set to updated with a new default SenderId. This field can be the ConsigurationSetName or ConfigurationSetArn.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -16119,7 +16119,7 @@ public struct SetDefaultSenderIdInput: Swift.Equatable {
     }
 }
 
-struct SetDefaultSenderIdInputBody: Swift.Equatable {
+struct SetDefaultSenderIdInputBody {
     let configurationSetName: Swift.String?
     let senderId: Swift.String?
 }
@@ -16155,7 +16155,7 @@ extension SetDefaultSenderIdOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SetDefaultSenderIdOutput: Swift.Equatable {
+public struct SetDefaultSenderIdOutput {
     /// The Amazon Resource Name (ARN) of the updated configuration set.
     public var configurationSetArn: Swift.String?
     /// The name of the configuration set that was updated.
@@ -16175,7 +16175,7 @@ public struct SetDefaultSenderIdOutput: Swift.Equatable {
     }
 }
 
-struct SetDefaultSenderIdOutputBody: Swift.Equatable {
+struct SetDefaultSenderIdOutputBody {
     let configurationSetArn: Swift.String?
     let configurationSetName: Swift.String?
     let senderId: Swift.String?
@@ -16234,7 +16234,7 @@ extension SetTextMessageSpendLimitOverrideInput {
     }
 }
 
-public struct SetTextMessageSpendLimitOverrideInput: Swift.Equatable {
+public struct SetTextMessageSpendLimitOverrideInput {
     /// The new monthly limit to enforce on text messages.
     /// This member is required.
     public var monthlyLimit: Swift.Int?
@@ -16247,7 +16247,7 @@ public struct SetTextMessageSpendLimitOverrideInput: Swift.Equatable {
     }
 }
 
-struct SetTextMessageSpendLimitOverrideInputBody: Swift.Equatable {
+struct SetTextMessageSpendLimitOverrideInputBody {
     let monthlyLimit: Swift.Int?
 }
 
@@ -16275,7 +16275,7 @@ extension SetTextMessageSpendLimitOverrideOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct SetTextMessageSpendLimitOverrideOutput: Swift.Equatable {
+public struct SetTextMessageSpendLimitOverrideOutput {
     /// The current monthly limit to enforce on sending text messages.
     public var monthlyLimit: Swift.Int?
 
@@ -16287,7 +16287,7 @@ public struct SetTextMessageSpendLimitOverrideOutput: Swift.Equatable {
     }
 }
 
-struct SetTextMessageSpendLimitOverrideOutputBody: Swift.Equatable {
+struct SetTextMessageSpendLimitOverrideOutputBody {
     let monthlyLimit: Swift.Int?
 }
 
@@ -16337,7 +16337,7 @@ extension SetVoiceMessageSpendLimitOverrideInput {
     }
 }
 
-public struct SetVoiceMessageSpendLimitOverrideInput: Swift.Equatable {
+public struct SetVoiceMessageSpendLimitOverrideInput {
     /// The new monthly limit to enforce on voice messages.
     /// This member is required.
     public var monthlyLimit: Swift.Int?
@@ -16350,7 +16350,7 @@ public struct SetVoiceMessageSpendLimitOverrideInput: Swift.Equatable {
     }
 }
 
-struct SetVoiceMessageSpendLimitOverrideInputBody: Swift.Equatable {
+struct SetVoiceMessageSpendLimitOverrideInputBody {
     let monthlyLimit: Swift.Int?
 }
 
@@ -16378,7 +16378,7 @@ extension SetVoiceMessageSpendLimitOverrideOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct SetVoiceMessageSpendLimitOverrideOutput: Swift.Equatable {
+public struct SetVoiceMessageSpendLimitOverrideOutput {
     /// The current monthly limit to enforce on sending voice messages.
     public var monthlyLimit: Swift.Int?
 
@@ -16390,7 +16390,7 @@ public struct SetVoiceMessageSpendLimitOverrideOutput: Swift.Equatable {
     }
 }
 
-struct SetVoiceMessageSpendLimitOverrideOutputBody: Swift.Equatable {
+struct SetVoiceMessageSpendLimitOverrideOutputBody {
     let monthlyLimit: Swift.Int?
 }
 
@@ -16441,7 +16441,7 @@ extension PinpointSMSVoiceV2ClientTypes.SnsDestination: Swift.Codable {
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// An object that defines an Amazon SNS destination for events. You can use Amazon SNS to send notification when certain events occur.
-    public struct SnsDestination: Swift.Equatable {
+    public struct SnsDestination {
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic that you want to publish events to.
         /// This member is required.
         public var topicArn: Swift.String?
@@ -16495,7 +16495,7 @@ extension PinpointSMSVoiceV2ClientTypes.SpendLimit: Swift.Codable {
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// Describes the current Amazon Pinpoint monthly spend limits for sending voice and text messages. For more information on increasing your monthly spend limit, see [ Requesting increases to your monthly SMS spending quota for Amazon Pinpoint ](https://docs.aws.amazon.com/pinpoint/latest/userguide/channels-sms-awssupport-spend-threshold.html) in the Amazon Pinpoint User Guide.
-    public struct SpendLimit: Swift.Equatable {
+    public struct SpendLimit {
         /// The maximum amount of money, in US dollars, that you want to be able to spend sending messages each month. This value has to be less than or equal to the amount in MaxLimit. To use this custom limit, Overridden must be set to true.
         /// This member is required.
         public var enforcedLimit: Swift.Int
@@ -16577,7 +16577,7 @@ extension SubmitRegistrationVersionInput {
     }
 }
 
-public struct SubmitRegistrationVersionInput: Swift.Equatable {
+public struct SubmitRegistrationVersionInput {
     /// The unique identifier for the registration.
     /// This member is required.
     public var registrationId: Swift.String?
@@ -16590,7 +16590,7 @@ public struct SubmitRegistrationVersionInput: Swift.Equatable {
     }
 }
 
-struct SubmitRegistrationVersionInputBody: Swift.Equatable {
+struct SubmitRegistrationVersionInputBody {
     let registrationId: Swift.String?
 }
 
@@ -16626,7 +16626,7 @@ extension SubmitRegistrationVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SubmitRegistrationVersionOutput: Swift.Equatable {
+public struct SubmitRegistrationVersionOutput {
     /// The Amazon Resource Name (ARN) for the registration.
     /// This member is required.
     public var registrationArn: Swift.String?
@@ -16675,7 +16675,7 @@ public struct SubmitRegistrationVersionOutput: Swift.Equatable {
     }
 }
 
-struct SubmitRegistrationVersionOutputBody: Swift.Equatable {
+struct SubmitRegistrationVersionOutputBody {
     let registrationArn: Swift.String?
     let registrationId: Swift.String?
     let versionNumber: Swift.Int?
@@ -16762,7 +16762,7 @@ extension PinpointSMSVoiceV2ClientTypes.SupportedAssociation: Swift.Codable {
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// The processing rules for when a registration can be associated with an origination identity and disassociated from an origination identity.
-    public struct SupportedAssociation: Swift.Equatable {
+    public struct SupportedAssociation {
         /// The association behavior.
         ///
         /// * ASSOCIATE_BEFORE_SUBMIT The origination identity has to be supplied when creating a registration.
@@ -16830,7 +16830,7 @@ extension PinpointSMSVoiceV2ClientTypes.Tag: Swift.Codable {
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// The list of tags to be added to the specified topic.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key identifier, or name, of the tag.
         /// This member is required.
         public var key: Swift.String?
@@ -16877,7 +16877,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -16895,7 +16895,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceArn: Swift.String?
     let tags: [PinpointSMSVoiceV2ClientTypes.Tag]?
 }
@@ -16929,7 +16929,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -16983,7 +16983,7 @@ extension PinpointSMSVoiceV2ClientTypes.TextValidation: Swift.Codable {
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// Validation rules for a text field.
-    public struct TextValidation: Swift.Equatable {
+    public struct TextValidation {
         /// The maximum number of characters for the text field.
         /// This member is required.
         public var maxLength: Swift.Int?
@@ -17047,7 +17047,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -17090,7 +17090,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -17108,7 +17108,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceArn: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -17142,7 +17142,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -17209,7 +17209,7 @@ extension UpdateEventDestinationInput {
     }
 }
 
-public struct UpdateEventDestinationInput: Swift.Equatable {
+public struct UpdateEventDestinationInput {
     /// An object that contains information about an event destination that sends data to CloudWatch Logs.
     public var cloudWatchLogsDestination: PinpointSMSVoiceV2ClientTypes.CloudWatchLogsDestination?
     /// The configuration set to update with the new event destination. Valid values for this can be the ConfigurationSetName or ConfigurationSetArn.
@@ -17247,7 +17247,7 @@ public struct UpdateEventDestinationInput: Swift.Equatable {
     }
 }
 
-struct UpdateEventDestinationInputBody: Swift.Equatable {
+struct UpdateEventDestinationInputBody {
     let configurationSetName: Swift.String?
     let eventDestinationName: Swift.String?
     let enabled: Swift.Bool?
@@ -17312,7 +17312,7 @@ extension UpdateEventDestinationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateEventDestinationOutput: Swift.Equatable {
+public struct UpdateEventDestinationOutput {
     /// The Amazon Resource Name (ARN) for the ConfigurationSet that was updated.
     public var configurationSetArn: Swift.String?
     /// The name of the configuration set.
@@ -17332,7 +17332,7 @@ public struct UpdateEventDestinationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateEventDestinationOutputBody: Swift.Equatable {
+struct UpdateEventDestinationOutputBody {
     let configurationSetArn: Swift.String?
     let configurationSetName: Swift.String?
     let eventDestination: PinpointSMSVoiceV2ClientTypes.EventDestination?
@@ -17416,7 +17416,7 @@ extension UpdatePhoneNumberInput {
     }
 }
 
-public struct UpdatePhoneNumberInput: Swift.Equatable {
+public struct UpdatePhoneNumberInput {
     /// By default this is set to false. When set to true the phone number can't be deleted.
     public var deletionProtectionEnabled: Swift.Bool?
     /// The OptOutList to add the phone number to. Valid values for this field can be either the OutOutListName or OutOutListArn.
@@ -17453,7 +17453,7 @@ public struct UpdatePhoneNumberInput: Swift.Equatable {
     }
 }
 
-struct UpdatePhoneNumberInputBody: Swift.Equatable {
+struct UpdatePhoneNumberInputBody {
     let phoneNumberId: Swift.String?
     let twoWayEnabled: Swift.Bool?
     let twoWayChannelArn: Swift.String?
@@ -17537,7 +17537,7 @@ extension UpdatePhoneNumberOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePhoneNumberOutput: Swift.Equatable {
+public struct UpdatePhoneNumberOutput {
     /// The time when the phone number was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     public var createdTimestamp: ClientRuntime.Date?
     /// When set to true the phone number can't be deleted.
@@ -17613,7 +17613,7 @@ public struct UpdatePhoneNumberOutput: Swift.Equatable {
     }
 }
 
-struct UpdatePhoneNumberOutputBody: Swift.Equatable {
+struct UpdatePhoneNumberOutputBody {
     let phoneNumberArn: Swift.String?
     let phoneNumberId: Swift.String?
     let phoneNumber: Swift.String?
@@ -17766,7 +17766,7 @@ extension UpdatePoolInput {
     }
 }
 
-public struct UpdatePoolInput: Swift.Equatable {
+public struct UpdatePoolInput {
     /// When set to true the pool can't be deleted.
     public var deletionProtectionEnabled: Swift.Bool?
     /// The OptOutList to associate with the pool. Valid values are either OptOutListName or OptOutListArn.
@@ -17807,7 +17807,7 @@ public struct UpdatePoolInput: Swift.Equatable {
     }
 }
 
-struct UpdatePoolInputBody: Swift.Equatable {
+struct UpdatePoolInputBody {
     let poolId: Swift.String?
     let twoWayEnabled: Swift.Bool?
     let twoWayChannelArn: Swift.String?
@@ -17885,7 +17885,7 @@ extension UpdatePoolOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePoolOutput: Swift.Equatable {
+public struct UpdatePoolOutput {
     /// The time when the pool was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     public var createdTimestamp: ClientRuntime.Date?
     /// When set to true the pool can't be deleted.
@@ -17941,7 +17941,7 @@ public struct UpdatePoolOutput: Swift.Equatable {
     }
 }
 
-struct UpdatePoolOutputBody: Swift.Equatable {
+struct UpdatePoolOutputBody {
     let poolArn: Swift.String?
     let poolId: Swift.String?
     let status: PinpointSMSVoiceV2ClientTypes.PoolStatus?
@@ -18045,7 +18045,7 @@ extension UpdateSenderIdInput {
     }
 }
 
-public struct UpdateSenderIdInput: Swift.Equatable {
+public struct UpdateSenderIdInput {
     /// By default this is set to false. When set to true the sender ID can't be deleted.
     public var deletionProtectionEnabled: Swift.Bool?
     /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
@@ -18067,7 +18067,7 @@ public struct UpdateSenderIdInput: Swift.Equatable {
     }
 }
 
-struct UpdateSenderIdInputBody: Swift.Equatable {
+struct UpdateSenderIdInputBody {
     let senderId: Swift.String?
     let isoCountryCode: Swift.String?
     let deletionProtectionEnabled: Swift.Bool?
@@ -18117,7 +18117,7 @@ extension UpdateSenderIdOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSenderIdOutput: Swift.Equatable {
+public struct UpdateSenderIdOutput {
     /// By default this is set to false. When set to true the sender ID can't be deleted.
     /// This member is required.
     public var deletionProtectionEnabled: Swift.Bool
@@ -18164,7 +18164,7 @@ public struct UpdateSenderIdOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSenderIdOutputBody: Swift.Equatable {
+struct UpdateSenderIdOutputBody {
     let senderIdArn: Swift.String?
     let senderId: Swift.String?
     let isoCountryCode: Swift.String?
@@ -18283,7 +18283,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let reason: PinpointSMSVoiceV2ClientTypes.ValidationExceptionReason?
     let fields: [PinpointSMSVoiceV2ClientTypes.ValidationExceptionField]?
@@ -18343,7 +18343,7 @@ extension PinpointSMSVoiceV2ClientTypes.ValidationExceptionField: Swift.Codable 
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// The field associated with the validation exception.
-    public struct ValidationExceptionField: Swift.Equatable {
+    public struct ValidationExceptionField {
         /// The message associated with the validation exception with information to help determine its cause.
         /// This member is required.
         public var message: Swift.String?
@@ -18606,7 +18606,7 @@ extension PinpointSMSVoiceV2ClientTypes.VerifiedDestinationNumberFilter: Swift.C
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// The filter definition for filtering verified destination phone numbers that meets a specified criteria.
-    public struct VerifiedDestinationNumberFilter: Swift.Equatable {
+    public struct VerifiedDestinationNumberFilter {
         /// The name of the attribute to filter on.
         /// This member is required.
         public var name: PinpointSMSVoiceV2ClientTypes.VerifiedDestinationNumberFilterName?
@@ -18700,7 +18700,7 @@ extension PinpointSMSVoiceV2ClientTypes.VerifiedDestinationNumberInformation: Sw
 
 extension PinpointSMSVoiceV2ClientTypes {
     /// Provides information about the requested verified destintion phone number.
-    public struct VerifiedDestinationNumberInformation: Swift.Equatable {
+    public struct VerifiedDestinationNumberInformation {
         /// The time when the destination phone number was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
         /// This member is required.
         public var createdTimestamp: ClientRuntime.Date?
@@ -18763,7 +18763,7 @@ extension VerifyDestinationNumberInput {
     }
 }
 
-public struct VerifyDestinationNumberInput: Swift.Equatable {
+public struct VerifyDestinationNumberInput {
     /// The verification code that was received by the verified destination phone number.
     /// This member is required.
     public var verificationCode: Swift.String?
@@ -18781,7 +18781,7 @@ public struct VerifyDestinationNumberInput: Swift.Equatable {
     }
 }
 
-struct VerifyDestinationNumberInputBody: Swift.Equatable {
+struct VerifyDestinationNumberInputBody {
     let verifiedDestinationNumberId: Swift.String?
     let verificationCode: Swift.String?
 }
@@ -18821,7 +18821,7 @@ extension VerifyDestinationNumberOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct VerifyDestinationNumberOutput: Swift.Equatable {
+public struct VerifyDestinationNumberOutput {
     /// The time when the destination phone number was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     /// This member is required.
     public var createdTimestamp: ClientRuntime.Date?
@@ -18854,7 +18854,7 @@ public struct VerifyDestinationNumberOutput: Swift.Equatable {
     }
 }
 
-struct VerifyDestinationNumberOutputBody: Swift.Equatable {
+struct VerifyDestinationNumberOutputBody {
     let verifiedDestinationNumberArn: Swift.String?
     let verifiedDestinationNumberId: Swift.String?
     let destinationPhoneNumber: Swift.String?

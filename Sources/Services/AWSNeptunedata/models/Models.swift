@@ -57,7 +57,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let detailedMessage: Swift.String?
     let requestId: Swift.String?
     let code: Swift.String?
@@ -168,7 +168,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct BadRequestExceptionBody: Swift.Equatable {
+struct BadRequestExceptionBody {
     let detailedMessage: Swift.String?
     let requestId: Swift.String?
     let code: Swift.String?
@@ -247,7 +247,7 @@ public struct BulkLoadIdNotFoundException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct BulkLoadIdNotFoundExceptionBody: Swift.Equatable {
+struct BulkLoadIdNotFoundExceptionBody {
     let detailedMessage: Swift.String?
     let requestId: Swift.String?
     let code: Swift.String?
@@ -281,7 +281,7 @@ extension CancelGremlinQueryInput {
     }
 }
 
-public struct CancelGremlinQueryInput: Swift.Equatable {
+public struct CancelGremlinQueryInput {
     /// The unique identifier that identifies the query to be canceled.
     /// This member is required.
     public var queryId: Swift.String?
@@ -294,7 +294,7 @@ public struct CancelGremlinQueryInput: Swift.Equatable {
     }
 }
 
-struct CancelGremlinQueryInputBody: Swift.Equatable {
+struct CancelGremlinQueryInputBody {
 }
 
 extension CancelGremlinQueryInputBody: Swift.Decodable {
@@ -315,7 +315,7 @@ extension CancelGremlinQueryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelGremlinQueryOutput: Swift.Equatable {
+public struct CancelGremlinQueryOutput {
     /// The status of the cancelation
     public var status: Swift.String?
 
@@ -327,7 +327,7 @@ public struct CancelGremlinQueryOutput: Swift.Equatable {
     }
 }
 
-struct CancelGremlinQueryOutputBody: Swift.Equatable {
+struct CancelGremlinQueryOutputBody {
     let status: Swift.String?
 }
 
@@ -377,7 +377,7 @@ extension CancelLoaderJobInput {
     }
 }
 
-public struct CancelLoaderJobInput: Swift.Equatable {
+public struct CancelLoaderJobInput {
     /// The ID of the load job to be deleted.
     /// This member is required.
     public var loadId: Swift.String?
@@ -390,7 +390,7 @@ public struct CancelLoaderJobInput: Swift.Equatable {
     }
 }
 
-struct CancelLoaderJobInputBody: Swift.Equatable {
+struct CancelLoaderJobInputBody {
 }
 
 extension CancelLoaderJobInputBody: Swift.Decodable {
@@ -411,7 +411,7 @@ extension CancelLoaderJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelLoaderJobOutput: Swift.Equatable {
+public struct CancelLoaderJobOutput {
     /// The cancellation status.
     public var status: Swift.String?
 
@@ -423,7 +423,7 @@ public struct CancelLoaderJobOutput: Swift.Equatable {
     }
 }
 
-struct CancelLoaderJobOutputBody: Swift.Equatable {
+struct CancelLoaderJobOutputBody {
     let status: Swift.String?
 }
 
@@ -488,7 +488,7 @@ extension CancelMLDataProcessingJobInput {
     }
 }
 
-public struct CancelMLDataProcessingJobInput: Swift.Equatable {
+public struct CancelMLDataProcessingJobInput {
     /// If set to TRUE, this flag specifies that all Neptune ML S3 artifacts should be deleted when the job is stopped. The default is FALSE.
     public var clean: Swift.Bool?
     /// The unique identifier of the data-processing job.
@@ -509,7 +509,7 @@ public struct CancelMLDataProcessingJobInput: Swift.Equatable {
     }
 }
 
-struct CancelMLDataProcessingJobInputBody: Swift.Equatable {
+struct CancelMLDataProcessingJobInputBody {
 }
 
 extension CancelMLDataProcessingJobInputBody: Swift.Decodable {
@@ -530,7 +530,7 @@ extension CancelMLDataProcessingJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelMLDataProcessingJobOutput: Swift.Equatable {
+public struct CancelMLDataProcessingJobOutput {
     /// The status of the cancellation request.
     public var status: Swift.String?
 
@@ -542,7 +542,7 @@ public struct CancelMLDataProcessingJobOutput: Swift.Equatable {
     }
 }
 
-struct CancelMLDataProcessingJobOutputBody: Swift.Equatable {
+struct CancelMLDataProcessingJobOutputBody {
     let status: Swift.String?
 }
 
@@ -605,7 +605,7 @@ extension CancelMLModelTrainingJobInput {
     }
 }
 
-public struct CancelMLModelTrainingJobInput: Swift.Equatable {
+public struct CancelMLModelTrainingJobInput {
     /// If set to TRUE, this flag specifies that all Amazon S3 artifacts should be deleted when the job is stopped. The default is FALSE.
     public var clean: Swift.Bool?
     /// The unique identifier of the model-training job to be canceled.
@@ -626,7 +626,7 @@ public struct CancelMLModelTrainingJobInput: Swift.Equatable {
     }
 }
 
-struct CancelMLModelTrainingJobInputBody: Swift.Equatable {
+struct CancelMLModelTrainingJobInputBody {
 }
 
 extension CancelMLModelTrainingJobInputBody: Swift.Decodable {
@@ -647,7 +647,7 @@ extension CancelMLModelTrainingJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelMLModelTrainingJobOutput: Swift.Equatable {
+public struct CancelMLModelTrainingJobOutput {
     /// The status of the cancellation.
     public var status: Swift.String?
 
@@ -659,7 +659,7 @@ public struct CancelMLModelTrainingJobOutput: Swift.Equatable {
     }
 }
 
-struct CancelMLModelTrainingJobOutputBody: Swift.Equatable {
+struct CancelMLModelTrainingJobOutputBody {
     let status: Swift.String?
 }
 
@@ -722,7 +722,7 @@ extension CancelMLModelTransformJobInput {
     }
 }
 
-public struct CancelMLModelTransformJobInput: Swift.Equatable {
+public struct CancelMLModelTransformJobInput {
     /// If this flag is set to TRUE, all Neptune ML S3 artifacts should be deleted when the job is stopped. The default is FALSE.
     public var clean: Swift.Bool?
     /// The unique ID of the model transform job to be canceled.
@@ -743,7 +743,7 @@ public struct CancelMLModelTransformJobInput: Swift.Equatable {
     }
 }
 
-struct CancelMLModelTransformJobInputBody: Swift.Equatable {
+struct CancelMLModelTransformJobInputBody {
 }
 
 extension CancelMLModelTransformJobInputBody: Swift.Decodable {
@@ -764,7 +764,7 @@ extension CancelMLModelTransformJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelMLModelTransformJobOutput: Swift.Equatable {
+public struct CancelMLModelTransformJobOutput {
     /// the status of the cancelation.
     public var status: Swift.String?
 
@@ -776,7 +776,7 @@ public struct CancelMLModelTransformJobOutput: Swift.Equatable {
     }
 }
 
-struct CancelMLModelTransformJobOutputBody: Swift.Equatable {
+struct CancelMLModelTransformJobOutputBody {
     let status: Swift.String?
 }
 
@@ -835,7 +835,7 @@ extension CancelOpenCypherQueryInput {
     }
 }
 
-public struct CancelOpenCypherQueryInput: Swift.Equatable {
+public struct CancelOpenCypherQueryInput {
     /// The unique ID of the openCypher query to cancel.
     /// This member is required.
     public var queryId: Swift.String?
@@ -852,7 +852,7 @@ public struct CancelOpenCypherQueryInput: Swift.Equatable {
     }
 }
 
-struct CancelOpenCypherQueryInputBody: Swift.Equatable {
+struct CancelOpenCypherQueryInputBody {
 }
 
 extension CancelOpenCypherQueryInputBody: Swift.Decodable {
@@ -875,7 +875,7 @@ extension CancelOpenCypherQueryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelOpenCypherQueryOutput: Swift.Equatable {
+public struct CancelOpenCypherQueryOutput {
     /// The cancelation payload for the openCypher query.
     public var payload: Swift.Bool?
     /// The cancellation status of the openCypher query.
@@ -891,7 +891,7 @@ public struct CancelOpenCypherQueryOutput: Swift.Equatable {
     }
 }
 
-struct CancelOpenCypherQueryOutputBody: Swift.Equatable {
+struct CancelOpenCypherQueryOutputBody {
     let status: Swift.String?
     let payload: Swift.Bool?
 }
@@ -991,7 +991,7 @@ public struct CancelledByUserException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct CancelledByUserExceptionBody: Swift.Equatable {
+struct CancelledByUserExceptionBody {
     let detailedMessage: Swift.String?
     let requestId: Swift.String?
     let code: Swift.String?
@@ -1070,7 +1070,7 @@ public struct ClientTimeoutException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ClientTimeoutExceptionBody: Swift.Equatable {
+struct ClientTimeoutExceptionBody {
     let detailedMessage: Swift.String?
     let requestId: Swift.String?
     let code: Swift.String?
@@ -1149,7 +1149,7 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct ConcurrentModificationExceptionBody: Swift.Equatable {
+struct ConcurrentModificationExceptionBody {
     let detailedMessage: Swift.String?
     let requestId: Swift.String?
     let code: Swift.String?
@@ -1228,7 +1228,7 @@ public struct ConstraintViolationException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct ConstraintViolationExceptionBody: Swift.Equatable {
+struct ConstraintViolationExceptionBody {
     let detailedMessage: Swift.String?
     let requestId: Swift.String?
     let code: Swift.String?
@@ -1304,7 +1304,7 @@ extension CreateMLEndpointInput {
     }
 }
 
-public struct CreateMLEndpointInput: Swift.Equatable {
+public struct CreateMLEndpointInput {
     /// A unique identifier for the new inference endpoint. The default is an autogenerated timestamped name.
     public var id: Swift.String?
     /// The minimum number of Amazon EC2 instances to deploy to an endpoint for prediction. The default is 1
@@ -1348,7 +1348,7 @@ public struct CreateMLEndpointInput: Swift.Equatable {
     }
 }
 
-struct CreateMLEndpointInputBody: Swift.Equatable {
+struct CreateMLEndpointInputBody {
     let id: Swift.String?
     let mlModelTrainingJobId: Swift.String?
     let mlModelTransformJobId: Swift.String?
@@ -1412,7 +1412,7 @@ extension CreateMLEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateMLEndpointOutput: Swift.Equatable {
+public struct CreateMLEndpointOutput {
     /// The ARN for the new inference endpoint.
     public var arn: Swift.String?
     /// The endpoint creation time, in milliseconds.
@@ -1432,7 +1432,7 @@ public struct CreateMLEndpointOutput: Swift.Equatable {
     }
 }
 
-struct CreateMLEndpointOutputBody: Swift.Equatable {
+struct CreateMLEndpointOutputBody {
     let id: Swift.String?
     let arn: Swift.String?
     let creationTimeInMillis: Swift.Int?
@@ -1510,7 +1510,7 @@ extension NeptunedataClientTypes.CustomModelTrainingParameters: Swift.Codable {
 
 extension NeptunedataClientTypes {
     /// Contains custom model training parameters. See [Custom models in Neptune ML](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-custom-models.html).
-    public struct CustomModelTrainingParameters: Swift.Equatable {
+    public struct CustomModelTrainingParameters {
         /// The path to the Amazon S3 location where the Python module implementing your model is located. This must point to a valid existing Amazon S3 location that contains, at a minimum, a training script, a transform script, and a model-hpo-configuration.json file.
         /// This member is required.
         public var sourceS3DirectoryPath: Swift.String?
@@ -1560,7 +1560,7 @@ extension NeptunedataClientTypes.CustomModelTransformParameters: Swift.Codable {
 
 extension NeptunedataClientTypes {
     /// Contains custom model transform parameters. See [Use a trained model to generate new model artifacts](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-model-transform.html).
-    public struct CustomModelTransformParameters: Swift.Equatable {
+    public struct CustomModelTransformParameters {
         /// The path to the Amazon S3 location where the Python module implementing your model is located. This must point to a valid existing Amazon S3 location that contains, at a minimum, a training script, a transform script, and a model-hpo-configuration.json file.
         /// This member is required.
         public var sourceS3DirectoryPath: Swift.String?
@@ -1605,7 +1605,7 @@ extension DeleteMLEndpointInput {
     }
 }
 
-public struct DeleteMLEndpointInput: Swift.Equatable {
+public struct DeleteMLEndpointInput {
     /// If this flag is set to TRUE, all Neptune ML S3 artifacts should be deleted when the job is stopped. The default is FALSE.
     public var clean: Swift.Bool?
     /// The unique identifier of the inference endpoint.
@@ -1626,7 +1626,7 @@ public struct DeleteMLEndpointInput: Swift.Equatable {
     }
 }
 
-struct DeleteMLEndpointInputBody: Swift.Equatable {
+struct DeleteMLEndpointInputBody {
 }
 
 extension DeleteMLEndpointInputBody: Swift.Decodable {
@@ -1647,7 +1647,7 @@ extension DeleteMLEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteMLEndpointOutput: Swift.Equatable {
+public struct DeleteMLEndpointOutput {
     /// The status of the cancellation.
     public var status: Swift.String?
 
@@ -1659,7 +1659,7 @@ public struct DeleteMLEndpointOutput: Swift.Equatable {
     }
 }
 
-struct DeleteMLEndpointOutputBody: Swift.Equatable {
+struct DeleteMLEndpointOutputBody {
     let status: Swift.String?
 }
 
@@ -1703,12 +1703,12 @@ extension DeletePropertygraphStatisticsInput {
     }
 }
 
-public struct DeletePropertygraphStatisticsInput: Swift.Equatable {
+public struct DeletePropertygraphStatisticsInput {
 
     public init() { }
 }
 
-struct DeletePropertygraphStatisticsInputBody: Swift.Equatable {
+struct DeletePropertygraphStatisticsInputBody {
 }
 
 extension DeletePropertygraphStatisticsInputBody: Swift.Decodable {
@@ -1732,7 +1732,7 @@ extension DeletePropertygraphStatisticsOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DeletePropertygraphStatisticsOutput: Swift.Equatable {
+public struct DeletePropertygraphStatisticsOutput {
     /// The deletion payload.
     public var payload: NeptunedataClientTypes.DeleteStatisticsValueMap?
     /// The cancel status.
@@ -1752,7 +1752,7 @@ public struct DeletePropertygraphStatisticsOutput: Swift.Equatable {
     }
 }
 
-struct DeletePropertygraphStatisticsOutputBody: Swift.Equatable {
+struct DeletePropertygraphStatisticsOutputBody {
     let statusCode: Swift.Int?
     let status: Swift.String?
     let payload: NeptunedataClientTypes.DeleteStatisticsValueMap?
@@ -1806,12 +1806,12 @@ extension DeleteSparqlStatisticsInput {
     }
 }
 
-public struct DeleteSparqlStatisticsInput: Swift.Equatable {
+public struct DeleteSparqlStatisticsInput {
 
     public init() { }
 }
 
-struct DeleteSparqlStatisticsInputBody: Swift.Equatable {
+struct DeleteSparqlStatisticsInputBody {
 }
 
 extension DeleteSparqlStatisticsInputBody: Swift.Decodable {
@@ -1835,7 +1835,7 @@ extension DeleteSparqlStatisticsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSparqlStatisticsOutput: Swift.Equatable {
+public struct DeleteSparqlStatisticsOutput {
     /// The deletion payload.
     public var payload: NeptunedataClientTypes.DeleteStatisticsValueMap?
     /// The cancel status.
@@ -1855,7 +1855,7 @@ public struct DeleteSparqlStatisticsOutput: Swift.Equatable {
     }
 }
 
-struct DeleteSparqlStatisticsOutputBody: Swift.Equatable {
+struct DeleteSparqlStatisticsOutputBody {
     let statusCode: Swift.Int?
     let status: Swift.String?
     let payload: NeptunedataClientTypes.DeleteStatisticsValueMap?
@@ -1929,7 +1929,7 @@ extension NeptunedataClientTypes.DeleteStatisticsValueMap: Swift.Codable {
 
 extension NeptunedataClientTypes {
     /// The payload for DeleteStatistics.
-    public struct DeleteStatisticsValueMap: Swift.Equatable {
+    public struct DeleteStatisticsValueMap {
         /// The current status of the statistics.
         public var active: Swift.Bool?
         /// The ID of the statistics generation run that is currently occurring.
@@ -1986,7 +1986,7 @@ extension NeptunedataClientTypes.EdgeStructure: Swift.Codable {
 
 extension NeptunedataClientTypes {
     /// An edge structure.
-    public struct EdgeStructure: Swift.Equatable {
+    public struct EdgeStructure {
         /// The number of edges that have this specific structure.
         public var count: Swift.Int?
         /// A list of edge properties present in this specific structure.
@@ -2057,7 +2057,7 @@ extension ExecuteFastResetInput {
     }
 }
 
-public struct ExecuteFastResetInput: Swift.Equatable {
+public struct ExecuteFastResetInput {
     /// The fast reset action. One of the following values:
     ///
     /// * initiateDatabaseReset – This action generates a unique token needed to actually perform the fast reset.
@@ -2078,7 +2078,7 @@ public struct ExecuteFastResetInput: Swift.Equatable {
     }
 }
 
-struct ExecuteFastResetInputBody: Swift.Equatable {
+struct ExecuteFastResetInputBody {
     let action: NeptunedataClientTypes.Action?
     let token: Swift.String?
 }
@@ -2112,7 +2112,7 @@ extension ExecuteFastResetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ExecuteFastResetOutput: Swift.Equatable {
+public struct ExecuteFastResetOutput {
     /// The payload is only returned by the initiateDatabaseReset action, and contains the unique token to use with the performDatabaseReset action to make the reset occur.
     public var payload: NeptunedataClientTypes.FastResetToken?
     /// The status is only returned for the performDatabaseReset action, and indicates whether or not the fast reset rquest is accepted.
@@ -2129,7 +2129,7 @@ public struct ExecuteFastResetOutput: Swift.Equatable {
     }
 }
 
-struct ExecuteFastResetOutputBody: Swift.Equatable {
+struct ExecuteFastResetOutputBody {
     let status: Swift.String?
     let payload: NeptunedataClientTypes.FastResetToken?
 }
@@ -2192,7 +2192,7 @@ extension ExecuteGremlinExplainQueryInput {
     }
 }
 
-public struct ExecuteGremlinExplainQueryInput: Swift.Equatable {
+public struct ExecuteGremlinExplainQueryInput {
     /// The Gremlin explain query string.
     /// This member is required.
     public var gremlinQuery: Swift.String?
@@ -2205,7 +2205,7 @@ public struct ExecuteGremlinExplainQueryInput: Swift.Equatable {
     }
 }
 
-struct ExecuteGremlinExplainQueryInputBody: Swift.Equatable {
+struct ExecuteGremlinExplainQueryInputBody {
     let gremlinQuery: Swift.String?
 }
 
@@ -2234,7 +2234,7 @@ extension ExecuteGremlinExplainQueryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ExecuteGremlinExplainQueryOutput: Swift.Equatable {
+public struct ExecuteGremlinExplainQueryOutput {
     /// A text blob containing the Gremlin explain result, as described in [Tuning Gremlin queries](https://docs.aws.amazon.com/neptune/latest/userguide/gremlin-traversal-tuning.html).
     public var output: ClientRuntime.Data?
 
@@ -2246,7 +2246,7 @@ public struct ExecuteGremlinExplainQueryOutput: Swift.Equatable {
     }
 }
 
-struct ExecuteGremlinExplainQueryOutputBody: Swift.Equatable {
+struct ExecuteGremlinExplainQueryOutputBody {
     let output: ClientRuntime.Data?
 }
 
@@ -2328,7 +2328,7 @@ extension ExecuteGremlinProfileQueryInput {
     }
 }
 
-public struct ExecuteGremlinProfileQueryInput: Swift.Equatable {
+public struct ExecuteGremlinProfileQueryInput {
     /// If non-zero, causes the results string to be truncated at that number of characters. If set to zero, the string contains all the results.
     public var chop: Swift.Int?
     /// The Gremlin query string to profile.
@@ -2357,7 +2357,7 @@ public struct ExecuteGremlinProfileQueryInput: Swift.Equatable {
     }
 }
 
-struct ExecuteGremlinProfileQueryInputBody: Swift.Equatable {
+struct ExecuteGremlinProfileQueryInputBody {
     let gremlinQuery: Swift.String?
     let results: Swift.Bool?
     let chop: Swift.Int?
@@ -2402,7 +2402,7 @@ extension ExecuteGremlinProfileQueryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ExecuteGremlinProfileQueryOutput: Swift.Equatable {
+public struct ExecuteGremlinProfileQueryOutput {
     /// A text blob containing the Gremlin Profile result. See [Gremlin profile API in Neptune](https://docs.aws.amazon.com/neptune/latest/userguide/gremlin-profile-api.html) for details.
     public var output: ClientRuntime.Data?
 
@@ -2414,7 +2414,7 @@ public struct ExecuteGremlinProfileQueryOutput: Swift.Equatable {
     }
 }
 
-struct ExecuteGremlinProfileQueryOutputBody: Swift.Equatable {
+struct ExecuteGremlinProfileQueryOutputBody {
     let output: ClientRuntime.Data?
 }
 
@@ -2491,7 +2491,7 @@ extension ExecuteGremlinQueryInput {
     }
 }
 
-public struct ExecuteGremlinQueryInput: Swift.Equatable {
+public struct ExecuteGremlinQueryInput {
     /// Using this API, you can run Gremlin queries in string format much as you can using the HTTP endpoint. The interface is compatible with whatever Gremlin version your DB cluster is using (see the [Tinkerpop client section](https://docs.aws.amazon.com/neptune/latest/userguide/access-graph-gremlin-client.html#best-practices-gremlin-java-latest) to determine which Gremlin releases your engine version supports).
     /// This member is required.
     public var gremlinQuery: Swift.String?
@@ -2508,7 +2508,7 @@ public struct ExecuteGremlinQueryInput: Swift.Equatable {
     }
 }
 
-struct ExecuteGremlinQueryInputBody: Swift.Equatable {
+struct ExecuteGremlinQueryInputBody {
     let gremlinQuery: Swift.String?
 }
 
@@ -2542,7 +2542,7 @@ extension ExecuteGremlinQueryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ExecuteGremlinQueryOutput: Swift.Equatable {
+public struct ExecuteGremlinQueryOutput {
     /// Metadata about the Gremlin query.
     public var meta: ClientRuntime.Document?
     /// The unique identifier of the Gremlin query.
@@ -2566,7 +2566,7 @@ public struct ExecuteGremlinQueryOutput: Swift.Equatable {
     }
 }
 
-struct ExecuteGremlinQueryOutputBody: Swift.Equatable {
+struct ExecuteGremlinQueryOutputBody {
     let requestId: Swift.String?
     let status: NeptunedataClientTypes.GremlinQueryStatusAttributes?
     let result: ClientRuntime.Document?
@@ -2652,7 +2652,7 @@ extension ExecuteOpenCypherExplainQueryInput {
     }
 }
 
-public struct ExecuteOpenCypherExplainQueryInput: Swift.Equatable {
+public struct ExecuteOpenCypherExplainQueryInput {
     /// The openCypher explain mode. Can be one of: static, dynamic, or details.
     /// This member is required.
     public var explainMode: NeptunedataClientTypes.OpenCypherExplainMode?
@@ -2674,7 +2674,7 @@ public struct ExecuteOpenCypherExplainQueryInput: Swift.Equatable {
     }
 }
 
-struct ExecuteOpenCypherExplainQueryInputBody: Swift.Equatable {
+struct ExecuteOpenCypherExplainQueryInputBody {
     let openCypherQuery: Swift.String?
     let parameters: Swift.String?
     let explainMode: NeptunedataClientTypes.OpenCypherExplainMode?
@@ -2711,7 +2711,7 @@ extension ExecuteOpenCypherExplainQueryOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ExecuteOpenCypherExplainQueryOutput: Swift.Equatable {
+public struct ExecuteOpenCypherExplainQueryOutput {
     /// A text blob containing the openCypher explain results.
     /// This member is required.
     public var results: ClientRuntime.Data?
@@ -2724,7 +2724,7 @@ public struct ExecuteOpenCypherExplainQueryOutput: Swift.Equatable {
     }
 }
 
-struct ExecuteOpenCypherExplainQueryOutputBody: Swift.Equatable {
+struct ExecuteOpenCypherExplainQueryOutputBody {
     let results: ClientRuntime.Data?
 }
 
@@ -2795,7 +2795,7 @@ extension ExecuteOpenCypherQueryInput {
     }
 }
 
-public struct ExecuteOpenCypherQueryInput: Swift.Equatable {
+public struct ExecuteOpenCypherQueryInput {
     /// The openCypher query string to be executed.
     /// This member is required.
     public var openCypherQuery: Swift.String?
@@ -2812,7 +2812,7 @@ public struct ExecuteOpenCypherQueryInput: Swift.Equatable {
     }
 }
 
-struct ExecuteOpenCypherQueryInputBody: Swift.Equatable {
+struct ExecuteOpenCypherQueryInputBody {
     let openCypherQuery: Swift.String?
     let parameters: Swift.String?
 }
@@ -2844,7 +2844,7 @@ extension ExecuteOpenCypherQueryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ExecuteOpenCypherQueryOutput: Swift.Equatable {
+public struct ExecuteOpenCypherQueryOutput {
     /// The openCypherquery results.
     /// This member is required.
     public var results: ClientRuntime.Document?
@@ -2857,7 +2857,7 @@ public struct ExecuteOpenCypherQueryOutput: Swift.Equatable {
     }
 }
 
-struct ExecuteOpenCypherQueryOutputBody: Swift.Equatable {
+struct ExecuteOpenCypherQueryOutputBody {
     let results: ClientRuntime.Document?
 }
 
@@ -2959,7 +2959,7 @@ public struct ExpiredStreamException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ExpiredStreamExceptionBody: Swift.Equatable {
+struct ExpiredStreamExceptionBody {
     let detailedMessage: Swift.String?
     let requestId: Swift.String?
     let code: Swift.String?
@@ -3038,7 +3038,7 @@ public struct FailureByQueryException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct FailureByQueryExceptionBody: Swift.Equatable {
+struct FailureByQueryExceptionBody {
     let detailedMessage: Swift.String?
     let requestId: Swift.String?
     let code: Swift.String?
@@ -3083,7 +3083,7 @@ extension NeptunedataClientTypes.FastResetToken: Swift.Codable {
 
 extension NeptunedataClientTypes {
     /// A structure containing the fast reset token used to initiate a fast reset.
-    public struct FastResetToken: Swift.Equatable {
+    public struct FastResetToken {
         /// A UUID generated by the database in the initiateDatabaseReset action, and then consumed by the performDatabaseReset to reset the database.
         public var token: Swift.String?
 
@@ -3148,12 +3148,12 @@ extension GetEngineStatusInput {
     }
 }
 
-public struct GetEngineStatusInput: Swift.Equatable {
+public struct GetEngineStatusInput {
 
     public init() { }
 }
 
-struct GetEngineStatusInputBody: Swift.Equatable {
+struct GetEngineStatusInputBody {
 }
 
 extension GetEngineStatusInputBody: Swift.Decodable {
@@ -3198,7 +3198,7 @@ extension GetEngineStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEngineStatusOutput: Swift.Equatable {
+public struct GetEngineStatusOutput {
     /// Set to the Neptune engine version running on your DB cluster. If this engine version has been manually patched since it was released, the version number is prefixed by Patch-.
     public var dbEngineVersion: Swift.String?
     /// Set to enabled if the DFE engine is fully enabled, or to viaQueryHint (the default) if the DFE engine is only used with queries that have the useDFE query hint set to true.
@@ -3258,7 +3258,7 @@ public struct GetEngineStatusOutput: Swift.Equatable {
     }
 }
 
-struct GetEngineStatusOutputBody: Swift.Equatable {
+struct GetEngineStatusOutputBody {
     let status: Swift.String?
     let startTime: Swift.String?
     let dbEngineVersion: Swift.String?
@@ -3377,7 +3377,7 @@ extension GetGremlinQueryStatusInput {
     }
 }
 
-public struct GetGremlinQueryStatusInput: Swift.Equatable {
+public struct GetGremlinQueryStatusInput {
     /// The unique identifier that identifies the Gremlin query.
     /// This member is required.
     public var queryId: Swift.String?
@@ -3390,7 +3390,7 @@ public struct GetGremlinQueryStatusInput: Swift.Equatable {
     }
 }
 
-struct GetGremlinQueryStatusInputBody: Swift.Equatable {
+struct GetGremlinQueryStatusInputBody {
 }
 
 extension GetGremlinQueryStatusInputBody: Swift.Decodable {
@@ -3415,7 +3415,7 @@ extension GetGremlinQueryStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetGremlinQueryStatusOutput: Swift.Equatable {
+public struct GetGremlinQueryStatusOutput {
     /// The evaluation status of the Gremlin query.
     public var queryEvalStats: NeptunedataClientTypes.QueryEvalStats?
     /// The ID of the query for which status is being returned.
@@ -3435,7 +3435,7 @@ public struct GetGremlinQueryStatusOutput: Swift.Equatable {
     }
 }
 
-struct GetGremlinQueryStatusOutputBody: Swift.Equatable {
+struct GetGremlinQueryStatusOutputBody {
     let queryId: Swift.String?
     let queryString: Swift.String?
     let queryEvalStats: NeptunedataClientTypes.QueryEvalStats?
@@ -3519,7 +3519,7 @@ extension GetLoaderJobStatusInput {
     }
 }
 
-public struct GetLoaderJobStatusInput: Swift.Equatable {
+public struct GetLoaderJobStatusInput {
     /// Flag indicating whether or not to include details beyond the overall status (TRUE or FALSE; the default is FALSE).
     public var details: Swift.Bool?
     /// Flag indicating whether or not to include a list of errors encountered (TRUE or FALSE; the default is FALSE). The list of errors is paged. The page and errorsPerPage parameters allow you to page through all the errors.
@@ -3548,7 +3548,7 @@ public struct GetLoaderJobStatusInput: Swift.Equatable {
     }
 }
 
-struct GetLoaderJobStatusInputBody: Swift.Equatable {
+struct GetLoaderJobStatusInputBody {
 }
 
 extension GetLoaderJobStatusInputBody: Swift.Decodable {
@@ -3571,7 +3571,7 @@ extension GetLoaderJobStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLoaderJobStatusOutput: Swift.Equatable {
+public struct GetLoaderJobStatusOutput {
     /// Status information about the load job, in a layout that could look like this:
     /// This member is required.
     public var payload: ClientRuntime.Document?
@@ -3589,7 +3589,7 @@ public struct GetLoaderJobStatusOutput: Swift.Equatable {
     }
 }
 
-struct GetLoaderJobStatusOutputBody: Swift.Equatable {
+struct GetLoaderJobStatusOutputBody {
     let status: Swift.String?
     let payload: ClientRuntime.Document?
 }
@@ -3654,7 +3654,7 @@ extension GetMLDataProcessingJobInput {
     }
 }
 
-public struct GetMLDataProcessingJobInput: Swift.Equatable {
+public struct GetMLDataProcessingJobInput {
     /// The unique identifier of the data-processing job to be retrieved.
     /// This member is required.
     public var id: Swift.String?
@@ -3671,7 +3671,7 @@ public struct GetMLDataProcessingJobInput: Swift.Equatable {
     }
 }
 
-struct GetMLDataProcessingJobInputBody: Swift.Equatable {
+struct GetMLDataProcessingJobInputBody {
 }
 
 extension GetMLDataProcessingJobInputBody: Swift.Decodable {
@@ -3696,7 +3696,7 @@ extension GetMLDataProcessingJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMLDataProcessingJobOutput: Swift.Equatable {
+public struct GetMLDataProcessingJobOutput {
     /// The unique identifier of this data-processing job.
     public var id: Swift.String?
     /// Definition of the data processing job.
@@ -3716,7 +3716,7 @@ public struct GetMLDataProcessingJobOutput: Swift.Equatable {
     }
 }
 
-struct GetMLDataProcessingJobOutputBody: Swift.Equatable {
+struct GetMLDataProcessingJobOutputBody {
     let status: Swift.String?
     let id: Swift.String?
     let processingJob: NeptunedataClientTypes.MlResourceDefinition?
@@ -3783,7 +3783,7 @@ extension GetMLEndpointInput {
     }
 }
 
-public struct GetMLEndpointInput: Swift.Equatable {
+public struct GetMLEndpointInput {
     /// The unique identifier of the inference endpoint.
     /// This member is required.
     public var id: Swift.String?
@@ -3800,7 +3800,7 @@ public struct GetMLEndpointInput: Swift.Equatable {
     }
 }
 
-struct GetMLEndpointInputBody: Swift.Equatable {
+struct GetMLEndpointInputBody {
 }
 
 extension GetMLEndpointInputBody: Swift.Decodable {
@@ -3827,7 +3827,7 @@ extension GetMLEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMLEndpointOutput: Swift.Equatable {
+public struct GetMLEndpointOutput {
     /// The endpoint definition.
     public var endpoint: NeptunedataClientTypes.MlResourceDefinition?
     /// The endpoint configuration
@@ -3851,7 +3851,7 @@ public struct GetMLEndpointOutput: Swift.Equatable {
     }
 }
 
-struct GetMLEndpointOutputBody: Swift.Equatable {
+struct GetMLEndpointOutputBody {
     let status: Swift.String?
     let id: Swift.String?
     let endpoint: NeptunedataClientTypes.MlResourceDefinition?
@@ -3922,7 +3922,7 @@ extension GetMLModelTrainingJobInput {
     }
 }
 
-public struct GetMLModelTrainingJobInput: Swift.Equatable {
+public struct GetMLModelTrainingJobInput {
     /// The unique identifier of the model-training job to retrieve.
     /// This member is required.
     public var id: Swift.String?
@@ -3939,7 +3939,7 @@ public struct GetMLModelTrainingJobInput: Swift.Equatable {
     }
 }
 
-struct GetMLModelTrainingJobInputBody: Swift.Equatable {
+struct GetMLModelTrainingJobInputBody {
 }
 
 extension GetMLModelTrainingJobInputBody: Swift.Decodable {
@@ -3970,7 +3970,7 @@ extension GetMLModelTrainingJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMLModelTrainingJobOutput: Swift.Equatable {
+public struct GetMLModelTrainingJobOutput {
     /// The HPO job.
     public var hpoJob: NeptunedataClientTypes.MlResourceDefinition?
     /// The unique identifier of this model-training job.
@@ -4002,7 +4002,7 @@ public struct GetMLModelTrainingJobOutput: Swift.Equatable {
     }
 }
 
-struct GetMLModelTrainingJobOutputBody: Swift.Equatable {
+struct GetMLModelTrainingJobOutputBody {
     let status: Swift.String?
     let id: Swift.String?
     let processingJob: NeptunedataClientTypes.MlResourceDefinition?
@@ -4090,7 +4090,7 @@ extension GetMLModelTransformJobInput {
     }
 }
 
-public struct GetMLModelTransformJobInput: Swift.Equatable {
+public struct GetMLModelTransformJobInput {
     /// The unique identifier of the model-transform job to be reetrieved.
     /// This member is required.
     public var id: Swift.String?
@@ -4107,7 +4107,7 @@ public struct GetMLModelTransformJobInput: Swift.Equatable {
     }
 }
 
-struct GetMLModelTransformJobInputBody: Swift.Equatable {
+struct GetMLModelTransformJobInputBody {
 }
 
 extension GetMLModelTransformJobInputBody: Swift.Decodable {
@@ -4136,7 +4136,7 @@ extension GetMLModelTransformJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMLModelTransformJobOutput: Swift.Equatable {
+public struct GetMLModelTransformJobOutput {
     /// The base data processing job.
     public var baseProcessingJob: NeptunedataClientTypes.MlResourceDefinition?
     /// The unique identifier of the model-transform job to be retrieved.
@@ -4164,7 +4164,7 @@ public struct GetMLModelTransformJobOutput: Swift.Equatable {
     }
 }
 
-struct GetMLModelTransformJobOutputBody: Swift.Equatable {
+struct GetMLModelTransformJobOutputBody {
     let status: Swift.String?
     let id: Swift.String?
     let baseProcessingJob: NeptunedataClientTypes.MlResourceDefinition?
@@ -4236,7 +4236,7 @@ extension GetOpenCypherQueryStatusInput {
     }
 }
 
-public struct GetOpenCypherQueryStatusInput: Swift.Equatable {
+public struct GetOpenCypherQueryStatusInput {
     /// The unique ID of the openCypher query for which to retrieve the query status.
     /// This member is required.
     public var queryId: Swift.String?
@@ -4249,7 +4249,7 @@ public struct GetOpenCypherQueryStatusInput: Swift.Equatable {
     }
 }
 
-struct GetOpenCypherQueryStatusInputBody: Swift.Equatable {
+struct GetOpenCypherQueryStatusInputBody {
 }
 
 extension GetOpenCypherQueryStatusInputBody: Swift.Decodable {
@@ -4274,7 +4274,7 @@ extension GetOpenCypherQueryStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetOpenCypherQueryStatusOutput: Swift.Equatable {
+public struct GetOpenCypherQueryStatusOutput {
     /// The openCypher query evaluation status.
     public var queryEvalStats: NeptunedataClientTypes.QueryEvalStats?
     /// The unique ID of the query for which status is being returned.
@@ -4294,7 +4294,7 @@ public struct GetOpenCypherQueryStatusOutput: Swift.Equatable {
     }
 }
 
-struct GetOpenCypherQueryStatusOutputBody: Swift.Equatable {
+struct GetOpenCypherQueryStatusOutputBody {
     let queryId: Swift.String?
     let queryString: Swift.String?
     let queryEvalStats: NeptunedataClientTypes.QueryEvalStats?
@@ -4352,12 +4352,12 @@ extension GetPropertygraphStatisticsInput {
     }
 }
 
-public struct GetPropertygraphStatisticsInput: Swift.Equatable {
+public struct GetPropertygraphStatisticsInput {
 
     public init() { }
 }
 
-struct GetPropertygraphStatisticsInputBody: Swift.Equatable {
+struct GetPropertygraphStatisticsInputBody {
 }
 
 extension GetPropertygraphStatisticsInputBody: Swift.Decodable {
@@ -4380,7 +4380,7 @@ extension GetPropertygraphStatisticsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPropertygraphStatisticsOutput: Swift.Equatable {
+public struct GetPropertygraphStatisticsOutput {
     /// Statistics for property-graph data.
     /// This member is required.
     public var payload: NeptunedataClientTypes.Statistics?
@@ -4398,7 +4398,7 @@ public struct GetPropertygraphStatisticsOutput: Swift.Equatable {
     }
 }
 
-struct GetPropertygraphStatisticsOutputBody: Swift.Equatable {
+struct GetPropertygraphStatisticsOutputBody {
     let status: Swift.String?
     let payload: NeptunedataClientTypes.Statistics?
 }
@@ -4483,7 +4483,7 @@ extension GetPropertygraphStreamInput {
     }
 }
 
-public struct GetPropertygraphStreamInput: Swift.Equatable {
+public struct GetPropertygraphStreamInput {
     /// The commit number of the starting record to read from the change-log stream. This parameter is required when iteratorType isAT_SEQUENCE_NUMBER or AFTER_SEQUENCE_NUMBER, and ignored when iteratorType is TRIM_HORIZON or LATEST.
     public var commitNum: Swift.Int?
     /// If set to TRUE, Neptune compresses the response using gzip encoding.
@@ -4519,7 +4519,7 @@ public struct GetPropertygraphStreamInput: Swift.Equatable {
     }
 }
 
-struct GetPropertygraphStreamInputBody: Swift.Equatable {
+struct GetPropertygraphStreamInputBody {
 }
 
 extension GetPropertygraphStreamInputBody: Swift.Decodable {
@@ -4548,7 +4548,7 @@ extension GetPropertygraphStreamOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPropertygraphStreamOutput: Swift.Equatable {
+public struct GetPropertygraphStreamOutput {
     /// Serialization format for the change records being returned. Currently, the only supported value is PG_JSON.
     /// This member is required.
     public var format: Swift.String?
@@ -4581,7 +4581,7 @@ public struct GetPropertygraphStreamOutput: Swift.Equatable {
     }
 }
 
-struct GetPropertygraphStreamOutputBody: Swift.Equatable {
+struct GetPropertygraphStreamOutputBody {
     let lastEventId: [Swift.String:Swift.String]?
     let lastTrxTimestampInMillis: Swift.Int?
     let format: Swift.String?
@@ -4672,7 +4672,7 @@ extension GetPropertygraphSummaryInput {
     }
 }
 
-public struct GetPropertygraphSummaryInput: Swift.Equatable {
+public struct GetPropertygraphSummaryInput {
     /// Mode can take one of two values: BASIC (the default), and DETAILED.
     public var mode: NeptunedataClientTypes.GraphSummaryType?
 
@@ -4684,7 +4684,7 @@ public struct GetPropertygraphSummaryInput: Swift.Equatable {
     }
 }
 
-struct GetPropertygraphSummaryInputBody: Swift.Equatable {
+struct GetPropertygraphSummaryInputBody {
 }
 
 extension GetPropertygraphSummaryInputBody: Swift.Decodable {
@@ -4706,7 +4706,7 @@ extension GetPropertygraphSummaryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPropertygraphSummaryOutput: Swift.Equatable {
+public struct GetPropertygraphSummaryOutput {
     /// Payload containing the property graph summary response.
     public var payload: NeptunedataClientTypes.PropertygraphSummaryValueMap?
     /// The HTTP return code of the request. If the request succeeded, the code is 200.
@@ -4722,7 +4722,7 @@ public struct GetPropertygraphSummaryOutput: Swift.Equatable {
     }
 }
 
-struct GetPropertygraphSummaryOutputBody: Swift.Equatable {
+struct GetPropertygraphSummaryOutputBody {
     let statusCode: Swift.Int?
     let payload: NeptunedataClientTypes.PropertygraphSummaryValueMap?
 }
@@ -4784,7 +4784,7 @@ extension GetRDFGraphSummaryInput {
     }
 }
 
-public struct GetRDFGraphSummaryInput: Swift.Equatable {
+public struct GetRDFGraphSummaryInput {
     /// Mode can take one of two values: BASIC (the default), and DETAILED.
     public var mode: NeptunedataClientTypes.GraphSummaryType?
 
@@ -4796,7 +4796,7 @@ public struct GetRDFGraphSummaryInput: Swift.Equatable {
     }
 }
 
-struct GetRDFGraphSummaryInputBody: Swift.Equatable {
+struct GetRDFGraphSummaryInputBody {
 }
 
 extension GetRDFGraphSummaryInputBody: Swift.Decodable {
@@ -4818,7 +4818,7 @@ extension GetRDFGraphSummaryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRDFGraphSummaryOutput: Swift.Equatable {
+public struct GetRDFGraphSummaryOutput {
     /// Payload for an RDF graph summary response
     public var payload: NeptunedataClientTypes.RDFGraphSummaryValueMap?
     /// The HTTP return code of the request. If the request succeeded, the code is 200.
@@ -4834,7 +4834,7 @@ public struct GetRDFGraphSummaryOutput: Swift.Equatable {
     }
 }
 
-struct GetRDFGraphSummaryOutputBody: Swift.Equatable {
+struct GetRDFGraphSummaryOutputBody {
     let statusCode: Swift.Int?
     let payload: NeptunedataClientTypes.RDFGraphSummaryValueMap?
 }
@@ -4884,12 +4884,12 @@ extension GetSparqlStatisticsInput {
     }
 }
 
-public struct GetSparqlStatisticsInput: Swift.Equatable {
+public struct GetSparqlStatisticsInput {
 
     public init() { }
 }
 
-struct GetSparqlStatisticsInputBody: Swift.Equatable {
+struct GetSparqlStatisticsInputBody {
 }
 
 extension GetSparqlStatisticsInputBody: Swift.Decodable {
@@ -4912,7 +4912,7 @@ extension GetSparqlStatisticsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSparqlStatisticsOutput: Swift.Equatable {
+public struct GetSparqlStatisticsOutput {
     /// Statistics for RDF data.
     /// This member is required.
     public var payload: NeptunedataClientTypes.Statistics?
@@ -4930,7 +4930,7 @@ public struct GetSparqlStatisticsOutput: Swift.Equatable {
     }
 }
 
-struct GetSparqlStatisticsOutputBody: Swift.Equatable {
+struct GetSparqlStatisticsOutputBody {
     let status: Swift.String?
     let payload: NeptunedataClientTypes.Statistics?
 }
@@ -5015,7 +5015,7 @@ extension GetSparqlStreamInput {
     }
 }
 
-public struct GetSparqlStreamInput: Swift.Equatable {
+public struct GetSparqlStreamInput {
     /// The commit number of the starting record to read from the change-log stream. This parameter is required when iteratorType isAT_SEQUENCE_NUMBER or AFTER_SEQUENCE_NUMBER, and ignored when iteratorType is TRIM_HORIZON or LATEST.
     public var commitNum: Swift.Int?
     /// If set to TRUE, Neptune compresses the response using gzip encoding.
@@ -5051,7 +5051,7 @@ public struct GetSparqlStreamInput: Swift.Equatable {
     }
 }
 
-struct GetSparqlStreamInputBody: Swift.Equatable {
+struct GetSparqlStreamInputBody {
 }
 
 extension GetSparqlStreamInputBody: Swift.Decodable {
@@ -5080,7 +5080,7 @@ extension GetSparqlStreamOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSparqlStreamOutput: Swift.Equatable {
+public struct GetSparqlStreamOutput {
     /// Serialization format for the change records being returned. Currently, the only supported value is NQUADS.
     /// This member is required.
     public var format: Swift.String?
@@ -5113,7 +5113,7 @@ public struct GetSparqlStreamOutput: Swift.Equatable {
     }
 }
 
-struct GetSparqlStreamOutputBody: Swift.Equatable {
+struct GetSparqlStreamOutputBody {
     let lastEventId: [Swift.String:Swift.String]?
     let lastTrxTimestampInMillis: Swift.Int?
     let format: Swift.String?
@@ -5250,7 +5250,7 @@ extension NeptunedataClientTypes.GremlinQueryStatus: Swift.Codable {
 
 extension NeptunedataClientTypes {
     /// Captures the status of a Gremlin query (see the [Gremlin query status API](https://docs.aws.amazon.com/neptune/latest/userguide/gremlin-api-status.html) page).
-    public struct GremlinQueryStatus: Swift.Equatable {
+    public struct GremlinQueryStatus {
         /// The query statistics of the Gremlin query.
         public var queryEvalStats: NeptunedataClientTypes.QueryEvalStats?
         /// The ID of the Gremlin query.
@@ -5305,7 +5305,7 @@ extension NeptunedataClientTypes.GremlinQueryStatusAttributes: Swift.Codable {
 
 extension NeptunedataClientTypes {
     /// Contains status components of a Gremlin query.
-    public struct GremlinQueryStatusAttributes: Swift.Equatable {
+    public struct GremlinQueryStatusAttributes {
         /// Attributes of the Gremlin query status.
         public var attributes: ClientRuntime.Document?
         /// The HTTP response code returned fro the Gremlin query request..
@@ -5382,7 +5382,7 @@ public struct IllegalArgumentException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct IllegalArgumentExceptionBody: Swift.Equatable {
+struct IllegalArgumentExceptionBody {
     let detailedMessage: Swift.String?
     let requestId: Swift.String?
     let code: Swift.String?
@@ -5461,7 +5461,7 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InternalFailureExceptionBody: Swift.Equatable {
+struct InternalFailureExceptionBody {
     let detailedMessage: Swift.String?
     let requestId: Swift.String?
     let code: Swift.String?
@@ -5540,7 +5540,7 @@ public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InvalidArgumentExceptionBody: Swift.Equatable {
+struct InvalidArgumentExceptionBody {
     let detailedMessage: Swift.String?
     let requestId: Swift.String?
     let code: Swift.String?
@@ -5619,7 +5619,7 @@ public struct InvalidNumericDataException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct InvalidNumericDataExceptionBody: Swift.Equatable {
+struct InvalidNumericDataExceptionBody {
     let detailedMessage: Swift.String?
     let requestId: Swift.String?
     let code: Swift.String?
@@ -5698,7 +5698,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidParameterExceptionBody: Swift.Equatable {
+struct InvalidParameterExceptionBody {
     let detailedMessage: Swift.String?
     let requestId: Swift.String?
     let code: Swift.String?
@@ -5779,7 +5779,7 @@ extension ListGremlinQueriesInput {
     }
 }
 
-public struct ListGremlinQueriesInput: Swift.Equatable {
+public struct ListGremlinQueriesInput {
     /// If set to TRUE, the list returned includes waiting queries. The default is FALSE;
     public var includeWaiting: Swift.Bool?
 
@@ -5791,7 +5791,7 @@ public struct ListGremlinQueriesInput: Swift.Equatable {
     }
 }
 
-struct ListGremlinQueriesInputBody: Swift.Equatable {
+struct ListGremlinQueriesInputBody {
 }
 
 extension ListGremlinQueriesInputBody: Swift.Decodable {
@@ -5816,7 +5816,7 @@ extension ListGremlinQueriesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListGremlinQueriesOutput: Swift.Equatable {
+public struct ListGremlinQueriesOutput {
     /// The number of queries that have been accepted but not yet completed, including queries in the queue.
     public var acceptedQueryCount: Swift.Int?
     /// A list of the current queries.
@@ -5836,7 +5836,7 @@ public struct ListGremlinQueriesOutput: Swift.Equatable {
     }
 }
 
-struct ListGremlinQueriesOutputBody: Swift.Equatable {
+struct ListGremlinQueriesOutputBody {
     let acceptedQueryCount: Swift.Int?
     let runningQueryCount: Swift.Int?
     let queries: [NeptunedataClientTypes.GremlinQueryStatus]?
@@ -5918,7 +5918,7 @@ extension ListLoaderJobsInput {
     }
 }
 
-public struct ListLoaderJobsInput: Swift.Equatable {
+public struct ListLoaderJobsInput {
     /// An optional parameter that can be used to exclude the load IDs of queued load requests when requesting a list of load IDs by setting the parameter to FALSE. The default value is TRUE.
     public var includeQueuedLoads: Swift.Bool?
     /// The number of load IDs to list. Must be a positive integer greater than zero and not more than 100 (which is the default).
@@ -5934,7 +5934,7 @@ public struct ListLoaderJobsInput: Swift.Equatable {
     }
 }
 
-struct ListLoaderJobsInputBody: Swift.Equatable {
+struct ListLoaderJobsInputBody {
 }
 
 extension ListLoaderJobsInputBody: Swift.Decodable {
@@ -5957,7 +5957,7 @@ extension ListLoaderJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListLoaderJobsOutput: Swift.Equatable {
+public struct ListLoaderJobsOutput {
     /// The requested list of job IDs.
     /// This member is required.
     public var payload: NeptunedataClientTypes.LoaderIdResult?
@@ -5975,7 +5975,7 @@ public struct ListLoaderJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListLoaderJobsOutputBody: Swift.Equatable {
+struct ListLoaderJobsOutputBody {
     let status: Swift.String?
     let payload: NeptunedataClientTypes.LoaderIdResult?
 }
@@ -6040,7 +6040,7 @@ extension ListMLDataProcessingJobsInput {
     }
 }
 
-public struct ListMLDataProcessingJobsInput: Swift.Equatable {
+public struct ListMLDataProcessingJobsInput {
     /// The maximum number of items to return (from 1 to 1024; the default is 10).
     public var maxItems: Swift.Int?
     /// The ARN of an IAM role that provides Neptune access to SageMaker and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error will occur.
@@ -6056,7 +6056,7 @@ public struct ListMLDataProcessingJobsInput: Swift.Equatable {
     }
 }
 
-struct ListMLDataProcessingJobsInputBody: Swift.Equatable {
+struct ListMLDataProcessingJobsInputBody {
 }
 
 extension ListMLDataProcessingJobsInputBody: Swift.Decodable {
@@ -6077,7 +6077,7 @@ extension ListMLDataProcessingJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMLDataProcessingJobsOutput: Swift.Equatable {
+public struct ListMLDataProcessingJobsOutput {
     /// A page listing data processing job IDs.
     public var ids: [Swift.String]?
 
@@ -6089,7 +6089,7 @@ public struct ListMLDataProcessingJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListMLDataProcessingJobsOutputBody: Swift.Equatable {
+struct ListMLDataProcessingJobsOutputBody {
     let ids: [Swift.String]?
 }
 
@@ -6158,7 +6158,7 @@ extension ListMLEndpointsInput {
     }
 }
 
-public struct ListMLEndpointsInput: Swift.Equatable {
+public struct ListMLEndpointsInput {
     /// The maximum number of items to return (from 1 to 1024; the default is 10.
     public var maxItems: Swift.Int?
     /// The ARN of an IAM role that provides Neptune access to SageMaker and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error will occur.
@@ -6174,7 +6174,7 @@ public struct ListMLEndpointsInput: Swift.Equatable {
     }
 }
 
-struct ListMLEndpointsInputBody: Swift.Equatable {
+struct ListMLEndpointsInputBody {
 }
 
 extension ListMLEndpointsInputBody: Swift.Decodable {
@@ -6195,7 +6195,7 @@ extension ListMLEndpointsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMLEndpointsOutput: Swift.Equatable {
+public struct ListMLEndpointsOutput {
     /// A page from the list of inference endpoint IDs.
     public var ids: [Swift.String]?
 
@@ -6207,7 +6207,7 @@ public struct ListMLEndpointsOutput: Swift.Equatable {
     }
 }
 
-struct ListMLEndpointsOutputBody: Swift.Equatable {
+struct ListMLEndpointsOutputBody {
     let ids: [Swift.String]?
 }
 
@@ -6276,7 +6276,7 @@ extension ListMLModelTrainingJobsInput {
     }
 }
 
-public struct ListMLModelTrainingJobsInput: Swift.Equatable {
+public struct ListMLModelTrainingJobsInput {
     /// The maximum number of items to return (from 1 to 1024; the default is 10).
     public var maxItems: Swift.Int?
     /// The ARN of an IAM role that provides Neptune access to SageMaker and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error will occur.
@@ -6292,7 +6292,7 @@ public struct ListMLModelTrainingJobsInput: Swift.Equatable {
     }
 }
 
-struct ListMLModelTrainingJobsInputBody: Swift.Equatable {
+struct ListMLModelTrainingJobsInputBody {
 }
 
 extension ListMLModelTrainingJobsInputBody: Swift.Decodable {
@@ -6313,7 +6313,7 @@ extension ListMLModelTrainingJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMLModelTrainingJobsOutput: Swift.Equatable {
+public struct ListMLModelTrainingJobsOutput {
     /// A page of the list of model training job IDs.
     public var ids: [Swift.String]?
 
@@ -6325,7 +6325,7 @@ public struct ListMLModelTrainingJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListMLModelTrainingJobsOutputBody: Swift.Equatable {
+struct ListMLModelTrainingJobsOutputBody {
     let ids: [Swift.String]?
 }
 
@@ -6394,7 +6394,7 @@ extension ListMLModelTransformJobsInput {
     }
 }
 
-public struct ListMLModelTransformJobsInput: Swift.Equatable {
+public struct ListMLModelTransformJobsInput {
     /// The maximum number of items to return (from 1 to 1024; the default is 10).
     public var maxItems: Swift.Int?
     /// The ARN of an IAM role that provides Neptune access to SageMaker and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error will occur.
@@ -6410,7 +6410,7 @@ public struct ListMLModelTransformJobsInput: Swift.Equatable {
     }
 }
 
-struct ListMLModelTransformJobsInputBody: Swift.Equatable {
+struct ListMLModelTransformJobsInputBody {
 }
 
 extension ListMLModelTransformJobsInputBody: Swift.Decodable {
@@ -6431,7 +6431,7 @@ extension ListMLModelTransformJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMLModelTransformJobsOutput: Swift.Equatable {
+public struct ListMLModelTransformJobsOutput {
     /// A page from the list of model transform IDs.
     public var ids: [Swift.String]?
 
@@ -6443,7 +6443,7 @@ public struct ListMLModelTransformJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListMLModelTransformJobsOutputBody: Swift.Equatable {
+struct ListMLModelTransformJobsOutputBody {
     let ids: [Swift.String]?
 }
 
@@ -6508,7 +6508,7 @@ extension ListOpenCypherQueriesInput {
     }
 }
 
-public struct ListOpenCypherQueriesInput: Swift.Equatable {
+public struct ListOpenCypherQueriesInput {
     /// When set to TRUE and other parameters are not present, causes status information to be returned for waiting queries as well as for running queries.
     public var includeWaiting: Swift.Bool?
 
@@ -6520,7 +6520,7 @@ public struct ListOpenCypherQueriesInput: Swift.Equatable {
     }
 }
 
-struct ListOpenCypherQueriesInputBody: Swift.Equatable {
+struct ListOpenCypherQueriesInputBody {
 }
 
 extension ListOpenCypherQueriesInputBody: Swift.Decodable {
@@ -6545,7 +6545,7 @@ extension ListOpenCypherQueriesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListOpenCypherQueriesOutput: Swift.Equatable {
+public struct ListOpenCypherQueriesOutput {
     /// The number of queries that have been accepted but not yet completed, including queries in the queue.
     public var acceptedQueryCount: Swift.Int?
     /// A list of current openCypher queries.
@@ -6565,7 +6565,7 @@ public struct ListOpenCypherQueriesOutput: Swift.Equatable {
     }
 }
 
-struct ListOpenCypherQueriesOutputBody: Swift.Equatable {
+struct ListOpenCypherQueriesOutputBody {
     let acceptedQueryCount: Swift.Int?
     let runningQueryCount: Swift.Int?
     let queries: [NeptunedataClientTypes.GremlinQueryStatus]?
@@ -6680,7 +6680,7 @@ public struct LoadUrlAccessDeniedException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct LoadUrlAccessDeniedExceptionBody: Swift.Equatable {
+struct LoadUrlAccessDeniedExceptionBody {
     let detailedMessage: Swift.String?
     let requestId: Swift.String?
     let code: Swift.String?
@@ -6737,7 +6737,7 @@ extension NeptunedataClientTypes.LoaderIdResult: Swift.Codable {
 
 extension NeptunedataClientTypes {
     /// Contains a list of load IDs.
-    public struct LoaderIdResult: Swift.Equatable {
+    public struct LoaderIdResult {
         /// A list of load IDs.
         public var loadIds: [Swift.String]?
 
@@ -6806,7 +6806,7 @@ public struct MLResourceNotFoundException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct MLResourceNotFoundExceptionBody: Swift.Equatable {
+struct MLResourceNotFoundExceptionBody {
     let detailedMessage: Swift.String?
     let requestId: Swift.String?
     let code: Swift.String?
@@ -6885,7 +6885,7 @@ public struct MalformedQueryException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct MalformedQueryExceptionBody: Swift.Equatable {
+struct MalformedQueryExceptionBody {
     let detailedMessage: Swift.String?
     let requestId: Swift.String?
     let code: Swift.String?
@@ -6929,7 +6929,7 @@ extension ManagePropertygraphStatisticsInput {
     }
 }
 
-public struct ManagePropertygraphStatisticsInput: Swift.Equatable {
+public struct ManagePropertygraphStatisticsInput {
     /// The statistics generation mode. One of: DISABLE_AUTOCOMPUTE, ENABLE_AUTOCOMPUTE, or REFRESH, the last of which manually triggers DFE statistics generation.
     public var mode: NeptunedataClientTypes.StatisticsAutoGenerationMode?
 
@@ -6941,7 +6941,7 @@ public struct ManagePropertygraphStatisticsInput: Swift.Equatable {
     }
 }
 
-struct ManagePropertygraphStatisticsInputBody: Swift.Equatable {
+struct ManagePropertygraphStatisticsInputBody {
     let mode: NeptunedataClientTypes.StatisticsAutoGenerationMode?
 }
 
@@ -6971,7 +6971,7 @@ extension ManagePropertygraphStatisticsOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ManagePropertygraphStatisticsOutput: Swift.Equatable {
+public struct ManagePropertygraphStatisticsOutput {
     /// This is only returned for refresh mode.
     public var payload: NeptunedataClientTypes.RefreshStatisticsIdMap?
     /// The HTTP return code of the request. If the request succeeded, the code is 200.
@@ -6988,7 +6988,7 @@ public struct ManagePropertygraphStatisticsOutput: Swift.Equatable {
     }
 }
 
-struct ManagePropertygraphStatisticsOutputBody: Swift.Equatable {
+struct ManagePropertygraphStatisticsOutputBody {
     let status: Swift.String?
     let payload: NeptunedataClientTypes.RefreshStatisticsIdMap?
 }
@@ -7051,7 +7051,7 @@ extension ManageSparqlStatisticsInput {
     }
 }
 
-public struct ManageSparqlStatisticsInput: Swift.Equatable {
+public struct ManageSparqlStatisticsInput {
     /// The statistics generation mode. One of: DISABLE_AUTOCOMPUTE, ENABLE_AUTOCOMPUTE, or REFRESH, the last of which manually triggers DFE statistics generation.
     public var mode: NeptunedataClientTypes.StatisticsAutoGenerationMode?
 
@@ -7063,7 +7063,7 @@ public struct ManageSparqlStatisticsInput: Swift.Equatable {
     }
 }
 
-struct ManageSparqlStatisticsInputBody: Swift.Equatable {
+struct ManageSparqlStatisticsInputBody {
     let mode: NeptunedataClientTypes.StatisticsAutoGenerationMode?
 }
 
@@ -7093,7 +7093,7 @@ extension ManageSparqlStatisticsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ManageSparqlStatisticsOutput: Swift.Equatable {
+public struct ManageSparqlStatisticsOutput {
     /// This is only returned for refresh mode.
     public var payload: NeptunedataClientTypes.RefreshStatisticsIdMap?
     /// The HTTP return code of the request. If the request succeeded, the code is 200.
@@ -7110,7 +7110,7 @@ public struct ManageSparqlStatisticsOutput: Swift.Equatable {
     }
 }
 
-struct ManageSparqlStatisticsOutputBody: Swift.Equatable {
+struct ManageSparqlStatisticsOutputBody {
     let status: Swift.String?
     let payload: NeptunedataClientTypes.RefreshStatisticsIdMap?
 }
@@ -7208,7 +7208,7 @@ public struct MemoryLimitExceededException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct MemoryLimitExceededExceptionBody: Swift.Equatable {
+struct MemoryLimitExceededExceptionBody {
     let detailedMessage: Swift.String?
     let requestId: Swift.String?
     let code: Swift.String?
@@ -7287,7 +7287,7 @@ public struct MethodNotAllowedException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct MethodNotAllowedExceptionBody: Swift.Equatable {
+struct MethodNotAllowedExceptionBody {
     let detailedMessage: Swift.String?
     let requestId: Swift.String?
     let code: Swift.String?
@@ -7366,7 +7366,7 @@ public struct MissingParameterException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct MissingParameterExceptionBody: Swift.Equatable {
+struct MissingParameterExceptionBody {
     let detailedMessage: Swift.String?
     let requestId: Swift.String?
     let code: Swift.String?
@@ -7417,7 +7417,7 @@ extension NeptunedataClientTypes.MlConfigDefinition: Swift.Codable {
 
 extension NeptunedataClientTypes {
     /// Contains a Neptune ML configuration.
-    public struct MlConfigDefinition: Swift.Equatable {
+    public struct MlConfigDefinition {
         /// The ARN for the configuration.
         public var arn: Swift.String?
         /// The configuration name.
@@ -7486,7 +7486,7 @@ extension NeptunedataClientTypes.MlResourceDefinition: Swift.Codable {
 
 extension NeptunedataClientTypes {
     /// Defines a Neptune ML resource.
-    public struct MlResourceDefinition: Swift.Equatable {
+    public struct MlResourceDefinition {
         /// The resource ARN.
         public var arn: Swift.String?
         /// The CloudWatch log URL for the resource.
@@ -7614,7 +7614,7 @@ extension NeptunedataClientTypes.NodeStructure: Swift.Codable {
 
 extension NeptunedataClientTypes {
     /// A node structure.
-    public struct NodeStructure: Swift.Equatable {
+    public struct NodeStructure {
         /// Number of nodes that have this specific structure.
         public var count: Swift.Int?
         /// A list of distinct outgoing edge labels present in this specific structure.
@@ -7764,7 +7764,7 @@ public struct ParsingException: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     }
 }
 
-struct ParsingExceptionBody: Swift.Equatable {
+struct ParsingExceptionBody {
     let detailedMessage: Swift.String?
     let requestId: Swift.String?
     let code: Swift.String?
@@ -7843,7 +7843,7 @@ public struct PreconditionsFailedException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct PreconditionsFailedExceptionBody: Swift.Equatable {
+struct PreconditionsFailedExceptionBody {
     let detailedMessage: Swift.String?
     let requestId: Swift.String?
     let code: Swift.String?
@@ -7918,7 +7918,7 @@ extension NeptunedataClientTypes.PropertygraphData: Swift.Codable {
 
 extension NeptunedataClientTypes {
     /// A Gremlin or openCypher change record.
-    public struct PropertygraphData: Swift.Equatable {
+    public struct PropertygraphData {
         /// If this is an edge (type = e), the ID of the corresponding from vertex or source node.
         public var from: Swift.String?
         /// The ID of the Gremlin or openCypher element.
@@ -8021,7 +8021,7 @@ extension NeptunedataClientTypes.PropertygraphRecord: Swift.Codable {
 
 extension NeptunedataClientTypes {
     /// Structure of a property graph record.
-    public struct PropertygraphRecord: Swift.Equatable {
+    public struct PropertygraphRecord {
         /// The time at which the commit for the transaction was requested, in milliseconds from the Unix epoch.
         /// This member is required.
         public var commitTimestampInMillis: Swift.Int?
@@ -8250,7 +8250,7 @@ extension NeptunedataClientTypes.PropertygraphSummary: Swift.Codable {
 
 extension NeptunedataClientTypes {
     /// The graph summary API returns a read-only list of node and edge labels and property keys, along with counts of nodes, edges, and properties. See [Graph summary response for a property graph (PG)](https://docs.aws.amazon.com/neptune/latest/userguide/neptune-graph-summary.html#neptune-graph-summary-pg-response).
-    public struct PropertygraphSummary: Swift.Equatable {
+    public struct PropertygraphSummary {
         /// A list of the distinct edge labels in the graph.
         public var edgeLabels: [Swift.String]?
         /// A list of the distinct edge properties in the graph, along with the count of edges where each property is used.
@@ -8349,7 +8349,7 @@ extension NeptunedataClientTypes.PropertygraphSummaryValueMap: Swift.Codable {
 
 extension NeptunedataClientTypes {
     /// Payload for the property graph summary response.
-    public struct PropertygraphSummaryValueMap: Swift.Equatable {
+    public struct PropertygraphSummaryValueMap {
         /// The graph summary.
         public var graphSummary: NeptunedataClientTypes.PropertygraphSummary?
         /// The timestamp, in ISO 8601 format, of the time at which Neptune last computed statistics.
@@ -8410,7 +8410,7 @@ extension NeptunedataClientTypes.QueryEvalStats: Swift.Codable {
 
 extension NeptunedataClientTypes {
     /// Structure to capture query statistics such as how many queries are running, accepted or waiting and their details.
-    public struct QueryEvalStats: Swift.Equatable {
+    public struct QueryEvalStats {
         /// Set to TRUE if the query was cancelled, or FALSE otherwise.
         public var cancelled: Swift.Bool?
         /// The number of milliseconds the query has been running so far.
@@ -8457,7 +8457,7 @@ extension NeptunedataClientTypes.QueryLanguageVersion: Swift.Codable {
 
 extension NeptunedataClientTypes {
     /// Structure for expressing the query language version.
-    public struct QueryLanguageVersion: Swift.Equatable {
+    public struct QueryLanguageVersion {
         /// The version of the query language.
         /// This member is required.
         public var version: Swift.String?
@@ -8527,7 +8527,7 @@ public struct QueryLimitExceededException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct QueryLimitExceededExceptionBody: Swift.Equatable {
+struct QueryLimitExceededExceptionBody {
     let detailedMessage: Swift.String?
     let requestId: Swift.String?
     let code: Swift.String?
@@ -8606,7 +8606,7 @@ public struct QueryLimitException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct QueryLimitExceptionBody: Swift.Equatable {
+struct QueryLimitExceptionBody {
     let detailedMessage: Swift.String?
     let requestId: Swift.String?
     let code: Swift.String?
@@ -8685,7 +8685,7 @@ public struct QueryTooLargeException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct QueryTooLargeExceptionBody: Swift.Equatable {
+struct QueryTooLargeExceptionBody {
     let detailedMessage: Swift.String?
     let requestId: Swift.String?
     let code: Swift.String?
@@ -8814,7 +8814,7 @@ extension NeptunedataClientTypes.RDFGraphSummary: Swift.Codable {
 
 extension NeptunedataClientTypes {
     /// The RDF graph summary API returns a read-only list of classes and predicate keys, along with counts of quads, subjects, and predicates.
-    public struct RDFGraphSummary: Swift.Equatable {
+    public struct RDFGraphSummary {
         /// A list of the classes in the graph.
         public var classes: [Swift.String]?
         /// The number of classes in the graph.
@@ -8885,7 +8885,7 @@ extension NeptunedataClientTypes.RDFGraphSummaryValueMap: Swift.Codable {
 
 extension NeptunedataClientTypes {
     /// Payload for an RDF graph summary response.
-    public struct RDFGraphSummaryValueMap: Swift.Equatable {
+    public struct RDFGraphSummaryValueMap {
         /// The graph summary of an RDF graph. See [Graph summary response for an RDF graph](https://docs.aws.amazon.com/neptune/latest/userguide/neptune-graph-summary.html#neptune-graph-summary-rdf-response).
         public var graphSummary: NeptunedataClientTypes.RDFGraphSummary?
         /// The timestamp, in ISO 8601 format, of the time at which Neptune last computed statistics.
@@ -8962,7 +8962,7 @@ public struct ReadOnlyViolationException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct ReadOnlyViolationExceptionBody: Swift.Equatable {
+struct ReadOnlyViolationExceptionBody {
     let detailedMessage: Swift.String?
     let requestId: Swift.String?
     let code: Swift.String?
@@ -9007,7 +9007,7 @@ extension NeptunedataClientTypes.RefreshStatisticsIdMap: Swift.Codable {
 
 extension NeptunedataClientTypes {
     /// Statistics for REFRESH mode.
-    public struct RefreshStatisticsIdMap: Swift.Equatable {
+    public struct RefreshStatisticsIdMap {
         /// The ID of the statistics generation run that is currently occurring.
         public var statisticsId: Swift.String?
 
@@ -9171,7 +9171,7 @@ public struct S3Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServi
     }
 }
 
-struct S3ExceptionBody: Swift.Equatable {
+struct S3ExceptionBody {
     let detailedMessage: Swift.String?
     let requestId: Swift.String?
     let code: Swift.String?
@@ -9250,7 +9250,7 @@ public struct ServerShutdownException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct ServerShutdownExceptionBody: Swift.Equatable {
+struct ServerShutdownExceptionBody {
     let detailedMessage: Swift.String?
     let requestId: Swift.String?
     let code: Swift.String?
@@ -9295,7 +9295,7 @@ extension NeptunedataClientTypes.SparqlData: Swift.Codable {
 
 extension NeptunedataClientTypes {
     /// Neptune logs are converted to SPARQL quads in the graph using the Resource Description Framework (RDF) [N-QUADS](https://www.w3.org/TR/n-quads/) language defined in the W3C RDF 1.1 N-Quads specification
-    public struct SparqlData: Swift.Equatable {
+    public struct SparqlData {
         /// Holds an [N-QUADS](https://www.w3.org/TR/n-quads/) statement expressing the changed quad.
         /// This member is required.
         public var stmt: Swift.String?
@@ -9367,7 +9367,7 @@ extension NeptunedataClientTypes.SparqlRecord: Swift.Codable {
 
 extension NeptunedataClientTypes {
     /// A serialized SPARQL stream record capturing a change-log entry for the RDF graph.
-    public struct SparqlRecord: Swift.Equatable {
+    public struct SparqlRecord {
         /// The time at which the commit for the transaction was requested, in milliseconds from the Unix epoch.
         /// This member is required.
         public var commitTimestampInMillis: Swift.Int?
@@ -9471,7 +9471,7 @@ extension StartLoaderJobInput {
     }
 }
 
-public struct StartLoaderJobInput: Swift.Equatable {
+public struct StartLoaderJobInput {
     /// This is an optional parameter that can make a queued load request contingent on the successful completion of one or more previous jobs in the queue. Neptune can queue up as many as 64 load requests at a time, if their queueRequest parameters are set to "TRUE". The dependencies parameter lets you make execution of such a queued request dependent on the successful completion of one or more specified previous requests in the queue. For example, if load Job-A and Job-B are independent of each other, but load Job-C needs Job-A and Job-B to be finished before it begins, proceed as follows:
     ///
     /// * Submit load-job-A and load-job-B one after another in any order, and save their load-ids.
@@ -9582,7 +9582,7 @@ public struct StartLoaderJobInput: Swift.Equatable {
     }
 }
 
-struct StartLoaderJobInputBody: Swift.Equatable {
+struct StartLoaderJobInputBody {
     let source: Swift.String?
     let format: NeptunedataClientTypes.Format?
     let s3BucketRegion: NeptunedataClientTypes.S3BucketRegion?
@@ -9674,7 +9674,7 @@ extension StartLoaderJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartLoaderJobOutput: Swift.Equatable {
+public struct StartLoaderJobOutput {
     /// Contains a loadId name-value pair that provides an identifier for the load operation.
     /// This member is required.
     public var payload: [Swift.String:Swift.String]?
@@ -9692,7 +9692,7 @@ public struct StartLoaderJobOutput: Swift.Equatable {
     }
 }
 
-struct StartLoaderJobOutputBody: Swift.Equatable {
+struct StartLoaderJobOutputBody {
     let status: Swift.String?
     let payload: [Swift.String:Swift.String]?
 }
@@ -9827,7 +9827,7 @@ extension StartMLDataProcessingJobInput {
     }
 }
 
-public struct StartMLDataProcessingJobInput: Swift.Equatable {
+public struct StartMLDataProcessingJobInput {
     /// A data specification file that describes how to load the exported graph data for training. The file is automatically generated by the Neptune export toolkit. The default is training-data-configuration.json.
     public var configFileName: Swift.String?
     /// A unique identifier for the new job. The default is an autogenerated UUID.
@@ -9897,7 +9897,7 @@ public struct StartMLDataProcessingJobInput: Swift.Equatable {
     }
 }
 
-struct StartMLDataProcessingJobInputBody: Swift.Equatable {
+struct StartMLDataProcessingJobInputBody {
     let id: Swift.String?
     let previousDataProcessingJobId: Swift.String?
     let inputDataS3Location: Swift.String?
@@ -10003,7 +10003,7 @@ extension StartMLDataProcessingJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartMLDataProcessingJobOutput: Swift.Equatable {
+public struct StartMLDataProcessingJobOutput {
     /// The ARN of the data processing job.
     public var arn: Swift.String?
     /// The time it took to create the new processing job, in milliseconds.
@@ -10023,7 +10023,7 @@ public struct StartMLDataProcessingJobOutput: Swift.Equatable {
     }
 }
 
-struct StartMLDataProcessingJobOutputBody: Swift.Equatable {
+struct StartMLDataProcessingJobOutputBody {
     let id: Swift.String?
     let arn: Swift.String?
     let creationTimeInMillis: Swift.Int?
@@ -10162,7 +10162,7 @@ extension StartMLModelTrainingJobInput {
     }
 }
 
-public struct StartMLModelTrainingJobInput: Swift.Equatable {
+public struct StartMLModelTrainingJobInput {
     /// The type of ML instance used in preparing and managing training of ML models. This is a CPU instance chosen based on memory requirements for processing the training data and model.
     public var baseProcessingInstanceType: Swift.String?
     /// The configuration for custom model training. This is a JSON object.
@@ -10244,7 +10244,7 @@ public struct StartMLModelTrainingJobInput: Swift.Equatable {
     }
 }
 
-struct StartMLModelTrainingJobInputBody: Swift.Equatable {
+struct StartMLModelTrainingJobInputBody {
     let id: Swift.String?
     let previousModelTrainingJobId: Swift.String?
     let dataProcessingJobId: Swift.String?
@@ -10362,7 +10362,7 @@ extension StartMLModelTrainingJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartMLModelTrainingJobOutput: Swift.Equatable {
+public struct StartMLModelTrainingJobOutput {
     /// The ARN of the new model training job.
     public var arn: Swift.String?
     /// The model training job creation time, in milliseconds.
@@ -10382,7 +10382,7 @@ public struct StartMLModelTrainingJobOutput: Swift.Equatable {
     }
 }
 
-struct StartMLModelTrainingJobOutputBody: Swift.Equatable {
+struct StartMLModelTrainingJobOutputBody {
     let id: Swift.String?
     let arn: Swift.String?
     let creationTimeInMillis: Swift.Int?
@@ -10505,7 +10505,7 @@ extension StartMLModelTransformJobInput {
     }
 }
 
-public struct StartMLModelTransformJobInput: Swift.Equatable {
+public struct StartMLModelTransformJobInput {
     /// The type of ML instance used in preparing and managing training of ML models. This is an ML compute instance chosen based on memory requirements for processing the training data and model.
     public var baseProcessingInstanceType: Swift.String?
     /// The disk volume size of the training instance in gigabytes. The default is 0. Both input data and the output model are stored on disk, so the volume size must be large enough to hold both data sets. If not specified or 0, Neptune ML selects a disk volume size based on the recommendation generated in the data processing step.
@@ -10570,7 +10570,7 @@ public struct StartMLModelTransformJobInput: Swift.Equatable {
     }
 }
 
-struct StartMLModelTransformJobInputBody: Swift.Equatable {
+struct StartMLModelTransformJobInputBody {
     let id: Swift.String?
     let dataProcessingJobId: Swift.String?
     let mlModelTrainingJobId: Swift.String?
@@ -10672,7 +10672,7 @@ extension StartMLModelTransformJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartMLModelTransformJobOutput: Swift.Equatable {
+public struct StartMLModelTransformJobOutput {
     /// The ARN of the model transform job.
     public var arn: Swift.String?
     /// The creation time of the model transform job, in milliseconds.
@@ -10692,7 +10692,7 @@ public struct StartMLModelTransformJobOutput: Swift.Equatable {
     }
 }
 
-struct StartMLModelTransformJobOutputBody: Swift.Equatable {
+struct StartMLModelTransformJobOutputBody {
     let id: Swift.String?
     let arn: Swift.String?
     let creationTimeInMillis: Swift.Int?
@@ -10788,7 +10788,7 @@ extension NeptunedataClientTypes.Statistics: Swift.Codable {
 
 extension NeptunedataClientTypes {
     /// Contains statistics information. The DFE engine uses information about the data in your Neptune graph to make effective trade-offs when planning query execution. This information takes the form of statistics that include so-called characteristic sets and predicate statistics that can guide query planning. See [Managing statistics for the Neptune DFE to use](https://docs.aws.amazon.com/neptune/latest/userguide/neptune-dfe-statistics.html).
-    public struct Statistics: Swift.Equatable {
+    public struct Statistics {
         /// Indicates whether or not DFE statistics generation is enabled at all.
         public var active: Swift.Bool?
         /// Indicates whether or not automatic statistics generation is enabled.
@@ -10918,7 +10918,7 @@ public struct StatisticsNotAvailableException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct StatisticsNotAvailableExceptionBody: Swift.Equatable {
+struct StatisticsNotAvailableExceptionBody {
     let detailedMessage: Swift.String?
     let requestId: Swift.String?
     let code: Swift.String?
@@ -10975,7 +10975,7 @@ extension NeptunedataClientTypes.StatisticsSummary: Swift.Codable {
 
 extension NeptunedataClientTypes {
     /// Information about the characteristic sets generated in the statistics.
-    public struct StatisticsSummary: Swift.Equatable {
+    public struct StatisticsSummary {
         /// The total number of characteristic-set instances.
         public var instanceCount: Swift.Int?
         /// The total number of unique predicates.
@@ -11052,7 +11052,7 @@ public struct StreamRecordsNotFoundException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct StreamRecordsNotFoundExceptionBody: Swift.Equatable {
+struct StreamRecordsNotFoundExceptionBody {
     let detailedMessage: Swift.String?
     let requestId: Swift.String?
     let code: Swift.String?
@@ -11115,7 +11115,7 @@ extension NeptunedataClientTypes.SubjectStructure: Swift.Codable {
 
 extension NeptunedataClientTypes {
     /// A subject structure.
-    public struct SubjectStructure: Swift.Equatable {
+    public struct SubjectStructure {
         /// Number of occurrences of this specific structure.
         public var count: Swift.Int?
         /// A list of predicates present in this specific structure.
@@ -11188,7 +11188,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let detailedMessage: Swift.String?
     let requestId: Swift.String?
     let code: Swift.String?
@@ -11267,7 +11267,7 @@ public struct TimeLimitExceededException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct TimeLimitExceededExceptionBody: Swift.Equatable {
+struct TimeLimitExceededExceptionBody {
     let detailedMessage: Swift.String?
     let requestId: Swift.String?
     let code: Swift.String?
@@ -11346,7 +11346,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct TooManyRequestsExceptionBody: Swift.Equatable {
+struct TooManyRequestsExceptionBody {
     let detailedMessage: Swift.String?
     let requestId: Swift.String?
     let code: Swift.String?
@@ -11425,7 +11425,7 @@ public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct UnsupportedOperationExceptionBody: Swift.Equatable {
+struct UnsupportedOperationExceptionBody {
     let detailedMessage: Swift.String?
     let requestId: Swift.String?
     let code: Swift.String?

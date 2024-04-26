@@ -34,7 +34,7 @@ extension ActivatePipelineInput {
 }
 
 /// Contains the parameters for ActivatePipeline.
-public struct ActivatePipelineInput: Swift.Equatable {
+public struct ActivatePipelineInput {
     /// A list of parameter values to pass to the pipeline at activation.
     public var parameterValues: [DataPipelineClientTypes.ParameterValue]?
     /// The ID of the pipeline.
@@ -55,7 +55,7 @@ public struct ActivatePipelineInput: Swift.Equatable {
     }
 }
 
-struct ActivatePipelineInputBody: Swift.Equatable {
+struct ActivatePipelineInputBody {
     let pipelineId: Swift.String?
     let parameterValues: [DataPipelineClientTypes.ParameterValue]?
     let startTimestamp: ClientRuntime.Date?
@@ -94,7 +94,7 @@ extension ActivatePipelineOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the output of ActivatePipeline.
-public struct ActivatePipelineOutput: Swift.Equatable {
+public struct ActivatePipelineOutput {
 
     public init() { }
 }
@@ -141,7 +141,7 @@ extension AddTagsInput {
 }
 
 /// Contains the parameters for AddTags.
-public struct AddTagsInput: Swift.Equatable {
+public struct AddTagsInput {
     /// The ID of the pipeline.
     /// This member is required.
     public var pipelineId: Swift.String?
@@ -159,7 +159,7 @@ public struct AddTagsInput: Swift.Equatable {
     }
 }
 
-struct AddTagsInputBody: Swift.Equatable {
+struct AddTagsInputBody {
     let pipelineId: Swift.String?
     let tags: [DataPipelineClientTypes.Tag]?
 }
@@ -194,7 +194,7 @@ extension AddTagsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the output of AddTags.
-public struct AddTagsOutput: Swift.Equatable {
+public struct AddTagsOutput {
 
     public init() { }
 }
@@ -249,7 +249,7 @@ extension CreatePipelineInput {
 }
 
 /// Contains the parameters for CreatePipeline.
-public struct CreatePipelineInput: Swift.Equatable {
+public struct CreatePipelineInput {
     /// The description for the pipeline.
     public var description: Swift.String?
     /// The name for the pipeline. You can use the same name for multiple pipelines associated with your AWS account, because AWS Data Pipeline assigns each pipeline a unique pipeline identifier.
@@ -275,7 +275,7 @@ public struct CreatePipelineInput: Swift.Equatable {
     }
 }
 
-struct CreatePipelineInputBody: Swift.Equatable {
+struct CreatePipelineInputBody {
     let name: Swift.String?
     let uniqueId: Swift.String?
     let description: Swift.String?
@@ -325,7 +325,7 @@ extension CreatePipelineOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the output of CreatePipeline.
-public struct CreatePipelineOutput: Swift.Equatable {
+public struct CreatePipelineOutput {
     /// The ID that AWS Data Pipeline assigns the newly created pipeline. For example, df-06372391ZG65EXAMPLE.
     /// This member is required.
     public var pipelineId: Swift.String?
@@ -338,7 +338,7 @@ public struct CreatePipelineOutput: Swift.Equatable {
     }
 }
 
-struct CreatePipelineOutputBody: Swift.Equatable {
+struct CreatePipelineOutputBody {
     let pipelineId: Swift.String?
 }
 
@@ -393,7 +393,7 @@ extension DeactivatePipelineInput {
 }
 
 /// Contains the parameters for DeactivatePipeline.
-public struct DeactivatePipelineInput: Swift.Equatable {
+public struct DeactivatePipelineInput {
     /// Indicates whether to cancel any running objects. The default is true, which sets the state of any running objects to CANCELED. If this value is false, the pipeline is deactivated after all running objects finish.
     public var cancelActive: Swift.Bool?
     /// The ID of the pipeline.
@@ -410,7 +410,7 @@ public struct DeactivatePipelineInput: Swift.Equatable {
     }
 }
 
-struct DeactivatePipelineInputBody: Swift.Equatable {
+struct DeactivatePipelineInputBody {
     let pipelineId: Swift.String?
     let cancelActive: Swift.Bool?
 }
@@ -436,7 +436,7 @@ extension DeactivatePipelineOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the output of DeactivatePipeline.
-public struct DeactivatePipelineOutput: Swift.Equatable {
+public struct DeactivatePipelineOutput {
 
     public init() { }
 }
@@ -476,7 +476,7 @@ extension DeletePipelineInput {
 }
 
 /// Contains the parameters for DeletePipeline.
-public struct DeletePipelineInput: Swift.Equatable {
+public struct DeletePipelineInput {
     /// The ID of the pipeline.
     /// This member is required.
     public var pipelineId: Swift.String?
@@ -489,7 +489,7 @@ public struct DeletePipelineInput: Swift.Equatable {
     }
 }
 
-struct DeletePipelineInputBody: Swift.Equatable {
+struct DeletePipelineInputBody {
     let pipelineId: Swift.String?
 }
 
@@ -510,7 +510,7 @@ extension DeletePipelineOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePipelineOutput: Swift.Equatable {
+public struct DeletePipelineOutput {
 
     public init() { }
 }
@@ -564,7 +564,7 @@ extension DescribeObjectsInput {
 }
 
 /// Contains the parameters for DescribeObjects.
-public struct DescribeObjectsInput: Swift.Equatable {
+public struct DescribeObjectsInput {
     /// Indicates whether any expressions in the object should be evaluated when the object descriptions are returned.
     public var evaluateExpressions: Swift.Bool?
     /// The starting point for the results to be returned. For the first call, this value should be empty. As long as there are more results, continue to call DescribeObjects with the marker value from the previous call to retrieve the next set of results.
@@ -590,7 +590,7 @@ public struct DescribeObjectsInput: Swift.Equatable {
     }
 }
 
-struct DescribeObjectsInputBody: Swift.Equatable {
+struct DescribeObjectsInputBody {
     let pipelineId: Swift.String?
     let objectIds: [Swift.String]?
     let evaluateExpressions: Swift.Bool?
@@ -644,7 +644,7 @@ extension DescribeObjectsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the output of DescribeObjects.
-public struct DescribeObjectsOutput: Swift.Equatable {
+public struct DescribeObjectsOutput {
     /// Indicates whether there are more results to return.
     public var hasMoreResults: Swift.Bool
     /// The starting point for the next page of results. To view the next page of results, call DescribeObjects again with this marker value. If the value is null, there are no more results.
@@ -665,7 +665,7 @@ public struct DescribeObjectsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeObjectsOutputBody: Swift.Equatable {
+struct DescribeObjectsOutputBody {
     let pipelineObjects: [DataPipelineClientTypes.PipelineObject]?
     let marker: Swift.String?
     let hasMoreResults: Swift.Bool
@@ -736,7 +736,7 @@ extension DescribePipelinesInput {
 }
 
 /// Contains the parameters for DescribePipelines.
-public struct DescribePipelinesInput: Swift.Equatable {
+public struct DescribePipelinesInput {
     /// The IDs of the pipelines to describe. You can pass as many as 25 identifiers in a single call. To obtain pipeline IDs, call [ListPipelines].
     /// This member is required.
     public var pipelineIds: [Swift.String]?
@@ -749,7 +749,7 @@ public struct DescribePipelinesInput: Swift.Equatable {
     }
 }
 
-struct DescribePipelinesInputBody: Swift.Equatable {
+struct DescribePipelinesInputBody {
     let pipelineIds: [Swift.String]?
 }
 
@@ -787,7 +787,7 @@ extension DescribePipelinesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the output of DescribePipelines.
-public struct DescribePipelinesOutput: Swift.Equatable {
+public struct DescribePipelinesOutput {
     /// An array of descriptions for the specified pipelines.
     /// This member is required.
     public var pipelineDescriptionList: [DataPipelineClientTypes.PipelineDescription]?
@@ -800,7 +800,7 @@ public struct DescribePipelinesOutput: Swift.Equatable {
     }
 }
 
-struct DescribePipelinesOutputBody: Swift.Equatable {
+struct DescribePipelinesOutputBody {
     let pipelineDescriptionList: [DataPipelineClientTypes.PipelineDescription]?
 }
 
@@ -868,7 +868,7 @@ extension EvaluateExpressionInput {
 }
 
 /// Contains the parameters for EvaluateExpression.
-public struct EvaluateExpressionInput: Swift.Equatable {
+public struct EvaluateExpressionInput {
     /// The expression to evaluate.
     /// This member is required.
     public var expression: Swift.String?
@@ -891,7 +891,7 @@ public struct EvaluateExpressionInput: Swift.Equatable {
     }
 }
 
-struct EvaluateExpressionInputBody: Swift.Equatable {
+struct EvaluateExpressionInputBody {
     let pipelineId: Swift.String?
     let objectId: Swift.String?
     let expression: Swift.String?
@@ -928,7 +928,7 @@ extension EvaluateExpressionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the output of EvaluateExpression.
-public struct EvaluateExpressionOutput: Swift.Equatable {
+public struct EvaluateExpressionOutput {
     /// The evaluated expression.
     /// This member is required.
     public var evaluatedExpression: Swift.String?
@@ -941,7 +941,7 @@ public struct EvaluateExpressionOutput: Swift.Equatable {
     }
 }
 
-struct EvaluateExpressionOutputBody: Swift.Equatable {
+struct EvaluateExpressionOutputBody {
     let evaluatedExpression: Swift.String?
 }
 
@@ -1005,7 +1005,7 @@ extension DataPipelineClientTypes.Field: Swift.Codable {
 
 extension DataPipelineClientTypes {
     /// A key-value pair that describes a property of a pipeline object. The value is specified as either a string value (StringValue) or a reference to another object (RefValue) but not as both.
-    public struct Field: Swift.Equatable {
+    public struct Field {
         /// The field identifier.
         /// This member is required.
         public var key: Swift.String?
@@ -1053,7 +1053,7 @@ extension GetPipelineDefinitionInput {
 }
 
 /// Contains the parameters for GetPipelineDefinition.
-public struct GetPipelineDefinitionInput: Swift.Equatable {
+public struct GetPipelineDefinitionInput {
     /// The ID of the pipeline.
     /// This member is required.
     public var pipelineId: Swift.String?
@@ -1070,7 +1070,7 @@ public struct GetPipelineDefinitionInput: Swift.Equatable {
     }
 }
 
-struct GetPipelineDefinitionInputBody: Swift.Equatable {
+struct GetPipelineDefinitionInputBody {
     let pipelineId: Swift.String?
     let version: Swift.String?
 }
@@ -1107,7 +1107,7 @@ extension GetPipelineDefinitionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the output of GetPipelineDefinition.
-public struct GetPipelineDefinitionOutput: Swift.Equatable {
+public struct GetPipelineDefinitionOutput {
     /// The parameter objects used in the pipeline definition.
     public var parameterObjects: [DataPipelineClientTypes.ParameterObject]?
     /// The parameter values used in the pipeline definition.
@@ -1127,7 +1127,7 @@ public struct GetPipelineDefinitionOutput: Swift.Equatable {
     }
 }
 
-struct GetPipelineDefinitionOutputBody: Swift.Equatable {
+struct GetPipelineDefinitionOutputBody {
     let pipelineObjects: [DataPipelineClientTypes.PipelineObject]?
     let parameterObjects: [DataPipelineClientTypes.ParameterObject]?
     let parameterValues: [DataPipelineClientTypes.ParameterValue]?
@@ -1219,7 +1219,7 @@ extension DataPipelineClientTypes.InstanceIdentity: Swift.Codable {
 
 extension DataPipelineClientTypes {
     /// Identity information for the EC2 instance that is hosting the task runner. You can get this value by calling a metadata URI from the EC2 instance. For more information, see [Instance Metadata](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AESDG-chapter-instancedata.html) in the Amazon Elastic Compute Cloud User Guide. Passing in this value proves that your task runner is running on an EC2 instance, and ensures the proper AWS Data Pipeline service charges are applied to your pipeline.
-    public struct InstanceIdentity: Swift.Equatable {
+    public struct InstanceIdentity {
         /// A description of an EC2 instance that is generated when the instance is launched and exposed to the instance via the instance metadata service in the form of a JSON representation of an object.
         public var document: Swift.String?
         /// A signature which can be used to verify the accuracy and authenticity of the information provided in the instance identity document.
@@ -1277,7 +1277,7 @@ public struct InternalServiceError: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct InternalServiceErrorBody: Swift.Equatable {
+struct InternalServiceErrorBody {
     let message: Swift.String?
 }
 
@@ -1333,7 +1333,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InvalidRequestExceptionBody: Swift.Equatable {
+struct InvalidRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -1370,7 +1370,7 @@ extension ListPipelinesInput {
 }
 
 /// Contains the parameters for ListPipelines.
-public struct ListPipelinesInput: Swift.Equatable {
+public struct ListPipelinesInput {
     /// The starting point for the results to be returned. For the first call, this value should be empty. As long as there are more results, continue to call ListPipelines with the marker value from the previous call to retrieve the next set of results.
     public var marker: Swift.String?
 
@@ -1382,7 +1382,7 @@ public struct ListPipelinesInput: Swift.Equatable {
     }
 }
 
-struct ListPipelinesInputBody: Swift.Equatable {
+struct ListPipelinesInputBody {
     let marker: Swift.String?
 }
 
@@ -1415,7 +1415,7 @@ extension ListPipelinesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the output of ListPipelines.
-public struct ListPipelinesOutput: Swift.Equatable {
+public struct ListPipelinesOutput {
     /// Indicates whether there are more results that can be obtained by a subsequent call.
     public var hasMoreResults: Swift.Bool
     /// The starting point for the next page of results. To view the next page of results, call ListPipelinesOutput again with this marker value. If the value is null, there are no more results.
@@ -1436,7 +1436,7 @@ public struct ListPipelinesOutput: Swift.Equatable {
     }
 }
 
-struct ListPipelinesOutputBody: Swift.Equatable {
+struct ListPipelinesOutputBody {
     let pipelineIdList: [DataPipelineClientTypes.PipelineIdName]?
     let marker: Swift.String?
     let hasMoreResults: Swift.Bool
@@ -1520,7 +1520,7 @@ extension DataPipelineClientTypes.Operator: Swift.Codable {
 
 extension DataPipelineClientTypes {
     /// Contains a logical operation for comparing the value of a field with a specified value.
-    public struct Operator: Swift.Equatable {
+    public struct Operator {
         /// The logical operation to be performed: equal (EQ), equal reference (REF_EQ), less than or equal (LE), greater than or equal (GE), or between (BETWEEN). Equal reference (REF_EQ) can be used only with reference fields. The other comparison types can be used only with String fields. The comparison types you can use apply only to certain object fields, as detailed below. The comparison operators EQ and REF_EQ act on the following fields:
         ///
         /// * name
@@ -1640,7 +1640,7 @@ extension DataPipelineClientTypes.ParameterAttribute: Swift.Codable {
 
 extension DataPipelineClientTypes {
     /// The attributes allowed or specified with a parameter object.
-    public struct ParameterAttribute: Swift.Equatable {
+    public struct ParameterAttribute {
         /// The field identifier.
         /// This member is required.
         public var key: Swift.String?
@@ -1699,7 +1699,7 @@ extension DataPipelineClientTypes.ParameterObject: Swift.Codable {
 
 extension DataPipelineClientTypes {
     /// Contains information about a parameter object.
-    public struct ParameterObject: Swift.Equatable {
+    public struct ParameterObject {
         /// The attributes of the parameter object.
         /// This member is required.
         public var attributes: [DataPipelineClientTypes.ParameterAttribute]?
@@ -1746,7 +1746,7 @@ extension DataPipelineClientTypes.ParameterValue: Swift.Codable {
 
 extension DataPipelineClientTypes {
     /// A value or list of parameter values.
-    public struct ParameterValue: Swift.Equatable {
+    public struct ParameterValue {
         /// The ID of the parameter value.
         /// This member is required.
         public var id: Swift.String?
@@ -1806,7 +1806,7 @@ public struct PipelineDeletedException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct PipelineDeletedExceptionBody: Swift.Equatable {
+struct PipelineDeletedExceptionBody {
     let message: Swift.String?
 }
 
@@ -1891,7 +1891,7 @@ extension DataPipelineClientTypes.PipelineDescription: Swift.Codable {
 
 extension DataPipelineClientTypes {
     /// Contains pipeline metadata.
-    public struct PipelineDescription: Swift.Equatable {
+    public struct PipelineDescription {
         /// Description of the pipeline.
         public var description: Swift.String?
         /// A list of read-only fields that contain metadata about the pipeline: @userId, @accountId, and @pipelineState.
@@ -1951,7 +1951,7 @@ extension DataPipelineClientTypes.PipelineIdName: Swift.Codable {
 
 extension DataPipelineClientTypes {
     /// Contains the name and identifier of a pipeline.
-    public struct PipelineIdName: Swift.Equatable {
+    public struct PipelineIdName {
         /// The ID of the pipeline that was assigned by AWS Data Pipeline. This is a string of the form df-297EG78HU43EEXAMPLE.
         public var id: Swift.String?
         /// The name of the pipeline.
@@ -2009,7 +2009,7 @@ public struct PipelineNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct PipelineNotFoundExceptionBody: Swift.Equatable {
+struct PipelineNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -2070,7 +2070,7 @@ extension DataPipelineClientTypes.PipelineObject: Swift.Codable {
 
 extension DataPipelineClientTypes {
     /// Contains information about a pipeline object. This can be a logical, physical, or physical attempt pipeline object. The complete set of components of a pipeline defines the pipeline.
-    public struct PipelineObject: Swift.Equatable {
+    public struct PipelineObject {
         /// Key-value pairs that define the properties of the object.
         /// This member is required.
         public var fields: [DataPipelineClientTypes.Field]?
@@ -2124,7 +2124,7 @@ extension PollForTaskInput {
 }
 
 /// Contains the parameters for PollForTask.
-public struct PollForTaskInput: Swift.Equatable {
+public struct PollForTaskInput {
     /// The public DNS name of the calling task runner.
     public var hostname: Swift.String?
     /// Identity information for the EC2 instance that is hosting the task runner. You can get this value from the instance using http://169.254.169.254/latest/meta-data/instance-id. For more information, see [Instance Metadata](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AESDG-chapter-instancedata.html) in the Amazon Elastic Compute Cloud User Guide. Passing in this value proves that your task runner is running on an EC2 instance, and ensures the proper AWS Data Pipeline service charges are applied to your pipeline.
@@ -2145,7 +2145,7 @@ public struct PollForTaskInput: Swift.Equatable {
     }
 }
 
-struct PollForTaskInputBody: Swift.Equatable {
+struct PollForTaskInputBody {
     let workerGroup: Swift.String?
     let hostname: Swift.String?
     let instanceIdentity: DataPipelineClientTypes.InstanceIdentity?
@@ -2182,7 +2182,7 @@ extension PollForTaskOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the output of PollForTask.
-public struct PollForTaskOutput: Swift.Equatable {
+public struct PollForTaskOutput {
     /// The information needed to complete the task that is being assigned to the task runner. One of the fields returned in this object is taskId, which contains an identifier for the task being assigned. The calling task runner uses taskId in subsequent calls to [ReportTaskProgress] and [SetTaskStatus].
     public var taskObject: DataPipelineClientTypes.TaskObject?
 
@@ -2194,7 +2194,7 @@ public struct PollForTaskOutput: Swift.Equatable {
     }
 }
 
-struct PollForTaskOutputBody: Swift.Equatable {
+struct PollForTaskOutputBody {
     let taskObject: DataPipelineClientTypes.TaskObject?
 }
 
@@ -2265,7 +2265,7 @@ extension PutPipelineDefinitionInput {
 }
 
 /// Contains the parameters for PutPipelineDefinition.
-public struct PutPipelineDefinitionInput: Swift.Equatable {
+public struct PutPipelineDefinitionInput {
     /// The parameter objects used with the pipeline.
     public var parameterObjects: [DataPipelineClientTypes.ParameterObject]?
     /// The parameter values used with the pipeline.
@@ -2291,7 +2291,7 @@ public struct PutPipelineDefinitionInput: Swift.Equatable {
     }
 }
 
-struct PutPipelineDefinitionInputBody: Swift.Equatable {
+struct PutPipelineDefinitionInputBody {
     let pipelineId: Swift.String?
     let pipelineObjects: [DataPipelineClientTypes.PipelineObject]?
     let parameterObjects: [DataPipelineClientTypes.ParameterObject]?
@@ -2363,7 +2363,7 @@ extension PutPipelineDefinitionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the output of PutPipelineDefinition.
-public struct PutPipelineDefinitionOutput: Swift.Equatable {
+public struct PutPipelineDefinitionOutput {
     /// Indicates whether there were validation errors, and the pipeline definition is stored but cannot be activated until you correct the pipeline and call PutPipelineDefinition to commit the corrected pipeline.
     /// This member is required.
     public var errored: Swift.Bool
@@ -2384,7 +2384,7 @@ public struct PutPipelineDefinitionOutput: Swift.Equatable {
     }
 }
 
-struct PutPipelineDefinitionOutputBody: Swift.Equatable {
+struct PutPipelineDefinitionOutputBody {
     let validationErrors: [DataPipelineClientTypes.ValidationError]?
     let validationWarnings: [DataPipelineClientTypes.ValidationWarning]?
     let errored: Swift.Bool
@@ -2473,7 +2473,7 @@ extension DataPipelineClientTypes.Query: Swift.Codable {
 
 extension DataPipelineClientTypes {
     /// Defines the query to run against an object.
-    public struct Query: Swift.Equatable {
+    public struct Query {
         /// List of selectors that define the query. An object must satisfy all of the selectors to match the query.
         public var selectors: [DataPipelineClientTypes.Selector]?
 
@@ -2524,7 +2524,7 @@ extension QueryObjectsInput {
 }
 
 /// Contains the parameters for QueryObjects.
-public struct QueryObjectsInput: Swift.Equatable {
+public struct QueryObjectsInput {
     /// The maximum number of object names that QueryObjects will return in a single call. The default value is 100.
     public var limit: Swift.Int?
     /// The starting point for the results to be returned. For the first call, this value should be empty. As long as there are more results, continue to call QueryObjects with the marker value from the previous call to retrieve the next set of results.
@@ -2554,7 +2554,7 @@ public struct QueryObjectsInput: Swift.Equatable {
     }
 }
 
-struct QueryObjectsInputBody: Swift.Equatable {
+struct QueryObjectsInputBody {
     let pipelineId: Swift.String?
     let query: DataPipelineClientTypes.Query?
     let sphere: Swift.String?
@@ -2603,7 +2603,7 @@ extension QueryObjectsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the output of QueryObjects.
-public struct QueryObjectsOutput: Swift.Equatable {
+public struct QueryObjectsOutput {
     /// Indicates whether there are more results that can be obtained by a subsequent call.
     public var hasMoreResults: Swift.Bool
     /// The identifiers that match the query selectors.
@@ -2623,7 +2623,7 @@ public struct QueryObjectsOutput: Swift.Equatable {
     }
 }
 
-struct QueryObjectsOutputBody: Swift.Equatable {
+struct QueryObjectsOutputBody {
     let ids: [Swift.String]?
     let marker: Swift.String?
     let hasMoreResults: Swift.Bool
@@ -2698,7 +2698,7 @@ extension RemoveTagsInput {
 }
 
 /// Contains the parameters for RemoveTags.
-public struct RemoveTagsInput: Swift.Equatable {
+public struct RemoveTagsInput {
     /// The ID of the pipeline.
     /// This member is required.
     public var pipelineId: Swift.String?
@@ -2716,7 +2716,7 @@ public struct RemoveTagsInput: Swift.Equatable {
     }
 }
 
-struct RemoveTagsInputBody: Swift.Equatable {
+struct RemoveTagsInputBody {
     let pipelineId: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -2751,7 +2751,7 @@ extension RemoveTagsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the output of RemoveTags.
-public struct RemoveTagsOutput: Swift.Equatable {
+public struct RemoveTagsOutput {
 
     public init() { }
 }
@@ -2798,7 +2798,7 @@ extension ReportTaskProgressInput {
 }
 
 /// Contains the parameters for ReportTaskProgress.
-public struct ReportTaskProgressInput: Swift.Equatable {
+public struct ReportTaskProgressInput {
     /// Key-value pairs that define the properties of the ReportTaskProgressInput object.
     public var fields: [DataPipelineClientTypes.Field]?
     /// The ID of the task assigned to the task runner. This value is provided in the response for [PollForTask].
@@ -2815,7 +2815,7 @@ public struct ReportTaskProgressInput: Swift.Equatable {
     }
 }
 
-struct ReportTaskProgressInputBody: Swift.Equatable {
+struct ReportTaskProgressInputBody {
     let taskId: Swift.String?
     let fields: [DataPipelineClientTypes.Field]?
 }
@@ -2857,7 +2857,7 @@ extension ReportTaskProgressOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the output of ReportTaskProgress.
-public struct ReportTaskProgressOutput: Swift.Equatable {
+public struct ReportTaskProgressOutput {
     /// If true, the calling task runner should cancel processing of the task. The task runner does not need to call [SetTaskStatus] for canceled tasks.
     /// This member is required.
     public var canceled: Swift.Bool
@@ -2870,7 +2870,7 @@ public struct ReportTaskProgressOutput: Swift.Equatable {
     }
 }
 
-struct ReportTaskProgressOutputBody: Swift.Equatable {
+struct ReportTaskProgressOutputBody {
     let canceled: Swift.Bool
 }
 
@@ -2930,7 +2930,7 @@ extension ReportTaskRunnerHeartbeatInput {
 }
 
 /// Contains the parameters for ReportTaskRunnerHeartbeat.
-public struct ReportTaskRunnerHeartbeatInput: Swift.Equatable {
+public struct ReportTaskRunnerHeartbeatInput {
     /// The public DNS name of the task runner.
     public var hostname: Swift.String?
     /// The ID of the task runner. This value should be unique across your AWS account. In the case of AWS Data Pipeline Task Runner launched on a resource managed by AWS Data Pipeline, the web service provides a unique identifier when it launches the application. If you have written a custom task runner, you should assign a unique identifier for the task runner.
@@ -2951,7 +2951,7 @@ public struct ReportTaskRunnerHeartbeatInput: Swift.Equatable {
     }
 }
 
-struct ReportTaskRunnerHeartbeatInputBody: Swift.Equatable {
+struct ReportTaskRunnerHeartbeatInputBody {
     let taskrunnerId: Swift.String?
     let workerGroup: Swift.String?
     let hostname: Swift.String?
@@ -2988,7 +2988,7 @@ extension ReportTaskRunnerHeartbeatOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the output of ReportTaskRunnerHeartbeat.
-public struct ReportTaskRunnerHeartbeatOutput: Swift.Equatable {
+public struct ReportTaskRunnerHeartbeatOutput {
     /// Indicates whether the calling task runner should terminate.
     /// This member is required.
     public var terminate: Swift.Bool
@@ -3001,7 +3001,7 @@ public struct ReportTaskRunnerHeartbeatOutput: Swift.Equatable {
     }
 }
 
-struct ReportTaskRunnerHeartbeatOutputBody: Swift.Equatable {
+struct ReportTaskRunnerHeartbeatOutputBody {
     let terminate: Swift.Bool
 }
 
@@ -3056,7 +3056,7 @@ extension DataPipelineClientTypes.Selector: Swift.Codable {
 
 extension DataPipelineClientTypes {
     /// A comparision that is used to determine whether a query should return this object.
-    public struct Selector: Swift.Equatable {
+    public struct Selector {
         /// The name of the field that the operator will be applied to. The field name is the "key" portion of the field definition in the pipeline definition syntax that is used by the AWS Data Pipeline API. If the field is not set on the object, the condition fails.
         public var fieldName: Swift.String?
         /// Contains a logical operation for comparing the value of a field with a specified value.
@@ -3106,7 +3106,7 @@ extension SetStatusInput {
 }
 
 /// Contains the parameters for SetStatus.
-public struct SetStatusInput: Swift.Equatable {
+public struct SetStatusInput {
     /// The IDs of the objects. The corresponding objects can be either physical or components, but not a mix of both types.
     /// This member is required.
     public var objectIds: [Swift.String]?
@@ -3129,7 +3129,7 @@ public struct SetStatusInput: Swift.Equatable {
     }
 }
 
-struct SetStatusInputBody: Swift.Equatable {
+struct SetStatusInputBody {
     let pipelineId: Swift.String?
     let objectIds: [Swift.String]?
     let status: Swift.String?
@@ -3167,7 +3167,7 @@ extension SetStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SetStatusOutput: Swift.Equatable {
+public struct SetStatusOutput {
 
     public init() { }
 }
@@ -3223,7 +3223,7 @@ extension SetTaskStatusInput {
 }
 
 /// Contains the parameters for SetTaskStatus.
-public struct SetTaskStatusInput: Swift.Equatable {
+public struct SetTaskStatusInput {
     /// If an error occurred during the task, this value specifies the error code. This value is set on the physical attempt object. It is used to display error information to the user. It should not start with string "Service_" which is reserved by the system.
     public var errorId: Swift.String?
     /// If an error occurred during the task, this value specifies a text description of the error. This value is set on the physical attempt object. It is used to display error information to the user. The web service does not parse this value.
@@ -3253,7 +3253,7 @@ public struct SetTaskStatusInput: Swift.Equatable {
     }
 }
 
-struct SetTaskStatusInputBody: Swift.Equatable {
+struct SetTaskStatusInputBody {
     let taskId: Swift.String?
     let taskStatus: DataPipelineClientTypes.TaskStatus?
     let errorId: Swift.String?
@@ -3291,7 +3291,7 @@ extension SetTaskStatusOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the output of SetTaskStatus.
-public struct SetTaskStatusOutput: Swift.Equatable {
+public struct SetTaskStatusOutput {
 
     public init() { }
 }
@@ -3338,7 +3338,7 @@ extension DataPipelineClientTypes.Tag: Swift.Codable {
 
 extension DataPipelineClientTypes {
     /// Tags are key/value pairs defined by a user and associated with a pipeline to control access. AWS Data Pipeline allows you to associate ten tags per pipeline. For more information, see [Controlling User Access to Pipelines](http://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-control-access.html) in the AWS Data Pipeline Developer Guide.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key name of a tag defined by a user. For more information, see [Controlling User Access to Pipelines](http://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-control-access.html) in the AWS Data Pipeline Developer Guide.
         /// This member is required.
         public var key: Swift.String?
@@ -3398,7 +3398,7 @@ public struct TaskNotFoundException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct TaskNotFoundExceptionBody: Swift.Equatable {
+struct TaskNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -3465,7 +3465,7 @@ extension DataPipelineClientTypes.TaskObject: Swift.Codable {
 
 extension DataPipelineClientTypes {
     /// Contains information about a pipeline task that is assigned to a task runner.
-    public struct TaskObject: Swift.Equatable {
+    public struct TaskObject {
         /// The ID of the pipeline task attempt object. AWS Data Pipeline uses this value to track how many times a task is attempted.
         public var attemptId: Swift.String?
         /// Connection information for the location where the task runner will publish the output of the task.
@@ -3568,7 +3568,7 @@ extension ValidatePipelineDefinitionInput {
 }
 
 /// Contains the parameters for ValidatePipelineDefinition.
-public struct ValidatePipelineDefinitionInput: Swift.Equatable {
+public struct ValidatePipelineDefinitionInput {
     /// The parameter objects used with the pipeline.
     public var parameterObjects: [DataPipelineClientTypes.ParameterObject]?
     /// The parameter values used with the pipeline.
@@ -3594,7 +3594,7 @@ public struct ValidatePipelineDefinitionInput: Swift.Equatable {
     }
 }
 
-struct ValidatePipelineDefinitionInputBody: Swift.Equatable {
+struct ValidatePipelineDefinitionInputBody {
     let pipelineId: Swift.String?
     let pipelineObjects: [DataPipelineClientTypes.PipelineObject]?
     let parameterObjects: [DataPipelineClientTypes.ParameterObject]?
@@ -3666,7 +3666,7 @@ extension ValidatePipelineDefinitionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the output of ValidatePipelineDefinition.
-public struct ValidatePipelineDefinitionOutput: Swift.Equatable {
+public struct ValidatePipelineDefinitionOutput {
     /// Indicates whether there were validation errors.
     /// This member is required.
     public var errored: Swift.Bool
@@ -3687,7 +3687,7 @@ public struct ValidatePipelineDefinitionOutput: Swift.Equatable {
     }
 }
 
-struct ValidatePipelineDefinitionOutputBody: Swift.Equatable {
+struct ValidatePipelineDefinitionOutputBody {
     let validationErrors: [DataPipelineClientTypes.ValidationError]?
     let validationWarnings: [DataPipelineClientTypes.ValidationWarning]?
     let errored: Swift.Bool
@@ -3782,7 +3782,7 @@ extension DataPipelineClientTypes.ValidationError: Swift.Codable {
 
 extension DataPipelineClientTypes {
     /// Defines a validation error. Validation errors prevent pipeline activation. The set of validation errors that can be returned are defined by AWS Data Pipeline.
-    public struct ValidationError: Swift.Equatable {
+    public struct ValidationError {
         /// A description of the validation error.
         public var errors: [Swift.String]?
         /// The identifier of the object that contains the validation error.
@@ -3839,7 +3839,7 @@ extension DataPipelineClientTypes.ValidationWarning: Swift.Codable {
 
 extension DataPipelineClientTypes {
     /// Defines a validation warning. Validation warnings do not prevent pipeline activation. The set of validation warnings that can be returned are defined by AWS Data Pipeline.
-    public struct ValidationWarning: Swift.Equatable {
+    public struct ValidationWarning {
         /// The identifier of the object that contains the validation warning.
         public var id: Swift.String?
         /// A description of the validation warning.

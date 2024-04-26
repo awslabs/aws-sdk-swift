@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -140,7 +140,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -228,7 +228,7 @@ extension CreateEnvironmentInput {
     }
 }
 
-public struct CreateEnvironmentInput: Swift.Equatable {
+public struct CreateEnvironmentInput {
     /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     public var clientToken: Swift.String?
     /// The ID of the software set to apply.
@@ -277,7 +277,7 @@ public struct CreateEnvironmentInput: Swift.Equatable {
     }
 }
 
-struct CreateEnvironmentInputBody: Swift.Equatable {
+struct CreateEnvironmentInputBody {
     let name: Swift.String?
     let desktopArn: Swift.String?
     let desktopEndpoint: Swift.String?
@@ -350,7 +350,7 @@ extension CreateEnvironmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateEnvironmentOutput: Swift.Equatable {
+public struct CreateEnvironmentOutput {
     /// Describes an environment.
     public var environment: WorkSpacesThinClientClientTypes.EnvironmentSummary?
 
@@ -362,7 +362,7 @@ public struct CreateEnvironmentOutput: Swift.Equatable {
     }
 }
 
-struct CreateEnvironmentOutputBody: Swift.Equatable {
+struct CreateEnvironmentOutputBody {
     let environment: WorkSpacesThinClientClientTypes.EnvironmentSummary?
 }
 
@@ -464,7 +464,7 @@ extension DeleteDeviceInput {
     }
 }
 
-public struct DeleteDeviceInput: Swift.Equatable {
+public struct DeleteDeviceInput {
     /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     public var clientToken: Swift.String?
     /// The ID of the device to delete.
@@ -481,7 +481,7 @@ public struct DeleteDeviceInput: Swift.Equatable {
     }
 }
 
-struct DeleteDeviceInputBody: Swift.Equatable {
+struct DeleteDeviceInputBody {
 }
 
 extension DeleteDeviceInputBody: Swift.Decodable {
@@ -495,7 +495,7 @@ extension DeleteDeviceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDeviceOutput: Swift.Equatable {
+public struct DeleteDeviceOutput {
 
     public init() { }
 }
@@ -538,7 +538,7 @@ extension DeleteEnvironmentInput {
     }
 }
 
-public struct DeleteEnvironmentInput: Swift.Equatable {
+public struct DeleteEnvironmentInput {
     /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     public var clientToken: Swift.String?
     /// The ID of the environment to delete.
@@ -555,7 +555,7 @@ public struct DeleteEnvironmentInput: Swift.Equatable {
     }
 }
 
-struct DeleteEnvironmentInputBody: Swift.Equatable {
+struct DeleteEnvironmentInputBody {
 }
 
 extension DeleteEnvironmentInputBody: Swift.Decodable {
@@ -569,7 +569,7 @@ extension DeleteEnvironmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteEnvironmentOutput: Swift.Equatable {
+public struct DeleteEnvironmentOutput {
 
     public init() { }
 }
@@ -617,7 +617,7 @@ extension DeregisterDeviceInput {
     }
 }
 
-public struct DeregisterDeviceInput: Swift.Equatable {
+public struct DeregisterDeviceInput {
     /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     public var clientToken: Swift.String?
     /// The ID of the device to deregister.
@@ -638,7 +638,7 @@ public struct DeregisterDeviceInput: Swift.Equatable {
     }
 }
 
-struct DeregisterDeviceInputBody: Swift.Equatable {
+struct DeregisterDeviceInputBody {
     let targetDeviceStatus: WorkSpacesThinClientClientTypes.TargetDeviceStatus?
     let clientToken: Swift.String?
 }
@@ -663,7 +663,7 @@ extension DeregisterDeviceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeregisterDeviceOutput: Swift.Equatable {
+public struct DeregisterDeviceOutput {
 
     public init() { }
 }
@@ -877,7 +877,7 @@ extension WorkSpacesThinClientClientTypes.Device: Swift.CustomDebugStringConvert
 
 extension WorkSpacesThinClientClientTypes {
     /// Describes a thin client device.
-    public struct Device: Swift.Equatable {
+    public struct Device {
         /// The Amazon Resource Name (ARN) of the device.
         public var arn: Swift.String?
         /// The timestamp of when the device was created.
@@ -1154,7 +1154,7 @@ extension WorkSpacesThinClientClientTypes.DeviceSummary: Swift.CustomDebugString
 
 extension WorkSpacesThinClientClientTypes {
     /// Describes a thin client device.
-    public struct DeviceSummary: Swift.Equatable {
+    public struct DeviceSummary {
         /// The Amazon Resource Name (ARN) of the device.
         public var arn: Swift.String?
         /// The timestamp of when the device was created.
@@ -1370,7 +1370,7 @@ extension WorkSpacesThinClientClientTypes.Environment: Swift.CustomDebugStringCo
 
 extension WorkSpacesThinClientClientTypes {
     /// Describes an environment.
-    public struct Environment: Swift.Equatable {
+    public struct Environment {
         /// The activation code to register a device to the environment.
         public var activationCode: Swift.String?
         /// The Amazon Resource Name (ARN) of the environment.
@@ -1595,7 +1595,7 @@ extension WorkSpacesThinClientClientTypes.EnvironmentSummary: Swift.CustomDebugS
 
 extension WorkSpacesThinClientClientTypes {
     /// Describes an environment.
-    public struct EnvironmentSummary: Swift.Equatable {
+    public struct EnvironmentSummary {
         /// The activation code to register a device to the environment.
         public var activationCode: Swift.String?
         /// The Amazon Resource Name (ARN) of the environment.
@@ -1671,7 +1671,7 @@ extension GetDeviceInput {
     }
 }
 
-public struct GetDeviceInput: Swift.Equatable {
+public struct GetDeviceInput {
     /// The ID of the device for which to return information.
     /// This member is required.
     public var id: Swift.String?
@@ -1684,7 +1684,7 @@ public struct GetDeviceInput: Swift.Equatable {
     }
 }
 
-struct GetDeviceInputBody: Swift.Equatable {
+struct GetDeviceInputBody {
 }
 
 extension GetDeviceInputBody: Swift.Decodable {
@@ -1705,7 +1705,7 @@ extension GetDeviceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDeviceOutput: Swift.Equatable {
+public struct GetDeviceOutput {
     /// Describes an device.
     public var device: WorkSpacesThinClientClientTypes.Device?
 
@@ -1717,7 +1717,7 @@ public struct GetDeviceOutput: Swift.Equatable {
     }
 }
 
-struct GetDeviceOutputBody: Swift.Equatable {
+struct GetDeviceOutputBody {
     let device: WorkSpacesThinClientClientTypes.Device?
 }
 
@@ -1758,7 +1758,7 @@ extension GetEnvironmentInput {
     }
 }
 
-public struct GetEnvironmentInput: Swift.Equatable {
+public struct GetEnvironmentInput {
     /// The ID of the environment for which to return information.
     /// This member is required.
     public var id: Swift.String?
@@ -1771,7 +1771,7 @@ public struct GetEnvironmentInput: Swift.Equatable {
     }
 }
 
-struct GetEnvironmentInputBody: Swift.Equatable {
+struct GetEnvironmentInputBody {
 }
 
 extension GetEnvironmentInputBody: Swift.Decodable {
@@ -1792,7 +1792,7 @@ extension GetEnvironmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEnvironmentOutput: Swift.Equatable {
+public struct GetEnvironmentOutput {
     /// Describes an environment.
     public var environment: WorkSpacesThinClientClientTypes.Environment?
 
@@ -1804,7 +1804,7 @@ public struct GetEnvironmentOutput: Swift.Equatable {
     }
 }
 
-struct GetEnvironmentOutputBody: Swift.Equatable {
+struct GetEnvironmentOutputBody {
     let environment: WorkSpacesThinClientClientTypes.Environment?
 }
 
@@ -1845,7 +1845,7 @@ extension GetSoftwareSetInput {
     }
 }
 
-public struct GetSoftwareSetInput: Swift.Equatable {
+public struct GetSoftwareSetInput {
     /// The ID of the software set for which to return information.
     /// This member is required.
     public var id: Swift.String?
@@ -1858,7 +1858,7 @@ public struct GetSoftwareSetInput: Swift.Equatable {
     }
 }
 
-struct GetSoftwareSetInputBody: Swift.Equatable {
+struct GetSoftwareSetInputBody {
 }
 
 extension GetSoftwareSetInputBody: Swift.Decodable {
@@ -1879,7 +1879,7 @@ extension GetSoftwareSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSoftwareSetOutput: Swift.Equatable {
+public struct GetSoftwareSetOutput {
     /// Describes a software set.
     public var softwareSet: WorkSpacesThinClientClientTypes.SoftwareSet?
 
@@ -1891,7 +1891,7 @@ public struct GetSoftwareSetOutput: Swift.Equatable {
     }
 }
 
-struct GetSoftwareSetOutputBody: Swift.Equatable {
+struct GetSoftwareSetOutputBody {
     let softwareSet: WorkSpacesThinClientClientTypes.SoftwareSet?
 }
 
@@ -1970,7 +1970,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -2009,7 +2009,7 @@ extension ListDevicesInput {
     }
 }
 
-public struct ListDevicesInput: Swift.Equatable {
+public struct ListDevicesInput {
     /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
     public var maxResults: Swift.Int?
     /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
@@ -2025,7 +2025,7 @@ public struct ListDevicesInput: Swift.Equatable {
     }
 }
 
-struct ListDevicesInputBody: Swift.Equatable {
+struct ListDevicesInputBody {
 }
 
 extension ListDevicesInputBody: Swift.Decodable {
@@ -2048,7 +2048,7 @@ extension ListDevicesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDevicesOutput: Swift.Equatable {
+public struct ListDevicesOutput {
     /// Describes devices.
     public var devices: [WorkSpacesThinClientClientTypes.DeviceSummary]?
     /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
@@ -2064,7 +2064,7 @@ public struct ListDevicesOutput: Swift.Equatable {
     }
 }
 
-struct ListDevicesOutputBody: Swift.Equatable {
+struct ListDevicesOutputBody {
     let devices: [WorkSpacesThinClientClientTypes.DeviceSummary]?
     let nextToken: Swift.String?
 }
@@ -2130,7 +2130,7 @@ extension ListEnvironmentsInput {
     }
 }
 
-public struct ListEnvironmentsInput: Swift.Equatable {
+public struct ListEnvironmentsInput {
     /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
     public var maxResults: Swift.Int?
     /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
@@ -2146,7 +2146,7 @@ public struct ListEnvironmentsInput: Swift.Equatable {
     }
 }
 
-struct ListEnvironmentsInputBody: Swift.Equatable {
+struct ListEnvironmentsInputBody {
 }
 
 extension ListEnvironmentsInputBody: Swift.Decodable {
@@ -2169,7 +2169,7 @@ extension ListEnvironmentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEnvironmentsOutput: Swift.Equatable {
+public struct ListEnvironmentsOutput {
     /// Describes environments.
     public var environments: [WorkSpacesThinClientClientTypes.EnvironmentSummary]?
     /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
@@ -2185,7 +2185,7 @@ public struct ListEnvironmentsOutput: Swift.Equatable {
     }
 }
 
-struct ListEnvironmentsOutputBody: Swift.Equatable {
+struct ListEnvironmentsOutputBody {
     let environments: [WorkSpacesThinClientClientTypes.EnvironmentSummary]?
     let nextToken: Swift.String?
 }
@@ -2251,7 +2251,7 @@ extension ListSoftwareSetsInput {
     }
 }
 
-public struct ListSoftwareSetsInput: Swift.Equatable {
+public struct ListSoftwareSetsInput {
     /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
     public var maxResults: Swift.Int?
     /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
@@ -2267,7 +2267,7 @@ public struct ListSoftwareSetsInput: Swift.Equatable {
     }
 }
 
-struct ListSoftwareSetsInputBody: Swift.Equatable {
+struct ListSoftwareSetsInputBody {
 }
 
 extension ListSoftwareSetsInputBody: Swift.Decodable {
@@ -2290,7 +2290,7 @@ extension ListSoftwareSetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSoftwareSetsOutput: Swift.Equatable {
+public struct ListSoftwareSetsOutput {
     /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
     /// Describes software sets.
@@ -2306,7 +2306,7 @@ public struct ListSoftwareSetsOutput: Swift.Equatable {
     }
 }
 
-struct ListSoftwareSetsOutputBody: Swift.Equatable {
+struct ListSoftwareSetsOutputBody {
     let softwareSets: [WorkSpacesThinClientClientTypes.SoftwareSetSummary]?
     let nextToken: Swift.String?
 }
@@ -2359,7 +2359,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource for which you want to retrieve tags.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2372,7 +2372,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -2398,7 +2398,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// A map of the key-value pairs for the tag or tags assigned to the specified resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -2410,7 +2410,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -2519,7 +2519,7 @@ extension WorkSpacesThinClientClientTypes.MaintenanceWindow: Swift.Codable {
 
 extension WorkSpacesThinClientClientTypes {
     /// Describes the maintenance window for a thin client device.
-    public struct MaintenanceWindow: Swift.Equatable {
+    public struct MaintenanceWindow {
         /// The option to set the maintenance window during the device local time or Universal Coordinated Time (UTC).
         public var applyTimeOf: WorkSpacesThinClientClientTypes.ApplyTimeOf?
         /// The days of the week during which the maintenance window is open.
@@ -2640,7 +2640,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -2727,7 +2727,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -2786,7 +2786,7 @@ extension WorkSpacesThinClientClientTypes.Software: Swift.Codable {
 
 extension WorkSpacesThinClientClientTypes {
     /// Describes software.
-    public struct Software: Swift.Equatable {
+    public struct Software {
         /// The name of the software component.
         public var name: Swift.String?
         /// The version of the software component.
@@ -2896,7 +2896,7 @@ extension WorkSpacesThinClientClientTypes.SoftwareSet: Swift.CustomDebugStringCo
 
 extension WorkSpacesThinClientClientTypes {
     /// Describes a software set.
-    public struct SoftwareSet: Swift.Equatable {
+    public struct SoftwareSet {
         /// The Amazon Resource Name (ARN) of the software set.
         public var arn: Swift.String?
         /// The ID of the software set.
@@ -2989,7 +2989,7 @@ extension WorkSpacesThinClientClientTypes.SoftwareSetSummary: Swift.Codable {
 
 extension WorkSpacesThinClientClientTypes {
     /// Describes a software set.
-    public struct SoftwareSetSummary: Swift.Equatable {
+    public struct SoftwareSetSummary {
         /// The Amazon Resource Name (ARN) of the software set.
         public var arn: Swift.String?
         /// The ID of the software set.
@@ -3185,7 +3185,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource that you want to tag.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3203,7 +3203,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -3233,7 +3233,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -3346,7 +3346,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
     let serviceCode: Swift.String?
     let quotaCode: Swift.String?
@@ -3401,7 +3401,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource that you want to untag.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3419,7 +3419,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -3433,7 +3433,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -3490,7 +3490,7 @@ extension UpdateDeviceInput {
     }
 }
 
-public struct UpdateDeviceInput: Swift.Equatable {
+public struct UpdateDeviceInput {
     /// The ID of the software set to apply.
     public var desiredSoftwareSetId: Swift.String?
     /// The ID of the device to update.
@@ -3515,7 +3515,7 @@ public struct UpdateDeviceInput: Swift.Equatable {
     }
 }
 
-struct UpdateDeviceInputBody: Swift.Equatable {
+struct UpdateDeviceInputBody {
     let name: Swift.String?
     let desiredSoftwareSetId: Swift.String?
     let softwareSetUpdateSchedule: WorkSpacesThinClientClientTypes.SoftwareSetUpdateSchedule?
@@ -3551,7 +3551,7 @@ extension UpdateDeviceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDeviceOutput: Swift.Equatable {
+public struct UpdateDeviceOutput {
     /// Describes a device.
     public var device: WorkSpacesThinClientClientTypes.DeviceSummary?
 
@@ -3563,7 +3563,7 @@ public struct UpdateDeviceOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDeviceOutputBody: Swift.Equatable {
+struct UpdateDeviceOutputBody {
     let device: WorkSpacesThinClientClientTypes.DeviceSummary?
 }
 
@@ -3646,7 +3646,7 @@ extension UpdateEnvironmentInput {
     }
 }
 
-public struct UpdateEnvironmentInput: Swift.Equatable {
+public struct UpdateEnvironmentInput {
     /// The ID of the software set to apply.
     public var desiredSoftwareSetId: Swift.String?
     /// The Amazon Resource Name (ARN) of the desktop to stream from Amazon WorkSpaces, WorkSpaces Web, or AppStream 2.0.
@@ -3687,7 +3687,7 @@ public struct UpdateEnvironmentInput: Swift.Equatable {
     }
 }
 
-struct UpdateEnvironmentInputBody: Swift.Equatable {
+struct UpdateEnvironmentInputBody {
     let name: Swift.String?
     let desktopArn: Swift.String?
     let desktopEndpoint: Swift.String?
@@ -3739,7 +3739,7 @@ extension UpdateEnvironmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateEnvironmentOutput: Swift.Equatable {
+public struct UpdateEnvironmentOutput {
     /// Describes an environment.
     public var environment: WorkSpacesThinClientClientTypes.EnvironmentSummary?
 
@@ -3751,7 +3751,7 @@ public struct UpdateEnvironmentOutput: Swift.Equatable {
     }
 }
 
-struct UpdateEnvironmentOutputBody: Swift.Equatable {
+struct UpdateEnvironmentOutputBody {
     let environment: WorkSpacesThinClientClientTypes.EnvironmentSummary?
 }
 
@@ -3805,7 +3805,7 @@ extension UpdateSoftwareSetInput {
     }
 }
 
-public struct UpdateSoftwareSetInput: Swift.Equatable {
+public struct UpdateSoftwareSetInput {
     /// The ID of the software set to update.
     /// This member is required.
     public var id: Swift.String?
@@ -3823,7 +3823,7 @@ public struct UpdateSoftwareSetInput: Swift.Equatable {
     }
 }
 
-struct UpdateSoftwareSetInputBody: Swift.Equatable {
+struct UpdateSoftwareSetInputBody {
     let validationStatus: WorkSpacesThinClientClientTypes.SoftwareSetValidationStatus?
 }
 
@@ -3844,7 +3844,7 @@ extension UpdateSoftwareSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSoftwareSetOutput: Swift.Equatable {
+public struct UpdateSoftwareSetOutput {
 
     public init() { }
 }
@@ -3915,7 +3915,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let reason: WorkSpacesThinClientClientTypes.ValidationExceptionReason?
     let fieldList: [WorkSpacesThinClientClientTypes.ValidationExceptionField]?
@@ -3975,7 +3975,7 @@ extension WorkSpacesThinClientClientTypes.ValidationExceptionField: Swift.Codabl
 
 extension WorkSpacesThinClientClientTypes {
     /// Describes a validation exception.
-    public struct ValidationExceptionField: Swift.Equatable {
+    public struct ValidationExceptionField {
         /// A message that describes the reason for the exception.
         /// This member is required.
         public var message: Swift.String?

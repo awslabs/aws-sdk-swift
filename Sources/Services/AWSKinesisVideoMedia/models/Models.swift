@@ -41,7 +41,7 @@ public struct ClientLimitExceededException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct ClientLimitExceededExceptionBody: Swift.Equatable {
+struct ClientLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -96,7 +96,7 @@ public struct ConnectionLimitExceededException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct ConnectionLimitExceededExceptionBody: Swift.Equatable {
+struct ConnectionLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -140,7 +140,7 @@ extension GetMediaInput {
     }
 }
 
-public struct GetMediaInput: Swift.Equatable {
+public struct GetMediaInput {
     /// Identifies the starting chunk to get from the specified stream.
     /// This member is required.
     public var startSelector: KinesisVideoMediaClientTypes.StartSelector?
@@ -161,7 +161,7 @@ public struct GetMediaInput: Swift.Equatable {
     }
 }
 
-struct GetMediaInputBody: Swift.Equatable {
+struct GetMediaInputBody {
     let streamName: Swift.String?
     let streamARN: Swift.String?
     let startSelector: KinesisVideoMediaClientTypes.StartSelector?
@@ -203,7 +203,7 @@ extension GetMediaOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMediaOutput: Swift.Equatable {
+public struct GetMediaOutput {
     /// The content type of the requested media.
     public var contentType: Swift.String?
     /// The payload Kinesis Video Streams returns is a sequence of chunks from the specified stream. For information about the chunks, see . The chunks that Kinesis Video Streams returns in the GetMedia call also include the following additional Matroska (MKV) tags:
@@ -259,7 +259,7 @@ public struct GetMediaOutput: Swift.Equatable {
     }
 }
 
-struct GetMediaOutputBody: Swift.Equatable {
+struct GetMediaOutputBody {
     let payload: ClientRuntime.ByteStream?
 }
 
@@ -330,7 +330,7 @@ public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InvalidArgumentExceptionBody: Swift.Equatable {
+struct InvalidArgumentExceptionBody {
     let message: Swift.String?
 }
 
@@ -385,7 +385,7 @@ public struct InvalidEndpointException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InvalidEndpointExceptionBody: Swift.Equatable {
+struct InvalidEndpointExceptionBody {
     let message: Swift.String?
 }
 
@@ -442,7 +442,7 @@ public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct NotAuthorizedExceptionBody: Swift.Equatable {
+struct NotAuthorizedExceptionBody {
     let message: Swift.String?
 }
 
@@ -497,7 +497,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -558,7 +558,7 @@ extension KinesisVideoMediaClientTypes {
     /// * Identify a specific chunk. You can identify a specific chunk either by providing a fragment number or timestamp (server or producer).
     ///
     /// * Each chunk's metadata includes a continuation token as a Matroska (MKV) tag (AWS_KINESISVIDEO_CONTINUATION_TOKEN). If your previous GetMedia request terminated, you can use this tag value in your next GetMedia request. The API then starts returning chunks starting where the last API ended.
-    public struct StartSelector: Swift.Equatable {
+    public struct StartSelector {
         /// Specifies the fragment number from where you want the GetMedia API to start returning the fragments.
         public var afterFragmentNumber: Swift.String?
         /// Continuation token that Kinesis Video Streams returned in the previous GetMedia response. The GetMedia API then starts with the chunk identified by the continuation token.

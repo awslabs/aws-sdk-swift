@@ -53,7 +53,7 @@ extension MediaStoreClientTypes.Container: Swift.Codable {
 
 extension MediaStoreClientTypes {
     /// This section describes operations that you can perform on an AWS Elemental MediaStore container.
-    public struct Container: Swift.Equatable {
+    public struct Container {
         /// The state of access logging on the container. This value is false by default, indicating that AWS Elemental MediaStore does not send access logs to Amazon CloudWatch Logs. When you enable access logging on the container, MediaStore changes this value to true, indicating that the service delivers access logs for objects stored in that container to CloudWatch Logs.
         public var accessLoggingEnabled: Swift.Bool?
         /// The Amazon Resource Name (ARN) of the container. The ARN has the following format: arn:aws:::container/ For example: arn:aws:mediastore:us-west-2:111122223333:container/movies
@@ -126,7 +126,7 @@ public struct ContainerInUseException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct ContainerInUseExceptionBody: Swift.Equatable {
+struct ContainerInUseExceptionBody {
     let message: Swift.String?
 }
 
@@ -213,7 +213,7 @@ public struct ContainerNotFoundException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct ContainerNotFoundExceptionBody: Swift.Equatable {
+struct ContainerNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -303,7 +303,7 @@ public struct CorsPolicyNotFoundException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct CorsPolicyNotFoundExceptionBody: Swift.Equatable {
+struct CorsPolicyNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -412,7 +412,7 @@ extension MediaStoreClientTypes.CorsRule: Swift.Codable {
 
 extension MediaStoreClientTypes {
     /// A rule for a CORS policy. You can add up to 100 rules to a CORS policy. If more than one rule applies, the service uses the first applicable rule listed.
-    public struct CorsRule: Swift.Equatable {
+    public struct CorsRule {
         /// Specifies which headers are allowed in a preflight OPTIONS request through the Access-Control-Request-Headers header. Each header name that is specified in Access-Control-Request-Headers must have a corresponding entry in the rule. Only the headers that were requested are sent back. This element can contain only one wildcard character (*).
         /// This member is required.
         public var allowedHeaders: [Swift.String]?
@@ -471,7 +471,7 @@ extension CreateContainerInput {
     }
 }
 
-public struct CreateContainerInput: Swift.Equatable {
+public struct CreateContainerInput {
     /// The name for the container. The name must be from 1 to 255 characters. Container names must be unique to your AWS account within a specific region. As an example, you could create a container named movies in every region, as long as you don’t have an existing container with that name.
     /// This member is required.
     public var containerName: Swift.String?
@@ -488,7 +488,7 @@ public struct CreateContainerInput: Swift.Equatable {
     }
 }
 
-struct CreateContainerInputBody: Swift.Equatable {
+struct CreateContainerInputBody {
     let containerName: Swift.String?
     let tags: [MediaStoreClientTypes.Tag]?
 }
@@ -529,7 +529,7 @@ extension CreateContainerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateContainerOutput: Swift.Equatable {
+public struct CreateContainerOutput {
     /// ContainerARN: The Amazon Resource Name (ARN) of the newly created container. The ARN has the following format: arn:aws:::container/. For example: arn:aws:mediastore:us-west-2:111122223333:container/movies ContainerName: The container name as specified in the request. CreationTime: Unix time stamp. Status: The status of container creation or deletion. The status is one of the following: CREATING, ACTIVE, or DELETING. While the service is creating the container, the status is CREATING. When an endpoint is available, the status changes to ACTIVE. The return value does not include the container's endpoint. To make downstream requests, you must obtain this value by using [DescribeContainer] or [ListContainers].
     /// This member is required.
     public var container: MediaStoreClientTypes.Container?
@@ -542,7 +542,7 @@ public struct CreateContainerOutput: Swift.Equatable {
     }
 }
 
-struct CreateContainerOutputBody: Swift.Equatable {
+struct CreateContainerOutputBody {
     let container: MediaStoreClientTypes.Container?
 }
 
@@ -591,7 +591,7 @@ extension DeleteContainerInput {
     }
 }
 
-public struct DeleteContainerInput: Swift.Equatable {
+public struct DeleteContainerInput {
     /// The name of the container to delete.
     /// This member is required.
     public var containerName: Swift.String?
@@ -604,7 +604,7 @@ public struct DeleteContainerInput: Swift.Equatable {
     }
 }
 
-struct DeleteContainerInputBody: Swift.Equatable {
+struct DeleteContainerInputBody {
     let containerName: Swift.String?
 }
 
@@ -625,7 +625,7 @@ extension DeleteContainerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteContainerOutput: Swift.Equatable {
+public struct DeleteContainerOutput {
 
     public init() { }
 }
@@ -663,7 +663,7 @@ extension DeleteContainerPolicyInput {
     }
 }
 
-public struct DeleteContainerPolicyInput: Swift.Equatable {
+public struct DeleteContainerPolicyInput {
     /// The name of the container that holds the policy.
     /// This member is required.
     public var containerName: Swift.String?
@@ -676,7 +676,7 @@ public struct DeleteContainerPolicyInput: Swift.Equatable {
     }
 }
 
-struct DeleteContainerPolicyInputBody: Swift.Equatable {
+struct DeleteContainerPolicyInputBody {
     let containerName: Swift.String?
 }
 
@@ -697,7 +697,7 @@ extension DeleteContainerPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteContainerPolicyOutput: Swift.Equatable {
+public struct DeleteContainerPolicyOutput {
 
     public init() { }
 }
@@ -736,7 +736,7 @@ extension DeleteCorsPolicyInput {
     }
 }
 
-public struct DeleteCorsPolicyInput: Swift.Equatable {
+public struct DeleteCorsPolicyInput {
     /// The name of the container to remove the policy from.
     /// This member is required.
     public var containerName: Swift.String?
@@ -749,7 +749,7 @@ public struct DeleteCorsPolicyInput: Swift.Equatable {
     }
 }
 
-struct DeleteCorsPolicyInputBody: Swift.Equatable {
+struct DeleteCorsPolicyInputBody {
     let containerName: Swift.String?
 }
 
@@ -770,7 +770,7 @@ extension DeleteCorsPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteCorsPolicyOutput: Swift.Equatable {
+public struct DeleteCorsPolicyOutput {
 
     public init() { }
 }
@@ -809,7 +809,7 @@ extension DeleteLifecyclePolicyInput {
     }
 }
 
-public struct DeleteLifecyclePolicyInput: Swift.Equatable {
+public struct DeleteLifecyclePolicyInput {
     /// The name of the container that holds the object lifecycle policy.
     /// This member is required.
     public var containerName: Swift.String?
@@ -822,7 +822,7 @@ public struct DeleteLifecyclePolicyInput: Swift.Equatable {
     }
 }
 
-struct DeleteLifecyclePolicyInputBody: Swift.Equatable {
+struct DeleteLifecyclePolicyInputBody {
     let containerName: Swift.String?
 }
 
@@ -843,7 +843,7 @@ extension DeleteLifecyclePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteLifecyclePolicyOutput: Swift.Equatable {
+public struct DeleteLifecyclePolicyOutput {
 
     public init() { }
 }
@@ -882,7 +882,7 @@ extension DeleteMetricPolicyInput {
     }
 }
 
-public struct DeleteMetricPolicyInput: Swift.Equatable {
+public struct DeleteMetricPolicyInput {
     /// The name of the container that is associated with the metric policy that you want to delete.
     /// This member is required.
     public var containerName: Swift.String?
@@ -895,7 +895,7 @@ public struct DeleteMetricPolicyInput: Swift.Equatable {
     }
 }
 
-struct DeleteMetricPolicyInputBody: Swift.Equatable {
+struct DeleteMetricPolicyInputBody {
     let containerName: Swift.String?
 }
 
@@ -916,7 +916,7 @@ extension DeleteMetricPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteMetricPolicyOutput: Swift.Equatable {
+public struct DeleteMetricPolicyOutput {
 
     public init() { }
 }
@@ -955,7 +955,7 @@ extension DescribeContainerInput {
     }
 }
 
-public struct DescribeContainerInput: Swift.Equatable {
+public struct DescribeContainerInput {
     /// The name of the container to query.
     public var containerName: Swift.String?
 
@@ -967,7 +967,7 @@ public struct DescribeContainerInput: Swift.Equatable {
     }
 }
 
-struct DescribeContainerInputBody: Swift.Equatable {
+struct DescribeContainerInputBody {
     let containerName: Swift.String?
 }
 
@@ -995,7 +995,7 @@ extension DescribeContainerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeContainerOutput: Swift.Equatable {
+public struct DescribeContainerOutput {
     /// The name of the queried container.
     public var container: MediaStoreClientTypes.Container?
 
@@ -1007,7 +1007,7 @@ public struct DescribeContainerOutput: Swift.Equatable {
     }
 }
 
-struct DescribeContainerOutputBody: Swift.Equatable {
+struct DescribeContainerOutputBody {
     let container: MediaStoreClientTypes.Container?
 }
 
@@ -1055,7 +1055,7 @@ extension GetContainerPolicyInput {
     }
 }
 
-public struct GetContainerPolicyInput: Swift.Equatable {
+public struct GetContainerPolicyInput {
     /// The name of the container.
     /// This member is required.
     public var containerName: Swift.String?
@@ -1068,7 +1068,7 @@ public struct GetContainerPolicyInput: Swift.Equatable {
     }
 }
 
-struct GetContainerPolicyInputBody: Swift.Equatable {
+struct GetContainerPolicyInputBody {
     let containerName: Swift.String?
 }
 
@@ -1096,7 +1096,7 @@ extension GetContainerPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetContainerPolicyOutput: Swift.Equatable {
+public struct GetContainerPolicyOutput {
     /// The contents of the access policy.
     /// This member is required.
     public var policy: Swift.String?
@@ -1109,7 +1109,7 @@ public struct GetContainerPolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetContainerPolicyOutputBody: Swift.Equatable {
+struct GetContainerPolicyOutputBody {
     let policy: Swift.String?
 }
 
@@ -1159,7 +1159,7 @@ extension GetCorsPolicyInput {
     }
 }
 
-public struct GetCorsPolicyInput: Swift.Equatable {
+public struct GetCorsPolicyInput {
     /// The name of the container that the policy is assigned to.
     /// This member is required.
     public var containerName: Swift.String?
@@ -1172,7 +1172,7 @@ public struct GetCorsPolicyInput: Swift.Equatable {
     }
 }
 
-struct GetCorsPolicyInputBody: Swift.Equatable {
+struct GetCorsPolicyInputBody {
     let containerName: Swift.String?
 }
 
@@ -1200,7 +1200,7 @@ extension GetCorsPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCorsPolicyOutput: Swift.Equatable {
+public struct GetCorsPolicyOutput {
     /// The CORS policy assigned to the container.
     /// This member is required.
     public var corsPolicy: [MediaStoreClientTypes.CorsRule]?
@@ -1213,7 +1213,7 @@ public struct GetCorsPolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetCorsPolicyOutputBody: Swift.Equatable {
+struct GetCorsPolicyOutputBody {
     let corsPolicy: [MediaStoreClientTypes.CorsRule]?
 }
 
@@ -1272,7 +1272,7 @@ extension GetLifecyclePolicyInput {
     }
 }
 
-public struct GetLifecyclePolicyInput: Swift.Equatable {
+public struct GetLifecyclePolicyInput {
     /// The name of the container that the object lifecycle policy is assigned to.
     /// This member is required.
     public var containerName: Swift.String?
@@ -1285,7 +1285,7 @@ public struct GetLifecyclePolicyInput: Swift.Equatable {
     }
 }
 
-struct GetLifecyclePolicyInputBody: Swift.Equatable {
+struct GetLifecyclePolicyInputBody {
     let containerName: Swift.String?
 }
 
@@ -1313,7 +1313,7 @@ extension GetLifecyclePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLifecyclePolicyOutput: Swift.Equatable {
+public struct GetLifecyclePolicyOutput {
     /// The object lifecycle policy that is assigned to the container.
     /// This member is required.
     public var lifecyclePolicy: Swift.String?
@@ -1326,7 +1326,7 @@ public struct GetLifecyclePolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetLifecyclePolicyOutputBody: Swift.Equatable {
+struct GetLifecyclePolicyOutputBody {
     let lifecyclePolicy: Swift.String?
 }
 
@@ -1376,7 +1376,7 @@ extension GetMetricPolicyInput {
     }
 }
 
-public struct GetMetricPolicyInput: Swift.Equatable {
+public struct GetMetricPolicyInput {
     /// The name of the container that is associated with the metric policy.
     /// This member is required.
     public var containerName: Swift.String?
@@ -1389,7 +1389,7 @@ public struct GetMetricPolicyInput: Swift.Equatable {
     }
 }
 
-struct GetMetricPolicyInputBody: Swift.Equatable {
+struct GetMetricPolicyInputBody {
     let containerName: Swift.String?
 }
 
@@ -1417,7 +1417,7 @@ extension GetMetricPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMetricPolicyOutput: Swift.Equatable {
+public struct GetMetricPolicyOutput {
     /// The metric policy that is associated with the specific container.
     /// This member is required.
     public var metricPolicy: MediaStoreClientTypes.MetricPolicy?
@@ -1430,7 +1430,7 @@ public struct GetMetricPolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetMetricPolicyOutputBody: Swift.Equatable {
+struct GetMetricPolicyOutputBody {
     let metricPolicy: MediaStoreClientTypes.MetricPolicy?
 }
 
@@ -1499,7 +1499,7 @@ public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct InternalServerErrorBody: Swift.Equatable {
+struct InternalServerErrorBody {
     let message: Swift.String?
 }
 
@@ -1554,7 +1554,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -1594,7 +1594,7 @@ extension ListContainersInput {
     }
 }
 
-public struct ListContainersInput: Swift.Equatable {
+public struct ListContainersInput {
     /// Enter the maximum number of containers in the response. Use from 1 to 255 characters.
     public var maxResults: Swift.Int?
     /// Only if you used MaxResults in the first command, enter the token (which was included in the previous response) to obtain the next set of containers. This token is included in a response only if there actually are more containers to list.
@@ -1610,7 +1610,7 @@ public struct ListContainersInput: Swift.Equatable {
     }
 }
 
-struct ListContainersInputBody: Swift.Equatable {
+struct ListContainersInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -1644,7 +1644,7 @@ extension ListContainersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListContainersOutput: Swift.Equatable {
+public struct ListContainersOutput {
     /// The names of the containers.
     /// This member is required.
     public var containers: [MediaStoreClientTypes.Container]?
@@ -1661,7 +1661,7 @@ public struct ListContainersOutput: Swift.Equatable {
     }
 }
 
-struct ListContainersOutputBody: Swift.Equatable {
+struct ListContainersOutputBody {
     let containers: [MediaStoreClientTypes.Container]?
     let nextToken: Swift.String?
 }
@@ -1721,7 +1721,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) for the container.
     /// This member is required.
     public var resource: Swift.String?
@@ -1734,7 +1734,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resource: Swift.String?
 }
 
@@ -1762,7 +1762,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// An array of key:value pairs that are assigned to the container.
     public var tags: [MediaStoreClientTypes.Tag]?
 
@@ -1774,7 +1774,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [MediaStoreClientTypes.Tag]?
 }
 
@@ -1891,7 +1891,7 @@ extension MediaStoreClientTypes.MetricPolicy: Swift.Codable {
 
 extension MediaStoreClientTypes {
     /// The metric policy that is associated with the container. A metric policy allows AWS Elemental MediaStore to send metrics to Amazon CloudWatch. In the policy, you must indicate whether you want MediaStore to send container-level metrics. You can also include rules to define groups of objects that you want MediaStore to send object-level metrics for. To view examples of how to construct a metric policy for your use case, see [Example Metric Policies](https://docs.aws.amazon.com/mediastore/latest/ug/policies-metric-examples.html).
-    public struct MetricPolicy: Swift.Equatable {
+    public struct MetricPolicy {
         /// A setting to enable or disable metrics at the container level.
         /// This member is required.
         public var containerLevelMetrics: MediaStoreClientTypes.ContainerLevelMetrics?
@@ -1937,7 +1937,7 @@ extension MediaStoreClientTypes.MetricPolicyRule: Swift.Codable {
 
 extension MediaStoreClientTypes {
     /// A setting that enables metrics at the object level. Each rule contains an object group and an object group name. If the policy includes the MetricPolicyRules parameter, you must include at least one rule. Each metric policy can include up to five rules by default. You can also [request a quota increase](https://console.aws.amazon.com/servicequotas/home?region=us-east-1#!/services/mediastore/quotas) to allow up to 300 rules per policy.
-    public struct MetricPolicyRule: Swift.Equatable {
+    public struct MetricPolicyRule {
         /// A path or file name that defines which objects to include in the group. Wildcards (*) are acceptable.
         /// This member is required.
         public var objectGroup: Swift.String?
@@ -1996,7 +1996,7 @@ public struct PolicyNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct PolicyNotFoundExceptionBody: Swift.Equatable {
+struct PolicyNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -2036,7 +2036,7 @@ extension PutContainerPolicyInput {
     }
 }
 
-public struct PutContainerPolicyInput: Swift.Equatable {
+public struct PutContainerPolicyInput {
     /// The name of the container.
     /// This member is required.
     public var containerName: Swift.String?
@@ -2058,7 +2058,7 @@ public struct PutContainerPolicyInput: Swift.Equatable {
     }
 }
 
-struct PutContainerPolicyInputBody: Swift.Equatable {
+struct PutContainerPolicyInputBody {
     let containerName: Swift.String?
     let policy: Swift.String?
 }
@@ -2083,7 +2083,7 @@ extension PutContainerPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutContainerPolicyOutput: Swift.Equatable {
+public struct PutContainerPolicyOutput {
 
     public init() { }
 }
@@ -2128,7 +2128,7 @@ extension PutCorsPolicyInput {
     }
 }
 
-public struct PutCorsPolicyInput: Swift.Equatable {
+public struct PutCorsPolicyInput {
     /// The name of the container that you want to assign the CORS policy to.
     /// This member is required.
     public var containerName: Swift.String?
@@ -2146,7 +2146,7 @@ public struct PutCorsPolicyInput: Swift.Equatable {
     }
 }
 
-struct PutCorsPolicyInputBody: Swift.Equatable {
+struct PutCorsPolicyInputBody {
     let containerName: Swift.String?
     let corsPolicy: [MediaStoreClientTypes.CorsRule]?
 }
@@ -2180,7 +2180,7 @@ extension PutCorsPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutCorsPolicyOutput: Swift.Equatable {
+public struct PutCorsPolicyOutput {
 
     public init() { }
 }
@@ -2222,7 +2222,7 @@ extension PutLifecyclePolicyInput {
     }
 }
 
-public struct PutLifecyclePolicyInput: Swift.Equatable {
+public struct PutLifecyclePolicyInput {
     /// The name of the container that you want to assign the object lifecycle policy to.
     /// This member is required.
     public var containerName: Swift.String?
@@ -2240,7 +2240,7 @@ public struct PutLifecyclePolicyInput: Swift.Equatable {
     }
 }
 
-struct PutLifecyclePolicyInputBody: Swift.Equatable {
+struct PutLifecyclePolicyInputBody {
     let containerName: Swift.String?
     let lifecyclePolicy: Swift.String?
 }
@@ -2265,7 +2265,7 @@ extension PutLifecyclePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutLifecyclePolicyOutput: Swift.Equatable {
+public struct PutLifecyclePolicyOutput {
 
     public init() { }
 }
@@ -2307,7 +2307,7 @@ extension PutMetricPolicyInput {
     }
 }
 
-public struct PutMetricPolicyInput: Swift.Equatable {
+public struct PutMetricPolicyInput {
     /// The name of the container that you want to add the metric policy to.
     /// This member is required.
     public var containerName: Swift.String?
@@ -2329,7 +2329,7 @@ public struct PutMetricPolicyInput: Swift.Equatable {
     }
 }
 
-struct PutMetricPolicyInputBody: Swift.Equatable {
+struct PutMetricPolicyInputBody {
     let containerName: Swift.String?
     let metricPolicy: MediaStoreClientTypes.MetricPolicy?
 }
@@ -2354,7 +2354,7 @@ extension PutMetricPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutMetricPolicyOutput: Swift.Equatable {
+public struct PutMetricPolicyOutput {
 
     public init() { }
 }
@@ -2392,7 +2392,7 @@ extension StartAccessLoggingInput {
     }
 }
 
-public struct StartAccessLoggingInput: Swift.Equatable {
+public struct StartAccessLoggingInput {
     /// The name of the container that you want to start access logging on.
     /// This member is required.
     public var containerName: Swift.String?
@@ -2405,7 +2405,7 @@ public struct StartAccessLoggingInput: Swift.Equatable {
     }
 }
 
-struct StartAccessLoggingInputBody: Swift.Equatable {
+struct StartAccessLoggingInputBody {
     let containerName: Swift.String?
 }
 
@@ -2426,7 +2426,7 @@ extension StartAccessLoggingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartAccessLoggingOutput: Swift.Equatable {
+public struct StartAccessLoggingOutput {
 
     public init() { }
 }
@@ -2464,7 +2464,7 @@ extension StopAccessLoggingInput {
     }
 }
 
-public struct StopAccessLoggingInput: Swift.Equatable {
+public struct StopAccessLoggingInput {
     /// The name of the container that you want to stop access logging on.
     /// This member is required.
     public var containerName: Swift.String?
@@ -2477,7 +2477,7 @@ public struct StopAccessLoggingInput: Swift.Equatable {
     }
 }
 
-struct StopAccessLoggingInputBody: Swift.Equatable {
+struct StopAccessLoggingInputBody {
     let containerName: Swift.String?
 }
 
@@ -2498,7 +2498,7 @@ extension StopAccessLoggingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopAccessLoggingOutput: Swift.Equatable {
+public struct StopAccessLoggingOutput {
 
     public init() { }
 }
@@ -2543,7 +2543,7 @@ extension MediaStoreClientTypes.Tag: Swift.Codable {
 
 extension MediaStoreClientTypes {
     /// A collection of tags associated with a container. Each tag consists of a key:value pair, which can be anything you define. Typically, the tag key represents a category (such as "environment") and the tag value represents a specific value within that category (such as "test," "development," or "production"). You can add up to 50 tags to each container. For more information about tagging, including naming and usage conventions, see [Tagging Resources in MediaStore](https://docs.aws.amazon.com/mediastore/latest/ug/tagging.html).
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// Part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "customer." Tag keys are case-sensitive.
         /// This member is required.
         public var key: Swift.String?
@@ -2589,7 +2589,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) for the container.
     /// This member is required.
     public var resource: Swift.String?
@@ -2607,7 +2607,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resource: Swift.String?
     let tags: [MediaStoreClientTypes.Tag]?
 }
@@ -2641,7 +2641,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -2686,7 +2686,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) for the container.
     /// This member is required.
     public var resource: Swift.String?
@@ -2704,7 +2704,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resource: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -2738,7 +2738,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }

@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -90,7 +90,7 @@ extension IoTTwinMakerClientTypes.BatchPutPropertyError: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// An error returned by the BatchPutProperty action.
-    public struct BatchPutPropertyError: Swift.Equatable {
+    public struct BatchPutPropertyError {
         /// An object that contains information about errors returned by the BatchPutProperty action.
         /// This member is required.
         public var entry: IoTTwinMakerClientTypes.PropertyValueEntry?
@@ -148,7 +148,7 @@ extension IoTTwinMakerClientTypes.BatchPutPropertyErrorEntry: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// An object that contains information about errors returned by the BatchPutProperty action.
-    public struct BatchPutPropertyErrorEntry: Swift.Equatable {
+    public struct BatchPutPropertyErrorEntry {
         /// A list of objects that contain information about errors returned by the BatchPutProperty action.
         /// This member is required.
         public var errors: [IoTTwinMakerClientTypes.BatchPutPropertyError]?
@@ -189,7 +189,7 @@ extension BatchPutPropertyValuesInput {
     }
 }
 
-public struct BatchPutPropertyValuesInput: Swift.Equatable {
+public struct BatchPutPropertyValuesInput {
     /// An object that maps strings to the property value entries to set. Each string in the mapping must be unique to this object.
     /// This member is required.
     public var entries: [IoTTwinMakerClientTypes.PropertyValueEntry]?
@@ -207,7 +207,7 @@ public struct BatchPutPropertyValuesInput: Swift.Equatable {
     }
 }
 
-struct BatchPutPropertyValuesInputBody: Swift.Equatable {
+struct BatchPutPropertyValuesInputBody {
     let entries: [IoTTwinMakerClientTypes.PropertyValueEntry]?
 }
 
@@ -244,7 +244,7 @@ extension BatchPutPropertyValuesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchPutPropertyValuesOutput: Swift.Equatable {
+public struct BatchPutPropertyValuesOutput {
     /// Entries that caused errors in the batch put operation.
     /// This member is required.
     public var errorEntries: [IoTTwinMakerClientTypes.BatchPutPropertyErrorEntry]?
@@ -257,7 +257,7 @@ public struct BatchPutPropertyValuesOutput: Swift.Equatable {
     }
 }
 
-struct BatchPutPropertyValuesOutputBody: Swift.Equatable {
+struct BatchPutPropertyValuesOutputBody {
     let errorEntries: [IoTTwinMakerClientTypes.BatchPutPropertyErrorEntry]?
 }
 
@@ -335,7 +335,7 @@ extension IoTTwinMakerClientTypes.BundleInformation: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// Information about the pricing bundle.
-    public struct BundleInformation: Swift.Equatable {
+    public struct BundleInformation {
         /// The bundle names.
         /// This member is required.
         public var bundleNames: [Swift.String]?
@@ -364,7 +364,7 @@ extension CancelMetadataTransferJobInput {
     }
 }
 
-public struct CancelMetadataTransferJobInput: Swift.Equatable {
+public struct CancelMetadataTransferJobInput {
     /// The metadata transfer job Id.
     /// This member is required.
     public var metadataTransferJobId: Swift.String?
@@ -377,7 +377,7 @@ public struct CancelMetadataTransferJobInput: Swift.Equatable {
     }
 }
 
-struct CancelMetadataTransferJobInputBody: Swift.Equatable {
+struct CancelMetadataTransferJobInputBody {
 }
 
 extension CancelMetadataTransferJobInputBody: Swift.Decodable {
@@ -406,7 +406,7 @@ extension CancelMetadataTransferJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelMetadataTransferJobOutput: Swift.Equatable {
+public struct CancelMetadataTransferJobOutput {
     /// The metadata transfer job ARN.
     /// This member is required.
     public var arn: Swift.String?
@@ -438,7 +438,7 @@ public struct CancelMetadataTransferJobOutput: Swift.Equatable {
     }
 }
 
-struct CancelMetadataTransferJobOutputBody: Swift.Equatable {
+struct CancelMetadataTransferJobOutputBody {
     let metadataTransferJobId: Swift.String?
     let arn: Swift.String?
     let updateDateTime: ClientRuntime.Date?
@@ -513,7 +513,7 @@ extension IoTTwinMakerClientTypes.ColumnDescription: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// A description of the column in the query results.
-    public struct ColumnDescription: Swift.Equatable {
+    public struct ColumnDescription {
         /// The name of the column description.
         public var name: Swift.String?
         /// The type of the column description.
@@ -611,7 +611,7 @@ extension IoTTwinMakerClientTypes.ComponentPropertyGroupRequest: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// The component property group request.
-    public struct ComponentPropertyGroupRequest: Swift.Equatable {
+    public struct ComponentPropertyGroupRequest {
         /// The group type.
         public var groupType: IoTTwinMakerClientTypes.GroupType?
         /// The property names.
@@ -678,7 +678,7 @@ extension IoTTwinMakerClientTypes.ComponentPropertyGroupResponse: Swift.Codable 
 
 extension IoTTwinMakerClientTypes {
     /// The component property group response.
-    public struct ComponentPropertyGroupResponse: Swift.Equatable {
+    public struct ComponentPropertyGroupResponse {
         /// The group type.
         /// This member is required.
         public var groupType: IoTTwinMakerClientTypes.GroupType?
@@ -766,7 +766,7 @@ extension IoTTwinMakerClientTypes.ComponentRequest: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// An object that sets information about a component type create or update request.
-    public struct ComponentRequest: Swift.Equatable {
+    public struct ComponentRequest {
         /// The ID of the component type.
         public var componentTypeId: Swift.String?
         /// The description of the component request.
@@ -909,7 +909,7 @@ extension IoTTwinMakerClientTypes.ComponentResponse: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// An object that returns information about a component type create or update request.
-    public struct ComponentResponse: Swift.Equatable {
+    public struct ComponentResponse {
         /// This flag notes whether all compositeComponents are returned in the API response.
         public var areAllCompositeComponentsReturned: Swift.Bool?
         /// This flag notes whether all properties of the component are returned in the API response. The maximum number of properties returned is 800.
@@ -1038,7 +1038,7 @@ extension IoTTwinMakerClientTypes.ComponentSummary: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// An object that returns information about a component summary.
-    public struct ComponentSummary: Swift.Equatable {
+    public struct ComponentSummary {
         /// The name of the component.
         /// This member is required.
         public var componentName: Swift.String?
@@ -1140,7 +1140,7 @@ extension IoTTwinMakerClientTypes.ComponentTypeSummary: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// An object that contains information about a component type.
-    public struct ComponentTypeSummary: Swift.Equatable {
+    public struct ComponentTypeSummary {
         /// The ARN of the component type.
         /// This member is required.
         public var arn: Swift.String?
@@ -1251,7 +1251,7 @@ extension IoTTwinMakerClientTypes.ComponentUpdateRequest: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// The component update request.
-    public struct ComponentUpdateRequest: Swift.Equatable {
+    public struct ComponentUpdateRequest {
         /// The ID of the component type.
         public var componentTypeId: Swift.String?
         /// The description of the component type.
@@ -1373,7 +1373,7 @@ extension IoTTwinMakerClientTypes.CompositeComponentRequest: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// An object that sets information about the composite component update request.
-    public struct CompositeComponentRequest: Swift.Equatable {
+    public struct CompositeComponentRequest {
         /// The description of the component type.
         public var description: Swift.String?
         /// This is an object that maps strings to the properties to set in the component type. Each string in the mapping must be unique to this object.
@@ -1416,7 +1416,7 @@ extension IoTTwinMakerClientTypes.CompositeComponentTypeRequest: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// An object that sets information about the composite component types of a component type.
-    public struct CompositeComponentTypeRequest: Swift.Equatable {
+    public struct CompositeComponentTypeRequest {
         /// This is the componentTypeId that the compositeComponentType refers to.
         public var componentTypeId: Swift.String?
 
@@ -1457,7 +1457,7 @@ extension IoTTwinMakerClientTypes.CompositeComponentTypeResponse: Swift.Codable 
 
 extension IoTTwinMakerClientTypes {
     /// An object that returns information about the composite component types of a component type.
-    public struct CompositeComponentTypeResponse: Swift.Equatable {
+    public struct CompositeComponentTypeResponse {
         /// This is the componentTypeId that this compositeComponentType refers to.
         public var componentTypeId: Swift.String?
         /// This boolean indicates whether this compositeComponentType is inherited from its parent.
@@ -1538,7 +1538,7 @@ extension IoTTwinMakerClientTypes.CompositeComponentUpdateRequest: Swift.Codable
 
 extension IoTTwinMakerClientTypes {
     /// An object that sets information about the composite component update request.
-    public struct CompositeComponentUpdateRequest: Swift.Equatable {
+    public struct CompositeComponentUpdateRequest {
         /// The description of the component type.
         public var description: Swift.String?
         /// The property group updates.
@@ -1603,7 +1603,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -1658,7 +1658,7 @@ public struct ConnectorFailureException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ConnectorFailureExceptionBody: Swift.Equatable {
+struct ConnectorFailureExceptionBody {
     let message: Swift.String?
 }
 
@@ -1713,7 +1713,7 @@ public struct ConnectorTimeoutException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ConnectorTimeoutExceptionBody: Swift.Equatable {
+struct ConnectorTimeoutExceptionBody {
     let message: Swift.String?
 }
 
@@ -1805,7 +1805,7 @@ extension CreateComponentTypeInput {
     }
 }
 
-public struct CreateComponentTypeInput: Swift.Equatable {
+public struct CreateComponentTypeInput {
     /// The ID of the component type.
     /// This member is required.
     public var componentTypeId: Swift.String?
@@ -1859,7 +1859,7 @@ public struct CreateComponentTypeInput: Swift.Equatable {
     }
 }
 
-struct CreateComponentTypeInputBody: Swift.Equatable {
+struct CreateComponentTypeInputBody {
     let isSingleton: Swift.Bool?
     let description: Swift.String?
     let propertyDefinitions: [Swift.String:IoTTwinMakerClientTypes.PropertyDefinitionRequest]?
@@ -1977,7 +1977,7 @@ extension CreateComponentTypeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateComponentTypeOutput: Swift.Equatable {
+public struct CreateComponentTypeOutput {
     /// The ARN of the component type.
     /// This member is required.
     public var arn: Swift.String?
@@ -2000,7 +2000,7 @@ public struct CreateComponentTypeOutput: Swift.Equatable {
     }
 }
 
-struct CreateComponentTypeOutputBody: Swift.Equatable {
+struct CreateComponentTypeOutputBody {
     let arn: Swift.String?
     let creationDateTime: ClientRuntime.Date?
     let state: IoTTwinMakerClientTypes.State?
@@ -2096,7 +2096,7 @@ extension CreateEntityInput {
     }
 }
 
-public struct CreateEntityInput: Swift.Equatable {
+public struct CreateEntityInput {
     /// An object that maps strings to the components in the entity. Each string in the mapping must be unique to this object.
     public var components: [Swift.String:IoTTwinMakerClientTypes.ComponentRequest]?
     /// This is an object that maps strings to compositeComponent updates in the request. Each key of the map represents the componentPath of the compositeComponent.
@@ -2138,7 +2138,7 @@ public struct CreateEntityInput: Swift.Equatable {
     }
 }
 
-struct CreateEntityInputBody: Swift.Equatable {
+struct CreateEntityInputBody {
     let entityId: Swift.String?
     let entityName: Swift.String?
     let description: Swift.String?
@@ -2223,7 +2223,7 @@ extension CreateEntityOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateEntityOutput: Swift.Equatable {
+public struct CreateEntityOutput {
     /// The ARN of the entity.
     /// This member is required.
     public var arn: Swift.String?
@@ -2251,7 +2251,7 @@ public struct CreateEntityOutput: Swift.Equatable {
     }
 }
 
-struct CreateEntityOutputBody: Swift.Equatable {
+struct CreateEntityOutputBody {
     let entityId: Swift.String?
     let arn: Swift.String?
     let creationDateTime: ClientRuntime.Date?
@@ -2330,7 +2330,7 @@ extension CreateMetadataTransferJobInput {
     }
 }
 
-public struct CreateMetadataTransferJobInput: Swift.Equatable {
+public struct CreateMetadataTransferJobInput {
     /// The metadata transfer job description.
     public var description: Swift.String?
     /// The metadata transfer job destination.
@@ -2356,7 +2356,7 @@ public struct CreateMetadataTransferJobInput: Swift.Equatable {
     }
 }
 
-struct CreateMetadataTransferJobInputBody: Swift.Equatable {
+struct CreateMetadataTransferJobInputBody {
     let metadataTransferJobId: Swift.String?
     let description: Swift.String?
     let sources: [IoTTwinMakerClientTypes.SourceConfiguration]?
@@ -2411,7 +2411,7 @@ extension CreateMetadataTransferJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateMetadataTransferJobOutput: Swift.Equatable {
+public struct CreateMetadataTransferJobOutput {
     /// The metadata transfer job ARN.
     /// This member is required.
     public var arn: Swift.String?
@@ -2439,7 +2439,7 @@ public struct CreateMetadataTransferJobOutput: Swift.Equatable {
     }
 }
 
-struct CreateMetadataTransferJobOutputBody: Swift.Equatable {
+struct CreateMetadataTransferJobOutputBody {
     let metadataTransferJobId: Swift.String?
     let arn: Swift.String?
     let creationDateTime: ClientRuntime.Date?
@@ -2536,7 +2536,7 @@ extension CreateSceneInput {
     }
 }
 
-public struct CreateSceneInput: Swift.Equatable {
+public struct CreateSceneInput {
     /// A list of capabilities that the scene uses to render itself.
     public var capabilities: [Swift.String]?
     /// The relative path that specifies the location of the content definition file.
@@ -2575,7 +2575,7 @@ public struct CreateSceneInput: Swift.Equatable {
     }
 }
 
-struct CreateSceneInputBody: Swift.Equatable {
+struct CreateSceneInputBody {
     let sceneId: Swift.String?
     let contentLocation: Swift.String?
     let description: Swift.String?
@@ -2652,7 +2652,7 @@ extension CreateSceneOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSceneOutput: Swift.Equatable {
+public struct CreateSceneOutput {
     /// The ARN of the scene.
     /// This member is required.
     public var arn: Swift.String?
@@ -2670,7 +2670,7 @@ public struct CreateSceneOutput: Swift.Equatable {
     }
 }
 
-struct CreateSceneOutputBody: Swift.Equatable {
+struct CreateSceneOutputBody {
     let arn: Swift.String?
     let creationDateTime: ClientRuntime.Date?
 }
@@ -2739,7 +2739,7 @@ extension CreateSyncJobInput {
     }
 }
 
-public struct CreateSyncJobInput: Swift.Equatable {
+public struct CreateSyncJobInput {
     /// The SyncJob IAM role. This IAM role is used by the SyncJob to read from the syncSource, and create, update, or delete the corresponding resources.
     /// This member is required.
     public var syncRole: Swift.String?
@@ -2766,7 +2766,7 @@ public struct CreateSyncJobInput: Swift.Equatable {
     }
 }
 
-struct CreateSyncJobInputBody: Swift.Equatable {
+struct CreateSyncJobInputBody {
     let syncRole: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
@@ -2811,7 +2811,7 @@ extension CreateSyncJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSyncJobOutput: Swift.Equatable {
+public struct CreateSyncJobOutput {
     /// The SyncJob ARN.
     /// This member is required.
     public var arn: Swift.String?
@@ -2834,7 +2834,7 @@ public struct CreateSyncJobOutput: Swift.Equatable {
     }
 }
 
-struct CreateSyncJobOutputBody: Swift.Equatable {
+struct CreateSyncJobOutputBody {
     let arn: Swift.String?
     let creationDateTime: ClientRuntime.Date?
     let state: IoTTwinMakerClientTypes.SyncJobState?
@@ -2912,7 +2912,7 @@ extension CreateWorkspaceInput {
     }
 }
 
-public struct CreateWorkspaceInput: Swift.Equatable {
+public struct CreateWorkspaceInput {
     /// The description of the workspace.
     public var description: Swift.String?
     /// The ARN of the execution role associated with the workspace.
@@ -2941,7 +2941,7 @@ public struct CreateWorkspaceInput: Swift.Equatable {
     }
 }
 
-struct CreateWorkspaceInputBody: Swift.Equatable {
+struct CreateWorkspaceInputBody {
     let description: Swift.String?
     let s3Location: Swift.String?
     let role: Swift.String?
@@ -2992,7 +2992,7 @@ extension CreateWorkspaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateWorkspaceOutput: Swift.Equatable {
+public struct CreateWorkspaceOutput {
     /// The ARN of the workspace.
     /// This member is required.
     public var arn: Swift.String?
@@ -3010,7 +3010,7 @@ public struct CreateWorkspaceOutput: Swift.Equatable {
     }
 }
 
-struct CreateWorkspaceOutputBody: Swift.Equatable {
+struct CreateWorkspaceOutputBody {
     let arn: Swift.String?
     let creationDateTime: ClientRuntime.Date?
 }
@@ -3073,7 +3073,7 @@ extension IoTTwinMakerClientTypes.DataConnector: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// The data connector.
-    public struct DataConnector: Swift.Equatable {
+    public struct DataConnector {
         /// A Boolean value that specifies whether the data connector is native to IoT TwinMaker.
         public var isNative: Swift.Bool?
         /// The Lambda function associated with this data connector.
@@ -3148,7 +3148,7 @@ extension IoTTwinMakerClientTypes.DataType: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// An object that specifies the data type of a property.
-    public struct DataType: Swift.Equatable {
+    public struct DataType {
         /// The allowed values for this data type.
         public var allowedValues: [IoTTwinMakerClientTypes.DataValue]?
         /// The nested type in the data type.
@@ -3272,7 +3272,7 @@ extension IoTTwinMakerClientTypes.DataValue: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// An object that specifies a value for a property.
-    public struct DataValue: Swift.Equatable {
+    public struct DataValue {
         /// A Boolean value.
         public var booleanValue: Swift.Bool?
         /// A double value.
@@ -3331,7 +3331,7 @@ extension DeleteComponentTypeInput {
     }
 }
 
-public struct DeleteComponentTypeInput: Swift.Equatable {
+public struct DeleteComponentTypeInput {
     /// The ID of the component type to delete.
     /// This member is required.
     public var componentTypeId: Swift.String?
@@ -3349,7 +3349,7 @@ public struct DeleteComponentTypeInput: Swift.Equatable {
     }
 }
 
-struct DeleteComponentTypeInputBody: Swift.Equatable {
+struct DeleteComponentTypeInputBody {
 }
 
 extension DeleteComponentTypeInputBody: Swift.Decodable {
@@ -3370,7 +3370,7 @@ extension DeleteComponentTypeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteComponentTypeOutput: Swift.Equatable {
+public struct DeleteComponentTypeOutput {
     /// The current state of the component type to be deleted.
     /// This member is required.
     public var state: IoTTwinMakerClientTypes.State?
@@ -3383,7 +3383,7 @@ public struct DeleteComponentTypeOutput: Swift.Equatable {
     }
 }
 
-struct DeleteComponentTypeOutputBody: Swift.Equatable {
+struct DeleteComponentTypeOutputBody {
     let state: IoTTwinMakerClientTypes.State?
 }
 
@@ -3439,7 +3439,7 @@ extension DeleteEntityInput {
     }
 }
 
-public struct DeleteEntityInput: Swift.Equatable {
+public struct DeleteEntityInput {
     /// The ID of the entity to delete.
     /// This member is required.
     public var entityId: Swift.String?
@@ -3461,7 +3461,7 @@ public struct DeleteEntityInput: Swift.Equatable {
     }
 }
 
-struct DeleteEntityInputBody: Swift.Equatable {
+struct DeleteEntityInputBody {
 }
 
 extension DeleteEntityInputBody: Swift.Decodable {
@@ -3482,7 +3482,7 @@ extension DeleteEntityOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteEntityOutput: Swift.Equatable {
+public struct DeleteEntityOutput {
     /// The current state of the deleted entity.
     /// This member is required.
     public var state: IoTTwinMakerClientTypes.State?
@@ -3495,7 +3495,7 @@ public struct DeleteEntityOutput: Swift.Equatable {
     }
 }
 
-struct DeleteEntityOutputBody: Swift.Equatable {
+struct DeleteEntityOutputBody {
     let state: IoTTwinMakerClientTypes.State?
 }
 
@@ -3539,7 +3539,7 @@ extension DeleteSceneInput {
     }
 }
 
-public struct DeleteSceneInput: Swift.Equatable {
+public struct DeleteSceneInput {
     /// The ID of the scene to delete.
     /// This member is required.
     public var sceneId: Swift.String?
@@ -3557,7 +3557,7 @@ public struct DeleteSceneInput: Swift.Equatable {
     }
 }
 
-struct DeleteSceneInputBody: Swift.Equatable {
+struct DeleteSceneInputBody {
 }
 
 extension DeleteSceneInputBody: Swift.Decodable {
@@ -3571,7 +3571,7 @@ extension DeleteSceneOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSceneOutput: Swift.Equatable {
+public struct DeleteSceneOutput {
 
     public init() { }
 }
@@ -3604,7 +3604,7 @@ extension DeleteSyncJobInput {
     }
 }
 
-public struct DeleteSyncJobInput: Swift.Equatable {
+public struct DeleteSyncJobInput {
     /// The sync source. Currently the only supported syncSource is SITEWISE .
     /// This member is required.
     public var syncSource: Swift.String?
@@ -3622,7 +3622,7 @@ public struct DeleteSyncJobInput: Swift.Equatable {
     }
 }
 
-struct DeleteSyncJobInputBody: Swift.Equatable {
+struct DeleteSyncJobInputBody {
 }
 
 extension DeleteSyncJobInputBody: Swift.Decodable {
@@ -3643,7 +3643,7 @@ extension DeleteSyncJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSyncJobOutput: Swift.Equatable {
+public struct DeleteSyncJobOutput {
     /// The SyncJob response state.
     /// This member is required.
     public var state: IoTTwinMakerClientTypes.SyncJobState?
@@ -3656,7 +3656,7 @@ public struct DeleteSyncJobOutput: Swift.Equatable {
     }
 }
 
-struct DeleteSyncJobOutputBody: Swift.Equatable {
+struct DeleteSyncJobOutputBody {
     let state: IoTTwinMakerClientTypes.SyncJobState?
 }
 
@@ -3698,7 +3698,7 @@ extension DeleteWorkspaceInput {
     }
 }
 
-public struct DeleteWorkspaceInput: Swift.Equatable {
+public struct DeleteWorkspaceInput {
     /// The ID of the workspace to delete.
     /// This member is required.
     public var workspaceId: Swift.String?
@@ -3711,7 +3711,7 @@ public struct DeleteWorkspaceInput: Swift.Equatable {
     }
 }
 
-struct DeleteWorkspaceInputBody: Swift.Equatable {
+struct DeleteWorkspaceInputBody {
 }
 
 extension DeleteWorkspaceInputBody: Swift.Decodable {
@@ -3732,7 +3732,7 @@ extension DeleteWorkspaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteWorkspaceOutput: Swift.Equatable {
+public struct DeleteWorkspaceOutput {
     /// The string that specifies the delete result for the workspace.
     public var message: Swift.String?
 
@@ -3744,7 +3744,7 @@ public struct DeleteWorkspaceOutput: Swift.Equatable {
     }
 }
 
-struct DeleteWorkspaceOutputBody: Swift.Equatable {
+struct DeleteWorkspaceOutputBody {
     let message: Swift.String?
 }
 
@@ -3808,7 +3808,7 @@ extension IoTTwinMakerClientTypes.DestinationConfiguration: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// The [link to action] metadata transfer job destination configuration.
-    public struct DestinationConfiguration: Swift.Equatable {
+    public struct DestinationConfiguration {
         /// The metadata transfer job Amazon Web Services IoT TwinMaker configuration.
         public var iotTwinMakerConfiguration: IoTTwinMakerClientTypes.IotTwinMakerDestinationConfiguration?
         /// The metadata transfer job S3 configuration. [need to add S3 entity]
@@ -3923,7 +3923,7 @@ extension IoTTwinMakerClientTypes.EntityPropertyReference: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// An object that uniquely identifies an entity property.
-    public struct EntityPropertyReference: Swift.Equatable {
+    public struct EntityPropertyReference {
         /// The name of the component.
         public var componentName: Swift.String?
         /// This string specifies the path to the composite component, starting from the top-level component.
@@ -4023,7 +4023,7 @@ extension IoTTwinMakerClientTypes.EntitySummary: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// An object that contains information about an entity.
-    public struct EntitySummary: Swift.Equatable {
+    public struct EntitySummary {
         /// The ARN of the entity.
         /// This member is required.
         public var arn: Swift.String?
@@ -4152,7 +4152,7 @@ extension IoTTwinMakerClientTypes.ErrorDetails: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// The error details.
-    public struct ErrorDetails: Swift.Equatable {
+    public struct ErrorDetails {
         /// The error code.
         public var code: IoTTwinMakerClientTypes.ErrorCode?
         /// The error message.
@@ -4202,7 +4202,7 @@ extension ExecuteQueryInput {
     }
 }
 
-public struct ExecuteQueryInput: Swift.Equatable {
+public struct ExecuteQueryInput {
     /// The maximum number of results to return at one time. The default is 50.
     public var maxResults: Swift.Int?
     /// The string that specifies the next page of results.
@@ -4228,7 +4228,7 @@ public struct ExecuteQueryInput: Swift.Equatable {
     }
 }
 
-struct ExecuteQueryInputBody: Swift.Equatable {
+struct ExecuteQueryInputBody {
     let workspaceId: Swift.String?
     let queryStatement: Swift.String?
     let maxResults: Swift.Int?
@@ -4272,7 +4272,7 @@ extension ExecuteQueryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ExecuteQueryOutput: Swift.Equatable {
+public struct ExecuteQueryOutput {
     /// A list of ColumnDescription objects.
     public var columnDescriptions: [IoTTwinMakerClientTypes.ColumnDescription]?
     /// The string that specifies the next page of results.
@@ -4292,7 +4292,7 @@ public struct ExecuteQueryOutput: Swift.Equatable {
     }
 }
 
-struct ExecuteQueryOutputBody: Swift.Equatable {
+struct ExecuteQueryOutputBody {
     let columnDescriptions: [IoTTwinMakerClientTypes.ColumnDescription]?
     let rows: [IoTTwinMakerClientTypes.Row]?
     let nextToken: Swift.String?
@@ -4389,7 +4389,7 @@ extension IoTTwinMakerClientTypes.FilterByAsset: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// Filter by asset. [TwinMaker asset]
-    public struct FilterByAsset: Swift.Equatable {
+    public struct FilterByAsset {
         /// The external-Id property of an asset.
         public var assetExternalId: Swift.String?
         /// Filter by asset Id.
@@ -4454,7 +4454,7 @@ extension IoTTwinMakerClientTypes.FilterByAssetModel: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// Filter by asset model.
-    public struct FilterByAssetModel: Swift.Equatable {
+    public struct FilterByAssetModel {
         /// The external-Id property of an asset model.
         public var assetModelExternalId: Swift.String?
         /// The asset model Id.
@@ -4501,7 +4501,7 @@ extension IoTTwinMakerClientTypes.FilterByComponentType: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// Filter by component type.
-    public struct FilterByComponentType: Swift.Equatable {
+    public struct FilterByComponentType {
         /// The component type Id.
         /// This member is required.
         public var componentTypeId: Swift.String?
@@ -4537,7 +4537,7 @@ extension IoTTwinMakerClientTypes.FilterByEntity: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// Vilter by entity.
-    public struct FilterByEntity: Swift.Equatable {
+    public struct FilterByEntity {
         /// The entity Id.
         /// This member is required.
         public var entityId: Swift.String?
@@ -4597,7 +4597,7 @@ extension IoTTwinMakerClientTypes.FunctionRequest: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// The function request body.
-    public struct FunctionRequest: Swift.Equatable {
+    public struct FunctionRequest {
         /// The data connector.
         public var implementedBy: IoTTwinMakerClientTypes.DataConnector?
         /// The required properties of the function.
@@ -4670,7 +4670,7 @@ extension IoTTwinMakerClientTypes.FunctionResponse: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// The function response.
-    public struct FunctionResponse: Swift.Equatable {
+    public struct FunctionResponse {
         /// The data connector.
         public var implementedBy: IoTTwinMakerClientTypes.DataConnector?
         /// Indicates whether this function is inherited.
@@ -4709,7 +4709,7 @@ extension GetComponentTypeInput {
     }
 }
 
-public struct GetComponentTypeInput: Swift.Equatable {
+public struct GetComponentTypeInput {
     /// The ID of the component type.
     /// This member is required.
     public var componentTypeId: Swift.String?
@@ -4727,7 +4727,7 @@ public struct GetComponentTypeInput: Swift.Equatable {
     }
 }
 
-struct GetComponentTypeInputBody: Swift.Equatable {
+struct GetComponentTypeInputBody {
 }
 
 extension GetComponentTypeInputBody: Swift.Decodable {
@@ -4780,7 +4780,7 @@ extension GetComponentTypeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetComponentTypeOutput: Swift.Equatable {
+public struct GetComponentTypeOutput {
     /// The ARN of the component type.
     /// This member is required.
     public var arn: Swift.String?
@@ -4861,7 +4861,7 @@ public struct GetComponentTypeOutput: Swift.Equatable {
     }
 }
 
-struct GetComponentTypeOutputBody: Swift.Equatable {
+struct GetComponentTypeOutputBody {
     let workspaceId: Swift.String?
     let isSingleton: Swift.Bool?
     let componentTypeId: Swift.String?
@@ -5014,7 +5014,7 @@ extension GetEntityInput {
     }
 }
 
-public struct GetEntityInput: Swift.Equatable {
+public struct GetEntityInput {
     /// The ID of the entity.
     /// This member is required.
     public var entityId: Swift.String?
@@ -5032,7 +5032,7 @@ public struct GetEntityInput: Swift.Equatable {
     }
 }
 
-struct GetEntityInputBody: Swift.Equatable {
+struct GetEntityInputBody {
 }
 
 extension GetEntityInputBody: Swift.Decodable {
@@ -5077,7 +5077,7 @@ extension GetEntityOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEntityOutput: Swift.Equatable {
+public struct GetEntityOutput {
     /// This flag notes whether all components are returned in the API response. The maximum number of components returned is 30.
     public var areAllComponentsReturned: Swift.Bool?
     /// The ARN of the entity.
@@ -5146,7 +5146,7 @@ public struct GetEntityOutput: Swift.Equatable {
     }
 }
 
-struct GetEntityOutputBody: Swift.Equatable {
+struct GetEntityOutputBody {
     let entityId: Swift.String?
     let entityName: Swift.String?
     let arn: Swift.String?
@@ -5244,7 +5244,7 @@ extension GetMetadataTransferJobInput {
     }
 }
 
-public struct GetMetadataTransferJobInput: Swift.Equatable {
+public struct GetMetadataTransferJobInput {
     /// The metadata transfer job Id.
     /// This member is required.
     public var metadataTransferJobId: Swift.String?
@@ -5257,7 +5257,7 @@ public struct GetMetadataTransferJobInput: Swift.Equatable {
     }
 }
 
-struct GetMetadataTransferJobInputBody: Swift.Equatable {
+struct GetMetadataTransferJobInputBody {
 }
 
 extension GetMetadataTransferJobInputBody: Swift.Decodable {
@@ -5298,7 +5298,7 @@ extension GetMetadataTransferJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMetadataTransferJobOutput: Swift.Equatable {
+public struct GetMetadataTransferJobOutput {
     /// The metadata transfer job ARN.
     /// This member is required.
     public var arn: Swift.String?
@@ -5358,7 +5358,7 @@ public struct GetMetadataTransferJobOutput: Swift.Equatable {
     }
 }
 
-struct GetMetadataTransferJobOutputBody: Swift.Equatable {
+struct GetMetadataTransferJobOutputBody {
     let metadataTransferJobId: Swift.String?
     let arn: Swift.String?
     let description: Swift.String?
@@ -5445,12 +5445,12 @@ extension GetPricingPlanInput {
     }
 }
 
-public struct GetPricingPlanInput: Swift.Equatable {
+public struct GetPricingPlanInput {
 
     public init() { }
 }
 
-struct GetPricingPlanInputBody: Swift.Equatable {
+struct GetPricingPlanInputBody {
 }
 
 extension GetPricingPlanInputBody: Swift.Decodable {
@@ -5473,7 +5473,7 @@ extension GetPricingPlanOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPricingPlanOutput: Swift.Equatable {
+public struct GetPricingPlanOutput {
     /// The chosen pricing plan for the current billing cycle.
     /// This member is required.
     public var currentPricingPlan: IoTTwinMakerClientTypes.PricingPlan?
@@ -5490,7 +5490,7 @@ public struct GetPricingPlanOutput: Swift.Equatable {
     }
 }
 
-struct GetPricingPlanOutputBody: Swift.Equatable {
+struct GetPricingPlanOutputBody {
     let currentPricingPlan: IoTTwinMakerClientTypes.PricingPlan?
     let pendingPricingPlan: IoTTwinMakerClientTypes.PricingPlan?
 }
@@ -5605,7 +5605,7 @@ extension GetPropertyValueHistoryInput {
     }
 }
 
-public struct GetPropertyValueHistoryInput: Swift.Equatable {
+public struct GetPropertyValueHistoryInput {
     /// The name of the component.
     public var componentName: Swift.String?
     /// This string specifies the path to the composite component, starting from the top-level component.
@@ -5677,7 +5677,7 @@ public struct GetPropertyValueHistoryInput: Swift.Equatable {
     }
 }
 
-struct GetPropertyValueHistoryInputBody: Swift.Equatable {
+struct GetPropertyValueHistoryInputBody {
     let entityId: Swift.String?
     let componentName: Swift.String?
     let componentPath: Swift.String?
@@ -5777,7 +5777,7 @@ extension GetPropertyValueHistoryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPropertyValueHistoryOutput: Swift.Equatable {
+public struct GetPropertyValueHistoryOutput {
     /// The string that specifies the next page of results.
     public var nextToken: Swift.String?
     /// An object that maps strings to the property definitions in the component type. Each string in the mapping must be unique to this object.
@@ -5794,7 +5794,7 @@ public struct GetPropertyValueHistoryOutput: Swift.Equatable {
     }
 }
 
-struct GetPropertyValueHistoryOutputBody: Swift.Equatable {
+struct GetPropertyValueHistoryOutputBody {
     let propertyValues: [IoTTwinMakerClientTypes.PropertyValueHistory]?
     let nextToken: Swift.String?
 }
@@ -5898,7 +5898,7 @@ extension GetPropertyValueInput {
     }
 }
 
-public struct GetPropertyValueInput: Swift.Equatable {
+public struct GetPropertyValueInput {
     /// The name of the component whose property values the operation returns.
     public var componentName: Swift.String?
     /// This string specifies the path to the composite component, starting from the top-level component.
@@ -5948,7 +5948,7 @@ public struct GetPropertyValueInput: Swift.Equatable {
     }
 }
 
-struct GetPropertyValueInputBody: Swift.Equatable {
+struct GetPropertyValueInputBody {
     let componentName: Swift.String?
     let componentPath: Swift.String?
     let componentTypeId: Swift.String?
@@ -6021,7 +6021,7 @@ extension GetPropertyValueOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPropertyValueOutput: Swift.Equatable {
+public struct GetPropertyValueOutput {
     /// The string that specifies the next page of results.
     public var nextToken: Swift.String?
     /// An object that maps strings to the properties and latest property values in the response. Each string in the mapping must be unique to this object.
@@ -6041,7 +6041,7 @@ public struct GetPropertyValueOutput: Swift.Equatable {
     }
 }
 
-struct GetPropertyValueOutputBody: Swift.Equatable {
+struct GetPropertyValueOutputBody {
     let propertyValues: [Swift.String:IoTTwinMakerClientTypes.PropertyLatestValue]?
     let nextToken: Swift.String?
     let tabularPropertyValues: [[[Swift.String:IoTTwinMakerClientTypes.DataValue]]]?
@@ -6131,7 +6131,7 @@ extension GetSceneInput {
     }
 }
 
-public struct GetSceneInput: Swift.Equatable {
+public struct GetSceneInput {
     /// The ID of the scene.
     /// This member is required.
     public var sceneId: Swift.String?
@@ -6149,7 +6149,7 @@ public struct GetSceneInput: Swift.Equatable {
     }
 }
 
-struct GetSceneInputBody: Swift.Equatable {
+struct GetSceneInputBody {
 }
 
 extension GetSceneInputBody: Swift.Decodable {
@@ -6190,7 +6190,7 @@ extension GetSceneOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSceneOutput: Swift.Equatable {
+public struct GetSceneOutput {
     /// The ARN of the scene.
     /// This member is required.
     public var arn: Swift.String?
@@ -6248,7 +6248,7 @@ public struct GetSceneOutput: Swift.Equatable {
     }
 }
 
-struct GetSceneOutputBody: Swift.Equatable {
+struct GetSceneOutputBody {
     let workspaceId: Swift.String?
     let sceneId: Swift.String?
     let contentLocation: Swift.String?
@@ -6368,7 +6368,7 @@ extension GetSyncJobInput {
     }
 }
 
-public struct GetSyncJobInput: Swift.Equatable {
+public struct GetSyncJobInput {
     /// The sync source. Currently the only supported syncSource is SITEWISE .
     /// This member is required.
     public var syncSource: Swift.String?
@@ -6385,7 +6385,7 @@ public struct GetSyncJobInput: Swift.Equatable {
     }
 }
 
-struct GetSyncJobInputBody: Swift.Equatable {
+struct GetSyncJobInputBody {
 }
 
 extension GetSyncJobInputBody: Swift.Decodable {
@@ -6418,7 +6418,7 @@ extension GetSyncJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSyncJobOutput: Swift.Equatable {
+public struct GetSyncJobOutput {
     /// The sync job ARN.
     /// This member is required.
     public var arn: Swift.String?
@@ -6461,7 +6461,7 @@ public struct GetSyncJobOutput: Swift.Equatable {
     }
 }
 
-struct GetSyncJobOutputBody: Swift.Equatable {
+struct GetSyncJobOutputBody {
     let arn: Swift.String?
     let workspaceId: Swift.String?
     let syncSource: Swift.String?
@@ -6527,7 +6527,7 @@ extension GetWorkspaceInput {
     }
 }
 
-public struct GetWorkspaceInput: Swift.Equatable {
+public struct GetWorkspaceInput {
     /// The ID of the workspace.
     /// This member is required.
     public var workspaceId: Swift.String?
@@ -6540,7 +6540,7 @@ public struct GetWorkspaceInput: Swift.Equatable {
     }
 }
 
-struct GetWorkspaceInputBody: Swift.Equatable {
+struct GetWorkspaceInputBody {
 }
 
 extension GetWorkspaceInputBody: Swift.Decodable {
@@ -6575,7 +6575,7 @@ extension GetWorkspaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetWorkspaceOutput: Swift.Equatable {
+public struct GetWorkspaceOutput {
     /// The ARN of the workspace.
     /// This member is required.
     public var arn: Swift.String?
@@ -6619,7 +6619,7 @@ public struct GetWorkspaceOutput: Swift.Equatable {
     }
 }
 
-struct GetWorkspaceOutputBody: Swift.Equatable {
+struct GetWorkspaceOutputBody {
     let workspaceId: Swift.String?
     let arn: Swift.String?
     let description: Swift.String?
@@ -6755,7 +6755,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -6798,7 +6798,7 @@ extension IoTTwinMakerClientTypes.InterpolationParameters: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// An object that specifies how to interpolate data in a list.
-    public struct InterpolationParameters: Swift.Equatable {
+    public struct InterpolationParameters {
         /// The interpolation type.
         public var interpolationType: IoTTwinMakerClientTypes.InterpolationType?
         /// The interpolation time interval in seconds.
@@ -6880,7 +6880,7 @@ extension IoTTwinMakerClientTypes.IotSiteWiseSourceConfiguration: Swift.Codable 
 
 extension IoTTwinMakerClientTypes {
     /// The metadata transfer job AWS IoT SiteWise source configuration.
-    public struct IotSiteWiseSourceConfiguration: Swift.Equatable {
+    public struct IotSiteWiseSourceConfiguration {
         /// The AWS IoT SiteWise soucre configuration filters.
         public var filters: [IoTTwinMakerClientTypes.IotSiteWiseSourceConfigurationFilter]?
 
@@ -6931,7 +6931,7 @@ extension IoTTwinMakerClientTypes.IotSiteWiseSourceConfigurationFilter: Swift.Co
 
 extension IoTTwinMakerClientTypes {
     /// The AWS IoT SiteWise soucre configuration filter.[need held with desc here]
-    public enum IotSiteWiseSourceConfigurationFilter: Swift.Equatable {
+    public enum IotSiteWiseSourceConfigurationFilter {
         /// Filter by asset model.
         case filterbyassetmodel(IoTTwinMakerClientTypes.FilterByAssetModel)
         /// Filter by asset.
@@ -6962,7 +6962,7 @@ extension IoTTwinMakerClientTypes.IotTwinMakerDestinationConfiguration: Swift.Co
 
 extension IoTTwinMakerClientTypes {
     /// The metadata transfer job AWS IoT TwinMaker destination configuration.
-    public struct IotTwinMakerDestinationConfiguration: Swift.Equatable {
+    public struct IotTwinMakerDestinationConfiguration {
         /// The IoT TwinMaker workspace.
         /// This member is required.
         public var workspace: Swift.String?
@@ -7016,7 +7016,7 @@ extension IoTTwinMakerClientTypes.IotTwinMakerSourceConfiguration: Swift.Codable
 
 extension IoTTwinMakerClientTypes {
     /// The metadata transfer job AWS IoT TwinMaker source configuration.
-    public struct IotTwinMakerSourceConfiguration: Swift.Equatable {
+    public struct IotTwinMakerSourceConfiguration {
         /// The metadata transfer job AWS IoT TwinMaker source configuration filters.
         public var filters: [IoTTwinMakerClientTypes.IotTwinMakerSourceConfigurationFilter]?
         /// The IoT TwinMaker workspace.
@@ -7072,7 +7072,7 @@ extension IoTTwinMakerClientTypes.IotTwinMakerSourceConfigurationFilter: Swift.C
 
 extension IoTTwinMakerClientTypes {
     /// The metadata transfer job AWS IoT TwinMaker source configuration filter.
-    public enum IotTwinMakerSourceConfigurationFilter: Swift.Equatable {
+    public enum IotTwinMakerSourceConfigurationFilter {
         /// Filter by component type.
         case filterbycomponenttype(IoTTwinMakerClientTypes.FilterByComponentType)
         /// Filter by entity.
@@ -7103,7 +7103,7 @@ extension IoTTwinMakerClientTypes.LambdaFunction: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// The Lambda function.
-    public struct LambdaFunction: Swift.Equatable {
+    public struct LambdaFunction {
         /// The ARN of the Lambda function.
         /// This member is required.
         public var arn: Swift.String?
@@ -7163,7 +7163,7 @@ extension IoTTwinMakerClientTypes.ListComponentTypesFilter: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// An object that filters items in a list of component types. Only one object is accepted as a valid input.
-    public enum ListComponentTypesFilter: Swift.Equatable {
+    public enum ListComponentTypesFilter {
         /// The component type that the component types in the list extend.
         case extendsfrom(Swift.String)
         /// The namespace to which the component types in the list belong.
@@ -7209,7 +7209,7 @@ extension ListComponentTypesInput {
     }
 }
 
-public struct ListComponentTypesInput: Swift.Equatable {
+public struct ListComponentTypesInput {
     /// A list of objects that filter the request.
     public var filters: [IoTTwinMakerClientTypes.ListComponentTypesFilter]?
     /// The maximum number of results to return at one time. The default is 25. Valid Range: Minimum value of 1. Maximum value of 250.
@@ -7234,7 +7234,7 @@ public struct ListComponentTypesInput: Swift.Equatable {
     }
 }
 
-struct ListComponentTypesInputBody: Swift.Equatable {
+struct ListComponentTypesInputBody {
     let filters: [IoTTwinMakerClientTypes.ListComponentTypesFilter]?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -7285,7 +7285,7 @@ extension ListComponentTypesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListComponentTypesOutput: Swift.Equatable {
+public struct ListComponentTypesOutput {
     /// A list of objects that contain information about the component types.
     /// This member is required.
     public var componentTypeSummaries: [IoTTwinMakerClientTypes.ComponentTypeSummary]?
@@ -7311,7 +7311,7 @@ public struct ListComponentTypesOutput: Swift.Equatable {
     }
 }
 
-struct ListComponentTypesOutputBody: Swift.Equatable {
+struct ListComponentTypesOutputBody {
     let workspaceId: Swift.String?
     let componentTypeSummaries: [IoTTwinMakerClientTypes.ComponentTypeSummary]?
     let nextToken: Swift.String?
@@ -7396,7 +7396,7 @@ extension ListComponentsInput {
     }
 }
 
-public struct ListComponentsInput: Swift.Equatable {
+public struct ListComponentsInput {
     /// This string specifies the path to the composite component, starting from the top-level component.
     public var componentPath: Swift.String?
     /// The ID for the entity whose metadata (component/properties) is returned by the operation.
@@ -7426,7 +7426,7 @@ public struct ListComponentsInput: Swift.Equatable {
     }
 }
 
-struct ListComponentsInputBody: Swift.Equatable {
+struct ListComponentsInputBody {
     let componentPath: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -7464,7 +7464,7 @@ extension ListComponentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListComponentsOutput: Swift.Equatable {
+public struct ListComponentsOutput {
     /// A list of objects that contain information about the components.
     /// This member is required.
     public var componentSummaries: [IoTTwinMakerClientTypes.ComponentSummary]?
@@ -7481,7 +7481,7 @@ public struct ListComponentsOutput: Swift.Equatable {
     }
 }
 
-struct ListComponentsOutputBody: Swift.Equatable {
+struct ListComponentsOutputBody {
     let componentSummaries: [IoTTwinMakerClientTypes.ComponentSummary]?
     let nextToken: Swift.String?
 }
@@ -7570,7 +7570,7 @@ extension IoTTwinMakerClientTypes.ListEntitiesFilter: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// An object that filters items in a list of entities.
-    public enum ListEntitiesFilter: Swift.Equatable {
+    public enum ListEntitiesFilter {
         /// The parent of the entities in the list.
         case parententityid(Swift.String)
         /// The ID of the component type in the entities in the list.
@@ -7616,7 +7616,7 @@ extension ListEntitiesInput {
     }
 }
 
-public struct ListEntitiesInput: Swift.Equatable {
+public struct ListEntitiesInput {
     /// A list of objects that filter the request. Only one object is accepted as a valid input.
     public var filters: [IoTTwinMakerClientTypes.ListEntitiesFilter]?
     /// The maximum number of results to return at one time. The default is 25. Valid Range: Minimum value of 1. Maximum value of 250.
@@ -7641,7 +7641,7 @@ public struct ListEntitiesInput: Swift.Equatable {
     }
 }
 
-struct ListEntitiesInputBody: Swift.Equatable {
+struct ListEntitiesInputBody {
     let filters: [IoTTwinMakerClientTypes.ListEntitiesFilter]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -7688,7 +7688,7 @@ extension ListEntitiesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEntitiesOutput: Swift.Equatable {
+public struct ListEntitiesOutput {
     /// A list of objects that contain information about the entities.
     public var entitySummaries: [IoTTwinMakerClientTypes.EntitySummary]?
     /// The string that specifies the next page of results.
@@ -7704,7 +7704,7 @@ public struct ListEntitiesOutput: Swift.Equatable {
     }
 }
 
-struct ListEntitiesOutputBody: Swift.Equatable {
+struct ListEntitiesOutputBody {
     let entitySummaries: [IoTTwinMakerClientTypes.EntitySummary]?
     let nextToken: Swift.String?
 }
@@ -7784,7 +7784,7 @@ extension IoTTwinMakerClientTypes.ListMetadataTransferJobsFilter: Swift.Codable 
 
 extension IoTTwinMakerClientTypes {
     /// The ListMetadataTransferJobs filter.
-    public enum ListMetadataTransferJobsFilter: Swift.Equatable {
+    public enum ListMetadataTransferJobsFilter {
         /// The workspace Id.
         case workspaceid(Swift.String)
         /// The filter state.
@@ -7833,7 +7833,7 @@ extension ListMetadataTransferJobsInput {
     }
 }
 
-public struct ListMetadataTransferJobsInput: Swift.Equatable {
+public struct ListMetadataTransferJobsInput {
     /// The metadata transfer job's destination type.
     /// This member is required.
     public var destinationType: IoTTwinMakerClientTypes.DestinationType?
@@ -7863,7 +7863,7 @@ public struct ListMetadataTransferJobsInput: Swift.Equatable {
     }
 }
 
-struct ListMetadataTransferJobsInputBody: Swift.Equatable {
+struct ListMetadataTransferJobsInputBody {
     let sourceType: IoTTwinMakerClientTypes.SourceType?
     let destinationType: IoTTwinMakerClientTypes.DestinationType?
     let filters: [IoTTwinMakerClientTypes.ListMetadataTransferJobsFilter]?
@@ -7918,7 +7918,7 @@ extension ListMetadataTransferJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMetadataTransferJobsOutput: Swift.Equatable {
+public struct ListMetadataTransferJobsOutput {
     /// The metadata transfer job summaries.
     /// This member is required.
     public var metadataTransferJobSummaries: [IoTTwinMakerClientTypes.MetadataTransferJobSummary]?
@@ -7935,7 +7935,7 @@ public struct ListMetadataTransferJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListMetadataTransferJobsOutputBody: Swift.Equatable {
+struct ListMetadataTransferJobsOutputBody {
     let metadataTransferJobSummaries: [IoTTwinMakerClientTypes.MetadataTransferJobSummary]?
     let nextToken: Swift.String?
 }
@@ -8017,7 +8017,7 @@ extension ListPropertiesInput {
     }
 }
 
-public struct ListPropertiesInput: Swift.Equatable {
+public struct ListPropertiesInput {
     /// The name of the component whose properties are returned by the operation.
     public var componentName: Swift.String?
     /// This string specifies the path to the composite component, starting from the top-level component.
@@ -8051,7 +8051,7 @@ public struct ListPropertiesInput: Swift.Equatable {
     }
 }
 
-struct ListPropertiesInputBody: Swift.Equatable {
+struct ListPropertiesInputBody {
     let componentName: Swift.String?
     let componentPath: Swift.String?
     let entityId: Swift.String?
@@ -8097,7 +8097,7 @@ extension ListPropertiesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPropertiesOutput: Swift.Equatable {
+public struct ListPropertiesOutput {
     /// The string that specifies the next page of property results.
     public var nextToken: Swift.String?
     /// A list of objects that contain information about the properties.
@@ -8114,7 +8114,7 @@ public struct ListPropertiesOutput: Swift.Equatable {
     }
 }
 
-struct ListPropertiesOutputBody: Swift.Equatable {
+struct ListPropertiesOutputBody {
     let propertySummaries: [IoTTwinMakerClientTypes.PropertySummary]?
     let nextToken: Swift.String?
 }
@@ -8185,7 +8185,7 @@ extension ListScenesInput {
     }
 }
 
-public struct ListScenesInput: Swift.Equatable {
+public struct ListScenesInput {
     /// Specifies the maximum number of results to display.
     public var maxResults: Swift.Int?
     /// The string that specifies the next page of results.
@@ -8206,7 +8206,7 @@ public struct ListScenesInput: Swift.Equatable {
     }
 }
 
-struct ListScenesInputBody: Swift.Equatable {
+struct ListScenesInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -8240,7 +8240,7 @@ extension ListScenesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListScenesOutput: Swift.Equatable {
+public struct ListScenesOutput {
     /// The string that specifies the next page of results.
     public var nextToken: Swift.String?
     /// A list of objects that contain information about the scenes.
@@ -8256,7 +8256,7 @@ public struct ListScenesOutput: Swift.Equatable {
     }
 }
 
-struct ListScenesOutputBody: Swift.Equatable {
+struct ListScenesOutputBody {
     let sceneSummaries: [IoTTwinMakerClientTypes.SceneSummary]?
     let nextToken: Swift.String?
 }
@@ -8326,7 +8326,7 @@ extension ListSyncJobsInput {
     }
 }
 
-public struct ListSyncJobsInput: Swift.Equatable {
+public struct ListSyncJobsInput {
     /// The maximum number of results to return at one time. The default is 50. Valid Range: Minimum value of 0. Maximum value of 200.
     public var maxResults: Swift.Int?
     /// The string that specifies the next page of results.
@@ -8347,7 +8347,7 @@ public struct ListSyncJobsInput: Swift.Equatable {
     }
 }
 
-struct ListSyncJobsInputBody: Swift.Equatable {
+struct ListSyncJobsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -8381,7 +8381,7 @@ extension ListSyncJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSyncJobsOutput: Swift.Equatable {
+public struct ListSyncJobsOutput {
     /// The string that specifies the next page of results.
     public var nextToken: Swift.String?
     /// The listed SyncJob summaries.
@@ -8397,7 +8397,7 @@ public struct ListSyncJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListSyncJobsOutputBody: Swift.Equatable {
+struct ListSyncJobsOutputBody {
     let syncJobSummaries: [IoTTwinMakerClientTypes.SyncJobSummary]?
     let nextToken: Swift.String?
 }
@@ -8478,7 +8478,7 @@ extension ListSyncResourcesInput {
     }
 }
 
-public struct ListSyncResourcesInput: Swift.Equatable {
+public struct ListSyncResourcesInput {
     /// A list of objects that filter the request. The following filter combinations are supported:
     ///
     /// * Filter with state
@@ -8514,7 +8514,7 @@ public struct ListSyncResourcesInput: Swift.Equatable {
     }
 }
 
-struct ListSyncResourcesInputBody: Swift.Equatable {
+struct ListSyncResourcesInputBody {
     let filters: [IoTTwinMakerClientTypes.SyncResourceFilter]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -8561,7 +8561,7 @@ extension ListSyncResourcesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSyncResourcesOutput: Swift.Equatable {
+public struct ListSyncResourcesOutput {
     /// The string that specifies the next page of results.
     public var nextToken: Swift.String?
     /// The sync resources.
@@ -8577,7 +8577,7 @@ public struct ListSyncResourcesOutput: Swift.Equatable {
     }
 }
 
-struct ListSyncResourcesOutputBody: Swift.Equatable {
+struct ListSyncResourcesOutputBody {
     let syncResources: [IoTTwinMakerClientTypes.SyncResourceSummary]?
     let nextToken: Swift.String?
 }
@@ -8649,7 +8649,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The maximum number of results to return at one time. The default is 25. Valid Range: Minimum value of 1. Maximum value of 250.
     public var maxResults: Swift.Int?
     /// The string that specifies the next page of results.
@@ -8670,7 +8670,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceARN: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -8708,7 +8708,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The string that specifies the next page of results.
     public var nextToken: Swift.String?
     /// Metadata that you can use to manage a resource.
@@ -8724,7 +8724,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
     let nextToken: Swift.String?
 }
@@ -8789,7 +8789,7 @@ extension ListWorkspacesInput {
     }
 }
 
-public struct ListWorkspacesInput: Swift.Equatable {
+public struct ListWorkspacesInput {
     /// The maximum number of results to return at one time. The default is 25. Valid Range: Minimum value of 1. Maximum value of 250.
     public var maxResults: Swift.Int?
     /// The string that specifies the next page of results.
@@ -8805,7 +8805,7 @@ public struct ListWorkspacesInput: Swift.Equatable {
     }
 }
 
-struct ListWorkspacesInputBody: Swift.Equatable {
+struct ListWorkspacesInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -8839,7 +8839,7 @@ extension ListWorkspacesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListWorkspacesOutput: Swift.Equatable {
+public struct ListWorkspacesOutput {
     /// The string that specifies the next page of results.
     public var nextToken: Swift.String?
     /// A list of objects that contain information about the workspaces.
@@ -8855,7 +8855,7 @@ public struct ListWorkspacesOutput: Swift.Equatable {
     }
 }
 
-struct ListWorkspacesOutputBody: Swift.Equatable {
+struct ListWorkspacesOutputBody {
     let workspaceSummaries: [IoTTwinMakerClientTypes.WorkspaceSummary]?
     let nextToken: Swift.String?
 }
@@ -8937,7 +8937,7 @@ extension IoTTwinMakerClientTypes.MetadataTransferJobProgress: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// The metadata transfer job's progress.
-    public struct MetadataTransferJobProgress: Swift.Equatable {
+    public struct MetadataTransferJobProgress {
         /// The failed count.
         public var failedCount: Swift.Int?
         /// The skipped count.
@@ -9043,7 +9043,7 @@ extension IoTTwinMakerClientTypes.MetadataTransferJobStatus: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// The metadata transfer job status.
-    public struct MetadataTransferJobStatus: Swift.Equatable {
+    public struct MetadataTransferJobStatus {
         /// The metadata transfer job error.
         public var error: IoTTwinMakerClientTypes.ErrorDetails?
         /// The queued position.
@@ -9116,7 +9116,7 @@ extension IoTTwinMakerClientTypes.MetadataTransferJobSummary: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// The metadata transfer job summary.
-    public struct MetadataTransferJobSummary: Swift.Equatable {
+    public struct MetadataTransferJobSummary {
         /// The metadata transfer job summary ARN.
         /// This member is required.
         public var arn: Swift.String?
@@ -9214,7 +9214,7 @@ extension IoTTwinMakerClientTypes.OrderBy: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// Filter criteria that orders the return output. It can be sorted in ascending or descending order.
-    public struct OrderBy: Swift.Equatable {
+    public struct OrderBy {
         /// The set order that filters results.
         public var order: IoTTwinMakerClientTypes.Order?
         /// The property name.
@@ -9292,7 +9292,7 @@ extension IoTTwinMakerClientTypes.ParentEntityUpdateRequest: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// The parent entity update request.
-    public struct ParentEntityUpdateRequest: Swift.Equatable {
+    public struct ParentEntityUpdateRequest {
         /// The ID of the parent entity.
         public var parentEntityId: Swift.String?
         /// The type of the update.
@@ -9429,7 +9429,7 @@ extension IoTTwinMakerClientTypes.PricingPlan: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// The pricing plan.
-    public struct PricingPlan: Swift.Equatable {
+    public struct PricingPlan {
         /// The billable entity count.
         public var billableEntityCount: Swift.Int?
         /// The pricing plan's bundle information.
@@ -9580,7 +9580,7 @@ extension IoTTwinMakerClientTypes.PropertyDefinitionRequest: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// An object that sets information about a property.
-    public struct PropertyDefinitionRequest: Swift.Equatable {
+    public struct PropertyDefinitionRequest {
         /// A mapping that specifies configuration information about the property. Use this field to specify information that you read from and write to an external source.
         public var configuration: [Swift.String:Swift.String]?
         /// An object that contains information about the data type.
@@ -9715,7 +9715,7 @@ extension IoTTwinMakerClientTypes.PropertyDefinitionResponse: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// An object that contains response data from a property definition request.
-    public struct PropertyDefinitionResponse: Swift.Equatable {
+    public struct PropertyDefinitionResponse {
         /// A mapping that specifies configuration information about the property.
         public var configuration: [Swift.String:Swift.String]?
         /// An object that contains information about the data type.
@@ -9810,7 +9810,7 @@ extension IoTTwinMakerClientTypes.PropertyFilter: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// An object that filters items returned by a property request.
-    public struct PropertyFilter: Swift.Equatable {
+    public struct PropertyFilter {
         /// The operator associated with this property filter.
         public var `operator`: Swift.String?
         /// The property name associated with this property filter.
@@ -9871,7 +9871,7 @@ extension IoTTwinMakerClientTypes.PropertyGroupRequest: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     ///
-    public struct PropertyGroupRequest: Swift.Equatable {
+    public struct PropertyGroupRequest {
         /// The group type.
         public var groupType: IoTTwinMakerClientTypes.GroupType?
         /// The names of properties.
@@ -9934,7 +9934,7 @@ extension IoTTwinMakerClientTypes.PropertyGroupResponse: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// The property group response
-    public struct PropertyGroupResponse: Swift.Equatable {
+    public struct PropertyGroupResponse {
         /// The group types.
         /// This member is required.
         public var groupType: IoTTwinMakerClientTypes.GroupType?
@@ -10021,7 +10021,7 @@ extension IoTTwinMakerClientTypes.PropertyLatestValue: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// The latest value of the property.
-    public struct PropertyLatestValue: Swift.Equatable {
+    public struct PropertyLatestValue {
         /// An object that specifies information about a property.
         /// This member is required.
         public var propertyReference: IoTTwinMakerClientTypes.EntityPropertyReference?
@@ -10073,7 +10073,7 @@ extension IoTTwinMakerClientTypes.PropertyRequest: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// An object that sets information about a property.
-    public struct PropertyRequest: Swift.Equatable {
+    public struct PropertyRequest {
         /// An object that specifies information about a property.
         public var definition: IoTTwinMakerClientTypes.PropertyDefinitionRequest?
         /// The update type of the update property request.
@@ -10128,7 +10128,7 @@ extension IoTTwinMakerClientTypes.PropertyResponse: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// An object that contains information about a property response.
-    public struct PropertyResponse: Swift.Equatable {
+    public struct PropertyResponse {
         /// This flag notes whether all values of a list or map type property are returned in the API response. The maximum number of values per property returned is 50.
         public var areAllPropertyValuesReturned: Swift.Bool?
         /// An object that specifies information about a property.
@@ -10189,7 +10189,7 @@ extension IoTTwinMakerClientTypes.PropertySummary: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// This is an object that contains the information of a property.
-    public struct PropertySummary: Swift.Equatable {
+    public struct PropertySummary {
         /// This flag notes whether all values of a list or map type property are returned in the API response. The maximum number of values per property returned is 50.
         public var areAllPropertyValuesReturned: Swift.Bool?
         /// This is the schema for the property.
@@ -10284,7 +10284,7 @@ extension IoTTwinMakerClientTypes.PropertyValue: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// An object that contains information about a value for a time series property.
-    public struct PropertyValue: Swift.Equatable {
+    public struct PropertyValue {
         /// ISO8601 DateTime of a value for a time series property. The time for when the property value was recorded in ISO 8601 format: YYYY-MM-DDThh:mm:ss[.SSSSSSSSS][Z/±HH:mm].
         ///
         /// * [YYYY]: year
@@ -10368,7 +10368,7 @@ extension IoTTwinMakerClientTypes.PropertyValueEntry: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// An object that specifies information about time series property values. This object is used and consumed by the [BatchPutPropertyValues](https://docs.aws.amazon.com/iot-twinmaker/latest/apireference/API_BatchPutPropertyValues.html) action.
-    public struct PropertyValueEntry: Swift.Equatable {
+    public struct PropertyValueEntry {
         /// An object that contains information about the entity that has the property.
         /// This member is required.
         public var entityPropertyReference: IoTTwinMakerClientTypes.EntityPropertyReference?
@@ -10426,7 +10426,7 @@ extension IoTTwinMakerClientTypes.PropertyValueHistory: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// The history of values for a time series property.
-    public struct PropertyValueHistory: Swift.Equatable {
+    public struct PropertyValueHistory {
         /// An object that uniquely identifies an entity property.
         /// This member is required.
         public var entityPropertyReference: IoTTwinMakerClientTypes.EntityPropertyReference?
@@ -10484,7 +10484,7 @@ public struct QueryTimeoutException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct QueryTimeoutExceptionBody: Swift.Equatable {
+struct QueryTimeoutExceptionBody {
     let message: Swift.String?
 }
 
@@ -10527,7 +10527,7 @@ extension IoTTwinMakerClientTypes.Relationship: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// An object that specifies a relationship with another component type.
-    public struct Relationship: Swift.Equatable {
+    public struct Relationship {
         /// The type of the relationship.
         public var relationshipType: Swift.String?
         /// The ID of the target component type associated with this relationship.
@@ -10572,7 +10572,7 @@ extension IoTTwinMakerClientTypes.RelationshipValue: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// A value that associates a component and an entity.
-    public struct RelationshipValue: Swift.Equatable {
+    public struct RelationshipValue {
         /// The name of the target component associated with the relationship value.
         public var targetComponentName: Swift.String?
         /// The ID of the target entity associated with this relationship value.
@@ -10629,7 +10629,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -10678,7 +10678,7 @@ extension IoTTwinMakerClientTypes.Row: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// Represents a single row in the query results.
-    public struct Row: Swift.Equatable {
+    public struct Row {
         /// The data in a row of query results.
         public var rowData: [ClientRuntime.Document]?
 
@@ -10713,7 +10713,7 @@ extension IoTTwinMakerClientTypes.S3DestinationConfiguration: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// The S3 destination configuration.
-    public struct S3DestinationConfiguration: Swift.Equatable {
+    public struct S3DestinationConfiguration {
         /// The S3 destination configuration location.
         /// This member is required.
         public var location: Swift.String?
@@ -10749,7 +10749,7 @@ extension IoTTwinMakerClientTypes.S3SourceConfiguration: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// The S3 destination source configuration.
-    public struct S3SourceConfiguration: Swift.Equatable {
+    public struct S3SourceConfiguration {
         /// The S3 destination source configuration location.
         /// This member is required.
         public var location: Swift.String?
@@ -10791,7 +10791,7 @@ extension IoTTwinMakerClientTypes.SceneError: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// The scene error.
-    public struct SceneError: Swift.Equatable {
+    public struct SceneError {
         /// The SceneError code.
         public var code: IoTTwinMakerClientTypes.SceneErrorCode?
         /// The SceneError message.
@@ -10889,7 +10889,7 @@ extension IoTTwinMakerClientTypes.SceneSummary: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// An object that contains information about a scene.
-    public struct SceneSummary: Swift.Equatable {
+    public struct SceneSummary {
         /// The ARN of the scene.
         /// This member is required.
         public var arn: Swift.String?
@@ -10999,7 +10999,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -11054,7 +11054,7 @@ extension IoTTwinMakerClientTypes.SourceConfiguration: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// The source configuration.
-    public struct SourceConfiguration: Swift.Equatable {
+    public struct SourceConfiguration {
         /// The source configuration IoT SiteWise configuration.
         public var iotSiteWiseConfiguration: IoTTwinMakerClientTypes.IotSiteWiseSourceConfiguration?
         /// The source configuration IoT TwinMaker configuration.
@@ -11184,7 +11184,7 @@ extension IoTTwinMakerClientTypes.Status: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// An object that represents the status of an entity, component, component type, or workspace.
-    public struct Status: Swift.Equatable {
+    public struct Status {
         /// The error message.
         public var error: IoTTwinMakerClientTypes.ErrorDetails?
         /// The current state of the entity, component, component type, or workspace.
@@ -11270,7 +11270,7 @@ extension IoTTwinMakerClientTypes.SyncJobStatus: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// The SyncJob status.
-    public struct SyncJobStatus: Swift.Equatable {
+    public struct SyncJobStatus {
         /// The SyncJob error.
         public var error: IoTTwinMakerClientTypes.ErrorDetails?
         /// The SyncJob status state.
@@ -11339,7 +11339,7 @@ extension IoTTwinMakerClientTypes.SyncJobSummary: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// The SyncJob summary.
-    public struct SyncJobSummary: Swift.Equatable {
+    public struct SyncJobSummary {
         /// The SyncJob summary ARN.
         public var arn: Swift.String?
         /// The creation date and time.
@@ -11426,7 +11426,7 @@ extension IoTTwinMakerClientTypes.SyncResourceFilter: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// The sync resource filter.
-    public enum SyncResourceFilter: Swift.Equatable {
+    public enum SyncResourceFilter {
         /// The sync resource filter's state.
         case state(IoTTwinMakerClientTypes.SyncResourceState)
         /// The sync resource filter resource type
@@ -11508,7 +11508,7 @@ extension IoTTwinMakerClientTypes.SyncResourceStatus: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// The sync resource status.
-    public struct SyncResourceStatus: Swift.Equatable {
+    public struct SyncResourceStatus {
         /// The status error.
         public var error: IoTTwinMakerClientTypes.ErrorDetails?
         /// The sync resource status state.
@@ -11571,7 +11571,7 @@ extension IoTTwinMakerClientTypes.SyncResourceSummary: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// The sync resource summary.
-    public struct SyncResourceSummary: Swift.Equatable {
+    public struct SyncResourceSummary {
         /// The external ID.
         public var externalId: Swift.String?
         /// The resource ID.
@@ -11684,7 +11684,7 @@ extension IoTTwinMakerClientTypes.TabularConditions: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// The tabular conditions.
-    public struct TabularConditions: Swift.Equatable {
+    public struct TabularConditions {
         /// Filter criteria that orders the output. It can be sorted in ascending or descending order.
         public var orderBy: [IoTTwinMakerClientTypes.OrderBy]?
         /// You can filter the request using various logical operators and a key-value format. For example: {"key": "serverType", "value": "webServer"}
@@ -11729,7 +11729,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The ARN of the resource.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -11747,7 +11747,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceARN: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
@@ -11781,7 +11781,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -11838,7 +11838,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -11893,7 +11893,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct TooManyTagsExceptionBody: Swift.Equatable {
+struct TooManyTagsExceptionBody {
     let message: Swift.String?
 }
 
@@ -11988,7 +11988,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The ARN of the resource.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -12006,7 +12006,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -12020,7 +12020,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -12106,7 +12106,7 @@ extension UpdateComponentTypeInput {
     }
 }
 
-public struct UpdateComponentTypeInput: Swift.Equatable {
+public struct UpdateComponentTypeInput {
     /// The ID of the component type.
     /// This member is required.
     public var componentTypeId: Swift.String?
@@ -12156,7 +12156,7 @@ public struct UpdateComponentTypeInput: Swift.Equatable {
     }
 }
 
-struct UpdateComponentTypeInputBody: Swift.Equatable {
+struct UpdateComponentTypeInputBody {
     let isSingleton: Swift.Bool?
     let description: Swift.String?
     let propertyDefinitions: [Swift.String:IoTTwinMakerClientTypes.PropertyDefinitionRequest]?
@@ -12263,7 +12263,7 @@ extension UpdateComponentTypeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateComponentTypeOutput: Swift.Equatable {
+public struct UpdateComponentTypeOutput {
     /// The ARN of the component type.
     /// This member is required.
     public var arn: Swift.String?
@@ -12291,7 +12291,7 @@ public struct UpdateComponentTypeOutput: Swift.Equatable {
     }
 }
 
-struct UpdateComponentTypeOutputBody: Swift.Equatable {
+struct UpdateComponentTypeOutputBody {
     let workspaceId: Swift.String?
     let arn: Swift.String?
     let componentTypeId: Swift.String?
@@ -12383,7 +12383,7 @@ extension UpdateEntityInput {
     }
 }
 
-public struct UpdateEntityInput: Swift.Equatable {
+public struct UpdateEntityInput {
     /// An object that maps strings to the component updates in the request. Each string in the mapping must be unique to this object.
     public var componentUpdates: [Swift.String:IoTTwinMakerClientTypes.ComponentUpdateRequest]?
     /// This is an object that maps strings to compositeComponent updates in the request. Each key of the map represents the componentPath of the compositeComponent.
@@ -12421,7 +12421,7 @@ public struct UpdateEntityInput: Swift.Equatable {
     }
 }
 
-struct UpdateEntityInputBody: Swift.Equatable {
+struct UpdateEntityInputBody {
     let entityName: Swift.String?
     let description: Swift.String?
     let componentUpdates: [Swift.String:IoTTwinMakerClientTypes.ComponentUpdateRequest]?
@@ -12485,7 +12485,7 @@ extension UpdateEntityOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateEntityOutput: Swift.Equatable {
+public struct UpdateEntityOutput {
     /// The current state of the entity update.
     /// This member is required.
     public var state: IoTTwinMakerClientTypes.State?
@@ -12503,7 +12503,7 @@ public struct UpdateEntityOutput: Swift.Equatable {
     }
 }
 
-struct UpdateEntityOutputBody: Swift.Equatable {
+struct UpdateEntityOutputBody {
     let updateDateTime: ClientRuntime.Date?
     let state: IoTTwinMakerClientTypes.State?
 }
@@ -12567,7 +12567,7 @@ extension UpdatePricingPlanInput {
     }
 }
 
-public struct UpdatePricingPlanInput: Swift.Equatable {
+public struct UpdatePricingPlanInput {
     /// The bundle names.
     public var bundleNames: [Swift.String]?
     /// The pricing mode.
@@ -12584,7 +12584,7 @@ public struct UpdatePricingPlanInput: Swift.Equatable {
     }
 }
 
-struct UpdatePricingPlanInputBody: Swift.Equatable {
+struct UpdatePricingPlanInputBody {
     let pricingMode: IoTTwinMakerClientTypes.PricingMode?
     let bundleNames: [Swift.String]?
 }
@@ -12627,7 +12627,7 @@ extension UpdatePricingPlanOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePricingPlanOutput: Swift.Equatable {
+public struct UpdatePricingPlanOutput {
     /// Update the current pricing plan.
     /// This member is required.
     public var currentPricingPlan: IoTTwinMakerClientTypes.PricingPlan?
@@ -12644,7 +12644,7 @@ public struct UpdatePricingPlanOutput: Swift.Equatable {
     }
 }
 
-struct UpdatePricingPlanOutputBody: Swift.Equatable {
+struct UpdatePricingPlanOutputBody {
     let currentPricingPlan: IoTTwinMakerClientTypes.PricingPlan?
     let pendingPricingPlan: IoTTwinMakerClientTypes.PricingPlan?
 }
@@ -12763,7 +12763,7 @@ extension UpdateSceneInput {
     }
 }
 
-public struct UpdateSceneInput: Swift.Equatable {
+public struct UpdateSceneInput {
     /// A list of capabilities that the scene uses to render.
     public var capabilities: [Swift.String]?
     /// The relative path that specifies the location of the content definition file.
@@ -12797,7 +12797,7 @@ public struct UpdateSceneInput: Swift.Equatable {
     }
 }
 
-struct UpdateSceneInputBody: Swift.Equatable {
+struct UpdateSceneInputBody {
     let contentLocation: Swift.String?
     let description: Swift.String?
     let capabilities: [Swift.String]?
@@ -12855,7 +12855,7 @@ extension UpdateSceneOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSceneOutput: Swift.Equatable {
+public struct UpdateSceneOutput {
     /// The date and time when the scene was last updated.
     /// This member is required.
     public var updateDateTime: ClientRuntime.Date?
@@ -12868,7 +12868,7 @@ public struct UpdateSceneOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSceneOutputBody: Swift.Equatable {
+struct UpdateSceneOutputBody {
     let updateDateTime: ClientRuntime.Date?
 }
 
@@ -12930,7 +12930,7 @@ extension UpdateWorkspaceInput {
     }
 }
 
-public struct UpdateWorkspaceInput: Swift.Equatable {
+public struct UpdateWorkspaceInput {
     /// The description of the workspace.
     public var description: Swift.String?
     /// The ARN of the execution role associated with the workspace.
@@ -12955,7 +12955,7 @@ public struct UpdateWorkspaceInput: Swift.Equatable {
     }
 }
 
-struct UpdateWorkspaceInputBody: Swift.Equatable {
+struct UpdateWorkspaceInputBody {
     let description: Swift.String?
     let role: Swift.String?
     let s3Location: Swift.String?
@@ -12991,7 +12991,7 @@ extension UpdateWorkspaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateWorkspaceOutput: Swift.Equatable {
+public struct UpdateWorkspaceOutput {
     /// The date and time of the current update.
     /// This member is required.
     public var updateDateTime: ClientRuntime.Date?
@@ -13004,7 +13004,7 @@ public struct UpdateWorkspaceOutput: Swift.Equatable {
     }
 }
 
-struct UpdateWorkspaceOutputBody: Swift.Equatable {
+struct UpdateWorkspaceOutputBody {
     let updateDateTime: ClientRuntime.Date?
 }
 
@@ -13075,7 +13075,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 
@@ -13154,7 +13154,7 @@ extension IoTTwinMakerClientTypes.WorkspaceSummary: Swift.Codable {
 
 extension IoTTwinMakerClientTypes {
     /// An object that contains information about a workspace.
-    public struct WorkspaceSummary: Swift.Equatable {
+    public struct WorkspaceSummary {
         /// The ARN of the workspace.
         /// This member is required.
         public var arn: Swift.String?

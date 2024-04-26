@@ -41,7 +41,7 @@ extension QBusinessClientTypes.AccessConfiguration: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Used to configure access permissions for a document.
-    public struct AccessConfiguration: Swift.Equatable {
+    public struct AccessConfiguration {
         /// A list of AccessControlList objects.
         /// This member is required.
         public var accessControls: [QBusinessClientTypes.AccessControl]?
@@ -99,7 +99,7 @@ extension QBusinessClientTypes.AccessControl: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// A list of principals. Each principal can be either a USER or a GROUP and can be designated document access permissions of either ALLOW or DENY.
-    public struct AccessControl: Swift.Equatable {
+    public struct AccessControl {
         /// Describes the member relation within a principal list.
         public var memberRelation: QBusinessClientTypes.MemberRelation?
         /// Contains a list of principals, where a principal can be either a USER or a GROUP. Each principal can be have the following type of document access: ALLOW or DENY.
@@ -158,7 +158,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -219,7 +219,7 @@ extension QBusinessClientTypes.ActionExecution: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Performs an Amazon Q Business plugin action during a non-streaming chat conversation.
-    public struct ActionExecution: Swift.Equatable {
+    public struct ActionExecution {
         /// A mapping of field names to the field values in input that an end user provides to Amazon Q Business requests to perform their plugin action.
         /// This member is required.
         public var payload: [Swift.String:QBusinessClientTypes.ActionExecutionPayloadField]?
@@ -265,7 +265,7 @@ extension QBusinessClientTypes.ActionExecutionPayloadField: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// A user input field in an plugin action execution payload.
-    public struct ActionExecutionPayloadField: Swift.Equatable {
+    public struct ActionExecutionPayloadField {
         /// The content of a user input field in an plugin action execution payload.
         /// This member is required.
         public var value: ClientRuntime.Document?
@@ -369,7 +369,7 @@ extension QBusinessClientTypes.ActionReview: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// An output event that Amazon Q Business returns to an user who wants to perform a plugin action during a non-streaming chat conversation. It contains information about the selected action with a list of possible user input fields, some pre-populated by Amazon Q Business.
-    public struct ActionReview: Swift.Equatable {
+    public struct ActionReview {
         /// Field values that an end user needs to provide to Amazon Q Business for Amazon Q Business to perform the requested plugin action.
         public var payload: [Swift.String:QBusinessClientTypes.ActionReviewPayloadField]?
         /// A string used to retain information about the hierarchical contexts within an action review payload.
@@ -458,7 +458,7 @@ extension QBusinessClientTypes.ActionReviewPayloadField: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// A user input field in an plugin action review payload.
-    public struct ActionReviewPayloadField: Swift.Equatable {
+    public struct ActionReviewPayloadField {
         /// Information about the field values that an end user can use to provide to Amazon Q Business for Amazon Q Business to perform the requested plugin action.
         public var allowedValues: [QBusinessClientTypes.ActionReviewPayloadFieldAllowedValue]?
         /// The name of the field.
@@ -519,7 +519,7 @@ extension QBusinessClientTypes.ActionReviewPayloadFieldAllowedValue: Swift.Codab
 
 extension QBusinessClientTypes {
     /// Information about the field values that an end user can use to provide to Amazon Q Business for Amazon Q Business to perform the requested plugin action.
-    public struct ActionReviewPayloadFieldAllowedValue: Swift.Equatable {
+    public struct ActionReviewPayloadFieldAllowedValue {
         /// The name of the field.
         public var displayValue: ClientRuntime.Document?
         /// The field value.
@@ -582,7 +582,7 @@ extension QBusinessClientTypes.Application: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Summary information for an Amazon Q Business application.
-    public struct Application: Swift.Equatable {
+    public struct Application {
         /// The identifier for the Amazon Q Business application.
         public var applicationId: Swift.String?
         /// The Unix timestamp when the Amazon Q Business application was created.
@@ -674,7 +674,7 @@ extension QBusinessClientTypes.AppliedAttachmentsConfiguration: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Configuration information about the file upload during chat feature for your application.
-    public struct AppliedAttachmentsConfiguration: Swift.Equatable {
+    public struct AppliedAttachmentsConfiguration {
         /// Information about whether file upload during chat functionality is activated for your application.
         public var attachmentsControlMode: QBusinessClientTypes.AttachmentsControlMode?
 
@@ -709,7 +709,7 @@ extension QBusinessClientTypes.AppliedCreatorModeConfiguration: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// The creator mode specific admin controls configured for an Amazon Q Business application. Determines whether an end user can generate LLM-only responses when they use the web experience. For more information, see [Admin controls and guardrails](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/guardrails.html) and [Conversation settings](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/using-web-experience.html#chat-source-scope).
-    public struct AppliedCreatorModeConfiguration: Swift.Equatable {
+    public struct AppliedCreatorModeConfiguration {
         /// Information about whether creator mode is enabled or disabled for an Amazon Q Business application.
         /// This member is required.
         public var creatorModeControl: QBusinessClientTypes.CreatorModeControl?
@@ -751,7 +751,7 @@ extension QBusinessClientTypes.AttachmentInput: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// A file directly uploaded into a web experience chat.
-    public struct AttachmentInput: Swift.Equatable {
+    public struct AttachmentInput {
         /// The data contained within the uploaded file.
         /// This member is required.
         public var data: ClientRuntime.Data?
@@ -804,7 +804,7 @@ extension QBusinessClientTypes.AttachmentOutput: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// The details of a file uploaded during chat.
-    public struct AttachmentOutput: Swift.Equatable {
+    public struct AttachmentOutput {
         /// An error associated with a file uploaded during chat.
         public var error: QBusinessClientTypes.ErrorDetail?
         /// The name of a file uploaded during chat.
@@ -879,7 +879,7 @@ extension QBusinessClientTypes.AttachmentsConfiguration: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Configuration information for the file upload during chat feature.
-    public struct AttachmentsConfiguration: Swift.Equatable {
+    public struct AttachmentsConfiguration {
         /// Status information about whether file upload functionality is activated or deactivated for your end user.
         /// This member is required.
         public var attachmentsControlMode: QBusinessClientTypes.AttachmentsControlMode?
@@ -1025,7 +1025,7 @@ extension QBusinessClientTypes.AttributeFilter: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Enables filtering of responses based on document attributes or metadata fields.
-    public struct AttributeFilter: Swift.Equatable {
+    public struct AttributeFilter {
         /// Performs a logical AND operation on all supplied filters.
         public var andAllFilters: [QBusinessClientTypes.AttributeFilter]?
         /// Returns true when a document contains all the specified document attributes or metadata fields. Supported for the following [document attribute value types](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentAttributeValue.html): stringListValue.
@@ -1169,7 +1169,7 @@ extension QBusinessClientTypes.BasicAuthConfiguration: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Information about the basic authentication credentials used to configure a plugin.
-    public struct BasicAuthConfiguration: Swift.Equatable {
+    public struct BasicAuthConfiguration {
         /// The ARN of an IAM role used by Amazon Q Business to access the basic authentication credentials stored in a Secrets Manager secret.
         /// This member is required.
         public var roleArn: Swift.String?
@@ -1222,7 +1222,7 @@ extension BatchDeleteDocumentInput {
     }
 }
 
-public struct BatchDeleteDocumentInput: Swift.Equatable {
+public struct BatchDeleteDocumentInput {
     /// The identifier of the Amazon Q Business application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -1249,7 +1249,7 @@ public struct BatchDeleteDocumentInput: Swift.Equatable {
     }
 }
 
-struct BatchDeleteDocumentInputBody: Swift.Equatable {
+struct BatchDeleteDocumentInputBody {
     let documents: [QBusinessClientTypes.DeleteDocument]?
     let dataSourceSyncId: Swift.String?
 }
@@ -1290,7 +1290,7 @@ extension BatchDeleteDocumentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchDeleteDocumentOutput: Swift.Equatable {
+public struct BatchDeleteDocumentOutput {
     /// A list of documents that couldn't be removed from the Amazon Q Business index. Each entry contains an error message that indicates why the document couldn't be removed from the index.
     public var failedDocuments: [QBusinessClientTypes.FailedDocument]?
 
@@ -1302,7 +1302,7 @@ public struct BatchDeleteDocumentOutput: Swift.Equatable {
     }
 }
 
-struct BatchDeleteDocumentOutputBody: Swift.Equatable {
+struct BatchDeleteDocumentOutputBody {
     let failedDocuments: [QBusinessClientTypes.FailedDocument]?
 }
 
@@ -1380,7 +1380,7 @@ extension BatchPutDocumentInput {
     }
 }
 
-public struct BatchPutDocumentInput: Swift.Equatable {
+public struct BatchPutDocumentInput {
     /// The identifier of the Amazon Q Business application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -1411,7 +1411,7 @@ public struct BatchPutDocumentInput: Swift.Equatable {
     }
 }
 
-struct BatchPutDocumentInputBody: Swift.Equatable {
+struct BatchPutDocumentInputBody {
     let documents: [QBusinessClientTypes.Document]?
     let roleArn: Swift.String?
     let dataSourceSyncId: Swift.String?
@@ -1456,7 +1456,7 @@ extension BatchPutDocumentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchPutDocumentOutput: Swift.Equatable {
+public struct BatchPutDocumentOutput {
     /// A list of documents that were not added to the Amazon Q Business index because the document failed a validation check. Each document contains an error message that indicates why the document couldn't be added to the index.
     public var failedDocuments: [QBusinessClientTypes.FailedDocument]?
 
@@ -1468,7 +1468,7 @@ public struct BatchPutDocumentOutput: Swift.Equatable {
     }
 }
 
-struct BatchPutDocumentOutputBody: Swift.Equatable {
+struct BatchPutDocumentOutputBody {
     let failedDocuments: [QBusinessClientTypes.FailedDocument]?
 }
 
@@ -1549,7 +1549,7 @@ extension QBusinessClientTypes.BlockedPhrasesConfiguration: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Provides information about the phrases blocked from chat by your chat control configuration.
-    public struct BlockedPhrasesConfiguration: Swift.Equatable {
+    public struct BlockedPhrasesConfiguration {
         /// A list of phrases blocked from a Amazon Q Business web experience chat.
         public var blockedPhrases: [Swift.String]?
         /// The configured custom message displayed to an end user informing them that they've used a blocked phrase during chat.
@@ -1624,7 +1624,7 @@ extension QBusinessClientTypes.BlockedPhrasesConfigurationUpdate: Swift.Codable 
 
 extension QBusinessClientTypes {
     /// Updates a blocked phrases configuration in your Amazon Q Business application.
-    public struct BlockedPhrasesConfigurationUpdate: Swift.Equatable {
+    public struct BlockedPhrasesConfigurationUpdate {
         /// Creates or updates a blocked phrases configuration in your Amazon Q Business application.
         public var blockedPhrasesToCreateOrUpdate: [Swift.String]?
         /// Deletes a blocked phrases configuration in your Amazon Q Business application.
@@ -1710,7 +1710,7 @@ extension QBusinessClientTypes.ChatModeConfiguration: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Configuration information for Amazon Q Business conversation modes. For more information, see [Admin controls and guardrails](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/guardrails.html) and [Conversation settings](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/using-web-experience.html#chat-source-scope).
-    public enum ChatModeConfiguration: Swift.Equatable {
+    public enum ChatModeConfiguration {
         /// Configuration information required to invoke chat in PLUGIN_MODE.
         case pluginconfiguration(QBusinessClientTypes.PluginConfiguration)
         case sdkUnknown(Swift.String)
@@ -1795,7 +1795,7 @@ extension ChatSyncInput {
     }
 }
 
-public struct ChatSyncInput: Swift.Equatable {
+public struct ChatSyncInput {
     /// A request from an end user to perform an Amazon Q Business plugin action.
     public var actionExecution: QBusinessClientTypes.ActionExecution?
     /// The identifier of the Amazon Q Business application linked to the Amazon Q Business conversation.
@@ -1861,7 +1861,7 @@ public struct ChatSyncInput: Swift.Equatable {
     }
 }
 
-struct ChatSyncInputBody: Swift.Equatable {
+struct ChatSyncInputBody {
     let userMessage: Swift.String?
     let attachments: [QBusinessClientTypes.AttachmentInput]?
     let actionExecution: QBusinessClientTypes.ActionExecution?
@@ -1942,7 +1942,7 @@ extension ChatSyncOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ChatSyncOutput: Swift.Equatable {
+public struct ChatSyncOutput {
     /// A request from Amazon Q Business to the end user for information Amazon Q Business needs to successfully complete a requested plugin action.
     public var actionReview: QBusinessClientTypes.ActionReview?
     /// The identifier of the Amazon Q Business conversation.
@@ -1978,7 +1978,7 @@ public struct ChatSyncOutput: Swift.Equatable {
     }
 }
 
-struct ChatSyncOutputBody: Swift.Equatable {
+struct ChatSyncOutputBody {
     let conversationId: Swift.String?
     let systemMessage: Swift.String?
     let systemMessageId: Swift.String?
@@ -2106,7 +2106,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -2151,7 +2151,7 @@ extension QBusinessClientTypes.ContentBlockerRule: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// A rule for configuring how Amazon Q Business responds when it encounters a a blocked topic. You can configure a custom message to inform your end users that they have asked about a restricted topic and suggest any next steps they should take.
-    public struct ContentBlockerRule: Swift.Equatable {
+    public struct ContentBlockerRule {
         /// The configured custom message displayed to an end user informing them that they've used a blocked phrase during chat.
         public var systemMessageOverride: Swift.String?
 
@@ -2198,7 +2198,7 @@ extension QBusinessClientTypes.ContentRetrievalRule: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Rules for retrieving content from data sources connected to a Amazon Q Business application for a specific topic control configuration.
-    public struct ContentRetrievalRule: Swift.Equatable {
+    public struct ContentRetrievalRule {
         /// Specifies data sources in a Amazon Q Business application to use for content generation.
         public var eligibleDataSources: [QBusinessClientTypes.EligibleDataSource]?
 
@@ -2307,7 +2307,7 @@ extension QBusinessClientTypes.Conversation: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// A conversation in an Amazon Q Business application.
-    public struct Conversation: Swift.Equatable {
+    public struct Conversation {
         /// The identifier of the Amazon Q Business conversation.
         public var conversationId: Swift.String?
         /// The start time of the conversation.
@@ -2380,7 +2380,7 @@ extension CreateApplicationInput {
     }
 }
 
-public struct CreateApplicationInput: Swift.Equatable {
+public struct CreateApplicationInput {
     /// An option to allow end users to upload files directly during chat.
     public var attachmentsConfiguration: QBusinessClientTypes.AttachmentsConfiguration?
     /// A token that you provide to identify the request to create your Amazon Q Business application.
@@ -2422,7 +2422,7 @@ public struct CreateApplicationInput: Swift.Equatable {
     }
 }
 
-struct CreateApplicationInputBody: Swift.Equatable {
+struct CreateApplicationInputBody {
     let displayName: Swift.String?
     let roleArn: Swift.String?
     let identityCenterInstanceArn: Swift.String?
@@ -2489,7 +2489,7 @@ extension CreateApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateApplicationOutput: Swift.Equatable {
+public struct CreateApplicationOutput {
     /// The Amazon Resource Name (ARN) of the Amazon Q Business application.
     public var applicationArn: Swift.String?
     /// The identifier of the Amazon Q Business application.
@@ -2505,7 +2505,7 @@ public struct CreateApplicationOutput: Swift.Equatable {
     }
 }
 
-struct CreateApplicationOutputBody: Swift.Equatable {
+struct CreateApplicationOutputBody {
     let applicationId: Swift.String?
     let applicationArn: Swift.String?
 }
@@ -2603,7 +2603,7 @@ extension CreateDataSourceInput {
     }
 }
 
-public struct CreateDataSourceInput: Swift.Equatable {
+public struct CreateDataSourceInput {
     /// The identifier of the Amazon Q Business application the data source will be attached to.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -2659,7 +2659,7 @@ public struct CreateDataSourceInput: Swift.Equatable {
     }
 }
 
-struct CreateDataSourceInputBody: Swift.Equatable {
+struct CreateDataSourceInputBody {
     let displayName: Swift.String?
     let configuration: ClientRuntime.Document?
     let vpcConfiguration: QBusinessClientTypes.DataSourceVpcConfiguration?
@@ -2730,7 +2730,7 @@ extension CreateDataSourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDataSourceOutput: Swift.Equatable {
+public struct CreateDataSourceOutput {
     /// The Amazon Resource Name (ARN) of a data source in an Amazon Q Business application.
     public var dataSourceArn: Swift.String?
     /// The identifier of the data source connector.
@@ -2746,7 +2746,7 @@ public struct CreateDataSourceOutput: Swift.Equatable {
     }
 }
 
-struct CreateDataSourceOutputBody: Swift.Equatable {
+struct CreateDataSourceOutputBody {
     let dataSourceId: Swift.String?
     let dataSourceArn: Swift.String?
 }
@@ -2825,7 +2825,7 @@ extension CreateIndexInput {
     }
 }
 
-public struct CreateIndexInput: Swift.Equatable {
+public struct CreateIndexInput {
     /// The identifier of the Amazon Q Business application using the index.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -2859,7 +2859,7 @@ public struct CreateIndexInput: Swift.Equatable {
     }
 }
 
-struct CreateIndexInputBody: Swift.Equatable {
+struct CreateIndexInputBody {
     let displayName: Swift.String?
     let description: Swift.String?
     let tags: [QBusinessClientTypes.Tag]?
@@ -2914,7 +2914,7 @@ extension CreateIndexOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateIndexOutput: Swift.Equatable {
+public struct CreateIndexOutput {
     /// The Amazon Resource Name (ARN) of an Amazon Q Business index.
     public var indexArn: Swift.String?
     /// The identifier for the Amazon Q Business index.
@@ -2930,7 +2930,7 @@ public struct CreateIndexOutput: Swift.Equatable {
     }
 }
 
-struct CreateIndexOutputBody: Swift.Equatable {
+struct CreateIndexOutputBody {
     let indexId: Swift.String?
     let indexArn: Swift.String?
 }
@@ -3013,7 +3013,7 @@ extension CreatePluginInput {
     }
 }
 
-public struct CreatePluginInput: Swift.Equatable {
+public struct CreatePluginInput {
     /// The identifier of the application that will contain the plugin.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -3054,7 +3054,7 @@ public struct CreatePluginInput: Swift.Equatable {
     }
 }
 
-struct CreatePluginInputBody: Swift.Equatable {
+struct CreatePluginInputBody {
     let displayName: Swift.String?
     let type: QBusinessClientTypes.PluginType?
     let serverUrl: Swift.String?
@@ -3113,7 +3113,7 @@ extension CreatePluginOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePluginOutput: Swift.Equatable {
+public struct CreatePluginOutput {
     /// The Amazon Resource Name (ARN) of a plugin.
     public var pluginArn: Swift.String?
     /// The identifier of the plugin created.
@@ -3129,7 +3129,7 @@ public struct CreatePluginOutput: Swift.Equatable {
     }
 }
 
-struct CreatePluginOutputBody: Swift.Equatable {
+struct CreatePluginOutputBody {
     let pluginId: Swift.String?
     let pluginArn: Swift.String?
 }
@@ -3212,7 +3212,7 @@ extension CreateRetrieverInput {
     }
 }
 
-public struct CreateRetrieverInput: Swift.Equatable {
+public struct CreateRetrieverInput {
     /// The identifier of your Amazon Q Business application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -3252,7 +3252,7 @@ public struct CreateRetrieverInput: Swift.Equatable {
     }
 }
 
-struct CreateRetrieverInputBody: Swift.Equatable {
+struct CreateRetrieverInputBody {
     let type: QBusinessClientTypes.RetrieverType?
     let displayName: Swift.String?
     let configuration: QBusinessClientTypes.RetrieverConfiguration?
@@ -3311,7 +3311,7 @@ extension CreateRetrieverOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRetrieverOutput: Swift.Equatable {
+public struct CreateRetrieverOutput {
     /// The Amazon Resource Name (ARN) of an IAM role associated with a retriever.
     public var retrieverArn: Swift.String?
     /// The identifier of the retriever you are using.
@@ -3327,7 +3327,7 @@ public struct CreateRetrieverOutput: Swift.Equatable {
     }
 }
 
-struct CreateRetrieverOutputBody: Swift.Equatable {
+struct CreateRetrieverOutputBody {
     let retrieverId: Swift.String?
     let retrieverArn: Swift.String?
 }
@@ -3398,7 +3398,7 @@ extension CreateUserInput {
     }
 }
 
-public struct CreateUserInput: Swift.Equatable {
+public struct CreateUserInput {
     /// The identifier of the application for which the user mapping will be created.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -3424,7 +3424,7 @@ public struct CreateUserInput: Swift.Equatable {
     }
 }
 
-struct CreateUserInputBody: Swift.Equatable {
+struct CreateUserInputBody {
     let userId: Swift.String?
     let userAliases: [QBusinessClientTypes.UserAlias]?
     let clientToken: Swift.String?
@@ -3462,7 +3462,7 @@ extension CreateUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateUserOutput: Swift.Equatable {
+public struct CreateUserOutput {
 
     public init() { }
 }
@@ -3534,7 +3534,7 @@ extension CreateWebExperienceInput {
     }
 }
 
-public struct CreateWebExperienceInput: Swift.Equatable {
+public struct CreateWebExperienceInput {
     /// The identifier of the Amazon Q Business web experience.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -3575,7 +3575,7 @@ public struct CreateWebExperienceInput: Swift.Equatable {
     }
 }
 
-struct CreateWebExperienceInputBody: Swift.Equatable {
+struct CreateWebExperienceInputBody {
     let title: Swift.String?
     let subtitle: Swift.String?
     let welcomeMessage: Swift.String?
@@ -3638,7 +3638,7 @@ extension CreateWebExperienceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateWebExperienceOutput: Swift.Equatable {
+public struct CreateWebExperienceOutput {
     /// The Amazon Resource Name (ARN) of an Amazon Q Business web experience.
     public var webExperienceArn: Swift.String?
     /// The identifier of the Amazon Q Business web experience.
@@ -3654,7 +3654,7 @@ public struct CreateWebExperienceOutput: Swift.Equatable {
     }
 }
 
-struct CreateWebExperienceOutputBody: Swift.Equatable {
+struct CreateWebExperienceOutputBody {
     let webExperienceId: Swift.String?
     let webExperienceArn: Swift.String?
 }
@@ -3712,7 +3712,7 @@ extension QBusinessClientTypes.CreatorModeConfiguration: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Configuration information required to invoke chat in CREATOR_MODE. For more information, see [Admin controls and guardrails](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/guardrails.html) and [Conversation settings](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/using-web-experience.html#chat-source-scope).
-    public struct CreatorModeConfiguration: Swift.Equatable {
+    public struct CreatorModeConfiguration {
         /// Status information about whether CREATOR_MODE has been enabled or disabled. The default status is DISABLED.
         /// This member is required.
         public var creatorModeControl: QBusinessClientTypes.CreatorModeControl?
@@ -3810,7 +3810,7 @@ extension QBusinessClientTypes.DataSource: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// A data source in an Amazon Q Business application.
-    public struct DataSource: Swift.Equatable {
+    public struct DataSource {
         /// The Unix timestamp when the Amazon Q Business data source was created.
         public var createdAt: ClientRuntime.Date?
         /// The identifier of the Amazon Q Business data source.
@@ -3945,7 +3945,7 @@ extension QBusinessClientTypes.DataSourceSyncJob: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Provides information about an Amazon Q Business data source connector synchronization job.
-    public struct DataSourceSyncJob: Swift.Equatable {
+    public struct DataSourceSyncJob {
         /// If the reason that the synchronization failed is due to an error with the underlying data source, this field contains a code that identifies the error.
         public var dataSourceErrorCode: Swift.String?
         /// The Unix timestamp when the synchronization job completed.
@@ -4028,7 +4028,7 @@ extension QBusinessClientTypes.DataSourceSyncJobMetrics: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Maps a batch delete document request to a specific Amazon Q Business data source connector sync job.
-    public struct DataSourceSyncJobMetrics: Swift.Equatable {
+    public struct DataSourceSyncJobMetrics {
         /// The current count of documents added from the data source during the data source sync.
         public var documentsAdded: Swift.String?
         /// The current count of documents deleted from the data source during the data source sync.
@@ -4156,7 +4156,7 @@ extension QBusinessClientTypes.DataSourceVpcConfiguration: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Provides configuration information needed to connect to an Amazon VPC (Virtual Private Cloud).
-    public struct DataSourceVpcConfiguration: Swift.Equatable {
+    public struct DataSourceVpcConfiguration {
         /// A list of identifiers of security groups within your Amazon VPC. The security groups should enable Amazon Q Business to connect to the data source.
         /// This member is required.
         public var securityGroupIds: [Swift.String]?
@@ -4203,7 +4203,7 @@ extension QBusinessClientTypes.DateAttributeBoostingConfiguration: Swift.Codable
 
 extension QBusinessClientTypes {
     /// Provides information on boosting DATE type document attributes. For more information on how boosting document attributes work in Amazon Q Business, see [Boosting using document attributes](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/metadata-boosting.html).
-    public struct DateAttributeBoostingConfiguration: Swift.Equatable {
+    public struct DateAttributeBoostingConfiguration {
         /// Specifies the duration, in seconds, of a boost applies to a DATE type document attribute.
         public var boostingDurationInSeconds: Swift.Int?
         /// Specifies how much a document attribute is boosted.
@@ -4232,7 +4232,7 @@ extension DeleteApplicationInput {
     }
 }
 
-public struct DeleteApplicationInput: Swift.Equatable {
+public struct DeleteApplicationInput {
     /// The identifier of the Amazon Q Business application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -4245,7 +4245,7 @@ public struct DeleteApplicationInput: Swift.Equatable {
     }
 }
 
-struct DeleteApplicationInputBody: Swift.Equatable {
+struct DeleteApplicationInputBody {
 }
 
 extension DeleteApplicationInputBody: Swift.Decodable {
@@ -4259,7 +4259,7 @@ extension DeleteApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteApplicationOutput: Swift.Equatable {
+public struct DeleteApplicationOutput {
 
     public init() { }
 }
@@ -4290,7 +4290,7 @@ extension DeleteChatControlsConfigurationInput {
     }
 }
 
-public struct DeleteChatControlsConfigurationInput: Swift.Equatable {
+public struct DeleteChatControlsConfigurationInput {
     /// The identifier of the application the chat controls have been configured for.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -4303,7 +4303,7 @@ public struct DeleteChatControlsConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DeleteChatControlsConfigurationInputBody: Swift.Equatable {
+struct DeleteChatControlsConfigurationInputBody {
 }
 
 extension DeleteChatControlsConfigurationInputBody: Swift.Decodable {
@@ -4317,7 +4317,7 @@ extension DeleteChatControlsConfigurationOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DeleteChatControlsConfigurationOutput: Swift.Equatable {
+public struct DeleteChatControlsConfigurationOutput {
 
     public init() { }
 }
@@ -4362,7 +4362,7 @@ extension DeleteConversationInput {
     }
 }
 
-public struct DeleteConversationInput: Swift.Equatable {
+public struct DeleteConversationInput {
     /// The identifier of the Amazon Q Business application associated with the conversation.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -4384,7 +4384,7 @@ public struct DeleteConversationInput: Swift.Equatable {
     }
 }
 
-struct DeleteConversationInputBody: Swift.Equatable {
+struct DeleteConversationInputBody {
 }
 
 extension DeleteConversationInputBody: Swift.Decodable {
@@ -4398,7 +4398,7 @@ extension DeleteConversationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteConversationOutput: Swift.Equatable {
+public struct DeleteConversationOutput {
 
     public init() { }
 }
@@ -4435,7 +4435,7 @@ extension DeleteDataSourceInput {
     }
 }
 
-public struct DeleteDataSourceInput: Swift.Equatable {
+public struct DeleteDataSourceInput {
     /// The identifier of the Amazon Q Business application used with the data source connector.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -4458,7 +4458,7 @@ public struct DeleteDataSourceInput: Swift.Equatable {
     }
 }
 
-struct DeleteDataSourceInputBody: Swift.Equatable {
+struct DeleteDataSourceInputBody {
 }
 
 extension DeleteDataSourceInputBody: Swift.Decodable {
@@ -4472,7 +4472,7 @@ extension DeleteDataSourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDataSourceOutput: Swift.Equatable {
+public struct DeleteDataSourceOutput {
 
     public init() { }
 }
@@ -4514,7 +4514,7 @@ extension QBusinessClientTypes.DeleteDocument: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// A document deleted from an Amazon Q Business data source connector.
-    public struct DeleteDocument: Swift.Equatable {
+    public struct DeleteDocument {
         /// The identifier of the deleted document.
         /// This member is required.
         public var documentId: Swift.String?
@@ -4557,7 +4557,7 @@ extension DeleteGroupInput {
     }
 }
 
-public struct DeleteGroupInput: Swift.Equatable {
+public struct DeleteGroupInput {
     /// The identifier of the application in which the group mapping belongs.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -4584,7 +4584,7 @@ public struct DeleteGroupInput: Swift.Equatable {
     }
 }
 
-struct DeleteGroupInputBody: Swift.Equatable {
+struct DeleteGroupInputBody {
 }
 
 extension DeleteGroupInputBody: Swift.Decodable {
@@ -4598,7 +4598,7 @@ extension DeleteGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteGroupOutput: Swift.Equatable {
+public struct DeleteGroupOutput {
 
     public init() { }
 }
@@ -4632,7 +4632,7 @@ extension DeleteIndexInput {
     }
 }
 
-public struct DeleteIndexInput: Swift.Equatable {
+public struct DeleteIndexInput {
     /// The identifier of the Amazon Q Business application the Amazon Q Business index is linked to.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -4650,7 +4650,7 @@ public struct DeleteIndexInput: Swift.Equatable {
     }
 }
 
-struct DeleteIndexInputBody: Swift.Equatable {
+struct DeleteIndexInputBody {
 }
 
 extension DeleteIndexInputBody: Swift.Decodable {
@@ -4664,7 +4664,7 @@ extension DeleteIndexOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteIndexOutput: Swift.Equatable {
+public struct DeleteIndexOutput {
 
     public init() { }
 }
@@ -4698,7 +4698,7 @@ extension DeletePluginInput {
     }
 }
 
-public struct DeletePluginInput: Swift.Equatable {
+public struct DeletePluginInput {
     /// The identifier the application attached to the Amazon Q Business plugin.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -4716,7 +4716,7 @@ public struct DeletePluginInput: Swift.Equatable {
     }
 }
 
-struct DeletePluginInputBody: Swift.Equatable {
+struct DeletePluginInputBody {
 }
 
 extension DeletePluginInputBody: Swift.Decodable {
@@ -4730,7 +4730,7 @@ extension DeletePluginOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePluginOutput: Swift.Equatable {
+public struct DeletePluginOutput {
 
     public init() { }
 }
@@ -4764,7 +4764,7 @@ extension DeleteRetrieverInput {
     }
 }
 
-public struct DeleteRetrieverInput: Swift.Equatable {
+public struct DeleteRetrieverInput {
     /// The identifier of the Amazon Q Business application using the retriever.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -4782,7 +4782,7 @@ public struct DeleteRetrieverInput: Swift.Equatable {
     }
 }
 
-struct DeleteRetrieverInputBody: Swift.Equatable {
+struct DeleteRetrieverInputBody {
 }
 
 extension DeleteRetrieverInputBody: Swift.Decodable {
@@ -4796,7 +4796,7 @@ extension DeleteRetrieverOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRetrieverOutput: Swift.Equatable {
+public struct DeleteRetrieverOutput {
 
     public init() { }
 }
@@ -4830,7 +4830,7 @@ extension DeleteUserInput {
     }
 }
 
-public struct DeleteUserInput: Swift.Equatable {
+public struct DeleteUserInput {
     /// The identifier of the application from which the user is being deleted.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -4848,7 +4848,7 @@ public struct DeleteUserInput: Swift.Equatable {
     }
 }
 
-struct DeleteUserInputBody: Swift.Equatable {
+struct DeleteUserInputBody {
 }
 
 extension DeleteUserInputBody: Swift.Decodable {
@@ -4862,7 +4862,7 @@ extension DeleteUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteUserOutput: Swift.Equatable {
+public struct DeleteUserOutput {
 
     public init() { }
 }
@@ -4896,7 +4896,7 @@ extension DeleteWebExperienceInput {
     }
 }
 
-public struct DeleteWebExperienceInput: Swift.Equatable {
+public struct DeleteWebExperienceInput {
     /// The identifier of the Amazon Q Business application linked to the Amazon Q Business web experience.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -4914,7 +4914,7 @@ public struct DeleteWebExperienceInput: Swift.Equatable {
     }
 }
 
-struct DeleteWebExperienceInputBody: Swift.Equatable {
+struct DeleteWebExperienceInputBody {
 }
 
 extension DeleteWebExperienceInputBody: Swift.Decodable {
@@ -4928,7 +4928,7 @@ extension DeleteWebExperienceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteWebExperienceOutput: Swift.Equatable {
+public struct DeleteWebExperienceOutput {
 
     public init() { }
 }
@@ -5018,7 +5018,7 @@ extension QBusinessClientTypes.Document: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// A document in an Amazon Q Business application.
-    public struct Document: Swift.Equatable {
+    public struct Document {
         /// Configuration information for access permission to a document.
         public var accessConfiguration: QBusinessClientTypes.AccessConfiguration?
         /// Custom attributes to apply to the document for refining Amazon Q Business web experience responses.
@@ -5084,7 +5084,7 @@ extension QBusinessClientTypes.DocumentAttribute: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// A document attribute or metadata field.
-    public struct DocumentAttribute: Swift.Equatable {
+    public struct DocumentAttribute {
         /// The identifier for the attribute.
         /// This member is required.
         public var name: Swift.String?
@@ -5157,7 +5157,7 @@ extension QBusinessClientTypes.DocumentAttributeBoostingConfiguration: Swift.Cod
 
 extension QBusinessClientTypes {
     /// Provides information on boosting supported Amazon Q Business document attribute types. When an end user chat query matches document attributes that have been boosted, Amazon Q Business prioritizes generating responses from content that matches the boosted document attributes. For STRING and STRING_LIST type document attributes to be used for boosting on the console and the API, they must be enabled for search using the [DocumentAttributeConfiguration](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentAttributeConfiguration.html) object of the [UpdateIndex](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_UpdateIndex.html) API. If you haven't enabled searching on these attributes, you can't boost attributes of these data types on either the console or the API. For more information on how boosting document attributes work in Amazon Q Business, see [Boosting using document attributes](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/metadata-boosting.html).
-    public enum DocumentAttributeBoostingConfiguration: Swift.Equatable {
+    public enum DocumentAttributeBoostingConfiguration {
         /// Provides information on boosting NUMBER type document attributes.
         case numberconfiguration(QBusinessClientTypes.NumberAttributeBoostingConfiguration)
         /// Provides information on boosting STRING type document attributes.
@@ -5245,7 +5245,7 @@ extension QBusinessClientTypes.DocumentAttributeCondition: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// The condition used for the target document attribute or metadata field when ingesting documents into Amazon Q Business. You use this with [DocumentAttributeTarget](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentAttributeTarget.html) to apply the condition. For example, you can create the 'Department' target field and have it prefill department names associated with the documents based on information in the 'Source_URI' field. Set the condition that if the 'Source_URI' field contains 'financial' in its URI value, then prefill the target field 'Department' with the target value 'Finance' for the document. Amazon Q Business can't create a target field if it has not already been created as an index field. After you create your index field, you can create a document metadata field using DocumentAttributeTarget. Amazon Q Business then will map your newly created metadata field to your index field.
-    public struct DocumentAttributeCondition: Swift.Equatable {
+    public struct DocumentAttributeCondition {
         /// The identifier of the document attribute used for the condition. For example, 'Source_URI' could be an identifier for the attribute or metadata field that contains source URIs associated with the documents. Amazon Q Business currently doesn't support _document_body as an attribute key used for the condition.
         /// This member is required.
         public var key: Swift.String?
@@ -5302,7 +5302,7 @@ extension QBusinessClientTypes.DocumentAttributeConfiguration: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Configuration information for document attributes. Document attributes are metadata or fields associated with your documents. For example, the company department name associated with each document. For more information, see [Understanding document attributes](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/doc-attributes.html).
-    public struct DocumentAttributeConfiguration: Swift.Equatable {
+    public struct DocumentAttributeConfiguration {
         /// The name of the document attribute.
         public var name: Swift.String?
         /// Information about whether the document attribute can be used by an end user to search for information on their web experience.
@@ -5357,7 +5357,7 @@ extension QBusinessClientTypes.DocumentAttributeTarget: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// The target document attribute or metadata field you want to alter when ingesting documents into Amazon Q Business. For example, you can delete all customer identification numbers associated with the documents, stored in the document metadata field called 'Customer_ID' by setting the target key as 'Customer_ID' and the deletion flag to TRUE. This removes all customer ID values in the field 'Customer_ID'. This would scrub personally identifiable information from each document's metadata. Amazon Q Business can't create a target field if it has not already been created as an index field. After you create your index field, you can create a document metadata field using [DocumentAttributeTarget](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentAttributeTarget.html). Amazon Q Business will then map your newly created document attribute to your index field. You can also use this with [DocumentAttributeCondition](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentAttributeCondition.html).
-    public struct DocumentAttributeTarget: Swift.Equatable {
+    public struct DocumentAttributeTarget {
         /// TRUE to delete the existing target value for your specified target attribute key. You cannot create a target value and set this to TRUE.
         public var attributeValueOperator: QBusinessClientTypes.AttributeValueOperator?
         /// The identifier of the target document attribute or metadata field. For example, 'Department' could be an identifier for the target attribute or metadata field that includes the department names associated with the documents.
@@ -5445,7 +5445,7 @@ extension QBusinessClientTypes.DocumentAttributeValue: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// The value of a document attribute. You can only provide one value for a document attribute.
-    public enum DocumentAttributeValue: Swift.Equatable {
+    public enum DocumentAttributeValue {
         /// A string.
         case stringvalue(Swift.String)
         /// A list of strings.
@@ -5496,7 +5496,7 @@ extension QBusinessClientTypes.DocumentContent: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// The contents of a document.
-    public enum DocumentContent: Swift.Equatable {
+    public enum DocumentContent {
         /// The contents of the document. Documents passed to the blob parameter must be base64 encoded. Your code might not need to encode the document file bytes if you're using an Amazon Web Services SDK to call Amazon Q Business APIs. If you are calling the Amazon Q Business endpoint directly using REST, you must base64 encode the contents before sending.
         case blob(ClientRuntime.Data)
         /// The path to the document in an Amazon S3 bucket.
@@ -5580,7 +5580,7 @@ extension QBusinessClientTypes.DocumentDetails: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// The details of a document within an Amazon Q Business index.
-    public struct DocumentDetails: Swift.Equatable {
+    public struct DocumentDetails {
         /// The timestamp for when the document was created.
         public var createdAt: ClientRuntime.Date?
         /// The identifier of the document.
@@ -5714,7 +5714,7 @@ extension QBusinessClientTypes.DocumentEnrichmentConfiguration: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Provides the configuration information for altering document metadata and content during the document ingestion process. For more information, see [Custom document enrichment](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/custom-document-enrichment.html).
-    public struct DocumentEnrichmentConfiguration: Swift.Equatable {
+    public struct DocumentEnrichmentConfiguration {
         /// Configuration information to alter document attributes or metadata fields and content when ingesting documents into Amazon Q Business.
         public var inlineConfigurations: [QBusinessClientTypes.InlineDocumentEnrichmentConfiguration]?
         /// Provides the configuration information for invoking a Lambda function in Lambda to alter document metadata and content when ingesting documents into Amazon Q Business. You can configure your Lambda function using [PreExtractionHookConfiguration](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentEnrichmentConfiguration.html) if you want to apply advanced alterations on the original or raw documents. If you want to apply advanced alterations on the Amazon Q Business structured documents, you must configure your Lambda function using [PostExtractionHookConfiguration](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentEnrichmentConfiguration.html). You can only invoke one Lambda function. However, this function can invoke other functions it requires. For more information, see [Custom document enrichment](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/custom-document-enrichment.html).
@@ -5813,7 +5813,7 @@ extension QBusinessClientTypes.EligibleDataSource: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// The identifier of the data source Amazon Q Business will generate responses from.
-    public struct EligibleDataSource: Swift.Equatable {
+    public struct EligibleDataSource {
         /// The identifier of the data source.
         public var dataSourceId: Swift.String?
         /// The identifier of the index the data source is attached to.
@@ -5857,7 +5857,7 @@ extension QBusinessClientTypes.EncryptionConfiguration: Swift.CustomDebugStringC
 
 extension QBusinessClientTypes {
     /// Provides the identifier of the KMS key used to encrypt data indexed by Amazon Q Business. Amazon Q Business doesn't support asymmetric keys.
-    public struct EncryptionConfiguration: Swift.Equatable {
+    public struct EncryptionConfiguration {
         /// The identifier of the KMS key. Amazon Q Business doesn't support asymmetric keys.
         public var kmsKeyId: Swift.String?
 
@@ -5936,7 +5936,7 @@ extension QBusinessClientTypes.ErrorDetail: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Provides information about a data source sync error.
-    public struct ErrorDetail: Swift.Equatable {
+    public struct ErrorDetail {
         /// The code associated with the data source sync error.
         public var errorCode: QBusinessClientTypes.ErrorCode?
         /// The message explaining the data source sync error.
@@ -5987,7 +5987,7 @@ extension QBusinessClientTypes.FailedDocument: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// A list of documents that could not be removed from an Amazon Q Business index. Each entry contains an error message that indicates why the document couldn't be removed from the index.
-    public struct FailedDocument: Swift.Equatable {
+    public struct FailedDocument {
         /// The identifier of the Amazon Q Business data source connector that contains the failed document.
         public var dataSourceId: Swift.String?
         /// An explanation for why the document couldn't be removed from the index.
@@ -6019,7 +6019,7 @@ extension GetApplicationInput {
     }
 }
 
-public struct GetApplicationInput: Swift.Equatable {
+public struct GetApplicationInput {
     /// The identifier of the Amazon Q Business application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -6032,7 +6032,7 @@ public struct GetApplicationInput: Swift.Equatable {
     }
 }
 
-struct GetApplicationInputBody: Swift.Equatable {
+struct GetApplicationInputBody {
 }
 
 extension GetApplicationInputBody: Swift.Decodable {
@@ -6075,7 +6075,7 @@ extension GetApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetApplicationOutput: Swift.Equatable {
+public struct GetApplicationOutput {
     /// The Amazon Resource Name (ARN) of the Amazon Q Business application.
     public var applicationArn: Swift.String?
     /// The identifier of the Amazon Q Business application.
@@ -6131,7 +6131,7 @@ public struct GetApplicationOutput: Swift.Equatable {
     }
 }
 
-struct GetApplicationOutputBody: Swift.Equatable {
+struct GetApplicationOutputBody {
     let displayName: Swift.String?
     let applicationId: Swift.String?
     let applicationArn: Swift.String?
@@ -6232,7 +6232,7 @@ extension GetChatControlsConfigurationInput {
     }
 }
 
-public struct GetChatControlsConfigurationInput: Swift.Equatable {
+public struct GetChatControlsConfigurationInput {
     /// The identifier of the application for which the chat controls are configured.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -6253,7 +6253,7 @@ public struct GetChatControlsConfigurationInput: Swift.Equatable {
     }
 }
 
-struct GetChatControlsConfigurationInputBody: Swift.Equatable {
+struct GetChatControlsConfigurationInputBody {
 }
 
 extension GetChatControlsConfigurationInputBody: Swift.Decodable {
@@ -6282,7 +6282,7 @@ extension GetChatControlsConfigurationOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct GetChatControlsConfigurationOutput: Swift.Equatable {
+public struct GetChatControlsConfigurationOutput {
     /// The phrases blocked from chat by your chat control configuration.
     public var blockedPhrases: QBusinessClientTypes.BlockedPhrasesConfiguration?
     /// The configuration details for CREATOR_MODE.
@@ -6310,7 +6310,7 @@ public struct GetChatControlsConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetChatControlsConfigurationOutputBody: Swift.Equatable {
+struct GetChatControlsConfigurationOutputBody {
     let responseScope: QBusinessClientTypes.ResponseScope?
     let blockedPhrases: QBusinessClientTypes.BlockedPhrasesConfiguration?
     let topicConfigurations: [QBusinessClientTypes.TopicConfiguration]?
@@ -6382,7 +6382,7 @@ extension GetDataSourceInput {
     }
 }
 
-public struct GetDataSourceInput: Swift.Equatable {
+public struct GetDataSourceInput {
     /// The identifier of the Amazon Q Business application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -6405,7 +6405,7 @@ public struct GetDataSourceInput: Swift.Equatable {
     }
 }
 
-struct GetDataSourceInputBody: Swift.Equatable {
+struct GetDataSourceInputBody {
 }
 
 extension GetDataSourceInputBody: Swift.Decodable {
@@ -6456,7 +6456,7 @@ extension GetDataSourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDataSourceOutput: Swift.Equatable {
+public struct GetDataSourceOutput {
     /// The identifier of the Amazon Q Business application.
     public var applicationId: Swift.String?
     /// The details of how the data source connector is configured.
@@ -6528,7 +6528,7 @@ public struct GetDataSourceOutput: Swift.Equatable {
     }
 }
 
-struct GetDataSourceOutputBody: Swift.Equatable {
+struct GetDataSourceOutputBody {
     let applicationId: Swift.String?
     let indexId: Swift.String?
     let dataSourceId: Swift.String?
@@ -6647,7 +6647,7 @@ extension GetGroupInput {
     }
 }
 
-public struct GetGroupInput: Swift.Equatable {
+public struct GetGroupInput {
     /// The identifier of the application id the group is attached to.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -6674,7 +6674,7 @@ public struct GetGroupInput: Swift.Equatable {
     }
 }
 
-struct GetGroupInputBody: Swift.Equatable {
+struct GetGroupInputBody {
 }
 
 extension GetGroupInputBody: Swift.Decodable {
@@ -6697,7 +6697,7 @@ extension GetGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetGroupOutput: Swift.Equatable {
+public struct GetGroupOutput {
     /// The current status of the group.
     public var status: QBusinessClientTypes.GroupStatusDetail?
     /// The status history of the group.
@@ -6713,7 +6713,7 @@ public struct GetGroupOutput: Swift.Equatable {
     }
 }
 
-struct GetGroupOutputBody: Swift.Equatable {
+struct GetGroupOutputBody {
     let status: QBusinessClientTypes.GroupStatusDetail?
     let statusHistory: [QBusinessClientTypes.GroupStatusDetail]?
 }
@@ -6771,7 +6771,7 @@ extension GetIndexInput {
     }
 }
 
-public struct GetIndexInput: Swift.Equatable {
+public struct GetIndexInput {
     /// The identifier of the Amazon Q Business application connected to the index.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -6789,7 +6789,7 @@ public struct GetIndexInput: Swift.Equatable {
     }
 }
 
-struct GetIndexInputBody: Swift.Equatable {
+struct GetIndexInputBody {
 }
 
 extension GetIndexInputBody: Swift.Decodable {
@@ -6832,7 +6832,7 @@ extension GetIndexOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetIndexOutput: Swift.Equatable {
+public struct GetIndexOutput {
     /// The identifier of the Amazon Q Business application associated with the index.
     public var applicationId: Swift.String?
     /// The storage capacity units chosen for your Amazon Q Business index.
@@ -6888,7 +6888,7 @@ public struct GetIndexOutput: Swift.Equatable {
     }
 }
 
-struct GetIndexOutputBody: Swift.Equatable {
+struct GetIndexOutputBody {
     let applicationId: Swift.String?
     let indexId: Swift.String?
     let displayName: Swift.String?
@@ -6985,7 +6985,7 @@ extension GetPluginInput {
     }
 }
 
-public struct GetPluginInput: Swift.Equatable {
+public struct GetPluginInput {
     /// The identifier of the application which contains the plugin.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -7003,7 +7003,7 @@ public struct GetPluginInput: Swift.Equatable {
     }
 }
 
-struct GetPluginInputBody: Swift.Equatable {
+struct GetPluginInputBody {
 }
 
 extension GetPluginInputBody: Swift.Decodable {
@@ -7042,7 +7042,7 @@ extension GetPluginOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPluginOutput: Swift.Equatable {
+public struct GetPluginOutput {
     /// The identifier of the application which contains the plugin.
     public var applicationId: Swift.String?
     /// Authentication configuration information for an Amazon Q Business plugin.
@@ -7090,7 +7090,7 @@ public struct GetPluginOutput: Swift.Equatable {
     }
 }
 
-struct GetPluginOutputBody: Swift.Equatable {
+struct GetPluginOutputBody {
     let applicationId: Swift.String?
     let pluginId: Swift.String?
     let displayName: Swift.String?
@@ -7170,7 +7170,7 @@ extension GetRetrieverInput {
     }
 }
 
-public struct GetRetrieverInput: Swift.Equatable {
+public struct GetRetrieverInput {
     /// The identifier of the Amazon Q Business application using the retriever.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -7188,7 +7188,7 @@ public struct GetRetrieverInput: Swift.Equatable {
     }
 }
 
-struct GetRetrieverInputBody: Swift.Equatable {
+struct GetRetrieverInputBody {
 }
 
 extension GetRetrieverInputBody: Swift.Decodable {
@@ -7227,7 +7227,7 @@ extension GetRetrieverOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRetrieverOutput: Swift.Equatable {
+public struct GetRetrieverOutput {
     /// The identifier of the Amazon Q Business application using the retriever.
     public var applicationId: Swift.String?
     /// Provides information on how the retriever used for your Amazon Q Business application is configured.
@@ -7275,7 +7275,7 @@ public struct GetRetrieverOutput: Swift.Equatable {
     }
 }
 
-struct GetRetrieverOutputBody: Swift.Equatable {
+struct GetRetrieverOutputBody {
     let applicationId: Swift.String?
     let retrieverId: Swift.String?
     let retrieverArn: Swift.String?
@@ -7355,7 +7355,7 @@ extension GetUserInput {
     }
 }
 
-public struct GetUserInput: Swift.Equatable {
+public struct GetUserInput {
     /// The identifier of the application connected to the user.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -7373,7 +7373,7 @@ public struct GetUserInput: Swift.Equatable {
     }
 }
 
-struct GetUserInputBody: Swift.Equatable {
+struct GetUserInputBody {
 }
 
 extension GetUserInputBody: Swift.Decodable {
@@ -7394,7 +7394,7 @@ extension GetUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetUserOutput: Swift.Equatable {
+public struct GetUserOutput {
     /// A list of user aliases attached to a user.
     public var userAliases: [QBusinessClientTypes.UserAlias]?
 
@@ -7406,7 +7406,7 @@ public struct GetUserOutput: Swift.Equatable {
     }
 }
 
-struct GetUserOutputBody: Swift.Equatable {
+struct GetUserOutputBody {
     let userAliases: [QBusinessClientTypes.UserAlias]?
 }
 
@@ -7460,7 +7460,7 @@ extension GetWebExperienceInput {
     }
 }
 
-public struct GetWebExperienceInput: Swift.Equatable {
+public struct GetWebExperienceInput {
     /// The identifier of the Amazon Q Business application linked to the web experience.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -7478,7 +7478,7 @@ public struct GetWebExperienceInput: Swift.Equatable {
     }
 }
 
-struct GetWebExperienceInputBody: Swift.Equatable {
+struct GetWebExperienceInputBody {
 }
 
 extension GetWebExperienceInputBody: Swift.Decodable {
@@ -7525,7 +7525,7 @@ extension GetWebExperienceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetWebExperienceOutput: Swift.Equatable {
+public struct GetWebExperienceOutput {
     /// The identifier of the Amazon Q Business application linked to the web experience.
     public var applicationId: Swift.String?
     /// The authentication configuration information for your Amazon Q Business web experience.
@@ -7589,7 +7589,7 @@ public struct GetWebExperienceOutput: Swift.Equatable {
     }
 }
 
-struct GetWebExperienceOutputBody: Swift.Equatable {
+struct GetWebExperienceOutputBody {
     let applicationId: Swift.String?
     let webExperienceId: Swift.String?
     let webExperienceArn: Swift.String?
@@ -7723,7 +7723,7 @@ extension QBusinessClientTypes.GroupMembers: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// A list of users or sub groups that belong to a group. This is for generating Amazon Q Business chat results only from document a user has access to.
-    public struct GroupMembers: Swift.Equatable {
+    public struct GroupMembers {
         /// A list of sub groups that belong to a group. For example, the sub groups "Research", "Engineering", and "Sales and Marketing" all belong to the group "Company".
         public var memberGroups: [QBusinessClientTypes.MemberGroup]?
         /// A list of users that belong to a group. For example, a list of interns all belong to the "Interns" group.
@@ -7815,7 +7815,7 @@ extension QBusinessClientTypes.GroupStatusDetail: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Provides the details of a group's status.
-    public struct GroupStatusDetail: Swift.Equatable {
+    public struct GroupStatusDetail {
         /// The details of an error associated a group status.
         public var errorDetail: QBusinessClientTypes.ErrorDetail?
         /// The Unix timestamp when the Amazon Q Business application was last updated.
@@ -7858,7 +7858,7 @@ extension QBusinessClientTypes.GroupSummary: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Summary information for groups.
-    public struct GroupSummary: Swift.Equatable {
+    public struct GroupSummary {
         /// The name of the group the summary information is for.
         public var groupName: Swift.String?
 
@@ -7911,7 +7911,7 @@ extension QBusinessClientTypes.HookConfiguration: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Provides the configuration information for invoking a Lambda function in Lambda to alter document metadata and content when ingesting documents into Amazon Q Business. You can configure your Lambda function using [PreExtractionHookConfiguration](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentEnrichmentConfiguration.html) if you want to apply advanced alterations on the original or raw documents. If you want to apply advanced alterations on the Amazon Q Business structured documents, you must configure your Lambda function using [PostExtractionHookConfiguration](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentEnrichmentConfiguration.html). You can only invoke one Lambda function. However, this function can invoke other functions it requires. For more information, see [Custom document enrichment](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/custom-document-enrichment.html).
-    public struct HookConfiguration: Swift.Equatable {
+    public struct HookConfiguration {
         /// The condition used for when a Lambda function should be invoked. For example, you can specify a condition that if there are empty date-time values, then Amazon Q Business should invoke a function that inserts the current date-time.
         public var invocationCondition: QBusinessClientTypes.DocumentAttributeCondition?
         /// The Amazon Resource Name (ARN) of a role with permission to run a Lambda function during ingestion. For more information, see [IAM roles for Custom Document Enrichment (CDE)](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/iam-roles.html#cde-iam-role).
@@ -7982,7 +7982,7 @@ extension QBusinessClientTypes.Index: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Summary information for your Amazon Q Business index.
-    public struct Index: Swift.Equatable {
+    public struct Index {
         /// The Unix timestamp when the index was created.
         public var createdAt: ClientRuntime.Date?
         /// The name of the index.
@@ -8033,7 +8033,7 @@ extension QBusinessClientTypes.IndexCapacityConfiguration: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Provides information about index capacity configuration.
-    public struct IndexCapacityConfiguration: Swift.Equatable {
+    public struct IndexCapacityConfiguration {
         /// The number of storage units configured for an Amazon Q Business index.
         public var units: Swift.Int?
 
@@ -8068,7 +8068,7 @@ extension QBusinessClientTypes.IndexStatistics: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Provides information about the number of documents in an index.
-    public struct IndexStatistics: Swift.Equatable {
+    public struct IndexStatistics {
         /// The number of documents indexed.
         public var textDocumentStatistics: QBusinessClientTypes.TextDocumentStatistics?
 
@@ -8156,7 +8156,7 @@ extension QBusinessClientTypes.InlineDocumentEnrichmentConfiguration: Swift.Coda
 
 extension QBusinessClientTypes {
     /// Provides the configuration information for applying basic logic to alter document metadata and content when ingesting documents into Amazon Q Business. To apply advanced logic, to go beyond what you can do with basic logic, see [HookConfiguration](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_HookConfiguration.html). For more information, see [Custom document enrichment](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/custom-document-enrichment.html).
-    public struct InlineDocumentEnrichmentConfiguration: Swift.Equatable {
+    public struct InlineDocumentEnrichmentConfiguration {
         /// The condition used for the target document attribute or metadata field when ingesting documents into Amazon Q Business. You use this with [DocumentAttributeTarget](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentAttributeTarget.html) to apply the condition. For example, you can create the 'Department' target field and have it prefill department names associated with the documents based on information in the 'Source_URI' field. Set the condition that if the 'Source_URI' field contains 'financial' in its URI value, then prefill the target field 'Department' with the target value 'Finance' for the document. Amazon Q Business can't create a target field if it has not already been created as an index field. After you create your index field, you can create a document metadata field using DocumentAttributeTarget. Amazon Q Business then will map your newly created metadata field to your index field.
         public var condition: QBusinessClientTypes.DocumentAttributeCondition?
         /// TRUE to delete content if the condition used for the target attribute is met.
@@ -8218,7 +8218,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -8255,7 +8255,7 @@ extension QBusinessClientTypes.KendraIndexConfiguration: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Stores an Amazon Kendra index as a retriever.
-    public struct KendraIndexConfiguration: Swift.Equatable {
+    public struct KendraIndexConfiguration {
         /// The identifier of the Amazon Kendra index.
         /// This member is required.
         public var indexId: Swift.String?
@@ -8310,7 +8310,7 @@ public struct LicenseNotFoundException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct LicenseNotFoundExceptionBody: Swift.Equatable {
+struct LicenseNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -8349,7 +8349,7 @@ extension ListApplicationsInput {
     }
 }
 
-public struct ListApplicationsInput: Swift.Equatable {
+public struct ListApplicationsInput {
     /// The maximum number of Amazon Q Business applications to return.
     public var maxResults: Swift.Int?
     /// If the maxResults response was incomplete because there is more data to retrieve, Amazon Q Business returns a pagination token in the response. You can use this pagination token to retrieve the next set of Amazon Q Business applications.
@@ -8365,7 +8365,7 @@ public struct ListApplicationsInput: Swift.Equatable {
     }
 }
 
-struct ListApplicationsInputBody: Swift.Equatable {
+struct ListApplicationsInputBody {
 }
 
 extension ListApplicationsInputBody: Swift.Decodable {
@@ -8388,7 +8388,7 @@ extension ListApplicationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListApplicationsOutput: Swift.Equatable {
+public struct ListApplicationsOutput {
     /// An array of summary information on the configuration of one or more Amazon Q Business applications.
     public var applications: [QBusinessClientTypes.Application]?
     /// If the response is truncated, Amazon Q Business returns this token. You can use this token in a subsequent request to retrieve the next set of applications.
@@ -8404,7 +8404,7 @@ public struct ListApplicationsOutput: Swift.Equatable {
     }
 }
 
-struct ListApplicationsOutputBody: Swift.Equatable {
+struct ListApplicationsOutputBody {
     let nextToken: Swift.String?
     let applications: [QBusinessClientTypes.Application]?
 }
@@ -8477,7 +8477,7 @@ extension ListConversationsInput {
     }
 }
 
-public struct ListConversationsInput: Swift.Equatable {
+public struct ListConversationsInput {
     /// The identifier of the Amazon Q Business application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -8502,7 +8502,7 @@ public struct ListConversationsInput: Swift.Equatable {
     }
 }
 
-struct ListConversationsInputBody: Swift.Equatable {
+struct ListConversationsInputBody {
 }
 
 extension ListConversationsInputBody: Swift.Decodable {
@@ -8525,7 +8525,7 @@ extension ListConversationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListConversationsOutput: Swift.Equatable {
+public struct ListConversationsOutput {
     /// An array of summary information on the configuration of one or more Amazon Q Business web experiences.
     public var conversations: [QBusinessClientTypes.Conversation]?
     /// If the response is truncated, Amazon Q Business returns this token, which you can use in a later request to list the next set of messages.
@@ -8541,7 +8541,7 @@ public struct ListConversationsOutput: Swift.Equatable {
     }
 }
 
-struct ListConversationsOutputBody: Swift.Equatable {
+struct ListConversationsOutputBody {
     let nextToken: Swift.String?
     let conversations: [QBusinessClientTypes.Conversation]?
 }
@@ -8630,7 +8630,7 @@ extension ListDataSourceSyncJobsInput {
     }
 }
 
-public struct ListDataSourceSyncJobsInput: Swift.Equatable {
+public struct ListDataSourceSyncJobsInput {
     /// The identifier of the Amazon Q Business application connected to the data source.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -8673,7 +8673,7 @@ public struct ListDataSourceSyncJobsInput: Swift.Equatable {
     }
 }
 
-struct ListDataSourceSyncJobsInputBody: Swift.Equatable {
+struct ListDataSourceSyncJobsInputBody {
 }
 
 extension ListDataSourceSyncJobsInputBody: Swift.Decodable {
@@ -8696,7 +8696,7 @@ extension ListDataSourceSyncJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDataSourceSyncJobsOutput: Swift.Equatable {
+public struct ListDataSourceSyncJobsOutput {
     /// A history of synchronization jobs for the data source connector.
     public var history: [QBusinessClientTypes.DataSourceSyncJob]?
     /// If the response is truncated, Amazon Q Business returns this token. You can use this token in any subsequent request to retrieve the next set of jobs.
@@ -8712,7 +8712,7 @@ public struct ListDataSourceSyncJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListDataSourceSyncJobsOutputBody: Swift.Equatable {
+struct ListDataSourceSyncJobsOutputBody {
     let history: [QBusinessClientTypes.DataSourceSyncJob]?
     let nextToken: Swift.String?
 }
@@ -8785,7 +8785,7 @@ extension ListDataSourcesInput {
     }
 }
 
-public struct ListDataSourcesInput: Swift.Equatable {
+public struct ListDataSourcesInput {
     /// The identifier of the Amazon Q Business application linked to the data source connectors.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -8811,7 +8811,7 @@ public struct ListDataSourcesInput: Swift.Equatable {
     }
 }
 
-struct ListDataSourcesInputBody: Swift.Equatable {
+struct ListDataSourcesInputBody {
 }
 
 extension ListDataSourcesInputBody: Swift.Decodable {
@@ -8834,7 +8834,7 @@ extension ListDataSourcesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDataSourcesOutput: Swift.Equatable {
+public struct ListDataSourcesOutput {
     /// An array of summary information for one or more data source connector.
     public var dataSources: [QBusinessClientTypes.DataSource]?
     /// If the response is truncated, Amazon Q Business returns this token. You can use this token in a subsequent request to retrieve the next set of data source connectors.
@@ -8850,7 +8850,7 @@ public struct ListDataSourcesOutput: Swift.Equatable {
     }
 }
 
-struct ListDataSourcesOutputBody: Swift.Equatable {
+struct ListDataSourcesOutputBody {
     let dataSources: [QBusinessClientTypes.DataSource]?
     let nextToken: Swift.String?
 }
@@ -8929,7 +8929,7 @@ extension ListDocumentsInput {
     }
 }
 
-public struct ListDocumentsInput: Swift.Equatable {
+public struct ListDocumentsInput {
     /// The identifier of the application id the documents are attached to.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -8959,7 +8959,7 @@ public struct ListDocumentsInput: Swift.Equatable {
     }
 }
 
-struct ListDocumentsInputBody: Swift.Equatable {
+struct ListDocumentsInputBody {
 }
 
 extension ListDocumentsInputBody: Swift.Decodable {
@@ -8982,7 +8982,7 @@ extension ListDocumentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDocumentsOutput: Swift.Equatable {
+public struct ListDocumentsOutput {
     /// A list of document details.
     public var documentDetailList: [QBusinessClientTypes.DocumentDetails]?
     /// If the maxResults response was incomplete because there is more data to retrieve, Amazon Q Business returns a pagination token in the response. You can use this pagination token to retrieve the next set of documents.
@@ -8998,7 +8998,7 @@ public struct ListDocumentsOutput: Swift.Equatable {
     }
 }
 
-struct ListDocumentsOutputBody: Swift.Equatable {
+struct ListDocumentsOutputBody {
     let documentDetailList: [QBusinessClientTypes.DocumentDetails]?
     let nextToken: Swift.String?
 }
@@ -9081,7 +9081,7 @@ extension ListGroupsInput {
     }
 }
 
-public struct ListGroupsInput: Swift.Equatable {
+public struct ListGroupsInput {
     /// The identifier of the application for getting a list of groups mapped to users.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -9116,7 +9116,7 @@ public struct ListGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListGroupsInputBody: Swift.Equatable {
+struct ListGroupsInputBody {
 }
 
 extension ListGroupsInputBody: Swift.Decodable {
@@ -9139,7 +9139,7 @@ extension ListGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListGroupsOutput: Swift.Equatable {
+public struct ListGroupsOutput {
     /// Summary information for list of groups that are mapped to users.
     public var items: [QBusinessClientTypes.GroupSummary]?
     /// If the response is truncated, Amazon Q Business returns this token that you can use in the subsequent request to retrieve the next set of groups that are mapped to users.
@@ -9155,7 +9155,7 @@ public struct ListGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListGroupsOutputBody: Swift.Equatable {
+struct ListGroupsOutputBody {
     let nextToken: Swift.String?
     let items: [QBusinessClientTypes.GroupSummary]?
 }
@@ -9226,7 +9226,7 @@ extension ListIndicesInput {
     }
 }
 
-public struct ListIndicesInput: Swift.Equatable {
+public struct ListIndicesInput {
     /// The identifier of the Amazon Q Business application connected to the index.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -9247,7 +9247,7 @@ public struct ListIndicesInput: Swift.Equatable {
     }
 }
 
-struct ListIndicesInputBody: Swift.Equatable {
+struct ListIndicesInputBody {
 }
 
 extension ListIndicesInputBody: Swift.Decodable {
@@ -9270,7 +9270,7 @@ extension ListIndicesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListIndicesOutput: Swift.Equatable {
+public struct ListIndicesOutput {
     /// An array of information on the items in one or more indexes.
     public var indices: [QBusinessClientTypes.Index]?
     /// If the response is truncated, Amazon Q Business returns this token that you can use in the subsequent request to retrieve the next set of indexes.
@@ -9286,7 +9286,7 @@ public struct ListIndicesOutput: Swift.Equatable {
     }
 }
 
-struct ListIndicesOutputBody: Swift.Equatable {
+struct ListIndicesOutputBody {
     let nextToken: Swift.String?
     let indices: [QBusinessClientTypes.Index]?
 }
@@ -9363,7 +9363,7 @@ extension ListMessagesInput {
     }
 }
 
-public struct ListMessagesInput: Swift.Equatable {
+public struct ListMessagesInput {
     /// The identifier for the Amazon Q Business application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -9393,7 +9393,7 @@ public struct ListMessagesInput: Swift.Equatable {
     }
 }
 
-struct ListMessagesInputBody: Swift.Equatable {
+struct ListMessagesInputBody {
 }
 
 extension ListMessagesInputBody: Swift.Decodable {
@@ -9416,7 +9416,7 @@ extension ListMessagesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMessagesOutput: Swift.Equatable {
+public struct ListMessagesOutput {
     /// An array of information on one or more messages.
     public var messages: [QBusinessClientTypes.Message]?
     /// If the response is truncated, Amazon Q Business returns this token, which you can use in a later request to list the next set of messages.
@@ -9432,7 +9432,7 @@ public struct ListMessagesOutput: Swift.Equatable {
     }
 }
 
-struct ListMessagesOutputBody: Swift.Equatable {
+struct ListMessagesOutputBody {
     let messages: [QBusinessClientTypes.Message]?
     let nextToken: Swift.String?
 }
@@ -9503,7 +9503,7 @@ extension ListPluginsInput {
     }
 }
 
-public struct ListPluginsInput: Swift.Equatable {
+public struct ListPluginsInput {
     /// The identifier of the application the plugin is attached to.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -9524,7 +9524,7 @@ public struct ListPluginsInput: Swift.Equatable {
     }
 }
 
-struct ListPluginsInputBody: Swift.Equatable {
+struct ListPluginsInputBody {
 }
 
 extension ListPluginsInputBody: Swift.Decodable {
@@ -9547,7 +9547,7 @@ extension ListPluginsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPluginsOutput: Swift.Equatable {
+public struct ListPluginsOutput {
     /// If the maxResults response was incomplete because there is more data to retrieve, Amazon Q Business returns a pagination token in the response. You can use this pagination token to retrieve the next set of plugins.
     public var nextToken: Swift.String?
     /// Information about a configured plugin.
@@ -9563,7 +9563,7 @@ public struct ListPluginsOutput: Swift.Equatable {
     }
 }
 
-struct ListPluginsOutputBody: Swift.Equatable {
+struct ListPluginsOutputBody {
     let nextToken: Swift.String?
     let plugins: [QBusinessClientTypes.Plugin]?
 }
@@ -9633,7 +9633,7 @@ extension ListRetrieversInput {
     }
 }
 
-public struct ListRetrieversInput: Swift.Equatable {
+public struct ListRetrieversInput {
     /// The identifier of the Amazon Q Business application using the retriever.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -9654,7 +9654,7 @@ public struct ListRetrieversInput: Swift.Equatable {
     }
 }
 
-struct ListRetrieversInputBody: Swift.Equatable {
+struct ListRetrieversInputBody {
 }
 
 extension ListRetrieversInputBody: Swift.Decodable {
@@ -9677,7 +9677,7 @@ extension ListRetrieversOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRetrieversOutput: Swift.Equatable {
+public struct ListRetrieversOutput {
     /// If the response is truncated, Amazon Q Business returns this token, which you can use in a later request to list the next set of retrievers.
     public var nextToken: Swift.String?
     /// An array of summary information for one or more retrievers.
@@ -9693,7 +9693,7 @@ public struct ListRetrieversOutput: Swift.Equatable {
     }
 }
 
-struct ListRetrieversOutputBody: Swift.Equatable {
+struct ListRetrieversOutputBody {
     let retrievers: [QBusinessClientTypes.Retriever]?
     let nextToken: Swift.String?
 }
@@ -9747,7 +9747,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the Amazon Q Business application or data source to get a list of tags for.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -9760,7 +9760,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -9781,7 +9781,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// A list of tags associated with the Amazon Q Business application or data source.
     public var tags: [QBusinessClientTypes.Tag]?
 
@@ -9793,7 +9793,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [QBusinessClientTypes.Tag]?
 }
 
@@ -9859,7 +9859,7 @@ extension ListWebExperiencesInput {
     }
 }
 
-public struct ListWebExperiencesInput: Swift.Equatable {
+public struct ListWebExperiencesInput {
     /// The identifier of the Amazon Q Business application linked to the listed web experiences.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -9880,7 +9880,7 @@ public struct ListWebExperiencesInput: Swift.Equatable {
     }
 }
 
-struct ListWebExperiencesInputBody: Swift.Equatable {
+struct ListWebExperiencesInputBody {
 }
 
 extension ListWebExperiencesInputBody: Swift.Decodable {
@@ -9903,7 +9903,7 @@ extension ListWebExperiencesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListWebExperiencesOutput: Swift.Equatable {
+public struct ListWebExperiencesOutput {
     /// If the response is truncated, Amazon Q Business returns this token, which you can use in a later request to list the next set of messages.
     public var nextToken: Swift.String?
     /// An array of summary information for one or more Amazon Q Business experiences.
@@ -9919,7 +9919,7 @@ public struct ListWebExperiencesOutput: Swift.Equatable {
     }
 }
 
-struct ListWebExperiencesOutputBody: Swift.Equatable {
+struct ListWebExperiencesOutputBody {
     let webExperiences: [QBusinessClientTypes.WebExperience]?
     let nextToken: Swift.String?
 }
@@ -9990,7 +9990,7 @@ extension QBusinessClientTypes.MemberGroup: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// The sub groups that belong to a group.
-    public struct MemberGroup: Swift.Equatable {
+    public struct MemberGroup {
         /// The name of the sub group.
         /// This member is required.
         public var groupName: Swift.String?
@@ -10068,7 +10068,7 @@ extension QBusinessClientTypes.MemberUser: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// The users that belong to a group.
-    public struct MemberUser: Swift.Equatable {
+    public struct MemberUser {
         /// The type of the user.
         public var type: QBusinessClientTypes.MembershipType?
         /// The identifier of the user you want to map to a group.
@@ -10208,7 +10208,7 @@ extension QBusinessClientTypes.Message: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// A message in an Amazon Q Business web experience.
-    public struct Message: Swift.Equatable {
+    public struct Message {
         /// Performs an Amazon Q Business plugin action during a non-streaming chat conversation.
         public var actionExecution: QBusinessClientTypes.ActionExecution?
         /// An output event that Amazon Q Business returns to an user who wants to perform a plugin action during a non-streaming chat conversation. It contains information about the selected action with a list of possible user input fields, some pre-populated by Amazon Q Business.
@@ -10353,7 +10353,7 @@ extension QBusinessClientTypes.MessageUsefulnessFeedback: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// End user feedback on an AI-generated web experience chat message usefulness.
-    public struct MessageUsefulnessFeedback: Swift.Equatable {
+    public struct MessageUsefulnessFeedback {
         /// A comment given by an end user on the usefulness of an AI-generated chat message.
         public var comment: Swift.String?
         /// The reason for a usefulness rating.
@@ -10482,7 +10482,7 @@ extension QBusinessClientTypes.NativeIndexConfiguration: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Configuration information for an Amazon Q Business index.
-    public struct NativeIndexConfiguration: Swift.Equatable {
+    public struct NativeIndexConfiguration {
         /// Overrides the default boosts applied by Amazon Q Business to supported document attribute data types.
         public var boostingOverride: [Swift.String:QBusinessClientTypes.DocumentAttributeBoostingConfiguration]?
         /// The identifier for the Amazon Q Business index.
@@ -10528,7 +10528,7 @@ extension QBusinessClientTypes.NumberAttributeBoostingConfiguration: Swift.Codab
 
 extension QBusinessClientTypes {
     /// Provides information on boosting NUMBER type document attributes. For more information on how boosting document attributes work in Amazon Q Business, see [Boosting using document attributes](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/metadata-boosting.html).
-    public struct NumberAttributeBoostingConfiguration: Swift.Equatable {
+    public struct NumberAttributeBoostingConfiguration {
         /// Specifies the duration, in seconds, of a boost applies to a NUMBER type document attribute.
         /// This member is required.
         public var boostingLevel: QBusinessClientTypes.DocumentAttributeBoostingLevel?
@@ -10606,7 +10606,7 @@ extension QBusinessClientTypes.OAuth2ClientCredentialConfiguration: Swift.Codabl
 
 extension QBusinessClientTypes {
     /// Information about the OAuth 2.0 authentication credential/token used to configure a plugin.
-    public struct OAuth2ClientCredentialConfiguration: Swift.Equatable {
+    public struct OAuth2ClientCredentialConfiguration {
         /// The ARN of an IAM role used by Amazon Q Business to access the OAuth 2.0 authentication credentials stored in a Secrets Manager secret.
         /// This member is required.
         public var roleArn: Swift.String?
@@ -10683,7 +10683,7 @@ extension QBusinessClientTypes.Plugin: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Information about an Amazon Q Business plugin and its configuration.
-    public struct Plugin: Swift.Equatable {
+    public struct Plugin {
         /// The timestamp for when the plugin was created.
         public var createdAt: ClientRuntime.Date?
         /// The name of the plugin.
@@ -10758,7 +10758,7 @@ extension QBusinessClientTypes.PluginAuthConfiguration: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Authentication configuration information for an Amazon Q Business plugin.
-    public enum PluginAuthConfiguration: Swift.Equatable {
+    public enum PluginAuthConfiguration {
         /// Information about the basic authentication credentials used to configure a plugin.
         case basicauthconfiguration(QBusinessClientTypes.BasicAuthConfiguration)
         /// Information about the OAuth 2.0 authentication credential/token used to configure a plugin.
@@ -10789,7 +10789,7 @@ extension QBusinessClientTypes.PluginConfiguration: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Configuration information required to invoke chat in PLUGIN_MODE. For more information, see [Admin controls and guardrails](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/guardrails.html), [Plugins](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/plugins.html), and [Conversation settings](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/using-web-experience.html#chat-source-scope).
-    public struct PluginConfiguration: Swift.Equatable {
+    public struct PluginConfiguration {
         /// The identifier of the plugin you want to use.
         /// This member is required.
         public var pluginId: Swift.String?
@@ -10911,7 +10911,7 @@ extension QBusinessClientTypes.Principal: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Provides user and group information used for filtering documents to use for generating Amazon Q Business conversation responses.
-    public enum Principal: Swift.Equatable {
+    public enum Principal {
         /// The user associated with the principal.
         case user(QBusinessClientTypes.PrincipalUser)
         /// The group associated with the principal.
@@ -10954,7 +10954,7 @@ extension QBusinessClientTypes.PrincipalGroup: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Provides information about a group associated with the principal.
-    public struct PrincipalGroup: Swift.Equatable {
+    public struct PrincipalGroup {
         /// Provides information about whether to allow or deny access to the principal.
         /// This member is required.
         public var access: QBusinessClientTypes.ReadAccessType?
@@ -11010,7 +11010,7 @@ extension QBusinessClientTypes.PrincipalUser: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Provides information about a user associated with a principal.
-    public struct PrincipalUser: Swift.Equatable {
+    public struct PrincipalUser {
         /// Provides information about whether to allow or deny access to the principal.
         /// This member is required.
         public var access: QBusinessClientTypes.ReadAccessType?
@@ -11078,7 +11078,7 @@ extension PutFeedbackInput {
     }
 }
 
-public struct PutFeedbackInput: Swift.Equatable {
+public struct PutFeedbackInput {
     /// The identifier of the application associated with the feedback.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -11113,7 +11113,7 @@ public struct PutFeedbackInput: Swift.Equatable {
     }
 }
 
-struct PutFeedbackInputBody: Swift.Equatable {
+struct PutFeedbackInputBody {
     let messageCopiedAt: ClientRuntime.Date?
     let messageUsefulness: QBusinessClientTypes.MessageUsefulnessFeedback?
 }
@@ -11138,7 +11138,7 @@ extension PutFeedbackOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutFeedbackOutput: Swift.Equatable {
+public struct PutFeedbackOutput {
 
     public init() { }
 }
@@ -11196,7 +11196,7 @@ extension PutGroupInput {
     }
 }
 
-public struct PutGroupInput: Swift.Equatable {
+public struct PutGroupInput {
     /// The identifier of the application in which the user and group mapping belongs.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -11233,7 +11233,7 @@ public struct PutGroupInput: Swift.Equatable {
     }
 }
 
-struct PutGroupInputBody: Swift.Equatable {
+struct PutGroupInputBody {
     let groupName: Swift.String?
     let dataSourceId: Swift.String?
     let type: QBusinessClientTypes.MembershipType?
@@ -11266,7 +11266,7 @@ extension PutGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutGroupOutput: Swift.Equatable {
+public struct PutGroupOutput {
 
     public init() { }
 }
@@ -11377,7 +11377,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -11478,7 +11478,7 @@ extension QBusinessClientTypes.Retriever: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Summary information for the retriever used for your Amazon Q Business application.
-    public struct Retriever: Swift.Equatable {
+    public struct Retriever {
         /// The identifier of the Amazon Q Business application using the retriever.
         public var applicationId: Swift.String?
         /// The name of your retriever.
@@ -11545,7 +11545,7 @@ extension QBusinessClientTypes.RetrieverConfiguration: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Provides information on how the retriever used for your Amazon Q Business application is configured.
-    public enum RetrieverConfiguration: Swift.Equatable {
+    public enum RetrieverConfiguration {
         /// Provides information on how a Amazon Q Business index used as a retriever for your Amazon Q Business application is configured.
         case nativeindexconfiguration(QBusinessClientTypes.NativeIndexConfiguration)
         /// Provides information on how the Amazon Kendra index used as a retriever for your Amazon Q Business application is configured.
@@ -11661,7 +11661,7 @@ extension QBusinessClientTypes.Rule: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Guardrail rules for an Amazon Q Business application. Amazon Q Business supports only one rule at a time.
-    public struct Rule: Swift.Equatable {
+    public struct Rule {
         /// Users and groups to be excluded from a rule.
         public var excludedUsersAndGroups: QBusinessClientTypes.UsersAndGroups?
         /// Users and groups to be included in a rule.
@@ -11725,7 +11725,7 @@ extension QBusinessClientTypes.RuleConfiguration: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Provides configuration information about a rule.
-    public enum RuleConfiguration: Swift.Equatable {
+    public enum RuleConfiguration {
         /// A rule for configuring how Amazon Q Business responds when it encounters a a blocked topic.
         case contentblockerrule(QBusinessClientTypes.ContentBlockerRule)
         /// Rules for retrieving content from data sources connected to a Amazon Q Business application for a specific topic control configuration.
@@ -11794,7 +11794,7 @@ extension QBusinessClientTypes.S3: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Information required for Amazon Q Business to find a specific file in an Amazon S3 bucket.
-    public struct S3: Swift.Equatable {
+    public struct S3 {
         /// The name of the S3 bucket that contains the file.
         /// This member is required.
         public var bucket: Swift.String?
@@ -11853,7 +11853,7 @@ extension QBusinessClientTypes.SamlConfiguration: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Provides the SAML 2.0 compliant identity provider (IdP) configuration information Amazon Q Business needs to deploy a Amazon Q Business web experience.
-    public struct SamlConfiguration: Swift.Equatable {
+    public struct SamlConfiguration {
         /// The metadata XML that your IdP generated.
         /// This member is required.
         public var metadataXML: Swift.String?
@@ -11937,7 +11937,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -12024,7 +12024,7 @@ extension QBusinessClientTypes.SourceAttribution: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// The documents used to generate an Amazon Q Business web experience response.
-    public struct SourceAttribution: Swift.Equatable {
+    public struct SourceAttribution {
         /// The number attached to a citation in an Amazon Q Business generated response.
         public var citationNumber: Swift.Int?
         /// The content extract from the document on which the generated response is based.
@@ -12074,7 +12074,7 @@ extension StartDataSourceSyncJobInput {
     }
 }
 
-public struct StartDataSourceSyncJobInput: Swift.Equatable {
+public struct StartDataSourceSyncJobInput {
     /// The identifier of Amazon Q Business application the data source is connected to.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -12097,7 +12097,7 @@ public struct StartDataSourceSyncJobInput: Swift.Equatable {
     }
 }
 
-struct StartDataSourceSyncJobInputBody: Swift.Equatable {
+struct StartDataSourceSyncJobInputBody {
 }
 
 extension StartDataSourceSyncJobInputBody: Swift.Decodable {
@@ -12118,7 +12118,7 @@ extension StartDataSourceSyncJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartDataSourceSyncJobOutput: Swift.Equatable {
+public struct StartDataSourceSyncJobOutput {
     /// The identifier for a particular synchronization job.
     public var executionId: Swift.String?
 
@@ -12130,7 +12130,7 @@ public struct StartDataSourceSyncJobOutput: Swift.Equatable {
     }
 }
 
-struct StartDataSourceSyncJobOutputBody: Swift.Equatable {
+struct StartDataSourceSyncJobOutputBody {
     let executionId: Swift.String?
 }
 
@@ -12211,7 +12211,7 @@ extension StopDataSourceSyncJobInput {
     }
 }
 
-public struct StopDataSourceSyncJobInput: Swift.Equatable {
+public struct StopDataSourceSyncJobInput {
     /// The identifier of the Amazon Q Business application that the data source is connected to.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -12234,7 +12234,7 @@ public struct StopDataSourceSyncJobInput: Swift.Equatable {
     }
 }
 
-struct StopDataSourceSyncJobInputBody: Swift.Equatable {
+struct StopDataSourceSyncJobInputBody {
 }
 
 extension StopDataSourceSyncJobInputBody: Swift.Decodable {
@@ -12248,7 +12248,7 @@ extension StopDataSourceSyncJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopDataSourceSyncJobOutput: Swift.Equatable {
+public struct StopDataSourceSyncJobOutput {
 
     public init() { }
 }
@@ -12307,7 +12307,7 @@ extension QBusinessClientTypes.StringAttributeBoostingConfiguration: Swift.Codab
 
 extension QBusinessClientTypes {
     /// Provides information on boosting STRING type document attributes. For STRING and STRING_LIST type document attributes to be used for boosting on the console and the API, they must be enabled for search using the [DocumentAttributeConfiguration](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentAttributeConfiguration.html) object of the [UpdateIndex](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_UpdateIndex.html) API. If you haven't enabled searching on these attributes, you can't boost attributes of these data types on either the console or the API. For more information on how boosting document attributes work in Amazon Q Business, see [Boosting using document attributes](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/metadata-boosting.html).
-    public struct StringAttributeBoostingConfiguration: Swift.Equatable {
+    public struct StringAttributeBoostingConfiguration {
         /// Specifies specific values of a STRING type document attribute being boosted.
         public var attributeValueBoosting: [Swift.String:QBusinessClientTypes.StringAttributeValueBoostingLevel]?
         /// Specifies how much a document attribute is boosted.
@@ -12385,7 +12385,7 @@ extension QBusinessClientTypes.StringListAttributeBoostingConfiguration: Swift.C
 
 extension QBusinessClientTypes {
     /// Provides information on boosting STRING_LIST type document attributes. For STRING and STRING_LIST type document attributes to be used for boosting on the console and the API, they must be enabled for search using the [DocumentAttributeConfiguration](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentAttributeConfiguration.html) object of the [UpdateIndex](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_UpdateIndex.html) API. If you haven't enabled searching on these attributes, you can't boost attributes of these data types on either the console or the API. For more information on how boosting document attributes work in Amazon Q Business, see [Boosting using document attributes](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/metadata-boosting.html).
-    public struct StringListAttributeBoostingConfiguration: Swift.Equatable {
+    public struct StringListAttributeBoostingConfiguration {
         /// Specifies how much a document attribute is boosted.
         /// This member is required.
         public var boostingLevel: QBusinessClientTypes.DocumentAttributeBoostingLevel?
@@ -12427,7 +12427,7 @@ extension QBusinessClientTypes.Tag: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// A list of key/value pairs that identify an index, FAQ, or data source. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key for the tag. Keys are not case sensitive and must be unique for the Amazon Q Business application or data source.
         /// This member is required.
         public var key: Swift.String?
@@ -12473,7 +12473,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the Amazon Q Business application or data source to tag.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -12491,7 +12491,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [QBusinessClientTypes.Tag]?
 }
 
@@ -12521,7 +12521,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -12569,7 +12569,7 @@ extension QBusinessClientTypes.TextDocumentStatistics: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Provides information about text documents in an index.
-    public struct TextDocumentStatistics: Swift.Equatable {
+    public struct TextDocumentStatistics {
         /// The total size, in bytes, of the indexed documents.
         public var indexedTextBytes: Swift.Int?
         /// The number of text documents indexed.
@@ -12614,7 +12614,7 @@ extension QBusinessClientTypes.TextSegment: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Provides information about a text extract in a chat response that can be attributed to a source document.
-    public struct TextSegment: Swift.Equatable {
+    public struct TextSegment {
         /// The zero-based location in the response string where the source attribution starts.
         public var beginOffset: Swift.Int?
         /// The zero-based location in the response string where the source attribution ends.
@@ -12672,7 +12672,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -12751,7 +12751,7 @@ extension QBusinessClientTypes.TopicConfiguration: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// The topic specific controls configured for an Amazon Q Business application.
-    public struct TopicConfiguration: Swift.Equatable {
+    public struct TopicConfiguration {
         /// A description for your topic control configuration. Use this to outline how the large language model (LLM) should use this topic control configuration.
         public var description: Swift.String?
         /// A list of example phrases that you expect the end user to use in relation to the topic.
@@ -12805,7 +12805,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the Amazon Q Business application, or data source to remove the tag from.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -12823,7 +12823,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -12837,7 +12837,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -12892,7 +12892,7 @@ extension UpdateApplicationInput {
     }
 }
 
-public struct UpdateApplicationInput: Swift.Equatable {
+public struct UpdateApplicationInput {
     /// The identifier of the Amazon Q Business application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -12921,7 +12921,7 @@ public struct UpdateApplicationInput: Swift.Equatable {
     }
 }
 
-struct UpdateApplicationInputBody: Swift.Equatable {
+struct UpdateApplicationInputBody {
     let displayName: Swift.String?
     let description: Swift.String?
     let roleArn: Swift.String?
@@ -12954,7 +12954,7 @@ extension UpdateApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateApplicationOutput: Swift.Equatable {
+public struct UpdateApplicationOutput {
 
     public init() { }
 }
@@ -13024,7 +13024,7 @@ extension UpdateChatControlsConfigurationInput {
     }
 }
 
-public struct UpdateChatControlsConfigurationInput: Swift.Equatable {
+public struct UpdateChatControlsConfigurationInput {
     /// The identifier of the application for which the chat controls are configured.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -13061,7 +13061,7 @@ public struct UpdateChatControlsConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateChatControlsConfigurationInputBody: Swift.Equatable {
+struct UpdateChatControlsConfigurationInputBody {
     let clientToken: Swift.String?
     let responseScope: QBusinessClientTypes.ResponseScope?
     let blockedPhrasesConfigurationUpdate: QBusinessClientTypes.BlockedPhrasesConfigurationUpdate?
@@ -13120,7 +13120,7 @@ extension UpdateChatControlsConfigurationOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct UpdateChatControlsConfigurationOutput: Swift.Equatable {
+public struct UpdateChatControlsConfigurationOutput {
 
     public init() { }
 }
@@ -13195,7 +13195,7 @@ extension UpdateDataSourceInput {
     }
 }
 
-public struct UpdateDataSourceInput: Swift.Equatable {
+public struct UpdateDataSourceInput {
     /// The identifier of the Amazon Q Business application the data source is attached to.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -13246,7 +13246,7 @@ public struct UpdateDataSourceInput: Swift.Equatable {
     }
 }
 
-struct UpdateDataSourceInputBody: Swift.Equatable {
+struct UpdateDataSourceInputBody {
     let displayName: Swift.String?
     let configuration: ClientRuntime.Document?
     let vpcConfiguration: QBusinessClientTypes.DataSourceVpcConfiguration?
@@ -13291,7 +13291,7 @@ extension UpdateDataSourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDataSourceOutput: Swift.Equatable {
+public struct UpdateDataSourceOutput {
 
     public init() { }
 }
@@ -13353,7 +13353,7 @@ extension UpdateIndexInput {
     }
 }
 
-public struct UpdateIndexInput: Swift.Equatable {
+public struct UpdateIndexInput {
     /// The identifier of the Amazon Q Business application connected to the index.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -13387,7 +13387,7 @@ public struct UpdateIndexInput: Swift.Equatable {
     }
 }
 
-struct UpdateIndexInputBody: Swift.Equatable {
+struct UpdateIndexInputBody {
     let displayName: Swift.String?
     let description: Swift.String?
     let capacityConfiguration: QBusinessClientTypes.IndexCapacityConfiguration?
@@ -13429,7 +13429,7 @@ extension UpdateIndexOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateIndexOutput: Swift.Equatable {
+public struct UpdateIndexOutput {
 
     public init() { }
 }
@@ -13489,7 +13489,7 @@ extension UpdatePluginInput {
     }
 }
 
-public struct UpdatePluginInput: Swift.Equatable {
+public struct UpdatePluginInput {
     /// The identifier of the application the plugin is attached to.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -13523,7 +13523,7 @@ public struct UpdatePluginInput: Swift.Equatable {
     }
 }
 
-struct UpdatePluginInputBody: Swift.Equatable {
+struct UpdatePluginInputBody {
     let displayName: Swift.String?
     let state: QBusinessClientTypes.PluginState?
     let serverUrl: Swift.String?
@@ -13556,7 +13556,7 @@ extension UpdatePluginOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePluginOutput: Swift.Equatable {
+public struct UpdatePluginOutput {
 
     public init() { }
 }
@@ -13612,7 +13612,7 @@ extension UpdateRetrieverInput {
     }
 }
 
-public struct UpdateRetrieverInput: Swift.Equatable {
+public struct UpdateRetrieverInput {
     /// The identifier of your Amazon Q Business application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -13642,7 +13642,7 @@ public struct UpdateRetrieverInput: Swift.Equatable {
     }
 }
 
-struct UpdateRetrieverInputBody: Swift.Equatable {
+struct UpdateRetrieverInputBody {
     let configuration: QBusinessClientTypes.RetrieverConfiguration?
     let displayName: Swift.String?
     let roleArn: Swift.String?
@@ -13671,7 +13671,7 @@ extension UpdateRetrieverOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateRetrieverOutput: Swift.Equatable {
+public struct UpdateRetrieverOutput {
 
     public init() { }
 }
@@ -13729,7 +13729,7 @@ extension UpdateUserInput {
     }
 }
 
-public struct UpdateUserInput: Swift.Equatable {
+public struct UpdateUserInput {
     /// The identifier of the application the user is attached to.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -13755,7 +13755,7 @@ public struct UpdateUserInput: Swift.Equatable {
     }
 }
 
-struct UpdateUserInputBody: Swift.Equatable {
+struct UpdateUserInputBody {
     let userAliasesToUpdate: [QBusinessClientTypes.UserAlias]?
     let userAliasesToDelete: [QBusinessClientTypes.UserAlias]?
 }
@@ -13809,7 +13809,7 @@ extension UpdateUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateUserOutput: Swift.Equatable {
+public struct UpdateUserOutput {
     /// The user aliases that have been to be added to a user id.
     public var userAliasesAdded: [QBusinessClientTypes.UserAlias]?
     /// The user aliases that have been deleted from a user id.
@@ -13829,7 +13829,7 @@ public struct UpdateUserOutput: Swift.Equatable {
     }
 }
 
-struct UpdateUserOutputBody: Swift.Equatable {
+struct UpdateUserOutputBody {
     let userAliasesAdded: [QBusinessClientTypes.UserAlias]?
     let userAliasesUpdated: [QBusinessClientTypes.UserAlias]?
     let userAliasesDeleted: [QBusinessClientTypes.UserAlias]?
@@ -13938,7 +13938,7 @@ extension UpdateWebExperienceInput {
     }
 }
 
-public struct UpdateWebExperienceInput: Swift.Equatable {
+public struct UpdateWebExperienceInput {
     /// The identifier of the Amazon Q Business application attached to the web experience.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -13976,7 +13976,7 @@ public struct UpdateWebExperienceInput: Swift.Equatable {
     }
 }
 
-struct UpdateWebExperienceInputBody: Swift.Equatable {
+struct UpdateWebExperienceInputBody {
     let authenticationConfiguration: QBusinessClientTypes.WebExperienceAuthConfiguration?
     let title: Swift.String?
     let subtitle: Swift.String?
@@ -14013,7 +14013,7 @@ extension UpdateWebExperienceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateWebExperienceOutput: Swift.Equatable {
+public struct UpdateWebExperienceOutput {
 
     public init() { }
 }
@@ -14067,7 +14067,7 @@ extension QBusinessClientTypes.UserAlias: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Aliases attached to a user id within an Amazon Q Business application.
-    public struct UserAlias: Swift.Equatable {
+    public struct UserAlias {
         /// The identifier of the data source that the user aliases are associated with.
         public var dataSourceId: Swift.String?
         /// The identifier of the index that the user aliases are associated with.
@@ -14141,7 +14141,7 @@ extension QBusinessClientTypes.UsersAndGroups: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Provides information about users and groups associated with a topic control rule.
-    public struct UsersAndGroups: Swift.Equatable {
+    public struct UsersAndGroups {
         /// The user groups associated with a topic control rule.
         public var userGroups: [Swift.String]?
         /// The user ids associated with a topic control rule.
@@ -14213,7 +14213,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let reason: QBusinessClientTypes.ValidationExceptionReason?
     let fields: [QBusinessClientTypes.ValidationExceptionField]?
@@ -14273,7 +14273,7 @@ extension QBusinessClientTypes.ValidationExceptionField: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// The input failed to meet the constraints specified by Amazon Q Business in a specified field.
-    public struct ValidationExceptionField: Swift.Equatable {
+    public struct ValidationExceptionField {
         /// A message about the validation exception.
         /// This member is required.
         public var message: Swift.String?
@@ -14373,7 +14373,7 @@ extension QBusinessClientTypes.WebExperience: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Provides information for an Amazon Q Business web experience.
-    public struct WebExperience: Swift.Equatable {
+    public struct WebExperience {
         /// The Unix timestamp when the Amazon Q Business application was last updated.
         public var createdAt: ClientRuntime.Date?
         /// The endpoint URLs for your Amazon Q Business web experience. The URLs are unique and fully hosted by Amazon Web Services.
@@ -14432,7 +14432,7 @@ extension QBusinessClientTypes.WebExperienceAuthConfiguration: Swift.Codable {
 
 extension QBusinessClientTypes {
     /// Provides the authorization configuration information needed to deploy a Amazon Q Business web experience to end users.
-    public enum WebExperienceAuthConfiguration: Swift.Equatable {
+    public enum WebExperienceAuthConfiguration {
         /// Provides the SAML 2.0 compliant identity provider (IdP) configuration information Amazon Q Business needs to deploy a Amazon Q Business web experience.
         case samlconfiguration(QBusinessClientTypes.SamlConfiguration)
         case sdkUnknown(Swift.String)

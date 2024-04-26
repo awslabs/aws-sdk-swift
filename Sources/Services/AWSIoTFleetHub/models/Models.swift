@@ -100,7 +100,7 @@ extension IoTFleetHubClientTypes.ApplicationSummary: Swift.Codable {
 
 extension IoTFleetHubClientTypes {
     /// A summary of information about a Fleet Hub for IoT Device Management web application.
-    public struct ApplicationSummary: Swift.Equatable {
+    public struct ApplicationSummary {
         /// The date (in Unix epoch time) when the web application was created.
         public var applicationCreationDate: Swift.Int
         /// An optional description of the web application.
@@ -180,7 +180,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -235,7 +235,7 @@ extension CreateApplicationInput {
     }
 }
 
-public struct CreateApplicationInput: Swift.Equatable {
+public struct CreateApplicationInput {
     /// An optional description of the web application.
     public var applicationDescription: Swift.String?
     /// The name of the web application.
@@ -265,7 +265,7 @@ public struct CreateApplicationInput: Swift.Equatable {
     }
 }
 
-struct CreateApplicationInputBody: Swift.Equatable {
+struct CreateApplicationInputBody {
     let applicationName: Swift.String?
     let applicationDescription: Swift.String?
     let clientToken: Swift.String?
@@ -320,7 +320,7 @@ extension CreateApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateApplicationOutput: Swift.Equatable {
+public struct CreateApplicationOutput {
     /// The ARN of the web application.
     /// This member is required.
     public var applicationArn: Swift.String?
@@ -338,7 +338,7 @@ public struct CreateApplicationOutput: Swift.Equatable {
     }
 }
 
-struct CreateApplicationOutputBody: Swift.Equatable {
+struct CreateApplicationOutputBody {
     let applicationId: Swift.String?
     let applicationArn: Swift.String?
 }
@@ -394,7 +394,7 @@ extension DeleteApplicationInput {
     }
 }
 
-public struct DeleteApplicationInput: Swift.Equatable {
+public struct DeleteApplicationInput {
     /// The unique Id of the web application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -411,7 +411,7 @@ public struct DeleteApplicationInput: Swift.Equatable {
     }
 }
 
-struct DeleteApplicationInputBody: Swift.Equatable {
+struct DeleteApplicationInputBody {
 }
 
 extension DeleteApplicationInputBody: Swift.Decodable {
@@ -425,7 +425,7 @@ extension DeleteApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteApplicationOutput: Swift.Equatable {
+public struct DeleteApplicationOutput {
 
     public init() { }
 }
@@ -454,7 +454,7 @@ extension DescribeApplicationInput {
     }
 }
 
-public struct DescribeApplicationInput: Swift.Equatable {
+public struct DescribeApplicationInput {
     /// The unique Id of the web application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -467,7 +467,7 @@ public struct DescribeApplicationInput: Swift.Equatable {
     }
 }
 
-struct DescribeApplicationInputBody: Swift.Equatable {
+struct DescribeApplicationInputBody {
 }
 
 extension DescribeApplicationInputBody: Swift.Decodable {
@@ -510,7 +510,7 @@ extension DescribeApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeApplicationOutput: Swift.Equatable {
+public struct DescribeApplicationOutput {
     /// The ARN of the web application.
     /// This member is required.
     public var applicationArn: Swift.String?
@@ -574,7 +574,7 @@ public struct DescribeApplicationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeApplicationOutputBody: Swift.Equatable {
+struct DescribeApplicationOutputBody {
     let applicationId: Swift.String?
     let applicationArn: Swift.String?
     let applicationName: Swift.String?
@@ -696,7 +696,7 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InternalFailureExceptionBody: Swift.Equatable {
+struct InternalFailureExceptionBody {
     let message: Swift.String?
 }
 
@@ -751,7 +751,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InvalidRequestExceptionBody: Swift.Equatable {
+struct InvalidRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -808,7 +808,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -843,7 +843,7 @@ extension ListApplicationsInput {
     }
 }
 
-public struct ListApplicationsInput: Swift.Equatable {
+public struct ListApplicationsInput {
     /// A token used to get the next set of results.
     public var nextToken: Swift.String?
 
@@ -855,7 +855,7 @@ public struct ListApplicationsInput: Swift.Equatable {
     }
 }
 
-struct ListApplicationsInputBody: Swift.Equatable {
+struct ListApplicationsInputBody {
 }
 
 extension ListApplicationsInputBody: Swift.Decodable {
@@ -878,7 +878,7 @@ extension ListApplicationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListApplicationsOutput: Swift.Equatable {
+public struct ListApplicationsOutput {
     /// An array of objects that provide summaries of information about the web applications in the list.
     public var applicationSummaries: [IoTFleetHubClientTypes.ApplicationSummary]?
     /// A token used to get the next set of results.
@@ -894,7 +894,7 @@ public struct ListApplicationsOutput: Swift.Equatable {
     }
 }
 
-struct ListApplicationsOutputBody: Swift.Equatable {
+struct ListApplicationsOutputBody {
     let applicationSummaries: [IoTFleetHubClientTypes.ApplicationSummary]?
     let nextToken: Swift.String?
 }
@@ -946,7 +946,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The ARN of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -959,7 +959,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -980,7 +980,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The list of tags assigned to the resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -992,7 +992,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -1069,7 +1069,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -1111,7 +1111,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The ARN of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -1129,7 +1129,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -1159,7 +1159,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -1216,7 +1216,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -1258,7 +1258,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The ARN of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -1276,7 +1276,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -1290,7 +1290,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -1339,7 +1339,7 @@ extension UpdateApplicationInput {
     }
 }
 
-public struct UpdateApplicationInput: Swift.Equatable {
+public struct UpdateApplicationInput {
     /// An optional description of the web application.
     public var applicationDescription: Swift.String?
     /// The unique Id of the web application.
@@ -1364,7 +1364,7 @@ public struct UpdateApplicationInput: Swift.Equatable {
     }
 }
 
-struct UpdateApplicationInputBody: Swift.Equatable {
+struct UpdateApplicationInputBody {
     let applicationName: Swift.String?
     let applicationDescription: Swift.String?
     let clientToken: Swift.String?
@@ -1393,7 +1393,7 @@ extension UpdateApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateApplicationOutput: Swift.Equatable {
+public struct UpdateApplicationOutput {
 
     public init() { }
 }

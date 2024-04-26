@@ -49,7 +49,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct BadRequestExceptionBody: Swift.Equatable {
+struct BadRequestExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
 }
@@ -151,7 +151,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
 }
@@ -206,7 +206,7 @@ extension CreateDiscovererInput {
     }
 }
 
-public struct CreateDiscovererInput: Swift.Equatable {
+public struct CreateDiscovererInput {
     /// Support discovery of schemas in events sent to the bus from another account. (default: true).
     public var crossAccount: Swift.Bool?
     /// A description for the discoverer.
@@ -231,7 +231,7 @@ public struct CreateDiscovererInput: Swift.Equatable {
     }
 }
 
-struct CreateDiscovererInputBody: Swift.Equatable {
+struct CreateDiscovererInputBody {
     let description: Swift.String?
     let sourceArn: Swift.String?
     let crossAccount: Swift.Bool?
@@ -292,7 +292,7 @@ extension CreateDiscovererOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDiscovererOutput: Swift.Equatable {
+public struct CreateDiscovererOutput {
     /// The Status if the discoverer will discover schemas from events sent from another account.
     public var crossAccount: Swift.Bool?
     /// The description of the discoverer.
@@ -328,7 +328,7 @@ public struct CreateDiscovererOutput: Swift.Equatable {
     }
 }
 
-struct CreateDiscovererOutputBody: Swift.Equatable {
+struct CreateDiscovererOutputBody {
     let description: Swift.String?
     let discovererArn: Swift.String?
     let discovererId: Swift.String?
@@ -423,7 +423,7 @@ extension CreateRegistryInput {
     }
 }
 
-public struct CreateRegistryInput: Swift.Equatable {
+public struct CreateRegistryInput {
     /// A description of the registry to be created.
     public var description: Swift.String?
     /// The name of the registry.
@@ -444,7 +444,7 @@ public struct CreateRegistryInput: Swift.Equatable {
     }
 }
 
-struct CreateRegistryInputBody: Swift.Equatable {
+struct CreateRegistryInputBody {
     let description: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
@@ -491,7 +491,7 @@ extension CreateRegistryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRegistryOutput: Swift.Equatable {
+public struct CreateRegistryOutput {
     /// The description of the registry.
     public var description: Swift.String?
     /// The ARN of the registry.
@@ -515,7 +515,7 @@ public struct CreateRegistryOutput: Swift.Equatable {
     }
 }
 
-struct CreateRegistryOutputBody: Swift.Equatable {
+struct CreateRegistryOutputBody {
     let description: Swift.String?
     let registryArn: Swift.String?
     let registryName: Swift.String?
@@ -609,7 +609,7 @@ extension CreateSchemaInput {
     }
 }
 
-public struct CreateSchemaInput: Swift.Equatable {
+public struct CreateSchemaInput {
     /// The source of the schema definition.
     /// This member is required.
     public var content: Swift.String?
@@ -645,7 +645,7 @@ public struct CreateSchemaInput: Swift.Equatable {
     }
 }
 
-struct CreateSchemaInputBody: Swift.Equatable {
+struct CreateSchemaInputBody {
     let content: Swift.String?
     let description: Swift.String?
     let tags: [Swift.String:Swift.String]?
@@ -708,7 +708,7 @@ extension CreateSchemaOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSchemaOutput: Swift.Equatable {
+public struct CreateSchemaOutput {
     /// The description of the schema.
     public var description: Swift.String?
     /// The date and time that schema was modified.
@@ -748,7 +748,7 @@ public struct CreateSchemaOutput: Swift.Equatable {
     }
 }
 
-struct CreateSchemaOutputBody: Swift.Equatable {
+struct CreateSchemaOutputBody {
     let description: Swift.String?
     let lastModified: ClientRuntime.Date?
     let schemaArn: Swift.String?
@@ -825,7 +825,7 @@ extension DeleteDiscovererInput {
     }
 }
 
-public struct DeleteDiscovererInput: Swift.Equatable {
+public struct DeleteDiscovererInput {
     /// The ID of the discoverer.
     /// This member is required.
     public var discovererId: Swift.String?
@@ -838,7 +838,7 @@ public struct DeleteDiscovererInput: Swift.Equatable {
     }
 }
 
-struct DeleteDiscovererInputBody: Swift.Equatable {
+struct DeleteDiscovererInputBody {
 }
 
 extension DeleteDiscovererInputBody: Swift.Decodable {
@@ -852,7 +852,7 @@ extension DeleteDiscovererOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDiscovererOutput: Swift.Equatable {
+public struct DeleteDiscovererOutput {
 
     public init() { }
 }
@@ -883,7 +883,7 @@ extension DeleteRegistryInput {
     }
 }
 
-public struct DeleteRegistryInput: Swift.Equatable {
+public struct DeleteRegistryInput {
     /// The name of the registry.
     /// This member is required.
     public var registryName: Swift.String?
@@ -896,7 +896,7 @@ public struct DeleteRegistryInput: Swift.Equatable {
     }
 }
 
-struct DeleteRegistryInputBody: Swift.Equatable {
+struct DeleteRegistryInputBody {
 }
 
 extension DeleteRegistryInputBody: Swift.Decodable {
@@ -910,7 +910,7 @@ extension DeleteRegistryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRegistryOutput: Swift.Equatable {
+public struct DeleteRegistryOutput {
 
     public init() { }
 }
@@ -950,7 +950,7 @@ extension DeleteResourcePolicyInput {
     }
 }
 
-public struct DeleteResourcePolicyInput: Swift.Equatable {
+public struct DeleteResourcePolicyInput {
     /// The name of the registry.
     public var registryName: Swift.String?
 
@@ -962,7 +962,7 @@ public struct DeleteResourcePolicyInput: Swift.Equatable {
     }
 }
 
-struct DeleteResourcePolicyInputBody: Swift.Equatable {
+struct DeleteResourcePolicyInputBody {
 }
 
 extension DeleteResourcePolicyInputBody: Swift.Decodable {
@@ -976,7 +976,7 @@ extension DeleteResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteResourcePolicyOutput: Swift.Equatable {
+public struct DeleteResourcePolicyOutput {
 
     public init() { }
 }
@@ -1010,7 +1010,7 @@ extension DeleteSchemaInput {
     }
 }
 
-public struct DeleteSchemaInput: Swift.Equatable {
+public struct DeleteSchemaInput {
     /// The name of the registry.
     /// This member is required.
     public var registryName: Swift.String?
@@ -1028,7 +1028,7 @@ public struct DeleteSchemaInput: Swift.Equatable {
     }
 }
 
-struct DeleteSchemaInputBody: Swift.Equatable {
+struct DeleteSchemaInputBody {
 }
 
 extension DeleteSchemaInputBody: Swift.Decodable {
@@ -1042,7 +1042,7 @@ extension DeleteSchemaOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSchemaOutput: Swift.Equatable {
+public struct DeleteSchemaOutput {
 
     public init() { }
 }
@@ -1079,7 +1079,7 @@ extension DeleteSchemaVersionInput {
     }
 }
 
-public struct DeleteSchemaVersionInput: Swift.Equatable {
+public struct DeleteSchemaVersionInput {
     /// The name of the registry.
     /// This member is required.
     public var registryName: Swift.String?
@@ -1102,7 +1102,7 @@ public struct DeleteSchemaVersionInput: Swift.Equatable {
     }
 }
 
-struct DeleteSchemaVersionInputBody: Swift.Equatable {
+struct DeleteSchemaVersionInputBody {
 }
 
 extension DeleteSchemaVersionInputBody: Swift.Decodable {
@@ -1116,7 +1116,7 @@ extension DeleteSchemaVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSchemaVersionOutput: Swift.Equatable {
+public struct DeleteSchemaVersionOutput {
 
     public init() { }
 }
@@ -1165,7 +1165,7 @@ extension DescribeCodeBindingInput {
     }
 }
 
-public struct DescribeCodeBindingInput: Swift.Equatable {
+public struct DescribeCodeBindingInput {
     /// The language of the code binding.
     /// This member is required.
     public var language: Swift.String?
@@ -1192,7 +1192,7 @@ public struct DescribeCodeBindingInput: Swift.Equatable {
     }
 }
 
-struct DescribeCodeBindingInputBody: Swift.Equatable {
+struct DescribeCodeBindingInputBody {
 }
 
 extension DescribeCodeBindingInputBody: Swift.Decodable {
@@ -1219,7 +1219,7 @@ extension DescribeCodeBindingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeCodeBindingOutput: Swift.Equatable {
+public struct DescribeCodeBindingOutput {
     /// The time and date that the code binding was created.
     public var creationDate: ClientRuntime.Date?
     /// The date and time that code bindings were modified.
@@ -1243,7 +1243,7 @@ public struct DescribeCodeBindingOutput: Swift.Equatable {
     }
 }
 
-struct DescribeCodeBindingOutputBody: Swift.Equatable {
+struct DescribeCodeBindingOutputBody {
     let creationDate: ClientRuntime.Date?
     let lastModified: ClientRuntime.Date?
     let schemaVersion: Swift.String?
@@ -1297,7 +1297,7 @@ extension DescribeDiscovererInput {
     }
 }
 
-public struct DescribeDiscovererInput: Swift.Equatable {
+public struct DescribeDiscovererInput {
     /// The ID of the discoverer.
     /// This member is required.
     public var discovererId: Swift.String?
@@ -1310,7 +1310,7 @@ public struct DescribeDiscovererInput: Swift.Equatable {
     }
 }
 
-struct DescribeDiscovererInputBody: Swift.Equatable {
+struct DescribeDiscovererInputBody {
 }
 
 extension DescribeDiscovererInputBody: Swift.Decodable {
@@ -1343,7 +1343,7 @@ extension DescribeDiscovererOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDiscovererOutput: Swift.Equatable {
+public struct DescribeDiscovererOutput {
     /// The Status if the discoverer will discover schemas from events sent from another account.
     public var crossAccount: Swift.Bool?
     /// The description of the discoverer.
@@ -1379,7 +1379,7 @@ public struct DescribeDiscovererOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDiscovererOutputBody: Swift.Equatable {
+struct DescribeDiscovererOutputBody {
     let description: Swift.String?
     let discovererArn: Swift.String?
     let discovererId: Swift.String?
@@ -1454,7 +1454,7 @@ extension DescribeRegistryInput {
     }
 }
 
-public struct DescribeRegistryInput: Swift.Equatable {
+public struct DescribeRegistryInput {
     /// The name of the registry.
     /// This member is required.
     public var registryName: Swift.String?
@@ -1467,7 +1467,7 @@ public struct DescribeRegistryInput: Swift.Equatable {
     }
 }
 
-struct DescribeRegistryInputBody: Swift.Equatable {
+struct DescribeRegistryInputBody {
 }
 
 extension DescribeRegistryInputBody: Swift.Decodable {
@@ -1494,7 +1494,7 @@ extension DescribeRegistryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeRegistryOutput: Swift.Equatable {
+public struct DescribeRegistryOutput {
     /// The description of the registry.
     public var description: Swift.String?
     /// The ARN of the registry.
@@ -1518,7 +1518,7 @@ public struct DescribeRegistryOutput: Swift.Equatable {
     }
 }
 
-struct DescribeRegistryOutputBody: Swift.Equatable {
+struct DescribeRegistryOutputBody {
     let description: Swift.String?
     let registryArn: Swift.String?
     let registryName: Swift.String?
@@ -1596,7 +1596,7 @@ extension DescribeSchemaInput {
     }
 }
 
-public struct DescribeSchemaInput: Swift.Equatable {
+public struct DescribeSchemaInput {
     /// The name of the registry.
     /// This member is required.
     public var registryName: Swift.String?
@@ -1618,7 +1618,7 @@ public struct DescribeSchemaInput: Swift.Equatable {
     }
 }
 
-struct DescribeSchemaInputBody: Swift.Equatable {
+struct DescribeSchemaInputBody {
 }
 
 extension DescribeSchemaInputBody: Swift.Decodable {
@@ -1655,7 +1655,7 @@ extension DescribeSchemaOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeSchemaOutput: Swift.Equatable {
+public struct DescribeSchemaOutput {
     /// The source of the schema definition.
     public var content: Swift.String?
     /// The description of the schema.
@@ -1699,7 +1699,7 @@ public struct DescribeSchemaOutput: Swift.Equatable {
     }
 }
 
-struct DescribeSchemaOutputBody: Swift.Equatable {
+struct DescribeSchemaOutputBody {
     let content: Swift.String?
     let description: Swift.String?
     let lastModified: ClientRuntime.Date?
@@ -1866,7 +1866,7 @@ extension SchemasClientTypes.DiscovererSummary: Swift.Codable {
 }
 
 extension SchemasClientTypes {
-    public struct DiscovererSummary: Swift.Equatable {
+    public struct DiscovererSummary {
         /// The Status if the discoverer will discover schemas from events sent from another account.
         public var crossAccount: Swift.Bool?
         /// The ARN of the discoverer.
@@ -1931,7 +1931,7 @@ extension ExportSchemaInput {
     }
 }
 
-public struct ExportSchemaInput: Swift.Equatable {
+public struct ExportSchemaInput {
     /// The name of the registry.
     /// This member is required.
     public var registryName: Swift.String?
@@ -1957,7 +1957,7 @@ public struct ExportSchemaInput: Swift.Equatable {
     }
 }
 
-struct ExportSchemaInputBody: Swift.Equatable {
+struct ExportSchemaInputBody {
 }
 
 extension ExportSchemaInputBody: Swift.Decodable {
@@ -1986,7 +1986,7 @@ extension ExportSchemaOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ExportSchemaOutput: Swift.Equatable {
+public struct ExportSchemaOutput {
     public var content: Swift.String?
     public var schemaArn: Swift.String?
     public var schemaName: Swift.String?
@@ -2009,7 +2009,7 @@ public struct ExportSchemaOutput: Swift.Equatable {
     }
 }
 
-struct ExportSchemaOutputBody: Swift.Equatable {
+struct ExportSchemaOutputBody {
     let content: Swift.String?
     let schemaArn: Swift.String?
     let schemaName: Swift.String?
@@ -2105,7 +2105,7 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
     }
 }
 
-struct ForbiddenExceptionBody: Swift.Equatable {
+struct ForbiddenExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
 }
@@ -2153,7 +2153,7 @@ extension GetCodeBindingSourceInput {
     }
 }
 
-public struct GetCodeBindingSourceInput: Swift.Equatable {
+public struct GetCodeBindingSourceInput {
     /// The language of the code binding.
     /// This member is required.
     public var language: Swift.String?
@@ -2180,7 +2180,7 @@ public struct GetCodeBindingSourceInput: Swift.Equatable {
     }
 }
 
-struct GetCodeBindingSourceInputBody: Swift.Equatable {
+struct GetCodeBindingSourceInputBody {
 }
 
 extension GetCodeBindingSourceInputBody: Swift.Decodable {
@@ -2202,7 +2202,7 @@ extension GetCodeBindingSourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCodeBindingSourceOutput: Swift.Equatable {
+public struct GetCodeBindingSourceOutput {
     public var body: ClientRuntime.Data?
 
     public init(
@@ -2213,7 +2213,7 @@ public struct GetCodeBindingSourceOutput: Swift.Equatable {
     }
 }
 
-struct GetCodeBindingSourceOutputBody: Swift.Equatable {
+struct GetCodeBindingSourceOutputBody {
     let body: ClientRuntime.Data?
 }
 
@@ -2272,7 +2272,7 @@ extension GetDiscoveredSchemaInput {
     }
 }
 
-public struct GetDiscoveredSchemaInput: Swift.Equatable {
+public struct GetDiscoveredSchemaInput {
     /// An array of strings where each string is a JSON event. These are the events that were used to generate the schema. The array includes a single type of event and has a maximum size of 10 events.
     /// This member is required.
     public var events: [Swift.String]?
@@ -2290,7 +2290,7 @@ public struct GetDiscoveredSchemaInput: Swift.Equatable {
     }
 }
 
-struct GetDiscoveredSchemaInputBody: Swift.Equatable {
+struct GetDiscoveredSchemaInputBody {
     let events: [Swift.String]?
     let type: SchemasClientTypes.ModelType?
 }
@@ -2331,7 +2331,7 @@ extension GetDiscoveredSchemaOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDiscoveredSchemaOutput: Swift.Equatable {
+public struct GetDiscoveredSchemaOutput {
     /// The source of the schema definition.
     public var content: Swift.String?
 
@@ -2343,7 +2343,7 @@ public struct GetDiscoveredSchemaOutput: Swift.Equatable {
     }
 }
 
-struct GetDiscoveredSchemaOutputBody: Swift.Equatable {
+struct GetDiscoveredSchemaOutputBody {
     let content: Swift.String?
 }
 
@@ -2393,7 +2393,7 @@ extension GetResourcePolicyInput {
     }
 }
 
-public struct GetResourcePolicyInput: Swift.Equatable {
+public struct GetResourcePolicyInput {
     /// The name of the registry.
     public var registryName: Swift.String?
 
@@ -2405,7 +2405,7 @@ public struct GetResourcePolicyInput: Swift.Equatable {
     }
 }
 
-struct GetResourcePolicyInputBody: Swift.Equatable {
+struct GetResourcePolicyInputBody {
 }
 
 extension GetResourcePolicyInputBody: Swift.Decodable {
@@ -2428,7 +2428,7 @@ extension GetResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetResourcePolicyOutput: Swift.Equatable {
+public struct GetResourcePolicyOutput {
     /// The resource-based policy.
     public var policy: Swift.String?
     /// The revision ID.
@@ -2444,7 +2444,7 @@ public struct GetResourcePolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetResourcePolicyOutputBody: Swift.Equatable {
+struct GetResourcePolicyOutputBody {
     let policy: Swift.String?
     let revisionId: Swift.String?
 }
@@ -2527,7 +2527,7 @@ public struct GoneException: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
     }
 }
 
-struct GoneExceptionBody: Swift.Equatable {
+struct GoneExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
 }
@@ -2594,7 +2594,7 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct InternalServerErrorExceptionBody: Swift.Equatable {
+struct InternalServerErrorExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
 }
@@ -2645,7 +2645,7 @@ extension ListDiscoverersInput {
     }
 }
 
-public struct ListDiscoverersInput: Swift.Equatable {
+public struct ListDiscoverersInput {
     /// Specifying this limits the results to only those discoverer IDs that start with the specified prefix.
     public var discovererIdPrefix: Swift.String?
     public var limit: Swift.Int?
@@ -2668,7 +2668,7 @@ public struct ListDiscoverersInput: Swift.Equatable {
     }
 }
 
-struct ListDiscoverersInputBody: Swift.Equatable {
+struct ListDiscoverersInputBody {
 }
 
 extension ListDiscoverersInputBody: Swift.Decodable {
@@ -2691,7 +2691,7 @@ extension ListDiscoverersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDiscoverersOutput: Swift.Equatable {
+public struct ListDiscoverersOutput {
     /// An array of DiscovererSummary information.
     public var discoverers: [SchemasClientTypes.DiscovererSummary]?
     /// The token that specifies the next page of results to return. To request the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared with other accounts.
@@ -2707,7 +2707,7 @@ public struct ListDiscoverersOutput: Swift.Equatable {
     }
 }
 
-struct ListDiscoverersOutputBody: Swift.Equatable {
+struct ListDiscoverersOutputBody {
     let discoverers: [SchemasClientTypes.DiscovererSummary]?
     let nextToken: Swift.String?
 }
@@ -2782,7 +2782,7 @@ extension ListRegistriesInput {
     }
 }
 
-public struct ListRegistriesInput: Swift.Equatable {
+public struct ListRegistriesInput {
     public var limit: Swift.Int?
     /// The token that specifies the next page of results to return. To request the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared with other accounts.
     public var nextToken: Swift.String?
@@ -2805,7 +2805,7 @@ public struct ListRegistriesInput: Swift.Equatable {
     }
 }
 
-struct ListRegistriesInputBody: Swift.Equatable {
+struct ListRegistriesInputBody {
 }
 
 extension ListRegistriesInputBody: Swift.Decodable {
@@ -2828,7 +2828,7 @@ extension ListRegistriesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRegistriesOutput: Swift.Equatable {
+public struct ListRegistriesOutput {
     /// The token that specifies the next page of results to return. To request the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared with other accounts.
     public var nextToken: Swift.String?
     /// An array of registry summaries.
@@ -2844,7 +2844,7 @@ public struct ListRegistriesOutput: Swift.Equatable {
     }
 }
 
-struct ListRegistriesOutputBody: Swift.Equatable {
+struct ListRegistriesOutputBody {
     let nextToken: Swift.String?
     let registries: [SchemasClientTypes.RegistrySummary]?
 }
@@ -2917,7 +2917,7 @@ extension ListSchemaVersionsInput {
     }
 }
 
-public struct ListSchemaVersionsInput: Swift.Equatable {
+public struct ListSchemaVersionsInput {
     public var limit: Swift.Int?
     /// The token that specifies the next page of results to return. To request the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared with other accounts.
     public var nextToken: Swift.String?
@@ -2942,7 +2942,7 @@ public struct ListSchemaVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListSchemaVersionsInputBody: Swift.Equatable {
+struct ListSchemaVersionsInputBody {
 }
 
 extension ListSchemaVersionsInputBody: Swift.Decodable {
@@ -2965,7 +2965,7 @@ extension ListSchemaVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSchemaVersionsOutput: Swift.Equatable {
+public struct ListSchemaVersionsOutput {
     /// The token that specifies the next page of results to return. To request the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared with other accounts.
     public var nextToken: Swift.String?
     /// An array of schema version summaries.
@@ -2981,7 +2981,7 @@ public struct ListSchemaVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListSchemaVersionsOutputBody: Swift.Equatable {
+struct ListSchemaVersionsOutputBody {
     let nextToken: Swift.String?
     let schemaVersions: [SchemasClientTypes.SchemaVersionSummary]?
 }
@@ -3056,7 +3056,7 @@ extension ListSchemasInput {
     }
 }
 
-public struct ListSchemasInput: Swift.Equatable {
+public struct ListSchemasInput {
     public var limit: Swift.Int?
     /// The token that specifies the next page of results to return. To request the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared with other accounts.
     public var nextToken: Swift.String?
@@ -3080,7 +3080,7 @@ public struct ListSchemasInput: Swift.Equatable {
     }
 }
 
-struct ListSchemasInputBody: Swift.Equatable {
+struct ListSchemasInputBody {
 }
 
 extension ListSchemasInputBody: Swift.Decodable {
@@ -3103,7 +3103,7 @@ extension ListSchemasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSchemasOutput: Swift.Equatable {
+public struct ListSchemasOutput {
     /// The token that specifies the next page of results to return. To request the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared with other accounts.
     public var nextToken: Swift.String?
     /// An array of schema summaries.
@@ -3119,7 +3119,7 @@ public struct ListSchemasOutput: Swift.Equatable {
     }
 }
 
-struct ListSchemasOutputBody: Swift.Equatable {
+struct ListSchemasOutputBody {
     let nextToken: Swift.String?
     let schemas: [SchemasClientTypes.SchemaSummary]?
 }
@@ -3173,7 +3173,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The ARN of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3186,7 +3186,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -3207,7 +3207,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// Key-value pairs associated with a resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -3219,7 +3219,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -3305,7 +3305,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct NotFoundExceptionBody: Swift.Equatable {
+struct NotFoundExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
 }
@@ -3372,7 +3372,7 @@ public struct PreconditionFailedException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct PreconditionFailedExceptionBody: Swift.Equatable {
+struct PreconditionFailedExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
 }
@@ -3420,7 +3420,7 @@ extension PutCodeBindingInput {
     }
 }
 
-public struct PutCodeBindingInput: Swift.Equatable {
+public struct PutCodeBindingInput {
     /// The language of the code binding.
     /// This member is required.
     public var language: Swift.String?
@@ -3447,7 +3447,7 @@ public struct PutCodeBindingInput: Swift.Equatable {
     }
 }
 
-struct PutCodeBindingInputBody: Swift.Equatable {
+struct PutCodeBindingInputBody {
 }
 
 extension PutCodeBindingInputBody: Swift.Decodable {
@@ -3474,7 +3474,7 @@ extension PutCodeBindingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutCodeBindingOutput: Swift.Equatable {
+public struct PutCodeBindingOutput {
     /// The time and date that the code binding was created.
     public var creationDate: ClientRuntime.Date?
     /// The date and time that code bindings were modified.
@@ -3498,7 +3498,7 @@ public struct PutCodeBindingOutput: Swift.Equatable {
     }
 }
 
-struct PutCodeBindingOutputBody: Swift.Equatable {
+struct PutCodeBindingOutputBody {
     let creationDate: ClientRuntime.Date?
     let lastModified: ClientRuntime.Date?
     let schemaVersion: Swift.String?
@@ -3580,7 +3580,7 @@ extension PutResourcePolicyInput {
 }
 
 /// The name of the policy.
-public struct PutResourcePolicyInput: Swift.Equatable {
+public struct PutResourcePolicyInput {
     /// The resource-based policy.
     /// This member is required.
     public var policy: Swift.String?
@@ -3601,7 +3601,7 @@ public struct PutResourcePolicyInput: Swift.Equatable {
     }
 }
 
-struct PutResourcePolicyInputBody: Swift.Equatable {
+struct PutResourcePolicyInputBody {
     let policy: Swift.String?
     let revisionId: Swift.String?
 }
@@ -3635,7 +3635,7 @@ extension PutResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutResourcePolicyOutput: Swift.Equatable {
+public struct PutResourcePolicyOutput {
     /// The resource-based policy.
     public var policy: Swift.String?
     /// The revision ID of the policy.
@@ -3651,7 +3651,7 @@ public struct PutResourcePolicyOutput: Swift.Equatable {
     }
 }
 
-struct PutResourcePolicyOutputBody: Swift.Equatable {
+struct PutResourcePolicyOutputBody {
     let policy: Swift.String?
     let revisionId: Swift.String?
 }
@@ -3732,7 +3732,7 @@ extension SchemasClientTypes.RegistrySummary: Swift.Codable {
 }
 
 extension SchemasClientTypes {
-    public struct RegistrySummary: Swift.Equatable {
+    public struct RegistrySummary {
         /// The ARN of the registry.
         public var registryArn: Swift.String?
         /// The name of the registry.
@@ -3811,7 +3811,7 @@ extension SchemasClientTypes.SchemaSummary: Swift.Codable {
 
 extension SchemasClientTypes {
     /// A summary of schema details.
-    public struct SchemaSummary: Swift.Equatable {
+    public struct SchemaSummary {
         /// The date and time that schema was modified.
         public var lastModified: ClientRuntime.Date?
         /// The ARN of the schema.
@@ -3879,7 +3879,7 @@ extension SchemasClientTypes.SchemaVersionSummary: Swift.Codable {
 }
 
 extension SchemasClientTypes {
-    public struct SchemaVersionSummary: Swift.Equatable {
+    public struct SchemaVersionSummary {
         /// The ARN of the schema version.
         public var schemaArn: Swift.String?
         /// The name of the schema.
@@ -3957,7 +3957,7 @@ extension SchemasClientTypes.SearchSchemaSummary: Swift.Codable {
 }
 
 extension SchemasClientTypes {
-    public struct SearchSchemaSummary: Swift.Equatable {
+    public struct SearchSchemaSummary {
         /// The name of the registry.
         public var registryName: Swift.String?
         /// The ARN of the schema.
@@ -4015,7 +4015,7 @@ extension SchemasClientTypes.SearchSchemaVersionSummary: Swift.Codable {
 }
 
 extension SchemasClientTypes {
-    public struct SearchSchemaVersionSummary: Swift.Equatable {
+    public struct SearchSchemaVersionSummary {
         /// The date the schema version was created.
         public var createdDate: ClientRuntime.Date?
         /// The version number of the schema
@@ -4069,7 +4069,7 @@ extension SearchSchemasInput {
     }
 }
 
-public struct SearchSchemasInput: Swift.Equatable {
+public struct SearchSchemasInput {
     /// Specifying this limits the results to only schemas that include the provided keywords.
     /// This member is required.
     public var keywords: Swift.String?
@@ -4094,7 +4094,7 @@ public struct SearchSchemasInput: Swift.Equatable {
     }
 }
 
-struct SearchSchemasInputBody: Swift.Equatable {
+struct SearchSchemasInputBody {
 }
 
 extension SearchSchemasInputBody: Swift.Decodable {
@@ -4117,7 +4117,7 @@ extension SearchSchemasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchSchemasOutput: Swift.Equatable {
+public struct SearchSchemasOutput {
     /// The token that specifies the next page of results to return. To request the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared with other accounts.
     public var nextToken: Swift.String?
     /// An array of SearchSchemaSummary information.
@@ -4133,7 +4133,7 @@ public struct SearchSchemasOutput: Swift.Equatable {
     }
 }
 
-struct SearchSchemasOutputBody: Swift.Equatable {
+struct SearchSchemasOutputBody {
     let nextToken: Swift.String?
     let schemas: [SchemasClientTypes.SearchSchemaSummary]?
 }
@@ -4224,7 +4224,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct ServiceUnavailableExceptionBody: Swift.Equatable {
+struct ServiceUnavailableExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
 }
@@ -4254,7 +4254,7 @@ extension StartDiscovererInput {
     }
 }
 
-public struct StartDiscovererInput: Swift.Equatable {
+public struct StartDiscovererInput {
     /// The ID of the discoverer.
     /// This member is required.
     public var discovererId: Swift.String?
@@ -4267,7 +4267,7 @@ public struct StartDiscovererInput: Swift.Equatable {
     }
 }
 
-struct StartDiscovererInputBody: Swift.Equatable {
+struct StartDiscovererInputBody {
 }
 
 extension StartDiscovererInputBody: Swift.Decodable {
@@ -4290,7 +4290,7 @@ extension StartDiscovererOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartDiscovererOutput: Swift.Equatable {
+public struct StartDiscovererOutput {
     /// The ID of the discoverer.
     public var discovererId: Swift.String?
     /// The state of the discoverer.
@@ -4306,7 +4306,7 @@ public struct StartDiscovererOutput: Swift.Equatable {
     }
 }
 
-struct StartDiscovererOutputBody: Swift.Equatable {
+struct StartDiscovererOutputBody {
     let discovererId: Swift.String?
     let state: SchemasClientTypes.DiscovererState?
 }
@@ -4352,7 +4352,7 @@ extension StopDiscovererInput {
     }
 }
 
-public struct StopDiscovererInput: Swift.Equatable {
+public struct StopDiscovererInput {
     /// The ID of the discoverer.
     /// This member is required.
     public var discovererId: Swift.String?
@@ -4365,7 +4365,7 @@ public struct StopDiscovererInput: Swift.Equatable {
     }
 }
 
-struct StopDiscovererInputBody: Swift.Equatable {
+struct StopDiscovererInputBody {
 }
 
 extension StopDiscovererInputBody: Swift.Decodable {
@@ -4388,7 +4388,7 @@ extension StopDiscovererOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopDiscovererOutput: Swift.Equatable {
+public struct StopDiscovererOutput {
     /// The ID of the discoverer.
     public var discovererId: Swift.String?
     /// The state of the discoverer.
@@ -4404,7 +4404,7 @@ public struct StopDiscovererOutput: Swift.Equatable {
     }
 }
 
-struct StopDiscovererOutputBody: Swift.Equatable {
+struct StopDiscovererOutputBody {
     let discovererId: Swift.String?
     let state: SchemasClientTypes.DiscovererState?
 }
@@ -4467,7 +4467,7 @@ extension TagResourceInput {
 }
 
 ///
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The ARN of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4485,7 +4485,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -4515,7 +4515,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -4581,7 +4581,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct TooManyRequestsExceptionBody: Swift.Equatable {
+struct TooManyRequestsExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
 }
@@ -4680,7 +4680,7 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct UnauthorizedExceptionBody: Swift.Equatable {
+struct UnauthorizedExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
 }
@@ -4726,7 +4726,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The ARN of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4744,7 +4744,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -4758,7 +4758,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -4804,7 +4804,7 @@ extension UpdateDiscovererInput {
     }
 }
 
-public struct UpdateDiscovererInput: Swift.Equatable {
+public struct UpdateDiscovererInput {
     /// Support discovery of schemas in events sent to the bus from another account. (default: true)
     public var crossAccount: Swift.Bool?
     /// The description of the discoverer to update.
@@ -4825,7 +4825,7 @@ public struct UpdateDiscovererInput: Swift.Equatable {
     }
 }
 
-struct UpdateDiscovererInputBody: Swift.Equatable {
+struct UpdateDiscovererInputBody {
     let description: Swift.String?
     let crossAccount: Swift.Bool?
 }
@@ -4869,7 +4869,7 @@ extension UpdateDiscovererOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDiscovererOutput: Swift.Equatable {
+public struct UpdateDiscovererOutput {
     /// The Status if the discoverer will discover schemas from events sent from another account.
     public var crossAccount: Swift.Bool?
     /// The description of the discoverer.
@@ -4905,7 +4905,7 @@ public struct UpdateDiscovererOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDiscovererOutputBody: Swift.Equatable {
+struct UpdateDiscovererOutputBody {
     let description: Swift.String?
     let discovererArn: Swift.String?
     let discovererId: Swift.String?
@@ -4994,7 +4994,7 @@ extension UpdateRegistryInput {
 }
 
 /// Updates the registry.
-public struct UpdateRegistryInput: Swift.Equatable {
+public struct UpdateRegistryInput {
     /// The description of the registry to update.
     public var description: Swift.String?
     /// The name of the registry.
@@ -5011,7 +5011,7 @@ public struct UpdateRegistryInput: Swift.Equatable {
     }
 }
 
-struct UpdateRegistryInputBody: Swift.Equatable {
+struct UpdateRegistryInputBody {
     let description: Swift.String?
 }
 
@@ -5045,7 +5045,7 @@ extension UpdateRegistryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateRegistryOutput: Swift.Equatable {
+public struct UpdateRegistryOutput {
     /// The description of the registry.
     public var description: Swift.String?
     /// The ARN of the registry.
@@ -5069,7 +5069,7 @@ public struct UpdateRegistryOutput: Swift.Equatable {
     }
 }
 
-struct UpdateRegistryOutputBody: Swift.Equatable {
+struct UpdateRegistryOutputBody {
     let description: Swift.String?
     let registryArn: Swift.String?
     let registryName: Swift.String?
@@ -5160,7 +5160,7 @@ extension UpdateSchemaInput {
     }
 }
 
-public struct UpdateSchemaInput: Swift.Equatable {
+public struct UpdateSchemaInput {
     /// The ID of the client token.
     public var clientTokenId: Swift.String?
     /// The source of the schema definition.
@@ -5194,7 +5194,7 @@ public struct UpdateSchemaInput: Swift.Equatable {
     }
 }
 
-struct UpdateSchemaInputBody: Swift.Equatable {
+struct UpdateSchemaInputBody {
     let clientTokenId: Swift.String?
     let content: Swift.String?
     let description: Swift.String?
@@ -5248,7 +5248,7 @@ extension UpdateSchemaOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSchemaOutput: Swift.Equatable {
+public struct UpdateSchemaOutput {
     /// The description of the schema.
     public var description: Swift.String?
     /// The date and time that schema was modified.
@@ -5288,7 +5288,7 @@ public struct UpdateSchemaOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSchemaOutputBody: Swift.Equatable {
+struct UpdateSchemaOutputBody {
     let description: Swift.String?
     let lastModified: ClientRuntime.Date?
     let schemaArn: Swift.String?

@@ -43,7 +43,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -244,7 +244,7 @@ extension DocDBElasticClientTypes.Cluster: Swift.Codable {
 
 extension DocDBElasticClientTypes {
     /// Returns information about a specific elastic cluster.
-    public struct Cluster: Swift.Equatable {
+    public struct Cluster {
         /// The name of the elastic cluster administrator.
         /// This member is required.
         public var adminUserName: Swift.String?
@@ -368,7 +368,7 @@ extension DocDBElasticClientTypes.ClusterInList: Swift.Codable {
 
 extension DocDBElasticClientTypes {
     /// A list of Amazon DocumentDB elastic clusters.
-    public struct ClusterInList: Swift.Equatable {
+    public struct ClusterInList {
         /// The ARN identifier of the elastic cluster.
         /// This member is required.
         public var clusterArn: Swift.String?
@@ -498,7 +498,7 @@ extension DocDBElasticClientTypes.ClusterSnapshot: Swift.Codable {
 
 extension DocDBElasticClientTypes {
     /// Returns information about a specific elastic cluster snapshot.
-    public struct ClusterSnapshot: Swift.Equatable {
+    public struct ClusterSnapshot {
         /// The name of the elastic cluster administrator.
         /// This member is required.
         public var adminUserName: Swift.String?
@@ -611,7 +611,7 @@ extension DocDBElasticClientTypes.ClusterSnapshotInList: Swift.Codable {
 
 extension DocDBElasticClientTypes {
     /// A list of elastic cluster snapshots.
-    public struct ClusterSnapshotInList: Swift.Equatable {
+    public struct ClusterSnapshotInList {
         /// The ARN identifier of the elastic cluster.
         /// This member is required.
         public var clusterArn: Swift.String?
@@ -700,7 +700,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -762,7 +762,7 @@ extension CopyClusterSnapshotInput {
     }
 }
 
-public struct CopyClusterSnapshotInput: Swift.Equatable {
+public struct CopyClusterSnapshotInput {
     /// Set to true to copy all tags from the source cluster snapshot to the target elastic cluster snapshot. The default is false.
     public var copyTags: Swift.Bool?
     /// The Amazon Web Services KMS key ID for an encrypted elastic cluster snapshot. The Amazon Web Services KMS key ID is the Amazon Resource Name (ARN), Amazon Web Services KMS key identifier, or the Amazon Web Services KMS key alias for the Amazon Web Services KMS encryption key. If you copy an encrypted elastic cluster snapshot from your Amazon Web Services account, you can specify a value for KmsKeyId to encrypt the copy with a new Amazon Web ServicesS KMS encryption key. If you don't specify a value for KmsKeyId, then the copy of the elastic cluster snapshot is encrypted with the same AWS KMS key as the source elastic cluster snapshot. To copy an encrypted elastic cluster snapshot to another Amazon Web Services region, set KmsKeyId to the Amazon Web Services KMS key ID that you want to use to encrypt the copy of the elastic cluster snapshot in the destination region. Amazon Web Services KMS encryption keys are specific to the Amazon Web Services region that they are created in, and you can't use encryption keys from one Amazon Web Services region in another Amazon Web Services region. If you copy an unencrypted elastic cluster snapshot and specify a value for the KmsKeyId parameter, an error is returned.
@@ -801,7 +801,7 @@ public struct CopyClusterSnapshotInput: Swift.Equatable {
     }
 }
 
-struct CopyClusterSnapshotInputBody: Swift.Equatable {
+struct CopyClusterSnapshotInputBody {
     let targetSnapshotName: Swift.String?
     let kmsKeyId: Swift.String?
     let copyTags: Swift.Bool?
@@ -850,7 +850,7 @@ extension CopyClusterSnapshotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CopyClusterSnapshotOutput: Swift.Equatable {
+public struct CopyClusterSnapshotOutput {
     /// Returns information about a specific elastic cluster snapshot.
     /// This member is required.
     public var snapshot: DocDBElasticClientTypes.ClusterSnapshot?
@@ -863,7 +863,7 @@ public struct CopyClusterSnapshotOutput: Swift.Equatable {
     }
 }
 
-struct CopyClusterSnapshotOutputBody: Swift.Equatable {
+struct CopyClusterSnapshotOutputBody {
     let snapshot: DocDBElasticClientTypes.ClusterSnapshot?
 }
 
@@ -986,7 +986,7 @@ extension CreateClusterInput {
     }
 }
 
-public struct CreateClusterInput: Swift.Equatable {
+public struct CreateClusterInput {
     /// The name of the Amazon DocumentDB elastic clusters administrator. Constraints:
     ///
     /// * Must be from 1 to 63 letters or numbers.
@@ -1079,7 +1079,7 @@ public struct CreateClusterInput: Swift.Equatable {
     }
 }
 
-struct CreateClusterInputBody: Swift.Equatable {
+struct CreateClusterInputBody {
     let clusterName: Swift.String?
     let authType: DocDBElasticClientTypes.Auth?
     let adminUserName: Swift.String?
@@ -1190,7 +1190,7 @@ extension CreateClusterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateClusterOutput: Swift.Equatable {
+public struct CreateClusterOutput {
     /// The new elastic cluster that has been created.
     /// This member is required.
     public var cluster: DocDBElasticClientTypes.Cluster?
@@ -1203,7 +1203,7 @@ public struct CreateClusterOutput: Swift.Equatable {
     }
 }
 
-struct CreateClusterOutputBody: Swift.Equatable {
+struct CreateClusterOutputBody {
     let cluster: DocDBElasticClientTypes.Cluster?
 }
 
@@ -1266,7 +1266,7 @@ extension CreateClusterSnapshotInput {
     }
 }
 
-public struct CreateClusterSnapshotInput: Swift.Equatable {
+public struct CreateClusterSnapshotInput {
     /// The ARN identifier of the elastic cluster of which you want to create a snapshot.
     /// This member is required.
     public var clusterArn: Swift.String?
@@ -1288,7 +1288,7 @@ public struct CreateClusterSnapshotInput: Swift.Equatable {
     }
 }
 
-struct CreateClusterSnapshotInputBody: Swift.Equatable {
+struct CreateClusterSnapshotInputBody {
     let clusterArn: Swift.String?
     let snapshotName: Swift.String?
     let tags: [Swift.String:Swift.String]?
@@ -1333,7 +1333,7 @@ extension CreateClusterSnapshotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateClusterSnapshotOutput: Swift.Equatable {
+public struct CreateClusterSnapshotOutput {
     /// Returns information about the new elastic cluster snapshot.
     /// This member is required.
     public var snapshot: DocDBElasticClientTypes.ClusterSnapshot?
@@ -1346,7 +1346,7 @@ public struct CreateClusterSnapshotOutput: Swift.Equatable {
     }
 }
 
-struct CreateClusterSnapshotOutputBody: Swift.Equatable {
+struct CreateClusterSnapshotOutputBody {
     let snapshot: DocDBElasticClientTypes.ClusterSnapshot?
 }
 
@@ -1389,7 +1389,7 @@ extension DeleteClusterInput {
     }
 }
 
-public struct DeleteClusterInput: Swift.Equatable {
+public struct DeleteClusterInput {
     /// The ARN identifier of the elastic cluster that is to be deleted.
     /// This member is required.
     public var clusterArn: Swift.String?
@@ -1402,7 +1402,7 @@ public struct DeleteClusterInput: Swift.Equatable {
     }
 }
 
-struct DeleteClusterInputBody: Swift.Equatable {
+struct DeleteClusterInputBody {
 }
 
 extension DeleteClusterInputBody: Swift.Decodable {
@@ -1423,7 +1423,7 @@ extension DeleteClusterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteClusterOutput: Swift.Equatable {
+public struct DeleteClusterOutput {
     /// Returns information about the newly deleted elastic cluster.
     /// This member is required.
     public var cluster: DocDBElasticClientTypes.Cluster?
@@ -1436,7 +1436,7 @@ public struct DeleteClusterOutput: Swift.Equatable {
     }
 }
 
-struct DeleteClusterOutputBody: Swift.Equatable {
+struct DeleteClusterOutputBody {
     let cluster: DocDBElasticClientTypes.Cluster?
 }
 
@@ -1478,7 +1478,7 @@ extension DeleteClusterSnapshotInput {
     }
 }
 
-public struct DeleteClusterSnapshotInput: Swift.Equatable {
+public struct DeleteClusterSnapshotInput {
     /// The ARN identifier of the elastic cluster snapshot that is to be deleted.
     /// This member is required.
     public var snapshotArn: Swift.String?
@@ -1491,7 +1491,7 @@ public struct DeleteClusterSnapshotInput: Swift.Equatable {
     }
 }
 
-struct DeleteClusterSnapshotInputBody: Swift.Equatable {
+struct DeleteClusterSnapshotInputBody {
 }
 
 extension DeleteClusterSnapshotInputBody: Swift.Decodable {
@@ -1512,7 +1512,7 @@ extension DeleteClusterSnapshotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteClusterSnapshotOutput: Swift.Equatable {
+public struct DeleteClusterSnapshotOutput {
     /// Returns information about the newly deleted elastic cluster snapshot.
     /// This member is required.
     public var snapshot: DocDBElasticClientTypes.ClusterSnapshot?
@@ -1525,7 +1525,7 @@ public struct DeleteClusterSnapshotOutput: Swift.Equatable {
     }
 }
 
-struct DeleteClusterSnapshotOutputBody: Swift.Equatable {
+struct DeleteClusterSnapshotOutputBody {
     let snapshot: DocDBElasticClientTypes.ClusterSnapshot?
 }
 
@@ -1569,7 +1569,7 @@ extension GetClusterInput {
     }
 }
 
-public struct GetClusterInput: Swift.Equatable {
+public struct GetClusterInput {
     /// The ARN identifier of the elastic cluster.
     /// This member is required.
     public var clusterArn: Swift.String?
@@ -1582,7 +1582,7 @@ public struct GetClusterInput: Swift.Equatable {
     }
 }
 
-struct GetClusterInputBody: Swift.Equatable {
+struct GetClusterInputBody {
 }
 
 extension GetClusterInputBody: Swift.Decodable {
@@ -1603,7 +1603,7 @@ extension GetClusterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetClusterOutput: Swift.Equatable {
+public struct GetClusterOutput {
     /// Returns information about a specific elastic cluster.
     /// This member is required.
     public var cluster: DocDBElasticClientTypes.Cluster?
@@ -1616,7 +1616,7 @@ public struct GetClusterOutput: Swift.Equatable {
     }
 }
 
-struct GetClusterOutputBody: Swift.Equatable {
+struct GetClusterOutputBody {
     let cluster: DocDBElasticClientTypes.Cluster?
 }
 
@@ -1657,7 +1657,7 @@ extension GetClusterSnapshotInput {
     }
 }
 
-public struct GetClusterSnapshotInput: Swift.Equatable {
+public struct GetClusterSnapshotInput {
     /// The ARN identifier of the elastic cluster snapshot.
     /// This member is required.
     public var snapshotArn: Swift.String?
@@ -1670,7 +1670,7 @@ public struct GetClusterSnapshotInput: Swift.Equatable {
     }
 }
 
-struct GetClusterSnapshotInputBody: Swift.Equatable {
+struct GetClusterSnapshotInputBody {
 }
 
 extension GetClusterSnapshotInputBody: Swift.Decodable {
@@ -1691,7 +1691,7 @@ extension GetClusterSnapshotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetClusterSnapshotOutput: Swift.Equatable {
+public struct GetClusterSnapshotOutput {
     /// Returns information about a specific elastic cluster snapshot.
     /// This member is required.
     public var snapshot: DocDBElasticClientTypes.ClusterSnapshot?
@@ -1704,7 +1704,7 @@ public struct GetClusterSnapshotOutput: Swift.Equatable {
     }
 }
 
-struct GetClusterSnapshotOutputBody: Swift.Equatable {
+struct GetClusterSnapshotOutputBody {
     let snapshot: DocDBElasticClientTypes.ClusterSnapshot?
 }
 
@@ -1775,7 +1775,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -1822,7 +1822,7 @@ extension ListClusterSnapshotsInput {
     }
 }
 
-public struct ListClusterSnapshotsInput: Swift.Equatable {
+public struct ListClusterSnapshotsInput {
     /// The ARN identifier of the elastic cluster.
     public var clusterArn: Swift.String?
     /// The maximum number of elastic cluster snapshot results to receive in the response.
@@ -1850,7 +1850,7 @@ public struct ListClusterSnapshotsInput: Swift.Equatable {
     }
 }
 
-struct ListClusterSnapshotsInputBody: Swift.Equatable {
+struct ListClusterSnapshotsInputBody {
 }
 
 extension ListClusterSnapshotsInputBody: Swift.Decodable {
@@ -1873,7 +1873,7 @@ extension ListClusterSnapshotsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListClusterSnapshotsOutput: Swift.Equatable {
+public struct ListClusterSnapshotsOutput {
     /// A pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond this token, up to the value specified by max-results. If there is no more data in the responce, the nextToken will not be returned.
     public var nextToken: Swift.String?
     /// A list of snapshots for a specified elastic cluster.
@@ -1889,7 +1889,7 @@ public struct ListClusterSnapshotsOutput: Swift.Equatable {
     }
 }
 
-struct ListClusterSnapshotsOutputBody: Swift.Equatable {
+struct ListClusterSnapshotsOutputBody {
     let snapshots: [DocDBElasticClientTypes.ClusterSnapshotInList]?
     let nextToken: Swift.String?
 }
@@ -1955,7 +1955,7 @@ extension ListClustersInput {
     }
 }
 
-public struct ListClustersInput: Swift.Equatable {
+public struct ListClustersInput {
     /// The maximum number of elastic cluster snapshot results to receive in the response.
     public var maxResults: Swift.Int?
     /// A pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond this token, up to the value specified by max-results. If there is no more data in the responce, the nextToken will not be returned.
@@ -1971,7 +1971,7 @@ public struct ListClustersInput: Swift.Equatable {
     }
 }
 
-struct ListClustersInputBody: Swift.Equatable {
+struct ListClustersInputBody {
 }
 
 extension ListClustersInputBody: Swift.Decodable {
@@ -1994,7 +1994,7 @@ extension ListClustersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListClustersOutput: Swift.Equatable {
+public struct ListClustersOutput {
     /// A list of Amazon DocumentDB elastic clusters.
     public var clusters: [DocDBElasticClientTypes.ClusterInList]?
     /// A pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond this token, up to the value specified by max-results. If there is no more data in the responce, the nextToken will not be returned.
@@ -2010,7 +2010,7 @@ public struct ListClustersOutput: Swift.Equatable {
     }
 }
 
-struct ListClustersOutputBody: Swift.Equatable {
+struct ListClustersOutputBody {
     let clusters: [DocDBElasticClientTypes.ClusterInList]?
     let nextToken: Swift.String?
 }
@@ -2063,7 +2063,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The ARN identifier of the elastic cluster resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2076,7 +2076,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -2097,7 +2097,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The list of tags for the specified elastic cluster resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -2109,7 +2109,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -2203,7 +2203,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -2283,7 +2283,7 @@ extension RestoreClusterFromSnapshotInput {
     }
 }
 
-public struct RestoreClusterFromSnapshotInput: Swift.Equatable {
+public struct RestoreClusterFromSnapshotInput {
     /// The name of the elastic cluster.
     /// This member is required.
     public var clusterName: Swift.String?
@@ -2325,7 +2325,7 @@ public struct RestoreClusterFromSnapshotInput: Swift.Equatable {
     }
 }
 
-struct RestoreClusterFromSnapshotInputBody: Swift.Equatable {
+struct RestoreClusterFromSnapshotInputBody {
     let clusterName: Swift.String?
     let vpcSecurityGroupIds: [Swift.String]?
     let subnetIds: [Swift.String]?
@@ -2404,7 +2404,7 @@ extension RestoreClusterFromSnapshotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RestoreClusterFromSnapshotOutput: Swift.Equatable {
+public struct RestoreClusterFromSnapshotOutput {
     /// Returns information about a the restored elastic cluster.
     /// This member is required.
     public var cluster: DocDBElasticClientTypes.Cluster?
@@ -2417,7 +2417,7 @@ public struct RestoreClusterFromSnapshotOutput: Swift.Equatable {
     }
 }
 
-struct RestoreClusterFromSnapshotOutputBody: Swift.Equatable {
+struct RestoreClusterFromSnapshotOutputBody {
     let cluster: DocDBElasticClientTypes.Cluster?
 }
 
@@ -2490,7 +2490,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -2539,7 +2539,7 @@ extension DocDBElasticClientTypes.Shard: Swift.Codable {
 
 extension DocDBElasticClientTypes {
     /// The name of the shard.
-    public struct Shard: Swift.Equatable {
+    public struct Shard {
         /// The time when the shard was created in Universal Coordinated Time (UTC).
         /// This member is required.
         public var createTime: Swift.String?
@@ -2606,7 +2606,7 @@ extension StartClusterInput {
     }
 }
 
-public struct StartClusterInput: Swift.Equatable {
+public struct StartClusterInput {
     /// The ARN identifier of the elastic cluster.
     /// This member is required.
     public var clusterArn: Swift.String?
@@ -2619,7 +2619,7 @@ public struct StartClusterInput: Swift.Equatable {
     }
 }
 
-struct StartClusterInputBody: Swift.Equatable {
+struct StartClusterInputBody {
 }
 
 extension StartClusterInputBody: Swift.Decodable {
@@ -2640,7 +2640,7 @@ extension StartClusterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartClusterOutput: Swift.Equatable {
+public struct StartClusterOutput {
     /// Returns information about a specific elastic cluster.
     /// This member is required.
     public var cluster: DocDBElasticClientTypes.Cluster?
@@ -2653,7 +2653,7 @@ public struct StartClusterOutput: Swift.Equatable {
     }
 }
 
-struct StartClusterOutputBody: Swift.Equatable {
+struct StartClusterOutputBody {
     let cluster: DocDBElasticClientTypes.Cluster?
 }
 
@@ -2777,7 +2777,7 @@ extension StopClusterInput {
     }
 }
 
-public struct StopClusterInput: Swift.Equatable {
+public struct StopClusterInput {
     /// The ARN identifier of the elastic cluster.
     /// This member is required.
     public var clusterArn: Swift.String?
@@ -2790,7 +2790,7 @@ public struct StopClusterInput: Swift.Equatable {
     }
 }
 
-struct StopClusterInputBody: Swift.Equatable {
+struct StopClusterInputBody {
 }
 
 extension StopClusterInputBody: Swift.Decodable {
@@ -2811,7 +2811,7 @@ extension StopClusterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopClusterOutput: Swift.Equatable {
+public struct StopClusterOutput {
     /// Returns information about a specific elastic cluster.
     /// This member is required.
     public var cluster: DocDBElasticClientTypes.Cluster?
@@ -2824,7 +2824,7 @@ public struct StopClusterOutput: Swift.Equatable {
     }
 }
 
-struct StopClusterOutputBody: Swift.Equatable {
+struct StopClusterOutputBody {
     let cluster: DocDBElasticClientTypes.Cluster?
 }
 
@@ -2881,7 +2881,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The ARN identifier of the elastic cluster resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2899,7 +2899,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -2929,7 +2929,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -2997,7 +2997,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -3039,7 +3039,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The ARN identifier of the elastic cluster resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3057,7 +3057,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -3071,7 +3071,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -3164,7 +3164,7 @@ extension UpdateClusterInput {
     }
 }
 
-public struct UpdateClusterInput: Swift.Equatable {
+public struct UpdateClusterInput {
     /// The password associated with the elastic cluster administrator. This password can contain any printable ASCII character except forward slash (/), double quote ("), or the "at" symbol (@). Constraints: Must contain from 8 to 100 characters.
     public var adminUserPassword: Swift.String?
     /// The authentication type used to determine where to fetch the password used for accessing the elastic cluster. Valid types are PLAIN_TEXT or SECRET_ARN.
@@ -3221,7 +3221,7 @@ public struct UpdateClusterInput: Swift.Equatable {
     }
 }
 
-struct UpdateClusterInputBody: Swift.Equatable {
+struct UpdateClusterInputBody {
     let authType: DocDBElasticClientTypes.Auth?
     let shardCapacity: Swift.Int?
     let shardCount: Swift.Int?
@@ -3307,7 +3307,7 @@ extension UpdateClusterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateClusterOutput: Swift.Equatable {
+public struct UpdateClusterOutput {
     /// Returns information about the updated elastic cluster.
     /// This member is required.
     public var cluster: DocDBElasticClientTypes.Cluster?
@@ -3320,7 +3320,7 @@ public struct UpdateClusterOutput: Swift.Equatable {
     }
 }
 
-struct UpdateClusterOutputBody: Swift.Equatable {
+struct UpdateClusterOutputBody {
     let cluster: DocDBElasticClientTypes.Cluster?
 }
 
@@ -3406,7 +3406,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let reason: DocDBElasticClientTypes.ValidationExceptionReason?
     let fieldList: [DocDBElasticClientTypes.ValidationExceptionField]?
@@ -3466,7 +3466,7 @@ extension DocDBElasticClientTypes.ValidationExceptionField: Swift.Codable {
 
 extension DocDBElasticClientTypes {
     /// A specific field in which a given validation exception occurred.
-    public struct ValidationExceptionField: Swift.Equatable {
+    public struct ValidationExceptionField {
         /// An error message describing the validation exception in this field.
         /// This member is required.
         public var message: Swift.String?

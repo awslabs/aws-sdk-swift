@@ -59,7 +59,7 @@ extension AddNotificationChannelsInput {
 }
 
 /// The structure representing the AddNotificationChannelsRequest.
-public struct AddNotificationChannelsInput: Swift.Equatable {
+public struct AddNotificationChannelsInput {
     /// One or 2 channels to report to when anomalies are detected.
     /// This member is required.
     public var channels: [CodeGuruProfilerClientTypes.Channel]?
@@ -77,7 +77,7 @@ public struct AddNotificationChannelsInput: Swift.Equatable {
     }
 }
 
-struct AddNotificationChannelsInputBody: Swift.Equatable {
+struct AddNotificationChannelsInputBody {
     let channels: [CodeGuruProfilerClientTypes.Channel]?
 }
 
@@ -115,7 +115,7 @@ extension AddNotificationChannelsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The structure representing the AddNotificationChannelsResponse.
-public struct AddNotificationChannelsOutput: Swift.Equatable {
+public struct AddNotificationChannelsOutput {
     /// The new notification configuration for this profiling group.
     public var notificationConfiguration: CodeGuruProfilerClientTypes.NotificationConfiguration?
 
@@ -127,7 +127,7 @@ public struct AddNotificationChannelsOutput: Swift.Equatable {
     }
 }
 
-struct AddNotificationChannelsOutputBody: Swift.Equatable {
+struct AddNotificationChannelsOutputBody {
     let notificationConfiguration: CodeGuruProfilerClientTypes.NotificationConfiguration?
 }
 
@@ -204,7 +204,7 @@ extension CodeGuruProfilerClientTypes.AgentConfiguration: Swift.Codable {
 
 extension CodeGuruProfilerClientTypes {
     /// The response of [ConfigureAgent](https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ConfigureAgent.html) that specifies if an agent profiles or not and for how long to return profiling data.
-    public struct AgentConfiguration: Swift.Equatable {
+    public struct AgentConfiguration {
         /// Parameters used by the profiler. The valid parameters are:
         ///
         /// * MaxStackDepth - The maximum depth of the stacks in the code that is represented in the profile. For example, if CodeGuru Profiler finds a method A, which calls method B, which calls method C, which calls method D, then the depth is 4. If the maxDepth is set to 2, then the profiler evaluates A and B.
@@ -259,7 +259,7 @@ extension CodeGuruProfilerClientTypes.AgentOrchestrationConfig: Swift.Codable {
 
 extension CodeGuruProfilerClientTypes {
     /// Specifies whether profiling is enabled or disabled for a profiling group. It is used by [ConfigureAgent](https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ConfigureAgent.html) to enable or disable profiling for a profiling group.
-    public struct AgentOrchestrationConfig: Swift.Equatable {
+    public struct AgentOrchestrationConfig {
         /// A Boolean that specifies whether the profiling agent collects profiling data or not. Set to true to enable profiling.
         /// This member is required.
         public var profilingEnabled: Swift.Bool?
@@ -347,7 +347,7 @@ extension CodeGuruProfilerClientTypes.AggregatedProfileTime: Swift.Codable {
 
 extension CodeGuruProfilerClientTypes {
     /// Specifies the aggregation period and aggregation start time for an aggregated profile. An aggregated profile is used to collect posted agent profiles during an aggregation period. There are three possible aggregation periods (1 day, 1 hour, or 5 minutes).
-    public struct AggregatedProfileTime: Swift.Equatable {
+    public struct AggregatedProfileTime {
         /// The aggregation period. This indicates the period during which an aggregation profile collects posted agent profiles for a profiling group. Use one of three valid durations that are specified using the ISO 8601 format.
         ///
         /// * P1D — 1 day
@@ -454,7 +454,7 @@ extension CodeGuruProfilerClientTypes.Anomaly: Swift.Codable {
 
 extension CodeGuruProfilerClientTypes {
     /// Details about an anomaly in a specific metric of application profile. The anomaly is detected using analysis of the metric data over a period of time.
-    public struct Anomaly: Swift.Equatable {
+    public struct Anomaly {
         /// A list of the instances of the detected anomalies during the requested period.
         /// This member is required.
         public var instances: [CodeGuruProfilerClientTypes.AnomalyInstance]?
@@ -518,7 +518,7 @@ extension CodeGuruProfilerClientTypes.AnomalyInstance: Swift.Codable {
 
 extension CodeGuruProfilerClientTypes {
     /// The specific duration in which the metric is flagged as anomalous.
-    public struct AnomalyInstance: Swift.Equatable {
+    public struct AnomalyInstance {
         /// The end time of the period during which the metric is flagged as anomalous. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
         public var endTime: ClientRuntime.Date?
         /// The universally unique identifier (UUID) of an instance of an anomaly in a metric.
@@ -597,7 +597,7 @@ extension BatchGetFrameMetricDataInput {
 }
 
 /// The structure representing the BatchGetFrameMetricDataRequest.
-public struct BatchGetFrameMetricDataInput: Swift.Equatable {
+public struct BatchGetFrameMetricDataInput {
     /// The end time of the time period for the returned time series values. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
     public var endTime: ClientRuntime.Date?
     /// The details of the metrics that are used to request a time series of values. The metric includes the name of the frame, the aggregation type to calculate the metric value for the frame, and the thread states to use to get the count for the metric value of the frame.
@@ -636,7 +636,7 @@ public struct BatchGetFrameMetricDataInput: Swift.Equatable {
     }
 }
 
-struct BatchGetFrameMetricDataInputBody: Swift.Equatable {
+struct BatchGetFrameMetricDataInputBody {
     let frameMetrics: [CodeGuruProfilerClientTypes.FrameMetric]?
 }
 
@@ -684,7 +684,7 @@ extension BatchGetFrameMetricDataOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The structure representing the BatchGetFrameMetricDataResponse.
-public struct BatchGetFrameMetricDataOutput: Swift.Equatable {
+public struct BatchGetFrameMetricDataOutput {
     /// The end time of the time period for the returned time series values. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
     /// This member is required.
     public var endTime: ClientRuntime.Date?
@@ -728,7 +728,7 @@ public struct BatchGetFrameMetricDataOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetFrameMetricDataOutputBody: Swift.Equatable {
+struct BatchGetFrameMetricDataOutputBody {
     let startTime: ClientRuntime.Date?
     let endTime: ClientRuntime.Date?
     let resolution: CodeGuruProfilerClientTypes.AggregationPeriod?
@@ -857,7 +857,7 @@ extension CodeGuruProfilerClientTypes.Channel: Swift.Codable {
 
 extension CodeGuruProfilerClientTypes {
     /// Notification medium for users to get alerted for events that occur in application profile. We support SNS topic as a notification channel.
-    public struct Channel: Swift.Equatable {
+    public struct Channel {
         /// List of publishers for different type of events that may be detected in an application from the profile. Anomaly detection is the only event publisher in Profiler.
         /// This member is required.
         public var eventPublishers: [CodeGuruProfilerClientTypes.EventPublisher]?
@@ -948,7 +948,7 @@ extension ConfigureAgentInput {
 }
 
 /// The structure representing the configureAgentRequest.
-public struct ConfigureAgentInput: Swift.Equatable {
+public struct ConfigureAgentInput {
     /// A universally unique identifier (UUID) for a profiling instance. For example, if the profiling instance is an Amazon EC2 instance, it is the instance ID. If it is an AWS Fargate container, it is the container's task ID.
     public var fleetInstanceId: Swift.String?
     /// Metadata captured about the compute platform the agent is running on. It includes information about sampling and reporting. The valid fields are:
@@ -987,7 +987,7 @@ public struct ConfigureAgentInput: Swift.Equatable {
     }
 }
 
-struct ConfigureAgentInputBody: Swift.Equatable {
+struct ConfigureAgentInputBody {
     let fleetInstanceId: Swift.String?
     let metadata: [Swift.String:Swift.String]?
 }
@@ -1028,7 +1028,7 @@ extension ConfigureAgentOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The structure representing the configureAgentResponse.
-public struct ConfigureAgentOutput: Swift.Equatable {
+public struct ConfigureAgentOutput {
     /// An [AgentConfiguration](https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_AgentConfiguration.html) object that specifies if an agent profiles or not and for how long to return profiling data.
     /// This member is required.
     public var configuration: CodeGuruProfilerClientTypes.AgentConfiguration?
@@ -1041,7 +1041,7 @@ public struct ConfigureAgentOutput: Swift.Equatable {
     }
 }
 
-struct ConfigureAgentOutputBody: Swift.Equatable {
+struct ConfigureAgentOutputBody {
     let configuration: CodeGuruProfilerClientTypes.AgentConfiguration?
 }
 
@@ -1111,7 +1111,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -1177,7 +1177,7 @@ extension CreateProfilingGroupInput {
 }
 
 /// The structure representing the createProfiliingGroupRequest.
-public struct CreateProfilingGroupInput: Swift.Equatable {
+public struct CreateProfilingGroupInput {
     /// Specifies whether profiling is enabled or disabled for the created profiling group.
     public var agentOrchestrationConfig: CodeGuruProfilerClientTypes.AgentOrchestrationConfig?
     /// Amazon CodeGuru Profiler uses this universally unique identifier (UUID) to prevent the accidental creation of duplicate profiling groups if there are failures and retries.
@@ -1207,7 +1207,7 @@ public struct CreateProfilingGroupInput: Swift.Equatable {
     }
 }
 
-struct CreateProfilingGroupInputBody: Swift.Equatable {
+struct CreateProfilingGroupInputBody {
     let profilingGroupName: Swift.String?
     let computePlatform: CodeGuruProfilerClientTypes.ComputePlatform?
     let agentOrchestrationConfig: CodeGuruProfilerClientTypes.AgentOrchestrationConfig?
@@ -1256,7 +1256,7 @@ extension CreateProfilingGroupOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The structure representing the createProfilingGroupResponse.
-public struct CreateProfilingGroupOutput: Swift.Equatable {
+public struct CreateProfilingGroupOutput {
     /// The returned [ProfilingGroupDescription](https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html) object that contains information about the created profiling group.
     /// This member is required.
     public var profilingGroup: CodeGuruProfilerClientTypes.ProfilingGroupDescription?
@@ -1269,7 +1269,7 @@ public struct CreateProfilingGroupOutput: Swift.Equatable {
     }
 }
 
-struct CreateProfilingGroupOutputBody: Swift.Equatable {
+struct CreateProfilingGroupOutputBody {
     let profilingGroup: CodeGuruProfilerClientTypes.ProfilingGroupDescription?
 }
 
@@ -1311,7 +1311,7 @@ extension DeleteProfilingGroupInput {
 }
 
 /// The structure representing the deleteProfilingGroupRequest.
-public struct DeleteProfilingGroupInput: Swift.Equatable {
+public struct DeleteProfilingGroupInput {
     /// The name of the profiling group to delete.
     /// This member is required.
     public var profilingGroupName: Swift.String?
@@ -1324,7 +1324,7 @@ public struct DeleteProfilingGroupInput: Swift.Equatable {
     }
 }
 
-struct DeleteProfilingGroupInputBody: Swift.Equatable {
+struct DeleteProfilingGroupInputBody {
 }
 
 extension DeleteProfilingGroupInputBody: Swift.Decodable {
@@ -1339,7 +1339,7 @@ extension DeleteProfilingGroupOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The structure representing the deleteProfilingGroupResponse.
-public struct DeleteProfilingGroupOutput: Swift.Equatable {
+public struct DeleteProfilingGroupOutput {
 
     public init() { }
 }
@@ -1370,7 +1370,7 @@ extension DescribeProfilingGroupInput {
 }
 
 /// The structure representing the describeProfilingGroupRequest.
-public struct DescribeProfilingGroupInput: Swift.Equatable {
+public struct DescribeProfilingGroupInput {
     /// The name of the profiling group to get information about.
     /// This member is required.
     public var profilingGroupName: Swift.String?
@@ -1383,7 +1383,7 @@ public struct DescribeProfilingGroupInput: Swift.Equatable {
     }
 }
 
-struct DescribeProfilingGroupInputBody: Swift.Equatable {
+struct DescribeProfilingGroupInputBody {
 }
 
 extension DescribeProfilingGroupInputBody: Swift.Decodable {
@@ -1404,7 +1404,7 @@ extension DescribeProfilingGroupOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The structure representing the describeProfilingGroupResponse.
-public struct DescribeProfilingGroupOutput: Swift.Equatable {
+public struct DescribeProfilingGroupOutput {
     /// The returned [ProfilingGroupDescription](https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html) object that contains information about the requested profiling group.
     /// This member is required.
     public var profilingGroup: CodeGuruProfilerClientTypes.ProfilingGroupDescription?
@@ -1417,7 +1417,7 @@ public struct DescribeProfilingGroupOutput: Swift.Equatable {
     }
 }
 
-struct DescribeProfilingGroupOutputBody: Swift.Equatable {
+struct DescribeProfilingGroupOutputBody {
     let profilingGroup: CodeGuruProfilerClientTypes.ProfilingGroupDescription?
 }
 
@@ -1556,7 +1556,7 @@ extension CodeGuruProfilerClientTypes.FindingsReportSummary: Swift.Codable {
 
 extension CodeGuruProfilerClientTypes {
     /// Information about potential recommendations that might be created from the analysis of profiling data.
-    public struct FindingsReportSummary: Swift.Equatable {
+    public struct FindingsReportSummary {
         /// The universally unique identifier (UUID) of the recommendation report.
         public var id: Swift.String?
         /// The end time of the period during which the metric is flagged as anomalous. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
@@ -1631,7 +1631,7 @@ extension CodeGuruProfilerClientTypes.FrameMetric: Swift.Codable {
 
 extension CodeGuruProfilerClientTypes {
     /// The frame name, metric type, and thread states. These are used to derive the value of the metric for the frame.
-    public struct FrameMetric: Swift.Equatable {
+    public struct FrameMetric {
         /// Name of the method common across the multiple occurrences of a frame in an application profile.
         /// This member is required.
         public var frameName: Swift.String?
@@ -1695,7 +1695,7 @@ extension CodeGuruProfilerClientTypes.FrameMetricDatum: Swift.Codable {
 
 extension CodeGuruProfilerClientTypes {
     /// Information about a frame metric and its values.
-    public struct FrameMetricDatum: Swift.Equatable {
+    public struct FrameMetricDatum {
         /// The frame name, metric type, and thread states. These are used to derive the value of the metric for the frame.
         /// This member is required.
         public var frameMetric: CodeGuruProfilerClientTypes.FrameMetric?
@@ -1743,7 +1743,7 @@ extension GetFindingsReportAccountSummaryInput {
 }
 
 /// The structure representing the GetFindingsReportAccountSummaryRequest.
-public struct GetFindingsReportAccountSummaryInput: Swift.Equatable {
+public struct GetFindingsReportAccountSummaryInput {
     /// A Boolean value indicating whether to only return reports from daily profiles. If set to True, only analysis data from daily profiles is returned. If set to False, analysis data is returned from smaller time windows (for example, one hour).
     public var dailyReportsOnly: Swift.Bool?
     /// The maximum number of results returned by  GetFindingsReportAccountSummary in paginated output. When this parameter is used, GetFindingsReportAccountSummary only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another GetFindingsReportAccountSummary request with the returned nextToken value.
@@ -1763,7 +1763,7 @@ public struct GetFindingsReportAccountSummaryInput: Swift.Equatable {
     }
 }
 
-struct GetFindingsReportAccountSummaryInputBody: Swift.Equatable {
+struct GetFindingsReportAccountSummaryInputBody {
 }
 
 extension GetFindingsReportAccountSummaryInputBody: Swift.Decodable {
@@ -1787,7 +1787,7 @@ extension GetFindingsReportAccountSummaryOutput: ClientRuntime.HttpResponseBindi
 }
 
 /// The structure representing the GetFindingsReportAccountSummaryResponse.
-public struct GetFindingsReportAccountSummaryOutput: Swift.Equatable {
+public struct GetFindingsReportAccountSummaryOutput {
     /// The nextToken value to include in a future GetFindingsReportAccountSummary request. When the results of a GetFindingsReportAccountSummary request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
     /// The return list of [FindingsReportSummary](https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_FindingsReportSummary.html) objects taht contain summaries of analysis results for all profiling groups in your AWS account.
@@ -1804,7 +1804,7 @@ public struct GetFindingsReportAccountSummaryOutput: Swift.Equatable {
     }
 }
 
-struct GetFindingsReportAccountSummaryOutputBody: Swift.Equatable {
+struct GetFindingsReportAccountSummaryOutputBody {
     let reportSummaries: [CodeGuruProfilerClientTypes.FindingsReportSummary]?
     let nextToken: Swift.String?
 }
@@ -1857,7 +1857,7 @@ extension GetNotificationConfigurationInput {
 }
 
 /// The structure representing the GetNotificationConfigurationRequest.
-public struct GetNotificationConfigurationInput: Swift.Equatable {
+public struct GetNotificationConfigurationInput {
     /// The name of the profiling group we want to get the notification configuration for.
     /// This member is required.
     public var profilingGroupName: Swift.String?
@@ -1870,7 +1870,7 @@ public struct GetNotificationConfigurationInput: Swift.Equatable {
     }
 }
 
-struct GetNotificationConfigurationInputBody: Swift.Equatable {
+struct GetNotificationConfigurationInputBody {
 }
 
 extension GetNotificationConfigurationInputBody: Swift.Decodable {
@@ -1892,7 +1892,7 @@ extension GetNotificationConfigurationOutput: ClientRuntime.HttpResponseBinding 
 }
 
 /// The structure representing the GetNotificationConfigurationResponse.
-public struct GetNotificationConfigurationOutput: Swift.Equatable {
+public struct GetNotificationConfigurationOutput {
     /// The current notification configuration for this profiling group.
     /// This member is required.
     public var notificationConfiguration: CodeGuruProfilerClientTypes.NotificationConfiguration?
@@ -1905,7 +1905,7 @@ public struct GetNotificationConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetNotificationConfigurationOutputBody: Swift.Equatable {
+struct GetNotificationConfigurationOutputBody {
     let notificationConfiguration: CodeGuruProfilerClientTypes.NotificationConfiguration?
 }
 
@@ -1946,7 +1946,7 @@ extension GetPolicyInput {
 }
 
 /// The structure representing the getPolicyRequest.
-public struct GetPolicyInput: Swift.Equatable {
+public struct GetPolicyInput {
     /// The name of the profiling group.
     /// This member is required.
     public var profilingGroupName: Swift.String?
@@ -1959,7 +1959,7 @@ public struct GetPolicyInput: Swift.Equatable {
     }
 }
 
-struct GetPolicyInputBody: Swift.Equatable {
+struct GetPolicyInputBody {
 }
 
 extension GetPolicyInputBody: Swift.Decodable {
@@ -1983,7 +1983,7 @@ extension GetPolicyOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The structure representing the getPolicyResponse.
-public struct GetPolicyOutput: Swift.Equatable {
+public struct GetPolicyOutput {
     /// The JSON-formatted resource-based policy attached to the ProfilingGroup.
     /// This member is required.
     public var policy: Swift.String?
@@ -2001,7 +2001,7 @@ public struct GetPolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetPolicyOutputBody: Swift.Equatable {
+struct GetPolicyOutputBody {
     let policy: Swift.String?
     let revisionId: Swift.String?
 }
@@ -2080,7 +2080,7 @@ extension GetProfileInput {
 }
 
 /// The structure representing the getProfileRequest.
-public struct GetProfileInput: Swift.Equatable {
+public struct GetProfileInput {
     /// The format of the returned profiling data. The format maps to the Accept and Content-Type headers of the HTTP request. You can specify one of the following: or the default .
     ///
     /// * application/json — standard JSON format
@@ -2117,7 +2117,7 @@ public struct GetProfileInput: Swift.Equatable {
     }
 }
 
-struct GetProfileInputBody: Swift.Equatable {
+struct GetProfileInputBody {
 }
 
 extension GetProfileInputBody: Swift.Decodable {
@@ -2150,7 +2150,7 @@ extension GetProfileOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The structure representing the getProfileResponse.
-public struct GetProfileOutput: Swift.Equatable {
+public struct GetProfileOutput {
     /// The content encoding of the profile.
     public var contentEncoding: Swift.String?
     /// The content type of the profile in the payload. It is either application/json or the default application/x-amzn-ion.
@@ -2172,7 +2172,7 @@ public struct GetProfileOutput: Swift.Equatable {
     }
 }
 
-struct GetProfileOutputBody: Swift.Equatable {
+struct GetProfileOutputBody {
     let profile: ClientRuntime.Data?
 }
 
@@ -2237,7 +2237,7 @@ extension GetRecommendationsInput {
 }
 
 /// The structure representing the GetRecommendationsRequest.
-public struct GetRecommendationsInput: Swift.Equatable {
+public struct GetRecommendationsInput {
     /// The start time of the profile to get analysis data about. You must specify startTime and endTime. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
     /// This member is required.
     public var endTime: ClientRuntime.Date?
@@ -2286,7 +2286,7 @@ public struct GetRecommendationsInput: Swift.Equatable {
     }
 }
 
-struct GetRecommendationsInputBody: Swift.Equatable {
+struct GetRecommendationsInputBody {
 }
 
 extension GetRecommendationsInputBody: Swift.Decodable {
@@ -2316,7 +2316,7 @@ extension GetRecommendationsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The structure representing the GetRecommendationsResponse.
-public struct GetRecommendationsOutput: Swift.Equatable {
+public struct GetRecommendationsOutput {
     /// The list of anomalies that the analysis has found for this profile.
     /// This member is required.
     public var anomalies: [CodeGuruProfilerClientTypes.Anomaly]?
@@ -2349,7 +2349,7 @@ public struct GetRecommendationsOutput: Swift.Equatable {
     }
 }
 
-struct GetRecommendationsOutputBody: Swift.Equatable {
+struct GetRecommendationsOutputBody {
     let profilingGroupName: Swift.String?
     let profileStartTime: ClientRuntime.Date?
     let profileEndTime: ClientRuntime.Date?
@@ -2453,7 +2453,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -2512,7 +2512,7 @@ extension ListFindingsReportsInput {
 }
 
 /// The structure representing the ListFindingsReportsRequest.
-public struct ListFindingsReportsInput: Swift.Equatable {
+public struct ListFindingsReportsInput {
     /// A Boolean value indicating whether to only return reports from daily profiles. If set to True, only analysis data from daily profiles is returned. If set to False, analysis data is returned from smaller time windows (for example, one hour).
     public var dailyReportsOnly: Swift.Bool?
     /// The end time of the profile to get analysis data about. You must specify startTime and endTime. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
@@ -2547,7 +2547,7 @@ public struct ListFindingsReportsInput: Swift.Equatable {
     }
 }
 
-struct ListFindingsReportsInputBody: Swift.Equatable {
+struct ListFindingsReportsInputBody {
 }
 
 extension ListFindingsReportsInputBody: Swift.Decodable {
@@ -2571,7 +2571,7 @@ extension ListFindingsReportsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The structure representing the ListFindingsReportsResponse.
-public struct ListFindingsReportsOutput: Swift.Equatable {
+public struct ListFindingsReportsOutput {
     /// The list of analysis results summaries.
     /// This member is required.
     public var findingsReportSummaries: [CodeGuruProfilerClientTypes.FindingsReportSummary]?
@@ -2588,7 +2588,7 @@ public struct ListFindingsReportsOutput: Swift.Equatable {
     }
 }
 
-struct ListFindingsReportsOutputBody: Swift.Equatable {
+struct ListFindingsReportsOutputBody {
     let findingsReportSummaries: [CodeGuruProfilerClientTypes.FindingsReportSummary]?
     let nextToken: Swift.String?
 }
@@ -2680,7 +2680,7 @@ extension ListProfileTimesInput {
 }
 
 /// The structure representing the listProfileTimesRequest.
-public struct ListProfileTimesInput: Swift.Equatable {
+public struct ListProfileTimesInput {
     /// The end time of the time range from which to list the profiles.
     /// This member is required.
     public var endTime: ClientRuntime.Date?
@@ -2726,7 +2726,7 @@ public struct ListProfileTimesInput: Swift.Equatable {
     }
 }
 
-struct ListProfileTimesInputBody: Swift.Equatable {
+struct ListProfileTimesInputBody {
 }
 
 extension ListProfileTimesInputBody: Swift.Decodable {
@@ -2750,7 +2750,7 @@ extension ListProfileTimesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The structure representing the listProfileTimesResponse.
-public struct ListProfileTimesOutput: Swift.Equatable {
+public struct ListProfileTimesOutput {
     /// The nextToken value to include in a future ListProfileTimes request. When the results of a ListProfileTimes request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
     /// The list of start times of the available profiles for the aggregation period in the specified time range.
@@ -2767,7 +2767,7 @@ public struct ListProfileTimesOutput: Swift.Equatable {
     }
 }
 
-struct ListProfileTimesOutputBody: Swift.Equatable {
+struct ListProfileTimesOutputBody {
     let profileTimes: [CodeGuruProfilerClientTypes.ProfileTime]?
     let nextToken: Swift.String?
 }
@@ -2838,7 +2838,7 @@ extension ListProfilingGroupsInput {
 }
 
 /// The structure representing the listProfilingGroupsRequest.
-public struct ListProfilingGroupsInput: Swift.Equatable {
+public struct ListProfilingGroupsInput {
     /// A Boolean value indicating whether to include a description. If true, then a list of [ProfilingGroupDescription](https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html) objects that contain detailed information about profiling groups is returned. If false, then a list of profiling group names is returned.
     public var includeDescription: Swift.Bool?
     /// The maximum number of profiling groups results returned by ListProfilingGroups in paginated output. When this parameter is used, ListProfilingGroups only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListProfilingGroups request with the returned nextToken value.
@@ -2858,7 +2858,7 @@ public struct ListProfilingGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListProfilingGroupsInputBody: Swift.Equatable {
+struct ListProfilingGroupsInputBody {
 }
 
 extension ListProfilingGroupsInputBody: Swift.Decodable {
@@ -2884,7 +2884,7 @@ extension ListProfilingGroupsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The structure representing the listProfilingGroupsResponse.
-public struct ListProfilingGroupsOutput: Swift.Equatable {
+public struct ListProfilingGroupsOutput {
     /// The nextToken value to include in a future ListProfilingGroups request. When the results of a ListProfilingGroups request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
     /// A returned list of profiling group names. A list of the names is returned only if includeDescription is false, otherwise a list of [ProfilingGroupDescription](https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html) objects is returned.
@@ -2905,7 +2905,7 @@ public struct ListProfilingGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListProfilingGroupsOutputBody: Swift.Equatable {
+struct ListProfilingGroupsOutputBody {
     let profilingGroupNames: [Swift.String]?
     let profilingGroups: [CodeGuruProfilerClientTypes.ProfilingGroupDescription]?
     let nextToken: Swift.String?
@@ -2969,7 +2969,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource that contains the tags to return.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2982,7 +2982,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -3003,7 +3003,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The list of tags assigned to the specified resource. This is the list of tags returned in the response.
     public var tags: [Swift.String:Swift.String]?
 
@@ -3015,7 +3015,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -3086,7 +3086,7 @@ extension CodeGuruProfilerClientTypes.Match: Swift.Codable {
 
 extension CodeGuruProfilerClientTypes {
     /// The part of a profile that contains a recommendation found during analysis.
-    public struct Match: Swift.Equatable {
+    public struct Match {
         /// The location in the profiling graph that contains a recommendation found during analysis.
         public var frameAddress: Swift.String?
         /// The target frame that triggered a match.
@@ -3215,7 +3215,7 @@ extension CodeGuruProfilerClientTypes.Metric: Swift.Codable {
 
 extension CodeGuruProfilerClientTypes {
     /// Details about the metric that the analysis used when it detected the anomaly. The metric what is analyzed to create recommendations. It includes the name of the frame that was analyzed and the type and thread states used to derive the metric value for that frame.
-    public struct Metric: Swift.Equatable {
+    public struct Metric {
         /// The name of the method that appears as a frame in any stack in a profile.
         /// This member is required.
         public var frameName: Swift.String?
@@ -3303,7 +3303,7 @@ extension CodeGuruProfilerClientTypes.NotificationConfiguration: Swift.Codable {
 
 extension CodeGuruProfilerClientTypes {
     /// The configuration for notifications stored for each profiling group. This includes up to to two channels and a list of event publishers associated with each channel.
-    public struct NotificationConfiguration: Swift.Equatable {
+    public struct NotificationConfiguration {
         /// List of up to two channels to be used for sending notifications for events detected from the application profile.
         public var channels: [CodeGuruProfilerClientTypes.Channel]?
 
@@ -3444,7 +3444,7 @@ extension CodeGuruProfilerClientTypes.Pattern: Swift.Codable {
 
 extension CodeGuruProfilerClientTypes {
     /// A set of rules used to make a recommendation during an analysis.
-    public struct Pattern: Swift.Equatable {
+    public struct Pattern {
         /// A list of the different counters used to determine if there is a match.
         public var countersToAggregate: [Swift.String]?
         /// The description of the recommendation. This explains a potential inefficiency in a profiled application.
@@ -3529,7 +3529,7 @@ extension PostAgentProfileInput {
 }
 
 /// The structure representing the postAgentProfileRequest.
-public struct PostAgentProfileInput: Swift.Equatable {
+public struct PostAgentProfileInput {
     /// The submitted profiling data.
     /// This member is required.
     public var agentProfile: ClientRuntime.Data?
@@ -3560,7 +3560,7 @@ public struct PostAgentProfileInput: Swift.Equatable {
     }
 }
 
-struct PostAgentProfileInputBody: Swift.Equatable {
+struct PostAgentProfileInputBody {
     let agentProfile: ClientRuntime.Data?
 }
 
@@ -3582,7 +3582,7 @@ extension PostAgentProfileOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The structure representing the postAgentProfileResponse.
-public struct PostAgentProfileOutput: Swift.Equatable {
+public struct PostAgentProfileOutput {
 
     public init() { }
 }
@@ -3622,7 +3622,7 @@ extension CodeGuruProfilerClientTypes.ProfileTime: Swift.Codable {
 
 extension CodeGuruProfilerClientTypes {
     /// Contains the start time of a profile.
-    public struct ProfileTime: Swift.Equatable {
+    public struct ProfileTime {
         /// The start time of a profile. It is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
         public var start: ClientRuntime.Date?
 
@@ -3711,7 +3711,7 @@ extension CodeGuruProfilerClientTypes.ProfilingGroupDescription: Swift.Codable {
 
 extension CodeGuruProfilerClientTypes {
     /// Contains information about a profiling group.
-    public struct ProfilingGroupDescription: Swift.Equatable {
+    public struct ProfilingGroupDescription {
         /// An [AgentOrchestrationConfig](https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_AgentOrchestrationConfig.html) object that indicates if the profiling group is enabled for profiled or not.
         public var agentOrchestrationConfig: CodeGuruProfilerClientTypes.AgentOrchestrationConfig?
         /// The Amazon Resource Name (ARN) identifying the profiling group resource.
@@ -3786,7 +3786,7 @@ extension CodeGuruProfilerClientTypes.ProfilingStatus: Swift.Codable {
 
 extension CodeGuruProfilerClientTypes {
     /// Profiling status includes information about the last time a profile agent pinged back, the last time a profile was received, and the aggregation period and start time for the most recent aggregated profile.
-    public struct ProfilingStatus: Swift.Equatable {
+    public struct ProfilingStatus {
         /// The date and time when the profiling agent most recently pinged back. Specify using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
         public var latestAgentOrchestratedAt: ClientRuntime.Date?
         /// The date and time when the most recent profile was received. Specify using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
@@ -3842,7 +3842,7 @@ extension PutPermissionInput {
 }
 
 /// The structure representing the putPermissionRequest.
-public struct PutPermissionInput: Swift.Equatable {
+public struct PutPermissionInput {
     /// Specifies an action group that contains permissions to add to a profiling group resource. One action group is supported, agentPermissions, which grants permission to perform actions required by the profiling agent, ConfigureAgent and PostAgentProfile permissions.
     /// This member is required.
     public var actionGroup: CodeGuruProfilerClientTypes.ActionGroup?
@@ -3869,7 +3869,7 @@ public struct PutPermissionInput: Swift.Equatable {
     }
 }
 
-struct PutPermissionInputBody: Swift.Equatable {
+struct PutPermissionInputBody {
     let principals: [Swift.String]?
     let revisionId: Swift.String?
 }
@@ -3913,7 +3913,7 @@ extension PutPermissionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The structure representing the putPermissionResponse.
-public struct PutPermissionOutput: Swift.Equatable {
+public struct PutPermissionOutput {
     /// The JSON-formatted resource-based policy on the profiling group that includes the added permissions.
     /// This member is required.
     public var policy: Swift.String?
@@ -3931,7 +3931,7 @@ public struct PutPermissionOutput: Swift.Equatable {
     }
 }
 
-struct PutPermissionOutputBody: Swift.Equatable {
+struct PutPermissionOutputBody {
     let policy: Swift.String?
     let revisionId: Swift.String?
 }
@@ -4029,7 +4029,7 @@ extension CodeGuruProfilerClientTypes.Recommendation: Swift.Codable {
 
 extension CodeGuruProfilerClientTypes {
     /// A potential improvement that was found from analyzing the profiling data.
-    public struct Recommendation: Swift.Equatable {
+    public struct Recommendation {
         /// How many different places in the profile graph triggered a match.
         /// This member is required.
         public var allMatchesCount: Swift.Int?
@@ -4083,7 +4083,7 @@ extension RemoveNotificationChannelInput {
 }
 
 /// The structure representing the RemoveNotificationChannelRequest.
-public struct RemoveNotificationChannelInput: Swift.Equatable {
+public struct RemoveNotificationChannelInput {
     /// The id of the channel that we want to stop receiving notifications.
     /// This member is required.
     public var channelId: Swift.String?
@@ -4101,7 +4101,7 @@ public struct RemoveNotificationChannelInput: Swift.Equatable {
     }
 }
 
-struct RemoveNotificationChannelInputBody: Swift.Equatable {
+struct RemoveNotificationChannelInputBody {
 }
 
 extension RemoveNotificationChannelInputBody: Swift.Decodable {
@@ -4123,7 +4123,7 @@ extension RemoveNotificationChannelOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The structure representing the RemoveNotificationChannelResponse.
-public struct RemoveNotificationChannelOutput: Swift.Equatable {
+public struct RemoveNotificationChannelOutput {
     /// The new notification configuration for this profiling group.
     public var notificationConfiguration: CodeGuruProfilerClientTypes.NotificationConfiguration?
 
@@ -4135,7 +4135,7 @@ public struct RemoveNotificationChannelOutput: Swift.Equatable {
     }
 }
 
-struct RemoveNotificationChannelOutputBody: Swift.Equatable {
+struct RemoveNotificationChannelOutputBody {
     let notificationConfiguration: CodeGuruProfilerClientTypes.NotificationConfiguration?
 }
 
@@ -4193,7 +4193,7 @@ extension RemovePermissionInput {
 }
 
 /// The structure representing the removePermissionRequest.
-public struct RemovePermissionInput: Swift.Equatable {
+public struct RemovePermissionInput {
     /// Specifies an action group that contains the permissions to remove from a profiling group's resource-based policy. One action group is supported, agentPermissions, which grants ConfigureAgent and PostAgentProfile permissions.
     /// This member is required.
     public var actionGroup: CodeGuruProfilerClientTypes.ActionGroup?
@@ -4216,7 +4216,7 @@ public struct RemovePermissionInput: Swift.Equatable {
     }
 }
 
-struct RemovePermissionInputBody: Swift.Equatable {
+struct RemovePermissionInputBody {
 }
 
 extension RemovePermissionInputBody: Swift.Decodable {
@@ -4240,7 +4240,7 @@ extension RemovePermissionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The structure representing the removePermissionResponse.
-public struct RemovePermissionOutput: Swift.Equatable {
+public struct RemovePermissionOutput {
     /// The JSON-formatted resource-based policy on the profiling group after the specified permissions were removed.
     /// This member is required.
     public var policy: Swift.String?
@@ -4258,7 +4258,7 @@ public struct RemovePermissionOutput: Swift.Equatable {
     }
 }
 
-struct RemovePermissionOutputBody: Swift.Equatable {
+struct RemovePermissionOutputBody {
     let policy: Swift.String?
     let revisionId: Swift.String?
 }
@@ -4333,7 +4333,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -4389,7 +4389,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -4436,7 +4436,7 @@ extension SubmitFeedbackInput {
 }
 
 /// The structure representing the SubmitFeedbackRequest.
-public struct SubmitFeedbackInput: Swift.Equatable {
+public struct SubmitFeedbackInput {
     /// The universally unique identifier (UUID) of the [AnomalyInstance](https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_AnomalyInstance.html) object that is included in the analysis data.
     /// This member is required.
     public var anomalyInstanceId: Swift.String?
@@ -4463,7 +4463,7 @@ public struct SubmitFeedbackInput: Swift.Equatable {
     }
 }
 
-struct SubmitFeedbackInputBody: Swift.Equatable {
+struct SubmitFeedbackInputBody {
     let type: CodeGuruProfilerClientTypes.FeedbackType?
     let comment: Swift.String?
 }
@@ -4489,7 +4489,7 @@ extension SubmitFeedbackOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The structure representing the SubmitFeedbackResponse.
-public struct SubmitFeedbackOutput: Swift.Equatable {
+public struct SubmitFeedbackOutput {
 
     public init() { }
 }
@@ -4534,7 +4534,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource that the tags are added to.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4552,7 +4552,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -4582,7 +4582,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -4640,7 +4640,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -4677,7 +4677,7 @@ extension CodeGuruProfilerClientTypes.TimestampStructure: Swift.Codable {
 
 extension CodeGuruProfilerClientTypes {
     /// A data type that contains a Timestamp object. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
-    public struct TimestampStructure: Swift.Equatable {
+    public struct TimestampStructure {
         /// A Timestamp. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
         /// This member is required.
         public var value: ClientRuntime.Date?
@@ -4718,7 +4718,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource that contains the tags to remove.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4736,7 +4736,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -4750,7 +4750,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -4792,7 +4792,7 @@ extension UpdateProfilingGroupInput {
 }
 
 /// The structure representing the updateProfilingGroupRequest.
-public struct UpdateProfilingGroupInput: Swift.Equatable {
+public struct UpdateProfilingGroupInput {
     /// Specifies whether profiling is enabled or disabled for a profiling group.
     /// This member is required.
     public var agentOrchestrationConfig: CodeGuruProfilerClientTypes.AgentOrchestrationConfig?
@@ -4810,7 +4810,7 @@ public struct UpdateProfilingGroupInput: Swift.Equatable {
     }
 }
 
-struct UpdateProfilingGroupInputBody: Swift.Equatable {
+struct UpdateProfilingGroupInputBody {
     let agentOrchestrationConfig: CodeGuruProfilerClientTypes.AgentOrchestrationConfig?
 }
 
@@ -4838,7 +4838,7 @@ extension UpdateProfilingGroupOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The structure representing the updateProfilingGroupResponse.
-public struct UpdateProfilingGroupOutput: Swift.Equatable {
+public struct UpdateProfilingGroupOutput {
     /// A [ProfilingGroupDescription](https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html) that contains information about the returned updated profiling group.
     /// This member is required.
     public var profilingGroup: CodeGuruProfilerClientTypes.ProfilingGroupDescription?
@@ -4851,7 +4851,7 @@ public struct UpdateProfilingGroupOutput: Swift.Equatable {
     }
 }
 
-struct UpdateProfilingGroupOutputBody: Swift.Equatable {
+struct UpdateProfilingGroupOutputBody {
     let profilingGroup: CodeGuruProfilerClientTypes.ProfilingGroupDescription?
 }
 
@@ -4903,7 +4903,7 @@ extension CodeGuruProfilerClientTypes.UserFeedback: Swift.Codable {
 
 extension CodeGuruProfilerClientTypes {
     /// Feedback that can be submitted for each instance of an anomaly by the user. Feedback is be used for improvements in generating recommendations for the application.
-    public struct UserFeedback: Swift.Equatable {
+    public struct UserFeedback {
         /// Optional Positive or Negative feedback submitted by the user about whether the recommendation is useful or not.
         /// This member is required.
         public var type: CodeGuruProfilerClientTypes.FeedbackType?
@@ -4958,7 +4958,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

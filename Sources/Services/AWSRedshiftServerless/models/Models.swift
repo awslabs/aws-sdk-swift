@@ -46,7 +46,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
 }
@@ -105,7 +105,7 @@ extension RedshiftServerlessClientTypes.Association: Swift.Codable {
 
 extension RedshiftServerlessClientTypes {
     /// An object that represents the custom domain name association.
-    public struct Association: Swift.Equatable {
+    public struct Association {
         /// The custom domain name’s certificate Amazon resource name (ARN).
         public var customDomainCertificateArn: Swift.String?
         /// The expiration time for the certificate.
@@ -158,7 +158,7 @@ extension RedshiftServerlessClientTypes.ConfigParameter: Swift.Codable {
 
 extension RedshiftServerlessClientTypes {
     /// An array of key-value pairs to set for advanced control over Amazon Redshift Serverless.
-    public struct ConfigParameter: Swift.Equatable {
+    public struct ConfigParameter {
         /// The key of the parameter. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see [Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
         public var parameterKey: Swift.String?
         /// The value of the parameter to set.
@@ -216,7 +216,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -267,7 +267,7 @@ extension ConvertRecoveryPointToSnapshotInput {
     }
 }
 
-public struct ConvertRecoveryPointToSnapshotInput: Swift.Equatable {
+public struct ConvertRecoveryPointToSnapshotInput {
     /// The unique identifier of the recovery point.
     /// This member is required.
     public var recoveryPointId: Swift.String?
@@ -293,7 +293,7 @@ public struct ConvertRecoveryPointToSnapshotInput: Swift.Equatable {
     }
 }
 
-struct ConvertRecoveryPointToSnapshotInputBody: Swift.Equatable {
+struct ConvertRecoveryPointToSnapshotInputBody {
     let recoveryPointId: Swift.String?
     let snapshotName: Swift.String?
     let retentionPeriod: Swift.Int?
@@ -342,7 +342,7 @@ extension ConvertRecoveryPointToSnapshotOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ConvertRecoveryPointToSnapshotOutput: Swift.Equatable {
+public struct ConvertRecoveryPointToSnapshotOutput {
     /// The snapshot converted from the recovery point.
     public var snapshot: RedshiftServerlessClientTypes.Snapshot?
 
@@ -354,7 +354,7 @@ public struct ConvertRecoveryPointToSnapshotOutput: Swift.Equatable {
     }
 }
 
-struct ConvertRecoveryPointToSnapshotOutputBody: Swift.Equatable {
+struct ConvertRecoveryPointToSnapshotOutputBody {
     let snapshot: RedshiftServerlessClientTypes.Snapshot?
 }
 
@@ -414,7 +414,7 @@ extension CreateCustomDomainAssociationInput {
     }
 }
 
-public struct CreateCustomDomainAssociationInput: Swift.Equatable {
+public struct CreateCustomDomainAssociationInput {
     /// The custom domain name’s certificate Amazon resource name (ARN).
     /// This member is required.
     public var customDomainCertificateArn: Swift.String?
@@ -437,7 +437,7 @@ public struct CreateCustomDomainAssociationInput: Swift.Equatable {
     }
 }
 
-struct CreateCustomDomainAssociationInputBody: Swift.Equatable {
+struct CreateCustomDomainAssociationInputBody {
     let workgroupName: Swift.String?
     let customDomainName: Swift.String?
     let customDomainCertificateArn: Swift.String?
@@ -479,7 +479,7 @@ extension CreateCustomDomainAssociationOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct CreateCustomDomainAssociationOutput: Swift.Equatable {
+public struct CreateCustomDomainAssociationOutput {
     /// The custom domain name’s certificate Amazon resource name (ARN).
     public var customDomainCertificateArn: Swift.String?
     /// The expiration time for the certificate.
@@ -503,7 +503,7 @@ public struct CreateCustomDomainAssociationOutput: Swift.Equatable {
     }
 }
 
-struct CreateCustomDomainAssociationOutputBody: Swift.Equatable {
+struct CreateCustomDomainAssociationOutputBody {
     let customDomainName: Swift.String?
     let workgroupName: Swift.String?
     let customDomainCertificateArn: Swift.String?
@@ -589,7 +589,7 @@ extension CreateEndpointAccessInput {
     }
 }
 
-public struct CreateEndpointAccessInput: Swift.Equatable {
+public struct CreateEndpointAccessInput {
     /// The name of the VPC endpoint. An endpoint name must contain 1-30 characters. Valid characters are A-Z, a-z, 0-9, and hyphen(-). The first character must be a letter. The name can't contain two consecutive hyphens or end with a hyphen.
     /// This member is required.
     public var endpointName: Swift.String?
@@ -620,7 +620,7 @@ public struct CreateEndpointAccessInput: Swift.Equatable {
     }
 }
 
-struct CreateEndpointAccessInputBody: Swift.Equatable {
+struct CreateEndpointAccessInputBody {
     let endpointName: Swift.String?
     let subnetIds: [Swift.String]?
     let workgroupName: Swift.String?
@@ -682,7 +682,7 @@ extension CreateEndpointAccessOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateEndpointAccessOutput: Swift.Equatable {
+public struct CreateEndpointAccessOutput {
     /// The created VPC endpoint.
     public var endpoint: RedshiftServerlessClientTypes.EndpointAccess?
 
@@ -694,7 +694,7 @@ public struct CreateEndpointAccessOutput: Swift.Equatable {
     }
 }
 
-struct CreateEndpointAccessOutputBody: Swift.Equatable {
+struct CreateEndpointAccessOutputBody {
     let endpoint: RedshiftServerlessClientTypes.EndpointAccess?
 }
 
@@ -804,7 +804,7 @@ extension CreateNamespaceInput {
     }
 }
 
-public struct CreateNamespaceInput: Swift.Equatable {
+public struct CreateNamespaceInput {
     /// The ID of the Key Management Service (KMS) key used to encrypt and store the namespace's admin credentials secret. You can only use this parameter if manageAdminPassword is true.
     public var adminPasswordSecretKmsKeyId: Swift.String?
     /// The password of the administrator for the first database created in the namespace. You can't use adminUserPassword if manageAdminPassword is true.
@@ -861,7 +861,7 @@ public struct CreateNamespaceInput: Swift.Equatable {
     }
 }
 
-struct CreateNamespaceInputBody: Swift.Equatable {
+struct CreateNamespaceInputBody {
     let namespaceName: Swift.String?
     let adminUsername: Swift.String?
     let adminUserPassword: Swift.String?
@@ -960,7 +960,7 @@ extension CreateNamespaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateNamespaceOutput: Swift.Equatable {
+public struct CreateNamespaceOutput {
     /// The created namespace object.
     public var namespace: RedshiftServerlessClientTypes.Namespace?
 
@@ -972,7 +972,7 @@ public struct CreateNamespaceOutput: Swift.Equatable {
     }
 }
 
-struct CreateNamespaceOutputBody: Swift.Equatable {
+struct CreateNamespaceOutputBody {
     let namespace: RedshiftServerlessClientTypes.Namespace?
 }
 
@@ -1054,7 +1054,7 @@ extension CreateScheduledActionInput {
     }
 }
 
-public struct CreateScheduledActionInput: Swift.Equatable {
+public struct CreateScheduledActionInput {
     /// Indicates whether the schedule is enabled. If false, the scheduled action does not trigger. For more information about state of the scheduled action, see [ScheduledAction](https://docs.aws.amazon.com/redshift-serverless/latest/APIReference/API_ScheduledAction.html).
     public var enabled: Swift.Bool?
     /// The end time in UTC when the schedule is no longer active. After this time, the scheduled action does not trigger.
@@ -1107,7 +1107,7 @@ public struct CreateScheduledActionInput: Swift.Equatable {
     }
 }
 
-struct CreateScheduledActionInputBody: Swift.Equatable {
+struct CreateScheduledActionInputBody {
     let scheduledActionName: Swift.String?
     let targetAction: RedshiftServerlessClientTypes.TargetAction?
     let schedule: RedshiftServerlessClientTypes.Schedule?
@@ -1167,7 +1167,7 @@ extension CreateScheduledActionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateScheduledActionOutput: Swift.Equatable {
+public struct CreateScheduledActionOutput {
     /// The returned ScheduledAction object that describes the properties of a scheduled action.
     public var scheduledAction: RedshiftServerlessClientTypes.ScheduledActionResponse?
 
@@ -1179,7 +1179,7 @@ public struct CreateScheduledActionOutput: Swift.Equatable {
     }
 }
 
-struct CreateScheduledActionOutputBody: Swift.Equatable {
+struct CreateScheduledActionOutputBody {
     let scheduledAction: RedshiftServerlessClientTypes.ScheduledActionResponse?
 }
 
@@ -1241,7 +1241,7 @@ extension CreateSnapshotCopyConfigurationInput {
     }
 }
 
-public struct CreateSnapshotCopyConfigurationInput: Swift.Equatable {
+public struct CreateSnapshotCopyConfigurationInput {
     /// The KMS key to use to encrypt your snapshots in the destination Amazon Web Services Region.
     public var destinationKmsKeyId: Swift.String?
     /// The destination Amazon Web Services Region that you want to copy snapshots to.
@@ -1267,7 +1267,7 @@ public struct CreateSnapshotCopyConfigurationInput: Swift.Equatable {
     }
 }
 
-struct CreateSnapshotCopyConfigurationInputBody: Swift.Equatable {
+struct CreateSnapshotCopyConfigurationInputBody {
     let namespaceName: Swift.String?
     let destinationRegion: Swift.String?
     let snapshotRetentionPeriod: Swift.Int?
@@ -1307,7 +1307,7 @@ extension CreateSnapshotCopyConfigurationOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct CreateSnapshotCopyConfigurationOutput: Swift.Equatable {
+public struct CreateSnapshotCopyConfigurationOutput {
     /// The snapshot copy configuration object that is returned.
     /// This member is required.
     public var snapshotCopyConfiguration: RedshiftServerlessClientTypes.SnapshotCopyConfiguration?
@@ -1320,7 +1320,7 @@ public struct CreateSnapshotCopyConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct CreateSnapshotCopyConfigurationOutputBody: Swift.Equatable {
+struct CreateSnapshotCopyConfigurationOutputBody {
     let snapshotCopyConfiguration: RedshiftServerlessClientTypes.SnapshotCopyConfiguration?
 }
 
@@ -1387,7 +1387,7 @@ extension CreateSnapshotInput {
     }
 }
 
-public struct CreateSnapshotInput: Swift.Equatable {
+public struct CreateSnapshotInput {
     /// The namespace to create a snapshot for.
     /// This member is required.
     public var namespaceName: Swift.String?
@@ -1413,7 +1413,7 @@ public struct CreateSnapshotInput: Swift.Equatable {
     }
 }
 
-struct CreateSnapshotInputBody: Swift.Equatable {
+struct CreateSnapshotInputBody {
     let namespaceName: Swift.String?
     let snapshotName: Swift.String?
     let retentionPeriod: Swift.Int?
@@ -1462,7 +1462,7 @@ extension CreateSnapshotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSnapshotOutput: Swift.Equatable {
+public struct CreateSnapshotOutput {
     /// The created snapshot object.
     public var snapshot: RedshiftServerlessClientTypes.Snapshot?
 
@@ -1474,7 +1474,7 @@ public struct CreateSnapshotOutput: Swift.Equatable {
     }
 }
 
-struct CreateSnapshotOutputBody: Swift.Equatable {
+struct CreateSnapshotOutputBody {
     let snapshot: RedshiftServerlessClientTypes.Snapshot?
 }
 
@@ -1557,7 +1557,7 @@ extension RedshiftServerlessClientTypes.CreateSnapshotScheduleActionParameters: 
 
 extension RedshiftServerlessClientTypes {
     /// The parameters that you can use to configure a [scheduled action](https://docs.aws.amazon.com/redshift-serverless/latest/APIReference/API_CreateScheduledAction.html) to create a snapshot. For more information about creating a scheduled action, see [CreateScheduledAction](https://docs.aws.amazon.com/redshift-serverless/latest/APIReference/API_CreateScheduledAction.html).
-    public struct CreateSnapshotScheduleActionParameters: Swift.Equatable {
+    public struct CreateSnapshotScheduleActionParameters {
         /// The name of the namespace for which you want to configure a scheduled action to create a snapshot.
         /// This member is required.
         public var namespaceName: Swift.String?
@@ -1621,7 +1621,7 @@ extension CreateUsageLimitInput {
     }
 }
 
-public struct CreateUsageLimitInput: Swift.Equatable {
+public struct CreateUsageLimitInput {
     /// The limit amount. If time-based, this amount is in Redshift Processing Units (RPU) consumed per hour. If data-based, this amount is in terabytes (TB) of data transferred between Regions in cross-account sharing. The value must be a positive number.
     /// This member is required.
     public var amount: Swift.Int?
@@ -1652,7 +1652,7 @@ public struct CreateUsageLimitInput: Swift.Equatable {
     }
 }
 
-struct CreateUsageLimitInputBody: Swift.Equatable {
+struct CreateUsageLimitInputBody {
     let resourceArn: Swift.String?
     let usageType: RedshiftServerlessClientTypes.UsageLimitUsageType?
     let amount: Swift.Int?
@@ -1696,7 +1696,7 @@ extension CreateUsageLimitOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateUsageLimitOutput: Swift.Equatable {
+public struct CreateUsageLimitOutput {
     /// The returned usage limit object.
     public var usageLimit: RedshiftServerlessClientTypes.UsageLimit?
 
@@ -1708,7 +1708,7 @@ public struct CreateUsageLimitOutput: Swift.Equatable {
     }
 }
 
-struct CreateUsageLimitOutputBody: Swift.Equatable {
+struct CreateUsageLimitOutputBody {
     let usageLimit: RedshiftServerlessClientTypes.UsageLimit?
 }
 
@@ -1811,7 +1811,7 @@ extension CreateWorkgroupInput {
     }
 }
 
-public struct CreateWorkgroupInput: Swift.Equatable {
+public struct CreateWorkgroupInput {
     /// The base data warehouse capacity of the workgroup in Redshift Processing Units (RPUs).
     public var baseCapacity: Swift.Int?
     /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see [ Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
@@ -1865,7 +1865,7 @@ public struct CreateWorkgroupInput: Swift.Equatable {
     }
 }
 
-struct CreateWorkgroupInputBody: Swift.Equatable {
+struct CreateWorkgroupInputBody {
     let workgroupName: Swift.String?
     let namespaceName: Swift.String?
     let baseCapacity: Swift.Int?
@@ -1969,7 +1969,7 @@ extension CreateWorkgroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateWorkgroupOutput: Swift.Equatable {
+public struct CreateWorkgroupOutput {
     /// The created workgroup object.
     public var workgroup: RedshiftServerlessClientTypes.Workgroup?
 
@@ -1981,7 +1981,7 @@ public struct CreateWorkgroupOutput: Swift.Equatable {
     }
 }
 
-struct CreateWorkgroupOutputBody: Swift.Equatable {
+struct CreateWorkgroupOutputBody {
     let workgroup: RedshiftServerlessClientTypes.Workgroup?
 }
 
@@ -2037,7 +2037,7 @@ extension DeleteCustomDomainAssociationInput {
     }
 }
 
-public struct DeleteCustomDomainAssociationInput: Swift.Equatable {
+public struct DeleteCustomDomainAssociationInput {
     /// The custom domain name associated with the workgroup.
     /// This member is required.
     public var customDomainName: Swift.String?
@@ -2055,7 +2055,7 @@ public struct DeleteCustomDomainAssociationInput: Swift.Equatable {
     }
 }
 
-struct DeleteCustomDomainAssociationInputBody: Swift.Equatable {
+struct DeleteCustomDomainAssociationInputBody {
     let workgroupName: Swift.String?
     let customDomainName: Swift.String?
 }
@@ -2080,7 +2080,7 @@ extension DeleteCustomDomainAssociationOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DeleteCustomDomainAssociationOutput: Swift.Equatable {
+public struct DeleteCustomDomainAssociationOutput {
 
     public init() { }
 }
@@ -2121,7 +2121,7 @@ extension DeleteEndpointAccessInput {
     }
 }
 
-public struct DeleteEndpointAccessInput: Swift.Equatable {
+public struct DeleteEndpointAccessInput {
     /// The name of the VPC endpoint to delete.
     /// This member is required.
     public var endpointName: Swift.String?
@@ -2134,7 +2134,7 @@ public struct DeleteEndpointAccessInput: Swift.Equatable {
     }
 }
 
-struct DeleteEndpointAccessInputBody: Swift.Equatable {
+struct DeleteEndpointAccessInputBody {
     let endpointName: Swift.String?
 }
 
@@ -2162,7 +2162,7 @@ extension DeleteEndpointAccessOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteEndpointAccessOutput: Swift.Equatable {
+public struct DeleteEndpointAccessOutput {
     /// The deleted VPC endpoint.
     public var endpoint: RedshiftServerlessClientTypes.EndpointAccess?
 
@@ -2174,7 +2174,7 @@ public struct DeleteEndpointAccessOutput: Swift.Equatable {
     }
 }
 
-struct DeleteEndpointAccessOutputBody: Swift.Equatable {
+struct DeleteEndpointAccessOutputBody {
     let endpoint: RedshiftServerlessClientTypes.EndpointAccess?
 }
 
@@ -2232,7 +2232,7 @@ extension DeleteNamespaceInput {
     }
 }
 
-public struct DeleteNamespaceInput: Swift.Equatable {
+public struct DeleteNamespaceInput {
     /// The name of the snapshot to be created before the namespace is deleted.
     public var finalSnapshotName: Swift.String?
     /// How long to retain the final snapshot.
@@ -2253,7 +2253,7 @@ public struct DeleteNamespaceInput: Swift.Equatable {
     }
 }
 
-struct DeleteNamespaceInputBody: Swift.Equatable {
+struct DeleteNamespaceInputBody {
     let namespaceName: Swift.String?
     let finalSnapshotName: Swift.String?
     let finalSnapshotRetentionPeriod: Swift.Int?
@@ -2289,7 +2289,7 @@ extension DeleteNamespaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteNamespaceOutput: Swift.Equatable {
+public struct DeleteNamespaceOutput {
     /// The deleted namespace object.
     /// This member is required.
     public var namespace: RedshiftServerlessClientTypes.Namespace?
@@ -2302,7 +2302,7 @@ public struct DeleteNamespaceOutput: Swift.Equatable {
     }
 }
 
-struct DeleteNamespaceOutputBody: Swift.Equatable {
+struct DeleteNamespaceOutputBody {
     let namespace: RedshiftServerlessClientTypes.Namespace?
 }
 
@@ -2352,7 +2352,7 @@ extension DeleteResourcePolicyInput {
     }
 }
 
-public struct DeleteResourcePolicyInput: Swift.Equatable {
+public struct DeleteResourcePolicyInput {
     /// The Amazon Resource Name (ARN) of the policy to delete.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2365,7 +2365,7 @@ public struct DeleteResourcePolicyInput: Swift.Equatable {
     }
 }
 
-struct DeleteResourcePolicyInputBody: Swift.Equatable {
+struct DeleteResourcePolicyInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -2386,7 +2386,7 @@ extension DeleteResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteResourcePolicyOutput: Swift.Equatable {
+public struct DeleteResourcePolicyOutput {
 
     public init() { }
 }
@@ -2424,7 +2424,7 @@ extension DeleteScheduledActionInput {
     }
 }
 
-public struct DeleteScheduledActionInput: Swift.Equatable {
+public struct DeleteScheduledActionInput {
     /// The name of the scheduled action to delete.
     /// This member is required.
     public var scheduledActionName: Swift.String?
@@ -2437,7 +2437,7 @@ public struct DeleteScheduledActionInput: Swift.Equatable {
     }
 }
 
-struct DeleteScheduledActionInputBody: Swift.Equatable {
+struct DeleteScheduledActionInputBody {
     let scheduledActionName: Swift.String?
 }
 
@@ -2465,7 +2465,7 @@ extension DeleteScheduledActionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteScheduledActionOutput: Swift.Equatable {
+public struct DeleteScheduledActionOutput {
     /// The deleted scheduled action object.
     public var scheduledAction: RedshiftServerlessClientTypes.ScheduledActionResponse?
 
@@ -2477,7 +2477,7 @@ public struct DeleteScheduledActionOutput: Swift.Equatable {
     }
 }
 
-struct DeleteScheduledActionOutputBody: Swift.Equatable {
+struct DeleteScheduledActionOutputBody {
     let scheduledAction: RedshiftServerlessClientTypes.ScheduledActionResponse?
 }
 
@@ -2526,7 +2526,7 @@ extension DeleteSnapshotCopyConfigurationInput {
     }
 }
 
-public struct DeleteSnapshotCopyConfigurationInput: Swift.Equatable {
+public struct DeleteSnapshotCopyConfigurationInput {
     /// The ID of the snapshot copy configuration to delete.
     /// This member is required.
     public var snapshotCopyConfigurationId: Swift.String?
@@ -2539,7 +2539,7 @@ public struct DeleteSnapshotCopyConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DeleteSnapshotCopyConfigurationInputBody: Swift.Equatable {
+struct DeleteSnapshotCopyConfigurationInputBody {
     let snapshotCopyConfigurationId: Swift.String?
 }
 
@@ -2567,7 +2567,7 @@ extension DeleteSnapshotCopyConfigurationOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DeleteSnapshotCopyConfigurationOutput: Swift.Equatable {
+public struct DeleteSnapshotCopyConfigurationOutput {
     /// The deleted snapshot copy configuration object.
     /// This member is required.
     public var snapshotCopyConfiguration: RedshiftServerlessClientTypes.SnapshotCopyConfiguration?
@@ -2580,7 +2580,7 @@ public struct DeleteSnapshotCopyConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct DeleteSnapshotCopyConfigurationOutputBody: Swift.Equatable {
+struct DeleteSnapshotCopyConfigurationOutputBody {
     let snapshotCopyConfiguration: RedshiftServerlessClientTypes.SnapshotCopyConfiguration?
 }
 
@@ -2631,7 +2631,7 @@ extension DeleteSnapshotInput {
     }
 }
 
-public struct DeleteSnapshotInput: Swift.Equatable {
+public struct DeleteSnapshotInput {
     /// The name of the snapshot to be deleted.
     /// This member is required.
     public var snapshotName: Swift.String?
@@ -2644,7 +2644,7 @@ public struct DeleteSnapshotInput: Swift.Equatable {
     }
 }
 
-struct DeleteSnapshotInputBody: Swift.Equatable {
+struct DeleteSnapshotInputBody {
     let snapshotName: Swift.String?
 }
 
@@ -2672,7 +2672,7 @@ extension DeleteSnapshotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSnapshotOutput: Swift.Equatable {
+public struct DeleteSnapshotOutput {
     /// The deleted snapshot object.
     public var snapshot: RedshiftServerlessClientTypes.Snapshot?
 
@@ -2684,7 +2684,7 @@ public struct DeleteSnapshotOutput: Swift.Equatable {
     }
 }
 
-struct DeleteSnapshotOutputBody: Swift.Equatable {
+struct DeleteSnapshotOutputBody {
     let snapshot: RedshiftServerlessClientTypes.Snapshot?
 }
 
@@ -2734,7 +2734,7 @@ extension DeleteUsageLimitInput {
     }
 }
 
-public struct DeleteUsageLimitInput: Swift.Equatable {
+public struct DeleteUsageLimitInput {
     /// The unique identifier of the usage limit to delete.
     /// This member is required.
     public var usageLimitId: Swift.String?
@@ -2747,7 +2747,7 @@ public struct DeleteUsageLimitInput: Swift.Equatable {
     }
 }
 
-struct DeleteUsageLimitInputBody: Swift.Equatable {
+struct DeleteUsageLimitInputBody {
     let usageLimitId: Swift.String?
 }
 
@@ -2775,7 +2775,7 @@ extension DeleteUsageLimitOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteUsageLimitOutput: Swift.Equatable {
+public struct DeleteUsageLimitOutput {
     /// The deleted usage limit object.
     public var usageLimit: RedshiftServerlessClientTypes.UsageLimit?
 
@@ -2787,7 +2787,7 @@ public struct DeleteUsageLimitOutput: Swift.Equatable {
     }
 }
 
-struct DeleteUsageLimitOutputBody: Swift.Equatable {
+struct DeleteUsageLimitOutputBody {
     let usageLimit: RedshiftServerlessClientTypes.UsageLimit?
 }
 
@@ -2837,7 +2837,7 @@ extension DeleteWorkgroupInput {
     }
 }
 
-public struct DeleteWorkgroupInput: Swift.Equatable {
+public struct DeleteWorkgroupInput {
     /// The name of the workgroup to be deleted.
     /// This member is required.
     public var workgroupName: Swift.String?
@@ -2850,7 +2850,7 @@ public struct DeleteWorkgroupInput: Swift.Equatable {
     }
 }
 
-struct DeleteWorkgroupInputBody: Swift.Equatable {
+struct DeleteWorkgroupInputBody {
     let workgroupName: Swift.String?
 }
 
@@ -2878,7 +2878,7 @@ extension DeleteWorkgroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteWorkgroupOutput: Swift.Equatable {
+public struct DeleteWorkgroupOutput {
     /// The deleted workgroup object.
     /// This member is required.
     public var workgroup: RedshiftServerlessClientTypes.Workgroup?
@@ -2891,7 +2891,7 @@ public struct DeleteWorkgroupOutput: Swift.Equatable {
     }
 }
 
-struct DeleteWorkgroupOutputBody: Swift.Equatable {
+struct DeleteWorkgroupOutputBody {
     let workgroup: RedshiftServerlessClientTypes.Workgroup?
 }
 
@@ -2966,7 +2966,7 @@ extension RedshiftServerlessClientTypes.Endpoint: Swift.Codable {
 
 extension RedshiftServerlessClientTypes {
     /// The VPC endpoint object.
-    public struct Endpoint: Swift.Equatable {
+    public struct Endpoint {
         /// The DNS address of the VPC endpoint.
         public var address: Swift.String?
         /// The port that Amazon Redshift Serverless listens on.
@@ -3087,7 +3087,7 @@ extension RedshiftServerlessClientTypes.EndpointAccess: Swift.Codable {
 
 extension RedshiftServerlessClientTypes {
     /// Information about an Amazon Redshift Serverless VPC endpoint.
-    public struct EndpointAccess: Swift.Equatable {
+    public struct EndpointAccess {
         /// The DNS address of the endpoint.
         public var address: Swift.String?
         /// The Amazon Resource Name (ARN) of the VPC endpoint.
@@ -3169,7 +3169,7 @@ extension GetCredentialsInput {
     }
 }
 
-public struct GetCredentialsInput: Swift.Equatable {
+public struct GetCredentialsInput {
     /// The custom domain name associated with the workgroup. The custom domain name or the workgroup name must be included in the request.
     public var customDomainName: Swift.String?
     /// The name of the database to get temporary authorization to log on to. Constraints:
@@ -3203,7 +3203,7 @@ public struct GetCredentialsInput: Swift.Equatable {
     }
 }
 
-struct GetCredentialsInputBody: Swift.Equatable {
+struct GetCredentialsInputBody {
     let dbName: Swift.String?
     let durationSeconds: Swift.Int?
     let workgroupName: Swift.String?
@@ -3254,7 +3254,7 @@ extension GetCredentialsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCredentialsOutput: Swift.Equatable {
+public struct GetCredentialsOutput {
     /// A temporary password that authorizes the user name returned by DbUser to log on to the database DbName.
     public var dbPassword: Swift.String?
     /// A database user name that is authorized to log on to the database DbName using the password DbPassword. If the specified DbUser exists in the database, the new user name has the same database privileges as the the user named in DbUser. By default, the user is added to PUBLIC.
@@ -3278,7 +3278,7 @@ public struct GetCredentialsOutput: Swift.Equatable {
     }
 }
 
-struct GetCredentialsOutputBody: Swift.Equatable {
+struct GetCredentialsOutputBody {
     let dbUser: Swift.String?
     let dbPassword: Swift.String?
     let expiration: ClientRuntime.Date?
@@ -3343,7 +3343,7 @@ extension GetCustomDomainAssociationInput {
     }
 }
 
-public struct GetCustomDomainAssociationInput: Swift.Equatable {
+public struct GetCustomDomainAssociationInput {
     /// The custom domain name associated with the workgroup.
     /// This member is required.
     public var customDomainName: Swift.String?
@@ -3361,7 +3361,7 @@ public struct GetCustomDomainAssociationInput: Swift.Equatable {
     }
 }
 
-struct GetCustomDomainAssociationInputBody: Swift.Equatable {
+struct GetCustomDomainAssociationInputBody {
     let customDomainName: Swift.String?
     let workgroupName: Swift.String?
 }
@@ -3399,7 +3399,7 @@ extension GetCustomDomainAssociationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCustomDomainAssociationOutput: Swift.Equatable {
+public struct GetCustomDomainAssociationOutput {
     /// The custom domain name’s certificate Amazon resource name (ARN).
     public var customDomainCertificateArn: Swift.String?
     /// The expiration time for the certificate.
@@ -3423,7 +3423,7 @@ public struct GetCustomDomainAssociationOutput: Swift.Equatable {
     }
 }
 
-struct GetCustomDomainAssociationOutputBody: Swift.Equatable {
+struct GetCustomDomainAssociationOutputBody {
     let customDomainName: Swift.String?
     let workgroupName: Swift.String?
     let customDomainCertificateArn: Swift.String?
@@ -3487,7 +3487,7 @@ extension GetEndpointAccessInput {
     }
 }
 
-public struct GetEndpointAccessInput: Swift.Equatable {
+public struct GetEndpointAccessInput {
     /// The name of the VPC endpoint to return information for.
     /// This member is required.
     public var endpointName: Swift.String?
@@ -3500,7 +3500,7 @@ public struct GetEndpointAccessInput: Swift.Equatable {
     }
 }
 
-struct GetEndpointAccessInputBody: Swift.Equatable {
+struct GetEndpointAccessInputBody {
     let endpointName: Swift.String?
 }
 
@@ -3528,7 +3528,7 @@ extension GetEndpointAccessOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEndpointAccessOutput: Swift.Equatable {
+public struct GetEndpointAccessOutput {
     /// The returned VPC endpoint.
     public var endpoint: RedshiftServerlessClientTypes.EndpointAccess?
 
@@ -3540,7 +3540,7 @@ public struct GetEndpointAccessOutput: Swift.Equatable {
     }
 }
 
-struct GetEndpointAccessOutputBody: Swift.Equatable {
+struct GetEndpointAccessOutputBody {
     let endpoint: RedshiftServerlessClientTypes.EndpointAccess?
 }
 
@@ -3590,7 +3590,7 @@ extension GetNamespaceInput {
     }
 }
 
-public struct GetNamespaceInput: Swift.Equatable {
+public struct GetNamespaceInput {
     /// The name of the namespace to retrieve information for.
     /// This member is required.
     public var namespaceName: Swift.String?
@@ -3603,7 +3603,7 @@ public struct GetNamespaceInput: Swift.Equatable {
     }
 }
 
-struct GetNamespaceInputBody: Swift.Equatable {
+struct GetNamespaceInputBody {
     let namespaceName: Swift.String?
 }
 
@@ -3631,7 +3631,7 @@ extension GetNamespaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetNamespaceOutput: Swift.Equatable {
+public struct GetNamespaceOutput {
     /// The returned namespace object.
     /// This member is required.
     public var namespace: RedshiftServerlessClientTypes.Namespace?
@@ -3644,7 +3644,7 @@ public struct GetNamespaceOutput: Swift.Equatable {
     }
 }
 
-struct GetNamespaceOutputBody: Swift.Equatable {
+struct GetNamespaceOutputBody {
     let namespace: RedshiftServerlessClientTypes.Namespace?
 }
 
@@ -3693,7 +3693,7 @@ extension GetRecoveryPointInput {
     }
 }
 
-public struct GetRecoveryPointInput: Swift.Equatable {
+public struct GetRecoveryPointInput {
     /// The unique identifier of the recovery point to return information for.
     /// This member is required.
     public var recoveryPointId: Swift.String?
@@ -3706,7 +3706,7 @@ public struct GetRecoveryPointInput: Swift.Equatable {
     }
 }
 
-struct GetRecoveryPointInputBody: Swift.Equatable {
+struct GetRecoveryPointInputBody {
     let recoveryPointId: Swift.String?
 }
 
@@ -3734,7 +3734,7 @@ extension GetRecoveryPointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRecoveryPointOutput: Swift.Equatable {
+public struct GetRecoveryPointOutput {
     /// The returned recovery point object.
     public var recoveryPoint: RedshiftServerlessClientTypes.RecoveryPoint?
 
@@ -3746,7 +3746,7 @@ public struct GetRecoveryPointOutput: Swift.Equatable {
     }
 }
 
-struct GetRecoveryPointOutputBody: Swift.Equatable {
+struct GetRecoveryPointOutputBody {
     let recoveryPoint: RedshiftServerlessClientTypes.RecoveryPoint?
 }
 
@@ -3796,7 +3796,7 @@ extension GetResourcePolicyInput {
     }
 }
 
-public struct GetResourcePolicyInput: Swift.Equatable {
+public struct GetResourcePolicyInput {
     /// The Amazon Resource Name (ARN) of the resource to return.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3809,7 +3809,7 @@ public struct GetResourcePolicyInput: Swift.Equatable {
     }
 }
 
-struct GetResourcePolicyInputBody: Swift.Equatable {
+struct GetResourcePolicyInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -3837,7 +3837,7 @@ extension GetResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetResourcePolicyOutput: Swift.Equatable {
+public struct GetResourcePolicyOutput {
     /// The returned resource policy.
     public var resourcePolicy: RedshiftServerlessClientTypes.ResourcePolicy?
 
@@ -3849,7 +3849,7 @@ public struct GetResourcePolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetResourcePolicyOutputBody: Swift.Equatable {
+struct GetResourcePolicyOutputBody {
     let resourcePolicy: RedshiftServerlessClientTypes.ResourcePolicy?
 }
 
@@ -3898,7 +3898,7 @@ extension GetScheduledActionInput {
     }
 }
 
-public struct GetScheduledActionInput: Swift.Equatable {
+public struct GetScheduledActionInput {
     /// The name of the scheduled action.
     /// This member is required.
     public var scheduledActionName: Swift.String?
@@ -3911,7 +3911,7 @@ public struct GetScheduledActionInput: Swift.Equatable {
     }
 }
 
-struct GetScheduledActionInputBody: Swift.Equatable {
+struct GetScheduledActionInputBody {
     let scheduledActionName: Swift.String?
 }
 
@@ -3939,7 +3939,7 @@ extension GetScheduledActionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetScheduledActionOutput: Swift.Equatable {
+public struct GetScheduledActionOutput {
     /// The returned scheduled action object.
     public var scheduledAction: RedshiftServerlessClientTypes.ScheduledActionResponse?
 
@@ -3951,7 +3951,7 @@ public struct GetScheduledActionOutput: Swift.Equatable {
     }
 }
 
-struct GetScheduledActionOutputBody: Swift.Equatable {
+struct GetScheduledActionOutputBody {
     let scheduledAction: RedshiftServerlessClientTypes.ScheduledActionResponse?
 }
 
@@ -4008,7 +4008,7 @@ extension GetSnapshotInput {
     }
 }
 
-public struct GetSnapshotInput: Swift.Equatable {
+public struct GetSnapshotInput {
     /// The owner Amazon Web Services account of a snapshot shared with another user.
     public var ownerAccount: Swift.String?
     /// The Amazon Resource Name (ARN) of the snapshot to return.
@@ -4028,7 +4028,7 @@ public struct GetSnapshotInput: Swift.Equatable {
     }
 }
 
-struct GetSnapshotInputBody: Swift.Equatable {
+struct GetSnapshotInputBody {
     let snapshotName: Swift.String?
     let ownerAccount: Swift.String?
     let snapshotArn: Swift.String?
@@ -4064,7 +4064,7 @@ extension GetSnapshotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSnapshotOutput: Swift.Equatable {
+public struct GetSnapshotOutput {
     /// The returned snapshot object.
     public var snapshot: RedshiftServerlessClientTypes.Snapshot?
 
@@ -4076,7 +4076,7 @@ public struct GetSnapshotOutput: Swift.Equatable {
     }
 }
 
-struct GetSnapshotOutputBody: Swift.Equatable {
+struct GetSnapshotOutputBody {
     let snapshot: RedshiftServerlessClientTypes.Snapshot?
 }
 
@@ -4125,7 +4125,7 @@ extension GetTableRestoreStatusInput {
     }
 }
 
-public struct GetTableRestoreStatusInput: Swift.Equatable {
+public struct GetTableRestoreStatusInput {
     /// The ID of the RestoreTableFromSnapshot request to return status for.
     /// This member is required.
     public var tableRestoreRequestId: Swift.String?
@@ -4138,7 +4138,7 @@ public struct GetTableRestoreStatusInput: Swift.Equatable {
     }
 }
 
-struct GetTableRestoreStatusInputBody: Swift.Equatable {
+struct GetTableRestoreStatusInputBody {
     let tableRestoreRequestId: Swift.String?
 }
 
@@ -4166,7 +4166,7 @@ extension GetTableRestoreStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTableRestoreStatusOutput: Swift.Equatable {
+public struct GetTableRestoreStatusOutput {
     /// The returned TableRestoreStatus object that contains information about the status of your RestoreTableFromSnapshot request.
     public var tableRestoreStatus: RedshiftServerlessClientTypes.TableRestoreStatus?
 
@@ -4178,7 +4178,7 @@ public struct GetTableRestoreStatusOutput: Swift.Equatable {
     }
 }
 
-struct GetTableRestoreStatusOutputBody: Swift.Equatable {
+struct GetTableRestoreStatusOutputBody {
     let tableRestoreStatus: RedshiftServerlessClientTypes.TableRestoreStatus?
 }
 
@@ -4226,7 +4226,7 @@ extension GetUsageLimitInput {
     }
 }
 
-public struct GetUsageLimitInput: Swift.Equatable {
+public struct GetUsageLimitInput {
     /// The unique identifier of the usage limit to return information for.
     /// This member is required.
     public var usageLimitId: Swift.String?
@@ -4239,7 +4239,7 @@ public struct GetUsageLimitInput: Swift.Equatable {
     }
 }
 
-struct GetUsageLimitInputBody: Swift.Equatable {
+struct GetUsageLimitInputBody {
     let usageLimitId: Swift.String?
 }
 
@@ -4267,7 +4267,7 @@ extension GetUsageLimitOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetUsageLimitOutput: Swift.Equatable {
+public struct GetUsageLimitOutput {
     /// The returned usage limit object.
     public var usageLimit: RedshiftServerlessClientTypes.UsageLimit?
 
@@ -4279,7 +4279,7 @@ public struct GetUsageLimitOutput: Swift.Equatable {
     }
 }
 
-struct GetUsageLimitOutputBody: Swift.Equatable {
+struct GetUsageLimitOutputBody {
     let usageLimit: RedshiftServerlessClientTypes.UsageLimit?
 }
 
@@ -4329,7 +4329,7 @@ extension GetWorkgroupInput {
     }
 }
 
-public struct GetWorkgroupInput: Swift.Equatable {
+public struct GetWorkgroupInput {
     /// The name of the workgroup to return information for.
     /// This member is required.
     public var workgroupName: Swift.String?
@@ -4342,7 +4342,7 @@ public struct GetWorkgroupInput: Swift.Equatable {
     }
 }
 
-struct GetWorkgroupInputBody: Swift.Equatable {
+struct GetWorkgroupInputBody {
     let workgroupName: Swift.String?
 }
 
@@ -4370,7 +4370,7 @@ extension GetWorkgroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetWorkgroupOutput: Swift.Equatable {
+public struct GetWorkgroupOutput {
     /// The returned workgroup object.
     /// This member is required.
     public var workgroup: RedshiftServerlessClientTypes.Workgroup?
@@ -4383,7 +4383,7 @@ public struct GetWorkgroupOutput: Swift.Equatable {
     }
 }
 
-struct GetWorkgroupOutputBody: Swift.Equatable {
+struct GetWorkgroupOutputBody {
     let workgroup: RedshiftServerlessClientTypes.Workgroup?
 }
 
@@ -4452,7 +4452,7 @@ public struct InsufficientCapacityException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct InsufficientCapacityExceptionBody: Swift.Equatable {
+struct InsufficientCapacityExceptionBody {
     let message: Swift.String?
 }
 
@@ -4508,7 +4508,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -4564,7 +4564,7 @@ public struct InvalidPaginationException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct InvalidPaginationExceptionBody: Swift.Equatable {
+struct InvalidPaginationExceptionBody {
     let message: Swift.String?
 }
 
@@ -4604,7 +4604,7 @@ extension ListCustomDomainAssociationsInput {
     }
 }
 
-public struct ListCustomDomainAssociationsInput: Swift.Equatable {
+public struct ListCustomDomainAssociationsInput {
     /// The custom domain name’s certificate Amazon resource name (ARN).
     public var customDomainCertificateArn: Swift.String?
     /// The custom domain name associated with the workgroup.
@@ -4628,7 +4628,7 @@ public struct ListCustomDomainAssociationsInput: Swift.Equatable {
     }
 }
 
-struct ListCustomDomainAssociationsInputBody: Swift.Equatable {
+struct ListCustomDomainAssociationsInputBody {
     let customDomainName: Swift.String?
     let customDomainCertificateArn: Swift.String?
 }
@@ -4662,7 +4662,7 @@ extension ListCustomDomainAssociationsOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListCustomDomainAssociationsOutput: Swift.Equatable {
+public struct ListCustomDomainAssociationsOutput {
     /// A list of Association objects.
     public var associations: [RedshiftServerlessClientTypes.Association]?
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
@@ -4678,7 +4678,7 @@ public struct ListCustomDomainAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct ListCustomDomainAssociationsOutputBody: Swift.Equatable {
+struct ListCustomDomainAssociationsOutputBody {
     let nextToken: Swift.String?
     let associations: [RedshiftServerlessClientTypes.Association]?
 }
@@ -4750,7 +4750,7 @@ extension ListEndpointAccessInput {
     }
 }
 
-public struct ListEndpointAccessInput: Swift.Equatable {
+public struct ListEndpointAccessInput {
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
     public var maxResults: Swift.Int?
     /// If your initial ListEndpointAccess operation returns a nextToken, you can include the returned nextToken in following ListEndpointAccess operations, which returns results in the next page.
@@ -4778,7 +4778,7 @@ public struct ListEndpointAccessInput: Swift.Equatable {
     }
 }
 
-struct ListEndpointAccessInputBody: Swift.Equatable {
+struct ListEndpointAccessInputBody {
     let workgroupName: Swift.String?
     let vpcId: Swift.String?
     let ownerAccount: Swift.String?
@@ -4816,7 +4816,7 @@ extension ListEndpointAccessOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEndpointAccessOutput: Swift.Equatable {
+public struct ListEndpointAccessOutput {
     /// The returned VPC endpoints.
     /// This member is required.
     public var endpoints: [RedshiftServerlessClientTypes.EndpointAccess]?
@@ -4833,7 +4833,7 @@ public struct ListEndpointAccessOutput: Swift.Equatable {
     }
 }
 
-struct ListEndpointAccessOutputBody: Swift.Equatable {
+struct ListEndpointAccessOutputBody {
     let nextToken: Swift.String?
     let endpoints: [RedshiftServerlessClientTypes.EndpointAccess]?
 }
@@ -4891,7 +4891,7 @@ extension ListNamespacesInput {
     }
 }
 
-public struct ListNamespacesInput: Swift.Equatable {
+public struct ListNamespacesInput {
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
     public var maxResults: Swift.Int?
     /// If your initial ListNamespaces operation returns a nextToken, you can include the returned nextToken in following ListNamespaces operations, which returns results in the next page.
@@ -4907,7 +4907,7 @@ public struct ListNamespacesInput: Swift.Equatable {
     }
 }
 
-struct ListNamespacesInputBody: Swift.Equatable {
+struct ListNamespacesInputBody {
 }
 
 extension ListNamespacesInputBody: Swift.Decodable {
@@ -4930,7 +4930,7 @@ extension ListNamespacesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListNamespacesOutput: Swift.Equatable {
+public struct ListNamespacesOutput {
     /// The list of returned namespaces.
     /// This member is required.
     public var namespaces: [RedshiftServerlessClientTypes.Namespace]?
@@ -4947,7 +4947,7 @@ public struct ListNamespacesOutput: Swift.Equatable {
     }
 }
 
-struct ListNamespacesOutputBody: Swift.Equatable {
+struct ListNamespacesOutputBody {
     let nextToken: Swift.String?
     let namespaces: [RedshiftServerlessClientTypes.Namespace]?
 }
@@ -5020,7 +5020,7 @@ extension ListRecoveryPointsInput {
     }
 }
 
-public struct ListRecoveryPointsInput: Swift.Equatable {
+public struct ListRecoveryPointsInput {
     /// The time when creation of the recovery point finished.
     public var endTime: ClientRuntime.Date?
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
@@ -5052,7 +5052,7 @@ public struct ListRecoveryPointsInput: Swift.Equatable {
     }
 }
 
-struct ListRecoveryPointsInputBody: Swift.Equatable {
+struct ListRecoveryPointsInputBody {
     let startTime: ClientRuntime.Date?
     let endTime: ClientRuntime.Date?
     let namespaceName: Swift.String?
@@ -5094,7 +5094,7 @@ extension ListRecoveryPointsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRecoveryPointsOutput: Swift.Equatable {
+public struct ListRecoveryPointsOutput {
     /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
     /// The returned recovery point objects.
@@ -5110,7 +5110,7 @@ public struct ListRecoveryPointsOutput: Swift.Equatable {
     }
 }
 
-struct ListRecoveryPointsOutputBody: Swift.Equatable {
+struct ListRecoveryPointsOutputBody {
     let recoveryPoints: [RedshiftServerlessClientTypes.RecoveryPoint]?
     let nextToken: Swift.String?
 }
@@ -5171,7 +5171,7 @@ extension ListScheduledActionsInput {
     }
 }
 
-public struct ListScheduledActionsInput: Swift.Equatable {
+public struct ListScheduledActionsInput {
     /// An optional parameter that specifies the maximum number of results to return. Use nextToken to display the next page of results.
     public var maxResults: Swift.Int?
     /// The name of namespace associated with the scheduled action to retrieve.
@@ -5191,7 +5191,7 @@ public struct ListScheduledActionsInput: Swift.Equatable {
     }
 }
 
-struct ListScheduledActionsInputBody: Swift.Equatable {
+struct ListScheduledActionsInputBody {
     let namespaceName: Swift.String?
 }
 
@@ -5221,7 +5221,7 @@ extension ListScheduledActionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListScheduledActionsOutput: Swift.Equatable {
+public struct ListScheduledActionsOutput {
     /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
     /// All of the returned scheduled action objects.
@@ -5237,7 +5237,7 @@ public struct ListScheduledActionsOutput: Swift.Equatable {
     }
 }
 
-struct ListScheduledActionsOutputBody: Swift.Equatable {
+struct ListScheduledActionsOutputBody {
     let nextToken: Swift.String?
     let scheduledActions: [Swift.String]?
 }
@@ -5300,7 +5300,7 @@ extension ListSnapshotCopyConfigurationsInput {
     }
 }
 
-public struct ListSnapshotCopyConfigurationsInput: Swift.Equatable {
+public struct ListSnapshotCopyConfigurationsInput {
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
     public var maxResults: Swift.Int?
     /// The namespace from which to list all snapshot copy configurations.
@@ -5320,7 +5320,7 @@ public struct ListSnapshotCopyConfigurationsInput: Swift.Equatable {
     }
 }
 
-struct ListSnapshotCopyConfigurationsInputBody: Swift.Equatable {
+struct ListSnapshotCopyConfigurationsInputBody {
     let namespaceName: Swift.String?
 }
 
@@ -5350,7 +5350,7 @@ extension ListSnapshotCopyConfigurationsOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ListSnapshotCopyConfigurationsOutput: Swift.Equatable {
+public struct ListSnapshotCopyConfigurationsOutput {
     /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
     /// All of the returned snapshot copy configurations.
@@ -5367,7 +5367,7 @@ public struct ListSnapshotCopyConfigurationsOutput: Swift.Equatable {
     }
 }
 
-struct ListSnapshotCopyConfigurationsOutputBody: Swift.Equatable {
+struct ListSnapshotCopyConfigurationsOutputBody {
     let nextToken: Swift.String?
     let snapshotCopyConfigurations: [RedshiftServerlessClientTypes.SnapshotCopyConfiguration]?
 }
@@ -5447,7 +5447,7 @@ extension ListSnapshotsInput {
     }
 }
 
-public struct ListSnapshotsInput: Swift.Equatable {
+public struct ListSnapshotsInput {
     /// The timestamp showing when the snapshot creation finished.
     public var endTime: ClientRuntime.Date?
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
@@ -5483,7 +5483,7 @@ public struct ListSnapshotsInput: Swift.Equatable {
     }
 }
 
-struct ListSnapshotsInputBody: Swift.Equatable {
+struct ListSnapshotsInputBody {
     let namespaceName: Swift.String?
     let namespaceArn: Swift.String?
     let ownerAccount: Swift.String?
@@ -5529,7 +5529,7 @@ extension ListSnapshotsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSnapshotsOutput: Swift.Equatable {
+public struct ListSnapshotsOutput {
     /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
     /// All of the returned snapshot objects.
@@ -5545,7 +5545,7 @@ public struct ListSnapshotsOutput: Swift.Equatable {
     }
 }
 
-struct ListSnapshotsOutputBody: Swift.Equatable {
+struct ListSnapshotsOutputBody {
     let nextToken: Swift.String?
     let snapshots: [RedshiftServerlessClientTypes.Snapshot]?
 }
@@ -5611,7 +5611,7 @@ extension ListTableRestoreStatusInput {
     }
 }
 
-public struct ListTableRestoreStatusInput: Swift.Equatable {
+public struct ListTableRestoreStatusInput {
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
     public var maxResults: Swift.Int?
     /// The namespace from which to list all of the statuses of RestoreTableFromSnapshot operations .
@@ -5635,7 +5635,7 @@ public struct ListTableRestoreStatusInput: Swift.Equatable {
     }
 }
 
-struct ListTableRestoreStatusInputBody: Swift.Equatable {
+struct ListTableRestoreStatusInputBody {
     let namespaceName: Swift.String?
     let workgroupName: Swift.String?
 }
@@ -5669,7 +5669,7 @@ extension ListTableRestoreStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTableRestoreStatusOutput: Swift.Equatable {
+public struct ListTableRestoreStatusOutput {
     /// If your initial ListTableRestoreStatus operation returns a nextToken, you can include the returned nextToken in following ListTableRestoreStatus operations. This will returns results on the next page.
     public var nextToken: Swift.String?
     /// The array of returned TableRestoreStatus objects.
@@ -5685,7 +5685,7 @@ public struct ListTableRestoreStatusOutput: Swift.Equatable {
     }
 }
 
-struct ListTableRestoreStatusOutputBody: Swift.Equatable {
+struct ListTableRestoreStatusOutputBody {
     let nextToken: Swift.String?
     let tableRestoreStatuses: [RedshiftServerlessClientTypes.TableRestoreStatus]?
 }
@@ -5747,7 +5747,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource to list tags for.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -5760,7 +5760,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -5788,7 +5788,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// A map of the key-value pairs assigned to the resource.
     public var tags: [RedshiftServerlessClientTypes.Tag]?
 
@@ -5800,7 +5800,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [RedshiftServerlessClientTypes.Tag]?
 }
 
@@ -5863,7 +5863,7 @@ extension ListUsageLimitsInput {
     }
 }
 
-public struct ListUsageLimitsInput: Swift.Equatable {
+public struct ListUsageLimitsInput {
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results. The default is 100.
     public var maxResults: Swift.Int?
     /// If your initial ListUsageLimits operation returns a nextToken, you can include the returned nextToken in following ListUsageLimits operations, which returns results in the next page.
@@ -5887,7 +5887,7 @@ public struct ListUsageLimitsInput: Swift.Equatable {
     }
 }
 
-struct ListUsageLimitsInputBody: Swift.Equatable {
+struct ListUsageLimitsInputBody {
     let resourceArn: Swift.String?
     let usageType: RedshiftServerlessClientTypes.UsageLimitUsageType?
 }
@@ -5921,7 +5921,7 @@ extension ListUsageLimitsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListUsageLimitsOutput: Swift.Equatable {
+public struct ListUsageLimitsOutput {
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
     /// An array of returned usage limit objects.
@@ -5937,7 +5937,7 @@ public struct ListUsageLimitsOutput: Swift.Equatable {
     }
 }
 
-struct ListUsageLimitsOutputBody: Swift.Equatable {
+struct ListUsageLimitsOutputBody {
     let usageLimits: [RedshiftServerlessClientTypes.UsageLimit]?
     let nextToken: Swift.String?
 }
@@ -6001,7 +6001,7 @@ extension ListWorkgroupsInput {
     }
 }
 
-public struct ListWorkgroupsInput: Swift.Equatable {
+public struct ListWorkgroupsInput {
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
     public var maxResults: Swift.Int?
     /// If your initial ListWorkgroups operation returns a nextToken, you can include the returned nextToken in following ListNamespaces operations, which returns results in the next page.
@@ -6021,7 +6021,7 @@ public struct ListWorkgroupsInput: Swift.Equatable {
     }
 }
 
-struct ListWorkgroupsInputBody: Swift.Equatable {
+struct ListWorkgroupsInputBody {
     let ownerAccount: Swift.String?
 }
 
@@ -6051,7 +6051,7 @@ extension ListWorkgroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListWorkgroupsOutput: Swift.Equatable {
+public struct ListWorkgroupsOutput {
     /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token.
     public var nextToken: Swift.String?
     /// The returned array of workgroups.
@@ -6068,7 +6068,7 @@ public struct ListWorkgroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListWorkgroupsOutputBody: Swift.Equatable {
+struct ListWorkgroupsOutputBody {
     let nextToken: Swift.String?
     let workgroups: [RedshiftServerlessClientTypes.Workgroup]?
 }
@@ -6266,7 +6266,7 @@ extension RedshiftServerlessClientTypes.Namespace: Swift.CustomDebugStringConver
 
 extension RedshiftServerlessClientTypes {
     /// A collection of database objects and users.
-    public struct Namespace: Swift.Equatable {
+    public struct Namespace {
         /// The Amazon Resource Name (ARN) for the namespace's admin user credentials secret.
         public var adminPasswordSecretArn: Swift.String?
         /// The ID of the Key Management Service (KMS) key used to encrypt and store the namespace's admin credentials secret.
@@ -6402,7 +6402,7 @@ extension RedshiftServerlessClientTypes.NetworkInterface: Swift.Codable {
 
 extension RedshiftServerlessClientTypes {
     /// Contains information about a network interface in an Amazon Redshift Serverless managed VPC endpoint.
-    public struct NetworkInterface: Swift.Equatable {
+    public struct NetworkInterface {
         /// The availability Zone.
         public var availabilityZone: Swift.String?
         /// The unique identifier of the network interface.
@@ -6452,7 +6452,7 @@ extension PutResourcePolicyInput {
     }
 }
 
-public struct PutResourcePolicyInput: Swift.Equatable {
+public struct PutResourcePolicyInput {
     /// The policy to create or update. For example, the following policy grants a user authorization to restore a snapshot. "{\"Version\": \"2012-10-17\", \"Statement\" : [{ \"Sid\": \"AllowUserRestoreFromSnapshot\", \"Principal\":{\"AWS\": [\"739247239426\"]}, \"Action\": [\"redshift-serverless:RestoreFromSnapshot\"] , \"Effect\": \"Allow\" }]}"
     /// This member is required.
     public var policy: Swift.String?
@@ -6470,7 +6470,7 @@ public struct PutResourcePolicyInput: Swift.Equatable {
     }
 }
 
-struct PutResourcePolicyInputBody: Swift.Equatable {
+struct PutResourcePolicyInputBody {
     let resourceArn: Swift.String?
     let policy: Swift.String?
 }
@@ -6502,7 +6502,7 @@ extension PutResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutResourcePolicyOutput: Swift.Equatable {
+public struct PutResourcePolicyOutput {
     /// The policy that was created or updated.
     public var resourcePolicy: RedshiftServerlessClientTypes.ResourcePolicy?
 
@@ -6514,7 +6514,7 @@ public struct PutResourcePolicyOutput: Swift.Equatable {
     }
 }
 
-struct PutResourcePolicyOutputBody: Swift.Equatable {
+struct PutResourcePolicyOutputBody {
     let resourcePolicy: RedshiftServerlessClientTypes.ResourcePolicy?
 }
 
@@ -6596,7 +6596,7 @@ extension RedshiftServerlessClientTypes.RecoveryPoint: Swift.Codable {
 
 extension RedshiftServerlessClientTypes {
     /// The automatically created recovery point of a namespace. Recovery points are created every 30 minutes and kept for 24 hours.
-    public struct RecoveryPoint: Swift.Equatable {
+    public struct RecoveryPoint {
         /// The Amazon Resource Name (ARN) of the namespace the recovery point is associated with.
         public var namespaceArn: Swift.String?
         /// The name of the namespace the recovery point is associated with.
@@ -6678,7 +6678,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceName: Swift.String?
 }
@@ -6725,7 +6725,7 @@ extension RedshiftServerlessClientTypes.ResourcePolicy: Swift.Codable {
 
 extension RedshiftServerlessClientTypes {
     /// The resource policy object. Currently, you can use policies to share snapshots across Amazon Web Services accounts.
-    public struct ResourcePolicy: Swift.Equatable {
+    public struct ResourcePolicy {
         /// The resource policy.
         public var policy: Swift.String?
         /// The Amazon Resource Name (ARN) of the policy.
@@ -6771,7 +6771,7 @@ extension RestoreFromRecoveryPointInput {
     }
 }
 
-public struct RestoreFromRecoveryPointInput: Swift.Equatable {
+public struct RestoreFromRecoveryPointInput {
     /// The name of the namespace to restore data into.
     /// This member is required.
     public var namespaceName: Swift.String?
@@ -6794,7 +6794,7 @@ public struct RestoreFromRecoveryPointInput: Swift.Equatable {
     }
 }
 
-struct RestoreFromRecoveryPointInputBody: Swift.Equatable {
+struct RestoreFromRecoveryPointInputBody {
     let recoveryPointId: Swift.String?
     let namespaceName: Swift.String?
     let workgroupName: Swift.String?
@@ -6832,7 +6832,7 @@ extension RestoreFromRecoveryPointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RestoreFromRecoveryPointOutput: Swift.Equatable {
+public struct RestoreFromRecoveryPointOutput {
     /// The namespace that data was restored into.
     public var namespace: RedshiftServerlessClientTypes.Namespace?
     /// The unique identifier of the recovery point used for the restore.
@@ -6848,7 +6848,7 @@ public struct RestoreFromRecoveryPointOutput: Swift.Equatable {
     }
 }
 
-struct RestoreFromRecoveryPointOutputBody: Swift.Equatable {
+struct RestoreFromRecoveryPointOutputBody {
     let recoveryPointId: Swift.String?
     let namespace: RedshiftServerlessClientTypes.Namespace?
 }
@@ -6926,7 +6926,7 @@ extension RestoreFromSnapshotInput {
     }
 }
 
-public struct RestoreFromSnapshotInput: Swift.Equatable {
+public struct RestoreFromSnapshotInput {
     /// The ID of the Key Management Service (KMS) key used to encrypt and store the namespace's admin credentials secret.
     public var adminPasswordSecretKmsKeyId: Swift.String?
     /// If true, Amazon Redshift uses Secrets Manager to manage the restored snapshot's admin credentials. If MmanageAdminPassword is false or not set, Amazon Redshift uses the admin credentials that the namespace or cluster had at the time the snapshot was taken.
@@ -6964,7 +6964,7 @@ public struct RestoreFromSnapshotInput: Swift.Equatable {
     }
 }
 
-struct RestoreFromSnapshotInputBody: Swift.Equatable {
+struct RestoreFromSnapshotInputBody {
     let namespaceName: Swift.String?
     let workgroupName: Swift.String?
     let snapshotName: Swift.String?
@@ -7020,7 +7020,7 @@ extension RestoreFromSnapshotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RestoreFromSnapshotOutput: Swift.Equatable {
+public struct RestoreFromSnapshotOutput {
     /// A collection of database objects and users.
     public var namespace: RedshiftServerlessClientTypes.Namespace?
     /// The owner Amazon Web Services; account of the snapshot that was restored.
@@ -7040,7 +7040,7 @@ public struct RestoreFromSnapshotOutput: Swift.Equatable {
     }
 }
 
-struct RestoreFromSnapshotOutputBody: Swift.Equatable {
+struct RestoreFromSnapshotOutputBody {
     let snapshotName: Swift.String?
     let ownerAccount: Swift.String?
     let namespace: RedshiftServerlessClientTypes.Namespace?
@@ -7135,7 +7135,7 @@ extension RestoreTableFromRecoveryPointInput {
     }
 }
 
-public struct RestoreTableFromRecoveryPointInput: Swift.Equatable {
+public struct RestoreTableFromRecoveryPointInput {
     /// Indicates whether name identifiers for database, schema, and table are case sensitive. If true, the names are case sensitive. If false, the names are not case sensitive. The default is false.
     public var activateCaseSensitiveIdentifier: Swift.Bool?
     /// Namespace of the recovery point to restore from.
@@ -7189,7 +7189,7 @@ public struct RestoreTableFromRecoveryPointInput: Swift.Equatable {
     }
 }
 
-struct RestoreTableFromRecoveryPointInputBody: Swift.Equatable {
+struct RestoreTableFromRecoveryPointInputBody {
     let namespaceName: Swift.String?
     let workgroupName: Swift.String?
     let recoveryPointId: Swift.String?
@@ -7253,7 +7253,7 @@ extension RestoreTableFromRecoveryPointOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct RestoreTableFromRecoveryPointOutput: Swift.Equatable {
+public struct RestoreTableFromRecoveryPointOutput {
     /// Contains information about a table restore request.
     public var tableRestoreStatus: RedshiftServerlessClientTypes.TableRestoreStatus?
 
@@ -7265,7 +7265,7 @@ public struct RestoreTableFromRecoveryPointOutput: Swift.Equatable {
     }
 }
 
-struct RestoreTableFromRecoveryPointOutputBody: Swift.Equatable {
+struct RestoreTableFromRecoveryPointOutputBody {
     let tableRestoreStatus: RedshiftServerlessClientTypes.TableRestoreStatus?
 }
 
@@ -7351,7 +7351,7 @@ extension RestoreTableFromSnapshotInput {
     }
 }
 
-public struct RestoreTableFromSnapshotInput: Swift.Equatable {
+public struct RestoreTableFromSnapshotInput {
     /// Indicates whether name identifiers for database, schema, and table are case sensitive. If true, the names are case sensitive. If false, the names are not case sensitive. The default is false.
     public var activateCaseSensitiveIdentifier: Swift.Bool?
     /// The namespace of the snapshot to restore from.
@@ -7405,7 +7405,7 @@ public struct RestoreTableFromSnapshotInput: Swift.Equatable {
     }
 }
 
-struct RestoreTableFromSnapshotInputBody: Swift.Equatable {
+struct RestoreTableFromSnapshotInputBody {
     let namespaceName: Swift.String?
     let workgroupName: Swift.String?
     let snapshotName: Swift.String?
@@ -7469,7 +7469,7 @@ extension RestoreTableFromSnapshotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RestoreTableFromSnapshotOutput: Swift.Equatable {
+public struct RestoreTableFromSnapshotOutput {
     /// The TableRestoreStatus object that contains the status of the restore operation.
     public var tableRestoreStatus: RedshiftServerlessClientTypes.TableRestoreStatus?
 
@@ -7481,7 +7481,7 @@ public struct RestoreTableFromSnapshotOutput: Swift.Equatable {
     }
 }
 
-struct RestoreTableFromSnapshotOutputBody: Swift.Equatable {
+struct RestoreTableFromSnapshotOutputBody {
     let tableRestoreStatus: RedshiftServerlessClientTypes.TableRestoreStatus?
 }
 
@@ -7548,7 +7548,7 @@ extension RedshiftServerlessClientTypes.Schedule: Swift.Codable {
 
 extension RedshiftServerlessClientTypes {
     /// The schedule of when Amazon Redshift Serverless should run the scheduled action.
-    public enum Schedule: Swift.Equatable {
+    public enum Schedule {
         /// The timestamp of when Amazon Redshift Serverless should run the scheduled action. Timestamp is in UTC. Format of at expression is yyyy-mm-ddThh:mm:ss. For example, 2016-03-04T17:27:00.
         case at(ClientRuntime.Date)
         /// The cron expression to use to schedule a recurring scheduled action. Schedule invocations must be separated by at least one hour. Times are in UTC. Format of cron expressions is (Minutes Hours Day-of-month Month Day-of-week Year). For example, "(0 10 ? * MON *)". For more information, see [Cron Expressions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions) in the Amazon CloudWatch Events User Guide.
@@ -7651,7 +7651,7 @@ extension RedshiftServerlessClientTypes.ScheduledActionResponse: Swift.Codable {
 
 extension RedshiftServerlessClientTypes {
     /// The returned scheduled action object.
-    public struct ScheduledActionResponse: Swift.Equatable {
+    public struct ScheduledActionResponse {
         /// The end time of
         public var endTime: ClientRuntime.Date?
         /// The end time in UTC when the schedule is no longer active. After this time, the scheduled action does not trigger.
@@ -7749,7 +7749,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -7936,7 +7936,7 @@ extension RedshiftServerlessClientTypes.Snapshot: Swift.Codable {
 
 extension RedshiftServerlessClientTypes {
     /// A snapshot object that contains databases.
-    public struct Snapshot: Swift.Equatable {
+    public struct Snapshot {
         /// All of the Amazon Web Services accounts that have access to restore a snapshot to a provisioned cluster.
         public var accountsWithProvisionedRestoreAccess: [Swift.String]?
         /// All of the Amazon Web Services accounts that have access to restore a snapshot to a namespace.
@@ -8085,7 +8085,7 @@ extension RedshiftServerlessClientTypes.SnapshotCopyConfiguration: Swift.Codable
 
 extension RedshiftServerlessClientTypes {
     /// The object that you configure to copy snapshots from one namespace to a namespace in another Amazon Web Services Region.
-    public struct SnapshotCopyConfiguration: Swift.Equatable {
+    public struct SnapshotCopyConfiguration {
         /// The ID of the KMS key to use to encrypt your snapshots in the destination Amazon Web Services Region.
         public var destinationKmsKeyId: Swift.String?
         /// The destination Amazon Web Services Region to copy snapshots to.
@@ -8306,7 +8306,7 @@ extension RedshiftServerlessClientTypes.TableRestoreStatus: Swift.Codable {
 
 extension RedshiftServerlessClientTypes {
     /// Contains information about a table restore request.
-    public struct TableRestoreStatus: Swift.Equatable {
+    public struct TableRestoreStatus {
         /// A message that explains the returned status. For example, if the status of the operation is FAILED, the message explains why the operation failed.
         public var message: Swift.String?
         /// The namespace of the table being restored from.
@@ -8407,7 +8407,7 @@ extension RedshiftServerlessClientTypes.Tag: Swift.Codable {
 
 extension RedshiftServerlessClientTypes {
     /// A map of key-value pairs.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key to use in the tag.
         /// This member is required.
         public var key: Swift.String?
@@ -8454,7 +8454,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource to tag.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -8472,7 +8472,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceArn: Swift.String?
     let tags: [RedshiftServerlessClientTypes.Tag]?
 }
@@ -8506,7 +8506,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -8555,7 +8555,7 @@ extension RedshiftServerlessClientTypes.TargetAction: Swift.Codable {
 
 extension RedshiftServerlessClientTypes {
     /// A JSON format string of the Amazon Redshift Serverless API operation with input parameters. The following is an example of a target action. "{"CreateSnapshot": {"NamespaceName": "sampleNamespace","SnapshotName": "sampleSnapshot", "retentionPeriod": "1"}}"
-    public enum TargetAction: Swift.Equatable {
+    public enum TargetAction {
         /// The parameters that you can use to configure a [scheduled action](https://docs.aws.amazon.com/redshift-serverless/latest/APIReference/API_CreateScheduledAction.html) to create a snapshot. For more information about creating a scheduled action, see [CreateScheduledAction](https://docs.aws.amazon.com/redshift-serverless/latest/APIReference/API_CreateScheduledAction.html).
         case createsnapshot(RedshiftServerlessClientTypes.CreateSnapshotScheduleActionParameters)
         case sdkUnknown(Swift.String)
@@ -8607,7 +8607,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
 }
@@ -8672,7 +8672,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct TooManyTagsExceptionBody: Swift.Equatable {
+struct TooManyTagsExceptionBody {
     let message: Swift.String?
     let resourceName: Swift.String?
 }
@@ -8719,7 +8719,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource to remove tags from.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -8737,7 +8737,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceArn: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -8771,7 +8771,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -8818,7 +8818,7 @@ extension UpdateCustomDomainAssociationInput {
     }
 }
 
-public struct UpdateCustomDomainAssociationInput: Swift.Equatable {
+public struct UpdateCustomDomainAssociationInput {
     /// The custom domain name’s certificate Amazon resource name (ARN). This is optional.
     /// This member is required.
     public var customDomainCertificateArn: Swift.String?
@@ -8841,7 +8841,7 @@ public struct UpdateCustomDomainAssociationInput: Swift.Equatable {
     }
 }
 
-struct UpdateCustomDomainAssociationInputBody: Swift.Equatable {
+struct UpdateCustomDomainAssociationInputBody {
     let workgroupName: Swift.String?
     let customDomainName: Swift.String?
     let customDomainCertificateArn: Swift.String?
@@ -8883,7 +8883,7 @@ extension UpdateCustomDomainAssociationOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct UpdateCustomDomainAssociationOutput: Swift.Equatable {
+public struct UpdateCustomDomainAssociationOutput {
     /// The custom domain name’s certificate Amazon resource name (ARN).
     public var customDomainCertificateArn: Swift.String?
     /// The expiration time for the certificate.
@@ -8907,7 +8907,7 @@ public struct UpdateCustomDomainAssociationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateCustomDomainAssociationOutputBody: Swift.Equatable {
+struct UpdateCustomDomainAssociationOutputBody {
     let customDomainName: Swift.String?
     let workgroupName: Swift.String?
     let customDomainCertificateArn: Swift.String?
@@ -8978,7 +8978,7 @@ extension UpdateEndpointAccessInput {
     }
 }
 
-public struct UpdateEndpointAccessInput: Swift.Equatable {
+public struct UpdateEndpointAccessInput {
     /// The name of the VPC endpoint to update.
     /// This member is required.
     public var endpointName: Swift.String?
@@ -8995,7 +8995,7 @@ public struct UpdateEndpointAccessInput: Swift.Equatable {
     }
 }
 
-struct UpdateEndpointAccessInputBody: Swift.Equatable {
+struct UpdateEndpointAccessInputBody {
     let endpointName: Swift.String?
     let vpcSecurityGroupIds: [Swift.String]?
 }
@@ -9036,7 +9036,7 @@ extension UpdateEndpointAccessOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateEndpointAccessOutput: Swift.Equatable {
+public struct UpdateEndpointAccessOutput {
     /// The updated VPC endpoint.
     public var endpoint: RedshiftServerlessClientTypes.EndpointAccess?
 
@@ -9048,7 +9048,7 @@ public struct UpdateEndpointAccessOutput: Swift.Equatable {
     }
 }
 
-struct UpdateEndpointAccessOutputBody: Swift.Equatable {
+struct UpdateEndpointAccessOutputBody {
     let endpoint: RedshiftServerlessClientTypes.EndpointAccess?
 }
 
@@ -9142,7 +9142,7 @@ extension UpdateNamespaceInput {
     }
 }
 
-public struct UpdateNamespaceInput: Swift.Equatable {
+public struct UpdateNamespaceInput {
     /// The ID of the Key Management Service (KMS) key used to encrypt and store the namespace's admin credentials secret. You can only use this parameter if manageAdminPassword is true.
     public var adminPasswordSecretKmsKeyId: Swift.String?
     /// The password of the administrator for the first database created in the namespace. This parameter must be updated together with adminUsername. You can't use adminUserPassword if manageAdminPassword is true.
@@ -9187,7 +9187,7 @@ public struct UpdateNamespaceInput: Swift.Equatable {
     }
 }
 
-struct UpdateNamespaceInputBody: Swift.Equatable {
+struct UpdateNamespaceInputBody {
     let namespaceName: Swift.String?
     let adminUserPassword: Swift.String?
     let adminUsername: Swift.String?
@@ -9265,7 +9265,7 @@ extension UpdateNamespaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateNamespaceOutput: Swift.Equatable {
+public struct UpdateNamespaceOutput {
     /// A list of tag instances.
     /// This member is required.
     public var namespace: RedshiftServerlessClientTypes.Namespace?
@@ -9278,7 +9278,7 @@ public struct UpdateNamespaceOutput: Swift.Equatable {
     }
 }
 
-struct UpdateNamespaceOutputBody: Swift.Equatable {
+struct UpdateNamespaceOutputBody {
     let namespace: RedshiftServerlessClientTypes.Namespace?
 }
 
@@ -9356,7 +9356,7 @@ extension UpdateScheduledActionInput {
     }
 }
 
-public struct UpdateScheduledActionInput: Swift.Equatable {
+public struct UpdateScheduledActionInput {
     /// Specifies whether to enable the scheduled action.
     public var enabled: Swift.Bool?
     /// The end time in UTC of the scheduled action to update.
@@ -9401,7 +9401,7 @@ public struct UpdateScheduledActionInput: Swift.Equatable {
     }
 }
 
-struct UpdateScheduledActionInputBody: Swift.Equatable {
+struct UpdateScheduledActionInputBody {
     let scheduledActionName: Swift.String?
     let targetAction: RedshiftServerlessClientTypes.TargetAction?
     let schedule: RedshiftServerlessClientTypes.Schedule?
@@ -9457,7 +9457,7 @@ extension UpdateScheduledActionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateScheduledActionOutput: Swift.Equatable {
+public struct UpdateScheduledActionOutput {
     /// The ScheduledAction object that was updated.
     public var scheduledAction: RedshiftServerlessClientTypes.ScheduledActionResponse?
 
@@ -9469,7 +9469,7 @@ public struct UpdateScheduledActionOutput: Swift.Equatable {
     }
 }
 
-struct UpdateScheduledActionOutputBody: Swift.Equatable {
+struct UpdateScheduledActionOutputBody {
     let scheduledAction: RedshiftServerlessClientTypes.ScheduledActionResponse?
 }
 
@@ -9523,7 +9523,7 @@ extension UpdateSnapshotCopyConfigurationInput {
     }
 }
 
-public struct UpdateSnapshotCopyConfigurationInput: Swift.Equatable {
+public struct UpdateSnapshotCopyConfigurationInput {
     /// The ID of the snapshot copy configuration to update.
     /// This member is required.
     public var snapshotCopyConfigurationId: Swift.String?
@@ -9540,7 +9540,7 @@ public struct UpdateSnapshotCopyConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateSnapshotCopyConfigurationInputBody: Swift.Equatable {
+struct UpdateSnapshotCopyConfigurationInputBody {
     let snapshotCopyConfigurationId: Swift.String?
     let snapshotRetentionPeriod: Swift.Int?
 }
@@ -9572,7 +9572,7 @@ extension UpdateSnapshotCopyConfigurationOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct UpdateSnapshotCopyConfigurationOutput: Swift.Equatable {
+public struct UpdateSnapshotCopyConfigurationOutput {
     /// The updated snapshot copy configuration object.
     /// This member is required.
     public var snapshotCopyConfiguration: RedshiftServerlessClientTypes.SnapshotCopyConfiguration?
@@ -9585,7 +9585,7 @@ public struct UpdateSnapshotCopyConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSnapshotCopyConfigurationOutputBody: Swift.Equatable {
+struct UpdateSnapshotCopyConfigurationOutputBody {
     let snapshotCopyConfiguration: RedshiftServerlessClientTypes.SnapshotCopyConfiguration?
 }
 
@@ -9640,7 +9640,7 @@ extension UpdateSnapshotInput {
     }
 }
 
-public struct UpdateSnapshotInput: Swift.Equatable {
+public struct UpdateSnapshotInput {
     /// The new retention period of the snapshot.
     public var retentionPeriod: Swift.Int?
     /// The name of the snapshot.
@@ -9657,7 +9657,7 @@ public struct UpdateSnapshotInput: Swift.Equatable {
     }
 }
 
-struct UpdateSnapshotInputBody: Swift.Equatable {
+struct UpdateSnapshotInputBody {
     let snapshotName: Swift.String?
     let retentionPeriod: Swift.Int?
 }
@@ -9689,7 +9689,7 @@ extension UpdateSnapshotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSnapshotOutput: Swift.Equatable {
+public struct UpdateSnapshotOutput {
     /// The updated snapshot object.
     public var snapshot: RedshiftServerlessClientTypes.Snapshot?
 
@@ -9701,7 +9701,7 @@ public struct UpdateSnapshotOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSnapshotOutputBody: Swift.Equatable {
+struct UpdateSnapshotOutputBody {
     let snapshot: RedshiftServerlessClientTypes.Snapshot?
 }
 
@@ -9759,7 +9759,7 @@ extension UpdateUsageLimitInput {
     }
 }
 
-public struct UpdateUsageLimitInput: Swift.Equatable {
+public struct UpdateUsageLimitInput {
     /// The new limit amount. If time-based, this amount is in Redshift Processing Units (RPU) consumed per hour. If data-based, this amount is in terabytes (TB) of data transferred between Regions in cross-account sharing. The value must be a positive number.
     public var amount: Swift.Int?
     /// The new action that Amazon Redshift Serverless takes when the limit is reached.
@@ -9780,7 +9780,7 @@ public struct UpdateUsageLimitInput: Swift.Equatable {
     }
 }
 
-struct UpdateUsageLimitInputBody: Swift.Equatable {
+struct UpdateUsageLimitInputBody {
     let usageLimitId: Swift.String?
     let amount: Swift.Int?
     let breachAction: RedshiftServerlessClientTypes.UsageLimitBreachAction?
@@ -9816,7 +9816,7 @@ extension UpdateUsageLimitOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateUsageLimitOutput: Swift.Equatable {
+public struct UpdateUsageLimitOutput {
     /// The updated usage limit object.
     public var usageLimit: RedshiftServerlessClientTypes.UsageLimit?
 
@@ -9828,7 +9828,7 @@ public struct UpdateUsageLimitOutput: Swift.Equatable {
     }
 }
 
-struct UpdateUsageLimitOutputBody: Swift.Equatable {
+struct UpdateUsageLimitOutputBody {
     let usageLimit: RedshiftServerlessClientTypes.UsageLimit?
 }
 
@@ -9919,7 +9919,7 @@ extension UpdateWorkgroupInput {
     }
 }
 
-public struct UpdateWorkgroupInput: Swift.Equatable {
+public struct UpdateWorkgroupInput {
     /// The new base data warehouse capacity in Redshift Processing Units (RPUs).
     public var baseCapacity: Swift.Int?
     /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see [ Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
@@ -9964,7 +9964,7 @@ public struct UpdateWorkgroupInput: Swift.Equatable {
     }
 }
 
-struct UpdateWorkgroupInputBody: Swift.Equatable {
+struct UpdateWorkgroupInputBody {
     let workgroupName: Swift.String?
     let baseCapacity: Swift.Int?
     let enhancedVpcRouting: Swift.Bool?
@@ -10051,7 +10051,7 @@ extension UpdateWorkgroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateWorkgroupOutput: Swift.Equatable {
+public struct UpdateWorkgroupOutput {
     /// The updated workgroup object.
     /// This member is required.
     public var workgroup: RedshiftServerlessClientTypes.Workgroup?
@@ -10064,7 +10064,7 @@ public struct UpdateWorkgroupOutput: Swift.Equatable {
     }
 }
 
-struct UpdateWorkgroupOutputBody: Swift.Equatable {
+struct UpdateWorkgroupOutputBody {
     let workgroup: RedshiftServerlessClientTypes.Workgroup?
 }
 
@@ -10152,7 +10152,7 @@ extension RedshiftServerlessClientTypes.UsageLimit: Swift.Codable {
 
 extension RedshiftServerlessClientTypes {
     /// The usage limit object.
-    public struct UsageLimit: Swift.Equatable {
+    public struct UsageLimit {
         /// The limit amount. If time-based, this amount is in RPUs consumed per hour. If data-based, this amount is in terabytes (TB). The value must be a positive number.
         public var amount: Swift.Int?
         /// The action that Amazon Redshift Serverless takes when the limit is reached.
@@ -10332,7 +10332,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 
@@ -10393,7 +10393,7 @@ extension RedshiftServerlessClientTypes.VpcEndpoint: Swift.Codable {
 
 extension RedshiftServerlessClientTypes {
     /// The connection endpoint for connecting to Amazon Redshift Serverless through the proxy.
-    public struct VpcEndpoint: Swift.Equatable {
+    public struct VpcEndpoint {
         /// One or more network interfaces of the endpoint. Also known as an interface endpoint.
         public var networkInterfaces: [RedshiftServerlessClientTypes.NetworkInterface]?
         /// The connection endpoint ID for connecting to Amazon Redshift Serverless.
@@ -10442,7 +10442,7 @@ extension RedshiftServerlessClientTypes.VpcSecurityGroupMembership: Swift.Codabl
 
 extension RedshiftServerlessClientTypes {
     /// Describes the members of a VPC security group.
-    public struct VpcSecurityGroupMembership: Swift.Equatable {
+    public struct VpcSecurityGroupMembership {
         /// The status of the VPC security group.
         public var status: Swift.String?
         /// The unique identifier of the VPC security group.
@@ -10649,7 +10649,7 @@ extension RedshiftServerlessClientTypes.Workgroup: Swift.Codable {
 
 extension RedshiftServerlessClientTypes {
     /// The collection of computing resources from which an endpoint is created.
-    public struct Workgroup: Swift.Equatable {
+    public struct Workgroup {
         /// The base data warehouse capacity of the workgroup in Redshift Processing Units (RPUs).
         public var baseCapacity: Swift.Int?
         /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see [ Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).

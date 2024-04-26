@@ -31,7 +31,7 @@ extension AssociateDeviceWithPlacementInput {
     }
 }
 
-public struct AssociateDeviceWithPlacementInput: Swift.Equatable {
+public struct AssociateDeviceWithPlacementInput {
     /// The ID of the physical device to be associated with the given placement in the project. Note that a mandatory 4 character prefix is required for all deviceId values.
     /// This member is required.
     public var deviceId: Swift.String?
@@ -59,7 +59,7 @@ public struct AssociateDeviceWithPlacementInput: Swift.Equatable {
     }
 }
 
-struct AssociateDeviceWithPlacementInputBody: Swift.Equatable {
+struct AssociateDeviceWithPlacementInputBody {
     let deviceId: Swift.String?
 }
 
@@ -80,7 +80,7 @@ extension AssociateDeviceWithPlacementOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct AssociateDeviceWithPlacementOutput: Swift.Equatable {
+public struct AssociateDeviceWithPlacementOutput {
 
     public init() { }
 }
@@ -129,7 +129,7 @@ extension CreatePlacementInput {
     }
 }
 
-public struct CreatePlacementInput: Swift.Equatable {
+public struct CreatePlacementInput {
     /// Optional user-defined key/value pairs providing contextual data (such as location or function) for the placement.
     public var attributes: [Swift.String:Swift.String]?
     /// The name of the placement to be created.
@@ -151,7 +151,7 @@ public struct CreatePlacementInput: Swift.Equatable {
     }
 }
 
-struct CreatePlacementInputBody: Swift.Equatable {
+struct CreatePlacementInputBody {
     let placementName: Swift.String?
     let attributes: [Swift.String:Swift.String]?
 }
@@ -185,7 +185,7 @@ extension CreatePlacementOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePlacementOutput: Swift.Equatable {
+public struct CreatePlacementOutput {
 
     public init() { }
 }
@@ -239,7 +239,7 @@ extension CreateProjectInput {
     }
 }
 
-public struct CreateProjectInput: Swift.Equatable {
+public struct CreateProjectInput {
     /// An optional description for the project.
     public var description: Swift.String?
     /// The schema defining the placement to be created. A placement template defines placement default attributes and device templates. You cannot add or remove device templates after the project has been created. However, you can update callbackOverrides for the device templates using the UpdateProject API.
@@ -264,7 +264,7 @@ public struct CreateProjectInput: Swift.Equatable {
     }
 }
 
-struct CreateProjectInputBody: Swift.Equatable {
+struct CreateProjectInputBody {
     let projectName: Swift.String?
     let description: Swift.String?
     let placementTemplate: IoT1ClickProjectsClientTypes.PlacementTemplate?
@@ -306,7 +306,7 @@ extension CreateProjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateProjectOutput: Swift.Equatable {
+public struct CreateProjectOutput {
 
     public init() { }
 }
@@ -337,7 +337,7 @@ extension DeletePlacementInput {
     }
 }
 
-public struct DeletePlacementInput: Swift.Equatable {
+public struct DeletePlacementInput {
     /// The name of the empty placement to delete.
     /// This member is required.
     public var placementName: Swift.String?
@@ -355,7 +355,7 @@ public struct DeletePlacementInput: Swift.Equatable {
     }
 }
 
-struct DeletePlacementInputBody: Swift.Equatable {
+struct DeletePlacementInputBody {
 }
 
 extension DeletePlacementInputBody: Swift.Decodable {
@@ -369,7 +369,7 @@ extension DeletePlacementOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePlacementOutput: Swift.Equatable {
+public struct DeletePlacementOutput {
 
     public init() { }
 }
@@ -398,7 +398,7 @@ extension DeleteProjectInput {
     }
 }
 
-public struct DeleteProjectInput: Swift.Equatable {
+public struct DeleteProjectInput {
     /// The name of the empty project to delete.
     /// This member is required.
     public var projectName: Swift.String?
@@ -411,7 +411,7 @@ public struct DeleteProjectInput: Swift.Equatable {
     }
 }
 
-struct DeleteProjectInputBody: Swift.Equatable {
+struct DeleteProjectInputBody {
 }
 
 extension DeleteProjectInputBody: Swift.Decodable {
@@ -425,7 +425,7 @@ extension DeleteProjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteProjectOutput: Swift.Equatable {
+public struct DeleteProjectOutput {
 
     public init() { }
 }
@@ -457,7 +457,7 @@ extension DescribePlacementInput {
     }
 }
 
-public struct DescribePlacementInput: Swift.Equatable {
+public struct DescribePlacementInput {
     /// The name of the placement within a project.
     /// This member is required.
     public var placementName: Swift.String?
@@ -475,7 +475,7 @@ public struct DescribePlacementInput: Swift.Equatable {
     }
 }
 
-struct DescribePlacementInputBody: Swift.Equatable {
+struct DescribePlacementInputBody {
 }
 
 extension DescribePlacementInputBody: Swift.Decodable {
@@ -496,7 +496,7 @@ extension DescribePlacementOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribePlacementOutput: Swift.Equatable {
+public struct DescribePlacementOutput {
     /// An object describing the placement.
     /// This member is required.
     public var placement: IoT1ClickProjectsClientTypes.PlacementDescription?
@@ -509,7 +509,7 @@ public struct DescribePlacementOutput: Swift.Equatable {
     }
 }
 
-struct DescribePlacementOutputBody: Swift.Equatable {
+struct DescribePlacementOutputBody {
     let placement: IoT1ClickProjectsClientTypes.PlacementDescription?
 }
 
@@ -548,7 +548,7 @@ extension DescribeProjectInput {
     }
 }
 
-public struct DescribeProjectInput: Swift.Equatable {
+public struct DescribeProjectInput {
     /// The name of the project to be described.
     /// This member is required.
     public var projectName: Swift.String?
@@ -561,7 +561,7 @@ public struct DescribeProjectInput: Swift.Equatable {
     }
 }
 
-struct DescribeProjectInputBody: Swift.Equatable {
+struct DescribeProjectInputBody {
 }
 
 extension DescribeProjectInputBody: Swift.Decodable {
@@ -582,7 +582,7 @@ extension DescribeProjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeProjectOutput: Swift.Equatable {
+public struct DescribeProjectOutput {
     /// An object describing the project.
     /// This member is required.
     public var project: IoT1ClickProjectsClientTypes.ProjectDescription?
@@ -595,7 +595,7 @@ public struct DescribeProjectOutput: Swift.Equatable {
     }
 }
 
-struct DescribeProjectOutputBody: Swift.Equatable {
+struct DescribeProjectOutputBody {
     let project: IoT1ClickProjectsClientTypes.ProjectDescription?
 }
 
@@ -663,7 +663,7 @@ extension IoT1ClickProjectsClientTypes.DeviceTemplate: Swift.Codable {
 
 extension IoT1ClickProjectsClientTypes {
     /// An object representing a device for a placement template (see [PlacementTemplate]).
-    public struct DeviceTemplate: Swift.Equatable {
+    public struct DeviceTemplate {
         /// An optional Lambda function to invoke instead of the default Lambda function provided by the placement template.
         public var callbackOverrides: [Swift.String:Swift.String]?
         /// The device type, which currently must be "button".
@@ -697,7 +697,7 @@ extension DisassociateDeviceFromPlacementInput {
     }
 }
 
-public struct DisassociateDeviceFromPlacementInput: Swift.Equatable {
+public struct DisassociateDeviceFromPlacementInput {
     /// The device ID that should be removed from the placement.
     /// This member is required.
     public var deviceTemplateName: Swift.String?
@@ -720,7 +720,7 @@ public struct DisassociateDeviceFromPlacementInput: Swift.Equatable {
     }
 }
 
-struct DisassociateDeviceFromPlacementInputBody: Swift.Equatable {
+struct DisassociateDeviceFromPlacementInputBody {
 }
 
 extension DisassociateDeviceFromPlacementInputBody: Swift.Decodable {
@@ -734,7 +734,7 @@ extension DisassociateDeviceFromPlacementOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DisassociateDeviceFromPlacementOutput: Swift.Equatable {
+public struct DisassociateDeviceFromPlacementOutput {
 
     public init() { }
 }
@@ -766,7 +766,7 @@ extension GetDevicesInPlacementInput {
     }
 }
 
-public struct GetDevicesInPlacementInput: Swift.Equatable {
+public struct GetDevicesInPlacementInput {
     /// The name of the placement to get the devices from.
     /// This member is required.
     public var placementName: Swift.String?
@@ -784,7 +784,7 @@ public struct GetDevicesInPlacementInput: Swift.Equatable {
     }
 }
 
-struct GetDevicesInPlacementInputBody: Swift.Equatable {
+struct GetDevicesInPlacementInputBody {
 }
 
 extension GetDevicesInPlacementInputBody: Swift.Decodable {
@@ -805,7 +805,7 @@ extension GetDevicesInPlacementOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDevicesInPlacementOutput: Swift.Equatable {
+public struct GetDevicesInPlacementOutput {
     /// An object containing the devices (zero or more) within the placement.
     /// This member is required.
     public var devices: [Swift.String:Swift.String]?
@@ -818,7 +818,7 @@ public struct GetDevicesInPlacementOutput: Swift.Equatable {
     }
 }
 
-struct GetDevicesInPlacementOutputBody: Swift.Equatable {
+struct GetDevicesInPlacementOutputBody {
     let devices: [Swift.String:Swift.String]?
 }
 
@@ -902,7 +902,7 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InternalFailureExceptionBody: Swift.Equatable {
+struct InternalFailureExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
 }
@@ -968,7 +968,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InvalidRequestExceptionBody: Swift.Equatable {
+struct InvalidRequestExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
 }
@@ -1016,7 +1016,7 @@ extension ListPlacementsInput {
     }
 }
 
-public struct ListPlacementsInput: Swift.Equatable {
+public struct ListPlacementsInput {
     /// The maximum number of results to return per request. If not set, a default value of 100 is used.
     public var maxResults: Swift.Int?
     /// The token to retrieve the next set of results.
@@ -1037,7 +1037,7 @@ public struct ListPlacementsInput: Swift.Equatable {
     }
 }
 
-struct ListPlacementsInputBody: Swift.Equatable {
+struct ListPlacementsInputBody {
 }
 
 extension ListPlacementsInputBody: Swift.Decodable {
@@ -1060,7 +1060,7 @@ extension ListPlacementsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPlacementsOutput: Swift.Equatable {
+public struct ListPlacementsOutput {
     /// The token used to retrieve the next set of results - will be effectively empty if there are no further results.
     public var nextToken: Swift.String?
     /// An object listing the requested placements.
@@ -1077,7 +1077,7 @@ public struct ListPlacementsOutput: Swift.Equatable {
     }
 }
 
-struct ListPlacementsOutputBody: Swift.Equatable {
+struct ListPlacementsOutputBody {
     let placements: [IoT1ClickProjectsClientTypes.PlacementSummary]?
     let nextToken: Swift.String?
 }
@@ -1142,7 +1142,7 @@ extension ListProjectsInput {
     }
 }
 
-public struct ListProjectsInput: Swift.Equatable {
+public struct ListProjectsInput {
     /// The maximum number of results to return per request. If not set, a default value of 100 is used.
     public var maxResults: Swift.Int?
     /// The token to retrieve the next set of results.
@@ -1158,7 +1158,7 @@ public struct ListProjectsInput: Swift.Equatable {
     }
 }
 
-struct ListProjectsInputBody: Swift.Equatable {
+struct ListProjectsInputBody {
 }
 
 extension ListProjectsInputBody: Swift.Decodable {
@@ -1181,7 +1181,7 @@ extension ListProjectsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListProjectsOutput: Swift.Equatable {
+public struct ListProjectsOutput {
     /// The token used to retrieve the next set of results - will be effectively empty if there are no further results.
     public var nextToken: Swift.String?
     /// An object containing the list of projects.
@@ -1198,7 +1198,7 @@ public struct ListProjectsOutput: Swift.Equatable {
     }
 }
 
-struct ListProjectsOutputBody: Swift.Equatable {
+struct ListProjectsOutputBody {
     let projects: [IoT1ClickProjectsClientTypes.ProjectSummary]?
     let nextToken: Swift.String?
 }
@@ -1249,7 +1249,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The ARN of the resource whose tags you want to list.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -1262,7 +1262,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -1283,7 +1283,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The tags (metadata key/value pairs) which you have assigned to the resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -1295,7 +1295,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -1390,7 +1390,7 @@ extension IoT1ClickProjectsClientTypes.PlacementDescription: Swift.Codable {
 
 extension IoT1ClickProjectsClientTypes {
     /// An object describing a project's placement.
-    public struct PlacementDescription: Swift.Equatable {
+    public struct PlacementDescription {
         /// The user-defined attributes associated with the placement.
         /// This member is required.
         public var attributes: [Swift.String:Swift.String]?
@@ -1464,7 +1464,7 @@ extension IoT1ClickProjectsClientTypes.PlacementSummary: Swift.Codable {
 
 extension IoT1ClickProjectsClientTypes {
     /// An object providing summary information for a particular placement.
-    public struct PlacementSummary: Swift.Equatable {
+    public struct PlacementSummary {
         /// The date when the placement was originally created, in UNIX epoch time format.
         /// This member is required.
         public var createdDate: ClientRuntime.Date?
@@ -1545,7 +1545,7 @@ extension IoT1ClickProjectsClientTypes.PlacementTemplate: Swift.Codable {
 
 extension IoT1ClickProjectsClientTypes {
     /// An object defining the template for a placement.
-    public struct PlacementTemplate: Swift.Equatable {
+    public struct PlacementTemplate {
         /// The default attributes (key/value pairs) to be applied to all placements using this template.
         public var defaultAttributes: [Swift.String:Swift.String]?
         /// An object specifying the [DeviceTemplate] for all placements using this ([PlacementTemplate]) template.
@@ -1632,7 +1632,7 @@ extension IoT1ClickProjectsClientTypes.ProjectDescription: Swift.Codable {
 
 extension IoT1ClickProjectsClientTypes {
     /// An object providing detailed information for a particular project associated with an AWS account and region.
-    public struct ProjectDescription: Swift.Equatable {
+    public struct ProjectDescription {
         /// The ARN of the project.
         public var arn: Swift.String?
         /// The date when the project was originally created, in UNIX epoch time format.
@@ -1730,7 +1730,7 @@ extension IoT1ClickProjectsClientTypes.ProjectSummary: Swift.Codable {
 
 extension IoT1ClickProjectsClientTypes {
     /// An object providing summary information for a particular project for an associated AWS account and region.
-    public struct ProjectSummary: Swift.Equatable {
+    public struct ProjectSummary {
         /// The ARN of the project.
         public var arn: Swift.String?
         /// The date when the project was originally created, in UNIX epoch time format.
@@ -1809,7 +1809,7 @@ public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceConflictExceptionBody: Swift.Equatable {
+struct ResourceConflictExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
 }
@@ -1875,7 +1875,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
 }
@@ -1921,7 +1921,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The ARN of the resouce for which tag(s) should be added or modified.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -1939,7 +1939,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -1969,7 +1969,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -2033,7 +2033,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct TooManyRequestsExceptionBody: Swift.Equatable {
+struct TooManyRequestsExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
 }
@@ -2079,7 +2079,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The ARN of the resource whose tag you want to remove.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2097,7 +2097,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -2111,7 +2111,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -2158,7 +2158,7 @@ extension UpdatePlacementInput {
     }
 }
 
-public struct UpdatePlacementInput: Swift.Equatable {
+public struct UpdatePlacementInput {
     /// The user-defined object of attributes used to update the placement. The maximum number of key/value pairs is 50.
     public var attributes: [Swift.String:Swift.String]?
     /// The name of the placement to update.
@@ -2180,7 +2180,7 @@ public struct UpdatePlacementInput: Swift.Equatable {
     }
 }
 
-struct UpdatePlacementInputBody: Swift.Equatable {
+struct UpdatePlacementInputBody {
     let attributes: [Swift.String:Swift.String]?
 }
 
@@ -2210,7 +2210,7 @@ extension UpdatePlacementOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePlacementOutput: Swift.Equatable {
+public struct UpdatePlacementOutput {
 
     public init() { }
 }
@@ -2256,7 +2256,7 @@ extension UpdateProjectInput {
     }
 }
 
-public struct UpdateProjectInput: Swift.Equatable {
+public struct UpdateProjectInput {
     /// An optional user-defined description for the project.
     public var description: Swift.String?
     /// An object defining the project update. Once a project has been created, you cannot add device template names to the project. However, for a given placementTemplate, you can update the associated callbackOverrides for the device definition using this API.
@@ -2277,7 +2277,7 @@ public struct UpdateProjectInput: Swift.Equatable {
     }
 }
 
-struct UpdateProjectInputBody: Swift.Equatable {
+struct UpdateProjectInputBody {
     let description: Swift.String?
     let placementTemplate: IoT1ClickProjectsClientTypes.PlacementTemplate?
 }
@@ -2302,7 +2302,7 @@ extension UpdateProjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateProjectOutput: Swift.Equatable {
+public struct UpdateProjectOutput {
 
     public init() { }
 }

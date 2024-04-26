@@ -42,7 +42,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -98,7 +98,7 @@ public struct AccountHasOngoingImportException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct AccountHasOngoingImportExceptionBody: Swift.Equatable {
+struct AccountHasOngoingImportExceptionBody {
     let message: Swift.String?
 }
 
@@ -154,7 +154,7 @@ public struct AccountNotFoundException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct AccountNotFoundExceptionBody: Swift.Equatable {
+struct AccountNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -210,7 +210,7 @@ public struct AccountNotRegisteredException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct AccountNotRegisteredExceptionBody: Swift.Equatable {
+struct AccountNotRegisteredExceptionBody {
     let message: Swift.String?
 }
 
@@ -266,7 +266,7 @@ public struct AccountRegisteredException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct AccountRegisteredExceptionBody: Swift.Equatable {
+struct AccountRegisteredExceptionBody {
     let message: Swift.String?
 }
 
@@ -310,7 +310,7 @@ extension AddTagsInput {
 }
 
 /// Specifies the tags to add to a trail, event data store, or channel.
-public struct AddTagsInput: Swift.Equatable {
+public struct AddTagsInput {
     /// Specifies the ARN of the trail, event data store, or channel to which one or more tags will be added. The format of a trail ARN is: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The format of an event data store ARN is: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The format of a channel ARN is: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     /// This member is required.
     public var resourceId: Swift.String?
@@ -328,7 +328,7 @@ public struct AddTagsInput: Swift.Equatable {
     }
 }
 
-struct AddTagsInputBody: Swift.Equatable {
+struct AddTagsInputBody {
     let resourceId: Swift.String?
     let tagsList: [CloudTrailClientTypes.Tag]?
 }
@@ -363,7 +363,7 @@ extension AddTagsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Returns the objects or data if successful. Otherwise, returns an error.
-public struct AddTagsOutput: Swift.Equatable {
+public struct AddTagsOutput {
 
     public init() { }
 }
@@ -455,7 +455,7 @@ extension CloudTrailClientTypes {
     ///
     ///
     /// For event data stores for CloudTrail Insights events, Config configuration items, Audit Manager evidence, or events outside of Amazon Web Services, the only supported field is eventCategory.
-    public struct AdvancedEventSelector: Swift.Equatable {
+    public struct AdvancedEventSelector {
         /// Contains all selector statements in an advanced event selector.
         /// This member is required.
         public var fieldSelectors: [CloudTrailClientTypes.AdvancedFieldSelector]?
@@ -603,7 +603,7 @@ extension CloudTrailClientTypes.AdvancedFieldSelector: Swift.Codable {
 
 extension CloudTrailClientTypes {
     /// A single selector statement in an advanced event selector.
-    public struct AdvancedFieldSelector: Swift.Equatable {
+    public struct AdvancedFieldSelector {
         /// An operator that includes events that match the last few characters of the event record field specified as the value of Field.
         public var endsWith: [Swift.String]?
         /// An operator that includes events that match the exact value of the event record field specified as the value of Field. This is the only valid operator that you can use with the readOnly, eventCategory, and resources.type fields.
@@ -1138,7 +1138,7 @@ extension CancelQueryInput {
     }
 }
 
-public struct CancelQueryInput: Swift.Equatable {
+public struct CancelQueryInput {
     /// The ARN (or the ID suffix of the ARN) of an event data store on which the specified query is running.
     @available(*, deprecated, message: "EventDataStore is no longer required by CancelQueryRequest")
     public var eventDataStore: Swift.String?
@@ -1156,7 +1156,7 @@ public struct CancelQueryInput: Swift.Equatable {
     }
 }
 
-struct CancelQueryInputBody: Swift.Equatable {
+struct CancelQueryInputBody {
     let eventDataStore: Swift.String?
     let queryId: Swift.String?
 }
@@ -1190,7 +1190,7 @@ extension CancelQueryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelQueryOutput: Swift.Equatable {
+public struct CancelQueryOutput {
     /// The ID of the canceled query.
     /// This member is required.
     public var queryId: Swift.String?
@@ -1208,7 +1208,7 @@ public struct CancelQueryOutput: Swift.Equatable {
     }
 }
 
-struct CancelQueryOutputBody: Swift.Equatable {
+struct CancelQueryOutputBody {
     let queryId: Swift.String?
     let queryStatus: CloudTrailClientTypes.QueryStatus?
 }
@@ -1288,7 +1288,7 @@ public struct CannotDelegateManagementAccountException: ClientRuntime.ModeledErr
     }
 }
 
-struct CannotDelegateManagementAccountExceptionBody: Swift.Equatable {
+struct CannotDelegateManagementAccountExceptionBody {
     let message: Swift.String?
 }
 
@@ -1331,7 +1331,7 @@ extension CloudTrailClientTypes.Channel: Swift.Codable {
 
 extension CloudTrailClientTypes {
     /// Contains information about a returned CloudTrail channel.
-    public struct Channel: Swift.Equatable {
+    public struct Channel {
         /// The Amazon Resource Name (ARN) of a channel.
         public var channelArn: Swift.String?
         /// The name of the CloudTrail channel. For service-linked channels, the name is aws-service-channel/service-name/custom-suffix where service-name represents the name of the Amazon Web Services service that created the channel and custom-suffix represents the suffix created by the Amazon Web Services service.
@@ -1389,7 +1389,7 @@ public struct ChannelARNInvalidException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct ChannelARNInvalidExceptionBody: Swift.Equatable {
+struct ChannelARNInvalidExceptionBody {
     let message: Swift.String?
 }
 
@@ -1445,7 +1445,7 @@ public struct ChannelAlreadyExistsException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ChannelAlreadyExistsExceptionBody: Swift.Equatable {
+struct ChannelAlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -1501,7 +1501,7 @@ public struct ChannelExistsForEDSException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct ChannelExistsForEDSExceptionBody: Swift.Equatable {
+struct ChannelExistsForEDSExceptionBody {
     let message: Swift.String?
 }
 
@@ -1557,7 +1557,7 @@ public struct ChannelMaxLimitExceededException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct ChannelMaxLimitExceededExceptionBody: Swift.Equatable {
+struct ChannelMaxLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -1613,7 +1613,7 @@ public struct ChannelNotFoundException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct ChannelNotFoundExceptionBody: Swift.Equatable {
+struct ChannelNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -1669,7 +1669,7 @@ public struct CloudTrailARNInvalidException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct CloudTrailARNInvalidExceptionBody: Swift.Equatable {
+struct CloudTrailARNInvalidExceptionBody {
     let message: Swift.String?
 }
 
@@ -1725,7 +1725,7 @@ public struct CloudTrailAccessNotEnabledException: ClientRuntime.ModeledError, A
     }
 }
 
-struct CloudTrailAccessNotEnabledExceptionBody: Swift.Equatable {
+struct CloudTrailAccessNotEnabledExceptionBody {
     let message: Swift.String?
 }
 
@@ -1783,7 +1783,7 @@ public struct CloudTrailInvalidClientTokenIdException: ClientRuntime.ModeledErro
     }
 }
 
-struct CloudTrailInvalidClientTokenIdExceptionBody: Swift.Equatable {
+struct CloudTrailInvalidClientTokenIdExceptionBody {
     let message: Swift.String?
 }
 
@@ -1839,7 +1839,7 @@ public struct CloudWatchLogsDeliveryUnavailableException: ClientRuntime.ModeledE
     }
 }
 
-struct CloudWatchLogsDeliveryUnavailableExceptionBody: Swift.Equatable {
+struct CloudWatchLogsDeliveryUnavailableExceptionBody {
     let message: Swift.String?
 }
 
@@ -1895,7 +1895,7 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct ConcurrentModificationExceptionBody: Swift.Equatable {
+struct ConcurrentModificationExceptionBody {
     let message: Swift.String?
 }
 
@@ -1951,7 +1951,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -2005,7 +2005,7 @@ extension CreateChannelInput {
     }
 }
 
-public struct CreateChannelInput: Swift.Equatable {
+public struct CreateChannelInput {
     /// One or more event data stores to which events arriving through a channel will be logged.
     /// This member is required.
     public var destinations: [CloudTrailClientTypes.Destination]?
@@ -2032,7 +2032,7 @@ public struct CreateChannelInput: Swift.Equatable {
     }
 }
 
-struct CreateChannelInputBody: Swift.Equatable {
+struct CreateChannelInputBody {
     let name: Swift.String?
     let source: Swift.String?
     let destinations: [CloudTrailClientTypes.Destination]?
@@ -2098,7 +2098,7 @@ extension CreateChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateChannelOutput: Swift.Equatable {
+public struct CreateChannelOutput {
     /// The Amazon Resource Name (ARN) of the new channel.
     public var channelArn: Swift.String?
     /// The event data stores that log the events arriving through the channel.
@@ -2126,7 +2126,7 @@ public struct CreateChannelOutput: Swift.Equatable {
     }
 }
 
-struct CreateChannelOutputBody: Swift.Equatable {
+struct CreateChannelOutputBody {
     let channelArn: Swift.String?
     let name: Swift.String?
     let source: Swift.String?
@@ -2260,7 +2260,7 @@ extension CreateEventDataStoreInput {
     }
 }
 
-public struct CreateEventDataStoreInput: Swift.Equatable {
+public struct CreateEventDataStoreInput {
     /// The advanced event selectors to use to select the events for the data store. You can configure up to five advanced event selectors for each event data store. For more information about how to use advanced event selectors to log CloudTrail events, see [Log events by using advanced event selectors](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html#creating-data-event-selectors-advanced) in the CloudTrail User Guide. For more information about how to use advanced event selectors to include Config configuration items in your event data store, see [Create an event data store for Config configuration items](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-lake-cli.html#lake-cli-create-eds-config) in the CloudTrail User Guide. For more information about how to use advanced event selectors to include non-Amazon Web Services events in your event data store, see [Create an integration to log events from outside Amazon Web Services](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-lake-cli.html#lake-cli-create-integration) in the CloudTrail User Guide.
     public var advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]?
     /// The billing mode for the event data store determines the cost for ingesting events and the default and maximum retention period for the event data store. The following are the possible values:
@@ -2324,7 +2324,7 @@ public struct CreateEventDataStoreInput: Swift.Equatable {
     }
 }
 
-struct CreateEventDataStoreInputBody: Swift.Equatable {
+struct CreateEventDataStoreInputBody {
     let name: Swift.String?
     let advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]?
     let multiRegionEnabled: Swift.Bool?
@@ -2430,7 +2430,7 @@ extension CreateEventDataStoreOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateEventDataStoreOutput: Swift.Equatable {
+public struct CreateEventDataStoreOutput {
     /// The advanced event selectors that were used to select the events for the data store.
     public var advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]?
     /// The billing mode for the event data store.
@@ -2490,7 +2490,7 @@ public struct CreateEventDataStoreOutput: Swift.Equatable {
     }
 }
 
-struct CreateEventDataStoreOutputBody: Swift.Equatable {
+struct CreateEventDataStoreOutputBody {
     let eventDataStoreArn: Swift.String?
     let name: Swift.String?
     let status: CloudTrailClientTypes.EventDataStoreStatus?
@@ -2668,7 +2668,7 @@ extension CreateTrailInput {
 }
 
 /// Specifies the settings for each trail.
-public struct CreateTrailInput: Swift.Equatable {
+public struct CreateTrailInput {
     /// Specifies a log group name using an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs will be delivered. You must use a log group that exists in your account. Not required unless you specify CloudWatchLogsRoleArn.
     public var cloudWatchLogsLogGroupArn: Swift.String?
     /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group. You must use a role that exists in your account.
@@ -2744,7 +2744,7 @@ public struct CreateTrailInput: Swift.Equatable {
     }
 }
 
-struct CreateTrailInputBody: Swift.Equatable {
+struct CreateTrailInputBody {
     let name: Swift.String?
     let s3BucketName: Swift.String?
     let s3KeyPrefix: Swift.String?
@@ -2850,7 +2850,7 @@ extension CreateTrailOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Returns the objects or data listed below if successful. Otherwise, returns an error.
-public struct CreateTrailOutput: Swift.Equatable {
+public struct CreateTrailOutput {
     /// Specifies the Amazon Resource Name (ARN) of the log group to which CloudTrail logs will be delivered.
     public var cloudWatchLogsLogGroupArn: Swift.String?
     /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group.
@@ -2911,7 +2911,7 @@ public struct CreateTrailOutput: Swift.Equatable {
     }
 }
 
-struct CreateTrailOutputBody: Swift.Equatable {
+struct CreateTrailOutputBody {
     let name: Swift.String?
     let s3BucketName: Swift.String?
     let s3KeyPrefix: Swift.String?
@@ -3074,7 +3074,7 @@ extension CloudTrailClientTypes {
     /// * The Invoke API operation on MyLambdaFunction is an Lambda API. It is recorded as a data event in CloudTrail. Because the CloudTrail user specified logging data events for MyLambdaFunction, any invocations of that function are logged. The trail processes and logs the event.
     ///
     /// * The Invoke API operation on MyOtherLambdaFunction is an Lambda API. Because the CloudTrail user did not specify logging data events for all Lambda functions, the Invoke operation for MyOtherLambdaFunction does not match the function specified for the trail. The trail doesn’t log the event.
-    public struct DataResource: Swift.Equatable {
+    public struct DataResource {
         /// The resource type in which you want to log data events. You can specify the following basic event selector resource types:
         ///
         /// * AWS::DynamoDB::Table
@@ -3153,7 +3153,7 @@ public struct DelegatedAdminAccountLimitExceededException: ClientRuntime.Modeled
     }
 }
 
-struct DelegatedAdminAccountLimitExceededExceptionBody: Swift.Equatable {
+struct DelegatedAdminAccountLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -3189,7 +3189,7 @@ extension DeleteChannelInput {
     }
 }
 
-public struct DeleteChannelInput: Swift.Equatable {
+public struct DeleteChannelInput {
     /// The ARN or the UUID value of the channel that you want to delete.
     /// This member is required.
     public var channel: Swift.String?
@@ -3202,7 +3202,7 @@ public struct DeleteChannelInput: Swift.Equatable {
     }
 }
 
-struct DeleteChannelInputBody: Swift.Equatable {
+struct DeleteChannelInputBody {
     let channel: Swift.String?
 }
 
@@ -3223,7 +3223,7 @@ extension DeleteChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteChannelOutput: Swift.Equatable {
+public struct DeleteChannelOutput {
 
     public init() { }
 }
@@ -3262,7 +3262,7 @@ extension DeleteEventDataStoreInput {
     }
 }
 
-public struct DeleteEventDataStoreInput: Swift.Equatable {
+public struct DeleteEventDataStoreInput {
     /// The ARN (or the ID suffix of the ARN) of the event data store to delete.
     /// This member is required.
     public var eventDataStore: Swift.String?
@@ -3275,7 +3275,7 @@ public struct DeleteEventDataStoreInput: Swift.Equatable {
     }
 }
 
-struct DeleteEventDataStoreInputBody: Swift.Equatable {
+struct DeleteEventDataStoreInputBody {
     let eventDataStore: Swift.String?
 }
 
@@ -3296,7 +3296,7 @@ extension DeleteEventDataStoreOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteEventDataStoreOutput: Swift.Equatable {
+public struct DeleteEventDataStoreOutput {
 
     public init() { }
 }
@@ -3345,7 +3345,7 @@ extension DeleteResourcePolicyInput {
     }
 }
 
-public struct DeleteResourcePolicyInput: Swift.Equatable {
+public struct DeleteResourcePolicyInput {
     /// The Amazon Resource Name (ARN) of the CloudTrail channel you're deleting the resource-based policy from. The following is the format of a resource ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/MyChannel.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3358,7 +3358,7 @@ public struct DeleteResourcePolicyInput: Swift.Equatable {
     }
 }
 
-struct DeleteResourcePolicyInputBody: Swift.Equatable {
+struct DeleteResourcePolicyInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -3379,7 +3379,7 @@ extension DeleteResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteResourcePolicyOutput: Swift.Equatable {
+public struct DeleteResourcePolicyOutput {
 
     public init() { }
 }
@@ -3421,7 +3421,7 @@ extension DeleteTrailInput {
 }
 
 /// The request that specifies the name of a trail to delete.
-public struct DeleteTrailInput: Swift.Equatable {
+public struct DeleteTrailInput {
     /// Specifies the name or the CloudTrail ARN of the trail to be deleted. The following is the format of a trail ARN. arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
     /// This member is required.
     public var name: Swift.String?
@@ -3434,7 +3434,7 @@ public struct DeleteTrailInput: Swift.Equatable {
     }
 }
 
-struct DeleteTrailInputBody: Swift.Equatable {
+struct DeleteTrailInputBody {
     let name: Swift.String?
 }
 
@@ -3456,7 +3456,7 @@ extension DeleteTrailOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Returns the objects or data listed below if successful. Otherwise, returns an error.
-public struct DeleteTrailOutput: Swift.Equatable {
+public struct DeleteTrailOutput {
 
     public init() { }
 }
@@ -3556,7 +3556,7 @@ extension DeregisterOrganizationDelegatedAdminInput {
 }
 
 /// Removes CloudTrail delegated administrator permissions from a specified member account in an organization that is currently designated as a delegated administrator.
-public struct DeregisterOrganizationDelegatedAdminInput: Swift.Equatable {
+public struct DeregisterOrganizationDelegatedAdminInput {
     /// A delegated administrator account ID. This is a member account in an organization that is currently designated as a delegated administrator.
     /// This member is required.
     public var delegatedAdminAccountId: Swift.String?
@@ -3569,7 +3569,7 @@ public struct DeregisterOrganizationDelegatedAdminInput: Swift.Equatable {
     }
 }
 
-struct DeregisterOrganizationDelegatedAdminInputBody: Swift.Equatable {
+struct DeregisterOrganizationDelegatedAdminInputBody {
     let delegatedAdminAccountId: Swift.String?
 }
 
@@ -3591,7 +3591,7 @@ extension DeregisterOrganizationDelegatedAdminOutput: ClientRuntime.HttpResponse
 }
 
 /// Returns the following response if successful. Otherwise, returns an error.
-public struct DeregisterOrganizationDelegatedAdminOutput: Swift.Equatable {
+public struct DeregisterOrganizationDelegatedAdminOutput {
 
     public init() { }
 }
@@ -3645,7 +3645,7 @@ extension DescribeQueryInput {
     }
 }
 
-public struct DescribeQueryInput: Swift.Equatable {
+public struct DescribeQueryInput {
     /// The ARN (or the ID suffix of the ARN) of an event data store on which the specified query was run.
     @available(*, deprecated, message: "EventDataStore is no longer required by DescribeQueryRequest")
     public var eventDataStore: Swift.String?
@@ -3666,7 +3666,7 @@ public struct DescribeQueryInput: Swift.Equatable {
     }
 }
 
-struct DescribeQueryInputBody: Swift.Equatable {
+struct DescribeQueryInputBody {
     let eventDataStore: Swift.String?
     let queryId: Swift.String?
     let queryAlias: Swift.String?
@@ -3714,7 +3714,7 @@ extension DescribeQueryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeQueryOutput: Swift.Equatable {
+public struct DescribeQueryOutput {
     /// The URI for the S3 bucket where CloudTrail delivered query results, if applicable.
     public var deliveryS3Uri: Swift.String?
     /// The delivery status.
@@ -3750,7 +3750,7 @@ public struct DescribeQueryOutput: Swift.Equatable {
     }
 }
 
-struct DescribeQueryOutputBody: Swift.Equatable {
+struct DescribeQueryOutputBody {
     let queryId: Swift.String?
     let queryString: Swift.String?
     let queryStatus: CloudTrailClientTypes.QueryStatus?
@@ -3836,7 +3836,7 @@ extension DescribeTrailsInput {
 }
 
 /// Returns information about the trail.
-public struct DescribeTrailsInput: Swift.Equatable {
+public struct DescribeTrailsInput {
     /// Specifies whether to include shadow trails in the response. A shadow trail is the replication in a Region of a trail that was created in a different Region, or in the case of an organization trail, the replication of an organization trail in member accounts. If you do not include shadow trails, organization trails in a member account and Region replication trails will not be returned. The default is true.
     public var includeShadowTrails: Swift.Bool?
     /// Specifies a list of trail names, trail ARNs, or both, of the trails to describe. The format of a trail ARN is: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail If an empty list is specified, information for the trail in the current Region is returned.
@@ -3859,7 +3859,7 @@ public struct DescribeTrailsInput: Swift.Equatable {
     }
 }
 
-struct DescribeTrailsInputBody: Swift.Equatable {
+struct DescribeTrailsInputBody {
     let trailNameList: [Swift.String]?
     let includeShadowTrails: Swift.Bool?
 }
@@ -3901,7 +3901,7 @@ extension DescribeTrailsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Returns the objects or data listed below if successful. Otherwise, returns an error.
-public struct DescribeTrailsOutput: Swift.Equatable {
+public struct DescribeTrailsOutput {
     /// The list of trail objects. Trail objects with string values are only returned if values for the objects exist in a trail's configuration. For example, SNSTopicName and SNSTopicARN are only returned in results if a trail is configured to send SNS notifications. Similarly, KMSKeyId only appears in results if a trail's log files are encrypted with KMS customer managed keys.
     public var trailList: [CloudTrailClientTypes.Trail]?
 
@@ -3913,7 +3913,7 @@ public struct DescribeTrailsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeTrailsOutputBody: Swift.Equatable {
+struct DescribeTrailsOutputBody {
     let trailList: [CloudTrailClientTypes.Trail]?
 }
 
@@ -3980,7 +3980,7 @@ extension CloudTrailClientTypes.Destination: Swift.Codable {
 
 extension CloudTrailClientTypes {
     /// Contains information about the destination receiving events.
-    public struct Destination: Swift.Equatable {
+    public struct Destination {
         /// For channels used for a CloudTrail Lake integration, the location is the ARN of an event data store that receives events from a channel. For service-linked channels, the location is the name of the Amazon Web Services service.
         /// This member is required.
         public var location: Swift.String?
@@ -4052,7 +4052,7 @@ extension DisableFederationInput {
     }
 }
 
-public struct DisableFederationInput: Swift.Equatable {
+public struct DisableFederationInput {
     /// The ARN (or ID suffix of the ARN) of the event data store for which you want to disable Lake query federation.
     /// This member is required.
     public var eventDataStore: Swift.String?
@@ -4065,7 +4065,7 @@ public struct DisableFederationInput: Swift.Equatable {
     }
 }
 
-struct DisableFederationInputBody: Swift.Equatable {
+struct DisableFederationInputBody {
     let eventDataStore: Swift.String?
 }
 
@@ -4095,7 +4095,7 @@ extension DisableFederationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisableFederationOutput: Swift.Equatable {
+public struct DisableFederationOutput {
     /// The ARN of the event data store for which you disabled Lake query federation.
     public var eventDataStoreArn: Swift.String?
     /// The federation status.
@@ -4111,7 +4111,7 @@ public struct DisableFederationOutput: Swift.Equatable {
     }
 }
 
-struct DisableFederationOutputBody: Swift.Equatable {
+struct DisableFederationOutputBody {
     let eventDataStoreArn: Swift.String?
     let federationStatus: CloudTrailClientTypes.FederationStatus?
 }
@@ -4179,7 +4179,7 @@ extension EnableFederationInput {
     }
 }
 
-public struct EnableFederationInput: Swift.Equatable {
+public struct EnableFederationInput {
     /// The ARN (or ID suffix of the ARN) of the event data store for which you want to enable Lake query federation.
     /// This member is required.
     public var eventDataStore: Swift.String?
@@ -4197,7 +4197,7 @@ public struct EnableFederationInput: Swift.Equatable {
     }
 }
 
-struct EnableFederationInputBody: Swift.Equatable {
+struct EnableFederationInputBody {
     let eventDataStore: Swift.String?
     let federationRoleArn: Swift.String?
 }
@@ -4233,7 +4233,7 @@ extension EnableFederationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct EnableFederationOutput: Swift.Equatable {
+public struct EnableFederationOutput {
     /// The ARN of the event data store for which you enabled Lake query federation.
     public var eventDataStoreArn: Swift.String?
     /// The ARN of the federation role.
@@ -4253,7 +4253,7 @@ public struct EnableFederationOutput: Swift.Equatable {
     }
 }
 
-struct EnableFederationOutputBody: Swift.Equatable {
+struct EnableFederationOutputBody {
     let eventDataStoreArn: Swift.String?
     let federationStatus: CloudTrailClientTypes.FederationStatus?
     let federationRoleArn: Swift.String?
@@ -4383,7 +4383,7 @@ extension CloudTrailClientTypes.Event: Swift.Codable {
 
 extension CloudTrailClientTypes {
     /// Contains information about an event that was returned by a lookup request. The result includes a representation of a CloudTrail event.
-    public struct Event: Swift.Equatable {
+    public struct Event {
         /// The Amazon Web Services access key ID that was used to sign the request. If the request was made with temporary security credentials, this is the access key ID of the temporary credentials.
         public var accessKeyId: Swift.String?
         /// A JSON string that contains a representation of the event returned.
@@ -4545,7 +4545,7 @@ extension CloudTrailClientTypes.EventDataStore: Swift.Codable {
 
 extension CloudTrailClientTypes {
     /// A storage lake of event data against which you can run complex SQL-based queries. An event data store can include events that you have logged on your account. To select events for an event data store, use [advanced event selectors](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html#creating-data-event-selectors-advanced).
-    public struct EventDataStore: Swift.Equatable {
+    public struct EventDataStore {
         /// The advanced event selectors that were used to select events for the data store.
         @available(*, deprecated, message: "AdvancedEventSelectors is no longer returned by ListEventDataStores")
         public var advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]?
@@ -4643,7 +4643,7 @@ public struct EventDataStoreARNInvalidException: ClientRuntime.ModeledError, AWS
     }
 }
 
-struct EventDataStoreARNInvalidExceptionBody: Swift.Equatable {
+struct EventDataStoreARNInvalidExceptionBody {
     let message: Swift.String?
 }
 
@@ -4699,7 +4699,7 @@ public struct EventDataStoreAlreadyExistsException: ClientRuntime.ModeledError, 
     }
 }
 
-struct EventDataStoreAlreadyExistsExceptionBody: Swift.Equatable {
+struct EventDataStoreAlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -4755,7 +4755,7 @@ public struct EventDataStoreFederationEnabledException: ClientRuntime.ModeledErr
     }
 }
 
-struct EventDataStoreFederationEnabledExceptionBody: Swift.Equatable {
+struct EventDataStoreFederationEnabledExceptionBody {
     let message: Swift.String?
 }
 
@@ -4811,7 +4811,7 @@ public struct EventDataStoreHasOngoingImportException: ClientRuntime.ModeledErro
     }
 }
 
-struct EventDataStoreHasOngoingImportExceptionBody: Swift.Equatable {
+struct EventDataStoreHasOngoingImportExceptionBody {
     let message: Swift.String?
 }
 
@@ -4867,7 +4867,7 @@ public struct EventDataStoreMaxLimitExceededException: ClientRuntime.ModeledErro
     }
 }
 
-struct EventDataStoreMaxLimitExceededExceptionBody: Swift.Equatable {
+struct EventDataStoreMaxLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -4923,7 +4923,7 @@ public struct EventDataStoreNotFoundException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct EventDataStoreNotFoundExceptionBody: Swift.Equatable {
+struct EventDataStoreNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -5023,7 +5023,7 @@ public struct EventDataStoreTerminationProtectedException: ClientRuntime.Modeled
     }
 }
 
-struct EventDataStoreTerminationProtectedExceptionBody: Swift.Equatable {
+struct EventDataStoreTerminationProtectedExceptionBody {
     let message: Swift.String?
 }
 
@@ -5102,7 +5102,7 @@ extension CloudTrailClientTypes.EventSelector: Swift.Codable {
 
 extension CloudTrailClientTypes {
     /// Use event selectors to further specify the management and data event settings for your trail. By default, trails created without specific event selectors will be configured to log all read and write management events, and no data events. When an event occurs in your account, CloudTrail evaluates the event selector for all trails. For each trail, if the event matches any event selector, the trail processes and logs the event. If the event doesn't match any event selector, the trail doesn't log the event. You can configure up to five event selectors for a trail. You cannot apply both event selectors and advanced event selectors to a trail.
-    public struct EventSelector: Swift.Equatable {
+    public struct EventSelector {
         /// CloudTrail supports data event logging for Amazon S3 objects, Lambda functions, and Amazon DynamoDB tables with basic event selectors. You can specify up to 250 resources for an individual event selector, but the total number of data resources cannot exceed 250 across all event selectors in a trail. This limit does not apply if you configure resource logging for all data events. For more information, see [Data Events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html) and [Limits in CloudTrail](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/WhatIsCloudTrail-Limits.html) in the CloudTrail User Guide.
         public var dataResources: [CloudTrailClientTypes.DataResource]?
         /// An optional list of service event sources from which you do not want management events to be logged on your trail. In this release, the list can be empty (disables the filter), or it can filter out Key Management Service or Amazon RDS Data API events by containing kms.amazonaws.com or rdsdata.amazonaws.com. By default, ExcludeManagementEventSources is empty, and KMS and Amazon RDS Data API events are logged to your trail. You can exclude management event sources only in Regions that support the event source.
@@ -5186,7 +5186,7 @@ extension GetChannelInput {
     }
 }
 
-public struct GetChannelInput: Swift.Equatable {
+public struct GetChannelInput {
     /// The ARN or UUID of a channel.
     /// This member is required.
     public var channel: Swift.String?
@@ -5199,7 +5199,7 @@ public struct GetChannelInput: Swift.Equatable {
     }
 }
 
-struct GetChannelInputBody: Swift.Equatable {
+struct GetChannelInputBody {
     let channel: Swift.String?
 }
 
@@ -5237,7 +5237,7 @@ extension GetChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetChannelOutput: Swift.Equatable {
+public struct GetChannelOutput {
     /// The ARN of an channel returned by a GetChannel request.
     public var channelArn: Swift.String?
     /// The destinations for the channel. For channels created for integrations, the destinations are the event data stores that log events arriving through the channel. For service-linked channels, the destination is the Amazon Web Services service that created the service-linked channel to receive events.
@@ -5269,7 +5269,7 @@ public struct GetChannelOutput: Swift.Equatable {
     }
 }
 
-struct GetChannelOutputBody: Swift.Equatable {
+struct GetChannelOutputBody {
     let channelArn: Swift.String?
     let name: Swift.String?
     let source: Swift.String?
@@ -5348,7 +5348,7 @@ extension GetEventDataStoreInput {
     }
 }
 
-public struct GetEventDataStoreInput: Swift.Equatable {
+public struct GetEventDataStoreInput {
     /// The ARN (or ID suffix of the ARN) of the event data store about which you want information.
     /// This member is required.
     public var eventDataStore: Swift.String?
@@ -5361,7 +5361,7 @@ public struct GetEventDataStoreInput: Swift.Equatable {
     }
 }
 
-struct GetEventDataStoreInputBody: Swift.Equatable {
+struct GetEventDataStoreInputBody {
     let eventDataStore: Swift.String?
 }
 
@@ -5415,7 +5415,7 @@ extension GetEventDataStoreOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEventDataStoreOutput: Swift.Equatable {
+public struct GetEventDataStoreOutput {
     /// The advanced event selectors used to select events for the data store.
     public var advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]?
     /// The billing mode for the event data store.
@@ -5479,7 +5479,7 @@ public struct GetEventDataStoreOutput: Swift.Equatable {
     }
 }
 
-struct GetEventDataStoreOutputBody: Swift.Equatable {
+struct GetEventDataStoreOutputBody {
     let eventDataStoreArn: Swift.String?
     let name: Swift.String?
     let status: CloudTrailClientTypes.EventDataStoreStatus?
@@ -5592,7 +5592,7 @@ extension GetEventSelectorsInput {
     }
 }
 
-public struct GetEventSelectorsInput: Swift.Equatable {
+public struct GetEventSelectorsInput {
     /// Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:
     ///
     /// * Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)
@@ -5618,7 +5618,7 @@ public struct GetEventSelectorsInput: Swift.Equatable {
     }
 }
 
-struct GetEventSelectorsInputBody: Swift.Equatable {
+struct GetEventSelectorsInputBody {
     let trailName: Swift.String?
 }
 
@@ -5650,7 +5650,7 @@ extension GetEventSelectorsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEventSelectorsOutput: Swift.Equatable {
+public struct GetEventSelectorsOutput {
     /// The advanced event selectors that are configured for the trail.
     public var advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]?
     /// The event selectors that are configured for the trail.
@@ -5670,7 +5670,7 @@ public struct GetEventSelectorsOutput: Swift.Equatable {
     }
 }
 
-struct GetEventSelectorsOutputBody: Swift.Equatable {
+struct GetEventSelectorsOutputBody {
     let trailARN: Swift.String?
     let eventSelectors: [CloudTrailClientTypes.EventSelector]?
     let advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]?
@@ -5748,7 +5748,7 @@ extension GetImportInput {
     }
 }
 
-public struct GetImportInput: Swift.Equatable {
+public struct GetImportInput {
     /// The ID for the import.
     /// This member is required.
     public var importId: Swift.String?
@@ -5761,7 +5761,7 @@ public struct GetImportInput: Swift.Equatable {
     }
 }
 
-struct GetImportInputBody: Swift.Equatable {
+struct GetImportInputBody {
     let importId: Swift.String?
 }
 
@@ -5805,7 +5805,7 @@ extension GetImportOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetImportOutput: Swift.Equatable {
+public struct GetImportOutput {
     /// The timestamp of the import's creation.
     public var createdTimestamp: ClientRuntime.Date?
     /// The ARN of the destination event data store.
@@ -5849,7 +5849,7 @@ public struct GetImportOutput: Swift.Equatable {
     }
 }
 
-struct GetImportOutputBody: Swift.Equatable {
+struct GetImportOutputBody {
     let importId: Swift.String?
     let destinations: [Swift.String]?
     let importSource: CloudTrailClientTypes.ImportSource?
@@ -5944,7 +5944,7 @@ extension GetInsightSelectorsInput {
     }
 }
 
-public struct GetInsightSelectorsInput: Swift.Equatable {
+public struct GetInsightSelectorsInput {
     /// Specifies the ARN (or ID suffix of the ARN) of the event data store for which you want to get Insights selectors. You cannot use this parameter with the TrailName parameter.
     public var eventDataStore: Swift.String?
     /// Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:
@@ -5973,7 +5973,7 @@ public struct GetInsightSelectorsInput: Swift.Equatable {
     }
 }
 
-struct GetInsightSelectorsInputBody: Swift.Equatable {
+struct GetInsightSelectorsInputBody {
     let trailName: Swift.String?
     let eventDataStore: Swift.String?
 }
@@ -6011,7 +6011,7 @@ extension GetInsightSelectorsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetInsightSelectorsOutput: Swift.Equatable {
+public struct GetInsightSelectorsOutput {
     /// The ARN of the source event data store that enabled Insights events.
     public var eventDataStoreArn: Swift.String?
     /// A JSON string that contains the Insight types you want to log on a trail or event data store. ApiErrorRateInsight and ApiCallRateInsight are supported as Insights types.
@@ -6035,7 +6035,7 @@ public struct GetInsightSelectorsOutput: Swift.Equatable {
     }
 }
 
-struct GetInsightSelectorsOutputBody: Swift.Equatable {
+struct GetInsightSelectorsOutputBody {
     let trailARN: Swift.String?
     let insightSelectors: [CloudTrailClientTypes.InsightSelector]?
     let eventDataStoreArn: Swift.String?
@@ -6124,7 +6124,7 @@ extension GetQueryResultsInput {
     }
 }
 
-public struct GetQueryResultsInput: Swift.Equatable {
+public struct GetQueryResultsInput {
     /// The ARN (or ID suffix of the ARN) of the event data store against which the query was run.
     @available(*, deprecated, message: "EventDataStore is no longer required by GetQueryResultsRequest")
     public var eventDataStore: Swift.String?
@@ -6150,7 +6150,7 @@ public struct GetQueryResultsInput: Swift.Equatable {
     }
 }
 
-struct GetQueryResultsInputBody: Swift.Equatable {
+struct GetQueryResultsInputBody {
     let eventDataStore: Swift.String?
     let queryId: Swift.String?
     let nextToken: Swift.String?
@@ -6198,7 +6198,7 @@ extension GetQueryResultsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetQueryResultsOutput: Swift.Equatable {
+public struct GetQueryResultsOutput {
     /// The error message returned if a query failed.
     public var errorMessage: Swift.String?
     /// A token you can use to get the next page of query results.
@@ -6226,7 +6226,7 @@ public struct GetQueryResultsOutput: Swift.Equatable {
     }
 }
 
-struct GetQueryResultsOutputBody: Swift.Equatable {
+struct GetQueryResultsOutputBody {
     let queryStatus: CloudTrailClientTypes.QueryStatus?
     let queryStatistics: CloudTrailClientTypes.QueryStatistics?
     let queryResultRows: [[[Swift.String:Swift.String]]]?
@@ -6326,7 +6326,7 @@ extension GetResourcePolicyInput {
     }
 }
 
-public struct GetResourcePolicyInput: Swift.Equatable {
+public struct GetResourcePolicyInput {
     /// The Amazon Resource Name (ARN) of the CloudTrail channel attached to the resource-based policy. The following is the format of a resource ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/MyChannel.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -6339,7 +6339,7 @@ public struct GetResourcePolicyInput: Swift.Equatable {
     }
 }
 
-struct GetResourcePolicyInputBody: Swift.Equatable {
+struct GetResourcePolicyInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -6369,7 +6369,7 @@ extension GetResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetResourcePolicyOutput: Swift.Equatable {
+public struct GetResourcePolicyOutput {
     /// The Amazon Resource Name (ARN) of the CloudTrail channel attached to resource-based policy.
     public var resourceArn: Swift.String?
     /// A JSON-formatted string that contains the resource-based policy attached to the CloudTrail channel.
@@ -6385,7 +6385,7 @@ public struct GetResourcePolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetResourcePolicyOutputBody: Swift.Equatable {
+struct GetResourcePolicyOutputBody {
     let resourceArn: Swift.String?
     let resourcePolicy: Swift.String?
 }
@@ -6441,7 +6441,7 @@ extension GetTrailInput {
     }
 }
 
-public struct GetTrailInput: Swift.Equatable {
+public struct GetTrailInput {
     /// The name or the Amazon Resource Name (ARN) of the trail for which you want to retrieve settings information.
     /// This member is required.
     public var name: Swift.String?
@@ -6454,7 +6454,7 @@ public struct GetTrailInput: Swift.Equatable {
     }
 }
 
-struct GetTrailInputBody: Swift.Equatable {
+struct GetTrailInputBody {
     let name: Swift.String?
 }
 
@@ -6482,7 +6482,7 @@ extension GetTrailOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTrailOutput: Swift.Equatable {
+public struct GetTrailOutput {
     /// The settings for a trail.
     public var trail: CloudTrailClientTypes.Trail?
 
@@ -6494,7 +6494,7 @@ public struct GetTrailOutput: Swift.Equatable {
     }
 }
 
-struct GetTrailOutputBody: Swift.Equatable {
+struct GetTrailOutputBody {
     let trail: CloudTrailClientTypes.Trail?
 }
 
@@ -6546,7 +6546,7 @@ extension GetTrailStatusInput {
 }
 
 /// The name of a trail about which you want the current status.
-public struct GetTrailStatusInput: Swift.Equatable {
+public struct GetTrailStatusInput {
     /// Specifies the name or the CloudTrail ARN of the trail for which you are requesting status. To get the status of a shadow trail (a replication of the trail in another Region), you must specify its ARN. The following is the format of a trail ARN. arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
     /// This member is required.
     public var name: Swift.String?
@@ -6559,7 +6559,7 @@ public struct GetTrailStatusInput: Swift.Equatable {
     }
 }
 
-struct GetTrailStatusInputBody: Swift.Equatable {
+struct GetTrailStatusInputBody {
     let name: Swift.String?
 }
 
@@ -6620,7 +6620,7 @@ extension GetTrailStatusOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Returns the objects or data listed below if successful. Otherwise, returns an error.
-public struct GetTrailStatusOutput: Swift.Equatable {
+public struct GetTrailStatusOutput {
     /// Whether the CloudTrail trail is currently logging Amazon Web Services API calls.
     public var isLogging: Swift.Bool?
     /// Displays any CloudWatch Logs error that CloudTrail encountered when attempting to deliver logs to CloudWatch Logs.
@@ -6696,7 +6696,7 @@ public struct GetTrailStatusOutput: Swift.Equatable {
     }
 }
 
-struct GetTrailStatusOutputBody: Swift.Equatable {
+struct GetTrailStatusOutputBody {
     let isLogging: Swift.Bool?
     let latestDeliveryError: Swift.String?
     let latestNotificationError: Swift.String?
@@ -6836,7 +6836,7 @@ extension CloudTrailClientTypes.ImportFailureListItem: Swift.Codable {
 
 extension CloudTrailClientTypes {
     /// Provides information about an import failure.
-    public struct ImportFailureListItem: Swift.Equatable {
+    public struct ImportFailureListItem {
         /// Provides the reason the import failed.
         public var errorMessage: Swift.String?
         /// The type of import error.
@@ -6941,7 +6941,7 @@ public struct ImportNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct ImportNotFoundExceptionBody: Swift.Equatable {
+struct ImportNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -6978,7 +6978,7 @@ extension CloudTrailClientTypes.ImportSource: Swift.Codable {
 
 extension CloudTrailClientTypes {
     /// The import source.
-    public struct ImportSource: Swift.Equatable {
+    public struct ImportSource {
         /// The source S3 bucket.
         /// This member is required.
         public var s3: CloudTrailClientTypes.S3ImportSource?
@@ -7038,7 +7038,7 @@ extension CloudTrailClientTypes.ImportStatistics: Swift.Codable {
 
 extension CloudTrailClientTypes {
     /// Provides statistics for the specified ImportID. CloudTrail does not update import statistics in real-time. Returned values for parameters such as EventsCompleted may be lower than the actual value, because CloudTrail updates statistics incrementally over the course of the import.
-    public struct ImportStatistics: Swift.Equatable {
+    public struct ImportStatistics {
         /// The number of trail events imported into the event data store.
         public var eventsCompleted: Swift.Int?
         /// The number of failed entries.
@@ -7166,7 +7166,7 @@ extension CloudTrailClientTypes.ImportsListItem: Swift.Codable {
 
 extension CloudTrailClientTypes {
     /// Contains information about an import that was returned by a lookup request.
-    public struct ImportsListItem: Swift.Equatable {
+    public struct ImportsListItem {
         /// The timestamp of the import's creation.
         public var createdTimestamp: ClientRuntime.Date?
         /// The ARN of the destination event data store.
@@ -7236,7 +7236,7 @@ public struct InactiveEventDataStoreException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct InactiveEventDataStoreExceptionBody: Swift.Equatable {
+struct InactiveEventDataStoreExceptionBody {
     let message: Swift.String?
 }
 
@@ -7292,7 +7292,7 @@ public struct InactiveQueryException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct InactiveQueryExceptionBody: Swift.Equatable {
+struct InactiveQueryExceptionBody {
     let message: Swift.String?
 }
 
@@ -7353,7 +7353,7 @@ extension CloudTrailClientTypes.IngestionStatus: Swift.Codable {
 
 extension CloudTrailClientTypes {
     /// A table showing information about the most recent successful and failed attempts to ingest events.
-    public struct IngestionStatus: Swift.Equatable {
+    public struct IngestionStatus {
         /// The event ID of the most recent attempt to ingest events.
         public var latestIngestionAttemptEventID: Swift.String?
         /// The time stamp of the most recent attempt to ingest events on the channel.
@@ -7423,7 +7423,7 @@ public struct InsightNotEnabledException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct InsightNotEnabledExceptionBody: Swift.Equatable {
+struct InsightNotEnabledExceptionBody {
     let message: Swift.String?
 }
 
@@ -7460,7 +7460,7 @@ extension CloudTrailClientTypes.InsightSelector: Swift.Codable {
 
 extension CloudTrailClientTypes {
     /// A JSON string that contains a list of Insights types that are logged on a trail or event data store.
-    public struct InsightSelector: Swift.Equatable {
+    public struct InsightSelector {
         /// The type of Insights events to log on a trail or event data store. ApiCallRateInsight and ApiErrorRateInsight are valid Insight types. The ApiCallRateInsight Insights type analyzes write-only management API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights type analyzes management API calls that result in error codes. The error is shown if the API call is unsuccessful.
         public var insightType: CloudTrailClientTypes.InsightType?
 
@@ -7578,7 +7578,7 @@ public struct InsufficientDependencyServiceAccessPermissionException: ClientRunt
     }
 }
 
-struct InsufficientDependencyServiceAccessPermissionExceptionBody: Swift.Equatable {
+struct InsufficientDependencyServiceAccessPermissionExceptionBody {
     let message: Swift.String?
 }
 
@@ -7634,7 +7634,7 @@ public struct InsufficientEncryptionPolicyException: ClientRuntime.ModeledError,
     }
 }
 
-struct InsufficientEncryptionPolicyExceptionBody: Swift.Equatable {
+struct InsufficientEncryptionPolicyExceptionBody {
     let message: Swift.String?
 }
 
@@ -7690,7 +7690,7 @@ public struct InsufficientS3BucketPolicyException: ClientRuntime.ModeledError, A
     }
 }
 
-struct InsufficientS3BucketPolicyExceptionBody: Swift.Equatable {
+struct InsufficientS3BucketPolicyExceptionBody {
     let message: Swift.String?
 }
 
@@ -7746,7 +7746,7 @@ public struct InsufficientSnsTopicPolicyException: ClientRuntime.ModeledError, A
     }
 }
 
-struct InsufficientSnsTopicPolicyExceptionBody: Swift.Equatable {
+struct InsufficientSnsTopicPolicyExceptionBody {
     let message: Swift.String?
 }
 
@@ -7802,7 +7802,7 @@ public struct InvalidCloudWatchLogsLogGroupArnException: ClientRuntime.ModeledEr
     }
 }
 
-struct InvalidCloudWatchLogsLogGroupArnExceptionBody: Swift.Equatable {
+struct InvalidCloudWatchLogsLogGroupArnExceptionBody {
     let message: Swift.String?
 }
 
@@ -7858,7 +7858,7 @@ public struct InvalidCloudWatchLogsRoleArnException: ClientRuntime.ModeledError,
     }
 }
 
-struct InvalidCloudWatchLogsRoleArnExceptionBody: Swift.Equatable {
+struct InvalidCloudWatchLogsRoleArnExceptionBody {
     let message: Swift.String?
 }
 
@@ -7914,7 +7914,7 @@ public struct InvalidDateRangeException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidDateRangeExceptionBody: Swift.Equatable {
+struct InvalidDateRangeExceptionBody {
     let message: Swift.String?
 }
 
@@ -7970,7 +7970,7 @@ public struct InvalidEventCategoryException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct InvalidEventCategoryExceptionBody: Swift.Equatable {
+struct InvalidEventCategoryExceptionBody {
     let message: Swift.String?
 }
 
@@ -8026,7 +8026,7 @@ public struct InvalidEventDataStoreCategoryException: ClientRuntime.ModeledError
     }
 }
 
-struct InvalidEventDataStoreCategoryExceptionBody: Swift.Equatable {
+struct InvalidEventDataStoreCategoryExceptionBody {
     let message: Swift.String?
 }
 
@@ -8082,7 +8082,7 @@ public struct InvalidEventDataStoreStatusException: ClientRuntime.ModeledError, 
     }
 }
 
-struct InvalidEventDataStoreStatusExceptionBody: Swift.Equatable {
+struct InvalidEventDataStoreStatusExceptionBody {
     let message: Swift.String?
 }
 
@@ -8146,7 +8146,7 @@ public struct InvalidEventSelectorsException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct InvalidEventSelectorsExceptionBody: Swift.Equatable {
+struct InvalidEventSelectorsExceptionBody {
     let message: Swift.String?
 }
 
@@ -8202,7 +8202,7 @@ public struct InvalidHomeRegionException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct InvalidHomeRegionExceptionBody: Swift.Equatable {
+struct InvalidHomeRegionExceptionBody {
     let message: Swift.String?
 }
 
@@ -8258,7 +8258,7 @@ public struct InvalidImportSourceException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct InvalidImportSourceExceptionBody: Swift.Equatable {
+struct InvalidImportSourceExceptionBody {
     let message: Swift.String?
 }
 
@@ -8314,7 +8314,7 @@ public struct InvalidInsightSelectorsException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct InvalidInsightSelectorsExceptionBody: Swift.Equatable {
+struct InvalidInsightSelectorsExceptionBody {
     let message: Swift.String?
 }
 
@@ -8370,7 +8370,7 @@ public struct InvalidKmsKeyIdException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InvalidKmsKeyIdExceptionBody: Swift.Equatable {
+struct InvalidKmsKeyIdExceptionBody {
     let message: Swift.String?
 }
 
@@ -8426,7 +8426,7 @@ public struct InvalidLookupAttributesException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct InvalidLookupAttributesExceptionBody: Swift.Equatable {
+struct InvalidLookupAttributesExceptionBody {
     let message: Swift.String?
 }
 
@@ -8482,7 +8482,7 @@ public struct InvalidMaxResultsException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct InvalidMaxResultsExceptionBody: Swift.Equatable {
+struct InvalidMaxResultsExceptionBody {
     let message: Swift.String?
 }
 
@@ -8538,7 +8538,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidNextTokenExceptionBody: Swift.Equatable {
+struct InvalidNextTokenExceptionBody {
     let message: Swift.String?
 }
 
@@ -8594,7 +8594,7 @@ public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, 
     }
 }
 
-struct InvalidParameterCombinationExceptionBody: Swift.Equatable {
+struct InvalidParameterCombinationExceptionBody {
     let message: Swift.String?
 }
 
@@ -8650,7 +8650,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidParameterExceptionBody: Swift.Equatable {
+struct InvalidParameterExceptionBody {
     let message: Swift.String?
 }
 
@@ -8706,7 +8706,7 @@ public struct InvalidQueryStatementException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct InvalidQueryStatementExceptionBody: Swift.Equatable {
+struct InvalidQueryStatementExceptionBody {
     let message: Swift.String?
 }
 
@@ -8762,7 +8762,7 @@ public struct InvalidQueryStatusException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct InvalidQueryStatusExceptionBody: Swift.Equatable {
+struct InvalidQueryStatusExceptionBody {
     let message: Swift.String?
 }
 
@@ -8818,7 +8818,7 @@ public struct InvalidS3BucketNameException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct InvalidS3BucketNameExceptionBody: Swift.Equatable {
+struct InvalidS3BucketNameExceptionBody {
     let message: Swift.String?
 }
 
@@ -8874,7 +8874,7 @@ public struct InvalidS3PrefixException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InvalidS3PrefixExceptionBody: Swift.Equatable {
+struct InvalidS3PrefixExceptionBody {
     let message: Swift.String?
 }
 
@@ -8930,7 +8930,7 @@ public struct InvalidSnsTopicNameException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct InvalidSnsTopicNameExceptionBody: Swift.Equatable {
+struct InvalidSnsTopicNameExceptionBody {
     let message: Swift.String?
 }
 
@@ -8986,7 +8986,7 @@ public struct InvalidSourceException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct InvalidSourceExceptionBody: Swift.Equatable {
+struct InvalidSourceExceptionBody {
     let message: Swift.String?
 }
 
@@ -9042,7 +9042,7 @@ public struct InvalidTagParameterException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct InvalidTagParameterExceptionBody: Swift.Equatable {
+struct InvalidTagParameterExceptionBody {
     let message: Swift.String?
 }
 
@@ -9098,7 +9098,7 @@ public struct InvalidTimeRangeException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidTimeRangeExceptionBody: Swift.Equatable {
+struct InvalidTimeRangeExceptionBody {
     let message: Swift.String?
 }
 
@@ -9154,7 +9154,7 @@ public struct InvalidTokenException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct InvalidTokenExceptionBody: Swift.Equatable {
+struct InvalidTokenExceptionBody {
     let message: Swift.String?
 }
 
@@ -9220,7 +9220,7 @@ public struct InvalidTrailNameException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidTrailNameExceptionBody: Swift.Equatable {
+struct InvalidTrailNameExceptionBody {
     let message: Swift.String?
 }
 
@@ -9276,7 +9276,7 @@ public struct KmsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
     }
 }
 
-struct KmsExceptionBody: Swift.Equatable {
+struct KmsExceptionBody {
     let message: Swift.String?
 }
 
@@ -9333,7 +9333,7 @@ public struct KmsKeyDisabledException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct KmsKeyDisabledExceptionBody: Swift.Equatable {
+struct KmsKeyDisabledExceptionBody {
     let message: Swift.String?
 }
 
@@ -9389,7 +9389,7 @@ public struct KmsKeyNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct KmsKeyNotFoundExceptionBody: Swift.Equatable {
+struct KmsKeyNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -9429,7 +9429,7 @@ extension ListChannelsInput {
     }
 }
 
-public struct ListChannelsInput: Swift.Equatable {
+public struct ListChannelsInput {
     /// The maximum number of CloudTrail channels to display on a single page.
     public var maxResults: Swift.Int?
     /// The token to use to get the next page of results after a previous API call. This token must be passed in with the same parameters that were specified in the original call. For example, if the original call specified an AttributeKey of 'Username' with a value of 'root', the call with NextToken should include those same parameters.
@@ -9445,7 +9445,7 @@ public struct ListChannelsInput: Swift.Equatable {
     }
 }
 
-struct ListChannelsInputBody: Swift.Equatable {
+struct ListChannelsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -9479,7 +9479,7 @@ extension ListChannelsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListChannelsOutput: Swift.Equatable {
+public struct ListChannelsOutput {
     /// The list of channels in the account.
     public var channels: [CloudTrailClientTypes.Channel]?
     /// The token to use to get the next page of results after a previous API call.
@@ -9495,7 +9495,7 @@ public struct ListChannelsOutput: Swift.Equatable {
     }
 }
 
-struct ListChannelsOutputBody: Swift.Equatable {
+struct ListChannelsOutputBody {
     let channels: [CloudTrailClientTypes.Channel]?
     let nextToken: Swift.String?
 }
@@ -9561,7 +9561,7 @@ extension ListEventDataStoresInput {
     }
 }
 
-public struct ListEventDataStoresInput: Swift.Equatable {
+public struct ListEventDataStoresInput {
     /// The maximum number of event data stores to display on a single page.
     public var maxResults: Swift.Int?
     /// A token you can use to get the next page of event data store results.
@@ -9577,7 +9577,7 @@ public struct ListEventDataStoresInput: Swift.Equatable {
     }
 }
 
-struct ListEventDataStoresInputBody: Swift.Equatable {
+struct ListEventDataStoresInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -9611,7 +9611,7 @@ extension ListEventDataStoresOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEventDataStoresOutput: Swift.Equatable {
+public struct ListEventDataStoresOutput {
     /// Contains information about event data stores in the account, in the current Region.
     public var eventDataStores: [CloudTrailClientTypes.EventDataStore]?
     /// A token you can use to get the next page of results.
@@ -9627,7 +9627,7 @@ public struct ListEventDataStoresOutput: Swift.Equatable {
     }
 }
 
-struct ListEventDataStoresOutputBody: Swift.Equatable {
+struct ListEventDataStoresOutputBody {
     let eventDataStores: [CloudTrailClientTypes.EventDataStore]?
     let nextToken: Swift.String?
 }
@@ -9699,7 +9699,7 @@ extension ListImportFailuresInput {
     }
 }
 
-public struct ListImportFailuresInput: Swift.Equatable {
+public struct ListImportFailuresInput {
     /// The ID of the import.
     /// This member is required.
     public var importId: Swift.String?
@@ -9720,7 +9720,7 @@ public struct ListImportFailuresInput: Swift.Equatable {
     }
 }
 
-struct ListImportFailuresInputBody: Swift.Equatable {
+struct ListImportFailuresInputBody {
     let importId: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -9758,7 +9758,7 @@ extension ListImportFailuresOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListImportFailuresOutput: Swift.Equatable {
+public struct ListImportFailuresOutput {
     /// Contains information about the import failures.
     public var failures: [CloudTrailClientTypes.ImportFailureListItem]?
     /// A token you can use to get the next page of results.
@@ -9774,7 +9774,7 @@ public struct ListImportFailuresOutput: Swift.Equatable {
     }
 }
 
-struct ListImportFailuresOutputBody: Swift.Equatable {
+struct ListImportFailuresOutputBody {
     let failures: [CloudTrailClientTypes.ImportFailureListItem]?
     let nextToken: Swift.String?
 }
@@ -9849,7 +9849,7 @@ extension ListImportsInput {
     }
 }
 
-public struct ListImportsInput: Swift.Equatable {
+public struct ListImportsInput {
     /// The ARN of the destination event data store.
     public var destination: Swift.String?
     /// The status of the import.
@@ -9873,7 +9873,7 @@ public struct ListImportsInput: Swift.Equatable {
     }
 }
 
-struct ListImportsInputBody: Swift.Equatable {
+struct ListImportsInputBody {
     let maxResults: Swift.Int?
     let destination: Swift.String?
     let importStatus: CloudTrailClientTypes.ImportStatus?
@@ -9915,7 +9915,7 @@ extension ListImportsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListImportsOutput: Swift.Equatable {
+public struct ListImportsOutput {
     /// The list of returned imports.
     public var imports: [CloudTrailClientTypes.ImportsListItem]?
     /// A token you can use to get the next page of import results.
@@ -9931,7 +9931,7 @@ public struct ListImportsOutput: Swift.Equatable {
     }
 }
 
-struct ListImportsOutputBody: Swift.Equatable {
+struct ListImportsOutputBody {
     let imports: [CloudTrailClientTypes.ImportsListItem]?
     let nextToken: Swift.String?
 }
@@ -10031,7 +10031,7 @@ extension ListInsightsMetricDataInput {
     }
 }
 
-public struct ListInsightsMetricDataInput: Swift.Equatable {
+public struct ListInsightsMetricDataInput {
     /// Type of datapoints to return. Valid values are NonZeroData and FillWithZeros. The default is NonZeroData.
     public var dataType: CloudTrailClientTypes.InsightsMetricDataType?
     /// Specifies, in UTC, the end time for time-series data. The value specified is exclusive; results include data points up to the specified time stamp. The default is the time of request.
@@ -10082,7 +10082,7 @@ public struct ListInsightsMetricDataInput: Swift.Equatable {
     }
 }
 
-struct ListInsightsMetricDataInputBody: Swift.Equatable {
+struct ListInsightsMetricDataInputBody {
     let eventSource: Swift.String?
     let eventName: Swift.String?
     let insightType: CloudTrailClientTypes.InsightType?
@@ -10158,7 +10158,7 @@ extension ListInsightsMetricDataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListInsightsMetricDataOutput: Swift.Equatable {
+public struct ListInsightsMetricDataOutput {
     /// Only returned if InsightType parameter was set to ApiErrorRateInsight. If returning metrics for the ApiErrorRateInsight Insights type, this is the error to retrieve data for. For example, AccessDenied.
     public var errorCode: Swift.String?
     /// The name of the event, typically the Amazon Web Services API on which unusual levels of activity were recorded.
@@ -10194,7 +10194,7 @@ public struct ListInsightsMetricDataOutput: Swift.Equatable {
     }
 }
 
-struct ListInsightsMetricDataOutputBody: Swift.Equatable {
+struct ListInsightsMetricDataOutputBody {
     let eventSource: Swift.String?
     let eventName: Swift.String?
     let insightType: CloudTrailClientTypes.InsightType?
@@ -10294,7 +10294,7 @@ extension ListPublicKeysInput {
 }
 
 /// Requests the public keys for a specified time range.
-public struct ListPublicKeysInput: Swift.Equatable {
+public struct ListPublicKeysInput {
     /// Optionally specifies, in UTC, the end of the time range to look up public keys for CloudTrail digest files. If not specified, the current time is used.
     public var endTime: ClientRuntime.Date?
     /// Reserved for future use.
@@ -10314,7 +10314,7 @@ public struct ListPublicKeysInput: Swift.Equatable {
     }
 }
 
-struct ListPublicKeysInputBody: Swift.Equatable {
+struct ListPublicKeysInputBody {
     let startTime: ClientRuntime.Date?
     let endTime: ClientRuntime.Date?
     let nextToken: Swift.String?
@@ -10353,7 +10353,7 @@ extension ListPublicKeysOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Returns the objects or data listed below if successful. Otherwise, returns an error.
-public struct ListPublicKeysOutput: Swift.Equatable {
+public struct ListPublicKeysOutput {
     /// Reserved for future use.
     public var nextToken: Swift.String?
     /// Contains an array of PublicKey objects. The returned public keys may have validity time ranges that overlap.
@@ -10369,7 +10369,7 @@ public struct ListPublicKeysOutput: Swift.Equatable {
     }
 }
 
-struct ListPublicKeysOutputBody: Swift.Equatable {
+struct ListPublicKeysOutputBody {
     let publicKeyList: [CloudTrailClientTypes.PublicKey]?
     let nextToken: Swift.String?
 }
@@ -10452,7 +10452,7 @@ extension ListQueriesInput {
     }
 }
 
-public struct ListQueriesInput: Swift.Equatable {
+public struct ListQueriesInput {
     /// Use with StartTime to bound a ListQueries request, and limit its results to only those queries run within a specified time period.
     public var endTime: ClientRuntime.Date?
     /// The ARN (or the ID suffix of the ARN) of an event data store on which queries were run.
@@ -10485,7 +10485,7 @@ public struct ListQueriesInput: Swift.Equatable {
     }
 }
 
-struct ListQueriesInputBody: Swift.Equatable {
+struct ListQueriesInputBody {
     let eventDataStore: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -10535,7 +10535,7 @@ extension ListQueriesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListQueriesOutput: Swift.Equatable {
+public struct ListQueriesOutput {
     /// A token you can use to get the next page of results.
     public var nextToken: Swift.String?
     /// Lists matching query results, and shows query ID, status, and creation time of each query.
@@ -10551,7 +10551,7 @@ public struct ListQueriesOutput: Swift.Equatable {
     }
 }
 
-struct ListQueriesOutputBody: Swift.Equatable {
+struct ListQueriesOutputBody {
     let queries: [CloudTrailClientTypes.Query]?
     let nextToken: Swift.String?
 }
@@ -10629,7 +10629,7 @@ extension ListTagsInput {
 }
 
 /// Specifies a list of tags to return.
-public struct ListTagsInput: Swift.Equatable {
+public struct ListTagsInput {
     /// Reserved for future use.
     public var nextToken: Swift.String?
     /// Specifies a list of trail, event data store, or channel ARNs whose tags will be listed. The list has a limit of 20 ARNs. Example trail ARN format: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
@@ -10646,7 +10646,7 @@ public struct ListTagsInput: Swift.Equatable {
     }
 }
 
-struct ListTagsInputBody: Swift.Equatable {
+struct ListTagsInputBody {
     let resourceIdList: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -10690,7 +10690,7 @@ extension ListTagsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Returns the objects or data listed below if successful. Otherwise, returns an error.
-public struct ListTagsOutput: Swift.Equatable {
+public struct ListTagsOutput {
     /// Reserved for future use.
     public var nextToken: Swift.String?
     /// A list of resource tags.
@@ -10706,7 +10706,7 @@ public struct ListTagsOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsOutputBody: Swift.Equatable {
+struct ListTagsOutputBody {
     let resourceTagList: [CloudTrailClientTypes.ResourceTag]?
     let nextToken: Swift.String?
 }
@@ -10777,7 +10777,7 @@ extension ListTrailsInput {
     }
 }
 
-public struct ListTrailsInput: Swift.Equatable {
+public struct ListTrailsInput {
     /// The token to use to get the next page of results after a previous API call. This token must be passed in with the same parameters that were specified in the original call. For example, if the original call specified an AttributeKey of 'Username' with a value of 'root', the call with NextToken should include those same parameters.
     public var nextToken: Swift.String?
 
@@ -10789,7 +10789,7 @@ public struct ListTrailsInput: Swift.Equatable {
     }
 }
 
-struct ListTrailsInputBody: Swift.Equatable {
+struct ListTrailsInputBody {
     let nextToken: Swift.String?
 }
 
@@ -10819,7 +10819,7 @@ extension ListTrailsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTrailsOutput: Swift.Equatable {
+public struct ListTrailsOutput {
     /// The token to use to get the next page of results after a previous API call. If the token does not appear, there are no more results to return. The token must be passed in with the same parameters as the previous call. For example, if the original call specified an AttributeKey of 'Username' with a value of 'root', the call with NextToken should include those same parameters.
     public var nextToken: Swift.String?
     /// Returns the name, ARN, and home Region of trails in the current account.
@@ -10835,7 +10835,7 @@ public struct ListTrailsOutput: Swift.Equatable {
     }
 }
 
-struct ListTrailsOutputBody: Swift.Equatable {
+struct ListTrailsOutputBody {
     let trails: [CloudTrailClientTypes.TrailInfo]?
     let nextToken: Swift.String?
 }
@@ -10903,7 +10903,7 @@ extension CloudTrailClientTypes.LookupAttribute: Swift.Codable {
 
 extension CloudTrailClientTypes {
     /// Specifies an attribute and value that filter the events returned.
-    public struct LookupAttribute: Swift.Equatable {
+    public struct LookupAttribute {
         /// Specifies an attribute on which to filter the events returned.
         /// This member is required.
         public var attributeKey: CloudTrailClientTypes.LookupAttributeKey?
@@ -11017,7 +11017,7 @@ extension LookupEventsInput {
 }
 
 /// Contains a request for LookupEvents.
-public struct LookupEventsInput: Swift.Equatable {
+public struct LookupEventsInput {
     /// Specifies that only events that occur before or at the specified time are returned. If the specified end time is before the specified start time, an error is returned.
     public var endTime: ClientRuntime.Date?
     /// Specifies the event category. If you do not specify an event category, events of the category are not returned in the response. For example, if you do not specify insight as the value of EventCategory, no Insights events are returned.
@@ -11049,7 +11049,7 @@ public struct LookupEventsInput: Swift.Equatable {
     }
 }
 
-struct LookupEventsInputBody: Swift.Equatable {
+struct LookupEventsInputBody {
     let lookupAttributes: [CloudTrailClientTypes.LookupAttribute]?
     let startTime: ClientRuntime.Date?
     let endTime: ClientRuntime.Date?
@@ -11109,7 +11109,7 @@ extension LookupEventsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains a response to a LookupEvents action.
-public struct LookupEventsOutput: Swift.Equatable {
+public struct LookupEventsOutput {
     /// A list of events returned based on the lookup attributes specified and the CloudTrail event. The events list is sorted by time. The most recent event is listed first.
     public var events: [CloudTrailClientTypes.Event]?
     /// The token to use to get the next page of results after a previous API call. If the token does not appear, there are no more results to return. The token must be passed in with the same parameters as the previous call. For example, if the original call specified an AttributeKey of 'Username' with a value of 'root', the call with NextToken should include those same parameters.
@@ -11125,7 +11125,7 @@ public struct LookupEventsOutput: Swift.Equatable {
     }
 }
 
-struct LookupEventsOutputBody: Swift.Equatable {
+struct LookupEventsOutputBody {
     let events: [CloudTrailClientTypes.Event]?
     let nextToken: Swift.String?
 }
@@ -11211,7 +11211,7 @@ public struct MaxConcurrentQueriesException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct MaxConcurrentQueriesExceptionBody: Swift.Equatable {
+struct MaxConcurrentQueriesExceptionBody {
     let message: Swift.String?
 }
 
@@ -11267,7 +11267,7 @@ public struct MaximumNumberOfTrailsExceededException: ClientRuntime.ModeledError
     }
 }
 
-struct MaximumNumberOfTrailsExceededExceptionBody: Swift.Equatable {
+struct MaximumNumberOfTrailsExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -11323,7 +11323,7 @@ public struct NoManagementAccountSLRExistsException: ClientRuntime.ModeledError,
     }
 }
 
-struct NoManagementAccountSLRExistsExceptionBody: Swift.Equatable {
+struct NoManagementAccountSLRExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -11379,7 +11379,7 @@ public struct NotOrganizationManagementAccountException: ClientRuntime.ModeledEr
     }
 }
 
-struct NotOrganizationManagementAccountExceptionBody: Swift.Equatable {
+struct NotOrganizationManagementAccountExceptionBody {
     let message: Swift.String?
 }
 
@@ -11435,7 +11435,7 @@ public struct NotOrganizationMasterAccountException: ClientRuntime.ModeledError,
     }
 }
 
-struct NotOrganizationMasterAccountExceptionBody: Swift.Equatable {
+struct NotOrganizationMasterAccountExceptionBody {
     let message: Swift.String?
 }
 
@@ -11491,7 +11491,7 @@ public struct OperationNotPermittedException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct OperationNotPermittedExceptionBody: Swift.Equatable {
+struct OperationNotPermittedExceptionBody {
     let message: Swift.String?
 }
 
@@ -11547,7 +11547,7 @@ public struct OrganizationNotInAllFeaturesModeException: ClientRuntime.ModeledEr
     }
 }
 
-struct OrganizationNotInAllFeaturesModeExceptionBody: Swift.Equatable {
+struct OrganizationNotInAllFeaturesModeExceptionBody {
     let message: Swift.String?
 }
 
@@ -11603,7 +11603,7 @@ public struct OrganizationsNotInUseException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct OrganizationsNotInUseExceptionBody: Swift.Equatable {
+struct OrganizationsNotInUseExceptionBody {
     let message: Swift.String?
 }
 
@@ -11658,7 +11658,7 @@ extension CloudTrailClientTypes.PublicKey: Swift.Codable {
 
 extension CloudTrailClientTypes {
     /// Contains information about a returned public key.
-    public struct PublicKey: Swift.Equatable {
+    public struct PublicKey {
         /// The fingerprint of the public key.
         public var fingerprint: Swift.String?
         /// The ending time of validity of the public key.
@@ -11718,7 +11718,7 @@ extension PutEventSelectorsInput {
     }
 }
 
-public struct PutEventSelectorsInput: Swift.Equatable {
+public struct PutEventSelectorsInput {
     /// Specifies the settings for advanced event selectors. You can add advanced event selectors, and conditions for your advanced event selectors, up to a maximum of 500 values for all conditions and selectors on a trail. You can use either AdvancedEventSelectors or EventSelectors, but not both. If you apply AdvancedEventSelectors to a trail, any existing EventSelectors are overwritten. For more information about advanced event selectors, see [Logging data events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html) in the CloudTrail User Guide.
     public var advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]?
     /// Specifies the settings for your event selectors. You can configure up to five event selectors for a trail. You can use either EventSelectors or AdvancedEventSelectors in a PutEventSelectors request, but not both. If you apply EventSelectors to a trail, any existing AdvancedEventSelectors are overwritten.
@@ -11752,7 +11752,7 @@ public struct PutEventSelectorsInput: Swift.Equatable {
     }
 }
 
-struct PutEventSelectorsInputBody: Swift.Equatable {
+struct PutEventSelectorsInputBody {
     let trailName: Swift.String?
     let eventSelectors: [CloudTrailClientTypes.EventSelector]?
     let advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]?
@@ -11810,7 +11810,7 @@ extension PutEventSelectorsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutEventSelectorsOutput: Swift.Equatable {
+public struct PutEventSelectorsOutput {
     /// Specifies the advanced event selectors configured for your trail.
     public var advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]?
     /// Specifies the event selectors configured for your trail.
@@ -11830,7 +11830,7 @@ public struct PutEventSelectorsOutput: Swift.Equatable {
     }
 }
 
-struct PutEventSelectorsOutputBody: Swift.Equatable {
+struct PutEventSelectorsOutputBody {
     let trailARN: Swift.String?
     let eventSelectors: [CloudTrailClientTypes.EventSelector]?
     let advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]?
@@ -11929,7 +11929,7 @@ extension PutInsightSelectorsInput {
     }
 }
 
-public struct PutInsightSelectorsInput: Swift.Equatable {
+public struct PutInsightSelectorsInput {
     /// The ARN (or ID suffix of the ARN) of the source event data store for which you want to change or add Insights selectors. To enable Insights on an event data store, you must provide both the EventDataStore and InsightsDestination parameters. You cannot use this parameter with the TrailName parameter.
     public var eventDataStore: Swift.String?
     /// A JSON string that contains the Insights types you want to log on a trail or event data store. ApiCallRateInsight and ApiErrorRateInsight are valid Insight types. The ApiCallRateInsight Insights type analyzes write-only management API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights type analyzes management API calls that result in error codes. The error is shown if the API call is unsuccessful.
@@ -11954,7 +11954,7 @@ public struct PutInsightSelectorsInput: Swift.Equatable {
     }
 }
 
-struct PutInsightSelectorsInputBody: Swift.Equatable {
+struct PutInsightSelectorsInputBody {
     let trailName: Swift.String?
     let insightSelectors: [CloudTrailClientTypes.InsightSelector]?
     let eventDataStore: Swift.String?
@@ -12009,7 +12009,7 @@ extension PutInsightSelectorsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutInsightSelectorsOutput: Swift.Equatable {
+public struct PutInsightSelectorsOutput {
     /// The Amazon Resource Name (ARN) of the source event data store for which you want to change or add Insights selectors.
     public var eventDataStoreArn: Swift.String?
     /// A JSON string that contains the Insights event types that you want to log on a trail or event data store. The valid Insights types are ApiErrorRateInsight and ApiCallRateInsight.
@@ -12033,7 +12033,7 @@ public struct PutInsightSelectorsOutput: Swift.Equatable {
     }
 }
 
-struct PutInsightSelectorsOutputBody: Swift.Equatable {
+struct PutInsightSelectorsOutputBody {
     let trailARN: Swift.String?
     let insightSelectors: [CloudTrailClientTypes.InsightSelector]?
     let eventDataStoreArn: Swift.String?
@@ -12120,7 +12120,7 @@ extension PutResourcePolicyInput {
     }
 }
 
-public struct PutResourcePolicyInput: Swift.Equatable {
+public struct PutResourcePolicyInput {
     /// The Amazon Resource Name (ARN) of the CloudTrail channel attached to the resource-based policy. The following is the format of a resource ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/MyChannel.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -12144,7 +12144,7 @@ public struct PutResourcePolicyInput: Swift.Equatable {
     }
 }
 
-struct PutResourcePolicyInputBody: Swift.Equatable {
+struct PutResourcePolicyInputBody {
     let resourceArn: Swift.String?
     let resourcePolicy: Swift.String?
 }
@@ -12178,7 +12178,7 @@ extension PutResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutResourcePolicyOutput: Swift.Equatable {
+public struct PutResourcePolicyOutput {
     /// The Amazon Resource Name (ARN) of the CloudTrail channel attached to the resource-based policy.
     public var resourceArn: Swift.String?
     /// The JSON-formatted string of the Amazon Web Services resource-based policy attached to the CloudTrail channel.
@@ -12194,7 +12194,7 @@ public struct PutResourcePolicyOutput: Swift.Equatable {
     }
 }
 
-struct PutResourcePolicyOutputBody: Swift.Equatable {
+struct PutResourcePolicyOutputBody {
     let resourceArn: Swift.String?
     let resourcePolicy: Swift.String?
 }
@@ -12263,7 +12263,7 @@ extension CloudTrailClientTypes.Query: Swift.Codable {
 
 extension CloudTrailClientTypes {
     /// A SQL string of criteria about events that you want to collect in an event data store.
-    public struct Query: Swift.Equatable {
+    public struct Query {
         /// The creation time of a query.
         public var creationTime: ClientRuntime.Date?
         /// The ID of a query.
@@ -12325,7 +12325,7 @@ public struct QueryIdNotFoundException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct QueryIdNotFoundExceptionBody: Swift.Equatable {
+struct QueryIdNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -12374,7 +12374,7 @@ extension CloudTrailClientTypes.QueryStatistics: Swift.Codable {
 
 extension CloudTrailClientTypes {
     /// Metadata about a query, such as the number of results.
-    public struct QueryStatistics: Swift.Equatable {
+    public struct QueryStatistics {
         /// The total bytes that the query scanned in the event data store. This value matches the number of bytes for which your account is billed for the query, unless the query is still running.
         public var bytesScanned: Swift.Int?
         /// The number of results returned.
@@ -12441,7 +12441,7 @@ extension CloudTrailClientTypes.QueryStatisticsForDescribeQuery: Swift.Codable {
 
 extension CloudTrailClientTypes {
     /// Gets metadata about a query, including the number of events that were matched, the total number of events scanned, the query run time in milliseconds, and the query's creation time.
-    public struct QueryStatisticsForDescribeQuery: Swift.Equatable {
+    public struct QueryStatisticsForDescribeQuery {
         /// The total bytes that the query scanned in the event data store. This value matches the number of bytes for which your account is billed for the query, unless the query is still running.
         public var bytesScanned: Swift.Int?
         /// The creation time of the query.
@@ -12571,7 +12571,7 @@ extension RegisterOrganizationDelegatedAdminInput {
 }
 
 /// Specifies an organization member account ID as a CloudTrail delegated administrator.
-public struct RegisterOrganizationDelegatedAdminInput: Swift.Equatable {
+public struct RegisterOrganizationDelegatedAdminInput {
     /// An organization member account ID that you want to designate as a delegated administrator.
     /// This member is required.
     public var memberAccountId: Swift.String?
@@ -12584,7 +12584,7 @@ public struct RegisterOrganizationDelegatedAdminInput: Swift.Equatable {
     }
 }
 
-struct RegisterOrganizationDelegatedAdminInputBody: Swift.Equatable {
+struct RegisterOrganizationDelegatedAdminInputBody {
     let memberAccountId: Swift.String?
 }
 
@@ -12606,7 +12606,7 @@ extension RegisterOrganizationDelegatedAdminOutput: ClientRuntime.HttpResponseBi
 }
 
 /// Returns the following response if successful. Otherwise, returns an error.
-public struct RegisterOrganizationDelegatedAdminOutput: Swift.Equatable {
+public struct RegisterOrganizationDelegatedAdminOutput {
 
     public init() { }
 }
@@ -12662,7 +12662,7 @@ extension RemoveTagsInput {
 }
 
 /// Specifies the tags to remove from a trail, event data store, or channel.
-public struct RemoveTagsInput: Swift.Equatable {
+public struct RemoveTagsInput {
     /// Specifies the ARN of the trail, event data store, or channel from which tags should be removed. Example trail ARN format: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     /// This member is required.
     public var resourceId: Swift.String?
@@ -12680,7 +12680,7 @@ public struct RemoveTagsInput: Swift.Equatable {
     }
 }
 
-struct RemoveTagsInputBody: Swift.Equatable {
+struct RemoveTagsInputBody {
     let resourceId: Swift.String?
     let tagsList: [CloudTrailClientTypes.Tag]?
 }
@@ -12715,7 +12715,7 @@ extension RemoveTagsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Returns the objects or data listed below if successful. Otherwise, returns an error.
-public struct RemoveTagsOutput: Swift.Equatable {
+public struct RemoveTagsOutput {
 
     public init() { }
 }
@@ -12771,7 +12771,7 @@ extension CloudTrailClientTypes.Resource: Swift.Codable {
 
 extension CloudTrailClientTypes {
     /// Specifies the type and name of a resource referenced by an event.
-    public struct Resource: Swift.Equatable {
+    public struct Resource {
         /// The name of the resource referenced by the event returned. These are user-created names whose values will depend on the environment. For example, the resource name might be "auto-scaling-test-group" for an Auto Scaling Group or "i-1234567" for an EC2 Instance.
         public var resourceName: Swift.String?
         /// The type of a resource referenced by the event returned. When the resource type cannot be determined, null is returned. Some examples of resource types are: Instance for EC2, Trail for CloudTrail, DBInstance for Amazon RDS, and AccessKey for IAM. To learn more about how to look up and filter events by the resource types supported for a service, see [Filtering CloudTrail Events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/view-cloudtrail-events-console.html#filtering-cloudtrail-events).
@@ -12829,7 +12829,7 @@ public struct ResourceARNNotValidException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct ResourceARNNotValidExceptionBody: Swift.Equatable {
+struct ResourceARNNotValidExceptionBody {
     let message: Swift.String?
 }
 
@@ -12885,7 +12885,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -12941,7 +12941,7 @@ public struct ResourcePolicyNotFoundException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct ResourcePolicyNotFoundExceptionBody: Swift.Equatable {
+struct ResourcePolicyNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -13003,7 +13003,7 @@ public struct ResourcePolicyNotValidException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct ResourcePolicyNotValidExceptionBody: Swift.Equatable {
+struct ResourcePolicyNotValidExceptionBody {
     let message: Swift.String?
 }
 
@@ -13058,7 +13058,7 @@ extension CloudTrailClientTypes.ResourceTag: Swift.Codable {
 
 extension CloudTrailClientTypes {
     /// A resource tag.
-    public struct ResourceTag: Swift.Equatable {
+    public struct ResourceTag {
         /// Specifies the ARN of the resource.
         public var resourceId: Swift.String?
         /// A list of tags.
@@ -13116,7 +13116,7 @@ public struct ResourceTypeNotSupportedException: ClientRuntime.ModeledError, AWS
     }
 }
 
-struct ResourceTypeNotSupportedExceptionBody: Swift.Equatable {
+struct ResourceTypeNotSupportedExceptionBody {
     let message: Swift.String?
 }
 
@@ -13152,7 +13152,7 @@ extension RestoreEventDataStoreInput {
     }
 }
 
-public struct RestoreEventDataStoreInput: Swift.Equatable {
+public struct RestoreEventDataStoreInput {
     /// The ARN (or the ID suffix of the ARN) of the event data store that you want to restore.
     /// This member is required.
     public var eventDataStore: Swift.String?
@@ -13165,7 +13165,7 @@ public struct RestoreEventDataStoreInput: Swift.Equatable {
     }
 }
 
-struct RestoreEventDataStoreInputBody: Swift.Equatable {
+struct RestoreEventDataStoreInputBody {
     let eventDataStore: Swift.String?
 }
 
@@ -13215,7 +13215,7 @@ extension RestoreEventDataStoreOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RestoreEventDataStoreOutput: Swift.Equatable {
+public struct RestoreEventDataStoreOutput {
     /// The advanced event selectors that were used to select events.
     public var advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]?
     /// The billing mode for the event data store.
@@ -13271,7 +13271,7 @@ public struct RestoreEventDataStoreOutput: Swift.Equatable {
     }
 }
 
-struct RestoreEventDataStoreOutputBody: Swift.Equatable {
+struct RestoreEventDataStoreOutputBody {
     let eventDataStoreArn: Swift.String?
     let name: Swift.String?
     let status: CloudTrailClientTypes.EventDataStoreStatus?
@@ -13403,7 +13403,7 @@ public struct S3BucketDoesNotExistException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct S3BucketDoesNotExistExceptionBody: Swift.Equatable {
+struct S3BucketDoesNotExistExceptionBody {
     let message: Swift.String?
 }
 
@@ -13452,7 +13452,7 @@ extension CloudTrailClientTypes.S3ImportSource: Swift.Codable {
 
 extension CloudTrailClientTypes {
     /// The settings for the source S3 bucket.
-    public struct S3ImportSource: Swift.Equatable {
+    public struct S3ImportSource {
         /// The IAM ARN role used to access the source S3 bucket.
         /// This member is required.
         public var s3BucketAccessRoleArn: Swift.String?
@@ -13516,7 +13516,7 @@ extension CloudTrailClientTypes.SourceConfig: Swift.Codable {
 
 extension CloudTrailClientTypes {
     /// Contains configuration information about the channel.
-    public struct SourceConfig: Swift.Equatable {
+    public struct SourceConfig {
         /// The advanced event selectors that are configured for the channel.
         public var advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]?
         /// Specifies whether the channel applies to a single Region or to all Regions.
@@ -13554,7 +13554,7 @@ extension StartEventDataStoreIngestionInput {
     }
 }
 
-public struct StartEventDataStoreIngestionInput: Swift.Equatable {
+public struct StartEventDataStoreIngestionInput {
     /// The ARN (or ID suffix of the ARN) of the event data store for which you want to start ingestion.
     /// This member is required.
     public var eventDataStore: Swift.String?
@@ -13567,7 +13567,7 @@ public struct StartEventDataStoreIngestionInput: Swift.Equatable {
     }
 }
 
-struct StartEventDataStoreIngestionInputBody: Swift.Equatable {
+struct StartEventDataStoreIngestionInputBody {
     let eventDataStore: Swift.String?
 }
 
@@ -13588,7 +13588,7 @@ extension StartEventDataStoreIngestionOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct StartEventDataStoreIngestionOutput: Swift.Equatable {
+public struct StartEventDataStoreIngestionOutput {
 
     public init() { }
 }
@@ -13652,7 +13652,7 @@ extension StartImportInput {
     }
 }
 
-public struct StartImportInput: Swift.Equatable {
+public struct StartImportInput {
     /// The ARN of the destination event data store. Use this parameter for a new import.
     public var destinations: [Swift.String]?
     /// Use with StartEventTime to bound a StartImport request, and limit imported trail events to only those events logged within a specified time period. When you specify a time range, CloudTrail checks the prefix and log file names to verify the names contain a date between the specified StartEventTime and EndEventTime before attempting to import events.
@@ -13680,7 +13680,7 @@ public struct StartImportInput: Swift.Equatable {
     }
 }
 
-struct StartImportInputBody: Swift.Equatable {
+struct StartImportInputBody {
     let destinations: [Swift.String]?
     let importSource: CloudTrailClientTypes.ImportSource?
     let startEventTime: ClientRuntime.Date?
@@ -13747,7 +13747,7 @@ extension StartImportOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartImportOutput: Swift.Equatable {
+public struct StartImportOutput {
     /// The timestamp for the import's creation.
     public var createdTimestamp: ClientRuntime.Date?
     /// The ARN of the destination event data store.
@@ -13787,7 +13787,7 @@ public struct StartImportOutput: Swift.Equatable {
     }
 }
 
-struct StartImportOutputBody: Swift.Equatable {
+struct StartImportOutputBody {
     let importId: Swift.String?
     let destinations: [Swift.String]?
     let importSource: CloudTrailClientTypes.ImportSource?
@@ -13883,7 +13883,7 @@ extension StartLoggingInput {
 }
 
 /// The request to CloudTrail to start logging Amazon Web Services API calls for an account.
-public struct StartLoggingInput: Swift.Equatable {
+public struct StartLoggingInput {
     /// Specifies the name or the CloudTrail ARN of the trail for which CloudTrail logs Amazon Web Services API calls. The following is the format of a trail ARN. arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
     /// This member is required.
     public var name: Swift.String?
@@ -13896,7 +13896,7 @@ public struct StartLoggingInput: Swift.Equatable {
     }
 }
 
-struct StartLoggingInputBody: Swift.Equatable {
+struct StartLoggingInputBody {
     let name: Swift.String?
 }
 
@@ -13918,7 +13918,7 @@ extension StartLoggingOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Returns the objects or data listed below if successful. Otherwise, returns an error.
-public struct StartLoggingOutput: Swift.Equatable {
+public struct StartLoggingOutput {
 
     public init() { }
 }
@@ -13979,7 +13979,7 @@ extension StartQueryInput {
     }
 }
 
-public struct StartQueryInput: Swift.Equatable {
+public struct StartQueryInput {
     /// The URI for the S3 bucket where CloudTrail delivers the query results.
     public var deliveryS3Uri: Swift.String?
     /// The alias that identifies a query template.
@@ -14003,7 +14003,7 @@ public struct StartQueryInput: Swift.Equatable {
     }
 }
 
-struct StartQueryInputBody: Swift.Equatable {
+struct StartQueryInputBody {
     let queryStatement: Swift.String?
     let deliveryS3Uri: Swift.String?
     let queryAlias: Swift.String?
@@ -14052,7 +14052,7 @@ extension StartQueryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartQueryOutput: Swift.Equatable {
+public struct StartQueryOutput {
     /// The ID of the started query.
     public var queryId: Swift.String?
 
@@ -14064,7 +14064,7 @@ public struct StartQueryOutput: Swift.Equatable {
     }
 }
 
-struct StartQueryOutputBody: Swift.Equatable {
+struct StartQueryOutputBody {
     let queryId: Swift.String?
 }
 
@@ -14124,7 +14124,7 @@ extension StopEventDataStoreIngestionInput {
     }
 }
 
-public struct StopEventDataStoreIngestionInput: Swift.Equatable {
+public struct StopEventDataStoreIngestionInput {
     /// The ARN (or ID suffix of the ARN) of the event data store for which you want to stop ingestion.
     /// This member is required.
     public var eventDataStore: Swift.String?
@@ -14137,7 +14137,7 @@ public struct StopEventDataStoreIngestionInput: Swift.Equatable {
     }
 }
 
-struct StopEventDataStoreIngestionInputBody: Swift.Equatable {
+struct StopEventDataStoreIngestionInputBody {
     let eventDataStore: Swift.String?
 }
 
@@ -14158,7 +14158,7 @@ extension StopEventDataStoreIngestionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopEventDataStoreIngestionOutput: Swift.Equatable {
+public struct StopEventDataStoreIngestionOutput {
 
     public init() { }
 }
@@ -14203,7 +14203,7 @@ extension StopImportInput {
     }
 }
 
-public struct StopImportInput: Swift.Equatable {
+public struct StopImportInput {
     /// The ID of the import.
     /// This member is required.
     public var importId: Swift.String?
@@ -14216,7 +14216,7 @@ public struct StopImportInput: Swift.Equatable {
     }
 }
 
-struct StopImportInputBody: Swift.Equatable {
+struct StopImportInputBody {
     let importId: Swift.String?
 }
 
@@ -14260,7 +14260,7 @@ extension StopImportOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopImportOutput: Swift.Equatable {
+public struct StopImportOutput {
     /// The timestamp of the import's creation.
     public var createdTimestamp: ClientRuntime.Date?
     /// The ARN of the destination event data store.
@@ -14304,7 +14304,7 @@ public struct StopImportOutput: Swift.Equatable {
     }
 }
 
-struct StopImportOutputBody: Swift.Equatable {
+struct StopImportOutputBody {
     let importId: Swift.String?
     let importSource: CloudTrailClientTypes.ImportSource?
     let destinations: [Swift.String]?
@@ -14396,7 +14396,7 @@ extension StopLoggingInput {
 }
 
 /// Passes the request to CloudTrail to stop logging Amazon Web Services API calls for the specified account.
-public struct StopLoggingInput: Swift.Equatable {
+public struct StopLoggingInput {
     /// Specifies the name or the CloudTrail ARN of the trail for which CloudTrail will stop logging Amazon Web Services API calls. The following is the format of a trail ARN. arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
     /// This member is required.
     public var name: Swift.String?
@@ -14409,7 +14409,7 @@ public struct StopLoggingInput: Swift.Equatable {
     }
 }
 
-struct StopLoggingInputBody: Swift.Equatable {
+struct StopLoggingInputBody {
     let name: Swift.String?
 }
 
@@ -14431,7 +14431,7 @@ extension StopLoggingOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Returns the objects or data listed below if successful. Otherwise, returns an error.
-public struct StopLoggingOutput: Swift.Equatable {
+public struct StopLoggingOutput {
 
     public init() { }
 }
@@ -14484,7 +14484,7 @@ extension CloudTrailClientTypes.Tag: Swift.Codable {
 
 extension CloudTrailClientTypes {
     /// A custom key-value pair associated with a resource such as a CloudTrail trail, event data store, or channel.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key in a key-value pair. The key must be must be no longer than 128 Unicode characters. The key must be unique for the resource to which it applies.
         /// This member is required.
         public var key: Swift.String?
@@ -14543,7 +14543,7 @@ public struct TagsLimitExceededException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct TagsLimitExceededExceptionBody: Swift.Equatable {
+struct TagsLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -14599,7 +14599,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -14726,7 +14726,7 @@ extension CloudTrailClientTypes.Trail: Swift.Codable {
 
 extension CloudTrailClientTypes {
     /// The settings for a trail.
-    public struct Trail: Swift.Equatable {
+    public struct Trail {
         /// Specifies an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs will be delivered.
         public var cloudWatchLogsLogGroupArn: Swift.String?
         /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group.
@@ -14841,7 +14841,7 @@ public struct TrailAlreadyExistsException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct TrailAlreadyExistsExceptionBody: Swift.Equatable {
+struct TrailAlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -14890,7 +14890,7 @@ extension CloudTrailClientTypes.TrailInfo: Swift.Codable {
 
 extension CloudTrailClientTypes {
     /// Information about a CloudTrail trail, including the trail's name, home Region, and Amazon Resource Name (ARN).
-    public struct TrailInfo: Swift.Equatable {
+    public struct TrailInfo {
         /// The Amazon Web Services Region in which a trail was created.
         public var homeRegion: Swift.String?
         /// The name of a trail.
@@ -14952,7 +14952,7 @@ public struct TrailNotFoundException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct TrailNotFoundExceptionBody: Swift.Equatable {
+struct TrailNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -15008,7 +15008,7 @@ public struct TrailNotProvidedException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct TrailNotProvidedExceptionBody: Swift.Equatable {
+struct TrailNotProvidedExceptionBody {
     let message: Swift.String?
 }
 
@@ -15064,7 +15064,7 @@ public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct UnsupportedOperationExceptionBody: Swift.Equatable {
+struct UnsupportedOperationExceptionBody {
     let message: Swift.String?
 }
 
@@ -15111,7 +15111,7 @@ extension UpdateChannelInput {
     }
 }
 
-public struct UpdateChannelInput: Swift.Equatable {
+public struct UpdateChannelInput {
     /// The ARN or ID (the ARN suffix) of the channel that you want to update.
     /// This member is required.
     public var channel: Swift.String?
@@ -15132,7 +15132,7 @@ public struct UpdateChannelInput: Swift.Equatable {
     }
 }
 
-struct UpdateChannelInputBody: Swift.Equatable {
+struct UpdateChannelInputBody {
     let channel: Swift.String?
     let destinations: [CloudTrailClientTypes.Destination]?
     let name: Swift.String?
@@ -15183,7 +15183,7 @@ extension UpdateChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateChannelOutput: Swift.Equatable {
+public struct UpdateChannelOutput {
     /// The ARN of the channel that was updated.
     public var channelArn: Swift.String?
     /// The event data stores that log events arriving through the channel.
@@ -15207,7 +15207,7 @@ public struct UpdateChannelOutput: Swift.Equatable {
     }
 }
 
-struct UpdateChannelOutputBody: Swift.Equatable {
+struct UpdateChannelOutputBody {
     let channelArn: Swift.String?
     let name: Swift.String?
     let source: Swift.String?
@@ -15319,7 +15319,7 @@ extension UpdateEventDataStoreInput {
     }
 }
 
-public struct UpdateEventDataStoreInput: Swift.Equatable {
+public struct UpdateEventDataStoreInput {
     /// The advanced event selectors used to select events for the event data store. You can configure up to five advanced event selectors for each event data store.
     public var advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]?
     /// You can't change the billing mode from EXTENDABLE_RETENTION_PRICING to FIXED_RETENTION_PRICING. If BillingMode is set to EXTENDABLE_RETENTION_PRICING and you want to use FIXED_RETENTION_PRICING instead, you'll need to stop ingestion on the event data store and create a new event data store that uses FIXED_RETENTION_PRICING. The billing mode for the event data store determines the cost for ingesting events and the default and maximum retention period for the event data store. The following are the possible values:
@@ -15379,7 +15379,7 @@ public struct UpdateEventDataStoreInput: Swift.Equatable {
     }
 }
 
-struct UpdateEventDataStoreInputBody: Swift.Equatable {
+struct UpdateEventDataStoreInputBody {
     let eventDataStore: Swift.String?
     let name: Swift.String?
     let advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]?
@@ -15474,7 +15474,7 @@ extension UpdateEventDataStoreOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateEventDataStoreOutput: Swift.Equatable {
+public struct UpdateEventDataStoreOutput {
     /// The advanced event selectors that are applied to the event data store.
     public var advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]?
     /// The billing mode for the event data store.
@@ -15538,7 +15538,7 @@ public struct UpdateEventDataStoreOutput: Swift.Equatable {
     }
 }
 
-struct UpdateEventDataStoreOutputBody: Swift.Equatable {
+struct UpdateEventDataStoreOutputBody {
     let eventDataStoreArn: Swift.String?
     let name: Swift.String?
     let status: CloudTrailClientTypes.EventDataStoreStatus?
@@ -15706,7 +15706,7 @@ extension UpdateTrailInput {
 }
 
 /// Specifies settings to update for the trail.
-public struct UpdateTrailInput: Swift.Equatable {
+public struct UpdateTrailInput {
     /// Specifies a log group name using an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs are delivered. You must use a log group that exists in your account. Not required unless you specify CloudWatchLogsRoleArn.
     public var cloudWatchLogsLogGroupArn: Swift.String?
     /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group. You must use a role that exists in your account.
@@ -15780,7 +15780,7 @@ public struct UpdateTrailInput: Swift.Equatable {
     }
 }
 
-struct UpdateTrailInputBody: Swift.Equatable {
+struct UpdateTrailInputBody {
     let name: Swift.String?
     let s3BucketName: Swift.String?
     let s3KeyPrefix: Swift.String?
@@ -15873,7 +15873,7 @@ extension UpdateTrailOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Returns the objects or data listed below if successful. Otherwise, returns an error.
-public struct UpdateTrailOutput: Swift.Equatable {
+public struct UpdateTrailOutput {
     /// Specifies the Amazon Resource Name (ARN) of the log group to which CloudTrail logs are delivered.
     public var cloudWatchLogsLogGroupArn: Swift.String?
     /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group.
@@ -15934,7 +15934,7 @@ public struct UpdateTrailOutput: Swift.Equatable {
     }
 }
 
-struct UpdateTrailOutputBody: Swift.Equatable {
+struct UpdateTrailOutputBody {
     let name: Swift.String?
     let s3BucketName: Swift.String?
     let s3KeyPrefix: Swift.String?

@@ -56,7 +56,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let code: Swift.String?
     let docs: Swift.String?
     let message: Swift.String?
@@ -166,7 +166,7 @@ extension LightsailClientTypes.AccessKey: Swift.CustomDebugStringConvertible {
 
 extension LightsailClientTypes {
     /// Describes an access key for an Amazon Lightsail bucket. Access keys grant full programmatic access to the specified bucket and its objects. You can have a maximum of two access keys per bucket. Use the [CreateBucketAccessKey](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_CreateBucketAccessKey.html) action to create an access key for a specific bucket. For more information about access keys, see [Creating access keys for a bucket in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-creating-bucket-access-keys) in the Amazon Lightsail Developer Guide. The secretAccessKey value is returned only in response to the CreateBucketAccessKey action. You can get a secret access key only when you first create an access key; you cannot get the secret access key later. If you lose the secret access key, you must create a new access key.
-    public struct AccessKey: Swift.Equatable {
+    public struct AccessKey {
         /// The ID of the access key.
         public var accessKeyId: Swift.String?
         /// The timestamp when the access key was created.
@@ -229,7 +229,7 @@ extension LightsailClientTypes.AccessKeyLastUsed: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the last time an access key was used. This object does not include data in the response of a [CreateBucketAccessKey](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_CreateBucketAccessKey.html) action.
-    public struct AccessKeyLastUsed: Swift.Equatable {
+    public struct AccessKeyLastUsed {
         /// The date and time when the access key was most recently used. This value is null if the access key has not been used.
         public var lastUsedDate: ClientRuntime.Date?
         /// The Amazon Web Services Region where this access key was most recently used. This value is N/A if the access key has not been used.
@@ -278,7 +278,7 @@ extension LightsailClientTypes.AccessRules: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the anonymous access permissions for an Amazon Lightsail bucket and its objects. For more information about bucket access permissions, see [Understanding bucket permissions in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-understanding-bucket-permissions) in the Amazon Lightsail Developer Guide.
-    public struct AccessRules: Swift.Equatable {
+    public struct AccessRules {
         /// A Boolean value that indicates whether the access control list (ACL) permissions that are applied to individual objects override the getObject option that is currently specified. When this is true, you can use the [PutObjectAcl](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObjectAcl.html) Amazon S3 API action to set individual objects to public (read-only) using the public-read ACL, or to private using the private ACL.
         public var allowPublicOverrides: Swift.Bool?
         /// Specifies the anonymous access to all objects in a bucket. The following options can be specified:
@@ -371,7 +371,7 @@ extension LightsailClientTypes.AccountLevelBpaSync: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the synchronization status of the Amazon Simple Storage Service (Amazon S3) account-level block public access (BPA) feature for your Lightsail buckets. The account-level BPA feature of Amazon S3 provides centralized controls to limit public access to all Amazon S3 buckets in an account. BPA can make all Amazon S3 buckets in an Amazon Web Services account private regardless of the individual bucket and object permissions that are configured. Lightsail buckets take into account the Amazon S3 account-level BPA configuration when allowing or denying public access. To do this, Lightsail periodically fetches the account-level BPA configuration from Amazon S3. When the account-level BPA status is InSync, the Amazon S3 account-level BPA configuration is synchronized and it applies to your Lightsail buckets. For more information about Amazon Simple Storage Service account-level BPA and how it affects Lightsail buckets, see [Block public access for buckets in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-block-public-access-for-buckets) in the Amazon Lightsail Developer Guide.
-    public struct AccountLevelBpaSync: Swift.Equatable {
+    public struct AccountLevelBpaSync {
         /// A Boolean value that indicates whether account-level block public access is affecting your Lightsail buckets.
         public var bpaImpactsLightsail: Swift.Bool?
         /// The timestamp of when the account-level BPA configuration was last synchronized. This value is null when the account-level BPA configuration has not been synchronized.
@@ -508,7 +508,7 @@ public struct AccountSetupInProgressException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct AccountSetupInProgressExceptionBody: Swift.Equatable {
+struct AccountSetupInProgressExceptionBody {
     let code: Swift.String?
     let docs: Swift.String?
     let message: Swift.String?
@@ -587,7 +587,7 @@ extension LightsailClientTypes.AddOn: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes an add-on that is enabled for an Amazon Lightsail resource.
-    public struct AddOn: Swift.Equatable {
+    public struct AddOn {
         /// The amount of idle time in minutes after which your virtual computer will automatically stop. This add-on only applies to Lightsail for Research resources.
         public var duration: Swift.String?
         /// The name of the add-on.
@@ -654,7 +654,7 @@ extension LightsailClientTypes.AddOnRequest: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes a request to enable, modify, or disable an add-on for an Amazon Lightsail resource. An additional cost may be associated with enabling add-ons. For more information, see the [Lightsail pricing page](https://aws.amazon.com/lightsail/pricing/).
-    public struct AddOnRequest: Swift.Equatable {
+    public struct AddOnRequest {
         /// The add-on type.
         /// This member is required.
         public var addOnType: LightsailClientTypes.AddOnType?
@@ -868,7 +868,7 @@ extension LightsailClientTypes.Alarm: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes an alarm. An alarm is a way to monitor your Lightsail resource metrics. For more information, see [Alarms in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-alarms).
-    public struct Alarm: Swift.Equatable {
+    public struct Alarm {
         /// The Amazon Resource Name (ARN) of the alarm.
         public var arn: Swift.String?
         /// The arithmetic operation used when comparing the specified statistic and threshold.
@@ -1037,7 +1037,7 @@ extension AllocateStaticIpInput {
     }
 }
 
-public struct AllocateStaticIpInput: Swift.Equatable {
+public struct AllocateStaticIpInput {
     /// The name of the static IP address.
     /// This member is required.
     public var staticIpName: Swift.String?
@@ -1050,7 +1050,7 @@ public struct AllocateStaticIpInput: Swift.Equatable {
     }
 }
 
-struct AllocateStaticIpInputBody: Swift.Equatable {
+struct AllocateStaticIpInputBody {
     let staticIpName: Swift.String?
 }
 
@@ -1078,7 +1078,7 @@ extension AllocateStaticIpOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AllocateStaticIpOutput: Swift.Equatable {
+public struct AllocateStaticIpOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -1090,7 +1090,7 @@ public struct AllocateStaticIpOutput: Swift.Equatable {
     }
 }
 
-struct AllocateStaticIpOutputBody: Swift.Equatable {
+struct AllocateStaticIpOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -1185,7 +1185,7 @@ extension AttachCertificateToDistributionInput {
     }
 }
 
-public struct AttachCertificateToDistributionInput: Swift.Equatable {
+public struct AttachCertificateToDistributionInput {
     /// The name of the certificate to attach to a distribution. Only certificates with a status of ISSUED can be attached to a distribution. Use the GetCertificates action to get a list of certificate names that you can specify. This is the name of the certificate resource type and is used only to reference the certificate in other API actions. It can be different than the domain name of the certificate. For example, your certificate name might be WordPress-Blog-Certificate and the domain name of the certificate might be example.com.
     /// This member is required.
     public var certificateName: Swift.String?
@@ -1203,7 +1203,7 @@ public struct AttachCertificateToDistributionInput: Swift.Equatable {
     }
 }
 
-struct AttachCertificateToDistributionInputBody: Swift.Equatable {
+struct AttachCertificateToDistributionInputBody {
     let distributionName: Swift.String?
     let certificateName: Swift.String?
 }
@@ -1235,7 +1235,7 @@ extension AttachCertificateToDistributionOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct AttachCertificateToDistributionOutput: Swift.Equatable {
+public struct AttachCertificateToDistributionOutput {
     /// An object that describes the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operation: LightsailClientTypes.Operation?
 
@@ -1247,7 +1247,7 @@ public struct AttachCertificateToDistributionOutput: Swift.Equatable {
     }
 }
 
-struct AttachCertificateToDistributionOutputBody: Swift.Equatable {
+struct AttachCertificateToDistributionOutputBody {
     let operation: LightsailClientTypes.Operation?
 }
 
@@ -1311,7 +1311,7 @@ extension AttachDiskInput {
     }
 }
 
-public struct AttachDiskInput: Swift.Equatable {
+public struct AttachDiskInput {
     /// A Boolean value used to determine the automatic mounting of a storage volume to a virtual computer. The default value is False. This value only applies to Lightsail for Research resources.
     public var autoMounting: Swift.Bool?
     /// The unique Lightsail disk name (my-disk).
@@ -1338,7 +1338,7 @@ public struct AttachDiskInput: Swift.Equatable {
     }
 }
 
-struct AttachDiskInputBody: Swift.Equatable {
+struct AttachDiskInputBody {
     let diskName: Swift.String?
     let instanceName: Swift.String?
     let diskPath: Swift.String?
@@ -1378,7 +1378,7 @@ extension AttachDiskOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AttachDiskOutput: Swift.Equatable {
+public struct AttachDiskOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -1390,7 +1390,7 @@ public struct AttachDiskOutput: Swift.Equatable {
     }
 }
 
-struct AttachDiskOutputBody: Swift.Equatable {
+struct AttachDiskOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -1459,7 +1459,7 @@ extension AttachInstancesToLoadBalancerInput {
     }
 }
 
-public struct AttachInstancesToLoadBalancerInput: Swift.Equatable {
+public struct AttachInstancesToLoadBalancerInput {
     /// An array of strings representing the instance name(s) you want to attach to your load balancer. An instance must be running before you can attach it to your load balancer. There are no additional limits on the number of instances you can attach to your load balancer, aside from the limit of Lightsail instances you can create in your account (20).
     /// This member is required.
     public var instanceNames: [Swift.String]?
@@ -1477,7 +1477,7 @@ public struct AttachInstancesToLoadBalancerInput: Swift.Equatable {
     }
 }
 
-struct AttachInstancesToLoadBalancerInputBody: Swift.Equatable {
+struct AttachInstancesToLoadBalancerInputBody {
     let loadBalancerName: Swift.String?
     let instanceNames: [Swift.String]?
 }
@@ -1518,7 +1518,7 @@ extension AttachInstancesToLoadBalancerOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct AttachInstancesToLoadBalancerOutput: Swift.Equatable {
+public struct AttachInstancesToLoadBalancerOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -1530,7 +1530,7 @@ public struct AttachInstancesToLoadBalancerOutput: Swift.Equatable {
     }
 }
 
-struct AttachInstancesToLoadBalancerOutputBody: Swift.Equatable {
+struct AttachInstancesToLoadBalancerOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -1596,7 +1596,7 @@ extension AttachLoadBalancerTlsCertificateInput {
     }
 }
 
-public struct AttachLoadBalancerTlsCertificateInput: Swift.Equatable {
+public struct AttachLoadBalancerTlsCertificateInput {
     /// The name of your SSL/TLS certificate.
     /// This member is required.
     public var certificateName: Swift.String?
@@ -1614,7 +1614,7 @@ public struct AttachLoadBalancerTlsCertificateInput: Swift.Equatable {
     }
 }
 
-struct AttachLoadBalancerTlsCertificateInputBody: Swift.Equatable {
+struct AttachLoadBalancerTlsCertificateInputBody {
     let loadBalancerName: Swift.String?
     let certificateName: Swift.String?
 }
@@ -1646,7 +1646,7 @@ extension AttachLoadBalancerTlsCertificateOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct AttachLoadBalancerTlsCertificateOutput: Swift.Equatable {
+public struct AttachLoadBalancerTlsCertificateOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request. These SSL/TLS certificates are only usable by Lightsail load balancers. You can't get the certificate and use it for another purpose.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -1658,7 +1658,7 @@ public struct AttachLoadBalancerTlsCertificateOutput: Swift.Equatable {
     }
 }
 
-struct AttachLoadBalancerTlsCertificateOutputBody: Swift.Equatable {
+struct AttachLoadBalancerTlsCertificateOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -1724,7 +1724,7 @@ extension AttachStaticIpInput {
     }
 }
 
-public struct AttachStaticIpInput: Swift.Equatable {
+public struct AttachStaticIpInput {
     /// The instance name to which you want to attach the static IP address.
     /// This member is required.
     public var instanceName: Swift.String?
@@ -1742,7 +1742,7 @@ public struct AttachStaticIpInput: Swift.Equatable {
     }
 }
 
-struct AttachStaticIpInputBody: Swift.Equatable {
+struct AttachStaticIpInputBody {
     let staticIpName: Swift.String?
     let instanceName: Swift.String?
 }
@@ -1774,7 +1774,7 @@ extension AttachStaticIpOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AttachStaticIpOutput: Swift.Equatable {
+public struct AttachStaticIpOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -1786,7 +1786,7 @@ public struct AttachStaticIpOutput: Swift.Equatable {
     }
 }
 
-struct AttachStaticIpOutputBody: Swift.Equatable {
+struct AttachStaticIpOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -1855,7 +1855,7 @@ extension LightsailClientTypes.AttachedDisk: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes a block storage disk that is attached to an instance, and is included in an automatic snapshot.
-    public struct AttachedDisk: Swift.Equatable {
+    public struct AttachedDisk {
         /// The path of the disk (/dev/xvdf).
         public var path: Swift.String?
         /// The size of the disk in GB.
@@ -1940,7 +1940,7 @@ extension LightsailClientTypes {
     /// * If an automatic snapshot has not yet been created for the current day, and you change the snapshot time to a time that is within 30 minutes from your current time, then the new snapshot time will be effective the following day and a snapshot is automatically created at the previously set time for the current day. This ensures that a snapshot is created for the current day, because 30 minutes is required between your current time and the new snapshot time that you specify.
     ///
     /// * If an automatic snapshot is scheduled to be created within 30 minutes from your current time and you change the snapshot time, then the new snapshot time will be effective the following day and a snapshot is automatically created at the previously set time for the current day. This ensures that a snapshot is created for the current day, because 30 minutes is required between your current time and the new snapshot time that you specify.
-    public struct AutoSnapshotAddOnRequest: Swift.Equatable {
+    public struct AutoSnapshotAddOnRequest {
         /// The daily time when an automatic snapshot will be created. Constraints:
         ///
         /// * Must be in HH:00 format, and in an hourly increment.
@@ -2011,7 +2011,7 @@ extension LightsailClientTypes.AutoSnapshotDetails: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes an automatic snapshot.
-    public struct AutoSnapshotDetails: Swift.Equatable {
+    public struct AutoSnapshotDetails {
         /// The timestamp when the automatic snapshot was created.
         public var createdAt: ClientRuntime.Date?
         /// The date of the automatic snapshot in YYYY-MM-DD format.
@@ -2102,7 +2102,7 @@ extension LightsailClientTypes.AvailabilityZone: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes an Availability Zone. This is returned only as part of a GetRegions request.
-    public struct AvailabilityZone: Swift.Equatable {
+    public struct AvailabilityZone {
         /// The state of the Availability Zone.
         public var state: Swift.String?
         /// The name of the Availability Zone. The format is us-east-2a (case-sensitive).
@@ -2283,7 +2283,7 @@ extension LightsailClientTypes.Blueprint: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes a blueprint (a virtual private server image).
-    public struct Blueprint: Swift.Equatable {
+    public struct Blueprint {
         /// Virtual computer blueprints that are supported by Lightsail for Research. This parameter only applies to Lightsail for Research resources.
         public var appCategory: LightsailClientTypes.AppCategory?
         /// The ID for the virtual private server image (app_wordpress_4_4 or app_lamp_7_0).
@@ -2524,7 +2524,7 @@ extension LightsailClientTypes.Bucket: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes an Amazon Lightsail bucket.
-    public struct Bucket: Swift.Equatable {
+    public struct Bucket {
         /// Indicates whether the bundle that is currently applied to a bucket can be changed to another bundle. You can update a bucket's bundle only one time within a monthly Amazon Web Services billing cycle. Use the [UpdateBucketBundle](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_UpdateBucketBundle.html) action to change a bucket's bundle.
         public var ableToUpdateBundle: Swift.Bool?
         /// An object that describes the access log configuration for the bucket.
@@ -2637,7 +2637,7 @@ extension LightsailClientTypes.BucketAccessLogConfig: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the access log configuration for a bucket in the Amazon Lightsail object storage service. For more information about bucket access logs, see [Logging bucket requests using access logging in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-bucket-access-logs) in the Amazon Lightsail Developer Guide.
-    public struct BucketAccessLogConfig: Swift.Equatable {
+    public struct BucketAccessLogConfig {
         /// The name of the bucket where the access logs are saved. The destination can be a Lightsail bucket in the same account, and in the same Amazon Web Services Region as the source bucket. This parameter is required when enabling the access log for a bucket, and should be omitted when disabling the access log.
         public var destination: Swift.String?
         /// A Boolean value that indicates whether bucket access logging is enabled for the bucket.
@@ -2711,7 +2711,7 @@ extension LightsailClientTypes.BucketBundle: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the specifications of a bundle that can be applied to an Amazon Lightsail bucket. A bucket bundle specifies the monthly cost, storage space, and data transfer quota for a bucket.
-    public struct BucketBundle: Swift.Equatable {
+    public struct BucketBundle {
         /// The ID of the bundle.
         public var bundleId: Swift.String?
         /// Indicates whether the bundle is active. Use for a new or existing bucket.
@@ -2804,7 +2804,7 @@ extension LightsailClientTypes.BucketState: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the state of an Amazon Lightsail bucket.
-    public struct BucketState: Swift.Equatable {
+    public struct BucketState {
         /// The state code of the bucket. The following codes are possible:
         ///
         /// * OK - The bucket is in a running state.
@@ -2943,7 +2943,7 @@ extension LightsailClientTypes.Bundle: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes a bundle, which is a set of specs describing your virtual private server (or instance).
-    public struct Bundle: Swift.Equatable {
+    public struct Bundle {
         /// The bundle ID (micro_1_0).
         public var bundleId: Swift.String?
         /// The number of vCPUs included in the bundle (2).
@@ -3026,7 +3026,7 @@ extension LightsailClientTypes.CacheBehavior: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the default cache behavior of an Amazon Lightsail content delivery network (CDN) distribution.
-    public struct CacheBehavior: Swift.Equatable {
+    public struct CacheBehavior {
         /// The cache behavior of the distribution. The following cache behaviors can be specified:
         ///
         /// * cache - This option is best for static sites. When specified, your distribution caches and serves your entire website as static content. This behavior is ideal for websites with static content that doesn't change depending on who views it, or for websites that don't use cookies, headers, or query strings to personalize content.
@@ -3071,7 +3071,7 @@ extension LightsailClientTypes.CacheBehaviorPerPath: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the per-path cache behavior of an Amazon Lightsail content delivery network (CDN) distribution. A per-path cache behavior is used to override, or add an exception to, the default cache behavior of a distribution. For example, if the cacheBehavior is set to cache, then a per-path cache behavior can be used to specify a directory, file, or file type that your distribution will cache. Alternately, if the distribution's cacheBehavior is dont-cache, then a per-path cache behavior can be used to specify a directory, file, or file type that your distribution will not cache.
-    public struct CacheBehaviorPerPath: Swift.Equatable {
+    public struct CacheBehaviorPerPath {
         /// The cache behavior for the specified path. You can specify one of the following per-path cache behaviors:
         ///
         /// * cache - This behavior caches the specified path.
@@ -3164,7 +3164,7 @@ extension LightsailClientTypes.CacheSettings: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the cache settings of an Amazon Lightsail content delivery network (CDN) distribution. These settings apply only to your distribution's cacheBehaviors (including the defaultCacheBehavior) that have a behavior of cache.
-    public struct CacheSettings: Swift.Equatable {
+    public struct CacheSettings {
         /// The HTTP methods that are processed and forwarded to the distribution's origin. You can specify the following options:
         ///
         /// * GET,HEAD - The distribution forwards the GET and HEAD methods.
@@ -3396,7 +3396,7 @@ extension LightsailClientTypes.Certificate: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the full details of an Amazon Lightsail SSL/TLS certificate. To get a summary of a certificate, use the GetCertificates action and omit includeCertificateDetails from your request. The response will include only the certificate Amazon Resource Name (ARN), certificate name, domain name, and tags.
-    public struct Certificate: Swift.Equatable {
+    public struct Certificate {
         /// The Amazon Resource Name (ARN) of the certificate.
         public var arn: Swift.String?
         /// The timestamp when the certificate was created.
@@ -3668,7 +3668,7 @@ extension LightsailClientTypes.CertificateSummary: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes an Amazon Lightsail SSL/TLS certificate.
-    public struct CertificateSummary: Swift.Equatable {
+    public struct CertificateSummary {
         /// The Amazon Resource Name (ARN) of the certificate.
         public var certificateArn: Swift.String?
         /// An object that describes a certificate in detail.
@@ -3722,7 +3722,7 @@ extension CloseInstancePublicPortsInput {
     }
 }
 
-public struct CloseInstancePublicPortsInput: Swift.Equatable {
+public struct CloseInstancePublicPortsInput {
     /// The name of the instance for which to close ports.
     /// This member is required.
     public var instanceName: Swift.String?
@@ -3740,7 +3740,7 @@ public struct CloseInstancePublicPortsInput: Swift.Equatable {
     }
 }
 
-struct CloseInstancePublicPortsInputBody: Swift.Equatable {
+struct CloseInstancePublicPortsInputBody {
     let portInfo: LightsailClientTypes.PortInfo?
     let instanceName: Swift.String?
 }
@@ -3772,7 +3772,7 @@ extension CloseInstancePublicPortsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CloseInstancePublicPortsOutput: Swift.Equatable {
+public struct CloseInstancePublicPortsOutput {
     /// An object that describes the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operation: LightsailClientTypes.Operation?
 
@@ -3784,7 +3784,7 @@ public struct CloseInstancePublicPortsOutput: Swift.Equatable {
     }
 }
 
-struct CloseInstancePublicPortsOutputBody: Swift.Equatable {
+struct CloseInstancePublicPortsOutputBody {
     let operation: LightsailClientTypes.Operation?
 }
 
@@ -3892,7 +3892,7 @@ extension LightsailClientTypes.CloudFormationStackRecord: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes a CloudFormation stack record created as a result of the create cloud formation stack action. A CloudFormation stack record provides information about the AWS CloudFormation stack used to create a new Amazon Elastic Compute Cloud instance from an exported Lightsail instance snapshot.
-    public struct CloudFormationStackRecord: Swift.Equatable {
+    public struct CloudFormationStackRecord {
         /// The Amazon Resource Name (ARN) of the CloudFormation stack record.
         public var arn: Swift.String?
         /// The date when the CloudFormation stack record was created.
@@ -3967,7 +3967,7 @@ extension LightsailClientTypes.CloudFormationStackRecordSourceInfo: Swift.Codabl
 
 extension LightsailClientTypes {
     /// Describes the source of a CloudFormation stack record (i.e., the export snapshot record).
-    public struct CloudFormationStackRecordSourceInfo: Swift.Equatable {
+    public struct CloudFormationStackRecordSourceInfo {
         /// The Amazon Resource Name (ARN) of the export snapshot record.
         public var arn: Swift.String?
         /// The name of the record.
@@ -4125,7 +4125,7 @@ extension LightsailClientTypes.ContactMethod: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes a contact method. A contact method is a way to send you notifications. For more information, see [Notifications in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-notifications).
-    public struct ContactMethod: Swift.Equatable {
+    public struct ContactMethod {
         /// The Amazon Resource Name (ARN) of the contact method.
         public var arn: Swift.String?
         /// The destination of the contact method, such as an email address or a mobile phone number.
@@ -4348,7 +4348,7 @@ extension LightsailClientTypes.Container: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the settings of a container that will be launched, or that is launched, to an Amazon Lightsail container service.
-    public struct Container: Swift.Equatable {
+    public struct Container {
         /// The launch command for the container.
         public var command: [Swift.String]?
         /// The environment variables of the container.
@@ -4407,7 +4407,7 @@ extension LightsailClientTypes.ContainerImage: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes a container image that is registered to an Amazon Lightsail container service.
-    public struct ContainerImage: Swift.Equatable {
+    public struct ContainerImage {
         /// The timestamp when the container image was created.
         public var createdAt: ClientRuntime.Date?
         /// The digest of the container image.
@@ -4592,7 +4592,7 @@ extension LightsailClientTypes.ContainerService: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes an Amazon Lightsail container service.
-    public struct ContainerService: Swift.Equatable {
+    public struct ContainerService {
         /// The Amazon Resource Name (ARN) of the container service.
         public var arn: Swift.String?
         /// The name of the container service.
@@ -4749,7 +4749,7 @@ extension LightsailClientTypes.ContainerServiceDeployment: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes a container deployment configuration of an Amazon Lightsail container service. A deployment specifies the settings, such as the ports and launch command, of containers that are deployed to your container service.
-    public struct ContainerServiceDeployment: Swift.Equatable {
+    public struct ContainerServiceDeployment {
         /// An object that describes the configuration for the containers of the deployment.
         public var containers: [Swift.String:LightsailClientTypes.Container]?
         /// The timestamp when the deployment was created.
@@ -4826,7 +4826,7 @@ extension LightsailClientTypes.ContainerServiceDeploymentRequest: Swift.Codable 
 
 extension LightsailClientTypes {
     /// Describes a container deployment configuration of an Amazon Lightsail container service. A deployment specifies the settings, such as the ports and launch command, of containers that are deployed to your container service.
-    public struct ContainerServiceDeploymentRequest: Swift.Equatable {
+    public struct ContainerServiceDeploymentRequest {
         /// An object that describes the configuration for the containers of the deployment.
         public var containers: [Swift.String:LightsailClientTypes.Container]?
         /// An object that describes the endpoint of the deployment.
@@ -4909,7 +4909,7 @@ extension LightsailClientTypes.ContainerServiceECRImagePullerRole: Swift.Codable
 
 extension LightsailClientTypes {
     /// Describes the activation status of the role that you can use to grant an Amazon Lightsail container service access to Amazon Elastic Container Registry (Amazon ECR) private repositories. When activated, Lightsail creates an Identity and Access Management (IAM) role for the specified Lightsail container service. You can use the ARN of the role to create a trust relationship between your Lightsail container service and an Amazon ECR private repository in your Amazon Web Services account. This allows your container service to pull images from Amazon ECR private repositories. For more information, see [Configuring access to an Amazon ECR private repository for an Amazon Lightsail container service](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-container-service-ecr-private-repo-access) in the Amazon Lightsail Developer Guide.
-    public struct ContainerServiceECRImagePullerRole: Swift.Equatable {
+    public struct ContainerServiceECRImagePullerRole {
         /// A Boolean value that indicates whether the role is activated.
         public var isActive: Swift.Bool?
         /// The Amazon Resource Name (ARN) of the role, if it is activated.
@@ -4948,7 +4948,7 @@ extension LightsailClientTypes.ContainerServiceECRImagePullerRoleRequest: Swift.
 
 extension LightsailClientTypes {
     /// Describes a request to activate or deactivate the role that you can use to grant an Amazon Lightsail container service access to Amazon Elastic Container Registry (Amazon ECR) private repositories. When activated, Lightsail creates an Identity and Access Management (IAM) role for the specified Lightsail container service. You can use the ARN of the role to create a trust relationship between your Lightsail container service and an Amazon ECR private repository in your Amazon Web Services account. This allows your container service to pull images from Amazon ECR private repositories. For more information, see [Configuring access to an Amazon ECR private repository for an Amazon Lightsail container service](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-container-service-ecr-private-repo-access) in the Amazon Lightsail Developer Guide.
-    public struct ContainerServiceECRImagePullerRoleRequest: Swift.Equatable {
+    public struct ContainerServiceECRImagePullerRoleRequest {
         /// A Boolean value that indicates whether to activate the role.
         public var isActive: Swift.Bool?
 
@@ -4995,7 +4995,7 @@ extension LightsailClientTypes.ContainerServiceEndpoint: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the public endpoint configuration of a deployment of an Amazon Lightsail container service.
-    public struct ContainerServiceEndpoint: Swift.Equatable {
+    public struct ContainerServiceEndpoint {
         /// The name of the container entry of the deployment that the endpoint configuration applies to.
         public var containerName: Swift.String?
         /// The port of the specified container to which traffic is forwarded to.
@@ -5068,7 +5068,7 @@ extension LightsailClientTypes.ContainerServiceHealthCheckConfig: Swift.Codable 
 
 extension LightsailClientTypes {
     /// Describes the health check configuration of an Amazon Lightsail container service.
-    public struct ContainerServiceHealthCheckConfig: Swift.Equatable {
+    public struct ContainerServiceHealthCheckConfig {
         /// The number of consecutive health checks successes required before moving the container to the Healthy state. The default value is 2.
         public var healthyThreshold: Swift.Int?
         /// The approximate interval, in seconds, between health checks of an individual container. You can specify between 5 and 300 seconds. The default value is 5.
@@ -5129,7 +5129,7 @@ extension LightsailClientTypes.ContainerServiceLogEvent: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the log events of a container of an Amazon Lightsail container service.
-    public struct ContainerServiceLogEvent: Swift.Equatable {
+    public struct ContainerServiceLogEvent {
         /// The timestamp when the container service log event was created.
         public var createdAt: ClientRuntime.Date?
         /// The message of the container service log event.
@@ -5230,7 +5230,7 @@ extension LightsailClientTypes.ContainerServicePower: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the powers that can be specified for an Amazon Lightsail container service. The power specifies the amount of RAM, the number of vCPUs, and the base price of the container service.
-    public struct ContainerServicePower: Swift.Equatable {
+    public struct ContainerServicePower {
         /// The number of vCPUs included in the power.
         public var cpuCount: Swift.Float?
         /// A Boolean value indicating whether the power is active and can be specified for container services.
@@ -5385,7 +5385,7 @@ extension LightsailClientTypes.ContainerServiceRegistryLogin: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the sign-in credentials for the container image registry of an Amazon Lightsail account.
-    public struct ContainerServiceRegistryLogin: Swift.Equatable {
+    public struct ContainerServiceRegistryLogin {
         /// The timestamp of when the container image registry sign-in credentials expire. The log in credentials expire 12 hours after they are created, at which point you will need to create a new set of log in credentials using the CreateContainerServiceRegistryLogin action.
         public var expiresAt: ClientRuntime.Date?
         /// The container service registry password to use to push container images to the container image registry of a Lightsail account
@@ -5485,7 +5485,7 @@ extension LightsailClientTypes.ContainerServiceStateDetail: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the current state of a container service.
-    public struct ContainerServiceStateDetail: Swift.Equatable {
+    public struct ContainerServiceStateDetail {
         /// The state code of the container service. The following state codes are possible:
         ///
         /// * The following state codes are possible if your container service is in a DEPLOYING or UPDATING state:
@@ -5620,7 +5620,7 @@ extension LightsailClientTypes.CookieObject: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes whether an Amazon Lightsail content delivery network (CDN) distribution forwards cookies to the origin and, if so, which ones. For the cookies that you specify, your distribution caches separate versions of the specified content based on the cookie values in viewer requests.
-    public struct CookieObject: Swift.Equatable {
+    public struct CookieObject {
         /// The specific cookies to forward to your distribution's origin.
         public var cookiesAllowList: [Swift.String]?
         /// Specifies which cookies to forward to the distribution's origin for a cache behavior: all, none, or allow-list to forward only the cookies specified in the cookiesAllowList parameter.
@@ -5678,7 +5678,7 @@ extension CopySnapshotInput {
     }
 }
 
-public struct CopySnapshotInput: Swift.Equatable {
+public struct CopySnapshotInput {
     /// The date of the source automatic snapshot to copy. Use the get auto snapshots operation to identify the dates of the available automatic snapshots. Constraints:
     ///
     /// * Must be specified in YYYY-MM-DD format.
@@ -5726,7 +5726,7 @@ public struct CopySnapshotInput: Swift.Equatable {
     }
 }
 
-struct CopySnapshotInputBody: Swift.Equatable {
+struct CopySnapshotInputBody {
     let sourceSnapshotName: Swift.String?
     let sourceResourceName: Swift.String?
     let restoreDate: Swift.String?
@@ -5774,7 +5774,7 @@ extension CopySnapshotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CopySnapshotOutput: Swift.Equatable {
+public struct CopySnapshotOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -5786,7 +5786,7 @@ public struct CopySnapshotOutput: Swift.Equatable {
     }
 }
 
-struct CopySnapshotOutputBody: Swift.Equatable {
+struct CopySnapshotOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -5867,7 +5867,7 @@ extension LightsailClientTypes.CostEstimate: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the estimated cost for resources in your Lightsail for Research account.
-    public struct CostEstimate: Swift.Equatable {
+    public struct CostEstimate {
         /// The cost estimate result that's associated with a time period.
         public var resultsByTime: [LightsailClientTypes.EstimateByTime]?
         /// The types of usage that are included in the estimate, such as costs, usage, or data transfer.
@@ -5905,7 +5905,7 @@ extension CreateBucketAccessKeyInput {
     }
 }
 
-public struct CreateBucketAccessKeyInput: Swift.Equatable {
+public struct CreateBucketAccessKeyInput {
     /// The name of the bucket that the new access key will belong to, and grant access to.
     /// This member is required.
     public var bucketName: Swift.String?
@@ -5918,7 +5918,7 @@ public struct CreateBucketAccessKeyInput: Swift.Equatable {
     }
 }
 
-struct CreateBucketAccessKeyInputBody: Swift.Equatable {
+struct CreateBucketAccessKeyInputBody {
     let bucketName: Swift.String?
 }
 
@@ -5948,7 +5948,7 @@ extension CreateBucketAccessKeyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateBucketAccessKeyOutput: Swift.Equatable {
+public struct CreateBucketAccessKeyOutput {
     /// An object that describes the access key that is created.
     public var accessKey: LightsailClientTypes.AccessKey?
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
@@ -5964,7 +5964,7 @@ public struct CreateBucketAccessKeyOutput: Swift.Equatable {
     }
 }
 
-struct CreateBucketAccessKeyOutputBody: Swift.Equatable {
+struct CreateBucketAccessKeyOutputBody {
     let accessKey: LightsailClientTypes.AccessKey?
     let operations: [LightsailClientTypes.Operation]?
 }
@@ -6043,7 +6043,7 @@ extension CreateBucketInput {
     }
 }
 
-public struct CreateBucketInput: Swift.Equatable {
+public struct CreateBucketInput {
     /// The name for the bucket. For more information about bucket names, see [Bucket naming rules in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/bucket-naming-rules-in-amazon-lightsail) in the Amazon Lightsail Developer Guide.
     /// This member is required.
     public var bucketName: Swift.String?
@@ -6069,7 +6069,7 @@ public struct CreateBucketInput: Swift.Equatable {
     }
 }
 
-struct CreateBucketInputBody: Swift.Equatable {
+struct CreateBucketInputBody {
     let bucketName: Swift.String?
     let bundleId: Swift.String?
     let tags: [LightsailClientTypes.Tag]?
@@ -6120,7 +6120,7 @@ extension CreateBucketOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateBucketOutput: Swift.Equatable {
+public struct CreateBucketOutput {
     /// An object that describes the bucket that is created.
     public var bucket: LightsailClientTypes.Bucket?
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
@@ -6136,7 +6136,7 @@ public struct CreateBucketOutput: Swift.Equatable {
     }
 }
 
-struct CreateBucketOutputBody: Swift.Equatable {
+struct CreateBucketOutputBody {
     let bucket: LightsailClientTypes.Bucket?
     let operations: [LightsailClientTypes.Operation]?
 }
@@ -6217,7 +6217,7 @@ extension CreateCertificateInput {
     }
 }
 
-public struct CreateCertificateInput: Swift.Equatable {
+public struct CreateCertificateInput {
     /// The name for the certificate.
     /// This member is required.
     public var certificateName: Swift.String?
@@ -6243,7 +6243,7 @@ public struct CreateCertificateInput: Swift.Equatable {
     }
 }
 
-struct CreateCertificateInputBody: Swift.Equatable {
+struct CreateCertificateInputBody {
     let certificateName: Swift.String?
     let domainName: Swift.String?
     let subjectAlternativeNames: [Swift.String]?
@@ -6303,7 +6303,7 @@ extension CreateCertificateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateCertificateOutput: Swift.Equatable {
+public struct CreateCertificateOutput {
     /// An object that describes the certificate created.
     public var certificate: LightsailClientTypes.CertificateSummary?
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
@@ -6319,7 +6319,7 @@ public struct CreateCertificateOutput: Swift.Equatable {
     }
 }
 
-struct CreateCertificateOutputBody: Swift.Equatable {
+struct CreateCertificateOutputBody {
     let certificate: LightsailClientTypes.CertificateSummary?
     let operations: [LightsailClientTypes.Operation]?
 }
@@ -6386,7 +6386,7 @@ extension CreateCloudFormationStackInput {
     }
 }
 
-public struct CreateCloudFormationStackInput: Swift.Equatable {
+public struct CreateCloudFormationStackInput {
     /// An array of parameters that will be used to create the new Amazon EC2 instance. You can only pass one instance entry at a time in this array. You will get an invalid parameter error if you pass more than one instance entry in this array.
     /// This member is required.
     public var instances: [LightsailClientTypes.InstanceEntry]?
@@ -6399,7 +6399,7 @@ public struct CreateCloudFormationStackInput: Swift.Equatable {
     }
 }
 
-struct CreateCloudFormationStackInputBody: Swift.Equatable {
+struct CreateCloudFormationStackInputBody {
     let instances: [LightsailClientTypes.InstanceEntry]?
 }
 
@@ -6436,7 +6436,7 @@ extension CreateCloudFormationStackOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateCloudFormationStackOutput: Swift.Equatable {
+public struct CreateCloudFormationStackOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -6448,7 +6448,7 @@ public struct CreateCloudFormationStackOutput: Swift.Equatable {
     }
 }
 
-struct CreateCloudFormationStackOutputBody: Swift.Equatable {
+struct CreateCloudFormationStackOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -6514,7 +6514,7 @@ extension CreateContactMethodInput {
     }
 }
 
-public struct CreateContactMethodInput: Swift.Equatable {
+public struct CreateContactMethodInput {
     /// The destination of the contact method, such as an email address or a mobile phone number. Use the E.164 format when specifying a mobile phone number. E.164 is a standard for the phone number structure used for international telecommunication. Phone numbers that follow this format can have a maximum of 15 digits, and they are prefixed with the plus character (+) and the country code. For example, a U.S. phone number in E.164 format would be specified as +1XXX5550100. For more information, see [E.164](https://en.wikipedia.org/wiki/E.164) on Wikipedia.
     /// This member is required.
     public var contactEndpoint: Swift.String?
@@ -6547,7 +6547,7 @@ public struct CreateContactMethodInput: Swift.Equatable {
     }
 }
 
-struct CreateContactMethodInputBody: Swift.Equatable {
+struct CreateContactMethodInputBody {
     let `protocol`: LightsailClientTypes.ContactProtocol?
     let contactEndpoint: Swift.String?
 }
@@ -6579,7 +6579,7 @@ extension CreateContactMethodOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateContactMethodOutput: Swift.Equatable {
+public struct CreateContactMethodOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -6591,7 +6591,7 @@ public struct CreateContactMethodOutput: Swift.Equatable {
     }
 }
 
-struct CreateContactMethodOutputBody: Swift.Equatable {
+struct CreateContactMethodOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -6659,7 +6659,7 @@ extension CreateContainerServiceDeploymentInput {
     }
 }
 
-public struct CreateContainerServiceDeploymentInput: Swift.Equatable {
+public struct CreateContainerServiceDeploymentInput {
     /// An object that describes the settings of the containers that will be launched on the container service.
     public var containers: [Swift.String:LightsailClientTypes.Container]?
     /// An object that describes the settings of the public endpoint for the container service.
@@ -6680,7 +6680,7 @@ public struct CreateContainerServiceDeploymentInput: Swift.Equatable {
     }
 }
 
-struct CreateContainerServiceDeploymentInputBody: Swift.Equatable {
+struct CreateContainerServiceDeploymentInputBody {
     let containers: [Swift.String:LightsailClientTypes.Container]?
     let publicEndpoint: LightsailClientTypes.EndpointRequest?
 }
@@ -6721,7 +6721,7 @@ extension CreateContainerServiceDeploymentOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct CreateContainerServiceDeploymentOutput: Swift.Equatable {
+public struct CreateContainerServiceDeploymentOutput {
     /// An object that describes a container service.
     public var containerService: LightsailClientTypes.ContainerService?
 
@@ -6733,7 +6733,7 @@ public struct CreateContainerServiceDeploymentOutput: Swift.Equatable {
     }
 }
 
-struct CreateContainerServiceDeploymentOutputBody: Swift.Equatable {
+struct CreateContainerServiceDeploymentOutputBody {
     let containerService: LightsailClientTypes.ContainerService?
 }
 
@@ -6817,7 +6817,7 @@ extension CreateContainerServiceInput {
     }
 }
 
-public struct CreateContainerServiceInput: Swift.Equatable {
+public struct CreateContainerServiceInput {
     /// An object that describes a deployment for the container service. A deployment specifies the containers that will be launched on the container service and their settings, such as the ports to open, the environment variables to apply, and the launch command to run. It also specifies the container that will serve as the public endpoint of the deployment and its settings, such as the HTTP or HTTPS port to use, and the health check configuration.
     public var deployment: LightsailClientTypes.ContainerServiceDeploymentRequest?
     /// The power specification for the container service. The power specifies the amount of memory, vCPUs, and base monthly cost of each node of the container service. The power and scale of a container service makes up its configured capacity. To determine the monthly price of your container service, multiply the base price of the power with the scale (the number of nodes) of the service. Use the GetContainerServicePowers action to get a list of power options that you can specify using this parameter, and their base monthly cost.
@@ -6864,7 +6864,7 @@ public struct CreateContainerServiceInput: Swift.Equatable {
     }
 }
 
-struct CreateContainerServiceInputBody: Swift.Equatable {
+struct CreateContainerServiceInputBody {
     let serviceName: Swift.String?
     let power: LightsailClientTypes.ContainerServicePowerName?
     let scale: Swift.Int?
@@ -6941,7 +6941,7 @@ extension CreateContainerServiceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateContainerServiceOutput: Swift.Equatable {
+public struct CreateContainerServiceOutput {
     /// An object that describes a container service.
     public var containerService: LightsailClientTypes.ContainerService?
 
@@ -6953,7 +6953,7 @@ public struct CreateContainerServiceOutput: Swift.Equatable {
     }
 }
 
-struct CreateContainerServiceOutputBody: Swift.Equatable {
+struct CreateContainerServiceOutputBody {
     let containerService: LightsailClientTypes.ContainerService?
 }
 
@@ -6999,12 +6999,12 @@ extension CreateContainerServiceRegistryLoginInput {
     }
 }
 
-public struct CreateContainerServiceRegistryLoginInput: Swift.Equatable {
+public struct CreateContainerServiceRegistryLoginInput {
 
     public init() { }
 }
 
-struct CreateContainerServiceRegistryLoginInputBody: Swift.Equatable {
+struct CreateContainerServiceRegistryLoginInputBody {
 }
 
 extension CreateContainerServiceRegistryLoginInputBody: Swift.Decodable {
@@ -7025,7 +7025,7 @@ extension CreateContainerServiceRegistryLoginOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct CreateContainerServiceRegistryLoginOutput: Swift.Equatable {
+public struct CreateContainerServiceRegistryLoginOutput {
     /// An object that describes the log in information for the container service registry of your Lightsail account.
     public var registryLogin: LightsailClientTypes.ContainerServiceRegistryLogin?
 
@@ -7037,7 +7037,7 @@ public struct CreateContainerServiceRegistryLoginOutput: Swift.Equatable {
     }
 }
 
-struct CreateContainerServiceRegistryLoginOutputBody: Swift.Equatable {
+struct CreateContainerServiceRegistryLoginOutputBody {
     let registryLogin: LightsailClientTypes.ContainerServiceRegistryLogin?
 }
 
@@ -7126,7 +7126,7 @@ extension CreateDiskFromSnapshotInput {
     }
 }
 
-public struct CreateDiskFromSnapshotInput: Swift.Equatable {
+public struct CreateDiskFromSnapshotInput {
     /// An array of objects that represent the add-ons to enable for the new disk.
     public var addOns: [LightsailClientTypes.AddOnRequest]?
     /// The Availability Zone where you want to create the disk (us-east-2a). Choose the same Availability Zone as the Lightsail instance where you want to create the disk. Use the GetRegions operation to list the Availability Zones where Lightsail is currently available.
@@ -7189,7 +7189,7 @@ public struct CreateDiskFromSnapshotInput: Swift.Equatable {
     }
 }
 
-struct CreateDiskFromSnapshotInputBody: Swift.Equatable {
+struct CreateDiskFromSnapshotInputBody {
     let diskName: Swift.String?
     let diskSnapshotName: Swift.String?
     let availabilityZone: Swift.String?
@@ -7267,7 +7267,7 @@ extension CreateDiskFromSnapshotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDiskFromSnapshotOutput: Swift.Equatable {
+public struct CreateDiskFromSnapshotOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -7279,7 +7279,7 @@ public struct CreateDiskFromSnapshotOutput: Swift.Equatable {
     }
 }
 
-struct CreateDiskFromSnapshotOutputBody: Swift.Equatable {
+struct CreateDiskFromSnapshotOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -7363,7 +7363,7 @@ extension CreateDiskInput {
     }
 }
 
-public struct CreateDiskInput: Swift.Equatable {
+public struct CreateDiskInput {
     /// An array of objects that represent the add-ons to enable for the new disk.
     public var addOns: [LightsailClientTypes.AddOnRequest]?
     /// The Availability Zone where you want to create the disk (us-east-2a). Use the same Availability Zone as the Lightsail instance to which you want to attach the disk. Use the get regions operation to list the Availability Zones where Lightsail is currently available.
@@ -7394,7 +7394,7 @@ public struct CreateDiskInput: Swift.Equatable {
     }
 }
 
-struct CreateDiskInputBody: Swift.Equatable {
+struct CreateDiskInputBody {
     let diskName: Swift.String?
     let availabilityZone: Swift.String?
     let sizeInGb: Swift.Int?
@@ -7456,7 +7456,7 @@ extension CreateDiskOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDiskOutput: Swift.Equatable {
+public struct CreateDiskOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -7468,7 +7468,7 @@ public struct CreateDiskOutput: Swift.Equatable {
     }
 }
 
-struct CreateDiskOutputBody: Swift.Equatable {
+struct CreateDiskOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -7545,7 +7545,7 @@ extension CreateDiskSnapshotInput {
     }
 }
 
-public struct CreateDiskSnapshotInput: Swift.Equatable {
+public struct CreateDiskSnapshotInput {
     /// The unique name of the source disk (Disk-Virginia-1). This parameter cannot be defined together with the instance name parameter. The disk name and instance name parameters are mutually exclusive.
     public var diskName: Swift.String?
     /// The name of the destination disk snapshot (my-disk-snapshot) based on the source disk.
@@ -7570,7 +7570,7 @@ public struct CreateDiskSnapshotInput: Swift.Equatable {
     }
 }
 
-struct CreateDiskSnapshotInputBody: Swift.Equatable {
+struct CreateDiskSnapshotInputBody {
     let diskName: Swift.String?
     let diskSnapshotName: Swift.String?
     let instanceName: Swift.String?
@@ -7619,7 +7619,7 @@ extension CreateDiskSnapshotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDiskSnapshotOutput: Swift.Equatable {
+public struct CreateDiskSnapshotOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -7631,7 +7631,7 @@ public struct CreateDiskSnapshotOutput: Swift.Equatable {
     }
 }
 
-struct CreateDiskSnapshotOutputBody: Swift.Equatable {
+struct CreateDiskSnapshotOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -7735,7 +7735,7 @@ extension CreateDistributionInput {
     }
 }
 
-public struct CreateDistributionInput: Swift.Equatable {
+public struct CreateDistributionInput {
     /// The bundle ID to use for the distribution. A distribution bundle describes the specifications of your distribution, such as the monthly cost and monthly network transfer quota. Use the GetDistributionBundles action to get a list of distribution bundle IDs that you can specify.
     /// This member is required.
     public var bundleId: Swift.String?
@@ -7787,7 +7787,7 @@ public struct CreateDistributionInput: Swift.Equatable {
     }
 }
 
-struct CreateDistributionInputBody: Swift.Equatable {
+struct CreateDistributionInputBody {
     let distributionName: Swift.String?
     let origin: LightsailClientTypes.InputOrigin?
     let defaultCacheBehavior: LightsailClientTypes.CacheBehavior?
@@ -7871,7 +7871,7 @@ extension CreateDistributionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDistributionOutput: Swift.Equatable {
+public struct CreateDistributionOutput {
     /// An object that describes the distribution created.
     public var distribution: LightsailClientTypes.LightsailDistribution?
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
@@ -7887,7 +7887,7 @@ public struct CreateDistributionOutput: Swift.Equatable {
     }
 }
 
-struct CreateDistributionOutputBody: Swift.Equatable {
+struct CreateDistributionOutputBody {
     let distribution: LightsailClientTypes.LightsailDistribution?
     let operation: LightsailClientTypes.Operation?
 }
@@ -7947,7 +7947,7 @@ extension CreateDomainEntryInput {
     }
 }
 
-public struct CreateDomainEntryInput: Swift.Equatable {
+public struct CreateDomainEntryInput {
     /// An array of key-value pairs containing information about the domain entry request.
     /// This member is required.
     public var domainEntry: LightsailClientTypes.DomainEntry?
@@ -7965,7 +7965,7 @@ public struct CreateDomainEntryInput: Swift.Equatable {
     }
 }
 
-struct CreateDomainEntryInputBody: Swift.Equatable {
+struct CreateDomainEntryInputBody {
     let domainName: Swift.String?
     let domainEntry: LightsailClientTypes.DomainEntry?
 }
@@ -7997,7 +7997,7 @@ extension CreateDomainEntryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDomainEntryOutput: Swift.Equatable {
+public struct CreateDomainEntryOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operation: LightsailClientTypes.Operation?
 
@@ -8009,7 +8009,7 @@ public struct CreateDomainEntryOutput: Swift.Equatable {
     }
 }
 
-struct CreateDomainEntryOutputBody: Swift.Equatable {
+struct CreateDomainEntryOutputBody {
     let operation: LightsailClientTypes.Operation?
 }
 
@@ -8069,7 +8069,7 @@ extension CreateDomainInput {
     }
 }
 
-public struct CreateDomainInput: Swift.Equatable {
+public struct CreateDomainInput {
     /// The domain name to manage (example.com).
     /// This member is required.
     public var domainName: Swift.String?
@@ -8086,7 +8086,7 @@ public struct CreateDomainInput: Swift.Equatable {
     }
 }
 
-struct CreateDomainInputBody: Swift.Equatable {
+struct CreateDomainInputBody {
     let domainName: Swift.String?
     let tags: [LightsailClientTypes.Tag]?
 }
@@ -8127,7 +8127,7 @@ extension CreateDomainOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDomainOutput: Swift.Equatable {
+public struct CreateDomainOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operation: LightsailClientTypes.Operation?
 
@@ -8139,7 +8139,7 @@ public struct CreateDomainOutput: Swift.Equatable {
     }
 }
 
-struct CreateDomainOutputBody: Swift.Equatable {
+struct CreateDomainOutputBody {
     let operation: LightsailClientTypes.Operation?
 }
 
@@ -8192,7 +8192,7 @@ extension CreateGUISessionAccessDetailsInput {
     }
 }
 
-public struct CreateGUISessionAccessDetailsInput: Swift.Equatable {
+public struct CreateGUISessionAccessDetailsInput {
     /// The resource name.
     /// This member is required.
     public var resourceName: Swift.String?
@@ -8205,7 +8205,7 @@ public struct CreateGUISessionAccessDetailsInput: Swift.Equatable {
     }
 }
 
-struct CreateGUISessionAccessDetailsInputBody: Swift.Equatable {
+struct CreateGUISessionAccessDetailsInputBody {
     let resourceName: Swift.String?
 }
 
@@ -8241,7 +8241,7 @@ extension CreateGUISessionAccessDetailsOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct CreateGUISessionAccessDetailsOutput: Swift.Equatable {
+public struct CreateGUISessionAccessDetailsOutput {
     /// The reason the operation failed.
     public var failureReason: Swift.String?
     /// The percentage of completion for the operation.
@@ -8269,7 +8269,7 @@ public struct CreateGUISessionAccessDetailsOutput: Swift.Equatable {
     }
 }
 
-struct CreateGUISessionAccessDetailsOutputBody: Swift.Equatable {
+struct CreateGUISessionAccessDetailsOutputBody {
     let resourceName: Swift.String?
     let status: LightsailClientTypes.Status?
     let percentageComplete: Swift.Int?
@@ -8356,7 +8356,7 @@ extension CreateInstanceSnapshotInput {
     }
 }
 
-public struct CreateInstanceSnapshotInput: Swift.Equatable {
+public struct CreateInstanceSnapshotInput {
     /// The Lightsail instance on which to base your snapshot.
     /// This member is required.
     public var instanceName: Swift.String?
@@ -8378,7 +8378,7 @@ public struct CreateInstanceSnapshotInput: Swift.Equatable {
     }
 }
 
-struct CreateInstanceSnapshotInputBody: Swift.Equatable {
+struct CreateInstanceSnapshotInputBody {
     let instanceSnapshotName: Swift.String?
     let instanceName: Swift.String?
     let tags: [LightsailClientTypes.Tag]?
@@ -8423,7 +8423,7 @@ extension CreateInstanceSnapshotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateInstanceSnapshotOutput: Swift.Equatable {
+public struct CreateInstanceSnapshotOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -8435,7 +8435,7 @@ public struct CreateInstanceSnapshotOutput: Swift.Equatable {
     }
 }
 
-struct CreateInstanceSnapshotOutputBody: Swift.Equatable {
+struct CreateInstanceSnapshotOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -8560,7 +8560,7 @@ extension CreateInstancesFromSnapshotInput {
     }
 }
 
-public struct CreateInstancesFromSnapshotInput: Swift.Equatable {
+public struct CreateInstancesFromSnapshotInput {
     /// An array of objects representing the add-ons to enable for the new instance.
     public var addOns: [LightsailClientTypes.AddOnRequest]?
     /// An object containing information about one or more disk mappings.
@@ -8639,7 +8639,7 @@ public struct CreateInstancesFromSnapshotInput: Swift.Equatable {
     }
 }
 
-struct CreateInstancesFromSnapshotInputBody: Swift.Equatable {
+struct CreateInstancesFromSnapshotInputBody {
     let instanceNames: [Swift.String]?
     let attachedDiskMapping: [Swift.String:[LightsailClientTypes.DiskMap]]?
     let availabilityZone: Swift.String?
@@ -8758,7 +8758,7 @@ extension CreateInstancesFromSnapshotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateInstancesFromSnapshotOutput: Swift.Equatable {
+public struct CreateInstancesFromSnapshotOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -8770,7 +8770,7 @@ public struct CreateInstancesFromSnapshotOutput: Swift.Equatable {
     }
 }
 
-struct CreateInstancesFromSnapshotOutputBody: Swift.Equatable {
+struct CreateInstancesFromSnapshotOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -8877,7 +8877,7 @@ extension CreateInstancesInput {
     }
 }
 
-public struct CreateInstancesInput: Swift.Equatable {
+public struct CreateInstancesInput {
     /// An array of objects representing the add-ons to enable for the new instance.
     public var addOns: [LightsailClientTypes.AddOnRequest]?
     /// The Availability Zone in which to create your instance. Use the following format: us-east-2a (case sensitive). You can get a list of Availability Zones by using the [get regions](http://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetRegions.html) operation. Be sure to add the include Availability Zones parameter to your request.
@@ -8930,7 +8930,7 @@ public struct CreateInstancesInput: Swift.Equatable {
     }
 }
 
-struct CreateInstancesInputBody: Swift.Equatable {
+struct CreateInstancesInputBody {
     let instanceNames: [Swift.String]?
     let availabilityZone: Swift.String?
     let customImageName: Swift.String?
@@ -9021,7 +9021,7 @@ extension CreateInstancesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateInstancesOutput: Swift.Equatable {
+public struct CreateInstancesOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -9033,7 +9033,7 @@ public struct CreateInstancesOutput: Swift.Equatable {
     }
 }
 
-struct CreateInstancesOutputBody: Swift.Equatable {
+struct CreateInstancesOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -9102,7 +9102,7 @@ extension CreateKeyPairInput {
     }
 }
 
-public struct CreateKeyPairInput: Swift.Equatable {
+public struct CreateKeyPairInput {
     /// The name for your new key pair.
     /// This member is required.
     public var keyPairName: Swift.String?
@@ -9119,7 +9119,7 @@ public struct CreateKeyPairInput: Swift.Equatable {
     }
 }
 
-struct CreateKeyPairInputBody: Swift.Equatable {
+struct CreateKeyPairInputBody {
     let keyPairName: Swift.String?
     let tags: [LightsailClientTypes.Tag]?
 }
@@ -9166,7 +9166,7 @@ extension CreateKeyPairOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateKeyPairOutput: Swift.Equatable {
+public struct CreateKeyPairOutput {
     /// An array of key-value pairs containing information about the new key pair you just created.
     public var keyPair: LightsailClientTypes.KeyPair?
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
@@ -9190,7 +9190,7 @@ public struct CreateKeyPairOutput: Swift.Equatable {
     }
 }
 
-struct CreateKeyPairOutputBody: Swift.Equatable {
+struct CreateKeyPairOutputBody {
     let keyPair: LightsailClientTypes.KeyPair?
     let publicKeyBase64: Swift.String?
     let privateKeyBase64: Swift.String?
@@ -9293,7 +9293,7 @@ extension CreateLoadBalancerInput {
     }
 }
 
-public struct CreateLoadBalancerInput: Swift.Equatable {
+public struct CreateLoadBalancerInput {
     /// The optional alternative domains and subdomains to use with your SSL/TLS certificate (www.example.com, example.com, m.example.com, blog.example.com).
     public var certificateAlternativeNames: [Swift.String]?
     /// The domain name with which your certificate is associated (example.com). If you specify certificateDomainName, then certificateName is required (and vice-versa).
@@ -9339,7 +9339,7 @@ public struct CreateLoadBalancerInput: Swift.Equatable {
     }
 }
 
-struct CreateLoadBalancerInputBody: Swift.Equatable {
+struct CreateLoadBalancerInputBody {
     let loadBalancerName: Swift.String?
     let instancePort: Swift.Int?
     let healthCheckPath: Swift.String?
@@ -9417,7 +9417,7 @@ extension CreateLoadBalancerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateLoadBalancerOutput: Swift.Equatable {
+public struct CreateLoadBalancerOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -9429,7 +9429,7 @@ public struct CreateLoadBalancerOutput: Swift.Equatable {
     }
 }
 
-struct CreateLoadBalancerOutputBody: Swift.Equatable {
+struct CreateLoadBalancerOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -9513,7 +9513,7 @@ extension CreateLoadBalancerTlsCertificateInput {
     }
 }
 
-public struct CreateLoadBalancerTlsCertificateInput: Swift.Equatable {
+public struct CreateLoadBalancerTlsCertificateInput {
     /// An array of strings listing alternative domains and subdomains for your SSL/TLS certificate. Lightsail will de-dupe the names for you. You can have a maximum of 9 alternative names (in addition to the 1 primary domain). We do not support wildcards (*.example.com).
     public var certificateAlternativeNames: [Swift.String]?
     /// The domain name (example.com) for your SSL/TLS certificate.
@@ -9544,7 +9544,7 @@ public struct CreateLoadBalancerTlsCertificateInput: Swift.Equatable {
     }
 }
 
-struct CreateLoadBalancerTlsCertificateInputBody: Swift.Equatable {
+struct CreateLoadBalancerTlsCertificateInputBody {
     let loadBalancerName: Swift.String?
     let certificateName: Swift.String?
     let certificateDomainName: Swift.String?
@@ -9606,7 +9606,7 @@ extension CreateLoadBalancerTlsCertificateOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct CreateLoadBalancerTlsCertificateOutput: Swift.Equatable {
+public struct CreateLoadBalancerTlsCertificateOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -9618,7 +9618,7 @@ public struct CreateLoadBalancerTlsCertificateOutput: Swift.Equatable {
     }
 }
 
-struct CreateLoadBalancerTlsCertificateOutputBody: Swift.Equatable {
+struct CreateLoadBalancerTlsCertificateOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -9715,7 +9715,7 @@ extension CreateRelationalDatabaseFromSnapshotInput {
     }
 }
 
-public struct CreateRelationalDatabaseFromSnapshotInput: Swift.Equatable {
+public struct CreateRelationalDatabaseFromSnapshotInput {
     /// The Availability Zone in which to create your new database. Use the us-east-2a case-sensitive format. You can get a list of Availability Zones by using the get regions operation. Be sure to add the include relational database Availability Zones parameter to your request.
     public var availabilityZone: Swift.String?
     /// Specifies the accessibility options for your new database. A value of true specifies a database that is available to resources outside of your Lightsail account. A value of false specifies a database that is available only to your Lightsail resources in the same region as your database.
@@ -9772,7 +9772,7 @@ public struct CreateRelationalDatabaseFromSnapshotInput: Swift.Equatable {
     }
 }
 
-struct CreateRelationalDatabaseFromSnapshotInputBody: Swift.Equatable {
+struct CreateRelationalDatabaseFromSnapshotInputBody {
     let relationalDatabaseName: Swift.String?
     let availabilityZone: Swift.String?
     let publiclyAccessible: Swift.Bool?
@@ -9841,7 +9841,7 @@ extension CreateRelationalDatabaseFromSnapshotOutput: ClientRuntime.HttpResponse
     }
 }
 
-public struct CreateRelationalDatabaseFromSnapshotOutput: Swift.Equatable {
+public struct CreateRelationalDatabaseFromSnapshotOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -9853,7 +9853,7 @@ public struct CreateRelationalDatabaseFromSnapshotOutput: Swift.Equatable {
     }
 }
 
-struct CreateRelationalDatabaseFromSnapshotOutputBody: Swift.Equatable {
+struct CreateRelationalDatabaseFromSnapshotOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -9963,7 +9963,7 @@ extension CreateRelationalDatabaseInput {
     }
 }
 
-public struct CreateRelationalDatabaseInput: Swift.Equatable {
+public struct CreateRelationalDatabaseInput {
     /// The Availability Zone in which to create your new database. Use the us-east-2a case-sensitive format. You can get a list of Availability Zones by using the get regions operation. Be sure to add the include relational database Availability Zones parameter to your request.
     public var availabilityZone: Swift.String?
     /// The meaning of this parameter differs according to the database engine you use. MySQL The name of the database to create when the Lightsail database resource is created. If this parameter isn't specified, no database is created in the database resource. Constraints:
@@ -10076,7 +10076,7 @@ public struct CreateRelationalDatabaseInput: Swift.Equatable {
     }
 }
 
-struct CreateRelationalDatabaseInputBody: Swift.Equatable {
+struct CreateRelationalDatabaseInputBody {
     let relationalDatabaseName: Swift.String?
     let availabilityZone: Swift.String?
     let relationalDatabaseBlueprintId: Swift.String?
@@ -10153,7 +10153,7 @@ extension CreateRelationalDatabaseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRelationalDatabaseOutput: Swift.Equatable {
+public struct CreateRelationalDatabaseOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -10165,7 +10165,7 @@ public struct CreateRelationalDatabaseOutput: Swift.Equatable {
     }
 }
 
-struct CreateRelationalDatabaseOutputBody: Swift.Equatable {
+struct CreateRelationalDatabaseOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -10238,7 +10238,7 @@ extension CreateRelationalDatabaseSnapshotInput {
     }
 }
 
-public struct CreateRelationalDatabaseSnapshotInput: Swift.Equatable {
+public struct CreateRelationalDatabaseSnapshotInput {
     /// The name of the database on which to base your new snapshot.
     /// This member is required.
     public var relationalDatabaseName: Swift.String?
@@ -10264,7 +10264,7 @@ public struct CreateRelationalDatabaseSnapshotInput: Swift.Equatable {
     }
 }
 
-struct CreateRelationalDatabaseSnapshotInputBody: Swift.Equatable {
+struct CreateRelationalDatabaseSnapshotInputBody {
     let relationalDatabaseName: Swift.String?
     let relationalDatabaseSnapshotName: Swift.String?
     let tags: [LightsailClientTypes.Tag]?
@@ -10309,7 +10309,7 @@ extension CreateRelationalDatabaseSnapshotOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct CreateRelationalDatabaseSnapshotOutput: Swift.Equatable {
+public struct CreateRelationalDatabaseSnapshotOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -10321,7 +10321,7 @@ public struct CreateRelationalDatabaseSnapshotOutput: Swift.Equatable {
     }
 }
 
-struct CreateRelationalDatabaseSnapshotOutputBody: Swift.Equatable {
+struct CreateRelationalDatabaseSnapshotOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -10412,7 +10412,7 @@ extension DeleteAlarmInput {
     }
 }
 
-public struct DeleteAlarmInput: Swift.Equatable {
+public struct DeleteAlarmInput {
     /// The name of the alarm to delete.
     /// This member is required.
     public var alarmName: Swift.String?
@@ -10425,7 +10425,7 @@ public struct DeleteAlarmInput: Swift.Equatable {
     }
 }
 
-struct DeleteAlarmInputBody: Swift.Equatable {
+struct DeleteAlarmInputBody {
     let alarmName: Swift.String?
 }
 
@@ -10453,7 +10453,7 @@ extension DeleteAlarmOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAlarmOutput: Swift.Equatable {
+public struct DeleteAlarmOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -10465,7 +10465,7 @@ public struct DeleteAlarmOutput: Swift.Equatable {
     }
 }
 
-struct DeleteAlarmOutputBody: Swift.Equatable {
+struct DeleteAlarmOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -10530,7 +10530,7 @@ extension DeleteAutoSnapshotInput {
     }
 }
 
-public struct DeleteAutoSnapshotInput: Swift.Equatable {
+public struct DeleteAutoSnapshotInput {
     /// The date of the automatic snapshot to delete in YYYY-MM-DD format. Use the get auto snapshots operation to get the available automatic snapshots for a resource.
     /// This member is required.
     public var date: Swift.String?
@@ -10548,7 +10548,7 @@ public struct DeleteAutoSnapshotInput: Swift.Equatable {
     }
 }
 
-struct DeleteAutoSnapshotInputBody: Swift.Equatable {
+struct DeleteAutoSnapshotInputBody {
     let resourceName: Swift.String?
     let date: Swift.String?
 }
@@ -10580,7 +10580,7 @@ extension DeleteAutoSnapshotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAutoSnapshotOutput: Swift.Equatable {
+public struct DeleteAutoSnapshotOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -10592,7 +10592,7 @@ public struct DeleteAutoSnapshotOutput: Swift.Equatable {
     }
 }
 
-struct DeleteAutoSnapshotOutputBody: Swift.Equatable {
+struct DeleteAutoSnapshotOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -10657,7 +10657,7 @@ extension DeleteBucketAccessKeyInput {
     }
 }
 
-public struct DeleteBucketAccessKeyInput: Swift.Equatable {
+public struct DeleteBucketAccessKeyInput {
     /// The ID of the access key to delete. Use the [GetBucketAccessKeys](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetBucketAccessKeys.html) action to get a list of access key IDs that you can specify.
     /// This member is required.
     public var accessKeyId: Swift.String?
@@ -10675,7 +10675,7 @@ public struct DeleteBucketAccessKeyInput: Swift.Equatable {
     }
 }
 
-struct DeleteBucketAccessKeyInputBody: Swift.Equatable {
+struct DeleteBucketAccessKeyInputBody {
     let bucketName: Swift.String?
     let accessKeyId: Swift.String?
 }
@@ -10707,7 +10707,7 @@ extension DeleteBucketAccessKeyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteBucketAccessKeyOutput: Swift.Equatable {
+public struct DeleteBucketAccessKeyOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -10719,7 +10719,7 @@ public struct DeleteBucketAccessKeyOutput: Swift.Equatable {
     }
 }
 
-struct DeleteBucketAccessKeyOutputBody: Swift.Equatable {
+struct DeleteBucketAccessKeyOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -10783,7 +10783,7 @@ extension DeleteBucketInput {
     }
 }
 
-public struct DeleteBucketInput: Swift.Equatable {
+public struct DeleteBucketInput {
     /// The name of the bucket to delete. Use the [GetBuckets](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetBuckets.html) action to get a list of bucket names that you can specify.
     /// This member is required.
     public var bucketName: Swift.String?
@@ -10811,7 +10811,7 @@ public struct DeleteBucketInput: Swift.Equatable {
     }
 }
 
-struct DeleteBucketInputBody: Swift.Equatable {
+struct DeleteBucketInputBody {
     let bucketName: Swift.String?
     let forceDelete: Swift.Bool?
 }
@@ -10843,7 +10843,7 @@ extension DeleteBucketOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteBucketOutput: Swift.Equatable {
+public struct DeleteBucketOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -10855,7 +10855,7 @@ public struct DeleteBucketOutput: Swift.Equatable {
     }
 }
 
-struct DeleteBucketOutputBody: Swift.Equatable {
+struct DeleteBucketOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -10915,7 +10915,7 @@ extension DeleteCertificateInput {
     }
 }
 
-public struct DeleteCertificateInput: Swift.Equatable {
+public struct DeleteCertificateInput {
     /// The name of the certificate to delete. Use the GetCertificates action to get a list of certificate names that you can specify.
     /// This member is required.
     public var certificateName: Swift.String?
@@ -10928,7 +10928,7 @@ public struct DeleteCertificateInput: Swift.Equatable {
     }
 }
 
-struct DeleteCertificateInputBody: Swift.Equatable {
+struct DeleteCertificateInputBody {
     let certificateName: Swift.String?
 }
 
@@ -10956,7 +10956,7 @@ extension DeleteCertificateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteCertificateOutput: Swift.Equatable {
+public struct DeleteCertificateOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -10968,7 +10968,7 @@ public struct DeleteCertificateOutput: Swift.Equatable {
     }
 }
 
-struct DeleteCertificateOutputBody: Swift.Equatable {
+struct DeleteCertificateOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -11028,7 +11028,7 @@ extension DeleteContactMethodInput {
     }
 }
 
-public struct DeleteContactMethodInput: Swift.Equatable {
+public struct DeleteContactMethodInput {
     /// The protocol that will be deleted, such as Email or SMS (text messaging). To delete an Email and an SMS contact method if you added both, you must run separate DeleteContactMethod actions to delete each protocol.
     /// This member is required.
     public var `protocol`: LightsailClientTypes.ContactProtocol?
@@ -11041,7 +11041,7 @@ public struct DeleteContactMethodInput: Swift.Equatable {
     }
 }
 
-struct DeleteContactMethodInputBody: Swift.Equatable {
+struct DeleteContactMethodInputBody {
     let `protocol`: LightsailClientTypes.ContactProtocol?
 }
 
@@ -11069,7 +11069,7 @@ extension DeleteContactMethodOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteContactMethodOutput: Swift.Equatable {
+public struct DeleteContactMethodOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -11081,7 +11081,7 @@ public struct DeleteContactMethodOutput: Swift.Equatable {
     }
 }
 
-struct DeleteContactMethodOutputBody: Swift.Equatable {
+struct DeleteContactMethodOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -11137,7 +11137,7 @@ extension DeleteContainerImageInput {
     }
 }
 
-public struct DeleteContainerImageInput: Swift.Equatable {
+public struct DeleteContainerImageInput {
     /// The name of the container image to delete from the container service. Use the GetContainerImages action to get the name of the container images that are registered to a container service. Container images sourced from your Lightsail container service, that are registered and stored on your service, start with a colon (:). For example, :container-service-1.mystaticwebsite.1. Container images sourced from a public registry like Docker Hub don't start with a colon. For example, nginx:latest or nginx.
     /// This member is required.
     public var image: Swift.String?
@@ -11155,7 +11155,7 @@ public struct DeleteContainerImageInput: Swift.Equatable {
     }
 }
 
-struct DeleteContainerImageInputBody: Swift.Equatable {
+struct DeleteContainerImageInputBody {
 }
 
 extension DeleteContainerImageInputBody: Swift.Decodable {
@@ -11169,7 +11169,7 @@ extension DeleteContainerImageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteContainerImageOutput: Swift.Equatable {
+public struct DeleteContainerImageOutput {
 
     public init() { }
 }
@@ -11204,7 +11204,7 @@ extension DeleteContainerServiceInput {
     }
 }
 
-public struct DeleteContainerServiceInput: Swift.Equatable {
+public struct DeleteContainerServiceInput {
     /// The name of the container service to delete.
     /// This member is required.
     public var serviceName: Swift.String?
@@ -11217,7 +11217,7 @@ public struct DeleteContainerServiceInput: Swift.Equatable {
     }
 }
 
-struct DeleteContainerServiceInputBody: Swift.Equatable {
+struct DeleteContainerServiceInputBody {
 }
 
 extension DeleteContainerServiceInputBody: Swift.Decodable {
@@ -11231,7 +11231,7 @@ extension DeleteContainerServiceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteContainerServiceOutput: Swift.Equatable {
+public struct DeleteContainerServiceOutput {
 
     public init() { }
 }
@@ -11275,7 +11275,7 @@ extension DeleteDiskInput {
     }
 }
 
-public struct DeleteDiskInput: Swift.Equatable {
+public struct DeleteDiskInput {
     /// The unique name of the disk you want to delete (my-disk).
     /// This member is required.
     public var diskName: Swift.String?
@@ -11292,7 +11292,7 @@ public struct DeleteDiskInput: Swift.Equatable {
     }
 }
 
-struct DeleteDiskInputBody: Swift.Equatable {
+struct DeleteDiskInputBody {
     let diskName: Swift.String?
     let forceDeleteAddOns: Swift.Bool?
 }
@@ -11324,7 +11324,7 @@ extension DeleteDiskOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDiskOutput: Swift.Equatable {
+public struct DeleteDiskOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -11336,7 +11336,7 @@ public struct DeleteDiskOutput: Swift.Equatable {
     }
 }
 
-struct DeleteDiskOutputBody: Swift.Equatable {
+struct DeleteDiskOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -11398,7 +11398,7 @@ extension DeleteDiskSnapshotInput {
     }
 }
 
-public struct DeleteDiskSnapshotInput: Swift.Equatable {
+public struct DeleteDiskSnapshotInput {
     /// The name of the disk snapshot you want to delete (my-disk-snapshot).
     /// This member is required.
     public var diskSnapshotName: Swift.String?
@@ -11411,7 +11411,7 @@ public struct DeleteDiskSnapshotInput: Swift.Equatable {
     }
 }
 
-struct DeleteDiskSnapshotInputBody: Swift.Equatable {
+struct DeleteDiskSnapshotInputBody {
     let diskSnapshotName: Swift.String?
 }
 
@@ -11439,7 +11439,7 @@ extension DeleteDiskSnapshotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDiskSnapshotOutput: Swift.Equatable {
+public struct DeleteDiskSnapshotOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -11451,7 +11451,7 @@ public struct DeleteDiskSnapshotOutput: Swift.Equatable {
     }
 }
 
-struct DeleteDiskSnapshotOutputBody: Swift.Equatable {
+struct DeleteDiskSnapshotOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -11513,7 +11513,7 @@ extension DeleteDistributionInput {
     }
 }
 
-public struct DeleteDistributionInput: Swift.Equatable {
+public struct DeleteDistributionInput {
     /// The name of the distribution to delete. Use the GetDistributions action to get a list of distribution names that you can specify.
     public var distributionName: Swift.String?
 
@@ -11525,7 +11525,7 @@ public struct DeleteDistributionInput: Swift.Equatable {
     }
 }
 
-struct DeleteDistributionInputBody: Swift.Equatable {
+struct DeleteDistributionInputBody {
     let distributionName: Swift.String?
 }
 
@@ -11553,7 +11553,7 @@ extension DeleteDistributionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDistributionOutput: Swift.Equatable {
+public struct DeleteDistributionOutput {
     /// An object that describes the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operation: LightsailClientTypes.Operation?
 
@@ -11565,7 +11565,7 @@ public struct DeleteDistributionOutput: Swift.Equatable {
     }
 }
 
-struct DeleteDistributionOutputBody: Swift.Equatable {
+struct DeleteDistributionOutputBody {
     let operation: LightsailClientTypes.Operation?
 }
 
@@ -11621,7 +11621,7 @@ extension DeleteDomainEntryInput {
     }
 }
 
-public struct DeleteDomainEntryInput: Swift.Equatable {
+public struct DeleteDomainEntryInput {
     /// An array of key-value pairs containing information about your domain entries.
     /// This member is required.
     public var domainEntry: LightsailClientTypes.DomainEntry?
@@ -11639,7 +11639,7 @@ public struct DeleteDomainEntryInput: Swift.Equatable {
     }
 }
 
-struct DeleteDomainEntryInputBody: Swift.Equatable {
+struct DeleteDomainEntryInputBody {
     let domainName: Swift.String?
     let domainEntry: LightsailClientTypes.DomainEntry?
 }
@@ -11671,7 +11671,7 @@ extension DeleteDomainEntryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDomainEntryOutput: Swift.Equatable {
+public struct DeleteDomainEntryOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operation: LightsailClientTypes.Operation?
 
@@ -11683,7 +11683,7 @@ public struct DeleteDomainEntryOutput: Swift.Equatable {
     }
 }
 
-struct DeleteDomainEntryOutputBody: Swift.Equatable {
+struct DeleteDomainEntryOutputBody {
     let operation: LightsailClientTypes.Operation?
 }
 
@@ -11736,7 +11736,7 @@ extension DeleteDomainInput {
     }
 }
 
-public struct DeleteDomainInput: Swift.Equatable {
+public struct DeleteDomainInput {
     /// The specific domain name to delete.
     /// This member is required.
     public var domainName: Swift.String?
@@ -11749,7 +11749,7 @@ public struct DeleteDomainInput: Swift.Equatable {
     }
 }
 
-struct DeleteDomainInputBody: Swift.Equatable {
+struct DeleteDomainInputBody {
     let domainName: Swift.String?
 }
 
@@ -11777,7 +11777,7 @@ extension DeleteDomainOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDomainOutput: Swift.Equatable {
+public struct DeleteDomainOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operation: LightsailClientTypes.Operation?
 
@@ -11789,7 +11789,7 @@ public struct DeleteDomainOutput: Swift.Equatable {
     }
 }
 
-struct DeleteDomainOutputBody: Swift.Equatable {
+struct DeleteDomainOutputBody {
     let operation: LightsailClientTypes.Operation?
 }
 
@@ -11846,7 +11846,7 @@ extension DeleteInstanceInput {
     }
 }
 
-public struct DeleteInstanceInput: Swift.Equatable {
+public struct DeleteInstanceInput {
     /// A Boolean value to indicate whether to delete all add-ons for the instance.
     public var forceDeleteAddOns: Swift.Bool?
     /// The name of the instance to delete.
@@ -11863,7 +11863,7 @@ public struct DeleteInstanceInput: Swift.Equatable {
     }
 }
 
-struct DeleteInstanceInputBody: Swift.Equatable {
+struct DeleteInstanceInputBody {
     let instanceName: Swift.String?
     let forceDeleteAddOns: Swift.Bool?
 }
@@ -11895,7 +11895,7 @@ extension DeleteInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteInstanceOutput: Swift.Equatable {
+public struct DeleteInstanceOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -11907,7 +11907,7 @@ public struct DeleteInstanceOutput: Swift.Equatable {
     }
 }
 
-struct DeleteInstanceOutputBody: Swift.Equatable {
+struct DeleteInstanceOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -11969,7 +11969,7 @@ extension DeleteInstanceSnapshotInput {
     }
 }
 
-public struct DeleteInstanceSnapshotInput: Swift.Equatable {
+public struct DeleteInstanceSnapshotInput {
     /// The name of the snapshot to delete.
     /// This member is required.
     public var instanceSnapshotName: Swift.String?
@@ -11982,7 +11982,7 @@ public struct DeleteInstanceSnapshotInput: Swift.Equatable {
     }
 }
 
-struct DeleteInstanceSnapshotInputBody: Swift.Equatable {
+struct DeleteInstanceSnapshotInputBody {
     let instanceSnapshotName: Swift.String?
 }
 
@@ -12010,7 +12010,7 @@ extension DeleteInstanceSnapshotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteInstanceSnapshotOutput: Swift.Equatable {
+public struct DeleteInstanceSnapshotOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -12022,7 +12022,7 @@ public struct DeleteInstanceSnapshotOutput: Swift.Equatable {
     }
 }
 
-struct DeleteInstanceSnapshotOutputBody: Swift.Equatable {
+struct DeleteInstanceSnapshotOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -12088,7 +12088,7 @@ extension DeleteKeyPairInput {
     }
 }
 
-public struct DeleteKeyPairInput: Swift.Equatable {
+public struct DeleteKeyPairInput {
     /// The RSA fingerprint of the Lightsail default key pair to delete. The expectedFingerprint parameter is required only when specifying to delete a Lightsail default key pair.
     public var expectedFingerprint: Swift.String?
     /// The name of the key pair to delete.
@@ -12105,7 +12105,7 @@ public struct DeleteKeyPairInput: Swift.Equatable {
     }
 }
 
-struct DeleteKeyPairInputBody: Swift.Equatable {
+struct DeleteKeyPairInputBody {
     let keyPairName: Swift.String?
     let expectedFingerprint: Swift.String?
 }
@@ -12137,7 +12137,7 @@ extension DeleteKeyPairOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteKeyPairOutput: Swift.Equatable {
+public struct DeleteKeyPairOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operation: LightsailClientTypes.Operation?
 
@@ -12149,7 +12149,7 @@ public struct DeleteKeyPairOutput: Swift.Equatable {
     }
 }
 
-struct DeleteKeyPairOutputBody: Swift.Equatable {
+struct DeleteKeyPairOutputBody {
     let operation: LightsailClientTypes.Operation?
 }
 
@@ -12202,7 +12202,7 @@ extension DeleteKnownHostKeysInput {
     }
 }
 
-public struct DeleteKnownHostKeysInput: Swift.Equatable {
+public struct DeleteKnownHostKeysInput {
     /// The name of the instance for which you want to reset the host key or certificate.
     /// This member is required.
     public var instanceName: Swift.String?
@@ -12215,7 +12215,7 @@ public struct DeleteKnownHostKeysInput: Swift.Equatable {
     }
 }
 
-struct DeleteKnownHostKeysInputBody: Swift.Equatable {
+struct DeleteKnownHostKeysInputBody {
     let instanceName: Swift.String?
 }
 
@@ -12243,7 +12243,7 @@ extension DeleteKnownHostKeysOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteKnownHostKeysOutput: Swift.Equatable {
+public struct DeleteKnownHostKeysOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -12255,7 +12255,7 @@ public struct DeleteKnownHostKeysOutput: Swift.Equatable {
     }
 }
 
-struct DeleteKnownHostKeysOutputBody: Swift.Equatable {
+struct DeleteKnownHostKeysOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -12317,7 +12317,7 @@ extension DeleteLoadBalancerInput {
     }
 }
 
-public struct DeleteLoadBalancerInput: Swift.Equatable {
+public struct DeleteLoadBalancerInput {
     /// The name of the load balancer you want to delete.
     /// This member is required.
     public var loadBalancerName: Swift.String?
@@ -12330,7 +12330,7 @@ public struct DeleteLoadBalancerInput: Swift.Equatable {
     }
 }
 
-struct DeleteLoadBalancerInputBody: Swift.Equatable {
+struct DeleteLoadBalancerInputBody {
     let loadBalancerName: Swift.String?
 }
 
@@ -12358,7 +12358,7 @@ extension DeleteLoadBalancerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteLoadBalancerOutput: Swift.Equatable {
+public struct DeleteLoadBalancerOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -12370,7 +12370,7 @@ public struct DeleteLoadBalancerOutput: Swift.Equatable {
     }
 }
 
-struct DeleteLoadBalancerOutputBody: Swift.Equatable {
+struct DeleteLoadBalancerOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -12440,7 +12440,7 @@ extension DeleteLoadBalancerTlsCertificateInput {
     }
 }
 
-public struct DeleteLoadBalancerTlsCertificateInput: Swift.Equatable {
+public struct DeleteLoadBalancerTlsCertificateInput {
     /// The SSL/TLS certificate name.
     /// This member is required.
     public var certificateName: Swift.String?
@@ -12462,7 +12462,7 @@ public struct DeleteLoadBalancerTlsCertificateInput: Swift.Equatable {
     }
 }
 
-struct DeleteLoadBalancerTlsCertificateInputBody: Swift.Equatable {
+struct DeleteLoadBalancerTlsCertificateInputBody {
     let loadBalancerName: Swift.String?
     let certificateName: Swift.String?
     let force: Swift.Bool?
@@ -12498,7 +12498,7 @@ extension DeleteLoadBalancerTlsCertificateOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DeleteLoadBalancerTlsCertificateOutput: Swift.Equatable {
+public struct DeleteLoadBalancerTlsCertificateOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -12510,7 +12510,7 @@ public struct DeleteLoadBalancerTlsCertificateOutput: Swift.Equatable {
     }
 }
 
-struct DeleteLoadBalancerTlsCertificateOutputBody: Swift.Equatable {
+struct DeleteLoadBalancerTlsCertificateOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -12580,7 +12580,7 @@ extension DeleteRelationalDatabaseInput {
     }
 }
 
-public struct DeleteRelationalDatabaseInput: Swift.Equatable {
+public struct DeleteRelationalDatabaseInput {
     /// The name of the database snapshot created if skip final snapshot is false, which is the default value for that parameter. Specifying this parameter and also specifying the skip final snapshot parameter to true results in an error. Constraints:
     ///
     /// * Must contain from 2 to 255 alphanumeric characters, or hyphens.
@@ -12605,7 +12605,7 @@ public struct DeleteRelationalDatabaseInput: Swift.Equatable {
     }
 }
 
-struct DeleteRelationalDatabaseInputBody: Swift.Equatable {
+struct DeleteRelationalDatabaseInputBody {
     let relationalDatabaseName: Swift.String?
     let skipFinalSnapshot: Swift.Bool?
     let finalRelationalDatabaseSnapshotName: Swift.String?
@@ -12641,7 +12641,7 @@ extension DeleteRelationalDatabaseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRelationalDatabaseOutput: Swift.Equatable {
+public struct DeleteRelationalDatabaseOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -12653,7 +12653,7 @@ public struct DeleteRelationalDatabaseOutput: Swift.Equatable {
     }
 }
 
-struct DeleteRelationalDatabaseOutputBody: Swift.Equatable {
+struct DeleteRelationalDatabaseOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -12715,7 +12715,7 @@ extension DeleteRelationalDatabaseSnapshotInput {
     }
 }
 
-public struct DeleteRelationalDatabaseSnapshotInput: Swift.Equatable {
+public struct DeleteRelationalDatabaseSnapshotInput {
     /// The name of the database snapshot that you are deleting.
     /// This member is required.
     public var relationalDatabaseSnapshotName: Swift.String?
@@ -12728,7 +12728,7 @@ public struct DeleteRelationalDatabaseSnapshotInput: Swift.Equatable {
     }
 }
 
-struct DeleteRelationalDatabaseSnapshotInputBody: Swift.Equatable {
+struct DeleteRelationalDatabaseSnapshotInputBody {
     let relationalDatabaseSnapshotName: Swift.String?
 }
 
@@ -12756,7 +12756,7 @@ extension DeleteRelationalDatabaseSnapshotOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DeleteRelationalDatabaseSnapshotOutput: Swift.Equatable {
+public struct DeleteRelationalDatabaseSnapshotOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -12768,7 +12768,7 @@ public struct DeleteRelationalDatabaseSnapshotOutput: Swift.Equatable {
     }
 }
 
-struct DeleteRelationalDatabaseSnapshotOutputBody: Swift.Equatable {
+struct DeleteRelationalDatabaseSnapshotOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -12837,7 +12837,7 @@ extension LightsailClientTypes.DestinationInfo: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the destination of a record.
-    public struct DestinationInfo: Swift.Equatable {
+    public struct DestinationInfo {
         /// The ID of the resource created at the destination.
         public var id: Swift.String?
         /// The destination service of the record.
@@ -12875,7 +12875,7 @@ extension DetachCertificateFromDistributionInput {
     }
 }
 
-public struct DetachCertificateFromDistributionInput: Swift.Equatable {
+public struct DetachCertificateFromDistributionInput {
     /// The name of the distribution from which to detach the certificate. Use the GetDistributions action to get a list of distribution names that you can specify.
     /// This member is required.
     public var distributionName: Swift.String?
@@ -12888,7 +12888,7 @@ public struct DetachCertificateFromDistributionInput: Swift.Equatable {
     }
 }
 
-struct DetachCertificateFromDistributionInputBody: Swift.Equatable {
+struct DetachCertificateFromDistributionInputBody {
     let distributionName: Swift.String?
 }
 
@@ -12916,7 +12916,7 @@ extension DetachCertificateFromDistributionOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct DetachCertificateFromDistributionOutput: Swift.Equatable {
+public struct DetachCertificateFromDistributionOutput {
     /// An object that describes the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operation: LightsailClientTypes.Operation?
 
@@ -12928,7 +12928,7 @@ public struct DetachCertificateFromDistributionOutput: Swift.Equatable {
     }
 }
 
-struct DetachCertificateFromDistributionOutputBody: Swift.Equatable {
+struct DetachCertificateFromDistributionOutputBody {
     let operation: LightsailClientTypes.Operation?
 }
 
@@ -12980,7 +12980,7 @@ extension DetachDiskInput {
     }
 }
 
-public struct DetachDiskInput: Swift.Equatable {
+public struct DetachDiskInput {
     /// The unique name of the disk you want to detach from your instance (my-disk).
     /// This member is required.
     public var diskName: Swift.String?
@@ -12993,7 +12993,7 @@ public struct DetachDiskInput: Swift.Equatable {
     }
 }
 
-struct DetachDiskInputBody: Swift.Equatable {
+struct DetachDiskInputBody {
     let diskName: Swift.String?
 }
 
@@ -13021,7 +13021,7 @@ extension DetachDiskOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DetachDiskOutput: Swift.Equatable {
+public struct DetachDiskOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -13033,7 +13033,7 @@ public struct DetachDiskOutput: Swift.Equatable {
     }
 }
 
-struct DetachDiskOutputBody: Swift.Equatable {
+struct DetachDiskOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -13102,7 +13102,7 @@ extension DetachInstancesFromLoadBalancerInput {
     }
 }
 
-public struct DetachInstancesFromLoadBalancerInput: Swift.Equatable {
+public struct DetachInstancesFromLoadBalancerInput {
     /// An array of strings containing the names of the instances you want to detach from the load balancer.
     /// This member is required.
     public var instanceNames: [Swift.String]?
@@ -13120,7 +13120,7 @@ public struct DetachInstancesFromLoadBalancerInput: Swift.Equatable {
     }
 }
 
-struct DetachInstancesFromLoadBalancerInputBody: Swift.Equatable {
+struct DetachInstancesFromLoadBalancerInputBody {
     let loadBalancerName: Swift.String?
     let instanceNames: [Swift.String]?
 }
@@ -13161,7 +13161,7 @@ extension DetachInstancesFromLoadBalancerOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DetachInstancesFromLoadBalancerOutput: Swift.Equatable {
+public struct DetachInstancesFromLoadBalancerOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -13173,7 +13173,7 @@ public struct DetachInstancesFromLoadBalancerOutput: Swift.Equatable {
     }
 }
 
-struct DetachInstancesFromLoadBalancerOutputBody: Swift.Equatable {
+struct DetachInstancesFromLoadBalancerOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -13235,7 +13235,7 @@ extension DetachStaticIpInput {
     }
 }
 
-public struct DetachStaticIpInput: Swift.Equatable {
+public struct DetachStaticIpInput {
     /// The name of the static IP to detach from the instance.
     /// This member is required.
     public var staticIpName: Swift.String?
@@ -13248,7 +13248,7 @@ public struct DetachStaticIpInput: Swift.Equatable {
     }
 }
 
-struct DetachStaticIpInputBody: Swift.Equatable {
+struct DetachStaticIpInputBody {
     let staticIpName: Swift.String?
 }
 
@@ -13276,7 +13276,7 @@ extension DetachStaticIpOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DetachStaticIpOutput: Swift.Equatable {
+public struct DetachStaticIpOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -13288,7 +13288,7 @@ public struct DetachStaticIpOutput: Swift.Equatable {
     }
 }
 
-struct DetachStaticIpOutputBody: Swift.Equatable {
+struct DetachStaticIpOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -13354,7 +13354,7 @@ extension DisableAddOnInput {
     }
 }
 
-public struct DisableAddOnInput: Swift.Equatable {
+public struct DisableAddOnInput {
     /// The add-on type to disable.
     /// This member is required.
     public var addOnType: LightsailClientTypes.AddOnType?
@@ -13372,7 +13372,7 @@ public struct DisableAddOnInput: Swift.Equatable {
     }
 }
 
-struct DisableAddOnInputBody: Swift.Equatable {
+struct DisableAddOnInputBody {
     let addOnType: LightsailClientTypes.AddOnType?
     let resourceName: Swift.String?
 }
@@ -13404,7 +13404,7 @@ extension DisableAddOnOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisableAddOnOutput: Swift.Equatable {
+public struct DisableAddOnOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -13416,7 +13416,7 @@ public struct DisableAddOnOutput: Swift.Equatable {
     }
 }
 
-struct DisableAddOnOutputBody: Swift.Equatable {
+struct DisableAddOnOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -13604,7 +13604,7 @@ extension LightsailClientTypes.Disk: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes a block storage disk.
-    public struct Disk: Swift.Equatable {
+    public struct Disk {
         /// An array of objects representing the add-ons enabled on the disk.
         public var addOns: [LightsailClientTypes.AddOn]?
         /// The Amazon Resource Name (ARN) of the disk.
@@ -13727,7 +13727,7 @@ extension LightsailClientTypes.DiskInfo: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes a disk.
-    public struct DiskInfo: Swift.Equatable {
+    public struct DiskInfo {
         /// A Boolean value indicating whether this disk is a system disk (has an operating system loaded on it).
         public var isSystemDisk: Swift.Bool?
         /// The disk name.
@@ -13780,7 +13780,7 @@ extension LightsailClientTypes.DiskMap: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes a block storage disk mapping.
-    public struct DiskMap: Swift.Equatable {
+    public struct DiskMap {
         /// The new disk name (my-new-disk).
         public var newDiskName: Swift.String?
         /// The original disk path exposed to the instance (for example, /dev/sdh).
@@ -13915,7 +13915,7 @@ extension LightsailClientTypes.DiskSnapshot: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes a block storage disk snapshot.
-    public struct DiskSnapshot: Swift.Equatable {
+    public struct DiskSnapshot {
         /// The Amazon Resource Name (ARN) of the disk snapshot.
         public var arn: Swift.String?
         /// The date when the disk snapshot was created.
@@ -14006,7 +14006,7 @@ extension LightsailClientTypes.DiskSnapshotInfo: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes a disk snapshot.
-    public struct DiskSnapshotInfo: Swift.Equatable {
+    public struct DiskSnapshotInfo {
         /// The size of the disk in GB (32).
         public var sizeInGb: Swift.Int?
 
@@ -14144,7 +14144,7 @@ extension LightsailClientTypes.DistributionBundle: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the specifications of a distribution bundle.
-    public struct DistributionBundle: Swift.Equatable {
+    public struct DistributionBundle {
         /// The ID of the bundle.
         public var bundleId: Swift.String?
         /// Indicates whether the bundle is active, and can be specified for a new or existing distribution.
@@ -14245,7 +14245,7 @@ extension LightsailClientTypes.DnsRecordCreationState: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the creation state of the canonical name (CNAME) records that are automatically added by Amazon Lightsail to the DNS of a domain to validate domain ownership for an SSL/TLS certificate. When you create an SSL/TLS certificate for a Lightsail resource, you must add a set of CNAME records to the DNS of the domains for the certificate to validate that you own the domains. Lightsail can automatically add the CNAME records to the DNS of the domain if the DNS zone for the domain exists within your Lightsail account. If automatic record addition fails, or if you manage the DNS of your domain using a third-party service, then you must manually add the CNAME records to the DNS of your domain. For more information, see [Verify an SSL/TLS certificate in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/verify-tls-ssl-certificate-using-dns-cname-https) in the Amazon Lightsail Developer Guide.
-    public struct DnsRecordCreationState: Swift.Equatable {
+    public struct DnsRecordCreationState {
         /// The status code for the automated DNS record creation. Following are the possible values:
         ///
         /// * SUCCEEDED - The validation records were successfully added to the domain.
@@ -14397,7 +14397,7 @@ extension LightsailClientTypes.Domain: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes a domain where you are storing recordsets.
-    public struct Domain: Swift.Equatable {
+    public struct Domain {
         /// The Amazon Resource Name (ARN) of the domain recordset (arn:aws:lightsail:global:123456789101:Domain/824cede0-abc7-4f84-8dbc-12345EXAMPLE).
         public var arn: Swift.String?
         /// The date when the domain recordset was created.
@@ -14506,7 +14506,7 @@ extension LightsailClientTypes.DomainEntry: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes a domain recordset entry.
-    public struct DomainEntry: Swift.Equatable {
+    public struct DomainEntry {
         /// The ID of the domain recordset entry.
         public var id: Swift.String?
         /// When true, specifies whether the domain entry is an alias used by the Lightsail load balancer, Lightsail container service, Lightsail content delivery network (CDN) distribution, or another Amazon Web Services resource. You can include an alias (A type) record in your request, which points to the DNS name of a load balancer, container service, CDN distribution, or other Amazon Web Services resource and routes traffic to that resource.
@@ -14596,7 +14596,7 @@ extension LightsailClientTypes.DomainValidationRecord: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the domain name system (DNS) records that you must add to the DNS of your registered domain to validate ownership for an Amazon Lightsail SSL/TLS certificate.
-    public struct DomainValidationRecord: Swift.Equatable {
+    public struct DomainValidationRecord {
         /// An object that describes the state of the canonical name (CNAME) records that are automatically added by Lightsail to the DNS of the domain to validate domain ownership.
         public var dnsRecordCreationState: LightsailClientTypes.DnsRecordCreationState?
         /// The domain name of the certificate validation record. For example, example.com or www.example.com.
@@ -14637,12 +14637,12 @@ extension DownloadDefaultKeyPairInput {
     }
 }
 
-public struct DownloadDefaultKeyPairInput: Swift.Equatable {
+public struct DownloadDefaultKeyPairInput {
 
     public init() { }
 }
 
-struct DownloadDefaultKeyPairInputBody: Swift.Equatable {
+struct DownloadDefaultKeyPairInputBody {
 }
 
 extension DownloadDefaultKeyPairInputBody: Swift.Decodable {
@@ -14667,7 +14667,7 @@ extension DownloadDefaultKeyPairOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DownloadDefaultKeyPairOutput: Swift.Equatable {
+public struct DownloadDefaultKeyPairOutput {
     /// The timestamp when the default key pair was created.
     public var createdAt: ClientRuntime.Date?
     /// A base64-encoded RSA private key.
@@ -14687,7 +14687,7 @@ public struct DownloadDefaultKeyPairOutput: Swift.Equatable {
     }
 }
 
-struct DownloadDefaultKeyPairOutputBody: Swift.Equatable {
+struct DownloadDefaultKeyPairOutputBody {
     let publicKeyBase64: Swift.String?
     let privateKeyBase64: Swift.String?
     let createdAt: ClientRuntime.Date?
@@ -14752,7 +14752,7 @@ extension EnableAddOnInput {
     }
 }
 
-public struct EnableAddOnInput: Swift.Equatable {
+public struct EnableAddOnInput {
     /// An array of strings representing the add-on to enable or modify.
     /// This member is required.
     public var addOnRequest: LightsailClientTypes.AddOnRequest?
@@ -14770,7 +14770,7 @@ public struct EnableAddOnInput: Swift.Equatable {
     }
 }
 
-struct EnableAddOnInputBody: Swift.Equatable {
+struct EnableAddOnInputBody {
     let resourceName: Swift.String?
     let addOnRequest: LightsailClientTypes.AddOnRequest?
 }
@@ -14802,7 +14802,7 @@ extension EnableAddOnOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct EnableAddOnOutput: Swift.Equatable {
+public struct EnableAddOnOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -14814,7 +14814,7 @@ public struct EnableAddOnOutput: Swift.Equatable {
     }
 }
 
-struct EnableAddOnOutputBody: Swift.Equatable {
+struct EnableAddOnOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -14888,7 +14888,7 @@ extension LightsailClientTypes.EndpointRequest: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the settings of a public endpoint for an Amazon Lightsail container service.
-    public struct EndpointRequest: Swift.Equatable {
+    public struct EndpointRequest {
         /// The name of the container for the endpoint.
         /// This member is required.
         public var containerName: Swift.String?
@@ -14957,7 +14957,7 @@ extension LightsailClientTypes.EstimateByTime: Swift.Codable {
 
 extension LightsailClientTypes {
     /// An estimate that's associated with a time period.
-    public struct EstimateByTime: Swift.Equatable {
+    public struct EstimateByTime {
         /// The currency of the estimate in USD.
         public var currency: LightsailClientTypes.Currency?
         /// The unit of measurement that's used for the cost estimate.
@@ -15007,7 +15007,7 @@ extension ExportSnapshotInput {
     }
 }
 
-public struct ExportSnapshotInput: Swift.Equatable {
+public struct ExportSnapshotInput {
     /// The name of the instance or disk snapshot to be exported to Amazon EC2.
     /// This member is required.
     public var sourceSnapshotName: Swift.String?
@@ -15020,7 +15020,7 @@ public struct ExportSnapshotInput: Swift.Equatable {
     }
 }
 
-struct ExportSnapshotInputBody: Swift.Equatable {
+struct ExportSnapshotInputBody {
     let sourceSnapshotName: Swift.String?
 }
 
@@ -15048,7 +15048,7 @@ extension ExportSnapshotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ExportSnapshotOutput: Swift.Equatable {
+public struct ExportSnapshotOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -15060,7 +15060,7 @@ public struct ExportSnapshotOutput: Swift.Equatable {
     }
 }
 
-struct ExportSnapshotOutputBody: Swift.Equatable {
+struct ExportSnapshotOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -15165,7 +15165,7 @@ extension LightsailClientTypes.ExportSnapshotRecord: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes an export snapshot record.
-    public struct ExportSnapshotRecord: Swift.Equatable {
+    public struct ExportSnapshotRecord {
         /// The Amazon Resource Name (ARN) of the export snapshot record.
         public var arn: Swift.String?
         /// The date when the export snapshot record was created.
@@ -15270,7 +15270,7 @@ extension LightsailClientTypes.ExportSnapshotRecordSourceInfo: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the source of an export snapshot record.
-    public struct ExportSnapshotRecordSourceInfo: Swift.Equatable {
+    public struct ExportSnapshotRecordSourceInfo {
         /// The Amazon Resource Name (ARN) of the source instance or disk snapshot.
         public var arn: Swift.String?
         /// The date when the source instance or disk snapshot was created.
@@ -15399,7 +15399,7 @@ extension GetActiveNamesInput {
     }
 }
 
-public struct GetActiveNamesInput: Swift.Equatable {
+public struct GetActiveNamesInput {
     /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetActiveNames request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
     public var pageToken: Swift.String?
 
@@ -15411,7 +15411,7 @@ public struct GetActiveNamesInput: Swift.Equatable {
     }
 }
 
-struct GetActiveNamesInputBody: Swift.Equatable {
+struct GetActiveNamesInputBody {
     let pageToken: Swift.String?
 }
 
@@ -15441,7 +15441,7 @@ extension GetActiveNamesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetActiveNamesOutput: Swift.Equatable {
+public struct GetActiveNamesOutput {
     /// The list of active names returned by the get active names request.
     public var activeNames: [Swift.String]?
     /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetActiveNames request and specify the next page token using the pageToken parameter.
@@ -15457,7 +15457,7 @@ public struct GetActiveNamesOutput: Swift.Equatable {
     }
 }
 
-struct GetActiveNamesOutputBody: Swift.Equatable {
+struct GetActiveNamesOutputBody {
     let activeNames: [Swift.String]?
     let nextPageToken: Swift.String?
 }
@@ -15531,7 +15531,7 @@ extension GetAlarmsInput {
     }
 }
 
-public struct GetAlarmsInput: Swift.Equatable {
+public struct GetAlarmsInput {
     /// The name of the alarm. Specify an alarm name to return information about a specific alarm.
     public var alarmName: Swift.String?
     /// The name of the Lightsail resource being monitored by the alarm. Specify a monitored resource name to return information about all alarms for a specific resource.
@@ -15551,7 +15551,7 @@ public struct GetAlarmsInput: Swift.Equatable {
     }
 }
 
-struct GetAlarmsInputBody: Swift.Equatable {
+struct GetAlarmsInputBody {
     let alarmName: Swift.String?
     let pageToken: Swift.String?
     let monitoredResourceName: Swift.String?
@@ -15589,7 +15589,7 @@ extension GetAlarmsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAlarmsOutput: Swift.Equatable {
+public struct GetAlarmsOutput {
     /// An array of objects that describe the alarms.
     public var alarms: [LightsailClientTypes.Alarm]?
     /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetAlarms request and specify the next page token using the pageToken parameter.
@@ -15605,7 +15605,7 @@ public struct GetAlarmsOutput: Swift.Equatable {
     }
 }
 
-struct GetAlarmsOutputBody: Swift.Equatable {
+struct GetAlarmsOutputBody {
     let alarms: [LightsailClientTypes.Alarm]?
     let nextPageToken: Swift.String?
 }
@@ -15670,7 +15670,7 @@ extension GetAutoSnapshotsInput {
     }
 }
 
-public struct GetAutoSnapshotsInput: Swift.Equatable {
+public struct GetAutoSnapshotsInput {
     /// The name of the source instance or disk from which to get automatic snapshot information.
     /// This member is required.
     public var resourceName: Swift.String?
@@ -15683,7 +15683,7 @@ public struct GetAutoSnapshotsInput: Swift.Equatable {
     }
 }
 
-struct GetAutoSnapshotsInputBody: Swift.Equatable {
+struct GetAutoSnapshotsInputBody {
     let resourceName: Swift.String?
 }
 
@@ -15715,7 +15715,7 @@ extension GetAutoSnapshotsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAutoSnapshotsOutput: Swift.Equatable {
+public struct GetAutoSnapshotsOutput {
     /// An array of objects that describe the automatic snapshots that are available for the specified source instance or disk.
     public var autoSnapshots: [LightsailClientTypes.AutoSnapshotDetails]?
     /// The name of the source instance or disk for the automatic snapshots.
@@ -15735,7 +15735,7 @@ public struct GetAutoSnapshotsOutput: Swift.Equatable {
     }
 }
 
-struct GetAutoSnapshotsOutputBody: Swift.Equatable {
+struct GetAutoSnapshotsOutputBody {
     let resourceName: Swift.String?
     let resourceType: LightsailClientTypes.ResourceType?
     let autoSnapshots: [LightsailClientTypes.AutoSnapshotDetails]?
@@ -15812,7 +15812,7 @@ extension GetBlueprintsInput {
     }
 }
 
-public struct GetBlueprintsInput: Swift.Equatable {
+public struct GetBlueprintsInput {
     /// Returns a list of blueprints that are specific to Lightsail for Research. You must use this parameter to view Lightsail for Research blueprints.
     public var appCategory: LightsailClientTypes.AppCategory?
     /// A Boolean value that indicates whether to include inactive (unavailable) blueprints in the response of your request.
@@ -15832,7 +15832,7 @@ public struct GetBlueprintsInput: Swift.Equatable {
     }
 }
 
-struct GetBlueprintsInputBody: Swift.Equatable {
+struct GetBlueprintsInputBody {
     let includeInactive: Swift.Bool?
     let pageToken: Swift.String?
     let appCategory: LightsailClientTypes.AppCategory?
@@ -15870,7 +15870,7 @@ extension GetBlueprintsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBlueprintsOutput: Swift.Equatable {
+public struct GetBlueprintsOutput {
     /// An array of key-value pairs that contains information about the available blueprints.
     public var blueprints: [LightsailClientTypes.Blueprint]?
     /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetBlueprints request and specify the next page token using the pageToken parameter.
@@ -15886,7 +15886,7 @@ public struct GetBlueprintsOutput: Swift.Equatable {
     }
 }
 
-struct GetBlueprintsOutputBody: Swift.Equatable {
+struct GetBlueprintsOutputBody {
     let blueprints: [LightsailClientTypes.Blueprint]?
     let nextPageToken: Swift.String?
 }
@@ -15952,7 +15952,7 @@ extension GetBucketAccessKeysInput {
     }
 }
 
-public struct GetBucketAccessKeysInput: Swift.Equatable {
+public struct GetBucketAccessKeysInput {
     /// The name of the bucket for which to return access keys.
     /// This member is required.
     public var bucketName: Swift.String?
@@ -15965,7 +15965,7 @@ public struct GetBucketAccessKeysInput: Swift.Equatable {
     }
 }
 
-struct GetBucketAccessKeysInputBody: Swift.Equatable {
+struct GetBucketAccessKeysInputBody {
     let bucketName: Swift.String?
 }
 
@@ -15993,7 +15993,7 @@ extension GetBucketAccessKeysOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBucketAccessKeysOutput: Swift.Equatable {
+public struct GetBucketAccessKeysOutput {
     /// An object that describes the access keys for the specified bucket.
     public var accessKeys: [LightsailClientTypes.AccessKey]?
 
@@ -16005,7 +16005,7 @@ public struct GetBucketAccessKeysOutput: Swift.Equatable {
     }
 }
 
-struct GetBucketAccessKeysOutputBody: Swift.Equatable {
+struct GetBucketAccessKeysOutputBody {
     let accessKeys: [LightsailClientTypes.AccessKey]?
 }
 
@@ -16065,7 +16065,7 @@ extension GetBucketBundlesInput {
     }
 }
 
-public struct GetBucketBundlesInput: Swift.Equatable {
+public struct GetBucketBundlesInput {
     /// A Boolean value that indicates whether to include inactive (unavailable) bundles in the response of your request.
     public var includeInactive: Swift.Bool?
 
@@ -16077,7 +16077,7 @@ public struct GetBucketBundlesInput: Swift.Equatable {
     }
 }
 
-struct GetBucketBundlesInputBody: Swift.Equatable {
+struct GetBucketBundlesInputBody {
     let includeInactive: Swift.Bool?
 }
 
@@ -16105,7 +16105,7 @@ extension GetBucketBundlesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBucketBundlesOutput: Swift.Equatable {
+public struct GetBucketBundlesOutput {
     /// An object that describes bucket bundles.
     public var bundles: [LightsailClientTypes.BucketBundle]?
 
@@ -16117,7 +16117,7 @@ public struct GetBucketBundlesOutput: Swift.Equatable {
     }
 }
 
-struct GetBucketBundlesOutputBody: Swift.Equatable {
+struct GetBucketBundlesOutputBody {
     let bundles: [LightsailClientTypes.BucketBundle]?
 }
 
@@ -16203,7 +16203,7 @@ extension GetBucketMetricDataInput {
     }
 }
 
-public struct GetBucketMetricDataInput: Swift.Equatable {
+public struct GetBucketMetricDataInput {
     /// The name of the bucket for which to get metric data.
     /// This member is required.
     public var bucketName: Swift.String?
@@ -16260,7 +16260,7 @@ public struct GetBucketMetricDataInput: Swift.Equatable {
     }
 }
 
-struct GetBucketMetricDataInputBody: Swift.Equatable {
+struct GetBucketMetricDataInputBody {
     let bucketName: Swift.String?
     let metricName: LightsailClientTypes.BucketMetricName?
     let startTime: ClientRuntime.Date?
@@ -16323,7 +16323,7 @@ extension GetBucketMetricDataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBucketMetricDataOutput: Swift.Equatable {
+public struct GetBucketMetricDataOutput {
     /// An array of objects that describe the metric data returned.
     public var metricData: [LightsailClientTypes.MetricDatapoint]?
     /// The name of the metric returned.
@@ -16339,7 +16339,7 @@ public struct GetBucketMetricDataOutput: Swift.Equatable {
     }
 }
 
-struct GetBucketMetricDataOutputBody: Swift.Equatable {
+struct GetBucketMetricDataOutputBody {
     let metricName: LightsailClientTypes.BucketMetricName?
     let metricData: [LightsailClientTypes.MetricDatapoint]?
 }
@@ -16411,7 +16411,7 @@ extension GetBucketsInput {
     }
 }
 
-public struct GetBucketsInput: Swift.Equatable {
+public struct GetBucketsInput {
     /// The name of the bucket for which to return information. When omitted, the response includes all of your buckets in the Amazon Web Services Region where the request is made.
     public var bucketName: Swift.String?
     /// A Boolean value that indicates whether to include Lightsail instances that were given access to the bucket using the [SetResourceAccessForBucket](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_SetResourceAccessForBucket.html) action.
@@ -16431,7 +16431,7 @@ public struct GetBucketsInput: Swift.Equatable {
     }
 }
 
-struct GetBucketsInputBody: Swift.Equatable {
+struct GetBucketsInputBody {
     let bucketName: Swift.String?
     let pageToken: Swift.String?
     let includeConnectedResources: Swift.Bool?
@@ -16471,7 +16471,7 @@ extension GetBucketsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBucketsOutput: Swift.Equatable {
+public struct GetBucketsOutput {
     /// An object that describes the synchronization status of the Amazon S3 account-level block public access feature for your Lightsail buckets. For more information about this feature and how it affects Lightsail buckets, see [Block public access for buckets in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-block-public-access-for-buckets).
     public var accountLevelBpaSync: LightsailClientTypes.AccountLevelBpaSync?
     /// An array of objects that describe buckets.
@@ -16491,7 +16491,7 @@ public struct GetBucketsOutput: Swift.Equatable {
     }
 }
 
-struct GetBucketsOutputBody: Swift.Equatable {
+struct GetBucketsOutputBody {
     let buckets: [LightsailClientTypes.Bucket]?
     let nextPageToken: Swift.String?
     let accountLevelBpaSync: LightsailClientTypes.AccountLevelBpaSync?
@@ -16567,7 +16567,7 @@ extension GetBundlesInput {
     }
 }
 
-public struct GetBundlesInput: Swift.Equatable {
+public struct GetBundlesInput {
     /// Returns a list of bundles that are specific to Lightsail for Research. You must use this parameter to view Lightsail for Research bundles.
     public var appCategory: LightsailClientTypes.AppCategory?
     /// A Boolean value that indicates whether to include inactive (unavailable) bundles in the response of your request.
@@ -16587,7 +16587,7 @@ public struct GetBundlesInput: Swift.Equatable {
     }
 }
 
-struct GetBundlesInputBody: Swift.Equatable {
+struct GetBundlesInputBody {
     let includeInactive: Swift.Bool?
     let pageToken: Swift.String?
     let appCategory: LightsailClientTypes.AppCategory?
@@ -16625,7 +16625,7 @@ extension GetBundlesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBundlesOutput: Swift.Equatable {
+public struct GetBundlesOutput {
     /// An array of key-value pairs that contains information about the available bundles.
     public var bundles: [LightsailClientTypes.Bundle]?
     /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetBundles request and specify the next page token using the pageToken parameter.
@@ -16641,7 +16641,7 @@ public struct GetBundlesOutput: Swift.Equatable {
     }
 }
 
-struct GetBundlesOutputBody: Swift.Equatable {
+struct GetBundlesOutputBody {
     let bundles: [LightsailClientTypes.Bundle]?
     let nextPageToken: Swift.String?
 }
@@ -16722,7 +16722,7 @@ extension GetCertificatesInput {
     }
 }
 
-public struct GetCertificatesInput: Swift.Equatable {
+public struct GetCertificatesInput {
     /// The name for the certificate for which to return information. When omitted, the response includes all of your certificates in the Amazon Web Services Region where the request is made.
     public var certificateName: Swift.String?
     /// The status of the certificates for which to return information. For example, specify ISSUED to return only certificates with an ISSUED status. When omitted, the response includes all of your certificates in the Amazon Web Services Region where the request is made, regardless of their current status.
@@ -16746,7 +16746,7 @@ public struct GetCertificatesInput: Swift.Equatable {
     }
 }
 
-struct GetCertificatesInputBody: Swift.Equatable {
+struct GetCertificatesInputBody {
     let certificateStatuses: [LightsailClientTypes.CertificateStatus]?
     let includeCertificateDetails: Swift.Bool?
     let certificateName: Swift.String?
@@ -16797,7 +16797,7 @@ extension GetCertificatesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCertificatesOutput: Swift.Equatable {
+public struct GetCertificatesOutput {
     /// An object that describes certificates.
     public var certificates: [LightsailClientTypes.CertificateSummary]?
     /// If NextPageToken is returned there are more results available. The value of NextPageToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
@@ -16813,7 +16813,7 @@ public struct GetCertificatesOutput: Swift.Equatable {
     }
 }
 
-struct GetCertificatesOutputBody: Swift.Equatable {
+struct GetCertificatesOutputBody {
     let certificates: [LightsailClientTypes.CertificateSummary]?
     let nextPageToken: Swift.String?
 }
@@ -16877,7 +16877,7 @@ extension GetCloudFormationStackRecordsInput {
     }
 }
 
-public struct GetCloudFormationStackRecordsInput: Swift.Equatable {
+public struct GetCloudFormationStackRecordsInput {
     /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetClouFormationStackRecords request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
     public var pageToken: Swift.String?
 
@@ -16889,7 +16889,7 @@ public struct GetCloudFormationStackRecordsInput: Swift.Equatable {
     }
 }
 
-struct GetCloudFormationStackRecordsInputBody: Swift.Equatable {
+struct GetCloudFormationStackRecordsInputBody {
     let pageToken: Swift.String?
 }
 
@@ -16919,7 +16919,7 @@ extension GetCloudFormationStackRecordsOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct GetCloudFormationStackRecordsOutput: Swift.Equatable {
+public struct GetCloudFormationStackRecordsOutput {
     /// A list of objects describing the CloudFormation stack records.
     public var cloudFormationStackRecords: [LightsailClientTypes.CloudFormationStackRecord]?
     /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetCloudFormationStackRecords request and specify the next page token using the pageToken parameter.
@@ -16935,7 +16935,7 @@ public struct GetCloudFormationStackRecordsOutput: Swift.Equatable {
     }
 }
 
-struct GetCloudFormationStackRecordsOutputBody: Swift.Equatable {
+struct GetCloudFormationStackRecordsOutputBody {
     let cloudFormationStackRecords: [LightsailClientTypes.CloudFormationStackRecord]?
     let nextPageToken: Swift.String?
 }
@@ -17004,7 +17004,7 @@ extension GetContactMethodsInput {
     }
 }
 
-public struct GetContactMethodsInput: Swift.Equatable {
+public struct GetContactMethodsInput {
     /// The protocols used to send notifications, such as Email, or SMS (text messaging). Specify a protocol in your request to return information about a specific contact method protocol.
     public var protocols: [LightsailClientTypes.ContactProtocol]?
 
@@ -17016,7 +17016,7 @@ public struct GetContactMethodsInput: Swift.Equatable {
     }
 }
 
-struct GetContactMethodsInputBody: Swift.Equatable {
+struct GetContactMethodsInputBody {
     let protocols: [LightsailClientTypes.ContactProtocol]?
 }
 
@@ -17053,7 +17053,7 @@ extension GetContactMethodsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetContactMethodsOutput: Swift.Equatable {
+public struct GetContactMethodsOutput {
     /// An array of objects that describe the contact methods.
     public var contactMethods: [LightsailClientTypes.ContactMethod]?
 
@@ -17065,7 +17065,7 @@ public struct GetContactMethodsOutput: Swift.Equatable {
     }
 }
 
-struct GetContactMethodsOutputBody: Swift.Equatable {
+struct GetContactMethodsOutputBody {
     let contactMethods: [LightsailClientTypes.ContactMethod]?
 }
 
@@ -17121,12 +17121,12 @@ extension GetContainerAPIMetadataInput {
     }
 }
 
-public struct GetContainerAPIMetadataInput: Swift.Equatable {
+public struct GetContainerAPIMetadataInput {
 
     public init() { }
 }
 
-struct GetContainerAPIMetadataInputBody: Swift.Equatable {
+struct GetContainerAPIMetadataInputBody {
 }
 
 extension GetContainerAPIMetadataInputBody: Swift.Decodable {
@@ -17147,7 +17147,7 @@ extension GetContainerAPIMetadataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetContainerAPIMetadataOutput: Swift.Equatable {
+public struct GetContainerAPIMetadataOutput {
     /// Metadata about Lightsail containers, such as the current version of the Lightsail Control (lightsailctl) plugin.
     public var metadata: [[Swift.String:Swift.String]]?
 
@@ -17159,7 +17159,7 @@ public struct GetContainerAPIMetadataOutput: Swift.Equatable {
     }
 }
 
-struct GetContainerAPIMetadataOutputBody: Swift.Equatable {
+struct GetContainerAPIMetadataOutputBody {
     let metadata: [[Swift.String:Swift.String]]?
 }
 
@@ -17221,7 +17221,7 @@ extension GetContainerImagesInput {
     }
 }
 
-public struct GetContainerImagesInput: Swift.Equatable {
+public struct GetContainerImagesInput {
     /// The name of the container service for which to return registered container images.
     /// This member is required.
     public var serviceName: Swift.String?
@@ -17234,7 +17234,7 @@ public struct GetContainerImagesInput: Swift.Equatable {
     }
 }
 
-struct GetContainerImagesInputBody: Swift.Equatable {
+struct GetContainerImagesInputBody {
 }
 
 extension GetContainerImagesInputBody: Swift.Decodable {
@@ -17255,7 +17255,7 @@ extension GetContainerImagesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetContainerImagesOutput: Swift.Equatable {
+public struct GetContainerImagesOutput {
     /// An array of objects that describe container images that are registered to the container service.
     public var containerImages: [LightsailClientTypes.ContainerImage]?
 
@@ -17267,7 +17267,7 @@ public struct GetContainerImagesOutput: Swift.Equatable {
     }
 }
 
-struct GetContainerImagesOutputBody: Swift.Equatable {
+struct GetContainerImagesOutputBody {
     let containerImages: [LightsailClientTypes.ContainerImage]?
 }
 
@@ -17329,7 +17329,7 @@ extension GetContainerLogInput {
     }
 }
 
-public struct GetContainerLogInput: Swift.Equatable {
+public struct GetContainerLogInput {
     /// The name of the container that is either running or previously ran on the container service for which to return a log.
     /// This member is required.
     public var containerName: Swift.String?
@@ -17387,7 +17387,7 @@ public struct GetContainerLogInput: Swift.Equatable {
     }
 }
 
-struct GetContainerLogInputBody: Swift.Equatable {
+struct GetContainerLogInputBody {
 }
 
 extension GetContainerLogInputBody: Swift.Decodable {
@@ -17410,7 +17410,7 @@ extension GetContainerLogOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetContainerLogOutput: Swift.Equatable {
+public struct GetContainerLogOutput {
     /// An array of objects that describe the log events of a container.
     public var logEvents: [LightsailClientTypes.ContainerServiceLogEvent]?
     /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetContainerLog request and specify the next page token using the pageToken parameter.
@@ -17426,7 +17426,7 @@ public struct GetContainerLogOutput: Swift.Equatable {
     }
 }
 
-struct GetContainerLogOutputBody: Swift.Equatable {
+struct GetContainerLogOutputBody {
     let logEvents: [LightsailClientTypes.ContainerServiceLogEvent]?
     let nextPageToken: Swift.String?
 }
@@ -17485,7 +17485,7 @@ extension GetContainerServiceDeploymentsInput {
     }
 }
 
-public struct GetContainerServiceDeploymentsInput: Swift.Equatable {
+public struct GetContainerServiceDeploymentsInput {
     /// The name of the container service for which to return deployments.
     /// This member is required.
     public var serviceName: Swift.String?
@@ -17498,7 +17498,7 @@ public struct GetContainerServiceDeploymentsInput: Swift.Equatable {
     }
 }
 
-struct GetContainerServiceDeploymentsInputBody: Swift.Equatable {
+struct GetContainerServiceDeploymentsInputBody {
 }
 
 extension GetContainerServiceDeploymentsInputBody: Swift.Decodable {
@@ -17519,7 +17519,7 @@ extension GetContainerServiceDeploymentsOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct GetContainerServiceDeploymentsOutput: Swift.Equatable {
+public struct GetContainerServiceDeploymentsOutput {
     /// An array of objects that describe deployments for a container service.
     public var deployments: [LightsailClientTypes.ContainerServiceDeployment]?
 
@@ -17531,7 +17531,7 @@ public struct GetContainerServiceDeploymentsOutput: Swift.Equatable {
     }
 }
 
-struct GetContainerServiceDeploymentsOutputBody: Swift.Equatable {
+struct GetContainerServiceDeploymentsOutputBody {
     let deployments: [LightsailClientTypes.ContainerServiceDeployment]?
 }
 
@@ -17593,7 +17593,7 @@ extension GetContainerServiceMetricDataInput {
     }
 }
 
-public struct GetContainerServiceMetricDataInput: Swift.Equatable {
+public struct GetContainerServiceMetricDataInput {
     /// The end time of the time period.
     /// This member is required.
     public var endTime: ClientRuntime.Date?
@@ -17645,7 +17645,7 @@ public struct GetContainerServiceMetricDataInput: Swift.Equatable {
     }
 }
 
-struct GetContainerServiceMetricDataInputBody: Swift.Equatable {
+struct GetContainerServiceMetricDataInputBody {
 }
 
 extension GetContainerServiceMetricDataInputBody: Swift.Decodable {
@@ -17668,7 +17668,7 @@ extension GetContainerServiceMetricDataOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct GetContainerServiceMetricDataOutput: Swift.Equatable {
+public struct GetContainerServiceMetricDataOutput {
     /// An array of objects that describe the metric data returned.
     public var metricData: [LightsailClientTypes.MetricDatapoint]?
     /// The name of the metric returned.
@@ -17684,7 +17684,7 @@ public struct GetContainerServiceMetricDataOutput: Swift.Equatable {
     }
 }
 
-struct GetContainerServiceMetricDataOutputBody: Swift.Equatable {
+struct GetContainerServiceMetricDataOutputBody {
     let metricName: LightsailClientTypes.ContainerServiceMetricName?
     let metricData: [LightsailClientTypes.MetricDatapoint]?
 }
@@ -17743,12 +17743,12 @@ extension GetContainerServicePowersInput {
     }
 }
 
-public struct GetContainerServicePowersInput: Swift.Equatable {
+public struct GetContainerServicePowersInput {
 
     public init() { }
 }
 
-struct GetContainerServicePowersInputBody: Swift.Equatable {
+struct GetContainerServicePowersInputBody {
 }
 
 extension GetContainerServicePowersInputBody: Swift.Decodable {
@@ -17769,7 +17769,7 @@ extension GetContainerServicePowersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetContainerServicePowersOutput: Swift.Equatable {
+public struct GetContainerServicePowersOutput {
     /// An array of objects that describe the powers that can be specified for a container service.
     public var powers: [LightsailClientTypes.ContainerServicePower]?
 
@@ -17781,7 +17781,7 @@ public struct GetContainerServicePowersOutput: Swift.Equatable {
     }
 }
 
-struct GetContainerServicePowersOutputBody: Swift.Equatable {
+struct GetContainerServicePowersOutputBody {
     let powers: [LightsailClientTypes.ContainerServicePower]?
 }
 
@@ -17843,7 +17843,7 @@ extension GetContainerServicesInput {
     }
 }
 
-public struct GetContainerServicesInput: Swift.Equatable {
+public struct GetContainerServicesInput {
     /// The name of the container service for which to return information. When omitted, the response includes all of your container services in the Amazon Web Services Region where the request is made.
     public var serviceName: Swift.String?
 
@@ -17855,7 +17855,7 @@ public struct GetContainerServicesInput: Swift.Equatable {
     }
 }
 
-struct GetContainerServicesInputBody: Swift.Equatable {
+struct GetContainerServicesInputBody {
 }
 
 extension GetContainerServicesInputBody: Swift.Decodable {
@@ -17876,7 +17876,7 @@ extension GetContainerServicesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetContainerServicesOutput: Swift.Equatable {
+public struct GetContainerServicesOutput {
     /// An array of objects that describe one or more container services.
     public var containerServices: [LightsailClientTypes.ContainerService]?
 
@@ -17888,7 +17888,7 @@ public struct GetContainerServicesOutput: Swift.Equatable {
     }
 }
 
-struct GetContainerServicesOutputBody: Swift.Equatable {
+struct GetContainerServicesOutputBody {
     let containerServices: [LightsailClientTypes.ContainerService]?
 }
 
@@ -17956,7 +17956,7 @@ extension GetCostEstimateInput {
     }
 }
 
-public struct GetCostEstimateInput: Swift.Equatable {
+public struct GetCostEstimateInput {
     /// The cost estimate end time. Constraints:
     ///
     /// * Specified in Coordinated Universal Time (UTC).
@@ -17993,7 +17993,7 @@ public struct GetCostEstimateInput: Swift.Equatable {
     }
 }
 
-struct GetCostEstimateInputBody: Swift.Equatable {
+struct GetCostEstimateInputBody {
     let resourceName: Swift.String?
     let startTime: ClientRuntime.Date?
     let endTime: ClientRuntime.Date?
@@ -18029,7 +18029,7 @@ extension GetCostEstimateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCostEstimateOutput: Swift.Equatable {
+public struct GetCostEstimateOutput {
     /// Returns the estimate's forecasted cost or usage.
     public var resourcesBudgetEstimate: [LightsailClientTypes.ResourceBudgetEstimate]?
 
@@ -18041,7 +18041,7 @@ public struct GetCostEstimateOutput: Swift.Equatable {
     }
 }
 
-struct GetCostEstimateOutputBody: Swift.Equatable {
+struct GetCostEstimateOutputBody {
     let resourcesBudgetEstimate: [LightsailClientTypes.ResourceBudgetEstimate]?
 }
 
@@ -18101,7 +18101,7 @@ extension GetDiskInput {
     }
 }
 
-public struct GetDiskInput: Swift.Equatable {
+public struct GetDiskInput {
     /// The name of the disk (my-disk).
     /// This member is required.
     public var diskName: Swift.String?
@@ -18114,7 +18114,7 @@ public struct GetDiskInput: Swift.Equatable {
     }
 }
 
-struct GetDiskInputBody: Swift.Equatable {
+struct GetDiskInputBody {
     let diskName: Swift.String?
 }
 
@@ -18142,7 +18142,7 @@ extension GetDiskOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDiskOutput: Swift.Equatable {
+public struct GetDiskOutput {
     /// An object containing information about the disk.
     public var disk: LightsailClientTypes.Disk?
 
@@ -18154,7 +18154,7 @@ public struct GetDiskOutput: Swift.Equatable {
     }
 }
 
-struct GetDiskOutputBody: Swift.Equatable {
+struct GetDiskOutputBody {
     let disk: LightsailClientTypes.Disk?
 }
 
@@ -18207,7 +18207,7 @@ extension GetDiskSnapshotInput {
     }
 }
 
-public struct GetDiskSnapshotInput: Swift.Equatable {
+public struct GetDiskSnapshotInput {
     /// The name of the disk snapshot (my-disk-snapshot).
     /// This member is required.
     public var diskSnapshotName: Swift.String?
@@ -18220,7 +18220,7 @@ public struct GetDiskSnapshotInput: Swift.Equatable {
     }
 }
 
-struct GetDiskSnapshotInputBody: Swift.Equatable {
+struct GetDiskSnapshotInputBody {
     let diskSnapshotName: Swift.String?
 }
 
@@ -18248,7 +18248,7 @@ extension GetDiskSnapshotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDiskSnapshotOutput: Swift.Equatable {
+public struct GetDiskSnapshotOutput {
     /// An object containing information about the disk snapshot.
     public var diskSnapshot: LightsailClientTypes.DiskSnapshot?
 
@@ -18260,7 +18260,7 @@ public struct GetDiskSnapshotOutput: Swift.Equatable {
     }
 }
 
-struct GetDiskSnapshotOutputBody: Swift.Equatable {
+struct GetDiskSnapshotOutputBody {
     let diskSnapshot: LightsailClientTypes.DiskSnapshot?
 }
 
@@ -18313,7 +18313,7 @@ extension GetDiskSnapshotsInput {
     }
 }
 
-public struct GetDiskSnapshotsInput: Swift.Equatable {
+public struct GetDiskSnapshotsInput {
     /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetDiskSnapshots request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
     public var pageToken: Swift.String?
 
@@ -18325,7 +18325,7 @@ public struct GetDiskSnapshotsInput: Swift.Equatable {
     }
 }
 
-struct GetDiskSnapshotsInputBody: Swift.Equatable {
+struct GetDiskSnapshotsInputBody {
     let pageToken: Swift.String?
 }
 
@@ -18355,7 +18355,7 @@ extension GetDiskSnapshotsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDiskSnapshotsOutput: Swift.Equatable {
+public struct GetDiskSnapshotsOutput {
     /// An array of objects containing information about all block storage disk snapshots.
     public var diskSnapshots: [LightsailClientTypes.DiskSnapshot]?
     /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetDiskSnapshots request and specify the next page token using the pageToken parameter.
@@ -18371,7 +18371,7 @@ public struct GetDiskSnapshotsOutput: Swift.Equatable {
     }
 }
 
-struct GetDiskSnapshotsOutputBody: Swift.Equatable {
+struct GetDiskSnapshotsOutputBody {
     let diskSnapshots: [LightsailClientTypes.DiskSnapshot]?
     let nextPageToken: Swift.String?
 }
@@ -18437,7 +18437,7 @@ extension GetDisksInput {
     }
 }
 
-public struct GetDisksInput: Swift.Equatable {
+public struct GetDisksInput {
     /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetDisks request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
     public var pageToken: Swift.String?
 
@@ -18449,7 +18449,7 @@ public struct GetDisksInput: Swift.Equatable {
     }
 }
 
-struct GetDisksInputBody: Swift.Equatable {
+struct GetDisksInputBody {
     let pageToken: Swift.String?
 }
 
@@ -18479,7 +18479,7 @@ extension GetDisksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDisksOutput: Swift.Equatable {
+public struct GetDisksOutput {
     /// An array of objects containing information about all block storage disks.
     public var disks: [LightsailClientTypes.Disk]?
     /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetDisks request and specify the next page token using the pageToken parameter.
@@ -18495,7 +18495,7 @@ public struct GetDisksOutput: Swift.Equatable {
     }
 }
 
-struct GetDisksOutputBody: Swift.Equatable {
+struct GetDisksOutputBody {
     let disks: [LightsailClientTypes.Disk]?
     let nextPageToken: Swift.String?
 }
@@ -18556,12 +18556,12 @@ extension GetDistributionBundlesInput {
     }
 }
 
-public struct GetDistributionBundlesInput: Swift.Equatable {
+public struct GetDistributionBundlesInput {
 
     public init() { }
 }
 
-struct GetDistributionBundlesInputBody: Swift.Equatable {
+struct GetDistributionBundlesInputBody {
 }
 
 extension GetDistributionBundlesInputBody: Swift.Decodable {
@@ -18582,7 +18582,7 @@ extension GetDistributionBundlesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDistributionBundlesOutput: Swift.Equatable {
+public struct GetDistributionBundlesOutput {
     /// An object that describes a distribution bundle.
     public var bundles: [LightsailClientTypes.DistributionBundle]?
 
@@ -18594,7 +18594,7 @@ public struct GetDistributionBundlesOutput: Swift.Equatable {
     }
 }
 
-struct GetDistributionBundlesOutputBody: Swift.Equatable {
+struct GetDistributionBundlesOutputBody {
     let bundles: [LightsailClientTypes.DistributionBundle]?
 }
 
@@ -18655,7 +18655,7 @@ extension GetDistributionLatestCacheResetInput {
     }
 }
 
-public struct GetDistributionLatestCacheResetInput: Swift.Equatable {
+public struct GetDistributionLatestCacheResetInput {
     /// The name of the distribution for which to return the timestamp of the last cache reset. Use the GetDistributions action to get a list of distribution names that you can specify. When omitted, the response includes the latest cache reset timestamp of all your distributions.
     public var distributionName: Swift.String?
 
@@ -18667,7 +18667,7 @@ public struct GetDistributionLatestCacheResetInput: Swift.Equatable {
     }
 }
 
-struct GetDistributionLatestCacheResetInputBody: Swift.Equatable {
+struct GetDistributionLatestCacheResetInputBody {
     let distributionName: Swift.String?
 }
 
@@ -18697,7 +18697,7 @@ extension GetDistributionLatestCacheResetOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct GetDistributionLatestCacheResetOutput: Swift.Equatable {
+public struct GetDistributionLatestCacheResetOutput {
     /// The timestamp of the last cache reset (1479734909.17) in Unix time format.
     public var createTime: ClientRuntime.Date?
     /// The status of the last cache reset.
@@ -18713,7 +18713,7 @@ public struct GetDistributionLatestCacheResetOutput: Swift.Equatable {
     }
 }
 
-struct GetDistributionLatestCacheResetOutputBody: Swift.Equatable {
+struct GetDistributionLatestCacheResetOutputBody {
     let status: Swift.String?
     let createTime: ClientRuntime.Date?
 }
@@ -18796,7 +18796,7 @@ extension GetDistributionMetricDataInput {
     }
 }
 
-public struct GetDistributionMetricDataInput: Swift.Equatable {
+public struct GetDistributionMetricDataInput {
     /// The name of the distribution for which to get metric data. Use the GetDistributions action to get a list of distribution names that you can specify.
     /// This member is required.
     public var distributionName: Swift.String?
@@ -18875,7 +18875,7 @@ public struct GetDistributionMetricDataInput: Swift.Equatable {
     }
 }
 
-struct GetDistributionMetricDataInputBody: Swift.Equatable {
+struct GetDistributionMetricDataInputBody {
     let distributionName: Swift.String?
     let metricName: LightsailClientTypes.DistributionMetricName?
     let startTime: ClientRuntime.Date?
@@ -18938,7 +18938,7 @@ extension GetDistributionMetricDataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDistributionMetricDataOutput: Swift.Equatable {
+public struct GetDistributionMetricDataOutput {
     /// An array of objects that describe the metric data returned.
     public var metricData: [LightsailClientTypes.MetricDatapoint]?
     /// The name of the metric returned.
@@ -18954,7 +18954,7 @@ public struct GetDistributionMetricDataOutput: Swift.Equatable {
     }
 }
 
-struct GetDistributionMetricDataOutputBody: Swift.Equatable {
+struct GetDistributionMetricDataOutputBody {
     let metricName: LightsailClientTypes.DistributionMetricName?
     let metricData: [LightsailClientTypes.MetricDatapoint]?
 }
@@ -19023,7 +19023,7 @@ extension GetDistributionsInput {
     }
 }
 
-public struct GetDistributionsInput: Swift.Equatable {
+public struct GetDistributionsInput {
     /// The name of the distribution for which to return information. When omitted, the response includes all of your distributions in the Amazon Web Services Region where the request is made.
     public var distributionName: Swift.String?
     /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetDistributions request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
@@ -19039,7 +19039,7 @@ public struct GetDistributionsInput: Swift.Equatable {
     }
 }
 
-struct GetDistributionsInputBody: Swift.Equatable {
+struct GetDistributionsInputBody {
     let distributionName: Swift.String?
     let pageToken: Swift.String?
 }
@@ -19073,7 +19073,7 @@ extension GetDistributionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDistributionsOutput: Swift.Equatable {
+public struct GetDistributionsOutput {
     /// An array of objects that describe your distributions.
     public var distributions: [LightsailClientTypes.LightsailDistribution]?
     /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetDistributions request and specify the next page token using the pageToken parameter.
@@ -19089,7 +19089,7 @@ public struct GetDistributionsOutput: Swift.Equatable {
     }
 }
 
-struct GetDistributionsOutputBody: Swift.Equatable {
+struct GetDistributionsOutputBody {
     let distributions: [LightsailClientTypes.LightsailDistribution]?
     let nextPageToken: Swift.String?
 }
@@ -19154,7 +19154,7 @@ extension GetDomainInput {
     }
 }
 
-public struct GetDomainInput: Swift.Equatable {
+public struct GetDomainInput {
     /// The domain name for which your want to return information about.
     /// This member is required.
     public var domainName: Swift.String?
@@ -19167,7 +19167,7 @@ public struct GetDomainInput: Swift.Equatable {
     }
 }
 
-struct GetDomainInputBody: Swift.Equatable {
+struct GetDomainInputBody {
     let domainName: Swift.String?
 }
 
@@ -19195,7 +19195,7 @@ extension GetDomainOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDomainOutput: Swift.Equatable {
+public struct GetDomainOutput {
     /// An array of key-value pairs containing information about your get domain request.
     public var domain: LightsailClientTypes.Domain?
 
@@ -19207,7 +19207,7 @@ public struct GetDomainOutput: Swift.Equatable {
     }
 }
 
-struct GetDomainOutputBody: Swift.Equatable {
+struct GetDomainOutputBody {
     let domain: LightsailClientTypes.Domain?
 }
 
@@ -19260,7 +19260,7 @@ extension GetDomainsInput {
     }
 }
 
-public struct GetDomainsInput: Swift.Equatable {
+public struct GetDomainsInput {
     /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetDomains request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
     public var pageToken: Swift.String?
 
@@ -19272,7 +19272,7 @@ public struct GetDomainsInput: Swift.Equatable {
     }
 }
 
-struct GetDomainsInputBody: Swift.Equatable {
+struct GetDomainsInputBody {
     let pageToken: Swift.String?
 }
 
@@ -19302,7 +19302,7 @@ extension GetDomainsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDomainsOutput: Swift.Equatable {
+public struct GetDomainsOutput {
     /// An array of key-value pairs containing information about each of the domain entries in the user's account.
     public var domains: [LightsailClientTypes.Domain]?
     /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetDomains request and specify the next page token using the pageToken parameter.
@@ -19318,7 +19318,7 @@ public struct GetDomainsOutput: Swift.Equatable {
     }
 }
 
-struct GetDomainsOutputBody: Swift.Equatable {
+struct GetDomainsOutputBody {
     let domains: [LightsailClientTypes.Domain]?
     let nextPageToken: Swift.String?
 }
@@ -19384,7 +19384,7 @@ extension GetExportSnapshotRecordsInput {
     }
 }
 
-public struct GetExportSnapshotRecordsInput: Swift.Equatable {
+public struct GetExportSnapshotRecordsInput {
     /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetExportSnapshotRecords request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
     public var pageToken: Swift.String?
 
@@ -19396,7 +19396,7 @@ public struct GetExportSnapshotRecordsInput: Swift.Equatable {
     }
 }
 
-struct GetExportSnapshotRecordsInputBody: Swift.Equatable {
+struct GetExportSnapshotRecordsInputBody {
     let pageToken: Swift.String?
 }
 
@@ -19426,7 +19426,7 @@ extension GetExportSnapshotRecordsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetExportSnapshotRecordsOutput: Swift.Equatable {
+public struct GetExportSnapshotRecordsOutput {
     /// A list of objects describing the export snapshot records.
     public var exportSnapshotRecords: [LightsailClientTypes.ExportSnapshotRecord]?
     /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetExportSnapshotRecords request and specify the next page token using the pageToken parameter.
@@ -19442,7 +19442,7 @@ public struct GetExportSnapshotRecordsOutput: Swift.Equatable {
     }
 }
 
-struct GetExportSnapshotRecordsOutputBody: Swift.Equatable {
+struct GetExportSnapshotRecordsOutputBody {
     let exportSnapshotRecords: [LightsailClientTypes.ExportSnapshotRecord]?
     let nextPageToken: Swift.String?
 }
@@ -19512,7 +19512,7 @@ extension GetInstanceAccessDetailsInput {
     }
 }
 
-public struct GetInstanceAccessDetailsInput: Swift.Equatable {
+public struct GetInstanceAccessDetailsInput {
     /// The name of the instance to access.
     /// This member is required.
     public var instanceName: Swift.String?
@@ -19529,7 +19529,7 @@ public struct GetInstanceAccessDetailsInput: Swift.Equatable {
     }
 }
 
-struct GetInstanceAccessDetailsInputBody: Swift.Equatable {
+struct GetInstanceAccessDetailsInputBody {
     let instanceName: Swift.String?
     let `protocol`: LightsailClientTypes.InstanceAccessProtocol?
 }
@@ -19561,7 +19561,7 @@ extension GetInstanceAccessDetailsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetInstanceAccessDetailsOutput: Swift.Equatable {
+public struct GetInstanceAccessDetailsOutput {
     /// An array of key-value pairs containing information about a get instance access request.
     public var accessDetails: LightsailClientTypes.InstanceAccessDetails?
 
@@ -19573,7 +19573,7 @@ public struct GetInstanceAccessDetailsOutput: Swift.Equatable {
     }
 }
 
-struct GetInstanceAccessDetailsOutputBody: Swift.Equatable {
+struct GetInstanceAccessDetailsOutputBody {
     let accessDetails: LightsailClientTypes.InstanceAccessDetails?
 }
 
@@ -19626,7 +19626,7 @@ extension GetInstanceInput {
     }
 }
 
-public struct GetInstanceInput: Swift.Equatable {
+public struct GetInstanceInput {
     /// The name of the instance.
     /// This member is required.
     public var instanceName: Swift.String?
@@ -19639,7 +19639,7 @@ public struct GetInstanceInput: Swift.Equatable {
     }
 }
 
-struct GetInstanceInputBody: Swift.Equatable {
+struct GetInstanceInputBody {
     let instanceName: Swift.String?
 }
 
@@ -19702,7 +19702,7 @@ extension GetInstanceMetricDataInput {
     }
 }
 
-public struct GetInstanceMetricDataInput: Swift.Equatable {
+public struct GetInstanceMetricDataInput {
     /// The end time of the time period.
     /// This member is required.
     public var endTime: ClientRuntime.Date?
@@ -19773,7 +19773,7 @@ public struct GetInstanceMetricDataInput: Swift.Equatable {
     }
 }
 
-struct GetInstanceMetricDataInputBody: Swift.Equatable {
+struct GetInstanceMetricDataInputBody {
     let instanceName: Swift.String?
     let metricName: LightsailClientTypes.InstanceMetricName?
     let period: Swift.Int?
@@ -19836,7 +19836,7 @@ extension GetInstanceMetricDataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetInstanceMetricDataOutput: Swift.Equatable {
+public struct GetInstanceMetricDataOutput {
     /// An array of objects that describe the metric data returned.
     public var metricData: [LightsailClientTypes.MetricDatapoint]?
     /// The name of the metric returned.
@@ -19852,7 +19852,7 @@ public struct GetInstanceMetricDataOutput: Swift.Equatable {
     }
 }
 
-struct GetInstanceMetricDataOutputBody: Swift.Equatable {
+struct GetInstanceMetricDataOutputBody {
     let metricName: LightsailClientTypes.InstanceMetricName?
     let metricData: [LightsailClientTypes.MetricDatapoint]?
 }
@@ -19910,7 +19910,7 @@ extension GetInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetInstanceOutput: Swift.Equatable {
+public struct GetInstanceOutput {
     /// An array of key-value pairs containing information about the specified instance.
     public var instance: LightsailClientTypes.Instance?
 
@@ -19922,7 +19922,7 @@ public struct GetInstanceOutput: Swift.Equatable {
     }
 }
 
-struct GetInstanceOutputBody: Swift.Equatable {
+struct GetInstanceOutputBody {
     let instance: LightsailClientTypes.Instance?
 }
 
@@ -19975,7 +19975,7 @@ extension GetInstancePortStatesInput {
     }
 }
 
-public struct GetInstancePortStatesInput: Swift.Equatable {
+public struct GetInstancePortStatesInput {
     /// The name of the instance for which to return firewall port states.
     /// This member is required.
     public var instanceName: Swift.String?
@@ -19988,7 +19988,7 @@ public struct GetInstancePortStatesInput: Swift.Equatable {
     }
 }
 
-struct GetInstancePortStatesInputBody: Swift.Equatable {
+struct GetInstancePortStatesInputBody {
     let instanceName: Swift.String?
 }
 
@@ -20016,7 +20016,7 @@ extension GetInstancePortStatesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetInstancePortStatesOutput: Swift.Equatable {
+public struct GetInstancePortStatesOutput {
     /// An array of objects that describe the firewall port states for the specified instance.
     public var portStates: [LightsailClientTypes.InstancePortState]?
 
@@ -20028,7 +20028,7 @@ public struct GetInstancePortStatesOutput: Swift.Equatable {
     }
 }
 
-struct GetInstancePortStatesOutputBody: Swift.Equatable {
+struct GetInstancePortStatesOutputBody {
     let portStates: [LightsailClientTypes.InstancePortState]?
 }
 
@@ -20090,7 +20090,7 @@ extension GetInstanceSnapshotInput {
     }
 }
 
-public struct GetInstanceSnapshotInput: Swift.Equatable {
+public struct GetInstanceSnapshotInput {
     /// The name of the snapshot for which you are requesting information.
     /// This member is required.
     public var instanceSnapshotName: Swift.String?
@@ -20103,7 +20103,7 @@ public struct GetInstanceSnapshotInput: Swift.Equatable {
     }
 }
 
-struct GetInstanceSnapshotInputBody: Swift.Equatable {
+struct GetInstanceSnapshotInputBody {
     let instanceSnapshotName: Swift.String?
 }
 
@@ -20131,7 +20131,7 @@ extension GetInstanceSnapshotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetInstanceSnapshotOutput: Swift.Equatable {
+public struct GetInstanceSnapshotOutput {
     /// An array of key-value pairs containing information about the results of your get instance snapshot request.
     public var instanceSnapshot: LightsailClientTypes.InstanceSnapshot?
 
@@ -20143,7 +20143,7 @@ public struct GetInstanceSnapshotOutput: Swift.Equatable {
     }
 }
 
-struct GetInstanceSnapshotOutputBody: Swift.Equatable {
+struct GetInstanceSnapshotOutputBody {
     let instanceSnapshot: LightsailClientTypes.InstanceSnapshot?
 }
 
@@ -20196,7 +20196,7 @@ extension GetInstanceSnapshotsInput {
     }
 }
 
-public struct GetInstanceSnapshotsInput: Swift.Equatable {
+public struct GetInstanceSnapshotsInput {
     /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetInstanceSnapshots request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
     public var pageToken: Swift.String?
 
@@ -20208,7 +20208,7 @@ public struct GetInstanceSnapshotsInput: Swift.Equatable {
     }
 }
 
-struct GetInstanceSnapshotsInputBody: Swift.Equatable {
+struct GetInstanceSnapshotsInputBody {
     let pageToken: Swift.String?
 }
 
@@ -20238,7 +20238,7 @@ extension GetInstanceSnapshotsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetInstanceSnapshotsOutput: Swift.Equatable {
+public struct GetInstanceSnapshotsOutput {
     /// An array of key-value pairs containing information about the results of your get instance snapshots request.
     public var instanceSnapshots: [LightsailClientTypes.InstanceSnapshot]?
     /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetInstanceSnapshots request and specify the next page token using the pageToken parameter.
@@ -20254,7 +20254,7 @@ public struct GetInstanceSnapshotsOutput: Swift.Equatable {
     }
 }
 
-struct GetInstanceSnapshotsOutputBody: Swift.Equatable {
+struct GetInstanceSnapshotsOutputBody {
     let instanceSnapshots: [LightsailClientTypes.InstanceSnapshot]?
     let nextPageToken: Swift.String?
 }
@@ -20320,7 +20320,7 @@ extension GetInstanceStateInput {
     }
 }
 
-public struct GetInstanceStateInput: Swift.Equatable {
+public struct GetInstanceStateInput {
     /// The name of the instance to get state information about.
     /// This member is required.
     public var instanceName: Swift.String?
@@ -20333,7 +20333,7 @@ public struct GetInstanceStateInput: Swift.Equatable {
     }
 }
 
-struct GetInstanceStateInputBody: Swift.Equatable {
+struct GetInstanceStateInputBody {
     let instanceName: Swift.String?
 }
 
@@ -20361,7 +20361,7 @@ extension GetInstanceStateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetInstanceStateOutput: Swift.Equatable {
+public struct GetInstanceStateOutput {
     /// The state of the instance.
     public var state: LightsailClientTypes.InstanceState?
 
@@ -20373,7 +20373,7 @@ public struct GetInstanceStateOutput: Swift.Equatable {
     }
 }
 
-struct GetInstanceStateOutputBody: Swift.Equatable {
+struct GetInstanceStateOutputBody {
     let state: LightsailClientTypes.InstanceState?
 }
 
@@ -20426,7 +20426,7 @@ extension GetInstancesInput {
     }
 }
 
-public struct GetInstancesInput: Swift.Equatable {
+public struct GetInstancesInput {
     /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetInstances request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
     public var pageToken: Swift.String?
 
@@ -20438,7 +20438,7 @@ public struct GetInstancesInput: Swift.Equatable {
     }
 }
 
-struct GetInstancesInputBody: Swift.Equatable {
+struct GetInstancesInputBody {
     let pageToken: Swift.String?
 }
 
@@ -20468,7 +20468,7 @@ extension GetInstancesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetInstancesOutput: Swift.Equatable {
+public struct GetInstancesOutput {
     /// An array of key-value pairs containing information about your instances.
     public var instances: [LightsailClientTypes.Instance]?
     /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetInstances request and specify the next page token using the pageToken parameter.
@@ -20484,7 +20484,7 @@ public struct GetInstancesOutput: Swift.Equatable {
     }
 }
 
-struct GetInstancesOutputBody: Swift.Equatable {
+struct GetInstancesOutputBody {
     let instances: [LightsailClientTypes.Instance]?
     let nextPageToken: Swift.String?
 }
@@ -20550,7 +20550,7 @@ extension GetKeyPairInput {
     }
 }
 
-public struct GetKeyPairInput: Swift.Equatable {
+public struct GetKeyPairInput {
     /// The name of the key pair for which you are requesting information.
     /// This member is required.
     public var keyPairName: Swift.String?
@@ -20563,7 +20563,7 @@ public struct GetKeyPairInput: Swift.Equatable {
     }
 }
 
-struct GetKeyPairInputBody: Swift.Equatable {
+struct GetKeyPairInputBody {
     let keyPairName: Swift.String?
 }
 
@@ -20591,7 +20591,7 @@ extension GetKeyPairOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetKeyPairOutput: Swift.Equatable {
+public struct GetKeyPairOutput {
     /// An array of key-value pairs containing information about the key pair.
     public var keyPair: LightsailClientTypes.KeyPair?
 
@@ -20603,7 +20603,7 @@ public struct GetKeyPairOutput: Swift.Equatable {
     }
 }
 
-struct GetKeyPairOutputBody: Swift.Equatable {
+struct GetKeyPairOutputBody {
     let keyPair: LightsailClientTypes.KeyPair?
 }
 
@@ -20660,7 +20660,7 @@ extension GetKeyPairsInput {
     }
 }
 
-public struct GetKeyPairsInput: Swift.Equatable {
+public struct GetKeyPairsInput {
     /// A Boolean value that indicates whether to include the default key pair in the response of your request.
     public var includeDefaultKeyPair: Swift.Bool?
     /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetKeyPairs request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
@@ -20676,7 +20676,7 @@ public struct GetKeyPairsInput: Swift.Equatable {
     }
 }
 
-struct GetKeyPairsInputBody: Swift.Equatable {
+struct GetKeyPairsInputBody {
     let pageToken: Swift.String?
     let includeDefaultKeyPair: Swift.Bool?
 }
@@ -20710,7 +20710,7 @@ extension GetKeyPairsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetKeyPairsOutput: Swift.Equatable {
+public struct GetKeyPairsOutput {
     /// An array of key-value pairs containing information about the key pairs.
     public var keyPairs: [LightsailClientTypes.KeyPair]?
     /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetKeyPairs request and specify the next page token using the pageToken parameter.
@@ -20726,7 +20726,7 @@ public struct GetKeyPairsOutput: Swift.Equatable {
     }
 }
 
-struct GetKeyPairsOutputBody: Swift.Equatable {
+struct GetKeyPairsOutputBody {
     let keyPairs: [LightsailClientTypes.KeyPair]?
     let nextPageToken: Swift.String?
 }
@@ -20792,7 +20792,7 @@ extension GetLoadBalancerInput {
     }
 }
 
-public struct GetLoadBalancerInput: Swift.Equatable {
+public struct GetLoadBalancerInput {
     /// The name of the load balancer.
     /// This member is required.
     public var loadBalancerName: Swift.String?
@@ -20805,7 +20805,7 @@ public struct GetLoadBalancerInput: Swift.Equatable {
     }
 }
 
-struct GetLoadBalancerInputBody: Swift.Equatable {
+struct GetLoadBalancerInputBody {
     let loadBalancerName: Swift.String?
 }
 
@@ -20868,7 +20868,7 @@ extension GetLoadBalancerMetricDataInput {
     }
 }
 
-public struct GetLoadBalancerMetricDataInput: Swift.Equatable {
+public struct GetLoadBalancerMetricDataInput {
     /// The end time of the period.
     /// This member is required.
     public var endTime: ClientRuntime.Date?
@@ -20945,7 +20945,7 @@ public struct GetLoadBalancerMetricDataInput: Swift.Equatable {
     }
 }
 
-struct GetLoadBalancerMetricDataInputBody: Swift.Equatable {
+struct GetLoadBalancerMetricDataInputBody {
     let loadBalancerName: Swift.String?
     let metricName: LightsailClientTypes.LoadBalancerMetricName?
     let period: Swift.Int?
@@ -21008,7 +21008,7 @@ extension GetLoadBalancerMetricDataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLoadBalancerMetricDataOutput: Swift.Equatable {
+public struct GetLoadBalancerMetricDataOutput {
     /// An array of objects that describe the metric data returned.
     public var metricData: [LightsailClientTypes.MetricDatapoint]?
     /// The name of the metric returned.
@@ -21024,7 +21024,7 @@ public struct GetLoadBalancerMetricDataOutput: Swift.Equatable {
     }
 }
 
-struct GetLoadBalancerMetricDataOutputBody: Swift.Equatable {
+struct GetLoadBalancerMetricDataOutputBody {
     let metricName: LightsailClientTypes.LoadBalancerMetricName?
     let metricData: [LightsailClientTypes.MetricDatapoint]?
 }
@@ -21082,7 +21082,7 @@ extension GetLoadBalancerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLoadBalancerOutput: Swift.Equatable {
+public struct GetLoadBalancerOutput {
     /// An object containing information about your load balancer.
     public var loadBalancer: LightsailClientTypes.LoadBalancer?
 
@@ -21094,7 +21094,7 @@ public struct GetLoadBalancerOutput: Swift.Equatable {
     }
 }
 
-struct GetLoadBalancerOutputBody: Swift.Equatable {
+struct GetLoadBalancerOutputBody {
     let loadBalancer: LightsailClientTypes.LoadBalancer?
 }
 
@@ -21147,7 +21147,7 @@ extension GetLoadBalancerTlsCertificatesInput {
     }
 }
 
-public struct GetLoadBalancerTlsCertificatesInput: Swift.Equatable {
+public struct GetLoadBalancerTlsCertificatesInput {
     /// The name of the load balancer you associated with your SSL/TLS certificate.
     /// This member is required.
     public var loadBalancerName: Swift.String?
@@ -21160,7 +21160,7 @@ public struct GetLoadBalancerTlsCertificatesInput: Swift.Equatable {
     }
 }
 
-struct GetLoadBalancerTlsCertificatesInputBody: Swift.Equatable {
+struct GetLoadBalancerTlsCertificatesInputBody {
     let loadBalancerName: Swift.String?
 }
 
@@ -21188,7 +21188,7 @@ extension GetLoadBalancerTlsCertificatesOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct GetLoadBalancerTlsCertificatesOutput: Swift.Equatable {
+public struct GetLoadBalancerTlsCertificatesOutput {
     /// An array of LoadBalancerTlsCertificate objects describing your SSL/TLS certificates.
     public var tlsCertificates: [LightsailClientTypes.LoadBalancerTlsCertificate]?
 
@@ -21200,7 +21200,7 @@ public struct GetLoadBalancerTlsCertificatesOutput: Swift.Equatable {
     }
 }
 
-struct GetLoadBalancerTlsCertificatesOutputBody: Swift.Equatable {
+struct GetLoadBalancerTlsCertificatesOutputBody {
     let tlsCertificates: [LightsailClientTypes.LoadBalancerTlsCertificate]?
 }
 
@@ -21262,7 +21262,7 @@ extension GetLoadBalancerTlsPoliciesInput {
     }
 }
 
-public struct GetLoadBalancerTlsPoliciesInput: Swift.Equatable {
+public struct GetLoadBalancerTlsPoliciesInput {
     /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetLoadBalancerTlsPolicies request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
     public var pageToken: Swift.String?
 
@@ -21274,7 +21274,7 @@ public struct GetLoadBalancerTlsPoliciesInput: Swift.Equatable {
     }
 }
 
-struct GetLoadBalancerTlsPoliciesInputBody: Swift.Equatable {
+struct GetLoadBalancerTlsPoliciesInputBody {
     let pageToken: Swift.String?
 }
 
@@ -21304,7 +21304,7 @@ extension GetLoadBalancerTlsPoliciesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLoadBalancerTlsPoliciesOutput: Swift.Equatable {
+public struct GetLoadBalancerTlsPoliciesOutput {
     /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetLoadBalancerTlsPolicies request and specify the next page token using the pageToken parameter.
     public var nextPageToken: Swift.String?
     /// An array of objects that describe the TLS security policies that are available.
@@ -21320,7 +21320,7 @@ public struct GetLoadBalancerTlsPoliciesOutput: Swift.Equatable {
     }
 }
 
-struct GetLoadBalancerTlsPoliciesOutputBody: Swift.Equatable {
+struct GetLoadBalancerTlsPoliciesOutputBody {
     let tlsPolicies: [LightsailClientTypes.LoadBalancerTlsPolicy]?
     let nextPageToken: Swift.String?
 }
@@ -21384,7 +21384,7 @@ extension GetLoadBalancersInput {
     }
 }
 
-public struct GetLoadBalancersInput: Swift.Equatable {
+public struct GetLoadBalancersInput {
     /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetLoadBalancers request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
     public var pageToken: Swift.String?
 
@@ -21396,7 +21396,7 @@ public struct GetLoadBalancersInput: Swift.Equatable {
     }
 }
 
-struct GetLoadBalancersInputBody: Swift.Equatable {
+struct GetLoadBalancersInputBody {
     let pageToken: Swift.String?
 }
 
@@ -21426,7 +21426,7 @@ extension GetLoadBalancersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLoadBalancersOutput: Swift.Equatable {
+public struct GetLoadBalancersOutput {
     /// An array of LoadBalancer objects describing your load balancers.
     public var loadBalancers: [LightsailClientTypes.LoadBalancer]?
     /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetLoadBalancers request and specify the next page token using the pageToken parameter.
@@ -21442,7 +21442,7 @@ public struct GetLoadBalancersOutput: Swift.Equatable {
     }
 }
 
-struct GetLoadBalancersOutputBody: Swift.Equatable {
+struct GetLoadBalancersOutputBody {
     let loadBalancers: [LightsailClientTypes.LoadBalancer]?
     let nextPageToken: Swift.String?
 }
@@ -21508,7 +21508,7 @@ extension GetOperationInput {
     }
 }
 
-public struct GetOperationInput: Swift.Equatable {
+public struct GetOperationInput {
     /// A GUID used to identify the operation.
     /// This member is required.
     public var operationId: Swift.String?
@@ -21521,7 +21521,7 @@ public struct GetOperationInput: Swift.Equatable {
     }
 }
 
-struct GetOperationInputBody: Swift.Equatable {
+struct GetOperationInputBody {
     let operationId: Swift.String?
 }
 
@@ -21549,7 +21549,7 @@ extension GetOperationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetOperationOutput: Swift.Equatable {
+public struct GetOperationOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operation: LightsailClientTypes.Operation?
 
@@ -21561,7 +21561,7 @@ public struct GetOperationOutput: Swift.Equatable {
     }
 }
 
-struct GetOperationOutputBody: Swift.Equatable {
+struct GetOperationOutputBody {
     let operation: LightsailClientTypes.Operation?
 }
 
@@ -21618,7 +21618,7 @@ extension GetOperationsForResourceInput {
     }
 }
 
-public struct GetOperationsForResourceInput: Swift.Equatable {
+public struct GetOperationsForResourceInput {
     /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetOperationsForResource request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
     public var pageToken: Swift.String?
     /// The name of the resource for which you are requesting information.
@@ -21635,7 +21635,7 @@ public struct GetOperationsForResourceInput: Swift.Equatable {
     }
 }
 
-struct GetOperationsForResourceInputBody: Swift.Equatable {
+struct GetOperationsForResourceInputBody {
     let resourceName: Swift.String?
     let pageToken: Swift.String?
 }
@@ -21671,7 +21671,7 @@ extension GetOperationsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetOperationsForResourceOutput: Swift.Equatable {
+public struct GetOperationsForResourceOutput {
     /// (Discontinued) Returns the number of pages of results that remain. In releases prior to June 12, 2017, this parameter returned null by the API. It is now discontinued, and the API returns the next page token parameter instead.
     @available(*, deprecated)
     public var nextPageCount: Swift.String?
@@ -21692,7 +21692,7 @@ public struct GetOperationsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct GetOperationsForResourceOutputBody: Swift.Equatable {
+struct GetOperationsForResourceOutputBody {
     let operations: [LightsailClientTypes.Operation]?
     let nextPageCount: Swift.String?
     let nextPageToken: Swift.String?
@@ -21762,7 +21762,7 @@ extension GetOperationsInput {
     }
 }
 
-public struct GetOperationsInput: Swift.Equatable {
+public struct GetOperationsInput {
     /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetOperations request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
     public var pageToken: Swift.String?
 
@@ -21774,7 +21774,7 @@ public struct GetOperationsInput: Swift.Equatable {
     }
 }
 
-struct GetOperationsInputBody: Swift.Equatable {
+struct GetOperationsInputBody {
     let pageToken: Swift.String?
 }
 
@@ -21804,7 +21804,7 @@ extension GetOperationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetOperationsOutput: Swift.Equatable {
+public struct GetOperationsOutput {
     /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetOperations request and specify the next page token using the pageToken parameter.
     public var nextPageToken: Swift.String?
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
@@ -21820,7 +21820,7 @@ public struct GetOperationsOutput: Swift.Equatable {
     }
 }
 
-struct GetOperationsOutputBody: Swift.Equatable {
+struct GetOperationsOutputBody {
     let operations: [LightsailClientTypes.Operation]?
     let nextPageToken: Swift.String?
 }
@@ -21890,7 +21890,7 @@ extension GetRegionsInput {
     }
 }
 
-public struct GetRegionsInput: Swift.Equatable {
+public struct GetRegionsInput {
     /// A Boolean value indicating whether to also include Availability Zones in your get regions request. Availability Zones are indicated with a letter: us-east-2a.
     public var includeAvailabilityZones: Swift.Bool?
     /// A Boolean value indicating whether to also include Availability Zones for databases in your get regions request. Availability Zones are indicated with a letter (us-east-2a).
@@ -21906,7 +21906,7 @@ public struct GetRegionsInput: Swift.Equatable {
     }
 }
 
-struct GetRegionsInputBody: Swift.Equatable {
+struct GetRegionsInputBody {
     let includeAvailabilityZones: Swift.Bool?
     let includeRelationalDatabaseAvailabilityZones: Swift.Bool?
 }
@@ -21938,7 +21938,7 @@ extension GetRegionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRegionsOutput: Swift.Equatable {
+public struct GetRegionsOutput {
     /// An array of key-value pairs containing information about your get regions request.
     public var regions: [LightsailClientTypes.Region]?
 
@@ -21950,7 +21950,7 @@ public struct GetRegionsOutput: Swift.Equatable {
     }
 }
 
-struct GetRegionsOutputBody: Swift.Equatable {
+struct GetRegionsOutputBody {
     let regions: [LightsailClientTypes.Region]?
 }
 
@@ -22012,7 +22012,7 @@ extension GetRelationalDatabaseBlueprintsInput {
     }
 }
 
-public struct GetRelationalDatabaseBlueprintsInput: Swift.Equatable {
+public struct GetRelationalDatabaseBlueprintsInput {
     /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetRelationalDatabaseBlueprints request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
     public var pageToken: Swift.String?
 
@@ -22024,7 +22024,7 @@ public struct GetRelationalDatabaseBlueprintsInput: Swift.Equatable {
     }
 }
 
-struct GetRelationalDatabaseBlueprintsInputBody: Swift.Equatable {
+struct GetRelationalDatabaseBlueprintsInputBody {
     let pageToken: Swift.String?
 }
 
@@ -22054,7 +22054,7 @@ extension GetRelationalDatabaseBlueprintsOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct GetRelationalDatabaseBlueprintsOutput: Swift.Equatable {
+public struct GetRelationalDatabaseBlueprintsOutput {
     /// An object describing the result of your get relational database blueprints request.
     public var blueprints: [LightsailClientTypes.RelationalDatabaseBlueprint]?
     /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetRelationalDatabaseBlueprints request and specify the next page token using the pageToken parameter.
@@ -22070,7 +22070,7 @@ public struct GetRelationalDatabaseBlueprintsOutput: Swift.Equatable {
     }
 }
 
-struct GetRelationalDatabaseBlueprintsOutputBody: Swift.Equatable {
+struct GetRelationalDatabaseBlueprintsOutputBody {
     let blueprints: [LightsailClientTypes.RelationalDatabaseBlueprint]?
     let nextPageToken: Swift.String?
 }
@@ -22140,7 +22140,7 @@ extension GetRelationalDatabaseBundlesInput {
     }
 }
 
-public struct GetRelationalDatabaseBundlesInput: Swift.Equatable {
+public struct GetRelationalDatabaseBundlesInput {
     /// A Boolean value that indicates whether to include inactive (unavailable) bundles in the response of your request.
     public var includeInactive: Swift.Bool?
     /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetRelationalDatabaseBundles request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
@@ -22156,7 +22156,7 @@ public struct GetRelationalDatabaseBundlesInput: Swift.Equatable {
     }
 }
 
-struct GetRelationalDatabaseBundlesInputBody: Swift.Equatable {
+struct GetRelationalDatabaseBundlesInputBody {
     let pageToken: Swift.String?
     let includeInactive: Swift.Bool?
 }
@@ -22190,7 +22190,7 @@ extension GetRelationalDatabaseBundlesOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct GetRelationalDatabaseBundlesOutput: Swift.Equatable {
+public struct GetRelationalDatabaseBundlesOutput {
     /// An object describing the result of your get relational database bundles request.
     public var bundles: [LightsailClientTypes.RelationalDatabaseBundle]?
     /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetRelationalDatabaseBundles request and specify the next page token using the pageToken parameter.
@@ -22206,7 +22206,7 @@ public struct GetRelationalDatabaseBundlesOutput: Swift.Equatable {
     }
 }
 
-struct GetRelationalDatabaseBundlesOutputBody: Swift.Equatable {
+struct GetRelationalDatabaseBundlesOutputBody {
     let bundles: [LightsailClientTypes.RelationalDatabaseBundle]?
     let nextPageToken: Swift.String?
 }
@@ -22280,7 +22280,7 @@ extension GetRelationalDatabaseEventsInput {
     }
 }
 
-public struct GetRelationalDatabaseEventsInput: Swift.Equatable {
+public struct GetRelationalDatabaseEventsInput {
     /// The number of minutes in the past from which to retrieve events. For example, to get all events from the past 2 hours, enter 120. Default: 60 The minimum is 1 and the maximum is 14 days (20160 minutes).
     public var durationInMinutes: Swift.Int?
     /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetRelationalDatabaseEvents request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
@@ -22301,7 +22301,7 @@ public struct GetRelationalDatabaseEventsInput: Swift.Equatable {
     }
 }
 
-struct GetRelationalDatabaseEventsInputBody: Swift.Equatable {
+struct GetRelationalDatabaseEventsInputBody {
     let relationalDatabaseName: Swift.String?
     let durationInMinutes: Swift.Int?
     let pageToken: Swift.String?
@@ -22339,7 +22339,7 @@ extension GetRelationalDatabaseEventsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRelationalDatabaseEventsOutput: Swift.Equatable {
+public struct GetRelationalDatabaseEventsOutput {
     /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetRelationalDatabaseEvents request and specify the next page token using the pageToken parameter.
     public var nextPageToken: Swift.String?
     /// An object describing the result of your get relational database events request.
@@ -22355,7 +22355,7 @@ public struct GetRelationalDatabaseEventsOutput: Swift.Equatable {
     }
 }
 
-struct GetRelationalDatabaseEventsOutputBody: Swift.Equatable {
+struct GetRelationalDatabaseEventsOutputBody {
     let relationalDatabaseEvents: [LightsailClientTypes.RelationalDatabaseEvent]?
     let nextPageToken: Swift.String?
 }
@@ -22421,7 +22421,7 @@ extension GetRelationalDatabaseInput {
     }
 }
 
-public struct GetRelationalDatabaseInput: Swift.Equatable {
+public struct GetRelationalDatabaseInput {
     /// The name of the database that you are looking up.
     /// This member is required.
     public var relationalDatabaseName: Swift.String?
@@ -22434,7 +22434,7 @@ public struct GetRelationalDatabaseInput: Swift.Equatable {
     }
 }
 
-struct GetRelationalDatabaseInputBody: Swift.Equatable {
+struct GetRelationalDatabaseInputBody {
     let relationalDatabaseName: Swift.String?
 }
 
@@ -22490,7 +22490,7 @@ extension GetRelationalDatabaseLogEventsInput {
     }
 }
 
-public struct GetRelationalDatabaseLogEventsInput: Swift.Equatable {
+public struct GetRelationalDatabaseLogEventsInput {
     /// The end of the time interval from which to get log events. Constraints:
     ///
     /// * Specified in Coordinated Universal Time (UTC).
@@ -22532,7 +22532,7 @@ public struct GetRelationalDatabaseLogEventsInput: Swift.Equatable {
     }
 }
 
-struct GetRelationalDatabaseLogEventsInputBody: Swift.Equatable {
+struct GetRelationalDatabaseLogEventsInputBody {
     let relationalDatabaseName: Swift.String?
     let logStreamName: Swift.String?
     let startTime: ClientRuntime.Date?
@@ -22584,7 +22584,7 @@ extension GetRelationalDatabaseLogEventsOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct GetRelationalDatabaseLogEventsOutput: Swift.Equatable {
+public struct GetRelationalDatabaseLogEventsOutput {
     /// A token used for advancing to the previous page of results from your get relational database log events request.
     public var nextBackwardToken: Swift.String?
     /// A token used for advancing to the next page of results from your get relational database log events request.
@@ -22604,7 +22604,7 @@ public struct GetRelationalDatabaseLogEventsOutput: Swift.Equatable {
     }
 }
 
-struct GetRelationalDatabaseLogEventsOutputBody: Swift.Equatable {
+struct GetRelationalDatabaseLogEventsOutputBody {
     let resourceLogEvents: [LightsailClientTypes.LogEvent]?
     let nextBackwardToken: Swift.String?
     let nextForwardToken: Swift.String?
@@ -22674,7 +22674,7 @@ extension GetRelationalDatabaseLogStreamsInput {
     }
 }
 
-public struct GetRelationalDatabaseLogStreamsInput: Swift.Equatable {
+public struct GetRelationalDatabaseLogStreamsInput {
     /// The name of your database for which to get log streams.
     /// This member is required.
     public var relationalDatabaseName: Swift.String?
@@ -22687,7 +22687,7 @@ public struct GetRelationalDatabaseLogStreamsInput: Swift.Equatable {
     }
 }
 
-struct GetRelationalDatabaseLogStreamsInputBody: Swift.Equatable {
+struct GetRelationalDatabaseLogStreamsInputBody {
     let relationalDatabaseName: Swift.String?
 }
 
@@ -22715,7 +22715,7 @@ extension GetRelationalDatabaseLogStreamsOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct GetRelationalDatabaseLogStreamsOutput: Swift.Equatable {
+public struct GetRelationalDatabaseLogStreamsOutput {
     /// An object describing the result of your get relational database log streams request.
     public var logStreams: [Swift.String]?
 
@@ -22727,7 +22727,7 @@ public struct GetRelationalDatabaseLogStreamsOutput: Swift.Equatable {
     }
 }
 
-struct GetRelationalDatabaseLogStreamsOutputBody: Swift.Equatable {
+struct GetRelationalDatabaseLogStreamsOutputBody {
     let logStreams: [Swift.String]?
 }
 
@@ -22793,7 +22793,7 @@ extension GetRelationalDatabaseMasterUserPasswordInput {
     }
 }
 
-public struct GetRelationalDatabaseMasterUserPasswordInput: Swift.Equatable {
+public struct GetRelationalDatabaseMasterUserPasswordInput {
     /// The password version to return. Specifying CURRENT or PREVIOUS returns the current or previous passwords respectively. Specifying PENDING returns the newest version of the password that will rotate to CURRENT. After the PENDING password rotates to CURRENT, the PENDING password is no longer available. Default: CURRENT
     public var passwordVersion: LightsailClientTypes.RelationalDatabasePasswordVersion?
     /// The name of your database for which to get the master user password.
@@ -22810,7 +22810,7 @@ public struct GetRelationalDatabaseMasterUserPasswordInput: Swift.Equatable {
     }
 }
 
-struct GetRelationalDatabaseMasterUserPasswordInputBody: Swift.Equatable {
+struct GetRelationalDatabaseMasterUserPasswordInputBody {
     let relationalDatabaseName: Swift.String?
     let passwordVersion: LightsailClientTypes.RelationalDatabasePasswordVersion?
 }
@@ -22849,7 +22849,7 @@ extension GetRelationalDatabaseMasterUserPasswordOutput: ClientRuntime.HttpRespo
     }
 }
 
-public struct GetRelationalDatabaseMasterUserPasswordOutput: Swift.Equatable {
+public struct GetRelationalDatabaseMasterUserPasswordOutput {
     /// The timestamp when the specified version of the master user password was created.
     public var createdAt: ClientRuntime.Date?
     /// The master user password for the password version specified.
@@ -22865,7 +22865,7 @@ public struct GetRelationalDatabaseMasterUserPasswordOutput: Swift.Equatable {
     }
 }
 
-struct GetRelationalDatabaseMasterUserPasswordOutputBody: Swift.Equatable {
+struct GetRelationalDatabaseMasterUserPasswordOutputBody {
     let masterUserPassword: Swift.String?
     let createdAt: ClientRuntime.Date?
 }
@@ -22949,7 +22949,7 @@ extension GetRelationalDatabaseMetricDataInput {
     }
 }
 
-public struct GetRelationalDatabaseMetricDataInput: Swift.Equatable {
+public struct GetRelationalDatabaseMetricDataInput {
     /// The end of the time interval from which to get metric data. Constraints:
     ///
     /// * Specified in Coordinated Universal Time (UTC).
@@ -23022,7 +23022,7 @@ public struct GetRelationalDatabaseMetricDataInput: Swift.Equatable {
     }
 }
 
-struct GetRelationalDatabaseMetricDataInputBody: Swift.Equatable {
+struct GetRelationalDatabaseMetricDataInputBody {
     let relationalDatabaseName: Swift.String?
     let metricName: LightsailClientTypes.RelationalDatabaseMetricName?
     let period: Swift.Int?
@@ -23085,7 +23085,7 @@ extension GetRelationalDatabaseMetricDataOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct GetRelationalDatabaseMetricDataOutput: Swift.Equatable {
+public struct GetRelationalDatabaseMetricDataOutput {
     /// An array of objects that describe the metric data returned.
     public var metricData: [LightsailClientTypes.MetricDatapoint]?
     /// The name of the metric returned.
@@ -23101,7 +23101,7 @@ public struct GetRelationalDatabaseMetricDataOutput: Swift.Equatable {
     }
 }
 
-struct GetRelationalDatabaseMetricDataOutputBody: Swift.Equatable {
+struct GetRelationalDatabaseMetricDataOutputBody {
     let metricName: LightsailClientTypes.RelationalDatabaseMetricName?
     let metricData: [LightsailClientTypes.MetricDatapoint]?
 }
@@ -23159,7 +23159,7 @@ extension GetRelationalDatabaseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRelationalDatabaseOutput: Swift.Equatable {
+public struct GetRelationalDatabaseOutput {
     /// An object describing the specified database.
     public var relationalDatabase: LightsailClientTypes.RelationalDatabase?
 
@@ -23171,7 +23171,7 @@ public struct GetRelationalDatabaseOutput: Swift.Equatable {
     }
 }
 
-struct GetRelationalDatabaseOutputBody: Swift.Equatable {
+struct GetRelationalDatabaseOutputBody {
     let relationalDatabase: LightsailClientTypes.RelationalDatabase?
 }
 
@@ -23228,7 +23228,7 @@ extension GetRelationalDatabaseParametersInput {
     }
 }
 
-public struct GetRelationalDatabaseParametersInput: Swift.Equatable {
+public struct GetRelationalDatabaseParametersInput {
     /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetRelationalDatabaseParameters request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
     public var pageToken: Swift.String?
     /// The name of your database for which to get parameters.
@@ -23245,7 +23245,7 @@ public struct GetRelationalDatabaseParametersInput: Swift.Equatable {
     }
 }
 
-struct GetRelationalDatabaseParametersInputBody: Swift.Equatable {
+struct GetRelationalDatabaseParametersInputBody {
     let relationalDatabaseName: Swift.String?
     let pageToken: Swift.String?
 }
@@ -23279,7 +23279,7 @@ extension GetRelationalDatabaseParametersOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct GetRelationalDatabaseParametersOutput: Swift.Equatable {
+public struct GetRelationalDatabaseParametersOutput {
     /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetRelationalDatabaseParameters request and specify the next page token using the pageToken parameter.
     public var nextPageToken: Swift.String?
     /// An object describing the result of your get relational database parameters request.
@@ -23295,7 +23295,7 @@ public struct GetRelationalDatabaseParametersOutput: Swift.Equatable {
     }
 }
 
-struct GetRelationalDatabaseParametersOutputBody: Swift.Equatable {
+struct GetRelationalDatabaseParametersOutputBody {
     let parameters: [LightsailClientTypes.RelationalDatabaseParameter]?
     let nextPageToken: Swift.String?
 }
@@ -23361,7 +23361,7 @@ extension GetRelationalDatabaseSnapshotInput {
     }
 }
 
-public struct GetRelationalDatabaseSnapshotInput: Swift.Equatable {
+public struct GetRelationalDatabaseSnapshotInput {
     /// The name of the database snapshot for which to get information.
     /// This member is required.
     public var relationalDatabaseSnapshotName: Swift.String?
@@ -23374,7 +23374,7 @@ public struct GetRelationalDatabaseSnapshotInput: Swift.Equatable {
     }
 }
 
-struct GetRelationalDatabaseSnapshotInputBody: Swift.Equatable {
+struct GetRelationalDatabaseSnapshotInputBody {
     let relationalDatabaseSnapshotName: Swift.String?
 }
 
@@ -23402,7 +23402,7 @@ extension GetRelationalDatabaseSnapshotOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct GetRelationalDatabaseSnapshotOutput: Swift.Equatable {
+public struct GetRelationalDatabaseSnapshotOutput {
     /// An object describing the specified database snapshot.
     public var relationalDatabaseSnapshot: LightsailClientTypes.RelationalDatabaseSnapshot?
 
@@ -23414,7 +23414,7 @@ public struct GetRelationalDatabaseSnapshotOutput: Swift.Equatable {
     }
 }
 
-struct GetRelationalDatabaseSnapshotOutputBody: Swift.Equatable {
+struct GetRelationalDatabaseSnapshotOutputBody {
     let relationalDatabaseSnapshot: LightsailClientTypes.RelationalDatabaseSnapshot?
 }
 
@@ -23467,7 +23467,7 @@ extension GetRelationalDatabaseSnapshotsInput {
     }
 }
 
-public struct GetRelationalDatabaseSnapshotsInput: Swift.Equatable {
+public struct GetRelationalDatabaseSnapshotsInput {
     /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetRelationalDatabaseSnapshots request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
     public var pageToken: Swift.String?
 
@@ -23479,7 +23479,7 @@ public struct GetRelationalDatabaseSnapshotsInput: Swift.Equatable {
     }
 }
 
-struct GetRelationalDatabaseSnapshotsInputBody: Swift.Equatable {
+struct GetRelationalDatabaseSnapshotsInputBody {
     let pageToken: Swift.String?
 }
 
@@ -23509,7 +23509,7 @@ extension GetRelationalDatabaseSnapshotsOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct GetRelationalDatabaseSnapshotsOutput: Swift.Equatable {
+public struct GetRelationalDatabaseSnapshotsOutput {
     /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetRelationalDatabaseSnapshots request and specify the next page token using the pageToken parameter.
     public var nextPageToken: Swift.String?
     /// An object describing the result of your get relational database snapshots request.
@@ -23525,7 +23525,7 @@ public struct GetRelationalDatabaseSnapshotsOutput: Swift.Equatable {
     }
 }
 
-struct GetRelationalDatabaseSnapshotsOutputBody: Swift.Equatable {
+struct GetRelationalDatabaseSnapshotsOutputBody {
     let relationalDatabaseSnapshots: [LightsailClientTypes.RelationalDatabaseSnapshot]?
     let nextPageToken: Swift.String?
 }
@@ -23591,7 +23591,7 @@ extension GetRelationalDatabasesInput {
     }
 }
 
-public struct GetRelationalDatabasesInput: Swift.Equatable {
+public struct GetRelationalDatabasesInput {
     /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetRelationalDatabases request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
     public var pageToken: Swift.String?
 
@@ -23603,7 +23603,7 @@ public struct GetRelationalDatabasesInput: Swift.Equatable {
     }
 }
 
-struct GetRelationalDatabasesInputBody: Swift.Equatable {
+struct GetRelationalDatabasesInputBody {
     let pageToken: Swift.String?
 }
 
@@ -23633,7 +23633,7 @@ extension GetRelationalDatabasesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRelationalDatabasesOutput: Swift.Equatable {
+public struct GetRelationalDatabasesOutput {
     /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetRelationalDatabases request and specify the next page token using the pageToken parameter.
     public var nextPageToken: Swift.String?
     /// An object describing the result of your get relational databases request.
@@ -23649,7 +23649,7 @@ public struct GetRelationalDatabasesOutput: Swift.Equatable {
     }
 }
 
-struct GetRelationalDatabasesOutputBody: Swift.Equatable {
+struct GetRelationalDatabasesOutputBody {
     let relationalDatabases: [LightsailClientTypes.RelationalDatabase]?
     let nextPageToken: Swift.String?
 }
@@ -23719,7 +23719,7 @@ extension GetSetupHistoryInput {
     }
 }
 
-public struct GetSetupHistoryInput: Swift.Equatable {
+public struct GetSetupHistoryInput {
     /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetSetupHistory request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
     public var pageToken: Swift.String?
     /// The name of the resource for which you are requesting information.
@@ -23736,7 +23736,7 @@ public struct GetSetupHistoryInput: Swift.Equatable {
     }
 }
 
-struct GetSetupHistoryInputBody: Swift.Equatable {
+struct GetSetupHistoryInputBody {
     let resourceName: Swift.String?
     let pageToken: Swift.String?
 }
@@ -23770,7 +23770,7 @@ extension GetSetupHistoryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSetupHistoryOutput: Swift.Equatable {
+public struct GetSetupHistoryOutput {
     /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetSetupHistory request and specify the next page token using the pageToken parameter.
     public var nextPageToken: Swift.String?
     /// The historical information that's returned.
@@ -23786,7 +23786,7 @@ public struct GetSetupHistoryOutput: Swift.Equatable {
     }
 }
 
-struct GetSetupHistoryOutputBody: Swift.Equatable {
+struct GetSetupHistoryOutputBody {
     let setupHistory: [LightsailClientTypes.SetupHistory]?
     let nextPageToken: Swift.String?
 }
@@ -23850,7 +23850,7 @@ extension GetStaticIpInput {
     }
 }
 
-public struct GetStaticIpInput: Swift.Equatable {
+public struct GetStaticIpInput {
     /// The name of the static IP in Lightsail.
     /// This member is required.
     public var staticIpName: Swift.String?
@@ -23863,7 +23863,7 @@ public struct GetStaticIpInput: Swift.Equatable {
     }
 }
 
-struct GetStaticIpInputBody: Swift.Equatable {
+struct GetStaticIpInputBody {
     let staticIpName: Swift.String?
 }
 
@@ -23891,7 +23891,7 @@ extension GetStaticIpOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetStaticIpOutput: Swift.Equatable {
+public struct GetStaticIpOutput {
     /// An array of key-value pairs containing information about the requested static IP.
     public var staticIp: LightsailClientTypes.StaticIp?
 
@@ -23903,7 +23903,7 @@ public struct GetStaticIpOutput: Swift.Equatable {
     }
 }
 
-struct GetStaticIpOutputBody: Swift.Equatable {
+struct GetStaticIpOutputBody {
     let staticIp: LightsailClientTypes.StaticIp?
 }
 
@@ -23956,7 +23956,7 @@ extension GetStaticIpsInput {
     }
 }
 
-public struct GetStaticIpsInput: Swift.Equatable {
+public struct GetStaticIpsInput {
     /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetStaticIps request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
     public var pageToken: Swift.String?
 
@@ -23968,7 +23968,7 @@ public struct GetStaticIpsInput: Swift.Equatable {
     }
 }
 
-struct GetStaticIpsInputBody: Swift.Equatable {
+struct GetStaticIpsInputBody {
     let pageToken: Swift.String?
 }
 
@@ -23998,7 +23998,7 @@ extension GetStaticIpsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetStaticIpsOutput: Swift.Equatable {
+public struct GetStaticIpsOutput {
     /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetStaticIps request and specify the next page token using the pageToken parameter.
     public var nextPageToken: Swift.String?
     /// An array of key-value pairs containing information about your get static IPs request.
@@ -24014,7 +24014,7 @@ public struct GetStaticIpsOutput: Swift.Equatable {
     }
 }
 
-struct GetStaticIpsOutputBody: Swift.Equatable {
+struct GetStaticIpsOutputBody {
     let staticIps: [LightsailClientTypes.StaticIp]?
     let nextPageToken: Swift.String?
 }
@@ -24170,7 +24170,7 @@ extension LightsailClientTypes.HeaderObject: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the request headers that a Lightsail distribution bases caching on. For the headers that you specify, your distribution caches separate versions of the specified content based on the header values in viewer requests. For example, suppose viewer requests for logo.jpg contain a custom product header that has a value of either acme or apex, and you configure your distribution to cache your content based on values in the product header. Your distribution forwards the product header to the origin and caches the response from the origin once for each header value.
-    public struct HeaderObject: Swift.Equatable {
+    public struct HeaderObject {
         /// The specific headers to forward to your distribution's origin.
         public var headersAllowList: [LightsailClientTypes.HeaderEnum]?
         /// The headers that you want your distribution to forward to your origin and base caching on. You can configure your distribution to do one of the following:
@@ -24251,7 +24251,7 @@ extension LightsailClientTypes.HostKeyAttributes: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the public SSH host keys or the RDP certificate.
-    public struct HostKeyAttributes: Swift.Equatable {
+    public struct HostKeyAttributes {
         /// The SSH host key algorithm or the RDP certificate format. For SSH host keys, the algorithm may be ssh-rsa, ecdsa-sha2-nistp256, ssh-ed25519, etc. For RDP certificates, the algorithm is always x509-cert.
         public var algorithm: Swift.String?
         /// The SHA-1 fingerprint of the returned SSH host key or RDP certificate.
@@ -24417,7 +24417,7 @@ extension ImportKeyPairInput {
     }
 }
 
-public struct ImportKeyPairInput: Swift.Equatable {
+public struct ImportKeyPairInput {
     /// The name of the key pair for which you want to import the public key.
     /// This member is required.
     public var keyPairName: Swift.String?
@@ -24435,7 +24435,7 @@ public struct ImportKeyPairInput: Swift.Equatable {
     }
 }
 
-struct ImportKeyPairInputBody: Swift.Equatable {
+struct ImportKeyPairInputBody {
     let keyPairName: Swift.String?
     let publicKeyBase64: Swift.String?
 }
@@ -24467,7 +24467,7 @@ extension ImportKeyPairOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ImportKeyPairOutput: Swift.Equatable {
+public struct ImportKeyPairOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operation: LightsailClientTypes.Operation?
 
@@ -24479,7 +24479,7 @@ public struct ImportKeyPairOutput: Swift.Equatable {
     }
 }
 
-struct ImportKeyPairOutputBody: Swift.Equatable {
+struct ImportKeyPairOutputBody {
     let operation: LightsailClientTypes.Operation?
 }
 
@@ -24551,7 +24551,7 @@ extension LightsailClientTypes.InputOrigin: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the origin resource of an Amazon Lightsail content delivery network (CDN) distribution. An origin can be a Lightsail instance, bucket, container service, or load balancer. A distribution pulls content from an origin, caches it, and serves it to viewers via a worldwide network of edge servers.
-    public struct InputOrigin: Swift.Equatable {
+    public struct InputOrigin {
         /// The name of the origin resource.
         public var name: Swift.String?
         /// The protocol that your Amazon Lightsail distribution uses when establishing a connection with your origin to pull content.
@@ -24760,7 +24760,7 @@ extension LightsailClientTypes.Instance: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes an instance (a virtual private server).
-    public struct Instance: Swift.Equatable {
+    public struct Instance {
         /// An array of objects representing the add-ons enabled on the instance.
         public var addOns: [LightsailClientTypes.AddOn]?
         /// The Amazon Resource Name (ARN) of the instance (arn:aws:lightsail:us-east-2:123456789101:Instance/244ad76f-8aad-4741-809f-12345EXAMPLE).
@@ -24963,7 +24963,7 @@ extension LightsailClientTypes.InstanceAccessDetails: Swift.Codable {
 
 extension LightsailClientTypes {
     /// The parameters for gaining temporary access to one of your Amazon Lightsail instances.
-    public struct InstanceAccessDetails: Swift.Equatable {
+    public struct InstanceAccessDetails {
         /// For SSH access, the public key to use when accessing your instance For OpenSSH clients (command line SSH), you should save this value to tempkey-cert.pub.
         public var certKey: Swift.String?
         /// For SSH access, the date on which the temporary keys expire.
@@ -25094,7 +25094,7 @@ extension LightsailClientTypes.InstanceEntry: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the Amazon Elastic Compute Cloud instance and related resources to be created using the create cloud formation stack operation.
-    public struct InstanceEntry: Swift.Equatable {
+    public struct InstanceEntry {
         /// The Availability Zone for the new Amazon EC2 instance.
         /// This member is required.
         public var availabilityZone: Swift.String?
@@ -25184,7 +25184,7 @@ extension LightsailClientTypes.InstanceHardware: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the hardware for the instance.
-    public struct InstanceHardware: Swift.Equatable {
+    public struct InstanceHardware {
         /// The number of vCPUs the instance has.
         public var cpuCount: Swift.Int?
         /// The disks attached to the instance.
@@ -25342,7 +25342,7 @@ extension LightsailClientTypes.InstanceHealthSummary: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes information about the health of the instance.
-    public struct InstanceHealthSummary: Swift.Equatable {
+    public struct InstanceHealthSummary {
         /// Describes the overall instance health. Valid values are below.
         public var instanceHealth: LightsailClientTypes.InstanceHealthState?
         /// More information about the instance health. If the instanceHealth is healthy, then an instanceHealthReason value is not provided. If instanceHealth is initial, the instanceHealthReason value can be one of the following:
@@ -25440,7 +25440,7 @@ extension LightsailClientTypes.InstanceMetadataOptions: Swift.Codable {
 
 extension LightsailClientTypes {
     /// The metadata options for the instance.
-    public struct InstanceMetadataOptions: Swift.Equatable {
+    public struct InstanceMetadataOptions {
         /// Indicates whether the HTTP metadata endpoint on your instances is enabled or disabled. If the value is disabled, you cannot access your instance metadata.
         public var httpEndpoint: LightsailClientTypes.HttpEndpoint?
         /// Indicates whether the IPv6 endpoint for the instance metadata service is enabled or disabled.
@@ -25598,7 +25598,7 @@ extension LightsailClientTypes.InstanceNetworking: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes monthly data transfer rates and port information for an instance.
-    public struct InstanceNetworking: Swift.Equatable {
+    public struct InstanceNetworking {
         /// The amount of data in GB allocated for monthly data transfers.
         public var monthlyTransfer: LightsailClientTypes.MonthlyTransfer?
         /// An array of key-value pairs containing information about the ports on the instance.
@@ -25759,7 +25759,7 @@ extension LightsailClientTypes.InstancePortInfo: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes information about ports for an Amazon Lightsail instance.
-    public struct InstancePortInfo: Swift.Equatable {
+    public struct InstancePortInfo {
         /// The access direction (inbound or outbound). Lightsail currently supports only inbound access direction.
         public var accessDirection: LightsailClientTypes.AccessDirection?
         /// The location from which access is allowed. For example, Anywhere (0.0.0.0/0), or Custom if a specific IP address or range of IP addresses is allowed.
@@ -25922,7 +25922,7 @@ extension LightsailClientTypes.InstancePortState: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes open ports on an instance, the IP addresses allowed to connect to the instance through the ports, and the protocol.
-    public struct InstancePortState: Swift.Equatable {
+    public struct InstancePortState {
         /// An alias that defines access for a preconfigured range of IP addresses. The only alias currently supported is lightsail-connect, which allows IP addresses of the browser-based RDP/SSH client in the Lightsail console to connect to your instance.
         public var cidrListAliases: [Swift.String]?
         /// The IPv4 address, or range of IPv4 addresses (in CIDR notation) that are allowed to connect to an instance through the ports, and the protocol. The ipv6Cidrs parameter lists the IPv6 addresses that are allowed to connect to an instance. For more information about CIDR block notation, see [Classless Inter-Domain Routing](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing#CIDR_notation) on Wikipedia.
@@ -26115,7 +26115,7 @@ extension LightsailClientTypes.InstanceSnapshot: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes an instance snapshot.
-    public struct InstanceSnapshot: Swift.Equatable {
+    public struct InstanceSnapshot {
         /// The Amazon Resource Name (ARN) of the snapshot (arn:aws:lightsail:us-east-2:123456789101:InstanceSnapshot/d23b5706-3322-4d83-81e5-12345EXAMPLE).
         public var arn: Swift.String?
         /// The timestamp when the snapshot was created (1479907467.024).
@@ -26234,7 +26234,7 @@ extension LightsailClientTypes.InstanceSnapshotInfo: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes an instance snapshot.
-    public struct InstanceSnapshotInfo: Swift.Equatable {
+    public struct InstanceSnapshotInfo {
         /// The blueprint ID from which the source instance (os_debian_8_3).
         public var fromBlueprintId: Swift.String?
         /// The bundle ID from which the source instance was created (micro_1_0).
@@ -26318,7 +26318,7 @@ extension LightsailClientTypes.InstanceState: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the virtual private server (or instance) status.
-    public struct InstanceState: Swift.Equatable {
+    public struct InstanceState {
         /// The status code for the instance.
         public var code: Swift.Int?
         /// The state of the instance (running or pending).
@@ -26390,7 +26390,7 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct InvalidInputExceptionBody: Swift.Equatable {
+struct InvalidInputExceptionBody {
     let code: Swift.String?
     let docs: Swift.String?
     let message: Swift.String?
@@ -26465,12 +26465,12 @@ extension IsVpcPeeredInput {
     }
 }
 
-public struct IsVpcPeeredInput: Swift.Equatable {
+public struct IsVpcPeeredInput {
 
     public init() { }
 }
 
-struct IsVpcPeeredInputBody: Swift.Equatable {
+struct IsVpcPeeredInputBody {
 }
 
 extension IsVpcPeeredInputBody: Swift.Decodable {
@@ -26491,7 +26491,7 @@ extension IsVpcPeeredOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct IsVpcPeeredOutput: Swift.Equatable {
+public struct IsVpcPeeredOutput {
     /// Returns true if the Lightsail VPC is peered; otherwise, false.
     public var isPeered: Swift.Bool?
 
@@ -26503,7 +26503,7 @@ public struct IsVpcPeeredOutput: Swift.Equatable {
     }
 }
 
-struct IsVpcPeeredOutputBody: Swift.Equatable {
+struct IsVpcPeeredOutputBody {
     let isPeered: Swift.Bool?
 }
 
@@ -26611,7 +26611,7 @@ extension LightsailClientTypes.KeyPair: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes an SSH key pair.
-    public struct KeyPair: Swift.Equatable {
+    public struct KeyPair {
         /// The Amazon Resource Name (ARN) of the key pair (arn:aws:lightsail:us-east-2:123456789101:KeyPair/05859e3d-331d-48ba-9034-12345EXAMPLE).
         public var arn: Swift.String?
         /// The timestamp when the key pair was created (1479816991.349).
@@ -26832,7 +26832,7 @@ extension LightsailClientTypes.LightsailDistribution: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes an Amazon Lightsail content delivery network (CDN) distribution.
-    public struct LightsailDistribution: Swift.Equatable {
+    public struct LightsailDistribution {
         /// Indicates whether the bundle that is currently applied to your distribution, specified using the distributionName parameter, can be changed to another bundle. Use the UpdateDistributionBundle action to change your distribution's bundle.
         public var ableToUpdateBundle: Swift.Bool?
         /// The alternate domain names of the distribution.
@@ -27115,7 +27115,7 @@ extension LightsailClientTypes.LoadBalancer: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes a load balancer.
-    public struct LoadBalancer: Swift.Equatable {
+    public struct LoadBalancer {
         /// The Amazon Resource Name (ARN) of the load balancer.
         public var arn: Swift.String?
         /// A string to string map of the configuration options for your load balancer. Valid values are listed below.
@@ -27578,7 +27578,7 @@ extension LightsailClientTypes.LoadBalancerTlsCertificate: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes a load balancer SSL/TLS certificate. TLS is just an updated, more secure version of Secure Socket Layer (SSL).
-    public struct LoadBalancerTlsCertificate: Swift.Equatable {
+    public struct LoadBalancerTlsCertificate {
         /// The Amazon Resource Name (ARN) of the SSL/TLS certificate.
         public var arn: Swift.String?
         /// The time when you created your SSL/TLS certificate.
@@ -27745,7 +27745,7 @@ extension LightsailClientTypes.LoadBalancerTlsCertificateDnsRecordCreationState:
 
 extension LightsailClientTypes {
     /// An object that describes the state of the canonical name (CNAME) records that are automatically added by Lightsail to the DNS of the domain to validate domain ownership.
-    public struct LoadBalancerTlsCertificateDnsRecordCreationState: Swift.Equatable {
+    public struct LoadBalancerTlsCertificateDnsRecordCreationState {
         /// The status code for the automated DNS record creation. Following are the possible values:
         ///
         /// * SUCCEEDED - The validation records were successfully added.
@@ -27866,7 +27866,7 @@ extension LightsailClientTypes.LoadBalancerTlsCertificateDomainValidationOption:
 
 extension LightsailClientTypes {
     /// Contains information about the domain names on an SSL/TLS certificate that you will use to validate domain ownership.
-    public struct LoadBalancerTlsCertificateDomainValidationOption: Swift.Equatable {
+    public struct LoadBalancerTlsCertificateDomainValidationOption {
         /// The fully qualified domain name in the certificate request.
         public var domainName: Swift.String?
         /// The status of the domain validation. Valid values are listed below.
@@ -27935,7 +27935,7 @@ extension LightsailClientTypes.LoadBalancerTlsCertificateDomainValidationRecord:
 
 extension LightsailClientTypes {
     /// Describes the validation record of each domain name in the SSL/TLS certificate.
-    public struct LoadBalancerTlsCertificateDomainValidationRecord: Swift.Equatable {
+    public struct LoadBalancerTlsCertificateDomainValidationRecord {
         /// An object that describes the state of the canonical name (CNAME) records that are automatically added by Lightsail to the DNS of a domain to validate domain ownership.
         public var dnsRecordCreationState: LightsailClientTypes.LoadBalancerTlsCertificateDnsRecordCreationState?
         /// The domain name against which your SSL/TLS certificate was validated.
@@ -28095,7 +28095,7 @@ extension LightsailClientTypes {
     /// * Success - All domain names in the certificate are validated, and Lightsail renewed the certificate. No further action is required.
     ///
     /// * Failed - One or more domain names were not validated before the certificate expired, and Lightsail did not renew the certificate. You can request a new certificate using the CreateCertificate action.
-    public struct LoadBalancerTlsCertificateRenewalSummary: Swift.Equatable {
+    public struct LoadBalancerTlsCertificateRenewalSummary {
         /// Contains information about the validation of each domain name in the certificate, as it pertains to Lightsail's managed renewal. This is different from the initial validation that occurs as a result of the RequestCertificate request.
         public var domainValidationOptions: [LightsailClientTypes.LoadBalancerTlsCertificateDomainValidationOption]?
         /// The renewal status of the certificate. The following renewal status are possible:
@@ -28254,7 +28254,7 @@ extension LightsailClientTypes.LoadBalancerTlsCertificateSummary: Swift.Codable 
 
 extension LightsailClientTypes {
     /// Provides a summary of SSL/TLS certificate metadata.
-    public struct LoadBalancerTlsCertificateSummary: Swift.Equatable {
+    public struct LoadBalancerTlsCertificateSummary {
         /// When true, the SSL/TLS certificate is attached to the Lightsail load balancer.
         public var isAttached: Swift.Bool?
         /// The name of the SSL/TLS certificate.
@@ -28341,7 +28341,7 @@ extension LightsailClientTypes.LoadBalancerTlsPolicy: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the TLS security policies that are available for Lightsail load balancers. For more information about load balancer TLS security policies, see [Configuring TLS security policies on your Amazon Lightsail load balancers](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configure-load-balancer-tls-security-policy) in the Amazon Lightsail Developer Guide.
-    public struct LoadBalancerTlsPolicy: Swift.Equatable {
+    public struct LoadBalancerTlsPolicy {
         /// The ciphers used by the TLS security policy. The ciphers are listed in order of preference.
         public var ciphers: [Swift.String]?
         /// The description of the TLS security policy.
@@ -28398,7 +28398,7 @@ extension LightsailClientTypes.LogEvent: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes a database log event.
-    public struct LogEvent: Swift.Equatable {
+    public struct LogEvent {
         /// The timestamp when the database log event was created.
         public var createdAt: ClientRuntime.Date?
         /// The message of the database log event.
@@ -28473,7 +28473,7 @@ extension LightsailClientTypes.MetricDatapoint: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the metric data point.
-    public struct MetricDatapoint: Swift.Equatable {
+    public struct MetricDatapoint {
         /// The average.
         public var average: Swift.Double?
         /// The maximum.
@@ -28793,7 +28793,7 @@ extension LightsailClientTypes.MonitoredResourceInfo: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes resource being monitored by an alarm. An alarm is a way to monitor your Amazon Lightsail resource metrics. For more information, see [Alarms in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-alarms).
-    public struct MonitoredResourceInfo: Swift.Equatable {
+    public struct MonitoredResourceInfo {
         /// The Amazon Resource Name (ARN) of the resource being monitored.
         public var arn: Swift.String?
         /// The name of the Lightsail resource being monitored.
@@ -28836,7 +28836,7 @@ extension LightsailClientTypes.MonthlyTransfer: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the monthly data transfer in and out of your virtual private server (or instance).
-    public struct MonthlyTransfer: Swift.Equatable {
+    public struct MonthlyTransfer {
         /// The amount allocated per month (in GB).
         public var gbPerMonthAllocated: Swift.Int?
 
@@ -28877,7 +28877,7 @@ extension LightsailClientTypes.NameServersUpdateState: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the state of the name server records update made by Amazon Lightsail to an Amazon Route 53 registered domain. For more information, see [DNS in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/understanding-dns-in-amazon-lightsail) in the Amazon Lightsail Developer Guide.
-    public struct NameServersUpdateState: Swift.Equatable {
+    public struct NameServersUpdateState {
         /// The status code for the name servers update. Following are the possible values:
         ///
         /// * SUCCEEDED - The name server records were successfully updated.
@@ -29033,7 +29033,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct NotFoundExceptionBody: Swift.Equatable {
+struct NotFoundExceptionBody {
     let code: Swift.String?
     let docs: Swift.String?
     let message: Swift.String?
@@ -29085,7 +29085,7 @@ extension OpenInstancePublicPortsInput {
     }
 }
 
-public struct OpenInstancePublicPortsInput: Swift.Equatable {
+public struct OpenInstancePublicPortsInput {
     /// The name of the instance for which to open ports.
     /// This member is required.
     public var instanceName: Swift.String?
@@ -29103,7 +29103,7 @@ public struct OpenInstancePublicPortsInput: Swift.Equatable {
     }
 }
 
-struct OpenInstancePublicPortsInputBody: Swift.Equatable {
+struct OpenInstancePublicPortsInputBody {
     let portInfo: LightsailClientTypes.PortInfo?
     let instanceName: Swift.String?
 }
@@ -29135,7 +29135,7 @@ extension OpenInstancePublicPortsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct OpenInstancePublicPortsOutput: Swift.Equatable {
+public struct OpenInstancePublicPortsOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operation: LightsailClientTypes.Operation?
 
@@ -29147,7 +29147,7 @@ public struct OpenInstancePublicPortsOutput: Swift.Equatable {
     }
 }
 
-struct OpenInstancePublicPortsOutputBody: Swift.Equatable {
+struct OpenInstancePublicPortsOutputBody {
     let operation: LightsailClientTypes.Operation?
 }
 
@@ -29267,7 +29267,7 @@ extension LightsailClientTypes.Operation: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the API operation.
-    public struct Operation: Swift.Equatable {
+    public struct Operation {
         /// The timestamp when the operation was initialized (1479816991.349).
         public var createdAt: ClientRuntime.Date?
         /// The error code.
@@ -29379,7 +29379,7 @@ public struct OperationFailureException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct OperationFailureExceptionBody: Swift.Equatable {
+struct OperationFailureExceptionBody {
     let code: Swift.String?
     let docs: Swift.String?
     let message: Swift.String?
@@ -29768,7 +29768,7 @@ extension LightsailClientTypes.Origin: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the origin resource of an Amazon Lightsail content delivery network (CDN) distribution. An origin can be a Lightsail instance, bucket, or load balancer. A distribution pulls content from an origin, caches it, and serves it to viewers via a worldwide network of edge servers.
-    public struct Origin: Swift.Equatable {
+    public struct Origin {
         /// The name of the origin resource.
         public var name: Swift.String?
         /// The protocol that your Amazon Lightsail distribution uses when establishing a connection with your origin to pull content.
@@ -29857,7 +29857,7 @@ extension LightsailClientTypes.PasswordData: Swift.Codable {
 
 extension LightsailClientTypes {
     /// The password data for the Windows Server-based instance, including the ciphertext and the key pair name.
-    public struct PasswordData: Swift.Equatable {
+    public struct PasswordData {
         /// The encrypted password. Ciphertext will be an empty string if access to your new instance is not ready yet. When you create an instance, it can take up to 15 minutes for the instance to be ready. If you use the default key pair (LightsailDefaultKeyPair), the decrypted password will be available in the password field. If you are using a custom key pair, you need to use your own means of decryption. If you change the Administrator password on the instance, Lightsail will continue to return the original ciphertext value. When accessing the instance using RDP, you need to manually enter the Administrator password after changing it from the default.
         public var ciphertext: Swift.String?
         /// The name of the key pair that you used when creating your instance. If no key pair name was specified when creating the instance, Lightsail uses the default key pair (LightsailDefaultKeyPair). If you are using a custom key pair, you need to use your own means of decrypting your password using the ciphertext. Lightsail creates the ciphertext by encrypting your password with the public key part of this key pair.
@@ -29890,12 +29890,12 @@ extension PeerVpcInput {
     }
 }
 
-public struct PeerVpcInput: Swift.Equatable {
+public struct PeerVpcInput {
 
     public init() { }
 }
 
-struct PeerVpcInputBody: Swift.Equatable {
+struct PeerVpcInputBody {
 }
 
 extension PeerVpcInputBody: Swift.Decodable {
@@ -29916,7 +29916,7 @@ extension PeerVpcOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PeerVpcOutput: Swift.Equatable {
+public struct PeerVpcOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operation: LightsailClientTypes.Operation?
 
@@ -29928,7 +29928,7 @@ public struct PeerVpcOutput: Swift.Equatable {
     }
 }
 
-struct PeerVpcOutputBody: Swift.Equatable {
+struct PeerVpcOutputBody {
     let operation: LightsailClientTypes.Operation?
 }
 
@@ -29994,7 +29994,7 @@ extension LightsailClientTypes.PendingMaintenanceAction: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes a pending database maintenance action.
-    public struct PendingMaintenanceAction: Swift.Equatable {
+    public struct PendingMaintenanceAction {
         /// The type of pending database maintenance action.
         public var action: Swift.String?
         /// The effective date of the pending database maintenance action.
@@ -30049,7 +30049,7 @@ extension LightsailClientTypes.PendingModifiedRelationalDatabaseValues: Swift.Co
 
 extension LightsailClientTypes {
     /// Describes a pending database value modification.
-    public struct PendingModifiedRelationalDatabaseValues: Swift.Equatable {
+    public struct PendingModifiedRelationalDatabaseValues {
         /// A Boolean value indicating whether automated backup retention is enabled.
         public var backupRetentionEnabled: Swift.Bool?
         /// The database engine version.
@@ -30190,7 +30190,7 @@ extension LightsailClientTypes.PortInfo: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes ports to open on an instance, the IP addresses allowed to connect to the instance through the ports, and the protocol.
-    public struct PortInfo: Swift.Equatable {
+    public struct PortInfo {
         /// An alias that defines access for a preconfigured range of IP addresses. The only alias currently supported is lightsail-connect, which allows IP addresses of the browser-based RDP/SSH client in the Lightsail console to connect to your instance.
         public var cidrListAliases: [Swift.String]?
         /// The IPv4 address, or range of IPv4 addresses (in CIDR notation) that are allowed to connect to an instance through the ports, and the protocol. The ipv6Cidrs parameter lists the IPv6 addresses that are allowed to connect to an instance. Examples:
@@ -30383,7 +30383,7 @@ extension LightsailClientTypes.PrivateRegistryAccess: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the configuration for an Amazon Lightsail container service to access private container image repositories, such as Amazon Elastic Container Registry (Amazon ECR) private repositories. For more information, see [Configuring access to an Amazon ECR private repository for an Amazon Lightsail container service](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-container-service-ecr-private-repo-access) in the Amazon Lightsail Developer Guide.
-    public struct PrivateRegistryAccess: Swift.Equatable {
+    public struct PrivateRegistryAccess {
         /// An object that describes the activation status of the role that you can use to grant a Lightsail container service access to Amazon ECR private repositories. If the role is activated, the Amazon Resource Name (ARN) of the role is also listed.
         public var ecrImagePullerRole: LightsailClientTypes.ContainerServiceECRImagePullerRole?
 
@@ -30418,7 +30418,7 @@ extension LightsailClientTypes.PrivateRegistryAccessRequest: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes a request to configure an Amazon Lightsail container service to access private container image repositories, such as Amazon Elastic Container Registry (Amazon ECR) private repositories. For more information, see [Configuring access to an Amazon ECR private repository for an Amazon Lightsail container service](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-container-service-ecr-private-repo-access) in the Amazon Lightsail Developer Guide.
-    public struct PrivateRegistryAccessRequest: Swift.Equatable {
+    public struct PrivateRegistryAccessRequest {
         /// An object to describe a request to activate or deactivate the role that you can use to grant an Amazon Lightsail container service access to Amazon Elastic Container Registry (Amazon ECR) private repositories.
         public var ecrImagePullerRole: LightsailClientTypes.ContainerServiceECRImagePullerRoleRequest?
 
@@ -30498,7 +30498,7 @@ extension PutAlarmInput {
     }
 }
 
-public struct PutAlarmInput: Swift.Equatable {
+public struct PutAlarmInput {
     /// The name for the alarm. Specify the name of an existing alarm to update, and overwrite the previous configuration of the alarm.
     /// This member is required.
     public var alarmName: Swift.String?
@@ -30592,7 +30592,7 @@ public struct PutAlarmInput: Swift.Equatable {
     }
 }
 
-struct PutAlarmInputBody: Swift.Equatable {
+struct PutAlarmInputBody {
     let alarmName: Swift.String?
     let metricName: LightsailClientTypes.MetricName?
     let monitoredResourceName: Swift.String?
@@ -30678,7 +30678,7 @@ extension PutAlarmOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutAlarmOutput: Swift.Equatable {
+public struct PutAlarmOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -30690,7 +30690,7 @@ public struct PutAlarmOutput: Swift.Equatable {
     }
 }
 
-struct PutAlarmOutputBody: Swift.Equatable {
+struct PutAlarmOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -30758,7 +30758,7 @@ extension PutInstancePublicPortsInput {
     }
 }
 
-public struct PutInstancePublicPortsInput: Swift.Equatable {
+public struct PutInstancePublicPortsInput {
     /// The name of the instance for which to open ports.
     /// This member is required.
     public var instanceName: Swift.String?
@@ -30776,7 +30776,7 @@ public struct PutInstancePublicPortsInput: Swift.Equatable {
     }
 }
 
-struct PutInstancePublicPortsInputBody: Swift.Equatable {
+struct PutInstancePublicPortsInputBody {
     let portInfos: [LightsailClientTypes.PortInfo]?
     let instanceName: Swift.String?
 }
@@ -30817,7 +30817,7 @@ extension PutInstancePublicPortsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutInstancePublicPortsOutput: Swift.Equatable {
+public struct PutInstancePublicPortsOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operation: LightsailClientTypes.Operation?
 
@@ -30829,7 +30829,7 @@ public struct PutInstancePublicPortsOutput: Swift.Equatable {
     }
 }
 
-struct PutInstancePublicPortsOutputBody: Swift.Equatable {
+struct PutInstancePublicPortsOutputBody {
     let operation: LightsailClientTypes.Operation?
 }
 
@@ -30901,7 +30901,7 @@ extension LightsailClientTypes.QueryStringObject: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the query string parameters that an Amazon Lightsail content delivery network (CDN) distribution to bases caching on. For the query strings that you specify, your distribution caches separate versions of the specified content based on the query string values in viewer requests.
-    public struct QueryStringObject: Swift.Equatable {
+    public struct QueryStringObject {
         /// Indicates whether the distribution forwards and caches based on query strings.
         public var option: Swift.Bool?
         /// The specific query strings that the distribution forwards to the origin. Your distribution will cache content based on the specified query strings. If the option parameter is true, then your distribution forwards all query strings, regardless of what you specify using the queryStringsAllowList parameter.
@@ -30946,7 +30946,7 @@ extension LightsailClientTypes.R53HostedZoneDeletionState: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the deletion state of an Amazon Route 53 hosted zone for a domain that is being automatically delegated to an Amazon Lightsail DNS zone.
-    public struct R53HostedZoneDeletionState: Swift.Equatable {
+    public struct R53HostedZoneDeletionState {
         /// The status code for the deletion state. Following are the possible values:
         ///
         /// * SUCCEEDED - The hosted zone was successfully deleted.
@@ -31030,7 +31030,7 @@ extension RebootInstanceInput {
     }
 }
 
-public struct RebootInstanceInput: Swift.Equatable {
+public struct RebootInstanceInput {
     /// The name of the instance to reboot.
     /// This member is required.
     public var instanceName: Swift.String?
@@ -31043,7 +31043,7 @@ public struct RebootInstanceInput: Swift.Equatable {
     }
 }
 
-struct RebootInstanceInputBody: Swift.Equatable {
+struct RebootInstanceInputBody {
     let instanceName: Swift.String?
 }
 
@@ -31071,7 +31071,7 @@ extension RebootInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RebootInstanceOutput: Swift.Equatable {
+public struct RebootInstanceOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -31083,7 +31083,7 @@ public struct RebootInstanceOutput: Swift.Equatable {
     }
 }
 
-struct RebootInstanceOutputBody: Swift.Equatable {
+struct RebootInstanceOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -31145,7 +31145,7 @@ extension RebootRelationalDatabaseInput {
     }
 }
 
-public struct RebootRelationalDatabaseInput: Swift.Equatable {
+public struct RebootRelationalDatabaseInput {
     /// The name of your database to reboot.
     /// This member is required.
     public var relationalDatabaseName: Swift.String?
@@ -31158,7 +31158,7 @@ public struct RebootRelationalDatabaseInput: Swift.Equatable {
     }
 }
 
-struct RebootRelationalDatabaseInputBody: Swift.Equatable {
+struct RebootRelationalDatabaseInputBody {
     let relationalDatabaseName: Swift.String?
 }
 
@@ -31186,7 +31186,7 @@ extension RebootRelationalDatabaseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RebootRelationalDatabaseOutput: Swift.Equatable {
+public struct RebootRelationalDatabaseOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -31198,7 +31198,7 @@ public struct RebootRelationalDatabaseOutput: Swift.Equatable {
     }
 }
 
-struct RebootRelationalDatabaseOutputBody: Swift.Equatable {
+struct RebootRelationalDatabaseOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -31350,7 +31350,7 @@ extension LightsailClientTypes.Region: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the Amazon Web Services Region.
-    public struct Region: Swift.Equatable {
+    public struct Region {
         /// The Availability Zones. Follows the format us-east-2a (case-sensitive).
         public var availabilityZones: [LightsailClientTypes.AvailabilityZone]?
         /// The continent code (NA, meaning North America).
@@ -31479,7 +31479,7 @@ extension RegisterContainerImageInput {
     }
 }
 
-public struct RegisterContainerImageInput: Swift.Equatable {
+public struct RegisterContainerImageInput {
     /// The digest of the container image to be registered.
     /// This member is required.
     public var digest: Swift.String?
@@ -31507,7 +31507,7 @@ public struct RegisterContainerImageInput: Swift.Equatable {
     }
 }
 
-struct RegisterContainerImageInputBody: Swift.Equatable {
+struct RegisterContainerImageInputBody {
     let label: Swift.String?
     let digest: Swift.String?
 }
@@ -31539,7 +31539,7 @@ extension RegisterContainerImageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RegisterContainerImageOutput: Swift.Equatable {
+public struct RegisterContainerImageOutput {
     /// An object that describes a container image that is registered to a Lightsail container service
     public var containerImage: LightsailClientTypes.ContainerImage?
 
@@ -31551,7 +31551,7 @@ public struct RegisterContainerImageOutput: Swift.Equatable {
     }
 }
 
-struct RegisterContainerImageOutputBody: Swift.Equatable {
+struct RegisterContainerImageOutputBody {
     let containerImage: LightsailClientTypes.ContainerImage?
 }
 
@@ -31618,7 +31618,7 @@ extension LightsailClientTypes {
     ///
     ///
     /// If automatic domain delegation fails, or if you manage the DNS of your domain using a service other than Route 53, then you must manually add the Lightsail DNS zone name servers to your domain in order to delegate management of its DNS to Lightsail. For more information, see [Creating a DNS zone to manage your domain’s records in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/lightsail-how-to-create-dns-entry) in the Amazon Lightsail Developer Guide.
-    public struct RegisteredDomainDelegationInfo: Swift.Equatable {
+    public struct RegisteredDomainDelegationInfo {
         /// An object that describes the state of the name server records that are automatically added to the Route 53 domain by Lightsail.
         public var nameServersUpdateState: LightsailClientTypes.NameServersUpdateState?
         /// Describes the deletion state of an Amazon Route 53 hosted zone for a domain that is being automatically delegated to an Amazon Lightsail DNS zone.
@@ -31831,7 +31831,7 @@ extension LightsailClientTypes.RelationalDatabase: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes a database.
-    public struct RelationalDatabase: Swift.Equatable {
+    public struct RelationalDatabase {
         /// The Amazon Resource Name (ARN) of the database.
         public var arn: Swift.String?
         /// A Boolean value indicating whether automated backup retention is enabled for the database.
@@ -31996,7 +31996,7 @@ extension LightsailClientTypes.RelationalDatabaseBlueprint: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes a database image, or blueprint. A blueprint describes the major engine version of a database.
-    public struct RelationalDatabaseBlueprint: Swift.Equatable {
+    public struct RelationalDatabaseBlueprint {
         /// The ID for the database blueprint.
         public var blueprintId: Swift.String?
         /// The database software of the database blueprint (for example, MySQL).
@@ -32099,7 +32099,7 @@ extension LightsailClientTypes.RelationalDatabaseBundle: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes a database bundle. A bundle describes the performance specifications of the database.
-    public struct RelationalDatabaseBundle: Swift.Equatable {
+    public struct RelationalDatabaseBundle {
         /// The ID for the database bundle.
         public var bundleId: Swift.String?
         /// The number of virtual CPUs (vCPUs) for the database bundle.
@@ -32172,7 +32172,7 @@ extension LightsailClientTypes.RelationalDatabaseEndpoint: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes an endpoint for a database.
-    public struct RelationalDatabaseEndpoint: Swift.Equatable {
+    public struct RelationalDatabaseEndpoint {
         /// Specifies the DNS address of the database.
         public var address: Swift.String?
         /// Specifies the port that the database is listening on.
@@ -32270,7 +32270,7 @@ extension LightsailClientTypes.RelationalDatabaseEvent: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes an event for a database.
-    public struct RelationalDatabaseEvent: Swift.Equatable {
+    public struct RelationalDatabaseEvent {
         /// The timestamp when the database event was created.
         public var createdAt: ClientRuntime.Date?
         /// The category that the database event belongs to.
@@ -32329,7 +32329,7 @@ extension LightsailClientTypes.RelationalDatabaseHardware: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the hardware of a database.
-    public struct RelationalDatabaseHardware: Swift.Equatable {
+    public struct RelationalDatabaseHardware {
         /// The number of vCPUs for the database.
         public var cpuCount: Swift.Int?
         /// The size of the disk for the database.
@@ -32458,7 +32458,7 @@ extension LightsailClientTypes.RelationalDatabaseParameter: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the parameters of a database.
-    public struct RelationalDatabaseParameter: Swift.Equatable {
+    public struct RelationalDatabaseParameter {
         /// Specifies the valid range of values for the parameter.
         public var allowedValues: Swift.String?
         /// Indicates when parameter updates are applied. Can be immediate or pending-reboot.
@@ -32652,7 +32652,7 @@ extension LightsailClientTypes.RelationalDatabaseSnapshot: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes a database snapshot.
-    public struct RelationalDatabaseSnapshot: Swift.Equatable {
+    public struct RelationalDatabaseSnapshot {
         /// The Amazon Resource Name (ARN) of the database snapshot.
         public var arn: Swift.String?
         /// The timestamp when the database snapshot was created.
@@ -32742,7 +32742,7 @@ extension ReleaseStaticIpInput {
     }
 }
 
-public struct ReleaseStaticIpInput: Swift.Equatable {
+public struct ReleaseStaticIpInput {
     /// The name of the static IP to delete.
     /// This member is required.
     public var staticIpName: Swift.String?
@@ -32755,7 +32755,7 @@ public struct ReleaseStaticIpInput: Swift.Equatable {
     }
 }
 
-struct ReleaseStaticIpInputBody: Swift.Equatable {
+struct ReleaseStaticIpInputBody {
     let staticIpName: Swift.String?
 }
 
@@ -32783,7 +32783,7 @@ extension ReleaseStaticIpOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ReleaseStaticIpOutput: Swift.Equatable {
+public struct ReleaseStaticIpOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -32795,7 +32795,7 @@ public struct ReleaseStaticIpOutput: Swift.Equatable {
     }
 }
 
-struct ReleaseStaticIpOutputBody: Swift.Equatable {
+struct ReleaseStaticIpOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -32926,7 +32926,7 @@ extension LightsailClientTypes.RenewalSummary: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the status of a SSL/TLS certificate renewal managed by Amazon Lightsail.
-    public struct RenewalSummary: Swift.Equatable {
+    public struct RenewalSummary {
         /// An array of objects that describe the domain validation records of the certificate.
         public var domainValidationRecords: [LightsailClientTypes.DomainValidationRecord]?
         /// The renewal status of the certificate. The following renewal status are possible:
@@ -32980,7 +32980,7 @@ extension ResetDistributionCacheInput {
     }
 }
 
-public struct ResetDistributionCacheInput: Swift.Equatable {
+public struct ResetDistributionCacheInput {
     /// The name of the distribution for which to reset cache. Use the GetDistributions action to get a list of distribution names that you can specify.
     public var distributionName: Swift.String?
 
@@ -32992,7 +32992,7 @@ public struct ResetDistributionCacheInput: Swift.Equatable {
     }
 }
 
-struct ResetDistributionCacheInputBody: Swift.Equatable {
+struct ResetDistributionCacheInputBody {
     let distributionName: Swift.String?
 }
 
@@ -33024,7 +33024,7 @@ extension ResetDistributionCacheOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ResetDistributionCacheOutput: Swift.Equatable {
+public struct ResetDistributionCacheOutput {
     /// The timestamp of the reset cache request (1479734909.17) in Unix time format.
     public var createTime: ClientRuntime.Date?
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
@@ -33044,7 +33044,7 @@ public struct ResetDistributionCacheOutput: Swift.Equatable {
     }
 }
 
-struct ResetDistributionCacheOutputBody: Swift.Equatable {
+struct ResetDistributionCacheOutputBody {
     let status: Swift.String?
     let createTime: ClientRuntime.Date?
     let operation: LightsailClientTypes.Operation?
@@ -33173,7 +33173,7 @@ extension LightsailClientTypes.ResourceBudgetEstimate: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the estimated cost or usage that a budget tracks.
-    public struct ResourceBudgetEstimate: Swift.Equatable {
+    public struct ResourceBudgetEstimate {
         /// The cost estimate for the specified budget.
         public var costEstimates: [LightsailClientTypes.CostEstimate]?
         /// The estimate end time.
@@ -33230,7 +33230,7 @@ extension LightsailClientTypes.ResourceLocation: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the resource location.
-    public struct ResourceLocation: Swift.Equatable {
+    public struct ResourceLocation {
         /// The Availability Zone. Follows the format us-east-2a (case-sensitive).
         public var availabilityZone: Swift.String?
         /// The Amazon Web Services Region name.
@@ -33275,7 +33275,7 @@ extension LightsailClientTypes.ResourceReceivingAccess: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes an Amazon Lightsail instance that has access to a Lightsail bucket.
-    public struct ResourceReceivingAccess: Swift.Equatable {
+    public struct ResourceReceivingAccess {
         /// The name of the Lightsail instance.
         public var name: Swift.String?
         /// The Lightsail resource type (for example, Instance).
@@ -33326,7 +33326,7 @@ extension LightsailClientTypes.ResourceRecord: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes the domain name system (DNS) records to add to your domain's DNS to validate it for an Amazon Lightsail certificate.
-    public struct ResourceRecord: Swift.Equatable {
+    public struct ResourceRecord {
         /// The name of the record.
         public var name: Swift.String?
         /// The DNS record type.
@@ -33454,7 +33454,7 @@ extension SendContactMethodVerificationInput {
     }
 }
 
-public struct SendContactMethodVerificationInput: Swift.Equatable {
+public struct SendContactMethodVerificationInput {
     /// The protocol to verify, such as Email or SMS (text messaging).
     /// This member is required.
     public var `protocol`: LightsailClientTypes.ContactMethodVerificationProtocol?
@@ -33467,7 +33467,7 @@ public struct SendContactMethodVerificationInput: Swift.Equatable {
     }
 }
 
-struct SendContactMethodVerificationInputBody: Swift.Equatable {
+struct SendContactMethodVerificationInputBody {
     let `protocol`: LightsailClientTypes.ContactMethodVerificationProtocol?
 }
 
@@ -33495,7 +33495,7 @@ extension SendContactMethodVerificationOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct SendContactMethodVerificationOutput: Swift.Equatable {
+public struct SendContactMethodVerificationOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -33507,7 +33507,7 @@ public struct SendContactMethodVerificationOutput: Swift.Equatable {
     }
 }
 
-struct SendContactMethodVerificationOutputBody: Swift.Equatable {
+struct SendContactMethodVerificationOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -33602,7 +33602,7 @@ public struct ServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     }
 }
 
-struct ServiceExceptionBody: Swift.Equatable {
+struct ServiceExceptionBody {
     let code: Swift.String?
     let docs: Swift.String?
     let message: Swift.String?
@@ -33668,7 +33668,7 @@ extension LightsailClientTypes.Session: Swift.CustomDebugStringConvertible {
 
 extension LightsailClientTypes {
     /// Describes a web-based, remote graphical user interface (GUI), NICE DCV session. The session is used to access a virtual computer’s operating system or application.
-    public struct Session: Swift.Equatable {
+    public struct Session {
         /// When true, this Boolean value indicates the primary session for the specified resource.
         public var isPrimary: Swift.Bool?
         /// The session name.
@@ -33718,7 +33718,7 @@ extension SetIpAddressTypeInput {
     }
 }
 
-public struct SetIpAddressTypeInput: Swift.Equatable {
+public struct SetIpAddressTypeInput {
     /// The IP address type to set for the specified resource. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6.
     /// This member is required.
     public var ipAddressType: LightsailClientTypes.IpAddressType?
@@ -33741,7 +33741,7 @@ public struct SetIpAddressTypeInput: Swift.Equatable {
     }
 }
 
-struct SetIpAddressTypeInputBody: Swift.Equatable {
+struct SetIpAddressTypeInputBody {
     let resourceType: LightsailClientTypes.ResourceType?
     let resourceName: Swift.String?
     let ipAddressType: LightsailClientTypes.IpAddressType?
@@ -33777,7 +33777,7 @@ extension SetIpAddressTypeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SetIpAddressTypeOutput: Swift.Equatable {
+public struct SetIpAddressTypeOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -33789,7 +33789,7 @@ public struct SetIpAddressTypeOutput: Swift.Equatable {
     }
 }
 
-struct SetIpAddressTypeOutputBody: Swift.Equatable {
+struct SetIpAddressTypeOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -33859,7 +33859,7 @@ extension SetResourceAccessForBucketInput {
     }
 }
 
-public struct SetResourceAccessForBucketInput: Swift.Equatable {
+public struct SetResourceAccessForBucketInput {
     /// The access setting. The following access settings are available:
     ///
     /// * allow - Allows access to the bucket and its objects.
@@ -33886,7 +33886,7 @@ public struct SetResourceAccessForBucketInput: Swift.Equatable {
     }
 }
 
-struct SetResourceAccessForBucketInputBody: Swift.Equatable {
+struct SetResourceAccessForBucketInputBody {
     let resourceName: Swift.String?
     let bucketName: Swift.String?
     let access: LightsailClientTypes.ResourceBucketAccess?
@@ -33922,7 +33922,7 @@ extension SetResourceAccessForBucketOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SetResourceAccessForBucketOutput: Swift.Equatable {
+public struct SetResourceAccessForBucketOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -33934,7 +33934,7 @@ public struct SetResourceAccessForBucketOutput: Swift.Equatable {
     }
 }
 
-struct SetResourceAccessForBucketOutputBody: Swift.Equatable {
+struct SetResourceAccessForBucketOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -34031,7 +34031,7 @@ extension LightsailClientTypes.SetupExecutionDetails: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Returns details about the commands that were run.
-    public struct SetupExecutionDetails: Swift.Equatable {
+    public struct SetupExecutionDetails {
         /// The command that was executed.
         public var command: Swift.String?
         /// The timestamp for when the request was run.
@@ -34126,7 +34126,7 @@ extension LightsailClientTypes.SetupHistory: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Returns a list of the commands that were ran on the target resource. The status of each command is also returned.
-    public struct SetupHistory: Swift.Equatable {
+    public struct SetupHistory {
         /// Describes the full details of the request.
         public var executionDetails: [LightsailClientTypes.SetupExecutionDetails]?
         /// A GUID that's used to identify the operation.
@@ -34201,7 +34201,7 @@ extension LightsailClientTypes.SetupHistoryResource: Swift.Codable {
 
 extension LightsailClientTypes {
     /// The Lightsail resource that SetupHistory was ran on.
-    public struct SetupHistoryResource: Swift.Equatable {
+    public struct SetupHistoryResource {
         /// The Amazon Resource Name (ARN) of the Lightsail resource.
         public var arn: Swift.String?
         /// The timestamp for when the resource was created.
@@ -34271,7 +34271,7 @@ extension SetupInstanceHttpsInput {
     }
 }
 
-public struct SetupInstanceHttpsInput: Swift.Equatable {
+public struct SetupInstanceHttpsInput {
     /// The certificate authority that issues the SSL/TLS certificate.
     /// This member is required.
     public var certificateProvider: LightsailClientTypes.CertificateProvider?
@@ -34299,7 +34299,7 @@ public struct SetupInstanceHttpsInput: Swift.Equatable {
     }
 }
 
-struct SetupInstanceHttpsInputBody: Swift.Equatable {
+struct SetupInstanceHttpsInputBody {
     let instanceName: Swift.String?
     let emailAddress: Swift.String?
     let domainNames: [Swift.String]?
@@ -34348,7 +34348,7 @@ extension SetupInstanceHttpsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SetupInstanceHttpsOutput: Swift.Equatable {
+public struct SetupInstanceHttpsOutput {
     /// The available API operations for SetupInstanceHttps.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -34360,7 +34360,7 @@ public struct SetupInstanceHttpsOutput: Swift.Equatable {
     }
 }
 
-struct SetupInstanceHttpsOutputBody: Swift.Equatable {
+struct SetupInstanceHttpsOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -34445,7 +34445,7 @@ extension LightsailClientTypes.SetupRequest: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Returns information that was submitted during the SetupInstanceHttps request. Email information is redacted for privacy.
-    public struct SetupRequest: Swift.Equatable {
+    public struct SetupRequest {
         /// The Certificate Authority (CA) that issues the SSL/TLS certificate.
         public var certificateProvider: LightsailClientTypes.CertificateProvider?
         /// The name of the domain and subdomains that the SSL/TLS certificate secures.
@@ -34522,7 +34522,7 @@ extension StartGUISessionInput {
     }
 }
 
-public struct StartGUISessionInput: Swift.Equatable {
+public struct StartGUISessionInput {
     /// The resource name.
     /// This member is required.
     public var resourceName: Swift.String?
@@ -34535,7 +34535,7 @@ public struct StartGUISessionInput: Swift.Equatable {
     }
 }
 
-struct StartGUISessionInputBody: Swift.Equatable {
+struct StartGUISessionInputBody {
     let resourceName: Swift.String?
 }
 
@@ -34563,7 +34563,7 @@ extension StartGUISessionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartGUISessionOutput: Swift.Equatable {
+public struct StartGUISessionOutput {
     /// The available API operations.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -34575,7 +34575,7 @@ public struct StartGUISessionOutput: Swift.Equatable {
     }
 }
 
-struct StartGUISessionOutputBody: Swift.Equatable {
+struct StartGUISessionOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -34635,7 +34635,7 @@ extension StartInstanceInput {
     }
 }
 
-public struct StartInstanceInput: Swift.Equatable {
+public struct StartInstanceInput {
     /// The name of the instance (a virtual private server) to start.
     /// This member is required.
     public var instanceName: Swift.String?
@@ -34648,7 +34648,7 @@ public struct StartInstanceInput: Swift.Equatable {
     }
 }
 
-struct StartInstanceInputBody: Swift.Equatable {
+struct StartInstanceInputBody {
     let instanceName: Swift.String?
 }
 
@@ -34676,7 +34676,7 @@ extension StartInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartInstanceOutput: Swift.Equatable {
+public struct StartInstanceOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -34688,7 +34688,7 @@ public struct StartInstanceOutput: Swift.Equatable {
     }
 }
 
-struct StartInstanceOutputBody: Swift.Equatable {
+struct StartInstanceOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -34750,7 +34750,7 @@ extension StartRelationalDatabaseInput {
     }
 }
 
-public struct StartRelationalDatabaseInput: Swift.Equatable {
+public struct StartRelationalDatabaseInput {
     /// The name of your database to start.
     /// This member is required.
     public var relationalDatabaseName: Swift.String?
@@ -34763,7 +34763,7 @@ public struct StartRelationalDatabaseInput: Swift.Equatable {
     }
 }
 
-struct StartRelationalDatabaseInputBody: Swift.Equatable {
+struct StartRelationalDatabaseInputBody {
     let relationalDatabaseName: Swift.String?
 }
 
@@ -34791,7 +34791,7 @@ extension StartRelationalDatabaseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartRelationalDatabaseOutput: Swift.Equatable {
+public struct StartRelationalDatabaseOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -34803,7 +34803,7 @@ public struct StartRelationalDatabaseOutput: Swift.Equatable {
     }
 }
 
-struct StartRelationalDatabaseOutputBody: Swift.Equatable {
+struct StartRelationalDatabaseOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -34914,7 +34914,7 @@ extension LightsailClientTypes.StaticIp: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes a static IP.
-    public struct StaticIp: Swift.Equatable {
+    public struct StaticIp {
         /// The Amazon Resource Name (ARN) of the static IP (arn:aws:lightsail:us-east-2:123456789101:StaticIp/9cbb4a9e-f8e3-4dfe-b57e-12345EXAMPLE).
         public var arn: Swift.String?
         /// The instance where the static IP is attached (Amazon_Linux-1GB-Ohio-1).
@@ -35068,7 +35068,7 @@ extension StopGUISessionInput {
     }
 }
 
-public struct StopGUISessionInput: Swift.Equatable {
+public struct StopGUISessionInput {
     /// The resource name.
     /// This member is required.
     public var resourceName: Swift.String?
@@ -35081,7 +35081,7 @@ public struct StopGUISessionInput: Swift.Equatable {
     }
 }
 
-struct StopGUISessionInputBody: Swift.Equatable {
+struct StopGUISessionInputBody {
     let resourceName: Swift.String?
 }
 
@@ -35109,7 +35109,7 @@ extension StopGUISessionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopGUISessionOutput: Swift.Equatable {
+public struct StopGUISessionOutput {
     /// The available API operations.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -35121,7 +35121,7 @@ public struct StopGUISessionOutput: Swift.Equatable {
     }
 }
 
-struct StopGUISessionOutputBody: Swift.Equatable {
+struct StopGUISessionOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -35185,7 +35185,7 @@ extension StopInstanceInput {
     }
 }
 
-public struct StopInstanceInput: Swift.Equatable {
+public struct StopInstanceInput {
     /// When set to True, forces a Lightsail instance that is stuck in a stopping state to stop. Only use the force parameter if your instance is stuck in the stopping state. In any other state, your instance should stop normally without adding this parameter to your API request.
     public var force: Swift.Bool?
     /// The name of the instance (a virtual private server) to stop.
@@ -35202,7 +35202,7 @@ public struct StopInstanceInput: Swift.Equatable {
     }
 }
 
-struct StopInstanceInputBody: Swift.Equatable {
+struct StopInstanceInputBody {
     let instanceName: Swift.String?
     let force: Swift.Bool?
 }
@@ -35249,7 +35249,7 @@ extension LightsailClientTypes.StopInstanceOnIdleRequest: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes a request to create or edit the StopInstanceOnIdle add-on. This add-on only applies to Lightsail for Research resources.
-    public struct StopInstanceOnIdleRequest: Swift.Equatable {
+    public struct StopInstanceOnIdleRequest {
         /// The amount of idle time in minutes after which your virtual computer will automatically stop.
         public var duration: Swift.String?
         /// The value to compare with the duration.
@@ -35279,7 +35279,7 @@ extension StopInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopInstanceOutput: Swift.Equatable {
+public struct StopInstanceOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -35291,7 +35291,7 @@ public struct StopInstanceOutput: Swift.Equatable {
     }
 }
 
-struct StopInstanceOutputBody: Swift.Equatable {
+struct StopInstanceOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -35357,7 +35357,7 @@ extension StopRelationalDatabaseInput {
     }
 }
 
-public struct StopRelationalDatabaseInput: Swift.Equatable {
+public struct StopRelationalDatabaseInput {
     /// The name of your database to stop.
     /// This member is required.
     public var relationalDatabaseName: Swift.String?
@@ -35374,7 +35374,7 @@ public struct StopRelationalDatabaseInput: Swift.Equatable {
     }
 }
 
-struct StopRelationalDatabaseInputBody: Swift.Equatable {
+struct StopRelationalDatabaseInputBody {
     let relationalDatabaseName: Swift.String?
     let relationalDatabaseSnapshotName: Swift.String?
 }
@@ -35406,7 +35406,7 @@ extension StopRelationalDatabaseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopRelationalDatabaseOutput: Swift.Equatable {
+public struct StopRelationalDatabaseOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -35418,7 +35418,7 @@ public struct StopRelationalDatabaseOutput: Swift.Equatable {
     }
 }
 
-struct StopRelationalDatabaseOutputBody: Swift.Equatable {
+struct StopRelationalDatabaseOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -35487,7 +35487,7 @@ extension LightsailClientTypes.Tag: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Describes a tag key and optional value assigned to an Amazon Lightsail resource. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-tags).
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key of the tag. Constraints: Tag keys accept a maximum of 128 letters, numbers, spaces in UTF-8, or the following characters: + - = . _ : / @
         public var key: Swift.String?
         /// The value of the tag. Constraints: Tag values accept a maximum of 256 letters, numbers, spaces in UTF-8, or the following characters: + - = . _ : / @
@@ -35536,7 +35536,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource to which you want to add a tag.
     public var resourceArn: Swift.String?
     /// The name of the resource to which you are adding tags.
@@ -35558,7 +35558,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceName: Swift.String?
     let resourceArn: Swift.String?
     let tags: [LightsailClientTypes.Tag]?
@@ -35603,7 +35603,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -35615,7 +35615,7 @@ public struct TagResourceOutput: Swift.Equatable {
     }
 }
 
-struct TagResourceOutputBody: Swift.Equatable {
+struct TagResourceOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -35681,7 +35681,7 @@ extension TestAlarmInput {
     }
 }
 
-public struct TestAlarmInput: Swift.Equatable {
+public struct TestAlarmInput {
     /// The name of the alarm to test.
     /// This member is required.
     public var alarmName: Swift.String?
@@ -35705,7 +35705,7 @@ public struct TestAlarmInput: Swift.Equatable {
     }
 }
 
-struct TestAlarmInputBody: Swift.Equatable {
+struct TestAlarmInputBody {
     let alarmName: Swift.String?
     let state: LightsailClientTypes.AlarmState?
 }
@@ -35737,7 +35737,7 @@ extension TestAlarmOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TestAlarmOutput: Swift.Equatable {
+public struct TestAlarmOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -35749,7 +35749,7 @@ public struct TestAlarmOutput: Swift.Equatable {
     }
 }
 
-struct TestAlarmOutputBody: Swift.Equatable {
+struct TestAlarmOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -35817,7 +35817,7 @@ extension LightsailClientTypes.TimePeriod: Swift.Codable {
 
 extension LightsailClientTypes {
     /// Sets the start date and end date for retrieving a cost estimate. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
-    public struct TimePeriod: Swift.Equatable {
+    public struct TimePeriod {
         /// The end of the time period. The end date is exclusive. For example, if end is 2017-05-01, Lightsail for Research retrieves cost and usage data from the start date up to, but not including, 2017-05-01.
         public var end: ClientRuntime.Date?
         /// The beginning of the time period. The start date is inclusive. For example, if start is 2017-01-01, Lightsail for Research retrieves cost and usage data starting at 2017-01-01 up to the end date. The start date must be equal to or no later than the current date to avoid a validation error.
@@ -35927,7 +35927,7 @@ public struct UnauthenticatedException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct UnauthenticatedExceptionBody: Swift.Equatable {
+struct UnauthenticatedExceptionBody {
     let code: Swift.String?
     let docs: Swift.String?
     let message: Swift.String?
@@ -35970,12 +35970,12 @@ extension UnpeerVpcInput {
     }
 }
 
-public struct UnpeerVpcInput: Swift.Equatable {
+public struct UnpeerVpcInput {
 
     public init() { }
 }
 
-struct UnpeerVpcInputBody: Swift.Equatable {
+struct UnpeerVpcInputBody {
 }
 
 extension UnpeerVpcInputBody: Swift.Decodable {
@@ -35996,7 +35996,7 @@ extension UnpeerVpcOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UnpeerVpcOutput: Swift.Equatable {
+public struct UnpeerVpcOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operation: LightsailClientTypes.Operation?
 
@@ -36008,7 +36008,7 @@ public struct UnpeerVpcOutput: Swift.Equatable {
     }
 }
 
-struct UnpeerVpcOutputBody: Swift.Equatable {
+struct UnpeerVpcOutputBody {
     let operation: LightsailClientTypes.Operation?
 }
 
@@ -36072,7 +36072,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource from which you want to remove a tag.
     public var resourceArn: Swift.String?
     /// The name of the resource from which you are removing a tag.
@@ -36094,7 +36094,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceName: Swift.String?
     let resourceArn: Swift.String?
     let tagKeys: [Swift.String]?
@@ -36139,7 +36139,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -36151,7 +36151,7 @@ public struct UntagResourceOutput: Swift.Equatable {
     }
 }
 
-struct UntagResourceOutputBody: Swift.Equatable {
+struct UntagResourceOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -36217,7 +36217,7 @@ extension UpdateBucketBundleInput {
     }
 }
 
-public struct UpdateBucketBundleInput: Swift.Equatable {
+public struct UpdateBucketBundleInput {
     /// The name of the bucket for which to update the bundle.
     /// This member is required.
     public var bucketName: Swift.String?
@@ -36235,7 +36235,7 @@ public struct UpdateBucketBundleInput: Swift.Equatable {
     }
 }
 
-struct UpdateBucketBundleInputBody: Swift.Equatable {
+struct UpdateBucketBundleInputBody {
     let bucketName: Swift.String?
     let bundleId: Swift.String?
 }
@@ -36267,7 +36267,7 @@ extension UpdateBucketBundleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateBucketBundleOutput: Swift.Equatable {
+public struct UpdateBucketBundleOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -36279,7 +36279,7 @@ public struct UpdateBucketBundleOutput: Swift.Equatable {
     }
 }
 
-struct UpdateBucketBundleOutputBody: Swift.Equatable {
+struct UpdateBucketBundleOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -36358,7 +36358,7 @@ extension UpdateBucketInput {
     }
 }
 
-public struct UpdateBucketInput: Swift.Equatable {
+public struct UpdateBucketInput {
     /// An object that describes the access log configuration for the bucket.
     public var accessLogConfig: LightsailClientTypes.BucketAccessLogConfig?
     /// An object that sets the public accessibility of objects in the specified bucket.
@@ -36391,7 +36391,7 @@ public struct UpdateBucketInput: Swift.Equatable {
     }
 }
 
-struct UpdateBucketInputBody: Swift.Equatable {
+struct UpdateBucketInputBody {
     let bucketName: Swift.String?
     let accessRules: LightsailClientTypes.AccessRules?
     let versioning: Swift.String?
@@ -36446,7 +36446,7 @@ extension UpdateBucketOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateBucketOutput: Swift.Equatable {
+public struct UpdateBucketOutput {
     /// An object that describes the bucket that is updated.
     public var bucket: LightsailClientTypes.Bucket?
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
@@ -36462,7 +36462,7 @@ public struct UpdateBucketOutput: Swift.Equatable {
     }
 }
 
-struct UpdateBucketOutputBody: Swift.Equatable {
+struct UpdateBucketOutputBody {
     let bucket: LightsailClientTypes.Bucket?
     let operations: [LightsailClientTypes.Operation]?
 }
@@ -36548,7 +36548,7 @@ extension UpdateContainerServiceInput {
     }
 }
 
-public struct UpdateContainerServiceInput: Swift.Equatable {
+public struct UpdateContainerServiceInput {
     /// A Boolean value to indicate whether the container service is disabled.
     public var isDisabled: Swift.Bool?
     /// The power for the container service. The power specifies the amount of memory, vCPUs, and base monthly cost of each node of the container service. The power and scale of a container service makes up its configured capacity. To determine the monthly price of your container service, multiply the base price of the power with the scale (the number of nodes) of the service. Use the GetContainerServicePowers action to view the specifications of each power option.
@@ -36581,7 +36581,7 @@ public struct UpdateContainerServiceInput: Swift.Equatable {
     }
 }
 
-struct UpdateContainerServiceInputBody: Swift.Equatable {
+struct UpdateContainerServiceInputBody {
     let power: LightsailClientTypes.ContainerServicePowerName?
     let scale: Swift.Int?
     let isDisabled: Swift.Bool?
@@ -36641,7 +36641,7 @@ extension UpdateContainerServiceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateContainerServiceOutput: Swift.Equatable {
+public struct UpdateContainerServiceOutput {
     /// An object that describes a container service.
     public var containerService: LightsailClientTypes.ContainerService?
 
@@ -36653,7 +36653,7 @@ public struct UpdateContainerServiceOutput: Swift.Equatable {
     }
 }
 
-struct UpdateContainerServiceOutputBody: Swift.Equatable {
+struct UpdateContainerServiceOutputBody {
     let containerService: LightsailClientTypes.ContainerService?
 }
 
@@ -36708,7 +36708,7 @@ extension UpdateDistributionBundleInput {
     }
 }
 
-public struct UpdateDistributionBundleInput: Swift.Equatable {
+public struct UpdateDistributionBundleInput {
     /// The bundle ID of the new bundle to apply to your distribution. Use the GetDistributionBundles action to get a list of distribution bundle IDs that you can specify.
     public var bundleId: Swift.String?
     /// The name of the distribution for which to update the bundle. Use the GetDistributions action to get a list of distribution names that you can specify.
@@ -36724,7 +36724,7 @@ public struct UpdateDistributionBundleInput: Swift.Equatable {
     }
 }
 
-struct UpdateDistributionBundleInputBody: Swift.Equatable {
+struct UpdateDistributionBundleInputBody {
     let distributionName: Swift.String?
     let bundleId: Swift.String?
 }
@@ -36756,7 +36756,7 @@ extension UpdateDistributionBundleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDistributionBundleOutput: Swift.Equatable {
+public struct UpdateDistributionBundleOutput {
     /// An object that describes the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operation: LightsailClientTypes.Operation?
 
@@ -36768,7 +36768,7 @@ public struct UpdateDistributionBundleOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDistributionBundleOutputBody: Swift.Equatable {
+struct UpdateDistributionBundleOutputBody {
     let operation: LightsailClientTypes.Operation?
 }
 
@@ -36855,7 +36855,7 @@ extension UpdateDistributionInput {
     }
 }
 
-public struct UpdateDistributionInput: Swift.Equatable {
+public struct UpdateDistributionInput {
     /// An object that describes the cache behavior settings for the distribution. The cacheBehaviorSettings specified in your UpdateDistributionRequest will replace your distribution's existing settings.
     public var cacheBehaviorSettings: LightsailClientTypes.CacheSettings?
     /// An array of objects that describe the per-path cache behavior for the distribution.
@@ -36900,7 +36900,7 @@ public struct UpdateDistributionInput: Swift.Equatable {
     }
 }
 
-struct UpdateDistributionInputBody: Swift.Equatable {
+struct UpdateDistributionInputBody {
     let distributionName: Swift.String?
     let origin: LightsailClientTypes.InputOrigin?
     let defaultCacheBehavior: LightsailClientTypes.CacheBehavior?
@@ -36969,7 +36969,7 @@ extension UpdateDistributionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDistributionOutput: Swift.Equatable {
+public struct UpdateDistributionOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operation: LightsailClientTypes.Operation?
 
@@ -36981,7 +36981,7 @@ public struct UpdateDistributionOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDistributionOutputBody: Swift.Equatable {
+struct UpdateDistributionOutputBody {
     let operation: LightsailClientTypes.Operation?
 }
 
@@ -37037,7 +37037,7 @@ extension UpdateDomainEntryInput {
     }
 }
 
-public struct UpdateDomainEntryInput: Swift.Equatable {
+public struct UpdateDomainEntryInput {
     /// An array of key-value pairs containing information about the domain entry.
     /// This member is required.
     public var domainEntry: LightsailClientTypes.DomainEntry?
@@ -37055,7 +37055,7 @@ public struct UpdateDomainEntryInput: Swift.Equatable {
     }
 }
 
-struct UpdateDomainEntryInputBody: Swift.Equatable {
+struct UpdateDomainEntryInputBody {
     let domainName: Swift.String?
     let domainEntry: LightsailClientTypes.DomainEntry?
 }
@@ -37087,7 +37087,7 @@ extension UpdateDomainEntryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDomainEntryOutput: Swift.Equatable {
+public struct UpdateDomainEntryOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -37099,7 +37099,7 @@ public struct UpdateDomainEntryOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDomainEntryOutputBody: Swift.Equatable {
+struct UpdateDomainEntryOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -37177,7 +37177,7 @@ extension UpdateInstanceMetadataOptionsInput {
     }
 }
 
-public struct UpdateInstanceMetadataOptionsInput: Swift.Equatable {
+public struct UpdateInstanceMetadataOptionsInput {
     /// Enables or disables the HTTP metadata endpoint on your instances. If this parameter is not specified, the existing state is maintained. If you specify a value of disabled, you cannot access your instance metadata.
     public var httpEndpoint: LightsailClientTypes.HttpEndpoint?
     /// Enables or disables the IPv6 endpoint for the instance metadata service. This setting applies only when the HTTP metadata endpoint is enabled. This parameter is available only for instances in the Europe (Stockholm) Amazon Web Services Region (eu-north-1).
@@ -37206,7 +37206,7 @@ public struct UpdateInstanceMetadataOptionsInput: Swift.Equatable {
     }
 }
 
-struct UpdateInstanceMetadataOptionsInputBody: Swift.Equatable {
+struct UpdateInstanceMetadataOptionsInputBody {
     let instanceName: Swift.String?
     let httpTokens: LightsailClientTypes.HttpTokens?
     let httpEndpoint: LightsailClientTypes.HttpEndpoint?
@@ -37250,7 +37250,7 @@ extension UpdateInstanceMetadataOptionsOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct UpdateInstanceMetadataOptionsOutput: Swift.Equatable {
+public struct UpdateInstanceMetadataOptionsOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operation: LightsailClientTypes.Operation?
 
@@ -37262,7 +37262,7 @@ public struct UpdateInstanceMetadataOptionsOutput: Swift.Equatable {
     }
 }
 
-struct UpdateInstanceMetadataOptionsOutputBody: Swift.Equatable {
+struct UpdateInstanceMetadataOptionsOutputBody {
     let operation: LightsailClientTypes.Operation?
 }
 
@@ -37323,7 +37323,7 @@ extension UpdateLoadBalancerAttributeInput {
     }
 }
 
-public struct UpdateLoadBalancerAttributeInput: Swift.Equatable {
+public struct UpdateLoadBalancerAttributeInput {
     /// The name of the attribute you want to update.
     /// This member is required.
     public var attributeName: LightsailClientTypes.LoadBalancerAttributeName?
@@ -37356,7 +37356,7 @@ public struct UpdateLoadBalancerAttributeInput: Swift.Equatable {
     }
 }
 
-struct UpdateLoadBalancerAttributeInputBody: Swift.Equatable {
+struct UpdateLoadBalancerAttributeInputBody {
     let loadBalancerName: Swift.String?
     let attributeName: LightsailClientTypes.LoadBalancerAttributeName?
     let attributeValue: Swift.String?
@@ -37392,7 +37392,7 @@ extension UpdateLoadBalancerAttributeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateLoadBalancerAttributeOutput: Swift.Equatable {
+public struct UpdateLoadBalancerAttributeOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -37404,7 +37404,7 @@ public struct UpdateLoadBalancerAttributeOutput: Swift.Equatable {
     }
 }
 
-struct UpdateLoadBalancerAttributeOutputBody: Swift.Equatable {
+struct UpdateLoadBalancerAttributeOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -37511,7 +37511,7 @@ extension UpdateRelationalDatabaseInput {
     }
 }
 
-public struct UpdateRelationalDatabaseInput: Swift.Equatable {
+public struct UpdateRelationalDatabaseInput {
     /// When true, applies changes immediately. When false, applies changes during the preferred maintenance window. Some changes may cause an outage. Default: false
     public var applyImmediately: Swift.Bool?
     /// Indicates the certificate that needs to be associated with the database.
@@ -37582,7 +37582,7 @@ public struct UpdateRelationalDatabaseInput: Swift.Equatable {
     }
 }
 
-struct UpdateRelationalDatabaseInputBody: Swift.Equatable {
+struct UpdateRelationalDatabaseInputBody {
     let relationalDatabaseName: Swift.String?
     let masterUserPassword: Swift.String?
     let rotateMasterUserPassword: Swift.Bool?
@@ -37650,7 +37650,7 @@ extension UpdateRelationalDatabaseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateRelationalDatabaseOutput: Swift.Equatable {
+public struct UpdateRelationalDatabaseOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -37662,7 +37662,7 @@ public struct UpdateRelationalDatabaseOutput: Swift.Equatable {
     }
 }
 
-struct UpdateRelationalDatabaseOutputBody: Swift.Equatable {
+struct UpdateRelationalDatabaseOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 
@@ -37731,7 +37731,7 @@ extension UpdateRelationalDatabaseParametersInput {
     }
 }
 
-public struct UpdateRelationalDatabaseParametersInput: Swift.Equatable {
+public struct UpdateRelationalDatabaseParametersInput {
     /// The database parameters to update.
     /// This member is required.
     public var parameters: [LightsailClientTypes.RelationalDatabaseParameter]?
@@ -37749,7 +37749,7 @@ public struct UpdateRelationalDatabaseParametersInput: Swift.Equatable {
     }
 }
 
-struct UpdateRelationalDatabaseParametersInputBody: Swift.Equatable {
+struct UpdateRelationalDatabaseParametersInputBody {
     let relationalDatabaseName: Swift.String?
     let parameters: [LightsailClientTypes.RelationalDatabaseParameter]?
 }
@@ -37790,7 +37790,7 @@ extension UpdateRelationalDatabaseParametersOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct UpdateRelationalDatabaseParametersOutput: Swift.Equatable {
+public struct UpdateRelationalDatabaseParametersOutput {
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operations: [LightsailClientTypes.Operation]?
 
@@ -37802,7 +37802,7 @@ public struct UpdateRelationalDatabaseParametersOutput: Swift.Equatable {
     }
 }
 
-struct UpdateRelationalDatabaseParametersOutputBody: Swift.Equatable {
+struct UpdateRelationalDatabaseParametersOutputBody {
     let operations: [LightsailClientTypes.Operation]?
 }
 

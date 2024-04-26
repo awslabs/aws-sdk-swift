@@ -101,7 +101,7 @@ extension DeviceFarmClientTypes.AccountSettings: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// A container for account-level settings in AWS Device Farm.
-    public struct AccountSettings: Swift.Equatable {
+    public struct AccountSettings {
         /// The AWS account number specified in the AccountSettings container.
         public var awsAccountNumber: Swift.String?
         /// The default number of minutes (at the account level) a test run executes before it times out. The default value is 150 minutes.
@@ -183,7 +183,7 @@ public struct ArgumentException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ArgumentExceptionBody: Swift.Equatable {
+struct ArgumentExceptionBody {
     let message: Swift.String?
 }
 
@@ -244,7 +244,7 @@ extension DeviceFarmClientTypes.Artifact: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// Represents the output of a test. Examples of artifacts include logs and screenshots.
-    public struct Artifact: Swift.Equatable {
+    public struct Artifact {
         /// The artifact's ARN.
         public var arn: Swift.String?
         /// The artifact's file extension.
@@ -540,7 +540,7 @@ extension DeviceFarmClientTypes.CPU: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// Represents the amount of CPU that an app is using on a physical device. Does not represent system-wide CPU usage.
-    public struct CPU: Swift.Equatable {
+    public struct CPU {
         /// The CPU's architecture (for example, x86 or ARM).
         public var architecture: Swift.String?
         /// The clock speed of the device's CPU, expressed in hertz (Hz). For example, a 1.2 GHz CPU is expressed as 1200000000.
@@ -601,7 +601,7 @@ public struct CannotDeleteException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct CannotDeleteExceptionBody: Swift.Equatable {
+struct CannotDeleteExceptionBody {
     let message: Swift.String?
 }
 
@@ -674,7 +674,7 @@ extension DeviceFarmClientTypes.Counters: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// Represents entity counters.
-    public struct Counters: Swift.Equatable {
+    public struct Counters {
         /// The number of errored entities.
         public var errored: Swift.Int?
         /// The number of failed entities.
@@ -752,7 +752,7 @@ extension CreateDevicePoolInput {
 }
 
 /// Represents a request to the create device pool operation.
-public struct CreateDevicePoolInput: Swift.Equatable {
+public struct CreateDevicePoolInput {
     /// The device pool's description.
     public var description: Swift.String?
     /// The number of devices that Device Farm can add to your device pool. Device Farm adds devices that are available and meet the criteria that you assign for the rules parameter. Depending on how many devices meet these constraints, your device pool might contain fewer devices than the value for this parameter. By specifying the maximum number of devices, you can control the costs that you incur by running tests.
@@ -783,7 +783,7 @@ public struct CreateDevicePoolInput: Swift.Equatable {
     }
 }
 
-struct CreateDevicePoolInputBody: Swift.Equatable {
+struct CreateDevicePoolInputBody {
     let projectArn: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -837,7 +837,7 @@ extension CreateDevicePoolOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the result of a create device pool request.
-public struct CreateDevicePoolOutput: Swift.Equatable {
+public struct CreateDevicePoolOutput {
     /// The newly created device pool.
     public var devicePool: DeviceFarmClientTypes.DevicePool?
 
@@ -849,7 +849,7 @@ public struct CreateDevicePoolOutput: Swift.Equatable {
     }
 }
 
-struct CreateDevicePoolOutputBody: Swift.Equatable {
+struct CreateDevicePoolOutputBody {
     let devicePool: DeviceFarmClientTypes.DevicePool?
 }
 
@@ -918,7 +918,7 @@ extension CreateInstanceProfileInput {
     }
 }
 
-public struct CreateInstanceProfileInput: Swift.Equatable {
+public struct CreateInstanceProfileInput {
     /// The description of your instance profile.
     public var description: Swift.String?
     /// An array of strings that specifies the list of app packages that should not be cleaned up from the device after a test run. The list of packages is considered only if you set packageCleanup to true.
@@ -947,7 +947,7 @@ public struct CreateInstanceProfileInput: Swift.Equatable {
     }
 }
 
-struct CreateInstanceProfileInputBody: Swift.Equatable {
+struct CreateInstanceProfileInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let packageCleanup: Swift.Bool?
@@ -1000,7 +1000,7 @@ extension CreateInstanceProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateInstanceProfileOutput: Swift.Equatable {
+public struct CreateInstanceProfileOutput {
     /// An object that contains information about your instance profile.
     public var instanceProfile: DeviceFarmClientTypes.InstanceProfile?
 
@@ -1012,7 +1012,7 @@ public struct CreateInstanceProfileOutput: Swift.Equatable {
     }
 }
 
-struct CreateInstanceProfileOutputBody: Swift.Equatable {
+struct CreateInstanceProfileOutputBody {
     let instanceProfile: DeviceFarmClientTypes.InstanceProfile?
 }
 
@@ -1106,7 +1106,7 @@ extension CreateNetworkProfileInput {
     }
 }
 
-public struct CreateNetworkProfileInput: Swift.Equatable {
+public struct CreateNetworkProfileInput {
     /// The description of the network profile.
     public var description: Swift.String?
     /// The data throughput rate in bits per second, as an integer from 0 to 104857600.
@@ -1164,7 +1164,7 @@ public struct CreateNetworkProfileInput: Swift.Equatable {
     }
 }
 
-struct CreateNetworkProfileInputBody: Swift.Equatable {
+struct CreateNetworkProfileInputBody {
     let projectArn: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -1236,7 +1236,7 @@ extension CreateNetworkProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateNetworkProfileOutput: Swift.Equatable {
+public struct CreateNetworkProfileOutput {
     /// The network profile that is returned by the create network profile request.
     public var networkProfile: DeviceFarmClientTypes.NetworkProfile?
 
@@ -1248,7 +1248,7 @@ public struct CreateNetworkProfileOutput: Swift.Equatable {
     }
 }
 
-struct CreateNetworkProfileOutputBody: Swift.Equatable {
+struct CreateNetworkProfileOutputBody {
     let networkProfile: DeviceFarmClientTypes.NetworkProfile?
 }
 
@@ -1307,7 +1307,7 @@ extension CreateProjectInput {
 }
 
 /// Represents a request to the create project operation.
-public struct CreateProjectInput: Swift.Equatable {
+public struct CreateProjectInput {
     /// Sets the execution timeout value (in minutes) for a project. All test runs in this project use the specified execution timeout value unless overridden when scheduling a run.
     public var defaultJobTimeoutMinutes: Swift.Int?
     /// The project's name.
@@ -1328,7 +1328,7 @@ public struct CreateProjectInput: Swift.Equatable {
     }
 }
 
-struct CreateProjectInputBody: Swift.Equatable {
+struct CreateProjectInputBody {
     let name: Swift.String?
     let defaultJobTimeoutMinutes: Swift.Int?
     let vpcConfig: DeviceFarmClientTypes.VpcConfig?
@@ -1365,7 +1365,7 @@ extension CreateProjectOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the result of a create project request.
-public struct CreateProjectOutput: Swift.Equatable {
+public struct CreateProjectOutput {
     /// The newly created project.
     public var project: DeviceFarmClientTypes.Project?
 
@@ -1377,7 +1377,7 @@ public struct CreateProjectOutput: Swift.Equatable {
     }
 }
 
-struct CreateProjectOutputBody: Swift.Equatable {
+struct CreateProjectOutputBody {
     let project: DeviceFarmClientTypes.Project?
 }
 
@@ -1447,7 +1447,7 @@ extension DeviceFarmClientTypes.CreateRemoteAccessSessionConfiguration: Swift.Co
 
 extension DeviceFarmClientTypes {
     /// Configuration settings for a remote access session, including billing method.
-    public struct CreateRemoteAccessSessionConfiguration: Swift.Equatable {
+    public struct CreateRemoteAccessSessionConfiguration {
         /// The billing method for the remote access session.
         public var billingMethod: DeviceFarmClientTypes.BillingMethod?
         /// An array of ARNs included in the VPC endpoint configuration.
@@ -1530,7 +1530,7 @@ extension CreateRemoteAccessSessionInput {
 }
 
 /// Creates and submits a request to start a remote access session.
-public struct CreateRemoteAccessSessionInput: Swift.Equatable {
+public struct CreateRemoteAccessSessionInput {
     /// Unique identifier for the client. If you want access to multiple devices on the same client, you should pass the same clientId value in each call to CreateRemoteAccessSession. This identifier is required only if remoteDebugEnabled is set to true. Remote debugging is [no longer supported](https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html).
     public var clientId: Swift.String?
     /// The configuration information for the remote access session request.
@@ -1594,7 +1594,7 @@ public struct CreateRemoteAccessSessionInput: Swift.Equatable {
     }
 }
 
-struct CreateRemoteAccessSessionInputBody: Swift.Equatable {
+struct CreateRemoteAccessSessionInputBody {
     let projectArn: Swift.String?
     let deviceArn: Swift.String?
     let instanceArn: Swift.String?
@@ -1667,7 +1667,7 @@ extension CreateRemoteAccessSessionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the server response from a request to create a remote access session.
-public struct CreateRemoteAccessSessionOutput: Swift.Equatable {
+public struct CreateRemoteAccessSessionOutput {
     /// A container that describes the remote access session when the request to create a remote access session is sent.
     public var remoteAccessSession: DeviceFarmClientTypes.RemoteAccessSession?
 
@@ -1679,7 +1679,7 @@ public struct CreateRemoteAccessSessionOutput: Swift.Equatable {
     }
 }
 
-struct CreateRemoteAccessSessionOutputBody: Swift.Equatable {
+struct CreateRemoteAccessSessionOutputBody {
     let remoteAccessSession: DeviceFarmClientTypes.RemoteAccessSession?
 }
 
@@ -1737,7 +1737,7 @@ extension CreateTestGridProjectInput {
     }
 }
 
-public struct CreateTestGridProjectInput: Swift.Equatable {
+public struct CreateTestGridProjectInput {
     /// Human-readable description of the project.
     public var description: Swift.String?
     /// Human-readable name of the Selenium testing project.
@@ -1758,7 +1758,7 @@ public struct CreateTestGridProjectInput: Swift.Equatable {
     }
 }
 
-struct CreateTestGridProjectInputBody: Swift.Equatable {
+struct CreateTestGridProjectInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let vpcConfig: DeviceFarmClientTypes.TestGridVpcConfig?
@@ -1794,7 +1794,7 @@ extension CreateTestGridProjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateTestGridProjectOutput: Swift.Equatable {
+public struct CreateTestGridProjectOutput {
     /// ARN of the Selenium testing project that was created.
     public var testGridProject: DeviceFarmClientTypes.TestGridProject?
 
@@ -1806,7 +1806,7 @@ public struct CreateTestGridProjectOutput: Swift.Equatable {
     }
 }
 
-struct CreateTestGridProjectOutputBody: Swift.Equatable {
+struct CreateTestGridProjectOutputBody {
     let testGridProject: DeviceFarmClientTypes.TestGridProject?
 }
 
@@ -1859,7 +1859,7 @@ extension CreateTestGridUrlInput {
     }
 }
 
-public struct CreateTestGridUrlInput: Swift.Equatable {
+public struct CreateTestGridUrlInput {
     /// Lifetime, in seconds, of the URL.
     /// This member is required.
     public var expiresInSeconds: Swift.Int?
@@ -1877,7 +1877,7 @@ public struct CreateTestGridUrlInput: Swift.Equatable {
     }
 }
 
-struct CreateTestGridUrlInputBody: Swift.Equatable {
+struct CreateTestGridUrlInputBody {
     let projectArn: Swift.String?
     let expiresInSeconds: Swift.Int?
 }
@@ -1916,7 +1916,7 @@ extension CreateTestGridUrlOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateTestGridUrlOutput: Swift.Equatable {
+public struct CreateTestGridUrlOutput {
     /// The number of seconds the URL from [CreateTestGridUrlResult$url] stays active.
     public var expires: ClientRuntime.Date?
     /// A signed URL, expiring in [CreateTestGridUrlRequest$expiresInSeconds] seconds, to be passed to a RemoteWebDriver.
@@ -1932,7 +1932,7 @@ public struct CreateTestGridUrlOutput: Swift.Equatable {
     }
 }
 
-struct CreateTestGridUrlOutputBody: Swift.Equatable {
+struct CreateTestGridUrlOutputBody {
     let url: Swift.String?
     let expires: ClientRuntime.Date?
 }
@@ -1998,7 +1998,7 @@ extension CreateUploadInput {
 }
 
 /// Represents a request to the create upload operation.
-public struct CreateUploadInput: Swift.Equatable {
+public struct CreateUploadInput {
     /// The upload's content type (for example, application/octet-stream).
     public var contentType: Swift.String?
     /// The upload's file name. The name should not contain any forward slashes (/). If you are uploading an iOS app, the file name must end with the .ipa extension. If you are uploading an Android app, the file name must end with the .apk extension. For all others, the file name must end with the .zip file extension.
@@ -2092,7 +2092,7 @@ public struct CreateUploadInput: Swift.Equatable {
     }
 }
 
-struct CreateUploadInputBody: Swift.Equatable {
+struct CreateUploadInputBody {
     let projectArn: Swift.String?
     let name: Swift.String?
     let type: DeviceFarmClientTypes.UploadType?
@@ -2133,7 +2133,7 @@ extension CreateUploadOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the result of a create upload request.
-public struct CreateUploadOutput: Swift.Equatable {
+public struct CreateUploadOutput {
     /// The newly created upload.
     public var upload: DeviceFarmClientTypes.Upload?
 
@@ -2145,7 +2145,7 @@ public struct CreateUploadOutput: Swift.Equatable {
     }
 }
 
-struct CreateUploadOutputBody: Swift.Equatable {
+struct CreateUploadOutputBody {
     let upload: DeviceFarmClientTypes.Upload?
 }
 
@@ -2207,7 +2207,7 @@ extension CreateVPCEConfigurationInput {
     }
 }
 
-public struct CreateVPCEConfigurationInput: Swift.Equatable {
+public struct CreateVPCEConfigurationInput {
     /// The DNS name of the service running in your VPC that you want Device Farm to test.
     /// This member is required.
     public var serviceDnsName: Swift.String?
@@ -2234,7 +2234,7 @@ public struct CreateVPCEConfigurationInput: Swift.Equatable {
     }
 }
 
-struct CreateVPCEConfigurationInputBody: Swift.Equatable {
+struct CreateVPCEConfigurationInputBody {
     let vpceConfigurationName: Swift.String?
     let vpceServiceName: Swift.String?
     let serviceDnsName: Swift.String?
@@ -2274,7 +2274,7 @@ extension CreateVPCEConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateVPCEConfigurationOutput: Swift.Equatable {
+public struct CreateVPCEConfigurationOutput {
     /// An object that contains information about your VPC endpoint configuration.
     public var vpceConfiguration: DeviceFarmClientTypes.VPCEConfiguration?
 
@@ -2286,7 +2286,7 @@ public struct CreateVPCEConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct CreateVPCEConfigurationOutputBody: Swift.Equatable {
+struct CreateVPCEConfigurationOutputBody {
     let vpceConfiguration: DeviceFarmClientTypes.VPCEConfiguration?
 }
 
@@ -2413,7 +2413,7 @@ extension DeviceFarmClientTypes.CustomerArtifactPaths: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// A JSON object that specifies the paths where the artifacts generated by the customer's tests, on the device or in the test environment, are pulled from. Specify deviceHostPaths and optionally specify either iosPaths or androidPaths. For web app tests, you can specify both iosPaths and androidPaths.
-    public struct CustomerArtifactPaths: Swift.Equatable {
+    public struct CustomerArtifactPaths {
         /// Comma-separated list of paths on the Android device where the artifacts generated by the customer's tests are pulled from.
         public var androidPaths: [Swift.String]?
         /// Comma-separated list of paths in the test execution environment where the artifacts generated by the customer's tests are pulled from.
@@ -2456,7 +2456,7 @@ extension DeleteDevicePoolInput {
 }
 
 /// Represents a request to the delete device pool operation.
-public struct DeleteDevicePoolInput: Swift.Equatable {
+public struct DeleteDevicePoolInput {
     /// Represents the Amazon Resource Name (ARN) of the Device Farm device pool to delete.
     /// This member is required.
     public var arn: Swift.String?
@@ -2469,7 +2469,7 @@ public struct DeleteDevicePoolInput: Swift.Equatable {
     }
 }
 
-struct DeleteDevicePoolInputBody: Swift.Equatable {
+struct DeleteDevicePoolInputBody {
     let arn: Swift.String?
 }
 
@@ -2491,7 +2491,7 @@ extension DeleteDevicePoolOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the result of a delete device pool request.
-public struct DeleteDevicePoolOutput: Swift.Equatable {
+public struct DeleteDevicePoolOutput {
 
     public init() { }
 }
@@ -2530,7 +2530,7 @@ extension DeleteInstanceProfileInput {
     }
 }
 
-public struct DeleteInstanceProfileInput: Swift.Equatable {
+public struct DeleteInstanceProfileInput {
     /// The Amazon Resource Name (ARN) of the instance profile you are requesting to delete.
     /// This member is required.
     public var arn: Swift.String?
@@ -2543,7 +2543,7 @@ public struct DeleteInstanceProfileInput: Swift.Equatable {
     }
 }
 
-struct DeleteInstanceProfileInputBody: Swift.Equatable {
+struct DeleteInstanceProfileInputBody {
     let arn: Swift.String?
 }
 
@@ -2564,7 +2564,7 @@ extension DeleteInstanceProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteInstanceProfileOutput: Swift.Equatable {
+public struct DeleteInstanceProfileOutput {
 
     public init() { }
 }
@@ -2603,7 +2603,7 @@ extension DeleteNetworkProfileInput {
     }
 }
 
-public struct DeleteNetworkProfileInput: Swift.Equatable {
+public struct DeleteNetworkProfileInput {
     /// The ARN of the network profile to delete.
     /// This member is required.
     public var arn: Swift.String?
@@ -2616,7 +2616,7 @@ public struct DeleteNetworkProfileInput: Swift.Equatable {
     }
 }
 
-struct DeleteNetworkProfileInputBody: Swift.Equatable {
+struct DeleteNetworkProfileInputBody {
     let arn: Swift.String?
 }
 
@@ -2637,7 +2637,7 @@ extension DeleteNetworkProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteNetworkProfileOutput: Swift.Equatable {
+public struct DeleteNetworkProfileOutput {
 
     public init() { }
 }
@@ -2677,7 +2677,7 @@ extension DeleteProjectInput {
 }
 
 /// Represents a request to the delete project operation.
-public struct DeleteProjectInput: Swift.Equatable {
+public struct DeleteProjectInput {
     /// Represents the Amazon Resource Name (ARN) of the Device Farm project to delete.
     /// This member is required.
     public var arn: Swift.String?
@@ -2690,7 +2690,7 @@ public struct DeleteProjectInput: Swift.Equatable {
     }
 }
 
-struct DeleteProjectInputBody: Swift.Equatable {
+struct DeleteProjectInputBody {
     let arn: Swift.String?
 }
 
@@ -2712,7 +2712,7 @@ extension DeleteProjectOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the result of a delete project request.
-public struct DeleteProjectOutput: Swift.Equatable {
+public struct DeleteProjectOutput {
 
     public init() { }
 }
@@ -2752,7 +2752,7 @@ extension DeleteRemoteAccessSessionInput {
 }
 
 /// Represents the request to delete the specified remote access session.
-public struct DeleteRemoteAccessSessionInput: Swift.Equatable {
+public struct DeleteRemoteAccessSessionInput {
     /// The Amazon Resource Name (ARN) of the session for which you want to delete remote access.
     /// This member is required.
     public var arn: Swift.String?
@@ -2765,7 +2765,7 @@ public struct DeleteRemoteAccessSessionInput: Swift.Equatable {
     }
 }
 
-struct DeleteRemoteAccessSessionInputBody: Swift.Equatable {
+struct DeleteRemoteAccessSessionInputBody {
     let arn: Swift.String?
 }
 
@@ -2787,7 +2787,7 @@ extension DeleteRemoteAccessSessionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response from the server when a request is made to delete the remote access session.
-public struct DeleteRemoteAccessSessionOutput: Swift.Equatable {
+public struct DeleteRemoteAccessSessionOutput {
 
     public init() { }
 }
@@ -2827,7 +2827,7 @@ extension DeleteRunInput {
 }
 
 /// Represents a request to the delete run operation.
-public struct DeleteRunInput: Swift.Equatable {
+public struct DeleteRunInput {
     /// The Amazon Resource Name (ARN) for the run to delete.
     /// This member is required.
     public var arn: Swift.String?
@@ -2840,7 +2840,7 @@ public struct DeleteRunInput: Swift.Equatable {
     }
 }
 
-struct DeleteRunInputBody: Swift.Equatable {
+struct DeleteRunInputBody {
     let arn: Swift.String?
 }
 
@@ -2862,7 +2862,7 @@ extension DeleteRunOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the result of a delete run request.
-public struct DeleteRunOutput: Swift.Equatable {
+public struct DeleteRunOutput {
 
     public init() { }
 }
@@ -2901,7 +2901,7 @@ extension DeleteTestGridProjectInput {
     }
 }
 
-public struct DeleteTestGridProjectInput: Swift.Equatable {
+public struct DeleteTestGridProjectInput {
     /// The ARN of the project to delete, from [CreateTestGridProject] or [ListTestGridProjects].
     /// This member is required.
     public var projectArn: Swift.String?
@@ -2914,7 +2914,7 @@ public struct DeleteTestGridProjectInput: Swift.Equatable {
     }
 }
 
-struct DeleteTestGridProjectInputBody: Swift.Equatable {
+struct DeleteTestGridProjectInputBody {
     let projectArn: Swift.String?
 }
 
@@ -2935,7 +2935,7 @@ extension DeleteTestGridProjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteTestGridProjectOutput: Swift.Equatable {
+public struct DeleteTestGridProjectOutput {
 
     public init() { }
 }
@@ -2975,7 +2975,7 @@ extension DeleteUploadInput {
 }
 
 /// Represents a request to the delete upload operation.
-public struct DeleteUploadInput: Swift.Equatable {
+public struct DeleteUploadInput {
     /// Represents the Amazon Resource Name (ARN) of the Device Farm upload to delete.
     /// This member is required.
     public var arn: Swift.String?
@@ -2988,7 +2988,7 @@ public struct DeleteUploadInput: Swift.Equatable {
     }
 }
 
-struct DeleteUploadInputBody: Swift.Equatable {
+struct DeleteUploadInputBody {
     let arn: Swift.String?
 }
 
@@ -3010,7 +3010,7 @@ extension DeleteUploadOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the result of a delete upload request.
-public struct DeleteUploadOutput: Swift.Equatable {
+public struct DeleteUploadOutput {
 
     public init() { }
 }
@@ -3049,7 +3049,7 @@ extension DeleteVPCEConfigurationInput {
     }
 }
 
-public struct DeleteVPCEConfigurationInput: Swift.Equatable {
+public struct DeleteVPCEConfigurationInput {
     /// The Amazon Resource Name (ARN) of the VPC endpoint configuration you want to delete.
     /// This member is required.
     public var arn: Swift.String?
@@ -3062,7 +3062,7 @@ public struct DeleteVPCEConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DeleteVPCEConfigurationInputBody: Swift.Equatable {
+struct DeleteVPCEConfigurationInputBody {
     let arn: Swift.String?
 }
 
@@ -3083,7 +3083,7 @@ extension DeleteVPCEConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteVPCEConfigurationOutput: Swift.Equatable {
+public struct DeleteVPCEConfigurationOutput {
 
     public init() { }
 }
@@ -3255,7 +3255,7 @@ extension DeviceFarmClientTypes.Device: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// Represents a device type that an app is tested against.
-    public struct Device: Swift.Equatable {
+    public struct Device {
         /// The device's ARN.
         public var arn: Swift.String?
         /// Indicates how likely a device is available for a test run. Currently available in the [ListDevices] and GetDevice API methods.
@@ -3507,7 +3507,7 @@ extension DeviceFarmClientTypes.DeviceFilter: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// Represents a device filter used to select a set of devices to be included in a test run. This data structure is passed in as the deviceSelectionConfiguration parameter to ScheduleRun. For an example of the JSON request syntax, see [ScheduleRun]. It is also passed in as the filters parameter to ListDevices. For an example of the JSON request syntax, see [ListDevices].
-    public struct DeviceFilter: Swift.Equatable {
+    public struct DeviceFilter {
         /// The aspect of a device such as platform or model used as the selection criteria in a device filter. The supported operators for each attribute are provided in the following list. ARN The Amazon Resource Name (ARN) of the device (for example, arn:aws:devicefarm:us-west-2::device:12345Example). Supported operators: EQUALS, IN, NOT_IN PLATFORM The device platform. Valid values are ANDROID or IOS. Supported operators: EQUALS OS_VERSION The operating system version (for example, 10.3.2). Supported operators: EQUALS, GREATER_THAN, GREATER_THAN_OR_EQUALS, IN, LESS_THAN, LESS_THAN_OR_EQUALS, NOT_IN MODEL The device model (for example, iPad 5th Gen). Supported operators: CONTAINS, EQUALS, IN, NOT_IN AVAILABILITY The current availability of the device. Valid values are AVAILABLE, HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAILABLE. Supported operators: EQUALS FORM_FACTOR The device form factor. Valid values are PHONE or TABLET. Supported operators: EQUALS MANUFACTURER The device manufacturer (for example, Apple). Supported operators: EQUALS, IN, NOT_IN REMOTE_ACCESS_ENABLED Whether the device is enabled for remote access. Valid values are TRUE or FALSE. Supported operators: EQUALS REMOTE_DEBUG_ENABLED Whether the device is enabled for remote debugging. Valid values are TRUE or FALSE. Supported operators: EQUALS Because remote debugging is [no longer supported](https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html), this filter is ignored. INSTANCE_ARN The Amazon Resource Name (ARN) of the device instance. Supported operators: EQUALS, IN, NOT_IN INSTANCE_LABELS The label of the device instance. Supported operators: CONTAINS FLEET_TYPE The fleet type. Valid values are PUBLIC or PRIVATE. Supported operators: EQUALS
         /// This member is required.
         public var attribute: DeviceFarmClientTypes.DeviceFilterAttribute?
@@ -3704,7 +3704,7 @@ extension DeviceFarmClientTypes.DeviceInstance: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// Represents the device instance.
-    public struct DeviceInstance: Swift.Equatable {
+    public struct DeviceInstance {
         /// The Amazon Resource Name (ARN) of the device instance.
         public var arn: Swift.String?
         /// The ARN of the device.
@@ -3771,7 +3771,7 @@ extension DeviceFarmClientTypes.DeviceMinutes: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// Represents the total (metered or unmetered) minutes used by the resource to run tests. Contains the sum of minutes consumed by all children.
-    public struct DeviceMinutes: Swift.Equatable {
+    public struct DeviceMinutes {
         /// When specified, represents only the sum of metered minutes used by the resource to run tests.
         public var metered: Swift.Double?
         /// When specified, represents the total minutes used by the resource to run tests.
@@ -3888,7 +3888,7 @@ extension DeviceFarmClientTypes.DevicePool: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// Represents a collection of device types.
-    public struct DevicePool: Swift.Equatable {
+    public struct DevicePool {
         /// The device pool's ARN.
         public var arn: Swift.String?
         /// The device pool's description.
@@ -3971,7 +3971,7 @@ extension DeviceFarmClientTypes.DevicePoolCompatibilityResult: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// Represents a device pool compatibility result.
-    public struct DevicePoolCompatibilityResult: Swift.Equatable {
+    public struct DevicePoolCompatibilityResult {
         /// Whether the result was compatible with the device pool.
         public var compatible: Swift.Bool?
         /// The device (phone or tablet) to return information about.
@@ -4064,7 +4064,7 @@ extension DeviceFarmClientTypes.DeviceSelectionConfiguration: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// Represents the device filters used in a test run and the maximum number of devices to be included in the run. It is passed in as the deviceSelectionConfiguration request parameter in [ScheduleRun].
-    public struct DeviceSelectionConfiguration: Swift.Equatable {
+    public struct DeviceSelectionConfiguration {
         /// Used to dynamically select a set of devices for a test run. A filter is made up of an attribute, an operator, and one or more values.
         ///
         /// * Attribute The aspect of a device such as platform or model used as the selection criteria in a device filter. Allowed values include:
@@ -4188,7 +4188,7 @@ extension DeviceFarmClientTypes.DeviceSelectionResult: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// Contains the run results requested by the device selection configuration and how many devices were returned. For an example of the JSON response syntax, see [ScheduleRun].
-    public struct DeviceSelectionResult: Swift.Equatable {
+    public struct DeviceSelectionResult {
         /// The filters in a device selection result.
         public var filters: [DeviceFarmClientTypes.DeviceFilter]?
         /// The number of devices that matched the device filter selection criteria.
@@ -4255,7 +4255,7 @@ extension DeviceFarmClientTypes.ExecutionConfiguration: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// Represents configuration information about a test run, such as the execution timeout (in minutes).
-    public struct ExecutionConfiguration: Swift.Equatable {
+    public struct ExecutionConfiguration {
         /// True if account cleanup is enabled at the beginning of the test. Otherwise, false.
         public var accountsCleanup: Swift.Bool?
         /// True if app package cleanup is enabled at the beginning of the test. Otherwise, false.
@@ -4433,12 +4433,12 @@ extension GetAccountSettingsInput {
 }
 
 /// Represents the request sent to retrieve the account settings.
-public struct GetAccountSettingsInput: Swift.Equatable {
+public struct GetAccountSettingsInput {
 
     public init() { }
 }
 
-struct GetAccountSettingsInputBody: Swift.Equatable {
+struct GetAccountSettingsInputBody {
 }
 
 extension GetAccountSettingsInputBody: Swift.Decodable {
@@ -4460,7 +4460,7 @@ extension GetAccountSettingsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the account settings return values from the GetAccountSettings request.
-public struct GetAccountSettingsOutput: Swift.Equatable {
+public struct GetAccountSettingsOutput {
     /// The account settings.
     public var accountSettings: DeviceFarmClientTypes.AccountSettings?
 
@@ -4472,7 +4472,7 @@ public struct GetAccountSettingsOutput: Swift.Equatable {
     }
 }
 
-struct GetAccountSettingsOutputBody: Swift.Equatable {
+struct GetAccountSettingsOutputBody {
     let accountSettings: DeviceFarmClientTypes.AccountSettings?
 }
 
@@ -4523,7 +4523,7 @@ extension GetDeviceInput {
 }
 
 /// Represents a request to the get device request.
-public struct GetDeviceInput: Swift.Equatable {
+public struct GetDeviceInput {
     /// The device type's ARN.
     /// This member is required.
     public var arn: Swift.String?
@@ -4536,7 +4536,7 @@ public struct GetDeviceInput: Swift.Equatable {
     }
 }
 
-struct GetDeviceInputBody: Swift.Equatable {
+struct GetDeviceInputBody {
     let arn: Swift.String?
 }
 
@@ -4572,7 +4572,7 @@ extension GetDeviceInstanceInput {
     }
 }
 
-public struct GetDeviceInstanceInput: Swift.Equatable {
+public struct GetDeviceInstanceInput {
     /// The Amazon Resource Name (ARN) of the instance you're requesting information about.
     /// This member is required.
     public var arn: Swift.String?
@@ -4585,7 +4585,7 @@ public struct GetDeviceInstanceInput: Swift.Equatable {
     }
 }
 
-struct GetDeviceInstanceInputBody: Swift.Equatable {
+struct GetDeviceInstanceInputBody {
     let arn: Swift.String?
 }
 
@@ -4613,7 +4613,7 @@ extension GetDeviceInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDeviceInstanceOutput: Swift.Equatable {
+public struct GetDeviceInstanceOutput {
     /// An object that contains information about your device instance.
     public var deviceInstance: DeviceFarmClientTypes.DeviceInstance?
 
@@ -4625,7 +4625,7 @@ public struct GetDeviceInstanceOutput: Swift.Equatable {
     }
 }
 
-struct GetDeviceInstanceOutputBody: Swift.Equatable {
+struct GetDeviceInstanceOutputBody {
     let deviceInstance: DeviceFarmClientTypes.DeviceInstance?
 }
 
@@ -4668,7 +4668,7 @@ extension GetDeviceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the result of a get device request.
-public struct GetDeviceOutput: Swift.Equatable {
+public struct GetDeviceOutput {
     /// An object that contains information about the requested device.
     public var device: DeviceFarmClientTypes.Device?
 
@@ -4680,7 +4680,7 @@ public struct GetDeviceOutput: Swift.Equatable {
     }
 }
 
-struct GetDeviceOutputBody: Swift.Equatable {
+struct GetDeviceOutputBody {
     let device: DeviceFarmClientTypes.Device?
 }
 
@@ -4747,7 +4747,7 @@ extension GetDevicePoolCompatibilityInput {
 }
 
 /// Represents a request to the get device pool compatibility operation.
-public struct GetDevicePoolCompatibilityInput: Swift.Equatable {
+public struct GetDevicePoolCompatibilityInput {
     /// The ARN of the app that is associated with the specified device pool.
     public var appArn: Swift.String?
     /// An object that contains information about the settings for a run.
@@ -4812,7 +4812,7 @@ public struct GetDevicePoolCompatibilityInput: Swift.Equatable {
     }
 }
 
-struct GetDevicePoolCompatibilityInputBody: Swift.Equatable {
+struct GetDevicePoolCompatibilityInputBody {
     let devicePoolArn: Swift.String?
     let appArn: Swift.String?
     let testType: DeviceFarmClientTypes.TestType?
@@ -4859,7 +4859,7 @@ extension GetDevicePoolCompatibilityOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the result of describe device pool compatibility request.
-public struct GetDevicePoolCompatibilityOutput: Swift.Equatable {
+public struct GetDevicePoolCompatibilityOutput {
     /// Information about compatible devices.
     public var compatibleDevices: [DeviceFarmClientTypes.DevicePoolCompatibilityResult]?
     /// Information about incompatible devices.
@@ -4875,7 +4875,7 @@ public struct GetDevicePoolCompatibilityOutput: Swift.Equatable {
     }
 }
 
-struct GetDevicePoolCompatibilityOutputBody: Swift.Equatable {
+struct GetDevicePoolCompatibilityOutputBody {
     let compatibleDevices: [DeviceFarmClientTypes.DevicePoolCompatibilityResult]?
     let incompatibleDevices: [DeviceFarmClientTypes.DevicePoolCompatibilityResult]?
 }
@@ -4948,7 +4948,7 @@ extension GetDevicePoolInput {
 }
 
 /// Represents a request to the get device pool operation.
-public struct GetDevicePoolInput: Swift.Equatable {
+public struct GetDevicePoolInput {
     /// The device pool's ARN.
     /// This member is required.
     public var arn: Swift.String?
@@ -4961,7 +4961,7 @@ public struct GetDevicePoolInput: Swift.Equatable {
     }
 }
 
-struct GetDevicePoolInputBody: Swift.Equatable {
+struct GetDevicePoolInputBody {
     let arn: Swift.String?
 }
 
@@ -4990,7 +4990,7 @@ extension GetDevicePoolOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the result of a get device pool request.
-public struct GetDevicePoolOutput: Swift.Equatable {
+public struct GetDevicePoolOutput {
     /// An object that contains information about the requested device pool.
     public var devicePool: DeviceFarmClientTypes.DevicePool?
 
@@ -5002,7 +5002,7 @@ public struct GetDevicePoolOutput: Swift.Equatable {
     }
 }
 
-struct GetDevicePoolOutputBody: Swift.Equatable {
+struct GetDevicePoolOutputBody {
     let devicePool: DeviceFarmClientTypes.DevicePool?
 }
 
@@ -5052,7 +5052,7 @@ extension GetInstanceProfileInput {
     }
 }
 
-public struct GetInstanceProfileInput: Swift.Equatable {
+public struct GetInstanceProfileInput {
     /// The Amazon Resource Name (ARN) of an instance profile.
     /// This member is required.
     public var arn: Swift.String?
@@ -5065,7 +5065,7 @@ public struct GetInstanceProfileInput: Swift.Equatable {
     }
 }
 
-struct GetInstanceProfileInputBody: Swift.Equatable {
+struct GetInstanceProfileInputBody {
     let arn: Swift.String?
 }
 
@@ -5093,7 +5093,7 @@ extension GetInstanceProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetInstanceProfileOutput: Swift.Equatable {
+public struct GetInstanceProfileOutput {
     /// An object that contains information about an instance profile.
     public var instanceProfile: DeviceFarmClientTypes.InstanceProfile?
 
@@ -5105,7 +5105,7 @@ public struct GetInstanceProfileOutput: Swift.Equatable {
     }
 }
 
-struct GetInstanceProfileOutputBody: Swift.Equatable {
+struct GetInstanceProfileOutputBody {
     let instanceProfile: DeviceFarmClientTypes.InstanceProfile?
 }
 
@@ -5156,7 +5156,7 @@ extension GetJobInput {
 }
 
 /// Represents a request to the get job operation.
-public struct GetJobInput: Swift.Equatable {
+public struct GetJobInput {
     /// The job's ARN.
     /// This member is required.
     public var arn: Swift.String?
@@ -5169,7 +5169,7 @@ public struct GetJobInput: Swift.Equatable {
     }
 }
 
-struct GetJobInputBody: Swift.Equatable {
+struct GetJobInputBody {
     let arn: Swift.String?
 }
 
@@ -5198,7 +5198,7 @@ extension GetJobOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the result of a get job request.
-public struct GetJobOutput: Swift.Equatable {
+public struct GetJobOutput {
     /// An object that contains information about the requested job.
     public var job: DeviceFarmClientTypes.Job?
 
@@ -5210,7 +5210,7 @@ public struct GetJobOutput: Swift.Equatable {
     }
 }
 
-struct GetJobOutputBody: Swift.Equatable {
+struct GetJobOutputBody {
     let job: DeviceFarmClientTypes.Job?
 }
 
@@ -5260,7 +5260,7 @@ extension GetNetworkProfileInput {
     }
 }
 
-public struct GetNetworkProfileInput: Swift.Equatable {
+public struct GetNetworkProfileInput {
     /// The ARN of the network profile to return information about.
     /// This member is required.
     public var arn: Swift.String?
@@ -5273,7 +5273,7 @@ public struct GetNetworkProfileInput: Swift.Equatable {
     }
 }
 
-struct GetNetworkProfileInputBody: Swift.Equatable {
+struct GetNetworkProfileInputBody {
     let arn: Swift.String?
 }
 
@@ -5301,7 +5301,7 @@ extension GetNetworkProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetNetworkProfileOutput: Swift.Equatable {
+public struct GetNetworkProfileOutput {
     /// The network profile.
     public var networkProfile: DeviceFarmClientTypes.NetworkProfile?
 
@@ -5313,7 +5313,7 @@ public struct GetNetworkProfileOutput: Swift.Equatable {
     }
 }
 
-struct GetNetworkProfileOutputBody: Swift.Equatable {
+struct GetNetworkProfileOutputBody {
     let networkProfile: DeviceFarmClientTypes.NetworkProfile?
 }
 
@@ -5364,7 +5364,7 @@ extension GetOfferingStatusInput {
 }
 
 /// Represents the request to retrieve the offering status for the specified customer or account.
-public struct GetOfferingStatusInput: Swift.Equatable {
+public struct GetOfferingStatusInput {
     /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
     public var nextToken: Swift.String?
 
@@ -5376,7 +5376,7 @@ public struct GetOfferingStatusInput: Swift.Equatable {
     }
 }
 
-struct GetOfferingStatusInputBody: Swift.Equatable {
+struct GetOfferingStatusInputBody {
     let nextToken: Swift.String?
 }
 
@@ -5409,7 +5409,7 @@ extension GetOfferingStatusOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Returns the status result for a device offering.
-public struct GetOfferingStatusOutput: Swift.Equatable {
+public struct GetOfferingStatusOutput {
     /// When specified, gets the offering status for the current period.
     public var current: [Swift.String:DeviceFarmClientTypes.OfferingStatus]?
     /// When specified, gets the offering status for the next period.
@@ -5429,7 +5429,7 @@ public struct GetOfferingStatusOutput: Swift.Equatable {
     }
 }
 
-struct GetOfferingStatusOutputBody: Swift.Equatable {
+struct GetOfferingStatusOutputBody {
     let current: [Swift.String:DeviceFarmClientTypes.OfferingStatus]?
     let nextPeriod: [Swift.String:DeviceFarmClientTypes.OfferingStatus]?
     let nextToken: Swift.String?
@@ -5507,7 +5507,7 @@ extension GetProjectInput {
 }
 
 /// Represents a request to the get project operation.
-public struct GetProjectInput: Swift.Equatable {
+public struct GetProjectInput {
     /// The project's ARN.
     /// This member is required.
     public var arn: Swift.String?
@@ -5520,7 +5520,7 @@ public struct GetProjectInput: Swift.Equatable {
     }
 }
 
-struct GetProjectInputBody: Swift.Equatable {
+struct GetProjectInputBody {
     let arn: Swift.String?
 }
 
@@ -5549,7 +5549,7 @@ extension GetProjectOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the result of a get project request.
-public struct GetProjectOutput: Swift.Equatable {
+public struct GetProjectOutput {
     /// The project to get information about.
     public var project: DeviceFarmClientTypes.Project?
 
@@ -5561,7 +5561,7 @@ public struct GetProjectOutput: Swift.Equatable {
     }
 }
 
-struct GetProjectOutputBody: Swift.Equatable {
+struct GetProjectOutputBody {
     let project: DeviceFarmClientTypes.Project?
 }
 
@@ -5612,7 +5612,7 @@ extension GetRemoteAccessSessionInput {
 }
 
 /// Represents the request to get information about the specified remote access session.
-public struct GetRemoteAccessSessionInput: Swift.Equatable {
+public struct GetRemoteAccessSessionInput {
     /// The Amazon Resource Name (ARN) of the remote access session about which you want to get session information.
     /// This member is required.
     public var arn: Swift.String?
@@ -5625,7 +5625,7 @@ public struct GetRemoteAccessSessionInput: Swift.Equatable {
     }
 }
 
-struct GetRemoteAccessSessionInputBody: Swift.Equatable {
+struct GetRemoteAccessSessionInputBody {
     let arn: Swift.String?
 }
 
@@ -5654,7 +5654,7 @@ extension GetRemoteAccessSessionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the response from the server that lists detailed information about the remote access session.
-public struct GetRemoteAccessSessionOutput: Swift.Equatable {
+public struct GetRemoteAccessSessionOutput {
     /// A container that lists detailed information about the remote access session.
     public var remoteAccessSession: DeviceFarmClientTypes.RemoteAccessSession?
 
@@ -5666,7 +5666,7 @@ public struct GetRemoteAccessSessionOutput: Swift.Equatable {
     }
 }
 
-struct GetRemoteAccessSessionOutputBody: Swift.Equatable {
+struct GetRemoteAccessSessionOutputBody {
     let remoteAccessSession: DeviceFarmClientTypes.RemoteAccessSession?
 }
 
@@ -5717,7 +5717,7 @@ extension GetRunInput {
 }
 
 /// Represents a request to the get run operation.
-public struct GetRunInput: Swift.Equatable {
+public struct GetRunInput {
     /// The run's ARN.
     /// This member is required.
     public var arn: Swift.String?
@@ -5730,7 +5730,7 @@ public struct GetRunInput: Swift.Equatable {
     }
 }
 
-struct GetRunInputBody: Swift.Equatable {
+struct GetRunInputBody {
     let arn: Swift.String?
 }
 
@@ -5759,7 +5759,7 @@ extension GetRunOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the result of a get run request.
-public struct GetRunOutput: Swift.Equatable {
+public struct GetRunOutput {
     /// The run to get results from.
     public var run: DeviceFarmClientTypes.Run?
 
@@ -5771,7 +5771,7 @@ public struct GetRunOutput: Swift.Equatable {
     }
 }
 
-struct GetRunOutputBody: Swift.Equatable {
+struct GetRunOutputBody {
     let run: DeviceFarmClientTypes.Run?
 }
 
@@ -5822,7 +5822,7 @@ extension GetSuiteInput {
 }
 
 /// Represents a request to the get suite operation.
-public struct GetSuiteInput: Swift.Equatable {
+public struct GetSuiteInput {
     /// The suite's ARN.
     /// This member is required.
     public var arn: Swift.String?
@@ -5835,7 +5835,7 @@ public struct GetSuiteInput: Swift.Equatable {
     }
 }
 
-struct GetSuiteInputBody: Swift.Equatable {
+struct GetSuiteInputBody {
     let arn: Swift.String?
 }
 
@@ -5864,7 +5864,7 @@ extension GetSuiteOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the result of a get suite request.
-public struct GetSuiteOutput: Swift.Equatable {
+public struct GetSuiteOutput {
     /// A collection of one or more tests.
     public var suite: DeviceFarmClientTypes.Suite?
 
@@ -5876,7 +5876,7 @@ public struct GetSuiteOutput: Swift.Equatable {
     }
 }
 
-struct GetSuiteOutputBody: Swift.Equatable {
+struct GetSuiteOutputBody {
     let suite: DeviceFarmClientTypes.Suite?
 }
 
@@ -5926,7 +5926,7 @@ extension GetTestGridProjectInput {
     }
 }
 
-public struct GetTestGridProjectInput: Swift.Equatable {
+public struct GetTestGridProjectInput {
     /// The ARN of the Selenium testing project, from either [CreateTestGridProject] or [ListTestGridProjects].
     /// This member is required.
     public var projectArn: Swift.String?
@@ -5939,7 +5939,7 @@ public struct GetTestGridProjectInput: Swift.Equatable {
     }
 }
 
-struct GetTestGridProjectInputBody: Swift.Equatable {
+struct GetTestGridProjectInputBody {
     let projectArn: Swift.String?
 }
 
@@ -5967,7 +5967,7 @@ extension GetTestGridProjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTestGridProjectOutput: Swift.Equatable {
+public struct GetTestGridProjectOutput {
     /// A [TestGridProject].
     public var testGridProject: DeviceFarmClientTypes.TestGridProject?
 
@@ -5979,7 +5979,7 @@ public struct GetTestGridProjectOutput: Swift.Equatable {
     }
 }
 
-struct GetTestGridProjectOutputBody: Swift.Equatable {
+struct GetTestGridProjectOutputBody {
     let testGridProject: DeviceFarmClientTypes.TestGridProject?
 }
 
@@ -6036,7 +6036,7 @@ extension GetTestGridSessionInput {
     }
 }
 
-public struct GetTestGridSessionInput: Swift.Equatable {
+public struct GetTestGridSessionInput {
     /// The ARN for the project that this session belongs to. See [CreateTestGridProject] and [ListTestGridProjects].
     public var projectArn: Swift.String?
     /// An ARN that uniquely identifies a [TestGridSession].
@@ -6056,7 +6056,7 @@ public struct GetTestGridSessionInput: Swift.Equatable {
     }
 }
 
-struct GetTestGridSessionInputBody: Swift.Equatable {
+struct GetTestGridSessionInputBody {
     let projectArn: Swift.String?
     let sessionId: Swift.String?
     let sessionArn: Swift.String?
@@ -6092,7 +6092,7 @@ extension GetTestGridSessionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTestGridSessionOutput: Swift.Equatable {
+public struct GetTestGridSessionOutput {
     /// The [TestGridSession] that was requested.
     public var testGridSession: DeviceFarmClientTypes.TestGridSession?
 
@@ -6104,7 +6104,7 @@ public struct GetTestGridSessionOutput: Swift.Equatable {
     }
 }
 
-struct GetTestGridSessionOutputBody: Swift.Equatable {
+struct GetTestGridSessionOutputBody {
     let testGridSession: DeviceFarmClientTypes.TestGridSession?
 }
 
@@ -6154,7 +6154,7 @@ extension GetTestInput {
 }
 
 /// Represents a request to the get test operation.
-public struct GetTestInput: Swift.Equatable {
+public struct GetTestInput {
     /// The test's ARN.
     /// This member is required.
     public var arn: Swift.String?
@@ -6167,7 +6167,7 @@ public struct GetTestInput: Swift.Equatable {
     }
 }
 
-struct GetTestInputBody: Swift.Equatable {
+struct GetTestInputBody {
     let arn: Swift.String?
 }
 
@@ -6196,7 +6196,7 @@ extension GetTestOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the result of a get test request.
-public struct GetTestOutput: Swift.Equatable {
+public struct GetTestOutput {
     /// A test condition that is evaluated.
     public var test: DeviceFarmClientTypes.Test?
 
@@ -6208,7 +6208,7 @@ public struct GetTestOutput: Swift.Equatable {
     }
 }
 
-struct GetTestOutputBody: Swift.Equatable {
+struct GetTestOutputBody {
     let test: DeviceFarmClientTypes.Test?
 }
 
@@ -6259,7 +6259,7 @@ extension GetUploadInput {
 }
 
 /// Represents a request to the get upload operation.
-public struct GetUploadInput: Swift.Equatable {
+public struct GetUploadInput {
     /// The upload's ARN.
     /// This member is required.
     public var arn: Swift.String?
@@ -6272,7 +6272,7 @@ public struct GetUploadInput: Swift.Equatable {
     }
 }
 
-struct GetUploadInputBody: Swift.Equatable {
+struct GetUploadInputBody {
     let arn: Swift.String?
 }
 
@@ -6301,7 +6301,7 @@ extension GetUploadOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the result of a get upload request.
-public struct GetUploadOutput: Swift.Equatable {
+public struct GetUploadOutput {
     /// An app or a set of one or more tests to upload or that have been uploaded.
     public var upload: DeviceFarmClientTypes.Upload?
 
@@ -6313,7 +6313,7 @@ public struct GetUploadOutput: Swift.Equatable {
     }
 }
 
-struct GetUploadOutputBody: Swift.Equatable {
+struct GetUploadOutputBody {
     let upload: DeviceFarmClientTypes.Upload?
 }
 
@@ -6363,7 +6363,7 @@ extension GetVPCEConfigurationInput {
     }
 }
 
-public struct GetVPCEConfigurationInput: Swift.Equatable {
+public struct GetVPCEConfigurationInput {
     /// The Amazon Resource Name (ARN) of the VPC endpoint configuration you want to describe.
     /// This member is required.
     public var arn: Swift.String?
@@ -6376,7 +6376,7 @@ public struct GetVPCEConfigurationInput: Swift.Equatable {
     }
 }
 
-struct GetVPCEConfigurationInputBody: Swift.Equatable {
+struct GetVPCEConfigurationInputBody {
     let arn: Swift.String?
 }
 
@@ -6404,7 +6404,7 @@ extension GetVPCEConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetVPCEConfigurationOutput: Swift.Equatable {
+public struct GetVPCEConfigurationOutput {
     /// An object that contains information about your VPC endpoint configuration.
     public var vpceConfiguration: DeviceFarmClientTypes.VPCEConfiguration?
 
@@ -6416,7 +6416,7 @@ public struct GetVPCEConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetVPCEConfigurationOutputBody: Swift.Equatable {
+struct GetVPCEConfigurationOutputBody {
     let vpceConfiguration: DeviceFarmClientTypes.VPCEConfiguration?
 }
 
@@ -6485,7 +6485,7 @@ public struct IdempotencyException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct IdempotencyExceptionBody: Swift.Equatable {
+struct IdempotencyExceptionBody {
     let message: Swift.String?
 }
 
@@ -6528,7 +6528,7 @@ extension DeviceFarmClientTypes.IncompatibilityMessage: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// Represents information about incompatibility.
-    public struct IncompatibilityMessage: Swift.Equatable {
+    public struct IncompatibilityMessage {
         /// A message about the incompatibility.
         public var message: Swift.String?
         /// The type of incompatibility. Allowed values include:
@@ -6583,7 +6583,7 @@ extension InstallToRemoteAccessSessionInput {
 }
 
 /// Represents the request to install an Android application (in .apk format) or an iOS application (in .ipa format) as part of a remote access session.
-public struct InstallToRemoteAccessSessionInput: Swift.Equatable {
+public struct InstallToRemoteAccessSessionInput {
     /// The ARN of the app about which you are requesting information.
     /// This member is required.
     public var appArn: Swift.String?
@@ -6601,7 +6601,7 @@ public struct InstallToRemoteAccessSessionInput: Swift.Equatable {
     }
 }
 
-struct InstallToRemoteAccessSessionInputBody: Swift.Equatable {
+struct InstallToRemoteAccessSessionInputBody {
     let remoteAccessSessionArn: Swift.String?
     let appArn: Swift.String?
 }
@@ -6634,7 +6634,7 @@ extension InstallToRemoteAccessSessionOutput: ClientRuntime.HttpResponseBinding 
 }
 
 /// Represents the response from the server after AWS Device Farm makes a request to install to a remote access session.
-public struct InstallToRemoteAccessSessionOutput: Swift.Equatable {
+public struct InstallToRemoteAccessSessionOutput {
     /// An app to upload or that has been uploaded.
     public var appUpload: DeviceFarmClientTypes.Upload?
 
@@ -6646,7 +6646,7 @@ public struct InstallToRemoteAccessSessionOutput: Swift.Equatable {
     }
 }
 
-struct InstallToRemoteAccessSessionOutputBody: Swift.Equatable {
+struct InstallToRemoteAccessSessionOutputBody {
     let appUpload: DeviceFarmClientTypes.Upload?
 }
 
@@ -6739,7 +6739,7 @@ extension DeviceFarmClientTypes.InstanceProfile: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// Represents the instance profile.
-    public struct InstanceProfile: Swift.Equatable {
+    public struct InstanceProfile {
         /// The Amazon Resource Name (ARN) of the instance profile.
         public var arn: Swift.String?
         /// The description of the instance profile.
@@ -6885,7 +6885,7 @@ public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InternalServiceExceptionBody: Swift.Equatable {
+struct InternalServiceExceptionBody {
     let message: Swift.String?
 }
 
@@ -6940,7 +6940,7 @@ public struct InvalidOperationException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidOperationExceptionBody: Swift.Equatable {
+struct InvalidOperationExceptionBody {
     let message: Swift.String?
 }
 
@@ -7061,7 +7061,7 @@ extension DeviceFarmClientTypes.Job: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// Represents a device.
-    public struct Job: Swift.Equatable {
+    public struct Job {
         /// The job's ARN.
         public var arn: Swift.String?
         /// The job's result counters.
@@ -7239,7 +7239,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -7284,7 +7284,7 @@ extension ListArtifactsInput {
 }
 
 /// Represents a request to the list artifacts operation.
-public struct ListArtifactsInput: Swift.Equatable {
+public struct ListArtifactsInput {
     /// The run, job, suite, or test ARN.
     /// This member is required.
     public var arn: Swift.String?
@@ -7312,7 +7312,7 @@ public struct ListArtifactsInput: Swift.Equatable {
     }
 }
 
-struct ListArtifactsInputBody: Swift.Equatable {
+struct ListArtifactsInputBody {
     let arn: Swift.String?
     let type: DeviceFarmClientTypes.ArtifactCategory?
     let nextToken: Swift.String?
@@ -7351,7 +7351,7 @@ extension ListArtifactsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the result of a list artifacts operation.
-public struct ListArtifactsOutput: Swift.Equatable {
+public struct ListArtifactsOutput {
     /// Information about the artifacts.
     public var artifacts: [DeviceFarmClientTypes.Artifact]?
     /// If the number of items that are returned is significantly large, this is an identifier that is also returned. It can be used in a subsequent call to this operation to return the next set of items in the list.
@@ -7367,7 +7367,7 @@ public struct ListArtifactsOutput: Swift.Equatable {
     }
 }
 
-struct ListArtifactsOutputBody: Swift.Equatable {
+struct ListArtifactsOutputBody {
     let artifacts: [DeviceFarmClientTypes.Artifact]?
     let nextToken: Swift.String?
 }
@@ -7434,7 +7434,7 @@ extension ListDeviceInstancesInput {
     }
 }
 
-public struct ListDeviceInstancesInput: Swift.Equatable {
+public struct ListDeviceInstancesInput {
     /// An integer that specifies the maximum number of items you want to return in the API response.
     public var maxResults: Swift.Int?
     /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -7450,7 +7450,7 @@ public struct ListDeviceInstancesInput: Swift.Equatable {
     }
 }
 
-struct ListDeviceInstancesInputBody: Swift.Equatable {
+struct ListDeviceInstancesInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -7484,7 +7484,7 @@ extension ListDeviceInstancesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDeviceInstancesOutput: Swift.Equatable {
+public struct ListDeviceInstancesOutput {
     /// An object that contains information about your device instances.
     public var deviceInstances: [DeviceFarmClientTypes.DeviceInstance]?
     /// An identifier that can be used in the next call to this operation to return the next set of items in the list.
@@ -7500,7 +7500,7 @@ public struct ListDeviceInstancesOutput: Swift.Equatable {
     }
 }
 
-struct ListDeviceInstancesOutputBody: Swift.Equatable {
+struct ListDeviceInstancesOutputBody {
     let deviceInstances: [DeviceFarmClientTypes.DeviceInstance]?
     let nextToken: Swift.String?
 }
@@ -7572,7 +7572,7 @@ extension ListDevicePoolsInput {
 }
 
 /// Represents the result of a list device pools request.
-public struct ListDevicePoolsInput: Swift.Equatable {
+public struct ListDevicePoolsInput {
     /// The project ARN.
     /// This member is required.
     public var arn: Swift.String?
@@ -7597,7 +7597,7 @@ public struct ListDevicePoolsInput: Swift.Equatable {
     }
 }
 
-struct ListDevicePoolsInputBody: Swift.Equatable {
+struct ListDevicePoolsInputBody {
     let arn: Swift.String?
     let type: DeviceFarmClientTypes.DevicePoolType?
     let nextToken: Swift.String?
@@ -7636,7 +7636,7 @@ extension ListDevicePoolsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the result of a list device pools request.
-public struct ListDevicePoolsOutput: Swift.Equatable {
+public struct ListDevicePoolsOutput {
     /// Information about the device pools.
     public var devicePools: [DeviceFarmClientTypes.DevicePool]?
     /// If the number of items that are returned is significantly large, this is an identifier that is also returned. It can be used in a subsequent call to this operation to return the next set of items in the list.
@@ -7652,7 +7652,7 @@ public struct ListDevicePoolsOutput: Swift.Equatable {
     }
 }
 
-struct ListDevicePoolsOutputBody: Swift.Equatable {
+struct ListDevicePoolsOutputBody {
     let devicePools: [DeviceFarmClientTypes.DevicePool]?
     let nextToken: Swift.String?
 }
@@ -7727,7 +7727,7 @@ extension ListDevicesInput {
 }
 
 /// Represents the result of a list devices request.
-public struct ListDevicesInput: Swift.Equatable {
+public struct ListDevicesInput {
     /// The Amazon Resource Name (ARN) of the project.
     public var arn: Swift.String?
     /// Used to select a set of devices. A filter is made up of an attribute, an operator, and one or more values.
@@ -7797,7 +7797,7 @@ public struct ListDevicesInput: Swift.Equatable {
     }
 }
 
-struct ListDevicesInputBody: Swift.Equatable {
+struct ListDevicesInputBody {
     let arn: Swift.String?
     let nextToken: Swift.String?
     let filters: [DeviceFarmClientTypes.DeviceFilter]?
@@ -7845,7 +7845,7 @@ extension ListDevicesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the result of a list devices operation.
-public struct ListDevicesOutput: Swift.Equatable {
+public struct ListDevicesOutput {
     /// Information about the devices.
     public var devices: [DeviceFarmClientTypes.Device]?
     /// If the number of items that are returned is significantly large, this is an identifier that is also returned. It can be used in a subsequent call to this operation to return the next set of items in the list.
@@ -7861,7 +7861,7 @@ public struct ListDevicesOutput: Swift.Equatable {
     }
 }
 
-struct ListDevicesOutputBody: Swift.Equatable {
+struct ListDevicesOutputBody {
     let devices: [DeviceFarmClientTypes.Device]?
     let nextToken: Swift.String?
 }
@@ -7928,7 +7928,7 @@ extension ListInstanceProfilesInput {
     }
 }
 
-public struct ListInstanceProfilesInput: Swift.Equatable {
+public struct ListInstanceProfilesInput {
     /// An integer that specifies the maximum number of items you want to return in the API response.
     public var maxResults: Swift.Int?
     /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -7944,7 +7944,7 @@ public struct ListInstanceProfilesInput: Swift.Equatable {
     }
 }
 
-struct ListInstanceProfilesInputBody: Swift.Equatable {
+struct ListInstanceProfilesInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -7978,7 +7978,7 @@ extension ListInstanceProfilesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListInstanceProfilesOutput: Swift.Equatable {
+public struct ListInstanceProfilesOutput {
     /// An object that contains information about your instance profiles.
     public var instanceProfiles: [DeviceFarmClientTypes.InstanceProfile]?
     /// An identifier that can be used in the next call to this operation to return the next set of items in the list.
@@ -7994,7 +7994,7 @@ public struct ListInstanceProfilesOutput: Swift.Equatable {
     }
 }
 
-struct ListInstanceProfilesOutputBody: Swift.Equatable {
+struct ListInstanceProfilesOutputBody {
     let instanceProfiles: [DeviceFarmClientTypes.InstanceProfile]?
     let nextToken: Swift.String?
 }
@@ -8062,7 +8062,7 @@ extension ListJobsInput {
 }
 
 /// Represents a request to the list jobs operation.
-public struct ListJobsInput: Swift.Equatable {
+public struct ListJobsInput {
     /// The run's Amazon Resource Name (ARN).
     /// This member is required.
     public var arn: Swift.String?
@@ -8079,7 +8079,7 @@ public struct ListJobsInput: Swift.Equatable {
     }
 }
 
-struct ListJobsInputBody: Swift.Equatable {
+struct ListJobsInputBody {
     let arn: Swift.String?
     let nextToken: Swift.String?
 }
@@ -8114,7 +8114,7 @@ extension ListJobsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the result of a list jobs request.
-public struct ListJobsOutput: Swift.Equatable {
+public struct ListJobsOutput {
     /// Information about the jobs.
     public var jobs: [DeviceFarmClientTypes.Job]?
     /// If the number of items that are returned is significantly large, this is an identifier that is also returned. It can be used in a subsequent call to this operation to return the next set of items in the list.
@@ -8130,7 +8130,7 @@ public struct ListJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListJobsOutputBody: Swift.Equatable {
+struct ListJobsOutputBody {
     let jobs: [DeviceFarmClientTypes.Job]?
     let nextToken: Swift.String?
 }
@@ -8201,7 +8201,7 @@ extension ListNetworkProfilesInput {
     }
 }
 
-public struct ListNetworkProfilesInput: Swift.Equatable {
+public struct ListNetworkProfilesInput {
     /// The Amazon Resource Name (ARN) of the project for which you want to list network profiles.
     /// This member is required.
     public var arn: Swift.String?
@@ -8222,7 +8222,7 @@ public struct ListNetworkProfilesInput: Swift.Equatable {
     }
 }
 
-struct ListNetworkProfilesInputBody: Swift.Equatable {
+struct ListNetworkProfilesInputBody {
     let arn: Swift.String?
     let type: DeviceFarmClientTypes.NetworkProfileType?
     let nextToken: Swift.String?
@@ -8260,7 +8260,7 @@ extension ListNetworkProfilesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListNetworkProfilesOutput: Swift.Equatable {
+public struct ListNetworkProfilesOutput {
     /// A list of the available network profiles.
     public var networkProfiles: [DeviceFarmClientTypes.NetworkProfile]?
     /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -8276,7 +8276,7 @@ public struct ListNetworkProfilesOutput: Swift.Equatable {
     }
 }
 
-struct ListNetworkProfilesOutputBody: Swift.Equatable {
+struct ListNetworkProfilesOutputBody {
     let networkProfiles: [DeviceFarmClientTypes.NetworkProfile]?
     let nextToken: Swift.String?
 }
@@ -8339,7 +8339,7 @@ extension ListOfferingPromotionsInput {
     }
 }
 
-public struct ListOfferingPromotionsInput: Swift.Equatable {
+public struct ListOfferingPromotionsInput {
     /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
     public var nextToken: Swift.String?
 
@@ -8351,7 +8351,7 @@ public struct ListOfferingPromotionsInput: Swift.Equatable {
     }
 }
 
-struct ListOfferingPromotionsInputBody: Swift.Equatable {
+struct ListOfferingPromotionsInputBody {
     let nextToken: Swift.String?
 }
 
@@ -8381,7 +8381,7 @@ extension ListOfferingPromotionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListOfferingPromotionsOutput: Swift.Equatable {
+public struct ListOfferingPromotionsOutput {
     /// An identifier to be used in the next call to this operation, to return the next set of items in the list.
     public var nextToken: Swift.String?
     /// Information about the offering promotions.
@@ -8397,7 +8397,7 @@ public struct ListOfferingPromotionsOutput: Swift.Equatable {
     }
 }
 
-struct ListOfferingPromotionsOutputBody: Swift.Equatable {
+struct ListOfferingPromotionsOutputBody {
     let offeringPromotions: [DeviceFarmClientTypes.OfferingPromotion]?
     let nextToken: Swift.String?
 }
@@ -8462,7 +8462,7 @@ extension ListOfferingTransactionsInput {
 }
 
 /// Represents the request to list the offering transaction history.
-public struct ListOfferingTransactionsInput: Swift.Equatable {
+public struct ListOfferingTransactionsInput {
     /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
     public var nextToken: Swift.String?
 
@@ -8474,7 +8474,7 @@ public struct ListOfferingTransactionsInput: Swift.Equatable {
     }
 }
 
-struct ListOfferingTransactionsInputBody: Swift.Equatable {
+struct ListOfferingTransactionsInputBody {
     let nextToken: Swift.String?
 }
 
@@ -8505,7 +8505,7 @@ extension ListOfferingTransactionsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Returns the transaction log of the specified offerings.
-public struct ListOfferingTransactionsOutput: Swift.Equatable {
+public struct ListOfferingTransactionsOutput {
     /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
     public var nextToken: Swift.String?
     /// The audit log of subscriptions you have purchased and modified through AWS Device Farm.
@@ -8521,7 +8521,7 @@ public struct ListOfferingTransactionsOutput: Swift.Equatable {
     }
 }
 
-struct ListOfferingTransactionsOutputBody: Swift.Equatable {
+struct ListOfferingTransactionsOutputBody {
     let offeringTransactions: [DeviceFarmClientTypes.OfferingTransaction]?
     let nextToken: Swift.String?
 }
@@ -8586,7 +8586,7 @@ extension ListOfferingsInput {
 }
 
 /// Represents the request to list all offerings.
-public struct ListOfferingsInput: Swift.Equatable {
+public struct ListOfferingsInput {
     /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
     public var nextToken: Swift.String?
 
@@ -8598,7 +8598,7 @@ public struct ListOfferingsInput: Swift.Equatable {
     }
 }
 
-struct ListOfferingsInputBody: Swift.Equatable {
+struct ListOfferingsInputBody {
     let nextToken: Swift.String?
 }
 
@@ -8629,7 +8629,7 @@ extension ListOfferingsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the return values of the list of offerings.
-public struct ListOfferingsOutput: Swift.Equatable {
+public struct ListOfferingsOutput {
     /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
     public var nextToken: Swift.String?
     /// A value that represents the list offering results.
@@ -8645,7 +8645,7 @@ public struct ListOfferingsOutput: Swift.Equatable {
     }
 }
 
-struct ListOfferingsOutputBody: Swift.Equatable {
+struct ListOfferingsOutputBody {
     let offerings: [DeviceFarmClientTypes.Offering]?
     let nextToken: Swift.String?
 }
@@ -8714,7 +8714,7 @@ extension ListProjectsInput {
 }
 
 /// Represents a request to the list projects operation.
-public struct ListProjectsInput: Swift.Equatable {
+public struct ListProjectsInput {
     /// Optional. If no Amazon Resource Name (ARN) is specified, then AWS Device Farm returns a list of all projects for the AWS account. You can also specify a project ARN.
     public var arn: Swift.String?
     /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -8730,7 +8730,7 @@ public struct ListProjectsInput: Swift.Equatable {
     }
 }
 
-struct ListProjectsInputBody: Swift.Equatable {
+struct ListProjectsInputBody {
     let arn: Swift.String?
     let nextToken: Swift.String?
 }
@@ -8765,7 +8765,7 @@ extension ListProjectsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the result of a list projects request.
-public struct ListProjectsOutput: Swift.Equatable {
+public struct ListProjectsOutput {
     /// If the number of items that are returned is significantly large, this is an identifier that is also returned. It can be used in a subsequent call to this operation to return the next set of items in the list.
     public var nextToken: Swift.String?
     /// Information about the projects.
@@ -8781,7 +8781,7 @@ public struct ListProjectsOutput: Swift.Equatable {
     }
 }
 
-struct ListProjectsOutputBody: Swift.Equatable {
+struct ListProjectsOutputBody {
     let projects: [DeviceFarmClientTypes.Project]?
     let nextToken: Swift.String?
 }
@@ -8849,7 +8849,7 @@ extension ListRemoteAccessSessionsInput {
 }
 
 /// Represents the request to return information about the remote access session.
-public struct ListRemoteAccessSessionsInput: Swift.Equatable {
+public struct ListRemoteAccessSessionsInput {
     /// The Amazon Resource Name (ARN) of the project about which you are requesting information.
     /// This member is required.
     public var arn: Swift.String?
@@ -8866,7 +8866,7 @@ public struct ListRemoteAccessSessionsInput: Swift.Equatable {
     }
 }
 
-struct ListRemoteAccessSessionsInputBody: Swift.Equatable {
+struct ListRemoteAccessSessionsInputBody {
     let arn: Swift.String?
     let nextToken: Swift.String?
 }
@@ -8901,7 +8901,7 @@ extension ListRemoteAccessSessionsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the response from the server after AWS Device Farm makes a request to return information about the remote access session.
-public struct ListRemoteAccessSessionsOutput: Swift.Equatable {
+public struct ListRemoteAccessSessionsOutput {
     /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
     public var nextToken: Swift.String?
     /// A container that represents the metadata from the service about each remote access session you are requesting.
@@ -8917,7 +8917,7 @@ public struct ListRemoteAccessSessionsOutput: Swift.Equatable {
     }
 }
 
-struct ListRemoteAccessSessionsOutputBody: Swift.Equatable {
+struct ListRemoteAccessSessionsOutputBody {
     let remoteAccessSessions: [DeviceFarmClientTypes.RemoteAccessSession]?
     let nextToken: Swift.String?
 }
@@ -8985,7 +8985,7 @@ extension ListRunsInput {
 }
 
 /// Represents a request to the list runs operation.
-public struct ListRunsInput: Swift.Equatable {
+public struct ListRunsInput {
     /// The Amazon Resource Name (ARN) of the project for which you want to list runs.
     /// This member is required.
     public var arn: Swift.String?
@@ -9002,7 +9002,7 @@ public struct ListRunsInput: Swift.Equatable {
     }
 }
 
-struct ListRunsInputBody: Swift.Equatable {
+struct ListRunsInputBody {
     let arn: Swift.String?
     let nextToken: Swift.String?
 }
@@ -9037,7 +9037,7 @@ extension ListRunsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the result of a list runs request.
-public struct ListRunsOutput: Swift.Equatable {
+public struct ListRunsOutput {
     /// If the number of items that are returned is significantly large, this is an identifier that is also returned. It can be used in a subsequent call to this operation to return the next set of items in the list.
     public var nextToken: Swift.String?
     /// Information about the runs.
@@ -9053,7 +9053,7 @@ public struct ListRunsOutput: Swift.Equatable {
     }
 }
 
-struct ListRunsOutputBody: Swift.Equatable {
+struct ListRunsOutputBody {
     let runs: [DeviceFarmClientTypes.Run]?
     let nextToken: Swift.String?
 }
@@ -9121,7 +9121,7 @@ extension ListSamplesInput {
 }
 
 /// Represents a request to the list samples operation.
-public struct ListSamplesInput: Swift.Equatable {
+public struct ListSamplesInput {
     /// The Amazon Resource Name (ARN) of the job used to list samples.
     /// This member is required.
     public var arn: Swift.String?
@@ -9138,7 +9138,7 @@ public struct ListSamplesInput: Swift.Equatable {
     }
 }
 
-struct ListSamplesInputBody: Swift.Equatable {
+struct ListSamplesInputBody {
     let arn: Swift.String?
     let nextToken: Swift.String?
 }
@@ -9173,7 +9173,7 @@ extension ListSamplesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the result of a list samples request.
-public struct ListSamplesOutput: Swift.Equatable {
+public struct ListSamplesOutput {
     /// If the number of items that are returned is significantly large, this is an identifier that is also returned. It can be used in a subsequent call to this operation to return the next set of items in the list.
     public var nextToken: Swift.String?
     /// Information about the samples.
@@ -9189,7 +9189,7 @@ public struct ListSamplesOutput: Swift.Equatable {
     }
 }
 
-struct ListSamplesOutputBody: Swift.Equatable {
+struct ListSamplesOutputBody {
     let samples: [DeviceFarmClientTypes.Sample]?
     let nextToken: Swift.String?
 }
@@ -9257,7 +9257,7 @@ extension ListSuitesInput {
 }
 
 /// Represents a request to the list suites operation.
-public struct ListSuitesInput: Swift.Equatable {
+public struct ListSuitesInput {
     /// The job's Amazon Resource Name (ARN).
     /// This member is required.
     public var arn: Swift.String?
@@ -9274,7 +9274,7 @@ public struct ListSuitesInput: Swift.Equatable {
     }
 }
 
-struct ListSuitesInputBody: Swift.Equatable {
+struct ListSuitesInputBody {
     let arn: Swift.String?
     let nextToken: Swift.String?
 }
@@ -9309,7 +9309,7 @@ extension ListSuitesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the result of a list suites request.
-public struct ListSuitesOutput: Swift.Equatable {
+public struct ListSuitesOutput {
     /// If the number of items that are returned is significantly large, this is an identifier that is also returned. It can be used in a subsequent call to this operation to return the next set of items in the list.
     public var nextToken: Swift.String?
     /// Information about the suites.
@@ -9325,7 +9325,7 @@ public struct ListSuitesOutput: Swift.Equatable {
     }
 }
 
-struct ListSuitesOutputBody: Swift.Equatable {
+struct ListSuitesOutputBody {
     let suites: [DeviceFarmClientTypes.Suite]?
     let nextToken: Swift.String?
 }
@@ -9388,7 +9388,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource or resources for which to list tags. You can associate tags with the following Device Farm resources: PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -9401,7 +9401,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceARN: Swift.String?
 }
 
@@ -9429,7 +9429,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The tags to add to the resource. A tag is an array of key-value pairs. Tag keys can have a maximum character length of 128 characters. Tag values can have a maximum length of 256 characters.
     public var tags: [DeviceFarmClientTypes.Tag]?
 
@@ -9441,7 +9441,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [DeviceFarmClientTypes.Tag]?
 }
 
@@ -9503,7 +9503,7 @@ extension ListTestGridProjectsInput {
     }
 }
 
-public struct ListTestGridProjectsInput: Swift.Equatable {
+public struct ListTestGridProjectsInput {
     /// Return no more than this number of results.
     public var maxResult: Swift.Int?
     /// From a response, used to continue a paginated listing.
@@ -9519,7 +9519,7 @@ public struct ListTestGridProjectsInput: Swift.Equatable {
     }
 }
 
-struct ListTestGridProjectsInputBody: Swift.Equatable {
+struct ListTestGridProjectsInputBody {
     let maxResult: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -9553,7 +9553,7 @@ extension ListTestGridProjectsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTestGridProjectsOutput: Swift.Equatable {
+public struct ListTestGridProjectsOutput {
     /// Used for pagination. Pass into [ListTestGridProjects] to get more results in a paginated request.
     public var nextToken: Swift.String?
     /// The list of TestGridProjects, based on a [ListTestGridProjectsRequest].
@@ -9569,7 +9569,7 @@ public struct ListTestGridProjectsOutput: Swift.Equatable {
     }
 }
 
-struct ListTestGridProjectsOutputBody: Swift.Equatable {
+struct ListTestGridProjectsOutputBody {
     let testGridProjects: [DeviceFarmClientTypes.TestGridProject]?
     let nextToken: Swift.String?
 }
@@ -9638,7 +9638,7 @@ extension ListTestGridSessionActionsInput {
     }
 }
 
-public struct ListTestGridSessionActionsInput: Swift.Equatable {
+public struct ListTestGridSessionActionsInput {
     /// The maximum number of sessions to return per response.
     public var maxResult: Swift.Int?
     /// Pagination token.
@@ -9659,7 +9659,7 @@ public struct ListTestGridSessionActionsInput: Swift.Equatable {
     }
 }
 
-struct ListTestGridSessionActionsInputBody: Swift.Equatable {
+struct ListTestGridSessionActionsInputBody {
     let sessionArn: Swift.String?
     let maxResult: Swift.Int?
     let nextToken: Swift.String?
@@ -9697,7 +9697,7 @@ extension ListTestGridSessionActionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTestGridSessionActionsOutput: Swift.Equatable {
+public struct ListTestGridSessionActionsOutput {
     /// The action taken by the session.
     public var actions: [DeviceFarmClientTypes.TestGridSessionAction]?
     /// Pagination token.
@@ -9713,7 +9713,7 @@ public struct ListTestGridSessionActionsOutput: Swift.Equatable {
     }
 }
 
-struct ListTestGridSessionActionsOutputBody: Swift.Equatable {
+struct ListTestGridSessionActionsOutputBody {
     let actions: [DeviceFarmClientTypes.TestGridSessionAction]?
     let nextToken: Swift.String?
 }
@@ -9787,7 +9787,7 @@ extension ListTestGridSessionArtifactsInput {
     }
 }
 
-public struct ListTestGridSessionArtifactsInput: Swift.Equatable {
+public struct ListTestGridSessionArtifactsInput {
     /// The maximum number of results to be returned by a request.
     public var maxResult: Swift.Int?
     /// Pagination token.
@@ -9812,7 +9812,7 @@ public struct ListTestGridSessionArtifactsInput: Swift.Equatable {
     }
 }
 
-struct ListTestGridSessionArtifactsInputBody: Swift.Equatable {
+struct ListTestGridSessionArtifactsInputBody {
     let sessionArn: Swift.String?
     let type: DeviceFarmClientTypes.TestGridSessionArtifactCategory?
     let maxResult: Swift.Int?
@@ -9854,7 +9854,7 @@ extension ListTestGridSessionArtifactsOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListTestGridSessionArtifactsOutput: Swift.Equatable {
+public struct ListTestGridSessionArtifactsOutput {
     /// A list of test grid session artifacts for a [TestGridSession].
     public var artifacts: [DeviceFarmClientTypes.TestGridSessionArtifact]?
     /// Pagination token.
@@ -9870,7 +9870,7 @@ public struct ListTestGridSessionArtifactsOutput: Swift.Equatable {
     }
 }
 
-struct ListTestGridSessionArtifactsOutputBody: Swift.Equatable {
+struct ListTestGridSessionArtifactsOutputBody {
     let artifacts: [DeviceFarmClientTypes.TestGridSessionArtifact]?
     let nextToken: Swift.String?
 }
@@ -9960,7 +9960,7 @@ extension ListTestGridSessionsInput {
     }
 }
 
-public struct ListTestGridSessionsInput: Swift.Equatable {
+public struct ListTestGridSessionsInput {
     /// Return only sessions created after this time.
     public var creationTimeAfter: ClientRuntime.Date?
     /// Return only sessions created before this time.
@@ -10001,7 +10001,7 @@ public struct ListTestGridSessionsInput: Swift.Equatable {
     }
 }
 
-struct ListTestGridSessionsInputBody: Swift.Equatable {
+struct ListTestGridSessionsInputBody {
     let projectArn: Swift.String?
     let status: DeviceFarmClientTypes.TestGridSessionStatus?
     let creationTimeAfter: ClientRuntime.Date?
@@ -10059,7 +10059,7 @@ extension ListTestGridSessionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTestGridSessionsOutput: Swift.Equatable {
+public struct ListTestGridSessionsOutput {
     /// Pagination token.
     public var nextToken: Swift.String?
     /// The sessions that match the criteria in a [ListTestGridSessionsRequest].
@@ -10075,7 +10075,7 @@ public struct ListTestGridSessionsOutput: Swift.Equatable {
     }
 }
 
-struct ListTestGridSessionsOutputBody: Swift.Equatable {
+struct ListTestGridSessionsOutputBody {
     let testGridSessions: [DeviceFarmClientTypes.TestGridSession]?
     let nextToken: Swift.String?
 }
@@ -10142,7 +10142,7 @@ extension ListTestsInput {
 }
 
 /// Represents a request to the list tests operation.
-public struct ListTestsInput: Swift.Equatable {
+public struct ListTestsInput {
     /// The test suite's Amazon Resource Name (ARN).
     /// This member is required.
     public var arn: Swift.String?
@@ -10159,7 +10159,7 @@ public struct ListTestsInput: Swift.Equatable {
     }
 }
 
-struct ListTestsInputBody: Swift.Equatable {
+struct ListTestsInputBody {
     let arn: Swift.String?
     let nextToken: Swift.String?
 }
@@ -10194,7 +10194,7 @@ extension ListTestsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the result of a list tests request.
-public struct ListTestsOutput: Swift.Equatable {
+public struct ListTestsOutput {
     /// If the number of items that are returned is significantly large, this is an identifier that is also returned. It can be used in a subsequent call to this operation to return the next set of items in the list.
     public var nextToken: Swift.String?
     /// Information about the tests.
@@ -10210,7 +10210,7 @@ public struct ListTestsOutput: Swift.Equatable {
     }
 }
 
-struct ListTestsOutputBody: Swift.Equatable {
+struct ListTestsOutputBody {
     let tests: [DeviceFarmClientTypes.Test]?
     let nextToken: Swift.String?
 }
@@ -10278,7 +10278,7 @@ extension ListUniqueProblemsInput {
 }
 
 /// Represents a request to the list unique problems operation.
-public struct ListUniqueProblemsInput: Swift.Equatable {
+public struct ListUniqueProblemsInput {
     /// The unique problems' ARNs.
     /// This member is required.
     public var arn: Swift.String?
@@ -10295,7 +10295,7 @@ public struct ListUniqueProblemsInput: Swift.Equatable {
     }
 }
 
-struct ListUniqueProblemsInputBody: Swift.Equatable {
+struct ListUniqueProblemsInputBody {
     let arn: Swift.String?
     let nextToken: Swift.String?
 }
@@ -10330,7 +10330,7 @@ extension ListUniqueProblemsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the result of a list unique problems request.
-public struct ListUniqueProblemsOutput: Swift.Equatable {
+public struct ListUniqueProblemsOutput {
     /// If the number of items that are returned is significantly large, this is an identifier that is also returned. It can be used in a subsequent call to this operation to return the next set of items in the list.
     public var nextToken: Swift.String?
     /// Information about the unique problems. Allowed values include:
@@ -10360,7 +10360,7 @@ public struct ListUniqueProblemsOutput: Swift.Equatable {
     }
 }
 
-struct ListUniqueProblemsOutputBody: Swift.Equatable {
+struct ListUniqueProblemsOutputBody {
     let uniqueProblems: [Swift.String:[DeviceFarmClientTypes.UniqueProblem]]?
     let nextToken: Swift.String?
 }
@@ -10439,7 +10439,7 @@ extension ListUploadsInput {
 }
 
 /// Represents a request to the list uploads operation.
-public struct ListUploadsInput: Swift.Equatable {
+public struct ListUploadsInput {
     /// The Amazon Resource Name (ARN) of the project for which you want to list uploads.
     /// This member is required.
     public var arn: Swift.String?
@@ -10524,7 +10524,7 @@ public struct ListUploadsInput: Swift.Equatable {
     }
 }
 
-struct ListUploadsInputBody: Swift.Equatable {
+struct ListUploadsInputBody {
     let arn: Swift.String?
     let type: DeviceFarmClientTypes.UploadType?
     let nextToken: Swift.String?
@@ -10563,7 +10563,7 @@ extension ListUploadsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the result of a list uploads request.
-public struct ListUploadsOutput: Swift.Equatable {
+public struct ListUploadsOutput {
     /// If the number of items that are returned is significantly large, this is an identifier that is also returned. It can be used in a subsequent call to this operation to return the next set of items in the list.
     public var nextToken: Swift.String?
     /// Information about the uploads.
@@ -10579,7 +10579,7 @@ public struct ListUploadsOutput: Swift.Equatable {
     }
 }
 
-struct ListUploadsOutputBody: Swift.Equatable {
+struct ListUploadsOutputBody {
     let uploads: [DeviceFarmClientTypes.Upload]?
     let nextToken: Swift.String?
 }
@@ -10646,7 +10646,7 @@ extension ListVPCEConfigurationsInput {
     }
 }
 
-public struct ListVPCEConfigurationsInput: Swift.Equatable {
+public struct ListVPCEConfigurationsInput {
     /// An integer that specifies the maximum number of items you want to return in the API response.
     public var maxResults: Swift.Int?
     /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -10662,7 +10662,7 @@ public struct ListVPCEConfigurationsInput: Swift.Equatable {
     }
 }
 
-struct ListVPCEConfigurationsInputBody: Swift.Equatable {
+struct ListVPCEConfigurationsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -10696,7 +10696,7 @@ extension ListVPCEConfigurationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListVPCEConfigurationsOutput: Swift.Equatable {
+public struct ListVPCEConfigurationsOutput {
     /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
     public var nextToken: Swift.String?
     /// An array of VPCEConfiguration objects that contain information about your VPC endpoint configuration.
@@ -10712,7 +10712,7 @@ public struct ListVPCEConfigurationsOutput: Swift.Equatable {
     }
 }
 
-struct ListVPCEConfigurationsOutputBody: Swift.Equatable {
+struct ListVPCEConfigurationsOutputBody {
     let vpceConfigurations: [DeviceFarmClientTypes.VPCEConfiguration]?
     let nextToken: Swift.String?
 }
@@ -10780,7 +10780,7 @@ extension DeviceFarmClientTypes.Location: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// Represents a latitude and longitude pair, expressed in geographic coordinate system degrees (for example, 47.6204, -122.3491). Elevation is currently not supported.
-    public struct Location: Swift.Equatable {
+    public struct Location {
         /// The latitude.
         /// This member is required.
         public var latitude: Swift.Double?
@@ -10827,7 +10827,7 @@ extension DeviceFarmClientTypes.MonetaryAmount: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// A number that represents the monetary amount for an offering or transaction.
-    public struct MonetaryAmount: Swift.Equatable {
+    public struct MonetaryAmount {
         /// The numerical amount of an offering or transaction.
         public var amount: Swift.Double?
         /// The currency code of a monetary amount. For example, USD means U.S. dollars.
@@ -10932,7 +10932,7 @@ extension DeviceFarmClientTypes.NetworkProfile: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// An array of settings that describes characteristics of a network profile.
-    public struct NetworkProfile: Swift.Equatable {
+    public struct NetworkProfile {
         /// The Amazon Resource Name (ARN) of the network profile.
         public var arn: Swift.String?
         /// The description of the network profile.
@@ -11062,7 +11062,7 @@ public struct NotEligibleException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct NotEligibleExceptionBody: Swift.Equatable {
+struct NotEligibleExceptionBody {
     let message: Swift.String?
 }
 
@@ -11118,7 +11118,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct NotFoundExceptionBody: Swift.Equatable {
+struct NotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -11191,7 +11191,7 @@ extension DeviceFarmClientTypes.Offering: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// Represents the metadata of a device offering.
-    public struct Offering: Swift.Equatable {
+    public struct Offering {
         /// A string that describes the offering.
         public var description: Swift.String?
         /// The ID that corresponds to a device offering.
@@ -11248,7 +11248,7 @@ extension DeviceFarmClientTypes.OfferingPromotion: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// Represents information about an offering promotion.
-    public struct OfferingPromotion: Swift.Equatable {
+    public struct OfferingPromotion {
         /// A string that describes the offering promotion.
         public var description: Swift.String?
         /// The ID of the offering promotion.
@@ -11305,7 +11305,7 @@ extension DeviceFarmClientTypes.OfferingStatus: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// The status of the offering.
-    public struct OfferingStatus: Swift.Equatable {
+    public struct OfferingStatus {
         /// The date on which the offering is effective.
         public var effectiveOn: ClientRuntime.Date?
         /// Represents the metadata of an offering status.
@@ -11376,7 +11376,7 @@ extension DeviceFarmClientTypes.OfferingTransaction: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// Represents the metadata of an offering transaction.
-    public struct OfferingTransaction: Swift.Equatable {
+    public struct OfferingTransaction {
         /// The cost of an offering transaction.
         public var cost: DeviceFarmClientTypes.MonetaryAmount?
         /// The date on which an offering transaction was created.
@@ -11527,7 +11527,7 @@ extension DeviceFarmClientTypes.Problem: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// Represents a specific warning or failure.
-    public struct Problem: Swift.Equatable {
+    public struct Problem {
         /// Information about the associated device.
         public var device: DeviceFarmClientTypes.Device?
         /// Information about the associated job.
@@ -11606,7 +11606,7 @@ extension DeviceFarmClientTypes.ProblemDetail: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// Information about a problem detail.
-    public struct ProblemDetail: Swift.Equatable {
+    public struct ProblemDetail {
         /// The problem detail's ARN.
         public var arn: Swift.String?
         /// The problem detail's name.
@@ -11669,7 +11669,7 @@ extension DeviceFarmClientTypes.Project: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// Represents an operating-system neutral workspace for running and managing tests.
-    public struct Project: Swift.Equatable {
+    public struct Project {
         /// The project's ARN.
         public var arn: Swift.String?
         /// When the project was created.
@@ -11728,7 +11728,7 @@ extension PurchaseOfferingInput {
 }
 
 /// Represents a request for a purchase offering.
-public struct PurchaseOfferingInput: Swift.Equatable {
+public struct PurchaseOfferingInput {
     /// The ID of the offering.
     /// This member is required.
     public var offeringId: Swift.String?
@@ -11750,7 +11750,7 @@ public struct PurchaseOfferingInput: Swift.Equatable {
     }
 }
 
-struct PurchaseOfferingInputBody: Swift.Equatable {
+struct PurchaseOfferingInputBody {
     let offeringId: Swift.String?
     let quantity: Swift.Int?
     let offeringPromotionId: Swift.String?
@@ -11787,7 +11787,7 @@ extension PurchaseOfferingOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result of the purchase offering (for example, success or failure).
-public struct PurchaseOfferingOutput: Swift.Equatable {
+public struct PurchaseOfferingOutput {
     /// Represents the offering transaction for the purchase result.
     public var offeringTransaction: DeviceFarmClientTypes.OfferingTransaction?
 
@@ -11799,7 +11799,7 @@ public struct PurchaseOfferingOutput: Swift.Equatable {
     }
 }
 
-struct PurchaseOfferingOutputBody: Swift.Equatable {
+struct PurchaseOfferingOutputBody {
     let offeringTransaction: DeviceFarmClientTypes.OfferingTransaction?
 }
 
@@ -11869,7 +11869,7 @@ extension DeviceFarmClientTypes.Radios: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// Represents the set of radios and their states on a device. Examples of radios include Wi-Fi, GPS, Bluetooth, and NFC.
-    public struct Radios: Swift.Equatable {
+    public struct Radios {
         /// True if Bluetooth is enabled at the beginning of the test. Otherwise, false.
         public var bluetooth: Swift.Bool?
         /// True if GPS is enabled at the beginning of the test. Otherwise, false.
@@ -11922,7 +11922,7 @@ extension DeviceFarmClientTypes.RecurringCharge: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// Specifies whether charges for devices are recurring.
-    public struct RecurringCharge: Swift.Equatable {
+    public struct RecurringCharge {
         /// The cost of the recurring charge.
         public var cost: DeviceFarmClientTypes.MonetaryAmount?
         /// The frequency in which charges recur.
@@ -12116,7 +12116,7 @@ extension DeviceFarmClientTypes.RemoteAccessSession: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// Represents information about the remote access session.
-    public struct RemoteAccessSession: Swift.Equatable {
+    public struct RemoteAccessSession {
         /// The Amazon Resource Name (ARN) of the remote access session.
         public var arn: Swift.String?
         /// The billing method of the remote access session. Possible values include METERED or UNMETERED. For more information about metered devices, see [AWS Device Farm terminology](https://docs.aws.amazon.com/devicefarm/latest/developerguide/welcome.html#welcome-terminology).
@@ -12277,7 +12277,7 @@ extension RenewOfferingInput {
 }
 
 /// A request that represents an offering renewal.
-public struct RenewOfferingInput: Swift.Equatable {
+public struct RenewOfferingInput {
     /// The ID of a request to renew an offering.
     /// This member is required.
     public var offeringId: Swift.String?
@@ -12295,7 +12295,7 @@ public struct RenewOfferingInput: Swift.Equatable {
     }
 }
 
-struct RenewOfferingInputBody: Swift.Equatable {
+struct RenewOfferingInputBody {
     let offeringId: Swift.String?
     let quantity: Swift.Int?
 }
@@ -12328,7 +12328,7 @@ extension RenewOfferingOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result of a renewal offering.
-public struct RenewOfferingOutput: Swift.Equatable {
+public struct RenewOfferingOutput {
     /// Represents the status of the offering transaction for the renewal.
     public var offeringTransaction: DeviceFarmClientTypes.OfferingTransaction?
 
@@ -12340,7 +12340,7 @@ public struct RenewOfferingOutput: Swift.Equatable {
     }
 }
 
-struct RenewOfferingOutputBody: Swift.Equatable {
+struct RenewOfferingOutputBody {
     let offeringTransaction: DeviceFarmClientTypes.OfferingTransaction?
 }
 
@@ -12398,7 +12398,7 @@ extension DeviceFarmClientTypes.Resolution: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// Represents the screen resolution of a device in height and width, expressed in pixels.
-    public struct Resolution: Swift.Equatable {
+    public struct Resolution {
         /// The screen resolution's height, expressed in pixels.
         public var height: Swift.Int?
         /// The screen resolution's width, expressed in pixels.
@@ -12449,7 +12449,7 @@ extension DeviceFarmClientTypes.Rule: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// Represents a condition for a device pool.
-    public struct Rule: Swift.Equatable {
+    public struct Rule {
         /// The rule's stringified attribute. For example, specify the value as "\"abc\"". The supported operators for each attribute are provided in the following list. APPIUM_VERSION The Appium version for the test. Supported operators: CONTAINS ARN The Amazon Resource Name (ARN) of the device (for example, arn:aws:devicefarm:us-west-2::device:12345Example. Supported operators: EQUALS, IN, NOT_IN AVAILABILITY The current availability of the device. Valid values are AVAILABLE, HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAILABLE. Supported operators: EQUALS FLEET_TYPE The fleet type. Valid values are PUBLIC or PRIVATE. Supported operators: EQUALS FORM_FACTOR The device form factor. Valid values are PHONE or TABLET. Supported operators: EQUALS, IN, NOT_IN INSTANCE_ARN The Amazon Resource Name (ARN) of the device instance. Supported operators: IN, NOT_IN INSTANCE_LABELS The label of the device instance. Supported operators: CONTAINS MANUFACTURER The device manufacturer (for example, Apple). Supported operators: EQUALS, IN, NOT_IN MODEL The device model, such as Apple iPad Air 2 or Google Pixel. Supported operators: CONTAINS, EQUALS, IN, NOT_IN OS_VERSION The operating system version (for example, 10.3.2). Supported operators: EQUALS, GREATER_THAN, GREATER_THAN_OR_EQUALS, IN, LESS_THAN, LESS_THAN_OR_EQUALS, NOT_IN PLATFORM The device platform. Valid values are ANDROID or IOS. Supported operators: EQUALS, IN, NOT_IN REMOTE_ACCESS_ENABLED Whether the device is enabled for remote access. Valid values are TRUE or FALSE. Supported operators: EQUALS REMOTE_DEBUG_ENABLED Whether the device is enabled for remote debugging. Valid values are TRUE or FALSE. Supported operators: EQUALS Because remote debugging is [no longer supported](https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html), this filter is ignored.
         public var attribute: DeviceFarmClientTypes.DeviceAttribute?
         /// Specifies how Device Farm compares the rule's attribute to the value. For the operators that are supported by each attribute, see the attribute descriptions.
@@ -12728,7 +12728,7 @@ extension DeviceFarmClientTypes.Run: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// Represents a test run on a set of devices with a given app package, test parameters, and so on.
-    public struct Run: Swift.Equatable {
+    public struct Run {
         /// An app to upload or that has been uploaded.
         public var appUpload: Swift.String?
         /// The run's ARN.
@@ -12971,7 +12971,7 @@ extension DeviceFarmClientTypes.Sample: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// Represents a sample of performance data.
-    public struct Sample: Swift.Equatable {
+    public struct Sample {
         /// The sample's ARN.
         public var arn: Swift.String?
         /// The sample's type. Must be one of the following values:
@@ -13197,7 +13197,7 @@ extension DeviceFarmClientTypes.ScheduleRunConfiguration: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// Represents the settings for a run. Includes things like location, radio states, auxiliary apps, and network profiles.
-    public struct ScheduleRunConfiguration: Swift.Equatable {
+    public struct ScheduleRunConfiguration {
         /// A list of upload ARNs for app packages to be installed with your app.
         public var auxiliaryApps: [Swift.String]?
         /// Specifies the billing method for a test run: metered or unmetered. If the parameter is not specified, the default value is metered. If you have purchased unmetered device slots, you must set this parameter to unmetered to make use of them. Otherwise, your run counts against your metered time.
@@ -13292,7 +13292,7 @@ extension ScheduleRunInput {
 }
 
 /// Represents a request to the schedule run operation.
-public struct ScheduleRunInput: Swift.Equatable {
+public struct ScheduleRunInput {
     /// The ARN of an application package to run tests against, created with [CreateUpload]. See [ListUploads].
     public var appArn: Swift.String?
     /// Information about the settings for the run to be scheduled.
@@ -13334,7 +13334,7 @@ public struct ScheduleRunInput: Swift.Equatable {
     }
 }
 
-struct ScheduleRunInputBody: Swift.Equatable {
+struct ScheduleRunInputBody {
     let projectArn: Swift.String?
     let appArn: Swift.String?
     let devicePoolArn: Swift.String?
@@ -13391,7 +13391,7 @@ extension ScheduleRunOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the result of a schedule run request.
-public struct ScheduleRunOutput: Swift.Equatable {
+public struct ScheduleRunOutput {
     /// Information about the scheduled run.
     public var run: DeviceFarmClientTypes.Run?
 
@@ -13403,7 +13403,7 @@ public struct ScheduleRunOutput: Swift.Equatable {
     }
 }
 
-struct ScheduleRunOutputBody: Swift.Equatable {
+struct ScheduleRunOutputBody {
     let run: DeviceFarmClientTypes.Run?
 }
 
@@ -13491,7 +13491,7 @@ extension DeviceFarmClientTypes.ScheduleRunTest: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// Represents test settings. This data structure is passed in as the test parameter to ScheduleRun. For an example of the JSON request syntax, see [ScheduleRun].
-    public struct ScheduleRunTest: Swift.Equatable {
+    public struct ScheduleRunTest {
         /// The test's filter.
         public var filter: Swift.String?
         /// The test's parameters, such as test framework parameters and fixture settings. Parameters are represented by name-value pairs of strings. For all tests:
@@ -13678,7 +13678,7 @@ public struct ServiceAccountException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct ServiceAccountExceptionBody: Swift.Equatable {
+struct ServiceAccountExceptionBody {
     let message: Swift.String?
 }
 
@@ -13714,7 +13714,7 @@ extension StopJobInput {
     }
 }
 
-public struct StopJobInput: Swift.Equatable {
+public struct StopJobInput {
     /// Represents the Amazon Resource Name (ARN) of the Device Farm job to stop.
     /// This member is required.
     public var arn: Swift.String?
@@ -13727,7 +13727,7 @@ public struct StopJobInput: Swift.Equatable {
     }
 }
 
-struct StopJobInputBody: Swift.Equatable {
+struct StopJobInputBody {
     let arn: Swift.String?
 }
 
@@ -13755,7 +13755,7 @@ extension StopJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopJobOutput: Swift.Equatable {
+public struct StopJobOutput {
     /// The job that was stopped.
     public var job: DeviceFarmClientTypes.Job?
 
@@ -13767,7 +13767,7 @@ public struct StopJobOutput: Swift.Equatable {
     }
 }
 
-struct StopJobOutputBody: Swift.Equatable {
+struct StopJobOutputBody {
     let job: DeviceFarmClientTypes.Job?
 }
 
@@ -13818,7 +13818,7 @@ extension StopRemoteAccessSessionInput {
 }
 
 /// Represents the request to stop the remote access session.
-public struct StopRemoteAccessSessionInput: Swift.Equatable {
+public struct StopRemoteAccessSessionInput {
     /// The Amazon Resource Name (ARN) of the remote access session to stop.
     /// This member is required.
     public var arn: Swift.String?
@@ -13831,7 +13831,7 @@ public struct StopRemoteAccessSessionInput: Swift.Equatable {
     }
 }
 
-struct StopRemoteAccessSessionInputBody: Swift.Equatable {
+struct StopRemoteAccessSessionInputBody {
     let arn: Swift.String?
 }
 
@@ -13860,7 +13860,7 @@ extension StopRemoteAccessSessionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the response from the server that describes the remote access session when AWS Device Farm stops the session.
-public struct StopRemoteAccessSessionOutput: Swift.Equatable {
+public struct StopRemoteAccessSessionOutput {
     /// A container that represents the metadata from the service about the remote access session you are stopping.
     public var remoteAccessSession: DeviceFarmClientTypes.RemoteAccessSession?
 
@@ -13872,7 +13872,7 @@ public struct StopRemoteAccessSessionOutput: Swift.Equatable {
     }
 }
 
-struct StopRemoteAccessSessionOutputBody: Swift.Equatable {
+struct StopRemoteAccessSessionOutputBody {
     let remoteAccessSession: DeviceFarmClientTypes.RemoteAccessSession?
 }
 
@@ -13923,7 +13923,7 @@ extension StopRunInput {
 }
 
 /// Represents the request to stop a specific run.
-public struct StopRunInput: Swift.Equatable {
+public struct StopRunInput {
     /// Represents the Amazon Resource Name (ARN) of the Device Farm run to stop.
     /// This member is required.
     public var arn: Swift.String?
@@ -13936,7 +13936,7 @@ public struct StopRunInput: Swift.Equatable {
     }
 }
 
-struct StopRunInputBody: Swift.Equatable {
+struct StopRunInputBody {
     let arn: Swift.String?
 }
 
@@ -13965,7 +13965,7 @@ extension StopRunOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the results of your stop run attempt.
-public struct StopRunOutput: Swift.Equatable {
+public struct StopRunOutput {
     /// The run that was stopped.
     public var run: DeviceFarmClientTypes.Run?
 
@@ -13977,7 +13977,7 @@ public struct StopRunOutput: Swift.Equatable {
     }
 }
 
-struct StopRunOutputBody: Swift.Equatable {
+struct StopRunOutputBody {
     let run: DeviceFarmClientTypes.Run?
 }
 
@@ -14088,7 +14088,7 @@ extension DeviceFarmClientTypes.Suite: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// Represents a collection of one or more tests.
-    public struct Suite: Swift.Equatable {
+    public struct Suite {
         /// The suite's ARN.
         public var arn: Swift.String?
         /// The suite's result counters.
@@ -14237,7 +14237,7 @@ extension DeviceFarmClientTypes.Tag: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// The metadata that you apply to a resource to help you categorize and organize it. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters. Tag values can have a maximum length of 256 characters.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values.
         /// This member is required.
         public var key: Swift.String?
@@ -14301,7 +14301,7 @@ public struct TagOperationException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct TagOperationExceptionBody: Swift.Equatable {
+struct TagOperationExceptionBody {
     let message: Swift.String?
     let resourceName: Swift.String?
 }
@@ -14365,7 +14365,7 @@ public struct TagPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.A
     }
 }
 
-struct TagPolicyExceptionBody: Swift.Equatable {
+struct TagPolicyExceptionBody {
     let message: Swift.String?
     let resourceName: Swift.String?
 }
@@ -14412,7 +14412,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource or resources to which to add tags. You can associate tags with the following Device Farm resources: PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -14430,7 +14430,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceARN: Swift.String?
     let tags: [DeviceFarmClientTypes.Tag]?
 }
@@ -14464,7 +14464,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -14565,7 +14565,7 @@ extension DeviceFarmClientTypes.Test: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// Represents a condition that is evaluated.
-    public struct Test: Swift.Equatable {
+    public struct Test {
         /// The test's ARN.
         public var arn: Swift.String?
         /// The test's result counters.
@@ -14732,7 +14732,7 @@ extension DeviceFarmClientTypes.TestGridProject: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// A Selenium testing project. Projects are used to collect and collate sessions.
-    public struct TestGridProject: Swift.Equatable {
+    public struct TestGridProject {
         /// The ARN for the project.
         public var arn: Swift.String?
         /// When the project was created.
@@ -14813,7 +14813,7 @@ extension DeviceFarmClientTypes.TestGridSession: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// A [TestGridSession] is a single instance of a browser launched from the URL provided by a call to [CreateTestGridUrl].
-    public struct TestGridSession: Swift.Equatable {
+    public struct TestGridSession {
         /// The ARN of the session.
         public var arn: Swift.String?
         /// The number of billed minutes that were used for this session.
@@ -14892,7 +14892,7 @@ extension DeviceFarmClientTypes.TestGridSessionAction: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// An action taken by a [TestGridSession] browser instance.
-    public struct TestGridSessionAction: Swift.Equatable {
+    public struct TestGridSessionAction {
         /// The action taken by the session.
         public var action: Swift.String?
         /// The time, in milliseconds, that the action took to complete in the browser.
@@ -14960,7 +14960,7 @@ extension DeviceFarmClientTypes.TestGridSessionArtifact: Swift.CustomDebugString
 
 extension DeviceFarmClientTypes {
     /// Artifacts are video and other files that are produced in the process of running a browser in an automated context. Video elements might be broken up into multiple artifacts as they grow in size during creation.
-    public struct TestGridSessionArtifact: Swift.Equatable {
+    public struct TestGridSessionArtifact {
         /// The file name of the artifact.
         public var filename: Swift.String?
         /// The kind of artifact.
@@ -15141,7 +15141,7 @@ extension DeviceFarmClientTypes.TestGridVpcConfig: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// The VPC security groups and subnets that are attached to a project.
-    public struct TestGridVpcConfig: Swift.Equatable {
+    public struct TestGridVpcConfig {
         /// A list of VPC security group IDs in your Amazon VPC.
         /// This member is required.
         public var securityGroupIds: [Swift.String]?
@@ -15299,7 +15299,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct TooManyTagsExceptionBody: Swift.Equatable {
+struct TooManyTagsExceptionBody {
     let message: Swift.String?
     let resourceName: Swift.String?
 }
@@ -15346,7 +15346,7 @@ extension DeviceFarmClientTypes.TrialMinutes: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// Represents information about free trial device minutes for an AWS account.
-    public struct TrialMinutes: Swift.Equatable {
+    public struct TrialMinutes {
         /// The number of free trial minutes remaining in the account.
         public var remaining: Swift.Double?
         /// The total number of free trial minutes that the account started with.
@@ -15403,7 +15403,7 @@ extension DeviceFarmClientTypes.UniqueProblem: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// A collection of one or more problems, grouped by their result.
-    public struct UniqueProblem: Swift.Equatable {
+    public struct UniqueProblem {
         /// A message about the unique problems' result.
         public var message: Swift.String?
         /// Information about the problems.
@@ -15448,7 +15448,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource or resources from which to delete tags. You can associate tags with the following Device Farm resources: PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -15466,7 +15466,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceARN: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -15500,7 +15500,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -15549,7 +15549,7 @@ extension UpdateDeviceInstanceInput {
     }
 }
 
-public struct UpdateDeviceInstanceInput: Swift.Equatable {
+public struct UpdateDeviceInstanceInput {
     /// The Amazon Resource Name (ARN) of the device instance.
     /// This member is required.
     public var arn: Swift.String?
@@ -15570,7 +15570,7 @@ public struct UpdateDeviceInstanceInput: Swift.Equatable {
     }
 }
 
-struct UpdateDeviceInstanceInputBody: Swift.Equatable {
+struct UpdateDeviceInstanceInputBody {
     let arn: Swift.String?
     let profileArn: Swift.String?
     let labels: [Swift.String]?
@@ -15615,7 +15615,7 @@ extension UpdateDeviceInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDeviceInstanceOutput: Swift.Equatable {
+public struct UpdateDeviceInstanceOutput {
     /// An object that contains information about your device instance.
     public var deviceInstance: DeviceFarmClientTypes.DeviceInstance?
 
@@ -15627,7 +15627,7 @@ public struct UpdateDeviceInstanceOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDeviceInstanceOutputBody: Swift.Equatable {
+struct UpdateDeviceInstanceOutputBody {
     let deviceInstance: DeviceFarmClientTypes.DeviceInstance?
 }
 
@@ -15701,7 +15701,7 @@ extension UpdateDevicePoolInput {
 }
 
 /// Represents a request to the update device pool operation.
-public struct UpdateDevicePoolInput: Swift.Equatable {
+public struct UpdateDevicePoolInput {
     /// The Amazon Resource Name (ARN) of the Device Farm device pool to update.
     /// This member is required.
     public var arn: Swift.String?
@@ -15734,7 +15734,7 @@ public struct UpdateDevicePoolInput: Swift.Equatable {
     }
 }
 
-struct UpdateDevicePoolInputBody: Swift.Equatable {
+struct UpdateDevicePoolInputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -15792,7 +15792,7 @@ extension UpdateDevicePoolOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the result of an update device pool request.
-public struct UpdateDevicePoolOutput: Swift.Equatable {
+public struct UpdateDevicePoolOutput {
     /// The device pool you just updated.
     public var devicePool: DeviceFarmClientTypes.DevicePool?
 
@@ -15804,7 +15804,7 @@ public struct UpdateDevicePoolOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDevicePoolOutputBody: Swift.Equatable {
+struct UpdateDevicePoolOutputBody {
     let devicePool: DeviceFarmClientTypes.DevicePool?
 }
 
@@ -15877,7 +15877,7 @@ extension UpdateInstanceProfileInput {
     }
 }
 
-public struct UpdateInstanceProfileInput: Swift.Equatable {
+public struct UpdateInstanceProfileInput {
     /// The Amazon Resource Name (ARN) of the instance profile.
     /// This member is required.
     public var arn: Swift.String?
@@ -15910,7 +15910,7 @@ public struct UpdateInstanceProfileInput: Swift.Equatable {
     }
 }
 
-struct UpdateInstanceProfileInputBody: Swift.Equatable {
+struct UpdateInstanceProfileInputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -15967,7 +15967,7 @@ extension UpdateInstanceProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateInstanceProfileOutput: Swift.Equatable {
+public struct UpdateInstanceProfileOutput {
     /// An object that contains information about your instance profile.
     public var instanceProfile: DeviceFarmClientTypes.InstanceProfile?
 
@@ -15979,7 +15979,7 @@ public struct UpdateInstanceProfileOutput: Swift.Equatable {
     }
 }
 
-struct UpdateInstanceProfileOutputBody: Swift.Equatable {
+struct UpdateInstanceProfileOutputBody {
     let instanceProfile: DeviceFarmClientTypes.InstanceProfile?
 }
 
@@ -16073,7 +16073,7 @@ extension UpdateNetworkProfileInput {
     }
 }
 
-public struct UpdateNetworkProfileInput: Swift.Equatable {
+public struct UpdateNetworkProfileInput {
     /// The Amazon Resource Name (ARN) of the project for which you want to update network profile settings.
     /// This member is required.
     public var arn: Swift.String?
@@ -16130,7 +16130,7 @@ public struct UpdateNetworkProfileInput: Swift.Equatable {
     }
 }
 
-struct UpdateNetworkProfileInputBody: Swift.Equatable {
+struct UpdateNetworkProfileInputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -16202,7 +16202,7 @@ extension UpdateNetworkProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateNetworkProfileOutput: Swift.Equatable {
+public struct UpdateNetworkProfileOutput {
     /// A list of the available network profiles.
     public var networkProfile: DeviceFarmClientTypes.NetworkProfile?
 
@@ -16214,7 +16214,7 @@ public struct UpdateNetworkProfileOutput: Swift.Equatable {
     }
 }
 
-struct UpdateNetworkProfileOutputBody: Swift.Equatable {
+struct UpdateNetworkProfileOutputBody {
     let networkProfile: DeviceFarmClientTypes.NetworkProfile?
 }
 
@@ -16277,7 +16277,7 @@ extension UpdateProjectInput {
 }
 
 /// Represents a request to the update project operation.
-public struct UpdateProjectInput: Swift.Equatable {
+public struct UpdateProjectInput {
     /// The Amazon Resource Name (ARN) of the project whose name to update.
     /// This member is required.
     public var arn: Swift.String?
@@ -16302,7 +16302,7 @@ public struct UpdateProjectInput: Swift.Equatable {
     }
 }
 
-struct UpdateProjectInputBody: Swift.Equatable {
+struct UpdateProjectInputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let defaultJobTimeoutMinutes: Swift.Int?
@@ -16343,7 +16343,7 @@ extension UpdateProjectOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the result of an update project request.
-public struct UpdateProjectOutput: Swift.Equatable {
+public struct UpdateProjectOutput {
     /// The project to update.
     public var project: DeviceFarmClientTypes.Project?
 
@@ -16355,7 +16355,7 @@ public struct UpdateProjectOutput: Swift.Equatable {
     }
 }
 
-struct UpdateProjectOutputBody: Swift.Equatable {
+struct UpdateProjectOutputBody {
     let project: DeviceFarmClientTypes.Project?
 }
 
@@ -16417,7 +16417,7 @@ extension UpdateTestGridProjectInput {
     }
 }
 
-public struct UpdateTestGridProjectInput: Swift.Equatable {
+public struct UpdateTestGridProjectInput {
     /// Human-readable description for the project.
     public var description: Swift.String?
     /// Human-readable name for the project.
@@ -16442,7 +16442,7 @@ public struct UpdateTestGridProjectInput: Swift.Equatable {
     }
 }
 
-struct UpdateTestGridProjectInputBody: Swift.Equatable {
+struct UpdateTestGridProjectInputBody {
     let projectArn: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -16482,7 +16482,7 @@ extension UpdateTestGridProjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateTestGridProjectOutput: Swift.Equatable {
+public struct UpdateTestGridProjectOutput {
     /// The project, including updated information.
     public var testGridProject: DeviceFarmClientTypes.TestGridProject?
 
@@ -16494,7 +16494,7 @@ public struct UpdateTestGridProjectOutput: Swift.Equatable {
     }
 }
 
-struct UpdateTestGridProjectOutputBody: Swift.Equatable {
+struct UpdateTestGridProjectOutputBody {
     let testGridProject: DeviceFarmClientTypes.TestGridProject?
 }
 
@@ -16556,7 +16556,7 @@ extension UpdateUploadInput {
     }
 }
 
-public struct UpdateUploadInput: Swift.Equatable {
+public struct UpdateUploadInput {
     /// The Amazon Resource Name (ARN) of the uploaded test spec.
     /// This member is required.
     public var arn: Swift.String?
@@ -16581,7 +16581,7 @@ public struct UpdateUploadInput: Swift.Equatable {
     }
 }
 
-struct UpdateUploadInputBody: Swift.Equatable {
+struct UpdateUploadInputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let contentType: Swift.String?
@@ -16621,7 +16621,7 @@ extension UpdateUploadOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateUploadOutput: Swift.Equatable {
+public struct UpdateUploadOutput {
     /// A test spec uploaded to Device Farm.
     public var upload: DeviceFarmClientTypes.Upload?
 
@@ -16633,7 +16633,7 @@ public struct UpdateUploadOutput: Swift.Equatable {
     }
 }
 
-struct UpdateUploadOutputBody: Swift.Equatable {
+struct UpdateUploadOutputBody {
     let upload: DeviceFarmClientTypes.Upload?
 }
 
@@ -16699,7 +16699,7 @@ extension UpdateVPCEConfigurationInput {
     }
 }
 
-public struct UpdateVPCEConfigurationInput: Swift.Equatable {
+public struct UpdateVPCEConfigurationInput {
     /// The Amazon Resource Name (ARN) of the VPC endpoint configuration you want to update.
     /// This member is required.
     public var arn: Swift.String?
@@ -16728,7 +16728,7 @@ public struct UpdateVPCEConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateVPCEConfigurationInputBody: Swift.Equatable {
+struct UpdateVPCEConfigurationInputBody {
     let arn: Swift.String?
     let vpceConfigurationName: Swift.String?
     let vpceServiceName: Swift.String?
@@ -16772,7 +16772,7 @@ extension UpdateVPCEConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateVPCEConfigurationOutput: Swift.Equatable {
+public struct UpdateVPCEConfigurationOutput {
     /// An object that contains information about your VPC endpoint configuration.
     public var vpceConfiguration: DeviceFarmClientTypes.VPCEConfiguration?
 
@@ -16784,7 +16784,7 @@ public struct UpdateVPCEConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateVPCEConfigurationOutputBody: Swift.Equatable {
+struct UpdateVPCEConfigurationOutputBody {
     let vpceConfiguration: DeviceFarmClientTypes.VPCEConfiguration?
 }
 
@@ -16894,7 +16894,7 @@ extension DeviceFarmClientTypes.Upload: Swift.CustomDebugStringConvertible {
 
 extension DeviceFarmClientTypes {
     /// An app or a set of one or more tests to upload or that have been uploaded.
-    public struct Upload: Swift.Equatable {
+    public struct Upload {
         /// The upload's ARN.
         public var arn: Swift.String?
         /// The upload's category. Allowed values include:
@@ -17257,7 +17257,7 @@ extension DeviceFarmClientTypes.VPCEConfiguration: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// Represents an Amazon Virtual Private Cloud (VPC) endpoint configuration.
-    public struct VPCEConfiguration: Swift.Equatable {
+    public struct VPCEConfiguration {
         /// The Amazon Resource Name (ARN) of the VPC endpoint configuration.
         public var arn: Swift.String?
         /// The DNS name that maps to the private IP address of the service you want to access.
@@ -17344,7 +17344,7 @@ extension DeviceFarmClientTypes.VpcConfig: Swift.Codable {
 
 extension DeviceFarmClientTypes {
     /// Contains the VPC configuration data necessary to interface with AWS Device Farm's services.
-    public struct VpcConfig: Swift.Equatable {
+    public struct VpcConfig {
         /// An array of one or more security groups IDs in your Amazon VPC.
         /// This member is required.
         public var securityGroupIds: [Swift.String]?

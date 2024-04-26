@@ -46,7 +46,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
 }
@@ -216,7 +216,7 @@ extension MgnClientTypes.Application: Swift.CustomDebugStringConvertible {
 }
 
 extension MgnClientTypes {
-    public struct Application: Swift.Equatable {
+    public struct Application {
         /// Application aggregated status.
         public var applicationAggregatedStatus: MgnClientTypes.ApplicationAggregatedStatus?
         /// Application ID.
@@ -305,7 +305,7 @@ extension MgnClientTypes.ApplicationAggregatedStatus: Swift.Codable {
 
 extension MgnClientTypes {
     /// Application aggregated status.
-    public struct ApplicationAggregatedStatus: Swift.Equatable {
+    public struct ApplicationAggregatedStatus {
         /// Application aggregated status health status.
         public var healthStatus: MgnClientTypes.ApplicationHealthStatus?
         /// Application aggregated status last update dateTime.
@@ -425,7 +425,7 @@ extension ArchiveApplicationInput {
     }
 }
 
-public struct ArchiveApplicationInput: Swift.Equatable {
+public struct ArchiveApplicationInput {
     /// Account ID.
     public var accountID: Swift.String?
     /// Application ID.
@@ -442,7 +442,7 @@ public struct ArchiveApplicationInput: Swift.Equatable {
     }
 }
 
-struct ArchiveApplicationInputBody: Swift.Equatable {
+struct ArchiveApplicationInputBody {
     let applicationID: Swift.String?
     let accountID: Swift.String?
 }
@@ -497,7 +497,7 @@ extension ArchiveApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ArchiveApplicationOutput: Swift.Equatable {
+public struct ArchiveApplicationOutput {
     /// Application aggregated status.
     public var applicationAggregatedStatus: MgnClientTypes.ApplicationAggregatedStatus?
     /// Application ID.
@@ -545,7 +545,7 @@ public struct ArchiveApplicationOutput: Swift.Equatable {
     }
 }
 
-struct ArchiveApplicationOutputBody: Swift.Equatable {
+struct ArchiveApplicationOutputBody {
     let applicationID: Swift.String?
     let arn: Swift.String?
     let name: Swift.String?
@@ -644,7 +644,7 @@ extension ArchiveWaveInput {
     }
 }
 
-public struct ArchiveWaveInput: Swift.Equatable {
+public struct ArchiveWaveInput {
     /// Account ID.
     public var accountID: Swift.String?
     /// Wave ID.
@@ -661,7 +661,7 @@ public struct ArchiveWaveInput: Swift.Equatable {
     }
 }
 
-struct ArchiveWaveInputBody: Swift.Equatable {
+struct ArchiveWaveInputBody {
     let waveID: Swift.String?
     let accountID: Swift.String?
 }
@@ -714,7 +714,7 @@ extension ArchiveWaveOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ArchiveWaveOutput: Swift.Equatable {
+public struct ArchiveWaveOutput {
     /// Wave ARN.
     public var arn: Swift.String?
     /// Wave creation dateTime.
@@ -758,7 +758,7 @@ public struct ArchiveWaveOutput: Swift.Equatable {
     }
 }
 
-struct ArchiveWaveOutputBody: Swift.Equatable {
+struct ArchiveWaveOutputBody {
     let waveID: Swift.String?
     let arn: Swift.String?
     let name: Swift.String?
@@ -860,7 +860,7 @@ extension AssociateApplicationsInput {
     }
 }
 
-public struct AssociateApplicationsInput: Swift.Equatable {
+public struct AssociateApplicationsInput {
     /// Account ID.
     public var accountID: Swift.String?
     /// Application IDs list.
@@ -882,7 +882,7 @@ public struct AssociateApplicationsInput: Swift.Equatable {
     }
 }
 
-struct AssociateApplicationsInputBody: Swift.Equatable {
+struct AssociateApplicationsInputBody {
     let waveID: Swift.String?
     let applicationIDs: [Swift.String]?
     let accountID: Swift.String?
@@ -920,7 +920,7 @@ extension AssociateApplicationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateApplicationsOutput: Swift.Equatable {
+public struct AssociateApplicationsOutput {
 
     public init() { }
 }
@@ -970,7 +970,7 @@ extension AssociateSourceServersInput {
     }
 }
 
-public struct AssociateSourceServersInput: Swift.Equatable {
+public struct AssociateSourceServersInput {
     /// Account ID.
     public var accountID: Swift.String?
     /// Application ID.
@@ -992,7 +992,7 @@ public struct AssociateSourceServersInput: Swift.Equatable {
     }
 }
 
-struct AssociateSourceServersInputBody: Swift.Equatable {
+struct AssociateSourceServersInputBody {
     let applicationID: Swift.String?
     let sourceServerIDs: [Swift.String]?
     let accountID: Swift.String?
@@ -1030,7 +1030,7 @@ extension AssociateSourceServersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateSourceServersOutput: Swift.Equatable {
+public struct AssociateSourceServersOutput {
 
     public init() { }
 }
@@ -1111,7 +1111,7 @@ extension MgnClientTypes.CPU: Swift.Codable {
 
 extension MgnClientTypes {
     /// Source server CPU information.
-    public struct CPU: Swift.Equatable {
+    public struct CPU {
         /// The number of CPU cores on the source server.
         public var cores: Swift.Int
         /// The source server's CPU model name.
@@ -1157,7 +1157,7 @@ extension ChangeServerLifeCycleStateInput {
     }
 }
 
-public struct ChangeServerLifeCycleStateInput: Swift.Equatable {
+public struct ChangeServerLifeCycleStateInput {
     /// The request to change the source server migration account ID.
     public var accountID: Swift.String?
     /// The request to change the source server migration lifecycle state.
@@ -1179,7 +1179,7 @@ public struct ChangeServerLifeCycleStateInput: Swift.Equatable {
     }
 }
 
-struct ChangeServerLifeCycleStateInputBody: Swift.Equatable {
+struct ChangeServerLifeCycleStateInputBody {
     let sourceServerID: Swift.String?
     let lifeCycle: MgnClientTypes.ChangeServerLifeCycleStateSourceServerLifecycle?
     let accountID: Swift.String?
@@ -1246,7 +1246,7 @@ extension ChangeServerLifeCycleStateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ChangeServerLifeCycleStateOutput: Swift.Equatable {
+public struct ChangeServerLifeCycleStateOutput {
     /// Source server application ID.
     public var applicationID: Swift.String?
     /// Source server ARN.
@@ -1310,7 +1310,7 @@ public struct ChangeServerLifeCycleStateOutput: Swift.Equatable {
     }
 }
 
-struct ChangeServerLifeCycleStateOutputBody: Swift.Equatable {
+struct ChangeServerLifeCycleStateOutputBody {
     let sourceServerID: Swift.String?
     let arn: Swift.String?
     let isArchived: Swift.Bool?
@@ -1422,7 +1422,7 @@ extension MgnClientTypes.ChangeServerLifeCycleStateSourceServerLifecycle: Swift.
 
 extension MgnClientTypes {
     /// The request to change the source server migration lifecycle state.
-    public struct ChangeServerLifeCycleStateSourceServerLifecycle: Swift.Equatable {
+    public struct ChangeServerLifeCycleStateSourceServerLifecycle {
         /// The request to change the source server migration lifecycle state.
         /// This member is required.
         public var state: MgnClientTypes.ChangeServerLifeCycleStateSourceServerLifecycleState?
@@ -1534,7 +1534,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
     let resourceId: Swift.String?
@@ -1642,7 +1642,7 @@ extension MgnClientTypes.Connector: Swift.CustomDebugStringConvertible {
 }
 
 extension MgnClientTypes {
-    public struct Connector: Swift.Equatable {
+    public struct Connector {
         /// Connector arn.
         public var arn: Swift.String?
         /// Connector ID.
@@ -1715,7 +1715,7 @@ extension MgnClientTypes.ConnectorSsmCommandConfig: Swift.Codable {
 
 extension MgnClientTypes {
     /// Connector SSM command config.
-    public struct ConnectorSsmCommandConfig: Swift.Equatable {
+    public struct ConnectorSsmCommandConfig {
         /// Connector SSM command config CloudWatch log group name.
         public var cloudWatchLogGroupName: Swift.String?
         /// Connector SSM command config CloudWatch output enabled.
@@ -1783,7 +1783,7 @@ extension CreateApplicationInput {
     }
 }
 
-public struct CreateApplicationInput: Swift.Equatable {
+public struct CreateApplicationInput {
     /// Account ID.
     public var accountID: Swift.String?
     /// Application description.
@@ -1808,7 +1808,7 @@ public struct CreateApplicationInput: Swift.Equatable {
     }
 }
 
-struct CreateApplicationInputBody: Swift.Equatable {
+struct CreateApplicationInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let tags: [Swift.String:Swift.String]?
@@ -1880,7 +1880,7 @@ extension CreateApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateApplicationOutput: Swift.Equatable {
+public struct CreateApplicationOutput {
     /// Application aggregated status.
     public var applicationAggregatedStatus: MgnClientTypes.ApplicationAggregatedStatus?
     /// Application ID.
@@ -1928,7 +1928,7 @@ public struct CreateApplicationOutput: Swift.Equatable {
     }
 }
 
-struct CreateApplicationOutputBody: Swift.Equatable {
+struct CreateApplicationOutputBody {
     let applicationID: Swift.String?
     let arn: Swift.String?
     let name: Swift.String?
@@ -2042,7 +2042,7 @@ extension CreateConnectorInput {
     }
 }
 
-public struct CreateConnectorInput: Swift.Equatable {
+public struct CreateConnectorInput {
     /// Create Connector request name.
     /// This member is required.
     public var name: Swift.String?
@@ -2068,7 +2068,7 @@ public struct CreateConnectorInput: Swift.Equatable {
     }
 }
 
-struct CreateConnectorInputBody: Swift.Equatable {
+struct CreateConnectorInputBody {
     let name: Swift.String?
     let ssmInstanceID: Swift.String?
     let tags: [Swift.String:Swift.String]?
@@ -2132,7 +2132,7 @@ extension CreateConnectorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateConnectorOutput: Swift.Equatable {
+public struct CreateConnectorOutput {
     /// Connector arn.
     public var arn: Swift.String?
     /// Connector ID.
@@ -2164,7 +2164,7 @@ public struct CreateConnectorOutput: Swift.Equatable {
     }
 }
 
-struct CreateConnectorOutputBody: Swift.Equatable {
+struct CreateConnectorOutputBody {
     let connectorID: Swift.String?
     let name: Swift.String?
     let ssmInstanceID: Swift.String?
@@ -2301,7 +2301,7 @@ extension CreateLaunchConfigurationTemplateInput {
     }
 }
 
-public struct CreateLaunchConfigurationTemplateInput: Swift.Equatable {
+public struct CreateLaunchConfigurationTemplateInput {
     /// Associate public Ip address.
     public var associatePublicIpAddress: Swift.Bool?
     /// Launch configuration template boot mode.
@@ -2365,7 +2365,7 @@ public struct CreateLaunchConfigurationTemplateInput: Swift.Equatable {
     }
 }
 
-struct CreateLaunchConfigurationTemplateInputBody: Swift.Equatable {
+struct CreateLaunchConfigurationTemplateInputBody {
     let postLaunchActions: MgnClientTypes.PostLaunchActions?
     let enableMapAutoTagging: Swift.Bool?
     let mapAutoTaggingMpeID: Swift.String?
@@ -2491,7 +2491,7 @@ extension CreateLaunchConfigurationTemplateOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct CreateLaunchConfigurationTemplateOutput: Swift.Equatable {
+public struct CreateLaunchConfigurationTemplateOutput {
     /// ARN of the Launch Configuration Template.
     public var arn: Swift.String?
     /// Associate public Ip address.
@@ -2568,7 +2568,7 @@ public struct CreateLaunchConfigurationTemplateOutput: Swift.Equatable {
     }
 }
 
-struct CreateLaunchConfigurationTemplateOutputBody: Swift.Equatable {
+struct CreateLaunchConfigurationTemplateOutputBody {
     let launchConfigurationTemplateID: Swift.String?
     let arn: Swift.String?
     let postLaunchActions: MgnClientTypes.PostLaunchActions?
@@ -2756,7 +2756,7 @@ extension CreateReplicationConfigurationTemplateInput {
     }
 }
 
-public struct CreateReplicationConfigurationTemplateInput: Swift.Equatable {
+public struct CreateReplicationConfigurationTemplateInput {
     /// Request to associate the default Application Migration Service Security group with the Replication Settings template.
     /// This member is required.
     public var associateDefaultSecurityGroup: Swift.Bool?
@@ -2831,7 +2831,7 @@ public struct CreateReplicationConfigurationTemplateInput: Swift.Equatable {
     }
 }
 
-struct CreateReplicationConfigurationTemplateInputBody: Swift.Equatable {
+struct CreateReplicationConfigurationTemplateInputBody {
     let stagingAreaSubnetId: Swift.String?
     let associateDefaultSecurityGroup: Swift.Bool?
     let replicationServersSecurityGroupsIDs: [Swift.String]?
@@ -2973,7 +2973,7 @@ extension CreateReplicationConfigurationTemplateOutput: ClientRuntime.HttpRespon
     }
 }
 
-public struct CreateReplicationConfigurationTemplateOutput: Swift.Equatable {
+public struct CreateReplicationConfigurationTemplateOutput {
     /// Replication Configuration template ARN.
     public var arn: Swift.String?
     /// Replication Configuration template associate default Application Migration Service Security group.
@@ -3046,7 +3046,7 @@ public struct CreateReplicationConfigurationTemplateOutput: Swift.Equatable {
     }
 }
 
-struct CreateReplicationConfigurationTemplateOutputBody: Swift.Equatable {
+struct CreateReplicationConfigurationTemplateOutputBody {
     let replicationConfigurationTemplateID: Swift.String?
     let arn: Swift.String?
     let stagingAreaSubnetId: Swift.String?
@@ -3202,7 +3202,7 @@ extension CreateWaveInput {
     }
 }
 
-public struct CreateWaveInput: Swift.Equatable {
+public struct CreateWaveInput {
     /// Account ID.
     public var accountID: Swift.String?
     /// Wave description.
@@ -3227,7 +3227,7 @@ public struct CreateWaveInput: Swift.Equatable {
     }
 }
 
-struct CreateWaveInputBody: Swift.Equatable {
+struct CreateWaveInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let tags: [Swift.String:Swift.String]?
@@ -3297,7 +3297,7 @@ extension CreateWaveOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateWaveOutput: Swift.Equatable {
+public struct CreateWaveOutput {
     /// Wave ARN.
     public var arn: Swift.String?
     /// Wave creation dateTime.
@@ -3341,7 +3341,7 @@ public struct CreateWaveOutput: Swift.Equatable {
     }
 }
 
-struct CreateWaveOutputBody: Swift.Equatable {
+struct CreateWaveOutputBody {
     let waveID: Swift.String?
     let arn: Swift.String?
     let name: Swift.String?
@@ -3438,7 +3438,7 @@ extension MgnClientTypes.DataReplicationError: Swift.Codable {
 
 extension MgnClientTypes {
     /// Error in data replication.
-    public struct DataReplicationError: Swift.Equatable {
+    public struct DataReplicationError {
         /// Error in data replication.
         public var error: MgnClientTypes.DataReplicationErrorString?
         /// Error in data replication.
@@ -3599,7 +3599,7 @@ extension MgnClientTypes.DataReplicationInfo: Swift.Codable {
 
 extension MgnClientTypes {
     /// Request data replication info.
-    public struct DataReplicationInfo: Swift.Equatable {
+    public struct DataReplicationInfo {
         /// Error in obtaining data replication info.
         public var dataReplicationError: MgnClientTypes.DataReplicationError?
         /// Request to query whether data replication has been initiated.
@@ -3682,7 +3682,7 @@ extension MgnClientTypes.DataReplicationInfoReplicatedDisk: Swift.Codable {
 
 extension MgnClientTypes {
     /// Request to query disks replicated.
-    public struct DataReplicationInfoReplicatedDisk: Swift.Equatable {
+    public struct DataReplicationInfoReplicatedDisk {
         /// Request to query data replication backlog size in bytes.
         public var backloggedStorageBytes: Swift.Int
         /// Request to query device name.
@@ -3757,7 +3757,7 @@ extension MgnClientTypes.DataReplicationInitiation: Swift.Codable {
 
 extension MgnClientTypes {
     /// Data replication initiation.
-    public struct DataReplicationInitiation: Swift.Equatable {
+    public struct DataReplicationInitiation {
         /// Request to query next data initiation date and time.
         public var nextAttemptDateTime: Swift.String?
         /// Request to query data initiation start date and time.
@@ -3806,7 +3806,7 @@ extension MgnClientTypes.DataReplicationInitiationStep: Swift.Codable {
 
 extension MgnClientTypes {
     /// Data replication initiation step.
-    public struct DataReplicationInitiationStep: Swift.Equatable {
+    public struct DataReplicationInitiationStep {
         /// Request to query data initiation step name.
         public var name: MgnClientTypes.DataReplicationInitiationStepName?
         /// Request to query data initiation status.
@@ -4010,7 +4010,7 @@ extension DeleteApplicationInput {
     }
 }
 
-public struct DeleteApplicationInput: Swift.Equatable {
+public struct DeleteApplicationInput {
     /// Account ID.
     public var accountID: Swift.String?
     /// Application ID.
@@ -4027,7 +4027,7 @@ public struct DeleteApplicationInput: Swift.Equatable {
     }
 }
 
-struct DeleteApplicationInputBody: Swift.Equatable {
+struct DeleteApplicationInputBody {
     let applicationID: Swift.String?
     let accountID: Swift.String?
 }
@@ -4052,7 +4052,7 @@ extension DeleteApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteApplicationOutput: Swift.Equatable {
+public struct DeleteApplicationOutput {
 
     public init() { }
 }
@@ -4090,7 +4090,7 @@ extension DeleteConnectorInput {
     }
 }
 
-public struct DeleteConnectorInput: Swift.Equatable {
+public struct DeleteConnectorInput {
     /// Delete Connector request connector ID.
     /// This member is required.
     public var connectorID: Swift.String?
@@ -4103,7 +4103,7 @@ public struct DeleteConnectorInput: Swift.Equatable {
     }
 }
 
-struct DeleteConnectorInputBody: Swift.Equatable {
+struct DeleteConnectorInputBody {
     let connectorID: Swift.String?
 }
 
@@ -4124,7 +4124,7 @@ extension DeleteConnectorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteConnectorOutput: Swift.Equatable {
+public struct DeleteConnectorOutput {
 
     public init() { }
 }
@@ -4166,7 +4166,7 @@ extension DeleteJobInput {
     }
 }
 
-public struct DeleteJobInput: Swift.Equatable {
+public struct DeleteJobInput {
     /// Request to delete Job from service by Account ID.
     public var accountID: Swift.String?
     /// Request to delete Job from service by Job ID.
@@ -4183,7 +4183,7 @@ public struct DeleteJobInput: Swift.Equatable {
     }
 }
 
-struct DeleteJobInputBody: Swift.Equatable {
+struct DeleteJobInputBody {
     let jobID: Swift.String?
     let accountID: Swift.String?
 }
@@ -4208,7 +4208,7 @@ extension DeleteJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteJobOutput: Swift.Equatable {
+public struct DeleteJobOutput {
 
     public init() { }
 }
@@ -4246,7 +4246,7 @@ extension DeleteLaunchConfigurationTemplateInput {
     }
 }
 
-public struct DeleteLaunchConfigurationTemplateInput: Swift.Equatable {
+public struct DeleteLaunchConfigurationTemplateInput {
     /// ID of resource to be deleted.
     /// This member is required.
     public var launchConfigurationTemplateID: Swift.String?
@@ -4259,7 +4259,7 @@ public struct DeleteLaunchConfigurationTemplateInput: Swift.Equatable {
     }
 }
 
-struct DeleteLaunchConfigurationTemplateInputBody: Swift.Equatable {
+struct DeleteLaunchConfigurationTemplateInputBody {
     let launchConfigurationTemplateID: Swift.String?
 }
 
@@ -4280,7 +4280,7 @@ extension DeleteLaunchConfigurationTemplateOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct DeleteLaunchConfigurationTemplateOutput: Swift.Equatable {
+public struct DeleteLaunchConfigurationTemplateOutput {
 
     public init() { }
 }
@@ -4318,7 +4318,7 @@ extension DeleteReplicationConfigurationTemplateInput {
     }
 }
 
-public struct DeleteReplicationConfigurationTemplateInput: Swift.Equatable {
+public struct DeleteReplicationConfigurationTemplateInput {
     /// Request to delete Replication Configuration Template from service by Replication Configuration Template ID.
     /// This member is required.
     public var replicationConfigurationTemplateID: Swift.String?
@@ -4331,7 +4331,7 @@ public struct DeleteReplicationConfigurationTemplateInput: Swift.Equatable {
     }
 }
 
-struct DeleteReplicationConfigurationTemplateInputBody: Swift.Equatable {
+struct DeleteReplicationConfigurationTemplateInputBody {
     let replicationConfigurationTemplateID: Swift.String?
 }
 
@@ -4352,7 +4352,7 @@ extension DeleteReplicationConfigurationTemplateOutput: ClientRuntime.HttpRespon
     }
 }
 
-public struct DeleteReplicationConfigurationTemplateOutput: Swift.Equatable {
+public struct DeleteReplicationConfigurationTemplateOutput {
 
     public init() { }
 }
@@ -4394,7 +4394,7 @@ extension DeleteSourceServerInput {
     }
 }
 
-public struct DeleteSourceServerInput: Swift.Equatable {
+public struct DeleteSourceServerInput {
     /// Request to delete Source Server from service by Account ID.
     public var accountID: Swift.String?
     /// Request to delete Source Server from service by Server ID.
@@ -4411,7 +4411,7 @@ public struct DeleteSourceServerInput: Swift.Equatable {
     }
 }
 
-struct DeleteSourceServerInputBody: Swift.Equatable {
+struct DeleteSourceServerInputBody {
     let sourceServerID: Swift.String?
     let accountID: Swift.String?
 }
@@ -4436,7 +4436,7 @@ extension DeleteSourceServerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSourceServerOutput: Swift.Equatable {
+public struct DeleteSourceServerOutput {
 
     public init() { }
 }
@@ -4474,7 +4474,7 @@ extension DeleteVcenterClientInput {
     }
 }
 
-public struct DeleteVcenterClientInput: Swift.Equatable {
+public struct DeleteVcenterClientInput {
     /// ID of resource to be deleted.
     /// This member is required.
     public var vcenterClientID: Swift.String?
@@ -4487,7 +4487,7 @@ public struct DeleteVcenterClientInput: Swift.Equatable {
     }
 }
 
-struct DeleteVcenterClientInputBody: Swift.Equatable {
+struct DeleteVcenterClientInputBody {
     let vcenterClientID: Swift.String?
 }
 
@@ -4508,7 +4508,7 @@ extension DeleteVcenterClientOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteVcenterClientOutput: Swift.Equatable {
+public struct DeleteVcenterClientOutput {
 
     public init() { }
 }
@@ -4550,7 +4550,7 @@ extension DeleteWaveInput {
     }
 }
 
-public struct DeleteWaveInput: Swift.Equatable {
+public struct DeleteWaveInput {
     /// Account ID.
     public var accountID: Swift.String?
     /// Wave ID.
@@ -4567,7 +4567,7 @@ public struct DeleteWaveInput: Swift.Equatable {
     }
 }
 
-struct DeleteWaveInputBody: Swift.Equatable {
+struct DeleteWaveInputBody {
     let waveID: Swift.String?
     let accountID: Swift.String?
 }
@@ -4592,7 +4592,7 @@ extension DeleteWaveOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteWaveOutput: Swift.Equatable {
+public struct DeleteWaveOutput {
 
     public init() { }
 }
@@ -4642,7 +4642,7 @@ extension DescribeJobLogItemsInput {
     }
 }
 
-public struct DescribeJobLogItemsInput: Swift.Equatable {
+public struct DescribeJobLogItemsInput {
     /// Request to describe Job log Account ID.
     public var accountID: Swift.String?
     /// Request to describe Job log job ID.
@@ -4667,7 +4667,7 @@ public struct DescribeJobLogItemsInput: Swift.Equatable {
     }
 }
 
-struct DescribeJobLogItemsInputBody: Swift.Equatable {
+struct DescribeJobLogItemsInputBody {
     let jobID: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -4709,7 +4709,7 @@ extension DescribeJobLogItemsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeJobLogItemsOutput: Swift.Equatable {
+public struct DescribeJobLogItemsOutput {
     /// Request to describe Job log response items.
     public var items: [MgnClientTypes.JobLog]?
     /// Request to describe Job log response next token.
@@ -4725,7 +4725,7 @@ public struct DescribeJobLogItemsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeJobLogItemsOutputBody: Swift.Equatable {
+struct DescribeJobLogItemsOutputBody {
     let items: [MgnClientTypes.JobLog]?
     let nextToken: Swift.String?
 }
@@ -4798,7 +4798,7 @@ extension DescribeJobsInput {
     }
 }
 
-public struct DescribeJobsInput: Swift.Equatable {
+public struct DescribeJobsInput {
     /// Request to describe job log items by Account ID.
     public var accountID: Swift.String?
     /// Request to describe Job log filters.
@@ -4822,7 +4822,7 @@ public struct DescribeJobsInput: Swift.Equatable {
     }
 }
 
-struct DescribeJobsInputBody: Swift.Equatable {
+struct DescribeJobsInputBody {
     let filters: MgnClientTypes.DescribeJobsRequestFilters?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -4864,7 +4864,7 @@ extension DescribeJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeJobsOutput: Swift.Equatable {
+public struct DescribeJobsOutput {
     /// Request to describe Job log items.
     public var items: [MgnClientTypes.Job]?
     /// Request to describe Job response by next token.
@@ -4880,7 +4880,7 @@ public struct DescribeJobsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeJobsOutputBody: Swift.Equatable {
+struct DescribeJobsOutputBody {
     let items: [MgnClientTypes.Job]?
     let nextToken: Swift.String?
 }
@@ -4966,7 +4966,7 @@ extension MgnClientTypes.DescribeJobsRequestFilters: Swift.Codable {
 
 extension MgnClientTypes {
     /// Request to describe Job log filters.
-    public struct DescribeJobsRequestFilters: Swift.Equatable {
+    public struct DescribeJobsRequestFilters {
         /// Request to describe Job log filters by date.
         public var fromDate: Swift.String?
         /// Request to describe Job log filters by job ID.
@@ -5019,7 +5019,7 @@ extension DescribeLaunchConfigurationTemplatesInput {
     }
 }
 
-public struct DescribeLaunchConfigurationTemplatesInput: Swift.Equatable {
+public struct DescribeLaunchConfigurationTemplatesInput {
     /// Request to filter Launch Configuration Templates list by Launch Configuration Template ID.
     public var launchConfigurationTemplateIDs: [Swift.String]?
     /// Maximum results to be returned in DescribeLaunchConfigurationTemplates.
@@ -5039,7 +5039,7 @@ public struct DescribeLaunchConfigurationTemplatesInput: Swift.Equatable {
     }
 }
 
-struct DescribeLaunchConfigurationTemplatesInputBody: Swift.Equatable {
+struct DescribeLaunchConfigurationTemplatesInputBody {
     let launchConfigurationTemplateIDs: [Swift.String]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -5086,7 +5086,7 @@ extension DescribeLaunchConfigurationTemplatesOutput: ClientRuntime.HttpResponse
     }
 }
 
-public struct DescribeLaunchConfigurationTemplatesOutput: Swift.Equatable {
+public struct DescribeLaunchConfigurationTemplatesOutput {
     /// List of items returned by DescribeLaunchConfigurationTemplates.
     public var items: [MgnClientTypes.LaunchConfigurationTemplate]?
     /// Next pagination token returned from DescribeLaunchConfigurationTemplates.
@@ -5102,7 +5102,7 @@ public struct DescribeLaunchConfigurationTemplatesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeLaunchConfigurationTemplatesOutputBody: Swift.Equatable {
+struct DescribeLaunchConfigurationTemplatesOutputBody {
     let items: [MgnClientTypes.LaunchConfigurationTemplate]?
     let nextToken: Swift.String?
 }
@@ -5175,7 +5175,7 @@ extension DescribeReplicationConfigurationTemplatesInput {
     }
 }
 
-public struct DescribeReplicationConfigurationTemplatesInput: Swift.Equatable {
+public struct DescribeReplicationConfigurationTemplatesInput {
     /// Request to describe Replication Configuration template by max results.
     public var maxResults: Swift.Int?
     /// Request to describe Replication Configuration template by next token.
@@ -5195,7 +5195,7 @@ public struct DescribeReplicationConfigurationTemplatesInput: Swift.Equatable {
     }
 }
 
-struct DescribeReplicationConfigurationTemplatesInputBody: Swift.Equatable {
+struct DescribeReplicationConfigurationTemplatesInputBody {
     let replicationConfigurationTemplateIDs: [Swift.String]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -5242,7 +5242,7 @@ extension DescribeReplicationConfigurationTemplatesOutput: ClientRuntime.HttpRes
     }
 }
 
-public struct DescribeReplicationConfigurationTemplatesOutput: Swift.Equatable {
+public struct DescribeReplicationConfigurationTemplatesOutput {
     /// Request to describe Replication Configuration template by items.
     public var items: [MgnClientTypes.ReplicationConfigurationTemplate]?
     /// Request to describe Replication Configuration template by next token.
@@ -5258,7 +5258,7 @@ public struct DescribeReplicationConfigurationTemplatesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeReplicationConfigurationTemplatesOutputBody: Swift.Equatable {
+struct DescribeReplicationConfigurationTemplatesOutputBody {
     let items: [MgnClientTypes.ReplicationConfigurationTemplate]?
     let nextToken: Swift.String?
 }
@@ -5332,7 +5332,7 @@ extension DescribeSourceServersInput {
     }
 }
 
-public struct DescribeSourceServersInput: Swift.Equatable {
+public struct DescribeSourceServersInput {
     /// Request to filter Source Servers list by Accoun ID.
     public var accountID: Swift.String?
     /// Request to filter Source Servers list.
@@ -5356,7 +5356,7 @@ public struct DescribeSourceServersInput: Swift.Equatable {
     }
 }
 
-struct DescribeSourceServersInputBody: Swift.Equatable {
+struct DescribeSourceServersInputBody {
     let filters: MgnClientTypes.DescribeSourceServersRequestFilters?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -5398,7 +5398,7 @@ extension DescribeSourceServersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeSourceServersOutput: Swift.Equatable {
+public struct DescribeSourceServersOutput {
     /// Request to filter Source Servers list by item.
     public var items: [MgnClientTypes.SourceServer]?
     /// Request to filter Source Servers next token.
@@ -5414,7 +5414,7 @@ public struct DescribeSourceServersOutput: Swift.Equatable {
     }
 }
 
-struct DescribeSourceServersOutputBody: Swift.Equatable {
+struct DescribeSourceServersOutputBody {
     let items: [MgnClientTypes.SourceServer]?
     let nextToken: Swift.String?
 }
@@ -5548,7 +5548,7 @@ extension MgnClientTypes.DescribeSourceServersRequestFilters: Swift.Codable {
 
 extension MgnClientTypes {
     /// Request to filter Source Servers list.
-    public struct DescribeSourceServersRequestFilters: Swift.Equatable {
+    public struct DescribeSourceServersRequestFilters {
         /// Request to filter Source Servers list by application IDs.
         public var applicationIDs: [Swift.String]?
         /// Request to filter Source Servers list by archived.
@@ -5601,7 +5601,7 @@ extension DescribeVcenterClientsInput {
     }
 }
 
-public struct DescribeVcenterClientsInput: Swift.Equatable {
+public struct DescribeVcenterClientsInput {
     /// Maximum results to be returned in DescribeVcenterClients.
     public var maxResults: Swift.Int?
     /// Next pagination token to be provided for DescribeVcenterClients.
@@ -5617,7 +5617,7 @@ public struct DescribeVcenterClientsInput: Swift.Equatable {
     }
 }
 
-struct DescribeVcenterClientsInputBody: Swift.Equatable {
+struct DescribeVcenterClientsInputBody {
 }
 
 extension DescribeVcenterClientsInputBody: Swift.Decodable {
@@ -5640,7 +5640,7 @@ extension DescribeVcenterClientsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeVcenterClientsOutput: Swift.Equatable {
+public struct DescribeVcenterClientsOutput {
     /// List of items returned by DescribeVcenterClients.
     public var items: [MgnClientTypes.VcenterClient]?
     /// Next pagination token returned from DescribeVcenterClients.
@@ -5656,7 +5656,7 @@ public struct DescribeVcenterClientsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeVcenterClientsOutputBody: Swift.Equatable {
+struct DescribeVcenterClientsOutputBody {
     let items: [MgnClientTypes.VcenterClient]?
     let nextToken: Swift.String?
 }
@@ -5729,7 +5729,7 @@ extension DisassociateApplicationsInput {
     }
 }
 
-public struct DisassociateApplicationsInput: Swift.Equatable {
+public struct DisassociateApplicationsInput {
     /// Account ID.
     public var accountID: Swift.String?
     /// Application IDs list.
@@ -5751,7 +5751,7 @@ public struct DisassociateApplicationsInput: Swift.Equatable {
     }
 }
 
-struct DisassociateApplicationsInputBody: Swift.Equatable {
+struct DisassociateApplicationsInputBody {
     let waveID: Swift.String?
     let applicationIDs: [Swift.String]?
     let accountID: Swift.String?
@@ -5789,7 +5789,7 @@ extension DisassociateApplicationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateApplicationsOutput: Swift.Equatable {
+public struct DisassociateApplicationsOutput {
 
     public init() { }
 }
@@ -5838,7 +5838,7 @@ extension DisassociateSourceServersInput {
     }
 }
 
-public struct DisassociateSourceServersInput: Swift.Equatable {
+public struct DisassociateSourceServersInput {
     /// Account ID.
     public var accountID: Swift.String?
     /// Application ID.
@@ -5860,7 +5860,7 @@ public struct DisassociateSourceServersInput: Swift.Equatable {
     }
 }
 
-struct DisassociateSourceServersInputBody: Swift.Equatable {
+struct DisassociateSourceServersInputBody {
     let applicationID: Swift.String?
     let sourceServerIDs: [Swift.String]?
     let accountID: Swift.String?
@@ -5898,7 +5898,7 @@ extension DisassociateSourceServersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateSourceServersOutput: Swift.Equatable {
+public struct DisassociateSourceServersOutput {
 
     public init() { }
 }
@@ -5940,7 +5940,7 @@ extension DisconnectFromServiceInput {
     }
 }
 
-public struct DisconnectFromServiceInput: Swift.Equatable {
+public struct DisconnectFromServiceInput {
     /// Request to disconnect Source Server from service by Account ID.
     public var accountID: Swift.String?
     /// Request to disconnect Source Server from service by Server ID.
@@ -5957,7 +5957,7 @@ public struct DisconnectFromServiceInput: Swift.Equatable {
     }
 }
 
-struct DisconnectFromServiceInputBody: Swift.Equatable {
+struct DisconnectFromServiceInputBody {
     let sourceServerID: Swift.String?
     let accountID: Swift.String?
 }
@@ -6020,7 +6020,7 @@ extension DisconnectFromServiceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisconnectFromServiceOutput: Swift.Equatable {
+public struct DisconnectFromServiceOutput {
     /// Source server application ID.
     public var applicationID: Swift.String?
     /// Source server ARN.
@@ -6084,7 +6084,7 @@ public struct DisconnectFromServiceOutput: Swift.Equatable {
     }
 }
 
-struct DisconnectFromServiceOutputBody: Swift.Equatable {
+struct DisconnectFromServiceOutputBody {
     let sourceServerID: Swift.String?
     let arn: Swift.String?
     let isArchived: Swift.Bool?
@@ -6201,7 +6201,7 @@ extension MgnClientTypes.Disk: Swift.Codable {
 
 extension MgnClientTypes {
     /// The disk identifier.
-    public struct Disk: Swift.Equatable {
+    public struct Disk {
         /// The amount of storage on the disk in bytes.
         public var bytes: Swift.Int
         /// The disk or device name.
@@ -6258,7 +6258,7 @@ extension MgnClientTypes.ErrorDetails: Swift.Codable {
 
 extension MgnClientTypes {
     /// Error details.
-    public struct ErrorDetails: Swift.Equatable {
+    public struct ErrorDetails {
         /// Error details code.
         public var code: Swift.String?
         /// Error details message.
@@ -6305,7 +6305,7 @@ extension MgnClientTypes.ExportErrorData: Swift.Codable {
 
 extension MgnClientTypes {
     /// Export errors data.
-    public struct ExportErrorData: Swift.Equatable {
+    public struct ExportErrorData {
         /// Export errors data raw error.
         public var rawError: Swift.String?
 
@@ -6426,7 +6426,7 @@ extension MgnClientTypes.ExportTask: Swift.Codable {
 
 extension MgnClientTypes {
     /// Export task.
-    public struct ExportTask: Swift.Equatable {
+    public struct ExportTask {
         /// Export task creation datetime.
         public var creationDateTime: Swift.String?
         /// Export task end datetime.
@@ -6499,7 +6499,7 @@ extension MgnClientTypes.ExportTaskError: Swift.Codable {
 
 extension MgnClientTypes {
     /// Export task error.
-    public struct ExportTaskError: Swift.Equatable {
+    public struct ExportTaskError {
         /// Export task error data.
         public var errorData: MgnClientTypes.ExportErrorData?
         /// Export task error datetime.
@@ -6550,7 +6550,7 @@ extension MgnClientTypes.ExportTaskSummary: Swift.Codable {
 
 extension MgnClientTypes {
     /// Export task summary.
-    public struct ExportTaskSummary: Swift.Equatable {
+    public struct ExportTaskSummary {
         /// Export task summary applications count.
         public var applicationsCount: Swift.Int
         /// Export task summary servers count.
@@ -6596,7 +6596,7 @@ extension FinalizeCutoverInput {
     }
 }
 
-public struct FinalizeCutoverInput: Swift.Equatable {
+public struct FinalizeCutoverInput {
     /// Request to finalize Cutover by Source Account ID.
     public var accountID: Swift.String?
     /// Request to finalize Cutover by Source Server ID.
@@ -6613,7 +6613,7 @@ public struct FinalizeCutoverInput: Swift.Equatable {
     }
 }
 
-struct FinalizeCutoverInputBody: Swift.Equatable {
+struct FinalizeCutoverInputBody {
     let sourceServerID: Swift.String?
     let accountID: Swift.String?
 }
@@ -6676,7 +6676,7 @@ extension FinalizeCutoverOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct FinalizeCutoverOutput: Swift.Equatable {
+public struct FinalizeCutoverOutput {
     /// Source server application ID.
     public var applicationID: Swift.String?
     /// Source server ARN.
@@ -6740,7 +6740,7 @@ public struct FinalizeCutoverOutput: Swift.Equatable {
     }
 }
 
-struct FinalizeCutoverOutputBody: Swift.Equatable {
+struct FinalizeCutoverOutputBody {
     let sourceServerID: Swift.String?
     let arn: Swift.String?
     let isArchived: Swift.Bool?
@@ -6893,7 +6893,7 @@ extension GetLaunchConfigurationInput {
     }
 }
 
-public struct GetLaunchConfigurationInput: Swift.Equatable {
+public struct GetLaunchConfigurationInput {
     /// Request to get Launch Configuration information by Account ID.
     public var accountID: Swift.String?
     /// Request to get Launch Configuration information by Source Server ID.
@@ -6910,7 +6910,7 @@ public struct GetLaunchConfigurationInput: Swift.Equatable {
     }
 }
 
-struct GetLaunchConfigurationInputBody: Swift.Equatable {
+struct GetLaunchConfigurationInputBody {
     let sourceServerID: Swift.String?
     let accountID: Swift.String?
 }
@@ -6964,7 +6964,7 @@ extension GetLaunchConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLaunchConfigurationOutput: Swift.Equatable {
+public struct GetLaunchConfigurationOutput {
     /// Launch configuration boot mode.
     public var bootMode: MgnClientTypes.BootMode?
     /// Copy Private IP during Launch Configuration.
@@ -7020,7 +7020,7 @@ public struct GetLaunchConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetLaunchConfigurationOutputBody: Swift.Equatable {
+struct GetLaunchConfigurationOutputBody {
     let sourceServerID: Swift.String?
     let name: Swift.String?
     let ec2LaunchTemplateID: Swift.String?
@@ -7116,7 +7116,7 @@ extension GetReplicationConfigurationInput {
     }
 }
 
-public struct GetReplicationConfigurationInput: Swift.Equatable {
+public struct GetReplicationConfigurationInput {
     /// Request to get Replication Configuration by Account ID.
     public var accountID: Swift.String?
     /// Request to get Replication Configuration by Source Server ID.
@@ -7133,7 +7133,7 @@ public struct GetReplicationConfigurationInput: Swift.Equatable {
     }
 }
 
-struct GetReplicationConfigurationInputBody: Swift.Equatable {
+struct GetReplicationConfigurationInputBody {
     let sourceServerID: Swift.String?
     let accountID: Swift.String?
 }
@@ -7200,7 +7200,7 @@ extension GetReplicationConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetReplicationConfigurationOutput: Swift.Equatable {
+public struct GetReplicationConfigurationOutput {
     /// Replication Configuration associate default Application Migration Service Security Group.
     public var associateDefaultSecurityGroup: Swift.Bool?
     /// Replication Configuration set bandwidth throttling.
@@ -7272,7 +7272,7 @@ public struct GetReplicationConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetReplicationConfigurationOutputBody: Swift.Equatable {
+struct GetReplicationConfigurationOutputBody {
     let sourceServerID: Swift.String?
     let name: Swift.String?
     let stagingAreaSubnetId: Swift.String?
@@ -7432,7 +7432,7 @@ extension MgnClientTypes.IdentificationHints: Swift.Codable {
 
 extension MgnClientTypes {
     /// Identification hints.
-    public struct IdentificationHints: Swift.Equatable {
+    public struct IdentificationHints {
         /// AWS Instance ID identification hint.
         public var awsInstanceID: Swift.String?
         /// FQDN address identification hint.
@@ -7519,7 +7519,7 @@ extension MgnClientTypes.ImportErrorData: Swift.Codable {
 
 extension MgnClientTypes {
     /// Import error data.
-    public struct ImportErrorData: Swift.Equatable {
+    public struct ImportErrorData {
         /// Import error data source account ID.
         public var accountID: Swift.String?
         /// Import error data application ID.
@@ -7684,7 +7684,7 @@ extension MgnClientTypes.ImportTask: Swift.Codable {
 
 extension MgnClientTypes {
     /// Import task.
-    public struct ImportTask: Swift.Equatable {
+    public struct ImportTask {
         /// Import task creation datetime.
         public var creationDateTime: Swift.String?
         /// Import task end datetime.
@@ -7755,7 +7755,7 @@ extension MgnClientTypes.ImportTaskError: Swift.Codable {
 
 extension MgnClientTypes {
     /// Import task error.
-    public struct ImportTaskError: Swift.Equatable {
+    public struct ImportTaskError {
         /// Import task error data.
         public var errorData: MgnClientTypes.ImportErrorData?
         /// Import task error datetime.
@@ -7810,7 +7810,7 @@ extension MgnClientTypes.ImportTaskSummary: Swift.Codable {
 
 extension MgnClientTypes {
     /// Import task summary.
-    public struct ImportTaskSummary: Swift.Equatable {
+    public struct ImportTaskSummary {
         /// Import task summary applications.
         public var applications: MgnClientTypes.ImportTaskSummaryApplications?
         /// Import task summary servers.
@@ -7859,7 +7859,7 @@ extension MgnClientTypes.ImportTaskSummaryApplications: Swift.Codable {
 
 extension MgnClientTypes {
     /// Import task summary applications.
-    public struct ImportTaskSummaryApplications: Swift.Equatable {
+    public struct ImportTaskSummaryApplications {
         /// Import task summary applications created count.
         public var createdCount: Swift.Int
         /// Import task summary applications modified count.
@@ -7904,7 +7904,7 @@ extension MgnClientTypes.ImportTaskSummaryServers: Swift.Codable {
 
 extension MgnClientTypes {
     /// Import task summary servers.
-    public struct ImportTaskSummaryServers: Swift.Equatable {
+    public struct ImportTaskSummaryServers {
         /// Import task summary servers created count.
         public var createdCount: Swift.Int
         /// Import task summary servers modified count.
@@ -7949,7 +7949,7 @@ extension MgnClientTypes.ImportTaskSummaryWaves: Swift.Codable {
 
 extension MgnClientTypes {
     /// Import task summery waves.
-    public struct ImportTaskSummaryWaves: Swift.Equatable {
+    public struct ImportTaskSummaryWaves {
         /// Import task summery waves created count.
         public var createdCount: Swift.Int
         /// Import task summery waves modified count.
@@ -7974,12 +7974,12 @@ extension InitializeServiceInput {
     }
 }
 
-public struct InitializeServiceInput: Swift.Equatable {
+public struct InitializeServiceInput {
 
     public init() { }
 }
 
-struct InitializeServiceInputBody: Swift.Equatable {
+struct InitializeServiceInputBody {
 }
 
 extension InitializeServiceInputBody: Swift.Decodable {
@@ -7993,7 +7993,7 @@ extension InitializeServiceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct InitializeServiceOutput: Swift.Equatable {
+public struct InitializeServiceOutput {
 
     public init() { }
 }
@@ -8097,7 +8097,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -8211,7 +8211,7 @@ extension MgnClientTypes.Job: Swift.CustomDebugStringConvertible {
 
 extension MgnClientTypes {
     /// Job.
-    public struct Job: Swift.Equatable {
+    public struct Job {
         /// the ARN of the specific Job.
         public var arn: Swift.String?
         /// Job creation time.
@@ -8291,7 +8291,7 @@ extension MgnClientTypes.JobLog: Swift.Codable {
 
 extension MgnClientTypes {
     /// Job log.
-    public struct JobLog: Swift.Equatable {
+    public struct JobLog {
         /// Job log event.
         public var event: MgnClientTypes.JobLogEvent?
         /// Job event data
@@ -8426,7 +8426,7 @@ extension MgnClientTypes.JobLogEventData: Swift.Codable {
 
 extension MgnClientTypes {
     /// Job log data
-    public struct JobLogEventData: Swift.Equatable {
+    public struct JobLogEventData {
         /// Job Event conversion Server ID.
         public var conversionServerID: Swift.String?
         /// Job error.
@@ -8497,7 +8497,7 @@ extension MgnClientTypes.JobPostLaunchActionsLaunchStatus: Swift.Codable {
 
 extension MgnClientTypes {
     /// Launch Status of the Job Post Launch Actions.
-    public struct JobPostLaunchActionsLaunchStatus: Swift.Equatable {
+    public struct JobPostLaunchActionsLaunchStatus {
         /// AWS Systems Manager Document's execution ID of the of the Job Post Launch Actions.
         public var executionID: Swift.String?
         /// AWS Systems Manager Document's execution status.
@@ -8727,7 +8727,7 @@ extension MgnClientTypes.LaunchConfigurationTemplate: Swift.CustomDebugStringCon
 }
 
 extension MgnClientTypes {
-    public struct LaunchConfigurationTemplate: Swift.Equatable {
+    public struct LaunchConfigurationTemplate {
         /// ARN of the Launch Configuration Template.
         public var arn: Swift.String?
         /// Associate public Ip address.
@@ -8912,7 +8912,7 @@ extension MgnClientTypes.LaunchTemplateDiskConf: Swift.Codable {
 
 extension MgnClientTypes {
     /// Launch template disk configuration.
-    public struct LaunchTemplateDiskConf: Swift.Equatable {
+    public struct LaunchTemplateDiskConf {
         /// Launch template disk iops configuration.
         public var iops: Swift.Int?
         /// Launch template disk throughput configuration.
@@ -8967,7 +8967,7 @@ extension MgnClientTypes.LaunchedInstance: Swift.Codable {
 
 extension MgnClientTypes {
     /// Launched instance.
-    public struct LaunchedInstance: Swift.Equatable {
+    public struct LaunchedInstance {
         /// Launched instance EC2 ID.
         public var ec2InstanceID: Swift.String?
         /// Launched instance first boot.
@@ -9010,7 +9010,7 @@ extension MgnClientTypes.Licensing: Swift.Codable {
 
 extension MgnClientTypes {
     /// Configure Licensing.
-    public struct Licensing: Swift.Equatable {
+    public struct Licensing {
         /// Configure BYOL OS licensing.
         public var osByol: Swift.Bool?
 
@@ -9081,7 +9081,7 @@ extension MgnClientTypes.LifeCycle: Swift.Codable {
 
 extension MgnClientTypes {
     /// Lifecycle.
-    public struct LifeCycle: Swift.Equatable {
+    public struct LifeCycle {
         /// Lifecycle added to service data and time.
         public var addedToServiceDateTime: Swift.String?
         /// Lifecycle elapsed time and duration.
@@ -9152,7 +9152,7 @@ extension MgnClientTypes.LifeCycleLastCutover: Swift.Codable {
 
 extension MgnClientTypes {
     /// Lifecycle last Cutover .
-    public struct LifeCycleLastCutover: Swift.Equatable {
+    public struct LifeCycleLastCutover {
         /// Lifecycle Cutover finalized date and time.
         public var finalized: MgnClientTypes.LifeCycleLastCutoverFinalized?
         /// Lifecycle last Cutover initiated.
@@ -9195,7 +9195,7 @@ extension MgnClientTypes.LifeCycleLastCutoverFinalized: Swift.Codable {
 
 extension MgnClientTypes {
     /// Lifecycle Cutover finalized
-    public struct LifeCycleLastCutoverFinalized: Swift.Equatable {
+    public struct LifeCycleLastCutoverFinalized {
         /// Lifecycle Cutover finalized date and time.
         public var apiCallDateTime: Swift.String?
 
@@ -9236,7 +9236,7 @@ extension MgnClientTypes.LifeCycleLastCutoverInitiated: Swift.Codable {
 
 extension MgnClientTypes {
     /// Lifecycle last Cutover initiated.
-    public struct LifeCycleLastCutoverInitiated: Swift.Equatable {
+    public struct LifeCycleLastCutoverInitiated {
         ///
         public var apiCallDateTime: Swift.String?
         /// Lifecycle last Cutover initiated by Job ID.
@@ -9275,7 +9275,7 @@ extension MgnClientTypes.LifeCycleLastCutoverReverted: Swift.Codable {
 
 extension MgnClientTypes {
     /// Lifecycle last Cutover reverted.
-    public struct LifeCycleLastCutoverReverted: Swift.Equatable {
+    public struct LifeCycleLastCutoverReverted {
         /// Lifecycle last Cutover reverted API call date time.
         public var apiCallDateTime: Swift.String?
 
@@ -9322,7 +9322,7 @@ extension MgnClientTypes.LifeCycleLastTest: Swift.Codable {
 
 extension MgnClientTypes {
     /// Lifecycle last Test.
-    public struct LifeCycleLastTest: Swift.Equatable {
+    public struct LifeCycleLastTest {
         /// Lifecycle last Test finalized.
         public var finalized: MgnClientTypes.LifeCycleLastTestFinalized?
         /// Lifecycle last Test initiated.
@@ -9365,7 +9365,7 @@ extension MgnClientTypes.LifeCycleLastTestFinalized: Swift.Codable {
 
 extension MgnClientTypes {
     /// Lifecycle last Test finalized.
-    public struct LifeCycleLastTestFinalized: Swift.Equatable {
+    public struct LifeCycleLastTestFinalized {
         /// Lifecycle Test failed API call date and time.
         public var apiCallDateTime: Swift.String?
 
@@ -9406,7 +9406,7 @@ extension MgnClientTypes.LifeCycleLastTestInitiated: Swift.Codable {
 
 extension MgnClientTypes {
     /// Lifecycle last Test initiated.
-    public struct LifeCycleLastTestInitiated: Swift.Equatable {
+    public struct LifeCycleLastTestInitiated {
         /// Lifecycle last Test initiated API call date and time.
         public var apiCallDateTime: Swift.String?
         /// Lifecycle last Test initiated Job ID.
@@ -9445,7 +9445,7 @@ extension MgnClientTypes.LifeCycleLastTestReverted: Swift.Codable {
 
 extension MgnClientTypes {
     /// Lifecycle last Test reverted.
-    public struct LifeCycleLastTestReverted: Swift.Equatable {
+    public struct LifeCycleLastTestReverted {
         /// Lifecycle last Test reverted API call date and time.
         public var apiCallDateTime: Swift.String?
 
@@ -9547,7 +9547,7 @@ extension ListApplicationsInput {
     }
 }
 
-public struct ListApplicationsInput: Swift.Equatable {
+public struct ListApplicationsInput {
     /// Applications list Account ID.
     public var accountID: Swift.String?
     /// Applications list filters.
@@ -9571,7 +9571,7 @@ public struct ListApplicationsInput: Swift.Equatable {
     }
 }
 
-struct ListApplicationsInputBody: Swift.Equatable {
+struct ListApplicationsInputBody {
     let filters: MgnClientTypes.ListApplicationsRequestFilters?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -9613,7 +9613,7 @@ extension ListApplicationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListApplicationsOutput: Swift.Equatable {
+public struct ListApplicationsOutput {
     /// Applications list.
     public var items: [MgnClientTypes.Application]?
     /// Response next token.
@@ -9629,7 +9629,7 @@ public struct ListApplicationsOutput: Swift.Equatable {
     }
 }
 
-struct ListApplicationsOutputBody: Swift.Equatable {
+struct ListApplicationsOutputBody {
     let items: [MgnClientTypes.Application]?
     let nextToken: Swift.String?
 }
@@ -9726,7 +9726,7 @@ extension MgnClientTypes.ListApplicationsRequestFilters: Swift.Codable {
 
 extension MgnClientTypes {
     /// Applications list filters.
-    public struct ListApplicationsRequestFilters: Swift.Equatable {
+    public struct ListApplicationsRequestFilters {
         /// Filter applications list by application ID.
         public var applicationIDs: [Swift.String]?
         /// Filter applications list by archival status.
@@ -9776,7 +9776,7 @@ extension ListConnectorsInput {
     }
 }
 
-public struct ListConnectorsInput: Swift.Equatable {
+public struct ListConnectorsInput {
     /// List Connectors Request filters.
     public var filters: MgnClientTypes.ListConnectorsRequestFilters?
     /// List Connectors Request max results.
@@ -9796,7 +9796,7 @@ public struct ListConnectorsInput: Swift.Equatable {
     }
 }
 
-struct ListConnectorsInputBody: Swift.Equatable {
+struct ListConnectorsInputBody {
     let filters: MgnClientTypes.ListConnectorsRequestFilters?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -9834,7 +9834,7 @@ extension ListConnectorsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListConnectorsOutput: Swift.Equatable {
+public struct ListConnectorsOutput {
     /// List connectors response items.
     public var items: [MgnClientTypes.Connector]?
     /// List connectors response next token.
@@ -9850,7 +9850,7 @@ public struct ListConnectorsOutput: Swift.Equatable {
     }
 }
 
-struct ListConnectorsOutputBody: Swift.Equatable {
+struct ListConnectorsOutputBody {
     let items: [MgnClientTypes.Connector]?
     let nextToken: Swift.String?
 }
@@ -9924,7 +9924,7 @@ extension MgnClientTypes.ListConnectorsRequestFilters: Swift.Codable {
 
 extension MgnClientTypes {
     /// List Connectors Request Filters.
-    public struct ListConnectorsRequestFilters: Swift.Equatable {
+    public struct ListConnectorsRequestFilters {
         /// List Connectors Request Filters connector IDs.
         public var connectorIDs: [Swift.String]?
 
@@ -9967,7 +9967,7 @@ extension ListExportErrorsInput {
 }
 
 /// List export errors request.
-public struct ListExportErrorsInput: Swift.Equatable {
+public struct ListExportErrorsInput {
     /// List export errors request export id.
     /// This member is required.
     public var exportID: Swift.String?
@@ -9988,7 +9988,7 @@ public struct ListExportErrorsInput: Swift.Equatable {
     }
 }
 
-struct ListExportErrorsInputBody: Swift.Equatable {
+struct ListExportErrorsInputBody {
     let exportID: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -10027,7 +10027,7 @@ extension ListExportErrorsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// List export errors response.
-public struct ListExportErrorsOutput: Swift.Equatable {
+public struct ListExportErrorsOutput {
     /// List export errors response items.
     public var items: [MgnClientTypes.ExportTaskError]?
     /// List export errors response next token.
@@ -10043,7 +10043,7 @@ public struct ListExportErrorsOutput: Swift.Equatable {
     }
 }
 
-struct ListExportErrorsOutputBody: Swift.Equatable {
+struct ListExportErrorsOutputBody {
     let items: [MgnClientTypes.ExportTaskError]?
     let nextToken: Swift.String?
 }
@@ -10113,7 +10113,7 @@ extension ListExportsInput {
 }
 
 /// List export request.
-public struct ListExportsInput: Swift.Equatable {
+public struct ListExportsInput {
     /// List exports request filters.
     public var filters: MgnClientTypes.ListExportsRequestFilters?
     /// List export request max results.
@@ -10133,7 +10133,7 @@ public struct ListExportsInput: Swift.Equatable {
     }
 }
 
-struct ListExportsInputBody: Swift.Equatable {
+struct ListExportsInputBody {
     let filters: MgnClientTypes.ListExportsRequestFilters?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -10172,7 +10172,7 @@ extension ListExportsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// List export response.
-public struct ListExportsOutput: Swift.Equatable {
+public struct ListExportsOutput {
     /// List export response items.
     public var items: [MgnClientTypes.ExportTask]?
     /// List export response next token.
@@ -10188,7 +10188,7 @@ public struct ListExportsOutput: Swift.Equatable {
     }
 }
 
-struct ListExportsOutputBody: Swift.Equatable {
+struct ListExportsOutputBody {
     let items: [MgnClientTypes.ExportTask]?
     let nextToken: Swift.String?
 }
@@ -10261,7 +10261,7 @@ extension MgnClientTypes.ListExportsRequestFilters: Swift.Codable {
 
 extension MgnClientTypes {
     /// List exports request filters.
-    public struct ListExportsRequestFilters: Swift.Equatable {
+    public struct ListExportsRequestFilters {
         /// List exports request filters export ids.
         public var exportIDs: [Swift.String]?
 
@@ -10304,7 +10304,7 @@ extension ListImportErrorsInput {
 }
 
 /// List import errors request.
-public struct ListImportErrorsInput: Swift.Equatable {
+public struct ListImportErrorsInput {
     /// List import errors request import id.
     /// This member is required.
     public var importID: Swift.String?
@@ -10325,7 +10325,7 @@ public struct ListImportErrorsInput: Swift.Equatable {
     }
 }
 
-struct ListImportErrorsInputBody: Swift.Equatable {
+struct ListImportErrorsInputBody {
     let importID: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -10364,7 +10364,7 @@ extension ListImportErrorsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// List imports errors response.
-public struct ListImportErrorsOutput: Swift.Equatable {
+public struct ListImportErrorsOutput {
     /// List imports errors response items.
     public var items: [MgnClientTypes.ImportTaskError]?
     /// List imports errors response next token.
@@ -10380,7 +10380,7 @@ public struct ListImportErrorsOutput: Swift.Equatable {
     }
 }
 
-struct ListImportErrorsOutputBody: Swift.Equatable {
+struct ListImportErrorsOutputBody {
     let items: [MgnClientTypes.ImportTaskError]?
     let nextToken: Swift.String?
 }
@@ -10450,7 +10450,7 @@ extension ListImportsInput {
 }
 
 /// List imports request.
-public struct ListImportsInput: Swift.Equatable {
+public struct ListImportsInput {
     /// List imports request filters.
     public var filters: MgnClientTypes.ListImportsRequestFilters?
     /// List imports request max results.
@@ -10470,7 +10470,7 @@ public struct ListImportsInput: Swift.Equatable {
     }
 }
 
-struct ListImportsInputBody: Swift.Equatable {
+struct ListImportsInputBody {
     let filters: MgnClientTypes.ListImportsRequestFilters?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -10509,7 +10509,7 @@ extension ListImportsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// List import response.
-public struct ListImportsOutput: Swift.Equatable {
+public struct ListImportsOutput {
     /// List import response items.
     public var items: [MgnClientTypes.ImportTask]?
     /// List import response next token.
@@ -10525,7 +10525,7 @@ public struct ListImportsOutput: Swift.Equatable {
     }
 }
 
-struct ListImportsOutputBody: Swift.Equatable {
+struct ListImportsOutputBody {
     let items: [MgnClientTypes.ImportTask]?
     let nextToken: Swift.String?
 }
@@ -10599,7 +10599,7 @@ extension MgnClientTypes.ListImportsRequestFilters: Swift.Codable {
 
 extension MgnClientTypes {
     /// List imports request filters.
-    public struct ListImportsRequestFilters: Swift.Equatable {
+    public struct ListImportsRequestFilters {
         /// List imports request filters import IDs.
         public var importIDs: [Swift.String]?
 
@@ -10638,7 +10638,7 @@ extension ListManagedAccountsInput {
 }
 
 /// List managed accounts request.
-public struct ListManagedAccountsInput: Swift.Equatable {
+public struct ListManagedAccountsInput {
     /// List managed accounts request max results.
     public var maxResults: Swift.Int?
     /// List managed accounts request next token.
@@ -10654,7 +10654,7 @@ public struct ListManagedAccountsInput: Swift.Equatable {
     }
 }
 
-struct ListManagedAccountsInputBody: Swift.Equatable {
+struct ListManagedAccountsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -10689,7 +10689,7 @@ extension ListManagedAccountsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// List managed accounts response.
-public struct ListManagedAccountsOutput: Swift.Equatable {
+public struct ListManagedAccountsOutput {
     /// List managed accounts response items.
     /// This member is required.
     public var items: [MgnClientTypes.ManagedAccount]?
@@ -10706,7 +10706,7 @@ public struct ListManagedAccountsOutput: Swift.Equatable {
     }
 }
 
-struct ListManagedAccountsOutputBody: Swift.Equatable {
+struct ListManagedAccountsOutputBody {
     let items: [MgnClientTypes.ManagedAccount]?
     let nextToken: Swift.String?
 }
@@ -10783,7 +10783,7 @@ extension ListSourceServerActionsInput {
     }
 }
 
-public struct ListSourceServerActionsInput: Swift.Equatable {
+public struct ListSourceServerActionsInput {
     /// Account ID to return when listing source server post migration custom actions.
     public var accountID: Swift.String?
     /// Filters to apply when listing source server post migration custom actions.
@@ -10812,7 +10812,7 @@ public struct ListSourceServerActionsInput: Swift.Equatable {
     }
 }
 
-struct ListSourceServerActionsInputBody: Swift.Equatable {
+struct ListSourceServerActionsInputBody {
     let sourceServerID: Swift.String?
     let filters: MgnClientTypes.SourceServerActionsRequestFilters?
     let maxResults: Swift.Int?
@@ -10858,7 +10858,7 @@ extension ListSourceServerActionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSourceServerActionsOutput: Swift.Equatable {
+public struct ListSourceServerActionsOutput {
     /// List of source server post migration custom actions.
     public var items: [MgnClientTypes.SourceServerActionDocument]?
     /// Next token returned when listing source server post migration custom actions.
@@ -10874,7 +10874,7 @@ public struct ListSourceServerActionsOutput: Swift.Equatable {
     }
 }
 
-struct ListSourceServerActionsOutputBody: Swift.Equatable {
+struct ListSourceServerActionsOutputBody {
     let items: [MgnClientTypes.SourceServerActionDocument]?
     let nextToken: Swift.String?
 }
@@ -10925,7 +10925,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// List tags for resource request by ARN.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -10938,7 +10938,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -10964,7 +10964,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// List tags for resource response.
     public var tags: [Swift.String:Swift.String]?
 
@@ -10976,7 +10976,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -11048,7 +11048,7 @@ extension ListTemplateActionsInput {
     }
 }
 
-public struct ListTemplateActionsInput: Swift.Equatable {
+public struct ListTemplateActionsInput {
     /// Filters to apply when listing template post migration custom actions.
     public var filters: MgnClientTypes.TemplateActionsRequestFilters?
     /// Launch configuration template ID.
@@ -11073,7 +11073,7 @@ public struct ListTemplateActionsInput: Swift.Equatable {
     }
 }
 
-struct ListTemplateActionsInputBody: Swift.Equatable {
+struct ListTemplateActionsInputBody {
     let launchConfigurationTemplateID: Swift.String?
     let filters: MgnClientTypes.TemplateActionsRequestFilters?
     let maxResults: Swift.Int?
@@ -11115,7 +11115,7 @@ extension ListTemplateActionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTemplateActionsOutput: Swift.Equatable {
+public struct ListTemplateActionsOutput {
     /// List of template post migration custom actions.
     public var items: [MgnClientTypes.TemplateActionDocument]?
     /// Next token returned when listing template post migration custom actions.
@@ -11131,7 +11131,7 @@ public struct ListTemplateActionsOutput: Swift.Equatable {
     }
 }
 
-struct ListTemplateActionsOutputBody: Swift.Equatable {
+struct ListTemplateActionsOutputBody {
     let items: [MgnClientTypes.TemplateActionDocument]?
     let nextToken: Swift.String?
 }
@@ -11204,7 +11204,7 @@ extension ListWavesInput {
     }
 }
 
-public struct ListWavesInput: Swift.Equatable {
+public struct ListWavesInput {
     /// Request account ID.
     public var accountID: Swift.String?
     /// Waves list filters.
@@ -11228,7 +11228,7 @@ public struct ListWavesInput: Swift.Equatable {
     }
 }
 
-struct ListWavesInputBody: Swift.Equatable {
+struct ListWavesInputBody {
     let filters: MgnClientTypes.ListWavesRequestFilters?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -11270,7 +11270,7 @@ extension ListWavesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListWavesOutput: Swift.Equatable {
+public struct ListWavesOutput {
     /// Waves list.
     public var items: [MgnClientTypes.Wave]?
     /// Response next token.
@@ -11286,7 +11286,7 @@ public struct ListWavesOutput: Swift.Equatable {
     }
 }
 
-struct ListWavesOutputBody: Swift.Equatable {
+struct ListWavesOutputBody {
     let items: [MgnClientTypes.Wave]?
     let nextToken: Swift.String?
 }
@@ -11365,7 +11365,7 @@ extension MgnClientTypes.ListWavesRequestFilters: Swift.Codable {
 
 extension MgnClientTypes {
     /// Waves list filters.
-    public struct ListWavesRequestFilters: Swift.Equatable {
+    public struct ListWavesRequestFilters {
         /// Filter waves list by archival status.
         public var isArchived: Swift.Bool?
         /// Filter waves list by wave ID.
@@ -11404,7 +11404,7 @@ extension MgnClientTypes.ManagedAccount: Swift.Codable {
 
 extension MgnClientTypes {
     /// Managed account.
-    public struct ManagedAccount: Swift.Equatable {
+    public struct ManagedAccount {
         /// Managed account, account ID.
         public var accountId: Swift.String?
 
@@ -11442,7 +11442,7 @@ extension MarkAsArchivedInput {
     }
 }
 
-public struct MarkAsArchivedInput: Swift.Equatable {
+public struct MarkAsArchivedInput {
     /// Mark as archived by Account ID.
     public var accountID: Swift.String?
     /// Mark as archived by Source Server ID.
@@ -11459,7 +11459,7 @@ public struct MarkAsArchivedInput: Swift.Equatable {
     }
 }
 
-struct MarkAsArchivedInputBody: Swift.Equatable {
+struct MarkAsArchivedInputBody {
     let sourceServerID: Swift.String?
     let accountID: Swift.String?
 }
@@ -11522,7 +11522,7 @@ extension MarkAsArchivedOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct MarkAsArchivedOutput: Swift.Equatable {
+public struct MarkAsArchivedOutput {
     /// Source server application ID.
     public var applicationID: Swift.String?
     /// Source server ARN.
@@ -11586,7 +11586,7 @@ public struct MarkAsArchivedOutput: Swift.Equatable {
     }
 }
 
-struct MarkAsArchivedOutputBody: Swift.Equatable {
+struct MarkAsArchivedOutputBody {
     let sourceServerID: Swift.String?
     let arn: Swift.String?
     let isArchived: Swift.Bool?
@@ -11723,7 +11723,7 @@ extension MgnClientTypes.NetworkInterface: Swift.Codable {
 
 extension MgnClientTypes {
     /// Network interface.
-    public struct NetworkInterface: Swift.Equatable {
+    public struct NetworkInterface {
         /// Network interface IPs.
         public var ips: [Swift.String]?
         /// Network interface primary IP.
@@ -11766,7 +11766,7 @@ extension MgnClientTypes.OS: Swift.Codable {
 
 extension MgnClientTypes {
     /// Operating System.
-    public struct OS: Swift.Equatable {
+    public struct OS {
         /// OS full string.
         public var fullString: Swift.String?
 
@@ -11819,7 +11819,7 @@ extension MgnClientTypes.ParticipatingServer: Swift.Codable {
 
 extension MgnClientTypes {
     /// Server participating in Job.
-    public struct ParticipatingServer: Swift.Equatable {
+    public struct ParticipatingServer {
         /// Participating server launch status.
         public var launchStatus: MgnClientTypes.LaunchStatus?
         /// Participating server's launched ec2 instance ID.
@@ -11870,7 +11870,7 @@ extension PauseReplicationInput {
     }
 }
 
-public struct PauseReplicationInput: Swift.Equatable {
+public struct PauseReplicationInput {
     /// Pause Replication Request account ID.
     public var accountID: Swift.String?
     /// Pause Replication Request source server ID.
@@ -11887,7 +11887,7 @@ public struct PauseReplicationInput: Swift.Equatable {
     }
 }
 
-struct PauseReplicationInputBody: Swift.Equatable {
+struct PauseReplicationInputBody {
     let sourceServerID: Swift.String?
     let accountID: Swift.String?
 }
@@ -11950,7 +11950,7 @@ extension PauseReplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PauseReplicationOutput: Swift.Equatable {
+public struct PauseReplicationOutput {
     /// Source server application ID.
     public var applicationID: Swift.String?
     /// Source server ARN.
@@ -12014,7 +12014,7 @@ public struct PauseReplicationOutput: Swift.Equatable {
     }
 }
 
-struct PauseReplicationOutputBody: Swift.Equatable {
+struct PauseReplicationOutputBody {
     let sourceServerID: Swift.String?
     let arn: Swift.String?
     let isArchived: Swift.Bool?
@@ -12198,7 +12198,7 @@ extension MgnClientTypes.PostLaunchActions: Swift.Codable {
 
 extension MgnClientTypes {
     /// Post Launch Actions to executed on the Test or Cutover instance.
-    public struct PostLaunchActions: Swift.Equatable {
+    public struct PostLaunchActions {
         /// AWS Systems Manager Command's CloudWatch log group name.
         public var cloudWatchLogGroupName: Swift.String?
         /// Deployment type in which AWS Systems Manager Documents will be executed.
@@ -12302,7 +12302,7 @@ extension MgnClientTypes.PostLaunchActionsStatus: Swift.Codable {
 
 extension MgnClientTypes {
     /// Status of the Post Launch Actions running on the Test or Cutover instance.
-    public struct PostLaunchActionsStatus: Swift.Equatable {
+    public struct PostLaunchActionsStatus {
         /// List of Post Launch Action status.
         public var postLaunchActionsLaunchStatusList: [MgnClientTypes.JobPostLaunchActionsLaunchStatus]?
         /// Time where the AWS Systems Manager was detected as running on the Test or Cutover instance.
@@ -12401,7 +12401,7 @@ extension PutSourceServerActionInput {
     }
 }
 
-public struct PutSourceServerActionInput: Swift.Equatable {
+public struct PutSourceServerActionInput {
     /// Source server post migration custom account ID.
     public var accountID: Swift.String?
     /// Source server post migration custom action ID.
@@ -12470,7 +12470,7 @@ public struct PutSourceServerActionInput: Swift.Equatable {
     }
 }
 
-struct PutSourceServerActionInputBody: Swift.Equatable {
+struct PutSourceServerActionInputBody {
     let sourceServerID: Swift.String?
     let actionName: Swift.String?
     let documentIdentifier: Swift.String?
@@ -12597,7 +12597,7 @@ extension PutSourceServerActionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutSourceServerActionOutput: Swift.Equatable {
+public struct PutSourceServerActionOutput {
     /// Source server post migration custom action ID.
     public var actionID: Swift.String?
     /// Source server post migration custom action name.
@@ -12653,7 +12653,7 @@ public struct PutSourceServerActionOutput: Swift.Equatable {
     }
 }
 
-struct PutSourceServerActionOutputBody: Swift.Equatable {
+struct PutSourceServerActionOutputBody {
     let actionID: Swift.String?
     let actionName: Swift.String?
     let documentIdentifier: Swift.String?
@@ -12833,7 +12833,7 @@ extension PutTemplateActionInput {
     }
 }
 
-public struct PutTemplateActionInput: Swift.Equatable {
+public struct PutTemplateActionInput {
     /// Template post migration custom action ID.
     /// This member is required.
     public var actionID: Swift.String?
@@ -12902,7 +12902,7 @@ public struct PutTemplateActionInput: Swift.Equatable {
     }
 }
 
-struct PutTemplateActionInputBody: Swift.Equatable {
+struct PutTemplateActionInputBody {
     let launchConfigurationTemplateID: Swift.String?
     let actionName: Swift.String?
     let documentIdentifier: Swift.String?
@@ -13031,7 +13031,7 @@ extension PutTemplateActionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutTemplateActionOutput: Swift.Equatable {
+public struct PutTemplateActionOutput {
     /// Template post migration custom action ID.
     public var actionID: Swift.String?
     /// Template post migration custom action name.
@@ -13091,7 +13091,7 @@ public struct PutTemplateActionOutput: Swift.Equatable {
     }
 }
 
-struct PutTemplateActionOutputBody: Swift.Equatable {
+struct PutTemplateActionOutputBody {
     let actionID: Swift.String?
     let actionName: Swift.String?
     let documentIdentifier: Swift.String?
@@ -13222,7 +13222,7 @@ extension RemoveSourceServerActionInput {
     }
 }
 
-public struct RemoveSourceServerActionInput: Swift.Equatable {
+public struct RemoveSourceServerActionInput {
     /// Source server post migration account ID.
     public var accountID: Swift.String?
     /// Source server post migration custom action ID to remove.
@@ -13244,7 +13244,7 @@ public struct RemoveSourceServerActionInput: Swift.Equatable {
     }
 }
 
-struct RemoveSourceServerActionInputBody: Swift.Equatable {
+struct RemoveSourceServerActionInputBody {
     let sourceServerID: Swift.String?
     let actionID: Swift.String?
     let accountID: Swift.String?
@@ -13273,7 +13273,7 @@ extension RemoveSourceServerActionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RemoveSourceServerActionOutput: Swift.Equatable {
+public struct RemoveSourceServerActionOutput {
 
     public init() { }
 }
@@ -13315,7 +13315,7 @@ extension RemoveTemplateActionInput {
     }
 }
 
-public struct RemoveTemplateActionInput: Swift.Equatable {
+public struct RemoveTemplateActionInput {
     /// Template post migration custom action ID to remove.
     /// This member is required.
     public var actionID: Swift.String?
@@ -13333,7 +13333,7 @@ public struct RemoveTemplateActionInput: Swift.Equatable {
     }
 }
 
-struct RemoveTemplateActionInputBody: Swift.Equatable {
+struct RemoveTemplateActionInputBody {
     let launchConfigurationTemplateID: Swift.String?
     let actionID: Swift.String?
 }
@@ -13358,7 +13358,7 @@ extension RemoveTemplateActionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RemoveTemplateActionOutput: Swift.Equatable {
+public struct RemoveTemplateActionOutput {
 
     public init() { }
 }
@@ -13520,7 +13520,7 @@ extension MgnClientTypes.ReplicationConfigurationReplicatedDisk: Swift.Codable {
 
 extension MgnClientTypes {
     /// Replication Configuration replicated disk.
-    public struct ReplicationConfigurationReplicatedDisk: Swift.Equatable {
+    public struct ReplicationConfigurationReplicatedDisk {
         /// Replication Configuration replicated disk device name.
         public var deviceName: Swift.String?
         /// Replication Configuration replicated disk IOPs.
@@ -13751,7 +13751,7 @@ extension MgnClientTypes.ReplicationConfigurationTemplate: Swift.CustomDebugStri
 }
 
 extension MgnClientTypes {
-    public struct ReplicationConfigurationTemplate: Swift.Equatable {
+    public struct ReplicationConfigurationTemplate {
         /// Replication Configuration template ARN.
         public var arn: Swift.String?
         /// Replication Configuration template associate default Application Migration Service Security group.
@@ -13914,7 +13914,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
     let resourceId: Swift.String?
@@ -13966,7 +13966,7 @@ extension ResumeReplicationInput {
     }
 }
 
-public struct ResumeReplicationInput: Swift.Equatable {
+public struct ResumeReplicationInput {
     /// Resume Replication Request account ID.
     public var accountID: Swift.String?
     /// Resume Replication Request source server ID.
@@ -13983,7 +13983,7 @@ public struct ResumeReplicationInput: Swift.Equatable {
     }
 }
 
-struct ResumeReplicationInputBody: Swift.Equatable {
+struct ResumeReplicationInputBody {
     let sourceServerID: Swift.String?
     let accountID: Swift.String?
 }
@@ -14046,7 +14046,7 @@ extension ResumeReplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ResumeReplicationOutput: Swift.Equatable {
+public struct ResumeReplicationOutput {
     /// Source server application ID.
     public var applicationID: Swift.String?
     /// Source server ARN.
@@ -14110,7 +14110,7 @@ public struct ResumeReplicationOutput: Swift.Equatable {
     }
 }
 
-struct ResumeReplicationOutputBody: Swift.Equatable {
+struct ResumeReplicationOutputBody {
     let sourceServerID: Swift.String?
     let arn: Swift.String?
     let isArchived: Swift.Bool?
@@ -14226,7 +14226,7 @@ extension RetryDataReplicationInput {
     }
 }
 
-public struct RetryDataReplicationInput: Swift.Equatable {
+public struct RetryDataReplicationInput {
     /// Retry data replication for Account ID.
     public var accountID: Swift.String?
     /// Retry data replication for Source Server ID.
@@ -14243,7 +14243,7 @@ public struct RetryDataReplicationInput: Swift.Equatable {
     }
 }
 
-struct RetryDataReplicationInputBody: Swift.Equatable {
+struct RetryDataReplicationInputBody {
     let sourceServerID: Swift.String?
     let accountID: Swift.String?
 }
@@ -14306,7 +14306,7 @@ extension RetryDataReplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RetryDataReplicationOutput: Swift.Equatable {
+public struct RetryDataReplicationOutput {
     /// Source server application ID.
     public var applicationID: Swift.String?
     /// Source server ARN.
@@ -14370,7 +14370,7 @@ public struct RetryDataReplicationOutput: Swift.Equatable {
     }
 }
 
-struct RetryDataReplicationOutputBody: Swift.Equatable {
+struct RetryDataReplicationOutputBody {
     let sourceServerID: Swift.String?
     let arn: Swift.String?
     let isArchived: Swift.Bool?
@@ -14493,7 +14493,7 @@ extension MgnClientTypes.S3BucketSource: Swift.Codable {
 
 extension MgnClientTypes {
     /// S3 bucket source.
-    public struct S3BucketSource: Swift.Equatable {
+    public struct S3BucketSource {
         /// S3 bucket source s3 bucket.
         /// This member is required.
         public var s3Bucket: Swift.String?
@@ -14591,7 +14591,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
     let resourceId: Swift.String?
@@ -14730,7 +14730,7 @@ extension MgnClientTypes.SourceProperties: Swift.Codable {
 
 extension MgnClientTypes {
     /// Source server properties.
-    public struct SourceProperties: Swift.Equatable {
+    public struct SourceProperties {
         /// Source Server CPUs.
         public var cpus: [MgnClientTypes.CPU]?
         /// Source Server disks.
@@ -14887,7 +14887,7 @@ extension MgnClientTypes.SourceServer: Swift.CustomDebugStringConvertible {
 }
 
 extension MgnClientTypes {
-    public struct SourceServer: Swift.Equatable {
+    public struct SourceServer {
         /// Source server application ID.
         public var applicationID: Swift.String?
         /// Source server ARN.
@@ -15073,7 +15073,7 @@ extension MgnClientTypes.SourceServerActionDocument: Swift.Codable {
 }
 
 extension MgnClientTypes {
-    public struct SourceServerActionDocument: Swift.Equatable {
+    public struct SourceServerActionDocument {
         /// Source server post migration custom action ID.
         public var actionID: Swift.String?
         /// Source server post migration custom action name.
@@ -15164,7 +15164,7 @@ extension MgnClientTypes.SourceServerActionsRequestFilters: Swift.Codable {
 
 extension MgnClientTypes {
     /// Source server post migration custom action filters.
-    public struct SourceServerActionsRequestFilters: Swift.Equatable {
+    public struct SourceServerActionsRequestFilters {
         /// Action IDs to filter source server post migration custom actions by.
         public var actionIDs: [Swift.String]?
 
@@ -15205,7 +15205,7 @@ extension MgnClientTypes.SourceServerConnectorAction: Swift.Codable {
 
 extension MgnClientTypes {
     /// Source Server connector action.
-    public struct SourceServerConnectorAction: Swift.Equatable {
+    public struct SourceServerConnectorAction {
         /// Source Server connector action connector arn.
         public var connectorArn: Swift.String?
         /// Source Server connector action credentials secret arn.
@@ -15308,7 +15308,7 @@ extension MgnClientTypes.SsmDocument: Swift.Codable {
 
 extension MgnClientTypes {
     /// AWS Systems Manager Document.
-    public struct SsmDocument: Swift.Equatable {
+    public struct SsmDocument {
         /// User-friendly name for the AWS Systems Manager Document.
         /// This member is required.
         public var actionName: Swift.String?
@@ -15405,7 +15405,7 @@ extension MgnClientTypes.SsmExternalParameter: Swift.Codable {
 
 extension MgnClientTypes {
     /// AWS Systems Manager Document external parameter.
-    public enum SsmExternalParameter: Swift.Equatable {
+    public enum SsmExternalParameter {
         /// AWS Systems Manager Document external parameters dynamic path.
         case dynamicpath(Swift.String)
         case sdkUnknown(Swift.String)
@@ -15440,7 +15440,7 @@ extension MgnClientTypes.SsmParameterStoreParameter: Swift.Codable {
 
 extension MgnClientTypes {
     /// AWS Systems Manager Parameter Store parameter.
-    public struct SsmParameterStoreParameter: Swift.Equatable {
+    public struct SsmParameterStoreParameter {
         /// AWS Systems Manager Parameter Store parameter name.
         /// This member is required.
         public var parameterName: Swift.String?
@@ -15528,7 +15528,7 @@ extension StartCutoverInput {
     }
 }
 
-public struct StartCutoverInput: Swift.Equatable {
+public struct StartCutoverInput {
     /// Start Cutover by Account IDs
     public var accountID: Swift.String?
     /// Start Cutover by Source Server IDs.
@@ -15549,7 +15549,7 @@ public struct StartCutoverInput: Swift.Equatable {
     }
 }
 
-struct StartCutoverInputBody: Swift.Equatable {
+struct StartCutoverInputBody {
     let sourceServerIDs: [Swift.String]?
     let tags: [Swift.String:Swift.String]?
     let accountID: Swift.String?
@@ -15603,7 +15603,7 @@ extension StartCutoverOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartCutoverOutput: Swift.Equatable {
+public struct StartCutoverOutput {
     /// Start Cutover Job response.
     public var job: MgnClientTypes.Job?
 
@@ -15615,7 +15615,7 @@ public struct StartCutoverOutput: Swift.Equatable {
     }
 }
 
-struct StartCutoverOutputBody: Swift.Equatable {
+struct StartCutoverOutputBody {
     let job: MgnClientTypes.Job?
 }
 
@@ -15673,7 +15673,7 @@ extension StartExportInput {
 }
 
 /// Start export request.
-public struct StartExportInput: Swift.Equatable {
+public struct StartExportInput {
     /// Start export request s3 bucket.
     /// This member is required.
     public var s3Bucket: Swift.String?
@@ -15695,7 +15695,7 @@ public struct StartExportInput: Swift.Equatable {
     }
 }
 
-struct StartExportInputBody: Swift.Equatable {
+struct StartExportInputBody {
     let s3Bucket: Swift.String?
     let s3Key: Swift.String?
     let s3BucketOwner: Swift.String?
@@ -15732,7 +15732,7 @@ extension StartExportOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Start export response.
-public struct StartExportOutput: Swift.Equatable {
+public struct StartExportOutput {
     /// Start export response export task.
     public var exportTask: MgnClientTypes.ExportTask?
 
@@ -15744,7 +15744,7 @@ public struct StartExportOutput: Swift.Equatable {
     }
 }
 
-struct StartExportOutputBody: Swift.Equatable {
+struct StartExportOutputBody {
     let exportTask: MgnClientTypes.ExportTask?
 }
 
@@ -15798,7 +15798,7 @@ extension StartImportInput {
 }
 
 /// Start import request.
-public struct StartImportInput: Swift.Equatable {
+public struct StartImportInput {
     /// Start import request client token.
     public var clientToken: Swift.String?
     /// Start import request s3 bucket source.
@@ -15815,7 +15815,7 @@ public struct StartImportInput: Swift.Equatable {
     }
 }
 
-struct StartImportInputBody: Swift.Equatable {
+struct StartImportInputBody {
     let clientToken: Swift.String?
     let s3BucketSource: MgnClientTypes.S3BucketSource?
 }
@@ -15848,7 +15848,7 @@ extension StartImportOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Start import response.
-public struct StartImportOutput: Swift.Equatable {
+public struct StartImportOutput {
     /// Start import response import task.
     public var importTask: MgnClientTypes.ImportTask?
 
@@ -15860,7 +15860,7 @@ public struct StartImportOutput: Swift.Equatable {
     }
 }
 
-struct StartImportOutputBody: Swift.Equatable {
+struct StartImportOutputBody {
     let importTask: MgnClientTypes.ImportTask?
 }
 
@@ -15915,7 +15915,7 @@ extension StartReplicationInput {
     }
 }
 
-public struct StartReplicationInput: Swift.Equatable {
+public struct StartReplicationInput {
     /// Account ID on which to start replication.
     public var accountID: Swift.String?
     /// ID of source server on which to start replication.
@@ -15932,7 +15932,7 @@ public struct StartReplicationInput: Swift.Equatable {
     }
 }
 
-struct StartReplicationInputBody: Swift.Equatable {
+struct StartReplicationInputBody {
     let sourceServerID: Swift.String?
     let accountID: Swift.String?
 }
@@ -15995,7 +15995,7 @@ extension StartReplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartReplicationOutput: Swift.Equatable {
+public struct StartReplicationOutput {
     /// Source server application ID.
     public var applicationID: Swift.String?
     /// Source server ARN.
@@ -16059,7 +16059,7 @@ public struct StartReplicationOutput: Swift.Equatable {
     }
 }
 
-struct StartReplicationOutputBody: Swift.Equatable {
+struct StartReplicationOutputBody {
     let sourceServerID: Swift.String?
     let arn: Swift.String?
     let isArchived: Swift.Bool?
@@ -16190,7 +16190,7 @@ extension StartTestInput {
     }
 }
 
-public struct StartTestInput: Swift.Equatable {
+public struct StartTestInput {
     /// Start Test for Account ID.
     public var accountID: Swift.String?
     /// Start Test for Source Server IDs.
@@ -16211,7 +16211,7 @@ public struct StartTestInput: Swift.Equatable {
     }
 }
 
-struct StartTestInputBody: Swift.Equatable {
+struct StartTestInputBody {
     let sourceServerIDs: [Swift.String]?
     let tags: [Swift.String:Swift.String]?
     let accountID: Swift.String?
@@ -16265,7 +16265,7 @@ extension StartTestOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartTestOutput: Swift.Equatable {
+public struct StartTestOutput {
     /// Start Test Job response.
     public var job: MgnClientTypes.Job?
 
@@ -16277,7 +16277,7 @@ public struct StartTestOutput: Swift.Equatable {
     }
 }
 
-struct StartTestOutputBody: Swift.Equatable {
+struct StartTestOutputBody {
     let job: MgnClientTypes.Job?
 }
 
@@ -16330,7 +16330,7 @@ extension StopReplicationInput {
     }
 }
 
-public struct StopReplicationInput: Swift.Equatable {
+public struct StopReplicationInput {
     /// Stop Replication Request account ID.
     public var accountID: Swift.String?
     /// Stop Replication Request source server ID.
@@ -16347,7 +16347,7 @@ public struct StopReplicationInput: Swift.Equatable {
     }
 }
 
-struct StopReplicationInputBody: Swift.Equatable {
+struct StopReplicationInputBody {
     let sourceServerID: Swift.String?
     let accountID: Swift.String?
 }
@@ -16410,7 +16410,7 @@ extension StopReplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopReplicationOutput: Swift.Equatable {
+public struct StopReplicationOutput {
     /// Source server application ID.
     public var applicationID: Swift.String?
     /// Source server ARN.
@@ -16474,7 +16474,7 @@ public struct StopReplicationOutput: Swift.Equatable {
     }
 }
 
-struct StopReplicationOutputBody: Swift.Equatable {
+struct StopReplicationOutputBody {
     let sourceServerID: Swift.String?
     let arn: Swift.String?
     let isArchived: Swift.Bool?
@@ -16597,7 +16597,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// Tag resource by ARN.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -16615,7 +16615,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -16645,7 +16645,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -16823,7 +16823,7 @@ extension MgnClientTypes.TemplateActionDocument: Swift.Codable {
 }
 
 extension MgnClientTypes {
-    public struct TemplateActionDocument: Swift.Equatable {
+    public struct TemplateActionDocument {
         /// Template post migration custom action ID.
         public var actionID: Swift.String?
         /// Template post migration custom action name.
@@ -16918,7 +16918,7 @@ extension MgnClientTypes.TemplateActionsRequestFilters: Swift.Codable {
 
 extension MgnClientTypes {
     /// Template post migration custom action filters.
-    public struct TemplateActionsRequestFilters: Swift.Equatable {
+    public struct TemplateActionsRequestFilters {
         /// Action IDs to filter template post migration custom actions by.
         public var actionIDs: [Swift.String]?
 
@@ -16971,7 +16971,7 @@ extension TerminateTargetInstancesInput {
     }
 }
 
-public struct TerminateTargetInstancesInput: Swift.Equatable {
+public struct TerminateTargetInstancesInput {
     /// Terminate Target instance by Account ID
     public var accountID: Swift.String?
     /// Terminate Target instance by Source Server IDs.
@@ -16992,7 +16992,7 @@ public struct TerminateTargetInstancesInput: Swift.Equatable {
     }
 }
 
-struct TerminateTargetInstancesInputBody: Swift.Equatable {
+struct TerminateTargetInstancesInputBody {
     let sourceServerIDs: [Swift.String]?
     let tags: [Swift.String:Swift.String]?
     let accountID: Swift.String?
@@ -17046,7 +17046,7 @@ extension TerminateTargetInstancesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TerminateTargetInstancesOutput: Swift.Equatable {
+public struct TerminateTargetInstancesOutput {
     /// Terminate Target instance Job response.
     public var job: MgnClientTypes.Job?
 
@@ -17058,7 +17058,7 @@ public struct TerminateTargetInstancesOutput: Swift.Equatable {
     }
 }
 
-struct TerminateTargetInstancesOutputBody: Swift.Equatable {
+struct TerminateTargetInstancesOutputBody {
     let job: MgnClientTypes.Job?
 }
 
@@ -17148,7 +17148,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
     let serviceCode: Swift.String?
     let quotaCode: Swift.String?
@@ -17196,7 +17196,7 @@ extension UnarchiveApplicationInput {
     }
 }
 
-public struct UnarchiveApplicationInput: Swift.Equatable {
+public struct UnarchiveApplicationInput {
     /// Account ID.
     public var accountID: Swift.String?
     /// Application ID.
@@ -17213,7 +17213,7 @@ public struct UnarchiveApplicationInput: Swift.Equatable {
     }
 }
 
-struct UnarchiveApplicationInputBody: Swift.Equatable {
+struct UnarchiveApplicationInputBody {
     let applicationID: Swift.String?
     let accountID: Swift.String?
 }
@@ -17268,7 +17268,7 @@ extension UnarchiveApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UnarchiveApplicationOutput: Swift.Equatable {
+public struct UnarchiveApplicationOutput {
     /// Application aggregated status.
     public var applicationAggregatedStatus: MgnClientTypes.ApplicationAggregatedStatus?
     /// Application ID.
@@ -17316,7 +17316,7 @@ public struct UnarchiveApplicationOutput: Swift.Equatable {
     }
 }
 
-struct UnarchiveApplicationOutputBody: Swift.Equatable {
+struct UnarchiveApplicationOutputBody {
     let applicationID: Swift.String?
     let arn: Swift.String?
     let name: Swift.String?
@@ -17414,7 +17414,7 @@ extension UnarchiveWaveInput {
     }
 }
 
-public struct UnarchiveWaveInput: Swift.Equatable {
+public struct UnarchiveWaveInput {
     /// Account ID.
     public var accountID: Swift.String?
     /// Wave ID.
@@ -17431,7 +17431,7 @@ public struct UnarchiveWaveInput: Swift.Equatable {
     }
 }
 
-struct UnarchiveWaveInputBody: Swift.Equatable {
+struct UnarchiveWaveInputBody {
     let waveID: Swift.String?
     let accountID: Swift.String?
 }
@@ -17484,7 +17484,7 @@ extension UnarchiveWaveOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UnarchiveWaveOutput: Swift.Equatable {
+public struct UnarchiveWaveOutput {
     /// Wave ARN.
     public var arn: Swift.String?
     /// Wave creation dateTime.
@@ -17528,7 +17528,7 @@ public struct UnarchiveWaveOutput: Swift.Equatable {
     }
 }
 
-struct UnarchiveWaveOutputBody: Swift.Equatable {
+struct UnarchiveWaveOutputBody {
     let waveID: Swift.String?
     let arn: Swift.String?
     let name: Swift.String?
@@ -17642,7 +17642,7 @@ public struct UninitializedAccountException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct UninitializedAccountExceptionBody: Swift.Equatable {
+struct UninitializedAccountExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
 }
@@ -17693,7 +17693,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// Untag resource by ARN.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -17711,7 +17711,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -17725,7 +17725,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -17777,7 +17777,7 @@ extension UpdateApplicationInput {
     }
 }
 
-public struct UpdateApplicationInput: Swift.Equatable {
+public struct UpdateApplicationInput {
     /// Account ID.
     public var accountID: Swift.String?
     /// Application ID.
@@ -17802,7 +17802,7 @@ public struct UpdateApplicationInput: Swift.Equatable {
     }
 }
 
-struct UpdateApplicationInputBody: Swift.Equatable {
+struct UpdateApplicationInputBody {
     let applicationID: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -17865,7 +17865,7 @@ extension UpdateApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateApplicationOutput: Swift.Equatable {
+public struct UpdateApplicationOutput {
     /// Application aggregated status.
     public var applicationAggregatedStatus: MgnClientTypes.ApplicationAggregatedStatus?
     /// Application ID.
@@ -17913,7 +17913,7 @@ public struct UpdateApplicationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateApplicationOutputBody: Swift.Equatable {
+struct UpdateApplicationOutputBody {
     let applicationID: Swift.String?
     let arn: Swift.String?
     let name: Swift.String?
@@ -18015,7 +18015,7 @@ extension UpdateConnectorInput {
     }
 }
 
-public struct UpdateConnectorInput: Swift.Equatable {
+public struct UpdateConnectorInput {
     /// Update Connector request connector ID.
     /// This member is required.
     public var connectorID: Swift.String?
@@ -18036,7 +18036,7 @@ public struct UpdateConnectorInput: Swift.Equatable {
     }
 }
 
-struct UpdateConnectorInputBody: Swift.Equatable {
+struct UpdateConnectorInputBody {
     let connectorID: Swift.String?
     let name: Swift.String?
     let ssmCommandConfig: MgnClientTypes.ConnectorSsmCommandConfig?
@@ -18087,7 +18087,7 @@ extension UpdateConnectorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateConnectorOutput: Swift.Equatable {
+public struct UpdateConnectorOutput {
     /// Connector arn.
     public var arn: Swift.String?
     /// Connector ID.
@@ -18119,7 +18119,7 @@ public struct UpdateConnectorOutput: Swift.Equatable {
     }
 }
 
-struct UpdateConnectorOutputBody: Swift.Equatable {
+struct UpdateConnectorOutputBody {
     let connectorID: Swift.String?
     let name: Swift.String?
     let ssmInstanceID: Swift.String?
@@ -18241,7 +18241,7 @@ extension UpdateLaunchConfigurationInput {
     }
 }
 
-public struct UpdateLaunchConfigurationInput: Swift.Equatable {
+public struct UpdateLaunchConfigurationInput {
     /// Update Launch configuration Account ID.
     public var accountID: Swift.String?
     /// Update Launch configuration boot mode request.
@@ -18298,7 +18298,7 @@ public struct UpdateLaunchConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateLaunchConfigurationInputBody: Swift.Equatable {
+struct UpdateLaunchConfigurationInputBody {
     let sourceServerID: Swift.String?
     let name: Swift.String?
     let launchDisposition: MgnClientTypes.LaunchDisposition?
@@ -18392,7 +18392,7 @@ extension UpdateLaunchConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateLaunchConfigurationOutput: Swift.Equatable {
+public struct UpdateLaunchConfigurationOutput {
     /// Launch configuration boot mode.
     public var bootMode: MgnClientTypes.BootMode?
     /// Copy Private IP during Launch Configuration.
@@ -18448,7 +18448,7 @@ public struct UpdateLaunchConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateLaunchConfigurationOutputBody: Swift.Equatable {
+struct UpdateLaunchConfigurationOutputBody {
     let sourceServerID: Swift.String?
     let name: Swift.String?
     let ec2LaunchTemplateID: Swift.String?
@@ -18594,7 +18594,7 @@ extension UpdateLaunchConfigurationTemplateInput {
     }
 }
 
-public struct UpdateLaunchConfigurationTemplateInput: Swift.Equatable {
+public struct UpdateLaunchConfigurationTemplateInput {
     /// Associate public Ip address.
     public var associatePublicIpAddress: Swift.Bool?
     /// Launch configuration template boot mode.
@@ -18659,7 +18659,7 @@ public struct UpdateLaunchConfigurationTemplateInput: Swift.Equatable {
     }
 }
 
-struct UpdateLaunchConfigurationTemplateInputBody: Swift.Equatable {
+struct UpdateLaunchConfigurationTemplateInputBody {
     let launchConfigurationTemplateID: Swift.String?
     let postLaunchActions: MgnClientTypes.PostLaunchActions?
     let enableMapAutoTagging: Swift.Bool?
@@ -18776,7 +18776,7 @@ extension UpdateLaunchConfigurationTemplateOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct UpdateLaunchConfigurationTemplateOutput: Swift.Equatable {
+public struct UpdateLaunchConfigurationTemplateOutput {
     /// ARN of the Launch Configuration Template.
     public var arn: Swift.String?
     /// Associate public Ip address.
@@ -18853,7 +18853,7 @@ public struct UpdateLaunchConfigurationTemplateOutput: Swift.Equatable {
     }
 }
 
-struct UpdateLaunchConfigurationTemplateOutputBody: Swift.Equatable {
+struct UpdateLaunchConfigurationTemplateOutputBody {
     let launchConfigurationTemplateID: Swift.String?
     let arn: Swift.String?
     let postLaunchActions: MgnClientTypes.PostLaunchActions?
@@ -19054,7 +19054,7 @@ extension UpdateReplicationConfigurationInput {
     }
 }
 
-public struct UpdateReplicationConfigurationInput: Swift.Equatable {
+public struct UpdateReplicationConfigurationInput {
     /// Update replication configuration Account ID request.
     public var accountID: Swift.String?
     /// Update replication configuration associate default Application Migration Service Security group request.
@@ -19131,7 +19131,7 @@ public struct UpdateReplicationConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateReplicationConfigurationInputBody: Swift.Equatable {
+struct UpdateReplicationConfigurationInputBody {
     let sourceServerID: Swift.String?
     let name: Swift.String?
     let stagingAreaSubnetId: Swift.String?
@@ -19285,7 +19285,7 @@ extension UpdateReplicationConfigurationOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct UpdateReplicationConfigurationOutput: Swift.Equatable {
+public struct UpdateReplicationConfigurationOutput {
     /// Replication Configuration associate default Application Migration Service Security Group.
     public var associateDefaultSecurityGroup: Swift.Bool?
     /// Replication Configuration set bandwidth throttling.
@@ -19357,7 +19357,7 @@ public struct UpdateReplicationConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateReplicationConfigurationOutputBody: Swift.Equatable {
+struct UpdateReplicationConfigurationOutputBody {
     let sourceServerID: Swift.String?
     let name: Swift.String?
     let stagingAreaSubnetId: Swift.String?
@@ -19562,7 +19562,7 @@ extension UpdateReplicationConfigurationTemplateInput {
     }
 }
 
-public struct UpdateReplicationConfigurationTemplateInput: Swift.Equatable {
+public struct UpdateReplicationConfigurationTemplateInput {
     /// Update replication configuration template ARN request.
     public var arn: Swift.String?
     /// Update replication configuration template associate default Application Migration Service Security group request.
@@ -19631,7 +19631,7 @@ public struct UpdateReplicationConfigurationTemplateInput: Swift.Equatable {
     }
 }
 
-struct UpdateReplicationConfigurationTemplateInputBody: Swift.Equatable {
+struct UpdateReplicationConfigurationTemplateInputBody {
     let replicationConfigurationTemplateID: Swift.String?
     let arn: Swift.String?
     let stagingAreaSubnetId: Swift.String?
@@ -19768,7 +19768,7 @@ extension UpdateReplicationConfigurationTemplateOutput: ClientRuntime.HttpRespon
     }
 }
 
-public struct UpdateReplicationConfigurationTemplateOutput: Swift.Equatable {
+public struct UpdateReplicationConfigurationTemplateOutput {
     /// Replication Configuration template ARN.
     public var arn: Swift.String?
     /// Replication Configuration template associate default Application Migration Service Security group.
@@ -19841,7 +19841,7 @@ public struct UpdateReplicationConfigurationTemplateOutput: Swift.Equatable {
     }
 }
 
-struct UpdateReplicationConfigurationTemplateOutputBody: Swift.Equatable {
+struct UpdateReplicationConfigurationTemplateOutputBody {
     let replicationConfigurationTemplateID: Swift.String?
     let arn: Swift.String?
     let stagingAreaSubnetId: Swift.String?
@@ -19986,7 +19986,7 @@ extension UpdateSourceServerInput {
     }
 }
 
-public struct UpdateSourceServerInput: Swift.Equatable {
+public struct UpdateSourceServerInput {
     /// Update Source Server request account ID.
     public var accountID: Swift.String?
     /// Update Source Server request connector action.
@@ -20007,7 +20007,7 @@ public struct UpdateSourceServerInput: Swift.Equatable {
     }
 }
 
-struct UpdateSourceServerInputBody: Swift.Equatable {
+struct UpdateSourceServerInputBody {
     let accountID: Swift.String?
     let sourceServerID: Swift.String?
     let connectorAction: MgnClientTypes.SourceServerConnectorAction?
@@ -20074,7 +20074,7 @@ extension UpdateSourceServerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSourceServerOutput: Swift.Equatable {
+public struct UpdateSourceServerOutput {
     /// Source server application ID.
     public var applicationID: Swift.String?
     /// Source server ARN.
@@ -20138,7 +20138,7 @@ public struct UpdateSourceServerOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSourceServerOutputBody: Swift.Equatable {
+struct UpdateSourceServerOutputBody {
     let sourceServerID: Swift.String?
     let arn: Swift.String?
     let isArchived: Swift.Bool?
@@ -20256,7 +20256,7 @@ extension UpdateSourceServerReplicationTypeInput {
     }
 }
 
-public struct UpdateSourceServerReplicationTypeInput: Swift.Equatable {
+public struct UpdateSourceServerReplicationTypeInput {
     /// Account ID on which to update replication type.
     public var accountID: Swift.String?
     /// Replication type to which to update source server.
@@ -20278,7 +20278,7 @@ public struct UpdateSourceServerReplicationTypeInput: Swift.Equatable {
     }
 }
 
-struct UpdateSourceServerReplicationTypeInputBody: Swift.Equatable {
+struct UpdateSourceServerReplicationTypeInputBody {
     let sourceServerID: Swift.String?
     let replicationType: MgnClientTypes.ReplicationType?
     let accountID: Swift.String?
@@ -20345,7 +20345,7 @@ extension UpdateSourceServerReplicationTypeOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct UpdateSourceServerReplicationTypeOutput: Swift.Equatable {
+public struct UpdateSourceServerReplicationTypeOutput {
     /// Source server application ID.
     public var applicationID: Swift.String?
     /// Source server ARN.
@@ -20409,7 +20409,7 @@ public struct UpdateSourceServerReplicationTypeOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSourceServerReplicationTypeOutputBody: Swift.Equatable {
+struct UpdateSourceServerReplicationTypeOutputBody {
     let sourceServerID: Swift.String?
     let arn: Swift.String?
     let isArchived: Swift.Bool?
@@ -20532,7 +20532,7 @@ extension UpdateWaveInput {
     }
 }
 
-public struct UpdateWaveInput: Swift.Equatable {
+public struct UpdateWaveInput {
     /// Account ID.
     public var accountID: Swift.String?
     /// Wave description.
@@ -20557,7 +20557,7 @@ public struct UpdateWaveInput: Swift.Equatable {
     }
 }
 
-struct UpdateWaveInputBody: Swift.Equatable {
+struct UpdateWaveInputBody {
     let waveID: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -20618,7 +20618,7 @@ extension UpdateWaveOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateWaveOutput: Swift.Equatable {
+public struct UpdateWaveOutput {
     /// Wave ARN.
     public var arn: Swift.String?
     /// Wave creation dateTime.
@@ -20662,7 +20662,7 @@ public struct UpdateWaveOutput: Swift.Equatable {
     }
 }
 
-struct UpdateWaveOutputBody: Swift.Equatable {
+struct UpdateWaveOutputBody {
     let waveID: Swift.String?
     let arn: Swift.String?
     let name: Swift.String?
@@ -20788,7 +20788,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
     let reason: MgnClientTypes.ValidationExceptionReason?
@@ -20852,7 +20852,7 @@ extension MgnClientTypes.ValidationExceptionField: Swift.Codable {
 
 extension MgnClientTypes {
     /// Validate exception field.
-    public struct ValidationExceptionField: Swift.Equatable {
+    public struct ValidationExceptionField {
         /// Validate exception field message.
         public var message: Swift.String?
         /// Validate exception field name.
@@ -21000,7 +21000,7 @@ extension MgnClientTypes.VcenterClient: Swift.CustomDebugStringConvertible {
 
 extension MgnClientTypes {
     /// vCenter client.
-    public struct VcenterClient: Swift.Equatable {
+    public struct VcenterClient {
         /// Arn of vCenter client.
         public var arn: Swift.String?
         /// Datacenter name of vCenter client.
@@ -21174,7 +21174,7 @@ extension MgnClientTypes.Wave: Swift.CustomDebugStringConvertible {
 }
 
 extension MgnClientTypes {
-    public struct Wave: Swift.Equatable {
+    public struct Wave {
         /// Wave ARN.
         public var arn: Swift.String?
         /// Wave creation dateTime.
@@ -21265,7 +21265,7 @@ extension MgnClientTypes.WaveAggregatedStatus: Swift.Codable {
 
 extension MgnClientTypes {
     /// Wave aggregated status.
-    public struct WaveAggregatedStatus: Swift.Equatable {
+    public struct WaveAggregatedStatus {
         /// Wave aggregated status health status.
         public var healthStatus: MgnClientTypes.WaveHealthStatus?
         /// Wave aggregated status last update dateTime.

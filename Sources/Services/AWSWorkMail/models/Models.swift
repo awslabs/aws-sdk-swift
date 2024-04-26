@@ -191,7 +191,7 @@ extension WorkMailClientTypes.AccessControlRule: Swift.Codable {
 
 extension WorkMailClientTypes {
     /// A rule that controls access to an WorkMail organization.
-    public struct AccessControlRule: Swift.Equatable {
+    public struct AccessControlRule {
         /// Access protocol actions to include in the rule. Valid values include ActiveSync, AutoDiscover, EWS, IMAP, SMTP, WindowsOutlook, and WebMail.
         public var actions: [Swift.String]?
         /// The date that the rule was created.
@@ -345,7 +345,7 @@ extension AssociateDelegateToResourceInput {
     }
 }
 
-public struct AssociateDelegateToResourceInput: Swift.Equatable {
+public struct AssociateDelegateToResourceInput {
     /// The member (user or group) to associate to the resource. The entity ID can accept UserId or GroupID, Username or Groupname, or email.
     ///
     /// * Entity: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
@@ -380,7 +380,7 @@ public struct AssociateDelegateToResourceInput: Swift.Equatable {
     }
 }
 
-struct AssociateDelegateToResourceInputBody: Swift.Equatable {
+struct AssociateDelegateToResourceInputBody {
     let organizationId: Swift.String?
     let resourceId: Swift.String?
     let entityId: Swift.String?
@@ -409,7 +409,7 @@ extension AssociateDelegateToResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateDelegateToResourceOutput: Swift.Equatable {
+public struct AssociateDelegateToResourceOutput {
 
     public init() { }
 }
@@ -458,7 +458,7 @@ extension AssociateMemberToGroupInput {
     }
 }
 
-public struct AssociateMemberToGroupInput: Swift.Equatable {
+public struct AssociateMemberToGroupInput {
     /// The group to which the member (user or group) is associated. The identifier can accept GroupId, Groupname, or email. The following identity formats are available:
     ///
     /// * Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
@@ -493,7 +493,7 @@ public struct AssociateMemberToGroupInput: Swift.Equatable {
     }
 }
 
-struct AssociateMemberToGroupInputBody: Swift.Equatable {
+struct AssociateMemberToGroupInputBody {
     let organizationId: Swift.String?
     let groupId: Swift.String?
     let memberId: Swift.String?
@@ -522,7 +522,7 @@ extension AssociateMemberToGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateMemberToGroupOutput: Swift.Equatable {
+public struct AssociateMemberToGroupOutput {
 
     public init() { }
 }
@@ -569,7 +569,7 @@ extension AssumeImpersonationRoleInput {
     }
 }
 
-public struct AssumeImpersonationRoleInput: Swift.Equatable {
+public struct AssumeImpersonationRoleInput {
     /// The impersonation role ID to assume.
     /// This member is required.
     public var impersonationRoleId: Swift.String?
@@ -587,7 +587,7 @@ public struct AssumeImpersonationRoleInput: Swift.Equatable {
     }
 }
 
-struct AssumeImpersonationRoleInputBody: Swift.Equatable {
+struct AssumeImpersonationRoleInputBody {
     let organizationId: Swift.String?
     let impersonationRoleId: Swift.String?
 }
@@ -621,7 +621,7 @@ extension AssumeImpersonationRoleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssumeImpersonationRoleOutput: Swift.Equatable {
+public struct AssumeImpersonationRoleOutput {
     /// The authentication token's validity, in seconds.
     public var expiresIn: Swift.Int?
     /// The authentication token for the impersonation role.
@@ -637,7 +637,7 @@ public struct AssumeImpersonationRoleOutput: Swift.Equatable {
     }
 }
 
-struct AssumeImpersonationRoleOutputBody: Swift.Equatable {
+struct AssumeImpersonationRoleOutputBody {
     let token: Swift.String?
     let expiresIn: Swift.Int?
 }
@@ -722,7 +722,7 @@ extension WorkMailClientTypes.AvailabilityConfiguration: Swift.Codable {
 
 extension WorkMailClientTypes {
     /// List all the AvailabilityConfiguration's for the given WorkMail organization.
-    public struct AvailabilityConfiguration: Swift.Equatable {
+    public struct AvailabilityConfiguration {
         /// The date and time at which the availability configuration was created.
         public var dateCreated: ClientRuntime.Date?
         /// The date and time at which the availability configuration was last modified.
@@ -821,7 +821,7 @@ extension WorkMailClientTypes.BookingOptions: Swift.Codable {
 
 extension WorkMailClientTypes {
     /// At least one delegate must be associated to the resource to disable automatic replies from the resource.
-    public struct BookingOptions: Swift.Equatable {
+    public struct BookingOptions {
         /// The resource's ability to automatically reply to requests. If disabled, delegates must be associated to the resource.
         public var autoAcceptRequests: Swift.Bool
         /// The resource's ability to automatically decline any conflicting requests.
@@ -871,7 +871,7 @@ extension CancelMailboxExportJobInput {
     }
 }
 
-public struct CancelMailboxExportJobInput: Swift.Equatable {
+public struct CancelMailboxExportJobInput {
     /// The idempotency token for the client request.
     /// This member is required.
     public var clientToken: Swift.String?
@@ -894,7 +894,7 @@ public struct CancelMailboxExportJobInput: Swift.Equatable {
     }
 }
 
-struct CancelMailboxExportJobInputBody: Swift.Equatable {
+struct CancelMailboxExportJobInputBody {
     let clientToken: Swift.String?
     let jobId: Swift.String?
     let organizationId: Swift.String?
@@ -923,7 +923,7 @@ extension CancelMailboxExportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelMailboxExportJobOutput: Swift.Equatable {
+public struct CancelMailboxExportJobOutput {
 
     public init() { }
 }
@@ -970,7 +970,7 @@ extension CreateAliasInput {
     }
 }
 
-public struct CreateAliasInput: Swift.Equatable {
+public struct CreateAliasInput {
     /// The alias to add to the member set.
     /// This member is required.
     public var alias: Swift.String?
@@ -993,7 +993,7 @@ public struct CreateAliasInput: Swift.Equatable {
     }
 }
 
-struct CreateAliasInputBody: Swift.Equatable {
+struct CreateAliasInputBody {
     let organizationId: Swift.String?
     let entityId: Swift.String?
     let alias: Swift.String?
@@ -1022,7 +1022,7 @@ extension CreateAliasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAliasOutput: Swift.Equatable {
+public struct CreateAliasOutput {
 
     public init() { }
 }
@@ -1082,7 +1082,7 @@ extension CreateAvailabilityConfigurationInput {
     }
 }
 
-public struct CreateAvailabilityConfigurationInput: Swift.Equatable {
+public struct CreateAvailabilityConfigurationInput {
     /// An idempotent token that ensures that an API request is executed only once.
     public var clientToken: Swift.String?
     /// The domain to which the provider applies.
@@ -1112,7 +1112,7 @@ public struct CreateAvailabilityConfigurationInput: Swift.Equatable {
     }
 }
 
-struct CreateAvailabilityConfigurationInputBody: Swift.Equatable {
+struct CreateAvailabilityConfigurationInputBody {
     let clientToken: Swift.String?
     let organizationId: Swift.String?
     let domainName: Swift.String?
@@ -1149,7 +1149,7 @@ extension CreateAvailabilityConfigurationOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct CreateAvailabilityConfigurationOutput: Swift.Equatable {
+public struct CreateAvailabilityConfigurationOutput {
 
     public init() { }
 }
@@ -1197,7 +1197,7 @@ extension CreateGroupInput {
     }
 }
 
-public struct CreateGroupInput: Swift.Equatable {
+public struct CreateGroupInput {
     /// If this parameter is enabled, the group will be hidden from the address book.
     public var hiddenFromGlobalAddressList: Swift.Bool?
     /// The name of the group.
@@ -1219,7 +1219,7 @@ public struct CreateGroupInput: Swift.Equatable {
     }
 }
 
-struct CreateGroupInputBody: Swift.Equatable {
+struct CreateGroupInputBody {
     let organizationId: Swift.String?
     let name: Swift.String?
     let hiddenFromGlobalAddressList: Swift.Bool?
@@ -1255,7 +1255,7 @@ extension CreateGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateGroupOutput: Swift.Equatable {
+public struct CreateGroupOutput {
     /// The identifier of the group.
     public var groupId: Swift.String?
 
@@ -1267,7 +1267,7 @@ public struct CreateGroupOutput: Swift.Equatable {
     }
 }
 
-struct CreateGroupOutputBody: Swift.Equatable {
+struct CreateGroupOutputBody {
     let groupId: Swift.String?
 }
 
@@ -1344,7 +1344,7 @@ extension CreateImpersonationRoleInput {
     }
 }
 
-public struct CreateImpersonationRoleInput: Swift.Equatable {
+public struct CreateImpersonationRoleInput {
     /// The idempotency token for the client request.
     public var clientToken: Swift.String?
     /// The description of the new impersonation role.
@@ -1380,7 +1380,7 @@ public struct CreateImpersonationRoleInput: Swift.Equatable {
     }
 }
 
-struct CreateImpersonationRoleInputBody: Swift.Equatable {
+struct CreateImpersonationRoleInputBody {
     let clientToken: Swift.String?
     let organizationId: Swift.String?
     let name: Swift.String?
@@ -1437,7 +1437,7 @@ extension CreateImpersonationRoleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateImpersonationRoleOutput: Swift.Equatable {
+public struct CreateImpersonationRoleOutput {
     /// The new impersonation role ID.
     public var impersonationRoleId: Swift.String?
 
@@ -1449,7 +1449,7 @@ public struct CreateImpersonationRoleOutput: Swift.Equatable {
     }
 }
 
-struct CreateImpersonationRoleOutputBody: Swift.Equatable {
+struct CreateImpersonationRoleOutputBody {
     let impersonationRoleId: Swift.String?
 }
 
@@ -1573,7 +1573,7 @@ extension CreateMobileDeviceAccessRuleInput {
     }
 }
 
-public struct CreateMobileDeviceAccessRuleInput: Swift.Equatable {
+public struct CreateMobileDeviceAccessRuleInput {
     /// The idempotency token for the client request.
     public var clientToken: Swift.String?
     /// The rule description.
@@ -1636,7 +1636,7 @@ public struct CreateMobileDeviceAccessRuleInput: Swift.Equatable {
     }
 }
 
-struct CreateMobileDeviceAccessRuleInputBody: Swift.Equatable {
+struct CreateMobileDeviceAccessRuleInputBody {
     let organizationId: Swift.String?
     let clientToken: Swift.String?
     let name: Swift.String?
@@ -1784,7 +1784,7 @@ extension CreateMobileDeviceAccessRuleOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct CreateMobileDeviceAccessRuleOutput: Swift.Equatable {
+public struct CreateMobileDeviceAccessRuleOutput {
     /// The identifier for the newly created mobile device access rule.
     public var mobileDeviceAccessRuleId: Swift.String?
 
@@ -1796,7 +1796,7 @@ public struct CreateMobileDeviceAccessRuleOutput: Swift.Equatable {
     }
 }
 
-struct CreateMobileDeviceAccessRuleOutputBody: Swift.Equatable {
+struct CreateMobileDeviceAccessRuleOutputBody {
     let mobileDeviceAccessRuleId: Swift.String?
 }
 
@@ -1869,7 +1869,7 @@ extension CreateOrganizationInput {
     }
 }
 
-public struct CreateOrganizationInput: Swift.Equatable {
+public struct CreateOrganizationInput {
     /// The organization alias.
     /// This member is required.
     public var alias: Swift.String?
@@ -1902,7 +1902,7 @@ public struct CreateOrganizationInput: Swift.Equatable {
     }
 }
 
-struct CreateOrganizationInputBody: Swift.Equatable {
+struct CreateOrganizationInputBody {
     let directoryId: Swift.String?
     let alias: Swift.String?
     let clientToken: Swift.String?
@@ -1959,7 +1959,7 @@ extension CreateOrganizationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateOrganizationOutput: Swift.Equatable {
+public struct CreateOrganizationOutput {
     /// The organization ID.
     public var organizationId: Swift.String?
 
@@ -1971,7 +1971,7 @@ public struct CreateOrganizationOutput: Swift.Equatable {
     }
 }
 
-struct CreateOrganizationOutputBody: Swift.Equatable {
+struct CreateOrganizationOutputBody {
     let organizationId: Swift.String?
 }
 
@@ -2038,7 +2038,7 @@ extension CreateResourceInput {
     }
 }
 
-public struct CreateResourceInput: Swift.Equatable {
+public struct CreateResourceInput {
     /// Resource description.
     public var description: Swift.String?
     /// If this parameter is enabled, the resource will be hidden from the address book.
@@ -2069,7 +2069,7 @@ public struct CreateResourceInput: Swift.Equatable {
     }
 }
 
-struct CreateResourceInputBody: Swift.Equatable {
+struct CreateResourceInputBody {
     let organizationId: Swift.String?
     let name: Swift.String?
     let type: WorkMailClientTypes.ResourceType?
@@ -2113,7 +2113,7 @@ extension CreateResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateResourceOutput: Swift.Equatable {
+public struct CreateResourceOutput {
     /// The identifier of the new resource.
     public var resourceId: Swift.String?
 
@@ -2125,7 +2125,7 @@ public struct CreateResourceOutput: Swift.Equatable {
     }
 }
 
-struct CreateResourceOutputBody: Swift.Equatable {
+struct CreateResourceOutputBody {
     let resourceId: Swift.String?
 }
 
@@ -2212,7 +2212,7 @@ extension CreateUserInput {
     }
 }
 
-public struct CreateUserInput: Swift.Equatable {
+public struct CreateUserInput {
     /// The display name for the new user.
     /// This member is required.
     public var displayName: Swift.String?
@@ -2255,7 +2255,7 @@ public struct CreateUserInput: Swift.Equatable {
     }
 }
 
-struct CreateUserInputBody: Swift.Equatable {
+struct CreateUserInputBody {
     let organizationId: Swift.String?
     let name: Swift.String?
     let displayName: Swift.String?
@@ -2311,7 +2311,7 @@ extension CreateUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateUserOutput: Swift.Equatable {
+public struct CreateUserOutput {
     /// The identifier for the new user.
     public var userId: Swift.String?
 
@@ -2323,7 +2323,7 @@ public struct CreateUserOutput: Swift.Equatable {
     }
 }
 
-struct CreateUserOutputBody: Swift.Equatable {
+struct CreateUserOutputBody {
     let userId: Swift.String?
 }
 
@@ -2385,7 +2385,7 @@ extension WorkMailClientTypes.Delegate: Swift.Codable {
 
 extension WorkMailClientTypes {
     /// The name of the attribute, which is one of the values defined in the UserAttribute enumeration.
-    public struct Delegate: Swift.Equatable {
+    public struct Delegate {
         /// The identifier for the user or group associated as the resource's delegate.
         /// This member is required.
         public var id: Swift.String?
@@ -2429,7 +2429,7 @@ extension DeleteAccessControlRuleInput {
     }
 }
 
-public struct DeleteAccessControlRuleInput: Swift.Equatable {
+public struct DeleteAccessControlRuleInput {
     /// The name of the access control rule.
     /// This member is required.
     public var name: Swift.String?
@@ -2447,7 +2447,7 @@ public struct DeleteAccessControlRuleInput: Swift.Equatable {
     }
 }
 
-struct DeleteAccessControlRuleInputBody: Swift.Equatable {
+struct DeleteAccessControlRuleInputBody {
     let organizationId: Swift.String?
     let name: Swift.String?
 }
@@ -2472,7 +2472,7 @@ extension DeleteAccessControlRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAccessControlRuleOutput: Swift.Equatable {
+public struct DeleteAccessControlRuleOutput {
 
     public init() { }
 }
@@ -2517,7 +2517,7 @@ extension DeleteAliasInput {
     }
 }
 
-public struct DeleteAliasInput: Swift.Equatable {
+public struct DeleteAliasInput {
     /// The aliases to be removed from the user's set of aliases. Duplicate entries in the list are collapsed into single entries (the list is transformed into a set).
     /// This member is required.
     public var alias: Swift.String?
@@ -2540,7 +2540,7 @@ public struct DeleteAliasInput: Swift.Equatable {
     }
 }
 
-struct DeleteAliasInputBody: Swift.Equatable {
+struct DeleteAliasInputBody {
     let organizationId: Swift.String?
     let entityId: Swift.String?
     let alias: Swift.String?
@@ -2569,7 +2569,7 @@ extension DeleteAliasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAliasOutput: Swift.Equatable {
+public struct DeleteAliasOutput {
 
     public init() { }
 }
@@ -2613,7 +2613,7 @@ extension DeleteAvailabilityConfigurationInput {
     }
 }
 
-public struct DeleteAvailabilityConfigurationInput: Swift.Equatable {
+public struct DeleteAvailabilityConfigurationInput {
     /// The domain for which the AvailabilityConfiguration will be deleted.
     /// This member is required.
     public var domainName: Swift.String?
@@ -2631,7 +2631,7 @@ public struct DeleteAvailabilityConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DeleteAvailabilityConfigurationInputBody: Swift.Equatable {
+struct DeleteAvailabilityConfigurationInputBody {
     let organizationId: Swift.String?
     let domainName: Swift.String?
 }
@@ -2656,7 +2656,7 @@ extension DeleteAvailabilityConfigurationOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DeleteAvailabilityConfigurationOutput: Swift.Equatable {
+public struct DeleteAvailabilityConfigurationOutput {
 
     public init() { }
 }
@@ -2693,7 +2693,7 @@ extension DeleteEmailMonitoringConfigurationInput {
     }
 }
 
-public struct DeleteEmailMonitoringConfigurationInput: Swift.Equatable {
+public struct DeleteEmailMonitoringConfigurationInput {
     /// The ID of the organization from which the email monitoring configuration is deleted.
     /// This member is required.
     public var organizationId: Swift.String?
@@ -2706,7 +2706,7 @@ public struct DeleteEmailMonitoringConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DeleteEmailMonitoringConfigurationInputBody: Swift.Equatable {
+struct DeleteEmailMonitoringConfigurationInputBody {
     let organizationId: Swift.String?
 }
 
@@ -2727,7 +2727,7 @@ extension DeleteEmailMonitoringConfigurationOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct DeleteEmailMonitoringConfigurationOutput: Swift.Equatable {
+public struct DeleteEmailMonitoringConfigurationOutput {
 
     public init() { }
 }
@@ -2769,7 +2769,7 @@ extension DeleteGroupInput {
     }
 }
 
-public struct DeleteGroupInput: Swift.Equatable {
+public struct DeleteGroupInput {
     /// The identifier of the group to be deleted. The identifier can be the GroupId, or Groupname. The following identity formats are available:
     ///
     /// * Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
@@ -2791,7 +2791,7 @@ public struct DeleteGroupInput: Swift.Equatable {
     }
 }
 
-struct DeleteGroupInputBody: Swift.Equatable {
+struct DeleteGroupInputBody {
     let organizationId: Swift.String?
     let groupId: Swift.String?
 }
@@ -2816,7 +2816,7 @@ extension DeleteGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteGroupOutput: Swift.Equatable {
+public struct DeleteGroupOutput {
 
     public init() { }
 }
@@ -2862,7 +2862,7 @@ extension DeleteImpersonationRoleInput {
     }
 }
 
-public struct DeleteImpersonationRoleInput: Swift.Equatable {
+public struct DeleteImpersonationRoleInput {
     /// The ID of the impersonation role to delete.
     /// This member is required.
     public var impersonationRoleId: Swift.String?
@@ -2880,7 +2880,7 @@ public struct DeleteImpersonationRoleInput: Swift.Equatable {
     }
 }
 
-struct DeleteImpersonationRoleInputBody: Swift.Equatable {
+struct DeleteImpersonationRoleInputBody {
     let organizationId: Swift.String?
     let impersonationRoleId: Swift.String?
 }
@@ -2905,7 +2905,7 @@ extension DeleteImpersonationRoleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteImpersonationRoleOutput: Swift.Equatable {
+public struct DeleteImpersonationRoleOutput {
 
     public init() { }
 }
@@ -2951,7 +2951,7 @@ extension DeleteMailboxPermissionsInput {
     }
 }
 
-public struct DeleteMailboxPermissionsInput: Swift.Equatable {
+public struct DeleteMailboxPermissionsInput {
     /// The identifier of the entity that owns the mailbox. The identifier can be UserId or Group Id, Username or Groupname, or email.
     ///
     /// * Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234
@@ -2986,7 +2986,7 @@ public struct DeleteMailboxPermissionsInput: Swift.Equatable {
     }
 }
 
-struct DeleteMailboxPermissionsInputBody: Swift.Equatable {
+struct DeleteMailboxPermissionsInputBody {
     let organizationId: Swift.String?
     let entityId: Swift.String?
     let granteeId: Swift.String?
@@ -3015,7 +3015,7 @@ extension DeleteMailboxPermissionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteMailboxPermissionsOutput: Swift.Equatable {
+public struct DeleteMailboxPermissionsOutput {
 
     public init() { }
 }
@@ -3063,7 +3063,7 @@ extension DeleteMobileDeviceAccessOverrideInput {
     }
 }
 
-public struct DeleteMobileDeviceAccessOverrideInput: Swift.Equatable {
+public struct DeleteMobileDeviceAccessOverrideInput {
     /// The mobile device for which you delete the override. DeviceId is case insensitive.
     /// This member is required.
     public var deviceId: Swift.String?
@@ -3092,7 +3092,7 @@ public struct DeleteMobileDeviceAccessOverrideInput: Swift.Equatable {
     }
 }
 
-struct DeleteMobileDeviceAccessOverrideInputBody: Swift.Equatable {
+struct DeleteMobileDeviceAccessOverrideInputBody {
     let organizationId: Swift.String?
     let userId: Swift.String?
     let deviceId: Swift.String?
@@ -3121,7 +3121,7 @@ extension DeleteMobileDeviceAccessOverrideOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DeleteMobileDeviceAccessOverrideOutput: Swift.Equatable {
+public struct DeleteMobileDeviceAccessOverrideOutput {
 
     public init() { }
 }
@@ -3164,7 +3164,7 @@ extension DeleteMobileDeviceAccessRuleInput {
     }
 }
 
-public struct DeleteMobileDeviceAccessRuleInput: Swift.Equatable {
+public struct DeleteMobileDeviceAccessRuleInput {
     /// The identifier of the rule to be deleted.
     /// This member is required.
     public var mobileDeviceAccessRuleId: Swift.String?
@@ -3182,7 +3182,7 @@ public struct DeleteMobileDeviceAccessRuleInput: Swift.Equatable {
     }
 }
 
-struct DeleteMobileDeviceAccessRuleInputBody: Swift.Equatable {
+struct DeleteMobileDeviceAccessRuleInputBody {
     let organizationId: Swift.String?
     let mobileDeviceAccessRuleId: Swift.String?
 }
@@ -3207,7 +3207,7 @@ extension DeleteMobileDeviceAccessRuleOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DeleteMobileDeviceAccessRuleOutput: Swift.Equatable {
+public struct DeleteMobileDeviceAccessRuleOutput {
 
     public init() { }
 }
@@ -3257,7 +3257,7 @@ extension DeleteOrganizationInput {
     }
 }
 
-public struct DeleteOrganizationInput: Swift.Equatable {
+public struct DeleteOrganizationInput {
     /// The idempotency token associated with the request.
     public var clientToken: Swift.String?
     /// If true, deletes the AWS Directory Service directory associated with the organization.
@@ -3283,7 +3283,7 @@ public struct DeleteOrganizationInput: Swift.Equatable {
     }
 }
 
-struct DeleteOrganizationInputBody: Swift.Equatable {
+struct DeleteOrganizationInputBody {
     let clientToken: Swift.String?
     let organizationId: Swift.String?
     let deleteDirectory: Swift.Bool?
@@ -3325,7 +3325,7 @@ extension DeleteOrganizationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteOrganizationOutput: Swift.Equatable {
+public struct DeleteOrganizationOutput {
     /// The organization ID.
     public var organizationId: Swift.String?
     /// The state of the organization.
@@ -3341,7 +3341,7 @@ public struct DeleteOrganizationOutput: Swift.Equatable {
     }
 }
 
-struct DeleteOrganizationOutputBody: Swift.Equatable {
+struct DeleteOrganizationOutputBody {
     let organizationId: Swift.String?
     let state: Swift.String?
 }
@@ -3398,7 +3398,7 @@ extension DeleteResourceInput {
     }
 }
 
-public struct DeleteResourceInput: Swift.Equatable {
+public struct DeleteResourceInput {
     /// The identifier associated with the organization from which the resource is deleted.
     /// This member is required.
     public var organizationId: Swift.String?
@@ -3420,7 +3420,7 @@ public struct DeleteResourceInput: Swift.Equatable {
     }
 }
 
-struct DeleteResourceInputBody: Swift.Equatable {
+struct DeleteResourceInputBody {
     let organizationId: Swift.String?
     let resourceId: Swift.String?
 }
@@ -3445,7 +3445,7 @@ extension DeleteResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteResourceOutput: Swift.Equatable {
+public struct DeleteResourceOutput {
 
     public init() { }
 }
@@ -3489,7 +3489,7 @@ extension DeleteRetentionPolicyInput {
     }
 }
 
-public struct DeleteRetentionPolicyInput: Swift.Equatable {
+public struct DeleteRetentionPolicyInput {
     /// The retention policy ID.
     /// This member is required.
     public var id: Swift.String?
@@ -3507,7 +3507,7 @@ public struct DeleteRetentionPolicyInput: Swift.Equatable {
     }
 }
 
-struct DeleteRetentionPolicyInputBody: Swift.Equatable {
+struct DeleteRetentionPolicyInputBody {
     let organizationId: Swift.String?
     let id: Swift.String?
 }
@@ -3532,7 +3532,7 @@ extension DeleteRetentionPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRetentionPolicyOutput: Swift.Equatable {
+public struct DeleteRetentionPolicyOutput {
 
     public init() { }
 }
@@ -3574,7 +3574,7 @@ extension DeleteUserInput {
     }
 }
 
-public struct DeleteUserInput: Swift.Equatable {
+public struct DeleteUserInput {
     /// The organization that contains the user to be deleted.
     /// This member is required.
     public var organizationId: Swift.String?
@@ -3596,7 +3596,7 @@ public struct DeleteUserInput: Swift.Equatable {
     }
 }
 
-struct DeleteUserInputBody: Swift.Equatable {
+struct DeleteUserInputBody {
     let organizationId: Swift.String?
     let userId: Swift.String?
 }
@@ -3621,7 +3621,7 @@ extension DeleteUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteUserOutput: Swift.Equatable {
+public struct DeleteUserOutput {
 
     public init() { }
 }
@@ -3667,7 +3667,7 @@ extension DeregisterFromWorkMailInput {
     }
 }
 
-public struct DeregisterFromWorkMailInput: Swift.Equatable {
+public struct DeregisterFromWorkMailInput {
     /// The identifier for the member to be updated. The identifier can be UserId, ResourceId, or Group Id, Username, Resourcename, or Groupname, or email.
     ///
     /// * Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234
@@ -3691,7 +3691,7 @@ public struct DeregisterFromWorkMailInput: Swift.Equatable {
     }
 }
 
-struct DeregisterFromWorkMailInputBody: Swift.Equatable {
+struct DeregisterFromWorkMailInputBody {
     let organizationId: Swift.String?
     let entityId: Swift.String?
 }
@@ -3716,7 +3716,7 @@ extension DeregisterFromWorkMailOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeregisterFromWorkMailOutput: Swift.Equatable {
+public struct DeregisterFromWorkMailOutput {
 
     public init() { }
 }
@@ -3760,7 +3760,7 @@ extension DeregisterMailDomainInput {
     }
 }
 
-public struct DeregisterMailDomainInput: Swift.Equatable {
+public struct DeregisterMailDomainInput {
     /// The domain to deregister in WorkMail and SES.
     /// This member is required.
     public var domainName: Swift.String?
@@ -3778,7 +3778,7 @@ public struct DeregisterMailDomainInput: Swift.Equatable {
     }
 }
 
-struct DeregisterMailDomainInputBody: Swift.Equatable {
+struct DeregisterMailDomainInputBody {
     let organizationId: Swift.String?
     let domainName: Swift.String?
 }
@@ -3803,7 +3803,7 @@ extension DeregisterMailDomainOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeregisterMailDomainOutput: Swift.Equatable {
+public struct DeregisterMailDomainOutput {
 
     public init() { }
 }
@@ -3843,7 +3843,7 @@ extension DescribeEmailMonitoringConfigurationInput {
     }
 }
 
-public struct DescribeEmailMonitoringConfigurationInput: Swift.Equatable {
+public struct DescribeEmailMonitoringConfigurationInput {
     /// The ID of the organization for which the email monitoring configuration is described.
     /// This member is required.
     public var organizationId: Swift.String?
@@ -3856,7 +3856,7 @@ public struct DescribeEmailMonitoringConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DescribeEmailMonitoringConfigurationInputBody: Swift.Equatable {
+struct DescribeEmailMonitoringConfigurationInputBody {
     let organizationId: Swift.String?
 }
 
@@ -3886,7 +3886,7 @@ extension DescribeEmailMonitoringConfigurationOutput: ClientRuntime.HttpResponse
     }
 }
 
-public struct DescribeEmailMonitoringConfigurationOutput: Swift.Equatable {
+public struct DescribeEmailMonitoringConfigurationOutput {
     /// The Amazon Resource Name (ARN) of the CloudWatch Log group associated with the email monitoring configuration.
     public var logGroupArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM Role associated with the email monitoring configuration.
@@ -3902,7 +3902,7 @@ public struct DescribeEmailMonitoringConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeEmailMonitoringConfigurationOutputBody: Swift.Equatable {
+struct DescribeEmailMonitoringConfigurationOutputBody {
     let roleArn: Swift.String?
     let logGroupArn: Swift.String?
 }
@@ -3960,7 +3960,7 @@ extension DescribeEntityInput {
     }
 }
 
-public struct DescribeEntityInput: Swift.Equatable {
+public struct DescribeEntityInput {
     /// The email under which the entity exists.
     /// This member is required.
     public var email: Swift.String?
@@ -3978,7 +3978,7 @@ public struct DescribeEntityInput: Swift.Equatable {
     }
 }
 
-struct DescribeEntityInputBody: Swift.Equatable {
+struct DescribeEntityInputBody {
     let organizationId: Swift.String?
     let email: Swift.String?
 }
@@ -4014,7 +4014,7 @@ extension DescribeEntityOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeEntityOutput: Swift.Equatable {
+public struct DescribeEntityOutput {
     /// The entity ID under which the entity exists.
     public var entityId: Swift.String?
     /// Username, GroupName, or ResourceName based on entity type.
@@ -4034,7 +4034,7 @@ public struct DescribeEntityOutput: Swift.Equatable {
     }
 }
 
-struct DescribeEntityOutputBody: Swift.Equatable {
+struct DescribeEntityOutputBody {
     let entityId: Swift.String?
     let name: Swift.String?
     let type: WorkMailClientTypes.EntityType?
@@ -4096,7 +4096,7 @@ extension DescribeGroupInput {
     }
 }
 
-public struct DescribeGroupInput: Swift.Equatable {
+public struct DescribeGroupInput {
     /// The identifier for the group to be described. The identifier can accept GroupId, Groupname, or email. The following identity formats are available:
     ///
     /// * Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
@@ -4120,7 +4120,7 @@ public struct DescribeGroupInput: Swift.Equatable {
     }
 }
 
-struct DescribeGroupInputBody: Swift.Equatable {
+struct DescribeGroupInputBody {
     let organizationId: Swift.String?
     let groupId: Swift.String?
 }
@@ -4164,7 +4164,7 @@ extension DescribeGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeGroupOutput: Swift.Equatable {
+public struct DescribeGroupOutput {
     /// The date and time when a user was deregistered from WorkMail, in UNIX epoch time format.
     public var disabledDate: ClientRuntime.Date?
     /// The email of the described group.
@@ -4200,7 +4200,7 @@ public struct DescribeGroupOutput: Swift.Equatable {
     }
 }
 
-struct DescribeGroupOutputBody: Swift.Equatable {
+struct DescribeGroupOutputBody {
     let groupId: Swift.String?
     let name: Swift.String?
     let email: Swift.String?
@@ -4274,7 +4274,7 @@ extension DescribeInboundDmarcSettingsInput {
     }
 }
 
-public struct DescribeInboundDmarcSettingsInput: Swift.Equatable {
+public struct DescribeInboundDmarcSettingsInput {
     /// Lists the ID of the given organization.
     /// This member is required.
     public var organizationId: Swift.String?
@@ -4287,7 +4287,7 @@ public struct DescribeInboundDmarcSettingsInput: Swift.Equatable {
     }
 }
 
-struct DescribeInboundDmarcSettingsInputBody: Swift.Equatable {
+struct DescribeInboundDmarcSettingsInputBody {
     let organizationId: Swift.String?
 }
 
@@ -4315,7 +4315,7 @@ extension DescribeInboundDmarcSettingsOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DescribeInboundDmarcSettingsOutput: Swift.Equatable {
+public struct DescribeInboundDmarcSettingsOutput {
     /// Lists the enforcement setting of the applied policy.
     public var enforced: Swift.Bool
 
@@ -4327,7 +4327,7 @@ public struct DescribeInboundDmarcSettingsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeInboundDmarcSettingsOutputBody: Swift.Equatable {
+struct DescribeInboundDmarcSettingsOutputBody {
     let enforced: Swift.Bool
 }
 
@@ -4379,7 +4379,7 @@ extension DescribeMailboxExportJobInput {
     }
 }
 
-public struct DescribeMailboxExportJobInput: Swift.Equatable {
+public struct DescribeMailboxExportJobInput {
     /// The mailbox export job ID.
     /// This member is required.
     public var jobId: Swift.String?
@@ -4397,7 +4397,7 @@ public struct DescribeMailboxExportJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeMailboxExportJobInputBody: Swift.Equatable {
+struct DescribeMailboxExportJobInputBody {
     let jobId: Swift.String?
     let organizationId: Swift.String?
 }
@@ -4451,7 +4451,7 @@ extension DescribeMailboxExportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeMailboxExportJobOutput: Swift.Equatable {
+public struct DescribeMailboxExportJobOutput {
     /// The mailbox export job description.
     public var description: Swift.String?
     /// The mailbox export job end timestamp.
@@ -4507,7 +4507,7 @@ public struct DescribeMailboxExportJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeMailboxExportJobOutputBody: Swift.Equatable {
+struct DescribeMailboxExportJobOutputBody {
     let entityId: Swift.String?
     let description: Swift.String?
     let roleArn: Swift.String?
@@ -4601,7 +4601,7 @@ extension DescribeOrganizationInput {
     }
 }
 
-public struct DescribeOrganizationInput: Swift.Equatable {
+public struct DescribeOrganizationInput {
     /// The identifier for the organization to be described.
     /// This member is required.
     public var organizationId: Swift.String?
@@ -4614,7 +4614,7 @@ public struct DescribeOrganizationInput: Swift.Equatable {
     }
 }
 
-struct DescribeOrganizationInputBody: Swift.Equatable {
+struct DescribeOrganizationInputBody {
     let organizationId: Swift.String?
 }
 
@@ -4662,7 +4662,7 @@ extension DescribeOrganizationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeOrganizationOutput: Swift.Equatable {
+public struct DescribeOrganizationOutput {
     /// The alias for an organization.
     public var alias: Swift.String?
     /// The Amazon Resource Name (ARN) of the organization.
@@ -4714,7 +4714,7 @@ public struct DescribeOrganizationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeOrganizationOutputBody: Swift.Equatable {
+struct DescribeOrganizationOutputBody {
     let organizationId: Swift.String?
     let alias: Swift.String?
     let state: Swift.String?
@@ -4806,7 +4806,7 @@ extension DescribeResourceInput {
     }
 }
 
-public struct DescribeResourceInput: Swift.Equatable {
+public struct DescribeResourceInput {
     /// The identifier associated with the organization for which the resource is described.
     /// This member is required.
     public var organizationId: Swift.String?
@@ -4830,7 +4830,7 @@ public struct DescribeResourceInput: Swift.Equatable {
     }
 }
 
-struct DescribeResourceInputBody: Swift.Equatable {
+struct DescribeResourceInputBody {
     let organizationId: Swift.String?
     let resourceId: Swift.String?
 }
@@ -4880,7 +4880,7 @@ extension DescribeResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeResourceOutput: Swift.Equatable {
+public struct DescribeResourceOutput {
     /// The booking options for the described resource.
     public var bookingOptions: WorkMailClientTypes.BookingOptions?
     /// Description of the resource.
@@ -4928,7 +4928,7 @@ public struct DescribeResourceOutput: Swift.Equatable {
     }
 }
 
-struct DescribeResourceOutputBody: Swift.Equatable {
+struct DescribeResourceOutputBody {
     let resourceId: Swift.String?
     let email: Swift.String?
     let name: Swift.String?
@@ -5019,7 +5019,7 @@ extension DescribeUserInput {
     }
 }
 
-public struct DescribeUserInput: Swift.Equatable {
+public struct DescribeUserInput {
     /// The identifier for the organization under which the user exists.
     /// This member is required.
     public var organizationId: Swift.String?
@@ -5043,7 +5043,7 @@ public struct DescribeUserInput: Swift.Equatable {
     }
 }
 
-struct DescribeUserInputBody: Swift.Equatable {
+struct DescribeUserInputBody {
     let organizationId: Swift.String?
     let userId: Swift.String?
 }
@@ -5124,7 +5124,7 @@ extension DescribeUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeUserOutput: Swift.Equatable {
+public struct DescribeUserOutput {
     /// City where the user is located.
     public var city: Swift.String?
     /// Company of the user.
@@ -5224,7 +5224,7 @@ public struct DescribeUserOutput: Swift.Equatable {
     }
 }
 
-struct DescribeUserOutputBody: Swift.Equatable {
+struct DescribeUserOutputBody {
     let userId: Swift.String?
     let name: Swift.String?
     let email: Swift.String?
@@ -5381,7 +5381,7 @@ public struct DirectoryInUseException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct DirectoryInUseExceptionBody: Swift.Equatable {
+struct DirectoryInUseExceptionBody {
     let message: Swift.String?
 }
 
@@ -5436,7 +5436,7 @@ public struct DirectoryServiceAuthenticationFailedException: ClientRuntime.Model
     }
 }
 
-struct DirectoryServiceAuthenticationFailedExceptionBody: Swift.Equatable {
+struct DirectoryServiceAuthenticationFailedExceptionBody {
     let message: Swift.String?
 }
 
@@ -5491,7 +5491,7 @@ public struct DirectoryUnavailableException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct DirectoryUnavailableExceptionBody: Swift.Equatable {
+struct DirectoryUnavailableExceptionBody {
     let message: Swift.String?
 }
 
@@ -5535,7 +5535,7 @@ extension DisassociateDelegateFromResourceInput {
     }
 }
 
-public struct DisassociateDelegateFromResourceInput: Swift.Equatable {
+public struct DisassociateDelegateFromResourceInput {
     /// The identifier for the member (user, group) to be removed from the resource's delegates. The entity ID can accept UserId or GroupID, Username or Groupname, or email.
     ///
     /// * Entity: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
@@ -5570,7 +5570,7 @@ public struct DisassociateDelegateFromResourceInput: Swift.Equatable {
     }
 }
 
-struct DisassociateDelegateFromResourceInputBody: Swift.Equatable {
+struct DisassociateDelegateFromResourceInputBody {
     let organizationId: Swift.String?
     let resourceId: Swift.String?
     let entityId: Swift.String?
@@ -5599,7 +5599,7 @@ extension DisassociateDelegateFromResourceOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DisassociateDelegateFromResourceOutput: Swift.Equatable {
+public struct DisassociateDelegateFromResourceOutput {
 
     public init() { }
 }
@@ -5648,7 +5648,7 @@ extension DisassociateMemberFromGroupInput {
     }
 }
 
-public struct DisassociateMemberFromGroupInput: Swift.Equatable {
+public struct DisassociateMemberFromGroupInput {
     /// The identifier for the group from which members are removed. The identifier can accept GroupId, Groupname, or email. The following identity formats are available:
     ///
     /// * Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
@@ -5683,7 +5683,7 @@ public struct DisassociateMemberFromGroupInput: Swift.Equatable {
     }
 }
 
-struct DisassociateMemberFromGroupInputBody: Swift.Equatable {
+struct DisassociateMemberFromGroupInputBody {
     let organizationId: Swift.String?
     let groupId: Swift.String?
     let memberId: Swift.String?
@@ -5712,7 +5712,7 @@ extension DisassociateMemberFromGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateMemberFromGroupOutput: Swift.Equatable {
+public struct DisassociateMemberFromGroupOutput {
 
     public init() { }
 }
@@ -5768,7 +5768,7 @@ extension WorkMailClientTypes.DnsRecord: Swift.Codable {
 
 extension WorkMailClientTypes {
     /// A DNS record uploaded to your DNS provider.
-    public struct DnsRecord: Swift.Equatable {
+    public struct DnsRecord {
         /// The DNS hostname.- For example, domain.example.com.
         public var hostname: Swift.String?
         /// The RFC 1035 record type. Possible values: CNAME, A, MX.
@@ -5852,7 +5852,7 @@ extension WorkMailClientTypes.Domain: Swift.Codable {
 
 extension WorkMailClientTypes {
     /// The domain to associate with an WorkMail organization. When you configure a domain hosted in Amazon Route 53 (Route 53), all recommended DNS records are added to the organization when you create it. For more information, see [Adding a domain](https://docs.aws.amazon.com/workmail/latest/adminguide/add_domain.html) in the WorkMail Administrator Guide.
-    public struct Domain: Swift.Equatable {
+    public struct Domain {
         /// The fully qualified domain name.
         /// This member is required.
         public var domainName: Swift.String?
@@ -5910,7 +5910,7 @@ public struct EmailAddressInUseException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct EmailAddressInUseExceptionBody: Swift.Equatable {
+struct EmailAddressInUseExceptionBody {
     let message: Swift.String?
 }
 
@@ -5965,7 +5965,7 @@ public struct EntityAlreadyRegisteredException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct EntityAlreadyRegisteredExceptionBody: Swift.Equatable {
+struct EntityAlreadyRegisteredExceptionBody {
     let message: Swift.String?
 }
 
@@ -6020,7 +6020,7 @@ public struct EntityNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct EntityNotFoundExceptionBody: Swift.Equatable {
+struct EntityNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -6110,7 +6110,7 @@ public struct EntityStateException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct EntityStateExceptionBody: Swift.Equatable {
+struct EntityStateExceptionBody {
     let message: Swift.String?
 }
 
@@ -6199,7 +6199,7 @@ extension WorkMailClientTypes.EwsAvailabilityProvider: Swift.CustomDebugStringCo
 
 extension WorkMailClientTypes {
     /// Describes an EWS based availability provider. This is only used as input to the service.
-    public struct EwsAvailabilityProvider: Swift.Equatable {
+    public struct EwsAvailabilityProvider {
         /// The endpoint of the remote EWS server.
         /// This member is required.
         public var ewsEndpoint: Swift.String?
@@ -6257,7 +6257,7 @@ extension WorkMailClientTypes.FolderConfiguration: Swift.Codable {
 
 extension WorkMailClientTypes {
     /// The configuration applied to an organization's folders by its retention policy.
-    public struct FolderConfiguration: Swift.Equatable {
+    public struct FolderConfiguration {
         /// The action to take on the folder contents at the end of the folder configuration period.
         /// This member is required.
         public var action: WorkMailClientTypes.RetentionAction?
@@ -6358,7 +6358,7 @@ extension GetAccessControlEffectInput {
     }
 }
 
-public struct GetAccessControlEffectInput: Swift.Equatable {
+public struct GetAccessControlEffectInput {
     /// The access protocol action. Valid values include ActiveSync, AutoDiscover, EWS, IMAP, SMTP, WindowsOutlook, and WebMail.
     /// This member is required.
     public var action: Swift.String?
@@ -6389,7 +6389,7 @@ public struct GetAccessControlEffectInput: Swift.Equatable {
     }
 }
 
-struct GetAccessControlEffectInputBody: Swift.Equatable {
+struct GetAccessControlEffectInputBody {
     let organizationId: Swift.String?
     let ipAddress: Swift.String?
     let action: Swift.String?
@@ -6435,7 +6435,7 @@ extension GetAccessControlEffectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAccessControlEffectOutput: Swift.Equatable {
+public struct GetAccessControlEffectOutput {
     /// The rule effect.
     public var effect: WorkMailClientTypes.AccessControlRuleEffect?
     /// The rules that match the given parameters, resulting in an effect.
@@ -6451,7 +6451,7 @@ public struct GetAccessControlEffectOutput: Swift.Equatable {
     }
 }
 
-struct GetAccessControlEffectOutputBody: Swift.Equatable {
+struct GetAccessControlEffectOutputBody {
     let effect: WorkMailClientTypes.AccessControlRuleEffect?
     let matchedRules: [Swift.String]?
 }
@@ -6515,7 +6515,7 @@ extension GetDefaultRetentionPolicyInput {
     }
 }
 
-public struct GetDefaultRetentionPolicyInput: Swift.Equatable {
+public struct GetDefaultRetentionPolicyInput {
     /// The organization ID.
     /// This member is required.
     public var organizationId: Swift.String?
@@ -6528,7 +6528,7 @@ public struct GetDefaultRetentionPolicyInput: Swift.Equatable {
     }
 }
 
-struct GetDefaultRetentionPolicyInputBody: Swift.Equatable {
+struct GetDefaultRetentionPolicyInputBody {
     let organizationId: Swift.String?
 }
 
@@ -6562,7 +6562,7 @@ extension GetDefaultRetentionPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDefaultRetentionPolicyOutput: Swift.Equatable {
+public struct GetDefaultRetentionPolicyOutput {
     /// The retention policy description.
     public var description: Swift.String?
     /// The retention policy folder configurations.
@@ -6586,7 +6586,7 @@ public struct GetDefaultRetentionPolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetDefaultRetentionPolicyOutputBody: Swift.Equatable {
+struct GetDefaultRetentionPolicyOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -6665,7 +6665,7 @@ extension GetImpersonationRoleEffectInput {
     }
 }
 
-public struct GetImpersonationRoleEffectInput: Swift.Equatable {
+public struct GetImpersonationRoleEffectInput {
     /// The impersonation role ID to test.
     /// This member is required.
     public var impersonationRoleId: Swift.String?
@@ -6694,7 +6694,7 @@ public struct GetImpersonationRoleEffectInput: Swift.Equatable {
     }
 }
 
-struct GetImpersonationRoleEffectInputBody: Swift.Equatable {
+struct GetImpersonationRoleEffectInputBody {
     let organizationId: Swift.String?
     let impersonationRoleId: Swift.String?
     let targetUser: Swift.String?
@@ -6734,7 +6734,7 @@ extension GetImpersonationRoleEffectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetImpersonationRoleEffectOutput: Swift.Equatable {
+public struct GetImpersonationRoleEffectOutput {
     /// Effect of the impersonation role on the target user based on its rules. Available effects are ALLOW or DENY.
     public var effect: WorkMailClientTypes.AccessEffect?
     /// A list of the rules that match the input and produce the configured effect.
@@ -6754,7 +6754,7 @@ public struct GetImpersonationRoleEffectOutput: Swift.Equatable {
     }
 }
 
-struct GetImpersonationRoleEffectOutputBody: Swift.Equatable {
+struct GetImpersonationRoleEffectOutputBody {
     let type: WorkMailClientTypes.ImpersonationRoleType?
     let effect: WorkMailClientTypes.AccessEffect?
     let matchedRules: [WorkMailClientTypes.ImpersonationMatchedRule]?
@@ -6827,7 +6827,7 @@ extension GetImpersonationRoleInput {
     }
 }
 
-public struct GetImpersonationRoleInput: Swift.Equatable {
+public struct GetImpersonationRoleInput {
     /// The impersonation role ID to retrieve.
     /// This member is required.
     public var impersonationRoleId: Swift.String?
@@ -6845,7 +6845,7 @@ public struct GetImpersonationRoleInput: Swift.Equatable {
     }
 }
 
-struct GetImpersonationRoleInputBody: Swift.Equatable {
+struct GetImpersonationRoleInputBody {
     let organizationId: Swift.String?
     let impersonationRoleId: Swift.String?
 }
@@ -6889,7 +6889,7 @@ extension GetImpersonationRoleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetImpersonationRoleOutput: Swift.Equatable {
+public struct GetImpersonationRoleOutput {
     /// The date when the impersonation role was created.
     public var dateCreated: ClientRuntime.Date?
     /// The date when the impersonation role was last modified.
@@ -6925,7 +6925,7 @@ public struct GetImpersonationRoleOutput: Swift.Equatable {
     }
 }
 
-struct GetImpersonationRoleOutputBody: Swift.Equatable {
+struct GetImpersonationRoleOutputBody {
     let impersonationRoleId: Swift.String?
     let name: Swift.String?
     let type: WorkMailClientTypes.ImpersonationRoleType?
@@ -7012,7 +7012,7 @@ extension GetMailDomainInput {
     }
 }
 
-public struct GetMailDomainInput: Swift.Equatable {
+public struct GetMailDomainInput {
     /// The domain from which you want to retrieve details.
     /// This member is required.
     public var domainName: Swift.String?
@@ -7030,7 +7030,7 @@ public struct GetMailDomainInput: Swift.Equatable {
     }
 }
 
-struct GetMailDomainInputBody: Swift.Equatable {
+struct GetMailDomainInputBody {
     let organizationId: Swift.String?
     let domainName: Swift.String?
 }
@@ -7070,7 +7070,7 @@ extension GetMailDomainOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMailDomainOutput: Swift.Equatable {
+public struct GetMailDomainOutput {
     /// Indicates the status of a DKIM verification.
     public var dkimVerificationStatus: WorkMailClientTypes.DnsRecordVerificationStatus?
     /// Specifies whether the domain is the default domain for your organization.
@@ -7098,7 +7098,7 @@ public struct GetMailDomainOutput: Swift.Equatable {
     }
 }
 
-struct GetMailDomainOutputBody: Swift.Equatable {
+struct GetMailDomainOutputBody {
     let records: [WorkMailClientTypes.DnsRecord]?
     let isTestDomain: Swift.Bool
     let isDefault: Swift.Bool
@@ -7177,7 +7177,7 @@ extension GetMailboxDetailsInput {
     }
 }
 
-public struct GetMailboxDetailsInput: Swift.Equatable {
+public struct GetMailboxDetailsInput {
     /// The identifier for the organization that contains the user whose mailbox details are being requested.
     /// This member is required.
     public var organizationId: Swift.String?
@@ -7201,7 +7201,7 @@ public struct GetMailboxDetailsInput: Swift.Equatable {
     }
 }
 
-struct GetMailboxDetailsInputBody: Swift.Equatable {
+struct GetMailboxDetailsInputBody {
     let organizationId: Swift.String?
     let userId: Swift.String?
 }
@@ -7235,7 +7235,7 @@ extension GetMailboxDetailsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMailboxDetailsOutput: Swift.Equatable {
+public struct GetMailboxDetailsOutput {
     /// The maximum allowed mailbox size, in MB, for the specified user.
     public var mailboxQuota: Swift.Int?
     /// The current mailbox size, in MB, for the specified user.
@@ -7251,7 +7251,7 @@ public struct GetMailboxDetailsOutput: Swift.Equatable {
     }
 }
 
-struct GetMailboxDetailsOutputBody: Swift.Equatable {
+struct GetMailboxDetailsOutputBody {
     let mailboxQuota: Swift.Int?
     let mailboxSize: Swift.Double
 }
@@ -7321,7 +7321,7 @@ extension GetMobileDeviceAccessEffectInput {
     }
 }
 
-public struct GetMobileDeviceAccessEffectInput: Swift.Equatable {
+public struct GetMobileDeviceAccessEffectInput {
     /// Device model the simulated user will report.
     public var deviceModel: Swift.String?
     /// Device operating system the simulated user will report.
@@ -7350,7 +7350,7 @@ public struct GetMobileDeviceAccessEffectInput: Swift.Equatable {
     }
 }
 
-struct GetMobileDeviceAccessEffectInputBody: Swift.Equatable {
+struct GetMobileDeviceAccessEffectInputBody {
     let organizationId: Swift.String?
     let deviceType: Swift.String?
     let deviceModel: Swift.String?
@@ -7396,7 +7396,7 @@ extension GetMobileDeviceAccessEffectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMobileDeviceAccessEffectOutput: Swift.Equatable {
+public struct GetMobileDeviceAccessEffectOutput {
     /// The effect of the simulated access, ALLOW or DENY, after evaluating mobile device access rules in the WorkMail organization for the simulated user parameters.
     public var effect: WorkMailClientTypes.MobileDeviceAccessRuleEffect?
     /// A list of the rules which matched the simulated user input and produced the effect.
@@ -7412,7 +7412,7 @@ public struct GetMobileDeviceAccessEffectOutput: Swift.Equatable {
     }
 }
 
-struct GetMobileDeviceAccessEffectOutputBody: Swift.Equatable {
+struct GetMobileDeviceAccessEffectOutputBody {
     let effect: WorkMailClientTypes.MobileDeviceAccessRuleEffect?
     let matchedRules: [WorkMailClientTypes.MobileDeviceAccessMatchedRule]?
 }
@@ -7482,7 +7482,7 @@ extension GetMobileDeviceAccessOverrideInput {
     }
 }
 
-public struct GetMobileDeviceAccessOverrideInput: Swift.Equatable {
+public struct GetMobileDeviceAccessOverrideInput {
     /// The mobile device to which the override applies. DeviceId is case insensitive.
     /// This member is required.
     public var deviceId: Swift.String?
@@ -7511,7 +7511,7 @@ public struct GetMobileDeviceAccessOverrideInput: Swift.Equatable {
     }
 }
 
-struct GetMobileDeviceAccessOverrideInputBody: Swift.Equatable {
+struct GetMobileDeviceAccessOverrideInputBody {
     let organizationId: Swift.String?
     let userId: Swift.String?
     let deviceId: Swift.String?
@@ -7557,7 +7557,7 @@ extension GetMobileDeviceAccessOverrideOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct GetMobileDeviceAccessOverrideOutput: Swift.Equatable {
+public struct GetMobileDeviceAccessOverrideOutput {
     /// The date the override was first created.
     public var dateCreated: ClientRuntime.Date?
     /// The date the description was last modified.
@@ -7589,7 +7589,7 @@ public struct GetMobileDeviceAccessOverrideOutput: Swift.Equatable {
     }
 }
 
-struct GetMobileDeviceAccessOverrideOutputBody: Swift.Equatable {
+struct GetMobileDeviceAccessOverrideOutputBody {
     let userId: Swift.String?
     let deviceId: Swift.String?
     let effect: WorkMailClientTypes.MobileDeviceAccessRuleEffect?
@@ -7691,7 +7691,7 @@ extension WorkMailClientTypes.Group: Swift.Codable {
 
 extension WorkMailClientTypes {
     /// The representation of an WorkMail group.
-    public struct Group: Swift.Equatable {
+    public struct Group {
         /// The date indicating when the group was disabled from WorkMail use.
         public var disabledDate: ClientRuntime.Date?
         /// The email of the group.
@@ -7752,7 +7752,7 @@ extension WorkMailClientTypes.GroupIdentifier: Swift.Codable {
 
 extension WorkMailClientTypes {
     /// The identifier that contains the Group ID and name of a group.
-    public struct GroupIdentifier: Swift.Equatable {
+    public struct GroupIdentifier {
         /// Group ID that matched the group.
         public var groupId: Swift.String?
         /// Group name that matched the group.
@@ -7797,7 +7797,7 @@ extension WorkMailClientTypes.ImpersonationMatchedRule: Swift.Codable {
 
 extension WorkMailClientTypes {
     /// The impersonation rule that matched the input.
-    public struct ImpersonationMatchedRule: Swift.Equatable {
+    public struct ImpersonationMatchedRule {
         /// The ID of the rule that matched the input
         public var impersonationRuleId: Swift.String?
         /// The name of the rule that matched the input.
@@ -7860,7 +7860,7 @@ extension WorkMailClientTypes.ImpersonationRole: Swift.Codable {
 
 extension WorkMailClientTypes {
     /// An impersonation role for the given WorkMail organization.
-    public struct ImpersonationRole: Swift.Equatable {
+    public struct ImpersonationRole {
         /// The date when the impersonation role was created.
         public var dateCreated: ClientRuntime.Date?
         /// The date when the impersonation role was last modified.
@@ -7997,7 +7997,7 @@ extension WorkMailClientTypes.ImpersonationRule: Swift.Codable {
 
 extension WorkMailClientTypes {
     /// The rules for the given impersonation role.
-    public struct ImpersonationRule: Swift.Equatable {
+    public struct ImpersonationRule {
         /// The rule description.
         public var description: Swift.String?
         /// The effect of the rule when it matches the input. Allowed effect values are ALLOW or DENY.
@@ -8072,7 +8072,7 @@ public struct InvalidConfigurationException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct InvalidConfigurationExceptionBody: Swift.Equatable {
+struct InvalidConfigurationExceptionBody {
     let message: Swift.String?
 }
 
@@ -8127,7 +8127,7 @@ public struct InvalidCustomSesConfigurationException: ClientRuntime.ModeledError
     }
 }
 
-struct InvalidCustomSesConfigurationExceptionBody: Swift.Equatable {
+struct InvalidCustomSesConfigurationExceptionBody {
     let message: Swift.String?
 }
 
@@ -8182,7 +8182,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidParameterExceptionBody: Swift.Equatable {
+struct InvalidParameterExceptionBody {
     let message: Swift.String?
 }
 
@@ -8237,7 +8237,7 @@ public struct InvalidPasswordException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InvalidPasswordExceptionBody: Swift.Equatable {
+struct InvalidPasswordExceptionBody {
     let message: Swift.String?
 }
 
@@ -8274,7 +8274,7 @@ extension WorkMailClientTypes.LambdaAvailabilityProvider: Swift.Codable {
 
 extension WorkMailClientTypes {
     /// Describes a Lambda based availability provider.
-    public struct LambdaAvailabilityProvider: Swift.Equatable {
+    public struct LambdaAvailabilityProvider {
         /// The Amazon Resource Name (ARN) of the Lambda that acts as the availability provider.
         /// This member is required.
         public var lambdaArn: Swift.String?
@@ -8328,7 +8328,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -8364,7 +8364,7 @@ extension ListAccessControlRulesInput {
     }
 }
 
-public struct ListAccessControlRulesInput: Swift.Equatable {
+public struct ListAccessControlRulesInput {
     /// The identifier for the organization.
     /// This member is required.
     public var organizationId: Swift.String?
@@ -8377,7 +8377,7 @@ public struct ListAccessControlRulesInput: Swift.Equatable {
     }
 }
 
-struct ListAccessControlRulesInputBody: Swift.Equatable {
+struct ListAccessControlRulesInputBody {
     let organizationId: Swift.String?
 }
 
@@ -8405,7 +8405,7 @@ extension ListAccessControlRulesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAccessControlRulesOutput: Swift.Equatable {
+public struct ListAccessControlRulesOutput {
     /// The access control rules.
     public var rules: [WorkMailClientTypes.AccessControlRule]?
 
@@ -8417,7 +8417,7 @@ public struct ListAccessControlRulesOutput: Swift.Equatable {
     }
 }
 
-struct ListAccessControlRulesOutputBody: Swift.Equatable {
+struct ListAccessControlRulesOutputBody {
     let rules: [WorkMailClientTypes.AccessControlRule]?
 }
 
@@ -8486,7 +8486,7 @@ extension ListAliasesInput {
     }
 }
 
-public struct ListAliasesInput: Swift.Equatable {
+public struct ListAliasesInput {
     /// The identifier for the entity for which to list the aliases.
     /// This member is required.
     public var entityId: Swift.String?
@@ -8512,7 +8512,7 @@ public struct ListAliasesInput: Swift.Equatable {
     }
 }
 
-struct ListAliasesInputBody: Swift.Equatable {
+struct ListAliasesInputBody {
     let organizationId: Swift.String?
     let entityId: Swift.String?
     let nextToken: Swift.String?
@@ -8554,7 +8554,7 @@ extension ListAliasesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAliasesOutput: Swift.Equatable {
+public struct ListAliasesOutput {
     /// The entity's paginated aliases.
     public var aliases: [Swift.String]?
     /// The token to use to retrieve the next page of results. The value is "null" when there are no more results to return.
@@ -8570,7 +8570,7 @@ public struct ListAliasesOutput: Swift.Equatable {
     }
 }
 
-struct ListAliasesOutputBody: Swift.Equatable {
+struct ListAliasesOutputBody {
     let aliases: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -8642,7 +8642,7 @@ extension ListAvailabilityConfigurationsInput {
     }
 }
 
-public struct ListAvailabilityConfigurationsInput: Swift.Equatable {
+public struct ListAvailabilityConfigurationsInput {
     /// The maximum number of results to return in a single call.
     public var maxResults: Swift.Int?
     /// The token to use to retrieve the next page of results. The first call does not require a token.
@@ -8663,7 +8663,7 @@ public struct ListAvailabilityConfigurationsInput: Swift.Equatable {
     }
 }
 
-struct ListAvailabilityConfigurationsInputBody: Swift.Equatable {
+struct ListAvailabilityConfigurationsInputBody {
     let organizationId: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -8701,7 +8701,7 @@ extension ListAvailabilityConfigurationsOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ListAvailabilityConfigurationsOutput: Swift.Equatable {
+public struct ListAvailabilityConfigurationsOutput {
     /// The list of AvailabilityConfiguration's that exist for the specified WorkMail organization.
     public var availabilityConfigurations: [WorkMailClientTypes.AvailabilityConfiguration]?
     /// The token to use to retrieve the next page of results. The value is null when there are no further results to return.
@@ -8717,7 +8717,7 @@ public struct ListAvailabilityConfigurationsOutput: Swift.Equatable {
     }
 }
 
-struct ListAvailabilityConfigurationsOutputBody: Swift.Equatable {
+struct ListAvailabilityConfigurationsOutputBody {
     let availabilityConfigurations: [WorkMailClientTypes.AvailabilityConfiguration]?
     let nextToken: Swift.String?
 }
@@ -8790,7 +8790,7 @@ extension ListGroupMembersInput {
     }
 }
 
-public struct ListGroupMembersInput: Swift.Equatable {
+public struct ListGroupMembersInput {
     /// The identifier for the group to which the members (users or groups) are associated. The identifier can accept GroupId, Groupname, or email. The following identity formats are available:
     ///
     /// * Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
@@ -8822,7 +8822,7 @@ public struct ListGroupMembersInput: Swift.Equatable {
     }
 }
 
-struct ListGroupMembersInputBody: Swift.Equatable {
+struct ListGroupMembersInputBody {
     let organizationId: Swift.String?
     let groupId: Swift.String?
     let nextToken: Swift.String?
@@ -8864,7 +8864,7 @@ extension ListGroupMembersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListGroupMembersOutput: Swift.Equatable {
+public struct ListGroupMembersOutput {
     /// The members associated to the group.
     public var members: [WorkMailClientTypes.Member]?
     /// The token to use to retrieve the next page of results. The first call does not contain any tokens.
@@ -8880,7 +8880,7 @@ public struct ListGroupMembersOutput: Swift.Equatable {
     }
 }
 
-struct ListGroupMembersOutputBody: Swift.Equatable {
+struct ListGroupMembersOutputBody {
     let members: [WorkMailClientTypes.Member]?
     let nextToken: Swift.String?
 }
@@ -8957,7 +8957,7 @@ extension WorkMailClientTypes.ListGroupsFilters: Swift.Codable {
 
 extension WorkMailClientTypes {
     /// Filtering options for ListGroups operation. This is only used as input to Operation.
-    public struct ListGroupsFilters: Swift.Equatable {
+    public struct ListGroupsFilters {
         /// Filters only groups with the provided name prefix.
         public var namePrefix: Swift.String?
         /// Filters only groups with the provided primary email prefix.
@@ -9000,7 +9000,7 @@ extension WorkMailClientTypes.ListGroupsForEntityFilters: Swift.Codable {
 
 extension WorkMailClientTypes {
     /// Filtering options for ListGroupsForEntity operation. This is only used as input to Operation.
-    public struct ListGroupsForEntityFilters: Swift.Equatable {
+    public struct ListGroupsForEntityFilters {
         /// Filters only group names that start with the provided name prefix.
         public var groupNamePrefix: Swift.String?
 
@@ -9050,7 +9050,7 @@ extension ListGroupsForEntityInput {
     }
 }
 
-public struct ListGroupsForEntityInput: Swift.Equatable {
+public struct ListGroupsForEntityInput {
     /// The identifier for the entity. The entity ID can accept UserId or GroupID, Username or Groupname, or email.
     ///
     /// * Entity ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
@@ -9086,7 +9086,7 @@ public struct ListGroupsForEntityInput: Swift.Equatable {
     }
 }
 
-struct ListGroupsForEntityInputBody: Swift.Equatable {
+struct ListGroupsForEntityInputBody {
     let organizationId: Swift.String?
     let entityId: Swift.String?
     let filters: WorkMailClientTypes.ListGroupsForEntityFilters?
@@ -9132,7 +9132,7 @@ extension ListGroupsForEntityOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListGroupsForEntityOutput: Swift.Equatable {
+public struct ListGroupsForEntityOutput {
     /// The overview of groups in an organization.
     public var groups: [WorkMailClientTypes.GroupIdentifier]?
     /// The token to use to retrieve the next page of results. This value is `null` when there are no more results to return.
@@ -9148,7 +9148,7 @@ public struct ListGroupsForEntityOutput: Swift.Equatable {
     }
 }
 
-struct ListGroupsForEntityOutputBody: Swift.Equatable {
+struct ListGroupsForEntityOutputBody {
     let groups: [WorkMailClientTypes.GroupIdentifier]?
     let nextToken: Swift.String?
 }
@@ -9224,7 +9224,7 @@ extension ListGroupsInput {
     }
 }
 
-public struct ListGroupsInput: Swift.Equatable {
+public struct ListGroupsInput {
     /// Limit the search results based on the filter criteria. Only one filter per request is supported.
     public var filters: WorkMailClientTypes.ListGroupsFilters?
     /// The maximum number of results to return in a single call.
@@ -9249,7 +9249,7 @@ public struct ListGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListGroupsInputBody: Swift.Equatable {
+struct ListGroupsInputBody {
     let organizationId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -9291,7 +9291,7 @@ extension ListGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListGroupsOutput: Swift.Equatable {
+public struct ListGroupsOutput {
     /// The overview of groups for an organization.
     public var groups: [WorkMailClientTypes.Group]?
     /// The token to use to retrieve the next page of results. The value is "null" when there are no more results to return.
@@ -9307,7 +9307,7 @@ public struct ListGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListGroupsOutputBody: Swift.Equatable {
+struct ListGroupsOutputBody {
     let groups: [WorkMailClientTypes.Group]?
     let nextToken: Swift.String?
 }
@@ -9378,7 +9378,7 @@ extension ListImpersonationRolesInput {
     }
 }
 
-public struct ListImpersonationRolesInput: Swift.Equatable {
+public struct ListImpersonationRolesInput {
     /// The maximum number of results returned in a single call.
     public var maxResults: Swift.Int?
     /// The token used to retrieve the next page of results. The first call doesn't require a token.
@@ -9399,7 +9399,7 @@ public struct ListImpersonationRolesInput: Swift.Equatable {
     }
 }
 
-struct ListImpersonationRolesInputBody: Swift.Equatable {
+struct ListImpersonationRolesInputBody {
     let organizationId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -9437,7 +9437,7 @@ extension ListImpersonationRolesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListImpersonationRolesOutput: Swift.Equatable {
+public struct ListImpersonationRolesOutput {
     /// The token to retrieve the next page of results. The value is null when there are no results to return.
     public var nextToken: Swift.String?
     /// The list of impersonation roles under the given WorkMail organization.
@@ -9453,7 +9453,7 @@ public struct ListImpersonationRolesOutput: Swift.Equatable {
     }
 }
 
-struct ListImpersonationRolesOutputBody: Swift.Equatable {
+struct ListImpersonationRolesOutputBody {
     let roles: [WorkMailClientTypes.ImpersonationRole]?
     let nextToken: Swift.String?
 }
@@ -9523,7 +9523,7 @@ extension ListMailDomainsInput {
     }
 }
 
-public struct ListMailDomainsInput: Swift.Equatable {
+public struct ListMailDomainsInput {
     /// The maximum number of results to return in a single call.
     public var maxResults: Swift.Int?
     /// The token to use to retrieve the next page of results. The first call does not require a token.
@@ -9544,7 +9544,7 @@ public struct ListMailDomainsInput: Swift.Equatable {
     }
 }
 
-struct ListMailDomainsInputBody: Swift.Equatable {
+struct ListMailDomainsInputBody {
     let organizationId: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -9582,7 +9582,7 @@ extension ListMailDomainsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMailDomainsOutput: Swift.Equatable {
+public struct ListMailDomainsOutput {
     /// The list of mail domain summaries, specifying domains that exist in the specified WorkMail organization, along with the information about whether the domain is or isn't the default.
     public var mailDomains: [WorkMailClientTypes.MailDomainSummary]?
     /// The token to use to retrieve the next page of results. The value becomes null when there are no more results to return.
@@ -9598,7 +9598,7 @@ public struct ListMailDomainsOutput: Swift.Equatable {
     }
 }
 
-struct ListMailDomainsOutputBody: Swift.Equatable {
+struct ListMailDomainsOutputBody {
     let mailDomains: [WorkMailClientTypes.MailDomainSummary]?
     let nextToken: Swift.String?
 }
@@ -9668,7 +9668,7 @@ extension ListMailboxExportJobsInput {
     }
 }
 
-public struct ListMailboxExportJobsInput: Swift.Equatable {
+public struct ListMailboxExportJobsInput {
     /// The maximum number of results to return in a single call.
     public var maxResults: Swift.Int?
     /// The token to use to retrieve the next page of results.
@@ -9689,7 +9689,7 @@ public struct ListMailboxExportJobsInput: Swift.Equatable {
     }
 }
 
-struct ListMailboxExportJobsInputBody: Swift.Equatable {
+struct ListMailboxExportJobsInputBody {
     let organizationId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -9727,7 +9727,7 @@ extension ListMailboxExportJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMailboxExportJobsOutput: Swift.Equatable {
+public struct ListMailboxExportJobsOutput {
     /// The mailbox export job details.
     public var jobs: [WorkMailClientTypes.MailboxExportJob]?
     /// The token to use to retrieve the next page of results.
@@ -9743,7 +9743,7 @@ public struct ListMailboxExportJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListMailboxExportJobsOutputBody: Swift.Equatable {
+struct ListMailboxExportJobsOutputBody {
     let jobs: [WorkMailClientTypes.MailboxExportJob]?
     let nextToken: Swift.String?
 }
@@ -9817,7 +9817,7 @@ extension ListMailboxPermissionsInput {
     }
 }
 
-public struct ListMailboxPermissionsInput: Swift.Equatable {
+public struct ListMailboxPermissionsInput {
     /// The identifier of the user, or resource for which to list mailbox permissions. The entity ID can accept UserId or ResourceId, Username or Resourcename, or email.
     ///
     /// * Entity ID: 12345678-1234-1234-1234-123456789012, or r-0123456789a0123456789b0123456789
@@ -9849,7 +9849,7 @@ public struct ListMailboxPermissionsInput: Swift.Equatable {
     }
 }
 
-struct ListMailboxPermissionsInputBody: Swift.Equatable {
+struct ListMailboxPermissionsInputBody {
     let organizationId: Swift.String?
     let entityId: Swift.String?
     let nextToken: Swift.String?
@@ -9891,7 +9891,7 @@ extension ListMailboxPermissionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMailboxPermissionsOutput: Swift.Equatable {
+public struct ListMailboxPermissionsOutput {
     /// The token to use to retrieve the next page of results. The value is "null" when there are no more results to return.
     public var nextToken: Swift.String?
     /// One page of the user, group, or resource mailbox permissions.
@@ -9907,7 +9907,7 @@ public struct ListMailboxPermissionsOutput: Swift.Equatable {
     }
 }
 
-struct ListMailboxPermissionsOutputBody: Swift.Equatable {
+struct ListMailboxPermissionsOutputBody {
     let permissions: [WorkMailClientTypes.Permission]?
     let nextToken: Swift.String?
 }
@@ -9986,7 +9986,7 @@ extension ListMobileDeviceAccessOverridesInput {
     }
 }
 
-public struct ListMobileDeviceAccessOverridesInput: Swift.Equatable {
+public struct ListMobileDeviceAccessOverridesInput {
     /// The mobile device to which the access override applies.
     public var deviceId: Swift.String?
     /// The maximum number of results to return in a single call.
@@ -10021,7 +10021,7 @@ public struct ListMobileDeviceAccessOverridesInput: Swift.Equatable {
     }
 }
 
-struct ListMobileDeviceAccessOverridesInputBody: Swift.Equatable {
+struct ListMobileDeviceAccessOverridesInputBody {
     let organizationId: Swift.String?
     let userId: Swift.String?
     let deviceId: Swift.String?
@@ -10067,7 +10067,7 @@ extension ListMobileDeviceAccessOverridesOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ListMobileDeviceAccessOverridesOutput: Swift.Equatable {
+public struct ListMobileDeviceAccessOverridesOutput {
     /// The token to use to retrieve the next page of results. The value is “null” when there are no more results to return.
     public var nextToken: Swift.String?
     /// The list of mobile device access overrides that exist for the specified WorkMail organization and user.
@@ -10083,7 +10083,7 @@ public struct ListMobileDeviceAccessOverridesOutput: Swift.Equatable {
     }
 }
 
-struct ListMobileDeviceAccessOverridesOutputBody: Swift.Equatable {
+struct ListMobileDeviceAccessOverridesOutputBody {
     let overrides: [WorkMailClientTypes.MobileDeviceAccessOverride]?
     let nextToken: Swift.String?
 }
@@ -10146,7 +10146,7 @@ extension ListMobileDeviceAccessRulesInput {
     }
 }
 
-public struct ListMobileDeviceAccessRulesInput: Swift.Equatable {
+public struct ListMobileDeviceAccessRulesInput {
     /// The WorkMail organization for which to list the rules.
     /// This member is required.
     public var organizationId: Swift.String?
@@ -10159,7 +10159,7 @@ public struct ListMobileDeviceAccessRulesInput: Swift.Equatable {
     }
 }
 
-struct ListMobileDeviceAccessRulesInputBody: Swift.Equatable {
+struct ListMobileDeviceAccessRulesInputBody {
     let organizationId: Swift.String?
 }
 
@@ -10187,7 +10187,7 @@ extension ListMobileDeviceAccessRulesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMobileDeviceAccessRulesOutput: Swift.Equatable {
+public struct ListMobileDeviceAccessRulesOutput {
     /// The list of mobile device access rules that exist under the specified WorkMail organization.
     public var rules: [WorkMailClientTypes.MobileDeviceAccessRule]?
 
@@ -10199,7 +10199,7 @@ public struct ListMobileDeviceAccessRulesOutput: Swift.Equatable {
     }
 }
 
-struct ListMobileDeviceAccessRulesOutputBody: Swift.Equatable {
+struct ListMobileDeviceAccessRulesOutputBody {
     let rules: [WorkMailClientTypes.MobileDeviceAccessRule]?
 }
 
@@ -10261,7 +10261,7 @@ extension ListOrganizationsInput {
     }
 }
 
-public struct ListOrganizationsInput: Swift.Equatable {
+public struct ListOrganizationsInput {
     /// The maximum number of results to return in a single call.
     public var maxResults: Swift.Int?
     /// The token to use to retrieve the next page of results. The first call does not contain any tokens.
@@ -10277,7 +10277,7 @@ public struct ListOrganizationsInput: Swift.Equatable {
     }
 }
 
-struct ListOrganizationsInputBody: Swift.Equatable {
+struct ListOrganizationsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -10311,7 +10311,7 @@ extension ListOrganizationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListOrganizationsOutput: Swift.Equatable {
+public struct ListOrganizationsOutput {
     /// The token to use to retrieve the next page of results. The value is "null" when there are no more results to return.
     public var nextToken: Swift.String?
     /// The overview of owned organizations presented as a list of organization summaries.
@@ -10327,7 +10327,7 @@ public struct ListOrganizationsOutput: Swift.Equatable {
     }
 }
 
-struct ListOrganizationsOutputBody: Swift.Equatable {
+struct ListOrganizationsOutputBody {
     let organizationSummaries: [WorkMailClientTypes.OrganizationSummary]?
     let nextToken: Swift.String?
 }
@@ -10399,7 +10399,7 @@ extension ListResourceDelegatesInput {
     }
 }
 
-public struct ListResourceDelegatesInput: Swift.Equatable {
+public struct ListResourceDelegatesInput {
     /// The number of maximum results in a page.
     public var maxResults: Swift.Int?
     /// The token used to paginate through the delegates associated with a resource.
@@ -10431,7 +10431,7 @@ public struct ListResourceDelegatesInput: Swift.Equatable {
     }
 }
 
-struct ListResourceDelegatesInputBody: Swift.Equatable {
+struct ListResourceDelegatesInputBody {
     let organizationId: Swift.String?
     let resourceId: Swift.String?
     let nextToken: Swift.String?
@@ -10473,7 +10473,7 @@ extension ListResourceDelegatesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListResourceDelegatesOutput: Swift.Equatable {
+public struct ListResourceDelegatesOutput {
     /// One page of the resource's delegates.
     public var delegates: [WorkMailClientTypes.Delegate]?
     /// The token used to paginate through the delegates associated with a resource. While results are still available, it has an associated value. When the last page is reached, the token is empty.
@@ -10489,7 +10489,7 @@ public struct ListResourceDelegatesOutput: Swift.Equatable {
     }
 }
 
-struct ListResourceDelegatesOutputBody: Swift.Equatable {
+struct ListResourceDelegatesOutputBody {
     let delegates: [WorkMailClientTypes.Delegate]?
     let nextToken: Swift.String?
 }
@@ -10567,7 +10567,7 @@ extension WorkMailClientTypes.ListResourcesFilters: Swift.Codable {
 
 extension WorkMailClientTypes {
     /// Filtering options for ListResources operation. This is only used as input to Operation.
-    public struct ListResourcesFilters: Swift.Equatable {
+    public struct ListResourcesFilters {
         /// Filters only resource that start with the entered name prefix .
         public var namePrefix: Swift.String?
         /// Filters only resource with the provided primary email prefix.
@@ -10621,7 +10621,7 @@ extension ListResourcesInput {
     }
 }
 
-public struct ListResourcesInput: Swift.Equatable {
+public struct ListResourcesInput {
     /// Limit the resource search results based on the filter criteria. You can only use one filter per request.
     public var filters: WorkMailClientTypes.ListResourcesFilters?
     /// The maximum number of results to return in a single call.
@@ -10646,7 +10646,7 @@ public struct ListResourcesInput: Swift.Equatable {
     }
 }
 
-struct ListResourcesInputBody: Swift.Equatable {
+struct ListResourcesInputBody {
     let organizationId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -10688,7 +10688,7 @@ extension ListResourcesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListResourcesOutput: Swift.Equatable {
+public struct ListResourcesOutput {
     /// The token used to paginate through all the organization's resources. While results are still available, it has an associated value. When the last page is reached, the token is empty.
     public var nextToken: Swift.String?
     /// One page of the organization's resource representation.
@@ -10704,7 +10704,7 @@ public struct ListResourcesOutput: Swift.Equatable {
     }
 }
 
-struct ListResourcesOutputBody: Swift.Equatable {
+struct ListResourcesOutputBody {
     let resources: [WorkMailClientTypes.Resource]?
     let nextToken: Swift.String?
 }
@@ -10767,7 +10767,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The resource ARN.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -10780,7 +10780,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceARN: Swift.String?
 }
 
@@ -10808,7 +10808,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// A list of tag key-value pairs.
     public var tags: [WorkMailClientTypes.Tag]?
 
@@ -10820,7 +10820,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [WorkMailClientTypes.Tag]?
 }
 
@@ -10900,7 +10900,7 @@ extension WorkMailClientTypes.ListUsersFilters: Swift.CustomDebugStringConvertib
 
 extension WorkMailClientTypes {
     /// Filtering options for ListUsers operation. This is only used as input to Operation.
-    public struct ListUsersFilters: Swift.Equatable {
+    public struct ListUsersFilters {
         /// Filters only users with the provided display name prefix.
         public var displayNamePrefix: Swift.String?
         /// Filters only users with the provided email prefix.
@@ -10958,7 +10958,7 @@ extension ListUsersInput {
     }
 }
 
-public struct ListUsersInput: Swift.Equatable {
+public struct ListUsersInput {
     /// Limit the user search results based on the filter criteria. You can only use one filter per request.
     public var filters: WorkMailClientTypes.ListUsersFilters?
     /// The maximum number of results to return in a single call.
@@ -10983,7 +10983,7 @@ public struct ListUsersInput: Swift.Equatable {
     }
 }
 
-struct ListUsersInputBody: Swift.Equatable {
+struct ListUsersInputBody {
     let organizationId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -11025,7 +11025,7 @@ extension ListUsersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListUsersOutput: Swift.Equatable {
+public struct ListUsersOutput {
     /// The token to use to retrieve the next page of results. This value is `null` when there are no more results to return.
     public var nextToken: Swift.String?
     /// The overview of users for an organization.
@@ -11041,7 +11041,7 @@ public struct ListUsersOutput: Swift.Equatable {
     }
 }
 
-struct ListUsersOutputBody: Swift.Equatable {
+struct ListUsersOutputBody {
     let users: [WorkMailClientTypes.User]?
     let nextToken: Swift.String?
 }
@@ -11122,7 +11122,7 @@ public struct MailDomainInUseException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct MailDomainInUseExceptionBody: Swift.Equatable {
+struct MailDomainInUseExceptionBody {
     let message: Swift.String?
 }
 
@@ -11177,7 +11177,7 @@ public struct MailDomainNotFoundException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct MailDomainNotFoundExceptionBody: Swift.Equatable {
+struct MailDomainNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -11232,7 +11232,7 @@ public struct MailDomainStateException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct MailDomainStateExceptionBody: Swift.Equatable {
+struct MailDomainStateExceptionBody {
     let message: Swift.String?
 }
 
@@ -11275,7 +11275,7 @@ extension WorkMailClientTypes.MailDomainSummary: Swift.Codable {
 
 extension WorkMailClientTypes {
     /// The data for a given domain.
-    public struct MailDomainSummary: Swift.Equatable {
+    public struct MailDomainSummary {
         /// Whether the domain is default or not.
         public var defaultDomain: Swift.Bool
         /// The domain name.
@@ -11362,7 +11362,7 @@ extension WorkMailClientTypes.MailboxExportJob: Swift.Codable {
 
 extension WorkMailClientTypes {
     /// The details of a mailbox export job, including the user or resource ID associated with the mailbox and the S3 bucket that the mailbox contents are exported to.
-    public struct MailboxExportJob: Swift.Equatable {
+    public struct MailboxExportJob {
         /// The mailbox export job description.
         public var description: Swift.String?
         /// The mailbox export job end timestamp.
@@ -11497,7 +11497,7 @@ extension WorkMailClientTypes.Member: Swift.Codable {
 
 extension WorkMailClientTypes {
     /// The representation of a user or group.
-    public struct Member: Swift.Equatable {
+    public struct Member {
         /// The date indicating when the member was disabled from WorkMail use.
         public var disabledDate: ClientRuntime.Date?
         /// The date indicating when the member was enabled for WorkMail use.
@@ -11590,7 +11590,7 @@ extension WorkMailClientTypes.MobileDeviceAccessMatchedRule: Swift.Codable {
 
 extension WorkMailClientTypes {
     /// The rule that a simulated user matches.
-    public struct MobileDeviceAccessMatchedRule: Swift.Equatable {
+    public struct MobileDeviceAccessMatchedRule {
         /// Identifier of the rule that a simulated user matches.
         public var mobileDeviceAccessRuleId: Swift.String?
         /// Name of a rule that a simulated user matches.
@@ -11659,7 +11659,7 @@ extension WorkMailClientTypes.MobileDeviceAccessOverride: Swift.Codable {
 
 extension WorkMailClientTypes {
     /// The override object.
-    public struct MobileDeviceAccessOverride: Swift.Equatable {
+    public struct MobileDeviceAccessOverride {
         /// The date the override was first created.
         public var dateCreated: ClientRuntime.Date?
         /// The date the override was last modified.
@@ -11888,7 +11888,7 @@ extension WorkMailClientTypes.MobileDeviceAccessRule: Swift.Codable {
 
 extension WorkMailClientTypes {
     /// A rule that controls access to mobile devices for an WorkMail group.
-    public struct MobileDeviceAccessRule: Swift.Equatable {
+    public struct MobileDeviceAccessRule {
         /// The date and time at which an access rule was created.
         public var dateCreated: ClientRuntime.Date?
         /// The date and time at which an access rule was modified.
@@ -12025,7 +12025,7 @@ public struct NameAvailabilityException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct NameAvailabilityExceptionBody: Swift.Equatable {
+struct NameAvailabilityExceptionBody {
     let message: Swift.String?
 }
 
@@ -12080,7 +12080,7 @@ public struct OrganizationNotFoundException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct OrganizationNotFoundExceptionBody: Swift.Equatable {
+struct OrganizationNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -12135,7 +12135,7 @@ public struct OrganizationStateException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct OrganizationStateExceptionBody: Swift.Equatable {
+struct OrganizationStateExceptionBody {
     let message: Swift.String?
 }
 
@@ -12196,7 +12196,7 @@ extension WorkMailClientTypes.OrganizationSummary: Swift.Codable {
 
 extension WorkMailClientTypes {
     /// The representation of an organization.
-    public struct OrganizationSummary: Swift.Equatable {
+    public struct OrganizationSummary {
         /// The alias associated with the organization.
         public var alias: Swift.String?
         /// The default email domain associated with the organization.
@@ -12271,7 +12271,7 @@ extension WorkMailClientTypes.Permission: Swift.Codable {
 
 extension WorkMailClientTypes {
     /// Permission granted to a user, group, or resource to access a certain aspect of another user, group, or resource mailbox.
-    public struct Permission: Swift.Equatable {
+    public struct Permission {
         /// The identifier of the user, group, or resource to which the permissions are granted.
         /// This member is required.
         public var granteeId: Swift.String?
@@ -12419,7 +12419,7 @@ extension PutAccessControlRuleInput {
     }
 }
 
-public struct PutAccessControlRuleInput: Swift.Equatable {
+public struct PutAccessControlRuleInput {
     /// Access protocol actions to include in the rule. Valid values include ActiveSync, AutoDiscover, EWS, IMAP, SMTP, WindowsOutlook, and WebMail.
     public var actions: [Swift.String]?
     /// The rule description.
@@ -12479,7 +12479,7 @@ public struct PutAccessControlRuleInput: Swift.Equatable {
     }
 }
 
-struct PutAccessControlRuleInputBody: Swift.Equatable {
+struct PutAccessControlRuleInputBody {
     let name: Swift.String?
     let effect: WorkMailClientTypes.AccessControlRuleEffect?
     let description: Swift.String?
@@ -12616,7 +12616,7 @@ extension PutAccessControlRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutAccessControlRuleOutput: Swift.Equatable {
+public struct PutAccessControlRuleOutput {
 
     public init() { }
 }
@@ -12665,7 +12665,7 @@ extension PutEmailMonitoringConfigurationInput {
     }
 }
 
-public struct PutEmailMonitoringConfigurationInput: Swift.Equatable {
+public struct PutEmailMonitoringConfigurationInput {
     /// The Amazon Resource Name (ARN) of the CloudWatch Log group associated with the email monitoring configuration.
     /// This member is required.
     public var logGroupArn: Swift.String?
@@ -12688,7 +12688,7 @@ public struct PutEmailMonitoringConfigurationInput: Swift.Equatable {
     }
 }
 
-struct PutEmailMonitoringConfigurationInputBody: Swift.Equatable {
+struct PutEmailMonitoringConfigurationInputBody {
     let organizationId: Swift.String?
     let roleArn: Swift.String?
     let logGroupArn: Swift.String?
@@ -12717,7 +12717,7 @@ extension PutEmailMonitoringConfigurationOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct PutEmailMonitoringConfigurationOutput: Swift.Equatable {
+public struct PutEmailMonitoringConfigurationOutput {
 
     public init() { }
 }
@@ -12760,7 +12760,7 @@ extension PutInboundDmarcSettingsInput {
     }
 }
 
-public struct PutInboundDmarcSettingsInput: Swift.Equatable {
+public struct PutInboundDmarcSettingsInput {
     /// Enforces or suspends a policy after it's applied.
     /// This member is required.
     public var enforced: Swift.Bool?
@@ -12778,7 +12778,7 @@ public struct PutInboundDmarcSettingsInput: Swift.Equatable {
     }
 }
 
-struct PutInboundDmarcSettingsInputBody: Swift.Equatable {
+struct PutInboundDmarcSettingsInputBody {
     let organizationId: Swift.String?
     let enforced: Swift.Bool?
 }
@@ -12803,7 +12803,7 @@ extension PutInboundDmarcSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutInboundDmarcSettingsOutput: Swift.Equatable {
+public struct PutInboundDmarcSettingsOutput {
 
     public init() { }
 }
@@ -12855,7 +12855,7 @@ extension PutMailboxPermissionsInput {
     }
 }
 
-public struct PutMailboxPermissionsInput: Swift.Equatable {
+public struct PutMailboxPermissionsInput {
     /// The identifier of the user or resource for which to update mailbox permissions. The identifier can be UserId, ResourceID, or Group Id, Username, Resourcename, or Groupname, or email.
     ///
     /// * Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234
@@ -12895,7 +12895,7 @@ public struct PutMailboxPermissionsInput: Swift.Equatable {
     }
 }
 
-struct PutMailboxPermissionsInputBody: Swift.Equatable {
+struct PutMailboxPermissionsInputBody {
     let organizationId: Swift.String?
     let entityId: Swift.String?
     let granteeId: Swift.String?
@@ -12937,7 +12937,7 @@ extension PutMailboxPermissionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutMailboxPermissionsOutput: Swift.Equatable {
+public struct PutMailboxPermissionsOutput {
 
     public init() { }
 }
@@ -12993,7 +12993,7 @@ extension PutMobileDeviceAccessOverrideInput {
     }
 }
 
-public struct PutMobileDeviceAccessOverrideInput: Swift.Equatable {
+public struct PutMobileDeviceAccessOverrideInput {
     /// A description of the override.
     public var description: Swift.String?
     /// The mobile device for which you create the override. DeviceId is case insensitive.
@@ -13031,7 +13031,7 @@ public struct PutMobileDeviceAccessOverrideInput: Swift.Equatable {
     }
 }
 
-struct PutMobileDeviceAccessOverrideInputBody: Swift.Equatable {
+struct PutMobileDeviceAccessOverrideInputBody {
     let organizationId: Swift.String?
     let userId: Swift.String?
     let deviceId: Swift.String?
@@ -13068,7 +13068,7 @@ extension PutMobileDeviceAccessOverrideOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct PutMobileDeviceAccessOverrideOutput: Swift.Equatable {
+public struct PutMobileDeviceAccessOverrideOutput {
 
     public init() { }
 }
@@ -13132,7 +13132,7 @@ extension PutRetentionPolicyInput {
     }
 }
 
-public struct PutRetentionPolicyInput: Swift.Equatable {
+public struct PutRetentionPolicyInput {
     /// The retention policy description.
     public var description: Swift.String?
     /// The retention policy folder configurations.
@@ -13163,7 +13163,7 @@ public struct PutRetentionPolicyInput: Swift.Equatable {
     }
 }
 
-struct PutRetentionPolicyInputBody: Swift.Equatable {
+struct PutRetentionPolicyInputBody {
     let organizationId: Swift.String?
     let id: Swift.String?
     let name: Swift.String?
@@ -13209,7 +13209,7 @@ extension PutRetentionPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutRetentionPolicyOutput: Swift.Equatable {
+public struct PutRetentionPolicyOutput {
 
     public init() { }
 }
@@ -13255,7 +13255,7 @@ extension WorkMailClientTypes.RedactedEwsAvailabilityProvider: Swift.Codable {
 
 extension WorkMailClientTypes {
     /// Describes an EWS based availability provider when returned from the service. It does not contain the password of the endpoint.
-    public struct RedactedEwsAvailabilityProvider: Swift.Equatable {
+    public struct RedactedEwsAvailabilityProvider {
         /// The endpoint of the remote EWS server.
         public var ewsEndpoint: Swift.String?
         /// The username used to authenticate the remote EWS server.
@@ -13301,7 +13301,7 @@ extension RegisterMailDomainInput {
     }
 }
 
-public struct RegisterMailDomainInput: Swift.Equatable {
+public struct RegisterMailDomainInput {
     /// Idempotency token used when retrying requests.
     public var clientToken: Swift.String?
     /// The name of the mail domain to create in WorkMail and SES.
@@ -13323,7 +13323,7 @@ public struct RegisterMailDomainInput: Swift.Equatable {
     }
 }
 
-struct RegisterMailDomainInputBody: Swift.Equatable {
+struct RegisterMailDomainInputBody {
     let clientToken: Swift.String?
     let organizationId: Swift.String?
     let domainName: Swift.String?
@@ -13352,7 +13352,7 @@ extension RegisterMailDomainOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RegisterMailDomainOutput: Swift.Equatable {
+public struct RegisterMailDomainOutput {
 
     public init() { }
 }
@@ -13400,7 +13400,7 @@ extension RegisterToWorkMailInput {
     }
 }
 
-public struct RegisterToWorkMailInput: Swift.Equatable {
+public struct RegisterToWorkMailInput {
     /// The email for the user, group, or resource to be updated.
     /// This member is required.
     public var email: Swift.String?
@@ -13427,7 +13427,7 @@ public struct RegisterToWorkMailInput: Swift.Equatable {
     }
 }
 
-struct RegisterToWorkMailInputBody: Swift.Equatable {
+struct RegisterToWorkMailInputBody {
     let organizationId: Swift.String?
     let entityId: Swift.String?
     let email: Swift.String?
@@ -13456,7 +13456,7 @@ extension RegisterToWorkMailOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RegisterToWorkMailOutput: Swift.Equatable {
+public struct RegisterToWorkMailOutput {
 
     public init() { }
 }
@@ -13521,7 +13521,7 @@ public struct ReservedNameException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct ReservedNameExceptionBody: Swift.Equatable {
+struct ReservedNameExceptionBody {
     let message: Swift.String?
 }
 
@@ -13570,7 +13570,7 @@ extension ResetPasswordInput {
     }
 }
 
-public struct ResetPasswordInput: Swift.Equatable {
+public struct ResetPasswordInput {
     /// The identifier of the organization that contains the user for which the password is reset.
     /// This member is required.
     public var organizationId: Swift.String?
@@ -13593,7 +13593,7 @@ public struct ResetPasswordInput: Swift.Equatable {
     }
 }
 
-struct ResetPasswordInputBody: Swift.Equatable {
+struct ResetPasswordInputBody {
     let organizationId: Swift.String?
     let userId: Swift.String?
     let password: Swift.String?
@@ -13622,7 +13622,7 @@ extension ResetPasswordOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ResetPasswordOutput: Swift.Equatable {
+public struct ResetPasswordOutput {
 
     public init() { }
 }
@@ -13709,7 +13709,7 @@ extension WorkMailClientTypes.Resource: Swift.Codable {
 
 extension WorkMailClientTypes {
     /// The representation of a resource.
-    public struct Resource: Swift.Equatable {
+    public struct Resource {
         /// Resource description.
         public var description: Swift.String?
         /// The date indicating when the resource was disabled from WorkMail use.
@@ -13790,7 +13790,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -13921,7 +13921,7 @@ extension StartMailboxExportJobInput {
     }
 }
 
-public struct StartMailboxExportJobInput: Swift.Equatable {
+public struct StartMailboxExportJobInput {
     /// The idempotency token for the client request.
     /// This member is required.
     public var clientToken: Swift.String?
@@ -13974,7 +13974,7 @@ public struct StartMailboxExportJobInput: Swift.Equatable {
     }
 }
 
-struct StartMailboxExportJobInputBody: Swift.Equatable {
+struct StartMailboxExportJobInputBody {
     let clientToken: Swift.String?
     let organizationId: Swift.String?
     let entityId: Swift.String?
@@ -14030,7 +14030,7 @@ extension StartMailboxExportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartMailboxExportJobOutput: Swift.Equatable {
+public struct StartMailboxExportJobOutput {
     /// The job ID.
     public var jobId: Swift.String?
 
@@ -14042,7 +14042,7 @@ public struct StartMailboxExportJobOutput: Swift.Equatable {
     }
 }
 
-struct StartMailboxExportJobOutputBody: Swift.Equatable {
+struct StartMailboxExportJobOutputBody {
     let jobId: Swift.String?
 }
 
@@ -14100,7 +14100,7 @@ extension WorkMailClientTypes.Tag: Swift.Codable {
 
 extension WorkMailClientTypes {
     /// Describes a tag applied to a resource.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key of the tag.
         /// This member is required.
         public var key: Swift.String?
@@ -14147,7 +14147,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The resource ARN.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -14165,7 +14165,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceARN: Swift.String?
     let tags: [WorkMailClientTypes.Tag]?
 }
@@ -14199,7 +14199,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -14250,7 +14250,7 @@ extension TestAvailabilityConfigurationInput {
     }
 }
 
-public struct TestAvailabilityConfigurationInput: Swift.Equatable {
+public struct TestAvailabilityConfigurationInput {
     /// The domain to which the provider applies. If this field is provided, a stored availability provider associated to this domain name will be tested.
     public var domainName: Swift.String?
     /// Describes an EWS based availability provider. This is only used as input to the service.
@@ -14275,7 +14275,7 @@ public struct TestAvailabilityConfigurationInput: Swift.Equatable {
     }
 }
 
-struct TestAvailabilityConfigurationInputBody: Swift.Equatable {
+struct TestAvailabilityConfigurationInputBody {
     let organizationId: Swift.String?
     let domainName: Swift.String?
     let ewsProvider: WorkMailClientTypes.EwsAvailabilityProvider?
@@ -14317,7 +14317,7 @@ extension TestAvailabilityConfigurationOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct TestAvailabilityConfigurationOutput: Swift.Equatable {
+public struct TestAvailabilityConfigurationOutput {
     /// String containing the reason for a failed test if TestPassed is false.
     public var failureReason: Swift.String?
     /// Boolean indicating whether the test passed or failed.
@@ -14333,7 +14333,7 @@ public struct TestAvailabilityConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct TestAvailabilityConfigurationOutputBody: Swift.Equatable {
+struct TestAvailabilityConfigurationOutputBody {
     let testPassed: Swift.Bool
     let failureReason: Swift.String?
 }
@@ -14406,7 +14406,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct TooManyTagsExceptionBody: Swift.Equatable {
+struct TooManyTagsExceptionBody {
     let message: Swift.String?
 }
 
@@ -14461,7 +14461,7 @@ public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct UnsupportedOperationExceptionBody: Swift.Equatable {
+struct UnsupportedOperationExceptionBody {
     let message: Swift.String?
 }
 
@@ -14504,7 +14504,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The resource ARN.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -14522,7 +14522,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceARN: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -14556,7 +14556,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -14604,7 +14604,7 @@ extension UpdateAvailabilityConfigurationInput {
     }
 }
 
-public struct UpdateAvailabilityConfigurationInput: Swift.Equatable {
+public struct UpdateAvailabilityConfigurationInput {
     /// The domain to which the provider applies the availability configuration.
     /// This member is required.
     public var domainName: Swift.String?
@@ -14630,7 +14630,7 @@ public struct UpdateAvailabilityConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateAvailabilityConfigurationInputBody: Swift.Equatable {
+struct UpdateAvailabilityConfigurationInputBody {
     let organizationId: Swift.String?
     let domainName: Swift.String?
     let ewsProvider: WorkMailClientTypes.EwsAvailabilityProvider?
@@ -14663,7 +14663,7 @@ extension UpdateAvailabilityConfigurationOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct UpdateAvailabilityConfigurationOutput: Swift.Equatable {
+public struct UpdateAvailabilityConfigurationOutput {
 
     public init() { }
 }
@@ -14706,7 +14706,7 @@ extension UpdateDefaultMailDomainInput {
     }
 }
 
-public struct UpdateDefaultMailDomainInput: Swift.Equatable {
+public struct UpdateDefaultMailDomainInput {
     /// The domain name that will become the default domain.
     /// This member is required.
     public var domainName: Swift.String?
@@ -14724,7 +14724,7 @@ public struct UpdateDefaultMailDomainInput: Swift.Equatable {
     }
 }
 
-struct UpdateDefaultMailDomainInputBody: Swift.Equatable {
+struct UpdateDefaultMailDomainInputBody {
     let organizationId: Swift.String?
     let domainName: Swift.String?
 }
@@ -14749,7 +14749,7 @@ extension UpdateDefaultMailDomainOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDefaultMailDomainOutput: Swift.Equatable {
+public struct UpdateDefaultMailDomainOutput {
 
     public init() { }
 }
@@ -14797,7 +14797,7 @@ extension UpdateGroupInput {
     }
 }
 
-public struct UpdateGroupInput: Swift.Equatable {
+public struct UpdateGroupInput {
     /// The identifier for the group to be updated. The identifier can accept GroupId, Groupname, or email. The following identity formats are available:
     ///
     /// * Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
@@ -14825,7 +14825,7 @@ public struct UpdateGroupInput: Swift.Equatable {
     }
 }
 
-struct UpdateGroupInputBody: Swift.Equatable {
+struct UpdateGroupInputBody {
     let organizationId: Swift.String?
     let groupId: Swift.String?
     let hiddenFromGlobalAddressList: Swift.Bool?
@@ -14854,7 +14854,7 @@ extension UpdateGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateGroupOutput: Swift.Equatable {
+public struct UpdateGroupOutput {
 
     public init() { }
 }
@@ -14918,7 +14918,7 @@ extension UpdateImpersonationRoleInput {
     }
 }
 
-public struct UpdateImpersonationRoleInput: Swift.Equatable {
+public struct UpdateImpersonationRoleInput {
     /// The updated impersonation role description.
     public var description: Swift.String?
     /// The ID of the impersonation role to update.
@@ -14955,7 +14955,7 @@ public struct UpdateImpersonationRoleInput: Swift.Equatable {
     }
 }
 
-struct UpdateImpersonationRoleInputBody: Swift.Equatable {
+struct UpdateImpersonationRoleInputBody {
     let organizationId: Swift.String?
     let impersonationRoleId: Swift.String?
     let name: Swift.String?
@@ -15005,7 +15005,7 @@ extension UpdateImpersonationRoleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateImpersonationRoleOutput: Swift.Equatable {
+public struct UpdateImpersonationRoleOutput {
 
     public init() { }
 }
@@ -15055,7 +15055,7 @@ extension UpdateMailboxQuotaInput {
     }
 }
 
-public struct UpdateMailboxQuotaInput: Swift.Equatable {
+public struct UpdateMailboxQuotaInput {
     /// The updated mailbox quota, in MB, for the specified user.
     /// This member is required.
     public var mailboxQuota: Swift.Int?
@@ -15084,7 +15084,7 @@ public struct UpdateMailboxQuotaInput: Swift.Equatable {
     }
 }
 
-struct UpdateMailboxQuotaInputBody: Swift.Equatable {
+struct UpdateMailboxQuotaInputBody {
     let organizationId: Swift.String?
     let userId: Swift.String?
     let mailboxQuota: Swift.Int?
@@ -15113,7 +15113,7 @@ extension UpdateMailboxQuotaOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateMailboxQuotaOutput: Swift.Equatable {
+public struct UpdateMailboxQuotaOutput {
 
     public init() { }
 }
@@ -15225,7 +15225,7 @@ extension UpdateMobileDeviceAccessRuleInput {
     }
 }
 
-public struct UpdateMobileDeviceAccessRuleInput: Swift.Equatable {
+public struct UpdateMobileDeviceAccessRuleInput {
     /// The updated rule description.
     public var description: Swift.String?
     /// Device models that the updated rule will match.
@@ -15289,7 +15289,7 @@ public struct UpdateMobileDeviceAccessRuleInput: Swift.Equatable {
     }
 }
 
-struct UpdateMobileDeviceAccessRuleInputBody: Swift.Equatable {
+struct UpdateMobileDeviceAccessRuleInputBody {
     let organizationId: Swift.String?
     let mobileDeviceAccessRuleId: Swift.String?
     let name: Swift.String?
@@ -15430,7 +15430,7 @@ extension UpdateMobileDeviceAccessRuleOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct UpdateMobileDeviceAccessRuleOutput: Swift.Equatable {
+public struct UpdateMobileDeviceAccessRuleOutput {
 
     public init() { }
 }
@@ -15477,7 +15477,7 @@ extension UpdatePrimaryEmailAddressInput {
     }
 }
 
-public struct UpdatePrimaryEmailAddressInput: Swift.Equatable {
+public struct UpdatePrimaryEmailAddressInput {
     /// The value of the email to be updated as primary.
     /// This member is required.
     public var email: Swift.String?
@@ -15506,7 +15506,7 @@ public struct UpdatePrimaryEmailAddressInput: Swift.Equatable {
     }
 }
 
-struct UpdatePrimaryEmailAddressInputBody: Swift.Equatable {
+struct UpdatePrimaryEmailAddressInputBody {
     let organizationId: Swift.String?
     let entityId: Swift.String?
     let email: Swift.String?
@@ -15535,7 +15535,7 @@ extension UpdatePrimaryEmailAddressOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePrimaryEmailAddressOutput: Swift.Equatable {
+public struct UpdatePrimaryEmailAddressOutput {
 
     public init() { }
 }
@@ -15605,7 +15605,7 @@ extension UpdateResourceInput {
     }
 }
 
-public struct UpdateResourceInput: Swift.Equatable {
+public struct UpdateResourceInput {
     /// The resource's booking options to be updated.
     public var bookingOptions: WorkMailClientTypes.BookingOptions?
     /// Updates the resource description.
@@ -15649,7 +15649,7 @@ public struct UpdateResourceInput: Swift.Equatable {
     }
 }
 
-struct UpdateResourceInputBody: Swift.Equatable {
+struct UpdateResourceInputBody {
     let organizationId: Swift.String?
     let resourceId: Swift.String?
     let name: Swift.String?
@@ -15694,7 +15694,7 @@ extension UpdateResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateResourceOutput: Swift.Equatable {
+public struct UpdateResourceOutput {
 
     public init() { }
 }
@@ -15810,7 +15810,7 @@ extension UpdateUserInput {
     }
 }
 
-public struct UpdateUserInput: Swift.Equatable {
+public struct UpdateUserInput {
     /// Updates the user's city.
     public var city: Swift.String?
     /// Updates the user's company.
@@ -15894,7 +15894,7 @@ public struct UpdateUserInput: Swift.Equatable {
     }
 }
 
-struct UpdateUserInputBody: Swift.Equatable {
+struct UpdateUserInputBody {
     let organizationId: Swift.String?
     let userId: Swift.String?
     let role: WorkMailClientTypes.UserRole?
@@ -15979,7 +15979,7 @@ extension UpdateUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateUserOutput: Swift.Equatable {
+public struct UpdateUserOutput {
 
     public init() { }
 }
@@ -16065,7 +16065,7 @@ extension WorkMailClientTypes.User: Swift.Codable {
 
 extension WorkMailClientTypes {
     /// The representation of an WorkMail user.
-    public struct User: Swift.Equatable {
+    public struct User {
         /// The date indicating when the user was disabled from WorkMail use.
         public var disabledDate: ClientRuntime.Date?
         /// The display name of the user.

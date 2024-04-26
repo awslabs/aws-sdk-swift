@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -78,7 +78,7 @@ extension OSISClientTypes.BufferOptions: Swift.Codable {
 
 extension OSISClientTypes {
     /// Options that specify the configuration of a persistent buffer. To configure how OpenSearch Ingestion encrypts this data, set the EncryptionAtRestOptions.
-    public struct BufferOptions: Swift.Equatable {
+    public struct BufferOptions {
         /// Whether persistent buffering should be enabled.
         /// This member is required.
         public var persistentBufferEnabled: Swift.Bool?
@@ -132,7 +132,7 @@ extension OSISClientTypes.ChangeProgressStage: Swift.Codable {
 
 extension OSISClientTypes {
     /// Progress details for a specific stage of a pipeline configuration change.
-    public struct ChangeProgressStage: Swift.Equatable {
+    public struct ChangeProgressStage {
         /// A description of the stage.
         public var description: Swift.String?
         /// The most recent updated timestamp of the stage.
@@ -247,7 +247,7 @@ extension OSISClientTypes.ChangeProgressStatus: Swift.Codable {
 
 extension OSISClientTypes {
     /// The progress details of a pipeline configuration change.
-    public struct ChangeProgressStatus: Swift.Equatable {
+    public struct ChangeProgressStatus {
         /// Information about the stages that the pipeline is going through to perform the configuration change.
         public var changeProgressStages: [OSISClientTypes.ChangeProgressStage]?
         /// The time at which the configuration change is made on the pipeline.
@@ -332,7 +332,7 @@ extension OSISClientTypes.CloudWatchLogDestination: Swift.Codable {
 
 extension OSISClientTypes {
     /// The destination for OpenSearch Ingestion logs sent to Amazon CloudWatch.
-    public struct CloudWatchLogDestination: Swift.Equatable {
+    public struct CloudWatchLogDestination {
         /// The name of the CloudWatch Logs group to send pipeline logs to. You can specify an existing log group or create a new one. For example, /aws/OpenSearchService/IngestionService/my-pipeline.
         /// This member is required.
         public var logGroup: Swift.String?
@@ -386,7 +386,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -457,7 +457,7 @@ extension CreatePipelineInput {
     }
 }
 
-public struct CreatePipelineInput: Swift.Equatable {
+public struct CreatePipelineInput {
     /// Key-value pairs to configure persistent buffering for the pipeline.
     public var bufferOptions: OSISClientTypes.BufferOptions?
     /// Key-value pairs to configure encryption for data that is written to a persistent buffer.
@@ -505,7 +505,7 @@ public struct CreatePipelineInput: Swift.Equatable {
     }
 }
 
-struct CreatePipelineInputBody: Swift.Equatable {
+struct CreatePipelineInputBody {
     let pipelineName: Swift.String?
     let minUnits: Swift.Int?
     let maxUnits: Swift.Int?
@@ -574,7 +574,7 @@ extension CreatePipelineOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePipelineOutput: Swift.Equatable {
+public struct CreatePipelineOutput {
     /// Container for information about the created pipeline.
     public var pipeline: OSISClientTypes.Pipeline?
 
@@ -586,7 +586,7 @@ public struct CreatePipelineOutput: Swift.Equatable {
     }
 }
 
-struct CreatePipelineOutputBody: Swift.Equatable {
+struct CreatePipelineOutputBody {
     let pipeline: OSISClientTypes.Pipeline?
 }
 
@@ -628,7 +628,7 @@ extension DeletePipelineInput {
     }
 }
 
-public struct DeletePipelineInput: Swift.Equatable {
+public struct DeletePipelineInput {
     /// The name of the pipeline to delete.
     /// This member is required.
     public var pipelineName: Swift.String?
@@ -641,7 +641,7 @@ public struct DeletePipelineInput: Swift.Equatable {
     }
 }
 
-struct DeletePipelineInputBody: Swift.Equatable {
+struct DeletePipelineInputBody {
 }
 
 extension DeletePipelineInputBody: Swift.Decodable {
@@ -655,7 +655,7 @@ extension DeletePipelineOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePipelineOutput: Swift.Equatable {
+public struct DeletePipelineOutput {
 
     public init() { }
 }
@@ -696,7 +696,7 @@ extension OSISClientTypes.EncryptionAtRestOptions: Swift.Codable {
 
 extension OSISClientTypes {
     /// Options to control how OpenSearch encrypts all data-at-rest.
-    public struct EncryptionAtRestOptions: Swift.Equatable {
+    public struct EncryptionAtRestOptions {
         /// The ARN of the KMS key used to encrypt data-at-rest in OpenSearch Ingestion. By default, data is encrypted using an AWS owned key.
         /// This member is required.
         public var kmsKeyArn: Swift.String?
@@ -721,7 +721,7 @@ extension GetPipelineBlueprintInput {
     }
 }
 
-public struct GetPipelineBlueprintInput: Swift.Equatable {
+public struct GetPipelineBlueprintInput {
     /// The name of the blueprint to retrieve.
     /// This member is required.
     public var blueprintName: Swift.String?
@@ -734,7 +734,7 @@ public struct GetPipelineBlueprintInput: Swift.Equatable {
     }
 }
 
-struct GetPipelineBlueprintInputBody: Swift.Equatable {
+struct GetPipelineBlueprintInputBody {
 }
 
 extension GetPipelineBlueprintInputBody: Swift.Decodable {
@@ -755,7 +755,7 @@ extension GetPipelineBlueprintOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPipelineBlueprintOutput: Swift.Equatable {
+public struct GetPipelineBlueprintOutput {
     /// The requested blueprint in YAML format.
     public var blueprint: OSISClientTypes.PipelineBlueprint?
 
@@ -767,7 +767,7 @@ public struct GetPipelineBlueprintOutput: Swift.Equatable {
     }
 }
 
-struct GetPipelineBlueprintOutputBody: Swift.Equatable {
+struct GetPipelineBlueprintOutputBody {
     let blueprint: OSISClientTypes.PipelineBlueprint?
 }
 
@@ -807,7 +807,7 @@ extension GetPipelineChangeProgressInput {
     }
 }
 
-public struct GetPipelineChangeProgressInput: Swift.Equatable {
+public struct GetPipelineChangeProgressInput {
     /// The name of the pipeline.
     /// This member is required.
     public var pipelineName: Swift.String?
@@ -820,7 +820,7 @@ public struct GetPipelineChangeProgressInput: Swift.Equatable {
     }
 }
 
-struct GetPipelineChangeProgressInputBody: Swift.Equatable {
+struct GetPipelineChangeProgressInputBody {
 }
 
 extension GetPipelineChangeProgressInputBody: Swift.Decodable {
@@ -841,7 +841,7 @@ extension GetPipelineChangeProgressOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPipelineChangeProgressOutput: Swift.Equatable {
+public struct GetPipelineChangeProgressOutput {
     /// The current status of the change happening on the pipeline.
     public var changeProgressStatuses: [OSISClientTypes.ChangeProgressStatus]?
 
@@ -853,7 +853,7 @@ public struct GetPipelineChangeProgressOutput: Swift.Equatable {
     }
 }
 
-struct GetPipelineChangeProgressOutputBody: Swift.Equatable {
+struct GetPipelineChangeProgressOutputBody {
     let changeProgressStatuses: [OSISClientTypes.ChangeProgressStatus]?
 }
 
@@ -902,7 +902,7 @@ extension GetPipelineInput {
     }
 }
 
-public struct GetPipelineInput: Swift.Equatable {
+public struct GetPipelineInput {
     /// The name of the pipeline to get information about.
     /// This member is required.
     public var pipelineName: Swift.String?
@@ -915,7 +915,7 @@ public struct GetPipelineInput: Swift.Equatable {
     }
 }
 
-struct GetPipelineInputBody: Swift.Equatable {
+struct GetPipelineInputBody {
 }
 
 extension GetPipelineInputBody: Swift.Decodable {
@@ -936,7 +936,7 @@ extension GetPipelineOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPipelineOutput: Swift.Equatable {
+public struct GetPipelineOutput {
     /// Detailed information about the requested pipeline.
     public var pipeline: OSISClientTypes.Pipeline?
 
@@ -948,7 +948,7 @@ public struct GetPipelineOutput: Swift.Equatable {
     }
 }
 
-struct GetPipelineOutputBody: Swift.Equatable {
+struct GetPipelineOutputBody {
     let pipeline: OSISClientTypes.Pipeline?
 }
 
@@ -1017,7 +1017,7 @@ public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct InternalExceptionBody: Swift.Equatable {
+struct InternalExceptionBody {
     let message: Swift.String?
 }
 
@@ -1072,7 +1072,7 @@ public struct InvalidPaginationTokenException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct InvalidPaginationTokenExceptionBody: Swift.Equatable {
+struct InvalidPaginationTokenExceptionBody {
     let message: Swift.String?
 }
 
@@ -1127,7 +1127,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -1150,12 +1150,12 @@ extension ListPipelineBlueprintsInput {
     }
 }
 
-public struct ListPipelineBlueprintsInput: Swift.Equatable {
+public struct ListPipelineBlueprintsInput {
 
     public init() { }
 }
 
-struct ListPipelineBlueprintsInputBody: Swift.Equatable {
+struct ListPipelineBlueprintsInputBody {
 }
 
 extension ListPipelineBlueprintsInputBody: Swift.Decodable {
@@ -1176,7 +1176,7 @@ extension ListPipelineBlueprintsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPipelineBlueprintsOutput: Swift.Equatable {
+public struct ListPipelineBlueprintsOutput {
     /// A list of available blueprints for Data Prepper.
     public var blueprints: [OSISClientTypes.PipelineBlueprintSummary]?
 
@@ -1188,7 +1188,7 @@ public struct ListPipelineBlueprintsOutput: Swift.Equatable {
     }
 }
 
-struct ListPipelineBlueprintsOutputBody: Swift.Equatable {
+struct ListPipelineBlueprintsOutputBody {
     let blueprints: [OSISClientTypes.PipelineBlueprintSummary]?
 }
 
@@ -1250,7 +1250,7 @@ extension ListPipelinesInput {
     }
 }
 
-public struct ListPipelinesInput: Swift.Equatable {
+public struct ListPipelinesInput {
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
     public var maxResults: Swift.Int?
     /// If your initial ListPipelines operation returns a nextToken, you can include the returned nextToken in subsequent ListPipelines operations, which returns results in the next page.
@@ -1266,7 +1266,7 @@ public struct ListPipelinesInput: Swift.Equatable {
     }
 }
 
-struct ListPipelinesInputBody: Swift.Equatable {
+struct ListPipelinesInputBody {
 }
 
 extension ListPipelinesInputBody: Swift.Decodable {
@@ -1289,7 +1289,7 @@ extension ListPipelinesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPipelinesOutput: Swift.Equatable {
+public struct ListPipelinesOutput {
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
     /// A list of all existing Data Prepper pipelines.
@@ -1305,7 +1305,7 @@ public struct ListPipelinesOutput: Swift.Equatable {
     }
 }
 
-struct ListPipelinesOutputBody: Swift.Equatable {
+struct ListPipelinesOutputBody {
     let nextToken: Swift.String?
     let pipelines: [OSISClientTypes.PipelineSummary]?
 }
@@ -1369,7 +1369,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the pipeline to retrieve tags for.
     /// This member is required.
     public var arn: Swift.String?
@@ -1382,7 +1382,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -1403,7 +1403,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// A list of tags associated with the given pipeline.
     public var tags: [OSISClientTypes.Tag]?
 
@@ -1415,7 +1415,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [OSISClientTypes.Tag]?
 }
 
@@ -1481,7 +1481,7 @@ extension OSISClientTypes.LogPublishingOptions: Swift.Codable {
 
 extension OSISClientTypes {
     /// Container for the values required to configure logging for the pipeline. If you don't specify these values, OpenSearch Ingestion will not publish logs from your application to CloudWatch Logs.
-    public struct LogPublishingOptions: Swift.Equatable {
+    public struct LogPublishingOptions {
         /// The destination for OpenSearch Ingestion logs sent to Amazon CloudWatch Logs. This parameter is required if IsLoggingEnabled is set to true.
         public var cloudWatchLogDestination: OSISClientTypes.CloudWatchLogDestination?
         /// Whether logs should be published.
@@ -1660,7 +1660,7 @@ extension OSISClientTypes.Pipeline: Swift.Codable {
 
 extension OSISClientTypes {
     /// Information about an existing OpenSearch Ingestion pipeline.
-    public struct Pipeline: Swift.Equatable {
+    public struct Pipeline {
         /// Options that specify the configuration of a persistent buffer. To configure how OpenSearch Ingestion encrypts this data, set the EncryptionAtRestOptions.
         public var bufferOptions: OSISClientTypes.BufferOptions?
         /// The date and time when the pipeline was created.
@@ -1761,7 +1761,7 @@ extension OSISClientTypes.PipelineBlueprint: Swift.Codable {
 
 extension OSISClientTypes {
     /// Container for information about an OpenSearch Ingestion blueprint.
-    public struct PipelineBlueprint: Swift.Equatable {
+    public struct PipelineBlueprint {
         /// The name of the blueprint.
         public var blueprintName: Swift.String?
         /// The YAML configuration of the blueprint.
@@ -1800,7 +1800,7 @@ extension OSISClientTypes.PipelineBlueprintSummary: Swift.Codable {
 
 extension OSISClientTypes {
     /// A summary of an OpenSearch Ingestion blueprint.
-    public struct PipelineBlueprintSummary: Swift.Equatable {
+    public struct PipelineBlueprintSummary {
         /// The name of the blueprint.
         public var blueprintName: Swift.String?
 
@@ -1891,7 +1891,7 @@ extension OSISClientTypes.PipelineStatusReason: Swift.Codable {
 
 extension OSISClientTypes {
     /// Information about a pipeline's current status.
-    public struct PipelineStatusReason: Swift.Equatable {
+    public struct PipelineStatusReason {
         /// A description of why a pipeline has a certain status.
         public var description: Swift.String?
 
@@ -1986,7 +1986,7 @@ extension OSISClientTypes.PipelineSummary: Swift.Codable {
 
 extension OSISClientTypes {
     /// Summary information for an OpenSearch Ingestion pipeline.
-    public struct PipelineSummary: Swift.Equatable {
+    public struct PipelineSummary {
         /// The date and time when the pipeline was created.
         public var createdAt: ClientRuntime.Date?
         /// The date and time when the pipeline was last updated.
@@ -2071,7 +2071,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct ResourceAlreadyExistsExceptionBody: Swift.Equatable {
+struct ResourceAlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -2126,7 +2126,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -2169,7 +2169,7 @@ extension OSISClientTypes.ServiceVpcEndpoint: Swift.Codable {
 
 extension OSISClientTypes {
     /// A container for information about VPC endpoints that were created to other services
-    public struct ServiceVpcEndpoint: Swift.Equatable {
+    public struct ServiceVpcEndpoint {
         /// The name of the service for which a VPC endpoint was created.
         public var serviceName: OSISClientTypes.VpcEndpointServiceName?
         /// The ID of the VPC endpoint that was created.
@@ -2197,7 +2197,7 @@ extension StartPipelineInput {
     }
 }
 
-public struct StartPipelineInput: Swift.Equatable {
+public struct StartPipelineInput {
     /// The name of the pipeline to start.
     /// This member is required.
     public var pipelineName: Swift.String?
@@ -2210,7 +2210,7 @@ public struct StartPipelineInput: Swift.Equatable {
     }
 }
 
-struct StartPipelineInputBody: Swift.Equatable {
+struct StartPipelineInputBody {
 }
 
 extension StartPipelineInputBody: Swift.Decodable {
@@ -2231,7 +2231,7 @@ extension StartPipelineOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartPipelineOutput: Swift.Equatable {
+public struct StartPipelineOutput {
     /// Information about an existing OpenSearch Ingestion pipeline.
     public var pipeline: OSISClientTypes.Pipeline?
 
@@ -2243,7 +2243,7 @@ public struct StartPipelineOutput: Swift.Equatable {
     }
 }
 
-struct StartPipelineOutputBody: Swift.Equatable {
+struct StartPipelineOutputBody {
     let pipeline: OSISClientTypes.Pipeline?
 }
 
@@ -2284,7 +2284,7 @@ extension StopPipelineInput {
     }
 }
 
-public struct StopPipelineInput: Swift.Equatable {
+public struct StopPipelineInput {
     /// The name of the pipeline to stop.
     /// This member is required.
     public var pipelineName: Swift.String?
@@ -2297,7 +2297,7 @@ public struct StopPipelineInput: Swift.Equatable {
     }
 }
 
-struct StopPipelineInputBody: Swift.Equatable {
+struct StopPipelineInputBody {
 }
 
 extension StopPipelineInputBody: Swift.Decodable {
@@ -2318,7 +2318,7 @@ extension StopPipelineOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopPipelineOutput: Swift.Equatable {
+public struct StopPipelineOutput {
     /// Information about an existing OpenSearch Ingestion pipeline.
     public var pipeline: OSISClientTypes.Pipeline?
 
@@ -2330,7 +2330,7 @@ public struct StopPipelineOutput: Swift.Equatable {
     }
 }
 
-struct StopPipelineOutputBody: Swift.Equatable {
+struct StopPipelineOutputBody {
     let pipeline: OSISClientTypes.Pipeline?
 }
 
@@ -2388,7 +2388,7 @@ extension OSISClientTypes.Tag: Swift.Codable {
 
 extension OSISClientTypes {
     /// A tag (key-value pair) for an OpenSearch Ingestion pipeline.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The tag key. Tag keys must be unique for the pipeline to which they are attached.
         /// This member is required.
         public var key: Swift.String?
@@ -2445,7 +2445,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the pipeline to tag.
     /// This member is required.
     public var arn: Swift.String?
@@ -2463,7 +2463,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [OSISClientTypes.Tag]?
 }
 
@@ -2493,7 +2493,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -2550,7 +2550,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the pipeline to remove tags from.
     /// This member is required.
     public var arn: Swift.String?
@@ -2568,7 +2568,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let tagKeys: [Swift.String]?
 }
 
@@ -2598,7 +2598,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -2660,7 +2660,7 @@ extension UpdatePipelineInput {
     }
 }
 
-public struct UpdatePipelineInput: Swift.Equatable {
+public struct UpdatePipelineInput {
     /// Key-value pairs to configure persistent buffering for the pipeline.
     public var bufferOptions: OSISClientTypes.BufferOptions?
     /// Key-value pairs to configure encryption for data that is written to a persistent buffer.
@@ -2697,7 +2697,7 @@ public struct UpdatePipelineInput: Swift.Equatable {
     }
 }
 
-struct UpdatePipelineInputBody: Swift.Equatable {
+struct UpdatePipelineInputBody {
     let minUnits: Swift.Int?
     let maxUnits: Swift.Int?
     let pipelineConfigurationBody: Swift.String?
@@ -2745,7 +2745,7 @@ extension UpdatePipelineOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePipelineOutput: Swift.Equatable {
+public struct UpdatePipelineOutput {
     /// Container for information about the updated pipeline.
     public var pipeline: OSISClientTypes.Pipeline?
 
@@ -2757,7 +2757,7 @@ public struct UpdatePipelineOutput: Swift.Equatable {
     }
 }
 
-struct UpdatePipelineOutputBody: Swift.Equatable {
+struct UpdatePipelineOutputBody {
     let pipeline: OSISClientTypes.Pipeline?
 }
 
@@ -2808,7 +2808,7 @@ extension ValidatePipelineInput {
     }
 }
 
-public struct ValidatePipelineInput: Swift.Equatable {
+public struct ValidatePipelineInput {
     /// The pipeline configuration in YAML format. The command accepts the pipeline configuration as a string or within a .yaml file. If you provide the configuration as a string, each new line must be escaped with \n.
     /// This member is required.
     public var pipelineConfigurationBody: Swift.String?
@@ -2821,7 +2821,7 @@ public struct ValidatePipelineInput: Swift.Equatable {
     }
 }
 
-struct ValidatePipelineInputBody: Swift.Equatable {
+struct ValidatePipelineInputBody {
     let pipelineConfigurationBody: Swift.String?
 }
 
@@ -2851,7 +2851,7 @@ extension ValidatePipelineOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ValidatePipelineOutput: Swift.Equatable {
+public struct ValidatePipelineOutput {
     /// A list of errors if the configuration is invalid.
     public var errors: [OSISClientTypes.ValidationMessage]?
     /// A boolean indicating whether or not the pipeline configuration is valid.
@@ -2867,7 +2867,7 @@ public struct ValidatePipelineOutput: Swift.Equatable {
     }
 }
 
-struct ValidatePipelineOutputBody: Swift.Equatable {
+struct ValidatePipelineOutputBody {
     let isValid: Swift.Bool?
     let errors: [OSISClientTypes.ValidationMessage]?
 }
@@ -2948,7 +2948,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 
@@ -2985,7 +2985,7 @@ extension OSISClientTypes.ValidationMessage: Swift.Codable {
 
 extension OSISClientTypes {
     /// A validation message associated with a ValidatePipeline request in OpenSearch Ingestion.
-    public struct ValidationMessage: Swift.Equatable {
+    public struct ValidationMessage {
         /// The validation message.
         public var message: Swift.String?
 
@@ -3032,7 +3032,7 @@ extension OSISClientTypes.VpcEndpoint: Swift.Codable {
 
 extension OSISClientTypes {
     /// An OpenSearch Ingestion-managed VPC endpoint that will access one or more pipelines.
-    public struct VpcEndpoint: Swift.Equatable {
+    public struct VpcEndpoint {
         /// The unique identifier of the endpoint.
         public var vpcEndpointId: Swift.String?
         /// The ID for your VPC. Amazon Web Services PrivateLink generates this value when you create a VPC.
@@ -3134,7 +3134,7 @@ extension OSISClientTypes.VpcOptions: Swift.Codable {
 
 extension OSISClientTypes {
     /// Options that specify the subnets and security groups for an OpenSearch Ingestion VPC endpoint.
-    public struct VpcOptions: Swift.Equatable {
+    public struct VpcOptions {
         /// A list of security groups associated with the VPC endpoint.
         public var securityGroupIds: [Swift.String]?
         /// A list of subnet IDs associated with the VPC endpoint.

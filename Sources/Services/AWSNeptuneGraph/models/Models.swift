@@ -43,7 +43,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -69,7 +69,7 @@ extension CancelImportTaskInput {
     }
 }
 
-public struct CancelImportTaskInput: Swift.Equatable {
+public struct CancelImportTaskInput {
     /// The unique identifier of the import task.
     /// This member is required.
     public var taskIdentifier: Swift.String?
@@ -82,7 +82,7 @@ public struct CancelImportTaskInput: Swift.Equatable {
     }
 }
 
-struct CancelImportTaskInputBody: Swift.Equatable {
+struct CancelImportTaskInputBody {
 }
 
 extension CancelImportTaskInputBody: Swift.Decodable {
@@ -113,7 +113,7 @@ extension CancelImportTaskOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelImportTaskOutput: Swift.Equatable {
+public struct CancelImportTaskOutput {
     /// Specifies the format of S3 data to be imported. Valid values are CSV, which identifies the [Gremlin CSV format](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format-gremlin.html) or OPENCYPHER, which identies the [openCypher load format](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format-opencypher.html).
     public var format: NeptuneGraphClientTypes.Format?
     /// The unique identifier of the Neptune Analytics graph.
@@ -149,7 +149,7 @@ public struct CancelImportTaskOutput: Swift.Equatable {
     }
 }
 
-struct CancelImportTaskOutputBody: Swift.Equatable {
+struct CancelImportTaskOutputBody {
     let graphId: Swift.String?
     let taskId: Swift.String?
     let source: Swift.String?
@@ -221,7 +221,7 @@ extension CancelQueryInput {
     }
 }
 
-public struct CancelQueryInput: Swift.Equatable {
+public struct CancelQueryInput {
     /// The unique identifier of the Neptune Analytics graph.
     /// This member is required.
     public var graphIdentifier: Swift.String?
@@ -239,7 +239,7 @@ public struct CancelQueryInput: Swift.Equatable {
     }
 }
 
-struct CancelQueryInputBody: Swift.Equatable {
+struct CancelQueryInputBody {
 }
 
 extension CancelQueryInputBody: Swift.Decodable {
@@ -253,7 +253,7 @@ extension CancelQueryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelQueryOutput: Swift.Equatable {
+public struct CancelQueryOutput {
 
     public init() { }
 }
@@ -320,7 +320,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let reason: NeptuneGraphClientTypes.ConflictExceptionReason?
 }
@@ -420,7 +420,7 @@ extension CreateGraphInput {
     }
 }
 
-public struct CreateGraphInput: Swift.Equatable {
+public struct CreateGraphInput {
     /// Indicates whether or not to enable deletion protection on the graph. The graph can’t be deleted when deletion protection is enabled. (true or false).
     public var deletionProtection: Swift.Bool?
     /// A name for the new Neptune Analytics graph to be created. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens.
@@ -462,7 +462,7 @@ public struct CreateGraphInput: Swift.Equatable {
     }
 }
 
-struct CreateGraphInputBody: Swift.Equatable {
+struct CreateGraphInputBody {
     let graphName: Swift.String?
     let tags: [Swift.String:Swift.String]?
     let publicConnectivity: Swift.Bool?
@@ -555,7 +555,7 @@ extension CreateGraphOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateGraphOutput: Swift.Equatable {
+public struct CreateGraphOutput {
     /// The ARN of the graph.
     /// This member is required.
     public var arn: Swift.String?
@@ -626,7 +626,7 @@ public struct CreateGraphOutput: Swift.Equatable {
     }
 }
 
-struct CreateGraphOutputBody: Swift.Equatable {
+struct CreateGraphOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let arn: Swift.String?
@@ -744,7 +744,7 @@ extension CreateGraphSnapshotInput {
     }
 }
 
-public struct CreateGraphSnapshotInput: Swift.Equatable {
+public struct CreateGraphSnapshotInput {
     /// The unique identifier of the Neptune Analytics graph.
     /// This member is required.
     public var graphIdentifier: Swift.String?
@@ -766,7 +766,7 @@ public struct CreateGraphSnapshotInput: Swift.Equatable {
     }
 }
 
-struct CreateGraphSnapshotInputBody: Swift.Equatable {
+struct CreateGraphSnapshotInputBody {
     let graphIdentifier: Swift.String?
     let snapshotName: Swift.String?
     let tags: [Swift.String:Swift.String]?
@@ -823,7 +823,7 @@ extension CreateGraphSnapshotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateGraphSnapshotOutput: Swift.Equatable {
+public struct CreateGraphSnapshotOutput {
     /// The ARN of the snapshot created.
     /// This member is required.
     public var arn: Swift.String?
@@ -862,7 +862,7 @@ public struct CreateGraphSnapshotOutput: Swift.Equatable {
     }
 }
 
-struct CreateGraphSnapshotOutputBody: Swift.Equatable {
+struct CreateGraphSnapshotOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let arn: Swift.String?
@@ -993,7 +993,7 @@ extension CreateGraphUsingImportTaskInput {
     }
 }
 
-public struct CreateGraphUsingImportTaskInput: Swift.Equatable {
+public struct CreateGraphUsingImportTaskInput {
     /// Indicates whether or not to enable deletion protection on the graph. The graph can’t be deleted when deletion protection is enabled. (true or false).
     public var deletionProtection: Swift.Bool?
     /// If set to true, the task halts when an import error is encountered. If set to false, the task skips the data that caused the error and continues if possible.
@@ -1060,7 +1060,7 @@ public struct CreateGraphUsingImportTaskInput: Swift.Equatable {
     }
 }
 
-struct CreateGraphUsingImportTaskInputBody: Swift.Equatable {
+struct CreateGraphUsingImportTaskInputBody {
     let graphName: Swift.String?
     let tags: [Swift.String:Swift.String]?
     let publicConnectivity: Swift.Bool?
@@ -1161,7 +1161,7 @@ extension CreateGraphUsingImportTaskOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateGraphUsingImportTaskOutput: Swift.Equatable {
+public struct CreateGraphUsingImportTaskOutput {
     /// Specifies the format of S3 data to be imported. Valid values are CSV, which identifies the [Gremlin CSV format](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format-gremlin.html) or OPENCYPHER, which identies the [openCypher load format](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format-opencypher.html).
     public var format: NeptuneGraphClientTypes.Format?
     /// The unique identifier of the Neptune Analytics graph.
@@ -1201,7 +1201,7 @@ public struct CreateGraphUsingImportTaskOutput: Swift.Equatable {
     }
 }
 
-struct CreateGraphUsingImportTaskOutputBody: Swift.Equatable {
+struct CreateGraphUsingImportTaskOutputBody {
     let graphId: Swift.String?
     let taskId: Swift.String?
     let source: Swift.String?
@@ -1293,7 +1293,7 @@ extension CreatePrivateGraphEndpointInput {
     }
 }
 
-public struct CreatePrivateGraphEndpointInput: Swift.Equatable {
+public struct CreatePrivateGraphEndpointInput {
     /// The unique identifier of the Neptune Analytics graph.
     /// This member is required.
     public var graphIdentifier: Swift.String?
@@ -1318,7 +1318,7 @@ public struct CreatePrivateGraphEndpointInput: Swift.Equatable {
     }
 }
 
-struct CreatePrivateGraphEndpointInputBody: Swift.Equatable {
+struct CreatePrivateGraphEndpointInputBody {
     let vpcId: Swift.String?
     let subnetIds: [Swift.String]?
     let vpcSecurityGroupIds: [Swift.String]?
@@ -1378,7 +1378,7 @@ extension CreatePrivateGraphEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePrivateGraphEndpointOutput: Swift.Equatable {
+public struct CreatePrivateGraphEndpointOutput {
     /// Status of the private graph endpoint.
     /// This member is required.
     public var status: NeptuneGraphClientTypes.PrivateGraphEndpointStatus?
@@ -1405,7 +1405,7 @@ public struct CreatePrivateGraphEndpointOutput: Swift.Equatable {
     }
 }
 
-struct CreatePrivateGraphEndpointOutputBody: Swift.Equatable {
+struct CreatePrivateGraphEndpointOutputBody {
     let vpcId: Swift.String?
     let subnetIds: [Swift.String]?
     let status: NeptuneGraphClientTypes.PrivateGraphEndpointStatus?
@@ -1482,7 +1482,7 @@ extension DeleteGraphInput {
     }
 }
 
-public struct DeleteGraphInput: Swift.Equatable {
+public struct DeleteGraphInput {
     /// The unique identifier of the Neptune Analytics graph.
     /// This member is required.
     public var graphIdentifier: Swift.String?
@@ -1500,7 +1500,7 @@ public struct DeleteGraphInput: Swift.Equatable {
     }
 }
 
-struct DeleteGraphInputBody: Swift.Equatable {
+struct DeleteGraphInputBody {
 }
 
 extension DeleteGraphInputBody: Swift.Decodable {
@@ -1549,7 +1549,7 @@ extension DeleteGraphOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteGraphOutput: Swift.Equatable {
+public struct DeleteGraphOutput {
     /// The ARN associated with the graph.
     /// This member is required.
     public var arn: Swift.String?
@@ -1620,7 +1620,7 @@ public struct DeleteGraphOutput: Swift.Equatable {
     }
 }
 
-struct DeleteGraphOutputBody: Swift.Equatable {
+struct DeleteGraphOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let arn: Swift.String?
@@ -1717,7 +1717,7 @@ extension DeleteGraphSnapshotInput {
     }
 }
 
-public struct DeleteGraphSnapshotInput: Swift.Equatable {
+public struct DeleteGraphSnapshotInput {
     /// ID of the graph snapshot to be deleted.
     /// This member is required.
     public var snapshotIdentifier: Swift.String?
@@ -1730,7 +1730,7 @@ public struct DeleteGraphSnapshotInput: Swift.Equatable {
     }
 }
 
-struct DeleteGraphSnapshotInputBody: Swift.Equatable {
+struct DeleteGraphSnapshotInputBody {
 }
 
 extension DeleteGraphSnapshotInputBody: Swift.Decodable {
@@ -1763,7 +1763,7 @@ extension DeleteGraphSnapshotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteGraphSnapshotOutput: Swift.Equatable {
+public struct DeleteGraphSnapshotOutput {
     /// The ARN of the graph snapshot.
     /// This member is required.
     public var arn: Swift.String?
@@ -1802,7 +1802,7 @@ public struct DeleteGraphSnapshotOutput: Swift.Equatable {
     }
 }
 
-struct DeleteGraphSnapshotOutputBody: Swift.Equatable {
+struct DeleteGraphSnapshotOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let arn: Swift.String?
@@ -1870,7 +1870,7 @@ extension DeletePrivateGraphEndpointInput {
     }
 }
 
-public struct DeletePrivateGraphEndpointInput: Swift.Equatable {
+public struct DeletePrivateGraphEndpointInput {
     /// The unique identifier of the Neptune Analytics graph.
     /// This member is required.
     public var graphIdentifier: Swift.String?
@@ -1888,7 +1888,7 @@ public struct DeletePrivateGraphEndpointInput: Swift.Equatable {
     }
 }
 
-struct DeletePrivateGraphEndpointInputBody: Swift.Equatable {
+struct DeletePrivateGraphEndpointInputBody {
 }
 
 extension DeletePrivateGraphEndpointInputBody: Swift.Decodable {
@@ -1915,7 +1915,7 @@ extension DeletePrivateGraphEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePrivateGraphEndpointOutput: Swift.Equatable {
+public struct DeletePrivateGraphEndpointOutput {
     /// The status of the delete operation.
     /// This member is required.
     public var status: NeptuneGraphClientTypes.PrivateGraphEndpointStatus?
@@ -1942,7 +1942,7 @@ public struct DeletePrivateGraphEndpointOutput: Swift.Equatable {
     }
 }
 
-struct DeletePrivateGraphEndpointOutputBody: Swift.Equatable {
+struct DeletePrivateGraphEndpointOutputBody {
     let vpcId: Swift.String?
     let subnetIds: [Swift.String]?
     let status: NeptuneGraphClientTypes.PrivateGraphEndpointStatus?
@@ -2033,7 +2033,7 @@ extension NeptuneGraphClientTypes.EdgeStructure: Swift.Codable {
 
 extension NeptuneGraphClientTypes {
     /// Contains information about an edge in a Neptune Analytics graph.
-    public struct EdgeStructure: Swift.Equatable {
+    public struct EdgeStructure {
         /// The number of instances of the edge in the graph.
         public var count: Swift.Int?
         /// A list of the properties associated with the edge.
@@ -2105,7 +2105,7 @@ extension ExecuteQueryInput {
     }
 }
 
-public struct ExecuteQueryInput: Swift.Equatable {
+public struct ExecuteQueryInput {
     /// The explain mode parameter returns a query explain instead of the actual query results. A query explain can be used to gather insights about the query execution such as planning decisions, time spent on each operator, solutions flowing etc.
     public var explainMode: NeptuneGraphClientTypes.ExplainMode?
     /// The unique identifier of the Neptune Analytics graph.
@@ -2144,7 +2144,7 @@ public struct ExecuteQueryInput: Swift.Equatable {
     }
 }
 
-struct ExecuteQueryInputBody: Swift.Equatable {
+struct ExecuteQueryInputBody {
     let queryString: Swift.String?
     let language: NeptuneGraphClientTypes.QueryLanguage?
     let parameters: [Swift.String:ClientRuntime.Document]?
@@ -2202,7 +2202,7 @@ extension ExecuteQueryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ExecuteQueryOutput: Swift.Equatable {
+public struct ExecuteQueryOutput {
     /// The query results.
     /// This member is required.
     public var payload: ClientRuntime.ByteStream?
@@ -2215,7 +2215,7 @@ public struct ExecuteQueryOutput: Swift.Equatable {
     }
 }
 
-struct ExecuteQueryOutputBody: Swift.Equatable {
+struct ExecuteQueryOutputBody {
     let payload: ClientRuntime.ByteStream?
 }
 
@@ -2321,7 +2321,7 @@ extension GetGraphInput {
     }
 }
 
-public struct GetGraphInput: Swift.Equatable {
+public struct GetGraphInput {
     /// The unique identifier of the Neptune Analytics graph.
     /// This member is required.
     public var graphIdentifier: Swift.String?
@@ -2334,7 +2334,7 @@ public struct GetGraphInput: Swift.Equatable {
     }
 }
 
-struct GetGraphInputBody: Swift.Equatable {
+struct GetGraphInputBody {
 }
 
 extension GetGraphInputBody: Swift.Decodable {
@@ -2383,7 +2383,7 @@ extension GetGraphOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetGraphOutput: Swift.Equatable {
+public struct GetGraphOutput {
     /// The ARN associated with the graph.
     /// This member is required.
     public var arn: Swift.String?
@@ -2454,7 +2454,7 @@ public struct GetGraphOutput: Swift.Equatable {
     }
 }
 
-struct GetGraphOutputBody: Swift.Equatable {
+struct GetGraphOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let arn: Swift.String?
@@ -2550,7 +2550,7 @@ extension GetGraphSnapshotInput {
     }
 }
 
-public struct GetGraphSnapshotInput: Swift.Equatable {
+public struct GetGraphSnapshotInput {
     /// The ID of the snapshot to retrieve.
     /// This member is required.
     public var snapshotIdentifier: Swift.String?
@@ -2563,7 +2563,7 @@ public struct GetGraphSnapshotInput: Swift.Equatable {
     }
 }
 
-struct GetGraphSnapshotInputBody: Swift.Equatable {
+struct GetGraphSnapshotInputBody {
 }
 
 extension GetGraphSnapshotInputBody: Swift.Decodable {
@@ -2596,7 +2596,7 @@ extension GetGraphSnapshotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetGraphSnapshotOutput: Swift.Equatable {
+public struct GetGraphSnapshotOutput {
     /// The ARN of the graph snapshot.
     /// This member is required.
     public var arn: Swift.String?
@@ -2635,7 +2635,7 @@ public struct GetGraphSnapshotOutput: Swift.Equatable {
     }
 }
 
-struct GetGraphSnapshotOutputBody: Swift.Equatable {
+struct GetGraphSnapshotOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let arn: Swift.String?
@@ -2719,7 +2719,7 @@ extension GetGraphSummaryInput {
     }
 }
 
-public struct GetGraphSummaryInput: Swift.Equatable {
+public struct GetGraphSummaryInput {
     /// The unique identifier of the Neptune Analytics graph.
     /// This member is required.
     public var graphIdentifier: Swift.String?
@@ -2736,7 +2736,7 @@ public struct GetGraphSummaryInput: Swift.Equatable {
     }
 }
 
-struct GetGraphSummaryInputBody: Swift.Equatable {
+struct GetGraphSummaryInputBody {
 }
 
 extension GetGraphSummaryInputBody: Swift.Decodable {
@@ -2761,7 +2761,7 @@ extension GetGraphSummaryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetGraphSummaryOutput: Swift.Equatable {
+public struct GetGraphSummaryOutput {
     /// The graph summary.
     public var graphSummary: NeptuneGraphClientTypes.GraphDataSummary?
     /// The timestamp, in ISO 8601 format, of the time at which Neptune Analytics last computed statistics.
@@ -2781,7 +2781,7 @@ public struct GetGraphSummaryOutput: Swift.Equatable {
     }
 }
 
-struct GetGraphSummaryOutputBody: Swift.Equatable {
+struct GetGraphSummaryOutputBody {
     let version: Swift.String?
     let lastStatisticsComputationTime: ClientRuntime.Date?
     let graphSummary: NeptuneGraphClientTypes.GraphDataSummary?
@@ -2830,7 +2830,7 @@ extension GetImportTaskInput {
     }
 }
 
-public struct GetImportTaskInput: Swift.Equatable {
+public struct GetImportTaskInput {
     /// The unique identifier of the import task.
     /// This member is required.
     public var taskIdentifier: Swift.String?
@@ -2843,7 +2843,7 @@ public struct GetImportTaskInput: Swift.Equatable {
     }
 }
 
-struct GetImportTaskInputBody: Swift.Equatable {
+struct GetImportTaskInputBody {
 }
 
 extension GetImportTaskInputBody: Swift.Decodable {
@@ -2882,7 +2882,7 @@ extension GetImportTaskOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetImportTaskOutput: Swift.Equatable {
+public struct GetImportTaskOutput {
     /// The number of the current attempt to execute the import task.
     public var attemptNumber: Swift.Int?
     /// Specifies the format of S3 data to be imported. Valid values are CSV, which identifies the [Gremlin CSV format](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format-gremlin.html) or OPENCYPHER, which identies the [openCypher load format](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format-opencypher.html).
@@ -2954,7 +2954,7 @@ public struct GetImportTaskOutput: Swift.Equatable {
     }
 }
 
-struct GetImportTaskOutputBody: Swift.Equatable {
+struct GetImportTaskOutputBody {
     let graphId: Swift.String?
     let taskId: Swift.String?
     let source: Swift.String?
@@ -3033,7 +3033,7 @@ extension GetPrivateGraphEndpointInput {
     }
 }
 
-public struct GetPrivateGraphEndpointInput: Swift.Equatable {
+public struct GetPrivateGraphEndpointInput {
     /// The unique identifier of the Neptune Analytics graph.
     /// This member is required.
     public var graphIdentifier: Swift.String?
@@ -3051,7 +3051,7 @@ public struct GetPrivateGraphEndpointInput: Swift.Equatable {
     }
 }
 
-struct GetPrivateGraphEndpointInputBody: Swift.Equatable {
+struct GetPrivateGraphEndpointInputBody {
 }
 
 extension GetPrivateGraphEndpointInputBody: Swift.Decodable {
@@ -3078,7 +3078,7 @@ extension GetPrivateGraphEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPrivateGraphEndpointOutput: Swift.Equatable {
+public struct GetPrivateGraphEndpointOutput {
     /// The current status of the private endpoint.
     /// This member is required.
     public var status: NeptuneGraphClientTypes.PrivateGraphEndpointStatus?
@@ -3105,7 +3105,7 @@ public struct GetPrivateGraphEndpointOutput: Swift.Equatable {
     }
 }
 
-struct GetPrivateGraphEndpointOutputBody: Swift.Equatable {
+struct GetPrivateGraphEndpointOutputBody {
     let vpcId: Swift.String?
     let subnetIds: [Swift.String]?
     let status: NeptuneGraphClientTypes.PrivateGraphEndpointStatus?
@@ -3177,7 +3177,7 @@ extension GetQueryInput {
     }
 }
 
-public struct GetQueryInput: Swift.Equatable {
+public struct GetQueryInput {
     /// The unique identifier of the Neptune Analytics graph.
     /// This member is required.
     public var graphIdentifier: Swift.String?
@@ -3195,7 +3195,7 @@ public struct GetQueryInput: Swift.Equatable {
     }
 }
 
-struct GetQueryInputBody: Swift.Equatable {
+struct GetQueryInputBody {
 }
 
 extension GetQueryInputBody: Swift.Decodable {
@@ -3224,7 +3224,7 @@ extension GetQueryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetQueryOutput: Swift.Equatable {
+public struct GetQueryOutput {
     /// The number of milliseconds the query has been running.
     public var elapsed: Swift.Int?
     /// The ID of the query in question.
@@ -3252,7 +3252,7 @@ public struct GetQueryOutput: Swift.Equatable {
     }
 }
 
-struct GetQueryOutputBody: Swift.Equatable {
+struct GetQueryOutputBody {
     let id: Swift.String?
     let queryString: Swift.String?
     let waited: Swift.Int?
@@ -3494,7 +3494,7 @@ extension NeptuneGraphClientTypes.GraphDataSummary: Swift.Codable {
 
 extension NeptuneGraphClientTypes {
     /// Summary information about the graph.
-    public struct GraphDataSummary: Swift.Equatable {
+    public struct GraphDataSummary {
         /// A list of the edge labels in the graph.
         public var edgeLabels: [Swift.String]?
         /// A list of the distinct edge properties in the graph, along with the count of edges where each property is used.
@@ -3617,7 +3617,7 @@ extension NeptuneGraphClientTypes.GraphSnapshotSummary: Swift.Codable {
 
 extension NeptuneGraphClientTypes {
     /// Details about a graph snapshot.
-    public struct GraphSnapshotSummary: Swift.Equatable {
+    public struct GraphSnapshotSummary {
         /// The ARN of the graph snapshot.
         /// This member is required.
         public var arn: Swift.String?
@@ -3783,7 +3783,7 @@ extension NeptuneGraphClientTypes.GraphSummary: Swift.Codable {
 
 extension NeptuneGraphClientTypes {
     /// Summary details about a graph.
-    public struct GraphSummary: Swift.Equatable {
+    public struct GraphSummary {
         /// The ARN associated with the graph.
         /// This member is required.
         public var arn: Swift.String?
@@ -3897,7 +3897,7 @@ extension NeptuneGraphClientTypes.ImportOptions: Swift.Codable {
 
 extension NeptuneGraphClientTypes {
     /// Options for how to perform an import.
-    public enum ImportOptions: Swift.Equatable {
+    public enum ImportOptions {
         /// Options for importing data from a Neptune database.
         case neptune(NeptuneGraphClientTypes.NeptuneImportOptions)
         case sdkUnknown(Swift.String)
@@ -3968,7 +3968,7 @@ extension NeptuneGraphClientTypes.ImportTaskDetails: Swift.Codable {
 
 extension NeptuneGraphClientTypes {
     /// Contains details about an import task.
-    public struct ImportTaskDetails: Swift.Equatable {
+    public struct ImportTaskDetails {
         /// The number of dictionary entries in the import task.
         /// This member is required.
         public var dictionaryEntryCount: Swift.Int?
@@ -4124,7 +4124,7 @@ extension NeptuneGraphClientTypes.ImportTaskSummary: Swift.Codable {
 
 extension NeptuneGraphClientTypes {
     /// Details about an import task.
-    public struct ImportTaskSummary: Swift.Equatable {
+    public struct ImportTaskSummary {
         /// Specifies the format of S3 data to be imported. Valid values are CSV, which identifies the [Gremlin CSV format](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format-gremlin.html) or OPENCYPHER, which identies the [openCypher load format](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format-opencypher.html).
         public var format: NeptuneGraphClientTypes.Format?
         /// The unique identifier of the Neptune Analytics graph.
@@ -4203,7 +4203,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -4246,7 +4246,7 @@ extension ListGraphSnapshotsInput {
     }
 }
 
-public struct ListGraphSnapshotsInput: Swift.Equatable {
+public struct ListGraphSnapshotsInput {
     /// The unique identifier of the Neptune Analytics graph.
     public var graphIdentifier: Swift.String?
     /// The total number of records to return in the command's output. If the total number of records available is more than the value specified, nextToken is provided in the command's output. To resume pagination, provide the nextToken output value in the nextToken argument of a subsequent command. Do not use the nextToken response element directly outside of the Amazon CLI.
@@ -4266,7 +4266,7 @@ public struct ListGraphSnapshotsInput: Swift.Equatable {
     }
 }
 
-struct ListGraphSnapshotsInputBody: Swift.Equatable {
+struct ListGraphSnapshotsInputBody {
 }
 
 extension ListGraphSnapshotsInputBody: Swift.Decodable {
@@ -4289,7 +4289,7 @@ extension ListGraphSnapshotsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListGraphSnapshotsOutput: Swift.Equatable {
+public struct ListGraphSnapshotsOutput {
     /// The requested list of snapshots.
     /// This member is required.
     public var graphSnapshots: [NeptuneGraphClientTypes.GraphSnapshotSummary]?
@@ -4306,7 +4306,7 @@ public struct ListGraphSnapshotsOutput: Swift.Equatable {
     }
 }
 
-struct ListGraphSnapshotsOutputBody: Swift.Equatable {
+struct ListGraphSnapshotsOutputBody {
     let graphSnapshots: [NeptuneGraphClientTypes.GraphSnapshotSummary]?
     let nextToken: Swift.String?
 }
@@ -4372,7 +4372,7 @@ extension ListGraphsInput {
     }
 }
 
-public struct ListGraphsInput: Swift.Equatable {
+public struct ListGraphsInput {
     /// The total number of records to return in the command's output. If the total number of records available is more than the value specified, nextToken is provided in the command's output. To resume pagination, provide the nextToken output value in the nextToken argument of a subsequent command. Do not use the nextToken response element directly outside of the Amazon CLI.
     public var maxResults: Swift.Int?
     /// Pagination token used to paginate output. When this value is provided as input, the service returns results from where the previous response left off. When this value is present in output, it indicates that there are more results to retrieve.
@@ -4388,7 +4388,7 @@ public struct ListGraphsInput: Swift.Equatable {
     }
 }
 
-struct ListGraphsInputBody: Swift.Equatable {
+struct ListGraphsInputBody {
 }
 
 extension ListGraphsInputBody: Swift.Decodable {
@@ -4411,7 +4411,7 @@ extension ListGraphsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListGraphsOutput: Swift.Equatable {
+public struct ListGraphsOutput {
     /// A list of the graphs.
     /// This member is required.
     public var graphs: [NeptuneGraphClientTypes.GraphSummary]?
@@ -4428,7 +4428,7 @@ public struct ListGraphsOutput: Swift.Equatable {
     }
 }
 
-struct ListGraphsOutputBody: Swift.Equatable {
+struct ListGraphsOutputBody {
     let graphs: [NeptuneGraphClientTypes.GraphSummary]?
     let nextToken: Swift.String?
 }
@@ -4493,7 +4493,7 @@ extension ListImportTasksInput {
     }
 }
 
-public struct ListImportTasksInput: Swift.Equatable {
+public struct ListImportTasksInput {
     /// The total number of records to return in the command's output. If the total number of records available is more than the value specified, nextToken is provided in the command's output. To resume pagination, provide the nextToken output value in the nextToken argument of a subsequent command. Do not use the nextToken response element directly outside of the Amazon CLI.
     public var maxResults: Swift.Int?
     /// Pagination token used to paginate output. When this value is provided as input, the service returns results from where the previous response left off. When this value is present in output, it indicates that there are more results to retrieve.
@@ -4509,7 +4509,7 @@ public struct ListImportTasksInput: Swift.Equatable {
     }
 }
 
-struct ListImportTasksInputBody: Swift.Equatable {
+struct ListImportTasksInputBody {
 }
 
 extension ListImportTasksInputBody: Swift.Decodable {
@@ -4532,7 +4532,7 @@ extension ListImportTasksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListImportTasksOutput: Swift.Equatable {
+public struct ListImportTasksOutput {
     /// Pagination token used to paginate output. When this value is provided as input, the service returns results from where the previous response left off. When this value is present in output, it indicates that there are more results to retrieve.
     public var nextToken: Swift.String?
     /// The requested list of import tasks.
@@ -4549,7 +4549,7 @@ public struct ListImportTasksOutput: Swift.Equatable {
     }
 }
 
-struct ListImportTasksOutputBody: Swift.Equatable {
+struct ListImportTasksOutputBody {
     let tasks: [NeptuneGraphClientTypes.ImportTaskSummary]?
     let nextToken: Swift.String?
 }
@@ -4618,7 +4618,7 @@ extension ListPrivateGraphEndpointsInput {
     }
 }
 
-public struct ListPrivateGraphEndpointsInput: Swift.Equatable {
+public struct ListPrivateGraphEndpointsInput {
     /// The unique identifier of the Neptune Analytics graph.
     /// This member is required.
     public var graphIdentifier: Swift.String?
@@ -4639,7 +4639,7 @@ public struct ListPrivateGraphEndpointsInput: Swift.Equatable {
     }
 }
 
-struct ListPrivateGraphEndpointsInputBody: Swift.Equatable {
+struct ListPrivateGraphEndpointsInputBody {
 }
 
 extension ListPrivateGraphEndpointsInputBody: Swift.Decodable {
@@ -4662,7 +4662,7 @@ extension ListPrivateGraphEndpointsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPrivateGraphEndpointsOutput: Swift.Equatable {
+public struct ListPrivateGraphEndpointsOutput {
     /// Pagination token used to paginate output. When this value is provided as input, the service returns results from where the previous response left off. When this value is present in output, it indicates that there are more results to retrieve.
     public var nextToken: Swift.String?
     /// A list of private endpoints for the specified Neptune Analytics graph.
@@ -4679,7 +4679,7 @@ public struct ListPrivateGraphEndpointsOutput: Swift.Equatable {
     }
 }
 
-struct ListPrivateGraphEndpointsOutputBody: Swift.Equatable {
+struct ListPrivateGraphEndpointsOutputBody {
     let privateGraphEndpoints: [NeptuneGraphClientTypes.PrivateGraphEndpointSummary]?
     let nextToken: Swift.String?
 }
@@ -4758,7 +4758,7 @@ extension ListQueriesInput {
     }
 }
 
-public struct ListQueriesInput: Swift.Equatable {
+public struct ListQueriesInput {
     /// The unique identifier of the Neptune Analytics graph.
     /// This member is required.
     public var graphIdentifier: Swift.String?
@@ -4780,7 +4780,7 @@ public struct ListQueriesInput: Swift.Equatable {
     }
 }
 
-struct ListQueriesInputBody: Swift.Equatable {
+struct ListQueriesInputBody {
 }
 
 extension ListQueriesInputBody: Swift.Decodable {
@@ -4801,7 +4801,7 @@ extension ListQueriesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListQueriesOutput: Swift.Equatable {
+public struct ListQueriesOutput {
     /// A list of current openCypher queries.
     /// This member is required.
     public var queries: [NeptuneGraphClientTypes.QuerySummary]?
@@ -4814,7 +4814,7 @@ public struct ListQueriesOutput: Swift.Equatable {
     }
 }
 
-struct ListQueriesOutputBody: Swift.Equatable {
+struct ListQueriesOutputBody {
     let queries: [NeptuneGraphClientTypes.QuerySummary]?
 }
 
@@ -4863,7 +4863,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The ARN of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4876,7 +4876,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -4897,7 +4897,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The list of metadata tags associated with the resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -4909,7 +4909,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -4989,7 +4989,7 @@ extension NeptuneGraphClientTypes.NeptuneImportOptions: Swift.Codable {
 
 extension NeptuneGraphClientTypes {
     /// Options for how to import Neptune data.
-    public struct NeptuneImportOptions: Swift.Equatable {
+    public struct NeptuneImportOptions {
         /// Neptune Analytics supports label-less vertices and no labels are assigned unless one is explicitly provided. Neptune assigns default labels when none is explicitly provided. When importing the data into Neptune Analytics, the default vertex labels can be omitted by setting preserveDefaultVertexLabels to false. Note that if the vertex only has default labels, and has no other properties or edges, then the vertex will effectively not get imported into Neptune Analytics when preserveDefaultVertexLabels is set to false.
         public var preserveDefaultVertexLabels: Swift.Bool?
         /// Neptune Analytics currently does not support user defined edge ids. The edge ids are not imported by default. They are imported if preserveEdgeIds is set to true, and ids are stored as properties on the relationships with the property name neptuneEdgeId.
@@ -5074,7 +5074,7 @@ extension NeptuneGraphClientTypes.NodeStructure: Swift.Codable {
 
 extension NeptuneGraphClientTypes {
     /// Information about a node.
-    public struct NodeStructure: Swift.Equatable {
+    public struct NodeStructure {
         /// The number of instances of this node.
         public var count: Swift.Int?
         /// The outgoing edge labels associated with this node.
@@ -5220,7 +5220,7 @@ extension NeptuneGraphClientTypes.PrivateGraphEndpointSummary: Swift.Codable {
 
 extension NeptuneGraphClientTypes {
     /// Details about a private graph endpoint.
-    public struct PrivateGraphEndpointSummary: Swift.Equatable {
+    public struct PrivateGraphEndpointSummary {
         /// The status of the private graph endpoint.
         /// This member is required.
         public var status: NeptuneGraphClientTypes.PrivateGraphEndpointStatus?
@@ -5396,7 +5396,7 @@ extension NeptuneGraphClientTypes.QuerySummary: Swift.Codable {
 
 extension NeptuneGraphClientTypes {
     /// Details of the query listed.
-    public struct QuerySummary: Swift.Equatable {
+    public struct QuerySummary {
         /// The running time of the query, in milliseconds.
         public var elapsed: Swift.Int?
         /// A string representation of the id of the query.
@@ -5449,7 +5449,7 @@ extension ResetGraphInput {
     }
 }
 
-public struct ResetGraphInput: Swift.Equatable {
+public struct ResetGraphInput {
     /// ID of the graph to reset.
     /// This member is required.
     public var graphIdentifier: Swift.String?
@@ -5467,7 +5467,7 @@ public struct ResetGraphInput: Swift.Equatable {
     }
 }
 
-struct ResetGraphInputBody: Swift.Equatable {
+struct ResetGraphInputBody {
     let skipSnapshot: Swift.Bool?
 }
 
@@ -5523,7 +5523,7 @@ extension ResetGraphOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ResetGraphOutput: Swift.Equatable {
+public struct ResetGraphOutput {
     /// The ARN associated with the graph.
     /// This member is required.
     public var arn: Swift.String?
@@ -5594,7 +5594,7 @@ public struct ResetGraphOutput: Swift.Equatable {
     }
 }
 
-struct ResetGraphOutputBody: Swift.Equatable {
+struct ResetGraphOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let arn: Swift.String?
@@ -5722,7 +5722,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -5784,7 +5784,7 @@ extension RestoreGraphFromSnapshotInput {
     }
 }
 
-public struct RestoreGraphFromSnapshotInput: Swift.Equatable {
+public struct RestoreGraphFromSnapshotInput {
     /// A value that indicates whether the graph has deletion protection enabled. The graph can't be deleted when deletion protection is enabled.
     public var deletionProtection: Swift.Bool?
     /// A name for the new Neptune Analytics graph to be created from the snapshot. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens.
@@ -5822,7 +5822,7 @@ public struct RestoreGraphFromSnapshotInput: Swift.Equatable {
     }
 }
 
-struct RestoreGraphFromSnapshotInputBody: Swift.Equatable {
+struct RestoreGraphFromSnapshotInputBody {
     let graphName: Swift.String?
     let provisionedMemory: Swift.Int?
     let deletionProtection: Swift.Bool?
@@ -5907,7 +5907,7 @@ extension RestoreGraphFromSnapshotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RestoreGraphFromSnapshotOutput: Swift.Equatable {
+public struct RestoreGraphFromSnapshotOutput {
     /// The ARN associated with the graph.
     /// This member is required.
     public var arn: Swift.String?
@@ -5978,7 +5978,7 @@ public struct RestoreGraphFromSnapshotOutput: Swift.Equatable {
     }
 }
 
-struct RestoreGraphFromSnapshotOutputBody: Swift.Equatable {
+struct RestoreGraphFromSnapshotOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let arn: Swift.String?
@@ -6130,7 +6130,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -6239,7 +6239,7 @@ extension StartImportTaskInput {
     }
 }
 
-public struct StartImportTaskInput: Swift.Equatable {
+public struct StartImportTaskInput {
     /// If set to true, the task halts when an import error is encountered. If set to false, the task skips the data that caused the error and continues if possible.
     public var failOnError: Swift.Bool?
     /// Specifies the format of Amazon S3 data to be imported. Valid values are CSV, which identifies the Gremlin CSV format or OPENCYPHER, which identies the openCypher load format.
@@ -6274,7 +6274,7 @@ public struct StartImportTaskInput: Swift.Equatable {
     }
 }
 
-struct StartImportTaskInputBody: Swift.Equatable {
+struct StartImportTaskInputBody {
     let importOptions: NeptuneGraphClientTypes.ImportOptions?
     let failOnError: Swift.Bool?
     let source: Swift.String?
@@ -6330,7 +6330,7 @@ extension StartImportTaskOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartImportTaskOutput: Swift.Equatable {
+public struct StartImportTaskOutput {
     /// Specifies the format of Amazon S3 data to be imported. Valid values are CSV, which identifies the Gremlin CSV format or OPENCYPHER, which identies the openCypher load format.
     public var format: NeptuneGraphClientTypes.Format?
     /// The unique identifier of the Neptune Analytics graph.
@@ -6370,7 +6370,7 @@ public struct StartImportTaskOutput: Swift.Equatable {
     }
 }
 
-struct StartImportTaskOutputBody: Swift.Equatable {
+struct StartImportTaskOutputBody {
     let graphId: Swift.String?
     let taskId: Swift.String?
     let source: Swift.String?
@@ -6451,7 +6451,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// ARN of the resource for which tags need to be added.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -6469,7 +6469,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -6499,7 +6499,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -6559,7 +6559,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -6622,7 +6622,7 @@ public struct UnprocessableException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct UnprocessableExceptionBody: Swift.Equatable {
+struct UnprocessableExceptionBody {
     let message: Swift.String?
     let reason: NeptuneGraphClientTypes.UnprocessableExceptionReason?
 }
@@ -6709,7 +6709,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// ARN of the resource whose tag needs to be removed.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -6727,7 +6727,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -6741,7 +6741,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -6791,7 +6791,7 @@ extension UpdateGraphInput {
     }
 }
 
-public struct UpdateGraphInput: Swift.Equatable {
+public struct UpdateGraphInput {
     /// A value that indicates whether the graph has deletion protection enabled. The graph can't be deleted when deletion protection is enabled.
     public var deletionProtection: Swift.Bool?
     /// The unique identifier of the Neptune Analytics graph.
@@ -6816,7 +6816,7 @@ public struct UpdateGraphInput: Swift.Equatable {
     }
 }
 
-struct UpdateGraphInputBody: Swift.Equatable {
+struct UpdateGraphInputBody {
     let publicConnectivity: Swift.Bool?
     let provisionedMemory: Swift.Int?
     let deletionProtection: Swift.Bool?
@@ -6880,7 +6880,7 @@ extension UpdateGraphOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateGraphOutput: Swift.Equatable {
+public struct UpdateGraphOutput {
     /// The ARN associated with the graph.
     /// This member is required.
     public var arn: Swift.String?
@@ -6951,7 +6951,7 @@ public struct UpdateGraphOutput: Swift.Equatable {
     }
 }
 
-struct UpdateGraphOutputBody: Swift.Equatable {
+struct UpdateGraphOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let arn: Swift.String?
@@ -7085,7 +7085,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let reason: NeptuneGraphClientTypes.ValidationExceptionReason?
 }
@@ -7173,7 +7173,7 @@ extension NeptuneGraphClientTypes.VectorSearchConfiguration: Swift.Codable {
 
 extension NeptuneGraphClientTypes {
     /// Specifies the number of dimensions for vector embeddings loaded into the graph. Max = 65535
-    public struct VectorSearchConfiguration: Swift.Equatable {
+    public struct VectorSearchConfiguration {
         /// The number of dimensions.
         /// This member is required.
         public var dimension: Swift.Int?

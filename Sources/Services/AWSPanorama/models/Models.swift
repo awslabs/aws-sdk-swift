@@ -42,7 +42,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -79,7 +79,7 @@ extension PanoramaClientTypes.AlternateSoftwareMetadata: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// Details about a beta appliance software update.
-    public struct AlternateSoftwareMetadata: Swift.Equatable {
+    public struct AlternateSoftwareMetadata {
         /// The appliance software version.
         public var version: Swift.String?
 
@@ -204,7 +204,7 @@ extension PanoramaClientTypes.ApplicationInstance: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// An application instance on a device.
-    public struct ApplicationInstance: Swift.Equatable {
+    public struct ApplicationInstance {
         /// The application instance's ID.
         public var applicationInstanceId: Swift.String?
         /// The application instance's ARN.
@@ -422,7 +422,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -490,7 +490,7 @@ extension PanoramaClientTypes.ConflictExceptionErrorArgument: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// A conflict exception error argument.
-    public struct ConflictExceptionErrorArgument: Swift.Equatable {
+    public struct ConflictExceptionErrorArgument {
         /// The error argument's name.
         /// This member is required.
         public var name: Swift.String?
@@ -593,7 +593,7 @@ extension CreateApplicationInstanceInput {
     }
 }
 
-public struct CreateApplicationInstanceInput: Swift.Equatable {
+public struct CreateApplicationInstanceInput {
     /// The ID of an application instance to replace with the new instance.
     public var applicationInstanceIdToReplace: Swift.String?
     /// A device's ID.
@@ -635,7 +635,7 @@ public struct CreateApplicationInstanceInput: Swift.Equatable {
     }
 }
 
-struct CreateApplicationInstanceInputBody: Swift.Equatable {
+struct CreateApplicationInstanceInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let manifestPayload: PanoramaClientTypes.ManifestPayload?
@@ -700,7 +700,7 @@ extension CreateApplicationInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateApplicationInstanceOutput: Swift.Equatable {
+public struct CreateApplicationInstanceOutput {
     /// The application instance's ID.
     /// This member is required.
     public var applicationInstanceId: Swift.String?
@@ -713,7 +713,7 @@ public struct CreateApplicationInstanceOutput: Swift.Equatable {
     }
 }
 
-struct CreateApplicationInstanceOutputBody: Swift.Equatable {
+struct CreateApplicationInstanceOutputBody {
     let applicationInstanceId: Swift.String?
 }
 
@@ -774,7 +774,7 @@ extension CreateJobForDevicesInput {
     }
 }
 
-public struct CreateJobForDevicesInput: Swift.Equatable {
+public struct CreateJobForDevicesInput {
     /// ID of target device.
     /// This member is required.
     public var deviceIds: [Swift.String]?
@@ -796,7 +796,7 @@ public struct CreateJobForDevicesInput: Swift.Equatable {
     }
 }
 
-struct CreateJobForDevicesInputBody: Swift.Equatable {
+struct CreateJobForDevicesInputBody {
     let deviceIds: [Swift.String]?
     let deviceJobConfig: PanoramaClientTypes.DeviceJobConfig?
     let jobType: PanoramaClientTypes.JobType?
@@ -841,7 +841,7 @@ extension CreateJobForDevicesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateJobForDevicesOutput: Swift.Equatable {
+public struct CreateJobForDevicesOutput {
     /// A list of jobs.
     /// This member is required.
     public var jobs: [PanoramaClientTypes.Job]?
@@ -854,7 +854,7 @@ public struct CreateJobForDevicesOutput: Swift.Equatable {
     }
 }
 
-struct CreateJobForDevicesOutputBody: Swift.Equatable {
+struct CreateJobForDevicesOutputBody {
     let jobs: [PanoramaClientTypes.Job]?
 }
 
@@ -944,7 +944,7 @@ extension CreateNodeFromTemplateJobInput {
     }
 }
 
-public struct CreateNodeFromTemplateJobInput: Swift.Equatable {
+public struct CreateNodeFromTemplateJobInput {
     /// Tags for the job.
     public var jobTags: [PanoramaClientTypes.JobResourceTags]?
     /// A description for the node.
@@ -985,7 +985,7 @@ public struct CreateNodeFromTemplateJobInput: Swift.Equatable {
     }
 }
 
-struct CreateNodeFromTemplateJobInputBody: Swift.Equatable {
+struct CreateNodeFromTemplateJobInputBody {
     let templateType: PanoramaClientTypes.TemplateType?
     let outputPackageName: Swift.String?
     let outputPackageVersion: Swift.String?
@@ -1055,7 +1055,7 @@ extension CreateNodeFromTemplateJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateNodeFromTemplateJobOutput: Swift.Equatable {
+public struct CreateNodeFromTemplateJobOutput {
     /// The job's ID.
     /// This member is required.
     public var jobId: Swift.String?
@@ -1068,7 +1068,7 @@ public struct CreateNodeFromTemplateJobOutput: Swift.Equatable {
     }
 }
 
-struct CreateNodeFromTemplateJobOutputBody: Swift.Equatable {
+struct CreateNodeFromTemplateJobOutputBody {
     let jobId: Swift.String?
 }
 
@@ -1137,7 +1137,7 @@ extension CreatePackageImportJobInput {
     }
 }
 
-public struct CreatePackageImportJobInput: Swift.Equatable {
+public struct CreatePackageImportJobInput {
     /// A client token for the package import job.
     /// This member is required.
     public var clientToken: Swift.String?
@@ -1169,7 +1169,7 @@ public struct CreatePackageImportJobInput: Swift.Equatable {
     }
 }
 
-struct CreatePackageImportJobInputBody: Swift.Equatable {
+struct CreatePackageImportJobInputBody {
     let jobType: PanoramaClientTypes.PackageImportJobType?
     let inputConfig: PanoramaClientTypes.PackageImportJobInputConfig?
     let outputConfig: PanoramaClientTypes.PackageImportJobOutputConfig?
@@ -1222,7 +1222,7 @@ extension CreatePackageImportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePackageImportJobOutput: Swift.Equatable {
+public struct CreatePackageImportJobOutput {
     /// The job's ID.
     /// This member is required.
     public var jobId: Swift.String?
@@ -1235,7 +1235,7 @@ public struct CreatePackageImportJobOutput: Swift.Equatable {
     }
 }
 
-struct CreatePackageImportJobOutputBody: Swift.Equatable {
+struct CreatePackageImportJobOutputBody {
     let jobId: Swift.String?
 }
 
@@ -1292,7 +1292,7 @@ extension CreatePackageInput {
     }
 }
 
-public struct CreatePackageInput: Swift.Equatable {
+public struct CreatePackageInput {
     /// A name for the package.
     /// This member is required.
     public var packageName: Swift.String?
@@ -1309,7 +1309,7 @@ public struct CreatePackageInput: Swift.Equatable {
     }
 }
 
-struct CreatePackageInputBody: Swift.Equatable {
+struct CreatePackageInputBody {
     let packageName: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
@@ -1354,7 +1354,7 @@ extension CreatePackageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePackageOutput: Swift.Equatable {
+public struct CreatePackageOutput {
     /// The package's ARN.
     public var arn: Swift.String?
     /// The package's ID.
@@ -1375,7 +1375,7 @@ public struct CreatePackageOutput: Swift.Equatable {
     }
 }
 
-struct CreatePackageOutputBody: Swift.Equatable {
+struct CreatePackageOutputBody {
     let packageId: Swift.String?
     let arn: Swift.String?
     let storageLocation: PanoramaClientTypes.StorageLocation?
@@ -1423,7 +1423,7 @@ extension DeleteDeviceInput {
     }
 }
 
-public struct DeleteDeviceInput: Swift.Equatable {
+public struct DeleteDeviceInput {
     /// The device's ID.
     /// This member is required.
     public var deviceId: Swift.String?
@@ -1436,7 +1436,7 @@ public struct DeleteDeviceInput: Swift.Equatable {
     }
 }
 
-struct DeleteDeviceInputBody: Swift.Equatable {
+struct DeleteDeviceInputBody {
 }
 
 extension DeleteDeviceInputBody: Swift.Decodable {
@@ -1457,7 +1457,7 @@ extension DeleteDeviceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDeviceOutput: Swift.Equatable {
+public struct DeleteDeviceOutput {
     /// The device's ID.
     public var deviceId: Swift.String?
 
@@ -1469,7 +1469,7 @@ public struct DeleteDeviceOutput: Swift.Equatable {
     }
 }
 
-struct DeleteDeviceOutputBody: Swift.Equatable {
+struct DeleteDeviceOutputBody {
     let deviceId: Swift.String?
 }
 
@@ -1522,7 +1522,7 @@ extension DeletePackageInput {
     }
 }
 
-public struct DeletePackageInput: Swift.Equatable {
+public struct DeletePackageInput {
     /// Delete the package even if it has artifacts stored in its access point. Deletes the package's artifacts from Amazon S3.
     public var forceDelete: Swift.Bool
     /// The package's ID.
@@ -1539,7 +1539,7 @@ public struct DeletePackageInput: Swift.Equatable {
     }
 }
 
-struct DeletePackageInputBody: Swift.Equatable {
+struct DeletePackageInputBody {
 }
 
 extension DeletePackageInputBody: Swift.Decodable {
@@ -1553,7 +1553,7 @@ extension DeletePackageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePackageOutput: Swift.Equatable {
+public struct DeletePackageOutput {
 
     public init() { }
 }
@@ -1605,7 +1605,7 @@ extension DeregisterPackageVersionInput {
     }
 }
 
-public struct DeregisterPackageVersionInput: Swift.Equatable {
+public struct DeregisterPackageVersionInput {
     /// An owner account.
     public var ownerAccount: Swift.String?
     /// A package ID.
@@ -1636,7 +1636,7 @@ public struct DeregisterPackageVersionInput: Swift.Equatable {
     }
 }
 
-struct DeregisterPackageVersionInputBody: Swift.Equatable {
+struct DeregisterPackageVersionInputBody {
 }
 
 extension DeregisterPackageVersionInputBody: Swift.Decodable {
@@ -1650,7 +1650,7 @@ extension DeregisterPackageVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeregisterPackageVersionOutput: Swift.Equatable {
+public struct DeregisterPackageVersionOutput {
 
     public init() { }
 }
@@ -1680,7 +1680,7 @@ extension DescribeApplicationInstanceDetailsInput {
     }
 }
 
-public struct DescribeApplicationInstanceDetailsInput: Swift.Equatable {
+public struct DescribeApplicationInstanceDetailsInput {
     /// The application instance's ID.
     /// This member is required.
     public var applicationInstanceId: Swift.String?
@@ -1693,7 +1693,7 @@ public struct DescribeApplicationInstanceDetailsInput: Swift.Equatable {
     }
 }
 
-struct DescribeApplicationInstanceDetailsInputBody: Swift.Equatable {
+struct DescribeApplicationInstanceDetailsInputBody {
 }
 
 extension DescribeApplicationInstanceDetailsInputBody: Swift.Decodable {
@@ -1728,7 +1728,7 @@ extension DescribeApplicationInstanceDetailsOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct DescribeApplicationInstanceDetailsOutput: Swift.Equatable {
+public struct DescribeApplicationInstanceDetailsOutput {
     /// The application instance's ID.
     public var applicationInstanceId: Swift.String?
     /// The ID of the application instance that this instance replaced.
@@ -1768,7 +1768,7 @@ public struct DescribeApplicationInstanceDetailsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeApplicationInstanceDetailsOutputBody: Swift.Equatable {
+struct DescribeApplicationInstanceDetailsOutputBody {
     let name: Swift.String?
     let description: Swift.String?
     let defaultRuntimeContextDevice: Swift.String?
@@ -1837,7 +1837,7 @@ extension DescribeApplicationInstanceInput {
     }
 }
 
-public struct DescribeApplicationInstanceInput: Swift.Equatable {
+public struct DescribeApplicationInstanceInput {
     /// The application instance's ID.
     /// This member is required.
     public var applicationInstanceId: Swift.String?
@@ -1850,7 +1850,7 @@ public struct DescribeApplicationInstanceInput: Swift.Equatable {
     }
 }
 
-struct DescribeApplicationInstanceInputBody: Swift.Equatable {
+struct DescribeApplicationInstanceInputBody {
 }
 
 extension DescribeApplicationInstanceInputBody: Swift.Decodable {
@@ -1899,7 +1899,7 @@ extension DescribeApplicationInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeApplicationInstanceOutput: Swift.Equatable {
+public struct DescribeApplicationInstanceOutput {
     /// The application instance's ID.
     public var applicationInstanceId: Swift.String?
     /// The ID of the application instance that this instance replaced.
@@ -1967,7 +1967,7 @@ public struct DescribeApplicationInstanceOutput: Swift.Equatable {
     }
 }
 
-struct DescribeApplicationInstanceOutputBody: Swift.Equatable {
+struct DescribeApplicationInstanceOutputBody {
     let name: Swift.String?
     let description: Swift.String?
     let defaultRuntimeContextDevice: Swift.String?
@@ -2082,7 +2082,7 @@ extension DescribeDeviceInput {
     }
 }
 
-public struct DescribeDeviceInput: Swift.Equatable {
+public struct DescribeDeviceInput {
     /// The device's ID.
     /// This member is required.
     public var deviceId: Swift.String?
@@ -2095,7 +2095,7 @@ public struct DescribeDeviceInput: Swift.Equatable {
     }
 }
 
-struct DescribeDeviceInputBody: Swift.Equatable {
+struct DescribeDeviceInputBody {
 }
 
 extension DescribeDeviceInputBody: Swift.Decodable {
@@ -2114,7 +2114,7 @@ extension DescribeDeviceJobInput {
     }
 }
 
-public struct DescribeDeviceJobInput: Swift.Equatable {
+public struct DescribeDeviceJobInput {
     /// The job's ID.
     /// This member is required.
     public var jobId: Swift.String?
@@ -2127,7 +2127,7 @@ public struct DescribeDeviceJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeDeviceJobInputBody: Swift.Equatable {
+struct DescribeDeviceJobInputBody {
 }
 
 extension DescribeDeviceJobInputBody: Swift.Decodable {
@@ -2164,7 +2164,7 @@ extension DescribeDeviceJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDeviceJobOutput: Swift.Equatable {
+public struct DescribeDeviceJobOutput {
     /// When the job was created.
     public var createdTime: ClientRuntime.Date?
     /// The device's ARN.
@@ -2208,7 +2208,7 @@ public struct DescribeDeviceJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDeviceJobOutputBody: Swift.Equatable {
+struct DescribeDeviceJobOutputBody {
     let jobId: Swift.String?
     let deviceId: Swift.String?
     let deviceArn: Swift.String?
@@ -2321,7 +2321,7 @@ extension DescribeDeviceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDeviceOutput: Swift.Equatable {
+public struct DescribeDeviceOutput {
     /// Beta software releases available for the device.
     public var alternateSoftwares: [PanoramaClientTypes.AlternateSoftwareMetadata]?
     /// The device's ARN.
@@ -2409,7 +2409,7 @@ public struct DescribeDeviceOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDeviceOutputBody: Swift.Equatable {
+struct DescribeDeviceOutputBody {
     let deviceId: Swift.String?
     let name: Swift.String?
     let arn: Swift.String?
@@ -2543,7 +2543,7 @@ extension DescribeNodeFromTemplateJobInput {
     }
 }
 
-public struct DescribeNodeFromTemplateJobInput: Swift.Equatable {
+public struct DescribeNodeFromTemplateJobInput {
     /// The job's ID.
     /// This member is required.
     public var jobId: Swift.String?
@@ -2556,7 +2556,7 @@ public struct DescribeNodeFromTemplateJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeNodeFromTemplateJobInputBody: Swift.Equatable {
+struct DescribeNodeFromTemplateJobInputBody {
 }
 
 extension DescribeNodeFromTemplateJobInputBody: Swift.Decodable {
@@ -2599,7 +2599,7 @@ extension DescribeNodeFromTemplateJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeNodeFromTemplateJobOutput: Swift.Equatable {
+public struct DescribeNodeFromTemplateJobOutput {
     /// When the job was created.
     /// This member is required.
     public var createdTime: ClientRuntime.Date?
@@ -2665,7 +2665,7 @@ public struct DescribeNodeFromTemplateJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeNodeFromTemplateJobOutputBody: Swift.Equatable {
+struct DescribeNodeFromTemplateJobOutputBody {
     let jobId: Swift.String?
     let status: PanoramaClientTypes.NodeFromTemplateJobStatus?
     let statusMessage: Swift.String?
@@ -2779,7 +2779,7 @@ extension DescribeNodeInput {
     }
 }
 
-public struct DescribeNodeInput: Swift.Equatable {
+public struct DescribeNodeInput {
     /// The node's ID.
     /// This member is required.
     public var nodeId: Swift.String?
@@ -2796,7 +2796,7 @@ public struct DescribeNodeInput: Swift.Equatable {
     }
 }
 
-struct DescribeNodeInputBody: Swift.Equatable {
+struct DescribeNodeInputBody {
 }
 
 extension DescribeNodeInputBody: Swift.Decodable {
@@ -2843,7 +2843,7 @@ extension DescribeNodeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeNodeOutput: Swift.Equatable {
+public struct DescribeNodeOutput {
     /// The node's asset name.
     public var assetName: Swift.String?
     /// The node's category.
@@ -2919,7 +2919,7 @@ public struct DescribeNodeOutput: Swift.Equatable {
     }
 }
 
-struct DescribeNodeOutputBody: Swift.Equatable {
+struct DescribeNodeOutputBody {
     let nodeId: Swift.String?
     let name: Swift.String?
     let category: PanoramaClientTypes.NodeCategory?
@@ -3012,7 +3012,7 @@ extension DescribePackageImportJobInput {
     }
 }
 
-public struct DescribePackageImportJobInput: Swift.Equatable {
+public struct DescribePackageImportJobInput {
     /// The job's ID.
     /// This member is required.
     public var jobId: Swift.String?
@@ -3025,7 +3025,7 @@ public struct DescribePackageImportJobInput: Swift.Equatable {
     }
 }
 
-struct DescribePackageImportJobInputBody: Swift.Equatable {
+struct DescribePackageImportJobInputBody {
 }
 
 extension DescribePackageImportJobInputBody: Swift.Decodable {
@@ -3066,7 +3066,7 @@ extension DescribePackageImportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribePackageImportJobOutput: Swift.Equatable {
+public struct DescribePackageImportJobOutput {
     /// The job's client token.
     public var clientToken: Swift.String?
     /// When the job was created.
@@ -3127,7 +3127,7 @@ public struct DescribePackageImportJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribePackageImportJobOutputBody: Swift.Equatable {
+struct DescribePackageImportJobOutputBody {
     let jobId: Swift.String?
     let clientToken: Swift.String?
     let jobType: PanoramaClientTypes.PackageImportJobType?
@@ -3216,7 +3216,7 @@ extension DescribePackageInput {
     }
 }
 
-public struct DescribePackageInput: Swift.Equatable {
+public struct DescribePackageInput {
     /// The package's ID.
     /// This member is required.
     public var packageId: Swift.String?
@@ -3229,7 +3229,7 @@ public struct DescribePackageInput: Swift.Equatable {
     }
 }
 
-struct DescribePackageInputBody: Swift.Equatable {
+struct DescribePackageInputBody {
 }
 
 extension DescribePackageInputBody: Swift.Decodable {
@@ -3264,7 +3264,7 @@ extension DescribePackageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribePackageOutput: Swift.Equatable {
+public struct DescribePackageOutput {
     /// The package's ARN.
     /// This member is required.
     public var arn: Swift.String?
@@ -3310,7 +3310,7 @@ public struct DescribePackageOutput: Swift.Equatable {
     }
 }
 
-struct DescribePackageOutputBody: Swift.Equatable {
+struct DescribePackageOutputBody {
     let packageId: Swift.String?
     let packageName: Swift.String?
     let arn: Swift.String?
@@ -3425,7 +3425,7 @@ extension DescribePackageVersionInput {
     }
 }
 
-public struct DescribePackageVersionInput: Swift.Equatable {
+public struct DescribePackageVersionInput {
     /// The version's owner account.
     public var ownerAccount: Swift.String?
     /// The version's ID.
@@ -3451,7 +3451,7 @@ public struct DescribePackageVersionInput: Swift.Equatable {
     }
 }
 
-struct DescribePackageVersionInputBody: Swift.Equatable {
+struct DescribePackageVersionInputBody {
 }
 
 extension DescribePackageVersionInputBody: Swift.Decodable {
@@ -3490,7 +3490,7 @@ extension DescribePackageVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribePackageVersionOutput: Swift.Equatable {
+public struct DescribePackageVersionOutput {
     /// Whether the version is the latest available.
     /// This member is required.
     public var isLatestPatch: Swift.Bool
@@ -3544,7 +3544,7 @@ public struct DescribePackageVersionOutput: Swift.Equatable {
     }
 }
 
-struct DescribePackageVersionOutputBody: Swift.Equatable {
+struct DescribePackageVersionOutputBody {
     let ownerAccount: Swift.String?
     let packageId: Swift.String?
     let packageArn: Swift.String?
@@ -3751,7 +3751,7 @@ extension PanoramaClientTypes.Device: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// A device.
-    public struct Device: Swift.Equatable {
+    public struct Device {
         /// The device's maker.
         public var brand: PanoramaClientTypes.DeviceBrand?
         /// When the device was created.
@@ -3987,7 +3987,7 @@ extension PanoramaClientTypes.DeviceJob: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// A job that runs on a device.
-    public struct DeviceJob: Swift.Equatable {
+    public struct DeviceJob {
         /// When the job was created.
         public var createdTime: ClientRuntime.Date?
         /// The ID of the target device.
@@ -4038,7 +4038,7 @@ extension PanoramaClientTypes.DeviceJobConfig: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// A job's configuration.
-    public struct DeviceJobConfig: Swift.Equatable {
+    public struct DeviceJobConfig {
         /// A configuration for an over-the-air (OTA) upgrade. Required for OTA jobs.
         public var otaJobConfig: PanoramaClientTypes.OTAJobConfig?
 
@@ -4214,7 +4214,7 @@ extension PanoramaClientTypes.EthernetPayload: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// A device's network configuration.
-    public struct EthernetPayload: Swift.Equatable {
+    public struct EthernetPayload {
         /// How the device gets an IP address.
         /// This member is required.
         public var connectionType: PanoramaClientTypes.ConnectionType?
@@ -4266,7 +4266,7 @@ extension PanoramaClientTypes.EthernetStatus: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// A device's Ethernet status.
-    public struct EthernetStatus: Swift.Equatable {
+    public struct EthernetStatus {
         /// The device's connection status.
         public var connectionStatus: PanoramaClientTypes.NetworkConnectionStatus?
         /// The device's physical address.
@@ -4337,7 +4337,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -4380,7 +4380,7 @@ extension PanoramaClientTypes.Job: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// A job for a device.
-    public struct Job: Swift.Equatable {
+    public struct Job {
         /// The target device's ID.
         public var deviceId: Swift.String?
         /// The job's ID.
@@ -4437,7 +4437,7 @@ extension PanoramaClientTypes.JobResourceTags: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// Tags for a job.
-    public struct JobResourceTags: Swift.Equatable {
+    public struct JobResourceTags {
         /// The job's type.
         /// This member is required.
         public var resourceType: PanoramaClientTypes.JobResourceType?
@@ -4551,7 +4551,7 @@ extension PanoramaClientTypes.LatestDeviceJob: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// Returns information about the latest device job.
-    public struct LatestDeviceJob: Swift.Equatable {
+    public struct LatestDeviceJob {
         /// The target version of the device software.
         public var imageVersion: Swift.String?
         /// The job's type.
@@ -4599,7 +4599,7 @@ extension ListApplicationInstanceDependenciesInput {
     }
 }
 
-public struct ListApplicationInstanceDependenciesInput: Swift.Equatable {
+public struct ListApplicationInstanceDependenciesInput {
     /// The application instance's ID.
     /// This member is required.
     public var applicationInstanceId: Swift.String?
@@ -4620,7 +4620,7 @@ public struct ListApplicationInstanceDependenciesInput: Swift.Equatable {
     }
 }
 
-struct ListApplicationInstanceDependenciesInputBody: Swift.Equatable {
+struct ListApplicationInstanceDependenciesInputBody {
 }
 
 extension ListApplicationInstanceDependenciesInputBody: Swift.Decodable {
@@ -4643,7 +4643,7 @@ extension ListApplicationInstanceDependenciesOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct ListApplicationInstanceDependenciesOutput: Swift.Equatable {
+public struct ListApplicationInstanceDependenciesOutput {
     /// A pagination token that's included if more results are available.
     public var nextToken: Swift.String?
     /// A list of package objects.
@@ -4659,7 +4659,7 @@ public struct ListApplicationInstanceDependenciesOutput: Swift.Equatable {
     }
 }
 
-struct ListApplicationInstanceDependenciesOutputBody: Swift.Equatable {
+struct ListApplicationInstanceDependenciesOutputBody {
     let packageObjects: [PanoramaClientTypes.PackageObject]?
     let nextToken: Swift.String?
 }
@@ -4726,7 +4726,7 @@ extension ListApplicationInstanceNodeInstancesInput {
     }
 }
 
-public struct ListApplicationInstanceNodeInstancesInput: Swift.Equatable {
+public struct ListApplicationInstanceNodeInstancesInput {
     /// The node instances' application instance ID.
     /// This member is required.
     public var applicationInstanceId: Swift.String?
@@ -4747,7 +4747,7 @@ public struct ListApplicationInstanceNodeInstancesInput: Swift.Equatable {
     }
 }
 
-struct ListApplicationInstanceNodeInstancesInputBody: Swift.Equatable {
+struct ListApplicationInstanceNodeInstancesInputBody {
 }
 
 extension ListApplicationInstanceNodeInstancesInputBody: Swift.Decodable {
@@ -4770,7 +4770,7 @@ extension ListApplicationInstanceNodeInstancesOutput: ClientRuntime.HttpResponse
     }
 }
 
-public struct ListApplicationInstanceNodeInstancesOutput: Swift.Equatable {
+public struct ListApplicationInstanceNodeInstancesOutput {
     /// A pagination token that's included if more results are available.
     public var nextToken: Swift.String?
     /// A list of node instances.
@@ -4786,7 +4786,7 @@ public struct ListApplicationInstanceNodeInstancesOutput: Swift.Equatable {
     }
 }
 
-struct ListApplicationInstanceNodeInstancesOutputBody: Swift.Equatable {
+struct ListApplicationInstanceNodeInstancesOutputBody {
     let nodeInstances: [PanoramaClientTypes.NodeInstance]?
     let nextToken: Swift.String?
 }
@@ -4858,7 +4858,7 @@ extension ListApplicationInstancesInput {
     }
 }
 
-public struct ListApplicationInstancesInput: Swift.Equatable {
+public struct ListApplicationInstancesInput {
     /// The application instances' device ID.
     public var deviceId: Swift.String?
     /// The maximum number of application instances to return in one page of results.
@@ -4882,7 +4882,7 @@ public struct ListApplicationInstancesInput: Swift.Equatable {
     }
 }
 
-struct ListApplicationInstancesInputBody: Swift.Equatable {
+struct ListApplicationInstancesInputBody {
 }
 
 extension ListApplicationInstancesInputBody: Swift.Decodable {
@@ -4905,7 +4905,7 @@ extension ListApplicationInstancesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListApplicationInstancesOutput: Swift.Equatable {
+public struct ListApplicationInstancesOutput {
     /// A list of application instances.
     public var applicationInstances: [PanoramaClientTypes.ApplicationInstance]?
     /// A pagination token that's included if more results are available.
@@ -4921,7 +4921,7 @@ public struct ListApplicationInstancesOutput: Swift.Equatable {
     }
 }
 
-struct ListApplicationInstancesOutputBody: Swift.Equatable {
+struct ListApplicationInstancesOutputBody {
     let applicationInstances: [PanoramaClientTypes.ApplicationInstance]?
     let nextToken: Swift.String?
 }
@@ -5001,7 +5001,7 @@ extension ListDevicesInput {
     }
 }
 
-public struct ListDevicesInput: Swift.Equatable {
+public struct ListDevicesInput {
     /// Filter based on a device's status.
     public var deviceAggregatedStatusFilter: PanoramaClientTypes.DeviceAggregatedStatus?
     /// The maximum number of devices to return in one page of results.
@@ -5033,7 +5033,7 @@ public struct ListDevicesInput: Swift.Equatable {
     }
 }
 
-struct ListDevicesInputBody: Swift.Equatable {
+struct ListDevicesInputBody {
 }
 
 extension ListDevicesInputBody: Swift.Decodable {
@@ -5069,7 +5069,7 @@ extension ListDevicesJobsInput {
     }
 }
 
-public struct ListDevicesJobsInput: Swift.Equatable {
+public struct ListDevicesJobsInput {
     /// Filter results by the job's target device ID.
     public var deviceId: Swift.String?
     /// The maximum number of device jobs to return in one page of results.
@@ -5089,7 +5089,7 @@ public struct ListDevicesJobsInput: Swift.Equatable {
     }
 }
 
-struct ListDevicesJobsInputBody: Swift.Equatable {
+struct ListDevicesJobsInputBody {
 }
 
 extension ListDevicesJobsInputBody: Swift.Decodable {
@@ -5112,7 +5112,7 @@ extension ListDevicesJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDevicesJobsOutput: Swift.Equatable {
+public struct ListDevicesJobsOutput {
     /// A list of jobs.
     public var deviceJobs: [PanoramaClientTypes.DeviceJob]?
     /// A pagination token that's included if more results are available.
@@ -5128,7 +5128,7 @@ public struct ListDevicesJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListDevicesJobsOutputBody: Swift.Equatable {
+struct ListDevicesJobsOutputBody {
     let deviceJobs: [PanoramaClientTypes.DeviceJob]?
     let nextToken: Swift.String?
 }
@@ -5186,7 +5186,7 @@ extension ListDevicesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDevicesOutput: Swift.Equatable {
+public struct ListDevicesOutput {
     /// A list of devices.
     /// This member is required.
     public var devices: [PanoramaClientTypes.Device]?
@@ -5203,7 +5203,7 @@ public struct ListDevicesOutput: Swift.Equatable {
     }
 }
 
-struct ListDevicesOutputBody: Swift.Equatable {
+struct ListDevicesOutputBody {
     let devices: [PanoramaClientTypes.Device]?
     let nextToken: Swift.String?
 }
@@ -5307,7 +5307,7 @@ extension ListNodeFromTemplateJobsInput {
     }
 }
 
-public struct ListNodeFromTemplateJobsInput: Swift.Equatable {
+public struct ListNodeFromTemplateJobsInput {
     /// The maximum number of node from template jobs to return in one page of results.
     public var maxResults: Swift.Int
     /// Specify the pagination token from a previous request to retrieve the next page of results.
@@ -5323,7 +5323,7 @@ public struct ListNodeFromTemplateJobsInput: Swift.Equatable {
     }
 }
 
-struct ListNodeFromTemplateJobsInputBody: Swift.Equatable {
+struct ListNodeFromTemplateJobsInputBody {
 }
 
 extension ListNodeFromTemplateJobsInputBody: Swift.Decodable {
@@ -5346,7 +5346,7 @@ extension ListNodeFromTemplateJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListNodeFromTemplateJobsOutput: Swift.Equatable {
+public struct ListNodeFromTemplateJobsOutput {
     /// A pagination token that's included if more results are available.
     public var nextToken: Swift.String?
     /// A list of jobs.
@@ -5363,7 +5363,7 @@ public struct ListNodeFromTemplateJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListNodeFromTemplateJobsOutputBody: Swift.Equatable {
+struct ListNodeFromTemplateJobsOutputBody {
     let nodeFromTemplateJobs: [PanoramaClientTypes.NodeFromTemplateJob]?
     let nextToken: Swift.String?
 }
@@ -5449,7 +5449,7 @@ extension ListNodesInput {
     }
 }
 
-public struct ListNodesInput: Swift.Equatable {
+public struct ListNodesInput {
     /// Search for nodes by category.
     public var category: PanoramaClientTypes.NodeCategory?
     /// The maximum number of nodes to return in one page of results.
@@ -5485,7 +5485,7 @@ public struct ListNodesInput: Swift.Equatable {
     }
 }
 
-struct ListNodesInputBody: Swift.Equatable {
+struct ListNodesInputBody {
 }
 
 extension ListNodesInputBody: Swift.Decodable {
@@ -5508,7 +5508,7 @@ extension ListNodesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListNodesOutput: Swift.Equatable {
+public struct ListNodesOutput {
     /// A pagination token that's included if more results are available.
     public var nextToken: Swift.String?
     /// A list of nodes.
@@ -5524,7 +5524,7 @@ public struct ListNodesOutput: Swift.Equatable {
     }
 }
 
-struct ListNodesOutputBody: Swift.Equatable {
+struct ListNodesOutputBody {
     let nodes: [PanoramaClientTypes.Node]?
     let nextToken: Swift.String?
 }
@@ -5589,7 +5589,7 @@ extension ListPackageImportJobsInput {
     }
 }
 
-public struct ListPackageImportJobsInput: Swift.Equatable {
+public struct ListPackageImportJobsInput {
     /// The maximum number of package import jobs to return in one page of results.
     public var maxResults: Swift.Int
     /// Specify the pagination token from a previous request to retrieve the next page of results.
@@ -5605,7 +5605,7 @@ public struct ListPackageImportJobsInput: Swift.Equatable {
     }
 }
 
-struct ListPackageImportJobsInputBody: Swift.Equatable {
+struct ListPackageImportJobsInputBody {
 }
 
 extension ListPackageImportJobsInputBody: Swift.Decodable {
@@ -5628,7 +5628,7 @@ extension ListPackageImportJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPackageImportJobsOutput: Swift.Equatable {
+public struct ListPackageImportJobsOutput {
     /// A pagination token that's included if more results are available.
     public var nextToken: Swift.String?
     /// A list of package import jobs.
@@ -5645,7 +5645,7 @@ public struct ListPackageImportJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListPackageImportJobsOutputBody: Swift.Equatable {
+struct ListPackageImportJobsOutputBody {
     let packageImportJobs: [PanoramaClientTypes.PackageImportJob]?
     let nextToken: Swift.String?
 }
@@ -5711,7 +5711,7 @@ extension ListPackagesInput {
     }
 }
 
-public struct ListPackagesInput: Swift.Equatable {
+public struct ListPackagesInput {
     /// The maximum number of packages to return in one page of results.
     public var maxResults: Swift.Int
     /// Specify the pagination token from a previous request to retrieve the next page of results.
@@ -5727,7 +5727,7 @@ public struct ListPackagesInput: Swift.Equatable {
     }
 }
 
-struct ListPackagesInputBody: Swift.Equatable {
+struct ListPackagesInputBody {
 }
 
 extension ListPackagesInputBody: Swift.Decodable {
@@ -5750,7 +5750,7 @@ extension ListPackagesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPackagesOutput: Swift.Equatable {
+public struct ListPackagesOutput {
     /// A pagination token that's included if more results are available.
     public var nextToken: Swift.String?
     /// A list of packages.
@@ -5766,7 +5766,7 @@ public struct ListPackagesOutput: Swift.Equatable {
     }
 }
 
-struct ListPackagesOutputBody: Swift.Equatable {
+struct ListPackagesOutputBody {
     let packages: [PanoramaClientTypes.PackageListItem]?
     let nextToken: Swift.String?
 }
@@ -5820,7 +5820,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The resource's ARN.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -5833,7 +5833,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -5854,7 +5854,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// A list of tags.
     public var tags: [Swift.String:Swift.String]?
 
@@ -5866,7 +5866,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -5933,7 +5933,7 @@ extension PanoramaClientTypes.ManifestOverridesPayload: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// Parameter overrides for an application instance. This is a JSON document that has a single key (PayloadData) where the value is an escaped string representation of the overrides document.
-    public enum ManifestOverridesPayload: Swift.Equatable {
+    public enum ManifestOverridesPayload {
         /// The overrides document.
         case payloaddata(Swift.String)
         case sdkUnknown(Swift.String)
@@ -5970,7 +5970,7 @@ extension PanoramaClientTypes.ManifestPayload: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// A application verion's manifest file. This is a JSON document that has a single key (PayloadData) where the value is an escaped string representation of the application manifest (graph.json). This file is located in the graphs folder in your application source.
-    public enum ManifestPayload: Swift.Equatable {
+    public enum ManifestPayload {
         /// The application manifest.
         case payloaddata(Swift.String)
         case sdkUnknown(Swift.String)
@@ -6046,7 +6046,7 @@ extension PanoramaClientTypes.NetworkPayload: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// The network configuration for a device.
-    public struct NetworkPayload: Swift.Equatable {
+    public struct NetworkPayload {
         /// Settings for Ethernet port 0.
         public var ethernet0: PanoramaClientTypes.EthernetPayload?
         /// Settings for Ethernet port 1.
@@ -6107,7 +6107,7 @@ extension PanoramaClientTypes.NetworkStatus: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// The network status of a device.
-    public struct NetworkStatus: Swift.Equatable {
+    public struct NetworkStatus {
         /// The status of Ethernet port 0.
         public var ethernet0Status: PanoramaClientTypes.EthernetStatus?
         /// The status of Ethernet port 1.
@@ -6214,7 +6214,7 @@ extension PanoramaClientTypes.Node: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// An application node that represents a camera stream, a model, code, or output.
-    public struct Node: Swift.Equatable {
+    public struct Node {
         /// The node's category.
         /// This member is required.
         public var category: PanoramaClientTypes.NodeCategory?
@@ -6365,7 +6365,7 @@ extension PanoramaClientTypes.NodeFromTemplateJob: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// A job to create a camera stream node.
-    public struct NodeFromTemplateJob: Swift.Equatable {
+    public struct NodeFromTemplateJob {
         /// When the job was created.
         public var createdTime: ClientRuntime.Date?
         /// The job's ID.
@@ -6479,7 +6479,7 @@ extension PanoramaClientTypes.NodeInputPort: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// A node input port.
-    public struct NodeInputPort: Swift.Equatable {
+    public struct NodeInputPort {
         /// The input port's default value.
         public var defaultValue: Swift.String?
         /// The input port's description.
@@ -6566,7 +6566,7 @@ extension PanoramaClientTypes.NodeInstance: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// A node instance.
-    public struct NodeInstance: Swift.Equatable {
+    public struct NodeInstance {
         /// The instance's current status.
         /// This member is required.
         public var currentStatus: PanoramaClientTypes.NodeInstanceStatus?
@@ -6695,7 +6695,7 @@ extension PanoramaClientTypes.NodeInterface: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// A node interface.
-    public struct NodeInterface: Swift.Equatable {
+    public struct NodeInterface {
         /// The node interface's inputs.
         /// This member is required.
         public var inputs: [PanoramaClientTypes.NodeInputPort]?
@@ -6748,7 +6748,7 @@ extension PanoramaClientTypes.NodeOutputPort: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// A node output port.
-    public struct NodeOutputPort: Swift.Equatable {
+    public struct NodeOutputPort {
         /// The output port's description.
         public var description: Swift.String?
         /// The output port's name.
@@ -6797,7 +6797,7 @@ extension PanoramaClientTypes.NodeSignal: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// A signal to a camera node to start or stop processing video.
-    public struct NodeSignal: Swift.Equatable {
+    public struct NodeSignal {
         /// The camera node's name, from the application manifest.
         /// This member is required.
         public var nodeInstanceId: Swift.String?
@@ -6882,7 +6882,7 @@ extension PanoramaClientTypes.NtpPayload: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// Network time protocol (NTP) server settings. Use this option to connect to local NTP servers instead of pool.ntp.org.
-    public struct NtpPayload: Swift.Equatable {
+    public struct NtpPayload {
         /// NTP servers to use, in order of preference.
         /// This member is required.
         public var ntpServers: [Swift.String]?
@@ -6930,7 +6930,7 @@ extension PanoramaClientTypes.NtpStatus: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// Details about an NTP server connection.
-    public struct NtpStatus: Swift.Equatable {
+    public struct NtpStatus {
         /// The connection's status.
         public var connectionStatus: PanoramaClientTypes.NetworkConnectionStatus?
         /// The IP address of the server.
@@ -6979,7 +6979,7 @@ extension PanoramaClientTypes.OTAJobConfig: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// An over-the-air update (OTA) job configuration.
-    public struct OTAJobConfig: Swift.Equatable {
+    public struct OTAJobConfig {
         /// Whether to apply the update if it is a major version change.
         public var allowMajorVersionUpdate: Swift.Bool
         /// The target version of the device software.
@@ -7025,7 +7025,7 @@ extension PanoramaClientTypes.OutPutS3Location: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// The location of an output object in Amazon S3.
-    public struct OutPutS3Location: Swift.Equatable {
+    public struct OutPutS3Location {
         /// The object's bucket.
         /// This member is required.
         public var bucketName: Swift.String?
@@ -7096,7 +7096,7 @@ extension PanoramaClientTypes.PackageImportJob: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// A job to import a package version.
-    public struct PackageImportJob: Swift.Equatable {
+    public struct PackageImportJob {
         /// When the job was created.
         public var createdTime: ClientRuntime.Date?
         /// The job's ID.
@@ -7151,7 +7151,7 @@ extension PanoramaClientTypes.PackageImportJobInputConfig: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// A configuration for a package import job.
-    public struct PackageImportJobInputConfig: Swift.Equatable {
+    public struct PackageImportJobInputConfig {
         /// The package version's input configuration.
         public var packageVersionInputConfig: PanoramaClientTypes.PackageVersionInputConfig?
 
@@ -7204,7 +7204,7 @@ extension PanoramaClientTypes.PackageImportJobOutput: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// Results of a package import job.
-    public struct PackageImportJobOutput: Swift.Equatable {
+    public struct PackageImportJobOutput {
         /// The package's output location.
         /// This member is required.
         public var outputS3Location: PanoramaClientTypes.OutPutS3Location?
@@ -7255,7 +7255,7 @@ extension PanoramaClientTypes.PackageImportJobOutputConfig: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// An output configuration for a package import job.
-    public struct PackageImportJobOutputConfig: Swift.Equatable {
+    public struct PackageImportJobOutputConfig {
         /// The package version's output configuration.
         public var packageVersionOutputConfig: PanoramaClientTypes.PackageVersionOutputConfig?
 
@@ -7393,7 +7393,7 @@ extension PanoramaClientTypes.PackageListItem: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// A package summary.
-    public struct PackageListItem: Swift.Equatable {
+    public struct PackageListItem {
         /// The package's ARN.
         public var arn: Swift.String?
         /// When the package was created.
@@ -7456,7 +7456,7 @@ extension PanoramaClientTypes.PackageObject: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// A package object.
-    public struct PackageObject: Swift.Equatable {
+    public struct PackageObject {
         /// The object's name.
         /// This member is required.
         public var name: Swift.String?
@@ -7502,7 +7502,7 @@ extension PanoramaClientTypes.PackageVersionInputConfig: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// A package version input configuration.
-    public struct PackageVersionInputConfig: Swift.Equatable {
+    public struct PackageVersionInputConfig {
         /// A location in Amazon S3.
         /// This member is required.
         public var s3Location: PanoramaClientTypes.S3Location?
@@ -7550,7 +7550,7 @@ extension PanoramaClientTypes.PackageVersionOutputConfig: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// A package version output configuration.
-    public struct PackageVersionOutputConfig: Swift.Equatable {
+    public struct PackageVersionOutputConfig {
         /// Indicates that the version is recommended for all users.
         public var markLatest: Swift.Bool
         /// The output's package name.
@@ -7690,7 +7690,7 @@ extension ProvisionDeviceInput {
     }
 }
 
-public struct ProvisionDeviceInput: Swift.Equatable {
+public struct ProvisionDeviceInput {
     /// A description for the device.
     public var description: Swift.String?
     /// A name for the device.
@@ -7715,7 +7715,7 @@ public struct ProvisionDeviceInput: Swift.Equatable {
     }
 }
 
-struct ProvisionDeviceInputBody: Swift.Equatable {
+struct ProvisionDeviceInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let tags: [Swift.String:Swift.String]?
@@ -7772,7 +7772,7 @@ extension ProvisionDeviceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ProvisionDeviceOutput: Swift.Equatable {
+public struct ProvisionDeviceOutput {
     /// The device's ARN.
     /// This member is required.
     public var arn: Swift.String?
@@ -7802,7 +7802,7 @@ public struct ProvisionDeviceOutput: Swift.Equatable {
     }
 }
 
-struct ProvisionDeviceOutputBody: Swift.Equatable {
+struct ProvisionDeviceOutputBody {
     let deviceId: Swift.String?
     let arn: Swift.String?
     let status: PanoramaClientTypes.DeviceStatus?
@@ -7882,7 +7882,7 @@ extension RegisterPackageVersionInput {
     }
 }
 
-public struct RegisterPackageVersionInput: Swift.Equatable {
+public struct RegisterPackageVersionInput {
     /// Whether to mark the new version as the latest version.
     public var markLatest: Swift.Bool
     /// An owner account.
@@ -7913,7 +7913,7 @@ public struct RegisterPackageVersionInput: Swift.Equatable {
     }
 }
 
-struct RegisterPackageVersionInputBody: Swift.Equatable {
+struct RegisterPackageVersionInputBody {
     let ownerAccount: Swift.String?
     let markLatest: Swift.Bool
 }
@@ -7938,7 +7938,7 @@ extension RegisterPackageVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RegisterPackageVersionOutput: Swift.Equatable {
+public struct RegisterPackageVersionOutput {
 
     public init() { }
 }
@@ -7967,7 +7967,7 @@ extension RemoveApplicationInstanceInput {
     }
 }
 
-public struct RemoveApplicationInstanceInput: Swift.Equatable {
+public struct RemoveApplicationInstanceInput {
     /// An application instance ID.
     /// This member is required.
     public var applicationInstanceId: Swift.String?
@@ -7980,7 +7980,7 @@ public struct RemoveApplicationInstanceInput: Swift.Equatable {
     }
 }
 
-struct RemoveApplicationInstanceInputBody: Swift.Equatable {
+struct RemoveApplicationInstanceInputBody {
 }
 
 extension RemoveApplicationInstanceInputBody: Swift.Decodable {
@@ -7994,7 +7994,7 @@ extension RemoveApplicationInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RemoveApplicationInstanceOutput: Swift.Equatable {
+public struct RemoveApplicationInstanceOutput {
 
     public init() { }
 }
@@ -8053,7 +8053,7 @@ extension PanoramaClientTypes.ReportedRuntimeContextState: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// An application instance's state.
-    public struct ReportedRuntimeContextState: Swift.Equatable {
+    public struct ReportedRuntimeContextState {
         /// The application's desired state.
         /// This member is required.
         public var desiredState: PanoramaClientTypes.DesiredState?
@@ -8137,7 +8137,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -8194,7 +8194,7 @@ extension PanoramaClientTypes.S3Location: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// A location in Amazon S3.
-    public struct S3Location: Swift.Equatable {
+    public struct S3Location {
         /// A bucket name.
         /// This member is required.
         public var bucketName: Swift.String?
@@ -8284,7 +8284,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -8342,7 +8342,7 @@ extension SignalApplicationInstanceNodeInstancesInput {
     }
 }
 
-public struct SignalApplicationInstanceNodeInstancesInput: Swift.Equatable {
+public struct SignalApplicationInstanceNodeInstancesInput {
     /// An application instance ID.
     /// This member is required.
     public var applicationInstanceId: Swift.String?
@@ -8360,7 +8360,7 @@ public struct SignalApplicationInstanceNodeInstancesInput: Swift.Equatable {
     }
 }
 
-struct SignalApplicationInstanceNodeInstancesInputBody: Swift.Equatable {
+struct SignalApplicationInstanceNodeInstancesInputBody {
     let nodeSignals: [PanoramaClientTypes.NodeSignal]?
 }
 
@@ -8397,7 +8397,7 @@ extension SignalApplicationInstanceNodeInstancesOutput: ClientRuntime.HttpRespon
     }
 }
 
-public struct SignalApplicationInstanceNodeInstancesOutput: Swift.Equatable {
+public struct SignalApplicationInstanceNodeInstancesOutput {
     /// An application instance ID.
     /// This member is required.
     public var applicationInstanceId: Swift.String?
@@ -8410,7 +8410,7 @@ public struct SignalApplicationInstanceNodeInstancesOutput: Swift.Equatable {
     }
 }
 
-struct SignalApplicationInstanceNodeInstancesOutputBody: Swift.Equatable {
+struct SignalApplicationInstanceNodeInstancesOutputBody {
     let applicationInstanceId: Swift.String?
 }
 
@@ -8523,7 +8523,7 @@ extension PanoramaClientTypes.StaticIpConnectionInfo: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// A static IP configuration.
-    public struct StaticIpConnectionInfo: Swift.Equatable {
+    public struct StaticIpConnectionInfo {
         /// The connection's default gateway.
         /// This member is required.
         public var defaultGateway: Swift.String?
@@ -8645,7 +8645,7 @@ extension PanoramaClientTypes.StorageLocation: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// A storage location.
-    public struct StorageLocation: Swift.Equatable {
+    public struct StorageLocation {
         /// The location's binary prefix.
         /// This member is required.
         public var binaryPrefixLocation: Swift.String?
@@ -8706,7 +8706,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The resource's ARN.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -8724,7 +8724,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -8754,7 +8754,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -8827,7 +8827,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The resource's ARN.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -8845,7 +8845,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -8859,7 +8859,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -8900,7 +8900,7 @@ extension UpdateDeviceMetadataInput {
     }
 }
 
-public struct UpdateDeviceMetadataInput: Swift.Equatable {
+public struct UpdateDeviceMetadataInput {
     /// A description for the device.
     public var description: Swift.String?
     /// The device's ID.
@@ -8917,7 +8917,7 @@ public struct UpdateDeviceMetadataInput: Swift.Equatable {
     }
 }
 
-struct UpdateDeviceMetadataInputBody: Swift.Equatable {
+struct UpdateDeviceMetadataInputBody {
     let description: Swift.String?
 }
 
@@ -8945,7 +8945,7 @@ extension UpdateDeviceMetadataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDeviceMetadataOutput: Swift.Equatable {
+public struct UpdateDeviceMetadataOutput {
     /// The device's ID.
     public var deviceId: Swift.String?
 
@@ -8957,7 +8957,7 @@ public struct UpdateDeviceMetadataOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDeviceMetadataOutputBody: Swift.Equatable {
+struct UpdateDeviceMetadataOutputBody {
     let deviceId: Swift.String?
 }
 
@@ -9099,7 +9099,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let reason: PanoramaClientTypes.ValidationExceptionReason?
     let errorId: Swift.String?
@@ -9176,7 +9176,7 @@ extension PanoramaClientTypes.ValidationExceptionErrorArgument: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// A validation exception error argument.
-    public struct ValidationExceptionErrorArgument: Swift.Equatable {
+    public struct ValidationExceptionErrorArgument {
         /// The argument's name.
         /// This member is required.
         public var name: Swift.String?
@@ -9223,7 +9223,7 @@ extension PanoramaClientTypes.ValidationExceptionField: Swift.Codable {
 
 extension PanoramaClientTypes {
     /// A validation exception field.
-    public struct ValidationExceptionField: Swift.Equatable {
+    public struct ValidationExceptionField {
         /// The field's message.
         /// This member is required.
         public var message: Swift.String?

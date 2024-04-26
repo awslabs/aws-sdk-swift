@@ -31,7 +31,7 @@ extension AppMeshClientTypes.AccessLog: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the access logging information for a virtual node.
-    public enum AccessLog: Swift.Equatable {
+    public enum AccessLog {
         /// The file object to send virtual node access logs to.
         case file(AppMeshClientTypes.FileAccessLog)
         case sdkUnknown(Swift.String)
@@ -68,7 +68,7 @@ extension AppMeshClientTypes.AwsCloudMapInstanceAttribute: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the Cloud Map attribute information for your virtual node. Cloud Map is not available in the eu-south-1 Region.
-    public struct AwsCloudMapInstanceAttribute: Swift.Equatable {
+    public struct AwsCloudMapInstanceAttribute {
         /// The name of an Cloud Map service instance attribute key. Any Cloud Map service instance that contains the specified key and value is returned.
         /// This member is required.
         public var key: Swift.String?
@@ -139,7 +139,7 @@ extension AppMeshClientTypes.AwsCloudMapServiceDiscovery: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the Cloud Map service discovery information for your virtual node. Cloud Map is not available in the eu-south-1 Region.
-    public struct AwsCloudMapServiceDiscovery: Swift.Equatable {
+    public struct AwsCloudMapServiceDiscovery {
         /// A string map that contains attributes with values that you can use to filter instances by any custom attribute that you specified when you registered the instance. Only instances that match all of the specified key/value pairs will be returned.
         public var attributes: [AppMeshClientTypes.AwsCloudMapInstanceAttribute]?
         /// The preferred IP version that this virtual node uses. Setting the IP preference on the virtual node only overrides the IP preference set for the mesh on this specific node.
@@ -196,7 +196,7 @@ extension AppMeshClientTypes.Backend: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the backends that a virtual node is expected to send outbound traffic to.
-    public enum Backend: Swift.Equatable {
+    public enum Backend {
         /// Specifies a virtual service to use as a backend.
         case virtualservice(AppMeshClientTypes.VirtualServiceBackend)
         case sdkUnknown(Swift.String)
@@ -225,7 +225,7 @@ extension AppMeshClientTypes.BackendDefaults: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the default properties for a backend.
-    public struct BackendDefaults: Swift.Equatable {
+    public struct BackendDefaults {
         /// A reference to an object that represents a client policy.
         public var clientPolicy: AppMeshClientTypes.ClientPolicy?
 
@@ -278,7 +278,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct BadRequestExceptionBody: Swift.Equatable {
+struct BadRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -315,7 +315,7 @@ extension AppMeshClientTypes.ClientPolicy: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a client policy.
-    public struct ClientPolicy: Swift.Equatable {
+    public struct ClientPolicy {
         /// A reference to an object that represents a Transport Layer Security (TLS) client policy.
         public var tls: AppMeshClientTypes.ClientPolicyTls?
 
@@ -380,7 +380,7 @@ extension AppMeshClientTypes.ClientPolicyTls: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// A reference to an object that represents a Transport Layer Security (TLS) client policy.
-    public struct ClientPolicyTls: Swift.Equatable {
+    public struct ClientPolicyTls {
         /// A reference to an object that represents a client's TLS certificate.
         public var certificate: AppMeshClientTypes.ClientTlsCertificate?
         /// Whether the policy is enforced. The default is True, if a value isn't specified.
@@ -444,7 +444,7 @@ extension AppMeshClientTypes.ClientTlsCertificate: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the client's certificate.
-    public enum ClientTlsCertificate: Swift.Equatable {
+    public enum ClientTlsCertificate {
         /// An object that represents a local file certificate. The certificate must meet specific requirements and you must have proxy authorization enabled. For more information, see [Transport Layer Security (TLS)](https://docs.aws.amazon.com/app-mesh/latest/userguide/tls.html).
         case file(AppMeshClientTypes.ListenerTlsFileCertificate)
         /// A reference to an object that represents a client's TLS Secret Discovery Service certificate.
@@ -493,7 +493,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -562,7 +562,7 @@ extension CreateGatewayRouteInput {
     }
 }
 
-public struct CreateGatewayRouteInput: Swift.Equatable {
+public struct CreateGatewayRouteInput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
     public var clientToken: Swift.String?
     /// The name to use for the gateway route.
@@ -602,7 +602,7 @@ public struct CreateGatewayRouteInput: Swift.Equatable {
     }
 }
 
-struct CreateGatewayRouteInputBody: Swift.Equatable {
+struct CreateGatewayRouteInputBody {
     let gatewayRouteName: Swift.String?
     let spec: AppMeshClientTypes.GatewayRouteSpec?
     let tags: [AppMeshClientTypes.TagRef]?
@@ -650,7 +650,7 @@ extension CreateGatewayRouteOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateGatewayRouteOutput: Swift.Equatable {
+public struct CreateGatewayRouteOutput {
     /// The full description of your gateway route following the create call.
     /// This member is required.
     public var gatewayRoute: AppMeshClientTypes.GatewayRouteData?
@@ -663,7 +663,7 @@ public struct CreateGatewayRouteOutput: Swift.Equatable {
     }
 }
 
-struct CreateGatewayRouteOutputBody: Swift.Equatable {
+struct CreateGatewayRouteOutputBody {
     let gatewayRoute: AppMeshClientTypes.GatewayRouteData?
 }
 
@@ -733,7 +733,7 @@ extension CreateMeshInput {
 }
 
 ///
-public struct CreateMeshInput: Swift.Equatable {
+public struct CreateMeshInput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
     public var clientToken: Swift.String?
     /// The name to use for the service mesh.
@@ -758,7 +758,7 @@ public struct CreateMeshInput: Swift.Equatable {
     }
 }
 
-struct CreateMeshInputBody: Swift.Equatable {
+struct CreateMeshInputBody {
     let meshName: Swift.String?
     let spec: AppMeshClientTypes.MeshSpec?
     let tags: [AppMeshClientTypes.TagRef]?
@@ -807,7 +807,7 @@ extension CreateMeshOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct CreateMeshOutput: Swift.Equatable {
+public struct CreateMeshOutput {
     /// The full description of your service mesh following the create call.
     /// This member is required.
     public var mesh: AppMeshClientTypes.MeshData?
@@ -820,7 +820,7 @@ public struct CreateMeshOutput: Swift.Equatable {
     }
 }
 
-struct CreateMeshOutputBody: Swift.Equatable {
+struct CreateMeshOutputBody {
     let mesh: AppMeshClientTypes.MeshData?
 }
 
@@ -908,7 +908,7 @@ extension CreateRouteInput {
 }
 
 ///
-public struct CreateRouteInput: Swift.Equatable {
+public struct CreateRouteInput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
     public var clientToken: Swift.String?
     /// The name of the service mesh to create the route in.
@@ -948,7 +948,7 @@ public struct CreateRouteInput: Swift.Equatable {
     }
 }
 
-struct CreateRouteInputBody: Swift.Equatable {
+struct CreateRouteInputBody {
     let routeName: Swift.String?
     let spec: AppMeshClientTypes.RouteSpec?
     let tags: [AppMeshClientTypes.TagRef]?
@@ -997,7 +997,7 @@ extension CreateRouteOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct CreateRouteOutput: Swift.Equatable {
+public struct CreateRouteOutput {
     /// The full description of your mesh following the create call.
     /// This member is required.
     public var route: AppMeshClientTypes.RouteData?
@@ -1010,7 +1010,7 @@ public struct CreateRouteOutput: Swift.Equatable {
     }
 }
 
-struct CreateRouteOutputBody: Swift.Equatable {
+struct CreateRouteOutputBody {
     let route: AppMeshClientTypes.RouteData?
 }
 
@@ -1094,7 +1094,7 @@ extension CreateVirtualGatewayInput {
     }
 }
 
-public struct CreateVirtualGatewayInput: Swift.Equatable {
+public struct CreateVirtualGatewayInput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
     public var clientToken: Swift.String?
     /// The name of the service mesh to create the virtual gateway in.
@@ -1129,7 +1129,7 @@ public struct CreateVirtualGatewayInput: Swift.Equatable {
     }
 }
 
-struct CreateVirtualGatewayInputBody: Swift.Equatable {
+struct CreateVirtualGatewayInputBody {
     let virtualGatewayName: Swift.String?
     let spec: AppMeshClientTypes.VirtualGatewaySpec?
     let tags: [AppMeshClientTypes.TagRef]?
@@ -1177,7 +1177,7 @@ extension CreateVirtualGatewayOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateVirtualGatewayOutput: Swift.Equatable {
+public struct CreateVirtualGatewayOutput {
     /// The full description of your virtual gateway following the create call.
     /// This member is required.
     public var virtualGateway: AppMeshClientTypes.VirtualGatewayData?
@@ -1190,7 +1190,7 @@ public struct CreateVirtualGatewayOutput: Swift.Equatable {
     }
 }
 
-struct CreateVirtualGatewayOutputBody: Swift.Equatable {
+struct CreateVirtualGatewayOutputBody {
     let virtualGateway: AppMeshClientTypes.VirtualGatewayData?
 }
 
@@ -1275,7 +1275,7 @@ extension CreateVirtualNodeInput {
 }
 
 ///
-public struct CreateVirtualNodeInput: Swift.Equatable {
+public struct CreateVirtualNodeInput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
     public var clientToken: Swift.String?
     /// The name of the service mesh to create the virtual node in.
@@ -1310,7 +1310,7 @@ public struct CreateVirtualNodeInput: Swift.Equatable {
     }
 }
 
-struct CreateVirtualNodeInputBody: Swift.Equatable {
+struct CreateVirtualNodeInputBody {
     let virtualNodeName: Swift.String?
     let spec: AppMeshClientTypes.VirtualNodeSpec?
     let tags: [AppMeshClientTypes.TagRef]?
@@ -1359,7 +1359,7 @@ extension CreateVirtualNodeOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct CreateVirtualNodeOutput: Swift.Equatable {
+public struct CreateVirtualNodeOutput {
     /// The full description of your virtual node following the create call.
     /// This member is required.
     public var virtualNode: AppMeshClientTypes.VirtualNodeData?
@@ -1372,7 +1372,7 @@ public struct CreateVirtualNodeOutput: Swift.Equatable {
     }
 }
 
-struct CreateVirtualNodeOutputBody: Swift.Equatable {
+struct CreateVirtualNodeOutputBody {
     let virtualNode: AppMeshClientTypes.VirtualNodeData?
 }
 
@@ -1457,7 +1457,7 @@ extension CreateVirtualRouterInput {
 }
 
 ///
-public struct CreateVirtualRouterInput: Swift.Equatable {
+public struct CreateVirtualRouterInput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
     public var clientToken: Swift.String?
     /// The name of the service mesh to create the virtual router in.
@@ -1492,7 +1492,7 @@ public struct CreateVirtualRouterInput: Swift.Equatable {
     }
 }
 
-struct CreateVirtualRouterInputBody: Swift.Equatable {
+struct CreateVirtualRouterInputBody {
     let virtualRouterName: Swift.String?
     let spec: AppMeshClientTypes.VirtualRouterSpec?
     let tags: [AppMeshClientTypes.TagRef]?
@@ -1541,7 +1541,7 @@ extension CreateVirtualRouterOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct CreateVirtualRouterOutput: Swift.Equatable {
+public struct CreateVirtualRouterOutput {
     /// The full description of your virtual router following the create call.
     /// This member is required.
     public var virtualRouter: AppMeshClientTypes.VirtualRouterData?
@@ -1554,7 +1554,7 @@ public struct CreateVirtualRouterOutput: Swift.Equatable {
     }
 }
 
-struct CreateVirtualRouterOutputBody: Swift.Equatable {
+struct CreateVirtualRouterOutputBody {
     let virtualRouter: AppMeshClientTypes.VirtualRouterData?
 }
 
@@ -1639,7 +1639,7 @@ extension CreateVirtualServiceInput {
 }
 
 ///
-public struct CreateVirtualServiceInput: Swift.Equatable {
+public struct CreateVirtualServiceInput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
     public var clientToken: Swift.String?
     /// The name of the service mesh to create the virtual service in.
@@ -1674,7 +1674,7 @@ public struct CreateVirtualServiceInput: Swift.Equatable {
     }
 }
 
-struct CreateVirtualServiceInputBody: Swift.Equatable {
+struct CreateVirtualServiceInputBody {
     let virtualServiceName: Swift.String?
     let spec: AppMeshClientTypes.VirtualServiceSpec?
     let tags: [AppMeshClientTypes.TagRef]?
@@ -1723,7 +1723,7 @@ extension CreateVirtualServiceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct CreateVirtualServiceOutput: Swift.Equatable {
+public struct CreateVirtualServiceOutput {
     /// The full description of your virtual service following the create call.
     /// This member is required.
     public var virtualService: AppMeshClientTypes.VirtualServiceData?
@@ -1736,7 +1736,7 @@ public struct CreateVirtualServiceOutput: Swift.Equatable {
     }
 }
 
-struct CreateVirtualServiceOutputBody: Swift.Equatable {
+struct CreateVirtualServiceOutputBody {
     let virtualService: AppMeshClientTypes.VirtualServiceData?
 }
 
@@ -1830,7 +1830,7 @@ extension DeleteGatewayRouteInput {
     }
 }
 
-public struct DeleteGatewayRouteInput: Swift.Equatable {
+public struct DeleteGatewayRouteInput {
     /// The name of the gateway route to delete.
     /// This member is required.
     public var gatewayRouteName: Swift.String?
@@ -1857,7 +1857,7 @@ public struct DeleteGatewayRouteInput: Swift.Equatable {
     }
 }
 
-struct DeleteGatewayRouteInputBody: Swift.Equatable {
+struct DeleteGatewayRouteInputBody {
 }
 
 extension DeleteGatewayRouteInputBody: Swift.Decodable {
@@ -1877,7 +1877,7 @@ extension DeleteGatewayRouteOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteGatewayRouteOutput: Swift.Equatable {
+public struct DeleteGatewayRouteOutput {
     /// The gateway route that was deleted.
     /// This member is required.
     public var gatewayRoute: AppMeshClientTypes.GatewayRouteData?
@@ -1890,7 +1890,7 @@ public struct DeleteGatewayRouteOutput: Swift.Equatable {
     }
 }
 
-struct DeleteGatewayRouteOutputBody: Swift.Equatable {
+struct DeleteGatewayRouteOutputBody {
     let gatewayRoute: AppMeshClientTypes.GatewayRouteData?
 }
 
@@ -1934,7 +1934,7 @@ extension DeleteMeshInput {
 }
 
 ///
-public struct DeleteMeshInput: Swift.Equatable {
+public struct DeleteMeshInput {
     /// The name of the service mesh to delete.
     /// This member is required.
     public var meshName: Swift.String?
@@ -1947,7 +1947,7 @@ public struct DeleteMeshInput: Swift.Equatable {
     }
 }
 
-struct DeleteMeshInputBody: Swift.Equatable {
+struct DeleteMeshInputBody {
 }
 
 extension DeleteMeshInputBody: Swift.Decodable {
@@ -1968,7 +1968,7 @@ extension DeleteMeshOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct DeleteMeshOutput: Swift.Equatable {
+public struct DeleteMeshOutput {
     /// The service mesh that was deleted.
     /// This member is required.
     public var mesh: AppMeshClientTypes.MeshData?
@@ -1981,7 +1981,7 @@ public struct DeleteMeshOutput: Swift.Equatable {
     }
 }
 
-struct DeleteMeshOutputBody: Swift.Equatable {
+struct DeleteMeshOutputBody {
     let mesh: AppMeshClientTypes.MeshData?
 }
 
@@ -2043,7 +2043,7 @@ extension DeleteRouteInput {
 }
 
 ///
-public struct DeleteRouteInput: Swift.Equatable {
+public struct DeleteRouteInput {
     /// The name of the service mesh to delete the route in.
     /// This member is required.
     public var meshName: Swift.String?
@@ -2070,7 +2070,7 @@ public struct DeleteRouteInput: Swift.Equatable {
     }
 }
 
-struct DeleteRouteInputBody: Swift.Equatable {
+struct DeleteRouteInputBody {
 }
 
 extension DeleteRouteInputBody: Swift.Decodable {
@@ -2091,7 +2091,7 @@ extension DeleteRouteOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct DeleteRouteOutput: Swift.Equatable {
+public struct DeleteRouteOutput {
     /// The route that was deleted.
     /// This member is required.
     public var route: AppMeshClientTypes.RouteData?
@@ -2104,7 +2104,7 @@ public struct DeleteRouteOutput: Swift.Equatable {
     }
 }
 
-struct DeleteRouteOutputBody: Swift.Equatable {
+struct DeleteRouteOutputBody {
     let route: AppMeshClientTypes.RouteData?
 }
 
@@ -2162,7 +2162,7 @@ extension DeleteVirtualGatewayInput {
     }
 }
 
-public struct DeleteVirtualGatewayInput: Swift.Equatable {
+public struct DeleteVirtualGatewayInput {
     /// The name of the service mesh to delete the virtual gateway from.
     /// This member is required.
     public var meshName: Swift.String?
@@ -2184,7 +2184,7 @@ public struct DeleteVirtualGatewayInput: Swift.Equatable {
     }
 }
 
-struct DeleteVirtualGatewayInputBody: Swift.Equatable {
+struct DeleteVirtualGatewayInputBody {
 }
 
 extension DeleteVirtualGatewayInputBody: Swift.Decodable {
@@ -2204,7 +2204,7 @@ extension DeleteVirtualGatewayOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteVirtualGatewayOutput: Swift.Equatable {
+public struct DeleteVirtualGatewayOutput {
     /// The virtual gateway that was deleted.
     /// This member is required.
     public var virtualGateway: AppMeshClientTypes.VirtualGatewayData?
@@ -2217,7 +2217,7 @@ public struct DeleteVirtualGatewayOutput: Swift.Equatable {
     }
 }
 
-struct DeleteVirtualGatewayOutputBody: Swift.Equatable {
+struct DeleteVirtualGatewayOutputBody {
     let virtualGateway: AppMeshClientTypes.VirtualGatewayData?
 }
 
@@ -2276,7 +2276,7 @@ extension DeleteVirtualNodeInput {
 }
 
 /// Deletes a virtual node input.
-public struct DeleteVirtualNodeInput: Swift.Equatable {
+public struct DeleteVirtualNodeInput {
     /// The name of the service mesh to delete the virtual node in.
     /// This member is required.
     public var meshName: Swift.String?
@@ -2298,7 +2298,7 @@ public struct DeleteVirtualNodeInput: Swift.Equatable {
     }
 }
 
-struct DeleteVirtualNodeInputBody: Swift.Equatable {
+struct DeleteVirtualNodeInputBody {
 }
 
 extension DeleteVirtualNodeInputBody: Swift.Decodable {
@@ -2319,7 +2319,7 @@ extension DeleteVirtualNodeOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct DeleteVirtualNodeOutput: Swift.Equatable {
+public struct DeleteVirtualNodeOutput {
     /// The virtual node that was deleted.
     /// This member is required.
     public var virtualNode: AppMeshClientTypes.VirtualNodeData?
@@ -2332,7 +2332,7 @@ public struct DeleteVirtualNodeOutput: Swift.Equatable {
     }
 }
 
-struct DeleteVirtualNodeOutputBody: Swift.Equatable {
+struct DeleteVirtualNodeOutputBody {
     let virtualNode: AppMeshClientTypes.VirtualNodeData?
 }
 
@@ -2391,7 +2391,7 @@ extension DeleteVirtualRouterInput {
 }
 
 ///
-public struct DeleteVirtualRouterInput: Swift.Equatable {
+public struct DeleteVirtualRouterInput {
     /// The name of the service mesh to delete the virtual router in.
     /// This member is required.
     public var meshName: Swift.String?
@@ -2413,7 +2413,7 @@ public struct DeleteVirtualRouterInput: Swift.Equatable {
     }
 }
 
-struct DeleteVirtualRouterInputBody: Swift.Equatable {
+struct DeleteVirtualRouterInputBody {
 }
 
 extension DeleteVirtualRouterInputBody: Swift.Decodable {
@@ -2434,7 +2434,7 @@ extension DeleteVirtualRouterOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct DeleteVirtualRouterOutput: Swift.Equatable {
+public struct DeleteVirtualRouterOutput {
     /// The virtual router that was deleted.
     /// This member is required.
     public var virtualRouter: AppMeshClientTypes.VirtualRouterData?
@@ -2447,7 +2447,7 @@ public struct DeleteVirtualRouterOutput: Swift.Equatable {
     }
 }
 
-struct DeleteVirtualRouterOutputBody: Swift.Equatable {
+struct DeleteVirtualRouterOutputBody {
     let virtualRouter: AppMeshClientTypes.VirtualRouterData?
 }
 
@@ -2506,7 +2506,7 @@ extension DeleteVirtualServiceInput {
 }
 
 ///
-public struct DeleteVirtualServiceInput: Swift.Equatable {
+public struct DeleteVirtualServiceInput {
     /// The name of the service mesh to delete the virtual service in.
     /// This member is required.
     public var meshName: Swift.String?
@@ -2528,7 +2528,7 @@ public struct DeleteVirtualServiceInput: Swift.Equatable {
     }
 }
 
-struct DeleteVirtualServiceInputBody: Swift.Equatable {
+struct DeleteVirtualServiceInputBody {
 }
 
 extension DeleteVirtualServiceInputBody: Swift.Decodable {
@@ -2549,7 +2549,7 @@ extension DeleteVirtualServiceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct DeleteVirtualServiceOutput: Swift.Equatable {
+public struct DeleteVirtualServiceOutput {
     /// The virtual service that was deleted.
     /// This member is required.
     public var virtualService: AppMeshClientTypes.VirtualServiceData?
@@ -2562,7 +2562,7 @@ public struct DeleteVirtualServiceOutput: Swift.Equatable {
     }
 }
 
-struct DeleteVirtualServiceOutputBody: Swift.Equatable {
+struct DeleteVirtualServiceOutputBody {
     let virtualService: AppMeshClientTypes.VirtualServiceData?
 }
 
@@ -2623,7 +2623,7 @@ extension DescribeGatewayRouteInput {
     }
 }
 
-public struct DescribeGatewayRouteInput: Swift.Equatable {
+public struct DescribeGatewayRouteInput {
     /// The name of the gateway route to describe.
     /// This member is required.
     public var gatewayRouteName: Swift.String?
@@ -2650,7 +2650,7 @@ public struct DescribeGatewayRouteInput: Swift.Equatable {
     }
 }
 
-struct DescribeGatewayRouteInputBody: Swift.Equatable {
+struct DescribeGatewayRouteInputBody {
 }
 
 extension DescribeGatewayRouteInputBody: Swift.Decodable {
@@ -2670,7 +2670,7 @@ extension DescribeGatewayRouteOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeGatewayRouteOutput: Swift.Equatable {
+public struct DescribeGatewayRouteOutput {
     /// The full description of your gateway route.
     /// This member is required.
     public var gatewayRoute: AppMeshClientTypes.GatewayRouteData?
@@ -2683,7 +2683,7 @@ public struct DescribeGatewayRouteOutput: Swift.Equatable {
     }
 }
 
-struct DescribeGatewayRouteOutputBody: Swift.Equatable {
+struct DescribeGatewayRouteOutputBody {
     let gatewayRoute: AppMeshClientTypes.GatewayRouteData?
 }
 
@@ -2738,7 +2738,7 @@ extension DescribeMeshInput {
 }
 
 ///
-public struct DescribeMeshInput: Swift.Equatable {
+public struct DescribeMeshInput {
     /// The name of the service mesh to describe.
     /// This member is required.
     public var meshName: Swift.String?
@@ -2755,7 +2755,7 @@ public struct DescribeMeshInput: Swift.Equatable {
     }
 }
 
-struct DescribeMeshInputBody: Swift.Equatable {
+struct DescribeMeshInputBody {
 }
 
 extension DescribeMeshInputBody: Swift.Decodable {
@@ -2776,7 +2776,7 @@ extension DescribeMeshOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct DescribeMeshOutput: Swift.Equatable {
+public struct DescribeMeshOutput {
     /// The full description of your service mesh.
     /// This member is required.
     public var mesh: AppMeshClientTypes.MeshData?
@@ -2789,7 +2789,7 @@ public struct DescribeMeshOutput: Swift.Equatable {
     }
 }
 
-struct DescribeMeshOutputBody: Swift.Equatable {
+struct DescribeMeshOutputBody {
     let mesh: AppMeshClientTypes.MeshData?
 }
 
@@ -2850,7 +2850,7 @@ extension DescribeRouteInput {
 }
 
 ///
-public struct DescribeRouteInput: Swift.Equatable {
+public struct DescribeRouteInput {
     /// The name of the service mesh that the route resides in.
     /// This member is required.
     public var meshName: Swift.String?
@@ -2877,7 +2877,7 @@ public struct DescribeRouteInput: Swift.Equatable {
     }
 }
 
-struct DescribeRouteInputBody: Swift.Equatable {
+struct DescribeRouteInputBody {
 }
 
 extension DescribeRouteInputBody: Swift.Decodable {
@@ -2898,7 +2898,7 @@ extension DescribeRouteOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct DescribeRouteOutput: Swift.Equatable {
+public struct DescribeRouteOutput {
     /// The full description of your route.
     /// This member is required.
     public var route: AppMeshClientTypes.RouteData?
@@ -2911,7 +2911,7 @@ public struct DescribeRouteOutput: Swift.Equatable {
     }
 }
 
-struct DescribeRouteOutputBody: Swift.Equatable {
+struct DescribeRouteOutputBody {
     let route: AppMeshClientTypes.RouteData?
 }
 
@@ -2968,7 +2968,7 @@ extension DescribeVirtualGatewayInput {
     }
 }
 
-public struct DescribeVirtualGatewayInput: Swift.Equatable {
+public struct DescribeVirtualGatewayInput {
     /// The name of the service mesh that the gateway route resides in.
     /// This member is required.
     public var meshName: Swift.String?
@@ -2990,7 +2990,7 @@ public struct DescribeVirtualGatewayInput: Swift.Equatable {
     }
 }
 
-struct DescribeVirtualGatewayInputBody: Swift.Equatable {
+struct DescribeVirtualGatewayInputBody {
 }
 
 extension DescribeVirtualGatewayInputBody: Swift.Decodable {
@@ -3010,7 +3010,7 @@ extension DescribeVirtualGatewayOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeVirtualGatewayOutput: Swift.Equatable {
+public struct DescribeVirtualGatewayOutput {
     /// The full description of your virtual gateway.
     /// This member is required.
     public var virtualGateway: AppMeshClientTypes.VirtualGatewayData?
@@ -3023,7 +3023,7 @@ public struct DescribeVirtualGatewayOutput: Swift.Equatable {
     }
 }
 
-struct DescribeVirtualGatewayOutputBody: Swift.Equatable {
+struct DescribeVirtualGatewayOutputBody {
     let virtualGateway: AppMeshClientTypes.VirtualGatewayData?
 }
 
@@ -3081,7 +3081,7 @@ extension DescribeVirtualNodeInput {
 }
 
 ///
-public struct DescribeVirtualNodeInput: Swift.Equatable {
+public struct DescribeVirtualNodeInput {
     /// The name of the service mesh that the virtual node resides in.
     /// This member is required.
     public var meshName: Swift.String?
@@ -3103,7 +3103,7 @@ public struct DescribeVirtualNodeInput: Swift.Equatable {
     }
 }
 
-struct DescribeVirtualNodeInputBody: Swift.Equatable {
+struct DescribeVirtualNodeInputBody {
 }
 
 extension DescribeVirtualNodeInputBody: Swift.Decodable {
@@ -3124,7 +3124,7 @@ extension DescribeVirtualNodeOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct DescribeVirtualNodeOutput: Swift.Equatable {
+public struct DescribeVirtualNodeOutput {
     /// The full description of your virtual node.
     /// This member is required.
     public var virtualNode: AppMeshClientTypes.VirtualNodeData?
@@ -3137,7 +3137,7 @@ public struct DescribeVirtualNodeOutput: Swift.Equatable {
     }
 }
 
-struct DescribeVirtualNodeOutputBody: Swift.Equatable {
+struct DescribeVirtualNodeOutputBody {
     let virtualNode: AppMeshClientTypes.VirtualNodeData?
 }
 
@@ -3195,7 +3195,7 @@ extension DescribeVirtualRouterInput {
 }
 
 ///
-public struct DescribeVirtualRouterInput: Swift.Equatable {
+public struct DescribeVirtualRouterInput {
     /// The name of the service mesh that the virtual router resides in.
     /// This member is required.
     public var meshName: Swift.String?
@@ -3217,7 +3217,7 @@ public struct DescribeVirtualRouterInput: Swift.Equatable {
     }
 }
 
-struct DescribeVirtualRouterInputBody: Swift.Equatable {
+struct DescribeVirtualRouterInputBody {
 }
 
 extension DescribeVirtualRouterInputBody: Swift.Decodable {
@@ -3238,7 +3238,7 @@ extension DescribeVirtualRouterOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct DescribeVirtualRouterOutput: Swift.Equatable {
+public struct DescribeVirtualRouterOutput {
     /// The full description of your virtual router.
     /// This member is required.
     public var virtualRouter: AppMeshClientTypes.VirtualRouterData?
@@ -3251,7 +3251,7 @@ public struct DescribeVirtualRouterOutput: Swift.Equatable {
     }
 }
 
-struct DescribeVirtualRouterOutputBody: Swift.Equatable {
+struct DescribeVirtualRouterOutputBody {
     let virtualRouter: AppMeshClientTypes.VirtualRouterData?
 }
 
@@ -3309,7 +3309,7 @@ extension DescribeVirtualServiceInput {
 }
 
 ///
-public struct DescribeVirtualServiceInput: Swift.Equatable {
+public struct DescribeVirtualServiceInput {
     /// The name of the service mesh that the virtual service resides in.
     /// This member is required.
     public var meshName: Swift.String?
@@ -3331,7 +3331,7 @@ public struct DescribeVirtualServiceInput: Swift.Equatable {
     }
 }
 
-struct DescribeVirtualServiceInputBody: Swift.Equatable {
+struct DescribeVirtualServiceInputBody {
 }
 
 extension DescribeVirtualServiceInputBody: Swift.Decodable {
@@ -3352,7 +3352,7 @@ extension DescribeVirtualServiceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct DescribeVirtualServiceOutput: Swift.Equatable {
+public struct DescribeVirtualServiceOutput {
     /// The full description of your virtual service.
     /// This member is required.
     public var virtualService: AppMeshClientTypes.VirtualServiceData?
@@ -3365,7 +3365,7 @@ public struct DescribeVirtualServiceOutput: Swift.Equatable {
     }
 }
 
-struct DescribeVirtualServiceOutputBody: Swift.Equatable {
+struct DescribeVirtualServiceOutputBody {
     let virtualService: AppMeshClientTypes.VirtualServiceData?
 }
 
@@ -3462,7 +3462,7 @@ extension AppMeshClientTypes.DnsServiceDiscovery: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the DNS service discovery information for your virtual node.
-    public struct DnsServiceDiscovery: Swift.Equatable {
+    public struct DnsServiceDiscovery {
         /// Specifies the DNS service discovery hostname for the virtual node.
         /// This member is required.
         public var hostname: Swift.String?
@@ -3512,7 +3512,7 @@ extension AppMeshClientTypes.Duration: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a duration of time.
-    public struct Duration: Swift.Equatable {
+    public struct Duration {
         /// A unit of time.
         public var unit: AppMeshClientTypes.DurationUnit?
         /// A number of time units.
@@ -3583,7 +3583,7 @@ extension AppMeshClientTypes.EgressFilter: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the egress filter rules for a service mesh.
-    public struct EgressFilter: Swift.Equatable {
+    public struct EgressFilter {
         /// The egress filter type. By default, the type is DROP_ALL, which allows egress only from virtual nodes to other defined resources in the service mesh (and any traffic to *.amazonaws.com for Amazon Web Services API calls). You can set the egress filter type to ALLOW_ALL to allow egress to any endpoint inside or outside of the service mesh.
         /// This member is required.
         public var type: AppMeshClientTypes.EgressFilterType?
@@ -3657,7 +3657,7 @@ extension AppMeshClientTypes.FileAccessLog: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents an access log file.
-    public struct FileAccessLog: Swift.Equatable {
+    public struct FileAccessLog {
         /// The specified format for the logs. The format is either json_format or text_format.
         public var format: AppMeshClientTypes.LoggingFormat?
         /// The file path to write access logs to. You can use /dev/stdout to send access logs to standard out and configure your Envoy container to use a log driver, such as awslogs, to export the access logs to a log storage service such as Amazon CloudWatch Logs. You can also specify a path in the Envoy container's file system to write the files to disk. The Envoy process must have write permissions to the path that you specify here. Otherwise, Envoy fails to bootstrap properly.
@@ -3715,7 +3715,7 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
     }
 }
 
-struct ForbiddenExceptionBody: Swift.Equatable {
+struct ForbiddenExceptionBody {
     let message: Swift.String?
 }
 
@@ -3782,7 +3782,7 @@ extension AppMeshClientTypes.GatewayRouteData: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a gateway route returned by a describe operation.
-    public struct GatewayRouteData: Swift.Equatable {
+    public struct GatewayRouteData {
         /// The name of the gateway route.
         /// This member is required.
         public var gatewayRouteName: Swift.String?
@@ -3849,7 +3849,7 @@ extension AppMeshClientTypes.GatewayRouteHostnameMatch: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object representing the gateway route host name to match.
-    public struct GatewayRouteHostnameMatch: Swift.Equatable {
+    public struct GatewayRouteHostnameMatch {
         /// The exact host name to match on.
         public var exact: Swift.String?
         /// The specified ending characters of the host name to match on.
@@ -3888,7 +3888,7 @@ extension AppMeshClientTypes.GatewayRouteHostnameRewrite: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object representing the gateway route host name to rewrite.
-    public struct GatewayRouteHostnameRewrite: Swift.Equatable {
+    public struct GatewayRouteHostnameRewrite {
         /// The default target host name to write to.
         public var defaultTargetHostname: AppMeshClientTypes.DefaultGatewayRouteRewrite?
 
@@ -3971,7 +3971,7 @@ extension AppMeshClientTypes.GatewayRouteRef: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a gateway route returned by a list operation.
-    public struct GatewayRouteRef: Swift.Equatable {
+    public struct GatewayRouteRef {
         /// The full Amazon Resource Name (ARN) for the gateway route.
         /// This member is required.
         public var arn: Swift.String?
@@ -4065,7 +4065,7 @@ extension AppMeshClientTypes.GatewayRouteSpec: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a gateway route specification. Specify one gateway route type.
-    public struct GatewayRouteSpec: Swift.Equatable {
+    public struct GatewayRouteSpec {
         /// An object that represents the specification of a gRPC gateway route.
         public var grpcRoute: AppMeshClientTypes.GrpcGatewayRoute?
         /// An object that represents the specification of an HTTP/2 gateway route.
@@ -4112,7 +4112,7 @@ extension AppMeshClientTypes.GatewayRouteStatus: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the current status of a gateway route.
-    public struct GatewayRouteStatus: Swift.Equatable {
+    public struct GatewayRouteStatus {
         /// The current status for the gateway route.
         /// This member is required.
         public var status: AppMeshClientTypes.GatewayRouteStatusCode?
@@ -4189,7 +4189,7 @@ extension AppMeshClientTypes.GatewayRouteTarget: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a gateway route target.
-    public struct GatewayRouteTarget: Swift.Equatable {
+    public struct GatewayRouteTarget {
         /// The port number of the gateway route target.
         public var port: Swift.Int?
         /// An object that represents a virtual service gateway route target.
@@ -4229,7 +4229,7 @@ extension AppMeshClientTypes.GatewayRouteVirtualService: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the virtual service that traffic is routed to.
-    public struct GatewayRouteVirtualService: Swift.Equatable {
+    public struct GatewayRouteVirtualService {
         /// The name of the virtual service that traffic is routed to.
         /// This member is required.
         public var virtualServiceName: Swift.String?
@@ -4271,7 +4271,7 @@ extension AppMeshClientTypes.GrpcGatewayRoute: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a gRPC gateway route.
-    public struct GrpcGatewayRoute: Swift.Equatable {
+    public struct GrpcGatewayRoute {
         /// An object that represents the action to take if a match is determined.
         /// This member is required.
         public var action: AppMeshClientTypes.GrpcGatewayRouteAction?
@@ -4318,7 +4318,7 @@ extension AppMeshClientTypes.GrpcGatewayRouteAction: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the action to take if a match is determined.
-    public struct GrpcGatewayRouteAction: Swift.Equatable {
+    public struct GrpcGatewayRouteAction {
         /// The gateway route action to rewrite.
         public var rewrite: AppMeshClientTypes.GrpcGatewayRouteRewrite?
         /// An object that represents the target that traffic is routed to when a request matches the gateway route.
@@ -4388,7 +4388,7 @@ extension AppMeshClientTypes.GrpcGatewayRouteMatch: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the criteria for determining a request match.
-    public struct GrpcGatewayRouteMatch: Swift.Equatable {
+    public struct GrpcGatewayRouteMatch {
         /// The gateway route host name to be matched on.
         public var hostname: AppMeshClientTypes.GatewayRouteHostnameMatch?
         /// The gateway route metadata to be matched on.
@@ -4447,7 +4447,7 @@ extension AppMeshClientTypes.GrpcGatewayRouteMetadata: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object representing the metadata of the gateway route.
-    public struct GrpcGatewayRouteMetadata: Swift.Equatable {
+    public struct GrpcGatewayRouteMetadata {
         /// Specify True to match anything except the match criteria. The default value is False.
         public var invert: Swift.Bool?
         /// The criteria for determining a metadata match.
@@ -4491,7 +4491,7 @@ extension AppMeshClientTypes.GrpcGatewayRouteRewrite: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the gateway route to rewrite.
-    public struct GrpcGatewayRouteRewrite: Swift.Equatable {
+    public struct GrpcGatewayRouteRewrite {
         /// The host name of the gateway route to rewrite.
         public var hostname: AppMeshClientTypes.GatewayRouteHostnameRewrite?
 
@@ -4566,7 +4566,7 @@ extension AppMeshClientTypes.GrpcMetadataMatchMethod: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object representing the method header to be matched.
-    public enum GrpcMetadataMatchMethod: Swift.Equatable {
+    public enum GrpcMetadataMatchMethod {
         /// The exact method header to be matched on.
         case exact(Swift.String)
         /// The regex used to match the method header.
@@ -4663,7 +4663,7 @@ extension AppMeshClientTypes.GrpcRetryPolicy: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a retry policy. Specify at least one value for at least one of the types of RetryEvents, a value for maxRetries, and a value for perRetryTimeout. Both server-error and gateway-error under httpRetryEvents include the Envoy reset policy. For more information on the reset policy, see the [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/router_filter#x-envoy-retry-on).
-    public struct GrpcRetryPolicy: Swift.Equatable {
+    public struct GrpcRetryPolicy {
         /// Specify at least one of the valid values.
         public var grpcRetryEvents: [AppMeshClientTypes.GrpcRetryPolicyEvent]?
         /// Specify at least one of the following values.
@@ -4783,7 +4783,7 @@ extension AppMeshClientTypes.GrpcRoute: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a gRPC route type.
-    public struct GrpcRoute: Swift.Equatable {
+    public struct GrpcRoute {
         /// An object that represents the action to take if a match is determined.
         /// This member is required.
         public var action: AppMeshClientTypes.GrpcRouteAction?
@@ -4844,7 +4844,7 @@ extension AppMeshClientTypes.GrpcRouteAction: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the action to take if a match is determined.
-    public struct GrpcRouteAction: Swift.Equatable {
+    public struct GrpcRouteAction {
         /// An object that represents the targets that traffic is routed to when a request matches the route.
         /// This member is required.
         public var weightedTargets: [AppMeshClientTypes.WeightedTarget]?
@@ -4910,7 +4910,7 @@ extension AppMeshClientTypes.GrpcRouteMatch: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the criteria for determining a request match.
-    public struct GrpcRouteMatch: Swift.Equatable {
+    public struct GrpcRouteMatch {
         /// An object that represents the data to match from the request.
         public var metadata: [AppMeshClientTypes.GrpcRouteMetadata]?
         /// The method name to match from the request. If you specify a name, you must also specify a serviceName.
@@ -4969,7 +4969,7 @@ extension AppMeshClientTypes.GrpcRouteMetadata: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the match metadata for the route.
-    public struct GrpcRouteMetadata: Swift.Equatable {
+    public struct GrpcRouteMetadata {
         /// Specify True to match anything except the match criteria. The default value is False.
         public var invert: Swift.Bool?
         /// An object that represents the data to match from the request.
@@ -5053,7 +5053,7 @@ extension AppMeshClientTypes.GrpcRouteMetadataMatchMethod: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the match method. Specify one of the match values.
-    public enum GrpcRouteMetadataMatchMethod: Swift.Equatable {
+    public enum GrpcRouteMetadataMatchMethod {
         /// The value sent by the client must match the specified value exactly.
         case exact(Swift.String)
         /// The value sent by the client must include the specified characters.
@@ -5096,7 +5096,7 @@ extension AppMeshClientTypes.GrpcTimeout: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents types of timeouts.
-    public struct GrpcTimeout: Swift.Equatable {
+    public struct GrpcTimeout {
         /// An object that represents an idle timeout. An idle timeout bounds the amount of time that a connection may be idle. The default value is none.
         public var idle: AppMeshClientTypes.Duration?
         /// An object that represents a per request timeout. The default value is 15 seconds. If you set a higher timeout, then make sure that the higher value is set for each App Mesh resource in a conversation. For example, if a virtual node backend uses a virtual router provider to route to another virtual node, then the timeout should be greater than 15 seconds for the source and destination virtual node and the route.
@@ -5175,7 +5175,7 @@ extension AppMeshClientTypes.HeaderMatchMethod: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the method and value to match with the header value sent in a request. Specify one match method.
-    public enum HeaderMatchMethod: Swift.Equatable {
+    public enum HeaderMatchMethod {
         /// The value sent by the client must match the specified value exactly.
         case exact(Swift.String)
         /// The value sent by the client must include the specified characters.
@@ -5248,7 +5248,7 @@ extension AppMeshClientTypes.HealthCheckPolicy: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the health check policy for a virtual node's listener.
-    public struct HealthCheckPolicy: Swift.Equatable {
+    public struct HealthCheckPolicy {
         /// The number of consecutive successful health checks that must occur before declaring listener healthy.
         /// This member is required.
         public var healthyThreshold: Swift.Int?
@@ -5318,7 +5318,7 @@ extension AppMeshClientTypes.HttpGatewayRoute: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents an HTTP gateway route.
-    public struct HttpGatewayRoute: Swift.Equatable {
+    public struct HttpGatewayRoute {
         /// An object that represents the action to take if a match is determined.
         /// This member is required.
         public var action: AppMeshClientTypes.HttpGatewayRouteAction?
@@ -5365,7 +5365,7 @@ extension AppMeshClientTypes.HttpGatewayRouteAction: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the action to take if a match is determined.
-    public struct HttpGatewayRouteAction: Swift.Equatable {
+    public struct HttpGatewayRouteAction {
         /// The gateway route action to rewrite.
         public var rewrite: AppMeshClientTypes.HttpGatewayRouteRewrite?
         /// An object that represents the target that traffic is routed to when a request matches the gateway route.
@@ -5417,7 +5417,7 @@ extension AppMeshClientTypes.HttpGatewayRouteHeader: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the HTTP header in the gateway route.
-    public struct HttpGatewayRouteHeader: Swift.Equatable {
+    public struct HttpGatewayRouteHeader {
         /// Specify True to match anything except the match criteria. The default value is False.
         public var invert: Swift.Bool?
         /// An object that represents the method and value to match with the header value sent in a request. Specify one match method.
@@ -5521,7 +5521,7 @@ extension AppMeshClientTypes.HttpGatewayRouteMatch: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the criteria for determining a request match.
-    public struct HttpGatewayRouteMatch: Swift.Equatable {
+    public struct HttpGatewayRouteMatch {
         /// The client request headers to match on.
         public var headers: [AppMeshClientTypes.HttpGatewayRouteHeader]?
         /// The host name to match on.
@@ -5580,7 +5580,7 @@ extension AppMeshClientTypes.HttpGatewayRoutePathRewrite: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the path to rewrite.
-    public struct HttpGatewayRoutePathRewrite: Swift.Equatable {
+    public struct HttpGatewayRoutePathRewrite {
         /// The exact path to rewrite.
         public var exact: Swift.String?
 
@@ -5621,7 +5621,7 @@ extension AppMeshClientTypes.HttpGatewayRoutePrefixRewrite: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object representing the beginning characters of the route to rewrite.
-    public struct HttpGatewayRoutePrefixRewrite: Swift.Equatable {
+    public struct HttpGatewayRoutePrefixRewrite {
         /// The default prefix used to replace the incoming route prefix when rewritten.
         public var defaultPrefix: AppMeshClientTypes.DefaultGatewayRouteRewrite?
         /// The value used to replace the incoming route prefix when rewritten.
@@ -5672,7 +5672,7 @@ extension AppMeshClientTypes.HttpGatewayRouteRewrite: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object representing the gateway route to rewrite.
-    public struct HttpGatewayRouteRewrite: Swift.Equatable {
+    public struct HttpGatewayRouteRewrite {
         /// The host name to rewrite.
         public var hostname: AppMeshClientTypes.GatewayRouteHostnameRewrite?
         /// The path to rewrite.
@@ -5774,7 +5774,7 @@ extension AppMeshClientTypes.HttpPathMatch: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object representing the path to match in the request.
-    public struct HttpPathMatch: Swift.Equatable {
+    public struct HttpPathMatch {
         /// The exact path to match on.
         public var exact: Swift.String?
         /// The regex used to match the path.
@@ -5819,7 +5819,7 @@ extension AppMeshClientTypes.HttpQueryParameter: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the query parameter in the request.
-    public struct HttpQueryParameter: Swift.Equatable {
+    public struct HttpQueryParameter {
         /// The query parameter to match on.
         public var match: AppMeshClientTypes.QueryParameterMatch?
         /// A name for the query parameter that will be matched on.
@@ -5901,7 +5901,7 @@ extension AppMeshClientTypes.HttpRetryPolicy: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a retry policy. Specify at least one value for at least one of the types of RetryEvents, a value for maxRetries, and a value for perRetryTimeout. Both server-error and gateway-error under httpRetryEvents include the Envoy reset policy. For more information on the reset policy, see the [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/router_filter#x-envoy-retry-on).
-    public struct HttpRetryPolicy: Swift.Equatable {
+    public struct HttpRetryPolicy {
         /// Specify at least one of the following values.
         ///
         /// * server-error – HTTP status codes 500, 501, 502, 503, 504, 505, 506, 507, 508, 510, and 511
@@ -5976,7 +5976,7 @@ extension AppMeshClientTypes.HttpRoute: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents an HTTP or HTTP/2 route type.
-    public struct HttpRoute: Swift.Equatable {
+    public struct HttpRoute {
         /// An object that represents the action to take if a match is determined.
         /// This member is required.
         public var action: AppMeshClientTypes.HttpRouteAction?
@@ -6037,7 +6037,7 @@ extension AppMeshClientTypes.HttpRouteAction: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the action to take if a match is determined.
-    public struct HttpRouteAction: Swift.Equatable {
+    public struct HttpRouteAction {
         /// An object that represents the targets that traffic is routed to when a request matches the route.
         /// This member is required.
         public var weightedTargets: [AppMeshClientTypes.WeightedTarget]?
@@ -6085,7 +6085,7 @@ extension AppMeshClientTypes.HttpRouteHeader: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the HTTP header in the request.
-    public struct HttpRouteHeader: Swift.Equatable {
+    public struct HttpRouteHeader {
         /// Specify True to match anything except the match criteria. The default value is False.
         public var invert: Swift.Bool?
         /// The HeaderMatchMethod object.
@@ -6189,7 +6189,7 @@ extension AppMeshClientTypes.HttpRouteMatch: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the requirements for a route to match HTTP requests for a virtual router.
-    public struct HttpRouteMatch: Swift.Equatable {
+    public struct HttpRouteMatch {
         /// The client request headers to match on.
         public var headers: [AppMeshClientTypes.HttpRouteHeader]?
         /// The client request method to match on. Specify only one.
@@ -6286,7 +6286,7 @@ extension AppMeshClientTypes.HttpTimeout: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents types of timeouts.
-    public struct HttpTimeout: Swift.Equatable {
+    public struct HttpTimeout {
         /// An object that represents an idle timeout. An idle timeout bounds the amount of time that a connection may be idle. The default value is none.
         public var idle: AppMeshClientTypes.Duration?
         /// An object that represents a per request timeout. The default value is 15 seconds. If you set a higher timeout, then make sure that the higher value is set for each App Mesh resource in a conversation. For example, if a virtual node backend uses a virtual router provider to route to another virtual node, then the timeout should be greater than 15 seconds for the source and destination virtual node and the route.
@@ -6343,7 +6343,7 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct InternalServerErrorExceptionBody: Swift.Equatable {
+struct InternalServerErrorExceptionBody {
     let message: Swift.String?
 }
 
@@ -6424,7 +6424,7 @@ extension AppMeshClientTypes.JsonFormatRef: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the key value pairs for the JSON.
-    public struct JsonFormatRef: Swift.Equatable {
+    public struct JsonFormatRef {
         /// The specified key for the JSON.
         /// This member is required.
         public var key: Swift.String?
@@ -6483,7 +6483,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -6532,7 +6532,7 @@ extension ListGatewayRoutesInput {
     }
 }
 
-public struct ListGatewayRoutesInput: Swift.Equatable {
+public struct ListGatewayRoutesInput {
     /// The maximum number of results returned by ListGatewayRoutes in paginated output. When you use this parameter, ListGatewayRoutes returns only limit results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListGatewayRoutes request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListGatewayRoutes returns up to 100 results and a nextToken value if applicable.
     public var limit: Swift.Int?
     /// The name of the service mesh to list gateway routes in.
@@ -6562,7 +6562,7 @@ public struct ListGatewayRoutesInput: Swift.Equatable {
     }
 }
 
-struct ListGatewayRoutesInputBody: Swift.Equatable {
+struct ListGatewayRoutesInputBody {
 }
 
 extension ListGatewayRoutesInputBody: Swift.Decodable {
@@ -6585,7 +6585,7 @@ extension ListGatewayRoutesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListGatewayRoutesOutput: Swift.Equatable {
+public struct ListGatewayRoutesOutput {
     /// The list of existing gateway routes for the specified service mesh and virtual gateway.
     /// This member is required.
     public var gatewayRoutes: [AppMeshClientTypes.GatewayRouteRef]?
@@ -6602,7 +6602,7 @@ public struct ListGatewayRoutesOutput: Swift.Equatable {
     }
 }
 
-struct ListGatewayRoutesOutputBody: Swift.Equatable {
+struct ListGatewayRoutesOutputBody {
     let gatewayRoutes: [AppMeshClientTypes.GatewayRouteRef]?
     let nextToken: Swift.String?
 }
@@ -6671,7 +6671,7 @@ extension ListMeshesInput {
 }
 
 ///
-public struct ListMeshesInput: Swift.Equatable {
+public struct ListMeshesInput {
     /// The maximum number of results returned by ListMeshes in paginated output. When you use this parameter, ListMeshes returns only limit results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListMeshes request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListMeshes returns up to 100 results and a nextToken value if applicable.
     public var limit: Swift.Int?
     /// The nextToken value returned from a previous paginated ListMeshes request where limit was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
@@ -6687,7 +6687,7 @@ public struct ListMeshesInput: Swift.Equatable {
     }
 }
 
-struct ListMeshesInputBody: Swift.Equatable {
+struct ListMeshesInputBody {
 }
 
 extension ListMeshesInputBody: Swift.Decodable {
@@ -6711,7 +6711,7 @@ extension ListMeshesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct ListMeshesOutput: Swift.Equatable {
+public struct ListMeshesOutput {
     /// The list of existing service meshes.
     /// This member is required.
     public var meshes: [AppMeshClientTypes.MeshRef]?
@@ -6728,7 +6728,7 @@ public struct ListMeshesOutput: Swift.Equatable {
     }
 }
 
-struct ListMeshesOutputBody: Swift.Equatable {
+struct ListMeshesOutputBody {
     let meshes: [AppMeshClientTypes.MeshRef]?
     let nextToken: Swift.String?
 }
@@ -6807,7 +6807,7 @@ extension ListRoutesInput {
 }
 
 ///
-public struct ListRoutesInput: Swift.Equatable {
+public struct ListRoutesInput {
     /// The maximum number of results returned by ListRoutes in paginated output. When you use this parameter, ListRoutes returns only limit results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListRoutes request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListRoutes returns up to 100 results and a nextToken value if applicable.
     public var limit: Swift.Int?
     /// The name of the service mesh to list routes in.
@@ -6837,7 +6837,7 @@ public struct ListRoutesInput: Swift.Equatable {
     }
 }
 
-struct ListRoutesInputBody: Swift.Equatable {
+struct ListRoutesInputBody {
 }
 
 extension ListRoutesInputBody: Swift.Decodable {
@@ -6861,7 +6861,7 @@ extension ListRoutesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct ListRoutesOutput: Swift.Equatable {
+public struct ListRoutesOutput {
     /// The nextToken value to include in a future ListRoutes request. When the results of a ListRoutes request exceed limit, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
     /// The list of existing routes for the specified service mesh and virtual router.
@@ -6878,7 +6878,7 @@ public struct ListRoutesOutput: Swift.Equatable {
     }
 }
 
-struct ListRoutesOutputBody: Swift.Equatable {
+struct ListRoutesOutputBody {
     let routes: [AppMeshClientTypes.RouteRef]?
     let nextToken: Swift.String?
 }
@@ -6953,7 +6953,7 @@ extension ListTagsForResourceInput {
 }
 
 ///
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The maximum number of tag results returned by ListTagsForResource in paginated output. When this parameter is used, ListTagsForResource returns only limit results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListTagsForResource request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListTagsForResource returns up to 100 results and a nextToken value if applicable.
     public var limit: Swift.Int?
     /// The nextToken value returned from a previous paginated ListTagsForResource request where limit was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.
@@ -6974,7 +6974,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -6998,7 +6998,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The nextToken value to include in a future ListTagsForResource request. When the results of a ListTagsForResource request exceed limit, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
     /// The tags for the resource.
@@ -7015,7 +7015,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [AppMeshClientTypes.TagRef]?
     let nextToken: Swift.String?
 }
@@ -7090,7 +7090,7 @@ extension ListVirtualGatewaysInput {
     }
 }
 
-public struct ListVirtualGatewaysInput: Swift.Equatable {
+public struct ListVirtualGatewaysInput {
     /// The maximum number of results returned by ListVirtualGateways in paginated output. When you use this parameter, ListVirtualGateways returns only limit results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListVirtualGateways request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListVirtualGateways returns up to 100 results and a nextToken value if applicable.
     public var limit: Swift.Int?
     /// The name of the service mesh to list virtual gateways in.
@@ -7115,7 +7115,7 @@ public struct ListVirtualGatewaysInput: Swift.Equatable {
     }
 }
 
-struct ListVirtualGatewaysInputBody: Swift.Equatable {
+struct ListVirtualGatewaysInputBody {
 }
 
 extension ListVirtualGatewaysInputBody: Swift.Decodable {
@@ -7138,7 +7138,7 @@ extension ListVirtualGatewaysOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListVirtualGatewaysOutput: Swift.Equatable {
+public struct ListVirtualGatewaysOutput {
     /// The nextToken value to include in a future ListVirtualGateways request. When the results of a ListVirtualGateways request exceed limit, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
     /// The list of existing virtual gateways for the specified service mesh.
@@ -7155,7 +7155,7 @@ public struct ListVirtualGatewaysOutput: Swift.Equatable {
     }
 }
 
-struct ListVirtualGatewaysOutputBody: Swift.Equatable {
+struct ListVirtualGatewaysOutputBody {
     let virtualGateways: [AppMeshClientTypes.VirtualGatewayRef]?
     let nextToken: Swift.String?
 }
@@ -7231,7 +7231,7 @@ extension ListVirtualNodesInput {
 }
 
 ///
-public struct ListVirtualNodesInput: Swift.Equatable {
+public struct ListVirtualNodesInput {
     /// The maximum number of results returned by ListVirtualNodes in paginated output. When you use this parameter, ListVirtualNodes returns only limit results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListVirtualNodes request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListVirtualNodes returns up to 100 results and a nextToken value if applicable.
     public var limit: Swift.Int?
     /// The name of the service mesh to list virtual nodes in.
@@ -7256,7 +7256,7 @@ public struct ListVirtualNodesInput: Swift.Equatable {
     }
 }
 
-struct ListVirtualNodesInputBody: Swift.Equatable {
+struct ListVirtualNodesInputBody {
 }
 
 extension ListVirtualNodesInputBody: Swift.Decodable {
@@ -7280,7 +7280,7 @@ extension ListVirtualNodesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct ListVirtualNodesOutput: Swift.Equatable {
+public struct ListVirtualNodesOutput {
     /// The nextToken value to include in a future ListVirtualNodes request. When the results of a ListVirtualNodes request exceed limit, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
     /// The list of existing virtual nodes for the specified service mesh.
@@ -7297,7 +7297,7 @@ public struct ListVirtualNodesOutput: Swift.Equatable {
     }
 }
 
-struct ListVirtualNodesOutputBody: Swift.Equatable {
+struct ListVirtualNodesOutputBody {
     let virtualNodes: [AppMeshClientTypes.VirtualNodeRef]?
     let nextToken: Swift.String?
 }
@@ -7373,7 +7373,7 @@ extension ListVirtualRoutersInput {
 }
 
 ///
-public struct ListVirtualRoutersInput: Swift.Equatable {
+public struct ListVirtualRoutersInput {
     /// The maximum number of results returned by ListVirtualRouters in paginated output. When you use this parameter, ListVirtualRouters returns only limit results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListVirtualRouters request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListVirtualRouters returns up to 100 results and a nextToken value if applicable.
     public var limit: Swift.Int?
     /// The name of the service mesh to list virtual routers in.
@@ -7398,7 +7398,7 @@ public struct ListVirtualRoutersInput: Swift.Equatable {
     }
 }
 
-struct ListVirtualRoutersInputBody: Swift.Equatable {
+struct ListVirtualRoutersInputBody {
 }
 
 extension ListVirtualRoutersInputBody: Swift.Decodable {
@@ -7422,7 +7422,7 @@ extension ListVirtualRoutersOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct ListVirtualRoutersOutput: Swift.Equatable {
+public struct ListVirtualRoutersOutput {
     /// The nextToken value to include in a future ListVirtualRouters request. When the results of a ListVirtualRouters request exceed limit, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
     /// The list of existing virtual routers for the specified service mesh.
@@ -7439,7 +7439,7 @@ public struct ListVirtualRoutersOutput: Swift.Equatable {
     }
 }
 
-struct ListVirtualRoutersOutputBody: Swift.Equatable {
+struct ListVirtualRoutersOutputBody {
     let virtualRouters: [AppMeshClientTypes.VirtualRouterRef]?
     let nextToken: Swift.String?
 }
@@ -7515,7 +7515,7 @@ extension ListVirtualServicesInput {
 }
 
 ///
-public struct ListVirtualServicesInput: Swift.Equatable {
+public struct ListVirtualServicesInput {
     /// The maximum number of results returned by ListVirtualServices in paginated output. When you use this parameter, ListVirtualServices returns only limit results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListVirtualServices request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListVirtualServices returns up to 100 results and a nextToken value if applicable.
     public var limit: Swift.Int?
     /// The name of the service mesh to list virtual services in.
@@ -7540,7 +7540,7 @@ public struct ListVirtualServicesInput: Swift.Equatable {
     }
 }
 
-struct ListVirtualServicesInputBody: Swift.Equatable {
+struct ListVirtualServicesInputBody {
 }
 
 extension ListVirtualServicesInputBody: Swift.Decodable {
@@ -7564,7 +7564,7 @@ extension ListVirtualServicesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct ListVirtualServicesOutput: Swift.Equatable {
+public struct ListVirtualServicesOutput {
     /// The nextToken value to include in a future ListVirtualServices request. When the results of a ListVirtualServices request exceed limit, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
     /// The list of existing virtual services for the specified service mesh.
@@ -7581,7 +7581,7 @@ public struct ListVirtualServicesOutput: Swift.Equatable {
     }
 }
 
-struct ListVirtualServicesOutputBody: Swift.Equatable {
+struct ListVirtualServicesOutputBody {
     let virtualServices: [AppMeshClientTypes.VirtualServiceRef]?
     let nextToken: Swift.String?
 }
@@ -7677,7 +7677,7 @@ extension AppMeshClientTypes.Listener: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a listener for a virtual node.
-    public struct Listener: Swift.Equatable {
+    public struct Listener {
         /// The connection pool information for the listener.
         public var connectionPool: AppMeshClientTypes.VirtualNodeConnectionPool?
         /// The health check information for the listener.
@@ -7765,7 +7765,7 @@ extension AppMeshClientTypes.ListenerTimeout: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents timeouts for different protocols.
-    public enum ListenerTimeout: Swift.Equatable {
+    public enum ListenerTimeout {
         /// An object that represents types of timeouts.
         case tcp(AppMeshClientTypes.TcpTimeout)
         /// An object that represents types of timeouts.
@@ -7812,7 +7812,7 @@ extension AppMeshClientTypes.ListenerTls: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the Transport Layer Security (TLS) properties for a listener.
-    public struct ListenerTls: Swift.Equatable {
+    public struct ListenerTls {
         /// A reference to an object that represents a listener's Transport Layer Security (TLS) certificate.
         /// This member is required.
         public var certificate: AppMeshClientTypes.ListenerTlsCertificate?
@@ -7863,7 +7863,7 @@ extension AppMeshClientTypes.ListenerTlsAcmCertificate: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents an Certificate Manager certificate.
-    public struct ListenerTlsAcmCertificate: Swift.Equatable {
+    public struct ListenerTlsAcmCertificate {
         /// The Amazon Resource Name (ARN) for the certificate. The certificate must meet specific requirements and you must have proxy authorization enabled. For more information, see [Transport Layer Security (TLS)](https://docs.aws.amazon.com/app-mesh/latest/userguide/tls.html#virtual-node-tls-prerequisites).
         /// This member is required.
         public var certificateArn: Swift.String?
@@ -7923,7 +7923,7 @@ extension AppMeshClientTypes.ListenerTlsCertificate: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a listener's Transport Layer Security (TLS) certificate.
-    public enum ListenerTlsCertificate: Swift.Equatable {
+    public enum ListenerTlsCertificate {
         /// A reference to an object that represents an Certificate Manager certificate.
         case acm(AppMeshClientTypes.ListenerTlsAcmCertificate)
         /// A reference to an object that represents a local file certificate.
@@ -7962,7 +7962,7 @@ extension AppMeshClientTypes.ListenerTlsFileCertificate: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a local file certificate. The certificate must meet specific requirements and you must have proxy authorization enabled. For more information, see [Transport Layer Security (TLS)](https://docs.aws.amazon.com/app-mesh/latest/userguide/tls.html#virtual-node-tls-prerequisites).
-    public struct ListenerTlsFileCertificate: Swift.Equatable {
+    public struct ListenerTlsFileCertificate {
         /// The certificate chain for the certificate.
         /// This member is required.
         public var certificateChain: Swift.String?
@@ -8038,7 +8038,7 @@ extension AppMeshClientTypes.ListenerTlsSdsCertificate: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the listener's Secret Discovery Service certificate. The proxy must be configured with a local SDS provider via a Unix Domain Socket. See App Mesh [TLS documentation](https://docs.aws.amazon.com/app-mesh/latest/userguide/tls.html) for more info.
-    public struct ListenerTlsSdsCertificate: Swift.Equatable {
+    public struct ListenerTlsSdsCertificate {
         /// A reference to an object that represents the name of the secret requested from the Secret Discovery Service provider representing Transport Layer Security (TLS) materials like a certificate or certificate chain.
         /// This member is required.
         public var secretName: Swift.String?
@@ -8080,7 +8080,7 @@ extension AppMeshClientTypes.ListenerTlsValidationContext: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a listener's Transport Layer Security (TLS) validation context.
-    public struct ListenerTlsValidationContext: Swift.Equatable {
+    public struct ListenerTlsValidationContext {
         /// A reference to an object that represents the SANs for a listener's Transport Layer Security (TLS) validation context.
         public var subjectAlternativeNames: AppMeshClientTypes.SubjectAlternativeNames?
         /// A reference to where to retrieve the trust chain when validating a peer’s Transport Layer Security (TLS) certificate.
@@ -8136,7 +8136,7 @@ extension AppMeshClientTypes.ListenerTlsValidationContextTrust: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a listener's Transport Layer Security (TLS) validation context trust.
-    public enum ListenerTlsValidationContextTrust: Swift.Equatable {
+    public enum ListenerTlsValidationContextTrust {
         /// An object that represents a Transport Layer Security (TLS) validation context trust for a local file.
         case file(AppMeshClientTypes.TlsValidationContextFileTrust)
         /// A reference to an object that represents a listener's Transport Layer Security (TLS) Secret Discovery Service validation context trust.
@@ -8167,7 +8167,7 @@ extension AppMeshClientTypes.Logging: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the logging information for a virtual node.
-    public struct Logging: Swift.Equatable {
+    public struct Logging {
         /// The access log configuration for a virtual node.
         public var accessLog: AppMeshClientTypes.AccessLog?
 
@@ -8230,7 +8230,7 @@ extension AppMeshClientTypes.LoggingFormat: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the format for the logs.
-    public enum LoggingFormat: Swift.Equatable {
+    public enum LoggingFormat {
         ///
         case text(Swift.String)
         ///
@@ -8267,7 +8267,7 @@ extension AppMeshClientTypes.MatchRange: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the range of values to match on. The first character of the range is included in the range, though the last character is not. For example, if the range specified were 1-100, only values 1-99 would be matched.
-    public struct MatchRange: Swift.Equatable {
+    public struct MatchRange {
         /// The end of the range.
         /// This member is required.
         public var end: Swift.Int?
@@ -8326,7 +8326,7 @@ extension AppMeshClientTypes.MeshData: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a service mesh returned by a describe operation.
-    public struct MeshData: Swift.Equatable {
+    public struct MeshData {
         /// The name of the service mesh.
         /// This member is required.
         public var meshName: Swift.String?
@@ -8413,7 +8413,7 @@ extension AppMeshClientTypes.MeshRef: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a service mesh returned by a list operation.
-    public struct MeshRef: Swift.Equatable {
+    public struct MeshRef {
         /// The full Amazon Resource Name (ARN) of the service mesh.
         /// This member is required.
         public var arn: Swift.String?
@@ -8479,7 +8479,7 @@ extension AppMeshClientTypes.MeshServiceDiscovery: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the service discovery information for a service mesh.
-    public struct MeshServiceDiscovery: Swift.Equatable {
+    public struct MeshServiceDiscovery {
         /// The IP version to use to control traffic within the mesh.
         public var ipPreference: AppMeshClientTypes.IpPreference?
 
@@ -8520,7 +8520,7 @@ extension AppMeshClientTypes.MeshSpec: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the specification of a service mesh.
-    public struct MeshSpec: Swift.Equatable {
+    public struct MeshSpec {
         /// The egress filter rules for the service mesh.
         public var egressFilter: AppMeshClientTypes.EgressFilter?
         /// An object that represents the service discovery information for a service mesh.
@@ -8559,7 +8559,7 @@ extension AppMeshClientTypes.MeshStatus: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the status of a service mesh.
-    public struct MeshStatus: Swift.Equatable {
+    public struct MeshStatus {
         /// The current mesh status.
         public var status: AppMeshClientTypes.MeshStatusCode?
 
@@ -8647,7 +8647,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct NotFoundExceptionBody: Swift.Equatable {
+struct NotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -8702,7 +8702,7 @@ extension AppMeshClientTypes.OutlierDetection: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the outlier detection for a virtual node's listener.
-    public struct OutlierDetection: Swift.Equatable {
+    public struct OutlierDetection {
         /// The base amount of time for which a host is ejected.
         /// This member is required.
         public var baseEjectionDuration: AppMeshClientTypes.Duration?
@@ -8759,7 +8759,7 @@ extension AppMeshClientTypes.PortMapping: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a port mapping.
-    public struct PortMapping: Swift.Equatable {
+    public struct PortMapping {
         /// The port used for the port mapping.
         /// This member is required.
         public var port: Swift.Int?
@@ -8838,7 +8838,7 @@ extension AppMeshClientTypes.QueryParameterMatch: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object representing the query parameter to match.
-    public struct QueryParameterMatch: Swift.Equatable {
+    public struct QueryParameterMatch {
         /// The exact query parameter to match on.
         public var exact: Swift.String?
 
@@ -8891,7 +8891,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ResourceInUseExceptionBody: Swift.Equatable {
+struct ResourceInUseExceptionBody {
     let message: Swift.String?
 }
 
@@ -8964,7 +8964,7 @@ extension AppMeshClientTypes.ResourceMetadata: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents metadata for a resource.
-    public struct ResourceMetadata: Swift.Equatable {
+    public struct ResourceMetadata {
         /// The full Amazon Resource Name (ARN) for the resource.
         /// This member is required.
         public var arn: Swift.String?
@@ -9060,7 +9060,7 @@ extension AppMeshClientTypes.RouteData: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a route returned by a describe operation.
-    public struct RouteData: Swift.Equatable {
+    public struct RouteData {
         /// The name of the service mesh that the route resides in.
         /// This member is required.
         public var meshName: Swift.String?
@@ -9169,7 +9169,7 @@ extension AppMeshClientTypes.RouteRef: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a route returned by a list operation.
-    public struct RouteRef: Swift.Equatable {
+    public struct RouteRef {
         /// The full Amazon Resource Name (ARN) for the route.
         /// This member is required.
         public var arn: Swift.String?
@@ -9269,7 +9269,7 @@ extension AppMeshClientTypes.RouteSpec: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a route specification. Specify one route type.
-    public struct RouteSpec: Swift.Equatable {
+    public struct RouteSpec {
         /// An object that represents the specification of a gRPC route.
         public var grpcRoute: AppMeshClientTypes.GrpcRoute?
         /// An object that represents the specification of an HTTP/2 route.
@@ -9320,7 +9320,7 @@ extension AppMeshClientTypes.RouteStatus: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the current status of a route.
-    public struct RouteStatus: Swift.Equatable {
+    public struct RouteStatus {
         /// The current status for the route.
         /// This member is required.
         public var status: AppMeshClientTypes.RouteStatusCode?
@@ -9407,7 +9407,7 @@ extension AppMeshClientTypes.ServiceDiscovery: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the service discovery information for a virtual node.
-    public enum ServiceDiscovery: Swift.Equatable {
+    public enum ServiceDiscovery {
         /// Specifies the DNS information for the virtual node.
         case dns(AppMeshClientTypes.DnsServiceDiscovery)
         /// Specifies any Cloud Map information for the virtual node.
@@ -9456,7 +9456,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct ServiceUnavailableExceptionBody: Swift.Equatable {
+struct ServiceUnavailableExceptionBody {
     let message: Swift.String?
 }
 
@@ -9505,7 +9505,7 @@ extension AppMeshClientTypes.SubjectAlternativeNameMatchers: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the methods by which a subject alternative name on a peer Transport Layer Security (TLS) certificate can be matched.
-    public struct SubjectAlternativeNameMatchers: Swift.Equatable {
+    public struct SubjectAlternativeNameMatchers {
         /// The values sent must match the specified values exactly.
         /// This member is required.
         public var exact: [Swift.String]?
@@ -9541,7 +9541,7 @@ extension AppMeshClientTypes.SubjectAlternativeNames: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the subject alternative names secured by the certificate.
-    public struct SubjectAlternativeNames: Swift.Equatable {
+    public struct SubjectAlternativeNames {
         /// An object that represents the criteria for determining a SANs match.
         /// This member is required.
         public var match: AppMeshClientTypes.SubjectAlternativeNameMatchers?
@@ -9583,7 +9583,7 @@ extension AppMeshClientTypes.TagRef: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// Optional metadata that you apply to a resource to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
-    public struct TagRef: Swift.Equatable {
+    public struct TagRef {
         /// One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values.
         /// This member is required.
         public var key: Swift.String?
@@ -9641,7 +9641,7 @@ extension TagResourceInput {
 }
 
 ///
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource to add tags to.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -9659,7 +9659,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [AppMeshClientTypes.TagRef]?
 }
 
@@ -9690,7 +9690,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -9774,7 +9774,7 @@ extension AppMeshClientTypes.TcpRoute: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a TCP route type.
-    public struct TcpRoute: Swift.Equatable {
+    public struct TcpRoute {
         /// The action to take if a match is determined.
         /// This member is required.
         public var action: AppMeshClientTypes.TcpRouteAction?
@@ -9830,7 +9830,7 @@ extension AppMeshClientTypes.TcpRouteAction: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the action to take if a match is determined.
-    public struct TcpRouteAction: Swift.Equatable {
+    public struct TcpRouteAction {
         /// An object that represents the targets that traffic is routed to when a request matches the route.
         /// This member is required.
         public var weightedTargets: [AppMeshClientTypes.WeightedTarget]?
@@ -9866,7 +9866,7 @@ extension AppMeshClientTypes.TcpRouteMatch: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object representing the TCP route to match.
-    public struct TcpRouteMatch: Swift.Equatable {
+    public struct TcpRouteMatch {
         /// The port number to match on.
         public var port: Swift.Int?
 
@@ -9901,7 +9901,7 @@ extension AppMeshClientTypes.TcpTimeout: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents types of timeouts.
-    public struct TcpTimeout: Swift.Equatable {
+    public struct TcpTimeout {
         /// An object that represents an idle timeout. An idle timeout bounds the amount of time that a connection may be idle. The default value is none.
         public var idle: AppMeshClientTypes.Duration?
 
@@ -9942,7 +9942,7 @@ extension AppMeshClientTypes.TlsValidationContext: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents how the proxy will validate its peer during Transport Layer Security (TLS) negotiation.
-    public struct TlsValidationContext: Swift.Equatable {
+    public struct TlsValidationContext {
         /// A reference to an object that represents the SANs for a Transport Layer Security (TLS) validation context. If you don't specify SANs on the terminating mesh endpoint, the Envoy proxy for that node doesn't verify the SAN on a peer client certificate. If you don't specify SANs on the originating mesh endpoint, the SAN on the certificate provided by the terminating endpoint must match the mesh endpoint service discovery configuration. Since SPIRE vended certificates have a SPIFFE ID as a name, you must set the SAN since the name doesn't match the service discovery name.
         public var subjectAlternativeNames: AppMeshClientTypes.SubjectAlternativeNames?
         /// A reference to where to retrieve the trust chain when validating a peer’s Transport Layer Security (TLS) certificate.
@@ -9994,7 +9994,7 @@ extension AppMeshClientTypes.TlsValidationContextAcmTrust: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a Transport Layer Security (TLS) validation context trust for an Certificate Manager certificate.
-    public struct TlsValidationContextAcmTrust: Swift.Equatable {
+    public struct TlsValidationContextAcmTrust {
         /// One or more ACM Amazon Resource Name (ARN)s.
         /// This member is required.
         public var certificateAuthorityArns: [Swift.String]?
@@ -10030,7 +10030,7 @@ extension AppMeshClientTypes.TlsValidationContextFileTrust: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a Transport Layer Security (TLS) validation context trust for a local file.
-    public struct TlsValidationContextFileTrust: Swift.Equatable {
+    public struct TlsValidationContextFileTrust {
         /// The certificate trust chain for a certificate stored on the file system of the virtual node that the proxy is running on.
         /// This member is required.
         public var certificateChain: Swift.String?
@@ -10066,7 +10066,7 @@ extension AppMeshClientTypes.TlsValidationContextSdsTrust: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a Transport Layer Security (TLS) Secret Discovery Service validation context trust. The proxy must be configured with a local SDS provider via a Unix Domain Socket. See App Mesh [TLS documentation](https://docs.aws.amazon.com/app-mesh/latest/userguide/tls.html) for more info.
-    public struct TlsValidationContextSdsTrust: Swift.Equatable {
+    public struct TlsValidationContextSdsTrust {
         /// A reference to an object that represents the name of the secret for a Transport Layer Security (TLS) Secret Discovery Service validation context trust.
         /// This member is required.
         public var secretName: Swift.String?
@@ -10126,7 +10126,7 @@ extension AppMeshClientTypes.TlsValidationContextTrust: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a Transport Layer Security (TLS) validation context trust.
-    public enum TlsValidationContextTrust: Swift.Equatable {
+    public enum TlsValidationContextTrust {
         /// A reference to an object that represents a Transport Layer Security (TLS) validation context trust for an Certificate Manager certificate.
         case acm(AppMeshClientTypes.TlsValidationContextAcmTrust)
         /// An object that represents a Transport Layer Security (TLS) validation context trust for a local file.
@@ -10177,7 +10177,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct TooManyRequestsExceptionBody: Swift.Equatable {
+struct TooManyRequestsExceptionBody {
     let message: Swift.String?
 }
 
@@ -10232,7 +10232,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct TooManyTagsExceptionBody: Swift.Equatable {
+struct TooManyTagsExceptionBody {
     let message: Swift.String?
 }
 
@@ -10286,7 +10286,7 @@ extension UntagResourceInput {
 }
 
 ///
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource to delete tags from.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -10304,7 +10304,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let tagKeys: [Swift.String]?
 }
 
@@ -10335,7 +10335,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -10401,7 +10401,7 @@ extension UpdateGatewayRouteInput {
     }
 }
 
-public struct UpdateGatewayRouteInput: Swift.Equatable {
+public struct UpdateGatewayRouteInput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
     public var clientToken: Swift.String?
     /// The name of the gateway route to update.
@@ -10437,7 +10437,7 @@ public struct UpdateGatewayRouteInput: Swift.Equatable {
     }
 }
 
-struct UpdateGatewayRouteInputBody: Swift.Equatable {
+struct UpdateGatewayRouteInputBody {
     let spec: AppMeshClientTypes.GatewayRouteSpec?
     let clientToken: Swift.String?
 }
@@ -10468,7 +10468,7 @@ extension UpdateGatewayRouteOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateGatewayRouteOutput: Swift.Equatable {
+public struct UpdateGatewayRouteOutput {
     /// A full description of the gateway route that was updated.
     /// This member is required.
     public var gatewayRoute: AppMeshClientTypes.GatewayRouteData?
@@ -10481,7 +10481,7 @@ public struct UpdateGatewayRouteOutput: Swift.Equatable {
     }
 }
 
-struct UpdateGatewayRouteOutputBody: Swift.Equatable {
+struct UpdateGatewayRouteOutputBody {
     let gatewayRoute: AppMeshClientTypes.GatewayRouteData?
 }
 
@@ -10543,7 +10543,7 @@ extension UpdateMeshInput {
 }
 
 ///
-public struct UpdateMeshInput: Swift.Equatable {
+public struct UpdateMeshInput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
     public var clientToken: Swift.String?
     /// The name of the service mesh to update.
@@ -10564,7 +10564,7 @@ public struct UpdateMeshInput: Swift.Equatable {
     }
 }
 
-struct UpdateMeshInputBody: Swift.Equatable {
+struct UpdateMeshInputBody {
     let spec: AppMeshClientTypes.MeshSpec?
     let clientToken: Swift.String?
 }
@@ -10596,7 +10596,7 @@ extension UpdateMeshOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct UpdateMeshOutput: Swift.Equatable {
+public struct UpdateMeshOutput {
     /// An object that represents a service mesh returned by a describe operation.
     /// This member is required.
     public var mesh: AppMeshClientTypes.MeshData?
@@ -10609,7 +10609,7 @@ public struct UpdateMeshOutput: Swift.Equatable {
     }
 }
 
-struct UpdateMeshOutputBody: Swift.Equatable {
+struct UpdateMeshOutputBody {
     let mesh: AppMeshClientTypes.MeshData?
 }
 
@@ -10688,7 +10688,7 @@ extension UpdateRouteInput {
 }
 
 ///
-public struct UpdateRouteInput: Swift.Equatable {
+public struct UpdateRouteInput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
     public var clientToken: Swift.String?
     /// The name of the service mesh that the route resides in.
@@ -10724,7 +10724,7 @@ public struct UpdateRouteInput: Swift.Equatable {
     }
 }
 
-struct UpdateRouteInputBody: Swift.Equatable {
+struct UpdateRouteInputBody {
     let spec: AppMeshClientTypes.RouteSpec?
     let clientToken: Swift.String?
 }
@@ -10756,7 +10756,7 @@ extension UpdateRouteOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct UpdateRouteOutput: Swift.Equatable {
+public struct UpdateRouteOutput {
     /// A full description of the route that was updated.
     /// This member is required.
     public var route: AppMeshClientTypes.RouteData?
@@ -10769,7 +10769,7 @@ public struct UpdateRouteOutput: Swift.Equatable {
     }
 }
 
-struct UpdateRouteOutputBody: Swift.Equatable {
+struct UpdateRouteOutputBody {
     let route: AppMeshClientTypes.RouteData?
 }
 
@@ -10845,7 +10845,7 @@ extension UpdateVirtualGatewayInput {
     }
 }
 
-public struct UpdateVirtualGatewayInput: Swift.Equatable {
+public struct UpdateVirtualGatewayInput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
     public var clientToken: Swift.String?
     /// The name of the service mesh that the virtual gateway resides in.
@@ -10876,7 +10876,7 @@ public struct UpdateVirtualGatewayInput: Swift.Equatable {
     }
 }
 
-struct UpdateVirtualGatewayInputBody: Swift.Equatable {
+struct UpdateVirtualGatewayInputBody {
     let spec: AppMeshClientTypes.VirtualGatewaySpec?
     let clientToken: Swift.String?
 }
@@ -10907,7 +10907,7 @@ extension UpdateVirtualGatewayOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateVirtualGatewayOutput: Swift.Equatable {
+public struct UpdateVirtualGatewayOutput {
     /// A full description of the virtual gateway that was updated.
     /// This member is required.
     public var virtualGateway: AppMeshClientTypes.VirtualGatewayData?
@@ -10920,7 +10920,7 @@ public struct UpdateVirtualGatewayOutput: Swift.Equatable {
     }
 }
 
-struct UpdateVirtualGatewayOutputBody: Swift.Equatable {
+struct UpdateVirtualGatewayOutputBody {
     let virtualGateway: AppMeshClientTypes.VirtualGatewayData?
 }
 
@@ -10997,7 +10997,7 @@ extension UpdateVirtualNodeInput {
 }
 
 ///
-public struct UpdateVirtualNodeInput: Swift.Equatable {
+public struct UpdateVirtualNodeInput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
     public var clientToken: Swift.String?
     /// The name of the service mesh that the virtual node resides in.
@@ -11028,7 +11028,7 @@ public struct UpdateVirtualNodeInput: Swift.Equatable {
     }
 }
 
-struct UpdateVirtualNodeInputBody: Swift.Equatable {
+struct UpdateVirtualNodeInputBody {
     let spec: AppMeshClientTypes.VirtualNodeSpec?
     let clientToken: Swift.String?
 }
@@ -11060,7 +11060,7 @@ extension UpdateVirtualNodeOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct UpdateVirtualNodeOutput: Swift.Equatable {
+public struct UpdateVirtualNodeOutput {
     /// A full description of the virtual node that was updated.
     /// This member is required.
     public var virtualNode: AppMeshClientTypes.VirtualNodeData?
@@ -11073,7 +11073,7 @@ public struct UpdateVirtualNodeOutput: Swift.Equatable {
     }
 }
 
-struct UpdateVirtualNodeOutputBody: Swift.Equatable {
+struct UpdateVirtualNodeOutputBody {
     let virtualNode: AppMeshClientTypes.VirtualNodeData?
 }
 
@@ -11150,7 +11150,7 @@ extension UpdateVirtualRouterInput {
 }
 
 ///
-public struct UpdateVirtualRouterInput: Swift.Equatable {
+public struct UpdateVirtualRouterInput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
     public var clientToken: Swift.String?
     /// The name of the service mesh that the virtual router resides in.
@@ -11181,7 +11181,7 @@ public struct UpdateVirtualRouterInput: Swift.Equatable {
     }
 }
 
-struct UpdateVirtualRouterInputBody: Swift.Equatable {
+struct UpdateVirtualRouterInputBody {
     let spec: AppMeshClientTypes.VirtualRouterSpec?
     let clientToken: Swift.String?
 }
@@ -11213,7 +11213,7 @@ extension UpdateVirtualRouterOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct UpdateVirtualRouterOutput: Swift.Equatable {
+public struct UpdateVirtualRouterOutput {
     /// A full description of the virtual router that was updated.
     /// This member is required.
     public var virtualRouter: AppMeshClientTypes.VirtualRouterData?
@@ -11226,7 +11226,7 @@ public struct UpdateVirtualRouterOutput: Swift.Equatable {
     }
 }
 
-struct UpdateVirtualRouterOutputBody: Swift.Equatable {
+struct UpdateVirtualRouterOutputBody {
     let virtualRouter: AppMeshClientTypes.VirtualRouterData?
 }
 
@@ -11303,7 +11303,7 @@ extension UpdateVirtualServiceInput {
 }
 
 ///
-public struct UpdateVirtualServiceInput: Swift.Equatable {
+public struct UpdateVirtualServiceInput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
     public var clientToken: Swift.String?
     /// The name of the service mesh that the virtual service resides in.
@@ -11334,7 +11334,7 @@ public struct UpdateVirtualServiceInput: Swift.Equatable {
     }
 }
 
-struct UpdateVirtualServiceInputBody: Swift.Equatable {
+struct UpdateVirtualServiceInputBody {
     let spec: AppMeshClientTypes.VirtualServiceSpec?
     let clientToken: Swift.String?
 }
@@ -11366,7 +11366,7 @@ extension UpdateVirtualServiceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct UpdateVirtualServiceOutput: Swift.Equatable {
+public struct UpdateVirtualServiceOutput {
     /// A full description of the virtual service that was updated.
     /// This member is required.
     public var virtualService: AppMeshClientTypes.VirtualServiceData?
@@ -11379,7 +11379,7 @@ public struct UpdateVirtualServiceOutput: Swift.Equatable {
     }
 }
 
-struct UpdateVirtualServiceOutputBody: Swift.Equatable {
+struct UpdateVirtualServiceOutputBody {
     let virtualService: AppMeshClientTypes.VirtualServiceData?
 }
 
@@ -11442,7 +11442,7 @@ extension AppMeshClientTypes.VirtualGatewayAccessLog: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// The access log configuration for a virtual gateway.
-    public enum VirtualGatewayAccessLog: Swift.Equatable {
+    public enum VirtualGatewayAccessLog {
         /// The file object to send virtual gateway access logs to.
         case file(AppMeshClientTypes.VirtualGatewayFileAccessLog)
         case sdkUnknown(Swift.String)
@@ -11471,7 +11471,7 @@ extension AppMeshClientTypes.VirtualGatewayBackendDefaults: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the default properties for a backend.
-    public struct VirtualGatewayBackendDefaults: Swift.Equatable {
+    public struct VirtualGatewayBackendDefaults {
         /// A reference to an object that represents a client policy.
         public var clientPolicy: AppMeshClientTypes.VirtualGatewayClientPolicy?
 
@@ -11506,7 +11506,7 @@ extension AppMeshClientTypes.VirtualGatewayClientPolicy: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a client policy.
-    public struct VirtualGatewayClientPolicy: Swift.Equatable {
+    public struct VirtualGatewayClientPolicy {
         /// A reference to an object that represents a Transport Layer Security (TLS) client policy.
         public var tls: AppMeshClientTypes.VirtualGatewayClientPolicyTls?
 
@@ -11571,7 +11571,7 @@ extension AppMeshClientTypes.VirtualGatewayClientPolicyTls: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a Transport Layer Security (TLS) client policy.
-    public struct VirtualGatewayClientPolicyTls: Swift.Equatable {
+    public struct VirtualGatewayClientPolicyTls {
         /// A reference to an object that represents a virtual gateway's client's Transport Layer Security (TLS) certificate.
         public var certificate: AppMeshClientTypes.VirtualGatewayClientTlsCertificate?
         /// Whether the policy is enforced. The default is True, if a value isn't specified.
@@ -11635,7 +11635,7 @@ extension AppMeshClientTypes.VirtualGatewayClientTlsCertificate: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the virtual gateway's client's Transport Layer Security (TLS) certificate.
-    public enum VirtualGatewayClientTlsCertificate: Swift.Equatable {
+    public enum VirtualGatewayClientTlsCertificate {
         /// An object that represents a local file certificate. The certificate must meet specific requirements and you must have proxy authorization enabled. For more information, see [ Transport Layer Security (TLS) ](https://docs.aws.amazon.com/app-mesh/latest/userguide/tls.html).
         case file(AppMeshClientTypes.VirtualGatewayListenerTlsFileCertificate)
         /// A reference to an object that represents a virtual gateway's client's Secret Discovery Service certificate.
@@ -11690,7 +11690,7 @@ extension AppMeshClientTypes.VirtualGatewayConnectionPool: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the type of virtual gateway connection pool. Only one protocol is used at a time and should be the same protocol as the one chosen under port mapping. If not present the default value for maxPendingRequests is 2147483647.
-    public enum VirtualGatewayConnectionPool: Swift.Equatable {
+    public enum VirtualGatewayConnectionPool {
         /// An object that represents a type of connection pool.
         case http(AppMeshClientTypes.VirtualGatewayHttpConnectionPool)
         /// An object that represents a type of connection pool.
@@ -11747,7 +11747,7 @@ extension AppMeshClientTypes.VirtualGatewayData: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a virtual gateway returned by a describe operation.
-    public struct VirtualGatewayData: Swift.Equatable {
+    public struct VirtualGatewayData {
         /// The name of the service mesh that the virtual gateway resides in.
         /// This member is required.
         public var meshName: Swift.String?
@@ -11809,7 +11809,7 @@ extension AppMeshClientTypes.VirtualGatewayFileAccessLog: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents an access log file.
-    public struct VirtualGatewayFileAccessLog: Swift.Equatable {
+    public struct VirtualGatewayFileAccessLog {
         /// The specified format for the virtual gateway access logs. It can be either json_format or text_format.
         public var format: AppMeshClientTypes.LoggingFormat?
         /// The file path to write access logs to. You can use /dev/stdout to send access logs to standard out and configure your Envoy container to use a log driver, such as awslogs, to export the access logs to a log storage service such as Amazon CloudWatch Logs. You can also specify a path in the Envoy container's file system to write the files to disk.
@@ -11849,7 +11849,7 @@ extension AppMeshClientTypes.VirtualGatewayGrpcConnectionPool: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a type of connection pool.
-    public struct VirtualGatewayGrpcConnectionPool: Swift.Equatable {
+    public struct VirtualGatewayGrpcConnectionPool {
         /// Maximum number of inflight requests Envoy can concurrently support across hosts in upstream cluster.
         /// This member is required.
         public var maxRequests: Swift.Int?
@@ -11921,7 +11921,7 @@ extension AppMeshClientTypes.VirtualGatewayHealthCheckPolicy: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the health check policy for a virtual gateway's listener.
-    public struct VirtualGatewayHealthCheckPolicy: Swift.Equatable {
+    public struct VirtualGatewayHealthCheckPolicy {
         /// The number of consecutive successful health checks that must occur before declaring the listener healthy.
         /// This member is required.
         public var healthyThreshold: Swift.Int?
@@ -11985,7 +11985,7 @@ extension AppMeshClientTypes.VirtualGatewayHttp2ConnectionPool: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a type of connection pool.
-    public struct VirtualGatewayHttp2ConnectionPool: Swift.Equatable {
+    public struct VirtualGatewayHttp2ConnectionPool {
         /// Maximum number of inflight requests Envoy can concurrently support across hosts in upstream cluster.
         /// This member is required.
         public var maxRequests: Swift.Int?
@@ -12027,7 +12027,7 @@ extension AppMeshClientTypes.VirtualGatewayHttpConnectionPool: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a type of connection pool.
-    public struct VirtualGatewayHttpConnectionPool: Swift.Equatable {
+    public struct VirtualGatewayHttpConnectionPool {
         /// Maximum number of outbound TCP connections Envoy can establish concurrently with all hosts in upstream cluster.
         /// This member is required.
         public var maxConnections: Swift.Int?
@@ -12085,7 +12085,7 @@ extension AppMeshClientTypes.VirtualGatewayListener: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a listener for a virtual gateway.
-    public struct VirtualGatewayListener: Swift.Equatable {
+    public struct VirtualGatewayListener {
         /// The connection pool information for the virtual gateway listener.
         public var connectionPool: AppMeshClientTypes.VirtualGatewayConnectionPool?
         /// The health check information for the listener.
@@ -12145,7 +12145,7 @@ extension AppMeshClientTypes.VirtualGatewayListenerTls: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the Transport Layer Security (TLS) properties for a listener.
-    public struct VirtualGatewayListenerTls: Swift.Equatable {
+    public struct VirtualGatewayListenerTls {
         /// An object that represents a Transport Layer Security (TLS) certificate.
         /// This member is required.
         public var certificate: AppMeshClientTypes.VirtualGatewayListenerTlsCertificate?
@@ -12196,7 +12196,7 @@ extension AppMeshClientTypes.VirtualGatewayListenerTlsAcmCertificate: Swift.Coda
 
 extension AppMeshClientTypes {
     /// An object that represents an Certificate Manager certificate.
-    public struct VirtualGatewayListenerTlsAcmCertificate: Swift.Equatable {
+    public struct VirtualGatewayListenerTlsAcmCertificate {
         /// The Amazon Resource Name (ARN) for the certificate. The certificate must meet specific requirements and you must have proxy authorization enabled. For more information, see [Transport Layer Security (TLS)](https://docs.aws.amazon.com/app-mesh/latest/userguide/tls.html#virtual-node-tls-prerequisites).
         /// This member is required.
         public var certificateArn: Swift.String?
@@ -12256,7 +12256,7 @@ extension AppMeshClientTypes.VirtualGatewayListenerTlsCertificate: Swift.Codable
 
 extension AppMeshClientTypes {
     /// An object that represents a listener's Transport Layer Security (TLS) certificate.
-    public enum VirtualGatewayListenerTlsCertificate: Swift.Equatable {
+    public enum VirtualGatewayListenerTlsCertificate {
         /// A reference to an object that represents an Certificate Manager certificate.
         case acm(AppMeshClientTypes.VirtualGatewayListenerTlsAcmCertificate)
         /// A reference to an object that represents a local file certificate.
@@ -12295,7 +12295,7 @@ extension AppMeshClientTypes.VirtualGatewayListenerTlsFileCertificate: Swift.Cod
 
 extension AppMeshClientTypes {
     /// An object that represents a local file certificate. The certificate must meet specific requirements and you must have proxy authorization enabled. For more information, see [Transport Layer Security (TLS)](https://docs.aws.amazon.com/app-mesh/latest/userguide/tls.html#virtual-node-tls-prerequisites).
-    public struct VirtualGatewayListenerTlsFileCertificate: Swift.Equatable {
+    public struct VirtualGatewayListenerTlsFileCertificate {
         /// The certificate chain for the certificate.
         /// This member is required.
         public var certificateChain: Swift.String?
@@ -12371,7 +12371,7 @@ extension AppMeshClientTypes.VirtualGatewayListenerTlsSdsCertificate: Swift.Coda
 
 extension AppMeshClientTypes {
     /// An object that represents the virtual gateway's listener's Secret Discovery Service certificate.The proxy must be configured with a local SDS provider via a Unix Domain Socket. See App Mesh[TLS documentation](https://docs.aws.amazon.com/app-mesh/latest/userguide/tls.html) for more info.
-    public struct VirtualGatewayListenerTlsSdsCertificate: Swift.Equatable {
+    public struct VirtualGatewayListenerTlsSdsCertificate {
         /// A reference to an object that represents the name of the secret secret requested from the Secret Discovery Service provider representing Transport Layer Security (TLS) materials like a certificate or certificate chain.
         /// This member is required.
         public var secretName: Swift.String?
@@ -12413,7 +12413,7 @@ extension AppMeshClientTypes.VirtualGatewayListenerTlsValidationContext: Swift.C
 
 extension AppMeshClientTypes {
     /// An object that represents a virtual gateway's listener's Transport Layer Security (TLS) validation context.
-    public struct VirtualGatewayListenerTlsValidationContext: Swift.Equatable {
+    public struct VirtualGatewayListenerTlsValidationContext {
         /// A reference to an object that represents the SANs for a virtual gateway listener's Transport Layer Security (TLS) validation context.
         public var subjectAlternativeNames: AppMeshClientTypes.SubjectAlternativeNames?
         /// A reference to where to retrieve the trust chain when validating a peer’s Transport Layer Security (TLS) certificate.
@@ -12469,7 +12469,7 @@ extension AppMeshClientTypes.VirtualGatewayListenerTlsValidationContextTrust: Sw
 
 extension AppMeshClientTypes {
     /// An object that represents a virtual gateway's listener's Transport Layer Security (TLS) validation context trust.
-    public enum VirtualGatewayListenerTlsValidationContextTrust: Swift.Equatable {
+    public enum VirtualGatewayListenerTlsValidationContextTrust {
         /// An object that represents a Transport Layer Security (TLS) validation context trust for a local file.
         case file(AppMeshClientTypes.VirtualGatewayTlsValidationContextFileTrust)
         /// A reference to an object that represents a virtual gateway's listener's Transport Layer Security (TLS) Secret Discovery Service validation context trust.
@@ -12500,7 +12500,7 @@ extension AppMeshClientTypes.VirtualGatewayLogging: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents logging information.
-    public struct VirtualGatewayLogging: Swift.Equatable {
+    public struct VirtualGatewayLogging {
         /// The access log configuration.
         public var accessLog: AppMeshClientTypes.VirtualGatewayAccessLog?
 
@@ -12541,7 +12541,7 @@ extension AppMeshClientTypes.VirtualGatewayPortMapping: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a port mapping.
-    public struct VirtualGatewayPortMapping: Swift.Equatable {
+    public struct VirtualGatewayPortMapping {
         /// The port used for the port mapping. Specify one protocol.
         /// This member is required.
         public var port: Swift.Int?
@@ -12659,7 +12659,7 @@ extension AppMeshClientTypes.VirtualGatewayRef: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a virtual gateway returned by a list operation.
-    public struct VirtualGatewayRef: Swift.Equatable {
+    public struct VirtualGatewayRef {
         /// The full Amazon Resource Name (ARN) for the resource.
         /// This member is required.
         public var arn: Swift.String?
@@ -12754,7 +12754,7 @@ extension AppMeshClientTypes.VirtualGatewaySpec: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the specification of a service mesh resource.
-    public struct VirtualGatewaySpec: Swift.Equatable {
+    public struct VirtualGatewaySpec {
         /// A reference to an object that represents the defaults for backends.
         public var backendDefaults: AppMeshClientTypes.VirtualGatewayBackendDefaults?
         /// The listeners that the mesh endpoint is expected to receive inbound traffic from. You can specify one listener.
@@ -12798,7 +12798,7 @@ extension AppMeshClientTypes.VirtualGatewayStatus: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the status of the mesh resource.
-    public struct VirtualGatewayStatus: Swift.Equatable {
+    public struct VirtualGatewayStatus {
         /// The current status.
         /// This member is required.
         public var status: AppMeshClientTypes.VirtualGatewayStatusCode?
@@ -12875,7 +12875,7 @@ extension AppMeshClientTypes.VirtualGatewayTlsValidationContext: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a Transport Layer Security (TLS) validation context.
-    public struct VirtualGatewayTlsValidationContext: Swift.Equatable {
+    public struct VirtualGatewayTlsValidationContext {
         /// A reference to an object that represents the SANs for a virtual gateway's listener's Transport Layer Security (TLS) validation context.
         public var subjectAlternativeNames: AppMeshClientTypes.SubjectAlternativeNames?
         /// A reference to where to retrieve the trust chain when validating a peer’s Transport Layer Security (TLS) certificate.
@@ -12927,7 +12927,7 @@ extension AppMeshClientTypes.VirtualGatewayTlsValidationContextAcmTrust: Swift.C
 
 extension AppMeshClientTypes {
     /// An object that represents a Transport Layer Security (TLS) validation context trust for an Certificate Manager certificate.
-    public struct VirtualGatewayTlsValidationContextAcmTrust: Swift.Equatable {
+    public struct VirtualGatewayTlsValidationContextAcmTrust {
         /// One or more ACM Amazon Resource Name (ARN)s.
         /// This member is required.
         public var certificateAuthorityArns: [Swift.String]?
@@ -12963,7 +12963,7 @@ extension AppMeshClientTypes.VirtualGatewayTlsValidationContextFileTrust: Swift.
 
 extension AppMeshClientTypes {
     /// An object that represents a Transport Layer Security (TLS) validation context trust for a local file.
-    public struct VirtualGatewayTlsValidationContextFileTrust: Swift.Equatable {
+    public struct VirtualGatewayTlsValidationContextFileTrust {
         /// The certificate trust chain for a certificate stored on the file system of the virtual node that the proxy is running on.
         /// This member is required.
         public var certificateChain: Swift.String?
@@ -12999,7 +12999,7 @@ extension AppMeshClientTypes.VirtualGatewayTlsValidationContextSdsTrust: Swift.C
 
 extension AppMeshClientTypes {
     /// An object that represents a virtual gateway's listener's Transport Layer Security (TLS) Secret Discovery Service validation context trust. The proxy must be configured with a local SDS provider via a Unix Domain Socket. See App Mesh [TLS documentation](https://docs.aws.amazon.com/app-mesh/latest/userguide/tls.html) for more info.
-    public struct VirtualGatewayTlsValidationContextSdsTrust: Swift.Equatable {
+    public struct VirtualGatewayTlsValidationContextSdsTrust {
         /// A reference to an object that represents the name of the secret for a virtual gateway's Transport Layer Security (TLS) Secret Discovery Service validation context trust.
         /// This member is required.
         public var secretName: Swift.String?
@@ -13059,7 +13059,7 @@ extension AppMeshClientTypes.VirtualGatewayTlsValidationContextTrust: Swift.Coda
 
 extension AppMeshClientTypes {
     /// An object that represents a Transport Layer Security (TLS) validation context trust.
-    public enum VirtualGatewayTlsValidationContextTrust: Swift.Equatable {
+    public enum VirtualGatewayTlsValidationContextTrust {
         /// A reference to an object that represents a Transport Layer Security (TLS) validation context trust for an Certificate Manager certificate.
         case acm(AppMeshClientTypes.VirtualGatewayTlsValidationContextAcmTrust)
         /// An object that represents a Transport Layer Security (TLS) validation context trust for a local file.
@@ -13124,7 +13124,7 @@ extension AppMeshClientTypes.VirtualNodeConnectionPool: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the type of virtual node connection pool. Only one protocol is used at a time and should be the same protocol as the one chosen under port mapping. If not present the default value for maxPendingRequests is 2147483647.
-    public enum VirtualNodeConnectionPool: Swift.Equatable {
+    public enum VirtualNodeConnectionPool {
         /// An object that represents a type of connection pool.
         case tcp(AppMeshClientTypes.VirtualNodeTcpConnectionPool)
         /// An object that represents a type of connection pool.
@@ -13183,7 +13183,7 @@ extension AppMeshClientTypes.VirtualNodeData: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a virtual node returned by a describe operation.
-    public struct VirtualNodeData: Swift.Equatable {
+    public struct VirtualNodeData {
         /// The name of the service mesh that the virtual node resides in.
         /// This member is required.
         public var meshName: Swift.String?
@@ -13239,7 +13239,7 @@ extension AppMeshClientTypes.VirtualNodeGrpcConnectionPool: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a type of connection pool.
-    public struct VirtualNodeGrpcConnectionPool: Swift.Equatable {
+    public struct VirtualNodeGrpcConnectionPool {
         /// Maximum number of inflight requests Envoy can concurrently support across hosts in upstream cluster.
         /// This member is required.
         public var maxRequests: Swift.Int?
@@ -13275,7 +13275,7 @@ extension AppMeshClientTypes.VirtualNodeHttp2ConnectionPool: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a type of connection pool.
-    public struct VirtualNodeHttp2ConnectionPool: Swift.Equatable {
+    public struct VirtualNodeHttp2ConnectionPool {
         /// Maximum number of inflight requests Envoy can concurrently support across hosts in upstream cluster.
         /// This member is required.
         public var maxRequests: Swift.Int?
@@ -13317,7 +13317,7 @@ extension AppMeshClientTypes.VirtualNodeHttpConnectionPool: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a type of connection pool.
-    public struct VirtualNodeHttpConnectionPool: Swift.Equatable {
+    public struct VirtualNodeHttpConnectionPool {
         /// Maximum number of outbound TCP connections Envoy can establish concurrently with all hosts in upstream cluster.
         /// This member is required.
         public var maxConnections: Swift.Int?
@@ -13399,7 +13399,7 @@ extension AppMeshClientTypes.VirtualNodeRef: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a virtual node returned by a list operation.
-    public struct VirtualNodeRef: Swift.Equatable {
+    public struct VirtualNodeRef {
         /// The full Amazon Resource Name (ARN) for the virtual node.
         /// This member is required.
         public var arn: Swift.String?
@@ -13470,7 +13470,7 @@ extension AppMeshClientTypes.VirtualNodeServiceProvider: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a virtual node service provider.
-    public struct VirtualNodeServiceProvider: Swift.Equatable {
+    public struct VirtualNodeServiceProvider {
         /// The name of the virtual node that is acting as a service provider.
         /// This member is required.
         public var virtualNodeName: Swift.String?
@@ -13554,7 +13554,7 @@ extension AppMeshClientTypes.VirtualNodeSpec: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the specification of a virtual node.
-    public struct VirtualNodeSpec: Swift.Equatable {
+    public struct VirtualNodeSpec {
         /// A reference to an object that represents the defaults for backends.
         public var backendDefaults: AppMeshClientTypes.BackendDefaults?
         /// The backends that the virtual node is expected to send outbound traffic to.
@@ -13605,7 +13605,7 @@ extension AppMeshClientTypes.VirtualNodeStatus: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the current status of the virtual node.
-    public struct VirtualNodeStatus: Swift.Equatable {
+    public struct VirtualNodeStatus {
         /// The current status of the virtual node.
         /// This member is required.
         public var status: AppMeshClientTypes.VirtualNodeStatusCode?
@@ -13676,7 +13676,7 @@ extension AppMeshClientTypes.VirtualNodeTcpConnectionPool: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a type of connection pool.
-    public struct VirtualNodeTcpConnectionPool: Swift.Equatable {
+    public struct VirtualNodeTcpConnectionPool {
         /// Maximum number of outbound TCP connections Envoy can establish concurrently with all hosts in upstream cluster.
         /// This member is required.
         public var maxConnections: Swift.Int?
@@ -13736,7 +13736,7 @@ extension AppMeshClientTypes.VirtualRouterData: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a virtual router returned by a describe operation.
-    public struct VirtualRouterData: Swift.Equatable {
+    public struct VirtualRouterData {
         /// The name of the service mesh that the virtual router resides in.
         /// This member is required.
         public var meshName: Swift.String?
@@ -13792,7 +13792,7 @@ extension AppMeshClientTypes.VirtualRouterListener: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a virtual router listener.
-    public struct VirtualRouterListener: Swift.Equatable {
+    public struct VirtualRouterListener {
         /// An object that represents a port mapping.
         /// This member is required.
         public var portMapping: AppMeshClientTypes.PortMapping?
@@ -13870,7 +13870,7 @@ extension AppMeshClientTypes.VirtualRouterRef: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a virtual router returned by a list operation.
-    public struct VirtualRouterRef: Swift.Equatable {
+    public struct VirtualRouterRef {
         /// The full Amazon Resource Name (ARN) for the virtual router.
         /// This member is required.
         public var arn: Swift.String?
@@ -13941,7 +13941,7 @@ extension AppMeshClientTypes.VirtualRouterServiceProvider: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a virtual node service provider.
-    public struct VirtualRouterServiceProvider: Swift.Equatable {
+    public struct VirtualRouterServiceProvider {
         /// The name of the virtual router that is acting as a service provider.
         /// This member is required.
         public var virtualRouterName: Swift.String?
@@ -13989,7 +13989,7 @@ extension AppMeshClientTypes.VirtualRouterSpec: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the specification of a virtual router.
-    public struct VirtualRouterSpec: Swift.Equatable {
+    public struct VirtualRouterSpec {
         /// The listeners that the virtual router is expected to receive inbound traffic from. You can specify one listener.
         public var listeners: [AppMeshClientTypes.VirtualRouterListener]?
 
@@ -14024,7 +14024,7 @@ extension AppMeshClientTypes.VirtualRouterStatus: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the status of a virtual router.
-    public struct VirtualRouterStatus: Swift.Equatable {
+    public struct VirtualRouterStatus {
         /// The current status of the virtual router.
         /// This member is required.
         public var status: AppMeshClientTypes.VirtualRouterStatusCode?
@@ -14101,7 +14101,7 @@ extension AppMeshClientTypes.VirtualServiceBackend: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a virtual service backend for a virtual node.
-    public struct VirtualServiceBackend: Swift.Equatable {
+    public struct VirtualServiceBackend {
         /// A reference to an object that represents the client policy for a backend.
         public var clientPolicy: AppMeshClientTypes.ClientPolicy?
         /// The name of the virtual service that is acting as a virtual node backend.
@@ -14165,7 +14165,7 @@ extension AppMeshClientTypes.VirtualServiceData: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a virtual service returned by a describe operation.
-    public struct VirtualServiceData: Swift.Equatable {
+    public struct VirtualServiceData {
         /// The name of the service mesh that the virtual service resides in.
         /// This member is required.
         public var meshName: Swift.String?
@@ -14237,7 +14237,7 @@ extension AppMeshClientTypes.VirtualServiceProvider: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the provider for a virtual service.
-    public enum VirtualServiceProvider: Swift.Equatable {
+    public enum VirtualServiceProvider {
         /// The virtual node associated with a virtual service.
         case virtualnode(AppMeshClientTypes.VirtualNodeServiceProvider)
         /// The virtual router associated with a virtual service.
@@ -14310,7 +14310,7 @@ extension AppMeshClientTypes.VirtualServiceRef: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a virtual service returned by a list operation.
-    public struct VirtualServiceRef: Swift.Equatable {
+    public struct VirtualServiceRef {
         /// The full Amazon Resource Name (ARN) for the virtual service.
         /// This member is required.
         public var arn: Swift.String?
@@ -14381,7 +14381,7 @@ extension AppMeshClientTypes.VirtualServiceSpec: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the specification of a virtual service.
-    public struct VirtualServiceSpec: Swift.Equatable {
+    public struct VirtualServiceSpec {
         /// The App Mesh object that is acting as the provider for a virtual service. You can specify a single virtual node or virtual router.
         public var provider: AppMeshClientTypes.VirtualServiceProvider?
 
@@ -14416,7 +14416,7 @@ extension AppMeshClientTypes.VirtualServiceStatus: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents the status of a virtual service.
-    public struct VirtualServiceStatus: Swift.Equatable {
+    public struct VirtualServiceStatus {
         /// The current status of the virtual service.
         /// This member is required.
         public var status: AppMeshClientTypes.VirtualServiceStatusCode?
@@ -14499,7 +14499,7 @@ extension AppMeshClientTypes.WeightedTarget: Swift.Codable {
 
 extension AppMeshClientTypes {
     /// An object that represents a target and its relative weight. Traffic is distributed across targets according to their relative weight. For example, a weighted target with a relative weight of 50 receives five times as much traffic as one with a relative weight of 10. The total weight for all targets combined must be less than or equal to 100.
-    public struct WeightedTarget: Swift.Equatable {
+    public struct WeightedTarget {
         /// The targeted port of the weighted object.
         public var port: Swift.Int?
         /// The virtual node to associate with the weighted target.

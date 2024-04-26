@@ -121,7 +121,7 @@ extension FisClientTypes.Action: Swift.Codable {
 
 extension FisClientTypes {
     /// Describes an action. For more information, see [FIS actions](https://docs.aws.amazon.com/fis/latest/userguide/fis-actions-reference.html) in the Fault Injection Service User Guide.
-    public struct Action: Swift.Equatable {
+    public struct Action {
         /// The Amazon Resource Name (ARN) of the action.
         public var arn: Swift.String?
         /// The description for the action.
@@ -182,7 +182,7 @@ extension FisClientTypes.ActionParameter: Swift.Codable {
 
 extension FisClientTypes {
     /// Describes a parameter for an action.
-    public struct ActionParameter: Swift.Equatable {
+    public struct ActionParameter {
         /// The parameter description.
         public var description: Swift.String?
         /// Indicates whether the parameter is required.
@@ -269,7 +269,7 @@ extension FisClientTypes.ActionSummary: Swift.Codable {
 
 extension FisClientTypes {
     /// Provides a summary of an action.
-    public struct ActionSummary: Swift.Equatable {
+    public struct ActionSummary {
         /// The Amazon Resource Name (ARN) of the action.
         public var arn: Swift.String?
         /// The description for the action.
@@ -320,7 +320,7 @@ extension FisClientTypes.ActionTarget: Swift.Codable {
 
 extension FisClientTypes {
     /// Describes a target for an action.
-    public struct ActionTarget: Swift.Equatable {
+    public struct ActionTarget {
         /// The resource type of the target.
         public var resourceType: Swift.String?
 
@@ -405,7 +405,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -502,7 +502,7 @@ extension FisClientTypes.CreateExperimentTemplateActionInput: Swift.Codable {
 
 extension FisClientTypes {
     /// Specifies an action for an experiment template. For more information, see [Actions](https://docs.aws.amazon.com/fis/latest/userguide/actions.html) in the Fault Injection Service User Guide.
-    public struct CreateExperimentTemplateActionInput: Swift.Equatable {
+    public struct CreateExperimentTemplateActionInput {
         /// The ID of the action. The format of the action ID is: aws:service-name:action-type.
         /// This member is required.
         public var actionId: Swift.String?
@@ -560,7 +560,7 @@ extension FisClientTypes.CreateExperimentTemplateExperimentOptionsInput: Swift.C
 
 extension FisClientTypes {
     /// Specifies experiment options for an experiment template.
-    public struct CreateExperimentTemplateExperimentOptionsInput: Swift.Equatable {
+    public struct CreateExperimentTemplateExperimentOptionsInput {
         /// Specifies the account targeting setting for experiment options.
         public var accountTargeting: FisClientTypes.AccountTargeting?
         /// Specifies the empty target resolution mode for experiment options.
@@ -642,7 +642,7 @@ extension CreateExperimentTemplateInput {
     }
 }
 
-public struct CreateExperimentTemplateInput: Swift.Equatable {
+public struct CreateExperimentTemplateInput {
     /// The actions for the experiment.
     /// This member is required.
     public var actions: [Swift.String:FisClientTypes.CreateExperimentTemplateActionInput]?
@@ -691,7 +691,7 @@ public struct CreateExperimentTemplateInput: Swift.Equatable {
     }
 }
 
-struct CreateExperimentTemplateInputBody: Swift.Equatable {
+struct CreateExperimentTemplateInputBody {
     let clientToken: Swift.String?
     let description: Swift.String?
     let stopConditions: [FisClientTypes.CreateExperimentTemplateStopConditionInput]?
@@ -808,7 +808,7 @@ extension FisClientTypes.CreateExperimentTemplateLogConfigurationInput: Swift.Co
 
 extension FisClientTypes {
     /// Specifies the configuration for experiment logging.
-    public struct CreateExperimentTemplateLogConfigurationInput: Swift.Equatable {
+    public struct CreateExperimentTemplateLogConfigurationInput {
         /// The configuration for experiment logging to Amazon CloudWatch Logs.
         public var cloudWatchLogsConfiguration: FisClientTypes.ExperimentTemplateCloudWatchLogsLogConfigurationInput?
         /// The schema version.
@@ -843,7 +843,7 @@ extension CreateExperimentTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateExperimentTemplateOutput: Swift.Equatable {
+public struct CreateExperimentTemplateOutput {
     /// Information about the experiment template.
     public var experimentTemplate: FisClientTypes.ExperimentTemplate?
 
@@ -855,7 +855,7 @@ public struct CreateExperimentTemplateOutput: Swift.Equatable {
     }
 }
 
-struct CreateExperimentTemplateOutputBody: Swift.Equatable {
+struct CreateExperimentTemplateOutputBody {
     let experimentTemplate: FisClientTypes.ExperimentTemplate?
 }
 
@@ -912,7 +912,7 @@ extension FisClientTypes.CreateExperimentTemplateStopConditionInput: Swift.Codab
 
 extension FisClientTypes {
     /// Specifies a stop condition for an experiment template.
-    public struct CreateExperimentTemplateStopConditionInput: Swift.Equatable {
+    public struct CreateExperimentTemplateStopConditionInput {
         /// The source for the stop condition. Specify aws:cloudwatch:alarm if the stop condition is defined by a CloudWatch alarm. Specify none if there is no stop condition.
         /// This member is required.
         public var source: Swift.String?
@@ -1030,7 +1030,7 @@ extension FisClientTypes.CreateExperimentTemplateTargetInput: Swift.Codable {
 
 extension FisClientTypes {
     /// Specifies a target for an experiment. You must specify at least one Amazon Resource Name (ARN) or at least one resource tag. You cannot specify both ARNs and tags. For more information, see [Targets](https://docs.aws.amazon.com/fis/latest/userguide/targets.html) in the Fault Injection Service User Guide.
-    public struct CreateExperimentTemplateTargetInput: Swift.Equatable {
+    public struct CreateExperimentTemplateTargetInput {
         /// The filters to apply to identify target resources using specific attributes.
         public var filters: [FisClientTypes.ExperimentTemplateTargetInputFilter]?
         /// The resource type parameters.
@@ -1106,7 +1106,7 @@ extension CreateTargetAccountConfigurationInput {
     }
 }
 
-public struct CreateTargetAccountConfigurationInput: Swift.Equatable {
+public struct CreateTargetAccountConfigurationInput {
     /// The Amazon Web Services account ID of the target account.
     /// This member is required.
     public var accountId: Swift.String?
@@ -1137,7 +1137,7 @@ public struct CreateTargetAccountConfigurationInput: Swift.Equatable {
     }
 }
 
-struct CreateTargetAccountConfigurationInputBody: Swift.Equatable {
+struct CreateTargetAccountConfigurationInputBody {
     let clientToken: Swift.String?
     let roleArn: Swift.String?
     let description: Swift.String?
@@ -1173,7 +1173,7 @@ extension CreateTargetAccountConfigurationOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct CreateTargetAccountConfigurationOutput: Swift.Equatable {
+public struct CreateTargetAccountConfigurationOutput {
     /// Information about the target account configuration.
     public var targetAccountConfiguration: FisClientTypes.TargetAccountConfiguration?
 
@@ -1185,7 +1185,7 @@ public struct CreateTargetAccountConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct CreateTargetAccountConfigurationOutputBody: Swift.Equatable {
+struct CreateTargetAccountConfigurationOutputBody {
     let targetAccountConfiguration: FisClientTypes.TargetAccountConfiguration?
 }
 
@@ -1225,7 +1225,7 @@ extension DeleteExperimentTemplateInput {
     }
 }
 
-public struct DeleteExperimentTemplateInput: Swift.Equatable {
+public struct DeleteExperimentTemplateInput {
     /// The ID of the experiment template.
     /// This member is required.
     public var id: Swift.String?
@@ -1238,7 +1238,7 @@ public struct DeleteExperimentTemplateInput: Swift.Equatable {
     }
 }
 
-struct DeleteExperimentTemplateInputBody: Swift.Equatable {
+struct DeleteExperimentTemplateInputBody {
 }
 
 extension DeleteExperimentTemplateInputBody: Swift.Decodable {
@@ -1259,7 +1259,7 @@ extension DeleteExperimentTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteExperimentTemplateOutput: Swift.Equatable {
+public struct DeleteExperimentTemplateOutput {
     /// Information about the experiment template.
     public var experimentTemplate: FisClientTypes.ExperimentTemplate?
 
@@ -1271,7 +1271,7 @@ public struct DeleteExperimentTemplateOutput: Swift.Equatable {
     }
 }
 
-struct DeleteExperimentTemplateOutputBody: Swift.Equatable {
+struct DeleteExperimentTemplateOutputBody {
     let experimentTemplate: FisClientTypes.ExperimentTemplate?
 }
 
@@ -1312,7 +1312,7 @@ extension DeleteTargetAccountConfigurationInput {
     }
 }
 
-public struct DeleteTargetAccountConfigurationInput: Swift.Equatable {
+public struct DeleteTargetAccountConfigurationInput {
     /// The Amazon Web Services account ID of the target account.
     /// This member is required.
     public var accountId: Swift.String?
@@ -1330,7 +1330,7 @@ public struct DeleteTargetAccountConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DeleteTargetAccountConfigurationInputBody: Swift.Equatable {
+struct DeleteTargetAccountConfigurationInputBody {
 }
 
 extension DeleteTargetAccountConfigurationInputBody: Swift.Decodable {
@@ -1351,7 +1351,7 @@ extension DeleteTargetAccountConfigurationOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DeleteTargetAccountConfigurationOutput: Swift.Equatable {
+public struct DeleteTargetAccountConfigurationOutput {
     /// Information about the target account configuration.
     public var targetAccountConfiguration: FisClientTypes.TargetAccountConfiguration?
 
@@ -1363,7 +1363,7 @@ public struct DeleteTargetAccountConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct DeleteTargetAccountConfigurationOutputBody: Swift.Equatable {
+struct DeleteTargetAccountConfigurationOutputBody {
     let targetAccountConfiguration: FisClientTypes.TargetAccountConfiguration?
 }
 
@@ -1576,7 +1576,7 @@ extension FisClientTypes.Experiment: Swift.Codable {
 
 extension FisClientTypes {
     /// Describes an experiment.
-    public struct Experiment: Swift.Equatable {
+    public struct Experiment {
         /// The actions for the experiment.
         public var actions: [Swift.String:FisClientTypes.ExperimentAction]?
         /// The Amazon Resource Name (ARN) of the experiment.
@@ -1745,7 +1745,7 @@ extension FisClientTypes.ExperimentAction: Swift.Codable {
 
 extension FisClientTypes {
     /// Describes the action for an experiment.
-    public struct ExperimentAction: Swift.Equatable {
+    public struct ExperimentAction {
         /// The ID of the action.
         public var actionId: Swift.String?
         /// The description for the action.
@@ -1814,7 +1814,7 @@ extension FisClientTypes.ExperimentActionState: Swift.Codable {
 
 extension FisClientTypes {
     /// Describes the state of an action.
-    public struct ExperimentActionState: Swift.Equatable {
+    public struct ExperimentActionState {
         /// The reason for the state.
         public var reason: Swift.String?
         /// The state of the action.
@@ -1906,7 +1906,7 @@ extension FisClientTypes.ExperimentCloudWatchLogsLogConfiguration: Swift.Codable
 
 extension FisClientTypes {
     /// Describes the configuration for experiment logging to Amazon CloudWatch Logs.
-    public struct ExperimentCloudWatchLogsLogConfiguration: Swift.Equatable {
+    public struct ExperimentCloudWatchLogsLogConfiguration {
         /// The Amazon Resource Name (ARN) of the destination Amazon CloudWatch Logs log group.
         public var logGroupArn: Swift.String?
 
@@ -1953,7 +1953,7 @@ extension FisClientTypes.ExperimentLogConfiguration: Swift.Codable {
 
 extension FisClientTypes {
     /// Describes the configuration for experiment logging.
-    public struct ExperimentLogConfiguration: Swift.Equatable {
+    public struct ExperimentLogConfiguration {
         /// The configuration for experiment logging to Amazon CloudWatch Logs.
         public var cloudWatchLogsConfiguration: FisClientTypes.ExperimentCloudWatchLogsLogConfiguration?
         /// The schema version.
@@ -2008,7 +2008,7 @@ extension FisClientTypes.ExperimentOptions: Swift.Codable {
 
 extension FisClientTypes {
     /// Describes the options for an experiment.
-    public struct ExperimentOptions: Swift.Equatable {
+    public struct ExperimentOptions {
         /// The account targeting setting for an experiment.
         public var accountTargeting: FisClientTypes.AccountTargeting?
         /// The actions mode of the experiment that is set from the StartExperiment API command.
@@ -2057,7 +2057,7 @@ extension FisClientTypes.ExperimentS3LogConfiguration: Swift.Codable {
 
 extension FisClientTypes {
     /// Describes the configuration for experiment logging to Amazon S3.
-    public struct ExperimentS3LogConfiguration: Swift.Equatable {
+    public struct ExperimentS3LogConfiguration {
         /// The name of the destination bucket.
         public var bucketName: Swift.String?
         /// The bucket prefix.
@@ -2102,7 +2102,7 @@ extension FisClientTypes.ExperimentState: Swift.Codable {
 
 extension FisClientTypes {
     /// Describes the state of an experiment.
-    public struct ExperimentState: Swift.Equatable {
+    public struct ExperimentState {
         /// The reason for the state.
         public var reason: Swift.String?
         /// The state of the experiment.
@@ -2194,7 +2194,7 @@ extension FisClientTypes.ExperimentStopCondition: Swift.Codable {
 
 extension FisClientTypes {
     /// Describes the stop condition for an experiment.
-    public struct ExperimentStopCondition: Swift.Equatable {
+    public struct ExperimentStopCondition {
         /// The source for the stop condition.
         public var source: Swift.String?
         /// The Amazon Resource Name (ARN) of the CloudWatch alarm, if applicable.
@@ -2281,7 +2281,7 @@ extension FisClientTypes.ExperimentSummary: Swift.Codable {
 
 extension FisClientTypes {
     /// Provides a summary of an experiment.
-    public struct ExperimentSummary: Swift.Equatable {
+    public struct ExperimentSummary {
         /// The Amazon Resource Name (ARN) of the experiment.
         public var arn: Swift.String?
         /// The time that the experiment was created.
@@ -2418,7 +2418,7 @@ extension FisClientTypes.ExperimentTarget: Swift.Codable {
 
 extension FisClientTypes {
     /// Describes a target for an experiment.
-    public struct ExperimentTarget: Swift.Equatable {
+    public struct ExperimentTarget {
         /// The filters to apply to identify target resources using specific attributes.
         public var filters: [FisClientTypes.ExperimentTargetFilter]?
         /// The resource type parameters.
@@ -2485,7 +2485,7 @@ extension FisClientTypes.ExperimentTargetAccountConfiguration: Swift.Codable {
 
 extension FisClientTypes {
     /// Describes a target account configuration for an experiment.
-    public struct ExperimentTargetAccountConfiguration: Swift.Equatable {
+    public struct ExperimentTargetAccountConfiguration {
         /// The Amazon Web Services account ID of the target account.
         public var accountId: Swift.String?
         /// The description of the target account.
@@ -2540,7 +2540,7 @@ extension FisClientTypes.ExperimentTargetAccountConfigurationSummary: Swift.Coda
 
 extension FisClientTypes {
     /// Provides a summary of a target account configuration.
-    public struct ExperimentTargetAccountConfigurationSummary: Swift.Equatable {
+    public struct ExperimentTargetAccountConfigurationSummary {
         /// The Amazon Web Services account ID of the target account.
         public var accountId: Swift.String?
         /// The description of the target account.
@@ -2601,7 +2601,7 @@ extension FisClientTypes.ExperimentTargetFilter: Swift.Codable {
 
 extension FisClientTypes {
     /// Describes a filter used for the target resources in an experiment.
-    public struct ExperimentTargetFilter: Swift.Equatable {
+    public struct ExperimentTargetFilter {
         /// The attribute path for the filter.
         public var path: Swift.String?
         /// The attribute values for the filter.
@@ -2760,7 +2760,7 @@ extension FisClientTypes.ExperimentTemplate: Swift.Codable {
 
 extension FisClientTypes {
     /// Describes an experiment template.
-    public struct ExperimentTemplate: Swift.Equatable {
+    public struct ExperimentTemplate {
         /// The actions for the experiment.
         public var actions: [Swift.String:FisClientTypes.ExperimentTemplateAction]?
         /// The Amazon Resource Name (ARN) of the experiment template.
@@ -2903,7 +2903,7 @@ extension FisClientTypes.ExperimentTemplateAction: Swift.Codable {
 
 extension FisClientTypes {
     /// Describes an action for an experiment template.
-    public struct ExperimentTemplateAction: Swift.Equatable {
+    public struct ExperimentTemplateAction {
         /// The ID of the action.
         public var actionId: Swift.String?
         /// A description for the action.
@@ -2954,7 +2954,7 @@ extension FisClientTypes.ExperimentTemplateCloudWatchLogsLogConfiguration: Swift
 
 extension FisClientTypes {
     /// Describes the configuration for experiment logging to Amazon CloudWatch Logs.
-    public struct ExperimentTemplateCloudWatchLogsLogConfiguration: Swift.Equatable {
+    public struct ExperimentTemplateCloudWatchLogsLogConfiguration {
         /// The Amazon Resource Name (ARN) of the destination Amazon CloudWatch Logs log group.
         public var logGroupArn: Swift.String?
 
@@ -2989,7 +2989,7 @@ extension FisClientTypes.ExperimentTemplateCloudWatchLogsLogConfigurationInput: 
 
 extension FisClientTypes {
     /// Specifies the configuration for experiment logging to Amazon CloudWatch Logs.
-    public struct ExperimentTemplateCloudWatchLogsLogConfigurationInput: Swift.Equatable {
+    public struct ExperimentTemplateCloudWatchLogsLogConfigurationInput {
         /// The Amazon Resource Name (ARN) of the destination Amazon CloudWatch Logs log group.
         /// This member is required.
         public var logGroupArn: Swift.String?
@@ -3031,7 +3031,7 @@ extension FisClientTypes.ExperimentTemplateExperimentOptions: Swift.Codable {
 
 extension FisClientTypes {
     /// Describes the experiment options for an experiment template.
-    public struct ExperimentTemplateExperimentOptions: Swift.Equatable {
+    public struct ExperimentTemplateExperimentOptions {
         /// The account targeting setting for an experiment template.
         public var accountTargeting: FisClientTypes.AccountTargeting?
         /// The empty target resolution mode for an experiment template.
@@ -3082,7 +3082,7 @@ extension FisClientTypes.ExperimentTemplateLogConfiguration: Swift.Codable {
 
 extension FisClientTypes {
     /// Describes the configuration for experiment logging.
-    public struct ExperimentTemplateLogConfiguration: Swift.Equatable {
+    public struct ExperimentTemplateLogConfiguration {
         /// The configuration for experiment logging to Amazon CloudWatch Logs.
         public var cloudWatchLogsConfiguration: FisClientTypes.ExperimentTemplateCloudWatchLogsLogConfiguration?
         /// The schema version.
@@ -3131,7 +3131,7 @@ extension FisClientTypes.ExperimentTemplateS3LogConfiguration: Swift.Codable {
 
 extension FisClientTypes {
     /// Describes the configuration for experiment logging to Amazon S3.
-    public struct ExperimentTemplateS3LogConfiguration: Swift.Equatable {
+    public struct ExperimentTemplateS3LogConfiguration {
         /// The name of the destination bucket.
         public var bucketName: Swift.String?
         /// The bucket prefix.
@@ -3176,7 +3176,7 @@ extension FisClientTypes.ExperimentTemplateS3LogConfigurationInput: Swift.Codabl
 
 extension FisClientTypes {
     /// Specifies the configuration for experiment logging to Amazon S3.
-    public struct ExperimentTemplateS3LogConfigurationInput: Swift.Equatable {
+    public struct ExperimentTemplateS3LogConfigurationInput {
         /// The name of the destination bucket.
         /// This member is required.
         public var bucketName: Swift.String?
@@ -3222,7 +3222,7 @@ extension FisClientTypes.ExperimentTemplateStopCondition: Swift.Codable {
 
 extension FisClientTypes {
     /// Describes a stop condition for an experiment template.
-    public struct ExperimentTemplateStopCondition: Swift.Equatable {
+    public struct ExperimentTemplateStopCondition {
         /// The source for the stop condition.
         public var source: Swift.String?
         /// The Amazon Resource Name (ARN) of the CloudWatch alarm, if applicable.
@@ -3303,7 +3303,7 @@ extension FisClientTypes.ExperimentTemplateSummary: Swift.Codable {
 
 extension FisClientTypes {
     /// Provides a summary of an experiment template.
-    public struct ExperimentTemplateSummary: Swift.Equatable {
+    public struct ExperimentTemplateSummary {
         /// The Amazon Resource Name (ARN) of the experiment template.
         public var arn: Swift.String?
         /// The time that the experiment template was created.
@@ -3436,7 +3436,7 @@ extension FisClientTypes.ExperimentTemplateTarget: Swift.Codable {
 
 extension FisClientTypes {
     /// Describes a target for an experiment template.
-    public struct ExperimentTemplateTarget: Swift.Equatable {
+    public struct ExperimentTemplateTarget {
         /// The filters to apply to identify target resources using specific attributes.
         public var filters: [FisClientTypes.ExperimentTemplateTargetFilter]?
         /// The resource type parameters.
@@ -3509,7 +3509,7 @@ extension FisClientTypes.ExperimentTemplateTargetFilter: Swift.Codable {
 
 extension FisClientTypes {
     /// Describes a filter used for the target resources in an experiment template.
-    public struct ExperimentTemplateTargetFilter: Swift.Equatable {
+    public struct ExperimentTemplateTargetFilter {
         /// The attribute path for the filter.
         public var path: Swift.String?
         /// The attribute values for the filter.
@@ -3566,7 +3566,7 @@ extension FisClientTypes.ExperimentTemplateTargetInputFilter: Swift.Codable {
 
 extension FisClientTypes {
     /// Specifies a filter used for the target resource input in an experiment template. For more information, see [Resource filters](https://docs.aws.amazon.com/fis/latest/userguide/targets.html#target-filters) in the Fault Injection Service User Guide.
-    public struct ExperimentTemplateTargetInputFilter: Swift.Equatable {
+    public struct ExperimentTemplateTargetInputFilter {
         /// The attribute path for the filter.
         /// This member is required.
         public var path: Swift.String?
@@ -3598,7 +3598,7 @@ extension GetActionInput {
     }
 }
 
-public struct GetActionInput: Swift.Equatable {
+public struct GetActionInput {
     /// The ID of the action.
     /// This member is required.
     public var id: Swift.String?
@@ -3611,7 +3611,7 @@ public struct GetActionInput: Swift.Equatable {
     }
 }
 
-struct GetActionInputBody: Swift.Equatable {
+struct GetActionInputBody {
 }
 
 extension GetActionInputBody: Swift.Decodable {
@@ -3632,7 +3632,7 @@ extension GetActionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetActionOutput: Swift.Equatable {
+public struct GetActionOutput {
     /// Information about the action.
     public var action: FisClientTypes.Action?
 
@@ -3644,7 +3644,7 @@ public struct GetActionOutput: Swift.Equatable {
     }
 }
 
-struct GetActionOutputBody: Swift.Equatable {
+struct GetActionOutputBody {
     let action: FisClientTypes.Action?
 }
 
@@ -3682,7 +3682,7 @@ extension GetExperimentInput {
     }
 }
 
-public struct GetExperimentInput: Swift.Equatable {
+public struct GetExperimentInput {
     /// The ID of the experiment.
     /// This member is required.
     public var id: Swift.String?
@@ -3695,7 +3695,7 @@ public struct GetExperimentInput: Swift.Equatable {
     }
 }
 
-struct GetExperimentInputBody: Swift.Equatable {
+struct GetExperimentInputBody {
 }
 
 extension GetExperimentInputBody: Swift.Decodable {
@@ -3716,7 +3716,7 @@ extension GetExperimentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetExperimentOutput: Swift.Equatable {
+public struct GetExperimentOutput {
     /// Information about the experiment.
     public var experiment: FisClientTypes.Experiment?
 
@@ -3728,7 +3728,7 @@ public struct GetExperimentOutput: Swift.Equatable {
     }
 }
 
-struct GetExperimentOutputBody: Swift.Equatable {
+struct GetExperimentOutputBody {
     let experiment: FisClientTypes.Experiment?
 }
 
@@ -3769,7 +3769,7 @@ extension GetExperimentTargetAccountConfigurationInput {
     }
 }
 
-public struct GetExperimentTargetAccountConfigurationInput: Swift.Equatable {
+public struct GetExperimentTargetAccountConfigurationInput {
     /// The Amazon Web Services account ID of the target account.
     /// This member is required.
     public var accountId: Swift.String?
@@ -3787,7 +3787,7 @@ public struct GetExperimentTargetAccountConfigurationInput: Swift.Equatable {
     }
 }
 
-struct GetExperimentTargetAccountConfigurationInputBody: Swift.Equatable {
+struct GetExperimentTargetAccountConfigurationInputBody {
 }
 
 extension GetExperimentTargetAccountConfigurationInputBody: Swift.Decodable {
@@ -3808,7 +3808,7 @@ extension GetExperimentTargetAccountConfigurationOutput: ClientRuntime.HttpRespo
     }
 }
 
-public struct GetExperimentTargetAccountConfigurationOutput: Swift.Equatable {
+public struct GetExperimentTargetAccountConfigurationOutput {
     /// Information about the target account configuration.
     public var targetAccountConfiguration: FisClientTypes.ExperimentTargetAccountConfiguration?
 
@@ -3820,7 +3820,7 @@ public struct GetExperimentTargetAccountConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetExperimentTargetAccountConfigurationOutputBody: Swift.Equatable {
+struct GetExperimentTargetAccountConfigurationOutputBody {
     let targetAccountConfiguration: FisClientTypes.ExperimentTargetAccountConfiguration?
 }
 
@@ -3858,7 +3858,7 @@ extension GetExperimentTemplateInput {
     }
 }
 
-public struct GetExperimentTemplateInput: Swift.Equatable {
+public struct GetExperimentTemplateInput {
     /// The ID of the experiment template.
     /// This member is required.
     public var id: Swift.String?
@@ -3871,7 +3871,7 @@ public struct GetExperimentTemplateInput: Swift.Equatable {
     }
 }
 
-struct GetExperimentTemplateInputBody: Swift.Equatable {
+struct GetExperimentTemplateInputBody {
 }
 
 extension GetExperimentTemplateInputBody: Swift.Decodable {
@@ -3892,7 +3892,7 @@ extension GetExperimentTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetExperimentTemplateOutput: Swift.Equatable {
+public struct GetExperimentTemplateOutput {
     /// Information about the experiment template.
     public var experimentTemplate: FisClientTypes.ExperimentTemplate?
 
@@ -3904,7 +3904,7 @@ public struct GetExperimentTemplateOutput: Swift.Equatable {
     }
 }
 
-struct GetExperimentTemplateOutputBody: Swift.Equatable {
+struct GetExperimentTemplateOutputBody {
     let experimentTemplate: FisClientTypes.ExperimentTemplate?
 }
 
@@ -3945,7 +3945,7 @@ extension GetTargetAccountConfigurationInput {
     }
 }
 
-public struct GetTargetAccountConfigurationInput: Swift.Equatable {
+public struct GetTargetAccountConfigurationInput {
     /// The Amazon Web Services account ID of the target account.
     /// This member is required.
     public var accountId: Swift.String?
@@ -3963,7 +3963,7 @@ public struct GetTargetAccountConfigurationInput: Swift.Equatable {
     }
 }
 
-struct GetTargetAccountConfigurationInputBody: Swift.Equatable {
+struct GetTargetAccountConfigurationInputBody {
 }
 
 extension GetTargetAccountConfigurationInputBody: Swift.Decodable {
@@ -3984,7 +3984,7 @@ extension GetTargetAccountConfigurationOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct GetTargetAccountConfigurationOutput: Swift.Equatable {
+public struct GetTargetAccountConfigurationOutput {
     /// Information about the target account configuration.
     public var targetAccountConfiguration: FisClientTypes.TargetAccountConfiguration?
 
@@ -3996,7 +3996,7 @@ public struct GetTargetAccountConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetTargetAccountConfigurationOutputBody: Swift.Equatable {
+struct GetTargetAccountConfigurationOutputBody {
     let targetAccountConfiguration: FisClientTypes.TargetAccountConfiguration?
 }
 
@@ -4034,7 +4034,7 @@ extension GetTargetResourceTypeInput {
     }
 }
 
-public struct GetTargetResourceTypeInput: Swift.Equatable {
+public struct GetTargetResourceTypeInput {
     /// The resource type.
     /// This member is required.
     public var resourceType: Swift.String?
@@ -4047,7 +4047,7 @@ public struct GetTargetResourceTypeInput: Swift.Equatable {
     }
 }
 
-struct GetTargetResourceTypeInputBody: Swift.Equatable {
+struct GetTargetResourceTypeInputBody {
 }
 
 extension GetTargetResourceTypeInputBody: Swift.Decodable {
@@ -4068,7 +4068,7 @@ extension GetTargetResourceTypeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTargetResourceTypeOutput: Swift.Equatable {
+public struct GetTargetResourceTypeOutput {
     /// Information about the resource type.
     public var targetResourceType: FisClientTypes.TargetResourceType?
 
@@ -4080,7 +4080,7 @@ public struct GetTargetResourceTypeOutput: Swift.Equatable {
     }
 }
 
-struct GetTargetResourceTypeOutputBody: Swift.Equatable {
+struct GetTargetResourceTypeOutputBody {
     let targetResourceType: FisClientTypes.TargetResourceType?
 }
 
@@ -4131,7 +4131,7 @@ extension ListActionsInput {
     }
 }
 
-public struct ListActionsInput: Swift.Equatable {
+public struct ListActionsInput {
     /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
     public var maxResults: Swift.Int?
     /// The token for the next page of results.
@@ -4147,7 +4147,7 @@ public struct ListActionsInput: Swift.Equatable {
     }
 }
 
-struct ListActionsInputBody: Swift.Equatable {
+struct ListActionsInputBody {
 }
 
 extension ListActionsInputBody: Swift.Decodable {
@@ -4170,7 +4170,7 @@ extension ListActionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListActionsOutput: Swift.Equatable {
+public struct ListActionsOutput {
     /// The actions.
     public var actions: [FisClientTypes.ActionSummary]?
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -4186,7 +4186,7 @@ public struct ListActionsOutput: Swift.Equatable {
     }
 }
 
-struct ListActionsOutputBody: Swift.Equatable {
+struct ListActionsOutputBody {
     let actions: [FisClientTypes.ActionSummary]?
     let nextToken: Swift.String?
 }
@@ -4256,7 +4256,7 @@ extension ListExperimentResolvedTargetsInput {
     }
 }
 
-public struct ListExperimentResolvedTargetsInput: Swift.Equatable {
+public struct ListExperimentResolvedTargetsInput {
     /// The ID of the experiment.
     /// This member is required.
     public var experimentId: Swift.String?
@@ -4281,7 +4281,7 @@ public struct ListExperimentResolvedTargetsInput: Swift.Equatable {
     }
 }
 
-struct ListExperimentResolvedTargetsInputBody: Swift.Equatable {
+struct ListExperimentResolvedTargetsInputBody {
 }
 
 extension ListExperimentResolvedTargetsInputBody: Swift.Decodable {
@@ -4304,7 +4304,7 @@ extension ListExperimentResolvedTargetsOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ListExperimentResolvedTargetsOutput: Swift.Equatable {
+public struct ListExperimentResolvedTargetsOutput {
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
     /// The resolved targets.
@@ -4320,7 +4320,7 @@ public struct ListExperimentResolvedTargetsOutput: Swift.Equatable {
     }
 }
 
-struct ListExperimentResolvedTargetsOutputBody: Swift.Equatable {
+struct ListExperimentResolvedTargetsOutputBody {
     let resolvedTargets: [FisClientTypes.ResolvedTarget]?
     let nextToken: Swift.String?
 }
@@ -4383,7 +4383,7 @@ extension ListExperimentTargetAccountConfigurationsInput {
     }
 }
 
-public struct ListExperimentTargetAccountConfigurationsInput: Swift.Equatable {
+public struct ListExperimentTargetAccountConfigurationsInput {
     /// The ID of the experiment.
     /// This member is required.
     public var experimentId: Swift.String?
@@ -4400,7 +4400,7 @@ public struct ListExperimentTargetAccountConfigurationsInput: Swift.Equatable {
     }
 }
 
-struct ListExperimentTargetAccountConfigurationsInputBody: Swift.Equatable {
+struct ListExperimentTargetAccountConfigurationsInputBody {
 }
 
 extension ListExperimentTargetAccountConfigurationsInputBody: Swift.Decodable {
@@ -4423,7 +4423,7 @@ extension ListExperimentTargetAccountConfigurationsOutput: ClientRuntime.HttpRes
     }
 }
 
-public struct ListExperimentTargetAccountConfigurationsOutput: Swift.Equatable {
+public struct ListExperimentTargetAccountConfigurationsOutput {
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
     /// The target account configurations.
@@ -4439,7 +4439,7 @@ public struct ListExperimentTargetAccountConfigurationsOutput: Swift.Equatable {
     }
 }
 
-struct ListExperimentTargetAccountConfigurationsOutputBody: Swift.Equatable {
+struct ListExperimentTargetAccountConfigurationsOutputBody {
     let targetAccountConfigurations: [FisClientTypes.ExperimentTargetAccountConfigurationSummary]?
     let nextToken: Swift.String?
 }
@@ -4503,7 +4503,7 @@ extension ListExperimentTemplatesInput {
     }
 }
 
-public struct ListExperimentTemplatesInput: Swift.Equatable {
+public struct ListExperimentTemplatesInput {
     /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
     public var maxResults: Swift.Int?
     /// The token for the next page of results.
@@ -4519,7 +4519,7 @@ public struct ListExperimentTemplatesInput: Swift.Equatable {
     }
 }
 
-struct ListExperimentTemplatesInputBody: Swift.Equatable {
+struct ListExperimentTemplatesInputBody {
 }
 
 extension ListExperimentTemplatesInputBody: Swift.Decodable {
@@ -4542,7 +4542,7 @@ extension ListExperimentTemplatesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListExperimentTemplatesOutput: Swift.Equatable {
+public struct ListExperimentTemplatesOutput {
     /// The experiment templates.
     public var experimentTemplates: [FisClientTypes.ExperimentTemplateSummary]?
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -4558,7 +4558,7 @@ public struct ListExperimentTemplatesOutput: Swift.Equatable {
     }
 }
 
-struct ListExperimentTemplatesOutputBody: Swift.Equatable {
+struct ListExperimentTemplatesOutputBody {
     let experimentTemplates: [FisClientTypes.ExperimentTemplateSummary]?
     let nextToken: Swift.String?
 }
@@ -4625,7 +4625,7 @@ extension ListExperimentsInput {
     }
 }
 
-public struct ListExperimentsInput: Swift.Equatable {
+public struct ListExperimentsInput {
     /// The ID of the experiment template.
     public var experimentTemplateId: Swift.String?
     /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
@@ -4645,7 +4645,7 @@ public struct ListExperimentsInput: Swift.Equatable {
     }
 }
 
-struct ListExperimentsInputBody: Swift.Equatable {
+struct ListExperimentsInputBody {
 }
 
 extension ListExperimentsInputBody: Swift.Decodable {
@@ -4668,7 +4668,7 @@ extension ListExperimentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListExperimentsOutput: Swift.Equatable {
+public struct ListExperimentsOutput {
     /// The experiments.
     public var experiments: [FisClientTypes.ExperimentSummary]?
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -4684,7 +4684,7 @@ public struct ListExperimentsOutput: Swift.Equatable {
     }
 }
 
-struct ListExperimentsOutputBody: Swift.Equatable {
+struct ListExperimentsOutputBody {
     let experiments: [FisClientTypes.ExperimentSummary]?
     let nextToken: Swift.String?
 }
@@ -4734,7 +4734,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4747,7 +4747,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -4768,7 +4768,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The tags for the resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -4780,7 +4780,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -4841,7 +4841,7 @@ extension ListTargetAccountConfigurationsInput {
     }
 }
 
-public struct ListTargetAccountConfigurationsInput: Swift.Equatable {
+public struct ListTargetAccountConfigurationsInput {
     /// The ID of the experiment template.
     /// This member is required.
     public var experimentTemplateId: Swift.String?
@@ -4862,7 +4862,7 @@ public struct ListTargetAccountConfigurationsInput: Swift.Equatable {
     }
 }
 
-struct ListTargetAccountConfigurationsInputBody: Swift.Equatable {
+struct ListTargetAccountConfigurationsInputBody {
 }
 
 extension ListTargetAccountConfigurationsInputBody: Swift.Decodable {
@@ -4885,7 +4885,7 @@ extension ListTargetAccountConfigurationsOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ListTargetAccountConfigurationsOutput: Swift.Equatable {
+public struct ListTargetAccountConfigurationsOutput {
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
     /// The target account configurations.
@@ -4901,7 +4901,7 @@ public struct ListTargetAccountConfigurationsOutput: Swift.Equatable {
     }
 }
 
-struct ListTargetAccountConfigurationsOutputBody: Swift.Equatable {
+struct ListTargetAccountConfigurationsOutputBody {
     let targetAccountConfigurations: [FisClientTypes.TargetAccountConfigurationSummary]?
     let nextToken: Swift.String?
 }
@@ -4965,7 +4965,7 @@ extension ListTargetResourceTypesInput {
     }
 }
 
-public struct ListTargetResourceTypesInput: Swift.Equatable {
+public struct ListTargetResourceTypesInput {
     /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
     public var maxResults: Swift.Int?
     /// The token for the next page of results.
@@ -4981,7 +4981,7 @@ public struct ListTargetResourceTypesInput: Swift.Equatable {
     }
 }
 
-struct ListTargetResourceTypesInputBody: Swift.Equatable {
+struct ListTargetResourceTypesInputBody {
 }
 
 extension ListTargetResourceTypesInputBody: Swift.Decodable {
@@ -5004,7 +5004,7 @@ extension ListTargetResourceTypesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTargetResourceTypesOutput: Swift.Equatable {
+public struct ListTargetResourceTypesOutput {
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
     /// The target resource types.
@@ -5020,7 +5020,7 @@ public struct ListTargetResourceTypesOutput: Swift.Equatable {
     }
 }
 
-struct ListTargetResourceTypesOutputBody: Swift.Equatable {
+struct ListTargetResourceTypesOutputBody {
     let targetResourceTypes: [FisClientTypes.TargetResourceTypeSummary]?
     let nextToken: Swift.String?
 }
@@ -5105,7 +5105,7 @@ extension FisClientTypes.ResolvedTarget: Swift.Codable {
 
 extension FisClientTypes {
     /// Describes a resolved target.
-    public struct ResolvedTarget: Swift.Equatable {
+    public struct ResolvedTarget {
         /// The resource type of the target.
         public var resourceType: Swift.String?
         /// Information about the target.
@@ -5166,7 +5166,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -5221,7 +5221,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -5258,7 +5258,7 @@ extension FisClientTypes.StartExperimentExperimentOptionsInput: Swift.Codable {
 
 extension FisClientTypes {
     /// Specifies experiment options for running an experiment.
-    public struct StartExperimentExperimentOptionsInput: Swift.Equatable {
+    public struct StartExperimentExperimentOptionsInput {
         /// Specifies the actions mode for experiment options.
         public var actionsMode: FisClientTypes.ActionsMode?
 
@@ -5307,7 +5307,7 @@ extension StartExperimentInput {
     }
 }
 
-public struct StartExperimentInput: Swift.Equatable {
+public struct StartExperimentInput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     /// This member is required.
     public var clientToken: Swift.String?
@@ -5333,7 +5333,7 @@ public struct StartExperimentInput: Swift.Equatable {
     }
 }
 
-struct StartExperimentInputBody: Swift.Equatable {
+struct StartExperimentInputBody {
     let clientToken: Swift.String?
     let experimentTemplateId: Swift.String?
     let experimentOptions: FisClientTypes.StartExperimentExperimentOptionsInput?
@@ -5382,7 +5382,7 @@ extension StartExperimentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartExperimentOutput: Swift.Equatable {
+public struct StartExperimentOutput {
     /// Information about the experiment.
     public var experiment: FisClientTypes.Experiment?
 
@@ -5394,7 +5394,7 @@ public struct StartExperimentOutput: Swift.Equatable {
     }
 }
 
-struct StartExperimentOutputBody: Swift.Equatable {
+struct StartExperimentOutputBody {
     let experiment: FisClientTypes.Experiment?
 }
 
@@ -5434,7 +5434,7 @@ extension StopExperimentInput {
     }
 }
 
-public struct StopExperimentInput: Swift.Equatable {
+public struct StopExperimentInput {
     /// The ID of the experiment.
     /// This member is required.
     public var id: Swift.String?
@@ -5447,7 +5447,7 @@ public struct StopExperimentInput: Swift.Equatable {
     }
 }
 
-struct StopExperimentInputBody: Swift.Equatable {
+struct StopExperimentInputBody {
 }
 
 extension StopExperimentInputBody: Swift.Decodable {
@@ -5468,7 +5468,7 @@ extension StopExperimentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopExperimentOutput: Swift.Equatable {
+public struct StopExperimentOutput {
     /// Information about the experiment.
     public var experiment: FisClientTypes.Experiment?
 
@@ -5480,7 +5480,7 @@ public struct StopExperimentOutput: Swift.Equatable {
     }
 }
 
-struct StopExperimentOutputBody: Swift.Equatable {
+struct StopExperimentOutputBody {
     let experiment: FisClientTypes.Experiment?
 }
 
@@ -5534,7 +5534,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -5552,7 +5552,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -5582,7 +5582,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -5630,7 +5630,7 @@ extension FisClientTypes.TargetAccountConfiguration: Swift.Codable {
 
 extension FisClientTypes {
     /// Describes a target account configuration.
-    public struct TargetAccountConfiguration: Swift.Equatable {
+    public struct TargetAccountConfiguration {
         /// The Amazon Web Services account ID of the target account.
         public var accountId: Swift.String?
         /// The description of the target account.
@@ -5685,7 +5685,7 @@ extension FisClientTypes.TargetAccountConfigurationSummary: Swift.Codable {
 
 extension FisClientTypes {
     /// Provides a summary of a target account configuration.
-    public struct TargetAccountConfigurationSummary: Swift.Equatable {
+    public struct TargetAccountConfigurationSummary {
         /// The Amazon Web Services account ID of the target account.
         public var accountId: Swift.String?
         /// The description of the target account.
@@ -5752,7 +5752,7 @@ extension FisClientTypes.TargetResourceType: Swift.Codable {
 
 extension FisClientTypes {
     /// Describes a resource type.
-    public struct TargetResourceType: Swift.Equatable {
+    public struct TargetResourceType {
         /// A description of the resource type.
         public var description: Swift.String?
         /// The parameters for the resource type.
@@ -5801,7 +5801,7 @@ extension FisClientTypes.TargetResourceTypeParameter: Swift.Codable {
 
 extension FisClientTypes {
     /// Describes the parameters for a resource type. Use parameters to determine which tasks are identified during target resolution.
-    public struct TargetResourceTypeParameter: Swift.Equatable {
+    public struct TargetResourceTypeParameter {
         /// A description of the parameter.
         public var description: Swift.String?
         /// Indicates whether the parameter is required.
@@ -5846,7 +5846,7 @@ extension FisClientTypes.TargetResourceTypeSummary: Swift.Codable {
 
 extension FisClientTypes {
     /// Describes a resource type.
-    public struct TargetResourceTypeSummary: Swift.Equatable {
+    public struct TargetResourceTypeSummary {
         /// A description of the resource type.
         public var description: Swift.String?
         /// The resource type.
@@ -5888,7 +5888,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -5905,7 +5905,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -5919,7 +5919,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -6015,7 +6015,7 @@ extension FisClientTypes.UpdateExperimentTemplateActionInputItem: Swift.Codable 
 
 extension FisClientTypes {
     /// Specifies an action for an experiment template.
-    public struct UpdateExperimentTemplateActionInputItem: Swift.Equatable {
+    public struct UpdateExperimentTemplateActionInputItem {
         /// The ID of the action.
         public var actionId: Swift.String?
         /// A description for the action.
@@ -6066,7 +6066,7 @@ extension FisClientTypes.UpdateExperimentTemplateExperimentOptionsInput: Swift.C
 
 extension FisClientTypes {
     /// Specifies an experiment option for an experiment template.
-    public struct UpdateExperimentTemplateExperimentOptionsInput: Swift.Equatable {
+    public struct UpdateExperimentTemplateExperimentOptionsInput {
         /// The empty target resolution mode of the experiment template.
         public var emptyTargetResolutionMode: FisClientTypes.EmptyTargetResolutionMode?
 
@@ -6136,7 +6136,7 @@ extension UpdateExperimentTemplateInput {
     }
 }
 
-public struct UpdateExperimentTemplateInput: Swift.Equatable {
+public struct UpdateExperimentTemplateInput {
     /// The actions for the experiment.
     public var actions: [Swift.String:FisClientTypes.UpdateExperimentTemplateActionInputItem]?
     /// A description for the template.
@@ -6177,7 +6177,7 @@ public struct UpdateExperimentTemplateInput: Swift.Equatable {
     }
 }
 
-struct UpdateExperimentTemplateInputBody: Swift.Equatable {
+struct UpdateExperimentTemplateInputBody {
     let description: Swift.String?
     let stopConditions: [FisClientTypes.UpdateExperimentTemplateStopConditionInput]?
     let targets: [Swift.String:FisClientTypes.UpdateExperimentTemplateTargetInput]?
@@ -6277,7 +6277,7 @@ extension FisClientTypes.UpdateExperimentTemplateLogConfigurationInput: Swift.Co
 
 extension FisClientTypes {
     /// Specifies the configuration for experiment logging.
-    public struct UpdateExperimentTemplateLogConfigurationInput: Swift.Equatable {
+    public struct UpdateExperimentTemplateLogConfigurationInput {
         /// The configuration for experiment logging to Amazon CloudWatch Logs.
         public var cloudWatchLogsConfiguration: FisClientTypes.ExperimentTemplateCloudWatchLogsLogConfigurationInput?
         /// The schema version.
@@ -6311,7 +6311,7 @@ extension UpdateExperimentTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateExperimentTemplateOutput: Swift.Equatable {
+public struct UpdateExperimentTemplateOutput {
     /// Information about the experiment template.
     public var experimentTemplate: FisClientTypes.ExperimentTemplate?
 
@@ -6323,7 +6323,7 @@ public struct UpdateExperimentTemplateOutput: Swift.Equatable {
     }
 }
 
-struct UpdateExperimentTemplateOutputBody: Swift.Equatable {
+struct UpdateExperimentTemplateOutputBody {
     let experimentTemplate: FisClientTypes.ExperimentTemplate?
 }
 
@@ -6379,7 +6379,7 @@ extension FisClientTypes.UpdateExperimentTemplateStopConditionInput: Swift.Codab
 
 extension FisClientTypes {
     /// Specifies a stop condition for an experiment. You can define a stop condition as a CloudWatch alarm.
-    public struct UpdateExperimentTemplateStopConditionInput: Swift.Equatable {
+    public struct UpdateExperimentTemplateStopConditionInput {
         /// The source for the stop condition. Specify aws:cloudwatch:alarm if the stop condition is defined by a CloudWatch alarm. Specify none if there is no stop condition.
         /// This member is required.
         public var source: Swift.String?
@@ -6497,7 +6497,7 @@ extension FisClientTypes.UpdateExperimentTemplateTargetInput: Swift.Codable {
 
 extension FisClientTypes {
     /// Specifies a target for an experiment. You must specify at least one Amazon Resource Name (ARN) or at least one resource tag. You cannot specify both.
-    public struct UpdateExperimentTemplateTargetInput: Swift.Equatable {
+    public struct UpdateExperimentTemplateTargetInput {
         /// The filters to apply to identify target resources using specific attributes.
         public var filters: [FisClientTypes.ExperimentTemplateTargetInputFilter]?
         /// The resource type parameters.
@@ -6563,7 +6563,7 @@ extension UpdateTargetAccountConfigurationInput {
     }
 }
 
-public struct UpdateTargetAccountConfigurationInput: Swift.Equatable {
+public struct UpdateTargetAccountConfigurationInput {
     /// The Amazon Web Services account ID of the target account.
     /// This member is required.
     public var accountId: Swift.String?
@@ -6589,7 +6589,7 @@ public struct UpdateTargetAccountConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateTargetAccountConfigurationInputBody: Swift.Equatable {
+struct UpdateTargetAccountConfigurationInputBody {
     let roleArn: Swift.String?
     let description: Swift.String?
 }
@@ -6621,7 +6621,7 @@ extension UpdateTargetAccountConfigurationOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct UpdateTargetAccountConfigurationOutput: Swift.Equatable {
+public struct UpdateTargetAccountConfigurationOutput {
     /// Information about the target account configuration.
     public var targetAccountConfiguration: FisClientTypes.TargetAccountConfiguration?
 
@@ -6633,7 +6633,7 @@ public struct UpdateTargetAccountConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateTargetAccountConfigurationOutputBody: Swift.Equatable {
+struct UpdateTargetAccountConfigurationOutputBody {
     let targetAccountConfiguration: FisClientTypes.TargetAccountConfiguration?
 }
 
@@ -6700,7 +6700,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

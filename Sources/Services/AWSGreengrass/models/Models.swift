@@ -25,7 +25,7 @@ extension AssociateRoleToGroupInput {
     }
 }
 
-public struct AssociateRoleToGroupInput: Swift.Equatable {
+public struct AssociateRoleToGroupInput {
     /// The ID of the Greengrass group.
     /// This member is required.
     public var groupId: Swift.String?
@@ -43,7 +43,7 @@ public struct AssociateRoleToGroupInput: Swift.Equatable {
     }
 }
 
-struct AssociateRoleToGroupInputBody: Swift.Equatable {
+struct AssociateRoleToGroupInputBody {
     let roleArn: Swift.String?
 }
 
@@ -71,7 +71,7 @@ extension AssociateRoleToGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateRoleToGroupOutput: Swift.Equatable {
+public struct AssociateRoleToGroupOutput {
     /// The time, in milliseconds since the epoch, when the role ARN was associated with the group.
     public var associatedAt: Swift.String?
 
@@ -83,7 +83,7 @@ public struct AssociateRoleToGroupOutput: Swift.Equatable {
     }
 }
 
-struct AssociateRoleToGroupOutputBody: Swift.Equatable {
+struct AssociateRoleToGroupOutputBody {
     let associatedAt: Swift.String?
 }
 
@@ -131,7 +131,7 @@ extension AssociateServiceRoleToAccountInput {
     }
 }
 
-public struct AssociateServiceRoleToAccountInput: Swift.Equatable {
+public struct AssociateServiceRoleToAccountInput {
     /// The ARN of the service role you wish to associate with your account.
     /// This member is required.
     public var roleArn: Swift.String?
@@ -144,7 +144,7 @@ public struct AssociateServiceRoleToAccountInput: Swift.Equatable {
     }
 }
 
-struct AssociateServiceRoleToAccountInputBody: Swift.Equatable {
+struct AssociateServiceRoleToAccountInputBody {
     let roleArn: Swift.String?
 }
 
@@ -172,7 +172,7 @@ extension AssociateServiceRoleToAccountOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct AssociateServiceRoleToAccountOutput: Swift.Equatable {
+public struct AssociateServiceRoleToAccountOutput {
     /// The time when the service role was associated with the account.
     public var associatedAt: Swift.String?
 
@@ -184,7 +184,7 @@ public struct AssociateServiceRoleToAccountOutput: Swift.Equatable {
     }
 }
 
-struct AssociateServiceRoleToAccountOutputBody: Swift.Equatable {
+struct AssociateServiceRoleToAccountOutputBody {
     let associatedAt: Swift.String?
 }
 
@@ -258,7 +258,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct BadRequestExceptionBody: Swift.Equatable {
+struct BadRequestExceptionBody {
     let errorDetails: [GreengrassClientTypes.ErrorDetail]?
     let message: Swift.String?
 }
@@ -320,7 +320,7 @@ extension GreengrassClientTypes.BulkDeployment: Swift.Codable {
 
 extension GreengrassClientTypes {
     /// Information about a bulk deployment. You cannot start a new bulk deployment while another one is still running or in a non-terminal state.
-    public struct BulkDeployment: Swift.Equatable {
+    public struct BulkDeployment {
         /// The ARN of the bulk deployment.
         public var bulkDeploymentArn: Swift.String?
         /// The ID of the bulk deployment.
@@ -375,7 +375,7 @@ extension GreengrassClientTypes.BulkDeploymentMetrics: Swift.Codable {
 
 extension GreengrassClientTypes {
     /// Relevant metrics on input records processed during bulk deployment.
-    public struct BulkDeploymentMetrics: Swift.Equatable {
+    public struct BulkDeploymentMetrics {
         /// The total number of records that returned a non-retryable error. For example, this can occur if a group record from the input file uses an invalid format or specifies a nonexistent group version, or if the execution role doesn't grant permission to deploy a group or group version.
         public var invalidInputRecords: Swift.Int?
         /// The total number of group records from the input file that have been processed so far, or attempted.
@@ -472,7 +472,7 @@ extension GreengrassClientTypes.BulkDeploymentResult: Swift.Codable {
 
 extension GreengrassClientTypes {
     /// Information about an individual group deployment in a bulk deployment operation.
-    public struct BulkDeploymentResult: Swift.Equatable {
+    public struct BulkDeploymentResult {
         /// The time, in ISO format, when the deployment was created.
         public var createdAt: Swift.String?
         /// The ARN of the group deployment.
@@ -630,7 +630,7 @@ extension GreengrassClientTypes.ConnectivityInfo: Swift.Codable {
 
 extension GreengrassClientTypes {
     /// Information about a Greengrass core's connectivity.
-    public struct ConnectivityInfo: Swift.Equatable {
+    public struct ConnectivityInfo {
         /// The endpoint for the Greengrass core. Can be an IP address or DNS.
         public var hostAddress: Swift.String?
         /// The ID of the connectivity information.
@@ -701,7 +701,7 @@ extension GreengrassClientTypes.Connector: Swift.Codable {
 
 extension GreengrassClientTypes {
     /// Information about a connector. Connectors run on the Greengrass core and contain built-in integration with local infrastructure, device protocols, AWS, and other cloud services.
-    public struct Connector: Swift.Equatable {
+    public struct Connector {
         /// The ARN of the connector.
         /// This member is required.
         public var connectorArn: Swift.String?
@@ -758,7 +758,7 @@ extension GreengrassClientTypes.ConnectorDefinitionVersion: Swift.Codable {
 
 extension GreengrassClientTypes {
     /// Information about the connector definition version, which is a container for connectors.
-    public struct ConnectorDefinitionVersion: Swift.Equatable {
+    public struct ConnectorDefinitionVersion {
         /// A list of references to connectors in this version, with their corresponding configuration settings.
         public var connectors: [GreengrassClientTypes.Connector]?
 
@@ -811,7 +811,7 @@ extension GreengrassClientTypes.Core: Swift.Codable {
 
 extension GreengrassClientTypes {
     /// Information about a core.
-    public struct Core: Swift.Equatable {
+    public struct Core {
         /// The ARN of the certificate associated with the core.
         /// This member is required.
         public var certificateArn: Swift.String?
@@ -873,7 +873,7 @@ extension GreengrassClientTypes.CoreDefinitionVersion: Swift.Codable {
 
 extension GreengrassClientTypes {
     /// Information about a core definition version.
-    public struct CoreDefinitionVersion: Swift.Equatable {
+    public struct CoreDefinitionVersion {
         /// A list of cores in the core definition version.
         public var cores: [GreengrassClientTypes.Core]?
 
@@ -929,7 +929,7 @@ extension CreateConnectorDefinitionInput {
     }
 }
 
-public struct CreateConnectorDefinitionInput: Swift.Equatable {
+public struct CreateConnectorDefinitionInput {
     /// A client token used to correlate requests and responses.
     public var amznClientToken: Swift.String?
     /// Information about the initial version of the connector definition.
@@ -953,7 +953,7 @@ public struct CreateConnectorDefinitionInput: Swift.Equatable {
     }
 }
 
-struct CreateConnectorDefinitionInputBody: Swift.Equatable {
+struct CreateConnectorDefinitionInputBody {
     let initialVersion: GreengrassClientTypes.ConnectorDefinitionVersion?
     let name: Swift.String?
     let tags: [Swift.String:Swift.String]?
@@ -1010,7 +1010,7 @@ extension CreateConnectorDefinitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateConnectorDefinitionOutput: Swift.Equatable {
+public struct CreateConnectorDefinitionOutput {
     /// The ARN of the definition.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the definition was created.
@@ -1046,7 +1046,7 @@ public struct CreateConnectorDefinitionOutput: Swift.Equatable {
     }
 }
 
-struct CreateConnectorDefinitionOutputBody: Swift.Equatable {
+struct CreateConnectorDefinitionOutputBody {
     let arn: Swift.String?
     let creationTimestamp: Swift.String?
     let id: Swift.String?
@@ -1134,7 +1134,7 @@ extension CreateConnectorDefinitionVersionInput {
     }
 }
 
-public struct CreateConnectorDefinitionVersionInput: Swift.Equatable {
+public struct CreateConnectorDefinitionVersionInput {
     /// A client token used to correlate requests and responses.
     public var amznClientToken: Swift.String?
     /// The ID of the connector definition.
@@ -1155,7 +1155,7 @@ public struct CreateConnectorDefinitionVersionInput: Swift.Equatable {
     }
 }
 
-struct CreateConnectorDefinitionVersionInputBody: Swift.Equatable {
+struct CreateConnectorDefinitionVersionInputBody {
     let connectors: [GreengrassClientTypes.Connector]?
 }
 
@@ -1198,7 +1198,7 @@ extension CreateConnectorDefinitionVersionOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct CreateConnectorDefinitionVersionOutput: Swift.Equatable {
+public struct CreateConnectorDefinitionVersionOutput {
     /// The ARN of the version.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the version was created.
@@ -1222,7 +1222,7 @@ public struct CreateConnectorDefinitionVersionOutput: Swift.Equatable {
     }
 }
 
-struct CreateConnectorDefinitionVersionOutputBody: Swift.Equatable {
+struct CreateConnectorDefinitionVersionOutputBody {
     let arn: Swift.String?
     let creationTimestamp: Swift.String?
     let id: Swift.String?
@@ -1304,7 +1304,7 @@ extension CreateCoreDefinitionInput {
 }
 
 /// Information needed to create a core definition.
-public struct CreateCoreDefinitionInput: Swift.Equatable {
+public struct CreateCoreDefinitionInput {
     /// A client token used to correlate requests and responses.
     public var amznClientToken: Swift.String?
     /// Information about the initial version of the core definition.
@@ -1328,7 +1328,7 @@ public struct CreateCoreDefinitionInput: Swift.Equatable {
     }
 }
 
-struct CreateCoreDefinitionInputBody: Swift.Equatable {
+struct CreateCoreDefinitionInputBody {
     let initialVersion: GreengrassClientTypes.CoreDefinitionVersion?
     let name: Swift.String?
     let tags: [Swift.String:Swift.String]?
@@ -1385,7 +1385,7 @@ extension CreateCoreDefinitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateCoreDefinitionOutput: Swift.Equatable {
+public struct CreateCoreDefinitionOutput {
     /// The ARN of the definition.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the definition was created.
@@ -1421,7 +1421,7 @@ public struct CreateCoreDefinitionOutput: Swift.Equatable {
     }
 }
 
-struct CreateCoreDefinitionOutputBody: Swift.Equatable {
+struct CreateCoreDefinitionOutputBody {
     let arn: Swift.String?
     let creationTimestamp: Swift.String?
     let id: Swift.String?
@@ -1509,7 +1509,7 @@ extension CreateCoreDefinitionVersionInput {
     }
 }
 
-public struct CreateCoreDefinitionVersionInput: Swift.Equatable {
+public struct CreateCoreDefinitionVersionInput {
     /// A client token used to correlate requests and responses.
     public var amznClientToken: Swift.String?
     /// The ID of the core definition.
@@ -1530,7 +1530,7 @@ public struct CreateCoreDefinitionVersionInput: Swift.Equatable {
     }
 }
 
-struct CreateCoreDefinitionVersionInputBody: Swift.Equatable {
+struct CreateCoreDefinitionVersionInputBody {
     let cores: [GreengrassClientTypes.Core]?
 }
 
@@ -1573,7 +1573,7 @@ extension CreateCoreDefinitionVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateCoreDefinitionVersionOutput: Swift.Equatable {
+public struct CreateCoreDefinitionVersionOutput {
     /// The ARN of the version.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the version was created.
@@ -1597,7 +1597,7 @@ public struct CreateCoreDefinitionVersionOutput: Swift.Equatable {
     }
 }
 
-struct CreateCoreDefinitionVersionOutputBody: Swift.Equatable {
+struct CreateCoreDefinitionVersionOutputBody {
     let arn: Swift.String?
     let creationTimestamp: Swift.String?
     let id: Swift.String?
@@ -1678,7 +1678,7 @@ extension CreateDeploymentInput {
     }
 }
 
-public struct CreateDeploymentInput: Swift.Equatable {
+public struct CreateDeploymentInput {
     /// A client token used to correlate requests and responses.
     public var amznClientToken: Swift.String?
     /// The ID of the deployment if you wish to redeploy a previous deployment.
@@ -1708,7 +1708,7 @@ public struct CreateDeploymentInput: Swift.Equatable {
     }
 }
 
-struct CreateDeploymentInputBody: Swift.Equatable {
+struct CreateDeploymentInputBody {
     let deploymentId: Swift.String?
     let deploymentType: GreengrassClientTypes.DeploymentType?
     let groupVersionId: Swift.String?
@@ -1746,7 +1746,7 @@ extension CreateDeploymentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDeploymentOutput: Swift.Equatable {
+public struct CreateDeploymentOutput {
     /// The ARN of the deployment.
     public var deploymentArn: Swift.String?
     /// The ID of the deployment.
@@ -1762,7 +1762,7 @@ public struct CreateDeploymentOutput: Swift.Equatable {
     }
 }
 
-struct CreateDeploymentOutputBody: Swift.Equatable {
+struct CreateDeploymentOutputBody {
     let deploymentArn: Swift.String?
     let deploymentId: Swift.String?
 }
@@ -1835,7 +1835,7 @@ extension CreateDeviceDefinitionInput {
     }
 }
 
-public struct CreateDeviceDefinitionInput: Swift.Equatable {
+public struct CreateDeviceDefinitionInput {
     /// A client token used to correlate requests and responses.
     public var amznClientToken: Swift.String?
     /// Information about the initial version of the device definition.
@@ -1859,7 +1859,7 @@ public struct CreateDeviceDefinitionInput: Swift.Equatable {
     }
 }
 
-struct CreateDeviceDefinitionInputBody: Swift.Equatable {
+struct CreateDeviceDefinitionInputBody {
     let initialVersion: GreengrassClientTypes.DeviceDefinitionVersion?
     let name: Swift.String?
     let tags: [Swift.String:Swift.String]?
@@ -1916,7 +1916,7 @@ extension CreateDeviceDefinitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDeviceDefinitionOutput: Swift.Equatable {
+public struct CreateDeviceDefinitionOutput {
     /// The ARN of the definition.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the definition was created.
@@ -1952,7 +1952,7 @@ public struct CreateDeviceDefinitionOutput: Swift.Equatable {
     }
 }
 
-struct CreateDeviceDefinitionOutputBody: Swift.Equatable {
+struct CreateDeviceDefinitionOutputBody {
     let arn: Swift.String?
     let creationTimestamp: Swift.String?
     let id: Swift.String?
@@ -2040,7 +2040,7 @@ extension CreateDeviceDefinitionVersionInput {
     }
 }
 
-public struct CreateDeviceDefinitionVersionInput: Swift.Equatable {
+public struct CreateDeviceDefinitionVersionInput {
     /// A client token used to correlate requests and responses.
     public var amznClientToken: Swift.String?
     /// The ID of the device definition.
@@ -2061,7 +2061,7 @@ public struct CreateDeviceDefinitionVersionInput: Swift.Equatable {
     }
 }
 
-struct CreateDeviceDefinitionVersionInputBody: Swift.Equatable {
+struct CreateDeviceDefinitionVersionInputBody {
     let devices: [GreengrassClientTypes.Device]?
 }
 
@@ -2104,7 +2104,7 @@ extension CreateDeviceDefinitionVersionOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct CreateDeviceDefinitionVersionOutput: Swift.Equatable {
+public struct CreateDeviceDefinitionVersionOutput {
     /// The ARN of the version.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the version was created.
@@ -2128,7 +2128,7 @@ public struct CreateDeviceDefinitionVersionOutput: Swift.Equatable {
     }
 }
 
-struct CreateDeviceDefinitionVersionOutputBody: Swift.Equatable {
+struct CreateDeviceDefinitionVersionOutputBody {
     let arn: Swift.String?
     let creationTimestamp: Swift.String?
     let id: Swift.String?
@@ -2209,7 +2209,7 @@ extension CreateFunctionDefinitionInput {
     }
 }
 
-public struct CreateFunctionDefinitionInput: Swift.Equatable {
+public struct CreateFunctionDefinitionInput {
     /// A client token used to correlate requests and responses.
     public var amznClientToken: Swift.String?
     /// Information about the initial version of the function definition.
@@ -2233,7 +2233,7 @@ public struct CreateFunctionDefinitionInput: Swift.Equatable {
     }
 }
 
-struct CreateFunctionDefinitionInputBody: Swift.Equatable {
+struct CreateFunctionDefinitionInputBody {
     let initialVersion: GreengrassClientTypes.FunctionDefinitionVersion?
     let name: Swift.String?
     let tags: [Swift.String:Swift.String]?
@@ -2290,7 +2290,7 @@ extension CreateFunctionDefinitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateFunctionDefinitionOutput: Swift.Equatable {
+public struct CreateFunctionDefinitionOutput {
     /// The ARN of the definition.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the definition was created.
@@ -2326,7 +2326,7 @@ public struct CreateFunctionDefinitionOutput: Swift.Equatable {
     }
 }
 
-struct CreateFunctionDefinitionOutputBody: Swift.Equatable {
+struct CreateFunctionDefinitionOutputBody {
     let arn: Swift.String?
     let creationTimestamp: Swift.String?
     let id: Swift.String?
@@ -2419,7 +2419,7 @@ extension CreateFunctionDefinitionVersionInput {
 }
 
 /// Information needed to create a function definition version.
-public struct CreateFunctionDefinitionVersionInput: Swift.Equatable {
+public struct CreateFunctionDefinitionVersionInput {
     /// A client token used to correlate requests and responses.
     public var amznClientToken: Swift.String?
     /// The default configuration that applies to all Lambda functions in this function definition version. Individual Lambda functions can override these settings.
@@ -2444,7 +2444,7 @@ public struct CreateFunctionDefinitionVersionInput: Swift.Equatable {
     }
 }
 
-struct CreateFunctionDefinitionVersionInputBody: Swift.Equatable {
+struct CreateFunctionDefinitionVersionInputBody {
     let defaultConfig: GreengrassClientTypes.FunctionDefaultConfig?
     let functions: [GreengrassClientTypes.Function]?
 }
@@ -2491,7 +2491,7 @@ extension CreateFunctionDefinitionVersionOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct CreateFunctionDefinitionVersionOutput: Swift.Equatable {
+public struct CreateFunctionDefinitionVersionOutput {
     /// The ARN of the version.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the version was created.
@@ -2515,7 +2515,7 @@ public struct CreateFunctionDefinitionVersionOutput: Swift.Equatable {
     }
 }
 
-struct CreateFunctionDefinitionVersionOutputBody: Swift.Equatable {
+struct CreateFunctionDefinitionVersionOutputBody {
     let arn: Swift.String?
     let creationTimestamp: Swift.String?
     let id: Swift.String?
@@ -2575,7 +2575,7 @@ extension CreateGroupCertificateAuthorityInput {
     }
 }
 
-public struct CreateGroupCertificateAuthorityInput: Swift.Equatable {
+public struct CreateGroupCertificateAuthorityInput {
     /// A client token used to correlate requests and responses.
     public var amznClientToken: Swift.String?
     /// The ID of the Greengrass group.
@@ -2592,7 +2592,7 @@ public struct CreateGroupCertificateAuthorityInput: Swift.Equatable {
     }
 }
 
-struct CreateGroupCertificateAuthorityInputBody: Swift.Equatable {
+struct CreateGroupCertificateAuthorityInputBody {
 }
 
 extension CreateGroupCertificateAuthorityInputBody: Swift.Decodable {
@@ -2613,7 +2613,7 @@ extension CreateGroupCertificateAuthorityOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct CreateGroupCertificateAuthorityOutput: Swift.Equatable {
+public struct CreateGroupCertificateAuthorityOutput {
     /// The ARN of the group certificate authority.
     public var groupCertificateAuthorityArn: Swift.String?
 
@@ -2625,7 +2625,7 @@ public struct CreateGroupCertificateAuthorityOutput: Swift.Equatable {
     }
 }
 
-struct CreateGroupCertificateAuthorityOutputBody: Swift.Equatable {
+struct CreateGroupCertificateAuthorityOutputBody {
     let groupCertificateAuthorityArn: Swift.String?
 }
 
@@ -2695,7 +2695,7 @@ extension CreateGroupInput {
     }
 }
 
-public struct CreateGroupInput: Swift.Equatable {
+public struct CreateGroupInput {
     /// A client token used to correlate requests and responses.
     public var amznClientToken: Swift.String?
     /// Information about the initial version of the group.
@@ -2720,7 +2720,7 @@ public struct CreateGroupInput: Swift.Equatable {
     }
 }
 
-struct CreateGroupInputBody: Swift.Equatable {
+struct CreateGroupInputBody {
     let initialVersion: GreengrassClientTypes.GroupVersion?
     let name: Swift.String?
     let tags: [Swift.String:Swift.String]?
@@ -2777,7 +2777,7 @@ extension CreateGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateGroupOutput: Swift.Equatable {
+public struct CreateGroupOutput {
     /// The ARN of the definition.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the definition was created.
@@ -2813,7 +2813,7 @@ public struct CreateGroupOutput: Swift.Equatable {
     }
 }
 
-struct CreateGroupOutputBody: Swift.Equatable {
+struct CreateGroupOutputBody {
     let arn: Swift.String?
     let creationTimestamp: Swift.String?
     let id: Swift.String?
@@ -2922,7 +2922,7 @@ extension CreateGroupVersionInput {
     }
 }
 
-public struct CreateGroupVersionInput: Swift.Equatable {
+public struct CreateGroupVersionInput {
     /// A client token used to correlate requests and responses.
     public var amznClientToken: Swift.String?
     /// The ARN of the connector definition version for this group.
@@ -2967,7 +2967,7 @@ public struct CreateGroupVersionInput: Swift.Equatable {
     }
 }
 
-struct CreateGroupVersionInputBody: Swift.Equatable {
+struct CreateGroupVersionInputBody {
     let connectorDefinitionVersionArn: Swift.String?
     let coreDefinitionVersionArn: Swift.String?
     let deviceDefinitionVersionArn: Swift.String?
@@ -3025,7 +3025,7 @@ extension CreateGroupVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateGroupVersionOutput: Swift.Equatable {
+public struct CreateGroupVersionOutput {
     /// The ARN of the version.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the version was created.
@@ -3049,7 +3049,7 @@ public struct CreateGroupVersionOutput: Swift.Equatable {
     }
 }
 
-struct CreateGroupVersionOutputBody: Swift.Equatable {
+struct CreateGroupVersionOutputBody {
     let arn: Swift.String?
     let creationTimestamp: Swift.String?
     let id: Swift.String?
@@ -3130,7 +3130,7 @@ extension CreateLoggerDefinitionInput {
     }
 }
 
-public struct CreateLoggerDefinitionInput: Swift.Equatable {
+public struct CreateLoggerDefinitionInput {
     /// A client token used to correlate requests and responses.
     public var amznClientToken: Swift.String?
     /// Information about the initial version of the logger definition.
@@ -3154,7 +3154,7 @@ public struct CreateLoggerDefinitionInput: Swift.Equatable {
     }
 }
 
-struct CreateLoggerDefinitionInputBody: Swift.Equatable {
+struct CreateLoggerDefinitionInputBody {
     let initialVersion: GreengrassClientTypes.LoggerDefinitionVersion?
     let name: Swift.String?
     let tags: [Swift.String:Swift.String]?
@@ -3211,7 +3211,7 @@ extension CreateLoggerDefinitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateLoggerDefinitionOutput: Swift.Equatable {
+public struct CreateLoggerDefinitionOutput {
     /// The ARN of the definition.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the definition was created.
@@ -3247,7 +3247,7 @@ public struct CreateLoggerDefinitionOutput: Swift.Equatable {
     }
 }
 
-struct CreateLoggerDefinitionOutputBody: Swift.Equatable {
+struct CreateLoggerDefinitionOutputBody {
     let arn: Swift.String?
     let creationTimestamp: Swift.String?
     let id: Swift.String?
@@ -3335,7 +3335,7 @@ extension CreateLoggerDefinitionVersionInput {
     }
 }
 
-public struct CreateLoggerDefinitionVersionInput: Swift.Equatable {
+public struct CreateLoggerDefinitionVersionInput {
     /// A client token used to correlate requests and responses.
     public var amznClientToken: Swift.String?
     /// The ID of the logger definition.
@@ -3356,7 +3356,7 @@ public struct CreateLoggerDefinitionVersionInput: Swift.Equatable {
     }
 }
 
-struct CreateLoggerDefinitionVersionInputBody: Swift.Equatable {
+struct CreateLoggerDefinitionVersionInputBody {
     let loggers: [GreengrassClientTypes.Logger]?
 }
 
@@ -3399,7 +3399,7 @@ extension CreateLoggerDefinitionVersionOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct CreateLoggerDefinitionVersionOutput: Swift.Equatable {
+public struct CreateLoggerDefinitionVersionOutput {
     /// The ARN of the version.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the version was created.
@@ -3423,7 +3423,7 @@ public struct CreateLoggerDefinitionVersionOutput: Swift.Equatable {
     }
 }
 
-struct CreateLoggerDefinitionVersionOutputBody: Swift.Equatable {
+struct CreateLoggerDefinitionVersionOutputBody {
     let arn: Swift.String?
     let creationTimestamp: Swift.String?
     let id: Swift.String?
@@ -3504,7 +3504,7 @@ extension CreateResourceDefinitionInput {
     }
 }
 
-public struct CreateResourceDefinitionInput: Swift.Equatable {
+public struct CreateResourceDefinitionInput {
     /// A client token used to correlate requests and responses.
     public var amznClientToken: Swift.String?
     /// Information about the initial version of the resource definition.
@@ -3528,7 +3528,7 @@ public struct CreateResourceDefinitionInput: Swift.Equatable {
     }
 }
 
-struct CreateResourceDefinitionInputBody: Swift.Equatable {
+struct CreateResourceDefinitionInputBody {
     let initialVersion: GreengrassClientTypes.ResourceDefinitionVersion?
     let name: Swift.String?
     let tags: [Swift.String:Swift.String]?
@@ -3585,7 +3585,7 @@ extension CreateResourceDefinitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateResourceDefinitionOutput: Swift.Equatable {
+public struct CreateResourceDefinitionOutput {
     /// The ARN of the definition.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the definition was created.
@@ -3621,7 +3621,7 @@ public struct CreateResourceDefinitionOutput: Swift.Equatable {
     }
 }
 
-struct CreateResourceDefinitionOutputBody: Swift.Equatable {
+struct CreateResourceDefinitionOutputBody {
     let arn: Swift.String?
     let creationTimestamp: Swift.String?
     let id: Swift.String?
@@ -3709,7 +3709,7 @@ extension CreateResourceDefinitionVersionInput {
     }
 }
 
-public struct CreateResourceDefinitionVersionInput: Swift.Equatable {
+public struct CreateResourceDefinitionVersionInput {
     /// A client token used to correlate requests and responses.
     public var amznClientToken: Swift.String?
     /// The ID of the resource definition.
@@ -3730,7 +3730,7 @@ public struct CreateResourceDefinitionVersionInput: Swift.Equatable {
     }
 }
 
-struct CreateResourceDefinitionVersionInputBody: Swift.Equatable {
+struct CreateResourceDefinitionVersionInputBody {
     let resources: [GreengrassClientTypes.Resource]?
 }
 
@@ -3773,7 +3773,7 @@ extension CreateResourceDefinitionVersionOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct CreateResourceDefinitionVersionOutput: Swift.Equatable {
+public struct CreateResourceDefinitionVersionOutput {
     /// The ARN of the version.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the version was created.
@@ -3797,7 +3797,7 @@ public struct CreateResourceDefinitionVersionOutput: Swift.Equatable {
     }
 }
 
-struct CreateResourceDefinitionVersionOutputBody: Swift.Equatable {
+struct CreateResourceDefinitionVersionOutputBody {
     let arn: Swift.String?
     let creationTimestamp: Swift.String?
     let id: Swift.String?
@@ -3890,7 +3890,7 @@ extension CreateSoftwareUpdateJobInput {
     }
 }
 
-public struct CreateSoftwareUpdateJobInput: Swift.Equatable {
+public struct CreateSoftwareUpdateJobInput {
     /// A client token used to correlate requests and responses.
     public var amznClientToken: Swift.String?
     /// The IAM Role that Greengrass will use to create pre-signed URLs pointing towards the update artifact.
@@ -3931,7 +3931,7 @@ public struct CreateSoftwareUpdateJobInput: Swift.Equatable {
     }
 }
 
-struct CreateSoftwareUpdateJobInputBody: Swift.Equatable {
+struct CreateSoftwareUpdateJobInputBody {
     let s3UrlSignerRole: Swift.String?
     let softwareToUpdate: GreengrassClientTypes.SoftwareToUpdate?
     let updateAgentLogLevel: GreengrassClientTypes.UpdateAgentLogLevel?
@@ -3992,7 +3992,7 @@ extension CreateSoftwareUpdateJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSoftwareUpdateJobOutput: Swift.Equatable {
+public struct CreateSoftwareUpdateJobOutput {
     /// The IoT Job ARN corresponding to this update.
     public var iotJobArn: Swift.String?
     /// The IoT Job Id corresponding to this update.
@@ -4012,7 +4012,7 @@ public struct CreateSoftwareUpdateJobOutput: Swift.Equatable {
     }
 }
 
-struct CreateSoftwareUpdateJobOutputBody: Swift.Equatable {
+struct CreateSoftwareUpdateJobOutputBody {
     let iotJobArn: Swift.String?
     let iotJobId: Swift.String?
     let platformSoftwareVersion: Swift.String?
@@ -4090,7 +4090,7 @@ extension CreateSubscriptionDefinitionInput {
     }
 }
 
-public struct CreateSubscriptionDefinitionInput: Swift.Equatable {
+public struct CreateSubscriptionDefinitionInput {
     /// A client token used to correlate requests and responses.
     public var amznClientToken: Swift.String?
     /// Information about the initial version of the subscription definition.
@@ -4114,7 +4114,7 @@ public struct CreateSubscriptionDefinitionInput: Swift.Equatable {
     }
 }
 
-struct CreateSubscriptionDefinitionInputBody: Swift.Equatable {
+struct CreateSubscriptionDefinitionInputBody {
     let initialVersion: GreengrassClientTypes.SubscriptionDefinitionVersion?
     let name: Swift.String?
     let tags: [Swift.String:Swift.String]?
@@ -4171,7 +4171,7 @@ extension CreateSubscriptionDefinitionOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct CreateSubscriptionDefinitionOutput: Swift.Equatable {
+public struct CreateSubscriptionDefinitionOutput {
     /// The ARN of the definition.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the definition was created.
@@ -4207,7 +4207,7 @@ public struct CreateSubscriptionDefinitionOutput: Swift.Equatable {
     }
 }
 
-struct CreateSubscriptionDefinitionOutputBody: Swift.Equatable {
+struct CreateSubscriptionDefinitionOutputBody {
     let arn: Swift.String?
     let creationTimestamp: Swift.String?
     let id: Swift.String?
@@ -4295,7 +4295,7 @@ extension CreateSubscriptionDefinitionVersionInput {
     }
 }
 
-public struct CreateSubscriptionDefinitionVersionInput: Swift.Equatable {
+public struct CreateSubscriptionDefinitionVersionInput {
     /// A client token used to correlate requests and responses.
     public var amznClientToken: Swift.String?
     /// The ID of the subscription definition.
@@ -4316,7 +4316,7 @@ public struct CreateSubscriptionDefinitionVersionInput: Swift.Equatable {
     }
 }
 
-struct CreateSubscriptionDefinitionVersionInputBody: Swift.Equatable {
+struct CreateSubscriptionDefinitionVersionInputBody {
     let subscriptions: [GreengrassClientTypes.Subscription]?
 }
 
@@ -4359,7 +4359,7 @@ extension CreateSubscriptionDefinitionVersionOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct CreateSubscriptionDefinitionVersionOutput: Swift.Equatable {
+public struct CreateSubscriptionDefinitionVersionOutput {
     /// The ARN of the version.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the version was created.
@@ -4383,7 +4383,7 @@ public struct CreateSubscriptionDefinitionVersionOutput: Swift.Equatable {
     }
 }
 
-struct CreateSubscriptionDefinitionVersionOutputBody: Swift.Equatable {
+struct CreateSubscriptionDefinitionVersionOutputBody {
     let arn: Swift.String?
     let creationTimestamp: Swift.String?
     let id: Swift.String?
@@ -4497,7 +4497,7 @@ extension GreengrassClientTypes.DefinitionInformation: Swift.Codable {
 
 extension GreengrassClientTypes {
     /// Information about a definition.
-    public struct DefinitionInformation: Swift.Equatable {
+    public struct DefinitionInformation {
         /// The ARN of the definition.
         public var arn: Swift.String?
         /// The time, in milliseconds since the epoch, when the definition was created.
@@ -4549,7 +4549,7 @@ extension DeleteConnectorDefinitionInput {
     }
 }
 
-public struct DeleteConnectorDefinitionInput: Swift.Equatable {
+public struct DeleteConnectorDefinitionInput {
     /// The ID of the connector definition.
     /// This member is required.
     public var connectorDefinitionId: Swift.String?
@@ -4562,7 +4562,7 @@ public struct DeleteConnectorDefinitionInput: Swift.Equatable {
     }
 }
 
-struct DeleteConnectorDefinitionInputBody: Swift.Equatable {
+struct DeleteConnectorDefinitionInputBody {
 }
 
 extension DeleteConnectorDefinitionInputBody: Swift.Decodable {
@@ -4576,7 +4576,7 @@ extension DeleteConnectorDefinitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteConnectorDefinitionOutput: Swift.Equatable {
+public struct DeleteConnectorDefinitionOutput {
 
     public init() { }
 }
@@ -4602,7 +4602,7 @@ extension DeleteCoreDefinitionInput {
     }
 }
 
-public struct DeleteCoreDefinitionInput: Swift.Equatable {
+public struct DeleteCoreDefinitionInput {
     /// The ID of the core definition.
     /// This member is required.
     public var coreDefinitionId: Swift.String?
@@ -4615,7 +4615,7 @@ public struct DeleteCoreDefinitionInput: Swift.Equatable {
     }
 }
 
-struct DeleteCoreDefinitionInputBody: Swift.Equatable {
+struct DeleteCoreDefinitionInputBody {
 }
 
 extension DeleteCoreDefinitionInputBody: Swift.Decodable {
@@ -4629,7 +4629,7 @@ extension DeleteCoreDefinitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteCoreDefinitionOutput: Swift.Equatable {
+public struct DeleteCoreDefinitionOutput {
 
     public init() { }
 }
@@ -4655,7 +4655,7 @@ extension DeleteDeviceDefinitionInput {
     }
 }
 
-public struct DeleteDeviceDefinitionInput: Swift.Equatable {
+public struct DeleteDeviceDefinitionInput {
     /// The ID of the device definition.
     /// This member is required.
     public var deviceDefinitionId: Swift.String?
@@ -4668,7 +4668,7 @@ public struct DeleteDeviceDefinitionInput: Swift.Equatable {
     }
 }
 
-struct DeleteDeviceDefinitionInputBody: Swift.Equatable {
+struct DeleteDeviceDefinitionInputBody {
 }
 
 extension DeleteDeviceDefinitionInputBody: Swift.Decodable {
@@ -4682,7 +4682,7 @@ extension DeleteDeviceDefinitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDeviceDefinitionOutput: Swift.Equatable {
+public struct DeleteDeviceDefinitionOutput {
 
     public init() { }
 }
@@ -4708,7 +4708,7 @@ extension DeleteFunctionDefinitionInput {
     }
 }
 
-public struct DeleteFunctionDefinitionInput: Swift.Equatable {
+public struct DeleteFunctionDefinitionInput {
     /// The ID of the Lambda function definition.
     /// This member is required.
     public var functionDefinitionId: Swift.String?
@@ -4721,7 +4721,7 @@ public struct DeleteFunctionDefinitionInput: Swift.Equatable {
     }
 }
 
-struct DeleteFunctionDefinitionInputBody: Swift.Equatable {
+struct DeleteFunctionDefinitionInputBody {
 }
 
 extension DeleteFunctionDefinitionInputBody: Swift.Decodable {
@@ -4735,7 +4735,7 @@ extension DeleteFunctionDefinitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteFunctionDefinitionOutput: Swift.Equatable {
+public struct DeleteFunctionDefinitionOutput {
 
     public init() { }
 }
@@ -4761,7 +4761,7 @@ extension DeleteGroupInput {
     }
 }
 
-public struct DeleteGroupInput: Swift.Equatable {
+public struct DeleteGroupInput {
     /// The ID of the Greengrass group.
     /// This member is required.
     public var groupId: Swift.String?
@@ -4774,7 +4774,7 @@ public struct DeleteGroupInput: Swift.Equatable {
     }
 }
 
-struct DeleteGroupInputBody: Swift.Equatable {
+struct DeleteGroupInputBody {
 }
 
 extension DeleteGroupInputBody: Swift.Decodable {
@@ -4788,7 +4788,7 @@ extension DeleteGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteGroupOutput: Swift.Equatable {
+public struct DeleteGroupOutput {
 
     public init() { }
 }
@@ -4814,7 +4814,7 @@ extension DeleteLoggerDefinitionInput {
     }
 }
 
-public struct DeleteLoggerDefinitionInput: Swift.Equatable {
+public struct DeleteLoggerDefinitionInput {
     /// The ID of the logger definition.
     /// This member is required.
     public var loggerDefinitionId: Swift.String?
@@ -4827,7 +4827,7 @@ public struct DeleteLoggerDefinitionInput: Swift.Equatable {
     }
 }
 
-struct DeleteLoggerDefinitionInputBody: Swift.Equatable {
+struct DeleteLoggerDefinitionInputBody {
 }
 
 extension DeleteLoggerDefinitionInputBody: Swift.Decodable {
@@ -4841,7 +4841,7 @@ extension DeleteLoggerDefinitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteLoggerDefinitionOutput: Swift.Equatable {
+public struct DeleteLoggerDefinitionOutput {
 
     public init() { }
 }
@@ -4867,7 +4867,7 @@ extension DeleteResourceDefinitionInput {
     }
 }
 
-public struct DeleteResourceDefinitionInput: Swift.Equatable {
+public struct DeleteResourceDefinitionInput {
     /// The ID of the resource definition.
     /// This member is required.
     public var resourceDefinitionId: Swift.String?
@@ -4880,7 +4880,7 @@ public struct DeleteResourceDefinitionInput: Swift.Equatable {
     }
 }
 
-struct DeleteResourceDefinitionInputBody: Swift.Equatable {
+struct DeleteResourceDefinitionInputBody {
 }
 
 extension DeleteResourceDefinitionInputBody: Swift.Decodable {
@@ -4894,7 +4894,7 @@ extension DeleteResourceDefinitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteResourceDefinitionOutput: Swift.Equatable {
+public struct DeleteResourceDefinitionOutput {
 
     public init() { }
 }
@@ -4920,7 +4920,7 @@ extension DeleteSubscriptionDefinitionInput {
     }
 }
 
-public struct DeleteSubscriptionDefinitionInput: Swift.Equatable {
+public struct DeleteSubscriptionDefinitionInput {
     /// The ID of the subscription definition.
     /// This member is required.
     public var subscriptionDefinitionId: Swift.String?
@@ -4933,7 +4933,7 @@ public struct DeleteSubscriptionDefinitionInput: Swift.Equatable {
     }
 }
 
-struct DeleteSubscriptionDefinitionInputBody: Swift.Equatable {
+struct DeleteSubscriptionDefinitionInputBody {
 }
 
 extension DeleteSubscriptionDefinitionInputBody: Swift.Decodable {
@@ -4947,7 +4947,7 @@ extension DeleteSubscriptionDefinitionOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DeleteSubscriptionDefinitionOutput: Swift.Equatable {
+public struct DeleteSubscriptionDefinitionOutput {
 
     public init() { }
 }
@@ -5008,7 +5008,7 @@ extension GreengrassClientTypes.Deployment: Swift.Codable {
 
 extension GreengrassClientTypes {
     /// Information about a deployment.
-    public struct Deployment: Swift.Equatable {
+    public struct Deployment {
         /// The time, in milliseconds since the epoch, when the deployment was created.
         public var createdAt: Swift.String?
         /// The ARN of the deployment.
@@ -5116,7 +5116,7 @@ extension GreengrassClientTypes.Device: Swift.Codable {
 
 extension GreengrassClientTypes {
     /// Information about a device.
-    public struct Device: Swift.Equatable {
+    public struct Device {
         /// The ARN of the certificate associated with the device.
         /// This member is required.
         public var certificateArn: Swift.String?
@@ -5178,7 +5178,7 @@ extension GreengrassClientTypes.DeviceDefinitionVersion: Swift.Codable {
 
 extension GreengrassClientTypes {
     /// Information about a device definition version.
-    public struct DeviceDefinitionVersion: Swift.Equatable {
+    public struct DeviceDefinitionVersion {
         /// A list of devices in the definition version.
         public var devices: [GreengrassClientTypes.Device]?
 
@@ -5202,7 +5202,7 @@ extension DisassociateRoleFromGroupInput {
     }
 }
 
-public struct DisassociateRoleFromGroupInput: Swift.Equatable {
+public struct DisassociateRoleFromGroupInput {
     /// The ID of the Greengrass group.
     /// This member is required.
     public var groupId: Swift.String?
@@ -5215,7 +5215,7 @@ public struct DisassociateRoleFromGroupInput: Swift.Equatable {
     }
 }
 
-struct DisassociateRoleFromGroupInputBody: Swift.Equatable {
+struct DisassociateRoleFromGroupInputBody {
 }
 
 extension DisassociateRoleFromGroupInputBody: Swift.Decodable {
@@ -5236,7 +5236,7 @@ extension DisassociateRoleFromGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateRoleFromGroupOutput: Swift.Equatable {
+public struct DisassociateRoleFromGroupOutput {
     /// The time, in milliseconds since the epoch, when the role was disassociated from the group.
     public var disassociatedAt: Swift.String?
 
@@ -5248,7 +5248,7 @@ public struct DisassociateRoleFromGroupOutput: Swift.Equatable {
     }
 }
 
-struct DisassociateRoleFromGroupOutputBody: Swift.Equatable {
+struct DisassociateRoleFromGroupOutputBody {
     let disassociatedAt: Swift.String?
 }
 
@@ -5283,12 +5283,12 @@ extension DisassociateServiceRoleFromAccountInput {
     }
 }
 
-public struct DisassociateServiceRoleFromAccountInput: Swift.Equatable {
+public struct DisassociateServiceRoleFromAccountInput {
 
     public init() { }
 }
 
-struct DisassociateServiceRoleFromAccountInputBody: Swift.Equatable {
+struct DisassociateServiceRoleFromAccountInputBody {
 }
 
 extension DisassociateServiceRoleFromAccountInputBody: Swift.Decodable {
@@ -5309,7 +5309,7 @@ extension DisassociateServiceRoleFromAccountOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct DisassociateServiceRoleFromAccountOutput: Swift.Equatable {
+public struct DisassociateServiceRoleFromAccountOutput {
     /// The time when the service role was disassociated from the account.
     public var disassociatedAt: Swift.String?
 
@@ -5321,7 +5321,7 @@ public struct DisassociateServiceRoleFromAccountOutput: Swift.Equatable {
     }
 }
 
-struct DisassociateServiceRoleFromAccountOutputBody: Swift.Equatable {
+struct DisassociateServiceRoleFromAccountOutputBody {
     let disassociatedAt: Swift.String?
 }
 
@@ -5407,7 +5407,7 @@ extension GreengrassClientTypes.ErrorDetail: Swift.Codable {
 
 extension GreengrassClientTypes {
     /// Details about the error.
-    public struct ErrorDetail: Swift.Equatable {
+    public struct ErrorDetail {
         /// A detailed error code.
         public var detailedErrorCode: Swift.String?
         /// A detailed error message.
@@ -5458,7 +5458,7 @@ extension GreengrassClientTypes.Function: Swift.Codable {
 
 extension GreengrassClientTypes {
     /// Information about a Lambda function.
-    public struct Function: Swift.Equatable {
+    public struct Function {
         /// The ARN of the Lambda function.
         public var functionArn: Swift.String?
         /// The configuration of the Lambda function.
@@ -5544,7 +5544,7 @@ extension GreengrassClientTypes.FunctionConfiguration: Swift.Codable {
 
 extension GreengrassClientTypes {
     /// The configuration of the Lambda function.
-    public struct FunctionConfiguration: Swift.Equatable {
+    public struct FunctionConfiguration {
         /// The expected encoding type of the input payload for the function. The default is ''json''.
         public var encodingType: GreengrassClientTypes.EncodingType?
         /// The environment configuration of the function.
@@ -5649,7 +5649,7 @@ extension GreengrassClientTypes.FunctionConfigurationEnvironment: Swift.Codable 
 
 extension GreengrassClientTypes {
     /// The environment configuration of the function.
-    public struct FunctionConfigurationEnvironment: Swift.Equatable {
+    public struct FunctionConfigurationEnvironment {
         /// If true, the Lambda function is allowed to access the host's /sys folder. Use this when the Lambda function needs to read device information from /sys. This setting applies only when you run the Lambda function in a Greengrass container.
         public var accessSysfs: Swift.Bool?
         /// Configuration related to executing the Lambda function
@@ -5696,7 +5696,7 @@ extension GreengrassClientTypes.FunctionDefaultConfig: Swift.Codable {
 
 extension GreengrassClientTypes {
     /// The default configuration that applies to all Lambda functions in the group. Individual Lambda functions can override these settings.
-    public struct FunctionDefaultConfig: Swift.Equatable {
+    public struct FunctionDefaultConfig {
         /// Configuration information that specifies how a Lambda function runs.
         public var execution: GreengrassClientTypes.FunctionDefaultExecutionConfig?
 
@@ -5737,7 +5737,7 @@ extension GreengrassClientTypes.FunctionDefaultExecutionConfig: Swift.Codable {
 
 extension GreengrassClientTypes {
     /// Configuration information that specifies how a Lambda function runs.
-    public struct FunctionDefaultExecutionConfig: Swift.Equatable {
+    public struct FunctionDefaultExecutionConfig {
         /// Specifies whether the Lambda function runs in a Greengrass container (default) or without containerization. Unless your scenario requires that you run without containerization, we recommend that you run in a Greengrass container. Omit this value to run the Lambda function with the default containerization for the group.
         public var isolationMode: GreengrassClientTypes.FunctionIsolationMode?
         /// Specifies the user and group whose permissions are used when running the Lambda function. You can specify one or both values to override the default values. We recommend that you avoid running as root unless absolutely necessary to minimize the risk of unintended changes or malicious attacks. To run as root, you must set ''IsolationMode'' to ''NoContainer'' and update config.json in ''greengrass-root/config'' to set ''allowFunctionsToRunAsRoot'' to ''yes''.
@@ -5794,7 +5794,7 @@ extension GreengrassClientTypes.FunctionDefinitionVersion: Swift.Codable {
 
 extension GreengrassClientTypes {
     /// Information about a function definition version.
-    public struct FunctionDefinitionVersion: Swift.Equatable {
+    public struct FunctionDefinitionVersion {
         /// The default configuration that applies to all Lambda functions in this function definition version. Individual Lambda functions can override these settings.
         public var defaultConfig: GreengrassClientTypes.FunctionDefaultConfig?
         /// A list of Lambda functions in this function definition version.
@@ -5839,7 +5839,7 @@ extension GreengrassClientTypes.FunctionExecutionConfig: Swift.Codable {
 
 extension GreengrassClientTypes {
     /// Configuration information that specifies how a Lambda function runs.
-    public struct FunctionExecutionConfig: Swift.Equatable {
+    public struct FunctionExecutionConfig {
         /// Specifies whether the Lambda function runs in a Greengrass container (default) or without containerization. Unless your scenario requires that you run without containerization, we recommend that you run in a Greengrass container. Omit this value to run the Lambda function with the default containerization for the group.
         public var isolationMode: GreengrassClientTypes.FunctionIsolationMode?
         /// Specifies the user and group whose permissions are used when running the Lambda function. You can specify one or both values to override the default values. We recommend that you avoid running as root unless absolutely necessary to minimize the risk of unintended changes or malicious attacks. To run as root, you must set ''IsolationMode'' to ''NoContainer'' and update config.json in ''greengrass-root/config'' to set ''allowFunctionsToRunAsRoot'' to ''yes''.
@@ -5917,7 +5917,7 @@ extension GreengrassClientTypes.FunctionRunAsConfig: Swift.Codable {
 
 extension GreengrassClientTypes {
     /// Specifies the user and group whose permissions are used when running the Lambda function. You can specify one or both values to override the default values. We recommend that you avoid running as root unless absolutely necessary to minimize the risk of unintended changes or malicious attacks. To run as root, you must set ''IsolationMode'' to ''NoContainer'' and update config.json in ''greengrass-root/config'' to set ''allowFunctionsToRunAsRoot'' to ''yes''.
-    public struct FunctionRunAsConfig: Swift.Equatable {
+    public struct FunctionRunAsConfig {
         /// The group ID whose permissions are used to run a Lambda function.
         public var gid: Swift.Int?
         /// The user ID whose permissions are used to run a Lambda function.
@@ -5945,7 +5945,7 @@ extension GetAssociatedRoleInput {
     }
 }
 
-public struct GetAssociatedRoleInput: Swift.Equatable {
+public struct GetAssociatedRoleInput {
     /// The ID of the Greengrass group.
     /// This member is required.
     public var groupId: Swift.String?
@@ -5958,7 +5958,7 @@ public struct GetAssociatedRoleInput: Swift.Equatable {
     }
 }
 
-struct GetAssociatedRoleInputBody: Swift.Equatable {
+struct GetAssociatedRoleInputBody {
 }
 
 extension GetAssociatedRoleInputBody: Swift.Decodable {
@@ -5981,7 +5981,7 @@ extension GetAssociatedRoleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAssociatedRoleOutput: Swift.Equatable {
+public struct GetAssociatedRoleOutput {
     /// The time when the role was associated with the group.
     public var associatedAt: Swift.String?
     /// The ARN of the role that is associated with the group.
@@ -5997,7 +5997,7 @@ public struct GetAssociatedRoleOutput: Swift.Equatable {
     }
 }
 
-struct GetAssociatedRoleOutputBody: Swift.Equatable {
+struct GetAssociatedRoleOutputBody {
     let associatedAt: Swift.String?
     let roleArn: Swift.String?
 }
@@ -6039,7 +6039,7 @@ extension GetBulkDeploymentStatusInput {
     }
 }
 
-public struct GetBulkDeploymentStatusInput: Swift.Equatable {
+public struct GetBulkDeploymentStatusInput {
     /// The ID of the bulk deployment.
     /// This member is required.
     public var bulkDeploymentId: Swift.String?
@@ -6052,7 +6052,7 @@ public struct GetBulkDeploymentStatusInput: Swift.Equatable {
     }
 }
 
-struct GetBulkDeploymentStatusInputBody: Swift.Equatable {
+struct GetBulkDeploymentStatusInputBody {
 }
 
 extension GetBulkDeploymentStatusInputBody: Swift.Decodable {
@@ -6083,7 +6083,7 @@ extension GetBulkDeploymentStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBulkDeploymentStatusOutput: Swift.Equatable {
+public struct GetBulkDeploymentStatusOutput {
     /// Relevant metrics on input records processed during bulk deployment.
     public var bulkDeploymentMetrics: GreengrassClientTypes.BulkDeploymentMetrics?
     /// The status of the bulk deployment.
@@ -6115,7 +6115,7 @@ public struct GetBulkDeploymentStatusOutput: Swift.Equatable {
     }
 }
 
-struct GetBulkDeploymentStatusOutputBody: Swift.Equatable {
+struct GetBulkDeploymentStatusOutputBody {
     let bulkDeploymentMetrics: GreengrassClientTypes.BulkDeploymentMetrics?
     let bulkDeploymentStatus: GreengrassClientTypes.BulkDeploymentStatus?
     let createdAt: Swift.String?
@@ -6190,7 +6190,7 @@ extension GetConnectivityInfoInput {
     }
 }
 
-public struct GetConnectivityInfoInput: Swift.Equatable {
+public struct GetConnectivityInfoInput {
     /// The thing name.
     /// This member is required.
     public var thingName: Swift.String?
@@ -6203,7 +6203,7 @@ public struct GetConnectivityInfoInput: Swift.Equatable {
     }
 }
 
-struct GetConnectivityInfoInputBody: Swift.Equatable {
+struct GetConnectivityInfoInputBody {
 }
 
 extension GetConnectivityInfoInputBody: Swift.Decodable {
@@ -6226,7 +6226,7 @@ extension GetConnectivityInfoOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetConnectivityInfoOutput: Swift.Equatable {
+public struct GetConnectivityInfoOutput {
     /// Connectivity info list.
     public var connectivityInfo: [GreengrassClientTypes.ConnectivityInfo]?
     /// A message about the connectivity info request.
@@ -6242,7 +6242,7 @@ public struct GetConnectivityInfoOutput: Swift.Equatable {
     }
 }
 
-struct GetConnectivityInfoOutputBody: Swift.Equatable {
+struct GetConnectivityInfoOutputBody {
     let connectivityInfo: [GreengrassClientTypes.ConnectivityInfo]?
     let message: Swift.String?
 }
@@ -6293,7 +6293,7 @@ extension GetConnectorDefinitionInput {
     }
 }
 
-public struct GetConnectorDefinitionInput: Swift.Equatable {
+public struct GetConnectorDefinitionInput {
     /// The ID of the connector definition.
     /// This member is required.
     public var connectorDefinitionId: Swift.String?
@@ -6306,7 +6306,7 @@ public struct GetConnectorDefinitionInput: Swift.Equatable {
     }
 }
 
-struct GetConnectorDefinitionInputBody: Swift.Equatable {
+struct GetConnectorDefinitionInputBody {
 }
 
 extension GetConnectorDefinitionInputBody: Swift.Decodable {
@@ -6341,7 +6341,7 @@ extension GetConnectorDefinitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetConnectorDefinitionOutput: Swift.Equatable {
+public struct GetConnectorDefinitionOutput {
     /// The ARN of the definition.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the definition was created.
@@ -6381,7 +6381,7 @@ public struct GetConnectorDefinitionOutput: Swift.Equatable {
     }
 }
 
-struct GetConnectorDefinitionOutputBody: Swift.Equatable {
+struct GetConnectorDefinitionOutputBody {
     let arn: Swift.String?
     let creationTimestamp: Swift.String?
     let id: Swift.String?
@@ -6470,7 +6470,7 @@ extension GetConnectorDefinitionVersionInput {
     }
 }
 
-public struct GetConnectorDefinitionVersionInput: Swift.Equatable {
+public struct GetConnectorDefinitionVersionInput {
     /// The ID of the connector definition.
     /// This member is required.
     public var connectorDefinitionId: Swift.String?
@@ -6492,7 +6492,7 @@ public struct GetConnectorDefinitionVersionInput: Swift.Equatable {
     }
 }
 
-struct GetConnectorDefinitionVersionInputBody: Swift.Equatable {
+struct GetConnectorDefinitionVersionInputBody {
 }
 
 extension GetConnectorDefinitionVersionInputBody: Swift.Decodable {
@@ -6523,7 +6523,7 @@ extension GetConnectorDefinitionVersionOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct GetConnectorDefinitionVersionOutput: Swift.Equatable {
+public struct GetConnectorDefinitionVersionOutput {
     /// The ARN of the connector definition version.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the connector definition version was created.
@@ -6555,7 +6555,7 @@ public struct GetConnectorDefinitionVersionOutput: Swift.Equatable {
     }
 }
 
-struct GetConnectorDefinitionVersionOutputBody: Swift.Equatable {
+struct GetConnectorDefinitionVersionOutputBody {
     let arn: Swift.String?
     let creationTimestamp: Swift.String?
     let definition: GreengrassClientTypes.ConnectorDefinitionVersion?
@@ -6612,7 +6612,7 @@ extension GetCoreDefinitionInput {
     }
 }
 
-public struct GetCoreDefinitionInput: Swift.Equatable {
+public struct GetCoreDefinitionInput {
     /// The ID of the core definition.
     /// This member is required.
     public var coreDefinitionId: Swift.String?
@@ -6625,7 +6625,7 @@ public struct GetCoreDefinitionInput: Swift.Equatable {
     }
 }
 
-struct GetCoreDefinitionInputBody: Swift.Equatable {
+struct GetCoreDefinitionInputBody {
 }
 
 extension GetCoreDefinitionInputBody: Swift.Decodable {
@@ -6660,7 +6660,7 @@ extension GetCoreDefinitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCoreDefinitionOutput: Swift.Equatable {
+public struct GetCoreDefinitionOutput {
     /// The ARN of the definition.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the definition was created.
@@ -6700,7 +6700,7 @@ public struct GetCoreDefinitionOutput: Swift.Equatable {
     }
 }
 
-struct GetCoreDefinitionOutputBody: Swift.Equatable {
+struct GetCoreDefinitionOutputBody {
     let arn: Swift.String?
     let creationTimestamp: Swift.String?
     let id: Swift.String?
@@ -6777,7 +6777,7 @@ extension GetCoreDefinitionVersionInput {
     }
 }
 
-public struct GetCoreDefinitionVersionInput: Swift.Equatable {
+public struct GetCoreDefinitionVersionInput {
     /// The ID of the core definition.
     /// This member is required.
     public var coreDefinitionId: Swift.String?
@@ -6795,7 +6795,7 @@ public struct GetCoreDefinitionVersionInput: Swift.Equatable {
     }
 }
 
-struct GetCoreDefinitionVersionInputBody: Swift.Equatable {
+struct GetCoreDefinitionVersionInputBody {
 }
 
 extension GetCoreDefinitionVersionInputBody: Swift.Decodable {
@@ -6826,7 +6826,7 @@ extension GetCoreDefinitionVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCoreDefinitionVersionOutput: Swift.Equatable {
+public struct GetCoreDefinitionVersionOutput {
     /// The ARN of the core definition version.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the core definition version was created.
@@ -6858,7 +6858,7 @@ public struct GetCoreDefinitionVersionOutput: Swift.Equatable {
     }
 }
 
-struct GetCoreDefinitionVersionOutputBody: Swift.Equatable {
+struct GetCoreDefinitionVersionOutputBody {
     let arn: Swift.String?
     let creationTimestamp: Swift.String?
     let definition: GreengrassClientTypes.CoreDefinitionVersion?
@@ -6918,7 +6918,7 @@ extension GetDeploymentStatusInput {
     }
 }
 
-public struct GetDeploymentStatusInput: Swift.Equatable {
+public struct GetDeploymentStatusInput {
     /// The ID of the deployment.
     /// This member is required.
     public var deploymentId: Swift.String?
@@ -6936,7 +6936,7 @@ public struct GetDeploymentStatusInput: Swift.Equatable {
     }
 }
 
-struct GetDeploymentStatusInputBody: Swift.Equatable {
+struct GetDeploymentStatusInputBody {
 }
 
 extension GetDeploymentStatusInputBody: Swift.Decodable {
@@ -6965,7 +6965,7 @@ extension GetDeploymentStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDeploymentStatusOutput: Swift.Equatable {
+public struct GetDeploymentStatusOutput {
     /// The status of the deployment: ''InProgress'', ''Building'', ''Success'', or ''Failure''.
     public var deploymentStatus: Swift.String?
     /// The type of the deployment.
@@ -6993,7 +6993,7 @@ public struct GetDeploymentStatusOutput: Swift.Equatable {
     }
 }
 
-struct GetDeploymentStatusOutputBody: Swift.Equatable {
+struct GetDeploymentStatusOutputBody {
     let deploymentStatus: Swift.String?
     let deploymentType: GreengrassClientTypes.DeploymentType?
     let errorDetails: [GreengrassClientTypes.ErrorDetail]?
@@ -7055,7 +7055,7 @@ extension GetDeviceDefinitionInput {
     }
 }
 
-public struct GetDeviceDefinitionInput: Swift.Equatable {
+public struct GetDeviceDefinitionInput {
     /// The ID of the device definition.
     /// This member is required.
     public var deviceDefinitionId: Swift.String?
@@ -7068,7 +7068,7 @@ public struct GetDeviceDefinitionInput: Swift.Equatable {
     }
 }
 
-struct GetDeviceDefinitionInputBody: Swift.Equatable {
+struct GetDeviceDefinitionInputBody {
 }
 
 extension GetDeviceDefinitionInputBody: Swift.Decodable {
@@ -7103,7 +7103,7 @@ extension GetDeviceDefinitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDeviceDefinitionOutput: Swift.Equatable {
+public struct GetDeviceDefinitionOutput {
     /// The ARN of the definition.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the definition was created.
@@ -7143,7 +7143,7 @@ public struct GetDeviceDefinitionOutput: Swift.Equatable {
     }
 }
 
-struct GetDeviceDefinitionOutputBody: Swift.Equatable {
+struct GetDeviceDefinitionOutputBody {
     let arn: Swift.String?
     let creationTimestamp: Swift.String?
     let id: Swift.String?
@@ -7232,7 +7232,7 @@ extension GetDeviceDefinitionVersionInput {
     }
 }
 
-public struct GetDeviceDefinitionVersionInput: Swift.Equatable {
+public struct GetDeviceDefinitionVersionInput {
     /// The ID of the device definition.
     /// This member is required.
     public var deviceDefinitionId: Swift.String?
@@ -7254,7 +7254,7 @@ public struct GetDeviceDefinitionVersionInput: Swift.Equatable {
     }
 }
 
-struct GetDeviceDefinitionVersionInputBody: Swift.Equatable {
+struct GetDeviceDefinitionVersionInputBody {
 }
 
 extension GetDeviceDefinitionVersionInputBody: Swift.Decodable {
@@ -7285,7 +7285,7 @@ extension GetDeviceDefinitionVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDeviceDefinitionVersionOutput: Swift.Equatable {
+public struct GetDeviceDefinitionVersionOutput {
     /// The ARN of the device definition version.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the device definition version was created.
@@ -7317,7 +7317,7 @@ public struct GetDeviceDefinitionVersionOutput: Swift.Equatable {
     }
 }
 
-struct GetDeviceDefinitionVersionOutputBody: Swift.Equatable {
+struct GetDeviceDefinitionVersionOutputBody {
     let arn: Swift.String?
     let creationTimestamp: Swift.String?
     let definition: GreengrassClientTypes.DeviceDefinitionVersion?
@@ -7374,7 +7374,7 @@ extension GetFunctionDefinitionInput {
     }
 }
 
-public struct GetFunctionDefinitionInput: Swift.Equatable {
+public struct GetFunctionDefinitionInput {
     /// The ID of the Lambda function definition.
     /// This member is required.
     public var functionDefinitionId: Swift.String?
@@ -7387,7 +7387,7 @@ public struct GetFunctionDefinitionInput: Swift.Equatable {
     }
 }
 
-struct GetFunctionDefinitionInputBody: Swift.Equatable {
+struct GetFunctionDefinitionInputBody {
 }
 
 extension GetFunctionDefinitionInputBody: Swift.Decodable {
@@ -7422,7 +7422,7 @@ extension GetFunctionDefinitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetFunctionDefinitionOutput: Swift.Equatable {
+public struct GetFunctionDefinitionOutput {
     /// The ARN of the definition.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the definition was created.
@@ -7462,7 +7462,7 @@ public struct GetFunctionDefinitionOutput: Swift.Equatable {
     }
 }
 
-struct GetFunctionDefinitionOutputBody: Swift.Equatable {
+struct GetFunctionDefinitionOutputBody {
     let arn: Swift.String?
     let creationTimestamp: Swift.String?
     let id: Swift.String?
@@ -7551,7 +7551,7 @@ extension GetFunctionDefinitionVersionInput {
     }
 }
 
-public struct GetFunctionDefinitionVersionInput: Swift.Equatable {
+public struct GetFunctionDefinitionVersionInput {
     /// The ID of the Lambda function definition.
     /// This member is required.
     public var functionDefinitionId: Swift.String?
@@ -7573,7 +7573,7 @@ public struct GetFunctionDefinitionVersionInput: Swift.Equatable {
     }
 }
 
-struct GetFunctionDefinitionVersionInputBody: Swift.Equatable {
+struct GetFunctionDefinitionVersionInputBody {
 }
 
 extension GetFunctionDefinitionVersionInputBody: Swift.Decodable {
@@ -7604,7 +7604,7 @@ extension GetFunctionDefinitionVersionOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct GetFunctionDefinitionVersionOutput: Swift.Equatable {
+public struct GetFunctionDefinitionVersionOutput {
     /// The ARN of the function definition version.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the function definition version was created.
@@ -7636,7 +7636,7 @@ public struct GetFunctionDefinitionVersionOutput: Swift.Equatable {
     }
 }
 
-struct GetFunctionDefinitionVersionOutputBody: Swift.Equatable {
+struct GetFunctionDefinitionVersionOutputBody {
     let arn: Swift.String?
     let creationTimestamp: Swift.String?
     let definition: GreengrassClientTypes.FunctionDefinitionVersion?
@@ -7696,7 +7696,7 @@ extension GetGroupCertificateAuthorityInput {
     }
 }
 
-public struct GetGroupCertificateAuthorityInput: Swift.Equatable {
+public struct GetGroupCertificateAuthorityInput {
     /// The ID of the certificate authority.
     /// This member is required.
     public var certificateAuthorityId: Swift.String?
@@ -7714,7 +7714,7 @@ public struct GetGroupCertificateAuthorityInput: Swift.Equatable {
     }
 }
 
-struct GetGroupCertificateAuthorityInputBody: Swift.Equatable {
+struct GetGroupCertificateAuthorityInputBody {
 }
 
 extension GetGroupCertificateAuthorityInputBody: Swift.Decodable {
@@ -7739,7 +7739,7 @@ extension GetGroupCertificateAuthorityOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct GetGroupCertificateAuthorityOutput: Swift.Equatable {
+public struct GetGroupCertificateAuthorityOutput {
     /// The ARN of the certificate authority for the group.
     public var groupCertificateAuthorityArn: Swift.String?
     /// The ID of the certificate authority for the group.
@@ -7759,7 +7759,7 @@ public struct GetGroupCertificateAuthorityOutput: Swift.Equatable {
     }
 }
 
-struct GetGroupCertificateAuthorityOutputBody: Swift.Equatable {
+struct GetGroupCertificateAuthorityOutputBody {
     let groupCertificateAuthorityArn: Swift.String?
     let groupCertificateAuthorityId: Swift.String?
     let pemEncodedCertificate: Swift.String?
@@ -7805,7 +7805,7 @@ extension GetGroupCertificateConfigurationInput {
     }
 }
 
-public struct GetGroupCertificateConfigurationInput: Swift.Equatable {
+public struct GetGroupCertificateConfigurationInput {
     /// The ID of the Greengrass group.
     /// This member is required.
     public var groupId: Swift.String?
@@ -7818,7 +7818,7 @@ public struct GetGroupCertificateConfigurationInput: Swift.Equatable {
     }
 }
 
-struct GetGroupCertificateConfigurationInputBody: Swift.Equatable {
+struct GetGroupCertificateConfigurationInputBody {
 }
 
 extension GetGroupCertificateConfigurationInputBody: Swift.Decodable {
@@ -7843,7 +7843,7 @@ extension GetGroupCertificateConfigurationOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct GetGroupCertificateConfigurationOutput: Swift.Equatable {
+public struct GetGroupCertificateConfigurationOutput {
     /// The amount of time remaining before the certificate authority expires, in milliseconds.
     public var certificateAuthorityExpiryInMilliseconds: Swift.String?
     /// The amount of time remaining before the certificate expires, in milliseconds.
@@ -7863,7 +7863,7 @@ public struct GetGroupCertificateConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetGroupCertificateConfigurationOutputBody: Swift.Equatable {
+struct GetGroupCertificateConfigurationOutputBody {
     let certificateAuthorityExpiryInMilliseconds: Swift.String?
     let certificateExpiryInMilliseconds: Swift.String?
     let groupId: Swift.String?
@@ -7909,7 +7909,7 @@ extension GetGroupInput {
     }
 }
 
-public struct GetGroupInput: Swift.Equatable {
+public struct GetGroupInput {
     /// The ID of the Greengrass group.
     /// This member is required.
     public var groupId: Swift.String?
@@ -7922,7 +7922,7 @@ public struct GetGroupInput: Swift.Equatable {
     }
 }
 
-struct GetGroupInputBody: Swift.Equatable {
+struct GetGroupInputBody {
 }
 
 extension GetGroupInputBody: Swift.Decodable {
@@ -7957,7 +7957,7 @@ extension GetGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetGroupOutput: Swift.Equatable {
+public struct GetGroupOutput {
     /// The ARN of the definition.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the definition was created.
@@ -7997,7 +7997,7 @@ public struct GetGroupOutput: Swift.Equatable {
     }
 }
 
-struct GetGroupOutputBody: Swift.Equatable {
+struct GetGroupOutputBody {
     let arn: Swift.String?
     let creationTimestamp: Swift.String?
     let id: Swift.String?
@@ -8074,7 +8074,7 @@ extension GetGroupVersionInput {
     }
 }
 
-public struct GetGroupVersionInput: Swift.Equatable {
+public struct GetGroupVersionInput {
     /// The ID of the Greengrass group.
     /// This member is required.
     public var groupId: Swift.String?
@@ -8092,7 +8092,7 @@ public struct GetGroupVersionInput: Swift.Equatable {
     }
 }
 
-struct GetGroupVersionInputBody: Swift.Equatable {
+struct GetGroupVersionInputBody {
 }
 
 extension GetGroupVersionInputBody: Swift.Decodable {
@@ -8121,7 +8121,7 @@ extension GetGroupVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetGroupVersionOutput: Swift.Equatable {
+public struct GetGroupVersionOutput {
     /// The ARN of the group version.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the group version was created.
@@ -8149,7 +8149,7 @@ public struct GetGroupVersionOutput: Swift.Equatable {
     }
 }
 
-struct GetGroupVersionOutputBody: Swift.Equatable {
+struct GetGroupVersionOutputBody {
     let arn: Swift.String?
     let creationTimestamp: Swift.String?
     let definition: GreengrassClientTypes.GroupVersion?
@@ -8202,7 +8202,7 @@ extension GetLoggerDefinitionInput {
     }
 }
 
-public struct GetLoggerDefinitionInput: Swift.Equatable {
+public struct GetLoggerDefinitionInput {
     /// The ID of the logger definition.
     /// This member is required.
     public var loggerDefinitionId: Swift.String?
@@ -8215,7 +8215,7 @@ public struct GetLoggerDefinitionInput: Swift.Equatable {
     }
 }
 
-struct GetLoggerDefinitionInputBody: Swift.Equatable {
+struct GetLoggerDefinitionInputBody {
 }
 
 extension GetLoggerDefinitionInputBody: Swift.Decodable {
@@ -8250,7 +8250,7 @@ extension GetLoggerDefinitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLoggerDefinitionOutput: Swift.Equatable {
+public struct GetLoggerDefinitionOutput {
     /// The ARN of the definition.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the definition was created.
@@ -8290,7 +8290,7 @@ public struct GetLoggerDefinitionOutput: Swift.Equatable {
     }
 }
 
-struct GetLoggerDefinitionOutputBody: Swift.Equatable {
+struct GetLoggerDefinitionOutputBody {
     let arn: Swift.String?
     let creationTimestamp: Swift.String?
     let id: Swift.String?
@@ -8379,7 +8379,7 @@ extension GetLoggerDefinitionVersionInput {
     }
 }
 
-public struct GetLoggerDefinitionVersionInput: Swift.Equatable {
+public struct GetLoggerDefinitionVersionInput {
     /// The ID of the logger definition.
     /// This member is required.
     public var loggerDefinitionId: Swift.String?
@@ -8401,7 +8401,7 @@ public struct GetLoggerDefinitionVersionInput: Swift.Equatable {
     }
 }
 
-struct GetLoggerDefinitionVersionInputBody: Swift.Equatable {
+struct GetLoggerDefinitionVersionInputBody {
 }
 
 extension GetLoggerDefinitionVersionInputBody: Swift.Decodable {
@@ -8430,7 +8430,7 @@ extension GetLoggerDefinitionVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLoggerDefinitionVersionOutput: Swift.Equatable {
+public struct GetLoggerDefinitionVersionOutput {
     /// The ARN of the logger definition version.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the logger definition version was created.
@@ -8458,7 +8458,7 @@ public struct GetLoggerDefinitionVersionOutput: Swift.Equatable {
     }
 }
 
-struct GetLoggerDefinitionVersionOutputBody: Swift.Equatable {
+struct GetLoggerDefinitionVersionOutputBody {
     let arn: Swift.String?
     let creationTimestamp: Swift.String?
     let definition: GreengrassClientTypes.LoggerDefinitionVersion?
@@ -8511,7 +8511,7 @@ extension GetResourceDefinitionInput {
     }
 }
 
-public struct GetResourceDefinitionInput: Swift.Equatable {
+public struct GetResourceDefinitionInput {
     /// The ID of the resource definition.
     /// This member is required.
     public var resourceDefinitionId: Swift.String?
@@ -8524,7 +8524,7 @@ public struct GetResourceDefinitionInput: Swift.Equatable {
     }
 }
 
-struct GetResourceDefinitionInputBody: Swift.Equatable {
+struct GetResourceDefinitionInputBody {
 }
 
 extension GetResourceDefinitionInputBody: Swift.Decodable {
@@ -8559,7 +8559,7 @@ extension GetResourceDefinitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetResourceDefinitionOutput: Swift.Equatable {
+public struct GetResourceDefinitionOutput {
     /// The ARN of the definition.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the definition was created.
@@ -8599,7 +8599,7 @@ public struct GetResourceDefinitionOutput: Swift.Equatable {
     }
 }
 
-struct GetResourceDefinitionOutputBody: Swift.Equatable {
+struct GetResourceDefinitionOutputBody {
     let arn: Swift.String?
     let creationTimestamp: Swift.String?
     let id: Swift.String?
@@ -8676,7 +8676,7 @@ extension GetResourceDefinitionVersionInput {
     }
 }
 
-public struct GetResourceDefinitionVersionInput: Swift.Equatable {
+public struct GetResourceDefinitionVersionInput {
     /// The ID of the resource definition.
     /// This member is required.
     public var resourceDefinitionId: Swift.String?
@@ -8694,7 +8694,7 @@ public struct GetResourceDefinitionVersionInput: Swift.Equatable {
     }
 }
 
-struct GetResourceDefinitionVersionInputBody: Swift.Equatable {
+struct GetResourceDefinitionVersionInputBody {
 }
 
 extension GetResourceDefinitionVersionInputBody: Swift.Decodable {
@@ -8723,7 +8723,7 @@ extension GetResourceDefinitionVersionOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct GetResourceDefinitionVersionOutput: Swift.Equatable {
+public struct GetResourceDefinitionVersionOutput {
     /// Arn of the resource definition version.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the resource definition version was created.
@@ -8751,7 +8751,7 @@ public struct GetResourceDefinitionVersionOutput: Swift.Equatable {
     }
 }
 
-struct GetResourceDefinitionVersionOutputBody: Swift.Equatable {
+struct GetResourceDefinitionVersionOutputBody {
     let arn: Swift.String?
     let creationTimestamp: Swift.String?
     let definition: GreengrassClientTypes.ResourceDefinitionVersion?
@@ -8801,12 +8801,12 @@ extension GetServiceRoleForAccountInput {
     }
 }
 
-public struct GetServiceRoleForAccountInput: Swift.Equatable {
+public struct GetServiceRoleForAccountInput {
 
     public init() { }
 }
 
-struct GetServiceRoleForAccountInputBody: Swift.Equatable {
+struct GetServiceRoleForAccountInputBody {
 }
 
 extension GetServiceRoleForAccountInputBody: Swift.Decodable {
@@ -8829,7 +8829,7 @@ extension GetServiceRoleForAccountOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetServiceRoleForAccountOutput: Swift.Equatable {
+public struct GetServiceRoleForAccountOutput {
     /// The time when the service role was associated with the account.
     public var associatedAt: Swift.String?
     /// The ARN of the role which is associated with the account.
@@ -8845,7 +8845,7 @@ public struct GetServiceRoleForAccountOutput: Swift.Equatable {
     }
 }
 
-struct GetServiceRoleForAccountOutputBody: Swift.Equatable {
+struct GetServiceRoleForAccountOutputBody {
     let associatedAt: Swift.String?
     let roleArn: Swift.String?
 }
@@ -8886,7 +8886,7 @@ extension GetSubscriptionDefinitionInput {
     }
 }
 
-public struct GetSubscriptionDefinitionInput: Swift.Equatable {
+public struct GetSubscriptionDefinitionInput {
     /// The ID of the subscription definition.
     /// This member is required.
     public var subscriptionDefinitionId: Swift.String?
@@ -8899,7 +8899,7 @@ public struct GetSubscriptionDefinitionInput: Swift.Equatable {
     }
 }
 
-struct GetSubscriptionDefinitionInputBody: Swift.Equatable {
+struct GetSubscriptionDefinitionInputBody {
 }
 
 extension GetSubscriptionDefinitionInputBody: Swift.Decodable {
@@ -8934,7 +8934,7 @@ extension GetSubscriptionDefinitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSubscriptionDefinitionOutput: Swift.Equatable {
+public struct GetSubscriptionDefinitionOutput {
     /// The ARN of the definition.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the definition was created.
@@ -8974,7 +8974,7 @@ public struct GetSubscriptionDefinitionOutput: Swift.Equatable {
     }
 }
 
-struct GetSubscriptionDefinitionOutputBody: Swift.Equatable {
+struct GetSubscriptionDefinitionOutputBody {
     let arn: Swift.String?
     let creationTimestamp: Swift.String?
     let id: Swift.String?
@@ -9063,7 +9063,7 @@ extension GetSubscriptionDefinitionVersionInput {
     }
 }
 
-public struct GetSubscriptionDefinitionVersionInput: Swift.Equatable {
+public struct GetSubscriptionDefinitionVersionInput {
     /// The token for the next set of results, or ''null'' if there are no additional results.
     public var nextToken: Swift.String?
     /// The ID of the subscription definition.
@@ -9085,7 +9085,7 @@ public struct GetSubscriptionDefinitionVersionInput: Swift.Equatable {
     }
 }
 
-struct GetSubscriptionDefinitionVersionInputBody: Swift.Equatable {
+struct GetSubscriptionDefinitionVersionInputBody {
 }
 
 extension GetSubscriptionDefinitionVersionInputBody: Swift.Decodable {
@@ -9116,7 +9116,7 @@ extension GetSubscriptionDefinitionVersionOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct GetSubscriptionDefinitionVersionOutput: Swift.Equatable {
+public struct GetSubscriptionDefinitionVersionOutput {
     /// The ARN of the subscription definition version.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the subscription definition version was created.
@@ -9148,7 +9148,7 @@ public struct GetSubscriptionDefinitionVersionOutput: Swift.Equatable {
     }
 }
 
-struct GetSubscriptionDefinitionVersionOutputBody: Swift.Equatable {
+struct GetSubscriptionDefinitionVersionOutputBody {
     let arn: Swift.String?
     let creationTimestamp: Swift.String?
     let definition: GreengrassClientTypes.SubscriptionDefinitionVersion?
@@ -9205,7 +9205,7 @@ extension GetThingRuntimeConfigurationInput {
     }
 }
 
-public struct GetThingRuntimeConfigurationInput: Swift.Equatable {
+public struct GetThingRuntimeConfigurationInput {
     /// The thing name.
     /// This member is required.
     public var thingName: Swift.String?
@@ -9218,7 +9218,7 @@ public struct GetThingRuntimeConfigurationInput: Swift.Equatable {
     }
 }
 
-struct GetThingRuntimeConfigurationInputBody: Swift.Equatable {
+struct GetThingRuntimeConfigurationInputBody {
 }
 
 extension GetThingRuntimeConfigurationInputBody: Swift.Decodable {
@@ -9239,7 +9239,7 @@ extension GetThingRuntimeConfigurationOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct GetThingRuntimeConfigurationOutput: Swift.Equatable {
+public struct GetThingRuntimeConfigurationOutput {
     /// Runtime configuration for a thing.
     public var runtimeConfiguration: GreengrassClientTypes.RuntimeConfiguration?
 
@@ -9251,7 +9251,7 @@ public struct GetThingRuntimeConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetThingRuntimeConfigurationOutputBody: Swift.Equatable {
+struct GetThingRuntimeConfigurationOutputBody {
     let runtimeConfiguration: GreengrassClientTypes.RuntimeConfiguration?
 }
 
@@ -9308,7 +9308,7 @@ extension GreengrassClientTypes.GroupCertificateAuthorityProperties: Swift.Codab
 
 extension GreengrassClientTypes {
     /// Information about a certificate authority for a group.
-    public struct GroupCertificateAuthorityProperties: Swift.Equatable {
+    public struct GroupCertificateAuthorityProperties {
         /// The ARN of the certificate authority for the group.
         public var groupCertificateAuthorityArn: Swift.String?
         /// The ID of the certificate authority for the group.
@@ -9383,7 +9383,7 @@ extension GreengrassClientTypes.GroupInformation: Swift.Codable {
 
 extension GreengrassClientTypes {
     /// Information about a group.
-    public struct GroupInformation: Swift.Equatable {
+    public struct GroupInformation {
         /// The ARN of the group.
         public var arn: Swift.String?
         /// The time, in milliseconds since the epoch, when the group was created.
@@ -9448,7 +9448,7 @@ extension GreengrassClientTypes.GroupOwnerSetting: Swift.Codable {
 
 extension GreengrassClientTypes {
     /// Group owner related settings for local resources.
-    public struct GroupOwnerSetting: Swift.Equatable {
+    public struct GroupOwnerSetting {
         /// If true, AWS IoT Greengrass automatically adds the specified Linux OS group owner of the resource to the Lambda process privileges. Thus the Lambda process will have the file access permissions of the added Linux group.
         public var autoAddGroupOwner: Swift.Bool?
         /// The name of the Linux OS group whose privileges will be added to the Lambda process. This field is optional.
@@ -9523,7 +9523,7 @@ extension GreengrassClientTypes.GroupVersion: Swift.Codable {
 
 extension GreengrassClientTypes {
     /// Information about a group version.
-    public struct GroupVersion: Swift.Equatable {
+    public struct GroupVersion {
         /// The ARN of the connector definition version for this group.
         public var connectorDefinitionVersionArn: Swift.String?
         /// The ARN of the core definition version for this group.
@@ -9607,7 +9607,7 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct InternalServerErrorExceptionBody: Swift.Equatable {
+struct InternalServerErrorExceptionBody {
     let errorDetails: [GreengrassClientTypes.ErrorDetail]?
     let message: Swift.String?
 }
@@ -9662,7 +9662,7 @@ extension ListBulkDeploymentDetailedReportsInput {
     }
 }
 
-public struct ListBulkDeploymentDetailedReportsInput: Swift.Equatable {
+public struct ListBulkDeploymentDetailedReportsInput {
     /// The ID of the bulk deployment.
     /// This member is required.
     public var bulkDeploymentId: Swift.String?
@@ -9683,7 +9683,7 @@ public struct ListBulkDeploymentDetailedReportsInput: Swift.Equatable {
     }
 }
 
-struct ListBulkDeploymentDetailedReportsInputBody: Swift.Equatable {
+struct ListBulkDeploymentDetailedReportsInputBody {
 }
 
 extension ListBulkDeploymentDetailedReportsInputBody: Swift.Decodable {
@@ -9706,7 +9706,7 @@ extension ListBulkDeploymentDetailedReportsOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct ListBulkDeploymentDetailedReportsOutput: Swift.Equatable {
+public struct ListBulkDeploymentDetailedReportsOutput {
     /// A list of the individual group deployments in the bulk deployment operation.
     public var deployments: [GreengrassClientTypes.BulkDeploymentResult]?
     /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -9722,7 +9722,7 @@ public struct ListBulkDeploymentDetailedReportsOutput: Swift.Equatable {
     }
 }
 
-struct ListBulkDeploymentDetailedReportsOutputBody: Swift.Equatable {
+struct ListBulkDeploymentDetailedReportsOutputBody {
     let deployments: [GreengrassClientTypes.BulkDeploymentResult]?
     let nextToken: Swift.String?
 }
@@ -9785,7 +9785,7 @@ extension ListBulkDeploymentsInput {
     }
 }
 
-public struct ListBulkDeploymentsInput: Swift.Equatable {
+public struct ListBulkDeploymentsInput {
     /// The maximum number of results to be returned per request.
     public var maxResults: Swift.String?
     /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -9801,7 +9801,7 @@ public struct ListBulkDeploymentsInput: Swift.Equatable {
     }
 }
 
-struct ListBulkDeploymentsInputBody: Swift.Equatable {
+struct ListBulkDeploymentsInputBody {
 }
 
 extension ListBulkDeploymentsInputBody: Swift.Decodable {
@@ -9824,7 +9824,7 @@ extension ListBulkDeploymentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBulkDeploymentsOutput: Swift.Equatable {
+public struct ListBulkDeploymentsOutput {
     /// A list of bulk deployments.
     public var bulkDeployments: [GreengrassClientTypes.BulkDeployment]?
     /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -9840,7 +9840,7 @@ public struct ListBulkDeploymentsOutput: Swift.Equatable {
     }
 }
 
-struct ListBulkDeploymentsOutputBody: Swift.Equatable {
+struct ListBulkDeploymentsOutputBody {
     let bulkDeployments: [GreengrassClientTypes.BulkDeployment]?
     let nextToken: Swift.String?
 }
@@ -9906,7 +9906,7 @@ extension ListConnectorDefinitionVersionsInput {
     }
 }
 
-public struct ListConnectorDefinitionVersionsInput: Swift.Equatable {
+public struct ListConnectorDefinitionVersionsInput {
     /// The ID of the connector definition.
     /// This member is required.
     public var connectorDefinitionId: Swift.String?
@@ -9927,7 +9927,7 @@ public struct ListConnectorDefinitionVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListConnectorDefinitionVersionsInputBody: Swift.Equatable {
+struct ListConnectorDefinitionVersionsInputBody {
 }
 
 extension ListConnectorDefinitionVersionsInputBody: Swift.Decodable {
@@ -9950,7 +9950,7 @@ extension ListConnectorDefinitionVersionsOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ListConnectorDefinitionVersionsOutput: Swift.Equatable {
+public struct ListConnectorDefinitionVersionsOutput {
     /// The token for the next set of results, or ''null'' if there are no additional results.
     public var nextToken: Swift.String?
     /// Information about a version.
@@ -9966,7 +9966,7 @@ public struct ListConnectorDefinitionVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListConnectorDefinitionVersionsOutputBody: Swift.Equatable {
+struct ListConnectorDefinitionVersionsOutputBody {
     let nextToken: Swift.String?
     let versions: [GreengrassClientTypes.VersionInformation]?
 }
@@ -10029,7 +10029,7 @@ extension ListConnectorDefinitionsInput {
     }
 }
 
-public struct ListConnectorDefinitionsInput: Swift.Equatable {
+public struct ListConnectorDefinitionsInput {
     /// The maximum number of results to be returned per request.
     public var maxResults: Swift.String?
     /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -10045,7 +10045,7 @@ public struct ListConnectorDefinitionsInput: Swift.Equatable {
     }
 }
 
-struct ListConnectorDefinitionsInputBody: Swift.Equatable {
+struct ListConnectorDefinitionsInputBody {
 }
 
 extension ListConnectorDefinitionsInputBody: Swift.Decodable {
@@ -10068,7 +10068,7 @@ extension ListConnectorDefinitionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListConnectorDefinitionsOutput: Swift.Equatable {
+public struct ListConnectorDefinitionsOutput {
     /// Information about a definition.
     public var definitions: [GreengrassClientTypes.DefinitionInformation]?
     /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -10084,7 +10084,7 @@ public struct ListConnectorDefinitionsOutput: Swift.Equatable {
     }
 }
 
-struct ListConnectorDefinitionsOutputBody: Swift.Equatable {
+struct ListConnectorDefinitionsOutputBody {
     let definitions: [GreengrassClientTypes.DefinitionInformation]?
     let nextToken: Swift.String?
 }
@@ -10149,7 +10149,7 @@ extension ListCoreDefinitionVersionsInput {
     }
 }
 
-public struct ListCoreDefinitionVersionsInput: Swift.Equatable {
+public struct ListCoreDefinitionVersionsInput {
     /// The ID of the core definition.
     /// This member is required.
     public var coreDefinitionId: Swift.String?
@@ -10170,7 +10170,7 @@ public struct ListCoreDefinitionVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListCoreDefinitionVersionsInputBody: Swift.Equatable {
+struct ListCoreDefinitionVersionsInputBody {
 }
 
 extension ListCoreDefinitionVersionsInputBody: Swift.Decodable {
@@ -10193,7 +10193,7 @@ extension ListCoreDefinitionVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCoreDefinitionVersionsOutput: Swift.Equatable {
+public struct ListCoreDefinitionVersionsOutput {
     /// The token for the next set of results, or ''null'' if there are no additional results.
     public var nextToken: Swift.String?
     /// Information about a version.
@@ -10209,7 +10209,7 @@ public struct ListCoreDefinitionVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListCoreDefinitionVersionsOutputBody: Swift.Equatable {
+struct ListCoreDefinitionVersionsOutputBody {
     let nextToken: Swift.String?
     let versions: [GreengrassClientTypes.VersionInformation]?
 }
@@ -10272,7 +10272,7 @@ extension ListCoreDefinitionsInput {
     }
 }
 
-public struct ListCoreDefinitionsInput: Swift.Equatable {
+public struct ListCoreDefinitionsInput {
     /// The maximum number of results to be returned per request.
     public var maxResults: Swift.String?
     /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -10288,7 +10288,7 @@ public struct ListCoreDefinitionsInput: Swift.Equatable {
     }
 }
 
-struct ListCoreDefinitionsInputBody: Swift.Equatable {
+struct ListCoreDefinitionsInputBody {
 }
 
 extension ListCoreDefinitionsInputBody: Swift.Decodable {
@@ -10311,7 +10311,7 @@ extension ListCoreDefinitionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCoreDefinitionsOutput: Swift.Equatable {
+public struct ListCoreDefinitionsOutput {
     /// Information about a definition.
     public var definitions: [GreengrassClientTypes.DefinitionInformation]?
     /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -10327,7 +10327,7 @@ public struct ListCoreDefinitionsOutput: Swift.Equatable {
     }
 }
 
-struct ListCoreDefinitionsOutputBody: Swift.Equatable {
+struct ListCoreDefinitionsOutputBody {
     let definitions: [GreengrassClientTypes.DefinitionInformation]?
     let nextToken: Swift.String?
 }
@@ -10392,7 +10392,7 @@ extension ListDeploymentsInput {
     }
 }
 
-public struct ListDeploymentsInput: Swift.Equatable {
+public struct ListDeploymentsInput {
     /// The ID of the Greengrass group.
     /// This member is required.
     public var groupId: Swift.String?
@@ -10413,7 +10413,7 @@ public struct ListDeploymentsInput: Swift.Equatable {
     }
 }
 
-struct ListDeploymentsInputBody: Swift.Equatable {
+struct ListDeploymentsInputBody {
 }
 
 extension ListDeploymentsInputBody: Swift.Decodable {
@@ -10436,7 +10436,7 @@ extension ListDeploymentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDeploymentsOutput: Swift.Equatable {
+public struct ListDeploymentsOutput {
     /// A list of deployments for the requested groups.
     public var deployments: [GreengrassClientTypes.Deployment]?
     /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -10452,7 +10452,7 @@ public struct ListDeploymentsOutput: Swift.Equatable {
     }
 }
 
-struct ListDeploymentsOutputBody: Swift.Equatable {
+struct ListDeploymentsOutputBody {
     let deployments: [GreengrassClientTypes.Deployment]?
     let nextToken: Swift.String?
 }
@@ -10518,7 +10518,7 @@ extension ListDeviceDefinitionVersionsInput {
     }
 }
 
-public struct ListDeviceDefinitionVersionsInput: Swift.Equatable {
+public struct ListDeviceDefinitionVersionsInput {
     /// The ID of the device definition.
     /// This member is required.
     public var deviceDefinitionId: Swift.String?
@@ -10539,7 +10539,7 @@ public struct ListDeviceDefinitionVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListDeviceDefinitionVersionsInputBody: Swift.Equatable {
+struct ListDeviceDefinitionVersionsInputBody {
 }
 
 extension ListDeviceDefinitionVersionsInputBody: Swift.Decodable {
@@ -10562,7 +10562,7 @@ extension ListDeviceDefinitionVersionsOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListDeviceDefinitionVersionsOutput: Swift.Equatable {
+public struct ListDeviceDefinitionVersionsOutput {
     /// The token for the next set of results, or ''null'' if there are no additional results.
     public var nextToken: Swift.String?
     /// Information about a version.
@@ -10578,7 +10578,7 @@ public struct ListDeviceDefinitionVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListDeviceDefinitionVersionsOutputBody: Swift.Equatable {
+struct ListDeviceDefinitionVersionsOutputBody {
     let nextToken: Swift.String?
     let versions: [GreengrassClientTypes.VersionInformation]?
 }
@@ -10641,7 +10641,7 @@ extension ListDeviceDefinitionsInput {
     }
 }
 
-public struct ListDeviceDefinitionsInput: Swift.Equatable {
+public struct ListDeviceDefinitionsInput {
     /// The maximum number of results to be returned per request.
     public var maxResults: Swift.String?
     /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -10657,7 +10657,7 @@ public struct ListDeviceDefinitionsInput: Swift.Equatable {
     }
 }
 
-struct ListDeviceDefinitionsInputBody: Swift.Equatable {
+struct ListDeviceDefinitionsInputBody {
 }
 
 extension ListDeviceDefinitionsInputBody: Swift.Decodable {
@@ -10680,7 +10680,7 @@ extension ListDeviceDefinitionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDeviceDefinitionsOutput: Swift.Equatable {
+public struct ListDeviceDefinitionsOutput {
     /// Information about a definition.
     public var definitions: [GreengrassClientTypes.DefinitionInformation]?
     /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -10696,7 +10696,7 @@ public struct ListDeviceDefinitionsOutput: Swift.Equatable {
     }
 }
 
-struct ListDeviceDefinitionsOutputBody: Swift.Equatable {
+struct ListDeviceDefinitionsOutputBody {
     let definitions: [GreengrassClientTypes.DefinitionInformation]?
     let nextToken: Swift.String?
 }
@@ -10761,7 +10761,7 @@ extension ListFunctionDefinitionVersionsInput {
     }
 }
 
-public struct ListFunctionDefinitionVersionsInput: Swift.Equatable {
+public struct ListFunctionDefinitionVersionsInput {
     /// The ID of the Lambda function definition.
     /// This member is required.
     public var functionDefinitionId: Swift.String?
@@ -10782,7 +10782,7 @@ public struct ListFunctionDefinitionVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListFunctionDefinitionVersionsInputBody: Swift.Equatable {
+struct ListFunctionDefinitionVersionsInputBody {
 }
 
 extension ListFunctionDefinitionVersionsInputBody: Swift.Decodable {
@@ -10805,7 +10805,7 @@ extension ListFunctionDefinitionVersionsOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ListFunctionDefinitionVersionsOutput: Swift.Equatable {
+public struct ListFunctionDefinitionVersionsOutput {
     /// The token for the next set of results, or ''null'' if there are no additional results.
     public var nextToken: Swift.String?
     /// Information about a version.
@@ -10821,7 +10821,7 @@ public struct ListFunctionDefinitionVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListFunctionDefinitionVersionsOutputBody: Swift.Equatable {
+struct ListFunctionDefinitionVersionsOutputBody {
     let nextToken: Swift.String?
     let versions: [GreengrassClientTypes.VersionInformation]?
 }
@@ -10884,7 +10884,7 @@ extension ListFunctionDefinitionsInput {
     }
 }
 
-public struct ListFunctionDefinitionsInput: Swift.Equatable {
+public struct ListFunctionDefinitionsInput {
     /// The maximum number of results to be returned per request.
     public var maxResults: Swift.String?
     /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -10900,7 +10900,7 @@ public struct ListFunctionDefinitionsInput: Swift.Equatable {
     }
 }
 
-struct ListFunctionDefinitionsInputBody: Swift.Equatable {
+struct ListFunctionDefinitionsInputBody {
 }
 
 extension ListFunctionDefinitionsInputBody: Swift.Decodable {
@@ -10923,7 +10923,7 @@ extension ListFunctionDefinitionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFunctionDefinitionsOutput: Swift.Equatable {
+public struct ListFunctionDefinitionsOutput {
     /// Information about a definition.
     public var definitions: [GreengrassClientTypes.DefinitionInformation]?
     /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -10939,7 +10939,7 @@ public struct ListFunctionDefinitionsOutput: Swift.Equatable {
     }
 }
 
-struct ListFunctionDefinitionsOutputBody: Swift.Equatable {
+struct ListFunctionDefinitionsOutputBody {
     let definitions: [GreengrassClientTypes.DefinitionInformation]?
     let nextToken: Swift.String?
 }
@@ -10988,7 +10988,7 @@ extension ListGroupCertificateAuthoritiesInput {
     }
 }
 
-public struct ListGroupCertificateAuthoritiesInput: Swift.Equatable {
+public struct ListGroupCertificateAuthoritiesInput {
     /// The ID of the Greengrass group.
     /// This member is required.
     public var groupId: Swift.String?
@@ -11001,7 +11001,7 @@ public struct ListGroupCertificateAuthoritiesInput: Swift.Equatable {
     }
 }
 
-struct ListGroupCertificateAuthoritiesInputBody: Swift.Equatable {
+struct ListGroupCertificateAuthoritiesInputBody {
 }
 
 extension ListGroupCertificateAuthoritiesInputBody: Swift.Decodable {
@@ -11022,7 +11022,7 @@ extension ListGroupCertificateAuthoritiesOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ListGroupCertificateAuthoritiesOutput: Swift.Equatable {
+public struct ListGroupCertificateAuthoritiesOutput {
     /// A list of certificate authorities associated with the group.
     public var groupCertificateAuthorities: [GreengrassClientTypes.GroupCertificateAuthorityProperties]?
 
@@ -11034,7 +11034,7 @@ public struct ListGroupCertificateAuthoritiesOutput: Swift.Equatable {
     }
 }
 
-struct ListGroupCertificateAuthoritiesOutputBody: Swift.Equatable {
+struct ListGroupCertificateAuthoritiesOutputBody {
     let groupCertificateAuthorities: [GreengrassClientTypes.GroupCertificateAuthorityProperties]?
 }
 
@@ -11097,7 +11097,7 @@ extension ListGroupVersionsInput {
     }
 }
 
-public struct ListGroupVersionsInput: Swift.Equatable {
+public struct ListGroupVersionsInput {
     /// The ID of the Greengrass group.
     /// This member is required.
     public var groupId: Swift.String?
@@ -11118,7 +11118,7 @@ public struct ListGroupVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListGroupVersionsInputBody: Swift.Equatable {
+struct ListGroupVersionsInputBody {
 }
 
 extension ListGroupVersionsInputBody: Swift.Decodable {
@@ -11141,7 +11141,7 @@ extension ListGroupVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListGroupVersionsOutput: Swift.Equatable {
+public struct ListGroupVersionsOutput {
     /// The token for the next set of results, or ''null'' if there are no additional results.
     public var nextToken: Swift.String?
     /// Information about a version.
@@ -11157,7 +11157,7 @@ public struct ListGroupVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListGroupVersionsOutputBody: Swift.Equatable {
+struct ListGroupVersionsOutputBody {
     let nextToken: Swift.String?
     let versions: [GreengrassClientTypes.VersionInformation]?
 }
@@ -11220,7 +11220,7 @@ extension ListGroupsInput {
     }
 }
 
-public struct ListGroupsInput: Swift.Equatable {
+public struct ListGroupsInput {
     /// The maximum number of results to be returned per request.
     public var maxResults: Swift.String?
     /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -11236,7 +11236,7 @@ public struct ListGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListGroupsInputBody: Swift.Equatable {
+struct ListGroupsInputBody {
 }
 
 extension ListGroupsInputBody: Swift.Decodable {
@@ -11259,7 +11259,7 @@ extension ListGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListGroupsOutput: Swift.Equatable {
+public struct ListGroupsOutput {
     /// Information about a group.
     public var groups: [GreengrassClientTypes.GroupInformation]?
     /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -11275,7 +11275,7 @@ public struct ListGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListGroupsOutputBody: Swift.Equatable {
+struct ListGroupsOutputBody {
     let groups: [GreengrassClientTypes.GroupInformation]?
     let nextToken: Swift.String?
 }
@@ -11340,7 +11340,7 @@ extension ListLoggerDefinitionVersionsInput {
     }
 }
 
-public struct ListLoggerDefinitionVersionsInput: Swift.Equatable {
+public struct ListLoggerDefinitionVersionsInput {
     /// The ID of the logger definition.
     /// This member is required.
     public var loggerDefinitionId: Swift.String?
@@ -11361,7 +11361,7 @@ public struct ListLoggerDefinitionVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListLoggerDefinitionVersionsInputBody: Swift.Equatable {
+struct ListLoggerDefinitionVersionsInputBody {
 }
 
 extension ListLoggerDefinitionVersionsInputBody: Swift.Decodable {
@@ -11384,7 +11384,7 @@ extension ListLoggerDefinitionVersionsOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListLoggerDefinitionVersionsOutput: Swift.Equatable {
+public struct ListLoggerDefinitionVersionsOutput {
     /// The token for the next set of results, or ''null'' if there are no additional results.
     public var nextToken: Swift.String?
     /// Information about a version.
@@ -11400,7 +11400,7 @@ public struct ListLoggerDefinitionVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListLoggerDefinitionVersionsOutputBody: Swift.Equatable {
+struct ListLoggerDefinitionVersionsOutputBody {
     let nextToken: Swift.String?
     let versions: [GreengrassClientTypes.VersionInformation]?
 }
@@ -11463,7 +11463,7 @@ extension ListLoggerDefinitionsInput {
     }
 }
 
-public struct ListLoggerDefinitionsInput: Swift.Equatable {
+public struct ListLoggerDefinitionsInput {
     /// The maximum number of results to be returned per request.
     public var maxResults: Swift.String?
     /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -11479,7 +11479,7 @@ public struct ListLoggerDefinitionsInput: Swift.Equatable {
     }
 }
 
-struct ListLoggerDefinitionsInputBody: Swift.Equatable {
+struct ListLoggerDefinitionsInputBody {
 }
 
 extension ListLoggerDefinitionsInputBody: Swift.Decodable {
@@ -11502,7 +11502,7 @@ extension ListLoggerDefinitionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListLoggerDefinitionsOutput: Swift.Equatable {
+public struct ListLoggerDefinitionsOutput {
     /// Information about a definition.
     public var definitions: [GreengrassClientTypes.DefinitionInformation]?
     /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -11518,7 +11518,7 @@ public struct ListLoggerDefinitionsOutput: Swift.Equatable {
     }
 }
 
-struct ListLoggerDefinitionsOutputBody: Swift.Equatable {
+struct ListLoggerDefinitionsOutputBody {
     let definitions: [GreengrassClientTypes.DefinitionInformation]?
     let nextToken: Swift.String?
 }
@@ -11583,7 +11583,7 @@ extension ListResourceDefinitionVersionsInput {
     }
 }
 
-public struct ListResourceDefinitionVersionsInput: Swift.Equatable {
+public struct ListResourceDefinitionVersionsInput {
     /// The maximum number of results to be returned per request.
     public var maxResults: Swift.String?
     /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -11604,7 +11604,7 @@ public struct ListResourceDefinitionVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListResourceDefinitionVersionsInputBody: Swift.Equatable {
+struct ListResourceDefinitionVersionsInputBody {
 }
 
 extension ListResourceDefinitionVersionsInputBody: Swift.Decodable {
@@ -11627,7 +11627,7 @@ extension ListResourceDefinitionVersionsOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ListResourceDefinitionVersionsOutput: Swift.Equatable {
+public struct ListResourceDefinitionVersionsOutput {
     /// The token for the next set of results, or ''null'' if there are no additional results.
     public var nextToken: Swift.String?
     /// Information about a version.
@@ -11643,7 +11643,7 @@ public struct ListResourceDefinitionVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListResourceDefinitionVersionsOutputBody: Swift.Equatable {
+struct ListResourceDefinitionVersionsOutputBody {
     let nextToken: Swift.String?
     let versions: [GreengrassClientTypes.VersionInformation]?
 }
@@ -11706,7 +11706,7 @@ extension ListResourceDefinitionsInput {
     }
 }
 
-public struct ListResourceDefinitionsInput: Swift.Equatable {
+public struct ListResourceDefinitionsInput {
     /// The maximum number of results to be returned per request.
     public var maxResults: Swift.String?
     /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -11722,7 +11722,7 @@ public struct ListResourceDefinitionsInput: Swift.Equatable {
     }
 }
 
-struct ListResourceDefinitionsInputBody: Swift.Equatable {
+struct ListResourceDefinitionsInputBody {
 }
 
 extension ListResourceDefinitionsInputBody: Swift.Decodable {
@@ -11745,7 +11745,7 @@ extension ListResourceDefinitionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListResourceDefinitionsOutput: Swift.Equatable {
+public struct ListResourceDefinitionsOutput {
     /// Information about a definition.
     public var definitions: [GreengrassClientTypes.DefinitionInformation]?
     /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -11761,7 +11761,7 @@ public struct ListResourceDefinitionsOutput: Swift.Equatable {
     }
 }
 
-struct ListResourceDefinitionsOutputBody: Swift.Equatable {
+struct ListResourceDefinitionsOutputBody {
     let definitions: [GreengrassClientTypes.DefinitionInformation]?
     let nextToken: Swift.String?
 }
@@ -11826,7 +11826,7 @@ extension ListSubscriptionDefinitionVersionsInput {
     }
 }
 
-public struct ListSubscriptionDefinitionVersionsInput: Swift.Equatable {
+public struct ListSubscriptionDefinitionVersionsInput {
     /// The maximum number of results to be returned per request.
     public var maxResults: Swift.String?
     /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -11847,7 +11847,7 @@ public struct ListSubscriptionDefinitionVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListSubscriptionDefinitionVersionsInputBody: Swift.Equatable {
+struct ListSubscriptionDefinitionVersionsInputBody {
 }
 
 extension ListSubscriptionDefinitionVersionsInputBody: Swift.Decodable {
@@ -11870,7 +11870,7 @@ extension ListSubscriptionDefinitionVersionsOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct ListSubscriptionDefinitionVersionsOutput: Swift.Equatable {
+public struct ListSubscriptionDefinitionVersionsOutput {
     /// The token for the next set of results, or ''null'' if there are no additional results.
     public var nextToken: Swift.String?
     /// Information about a version.
@@ -11886,7 +11886,7 @@ public struct ListSubscriptionDefinitionVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListSubscriptionDefinitionVersionsOutputBody: Swift.Equatable {
+struct ListSubscriptionDefinitionVersionsOutputBody {
     let nextToken: Swift.String?
     let versions: [GreengrassClientTypes.VersionInformation]?
 }
@@ -11949,7 +11949,7 @@ extension ListSubscriptionDefinitionsInput {
     }
 }
 
-public struct ListSubscriptionDefinitionsInput: Swift.Equatable {
+public struct ListSubscriptionDefinitionsInput {
     /// The maximum number of results to be returned per request.
     public var maxResults: Swift.String?
     /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -11965,7 +11965,7 @@ public struct ListSubscriptionDefinitionsInput: Swift.Equatable {
     }
 }
 
-struct ListSubscriptionDefinitionsInputBody: Swift.Equatable {
+struct ListSubscriptionDefinitionsInputBody {
 }
 
 extension ListSubscriptionDefinitionsInputBody: Swift.Decodable {
@@ -11988,7 +11988,7 @@ extension ListSubscriptionDefinitionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSubscriptionDefinitionsOutput: Swift.Equatable {
+public struct ListSubscriptionDefinitionsOutput {
     /// Information about a definition.
     public var definitions: [GreengrassClientTypes.DefinitionInformation]?
     /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -12004,7 +12004,7 @@ public struct ListSubscriptionDefinitionsOutput: Swift.Equatable {
     }
 }
 
-struct ListSubscriptionDefinitionsOutputBody: Swift.Equatable {
+struct ListSubscriptionDefinitionsOutputBody {
     let definitions: [GreengrassClientTypes.DefinitionInformation]?
     let nextToken: Swift.String?
 }
@@ -12053,7 +12053,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -12066,7 +12066,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -12087,7 +12087,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The key-value pair for the resource tag.
     public var tags: [Swift.String:Swift.String]?
 
@@ -12099,7 +12099,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -12162,7 +12162,7 @@ extension GreengrassClientTypes.LocalDeviceResourceData: Swift.Codable {
 
 extension GreengrassClientTypes {
     /// Attributes that define a local device resource.
-    public struct LocalDeviceResourceData: Swift.Equatable {
+    public struct LocalDeviceResourceData {
         /// Group/owner related settings for local resources.
         public var groupOwnerSetting: GreengrassClientTypes.GroupOwnerSetting?
         /// The local absolute path of the device resource. The source path for a device resource can refer only to a character device or block device under ''/dev''.
@@ -12213,7 +12213,7 @@ extension GreengrassClientTypes.LocalVolumeResourceData: Swift.Codable {
 
 extension GreengrassClientTypes {
     /// Attributes that define a local volume resource.
-    public struct LocalVolumeResourceData: Swift.Equatable {
+    public struct LocalVolumeResourceData {
         /// The absolute local path of the resource inside the Lambda environment.
         public var destinationPath: Swift.String?
         /// Allows you to configure additional group privileges for the Lambda process. This field is optional.
@@ -12280,7 +12280,7 @@ extension GreengrassClientTypes.Logger: Swift.Codable {
 
 extension GreengrassClientTypes {
     /// Information about a logger
-    public struct Logger: Swift.Equatable {
+    public struct Logger {
         /// The component that will be subject to logging.
         /// This member is required.
         public var component: GreengrassClientTypes.LoggerComponent?
@@ -12379,7 +12379,7 @@ extension GreengrassClientTypes.LoggerDefinitionVersion: Swift.Codable {
 
 extension GreengrassClientTypes {
     /// Information about a logger definition version.
-    public struct LoggerDefinitionVersion: Swift.Equatable {
+    public struct LoggerDefinitionVersion {
         /// A list of loggers.
         public var loggers: [GreengrassClientTypes.Logger]?
 
@@ -12534,7 +12534,7 @@ extension ResetDeploymentsInput {
 }
 
 /// Information needed to reset deployments.
-public struct ResetDeploymentsInput: Swift.Equatable {
+public struct ResetDeploymentsInput {
     /// A client token used to correlate requests and responses.
     public var amznClientToken: Swift.String?
     /// If true, performs a best-effort only core reset.
@@ -12555,7 +12555,7 @@ public struct ResetDeploymentsInput: Swift.Equatable {
     }
 }
 
-struct ResetDeploymentsInputBody: Swift.Equatable {
+struct ResetDeploymentsInputBody {
     let force: Swift.Bool?
 }
 
@@ -12585,7 +12585,7 @@ extension ResetDeploymentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ResetDeploymentsOutput: Swift.Equatable {
+public struct ResetDeploymentsOutput {
     /// The ARN of the deployment.
     public var deploymentArn: Swift.String?
     /// The ID of the deployment.
@@ -12601,7 +12601,7 @@ public struct ResetDeploymentsOutput: Swift.Equatable {
     }
 }
 
-struct ResetDeploymentsOutputBody: Swift.Equatable {
+struct ResetDeploymentsOutputBody {
     let deploymentArn: Swift.String?
     let deploymentId: Swift.String?
 }
@@ -12665,7 +12665,7 @@ extension GreengrassClientTypes.Resource: Swift.Codable {
 
 extension GreengrassClientTypes {
     /// Information about a resource.
-    public struct Resource: Swift.Equatable {
+    public struct Resource {
         /// The resource ID, used to refer to a resource in the Lambda function configuration. Max length is 128 characters with pattern ''[a-zA-Z0-9:_-]+''. This must be unique within a Greengrass group.
         /// This member is required.
         public var id: Swift.String?
@@ -12717,7 +12717,7 @@ extension GreengrassClientTypes.ResourceAccessPolicy: Swift.Codable {
 
 extension GreengrassClientTypes {
     /// A policy used by the function to access a resource.
-    public struct ResourceAccessPolicy: Swift.Equatable {
+    public struct ResourceAccessPolicy {
         /// The permissions that the Lambda function has to the resource. Can be one of ''rw'' (read/write) or ''ro'' (read-only).
         public var permission: GreengrassClientTypes.Permission?
         /// The ID of the resource. (This ID is assigned to the resource when you create the resource definiton.)
@@ -12781,7 +12781,7 @@ extension GreengrassClientTypes.ResourceDataContainer: Swift.Codable {
 
 extension GreengrassClientTypes {
     /// A container for resource data. The container takes only one of the following supported resource data types: ''LocalDeviceResourceData'', ''LocalVolumeResourceData'', ''SageMakerMachineLearningModelResourceData'', ''S3MachineLearningModelResourceData'', ''SecretsManagerSecretResourceData''.
-    public struct ResourceDataContainer: Swift.Equatable {
+    public struct ResourceDataContainer {
         /// Attributes that define the local device resource.
         public var localDeviceResourceData: GreengrassClientTypes.LocalDeviceResourceData?
         /// Attributes that define the local volume resource.
@@ -12844,7 +12844,7 @@ extension GreengrassClientTypes.ResourceDefinitionVersion: Swift.Codable {
 
 extension GreengrassClientTypes {
     /// Information about a resource definition version.
-    public struct ResourceDefinitionVersion: Swift.Equatable {
+    public struct ResourceDefinitionVersion {
         /// A list of resources.
         public var resources: [GreengrassClientTypes.Resource]?
 
@@ -12885,7 +12885,7 @@ extension GreengrassClientTypes.ResourceDownloadOwnerSetting: Swift.Codable {
 
 extension GreengrassClientTypes {
     /// The owner setting for downloaded machine learning resources.
-    public struct ResourceDownloadOwnerSetting: Swift.Equatable {
+    public struct ResourceDownloadOwnerSetting {
         /// The group owner of the resource. This is the name of an existing Linux OS group on the system or a GID. The group's permissions are added to the Lambda process.
         /// This member is required.
         public var groupOwner: Swift.String?
@@ -12926,7 +12926,7 @@ extension GreengrassClientTypes.RuntimeConfiguration: Swift.Codable {
 
 extension GreengrassClientTypes {
     /// Runtime configuration for a thing.
-    public struct RuntimeConfiguration: Swift.Equatable {
+    public struct RuntimeConfiguration {
         /// Configuration for telemetry service.
         public var telemetryConfiguration: GreengrassClientTypes.TelemetryConfiguration?
 
@@ -12973,7 +12973,7 @@ extension GreengrassClientTypes.S3MachineLearningModelResourceData: Swift.Codabl
 
 extension GreengrassClientTypes {
     /// Attributes that define an Amazon S3 machine learning resource.
-    public struct S3MachineLearningModelResourceData: Swift.Equatable {
+    public struct S3MachineLearningModelResourceData {
         /// The absolute local path of the resource inside the Lambda environment.
         public var destinationPath: Swift.String?
         /// The owner setting for downloaded machine learning resources.
@@ -13028,7 +13028,7 @@ extension GreengrassClientTypes.SageMakerMachineLearningModelResourceData: Swift
 
 extension GreengrassClientTypes {
     /// Attributes that define an Amazon SageMaker machine learning resource.
-    public struct SageMakerMachineLearningModelResourceData: Swift.Equatable {
+    public struct SageMakerMachineLearningModelResourceData {
         /// The absolute local path of the resource inside the Lambda environment.
         public var destinationPath: Swift.String?
         /// The owner setting for downloaded machine learning resources.
@@ -13089,7 +13089,7 @@ extension GreengrassClientTypes.SecretsManagerSecretResourceData: Swift.Codable 
 
 extension GreengrassClientTypes {
     /// Attributes that define a secret resource, which references a secret from AWS Secrets Manager. AWS IoT Greengrass stores a local, encrypted copy of the secret on the Greengrass core, where it can be securely accessed by connectors and Lambda functions.
-    public struct SecretsManagerSecretResourceData: Swift.Equatable {
+    public struct SecretsManagerSecretResourceData {
         /// Optional. The staging labels whose values you want to make available on the core, in addition to ''AWSCURRENT''.
         public var additionalStagingLabelsToDownload: [Swift.String]?
         /// The ARN of the Secrets Manager secret to make available on the core. The value of the secret's latest version (represented by the ''AWSCURRENT'' staging label) is included by default.
@@ -13182,7 +13182,7 @@ extension StartBulkDeploymentInput {
     }
 }
 
-public struct StartBulkDeploymentInput: Swift.Equatable {
+public struct StartBulkDeploymentInput {
     /// A client token used to correlate requests and responses.
     public var amznClientToken: Swift.String?
     /// The ARN of the execution role to associate with the bulk deployment operation. This IAM role must allow the ''greengrass:CreateDeployment'' action for all group versions that are listed in the input file. This IAM role must have access to the S3 bucket containing the input file.
@@ -13208,7 +13208,7 @@ public struct StartBulkDeploymentInput: Swift.Equatable {
     }
 }
 
-struct StartBulkDeploymentInputBody: Swift.Equatable {
+struct StartBulkDeploymentInputBody {
     let executionRoleArn: Swift.String?
     let inputFileUri: Swift.String?
     let tags: [Swift.String:Swift.String]?
@@ -13255,7 +13255,7 @@ extension StartBulkDeploymentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartBulkDeploymentOutput: Swift.Equatable {
+public struct StartBulkDeploymentOutput {
     /// The ARN of the bulk deployment.
     public var bulkDeploymentArn: Swift.String?
     /// The ID of the bulk deployment.
@@ -13271,7 +13271,7 @@ public struct StartBulkDeploymentOutput: Swift.Equatable {
     }
 }
 
-struct StartBulkDeploymentOutputBody: Swift.Equatable {
+struct StartBulkDeploymentOutputBody {
     let bulkDeploymentArn: Swift.String?
     let bulkDeploymentId: Swift.String?
 }
@@ -13312,7 +13312,7 @@ extension StopBulkDeploymentInput {
     }
 }
 
-public struct StopBulkDeploymentInput: Swift.Equatable {
+public struct StopBulkDeploymentInput {
     /// The ID of the bulk deployment.
     /// This member is required.
     public var bulkDeploymentId: Swift.String?
@@ -13325,7 +13325,7 @@ public struct StopBulkDeploymentInput: Swift.Equatable {
     }
 }
 
-struct StopBulkDeploymentInputBody: Swift.Equatable {
+struct StopBulkDeploymentInputBody {
 }
 
 extension StopBulkDeploymentInputBody: Swift.Decodable {
@@ -13339,7 +13339,7 @@ extension StopBulkDeploymentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopBulkDeploymentOutput: Swift.Equatable {
+public struct StopBulkDeploymentOutput {
 
     public init() { }
 }
@@ -13394,7 +13394,7 @@ extension GreengrassClientTypes.Subscription: Swift.Codable {
 
 extension GreengrassClientTypes {
     /// Information about a subscription.
-    public struct Subscription: Swift.Equatable {
+    public struct Subscription {
         /// A descriptive or arbitrary ID for the subscription. This value must be unique within the subscription definition version. Max length is 128 characters with pattern ''[a-zA-Z0-9:_-]+''.
         /// This member is required.
         public var id: Swift.String?
@@ -13457,7 +13457,7 @@ extension GreengrassClientTypes.SubscriptionDefinitionVersion: Swift.Codable {
 
 extension GreengrassClientTypes {
     /// Information about a subscription definition version.
-    public struct SubscriptionDefinitionVersion: Swift.Equatable {
+    public struct SubscriptionDefinitionVersion {
         /// A list of subscriptions.
         public var subscriptions: [GreengrassClientTypes.Subscription]?
 
@@ -13498,7 +13498,7 @@ extension TagResourceInput {
 }
 
 /// A map of the key-value pairs for the resource tag.
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -13515,7 +13515,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -13545,7 +13545,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -13620,7 +13620,7 @@ extension GreengrassClientTypes.TelemetryConfiguration: Swift.Codable {
 
 extension GreengrassClientTypes {
     /// Configuration settings for running telemetry.
-    public struct TelemetryConfiguration: Swift.Equatable {
+    public struct TelemetryConfiguration {
         /// Synchronization status of the device reported configuration with the desired configuration.
         public var configurationSyncStatus: GreengrassClientTypes.ConfigurationSyncStatus?
         /// Configure telemetry to be on or off.
@@ -13660,7 +13660,7 @@ extension GreengrassClientTypes.TelemetryConfigurationUpdate: Swift.Codable {
 
 extension GreengrassClientTypes {
     /// Configuration settings for running telemetry.
-    public struct TelemetryConfigurationUpdate: Swift.Equatable {
+    public struct TelemetryConfigurationUpdate {
         /// Configure telemetry to be on or off.
         /// This member is required.
         public var telemetry: GreengrassClientTypes.Telemetry?
@@ -13701,7 +13701,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -13719,7 +13719,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -13733,7 +13733,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -13827,7 +13827,7 @@ extension UpdateConnectivityInfoInput {
 }
 
 /// Connectivity information.
-public struct UpdateConnectivityInfoInput: Swift.Equatable {
+public struct UpdateConnectivityInfoInput {
     /// A list of connectivity info.
     public var connectivityInfo: [GreengrassClientTypes.ConnectivityInfo]?
     /// The thing name.
@@ -13844,7 +13844,7 @@ public struct UpdateConnectivityInfoInput: Swift.Equatable {
     }
 }
 
-struct UpdateConnectivityInfoInputBody: Swift.Equatable {
+struct UpdateConnectivityInfoInputBody {
     let connectivityInfo: [GreengrassClientTypes.ConnectivityInfo]?
 }
 
@@ -13883,7 +13883,7 @@ extension UpdateConnectivityInfoOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateConnectivityInfoOutput: Swift.Equatable {
+public struct UpdateConnectivityInfoOutput {
     /// A message about the connectivity info update request.
     public var message: Swift.String?
     /// The new version of the connectivity info.
@@ -13899,7 +13899,7 @@ public struct UpdateConnectivityInfoOutput: Swift.Equatable {
     }
 }
 
-struct UpdateConnectivityInfoOutputBody: Swift.Equatable {
+struct UpdateConnectivityInfoOutputBody {
     let message: Swift.String?
     let version: Swift.String?
 }
@@ -13954,7 +13954,7 @@ extension UpdateConnectorDefinitionInput {
     }
 }
 
-public struct UpdateConnectorDefinitionInput: Swift.Equatable {
+public struct UpdateConnectorDefinitionInput {
     /// The ID of the connector definition.
     /// This member is required.
     public var connectorDefinitionId: Swift.String?
@@ -13971,7 +13971,7 @@ public struct UpdateConnectorDefinitionInput: Swift.Equatable {
     }
 }
 
-struct UpdateConnectorDefinitionInputBody: Swift.Equatable {
+struct UpdateConnectorDefinitionInputBody {
     let name: Swift.String?
 }
 
@@ -13992,7 +13992,7 @@ extension UpdateConnectorDefinitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateConnectorDefinitionOutput: Swift.Equatable {
+public struct UpdateConnectorDefinitionOutput {
 
     public init() { }
 }
@@ -14031,7 +14031,7 @@ extension UpdateCoreDefinitionInput {
     }
 }
 
-public struct UpdateCoreDefinitionInput: Swift.Equatable {
+public struct UpdateCoreDefinitionInput {
     /// The ID of the core definition.
     /// This member is required.
     public var coreDefinitionId: Swift.String?
@@ -14048,7 +14048,7 @@ public struct UpdateCoreDefinitionInput: Swift.Equatable {
     }
 }
 
-struct UpdateCoreDefinitionInputBody: Swift.Equatable {
+struct UpdateCoreDefinitionInputBody {
     let name: Swift.String?
 }
 
@@ -14069,7 +14069,7 @@ extension UpdateCoreDefinitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateCoreDefinitionOutput: Swift.Equatable {
+public struct UpdateCoreDefinitionOutput {
 
     public init() { }
 }
@@ -14108,7 +14108,7 @@ extension UpdateDeviceDefinitionInput {
     }
 }
 
-public struct UpdateDeviceDefinitionInput: Swift.Equatable {
+public struct UpdateDeviceDefinitionInput {
     /// The ID of the device definition.
     /// This member is required.
     public var deviceDefinitionId: Swift.String?
@@ -14125,7 +14125,7 @@ public struct UpdateDeviceDefinitionInput: Swift.Equatable {
     }
 }
 
-struct UpdateDeviceDefinitionInputBody: Swift.Equatable {
+struct UpdateDeviceDefinitionInputBody {
     let name: Swift.String?
 }
 
@@ -14146,7 +14146,7 @@ extension UpdateDeviceDefinitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDeviceDefinitionOutput: Swift.Equatable {
+public struct UpdateDeviceDefinitionOutput {
 
     public init() { }
 }
@@ -14185,7 +14185,7 @@ extension UpdateFunctionDefinitionInput {
     }
 }
 
-public struct UpdateFunctionDefinitionInput: Swift.Equatable {
+public struct UpdateFunctionDefinitionInput {
     /// The ID of the Lambda function definition.
     /// This member is required.
     public var functionDefinitionId: Swift.String?
@@ -14202,7 +14202,7 @@ public struct UpdateFunctionDefinitionInput: Swift.Equatable {
     }
 }
 
-struct UpdateFunctionDefinitionInputBody: Swift.Equatable {
+struct UpdateFunctionDefinitionInputBody {
     let name: Swift.String?
 }
 
@@ -14223,7 +14223,7 @@ extension UpdateFunctionDefinitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateFunctionDefinitionOutput: Swift.Equatable {
+public struct UpdateFunctionDefinitionOutput {
 
     public init() { }
 }
@@ -14262,7 +14262,7 @@ extension UpdateGroupCertificateConfigurationInput {
     }
 }
 
-public struct UpdateGroupCertificateConfigurationInput: Swift.Equatable {
+public struct UpdateGroupCertificateConfigurationInput {
     /// The amount of time remaining before the certificate expires, in milliseconds.
     public var certificateExpiryInMilliseconds: Swift.String?
     /// The ID of the Greengrass group.
@@ -14279,7 +14279,7 @@ public struct UpdateGroupCertificateConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateGroupCertificateConfigurationInputBody: Swift.Equatable {
+struct UpdateGroupCertificateConfigurationInputBody {
     let certificateExpiryInMilliseconds: Swift.String?
 }
 
@@ -14311,7 +14311,7 @@ extension UpdateGroupCertificateConfigurationOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct UpdateGroupCertificateConfigurationOutput: Swift.Equatable {
+public struct UpdateGroupCertificateConfigurationOutput {
     /// The amount of time remaining before the certificate authority expires, in milliseconds.
     public var certificateAuthorityExpiryInMilliseconds: Swift.String?
     /// The amount of time remaining before the certificate expires, in milliseconds.
@@ -14331,7 +14331,7 @@ public struct UpdateGroupCertificateConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateGroupCertificateConfigurationOutputBody: Swift.Equatable {
+struct UpdateGroupCertificateConfigurationOutputBody {
     let certificateAuthorityExpiryInMilliseconds: Swift.String?
     let certificateExpiryInMilliseconds: Swift.String?
     let groupId: Swift.String?
@@ -14390,7 +14390,7 @@ extension UpdateGroupInput {
     }
 }
 
-public struct UpdateGroupInput: Swift.Equatable {
+public struct UpdateGroupInput {
     /// The ID of the Greengrass group.
     /// This member is required.
     public var groupId: Swift.String?
@@ -14407,7 +14407,7 @@ public struct UpdateGroupInput: Swift.Equatable {
     }
 }
 
-struct UpdateGroupInputBody: Swift.Equatable {
+struct UpdateGroupInputBody {
     let name: Swift.String?
 }
 
@@ -14428,7 +14428,7 @@ extension UpdateGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateGroupOutput: Swift.Equatable {
+public struct UpdateGroupOutput {
 
     public init() { }
 }
@@ -14467,7 +14467,7 @@ extension UpdateLoggerDefinitionInput {
     }
 }
 
-public struct UpdateLoggerDefinitionInput: Swift.Equatable {
+public struct UpdateLoggerDefinitionInput {
     /// The ID of the logger definition.
     /// This member is required.
     public var loggerDefinitionId: Swift.String?
@@ -14484,7 +14484,7 @@ public struct UpdateLoggerDefinitionInput: Swift.Equatable {
     }
 }
 
-struct UpdateLoggerDefinitionInputBody: Swift.Equatable {
+struct UpdateLoggerDefinitionInputBody {
     let name: Swift.String?
 }
 
@@ -14505,7 +14505,7 @@ extension UpdateLoggerDefinitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateLoggerDefinitionOutput: Swift.Equatable {
+public struct UpdateLoggerDefinitionOutput {
 
     public init() { }
 }
@@ -14544,7 +14544,7 @@ extension UpdateResourceDefinitionInput {
     }
 }
 
-public struct UpdateResourceDefinitionInput: Swift.Equatable {
+public struct UpdateResourceDefinitionInput {
     /// The name of the definition.
     public var name: Swift.String?
     /// The ID of the resource definition.
@@ -14561,7 +14561,7 @@ public struct UpdateResourceDefinitionInput: Swift.Equatable {
     }
 }
 
-struct UpdateResourceDefinitionInputBody: Swift.Equatable {
+struct UpdateResourceDefinitionInputBody {
     let name: Swift.String?
 }
 
@@ -14582,7 +14582,7 @@ extension UpdateResourceDefinitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateResourceDefinitionOutput: Swift.Equatable {
+public struct UpdateResourceDefinitionOutput {
 
     public init() { }
 }
@@ -14621,7 +14621,7 @@ extension UpdateSubscriptionDefinitionInput {
     }
 }
 
-public struct UpdateSubscriptionDefinitionInput: Swift.Equatable {
+public struct UpdateSubscriptionDefinitionInput {
     /// The name of the definition.
     public var name: Swift.String?
     /// The ID of the subscription definition.
@@ -14638,7 +14638,7 @@ public struct UpdateSubscriptionDefinitionInput: Swift.Equatable {
     }
 }
 
-struct UpdateSubscriptionDefinitionInputBody: Swift.Equatable {
+struct UpdateSubscriptionDefinitionInputBody {
     let name: Swift.String?
 }
 
@@ -14659,7 +14659,7 @@ extension UpdateSubscriptionDefinitionOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct UpdateSubscriptionDefinitionOutput: Swift.Equatable {
+public struct UpdateSubscriptionDefinitionOutput {
 
     public init() { }
 }
@@ -14776,7 +14776,7 @@ extension UpdateThingRuntimeConfigurationInput {
     }
 }
 
-public struct UpdateThingRuntimeConfigurationInput: Swift.Equatable {
+public struct UpdateThingRuntimeConfigurationInput {
     /// Configuration for telemetry service.
     public var telemetryConfiguration: GreengrassClientTypes.TelemetryConfigurationUpdate?
     /// The thing name.
@@ -14793,7 +14793,7 @@ public struct UpdateThingRuntimeConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateThingRuntimeConfigurationInputBody: Swift.Equatable {
+struct UpdateThingRuntimeConfigurationInputBody {
     let telemetryConfiguration: GreengrassClientTypes.TelemetryConfigurationUpdate?
 }
 
@@ -14814,7 +14814,7 @@ extension UpdateThingRuntimeConfigurationOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct UpdateThingRuntimeConfigurationOutput: Swift.Equatable {
+public struct UpdateThingRuntimeConfigurationOutput {
 
     public init() { }
 }
@@ -14870,7 +14870,7 @@ extension GreengrassClientTypes.VersionInformation: Swift.Codable {
 
 extension GreengrassClientTypes {
     /// Information about a version.
-    public struct VersionInformation: Swift.Equatable {
+    public struct VersionInformation {
         /// The ARN of the version.
         public var arn: Swift.String?
         /// The time, in milliseconds since the epoch, when the version was created.

@@ -37,7 +37,7 @@ extension CreateHttpNamespaceInput {
     }
 }
 
-public struct CreateHttpNamespaceInput: Swift.Equatable {
+public struct CreateHttpNamespaceInput {
     /// A unique string that identifies the request and that allows failed CreateHttpNamespace requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string (for example, a date/time stamp).
     public var creatorRequestId: Swift.String?
     /// A description for the namespace.
@@ -62,7 +62,7 @@ public struct CreateHttpNamespaceInput: Swift.Equatable {
     }
 }
 
-struct CreateHttpNamespaceInputBody: Swift.Equatable {
+struct CreateHttpNamespaceInputBody {
     let name: Swift.String?
     let creatorRequestId: Swift.String?
     let description: Swift.String?
@@ -111,7 +111,7 @@ extension CreateHttpNamespaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateHttpNamespaceOutput: Swift.Equatable {
+public struct CreateHttpNamespaceOutput {
     /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see [GetOperation](https://docs.aws.amazon.com/cloud-map/latest/api/API_GetOperation.html).
     public var operationId: Swift.String?
 
@@ -123,7 +123,7 @@ public struct CreateHttpNamespaceOutput: Swift.Equatable {
     }
 }
 
-struct CreateHttpNamespaceOutputBody: Swift.Equatable {
+struct CreateHttpNamespaceOutputBody {
     let operationId: Swift.String?
 }
 
@@ -197,7 +197,7 @@ extension CreatePrivateDnsNamespaceInput {
     }
 }
 
-public struct CreatePrivateDnsNamespaceInput: Swift.Equatable {
+public struct CreatePrivateDnsNamespaceInput {
     /// A unique string that identifies the request and that allows failed CreatePrivateDnsNamespace requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string (for example, a date/timestamp).
     public var creatorRequestId: Swift.String?
     /// A description for the namespace.
@@ -231,7 +231,7 @@ public struct CreatePrivateDnsNamespaceInput: Swift.Equatable {
     }
 }
 
-struct CreatePrivateDnsNamespaceInputBody: Swift.Equatable {
+struct CreatePrivateDnsNamespaceInputBody {
     let name: Swift.String?
     let creatorRequestId: Swift.String?
     let description: Swift.String?
@@ -288,7 +288,7 @@ extension CreatePrivateDnsNamespaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePrivateDnsNamespaceOutput: Swift.Equatable {
+public struct CreatePrivateDnsNamespaceOutput {
     /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see [GetOperation](https://docs.aws.amazon.com/cloud-map/latest/api/API_GetOperation.html).
     public var operationId: Swift.String?
 
@@ -300,7 +300,7 @@ public struct CreatePrivateDnsNamespaceOutput: Swift.Equatable {
     }
 }
 
-struct CreatePrivateDnsNamespaceOutputBody: Swift.Equatable {
+struct CreatePrivateDnsNamespaceOutputBody {
     let operationId: Swift.String?
 }
 
@@ -370,7 +370,7 @@ extension CreatePublicDnsNamespaceInput {
     }
 }
 
-public struct CreatePublicDnsNamespaceInput: Swift.Equatable {
+public struct CreatePublicDnsNamespaceInput {
     /// A unique string that identifies the request and that allows failed CreatePublicDnsNamespace requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string (for example, a date/timestamp).
     public var creatorRequestId: Swift.String?
     /// A description for the namespace.
@@ -399,7 +399,7 @@ public struct CreatePublicDnsNamespaceInput: Swift.Equatable {
     }
 }
 
-struct CreatePublicDnsNamespaceInputBody: Swift.Equatable {
+struct CreatePublicDnsNamespaceInputBody {
     let name: Swift.String?
     let creatorRequestId: Swift.String?
     let description: Swift.String?
@@ -452,7 +452,7 @@ extension CreatePublicDnsNamespaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePublicDnsNamespaceOutput: Swift.Equatable {
+public struct CreatePublicDnsNamespaceOutput {
     /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see [GetOperation](https://docs.aws.amazon.com/cloud-map/latest/api/API_GetOperation.html).
     public var operationId: Swift.String?
 
@@ -464,7 +464,7 @@ public struct CreatePublicDnsNamespaceOutput: Swift.Equatable {
     }
 }
 
-struct CreatePublicDnsNamespaceOutputBody: Swift.Equatable {
+struct CreatePublicDnsNamespaceOutputBody {
     let operationId: Swift.String?
 }
 
@@ -550,7 +550,7 @@ extension CreateServiceInput {
     }
 }
 
-public struct CreateServiceInput: Swift.Equatable {
+public struct CreateServiceInput {
     /// A unique string that identifies the request and that allows failed CreateService requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string (for example, a date/timestamp).
     public var creatorRequestId: Swift.String?
     /// A description for the service.
@@ -602,7 +602,7 @@ public struct CreateServiceInput: Swift.Equatable {
     }
 }
 
-struct CreateServiceInputBody: Swift.Equatable {
+struct CreateServiceInputBody {
     let name: Swift.String?
     let namespaceId: Swift.String?
     let creatorRequestId: Swift.String?
@@ -671,7 +671,7 @@ extension CreateServiceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateServiceOutput: Swift.Equatable {
+public struct CreateServiceOutput {
     /// A complex type that contains information about the new service.
     public var service: ServiceDiscoveryClientTypes.Service?
 
@@ -683,7 +683,7 @@ public struct CreateServiceOutput: Swift.Equatable {
     }
 }
 
-struct CreateServiceOutputBody: Swift.Equatable {
+struct CreateServiceOutputBody {
     let service: ServiceDiscoveryClientTypes.Service?
 }
 
@@ -753,7 +753,7 @@ public struct CustomHealthNotFound: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct CustomHealthNotFoundBody: Swift.Equatable {
+struct CustomHealthNotFoundBody {
     let message: Swift.String?
 }
 
@@ -821,7 +821,7 @@ extension DeleteNamespaceInput {
     }
 }
 
-public struct DeleteNamespaceInput: Swift.Equatable {
+public struct DeleteNamespaceInput {
     /// The ID of the namespace that you want to delete.
     /// This member is required.
     public var id: Swift.String?
@@ -834,7 +834,7 @@ public struct DeleteNamespaceInput: Swift.Equatable {
     }
 }
 
-struct DeleteNamespaceInputBody: Swift.Equatable {
+struct DeleteNamespaceInputBody {
     let id: Swift.String?
 }
 
@@ -862,7 +862,7 @@ extension DeleteNamespaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteNamespaceOutput: Swift.Equatable {
+public struct DeleteNamespaceOutput {
     /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see [GetOperation](https://docs.aws.amazon.com/cloud-map/latest/api/API_GetOperation.html).
     public var operationId: Swift.String?
 
@@ -874,7 +874,7 @@ public struct DeleteNamespaceOutput: Swift.Equatable {
     }
 }
 
-struct DeleteNamespaceOutputBody: Swift.Equatable {
+struct DeleteNamespaceOutputBody {
     let operationId: Swift.String?
 }
 
@@ -924,7 +924,7 @@ extension DeleteServiceInput {
     }
 }
 
-public struct DeleteServiceInput: Swift.Equatable {
+public struct DeleteServiceInput {
     /// The ID of the service that you want to delete.
     /// This member is required.
     public var id: Swift.String?
@@ -937,7 +937,7 @@ public struct DeleteServiceInput: Swift.Equatable {
     }
 }
 
-struct DeleteServiceInputBody: Swift.Equatable {
+struct DeleteServiceInputBody {
     let id: Swift.String?
 }
 
@@ -958,7 +958,7 @@ extension DeleteServiceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteServiceOutput: Swift.Equatable {
+public struct DeleteServiceOutput {
 
     public init() { }
 }
@@ -1000,7 +1000,7 @@ extension DeregisterInstanceInput {
     }
 }
 
-public struct DeregisterInstanceInput: Swift.Equatable {
+public struct DeregisterInstanceInput {
     /// The value that you specified for Id in the [RegisterInstance](https://docs.aws.amazon.com/cloud-map/latest/api/API_RegisterInstance.html) request.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -1018,7 +1018,7 @@ public struct DeregisterInstanceInput: Swift.Equatable {
     }
 }
 
-struct DeregisterInstanceInputBody: Swift.Equatable {
+struct DeregisterInstanceInputBody {
     let serviceId: Swift.String?
     let instanceId: Swift.String?
 }
@@ -1050,7 +1050,7 @@ extension DeregisterInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeregisterInstanceOutput: Swift.Equatable {
+public struct DeregisterInstanceOutput {
     /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see [GetOperation](https://docs.aws.amazon.com/cloud-map/latest/api/API_GetOperation.html).
     public var operationId: Swift.String?
 
@@ -1062,7 +1062,7 @@ public struct DeregisterInstanceOutput: Swift.Equatable {
     }
 }
 
-struct DeregisterInstanceOutputBody: Swift.Equatable {
+struct DeregisterInstanceOutputBody {
     let operationId: Swift.String?
 }
 
@@ -1139,7 +1139,7 @@ extension DiscoverInstancesInput {
     }
 }
 
-public struct DiscoverInstancesInput: Swift.Equatable {
+public struct DiscoverInstancesInput {
     /// The health status of the instances that you want to discover. This parameter is ignored for services that don't have a health check configured, and all instances are returned. HEALTHY Returns healthy instances. UNHEALTHY Returns unhealthy instances. ALL Returns all instances. HEALTHY_OR_ELSE_ALL Returns healthy instances, unless none are reporting a healthy state. In that case, return all instances. This is also called failing open.
     public var healthStatus: ServiceDiscoveryClientTypes.HealthStatusFilter?
     /// The maximum number of instances that you want Cloud Map to return in the response to a DiscoverInstances request. If you don't specify a value for MaxResults, Cloud Map returns up to 100 instances.
@@ -1173,7 +1173,7 @@ public struct DiscoverInstancesInput: Swift.Equatable {
     }
 }
 
-struct DiscoverInstancesInputBody: Swift.Equatable {
+struct DiscoverInstancesInputBody {
     let namespaceName: Swift.String?
     let serviceName: Swift.String?
     let maxResults: Swift.Int?
@@ -1241,7 +1241,7 @@ extension DiscoverInstancesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DiscoverInstancesOutput: Swift.Equatable {
+public struct DiscoverInstancesOutput {
     /// A complex type that contains one HttpInstanceSummary for each registered instance.
     public var instances: [ServiceDiscoveryClientTypes.HttpInstanceSummary]?
     /// The increasing revision associated to the response Instances list. If a new instance is registered or deregistered, the InstancesRevision updates. The health status updates don't update InstancesRevision.
@@ -1257,7 +1257,7 @@ public struct DiscoverInstancesOutput: Swift.Equatable {
     }
 }
 
-struct DiscoverInstancesOutputBody: Swift.Equatable {
+struct DiscoverInstancesOutputBody {
     let instances: [ServiceDiscoveryClientTypes.HttpInstanceSummary]?
     let instancesRevision: Swift.Int?
 }
@@ -1324,7 +1324,7 @@ extension DiscoverInstancesRevisionInput {
     }
 }
 
-public struct DiscoverInstancesRevisionInput: Swift.Equatable {
+public struct DiscoverInstancesRevisionInput {
     /// The HttpName name of the namespace. It's found in the HttpProperties member of the Properties member of the namespace.
     /// This member is required.
     public var namespaceName: Swift.String?
@@ -1342,7 +1342,7 @@ public struct DiscoverInstancesRevisionInput: Swift.Equatable {
     }
 }
 
-struct DiscoverInstancesRevisionInputBody: Swift.Equatable {
+struct DiscoverInstancesRevisionInputBody {
     let namespaceName: Swift.String?
     let serviceName: Swift.String?
 }
@@ -1374,7 +1374,7 @@ extension DiscoverInstancesRevisionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DiscoverInstancesRevisionOutput: Swift.Equatable {
+public struct DiscoverInstancesRevisionOutput {
     /// The increasing revision associated to the response Instances list. If a new instance is registered or deregistered, the InstancesRevision updates. The health status updates don't update InstancesRevision.
     public var instancesRevision: Swift.Int?
 
@@ -1386,7 +1386,7 @@ public struct DiscoverInstancesRevisionOutput: Swift.Equatable {
     }
 }
 
-struct DiscoverInstancesRevisionOutputBody: Swift.Equatable {
+struct DiscoverInstancesRevisionOutputBody {
     let instancesRevision: Swift.Int?
 }
 
@@ -1461,7 +1461,7 @@ extension ServiceDiscoveryClientTypes.DnsConfig: Swift.Codable {
 
 extension ServiceDiscoveryClientTypes {
     /// A complex type that contains information about the Amazon Route 53 DNS records that you want Cloud Map to create when you register an instance. The record types of a service can only be changed by deleting the service and recreating it with a new Dnsconfig.
-    public struct DnsConfig: Swift.Equatable {
+    public struct DnsConfig {
         /// An array that contains one DnsRecord object for each Route 53 DNS record that you want Cloud Map to create when you register an instance.
         /// This member is required.
         public var dnsRecords: [ServiceDiscoveryClientTypes.DnsRecord]?
@@ -1518,7 +1518,7 @@ extension ServiceDiscoveryClientTypes.DnsConfigChange: Swift.Codable {
 
 extension ServiceDiscoveryClientTypes {
     /// A complex type that contains information about changes to the Route 53 DNS records that Cloud Map creates when you register an instance.
-    public struct DnsConfigChange: Swift.Equatable {
+    public struct DnsConfigChange {
         /// An array that contains one DnsRecord object for each Route 53 record that you want Cloud Map to create when you register an instance.
         /// This member is required.
         public var dnsRecords: [ServiceDiscoveryClientTypes.DnsRecord]?
@@ -1560,7 +1560,7 @@ extension ServiceDiscoveryClientTypes.DnsProperties: Swift.Codable {
 
 extension ServiceDiscoveryClientTypes {
     /// A complex type that contains the ID for the Route 53 hosted zone that Cloud Map creates when you create a namespace.
-    public struct DnsProperties: Swift.Equatable {
+    public struct DnsProperties {
         /// The ID for the Route 53 hosted zone that Cloud Map creates when you create a namespace.
         public var hostedZoneId: Swift.String?
         /// Start of Authority (SOA) record for the hosted zone.
@@ -1605,7 +1605,7 @@ extension ServiceDiscoveryClientTypes.DnsRecord: Swift.Codable {
 
 extension ServiceDiscoveryClientTypes {
     /// A complex type that contains information about the Route 53 DNS records that you want Cloud Map to create when you register an instance.
-    public struct DnsRecord: Swift.Equatable {
+    public struct DnsRecord {
         /// The amount of time, in seconds, that you want DNS resolvers to cache the settings for this record. Alias records don't include a TTL because Route 53 uses the TTL for the Amazon Web Services resource that an alias record routes traffic to. If you include the AWS_ALIAS_DNS_NAME attribute when you submit a [RegisterInstance](https://docs.aws.amazon.com/cloud-map/latest/api/API_RegisterInstance.html) request, the TTL value is ignored. Always specify a TTL for the service; you can use a service to register instances that create either alias or non-alias records.
         /// This member is required.
         public var ttl: Swift.Int?
@@ -1714,7 +1714,7 @@ public struct DuplicateRequest: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     }
 }
 
-struct DuplicateRequestBody: Swift.Equatable {
+struct DuplicateRequestBody {
     let message: Swift.String?
     let duplicateOperationId: Swift.String?
 }
@@ -1796,7 +1796,7 @@ extension GetInstanceInput {
     }
 }
 
-public struct GetInstanceInput: Swift.Equatable {
+public struct GetInstanceInput {
     /// The ID of the instance that you want to get information about.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -1814,7 +1814,7 @@ public struct GetInstanceInput: Swift.Equatable {
     }
 }
 
-struct GetInstanceInputBody: Swift.Equatable {
+struct GetInstanceInputBody {
     let serviceId: Swift.String?
     let instanceId: Swift.String?
 }
@@ -1846,7 +1846,7 @@ extension GetInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetInstanceOutput: Swift.Equatable {
+public struct GetInstanceOutput {
     /// A complex type that contains information about a specified instance.
     public var instance: ServiceDiscoveryClientTypes.Instance?
 
@@ -1858,7 +1858,7 @@ public struct GetInstanceOutput: Swift.Equatable {
     }
 }
 
-struct GetInstanceOutputBody: Swift.Equatable {
+struct GetInstanceOutputBody {
     let instance: ServiceDiscoveryClientTypes.Instance?
 }
 
@@ -1922,7 +1922,7 @@ extension GetInstancesHealthStatusInput {
     }
 }
 
-public struct GetInstancesHealthStatusInput: Swift.Equatable {
+public struct GetInstancesHealthStatusInput {
     /// An array that contains the IDs of all the instances that you want to get the health status for. If you omit Instances, Cloud Map returns the health status for all the instances that are associated with the specified service. To get the IDs for the instances that you've registered by using a specified service, submit a [ListInstances](https://docs.aws.amazon.com/cloud-map/latest/api/API_ListInstances.html) request.
     public var instances: [Swift.String]?
     /// The maximum number of instances that you want Cloud Map to return in the response to a GetInstancesHealthStatus request. If you don't specify a value for MaxResults, Cloud Map returns up to 100 instances.
@@ -1947,7 +1947,7 @@ public struct GetInstancesHealthStatusInput: Swift.Equatable {
     }
 }
 
-struct GetInstancesHealthStatusInputBody: Swift.Equatable {
+struct GetInstancesHealthStatusInputBody {
     let serviceId: Swift.String?
     let instances: [Swift.String]?
     let maxResults: Swift.Int?
@@ -1998,7 +1998,7 @@ extension GetInstancesHealthStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetInstancesHealthStatusOutput: Swift.Equatable {
+public struct GetInstancesHealthStatusOutput {
     /// If more than MaxResults instances match the specified criteria, you can submit another GetInstancesHealthStatus request to get the next group of results. Specify the value of NextToken from the previous response in the next request.
     public var nextToken: Swift.String?
     /// A complex type that contains the IDs and the health status of the instances that you specified in the GetInstancesHealthStatus request.
@@ -2014,7 +2014,7 @@ public struct GetInstancesHealthStatusOutput: Swift.Equatable {
     }
 }
 
-struct GetInstancesHealthStatusOutputBody: Swift.Equatable {
+struct GetInstancesHealthStatusOutputBody {
     let status: [Swift.String:ServiceDiscoveryClientTypes.HealthStatus]?
     let nextToken: Swift.String?
 }
@@ -2076,7 +2076,7 @@ extension GetNamespaceInput {
     }
 }
 
-public struct GetNamespaceInput: Swift.Equatable {
+public struct GetNamespaceInput {
     /// The ID of the namespace that you want to get information about.
     /// This member is required.
     public var id: Swift.String?
@@ -2089,7 +2089,7 @@ public struct GetNamespaceInput: Swift.Equatable {
     }
 }
 
-struct GetNamespaceInputBody: Swift.Equatable {
+struct GetNamespaceInputBody {
     let id: Swift.String?
 }
 
@@ -2117,7 +2117,7 @@ extension GetNamespaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetNamespaceOutput: Swift.Equatable {
+public struct GetNamespaceOutput {
     /// A complex type that contains information about the specified namespace.
     public var namespace: ServiceDiscoveryClientTypes.Namespace?
 
@@ -2129,7 +2129,7 @@ public struct GetNamespaceOutput: Swift.Equatable {
     }
 }
 
-struct GetNamespaceOutputBody: Swift.Equatable {
+struct GetNamespaceOutputBody {
     let namespace: ServiceDiscoveryClientTypes.Namespace?
 }
 
@@ -2177,7 +2177,7 @@ extension GetOperationInput {
     }
 }
 
-public struct GetOperationInput: Swift.Equatable {
+public struct GetOperationInput {
     /// The ID of the operation that you want to get more information about.
     /// This member is required.
     public var operationId: Swift.String?
@@ -2190,7 +2190,7 @@ public struct GetOperationInput: Swift.Equatable {
     }
 }
 
-struct GetOperationInputBody: Swift.Equatable {
+struct GetOperationInputBody {
     let operationId: Swift.String?
 }
 
@@ -2218,7 +2218,7 @@ extension GetOperationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetOperationOutput: Swift.Equatable {
+public struct GetOperationOutput {
     /// A complex type that contains information about the operation.
     public var operation: ServiceDiscoveryClientTypes.Operation?
 
@@ -2230,7 +2230,7 @@ public struct GetOperationOutput: Swift.Equatable {
     }
 }
 
-struct GetOperationOutputBody: Swift.Equatable {
+struct GetOperationOutputBody {
     let operation: ServiceDiscoveryClientTypes.Operation?
 }
 
@@ -2278,7 +2278,7 @@ extension GetServiceInput {
     }
 }
 
-public struct GetServiceInput: Swift.Equatable {
+public struct GetServiceInput {
     /// The ID of the service that you want to get settings for.
     /// This member is required.
     public var id: Swift.String?
@@ -2291,7 +2291,7 @@ public struct GetServiceInput: Swift.Equatable {
     }
 }
 
-struct GetServiceInputBody: Swift.Equatable {
+struct GetServiceInputBody {
     let id: Swift.String?
 }
 
@@ -2319,7 +2319,7 @@ extension GetServiceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetServiceOutput: Swift.Equatable {
+public struct GetServiceOutput {
     /// A complex type that contains information about the service.
     public var service: ServiceDiscoveryClientTypes.Service?
 
@@ -2331,7 +2331,7 @@ public struct GetServiceOutput: Swift.Equatable {
     }
 }
 
-struct GetServiceOutputBody: Swift.Equatable {
+struct GetServiceOutputBody {
     let service: ServiceDiscoveryClientTypes.Service?
 }
 
@@ -2399,7 +2399,7 @@ extension ServiceDiscoveryClientTypes {
     ///
     ///
     /// Charges for health checks Health checks are basic Route 53 health checks that monitor an Amazon Web Services endpoint. For information about pricing for health checks, see [Amazon Route 53 Pricing](http://aws.amazon.com/route53/pricing/).
-    public struct HealthCheckConfig: Swift.Equatable {
+    public struct HealthCheckConfig {
         /// The number of consecutive health checks that an endpoint must pass or fail for Route 53 to change the current status of the endpoint from unhealthy to healthy or the other way around. For more information, see [How Route 53 Determines Whether an Endpoint Is Healthy](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-determining-health-of-endpoints.html) in the Route 53 Developer Guide.
         public var failureThreshold: Swift.Int?
         /// The path that you want Route 53 to request when performing health checks. The path can be any value that your endpoint returns an HTTP status code of a 2xx or 3xx format for when the endpoint is healthy. An example file is /docs/route53-health-check.html. Route 53 automatically adds the DNS name for the service. If you don't specify a value for ResourcePath, the default value is /. If you specify TCP for Type, you must not specify a value for ResourcePath.
@@ -2473,7 +2473,7 @@ extension ServiceDiscoveryClientTypes {
     /// * Cloud Map waits for 30 seconds.
     ///
     /// * If another UpdateInstanceCustomHealthStatus request doesn't arrive during that time to change the status back to healthy, Cloud Map stops routing traffic to the resource.
-    public struct HealthCheckCustomConfig: Swift.Equatable {
+    public struct HealthCheckCustomConfig {
         /// This parameter is no longer supported and is always set to 1. Cloud Map waits for approximately 30 seconds after receiving an UpdateInstanceCustomHealthStatus request before changing the status of the service instance. The number of 30-second intervals that you want Cloud Map to wait after receiving an UpdateInstanceCustomHealthStatus request before it changes the health status of a service instance. Sending a second or subsequent UpdateInstanceCustomHealthStatus request with the same value before 30 seconds has passed doesn't accelerate the change. Cloud Map still waits 30 seconds after the first request to make the change.
         @available(*, deprecated, message: "Configurable FailureThreshold of HealthCheckCustomConfig is deprecated.  It will always have value 1.")
         public var failureThreshold: Swift.Int?
@@ -2653,7 +2653,7 @@ extension ServiceDiscoveryClientTypes.HttpInstanceSummary: Swift.Codable {
 
 extension ServiceDiscoveryClientTypes {
     /// In a response to a [DiscoverInstances](https://docs.aws.amazon.com/cloud-map/latest/api/API_DiscoverInstances.html) request, HttpInstanceSummary contains information about one instance that matches the values that you specified in the request.
-    public struct HttpInstanceSummary: Swift.Equatable {
+    public struct HttpInstanceSummary {
         /// If you included any attributes when you registered the instance, the values of those attributes.
         public var attributes: [Swift.String:Swift.String]?
         /// If you configured health checking in the service, the current health status of the service instance.
@@ -2704,7 +2704,7 @@ extension ServiceDiscoveryClientTypes.HttpNamespaceChange: Swift.Codable {
 
 extension ServiceDiscoveryClientTypes {
     /// Updated properties for the HTTP namespace.
-    public struct HttpNamespaceChange: Swift.Equatable {
+    public struct HttpNamespaceChange {
         /// An updated description for the HTTP namespace.
         /// This member is required.
         public var description: Swift.String?
@@ -2740,7 +2740,7 @@ extension ServiceDiscoveryClientTypes.HttpProperties: Swift.Codable {
 
 extension ServiceDiscoveryClientTypes {
     /// A complex type that contains the name of an HTTP namespace.
-    public struct HttpProperties: Swift.Equatable {
+    public struct HttpProperties {
         /// The name of an HTTP namespace.
         public var httpName: Swift.String?
 
@@ -2799,7 +2799,7 @@ extension ServiceDiscoveryClientTypes.Instance: Swift.Codable {
 
 extension ServiceDiscoveryClientTypes {
     /// A complex type that contains information about an instance that Cloud Map creates when you submit a RegisterInstance request.
-    public struct Instance: Swift.Equatable {
+    public struct Instance {
         /// A string map that contains the following information for the service that you specify in ServiceId:
         ///
         /// * The attributes that apply to the records that are defined in the service.
@@ -2889,7 +2889,7 @@ public struct InstanceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     }
 }
 
-struct InstanceNotFoundBody: Swift.Equatable {
+struct InstanceNotFoundBody {
     let message: Swift.String?
 }
 
@@ -2944,7 +2944,7 @@ extension ServiceDiscoveryClientTypes.InstanceSummary: Swift.Codable {
 
 extension ServiceDiscoveryClientTypes {
     /// A complex type that contains information about the instances that you registered by using a specified service.
-    public struct InstanceSummary: Swift.Equatable {
+    public struct InstanceSummary {
         /// A string map that contains the following information:
         ///
         /// * The attributes that are associated with the instance.
@@ -3008,7 +3008,7 @@ public struct InvalidInput: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
     }
 }
 
-struct InvalidInputBody: Swift.Equatable {
+struct InvalidInputBody {
     let message: Swift.String?
 }
 
@@ -3052,7 +3052,7 @@ extension ListInstancesInput {
     }
 }
 
-public struct ListInstancesInput: Swift.Equatable {
+public struct ListInstancesInput {
     /// The maximum number of instances that you want Cloud Map to return in the response to a ListInstances request. If you don't specify a value for MaxResults, Cloud Map returns up to 100 instances.
     public var maxResults: Swift.Int?
     /// For the first ListInstances request, omit this value. If more than MaxResults instances match the specified criteria, you can submit another ListInstances request to get the next group of results. Specify the value of NextToken from the previous response in the next request.
@@ -3073,7 +3073,7 @@ public struct ListInstancesInput: Swift.Equatable {
     }
 }
 
-struct ListInstancesInputBody: Swift.Equatable {
+struct ListInstancesInputBody {
     let serviceId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -3111,7 +3111,7 @@ extension ListInstancesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListInstancesOutput: Swift.Equatable {
+public struct ListInstancesOutput {
     /// Summary information about the instances that are associated with the specified service.
     public var instances: [ServiceDiscoveryClientTypes.InstanceSummary]?
     /// If more than MaxResults instances match the specified criteria, you can submit another ListInstances request to get the next group of results. Specify the value of NextToken from the previous response in the next request.
@@ -3127,7 +3127,7 @@ public struct ListInstancesOutput: Swift.Equatable {
     }
 }
 
-struct ListInstancesOutputBody: Swift.Equatable {
+struct ListInstancesOutputBody {
     let instances: [ServiceDiscoveryClientTypes.InstanceSummary]?
     let nextToken: Swift.String?
 }
@@ -3199,7 +3199,7 @@ extension ListNamespacesInput {
     }
 }
 
-public struct ListNamespacesInput: Swift.Equatable {
+public struct ListNamespacesInput {
     /// A complex type that contains specifications for the namespaces that you want to list. If you specify more than one filter, a namespace must match all filters to be returned by ListNamespaces.
     public var filters: [ServiceDiscoveryClientTypes.NamespaceFilter]?
     /// The maximum number of namespaces that you want Cloud Map to return in the response to a ListNamespaces request. If you don't specify a value for MaxResults, Cloud Map returns up to 100 namespaces.
@@ -3219,7 +3219,7 @@ public struct ListNamespacesInput: Swift.Equatable {
     }
 }
 
-struct ListNamespacesInputBody: Swift.Equatable {
+struct ListNamespacesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let filters: [ServiceDiscoveryClientTypes.NamespaceFilter]?
@@ -3266,7 +3266,7 @@ extension ListNamespacesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListNamespacesOutput: Swift.Equatable {
+public struct ListNamespacesOutput {
     /// An array that contains one NamespaceSummary object for each namespace that matches the specified filter criteria.
     public var namespaces: [ServiceDiscoveryClientTypes.NamespaceSummary]?
     /// If the response contains NextToken, submit another ListNamespaces request to get the next group of results. Specify the value of NextToken from the previous response in the next request. Cloud Map gets MaxResults namespaces and then filters them based on the specified criteria. It's possible that no namespaces in the first MaxResults namespaces matched the specified criteria but that subsequent groups of MaxResults namespaces do contain namespaces that match the criteria.
@@ -3282,7 +3282,7 @@ public struct ListNamespacesOutput: Swift.Equatable {
     }
 }
 
-struct ListNamespacesOutputBody: Swift.Equatable {
+struct ListNamespacesOutputBody {
     let namespaces: [ServiceDiscoveryClientTypes.NamespaceSummary]?
     let nextToken: Swift.String?
 }
@@ -3353,7 +3353,7 @@ extension ListOperationsInput {
     }
 }
 
-public struct ListOperationsInput: Swift.Equatable {
+public struct ListOperationsInput {
     /// A complex type that contains specifications for the operations that you want to list, for example, operations that you started between a specified start date and end date. If you specify more than one filter, an operation must match all filters to be returned by ListOperations.
     public var filters: [ServiceDiscoveryClientTypes.OperationFilter]?
     /// The maximum number of items that you want Cloud Map to return in the response to a ListOperations request. If you don't specify a value for MaxResults, Cloud Map returns up to 100 operations.
@@ -3373,7 +3373,7 @@ public struct ListOperationsInput: Swift.Equatable {
     }
 }
 
-struct ListOperationsInputBody: Swift.Equatable {
+struct ListOperationsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let filters: [ServiceDiscoveryClientTypes.OperationFilter]?
@@ -3420,7 +3420,7 @@ extension ListOperationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListOperationsOutput: Swift.Equatable {
+public struct ListOperationsOutput {
     /// If the response contains NextToken, submit another ListOperations request to get the next group of results. Specify the value of NextToken from the previous response in the next request. Cloud Map gets MaxResults operations and then filters them based on the specified criteria. It's possible that no operations in the first MaxResults operations matched the specified criteria but that subsequent groups of MaxResults operations do contain operations that match the criteria.
     public var nextToken: Swift.String?
     /// Summary information about the operations that match the specified criteria.
@@ -3436,7 +3436,7 @@ public struct ListOperationsOutput: Swift.Equatable {
     }
 }
 
-struct ListOperationsOutputBody: Swift.Equatable {
+struct ListOperationsOutputBody {
     let operations: [ServiceDiscoveryClientTypes.OperationSummary]?
     let nextToken: Swift.String?
 }
@@ -3507,7 +3507,7 @@ extension ListServicesInput {
     }
 }
 
-public struct ListServicesInput: Swift.Equatable {
+public struct ListServicesInput {
     /// A complex type that contains specifications for the namespaces that you want to list services for. If you specify more than one filter, an operation must match all filters to be returned by ListServices.
     public var filters: [ServiceDiscoveryClientTypes.ServiceFilter]?
     /// The maximum number of services that you want Cloud Map to return in the response to a ListServices request. If you don't specify a value for MaxResults, Cloud Map returns up to 100 services.
@@ -3527,7 +3527,7 @@ public struct ListServicesInput: Swift.Equatable {
     }
 }
 
-struct ListServicesInputBody: Swift.Equatable {
+struct ListServicesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let filters: [ServiceDiscoveryClientTypes.ServiceFilter]?
@@ -3574,7 +3574,7 @@ extension ListServicesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListServicesOutput: Swift.Equatable {
+public struct ListServicesOutput {
     /// If the response contains NextToken, submit another ListServices request to get the next group of results. Specify the value of NextToken from the previous response in the next request. Cloud Map gets MaxResults services and then filters them based on the specified criteria. It's possible that no services in the first MaxResults services matched the specified criteria but that subsequent groups of MaxResults services do contain services that match the criteria.
     public var nextToken: Swift.String?
     /// An array that contains one ServiceSummary object for each service that matches the specified filter criteria.
@@ -3590,7 +3590,7 @@ public struct ListServicesOutput: Swift.Equatable {
     }
 }
 
-struct ListServicesOutputBody: Swift.Equatable {
+struct ListServicesOutputBody {
     let services: [ServiceDiscoveryClientTypes.ServiceSummary]?
     let nextToken: Swift.String?
 }
@@ -3650,7 +3650,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource that you want to retrieve tags for.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -3663,7 +3663,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceARN: Swift.String?
 }
 
@@ -3691,7 +3691,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The tags that are assigned to the resource.
     public var tags: [ServiceDiscoveryClientTypes.Tag]?
 
@@ -3703,7 +3703,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [ServiceDiscoveryClientTypes.Tag]?
 }
 
@@ -3809,7 +3809,7 @@ extension ServiceDiscoveryClientTypes.Namespace: Swift.Codable {
 
 extension ServiceDiscoveryClientTypes {
     /// A complex type that contains information about a specified namespace.
-    public struct Namespace: Swift.Equatable {
+    public struct Namespace {
         /// The Amazon Resource Name (ARN) that Cloud Map assigns to the namespace when you create it.
         public var arn: Swift.String?
         /// The date that the namespace was created, in Unix date/time format and Coordinated Universal Time (UTC). The value of CreateDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
@@ -3906,7 +3906,7 @@ public struct NamespaceAlreadyExists: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct NamespaceAlreadyExistsBody: Swift.Equatable {
+struct NamespaceAlreadyExistsBody {
     let message: Swift.String?
     let creatorRequestId: Swift.String?
     let namespaceId: Swift.String?
@@ -3975,7 +3975,7 @@ extension ServiceDiscoveryClientTypes.NamespaceFilter: Swift.Codable {
 
 extension ServiceDiscoveryClientTypes {
     /// A complex type that identifies the namespaces that you want to list. You can choose to list public or private namespaces.
-    public struct NamespaceFilter: Swift.Equatable {
+    public struct NamespaceFilter {
         /// Specify the operator that you want to use to determine whether a namespace matches the specified value. Valid values for Condition are one of the following.
         ///
         /// * EQ: When you specify EQ for Condition, you can specify only one value. EQ is supported for TYPE, NAME, and HTTP_NAME. EQ is the default condition and can be omitted.
@@ -4089,7 +4089,7 @@ public struct NamespaceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct NamespaceNotFoundBody: Swift.Equatable {
+struct NamespaceNotFoundBody {
     let message: Swift.String?
 }
 
@@ -4132,7 +4132,7 @@ extension ServiceDiscoveryClientTypes.NamespaceProperties: Swift.Codable {
 
 extension ServiceDiscoveryClientTypes {
     /// A complex type that contains information that's specific to the namespace type.
-    public struct NamespaceProperties: Swift.Equatable {
+    public struct NamespaceProperties {
         /// A complex type that contains the ID for the Route 53 hosted zone that Cloud Map creates when you create a namespace.
         public var dnsProperties: ServiceDiscoveryClientTypes.DnsProperties?
         /// A complex type that contains the name of an HTTP namespace.
@@ -4213,7 +4213,7 @@ extension ServiceDiscoveryClientTypes.NamespaceSummary: Swift.Codable {
 
 extension ServiceDiscoveryClientTypes {
     /// A complex type that contains information about a namespace.
-    public struct NamespaceSummary: Swift.Equatable {
+    public struct NamespaceSummary {
         /// The Amazon Resource Name (ARN) that Cloud Map assigns to the namespace when you create it.
         public var arn: Swift.String?
         /// The date and time that the namespace was created.
@@ -4365,7 +4365,7 @@ extension ServiceDiscoveryClientTypes.Operation: Swift.Codable {
 
 extension ServiceDiscoveryClientTypes {
     /// A complex type that contains information about a specified operation.
-    public struct Operation: Swift.Equatable {
+    public struct Operation {
         /// The date and time that the request was submitted, in Unix date/time format and Coordinated Universal Time (UTC). The value of CreateDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public var createDate: ClientRuntime.Date?
         /// The code associated with ErrorMessage. Values for ErrorCode include the following:
@@ -4466,7 +4466,7 @@ extension ServiceDiscoveryClientTypes.OperationFilter: Swift.Codable {
 
 extension ServiceDiscoveryClientTypes {
     /// A complex type that lets you select the operations that you want to list.
-    public struct OperationFilter: Swift.Equatable {
+    public struct OperationFilter {
         /// The operator that you want to use to determine whether an operation matches the specified value. Valid values for condition include:
         ///
         /// * EQ: When you specify EQ for the condition, you can specify only one value. EQ is supported for NAMESPACE_ID, SERVICE_ID, STATUS, and TYPE. EQ is the default condition and can be omitted.
@@ -4596,7 +4596,7 @@ public struct OperationNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct OperationNotFoundBody: Swift.Equatable {
+struct OperationNotFoundBody {
     let message: Swift.String?
 }
 
@@ -4677,7 +4677,7 @@ extension ServiceDiscoveryClientTypes.OperationSummary: Swift.Codable {
 
 extension ServiceDiscoveryClientTypes {
     /// A complex type that contains information about an operation that matches the criteria that you specified in a [ListOperations](https://docs.aws.amazon.com/cloud-map/latest/api/API_ListOperations.html) request.
-    public struct OperationSummary: Swift.Equatable {
+    public struct OperationSummary {
         /// The ID for an operation.
         public var id: Swift.String?
         /// The status of the operation. Values include the following:
@@ -4809,7 +4809,7 @@ extension ServiceDiscoveryClientTypes.PrivateDnsNamespaceChange: Swift.Codable {
 
 extension ServiceDiscoveryClientTypes {
     /// Updated properties for the private DNS namespace.
-    public struct PrivateDnsNamespaceChange: Swift.Equatable {
+    public struct PrivateDnsNamespaceChange {
         /// An updated description for the private DNS namespace.
         public var description: Swift.String?
         /// Properties to be updated in the private DNS namespace.
@@ -4848,7 +4848,7 @@ extension ServiceDiscoveryClientTypes.PrivateDnsNamespaceProperties: Swift.Codab
 
 extension ServiceDiscoveryClientTypes {
     /// DNS properties for the private DNS namespace.
-    public struct PrivateDnsNamespaceProperties: Swift.Equatable {
+    public struct PrivateDnsNamespaceProperties {
         /// DNS properties for the private DNS namespace.
         /// This member is required.
         public var dnsProperties: ServiceDiscoveryClientTypes.PrivateDnsPropertiesMutable?
@@ -4884,7 +4884,7 @@ extension ServiceDiscoveryClientTypes.PrivateDnsNamespacePropertiesChange: Swift
 
 extension ServiceDiscoveryClientTypes {
     /// Updated properties for the private DNS namespace.
-    public struct PrivateDnsNamespacePropertiesChange: Swift.Equatable {
+    public struct PrivateDnsNamespacePropertiesChange {
         /// Updated DNS properties for the private DNS namespace.
         /// This member is required.
         public var dnsProperties: ServiceDiscoveryClientTypes.PrivateDnsPropertiesMutableChange?
@@ -4920,7 +4920,7 @@ extension ServiceDiscoveryClientTypes.PrivateDnsPropertiesMutable: Swift.Codable
 
 extension ServiceDiscoveryClientTypes {
     /// DNS properties for the private DNS namespace.
-    public struct PrivateDnsPropertiesMutable: Swift.Equatable {
+    public struct PrivateDnsPropertiesMutable {
         /// Fields for the Start of Authority (SOA) record for the hosted zone for the private DNS namespace.
         /// This member is required.
         public var soa: ServiceDiscoveryClientTypes.SOA?
@@ -4956,7 +4956,7 @@ extension ServiceDiscoveryClientTypes.PrivateDnsPropertiesMutableChange: Swift.C
 
 extension ServiceDiscoveryClientTypes {
     /// Updated DNS properties for the private DNS namespace.
-    public struct PrivateDnsPropertiesMutableChange: Swift.Equatable {
+    public struct PrivateDnsPropertiesMutableChange {
         /// Updated fields for the Start of Authority (SOA) record for the hosted zone for the private DNS namespace.
         /// This member is required.
         public var soa: ServiceDiscoveryClientTypes.SOAChange?
@@ -4998,7 +4998,7 @@ extension ServiceDiscoveryClientTypes.PublicDnsNamespaceChange: Swift.Codable {
 
 extension ServiceDiscoveryClientTypes {
     /// Updated properties for the public DNS namespace.
-    public struct PublicDnsNamespaceChange: Swift.Equatable {
+    public struct PublicDnsNamespaceChange {
         /// An updated description for the public DNS namespace.
         public var description: Swift.String?
         /// Properties to be updated in the public DNS namespace.
@@ -5037,7 +5037,7 @@ extension ServiceDiscoveryClientTypes.PublicDnsNamespaceProperties: Swift.Codabl
 
 extension ServiceDiscoveryClientTypes {
     /// DNS properties for the public DNS namespace.
-    public struct PublicDnsNamespaceProperties: Swift.Equatable {
+    public struct PublicDnsNamespaceProperties {
         /// DNS properties for the public DNS namespace.
         /// This member is required.
         public var dnsProperties: ServiceDiscoveryClientTypes.PublicDnsPropertiesMutable?
@@ -5073,7 +5073,7 @@ extension ServiceDiscoveryClientTypes.PublicDnsNamespacePropertiesChange: Swift.
 
 extension ServiceDiscoveryClientTypes {
     /// Updated properties for the public DNS namespace.
-    public struct PublicDnsNamespacePropertiesChange: Swift.Equatable {
+    public struct PublicDnsNamespacePropertiesChange {
         /// Updated DNS properties for the hosted zone for the public DNS namespace.
         /// This member is required.
         public var dnsProperties: ServiceDiscoveryClientTypes.PublicDnsPropertiesMutableChange?
@@ -5109,7 +5109,7 @@ extension ServiceDiscoveryClientTypes.PublicDnsPropertiesMutable: Swift.Codable 
 
 extension ServiceDiscoveryClientTypes {
     /// DNS properties for the public DNS namespace.
-    public struct PublicDnsPropertiesMutable: Swift.Equatable {
+    public struct PublicDnsPropertiesMutable {
         /// Start of Authority (SOA) record for the hosted zone for the public DNS namespace.
         /// This member is required.
         public var soa: ServiceDiscoveryClientTypes.SOA?
@@ -5145,7 +5145,7 @@ extension ServiceDiscoveryClientTypes.PublicDnsPropertiesMutableChange: Swift.Co
 
 extension ServiceDiscoveryClientTypes {
     /// Updated DNS properties for the public DNS namespace.
-    public struct PublicDnsPropertiesMutableChange: Swift.Equatable {
+    public struct PublicDnsPropertiesMutableChange {
         /// Updated fields for the Start of Authority (SOA) record for the hosted zone for the public DNS namespace.
         /// This member is required.
         public var soa: ServiceDiscoveryClientTypes.SOAChange?
@@ -5233,7 +5233,7 @@ extension RegisterInstanceInput {
     }
 }
 
-public struct RegisterInstanceInput: Swift.Equatable {
+public struct RegisterInstanceInput {
     /// A string map that contains the following information for the service that you specify in ServiceId:
     ///
     /// * The attributes that apply to the records that are defined in the service.
@@ -5293,7 +5293,7 @@ public struct RegisterInstanceInput: Swift.Equatable {
     }
 }
 
-struct RegisterInstanceInputBody: Swift.Equatable {
+struct RegisterInstanceInputBody {
     let serviceId: Swift.String?
     let instanceId: Swift.String?
     let creatorRequestId: Swift.String?
@@ -5342,7 +5342,7 @@ extension RegisterInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RegisterInstanceOutput: Swift.Equatable {
+public struct RegisterInstanceOutput {
     /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see [GetOperation](https://docs.aws.amazon.com/cloud-map/latest/api/API_GetOperation.html).
     public var operationId: Swift.String?
 
@@ -5354,7 +5354,7 @@ public struct RegisterInstanceOutput: Swift.Equatable {
     }
 }
 
-struct RegisterInstanceOutputBody: Swift.Equatable {
+struct RegisterInstanceOutputBody {
     let operationId: Swift.String?
 }
 
@@ -5424,7 +5424,7 @@ public struct RequestLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct RequestLimitExceededBody: Swift.Equatable {
+struct RequestLimitExceededBody {
     let message: Swift.String?
 }
 
@@ -5479,7 +5479,7 @@ public struct ResourceInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
     }
 }
 
-struct ResourceInUseBody: Swift.Equatable {
+struct ResourceInUseBody {
     let message: Swift.String?
 }
 
@@ -5534,7 +5534,7 @@ public struct ResourceLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct ResourceLimitExceededBody: Swift.Equatable {
+struct ResourceLimitExceededBody {
     let message: Swift.String?
 }
 
@@ -5589,7 +5589,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -5658,7 +5658,7 @@ extension ServiceDiscoveryClientTypes.SOA: Swift.Codable {
 
 extension ServiceDiscoveryClientTypes {
     /// Start of Authority (SOA) properties for a public or private DNS namespace.
-    public struct SOA: Swift.Equatable {
+    public struct SOA {
         /// The time to live (TTL) for purposes of negative caching.
         /// This member is required.
         public var ttl: Swift.Int?
@@ -5694,7 +5694,7 @@ extension ServiceDiscoveryClientTypes.SOAChange: Swift.Codable {
 
 extension ServiceDiscoveryClientTypes {
     /// Updated Start of Authority (SOA) properties for a public or private DNS namespace.
-    public struct SOAChange: Swift.Equatable {
+    public struct SOAChange {
         /// The updated time to live (TTL) for purposes of negative caching.
         /// This member is required.
         public var ttl: Swift.Int?
@@ -5796,7 +5796,7 @@ extension ServiceDiscoveryClientTypes.Service: Swift.Codable {
 
 extension ServiceDiscoveryClientTypes {
     /// A complex type that contains information about the specified service.
-    public struct Service: Swift.Equatable {
+    public struct Service {
         /// The Amazon Resource Name (ARN) that Cloud Map assigns to the service when you create it.
         public var arn: Swift.String?
         /// The date and time that the service was created, in Unix format and Coordinated Universal Time (UTC). The value of CreateDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
@@ -5905,7 +5905,7 @@ public struct ServiceAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct ServiceAlreadyExistsBody: Swift.Equatable {
+struct ServiceAlreadyExistsBody {
     let message: Swift.String?
     let creatorRequestId: Swift.String?
     let serviceId: Swift.String?
@@ -5962,7 +5962,7 @@ extension ServiceDiscoveryClientTypes.ServiceChange: Swift.Codable {
 
 extension ServiceDiscoveryClientTypes {
     /// A complex type that contains changes to an existing service.
-    public struct ServiceChange: Swift.Equatable {
+    public struct ServiceChange {
         /// A description for the service.
         public var description: Swift.String?
         /// Information about the Route 53 DNS records that you want Cloud Map to create when you register an instance.
@@ -6031,7 +6031,7 @@ extension ServiceDiscoveryClientTypes.ServiceFilter: Swift.Codable {
 
 extension ServiceDiscoveryClientTypes {
     /// A complex type that lets you specify the namespaces that you want to list services for.
-    public struct ServiceFilter: Swift.Equatable {
+    public struct ServiceFilter {
         /// The operator that you want to use to determine whether a service is returned by ListServices. Valid values for Condition include the following:
         ///
         /// * EQ: When you specify EQ, specify one namespace ID for Values. EQ is the default condition and can be omitted.
@@ -6125,7 +6125,7 @@ public struct ServiceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     }
 }
 
-struct ServiceNotFoundBody: Swift.Equatable {
+struct ServiceNotFoundBody {
     let message: Swift.String?
 }
 
@@ -6216,7 +6216,7 @@ extension ServiceDiscoveryClientTypes.ServiceSummary: Swift.Codable {
 
 extension ServiceDiscoveryClientTypes {
     /// A complex type that contains information about a specified service.
-    public struct ServiceSummary: Swift.Equatable {
+    public struct ServiceSummary {
         /// The Amazon Resource Name (ARN) that Cloud Map assigns to the service when you create it.
         public var arn: Swift.String?
         /// The date and time that the service was created.
@@ -6364,7 +6364,7 @@ extension ServiceDiscoveryClientTypes.Tag: Swift.Codable {
 
 extension ServiceDiscoveryClientTypes {
     /// A custom key-value pair that's associated with a resource.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key identifier, or name, of the tag.
         /// This member is required.
         public var key: Swift.String?
@@ -6411,7 +6411,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource that you want to retrieve tags for.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -6429,7 +6429,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceARN: Swift.String?
     let tags: [ServiceDiscoveryClientTypes.Tag]?
 }
@@ -6463,7 +6463,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -6526,7 +6526,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct TooManyTagsExceptionBody: Swift.Equatable {
+struct TooManyTagsExceptionBody {
     let message: Swift.String?
     let resourceName: Swift.String?
 }
@@ -6573,7 +6573,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource that you want to retrieve tags for.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -6591,7 +6591,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceARN: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -6625,7 +6625,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -6670,7 +6670,7 @@ extension UpdateHttpNamespaceInput {
     }
 }
 
-public struct UpdateHttpNamespaceInput: Swift.Equatable {
+public struct UpdateHttpNamespaceInput {
     /// The ID of the namespace that you want to update.
     /// This member is required.
     public var id: Swift.String?
@@ -6692,7 +6692,7 @@ public struct UpdateHttpNamespaceInput: Swift.Equatable {
     }
 }
 
-struct UpdateHttpNamespaceInputBody: Swift.Equatable {
+struct UpdateHttpNamespaceInputBody {
     let id: Swift.String?
     let updaterRequestId: Swift.String?
     let namespace: ServiceDiscoveryClientTypes.HttpNamespaceChange?
@@ -6728,7 +6728,7 @@ extension UpdateHttpNamespaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateHttpNamespaceOutput: Swift.Equatable {
+public struct UpdateHttpNamespaceOutput {
     /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see [GetOperation](https://docs.aws.amazon.com/cloud-map/latest/api/API_GetOperation.html).
     public var operationId: Swift.String?
 
@@ -6740,7 +6740,7 @@ public struct UpdateHttpNamespaceOutput: Swift.Equatable {
     }
 }
 
-struct UpdateHttpNamespaceOutputBody: Swift.Equatable {
+struct UpdateHttpNamespaceOutputBody {
     let operationId: Swift.String?
 }
 
@@ -6798,7 +6798,7 @@ extension UpdateInstanceCustomHealthStatusInput {
     }
 }
 
-public struct UpdateInstanceCustomHealthStatusInput: Swift.Equatable {
+public struct UpdateInstanceCustomHealthStatusInput {
     /// The ID of the instance that you want to change the health status for.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -6821,7 +6821,7 @@ public struct UpdateInstanceCustomHealthStatusInput: Swift.Equatable {
     }
 }
 
-struct UpdateInstanceCustomHealthStatusInputBody: Swift.Equatable {
+struct UpdateInstanceCustomHealthStatusInputBody {
     let serviceId: Swift.String?
     let instanceId: Swift.String?
     let status: ServiceDiscoveryClientTypes.CustomHealthStatus?
@@ -6850,7 +6850,7 @@ extension UpdateInstanceCustomHealthStatusOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct UpdateInstanceCustomHealthStatusOutput: Swift.Equatable {
+public struct UpdateInstanceCustomHealthStatusOutput {
 
     public init() { }
 }
@@ -6897,7 +6897,7 @@ extension UpdatePrivateDnsNamespaceInput {
     }
 }
 
-public struct UpdatePrivateDnsNamespaceInput: Swift.Equatable {
+public struct UpdatePrivateDnsNamespaceInput {
     /// The ID of the namespace that you want to update.
     /// This member is required.
     public var id: Swift.String?
@@ -6919,7 +6919,7 @@ public struct UpdatePrivateDnsNamespaceInput: Swift.Equatable {
     }
 }
 
-struct UpdatePrivateDnsNamespaceInputBody: Swift.Equatable {
+struct UpdatePrivateDnsNamespaceInputBody {
     let id: Swift.String?
     let updaterRequestId: Swift.String?
     let namespace: ServiceDiscoveryClientTypes.PrivateDnsNamespaceChange?
@@ -6955,7 +6955,7 @@ extension UpdatePrivateDnsNamespaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePrivateDnsNamespaceOutput: Swift.Equatable {
+public struct UpdatePrivateDnsNamespaceOutput {
     /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see [GetOperation](https://docs.aws.amazon.com/cloud-map/latest/api/API_GetOperation.html).
     public var operationId: Swift.String?
 
@@ -6967,7 +6967,7 @@ public struct UpdatePrivateDnsNamespaceOutput: Swift.Equatable {
     }
 }
 
-struct UpdatePrivateDnsNamespaceOutputBody: Swift.Equatable {
+struct UpdatePrivateDnsNamespaceOutputBody {
     let operationId: Swift.String?
 }
 
@@ -7025,7 +7025,7 @@ extension UpdatePublicDnsNamespaceInput {
     }
 }
 
-public struct UpdatePublicDnsNamespaceInput: Swift.Equatable {
+public struct UpdatePublicDnsNamespaceInput {
     /// The ID of the namespace being updated.
     /// This member is required.
     public var id: Swift.String?
@@ -7047,7 +7047,7 @@ public struct UpdatePublicDnsNamespaceInput: Swift.Equatable {
     }
 }
 
-struct UpdatePublicDnsNamespaceInputBody: Swift.Equatable {
+struct UpdatePublicDnsNamespaceInputBody {
     let id: Swift.String?
     let updaterRequestId: Swift.String?
     let namespace: ServiceDiscoveryClientTypes.PublicDnsNamespaceChange?
@@ -7083,7 +7083,7 @@ extension UpdatePublicDnsNamespaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePublicDnsNamespaceOutput: Swift.Equatable {
+public struct UpdatePublicDnsNamespaceOutput {
     /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see [GetOperation](https://docs.aws.amazon.com/cloud-map/latest/api/API_GetOperation.html).
     public var operationId: Swift.String?
 
@@ -7095,7 +7095,7 @@ public struct UpdatePublicDnsNamespaceOutput: Swift.Equatable {
     }
 }
 
-struct UpdatePublicDnsNamespaceOutputBody: Swift.Equatable {
+struct UpdatePublicDnsNamespaceOutputBody {
     let operationId: Swift.String?
 }
 
@@ -7149,7 +7149,7 @@ extension UpdateServiceInput {
     }
 }
 
-public struct UpdateServiceInput: Swift.Equatable {
+public struct UpdateServiceInput {
     /// The ID of the service that you want to update.
     /// This member is required.
     public var id: Swift.String?
@@ -7167,7 +7167,7 @@ public struct UpdateServiceInput: Swift.Equatable {
     }
 }
 
-struct UpdateServiceInputBody: Swift.Equatable {
+struct UpdateServiceInputBody {
     let id: Swift.String?
     let service: ServiceDiscoveryClientTypes.ServiceChange?
 }
@@ -7199,7 +7199,7 @@ extension UpdateServiceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateServiceOutput: Swift.Equatable {
+public struct UpdateServiceOutput {
     /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see [GetOperation](https://docs.aws.amazon.com/cloud-map/latest/api/API_GetOperation.html).
     public var operationId: Swift.String?
 
@@ -7211,7 +7211,7 @@ public struct UpdateServiceOutput: Swift.Equatable {
     }
 }
 
-struct UpdateServiceOutputBody: Swift.Equatable {
+struct UpdateServiceOutputBody {
     let operationId: Swift.String?
 }
 

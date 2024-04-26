@@ -97,7 +97,7 @@ extension EKSClientTypes.AccessConfigResponse: Swift.Codable {
 
 extension EKSClientTypes {
     /// The access configuration for the cluster.
-    public struct AccessConfigResponse: Swift.Equatable {
+    public struct AccessConfigResponse {
         /// The current authentication mode of the cluster.
         public var authenticationMode: EKSClientTypes.AuthenticationMode?
         /// Specifies whether or not the cluster creator IAM principal was set as a cluster admin access entry during cluster creation time.
@@ -155,7 +155,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -264,7 +264,7 @@ extension EKSClientTypes.AccessEntry: Swift.Codable {
 
 extension EKSClientTypes {
     /// An access entry allows an IAM principal (user or role) to access your cluster. Access entries can replace the need to maintain the aws-authConfigMap for authentication. For more information about access entries, see [Access entries](https://docs.aws.amazon.com/eks/latest/userguide/access-entries.html) in the Amazon EKS User Guide.
-    public struct AccessEntry: Swift.Equatable {
+    public struct AccessEntry {
         /// The ARN of the access entry.
         public var accessEntryArn: Swift.String?
         /// The name of your cluster.
@@ -337,7 +337,7 @@ extension EKSClientTypes.AccessPolicy: Swift.Codable {
 
 extension EKSClientTypes {
     /// An access policy includes permissions that allow Amazon EKS to authorize an IAM principal to work with Kubernetes objects on your cluster. The policies are managed by Amazon EKS, but they're not IAM policies. You can't view the permissions in the policies using the API. The permissions for many of the policies are similar to the Kubernetes cluster-admin, admin, edit, and view cluster roles. For more information about these cluster roles, see [User-facing roles](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles) in the Kubernetes documentation. To view the contents of the policies, see [Access policy permissions](https://docs.aws.amazon.com/eks/latest/userguide/access-policies.html#access-policy-permissions) in the Amazon EKS User Guide.
-    public struct AccessPolicy: Swift.Equatable {
+    public struct AccessPolicy {
         /// The ARN of the access policy.
         public var arn: Swift.String?
         /// The name of the access policy.
@@ -394,7 +394,7 @@ extension EKSClientTypes.AccessScope: Swift.Codable {
 
 extension EKSClientTypes {
     /// The scope of an AccessPolicy that's associated to an AccessEntry.
-    public struct AccessScope: Swift.Equatable {
+    public struct AccessScope {
         /// A Kubernetes namespace that an access policy is scoped to. A value is required if you specified namespace for Type.
         public var namespaces: [Swift.String]?
         /// The scope type of an access policy.
@@ -555,7 +555,7 @@ extension EKSClientTypes.Addon: Swift.Codable {
 
 extension EKSClientTypes {
     /// An Amazon EKS add-on. For more information, see [Amazon EKS add-ons](https://docs.aws.amazon.com/eks/latest/userguide/eks-add-ons.html) in the Amazon EKS User Guide.
-    public struct Addon: Swift.Equatable {
+    public struct Addon {
         /// The Amazon Resource Name (ARN) of the add-on.
         public var addonArn: Swift.String?
         /// The name of the add-on.
@@ -654,7 +654,7 @@ extension EKSClientTypes.AddonHealth: Swift.Codable {
 
 extension EKSClientTypes {
     /// The health of the add-on.
-    public struct AddonHealth: Swift.Equatable {
+    public struct AddonHealth {
         /// An object representing the health issues for an add-on.
         public var issues: [EKSClientTypes.AddonIssue]?
 
@@ -731,7 +731,7 @@ extension EKSClientTypes.AddonInfo: Swift.Codable {
 
 extension EKSClientTypes {
     /// Information about an add-on.
-    public struct AddonInfo: Swift.Equatable {
+    public struct AddonInfo {
         /// The name of the add-on.
         public var addonName: Swift.String?
         /// An object representing information about available add-on versions and compatible Kubernetes versions.
@@ -810,7 +810,7 @@ extension EKSClientTypes.AddonIssue: Swift.Codable {
 
 extension EKSClientTypes {
     /// An issue related to an add-on.
-    public struct AddonIssue: Swift.Equatable {
+    public struct AddonIssue {
         /// A code that describes the type of issue.
         public var code: EKSClientTypes.AddonIssueCode?
         /// A message that provides details about the issue and what might cause it.
@@ -995,7 +995,7 @@ extension EKSClientTypes.AddonVersionInfo: Swift.Codable {
 
 extension EKSClientTypes {
     /// Information about an add-on version.
-    public struct AddonVersionInfo: Swift.Equatable {
+    public struct AddonVersionInfo {
         /// The version of the add-on.
         public var addonVersion: Swift.String?
         /// The architectures that the version supports.
@@ -1051,7 +1051,7 @@ extension AssociateAccessPolicyInput {
     }
 }
 
-public struct AssociateAccessPolicyInput: Swift.Equatable {
+public struct AssociateAccessPolicyInput {
     /// The scope for the AccessPolicy. You can scope access policies to an entire cluster or to specific Kubernetes namespaces.
     /// This member is required.
     public var accessScope: EKSClientTypes.AccessScope?
@@ -1079,7 +1079,7 @@ public struct AssociateAccessPolicyInput: Swift.Equatable {
     }
 }
 
-struct AssociateAccessPolicyInputBody: Swift.Equatable {
+struct AssociateAccessPolicyInputBody {
     let policyArn: Swift.String?
     let accessScope: EKSClientTypes.AccessScope?
 }
@@ -1115,7 +1115,7 @@ extension AssociateAccessPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateAccessPolicyOutput: Swift.Equatable {
+public struct AssociateAccessPolicyOutput {
     /// The AccessPolicy and scope associated to the AccessEntry.
     public var associatedAccessPolicy: EKSClientTypes.AssociatedAccessPolicy?
     /// The name of your cluster.
@@ -1135,7 +1135,7 @@ public struct AssociateAccessPolicyOutput: Swift.Equatable {
     }
 }
 
-struct AssociateAccessPolicyOutputBody: Swift.Equatable {
+struct AssociateAccessPolicyOutputBody {
     let clusterName: Swift.String?
     let principalArn: Swift.String?
     let associatedAccessPolicy: EKSClientTypes.AssociatedAccessPolicy?
@@ -1203,7 +1203,7 @@ extension AssociateEncryptionConfigInput {
     }
 }
 
-public struct AssociateEncryptionConfigInput: Swift.Equatable {
+public struct AssociateEncryptionConfigInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientRequestToken: Swift.String?
     /// The name of your cluster.
@@ -1225,7 +1225,7 @@ public struct AssociateEncryptionConfigInput: Swift.Equatable {
     }
 }
 
-struct AssociateEncryptionConfigInputBody: Swift.Equatable {
+struct AssociateEncryptionConfigInputBody {
     let encryptionConfig: [EKSClientTypes.EncryptionConfig]?
     let clientRequestToken: Swift.String?
 }
@@ -1266,7 +1266,7 @@ extension AssociateEncryptionConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateEncryptionConfigOutput: Swift.Equatable {
+public struct AssociateEncryptionConfigOutput {
     /// An object representing an asynchronous update.
     public var update: EKSClientTypes.Update?
 
@@ -1278,7 +1278,7 @@ public struct AssociateEncryptionConfigOutput: Swift.Equatable {
     }
 }
 
-struct AssociateEncryptionConfigOutputBody: Swift.Equatable {
+struct AssociateEncryptionConfigOutputBody {
     let update: EKSClientTypes.Update?
 }
 
@@ -1344,7 +1344,7 @@ extension AssociateIdentityProviderConfigInput {
     }
 }
 
-public struct AssociateIdentityProviderConfigInput: Swift.Equatable {
+public struct AssociateIdentityProviderConfigInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientRequestToken: Swift.String?
     /// The name of your cluster.
@@ -1370,7 +1370,7 @@ public struct AssociateIdentityProviderConfigInput: Swift.Equatable {
     }
 }
 
-struct AssociateIdentityProviderConfigInputBody: Swift.Equatable {
+struct AssociateIdentityProviderConfigInputBody {
     let oidc: EKSClientTypes.OidcIdentityProviderConfigRequest?
     let tags: [Swift.String:Swift.String]?
     let clientRequestToken: Swift.String?
@@ -1417,7 +1417,7 @@ extension AssociateIdentityProviderConfigOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct AssociateIdentityProviderConfigOutput: Swift.Equatable {
+public struct AssociateIdentityProviderConfigOutput {
     /// The tags for the resource.
     public var tags: [Swift.String:Swift.String]?
     /// An object representing an asynchronous update.
@@ -1433,7 +1433,7 @@ public struct AssociateIdentityProviderConfigOutput: Swift.Equatable {
     }
 }
 
-struct AssociateIdentityProviderConfigOutputBody: Swift.Equatable {
+struct AssociateIdentityProviderConfigOutputBody {
     let update: EKSClientTypes.Update?
     let tags: [Swift.String:Swift.String]?
 }
@@ -1517,7 +1517,7 @@ extension EKSClientTypes.AssociatedAccessPolicy: Swift.Codable {
 
 extension EKSClientTypes {
     /// An access policy association.
-    public struct AssociatedAccessPolicy: Swift.Equatable {
+    public struct AssociatedAccessPolicy {
         /// The scope of the access policy.
         public var accessScope: EKSClientTypes.AccessScope?
         /// The date and time the AccessPolicy was associated with an AccessEntry.
@@ -1599,7 +1599,7 @@ extension EKSClientTypes.AutoScalingGroup: Swift.Codable {
 
 extension EKSClientTypes {
     /// An Auto Scaling group that is associated with an Amazon EKS managed node group.
-    public struct AutoScalingGroup: Swift.Equatable {
+    public struct AutoScalingGroup {
         /// The name of the Auto Scaling group associated with an Amazon EKS managed node group.
         public var name: Swift.String?
 
@@ -1653,7 +1653,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct BadRequestExceptionBody: Swift.Equatable {
+struct BadRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -1751,7 +1751,7 @@ extension EKSClientTypes.Certificate: Swift.Codable {
 
 extension EKSClientTypes {
     /// An object representing the certificate-authority-data for your cluster.
-    public struct Certificate: Swift.Equatable {
+    public struct Certificate {
         /// The Base64-encoded certificate data required to communicate with your cluster. Add this to the certificate-authority-data section of the kubeconfig file for your cluster.
         public var data: Swift.String?
 
@@ -1829,7 +1829,7 @@ public struct ClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     }
 }
 
-struct ClientExceptionBody: Swift.Equatable {
+struct ClientExceptionBody {
     let clusterName: Swift.String?
     let nodegroupName: Swift.String?
     let addonName: Swift.String?
@@ -1894,7 +1894,7 @@ extension EKSClientTypes.ClientStat: Swift.Codable {
 
 extension EKSClientTypes {
     /// Details about clients using the deprecated resources.
-    public struct ClientStat: Swift.Equatable {
+    public struct ClientStat {
         /// The timestamp of the last request seen from the Kubernetes client.
         public var lastRequestTime: ClientRuntime.Date?
         /// The number of requests from the Kubernetes client seen over the last 30 days.
@@ -2081,7 +2081,7 @@ extension EKSClientTypes.Cluster: Swift.Codable {
 
 extension EKSClientTypes {
     /// An object representing an Amazon EKS cluster.
-    public struct Cluster: Swift.Equatable {
+    public struct Cluster {
         /// The access configuration for the cluster.
         public var accessConfig: EKSClientTypes.AccessConfigResponse?
         /// The Amazon Resource Name (ARN) of the cluster.
@@ -2208,7 +2208,7 @@ extension EKSClientTypes.ClusterHealth: Swift.Codable {
 
 extension EKSClientTypes {
     /// An object representing the health of your local Amazon EKS cluster on an Amazon Web Services Outpost. You can't use this API with an Amazon EKS cluster on the Amazon Web Services cloud.
-    public struct ClusterHealth: Swift.Equatable {
+    public struct ClusterHealth {
         /// An object representing the health issues of your local Amazon EKS cluster on an Amazon Web Services Outpost.
         public var issues: [EKSClientTypes.ClusterIssue]?
 
@@ -2267,7 +2267,7 @@ extension EKSClientTypes.ClusterIssue: Swift.Codable {
 
 extension EKSClientTypes {
     /// An issue with your local Amazon EKS cluster on an Amazon Web Services Outpost. You can't use this API with an Amazon EKS cluster on the Amazon Web Services cloud.
-    public struct ClusterIssue: Swift.Equatable {
+    public struct ClusterIssue {
         /// The error code of the issue.
         public var code: EKSClientTypes.ClusterIssueCode?
         /// A description of the issue.
@@ -2461,7 +2461,7 @@ extension EKSClientTypes.Compatibility: Swift.Codable {
 
 extension EKSClientTypes {
     /// Compatibility information.
-    public struct Compatibility: Swift.Equatable {
+    public struct Compatibility {
         /// The supported Kubernetes version of the cluster.
         public var clusterVersion: Swift.String?
         /// The supported default version.
@@ -2598,7 +2598,7 @@ extension EKSClientTypes.ConnectorConfigRequest: Swift.Codable {
 
 extension EKSClientTypes {
     /// The configuration sent to a cluster for configuration.
-    public struct ConnectorConfigRequest: Swift.Equatable {
+    public struct ConnectorConfigRequest {
         /// The cloud provider for the target cluster to connect.
         /// This member is required.
         public var provider: EKSClientTypes.ConnectorConfigProvider?
@@ -2663,7 +2663,7 @@ extension EKSClientTypes.ConnectorConfigResponse: Swift.Codable {
 
 extension EKSClientTypes {
     /// The full description of your connected cluster.
-    public struct ConnectorConfigResponse: Swift.Equatable {
+    public struct ConnectorConfigResponse {
         /// A unique code associated with the cluster for registration purposes.
         public var activationCode: Swift.String?
         /// The expiration time of the connected cluster. The cluster's YAML file must be applied through the native provider.
@@ -2714,7 +2714,7 @@ extension EKSClientTypes.ControlPlanePlacementRequest: Swift.Codable {
 
 extension EKSClientTypes {
     /// The placement configuration for all the control plane instances of your local Amazon EKS cluster on an Amazon Web Services Outpost. For more information, see [Capacity considerations](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-capacity-considerations.html) in the Amazon EKS User Guide.
-    public struct ControlPlanePlacementRequest: Swift.Equatable {
+    public struct ControlPlanePlacementRequest {
         /// The name of the placement group for the Kubernetes control plane instances. This setting can't be changed after cluster creation.
         public var groupName: Swift.String?
 
@@ -2749,7 +2749,7 @@ extension EKSClientTypes.ControlPlanePlacementResponse: Swift.Codable {
 
 extension EKSClientTypes {
     /// The placement configuration for all the control plane instances of your local Amazon EKS cluster on an Amazon Web Services Outpost. For more information, see [Capacity considerations](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-capacity-considerations.html) in the Amazon EKS User Guide.
-    public struct ControlPlanePlacementResponse: Swift.Equatable {
+    public struct ControlPlanePlacementResponse {
         /// The name of the placement group for the Kubernetes control plane instances.
         public var groupName: Swift.String?
 
@@ -2790,7 +2790,7 @@ extension EKSClientTypes.CreateAccessConfigRequest: Swift.Codable {
 
 extension EKSClientTypes {
     /// The access configuration information for the cluster.
-    public struct CreateAccessConfigRequest: Swift.Equatable {
+    public struct CreateAccessConfigRequest {
         /// The desired authentication mode for the cluster. If you create a cluster by using the EKS API, Amazon Web Services SDKs, or CloudFormation, the default is CONFIG_MAP. If you create the cluster by using the Amazon Web Services Management Console, the default value is API_AND_CONFIG_MAP.
         public var authenticationMode: EKSClientTypes.AuthenticationMode?
         /// Specifies whether or not the cluster creator IAM principal was set as a cluster admin access entry during cluster creation time. The default value is true.
@@ -2857,7 +2857,7 @@ extension CreateAccessEntryInput {
     }
 }
 
-public struct CreateAccessEntryInput: Swift.Equatable {
+public struct CreateAccessEntryInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientRequestToken: Swift.String?
     /// The name of your cluster.
@@ -2895,7 +2895,7 @@ public struct CreateAccessEntryInput: Swift.Equatable {
     }
 }
 
-struct CreateAccessEntryInputBody: Swift.Equatable {
+struct CreateAccessEntryInputBody {
     let principalArn: Swift.String?
     let kubernetesGroups: [Swift.String]?
     let tags: [Swift.String:Swift.String]?
@@ -2961,7 +2961,7 @@ extension CreateAccessEntryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAccessEntryOutput: Swift.Equatable {
+public struct CreateAccessEntryOutput {
     /// An access entry allows an IAM principal (user or role) to access your cluster. Access entries can replace the need to maintain the aws-authConfigMap for authentication. For more information about access entries, see [Access entries](https://docs.aws.amazon.com/eks/latest/userguide/access-entries.html) in the Amazon EKS User Guide.
     public var accessEntry: EKSClientTypes.AccessEntry?
 
@@ -2973,7 +2973,7 @@ public struct CreateAccessEntryOutput: Swift.Equatable {
     }
 }
 
-struct CreateAccessEntryOutputBody: Swift.Equatable {
+struct CreateAccessEntryOutputBody {
     let accessEntry: EKSClientTypes.AccessEntry?
 }
 
@@ -3055,7 +3055,7 @@ extension CreateAddonInput {
     }
 }
 
-public struct CreateAddonInput: Swift.Equatable {
+public struct CreateAddonInput {
     /// The name of the add-on. The name must match one of the names returned by DescribeAddonVersions.
     /// This member is required.
     public var addonName: Swift.String?
@@ -3106,7 +3106,7 @@ public struct CreateAddonInput: Swift.Equatable {
     }
 }
 
-struct CreateAddonInputBody: Swift.Equatable {
+struct CreateAddonInputBody {
     let addonName: Swift.String?
     let addonVersion: Swift.String?
     let serviceAccountRoleArn: Swift.String?
@@ -3167,7 +3167,7 @@ extension CreateAddonOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAddonOutput: Swift.Equatable {
+public struct CreateAddonOutput {
     /// An Amazon EKS add-on. For more information, see [Amazon EKS add-ons](https://docs.aws.amazon.com/eks/latest/userguide/eks-add-ons.html) in the Amazon EKS User Guide.
     public var addon: EKSClientTypes.Addon?
 
@@ -3179,7 +3179,7 @@ public struct CreateAddonOutput: Swift.Equatable {
     }
 }
 
-struct CreateAddonOutputBody: Swift.Equatable {
+struct CreateAddonOutputBody {
     let addon: EKSClientTypes.Addon?
 }
 
@@ -3277,7 +3277,7 @@ extension CreateClusterInput {
     }
 }
 
-public struct CreateClusterInput: Swift.Equatable {
+public struct CreateClusterInput {
     /// The access configuration for the cluster.
     public var accessConfig: EKSClientTypes.CreateAccessConfigRequest?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -3332,7 +3332,7 @@ public struct CreateClusterInput: Swift.Equatable {
     }
 }
 
-struct CreateClusterInputBody: Swift.Equatable {
+struct CreateClusterInputBody {
     let name: Swift.String?
     let version: Swift.String?
     let roleArn: Swift.String?
@@ -3418,7 +3418,7 @@ extension CreateClusterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateClusterOutput: Swift.Equatable {
+public struct CreateClusterOutput {
     /// The full description of your new cluster.
     public var cluster: EKSClientTypes.Cluster?
 
@@ -3430,7 +3430,7 @@ public struct CreateClusterOutput: Swift.Equatable {
     }
 }
 
-struct CreateClusterOutputBody: Swift.Equatable {
+struct CreateClusterOutputBody {
     let cluster: EKSClientTypes.Cluster?
 }
 
@@ -3510,7 +3510,7 @@ extension CreateEksAnywhereSubscriptionInput {
     }
 }
 
-public struct CreateEksAnywhereSubscriptionInput: Swift.Equatable {
+public struct CreateEksAnywhereSubscriptionInput {
     /// A boolean indicating whether the subscription auto renews at the end of the term.
     public var autoRenew: Swift.Bool?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -3548,7 +3548,7 @@ public struct CreateEksAnywhereSubscriptionInput: Swift.Equatable {
     }
 }
 
-struct CreateEksAnywhereSubscriptionInputBody: Swift.Equatable {
+struct CreateEksAnywhereSubscriptionInputBody {
     let name: Swift.String?
     let term: EKSClientTypes.EksAnywhereSubscriptionTerm?
     let licenseQuantity: Swift.Int?
@@ -3609,7 +3609,7 @@ extension CreateEksAnywhereSubscriptionOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct CreateEksAnywhereSubscriptionOutput: Swift.Equatable {
+public struct CreateEksAnywhereSubscriptionOutput {
     /// The full description of the subscription.
     public var subscription: EKSClientTypes.EksAnywhereSubscription?
 
@@ -3621,7 +3621,7 @@ public struct CreateEksAnywhereSubscriptionOutput: Swift.Equatable {
     }
 }
 
-struct CreateEksAnywhereSubscriptionOutputBody: Swift.Equatable {
+struct CreateEksAnywhereSubscriptionOutputBody {
     let subscription: EKSClientTypes.EksAnywhereSubscription?
 }
 
@@ -3704,7 +3704,7 @@ extension CreateFargateProfileInput {
     }
 }
 
-public struct CreateFargateProfileInput: Swift.Equatable {
+public struct CreateFargateProfileInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientRequestToken: Swift.String?
     /// The name of your cluster.
@@ -3743,7 +3743,7 @@ public struct CreateFargateProfileInput: Swift.Equatable {
     }
 }
 
-struct CreateFargateProfileInputBody: Swift.Equatable {
+struct CreateFargateProfileInputBody {
     let fargateProfileName: Swift.String?
     let podExecutionRoleArn: Swift.String?
     let subnets: [Swift.String]?
@@ -3818,7 +3818,7 @@ extension CreateFargateProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateFargateProfileOutput: Swift.Equatable {
+public struct CreateFargateProfileOutput {
     /// The full description of your new Fargate profile.
     public var fargateProfile: EKSClientTypes.FargateProfile?
 
@@ -3830,7 +3830,7 @@ public struct CreateFargateProfileOutput: Swift.Equatable {
     }
 }
 
-struct CreateFargateProfileOutputBody: Swift.Equatable {
+struct CreateFargateProfileOutputBody {
     let fargateProfile: EKSClientTypes.FargateProfile?
 }
 
@@ -3964,7 +3964,7 @@ extension CreateNodegroupInput {
     }
 }
 
-public struct CreateNodegroupInput: Swift.Equatable {
+public struct CreateNodegroupInput {
     /// The AMI type for your node group. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify amiType, or the node group deployment will fail. If your launch template uses a Windows custom AMI, then add eks:kube-proxy-windows to your Windows nodes rolearn in the aws-authConfigMap. For more information about using launch templates with Amazon EKS, see [Launch template support](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html) in the Amazon EKS User Guide.
     public var amiType: EKSClientTypes.AMITypes?
     /// The capacity type for your node group.
@@ -4048,7 +4048,7 @@ public struct CreateNodegroupInput: Swift.Equatable {
     }
 }
 
-struct CreateNodegroupInputBody: Swift.Equatable {
+struct CreateNodegroupInputBody {
     let nodegroupName: Swift.String?
     let scalingConfig: EKSClientTypes.NodegroupScalingConfig?
     let diskSize: Swift.Int?
@@ -4185,7 +4185,7 @@ extension CreateNodegroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateNodegroupOutput: Swift.Equatable {
+public struct CreateNodegroupOutput {
     /// The full description of your new node group.
     public var nodegroup: EKSClientTypes.Nodegroup?
 
@@ -4197,7 +4197,7 @@ public struct CreateNodegroupOutput: Swift.Equatable {
     }
 }
 
-struct CreateNodegroupOutputBody: Swift.Equatable {
+struct CreateNodegroupOutputBody {
     let nodegroup: EKSClientTypes.Nodegroup?
 }
 
@@ -4272,7 +4272,7 @@ extension CreatePodIdentityAssociationInput {
     }
 }
 
-public struct CreatePodIdentityAssociationInput: Swift.Equatable {
+public struct CreatePodIdentityAssociationInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientRequestToken: Swift.String?
     /// The name of the cluster to create the association in.
@@ -4322,7 +4322,7 @@ public struct CreatePodIdentityAssociationInput: Swift.Equatable {
     }
 }
 
-struct CreatePodIdentityAssociationInputBody: Swift.Equatable {
+struct CreatePodIdentityAssociationInputBody {
     let namespace: Swift.String?
     let serviceAccount: Swift.String?
     let roleArn: Swift.String?
@@ -4375,7 +4375,7 @@ extension CreatePodIdentityAssociationOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct CreatePodIdentityAssociationOutput: Swift.Equatable {
+public struct CreatePodIdentityAssociationOutput {
     /// The full description of your new association. The description includes an ID for the association. Use the ID of the association in further actions to manage the association.
     public var association: EKSClientTypes.PodIdentityAssociation?
 
@@ -4387,7 +4387,7 @@ public struct CreatePodIdentityAssociationOutput: Swift.Equatable {
     }
 }
 
-struct CreatePodIdentityAssociationOutputBody: Swift.Equatable {
+struct CreatePodIdentityAssociationOutputBody {
     let association: EKSClientTypes.PodIdentityAssociation?
 }
 
@@ -4432,7 +4432,7 @@ extension DeleteAccessEntryInput {
     }
 }
 
-public struct DeleteAccessEntryInput: Swift.Equatable {
+public struct DeleteAccessEntryInput {
     /// The name of your cluster.
     /// This member is required.
     public var clusterName: Swift.String?
@@ -4450,7 +4450,7 @@ public struct DeleteAccessEntryInput: Swift.Equatable {
     }
 }
 
-struct DeleteAccessEntryInputBody: Swift.Equatable {
+struct DeleteAccessEntryInputBody {
 }
 
 extension DeleteAccessEntryInputBody: Swift.Decodable {
@@ -4464,7 +4464,7 @@ extension DeleteAccessEntryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAccessEntryOutput: Swift.Equatable {
+public struct DeleteAccessEntryOutput {
 
     public init() { }
 }
@@ -4507,7 +4507,7 @@ extension DeleteAddonInput {
     }
 }
 
-public struct DeleteAddonInput: Swift.Equatable {
+public struct DeleteAddonInput {
     /// The name of the add-on. The name must match one of the names returned by [ListAddons](https://docs.aws.amazon.com/eks/latest/APIReference/API_ListAddons.html).
     /// This member is required.
     public var addonName: Swift.String?
@@ -4529,7 +4529,7 @@ public struct DeleteAddonInput: Swift.Equatable {
     }
 }
 
-struct DeleteAddonInputBody: Swift.Equatable {
+struct DeleteAddonInputBody {
 }
 
 extension DeleteAddonInputBody: Swift.Decodable {
@@ -4550,7 +4550,7 @@ extension DeleteAddonOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAddonOutput: Swift.Equatable {
+public struct DeleteAddonOutput {
     /// An Amazon EKS add-on. For more information, see [Amazon EKS add-ons](https://docs.aws.amazon.com/eks/latest/userguide/eks-add-ons.html) in the Amazon EKS User Guide.
     public var addon: EKSClientTypes.Addon?
 
@@ -4562,7 +4562,7 @@ public struct DeleteAddonOutput: Swift.Equatable {
     }
 }
 
-struct DeleteAddonOutputBody: Swift.Equatable {
+struct DeleteAddonOutputBody {
     let addon: EKSClientTypes.Addon?
 }
 
@@ -4603,7 +4603,7 @@ extension DeleteClusterInput {
     }
 }
 
-public struct DeleteClusterInput: Swift.Equatable {
+public struct DeleteClusterInput {
     /// The name of the cluster to delete.
     /// This member is required.
     public var name: Swift.String?
@@ -4616,7 +4616,7 @@ public struct DeleteClusterInput: Swift.Equatable {
     }
 }
 
-struct DeleteClusterInputBody: Swift.Equatable {
+struct DeleteClusterInputBody {
 }
 
 extension DeleteClusterInputBody: Swift.Decodable {
@@ -4637,7 +4637,7 @@ extension DeleteClusterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteClusterOutput: Swift.Equatable {
+public struct DeleteClusterOutput {
     /// The full description of the cluster to delete.
     public var cluster: EKSClientTypes.Cluster?
 
@@ -4649,7 +4649,7 @@ public struct DeleteClusterOutput: Swift.Equatable {
     }
 }
 
-struct DeleteClusterOutputBody: Swift.Equatable {
+struct DeleteClusterOutputBody {
     let cluster: EKSClientTypes.Cluster?
 }
 
@@ -4690,7 +4690,7 @@ extension DeleteEksAnywhereSubscriptionInput {
     }
 }
 
-public struct DeleteEksAnywhereSubscriptionInput: Swift.Equatable {
+public struct DeleteEksAnywhereSubscriptionInput {
     /// The ID of the subscription.
     /// This member is required.
     public var id: Swift.String?
@@ -4703,7 +4703,7 @@ public struct DeleteEksAnywhereSubscriptionInput: Swift.Equatable {
     }
 }
 
-struct DeleteEksAnywhereSubscriptionInputBody: Swift.Equatable {
+struct DeleteEksAnywhereSubscriptionInputBody {
 }
 
 extension DeleteEksAnywhereSubscriptionInputBody: Swift.Decodable {
@@ -4724,7 +4724,7 @@ extension DeleteEksAnywhereSubscriptionOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DeleteEksAnywhereSubscriptionOutput: Swift.Equatable {
+public struct DeleteEksAnywhereSubscriptionOutput {
     /// The full description of the subscription to be deleted.
     public var subscription: EKSClientTypes.EksAnywhereSubscription?
 
@@ -4736,7 +4736,7 @@ public struct DeleteEksAnywhereSubscriptionOutput: Swift.Equatable {
     }
 }
 
-struct DeleteEksAnywhereSubscriptionOutputBody: Swift.Equatable {
+struct DeleteEksAnywhereSubscriptionOutputBody {
     let subscription: EKSClientTypes.EksAnywhereSubscription?
 }
 
@@ -4779,7 +4779,7 @@ extension DeleteFargateProfileInput {
     }
 }
 
-public struct DeleteFargateProfileInput: Swift.Equatable {
+public struct DeleteFargateProfileInput {
     /// The name of your cluster.
     /// This member is required.
     public var clusterName: Swift.String?
@@ -4797,7 +4797,7 @@ public struct DeleteFargateProfileInput: Swift.Equatable {
     }
 }
 
-struct DeleteFargateProfileInputBody: Swift.Equatable {
+struct DeleteFargateProfileInputBody {
 }
 
 extension DeleteFargateProfileInputBody: Swift.Decodable {
@@ -4818,7 +4818,7 @@ extension DeleteFargateProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteFargateProfileOutput: Swift.Equatable {
+public struct DeleteFargateProfileOutput {
     /// The deleted Fargate profile.
     public var fargateProfile: EKSClientTypes.FargateProfile?
 
@@ -4830,7 +4830,7 @@ public struct DeleteFargateProfileOutput: Swift.Equatable {
     }
 }
 
-struct DeleteFargateProfileOutputBody: Swift.Equatable {
+struct DeleteFargateProfileOutputBody {
     let fargateProfile: EKSClientTypes.FargateProfile?
 }
 
@@ -4873,7 +4873,7 @@ extension DeleteNodegroupInput {
     }
 }
 
-public struct DeleteNodegroupInput: Swift.Equatable {
+public struct DeleteNodegroupInput {
     /// The name of your cluster.
     /// This member is required.
     public var clusterName: Swift.String?
@@ -4891,7 +4891,7 @@ public struct DeleteNodegroupInput: Swift.Equatable {
     }
 }
 
-struct DeleteNodegroupInputBody: Swift.Equatable {
+struct DeleteNodegroupInputBody {
 }
 
 extension DeleteNodegroupInputBody: Swift.Decodable {
@@ -4912,7 +4912,7 @@ extension DeleteNodegroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteNodegroupOutput: Swift.Equatable {
+public struct DeleteNodegroupOutput {
     /// The full description of your deleted node group.
     public var nodegroup: EKSClientTypes.Nodegroup?
 
@@ -4924,7 +4924,7 @@ public struct DeleteNodegroupOutput: Swift.Equatable {
     }
 }
 
-struct DeleteNodegroupOutputBody: Swift.Equatable {
+struct DeleteNodegroupOutputBody {
     let nodegroup: EKSClientTypes.Nodegroup?
 }
 
@@ -4969,7 +4969,7 @@ extension DeletePodIdentityAssociationInput {
     }
 }
 
-public struct DeletePodIdentityAssociationInput: Swift.Equatable {
+public struct DeletePodIdentityAssociationInput {
     /// The ID of the association to be deleted.
     /// This member is required.
     public var associationId: Swift.String?
@@ -4987,7 +4987,7 @@ public struct DeletePodIdentityAssociationInput: Swift.Equatable {
     }
 }
 
-struct DeletePodIdentityAssociationInputBody: Swift.Equatable {
+struct DeletePodIdentityAssociationInputBody {
 }
 
 extension DeletePodIdentityAssociationInputBody: Swift.Decodable {
@@ -5008,7 +5008,7 @@ extension DeletePodIdentityAssociationOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DeletePodIdentityAssociationOutput: Swift.Equatable {
+public struct DeletePodIdentityAssociationOutput {
     /// The full description of the EKS Pod Identity association that was deleted.
     public var association: EKSClientTypes.PodIdentityAssociation?
 
@@ -5020,7 +5020,7 @@ public struct DeletePodIdentityAssociationOutput: Swift.Equatable {
     }
 }
 
-struct DeletePodIdentityAssociationOutputBody: Swift.Equatable {
+struct DeletePodIdentityAssociationOutputBody {
     let association: EKSClientTypes.PodIdentityAssociation?
 }
 
@@ -5107,7 +5107,7 @@ extension EKSClientTypes.DeprecationDetail: Swift.Codable {
 
 extension EKSClientTypes {
     /// The summary information about deprecated resource usage for an insight check in the UPGRADE_READINESS category.
-    public struct DeprecationDetail: Swift.Equatable {
+    public struct DeprecationDetail {
         /// Details about Kubernetes clients using the deprecated resources.
         public var clientStats: [EKSClientTypes.ClientStat]?
         /// The newer version of the resource to migrate to if applicable.
@@ -5147,7 +5147,7 @@ extension DeregisterClusterInput {
     }
 }
 
-public struct DeregisterClusterInput: Swift.Equatable {
+public struct DeregisterClusterInput {
     /// The name of the connected cluster to deregister.
     /// This member is required.
     public var name: Swift.String?
@@ -5160,7 +5160,7 @@ public struct DeregisterClusterInput: Swift.Equatable {
     }
 }
 
-struct DeregisterClusterInputBody: Swift.Equatable {
+struct DeregisterClusterInputBody {
 }
 
 extension DeregisterClusterInputBody: Swift.Decodable {
@@ -5181,7 +5181,7 @@ extension DeregisterClusterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeregisterClusterOutput: Swift.Equatable {
+public struct DeregisterClusterOutput {
     /// An object representing an Amazon EKS cluster.
     public var cluster: EKSClientTypes.Cluster?
 
@@ -5193,7 +5193,7 @@ public struct DeregisterClusterOutput: Swift.Equatable {
     }
 }
 
-struct DeregisterClusterOutputBody: Swift.Equatable {
+struct DeregisterClusterOutputBody {
     let cluster: EKSClientTypes.Cluster?
 }
 
@@ -5238,7 +5238,7 @@ extension DescribeAccessEntryInput {
     }
 }
 
-public struct DescribeAccessEntryInput: Swift.Equatable {
+public struct DescribeAccessEntryInput {
     /// The name of your cluster.
     /// This member is required.
     public var clusterName: Swift.String?
@@ -5256,7 +5256,7 @@ public struct DescribeAccessEntryInput: Swift.Equatable {
     }
 }
 
-struct DescribeAccessEntryInputBody: Swift.Equatable {
+struct DescribeAccessEntryInputBody {
 }
 
 extension DescribeAccessEntryInputBody: Swift.Decodable {
@@ -5277,7 +5277,7 @@ extension DescribeAccessEntryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAccessEntryOutput: Swift.Equatable {
+public struct DescribeAccessEntryOutput {
     /// Information about the access entry.
     public var accessEntry: EKSClientTypes.AccessEntry?
 
@@ -5289,7 +5289,7 @@ public struct DescribeAccessEntryOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAccessEntryOutputBody: Swift.Equatable {
+struct DescribeAccessEntryOutputBody {
     let accessEntry: EKSClientTypes.AccessEntry?
 }
 
@@ -5345,7 +5345,7 @@ extension DescribeAddonConfigurationInput {
     }
 }
 
-public struct DescribeAddonConfigurationInput: Swift.Equatable {
+public struct DescribeAddonConfigurationInput {
     /// The name of the add-on. The name must match one of the names returned by DescribeAddonVersions.
     /// This member is required.
     public var addonName: Swift.String?
@@ -5363,7 +5363,7 @@ public struct DescribeAddonConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DescribeAddonConfigurationInputBody: Swift.Equatable {
+struct DescribeAddonConfigurationInputBody {
 }
 
 extension DescribeAddonConfigurationInputBody: Swift.Decodable {
@@ -5388,7 +5388,7 @@ extension DescribeAddonConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAddonConfigurationOutput: Swift.Equatable {
+public struct DescribeAddonConfigurationOutput {
     /// The name of the add-on.
     public var addonName: Swift.String?
     /// The version of the add-on. The version must match one of the versions returned by [DescribeAddonVersions](https://docs.aws.amazon.com/eks/latest/APIReference/API_DescribeAddonVersions.html).
@@ -5408,7 +5408,7 @@ public struct DescribeAddonConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAddonConfigurationOutputBody: Swift.Equatable {
+struct DescribeAddonConfigurationOutputBody {
     let addonName: Swift.String?
     let addonVersion: Swift.String?
     let configurationSchema: Swift.String?
@@ -5458,7 +5458,7 @@ extension DescribeAddonInput {
     }
 }
 
-public struct DescribeAddonInput: Swift.Equatable {
+public struct DescribeAddonInput {
     /// The name of the add-on. The name must match one of the names returned by [ListAddons](https://docs.aws.amazon.com/eks/latest/APIReference/API_ListAddons.html).
     /// This member is required.
     public var addonName: Swift.String?
@@ -5476,7 +5476,7 @@ public struct DescribeAddonInput: Swift.Equatable {
     }
 }
 
-struct DescribeAddonInputBody: Swift.Equatable {
+struct DescribeAddonInputBody {
 }
 
 extension DescribeAddonInputBody: Swift.Decodable {
@@ -5497,7 +5497,7 @@ extension DescribeAddonOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAddonOutput: Swift.Equatable {
+public struct DescribeAddonOutput {
     /// An Amazon EKS add-on. For more information, see [Amazon EKS add-ons](https://docs.aws.amazon.com/eks/latest/userguide/eks-add-ons.html) in the Amazon EKS User Guide.
     public var addon: EKSClientTypes.Addon?
 
@@ -5509,7 +5509,7 @@ public struct DescribeAddonOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAddonOutputBody: Swift.Equatable {
+struct DescribeAddonOutputBody {
     let addon: EKSClientTypes.Addon?
 }
 
@@ -5589,7 +5589,7 @@ extension DescribeAddonVersionsInput {
     }
 }
 
-public struct DescribeAddonVersionsInput: Swift.Equatable {
+public struct DescribeAddonVersionsInput {
     /// The name of the add-on. The name must match one of the names returned by [ListAddons](https://docs.aws.amazon.com/eks/latest/APIReference/API_ListAddons.html).
     public var addonName: Swift.String?
     /// The Kubernetes versions that you can use the add-on with.
@@ -5625,7 +5625,7 @@ public struct DescribeAddonVersionsInput: Swift.Equatable {
     }
 }
 
-struct DescribeAddonVersionsInputBody: Swift.Equatable {
+struct DescribeAddonVersionsInputBody {
 }
 
 extension DescribeAddonVersionsInputBody: Swift.Decodable {
@@ -5648,7 +5648,7 @@ extension DescribeAddonVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAddonVersionsOutput: Swift.Equatable {
+public struct DescribeAddonVersionsOutput {
     /// The list of available versions with Kubernetes version compatibility and other properties.
     public var addons: [EKSClientTypes.AddonInfo]?
     /// The nextToken value to include in a future DescribeAddonVersions request. When the results of a DescribeAddonVersions request exceed maxResults, you can use this value to retrieve the next page of results. This value is null when there are no more results to return. This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
@@ -5664,7 +5664,7 @@ public struct DescribeAddonVersionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAddonVersionsOutputBody: Swift.Equatable {
+struct DescribeAddonVersionsOutputBody {
     let addons: [EKSClientTypes.AddonInfo]?
     let nextToken: Swift.String?
 }
@@ -5716,7 +5716,7 @@ extension DescribeClusterInput {
     }
 }
 
-public struct DescribeClusterInput: Swift.Equatable {
+public struct DescribeClusterInput {
     /// The name of your cluster.
     /// This member is required.
     public var name: Swift.String?
@@ -5729,7 +5729,7 @@ public struct DescribeClusterInput: Swift.Equatable {
     }
 }
 
-struct DescribeClusterInputBody: Swift.Equatable {
+struct DescribeClusterInputBody {
 }
 
 extension DescribeClusterInputBody: Swift.Decodable {
@@ -5750,7 +5750,7 @@ extension DescribeClusterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeClusterOutput: Swift.Equatable {
+public struct DescribeClusterOutput {
     /// The full description of your specified cluster.
     public var cluster: EKSClientTypes.Cluster?
 
@@ -5762,7 +5762,7 @@ public struct DescribeClusterOutput: Swift.Equatable {
     }
 }
 
-struct DescribeClusterOutputBody: Swift.Equatable {
+struct DescribeClusterOutputBody {
     let cluster: EKSClientTypes.Cluster?
 }
 
@@ -5802,7 +5802,7 @@ extension DescribeEksAnywhereSubscriptionInput {
     }
 }
 
-public struct DescribeEksAnywhereSubscriptionInput: Swift.Equatable {
+public struct DescribeEksAnywhereSubscriptionInput {
     /// The ID of the subscription.
     /// This member is required.
     public var id: Swift.String?
@@ -5815,7 +5815,7 @@ public struct DescribeEksAnywhereSubscriptionInput: Swift.Equatable {
     }
 }
 
-struct DescribeEksAnywhereSubscriptionInputBody: Swift.Equatable {
+struct DescribeEksAnywhereSubscriptionInputBody {
 }
 
 extension DescribeEksAnywhereSubscriptionInputBody: Swift.Decodable {
@@ -5836,7 +5836,7 @@ extension DescribeEksAnywhereSubscriptionOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DescribeEksAnywhereSubscriptionOutput: Swift.Equatable {
+public struct DescribeEksAnywhereSubscriptionOutput {
     /// The full description of the subscription.
     public var subscription: EKSClientTypes.EksAnywhereSubscription?
 
@@ -5848,7 +5848,7 @@ public struct DescribeEksAnywhereSubscriptionOutput: Swift.Equatable {
     }
 }
 
-struct DescribeEksAnywhereSubscriptionOutputBody: Swift.Equatable {
+struct DescribeEksAnywhereSubscriptionOutputBody {
     let subscription: EKSClientTypes.EksAnywhereSubscription?
 }
 
@@ -5891,7 +5891,7 @@ extension DescribeFargateProfileInput {
     }
 }
 
-public struct DescribeFargateProfileInput: Swift.Equatable {
+public struct DescribeFargateProfileInput {
     /// The name of your cluster.
     /// This member is required.
     public var clusterName: Swift.String?
@@ -5909,7 +5909,7 @@ public struct DescribeFargateProfileInput: Swift.Equatable {
     }
 }
 
-struct DescribeFargateProfileInputBody: Swift.Equatable {
+struct DescribeFargateProfileInputBody {
 }
 
 extension DescribeFargateProfileInputBody: Swift.Decodable {
@@ -5930,7 +5930,7 @@ extension DescribeFargateProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeFargateProfileOutput: Swift.Equatable {
+public struct DescribeFargateProfileOutput {
     /// The full description of your Fargate profile.
     public var fargateProfile: EKSClientTypes.FargateProfile?
 
@@ -5942,7 +5942,7 @@ public struct DescribeFargateProfileOutput: Swift.Equatable {
     }
 }
 
-struct DescribeFargateProfileOutputBody: Swift.Equatable {
+struct DescribeFargateProfileOutputBody {
     let fargateProfile: EKSClientTypes.FargateProfile?
 }
 
@@ -5995,7 +5995,7 @@ extension DescribeIdentityProviderConfigInput {
     }
 }
 
-public struct DescribeIdentityProviderConfigInput: Swift.Equatable {
+public struct DescribeIdentityProviderConfigInput {
     /// The name of your cluster.
     /// This member is required.
     public var clusterName: Swift.String?
@@ -6013,7 +6013,7 @@ public struct DescribeIdentityProviderConfigInput: Swift.Equatable {
     }
 }
 
-struct DescribeIdentityProviderConfigInputBody: Swift.Equatable {
+struct DescribeIdentityProviderConfigInputBody {
     let identityProviderConfig: EKSClientTypes.IdentityProviderConfig?
 }
 
@@ -6041,7 +6041,7 @@ extension DescribeIdentityProviderConfigOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DescribeIdentityProviderConfigOutput: Swift.Equatable {
+public struct DescribeIdentityProviderConfigOutput {
     /// The object that represents an OpenID Connect (OIDC) identity provider configuration.
     public var identityProviderConfig: EKSClientTypes.IdentityProviderConfigResponse?
 
@@ -6053,7 +6053,7 @@ public struct DescribeIdentityProviderConfigOutput: Swift.Equatable {
     }
 }
 
-struct DescribeIdentityProviderConfigOutputBody: Swift.Equatable {
+struct DescribeIdentityProviderConfigOutputBody {
     let identityProviderConfig: EKSClientTypes.IdentityProviderConfigResponse?
 }
 
@@ -6097,7 +6097,7 @@ extension DescribeInsightInput {
     }
 }
 
-public struct DescribeInsightInput: Swift.Equatable {
+public struct DescribeInsightInput {
     /// The name of the cluster to describe the insight for.
     /// This member is required.
     public var clusterName: Swift.String?
@@ -6115,7 +6115,7 @@ public struct DescribeInsightInput: Swift.Equatable {
     }
 }
 
-struct DescribeInsightInputBody: Swift.Equatable {
+struct DescribeInsightInputBody {
 }
 
 extension DescribeInsightInputBody: Swift.Decodable {
@@ -6136,7 +6136,7 @@ extension DescribeInsightOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeInsightOutput: Swift.Equatable {
+public struct DescribeInsightOutput {
     /// The full description of the insight.
     public var insight: EKSClientTypes.Insight?
 
@@ -6148,7 +6148,7 @@ public struct DescribeInsightOutput: Swift.Equatable {
     }
 }
 
-struct DescribeInsightOutputBody: Swift.Equatable {
+struct DescribeInsightOutputBody {
     let insight: EKSClientTypes.Insight?
 }
 
@@ -6191,7 +6191,7 @@ extension DescribeNodegroupInput {
     }
 }
 
-public struct DescribeNodegroupInput: Swift.Equatable {
+public struct DescribeNodegroupInput {
     /// The name of your cluster.
     /// This member is required.
     public var clusterName: Swift.String?
@@ -6209,7 +6209,7 @@ public struct DescribeNodegroupInput: Swift.Equatable {
     }
 }
 
-struct DescribeNodegroupInputBody: Swift.Equatable {
+struct DescribeNodegroupInputBody {
 }
 
 extension DescribeNodegroupInputBody: Swift.Decodable {
@@ -6230,7 +6230,7 @@ extension DescribeNodegroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeNodegroupOutput: Swift.Equatable {
+public struct DescribeNodegroupOutput {
     /// The full description of your node group.
     public var nodegroup: EKSClientTypes.Nodegroup?
 
@@ -6242,7 +6242,7 @@ public struct DescribeNodegroupOutput: Swift.Equatable {
     }
 }
 
-struct DescribeNodegroupOutputBody: Swift.Equatable {
+struct DescribeNodegroupOutputBody {
     let nodegroup: EKSClientTypes.Nodegroup?
 }
 
@@ -6286,7 +6286,7 @@ extension DescribePodIdentityAssociationInput {
     }
 }
 
-public struct DescribePodIdentityAssociationInput: Swift.Equatable {
+public struct DescribePodIdentityAssociationInput {
     /// The ID of the association that you want the description of.
     /// This member is required.
     public var associationId: Swift.String?
@@ -6304,7 +6304,7 @@ public struct DescribePodIdentityAssociationInput: Swift.Equatable {
     }
 }
 
-struct DescribePodIdentityAssociationInputBody: Swift.Equatable {
+struct DescribePodIdentityAssociationInputBody {
 }
 
 extension DescribePodIdentityAssociationInputBody: Swift.Decodable {
@@ -6325,7 +6325,7 @@ extension DescribePodIdentityAssociationOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DescribePodIdentityAssociationOutput: Swift.Equatable {
+public struct DescribePodIdentityAssociationOutput {
     /// The full description of the EKS Pod Identity association.
     public var association: EKSClientTypes.PodIdentityAssociation?
 
@@ -6337,7 +6337,7 @@ public struct DescribePodIdentityAssociationOutput: Swift.Equatable {
     }
 }
 
-struct DescribePodIdentityAssociationOutputBody: Swift.Equatable {
+struct DescribePodIdentityAssociationOutputBody {
     let association: EKSClientTypes.PodIdentityAssociation?
 }
 
@@ -6397,7 +6397,7 @@ extension DescribeUpdateInput {
 }
 
 /// Describes an update request.
-public struct DescribeUpdateInput: Swift.Equatable {
+public struct DescribeUpdateInput {
     /// The name of the add-on. The name must match one of the names returned by [ListAddons](https://docs.aws.amazon.com/eks/latest/APIReference/API_ListAddons.html). This parameter is required if the update is an add-on update.
     public var addonName: Swift.String?
     /// The name of the Amazon EKS cluster associated with the update.
@@ -6423,7 +6423,7 @@ public struct DescribeUpdateInput: Swift.Equatable {
     }
 }
 
-struct DescribeUpdateInputBody: Swift.Equatable {
+struct DescribeUpdateInputBody {
 }
 
 extension DescribeUpdateInputBody: Swift.Decodable {
@@ -6444,7 +6444,7 @@ extension DescribeUpdateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeUpdateOutput: Swift.Equatable {
+public struct DescribeUpdateOutput {
     /// The full description of the specified update.
     public var update: EKSClientTypes.Update?
 
@@ -6456,7 +6456,7 @@ public struct DescribeUpdateOutput: Swift.Equatable {
     }
 }
 
-struct DescribeUpdateOutputBody: Swift.Equatable {
+struct DescribeUpdateOutputBody {
     let update: EKSClientTypes.Update?
 }
 
@@ -6502,7 +6502,7 @@ extension DisassociateAccessPolicyInput {
     }
 }
 
-public struct DisassociateAccessPolicyInput: Swift.Equatable {
+public struct DisassociateAccessPolicyInput {
     /// The name of your cluster.
     /// This member is required.
     public var clusterName: Swift.String?
@@ -6525,7 +6525,7 @@ public struct DisassociateAccessPolicyInput: Swift.Equatable {
     }
 }
 
-struct DisassociateAccessPolicyInputBody: Swift.Equatable {
+struct DisassociateAccessPolicyInputBody {
 }
 
 extension DisassociateAccessPolicyInputBody: Swift.Decodable {
@@ -6539,7 +6539,7 @@ extension DisassociateAccessPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateAccessPolicyOutput: Swift.Equatable {
+public struct DisassociateAccessPolicyOutput {
 
     public init() { }
 }
@@ -6584,7 +6584,7 @@ extension DisassociateIdentityProviderConfigInput {
     }
 }
 
-public struct DisassociateIdentityProviderConfigInput: Swift.Equatable {
+public struct DisassociateIdentityProviderConfigInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientRequestToken: Swift.String?
     /// The name of your cluster.
@@ -6606,7 +6606,7 @@ public struct DisassociateIdentityProviderConfigInput: Swift.Equatable {
     }
 }
 
-struct DisassociateIdentityProviderConfigInputBody: Swift.Equatable {
+struct DisassociateIdentityProviderConfigInputBody {
     let identityProviderConfig: EKSClientTypes.IdentityProviderConfig?
     let clientRequestToken: Swift.String?
 }
@@ -6638,7 +6638,7 @@ extension DisassociateIdentityProviderConfigOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct DisassociateIdentityProviderConfigOutput: Swift.Equatable {
+public struct DisassociateIdentityProviderConfigOutput {
     /// An object representing an asynchronous update.
     public var update: EKSClientTypes.Update?
 
@@ -6650,7 +6650,7 @@ public struct DisassociateIdentityProviderConfigOutput: Swift.Equatable {
     }
 }
 
-struct DisassociateIdentityProviderConfigOutputBody: Swift.Equatable {
+struct DisassociateIdentityProviderConfigOutputBody {
     let update: EKSClientTypes.Update?
 }
 
@@ -6795,7 +6795,7 @@ extension EKSClientTypes.EksAnywhereSubscription: Swift.Codable {
 
 extension EKSClientTypes {
     /// An EKS Anywhere subscription authorizing the customer to support for licensed clusters and access to EKS Anywhere Curated Packages.
-    public struct EksAnywhereSubscription: Swift.Equatable {
+    public struct EksAnywhereSubscription {
         /// The Amazon Resource Name (ARN) for the subscription.
         public var arn: Swift.String?
         /// A boolean indicating whether or not a subscription will auto renew when it expires.
@@ -6953,7 +6953,7 @@ extension EKSClientTypes.EksAnywhereSubscriptionTerm: Swift.Codable {
 
 extension EKSClientTypes {
     /// An object representing the term duration and term unit type of your subscription. This determines the term length of your subscription. Valid values are MONTHS for term unit and 12 or 36 for term duration, indicating a 12 month or 36 month subscription.
-    public struct EksAnywhereSubscriptionTerm: Swift.Equatable {
+    public struct EksAnywhereSubscriptionTerm {
         /// The duration of the subscription term. Valid values are 12 and 36, indicating a 12 month or 36 month subscription.
         public var duration: Swift.Int
         /// The term unit of the subscription. Valid value is MONTHS.
@@ -7039,7 +7039,7 @@ extension EKSClientTypes.EncryptionConfig: Swift.Codable {
 
 extension EKSClientTypes {
     /// The encryption configuration for the cluster.
-    public struct EncryptionConfig: Swift.Equatable {
+    public struct EncryptionConfig {
         /// Key Management Service (KMS) key. Either the ARN or the alias can be used.
         public var provider: EKSClientTypes.Provider?
         /// Specifies the resources to be encrypted. The only supported value is secrets.
@@ -7179,7 +7179,7 @@ extension EKSClientTypes.ErrorDetail: Swift.Codable {
 
 extension EKSClientTypes {
     /// An object representing an error when an asynchronous operation fails.
-    public struct ErrorDetail: Swift.Equatable {
+    public struct ErrorDetail {
         /// A brief description of the error.
         ///
         /// * SubnetNotFound: We couldn't find one of the subnets associated with the cluster.
@@ -7320,7 +7320,7 @@ extension EKSClientTypes.FargateProfile: Swift.Codable {
 
 extension EKSClientTypes {
     /// An object representing an Fargate profile.
-    public struct FargateProfile: Swift.Equatable {
+    public struct FargateProfile {
         /// The name of your cluster.
         public var clusterName: Swift.String?
         /// The Unix epoch timestamp at object creation.
@@ -7405,7 +7405,7 @@ extension EKSClientTypes.FargateProfileSelector: Swift.Codable {
 
 extension EKSClientTypes {
     /// An object representing an Fargate profile selector.
-    public struct FargateProfileSelector: Swift.Equatable {
+    public struct FargateProfileSelector {
         /// The Kubernetes labels that the selector should match. A pod must contain all of the labels that are specified in the selector for it to be considered a match.
         public var labels: [Swift.String:Swift.String]?
         /// The Kubernetes namespace that the selector should match.
@@ -7485,7 +7485,7 @@ extension EKSClientTypes.Identity: Swift.Codable {
 
 extension EKSClientTypes {
     /// An object representing an identity provider.
-    public struct Identity: Swift.Equatable {
+    public struct Identity {
         /// An object representing the [OpenID Connect](https://openid.net/connect/) identity provider information.
         public var oidc: EKSClientTypes.OIDC?
 
@@ -7526,7 +7526,7 @@ extension EKSClientTypes.IdentityProviderConfig: Swift.Codable {
 
 extension EKSClientTypes {
     /// An object representing an identity provider configuration.
-    public struct IdentityProviderConfig: Swift.Equatable {
+    public struct IdentityProviderConfig {
         /// The name of the identity provider configuration.
         /// This member is required.
         public var name: Swift.String?
@@ -7567,7 +7567,7 @@ extension EKSClientTypes.IdentityProviderConfigResponse: Swift.Codable {
 
 extension EKSClientTypes {
     /// The full description of your identity configuration.
-    public struct IdentityProviderConfigResponse: Swift.Equatable {
+    public struct IdentityProviderConfigResponse {
         /// An object representing an OpenID Connect (OIDC) identity provider configuration.
         public var oidc: EKSClientTypes.OidcIdentityProviderConfig?
 
@@ -7692,7 +7692,7 @@ extension EKSClientTypes.Insight: Swift.Codable {
 
 extension EKSClientTypes {
     /// A check that provides recommendations to remedy potential upgrade-impacting issues.
-    public struct Insight: Swift.Equatable {
+    public struct Insight {
         /// Links to sources that provide additional context on the insight.
         public var additionalInfo: [Swift.String:Swift.String]?
         /// The category of the insight.
@@ -7783,7 +7783,7 @@ extension EKSClientTypes.InsightCategorySpecificSummary: Swift.Codable {
 
 extension EKSClientTypes {
     /// Summary information that relates to the category of the insight. Currently only returned with certain insights having category UPGRADE_READINESS.
-    public struct InsightCategorySpecificSummary: Swift.Equatable {
+    public struct InsightCategorySpecificSummary {
         /// The summary information about deprecated resource usage for an insight check in the UPGRADE_READINESS category.
         public var deprecationDetails: [EKSClientTypes.DeprecationDetail]?
 
@@ -7830,7 +7830,7 @@ extension EKSClientTypes.InsightResourceDetail: Swift.Codable {
 
 extension EKSClientTypes {
     /// Returns information about the resource being evaluated.
-    public struct InsightResourceDetail: Swift.Equatable {
+    public struct InsightResourceDetail {
         /// The Amazon Resource Name (ARN) if applicable.
         public var arn: Swift.String?
         /// An object containing more detail on the status of the insight resource.
@@ -7879,7 +7879,7 @@ extension EKSClientTypes.InsightStatus: Swift.Codable {
 
 extension EKSClientTypes {
     /// The status of the insight.
-    public struct InsightStatus: Swift.Equatable {
+    public struct InsightStatus {
         /// Explanation on the reasoning for the status of the resource.
         public var reason: Swift.String?
         /// The status of the resource.
@@ -7998,7 +7998,7 @@ extension EKSClientTypes.InsightSummary: Swift.Codable {
 
 extension EKSClientTypes {
     /// The summarized description of the insight.
-    public struct InsightSummary: Swift.Equatable {
+    public struct InsightSummary {
         /// The category of the insight.
         public var category: EKSClientTypes.Category?
         /// The description of the insight which includes alert criteria, remediation recommendation, and additional resources (contains Markdown).
@@ -8109,7 +8109,7 @@ extension EKSClientTypes.InsightsFilter: Swift.Codable {
 
 extension EKSClientTypes {
     /// The criteria to use for the insights.
-    public struct InsightsFilter: Swift.Equatable {
+    public struct InsightsFilter {
         /// The categories to use to filter insights.
         public var categories: [EKSClientTypes.Category]?
         /// The Kubernetes versions to use to filter the insights.
@@ -8201,7 +8201,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidParameterExceptionBody: Swift.Equatable {
+struct InvalidParameterExceptionBody {
     let clusterName: Swift.String?
     let nodegroupName: Swift.String?
     let fargateProfileName: Swift.String?
@@ -8301,7 +8301,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InvalidRequestExceptionBody: Swift.Equatable {
+struct InvalidRequestExceptionBody {
     let clusterName: Swift.String?
     let nodegroupName: Swift.String?
     let addonName: Swift.String?
@@ -8410,7 +8410,7 @@ extension EKSClientTypes.Issue: Swift.Codable {
 
 extension EKSClientTypes {
     /// An object representing an issue with an Amazon EKS resource.
-    public struct Issue: Swift.Equatable {
+    public struct Issue {
         /// A brief description of the error.
         ///
         /// * AccessDenied: Amazon EKS or one or more of your managed nodes is failing to authenticate or authorize with your Kubernetes cluster API server.
@@ -8489,7 +8489,7 @@ extension EKSClientTypes.KubernetesNetworkConfigRequest: Swift.Codable {
 
 extension EKSClientTypes {
     /// The Kubernetes network configuration for the cluster.
-    public struct KubernetesNetworkConfigRequest: Swift.Equatable {
+    public struct KubernetesNetworkConfigRequest {
         /// Specify which IP family is used to assign Kubernetes pod and service IP addresses. If you don't specify a value, ipv4 is used by default. You can only specify an IP family when you create a cluster and can't change this value once the cluster is created. If you specify ipv6, the VPC and subnets that you specify for cluster creation must have both IPv4 and IPv6 CIDR blocks assigned to them. You can't specify ipv6 for clusters in China Regions. You can only specify ipv6 for 1.21 and later clusters that use version 1.10.1 or later of the Amazon VPC CNI add-on. If you specify ipv6, then ensure that your VPC meets the requirements listed in the considerations listed in [Assigning IPv6 addresses to pods and services](https://docs.aws.amazon.com/eks/latest/userguide/cni-ipv6.html) in the Amazon EKS User Guide. Kubernetes assigns services IPv6 addresses from the unique local address range (fc00::/7). You can't specify a custom IPv6 CIDR block. Pod addresses are assigned from the subnet's IPv6 CIDR.
         public var ipFamily: EKSClientTypes.IpFamily?
         /// Don't specify a value if you select ipv6 for ipFamily. The CIDR block to assign Kubernetes service IP addresses from. If you don't specify a block, Kubernetes assigns addresses from either the 10.100.0.0/16 or 172.20.0.0/16 CIDR blocks. We recommend that you specify a block that does not overlap with resources in other networks that are peered or connected to your VPC. The block must meet the following requirements:
@@ -8549,7 +8549,7 @@ extension EKSClientTypes.KubernetesNetworkConfigResponse: Swift.Codable {
 
 extension EKSClientTypes {
     /// The Kubernetes network configuration for the cluster. The response contains a value for serviceIpv6Cidr or serviceIpv4Cidr, but not both.
-    public struct KubernetesNetworkConfigResponse: Swift.Equatable {
+    public struct KubernetesNetworkConfigResponse {
         /// The IP family used to assign Kubernetes Pod and Service objects IP addresses. The IP family is always ipv4, unless you have a 1.21 or later cluster running version 1.10.1 or later of the Amazon VPC CNI plugin for Kubernetes and specified ipv6 when you created the cluster.
         public var ipFamily: EKSClientTypes.IpFamily?
         /// The CIDR block that Kubernetes Pod and Service object IP addresses are assigned from. Kubernetes assigns addresses from an IPv4 CIDR block assigned to a subnet that the node is in. If you didn't specify a CIDR block when you created the cluster, then Kubernetes assigns addresses from either the 10.100.0.0/16 or 172.20.0.0/16 CIDR blocks. If this was specified, then it was specified when the cluster was created and it can't be changed.
@@ -8604,7 +8604,7 @@ extension EKSClientTypes.LaunchTemplateSpecification: Swift.Codable {
 
 extension EKSClientTypes {
     /// An object representing a node group launch template specification. The launch template can't include [SubnetId](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateNetworkInterface.html), [IamInstanceProfile](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_IamInstanceProfile.html), [RequestSpotInstances](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_RequestSpotInstances.html), [HibernationOptions](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_HibernationOptionsRequest.html), or [TerminateInstances](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_TerminateInstances.html), or the node group deployment or update will fail. For more information about launch templates, see [CreateLaunchTemplate](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateLaunchTemplate.html) in the Amazon EC2 API Reference. For more information about using launch templates with Amazon EKS, see [Launch template support](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html) in the Amazon EKS User Guide. You must specify either the launch template ID or the launch template name in the request, but not both.
-    public struct LaunchTemplateSpecification: Swift.Equatable {
+    public struct LaunchTemplateSpecification {
         /// The ID of the launch template. You must specify either the launch template ID or the launch template name in the request, but not both.
         public var id: Swift.String?
         /// The name of the launch template. You must specify either the launch template name or the launch template ID in the request, but not both.
@@ -8656,7 +8656,7 @@ extension ListAccessEntriesInput {
     }
 }
 
-public struct ListAccessEntriesInput: Swift.Equatable {
+public struct ListAccessEntriesInput {
     /// The ARN of an AccessPolicy. When you specify an access policy ARN, only the access entries associated to that access policy are returned. For a list of available policy ARNs, use ListAccessPolicies.
     public var associatedPolicyArn: Swift.String?
     /// The name of your cluster.
@@ -8681,7 +8681,7 @@ public struct ListAccessEntriesInput: Swift.Equatable {
     }
 }
 
-struct ListAccessEntriesInputBody: Swift.Equatable {
+struct ListAccessEntriesInputBody {
 }
 
 extension ListAccessEntriesInputBody: Swift.Decodable {
@@ -8704,7 +8704,7 @@ extension ListAccessEntriesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAccessEntriesOutput: Swift.Equatable {
+public struct ListAccessEntriesOutput {
     /// The list of access entries that exist for the cluster.
     public var accessEntries: [Swift.String]?
     /// The nextToken value returned from a previous paginated request, where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
@@ -8720,7 +8720,7 @@ public struct ListAccessEntriesOutput: Swift.Equatable {
     }
 }
 
-struct ListAccessEntriesOutputBody: Swift.Equatable {
+struct ListAccessEntriesOutputBody {
     let accessEntries: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -8786,7 +8786,7 @@ extension ListAccessPoliciesInput {
     }
 }
 
-public struct ListAccessPoliciesInput: Swift.Equatable {
+public struct ListAccessPoliciesInput {
     /// The maximum number of results, returned in paginated output. You receive maxResults in a single page, along with a nextToken response element. You can see the remaining results of the initial request by sending another request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, 100 results and a nextToken value, if applicable, are returned.
     public var maxResults: Swift.Int?
     /// The nextToken value returned from a previous paginated request, where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
@@ -8802,7 +8802,7 @@ public struct ListAccessPoliciesInput: Swift.Equatable {
     }
 }
 
-struct ListAccessPoliciesInputBody: Swift.Equatable {
+struct ListAccessPoliciesInputBody {
 }
 
 extension ListAccessPoliciesInputBody: Swift.Decodable {
@@ -8825,7 +8825,7 @@ extension ListAccessPoliciesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAccessPoliciesOutput: Swift.Equatable {
+public struct ListAccessPoliciesOutput {
     /// The list of available access policies. You can't view the contents of an access policy using the API. To view the contents, see [Access policy permissions](https://docs.aws.amazon.com/eks/latest/userguide/access-policies.html#access-policy-permissions) in the Amazon EKS User Guide.
     public var accessPolicies: [EKSClientTypes.AccessPolicy]?
     /// The nextToken value returned from a previous paginated request, where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
@@ -8841,7 +8841,7 @@ public struct ListAccessPoliciesOutput: Swift.Equatable {
     }
 }
 
-struct ListAccessPoliciesOutputBody: Swift.Equatable {
+struct ListAccessPoliciesOutputBody {
     let accessPolicies: [EKSClientTypes.AccessPolicy]?
     let nextToken: Swift.String?
 }
@@ -8907,7 +8907,7 @@ extension ListAddonsInput {
     }
 }
 
-public struct ListAddonsInput: Swift.Equatable {
+public struct ListAddonsInput {
     /// The name of your cluster.
     /// This member is required.
     public var clusterName: Swift.String?
@@ -8928,7 +8928,7 @@ public struct ListAddonsInput: Swift.Equatable {
     }
 }
 
-struct ListAddonsInputBody: Swift.Equatable {
+struct ListAddonsInputBody {
 }
 
 extension ListAddonsInputBody: Swift.Decodable {
@@ -8951,7 +8951,7 @@ extension ListAddonsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAddonsOutput: Swift.Equatable {
+public struct ListAddonsOutput {
     /// A list of installed add-ons.
     public var addons: [Swift.String]?
     /// The nextToken value to include in a future ListAddons request. When the results of a ListAddons request exceed maxResults, you can use this value to retrieve the next page of results. This value is null when there are no more results to return. This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
@@ -8967,7 +8967,7 @@ public struct ListAddonsOutput: Swift.Equatable {
     }
 }
 
-struct ListAddonsOutputBody: Swift.Equatable {
+struct ListAddonsOutputBody {
     let addons: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -9040,7 +9040,7 @@ extension ListAssociatedAccessPoliciesInput {
     }
 }
 
-public struct ListAssociatedAccessPoliciesInput: Swift.Equatable {
+public struct ListAssociatedAccessPoliciesInput {
     /// The name of your cluster.
     /// This member is required.
     public var clusterName: Swift.String?
@@ -9066,7 +9066,7 @@ public struct ListAssociatedAccessPoliciesInput: Swift.Equatable {
     }
 }
 
-struct ListAssociatedAccessPoliciesInputBody: Swift.Equatable {
+struct ListAssociatedAccessPoliciesInputBody {
 }
 
 extension ListAssociatedAccessPoliciesInputBody: Swift.Decodable {
@@ -9093,7 +9093,7 @@ extension ListAssociatedAccessPoliciesOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListAssociatedAccessPoliciesOutput: Swift.Equatable {
+public struct ListAssociatedAccessPoliciesOutput {
     /// The list of access policies associated with the access entry.
     public var associatedAccessPolicies: [EKSClientTypes.AssociatedAccessPolicy]?
     /// The name of your cluster.
@@ -9117,7 +9117,7 @@ public struct ListAssociatedAccessPoliciesOutput: Swift.Equatable {
     }
 }
 
-struct ListAssociatedAccessPoliciesOutputBody: Swift.Equatable {
+struct ListAssociatedAccessPoliciesOutputBody {
     let clusterName: Swift.String?
     let principalArn: Swift.String?
     let nextToken: Swift.String?
@@ -9196,7 +9196,7 @@ extension ListClustersInput {
     }
 }
 
-public struct ListClustersInput: Swift.Equatable {
+public struct ListClustersInput {
     /// Indicates whether external clusters are included in the returned list. Use 'all' to return [https://docs.aws.amazon.com/eks/latest/userguide/eks-connector.html](https://docs.aws.amazon.com/eks/latest/userguide/eks-connector.html)connected clusters, or blank to return only Amazon EKS clusters. 'all' must be in lowercase otherwise an error occurs.
     public var include: [Swift.String]?
     /// The maximum number of results, returned in paginated output. You receive maxResults in a single page, along with a nextToken response element. You can see the remaining results of the initial request by sending another request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, 100 results and a nextToken value, if applicable, are returned.
@@ -9216,7 +9216,7 @@ public struct ListClustersInput: Swift.Equatable {
     }
 }
 
-struct ListClustersInputBody: Swift.Equatable {
+struct ListClustersInputBody {
 }
 
 extension ListClustersInputBody: Swift.Decodable {
@@ -9239,7 +9239,7 @@ extension ListClustersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListClustersOutput: Swift.Equatable {
+public struct ListClustersOutput {
     /// A list of all of the clusters for your account in the specified Amazon Web Services Region.
     public var clusters: [Swift.String]?
     /// The nextToken value returned from a previous paginated request, where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
@@ -9255,7 +9255,7 @@ public struct ListClustersOutput: Swift.Equatable {
     }
 }
 
-struct ListClustersOutputBody: Swift.Equatable {
+struct ListClustersOutputBody {
     let clusters: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -9327,7 +9327,7 @@ extension ListEksAnywhereSubscriptionsInput {
     }
 }
 
-public struct ListEksAnywhereSubscriptionsInput: Swift.Equatable {
+public struct ListEksAnywhereSubscriptionsInput {
     /// An array of subscription statuses to filter on.
     public var includeStatus: [EKSClientTypes.EksAnywhereSubscriptionStatus]?
     /// The maximum number of cluster results returned by ListEksAnywhereSubscriptions in paginated output. When you use this parameter, ListEksAnywhereSubscriptions returns only maxResults results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListEksAnywhereSubscriptions request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListEksAnywhereSubscriptions returns up to 10 results and a nextToken value if applicable.
@@ -9347,7 +9347,7 @@ public struct ListEksAnywhereSubscriptionsInput: Swift.Equatable {
     }
 }
 
-struct ListEksAnywhereSubscriptionsInputBody: Swift.Equatable {
+struct ListEksAnywhereSubscriptionsInputBody {
 }
 
 extension ListEksAnywhereSubscriptionsInputBody: Swift.Decodable {
@@ -9370,7 +9370,7 @@ extension ListEksAnywhereSubscriptionsOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListEksAnywhereSubscriptionsOutput: Swift.Equatable {
+public struct ListEksAnywhereSubscriptionsOutput {
     /// The nextToken value to include in a future ListEksAnywhereSubscriptions request. When the results of a ListEksAnywhereSubscriptions request exceed maxResults, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
     /// A list of all subscription objects in the region, filtered by includeStatus and paginated by nextToken and maxResults.
@@ -9386,7 +9386,7 @@ public struct ListEksAnywhereSubscriptionsOutput: Swift.Equatable {
     }
 }
 
-struct ListEksAnywhereSubscriptionsOutputBody: Swift.Equatable {
+struct ListEksAnywhereSubscriptionsOutputBody {
     let subscriptions: [EKSClientTypes.EksAnywhereSubscription]?
     let nextToken: Swift.String?
 }
@@ -9455,7 +9455,7 @@ extension ListFargateProfilesInput {
     }
 }
 
-public struct ListFargateProfilesInput: Swift.Equatable {
+public struct ListFargateProfilesInput {
     /// The name of your cluster.
     /// This member is required.
     public var clusterName: Swift.String?
@@ -9476,7 +9476,7 @@ public struct ListFargateProfilesInput: Swift.Equatable {
     }
 }
 
-struct ListFargateProfilesInputBody: Swift.Equatable {
+struct ListFargateProfilesInputBody {
 }
 
 extension ListFargateProfilesInputBody: Swift.Decodable {
@@ -9499,7 +9499,7 @@ extension ListFargateProfilesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFargateProfilesOutput: Swift.Equatable {
+public struct ListFargateProfilesOutput {
     /// A list of all of the Fargate profiles associated with the specified cluster.
     public var fargateProfileNames: [Swift.String]?
     /// The nextToken value returned from a previous paginated request, where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
@@ -9515,7 +9515,7 @@ public struct ListFargateProfilesOutput: Swift.Equatable {
     }
 }
 
-struct ListFargateProfilesOutputBody: Swift.Equatable {
+struct ListFargateProfilesOutputBody {
     let fargateProfileNames: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -9584,7 +9584,7 @@ extension ListIdentityProviderConfigsInput {
     }
 }
 
-public struct ListIdentityProviderConfigsInput: Swift.Equatable {
+public struct ListIdentityProviderConfigsInput {
     /// The name of your cluster.
     /// This member is required.
     public var clusterName: Swift.String?
@@ -9605,7 +9605,7 @@ public struct ListIdentityProviderConfigsInput: Swift.Equatable {
     }
 }
 
-struct ListIdentityProviderConfigsInputBody: Swift.Equatable {
+struct ListIdentityProviderConfigsInputBody {
 }
 
 extension ListIdentityProviderConfigsInputBody: Swift.Decodable {
@@ -9628,7 +9628,7 @@ extension ListIdentityProviderConfigsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListIdentityProviderConfigsOutput: Swift.Equatable {
+public struct ListIdentityProviderConfigsOutput {
     /// The identity provider configurations for the cluster.
     public var identityProviderConfigs: [EKSClientTypes.IdentityProviderConfig]?
     /// The nextToken value to include in a future ListIdentityProviderConfigsResponse request. When the results of a ListIdentityProviderConfigsResponse request exceed maxResults, you can use this value to retrieve the next page of results. This value is null when there are no more results to return. This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
@@ -9644,7 +9644,7 @@ public struct ListIdentityProviderConfigsOutput: Swift.Equatable {
     }
 }
 
-struct ListIdentityProviderConfigsOutputBody: Swift.Equatable {
+struct ListIdentityProviderConfigsOutputBody {
     let identityProviderConfigs: [EKSClientTypes.IdentityProviderConfig]?
     let nextToken: Swift.String?
 }
@@ -9719,7 +9719,7 @@ extension ListInsightsInput {
     }
 }
 
-public struct ListInsightsInput: Swift.Equatable {
+public struct ListInsightsInput {
     /// The name of the Amazon EKS cluster associated with the insights.
     /// This member is required.
     public var clusterName: Swift.String?
@@ -9744,7 +9744,7 @@ public struct ListInsightsInput: Swift.Equatable {
     }
 }
 
-struct ListInsightsInputBody: Swift.Equatable {
+struct ListInsightsInputBody {
     let filter: EKSClientTypes.InsightsFilter?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -9782,7 +9782,7 @@ extension ListInsightsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListInsightsOutput: Swift.Equatable {
+public struct ListInsightsOutput {
     /// The returned list of insights.
     public var insights: [EKSClientTypes.InsightSummary]?
     /// The nextToken value to include in a future ListInsights request. When the results of a ListInsights request exceed maxResults, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
@@ -9798,7 +9798,7 @@ public struct ListInsightsOutput: Swift.Equatable {
     }
 }
 
-struct ListInsightsOutputBody: Swift.Equatable {
+struct ListInsightsOutputBody {
     let insights: [EKSClientTypes.InsightSummary]?
     let nextToken: Swift.String?
 }
@@ -9867,7 +9867,7 @@ extension ListNodegroupsInput {
     }
 }
 
-public struct ListNodegroupsInput: Swift.Equatable {
+public struct ListNodegroupsInput {
     /// The name of your cluster.
     /// This member is required.
     public var clusterName: Swift.String?
@@ -9888,7 +9888,7 @@ public struct ListNodegroupsInput: Swift.Equatable {
     }
 }
 
-struct ListNodegroupsInputBody: Swift.Equatable {
+struct ListNodegroupsInputBody {
 }
 
 extension ListNodegroupsInputBody: Swift.Decodable {
@@ -9911,7 +9911,7 @@ extension ListNodegroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListNodegroupsOutput: Swift.Equatable {
+public struct ListNodegroupsOutput {
     /// The nextToken value returned from a previous paginated request, where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
     public var nextToken: Swift.String?
     /// A list of all of the node groups associated with the specified cluster.
@@ -9927,7 +9927,7 @@ public struct ListNodegroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListNodegroupsOutputBody: Swift.Equatable {
+struct ListNodegroupsOutputBody {
     let nodegroups: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -10005,7 +10005,7 @@ extension ListPodIdentityAssociationsInput {
     }
 }
 
-public struct ListPodIdentityAssociationsInput: Swift.Equatable {
+public struct ListPodIdentityAssociationsInput {
     /// The name of the cluster that the associations are in.
     /// This member is required.
     public var clusterName: Swift.String?
@@ -10034,7 +10034,7 @@ public struct ListPodIdentityAssociationsInput: Swift.Equatable {
     }
 }
 
-struct ListPodIdentityAssociationsInputBody: Swift.Equatable {
+struct ListPodIdentityAssociationsInputBody {
 }
 
 extension ListPodIdentityAssociationsInputBody: Swift.Decodable {
@@ -10057,7 +10057,7 @@ extension ListPodIdentityAssociationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPodIdentityAssociationsOutput: Swift.Equatable {
+public struct ListPodIdentityAssociationsOutput {
     /// The list of summarized descriptions of the associations that are in the cluster and match any filters that you provided. Each summary is simplified by removing these fields compared to the full [PodIdentityAssociation]:
     ///
     /// * The IAM role: roleArn
@@ -10081,7 +10081,7 @@ public struct ListPodIdentityAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct ListPodIdentityAssociationsOutputBody: Swift.Equatable {
+struct ListPodIdentityAssociationsOutputBody {
     let associations: [EKSClientTypes.PodIdentityAssociationSummary]?
     let nextToken: Swift.String?
 }
@@ -10134,7 +10134,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) that identifies the resource to list tags for.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -10147,7 +10147,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -10168,7 +10168,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The tags for the resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -10180,7 +10180,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -10251,7 +10251,7 @@ extension ListUpdatesInput {
     }
 }
 
-public struct ListUpdatesInput: Swift.Equatable {
+public struct ListUpdatesInput {
     /// The names of the installed add-ons that have available updates.
     public var addonName: Swift.String?
     /// The maximum number of results, returned in paginated output. You receive maxResults in a single page, along with a nextToken response element. You can see the remaining results of the initial request by sending another request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, 100 results and a nextToken value, if applicable, are returned.
@@ -10280,7 +10280,7 @@ public struct ListUpdatesInput: Swift.Equatable {
     }
 }
 
-struct ListUpdatesInputBody: Swift.Equatable {
+struct ListUpdatesInputBody {
 }
 
 extension ListUpdatesInputBody: Swift.Decodable {
@@ -10303,7 +10303,7 @@ extension ListUpdatesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListUpdatesOutput: Swift.Equatable {
+public struct ListUpdatesOutput {
     /// The nextToken value returned from a previous paginated request, where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
     public var nextToken: Swift.String?
     /// A list of all the updates for the specified cluster and Region.
@@ -10319,7 +10319,7 @@ public struct ListUpdatesOutput: Swift.Equatable {
     }
 }
 
-struct ListUpdatesOutputBody: Swift.Equatable {
+struct ListUpdatesOutputBody {
     let updateIds: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -10401,7 +10401,7 @@ extension EKSClientTypes.LogSetup: Swift.Codable {
 
 extension EKSClientTypes {
     /// An object representing the enabled or disabled Kubernetes control plane logs for your cluster.
-    public struct LogSetup: Swift.Equatable {
+    public struct LogSetup {
         /// If a log type is enabled, that log type exports its control plane logs to CloudWatch Logs. If a log type isn't enabled, that log type doesn't export its control plane logs. Each individual log type can be enabled or disabled independently.
         public var enabled: Swift.Bool?
         /// The available cluster control plane log types.
@@ -10493,7 +10493,7 @@ extension EKSClientTypes.Logging: Swift.Codable {
 
 extension EKSClientTypes {
     /// An object representing the logging configuration for resources in your cluster.
-    public struct Logging: Swift.Equatable {
+    public struct Logging {
         /// The cluster control plane logging configuration for your cluster.
         public var clusterLogging: [EKSClientTypes.LogSetup]?
 
@@ -10534,7 +10534,7 @@ extension EKSClientTypes.MarketplaceInformation: Swift.Codable {
 
 extension EKSClientTypes {
     /// Information about an Amazon EKS add-on from the Amazon Web Services Marketplace.
-    public struct MarketplaceInformation: Swift.Equatable {
+    public struct MarketplaceInformation {
         /// The product ID from the Amazon Web Services Marketplace.
         public var productId: Swift.String?
         /// The product URL from the Amazon Web Services Marketplace.
@@ -10765,7 +10765,7 @@ extension EKSClientTypes.Nodegroup: Swift.Codable {
 
 extension EKSClientTypes {
     /// An object representing an Amazon EKS managed node group.
-    public struct Nodegroup: Swift.Equatable {
+    public struct Nodegroup {
         /// If the node group was deployed using a launch template with a custom AMI, then this is CUSTOM. For node groups that weren't deployed using a launch template, this is the AMI type that was specified in the node group configuration.
         public var amiType: EKSClientTypes.AMITypes?
         /// The capacity type of your managed node group.
@@ -10900,7 +10900,7 @@ extension EKSClientTypes.NodegroupHealth: Swift.Codable {
 
 extension EKSClientTypes {
     /// An object representing the health status of the node group.
-    public struct NodegroupHealth: Swift.Equatable {
+    public struct NodegroupHealth {
         /// Any issues that are associated with the node group.
         public var issues: [EKSClientTypes.Issue]?
 
@@ -11084,7 +11084,7 @@ extension EKSClientTypes.NodegroupResources: Swift.Codable {
 
 extension EKSClientTypes {
     /// An object representing the resources associated with the node group, such as Auto Scaling groups and security groups for remote access.
-    public struct NodegroupResources: Swift.Equatable {
+    public struct NodegroupResources {
         /// The Auto Scaling groups associated with the node group.
         public var autoScalingGroups: [EKSClientTypes.AutoScalingGroup]?
         /// The remote access security group associated with the node group. This security group controls SSH access to the nodes.
@@ -11135,7 +11135,7 @@ extension EKSClientTypes.NodegroupScalingConfig: Swift.Codable {
 
 extension EKSClientTypes {
     /// An object representing the scaling configuration details for the Auto Scaling group that is associated with your node group. When creating a node group, you must specify all or none of the properties. When updating a node group, you can specify any or none of the properties.
-    public struct NodegroupScalingConfig: Swift.Equatable {
+    public struct NodegroupScalingConfig {
         /// The current number of nodes that the managed node group should maintain. If you use the Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler#kubernetes-autoscaler), you shouldn't change the desiredSize value directly, as this can cause the Cluster Autoscaler to suddenly scale up or scale down. Whenever this parameter changes, the number of worker nodes in the node group is updated to the specified size. If this parameter is given a value that is smaller than the current number of running worker nodes, the necessary number of worker nodes are terminated to match the given value. When using CloudFormation, no action occurs if you remove this parameter from your CFN template. This parameter can be different from minSize in some cases, such as when starting with extra hosts for testing. This parameter can also be different when you want to start with an estimated number of needed hosts, but let the Cluster Autoscaler reduce the number if there are too many. When the Cluster Autoscaler is used, the desiredSize parameter is altered by the Cluster Autoscaler (but can be out-of-date for short periods of time). the Cluster Autoscaler doesn't scale a managed node group lower than minSize or higher than maxSize.
         public var desiredSize: Swift.Int?
         /// The maximum number of nodes that the managed node group can scale out to. For information about the maximum number that you can specify, see [Amazon EKS service quotas](https://docs.aws.amazon.com/eks/latest/userguide/service-quotas.html) in the Amazon EKS User Guide.
@@ -11231,7 +11231,7 @@ extension EKSClientTypes.NodegroupUpdateConfig: Swift.Codable {
 
 extension EKSClientTypes {
     /// The node group update configuration.
-    public struct NodegroupUpdateConfig: Swift.Equatable {
+    public struct NodegroupUpdateConfig {
         /// The maximum number of nodes unavailable at once during a version update. Nodes are updated in parallel. This value or maxUnavailablePercentage is required to have a value.The maximum number is 100.
         public var maxUnavailable: Swift.Int?
         /// The maximum percentage of nodes unavailable during a version update. This percentage of nodes are updated in parallel, up to 100 nodes at once. This value or maxUnavailable is required to have a value.
@@ -11289,7 +11289,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct NotFoundExceptionBody: Swift.Equatable {
+struct NotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -11326,7 +11326,7 @@ extension EKSClientTypes.OIDC: Swift.Codable {
 
 extension EKSClientTypes {
     /// An object representing the [OpenID Connect](https://openid.net/connect/) (OIDC) identity provider information for the cluster.
-    public struct OIDC: Swift.Equatable {
+    public struct OIDC {
         /// The issuer URL for the OIDC identity provider.
         public var issuer: Swift.String?
 
@@ -11451,7 +11451,7 @@ extension EKSClientTypes.OidcIdentityProviderConfig: Swift.Codable {
 
 extension EKSClientTypes {
     /// An object representing the configuration for an OpenID Connect (OIDC) identity provider.
-    public struct OidcIdentityProviderConfig: Swift.Equatable {
+    public struct OidcIdentityProviderConfig {
         /// This is also known as audience. The ID of the client application that makes authentication requests to the OIDC identity provider.
         public var clientId: Swift.String?
         /// The name of your cluster.
@@ -11584,7 +11584,7 @@ extension EKSClientTypes.OidcIdentityProviderConfigRequest: Swift.Codable {
 
 extension EKSClientTypes {
     /// An object representing an OpenID Connect (OIDC) configuration. Before associating an OIDC identity provider to your cluster, review the considerations in [Authenticating users for your cluster from an OIDC identity provider](https://docs.aws.amazon.com/eks/latest/userguide/authenticate-oidc-identity-provider.html) in the Amazon EKS User Guide.
-    public struct OidcIdentityProviderConfigRequest: Swift.Equatable {
+    public struct OidcIdentityProviderConfigRequest {
         /// This is also known as audience. The ID for the client application that makes authentication requests to the OIDC identity provider.
         /// This member is required.
         public var clientId: Swift.String?
@@ -11674,7 +11674,7 @@ extension EKSClientTypes.OutpostConfigRequest: Swift.Codable {
 
 extension EKSClientTypes {
     /// The configuration of your local Amazon EKS cluster on an Amazon Web Services Outpost. Before creating a cluster on an Outpost, review [Creating a local cluster on an Outpost](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-local-cluster-create.html) in the Amazon EKS User Guide. This API isn't available for Amazon EKS clusters on the Amazon Web Services cloud.
-    public struct OutpostConfigRequest: Swift.Equatable {
+    public struct OutpostConfigRequest {
         /// The Amazon EC2 instance type that you want to use for your local Amazon EKS cluster on Outposts. Choose an instance type based on the number of nodes that your cluster will have. For more information, see [Capacity considerations](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-capacity-considerations.html) in the Amazon EKS User Guide. The instance type that you specify is used for all Kubernetes control plane instances. The instance type can't be changed after cluster creation. The control plane is not automatically scaled by Amazon EKS.
         /// This member is required.
         public var controlPlaneInstanceType: Swift.String?
@@ -11743,7 +11743,7 @@ extension EKSClientTypes.OutpostConfigResponse: Swift.Codable {
 
 extension EKSClientTypes {
     /// An object representing the configuration of your local Amazon EKS cluster on an Amazon Web Services Outpost. This API isn't available for Amazon EKS clusters on the Amazon Web Services cloud.
-    public struct OutpostConfigResponse: Swift.Equatable {
+    public struct OutpostConfigResponse {
         /// The Amazon EC2 instance type used for the control plane. The instance type is the same for all control plane instances.
         /// This member is required.
         public var controlPlaneInstanceType: Swift.String?
@@ -11848,7 +11848,7 @@ extension EKSClientTypes.PodIdentityAssociation: Swift.Codable {
 
 extension EKSClientTypes {
     /// Amazon EKS Pod Identity associations provide the ability to manage credentials for your applications, similar to the way that Amazon EC2 instance profiles provide credentials to Amazon EC2 instances.
-    public struct PodIdentityAssociation: Swift.Equatable {
+    public struct PodIdentityAssociation {
         /// The Amazon Resource Name (ARN) of the association.
         public var associationArn: Swift.String?
         /// The ID of the association.
@@ -11961,7 +11961,7 @@ extension EKSClientTypes {
     /// * The most recent timestamp that the association was modified at:. modifiedAt
     ///
     /// * The tags on the association: tags
-    public struct PodIdentityAssociationSummary: Swift.Equatable {
+    public struct PodIdentityAssociationSummary {
         /// The Amazon Resource Name (ARN) of the association.
         public var associationArn: Swift.String?
         /// The ID of the association.
@@ -12012,7 +12012,7 @@ extension EKSClientTypes.Provider: Swift.Codable {
 
 extension EKSClientTypes {
     /// Identifies the Key Management Service (KMS) key used to encrypt the secrets.
-    public struct Provider: Swift.Equatable {
+    public struct Provider {
         /// Amazon Resource Name (ARN) or alias of the KMS key. The KMS key must be symmetric and created in the same Amazon Web Services Region as the cluster. If the KMS key was created in a different account, the [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) must have access to the KMS key. For more information, see [Allowing users in other accounts to use a KMS key](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-modifying-external-accounts.html) in the Key Management Service Developer Guide.
         public var keyArn: Swift.String?
 
@@ -12061,7 +12061,7 @@ extension RegisterClusterInput {
     }
 }
 
-public struct RegisterClusterInput: Swift.Equatable {
+public struct RegisterClusterInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientRequestToken: Swift.String?
     /// The configuration settings required to connect the Kubernetes cluster to the Amazon EKS control plane.
@@ -12087,7 +12087,7 @@ public struct RegisterClusterInput: Swift.Equatable {
     }
 }
 
-struct RegisterClusterInputBody: Swift.Equatable {
+struct RegisterClusterInputBody {
     let name: Swift.String?
     let connectorConfig: EKSClientTypes.ConnectorConfigRequest?
     let clientRequestToken: Swift.String?
@@ -12136,7 +12136,7 @@ extension RegisterClusterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RegisterClusterOutput: Swift.Equatable {
+public struct RegisterClusterOutput {
     /// An object representing an Amazon EKS cluster.
     public var cluster: EKSClientTypes.Cluster?
 
@@ -12148,7 +12148,7 @@ public struct RegisterClusterOutput: Swift.Equatable {
     }
 }
 
-struct RegisterClusterOutputBody: Swift.Equatable {
+struct RegisterClusterOutputBody {
     let cluster: EKSClientTypes.Cluster?
 }
 
@@ -12221,7 +12221,7 @@ extension EKSClientTypes.RemoteAccessConfig: Swift.Codable {
 
 extension EKSClientTypes {
     /// An object representing the remote access configuration for the managed node group.
-    public struct RemoteAccessConfig: Swift.Equatable {
+    public struct RemoteAccessConfig {
         /// The Amazon EC2 SSH key name that provides access for SSH communication with the nodes in the managed node group. For more information, see [Amazon EC2 key pairs and Linux instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the Amazon Elastic Compute Cloud User Guide for Linux Instances. For Windows, an Amazon EC2 SSH key is used to obtain the RDP password. For more information, see [Amazon EC2 key pairs and Windows instances](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2-key-pairs.html) in the Amazon Elastic Compute Cloud User Guide for Windows Instances.
         public var ec2SshKey: Swift.String?
         /// The security group IDs that are allowed SSH access (port 22) to the nodes. For Windows, the port is 3389. If you specify an Amazon EC2 SSH key but don't specify a source security group when you create a managed node group, then the port on the nodes is opened to the internet (0.0.0.0/0). For more information, see [Security Groups for Your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html) in the Amazon Virtual Private Cloud User Guide.
@@ -12332,7 +12332,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ResourceInUseExceptionBody: Swift.Equatable {
+struct ResourceInUseExceptionBody {
     let clusterName: Swift.String?
     let nodegroupName: Swift.String?
     let addonName: Swift.String?
@@ -12418,7 +12418,7 @@ public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct ResourceLimitExceededExceptionBody: Swift.Equatable {
+struct ResourceLimitExceededExceptionBody {
     let clusterName: Swift.String?
     let nodegroupName: Swift.String?
     let subscriptionId: Swift.String?
@@ -12516,7 +12516,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let clusterName: Swift.String?
     let nodegroupName: Swift.String?
     let fargateProfileName: Swift.String?
@@ -12592,7 +12592,7 @@ public struct ResourcePropagationDelayException: ClientRuntime.ModeledError, AWS
     }
 }
 
-struct ResourcePropagationDelayExceptionBody: Swift.Equatable {
+struct ResourcePropagationDelayExceptionBody {
     let message: Swift.String?
 }
 
@@ -12672,7 +12672,7 @@ public struct ServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     }
 }
 
-struct ServerExceptionBody: Swift.Equatable {
+struct ServerExceptionBody {
     let clusterName: Swift.String?
     let nodegroupName: Swift.String?
     let addonName: Swift.String?
@@ -12744,7 +12744,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct ServiceUnavailableExceptionBody: Swift.Equatable {
+struct ServiceUnavailableExceptionBody {
     let message: Swift.String?
 }
 
@@ -12786,7 +12786,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource to add tags to.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -12804,7 +12804,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -12834,7 +12834,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -12884,7 +12884,7 @@ extension EKSClientTypes.Taint: Swift.Codable {
 
 extension EKSClientTypes {
     /// A property that allows a node to repel a Pod. For more information, see [Node taints on managed node groups](https://docs.aws.amazon.com/eks/latest/userguide/node-taints-managed-node-groups.html) in the Amazon EKS User Guide.
-    public struct Taint: Swift.Equatable {
+    public struct Taint {
         /// The effect of the taint.
         public var effect: EKSClientTypes.TaintEffect?
         /// The key of the taint.
@@ -12999,7 +12999,7 @@ public struct UnsupportedAvailabilityZoneException: ClientRuntime.ModeledError, 
     }
 }
 
-struct UnsupportedAvailabilityZoneExceptionBody: Swift.Equatable {
+struct UnsupportedAvailabilityZoneExceptionBody {
     let message: Swift.String?
     let clusterName: Swift.String?
     let nodegroupName: Swift.String?
@@ -13062,7 +13062,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource to delete tags from.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -13080,7 +13080,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -13094,7 +13094,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -13186,7 +13186,7 @@ extension EKSClientTypes.Update: Swift.Codable {
 
 extension EKSClientTypes {
     /// An object representing an asynchronous update.
-    public struct Update: Swift.Equatable {
+    public struct Update {
         /// The Unix epoch timestamp at object creation.
         public var createdAt: ClientRuntime.Date?
         /// Any errors associated with a Failed update.
@@ -13241,7 +13241,7 @@ extension EKSClientTypes.UpdateAccessConfigRequest: Swift.Codable {
 
 extension EKSClientTypes {
     /// The access configuration information for the cluster.
-    public struct UpdateAccessConfigRequest: Swift.Equatable {
+    public struct UpdateAccessConfigRequest {
         /// The desired authentication mode for the cluster.
         public var authenticationMode: EKSClientTypes.AuthenticationMode?
 
@@ -13292,7 +13292,7 @@ extension UpdateAccessEntryInput {
     }
 }
 
-public struct UpdateAccessEntryInput: Swift.Equatable {
+public struct UpdateAccessEntryInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientRequestToken: Swift.String?
     /// The name of your cluster.
@@ -13322,7 +13322,7 @@ public struct UpdateAccessEntryInput: Swift.Equatable {
     }
 }
 
-struct UpdateAccessEntryInputBody: Swift.Equatable {
+struct UpdateAccessEntryInputBody {
     let kubernetesGroups: [Swift.String]?
     let clientRequestToken: Swift.String?
     let username: Swift.String?
@@ -13367,7 +13367,7 @@ extension UpdateAccessEntryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAccessEntryOutput: Swift.Equatable {
+public struct UpdateAccessEntryOutput {
     /// The ARN of the IAM principal for the AccessEntry.
     public var accessEntry: EKSClientTypes.AccessEntry?
 
@@ -13379,7 +13379,7 @@ public struct UpdateAccessEntryOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAccessEntryOutputBody: Swift.Equatable {
+struct UpdateAccessEntryOutputBody {
     let accessEntry: EKSClientTypes.AccessEntry?
 }
 
@@ -13451,7 +13451,7 @@ extension UpdateAddonInput {
     }
 }
 
-public struct UpdateAddonInput: Swift.Equatable {
+public struct UpdateAddonInput {
     /// The name of the add-on. The name must match one of the names returned by [ListAddons](https://docs.aws.amazon.com/eks/latest/APIReference/API_ListAddons.html).
     /// This member is required.
     public var addonName: Swift.String?
@@ -13495,7 +13495,7 @@ public struct UpdateAddonInput: Swift.Equatable {
     }
 }
 
-struct UpdateAddonInputBody: Swift.Equatable {
+struct UpdateAddonInputBody {
     let addonVersion: Swift.String?
     let serviceAccountRoleArn: Swift.String?
     let resolveConflicts: EKSClientTypes.ResolveConflicts?
@@ -13539,7 +13539,7 @@ extension UpdateAddonOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAddonOutput: Swift.Equatable {
+public struct UpdateAddonOutput {
     /// An object representing an asynchronous update.
     public var update: EKSClientTypes.Update?
 
@@ -13551,7 +13551,7 @@ public struct UpdateAddonOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAddonOutputBody: Swift.Equatable {
+struct UpdateAddonOutputBody {
     let update: EKSClientTypes.Update?
 }
 
@@ -13618,7 +13618,7 @@ extension UpdateClusterConfigInput {
     }
 }
 
-public struct UpdateClusterConfigInput: Swift.Equatable {
+public struct UpdateClusterConfigInput {
     /// The access configuration for the cluster.
     public var accessConfig: EKSClientTypes.UpdateAccessConfigRequest?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -13647,7 +13647,7 @@ public struct UpdateClusterConfigInput: Swift.Equatable {
     }
 }
 
-struct UpdateClusterConfigInputBody: Swift.Equatable {
+struct UpdateClusterConfigInputBody {
     let resourcesVpcConfig: EKSClientTypes.VpcConfigRequest?
     let logging: EKSClientTypes.Logging?
     let clientRequestToken: Swift.String?
@@ -13687,7 +13687,7 @@ extension UpdateClusterConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateClusterConfigOutput: Swift.Equatable {
+public struct UpdateClusterConfigOutput {
     /// An object representing an asynchronous update.
     public var update: EKSClientTypes.Update?
 
@@ -13699,7 +13699,7 @@ public struct UpdateClusterConfigOutput: Swift.Equatable {
     }
 }
 
-struct UpdateClusterConfigOutputBody: Swift.Equatable {
+struct UpdateClusterConfigOutputBody {
     let update: EKSClientTypes.Update?
 }
 
@@ -13758,7 +13758,7 @@ extension UpdateClusterVersionInput {
     }
 }
 
-public struct UpdateClusterVersionInput: Swift.Equatable {
+public struct UpdateClusterVersionInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientRequestToken: Swift.String?
     /// The name of the Amazon EKS cluster to update.
@@ -13780,7 +13780,7 @@ public struct UpdateClusterVersionInput: Swift.Equatable {
     }
 }
 
-struct UpdateClusterVersionInputBody: Swift.Equatable {
+struct UpdateClusterVersionInputBody {
     let version: Swift.String?
     let clientRequestToken: Swift.String?
 }
@@ -13812,7 +13812,7 @@ extension UpdateClusterVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateClusterVersionOutput: Swift.Equatable {
+public struct UpdateClusterVersionOutput {
     /// The full description of the specified update
     public var update: EKSClientTypes.Update?
 
@@ -13824,7 +13824,7 @@ public struct UpdateClusterVersionOutput: Swift.Equatable {
     }
 }
 
-struct UpdateClusterVersionOutputBody: Swift.Equatable {
+struct UpdateClusterVersionOutputBody {
     let update: EKSClientTypes.Update?
 }
 
@@ -13883,7 +13883,7 @@ extension UpdateEksAnywhereSubscriptionInput {
     }
 }
 
-public struct UpdateEksAnywhereSubscriptionInput: Swift.Equatable {
+public struct UpdateEksAnywhereSubscriptionInput {
     /// A boolean indicating whether or not to automatically renew the subscription.
     /// This member is required.
     public var autoRenew: Swift.Bool?
@@ -13905,7 +13905,7 @@ public struct UpdateEksAnywhereSubscriptionInput: Swift.Equatable {
     }
 }
 
-struct UpdateEksAnywhereSubscriptionInputBody: Swift.Equatable {
+struct UpdateEksAnywhereSubscriptionInputBody {
     let autoRenew: Swift.Bool?
     let clientRequestToken: Swift.String?
 }
@@ -13937,7 +13937,7 @@ extension UpdateEksAnywhereSubscriptionOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct UpdateEksAnywhereSubscriptionOutput: Swift.Equatable {
+public struct UpdateEksAnywhereSubscriptionOutput {
     /// The full description of the updated subscription.
     public var subscription: EKSClientTypes.EksAnywhereSubscription?
 
@@ -13949,7 +13949,7 @@ public struct UpdateEksAnywhereSubscriptionOutput: Swift.Equatable {
     }
 }
 
-struct UpdateEksAnywhereSubscriptionOutputBody: Swift.Equatable {
+struct UpdateEksAnywhereSubscriptionOutputBody {
     let subscription: EKSClientTypes.EksAnywhereSubscription?
 }
 
@@ -14031,7 +14031,7 @@ extension EKSClientTypes.UpdateLabelsPayload: Swift.Codable {
 
 extension EKSClientTypes {
     /// An object representing a Kubernetes label change for a managed node group.
-    public struct UpdateLabelsPayload: Swift.Equatable {
+    public struct UpdateLabelsPayload {
         /// The Kubernetes labels to add or update.
         public var addOrUpdateLabels: [Swift.String:Swift.String]?
         /// The Kubernetes labels to remove.
@@ -14091,7 +14091,7 @@ extension UpdateNodegroupConfigInput {
     }
 }
 
-public struct UpdateNodegroupConfigInput: Swift.Equatable {
+public struct UpdateNodegroupConfigInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientRequestToken: Swift.String?
     /// The name of your cluster.
@@ -14129,7 +14129,7 @@ public struct UpdateNodegroupConfigInput: Swift.Equatable {
     }
 }
 
-struct UpdateNodegroupConfigInputBody: Swift.Equatable {
+struct UpdateNodegroupConfigInputBody {
     let labels: EKSClientTypes.UpdateLabelsPayload?
     let taints: EKSClientTypes.UpdateTaintsPayload?
     let scalingConfig: EKSClientTypes.NodegroupScalingConfig?
@@ -14173,7 +14173,7 @@ extension UpdateNodegroupConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateNodegroupConfigOutput: Swift.Equatable {
+public struct UpdateNodegroupConfigOutput {
     /// An object representing an asynchronous update.
     public var update: EKSClientTypes.Update?
 
@@ -14185,7 +14185,7 @@ public struct UpdateNodegroupConfigOutput: Swift.Equatable {
     }
 }
 
-struct UpdateNodegroupConfigOutputBody: Swift.Equatable {
+struct UpdateNodegroupConfigOutputBody {
     let update: EKSClientTypes.Update?
 }
 
@@ -14259,7 +14259,7 @@ extension UpdateNodegroupVersionInput {
     }
 }
 
-public struct UpdateNodegroupVersionInput: Swift.Equatable {
+public struct UpdateNodegroupVersionInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientRequestToken: Swift.String?
     /// The name of your cluster.
@@ -14297,7 +14297,7 @@ public struct UpdateNodegroupVersionInput: Swift.Equatable {
     }
 }
 
-struct UpdateNodegroupVersionInputBody: Swift.Equatable {
+struct UpdateNodegroupVersionInputBody {
     let version: Swift.String?
     let releaseVersion: Swift.String?
     let launchTemplate: EKSClientTypes.LaunchTemplateSpecification?
@@ -14341,7 +14341,7 @@ extension UpdateNodegroupVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateNodegroupVersionOutput: Swift.Equatable {
+public struct UpdateNodegroupVersionOutput {
     /// An object representing an asynchronous update.
     public var update: EKSClientTypes.Update?
 
@@ -14353,7 +14353,7 @@ public struct UpdateNodegroupVersionOutput: Swift.Equatable {
     }
 }
 
-struct UpdateNodegroupVersionOutputBody: Swift.Equatable {
+struct UpdateNodegroupVersionOutputBody {
     let update: EKSClientTypes.Update?
 }
 
@@ -14412,7 +14412,7 @@ extension EKSClientTypes.UpdateParam: Swift.Codable {
 
 extension EKSClientTypes {
     /// An object representing the details of an update request.
-    public struct UpdateParam: Swift.Equatable {
+    public struct UpdateParam {
         /// The keys associated with an update request.
         public var type: EKSClientTypes.UpdateParamType?
         /// The value of the keys submitted as part of an update request.
@@ -14567,7 +14567,7 @@ extension UpdatePodIdentityAssociationInput {
     }
 }
 
-public struct UpdatePodIdentityAssociationInput: Swift.Equatable {
+public struct UpdatePodIdentityAssociationInput {
     /// The ID of the association to be updated.
     /// This member is required.
     public var associationId: Swift.String?
@@ -14593,7 +14593,7 @@ public struct UpdatePodIdentityAssociationInput: Swift.Equatable {
     }
 }
 
-struct UpdatePodIdentityAssociationInputBody: Swift.Equatable {
+struct UpdatePodIdentityAssociationInputBody {
     let roleArn: Swift.String?
     let clientRequestToken: Swift.String?
 }
@@ -14625,7 +14625,7 @@ extension UpdatePodIdentityAssociationOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct UpdatePodIdentityAssociationOutput: Swift.Equatable {
+public struct UpdatePodIdentityAssociationOutput {
     /// The full description of the EKS Pod Identity association that was updated.
     public var association: EKSClientTypes.PodIdentityAssociation?
 
@@ -14637,7 +14637,7 @@ public struct UpdatePodIdentityAssociationOutput: Swift.Equatable {
     }
 }
 
-struct UpdatePodIdentityAssociationOutputBody: Swift.Equatable {
+struct UpdatePodIdentityAssociationOutputBody {
     let association: EKSClientTypes.PodIdentityAssociation?
 }
 
@@ -14756,7 +14756,7 @@ extension EKSClientTypes.UpdateTaintsPayload: Swift.Codable {
 
 extension EKSClientTypes {
     /// An object representing the details of an update to a taints payload. For more information, see [Node taints on managed node groups](https://docs.aws.amazon.com/eks/latest/userguide/node-taints-managed-node-groups.html) in the Amazon EKS User Guide.
-    public struct UpdateTaintsPayload: Swift.Equatable {
+    public struct UpdateTaintsPayload {
         /// Kubernetes taints to be added or updated.
         public var addOrUpdateTaints: [EKSClientTypes.Taint]?
         /// Kubernetes taints to remove.
@@ -14911,7 +14911,7 @@ extension EKSClientTypes.VpcConfigRequest: Swift.Codable {
 
 extension EKSClientTypes {
     /// An object representing the VPC configuration to use for an Amazon EKS cluster.
-    public struct VpcConfigRequest: Swift.Equatable {
+    public struct VpcConfigRequest {
         /// Set this value to true to enable private access for your cluster's Kubernetes API server endpoint. If you enable private access, Kubernetes API requests from within your cluster's VPC use the private VPC endpoint. The default value for this parameter is false, which disables private access for your Kubernetes API server. If you disable private access and you have nodes or Fargate pods in the cluster, then ensure that publicAccessCidrs includes the necessary CIDR blocks for communication with the nodes or Fargate pods. For more information, see [Amazon EKS cluster endpoint access control](https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html) in the Amazon EKS User Guide .
         public var endpointPrivateAccess: Swift.Bool?
         /// Set this value to false to disable public access to your cluster's Kubernetes API server endpoint. If you disable public access, your cluster's Kubernetes API server can only receive requests from within the cluster VPC. The default value for this parameter is true, which enables public access for your Kubernetes API server. For more information, see [Amazon EKS cluster endpoint access control](https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html) in the Amazon EKS User Guide .
@@ -15034,7 +15034,7 @@ extension EKSClientTypes.VpcConfigResponse: Swift.Codable {
 
 extension EKSClientTypes {
     /// An object representing an Amazon EKS cluster VPC configuration response.
-    public struct VpcConfigResponse: Swift.Equatable {
+    public struct VpcConfigResponse {
         /// The cluster security group that was created by Amazon EKS for the cluster. Managed node groups use this security group for control-plane-to-data-plane communication.
         public var clusterSecurityGroupId: Swift.String?
         /// This parameter indicates whether the Amazon EKS private API server endpoint is enabled. If the Amazon EKS private API server endpoint is enabled, Kubernetes API requests that originate from within your cluster's VPC use the private VPC endpoint instead of traversing the internet. If this value is disabled and you have nodes or Fargate pods in the cluster, then ensure that publicAccessCidrs includes the necessary CIDR blocks for communication with the nodes or Fargate pods. For more information, see [Amazon EKS cluster endpoint access control](https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html) in the Amazon EKS User Guide .

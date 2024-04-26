@@ -42,7 +42,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -106,7 +106,7 @@ extension CancelTaskInput {
     }
 }
 
-public struct CancelTaskInput: Swift.Equatable {
+public struct CancelTaskInput {
     /// The ID of the task that you are attempting to cancel. You can retrieve a task ID by using the ListTasks operation.
     /// This member is required.
     public var taskId: Swift.String?
@@ -119,7 +119,7 @@ public struct CancelTaskInput: Swift.Equatable {
     }
 }
 
-struct CancelTaskInputBody: Swift.Equatable {
+struct CancelTaskInputBody {
 }
 
 extension CancelTaskInputBody: Swift.Decodable {
@@ -140,7 +140,7 @@ extension CancelTaskOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelTaskOutput: Swift.Equatable {
+public struct CancelTaskOutput {
     /// The ID of the task that you are attempting to cancel.
     public var taskId: Swift.String?
 
@@ -152,7 +152,7 @@ public struct CancelTaskOutput: Swift.Equatable {
     }
 }
 
-struct CancelTaskOutputBody: Swift.Equatable {
+struct CancelTaskOutputBody {
     let taskId: Swift.String?
 }
 
@@ -228,7 +228,7 @@ extension SnowDeviceManagementClientTypes.Capacity: Swift.Codable {
 
 extension SnowDeviceManagementClientTypes {
     /// The physical capacity of the Amazon Web Services Snow Family device.
-    public struct Capacity: Swift.Equatable {
+    public struct Capacity {
         /// The amount of capacity available for use on the device.
         public var available: Swift.Int?
         /// The name of the type of capacity, such as memory.
@@ -295,7 +295,7 @@ extension SnowDeviceManagementClientTypes.Command: Swift.Codable {
 
 extension SnowDeviceManagementClientTypes {
     /// The command given to the device to execute.
-    public enum Command: Swift.Equatable {
+    public enum Command {
         /// Unlocks the device.
         case unlock(SnowDeviceManagementClientTypes.Unlock)
         /// Reboots the device.
@@ -332,7 +332,7 @@ extension SnowDeviceManagementClientTypes.CpuOptions: Swift.Codable {
 
 extension SnowDeviceManagementClientTypes {
     /// The options for how a device's CPU is configured.
-    public struct CpuOptions: Swift.Equatable {
+    public struct CpuOptions {
         /// The number of cores that the CPU can use.
         public var coreCount: Swift.Int?
         /// The number of threads per core in the CPU.
@@ -392,7 +392,7 @@ extension CreateTaskInput {
     }
 }
 
-public struct CreateTaskInput: Swift.Equatable {
+public struct CreateTaskInput {
     /// A token ensuring that the action is called only once with the specified details.
     public var clientToken: Swift.String?
     /// The task to be performed. Only one task is executed on a device at a time.
@@ -422,7 +422,7 @@ public struct CreateTaskInput: Swift.Equatable {
     }
 }
 
-struct CreateTaskInputBody: Swift.Equatable {
+struct CreateTaskInputBody {
     let targets: [Swift.String]?
     let command: SnowDeviceManagementClientTypes.Command?
     let description: Swift.String?
@@ -486,7 +486,7 @@ extension CreateTaskOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateTaskOutput: Swift.Equatable {
+public struct CreateTaskOutput {
     /// The Amazon Resource Name (ARN) of the task that you created.
     public var taskArn: Swift.String?
     /// The ID of the task that you created.
@@ -502,7 +502,7 @@ public struct CreateTaskOutput: Swift.Equatable {
     }
 }
 
-struct CreateTaskOutputBody: Swift.Equatable {
+struct CreateTaskOutputBody {
     let taskId: Swift.String?
     let taskArn: Swift.String?
 }
@@ -564,7 +564,7 @@ extension DescribeDeviceEc2InstancesInput {
     }
 }
 
-public struct DescribeDeviceEc2InstancesInput: Swift.Equatable {
+public struct DescribeDeviceEc2InstancesInput {
     /// A list of instance IDs associated with the managed device.
     /// This member is required.
     public var instanceIds: [Swift.String]?
@@ -582,7 +582,7 @@ public struct DescribeDeviceEc2InstancesInput: Swift.Equatable {
     }
 }
 
-struct DescribeDeviceEc2InstancesInputBody: Swift.Equatable {
+struct DescribeDeviceEc2InstancesInputBody {
     let instanceIds: [Swift.String]?
 }
 
@@ -619,7 +619,7 @@ extension DescribeDeviceEc2InstancesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDeviceEc2InstancesOutput: Swift.Equatable {
+public struct DescribeDeviceEc2InstancesOutput {
     /// A list of structures containing information about each instance.
     public var instances: [SnowDeviceManagementClientTypes.InstanceSummary]?
 
@@ -631,7 +631,7 @@ public struct DescribeDeviceEc2InstancesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDeviceEc2InstancesOutputBody: Swift.Equatable {
+struct DescribeDeviceEc2InstancesOutputBody {
     let instances: [SnowDeviceManagementClientTypes.InstanceSummary]?
 }
 
@@ -681,7 +681,7 @@ extension DescribeDeviceInput {
     }
 }
 
-public struct DescribeDeviceInput: Swift.Equatable {
+public struct DescribeDeviceInput {
     /// The ID of the device that you are checking the information of.
     /// This member is required.
     public var managedDeviceId: Swift.String?
@@ -694,7 +694,7 @@ public struct DescribeDeviceInput: Swift.Equatable {
     }
 }
 
-struct DescribeDeviceInputBody: Swift.Equatable {
+struct DescribeDeviceInputBody {
 }
 
 extension DescribeDeviceInputBody: Swift.Decodable {
@@ -735,7 +735,7 @@ extension DescribeDeviceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDeviceOutput: Swift.Equatable {
+public struct DescribeDeviceOutput {
     /// The ID of the job used when ordering the device.
     public var associatedWithJob: Swift.String?
     /// The hardware specifications of the device.
@@ -787,7 +787,7 @@ public struct DescribeDeviceOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDeviceOutputBody: Swift.Equatable {
+struct DescribeDeviceOutputBody {
     let lastReachedOutAt: ClientRuntime.Date?
     let lastUpdatedAt: ClientRuntime.Date?
     let tags: [Swift.String:Swift.String]?
@@ -898,7 +898,7 @@ extension DescribeExecutionInput {
     }
 }
 
-public struct DescribeExecutionInput: Swift.Equatable {
+public struct DescribeExecutionInput {
     /// The ID of the managed device.
     /// This member is required.
     public var managedDeviceId: Swift.String?
@@ -916,7 +916,7 @@ public struct DescribeExecutionInput: Swift.Equatable {
     }
 }
 
-struct DescribeExecutionInputBody: Swift.Equatable {
+struct DescribeExecutionInputBody {
 }
 
 extension DescribeExecutionInputBody: Swift.Decodable {
@@ -947,7 +947,7 @@ extension DescribeExecutionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeExecutionOutput: Swift.Equatable {
+public struct DescribeExecutionOutput {
     /// The ID of the execution.
     public var executionId: Swift.String?
     /// When the status of the execution was last updated.
@@ -979,7 +979,7 @@ public struct DescribeExecutionOutput: Swift.Equatable {
     }
 }
 
-struct DescribeExecutionOutputBody: Swift.Equatable {
+struct DescribeExecutionOutputBody {
     let taskId: Swift.String?
     let executionId: Swift.String?
     let managedDeviceId: Swift.String?
@@ -1040,7 +1040,7 @@ extension DescribeTaskInput {
     }
 }
 
-public struct DescribeTaskInput: Swift.Equatable {
+public struct DescribeTaskInput {
     /// The ID of the task to be described.
     /// This member is required.
     public var taskId: Swift.String?
@@ -1053,7 +1053,7 @@ public struct DescribeTaskInput: Swift.Equatable {
     }
 }
 
-struct DescribeTaskInputBody: Swift.Equatable {
+struct DescribeTaskInputBody {
 }
 
 extension DescribeTaskInputBody: Swift.Decodable {
@@ -1090,7 +1090,7 @@ extension DescribeTaskOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeTaskOutput: Swift.Equatable {
+public struct DescribeTaskOutput {
     /// When the task was completed.
     public var completedAt: ClientRuntime.Date?
     /// When the CreateTask operation was called.
@@ -1134,7 +1134,7 @@ public struct DescribeTaskOutput: Swift.Equatable {
     }
 }
 
-struct DescribeTaskOutputBody: Swift.Equatable {
+struct DescribeTaskOutputBody {
     let taskId: Swift.String?
     let taskArn: Swift.String?
     let targets: [Swift.String]?
@@ -1266,7 +1266,7 @@ extension SnowDeviceManagementClientTypes.DeviceSummary: Swift.Codable {
 
 extension SnowDeviceManagementClientTypes {
     /// Identifying information about the device.
-    public struct DeviceSummary: Swift.Equatable {
+    public struct DeviceSummary {
         /// The ID of the job used to order the device.
         public var associatedWithJob: Swift.String?
         /// The Amazon Resource Name (ARN) of the device.
@@ -1331,7 +1331,7 @@ extension SnowDeviceManagementClientTypes.EbsInstanceBlockDevice: Swift.Codable 
 
 extension SnowDeviceManagementClientTypes {
     /// Describes a parameter used to set up an Amazon Elastic Block Store (Amazon EBS) volume in a block device mapping.
-    public struct EbsInstanceBlockDevice: Swift.Equatable {
+    public struct EbsInstanceBlockDevice {
         /// When the attachment was initiated.
         public var attachTime: ClientRuntime.Date?
         /// A value that indicates whether the volume is deleted on instance termination.
@@ -1443,7 +1443,7 @@ extension SnowDeviceManagementClientTypes.ExecutionSummary: Swift.Codable {
 
 extension SnowDeviceManagementClientTypes {
     /// The summary of a task execution on a specified device.
-    public struct ExecutionSummary: Swift.Equatable {
+    public struct ExecutionSummary {
         /// The ID of the execution.
         public var executionId: Swift.String?
         /// The ID of the managed device that the task is being executed on.
@@ -1586,7 +1586,7 @@ extension SnowDeviceManagementClientTypes.Instance: Swift.Codable {
 
 extension SnowDeviceManagementClientTypes {
     /// The description of an instance. Currently, Amazon EC2 instances are the only supported instance type.
-    public struct Instance: Swift.Equatable {
+    public struct Instance {
         /// The Amazon Machine Image (AMI) launch index, which you can use to find this instance in the launch group.
         public var amiLaunchIndex: Swift.Int?
         /// Any block device mapping entries for the instance.
@@ -1675,7 +1675,7 @@ extension SnowDeviceManagementClientTypes.InstanceBlockDeviceMapping: Swift.Coda
 
 extension SnowDeviceManagementClientTypes {
     /// The description of a block device mapping.
-    public struct InstanceBlockDeviceMapping: Swift.Equatable {
+    public struct InstanceBlockDeviceMapping {
         /// The block device name.
         public var deviceName: Swift.String?
         /// The parameters used to automatically set up Amazon Elastic Block Store (Amazon EBS) volumes when the instance is launched.
@@ -1720,7 +1720,7 @@ extension SnowDeviceManagementClientTypes.InstanceState: Swift.Codable {
 
 extension SnowDeviceManagementClientTypes {
     /// The description of the current state of an instance.
-    public struct InstanceState: Swift.Equatable {
+    public struct InstanceState {
         /// The state of the instance as a 16-bit unsigned integer. The high byte is all of the bits between 2^8 and (2^16)-1, which equals decimal values between 256 and 65,535. These numerical values are used for internal purposes and should be ignored. The low byte is all of the bits between 2^0 and (2^8)-1, which equals decimal values between 0 and 255. The valid values for the instance state code are all in the range of the low byte. These values are:
         ///
         /// * 0 : pending
@@ -1824,7 +1824,7 @@ extension SnowDeviceManagementClientTypes.InstanceSummary: Swift.Codable {
 
 extension SnowDeviceManagementClientTypes {
     /// The details about the instance.
-    public struct InstanceSummary: Swift.Equatable {
+    public struct InstanceSummary {
         /// A structure containing details about the instance.
         public var instance: SnowDeviceManagementClientTypes.Instance?
         /// When the instance summary was last updated.
@@ -1882,7 +1882,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -1960,7 +1960,7 @@ extension ListDeviceResourcesInput {
     }
 }
 
-public struct ListDeviceResourcesInput: Swift.Equatable {
+public struct ListDeviceResourcesInput {
     /// The ID of the managed device that you are listing the resources of.
     /// This member is required.
     public var managedDeviceId: Swift.String?
@@ -1985,7 +1985,7 @@ public struct ListDeviceResourcesInput: Swift.Equatable {
     }
 }
 
-struct ListDeviceResourcesInputBody: Swift.Equatable {
+struct ListDeviceResourcesInputBody {
 }
 
 extension ListDeviceResourcesInputBody: Swift.Decodable {
@@ -2008,7 +2008,7 @@ extension ListDeviceResourcesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDeviceResourcesOutput: Swift.Equatable {
+public struct ListDeviceResourcesOutput {
     /// A pagination token to continue to the next page of results.
     public var nextToken: Swift.String?
     /// A structure defining the resource's type, Amazon Resource Name (ARN), and ID.
@@ -2024,7 +2024,7 @@ public struct ListDeviceResourcesOutput: Swift.Equatable {
     }
 }
 
-struct ListDeviceResourcesOutputBody: Swift.Equatable {
+struct ListDeviceResourcesOutputBody {
     let resources: [SnowDeviceManagementClientTypes.ResourceSummary]?
     let nextToken: Swift.String?
 }
@@ -2095,7 +2095,7 @@ extension ListDevicesInput {
     }
 }
 
-public struct ListDevicesInput: Swift.Equatable {
+public struct ListDevicesInput {
     /// The ID of the job used to order the device.
     public var jobId: Swift.String?
     /// The maximum number of devices to list per page.
@@ -2115,7 +2115,7 @@ public struct ListDevicesInput: Swift.Equatable {
     }
 }
 
-struct ListDevicesInputBody: Swift.Equatable {
+struct ListDevicesInputBody {
 }
 
 extension ListDevicesInputBody: Swift.Decodable {
@@ -2138,7 +2138,7 @@ extension ListDevicesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDevicesOutput: Swift.Equatable {
+public struct ListDevicesOutput {
     /// A list of device structures that contain information about the device.
     public var devices: [SnowDeviceManagementClientTypes.DeviceSummary]?
     /// A pagination token to continue to the next page of devices.
@@ -2154,7 +2154,7 @@ public struct ListDevicesOutput: Swift.Equatable {
     }
 }
 
-struct ListDevicesOutputBody: Swift.Equatable {
+struct ListDevicesOutputBody {
     let devices: [SnowDeviceManagementClientTypes.DeviceSummary]?
     let nextToken: Swift.String?
 }
@@ -2230,7 +2230,7 @@ extension ListExecutionsInput {
     }
 }
 
-public struct ListExecutionsInput: Swift.Equatable {
+public struct ListExecutionsInput {
     /// The maximum number of tasks to list per page.
     public var maxResults: Swift.Int?
     /// A pagination token to continue to the next page of tasks.
@@ -2255,7 +2255,7 @@ public struct ListExecutionsInput: Swift.Equatable {
     }
 }
 
-struct ListExecutionsInputBody: Swift.Equatable {
+struct ListExecutionsInputBody {
 }
 
 extension ListExecutionsInputBody: Swift.Decodable {
@@ -2278,7 +2278,7 @@ extension ListExecutionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListExecutionsOutput: Swift.Equatable {
+public struct ListExecutionsOutput {
     /// A list of executions. Each execution contains the task ID, the device that the task is executing on, the execution ID, and the status of the execution.
     public var executions: [SnowDeviceManagementClientTypes.ExecutionSummary]?
     /// A pagination token to continue to the next page of executions.
@@ -2294,7 +2294,7 @@ public struct ListExecutionsOutput: Swift.Equatable {
     }
 }
 
-struct ListExecutionsOutputBody: Swift.Equatable {
+struct ListExecutionsOutputBody {
     let executions: [SnowDeviceManagementClientTypes.ExecutionSummary]?
     let nextToken: Swift.String?
 }
@@ -2348,7 +2348,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the device or task.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2361,7 +2361,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -2382,7 +2382,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The list of tags for the device or task.
     public var tags: [Swift.String:Swift.String]?
 
@@ -2394,7 +2394,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -2459,7 +2459,7 @@ extension ListTasksInput {
     }
 }
 
-public struct ListTasksInput: Swift.Equatable {
+public struct ListTasksInput {
     /// The maximum number of tasks per page.
     public var maxResults: Swift.Int?
     /// A pagination token to continue to the next page of tasks.
@@ -2479,7 +2479,7 @@ public struct ListTasksInput: Swift.Equatable {
     }
 }
 
-struct ListTasksInputBody: Swift.Equatable {
+struct ListTasksInputBody {
 }
 
 extension ListTasksInputBody: Swift.Decodable {
@@ -2502,7 +2502,7 @@ extension ListTasksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTasksOutput: Swift.Equatable {
+public struct ListTasksOutput {
     /// A pagination token to continue to the next page of tasks.
     public var nextToken: Swift.String?
     /// A list of task structures containing details about each task.
@@ -2518,7 +2518,7 @@ public struct ListTasksOutput: Swift.Equatable {
     }
 }
 
-struct ListTasksOutputBody: Swift.Equatable {
+struct ListTasksOutputBody {
     let tasks: [SnowDeviceManagementClientTypes.TaskSummary]?
     let nextToken: Swift.String?
 }
@@ -2659,7 +2659,7 @@ extension SnowDeviceManagementClientTypes.PhysicalNetworkInterface: Swift.Codabl
 
 extension SnowDeviceManagementClientTypes {
     /// The details about the physical network interface for the device.
-    public struct PhysicalNetworkInterface: Swift.Equatable {
+    public struct PhysicalNetworkInterface {
         /// The default gateway of the device.
         public var defaultGateway: Swift.String?
         /// The IP address of the device.
@@ -2710,7 +2710,7 @@ extension SnowDeviceManagementClientTypes.Reboot: Swift.Codable {
 
 extension SnowDeviceManagementClientTypes {
     /// A structure used to reboot the device.
-    public struct Reboot: Swift.Equatable {
+    public struct Reboot {
 
         public init() { }
     }
@@ -2757,7 +2757,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -2806,7 +2806,7 @@ extension SnowDeviceManagementClientTypes.ResourceSummary: Swift.Codable {
 
 extension SnowDeviceManagementClientTypes {
     /// A summary of a resource available on the device.
-    public struct ResourceSummary: Swift.Equatable {
+    public struct ResourceSummary {
         /// The Amazon Resource Name (ARN) of the resource.
         public var arn: Swift.String?
         /// The ID of the resource.
@@ -2856,7 +2856,7 @@ extension SnowDeviceManagementClientTypes.SecurityGroupIdentifier: Swift.Codable
 
 extension SnowDeviceManagementClientTypes {
     /// Information about the device's security group.
-    public struct SecurityGroupIdentifier: Swift.Equatable {
+    public struct SecurityGroupIdentifier {
         /// The security group ID.
         public var groupId: Swift.String?
         /// The security group name.
@@ -2914,7 +2914,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -2965,7 +2965,7 @@ extension SnowDeviceManagementClientTypes.SoftwareInformation: Swift.Codable {
 
 extension SnowDeviceManagementClientTypes {
     /// Information about the software on the device.
-    public struct SoftwareInformation: Swift.Equatable {
+    public struct SoftwareInformation {
         /// The state of the software that is installed or that is being installed on the device.
         public var installState: Swift.String?
         /// The version of the software currently installed on the device.
@@ -3013,7 +3013,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the device or task.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3031,7 +3031,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -3061,7 +3061,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -3165,7 +3165,7 @@ extension SnowDeviceManagementClientTypes.TaskSummary: Swift.Codable {
 
 extension SnowDeviceManagementClientTypes {
     /// Information about the task assigned to one or many devices.
-    public struct TaskSummary: Swift.Equatable {
+    public struct TaskSummary {
         /// The state of the task assigned to one or many devices.
         public var state: SnowDeviceManagementClientTypes.TaskState?
         /// Optional metadata that you assign to a resource. You can use tags to categorize a resource in different ways, such as by purpose, owner, or environment.
@@ -3232,7 +3232,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -3261,7 +3261,7 @@ extension SnowDeviceManagementClientTypes.Unlock: Swift.Codable {
 
 extension SnowDeviceManagementClientTypes {
     /// A structure used to unlock a device.
-    public struct Unlock: Swift.Equatable {
+    public struct Unlock {
 
         public init() { }
     }
@@ -3329,7 +3329,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the device or task.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3347,7 +3347,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -3361,7 +3361,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -3419,7 +3419,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

@@ -42,7 +42,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -91,7 +91,7 @@ extension Inspector2ClientTypes.Account: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// An Amazon Web Services account within your environment that Amazon Inspector has been enabled for.
-    public struct Account: Swift.Equatable {
+    public struct Account {
         /// The ID of the Amazon Web Services account.
         /// This member is required.
         public var accountId: Swift.String?
@@ -155,7 +155,7 @@ extension Inspector2ClientTypes.AccountAggregation: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// An object that contains details about an aggregation response based on Amazon Web Services accounts.
-    public struct AccountAggregation: Swift.Equatable {
+    public struct AccountAggregation {
         /// The type of finding.
         public var findingType: Inspector2ClientTypes.AggregationFindingType?
         /// The type of resource.
@@ -208,7 +208,7 @@ extension Inspector2ClientTypes.AccountAggregationResponse: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// An aggregation of findings by Amazon Web Services account ID.
-    public struct AccountAggregationResponse: Swift.Equatable {
+    public struct AccountAggregationResponse {
         /// The Amazon Web Services account ID.
         public var accountId: Swift.String?
         /// The number of findings by severity.
@@ -294,7 +294,7 @@ extension Inspector2ClientTypes.AccountState: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// An object with details the status of an Amazon Web Services account within your Amazon Inspector environment.
-    public struct AccountState: Swift.Equatable {
+    public struct AccountState {
         /// The Amazon Web Services account ID.
         /// This member is required.
         public var accountId: Swift.String?
@@ -463,7 +463,7 @@ extension Inspector2ClientTypes.AggregationRequest: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Contains details about an aggregation request.
-    public enum AggregationRequest: Swift.Equatable {
+    public enum AggregationRequest {
         /// An object that contains details about an aggregation request based on Amazon Web Services account IDs.
         case accountaggregation(Inspector2ClientTypes.AccountAggregation)
         /// An object that contains details about an aggregation request based on Amazon Machine Images (AMIs).
@@ -635,7 +635,7 @@ extension Inspector2ClientTypes.AggregationResponse: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// A structure that contains details about the results of an aggregation type.
-    public enum AggregationResponse: Swift.Equatable {
+    public enum AggregationResponse {
         /// An object that contains details about an aggregation response based on Amazon Web Services account IDs.
         case accountaggregation(Inspector2ClientTypes.AccountAggregationResponse)
         /// An object that contains details about an aggregation response based on Amazon Machine Images (AMIs).
@@ -767,7 +767,7 @@ extension Inspector2ClientTypes.AmiAggregation: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The details that define an aggregation based on Amazon machine images (AMIs).
-    public struct AmiAggregation: Swift.Equatable {
+    public struct AmiAggregation {
         /// The IDs of AMIs to aggregate findings for.
         public var amis: [Inspector2ClientTypes.StringFilter]?
         /// The value to sort results by.
@@ -828,7 +828,7 @@ extension Inspector2ClientTypes.AmiAggregationResponse: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// A response that contains the results of a finding aggregation by AMI.
-    public struct AmiAggregationResponse: Swift.Equatable {
+    public struct AmiAggregationResponse {
         /// The Amazon Web Services account ID for the AMI.
         public var accountId: Swift.String?
         /// The IDs of Amazon EC2 instances using this AMI.
@@ -945,7 +945,7 @@ extension AssociateMemberInput {
     }
 }
 
-public struct AssociateMemberInput: Swift.Equatable {
+public struct AssociateMemberInput {
     /// The Amazon Web Services account ID of the member account to be associated.
     /// This member is required.
     public var accountId: Swift.String?
@@ -958,7 +958,7 @@ public struct AssociateMemberInput: Swift.Equatable {
     }
 }
 
-struct AssociateMemberInputBody: Swift.Equatable {
+struct AssociateMemberInputBody {
     let accountId: Swift.String?
 }
 
@@ -986,7 +986,7 @@ extension AssociateMemberOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateMemberOutput: Swift.Equatable {
+public struct AssociateMemberOutput {
     /// The Amazon Web Services account ID of the successfully associated member account.
     /// This member is required.
     public var accountId: Swift.String?
@@ -999,7 +999,7 @@ public struct AssociateMemberOutput: Swift.Equatable {
     }
 }
 
-struct AssociateMemberOutputBody: Swift.Equatable {
+struct AssociateMemberOutputBody {
     let accountId: Swift.String?
 }
 
@@ -1092,7 +1092,7 @@ extension Inspector2ClientTypes.AtigData: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The Amazon Web Services Threat Intel Group (ATIG) details for a specific vulnerability.
-    public struct AtigData: Swift.Equatable {
+    public struct AtigData {
         /// The date and time this vulnerability was first observed.
         public var firstSeen: ClientRuntime.Date?
         /// The date and time this vulnerability was last observed.
@@ -1157,7 +1157,7 @@ extension Inspector2ClientTypes.AutoEnable: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Represents which scan types are automatically enabled for new members of your Amazon Inspector organization.
-    public struct AutoEnable: Swift.Equatable {
+    public struct AutoEnable {
         /// Represents whether Amazon EC2 scans are automatically enabled for new members of your Amazon Inspector organization.
         /// This member is required.
         public var ec2: Swift.Bool?
@@ -1284,7 +1284,7 @@ extension Inspector2ClientTypes.AwsEc2InstanceDetails: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Details of the Amazon EC2 instance involved in a finding.
-    public struct AwsEc2InstanceDetails: Swift.Equatable {
+    public struct AwsEc2InstanceDetails {
         /// The IAM instance profile ARN of the Amazon EC2 instance.
         public var iamInstanceProfileArn: Swift.String?
         /// The image ID of the Amazon EC2 instance.
@@ -1451,7 +1451,7 @@ extension Inspector2ClientTypes.AwsEcrContainerAggregation: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// An aggregation of information about Amazon ECR containers.
-    public struct AwsEcrContainerAggregation: Swift.Equatable {
+    public struct AwsEcrContainerAggregation {
         /// The architecture of the containers.
         public var architectures: [Inspector2ClientTypes.StringFilter]?
         /// The image SHA values.
@@ -1558,7 +1558,7 @@ extension Inspector2ClientTypes.AwsEcrContainerAggregationResponse: Swift.Codabl
 
 extension Inspector2ClientTypes {
     /// An aggregation of information about Amazon ECR containers.
-    public struct AwsEcrContainerAggregationResponse: Swift.Equatable {
+    public struct AwsEcrContainerAggregationResponse {
         /// The Amazon Web Services account ID of the account that owns the container.
         public var accountId: Swift.String?
         /// The architecture of the container.
@@ -1672,7 +1672,7 @@ extension Inspector2ClientTypes.AwsEcrContainerImageDetails: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The image details of the Amazon ECR container image.
-    public struct AwsEcrContainerImageDetails: Swift.Equatable {
+    public struct AwsEcrContainerImageDetails {
         /// The architecture of the Amazon ECR container image.
         public var architecture: Swift.String?
         /// The image author of the Amazon ECR container image.
@@ -1851,7 +1851,7 @@ extension Inspector2ClientTypes.AwsLambdaFunctionDetails: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// A summary of information about the Amazon Web Services Lambda function.
-    public struct AwsLambdaFunctionDetails: Swift.Equatable {
+    public struct AwsLambdaFunctionDetails {
         /// The instruction set architecture that the Amazon Web Services Lambda function supports. Architecture is a string array with one of the valid values. The default architecture value is x86_64.
         public var architectures: [Inspector2ClientTypes.Architecture]?
         /// The SHA256 hash of the Amazon Web Services Lambda function's deployment package.
@@ -1946,7 +1946,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct BadRequestExceptionBody: Swift.Equatable {
+struct BadRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -1985,7 +1985,7 @@ extension BatchGetAccountStatusInput {
     }
 }
 
-public struct BatchGetAccountStatusInput: Swift.Equatable {
+public struct BatchGetAccountStatusInput {
     /// The 12-digit Amazon Web Services account IDs of the accounts to retrieve Amazon Inspector status for.
     public var accountIds: [Swift.String]?
 
@@ -1997,7 +1997,7 @@ public struct BatchGetAccountStatusInput: Swift.Equatable {
     }
 }
 
-struct BatchGetAccountStatusInputBody: Swift.Equatable {
+struct BatchGetAccountStatusInputBody {
     let accountIds: [Swift.String]?
 }
 
@@ -2036,7 +2036,7 @@ extension BatchGetAccountStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetAccountStatusOutput: Swift.Equatable {
+public struct BatchGetAccountStatusOutput {
     /// An array of objects that provide details on the status of Amazon Inspector for each of the requested accounts.
     /// This member is required.
     public var accounts: [Inspector2ClientTypes.AccountState]?
@@ -2053,7 +2053,7 @@ public struct BatchGetAccountStatusOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetAccountStatusOutputBody: Swift.Equatable {
+struct BatchGetAccountStatusOutputBody {
     let accounts: [Inspector2ClientTypes.AccountState]?
     let failedAccounts: [Inspector2ClientTypes.FailedAccount]?
 }
@@ -2129,7 +2129,7 @@ extension BatchGetCodeSnippetInput {
     }
 }
 
-public struct BatchGetCodeSnippetInput: Swift.Equatable {
+public struct BatchGetCodeSnippetInput {
     /// An array of finding ARNs for the findings you want to retrieve code snippets from.
     /// This member is required.
     public var findingArns: [Swift.String]?
@@ -2142,7 +2142,7 @@ public struct BatchGetCodeSnippetInput: Swift.Equatable {
     }
 }
 
-struct BatchGetCodeSnippetInputBody: Swift.Equatable {
+struct BatchGetCodeSnippetInputBody {
     let findingArns: [Swift.String]?
 }
 
@@ -2181,7 +2181,7 @@ extension BatchGetCodeSnippetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetCodeSnippetOutput: Swift.Equatable {
+public struct BatchGetCodeSnippetOutput {
     /// The retrieved code snippets associated with the provided finding ARNs.
     public var codeSnippetResults: [Inspector2ClientTypes.CodeSnippetResult]?
     /// Any errors Amazon Inspector encountered while trying to retrieve the requested code snippets.
@@ -2197,7 +2197,7 @@ public struct BatchGetCodeSnippetOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetCodeSnippetOutputBody: Swift.Equatable {
+struct BatchGetCodeSnippetOutputBody {
     let codeSnippetResults: [Inspector2ClientTypes.CodeSnippetResult]?
     let errors: [Inspector2ClientTypes.CodeSnippetError]?
 }
@@ -2272,7 +2272,7 @@ extension BatchGetFindingDetailsInput {
     }
 }
 
-public struct BatchGetFindingDetailsInput: Swift.Equatable {
+public struct BatchGetFindingDetailsInput {
     /// A list of finding ARNs.
     /// This member is required.
     public var findingArns: [Swift.String]?
@@ -2285,7 +2285,7 @@ public struct BatchGetFindingDetailsInput: Swift.Equatable {
     }
 }
 
-struct BatchGetFindingDetailsInputBody: Swift.Equatable {
+struct BatchGetFindingDetailsInputBody {
     let findingArns: [Swift.String]?
 }
 
@@ -2324,7 +2324,7 @@ extension BatchGetFindingDetailsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetFindingDetailsOutput: Swift.Equatable {
+public struct BatchGetFindingDetailsOutput {
     /// Error information for findings that details could not be returned for.
     public var errors: [Inspector2ClientTypes.FindingDetailsError]?
     /// A finding's vulnerability details.
@@ -2340,7 +2340,7 @@ public struct BatchGetFindingDetailsOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetFindingDetailsOutputBody: Swift.Equatable {
+struct BatchGetFindingDetailsOutputBody {
     let findingDetails: [Inspector2ClientTypes.FindingDetail]?
     let errors: [Inspector2ClientTypes.FindingDetailsError]?
 }
@@ -2415,7 +2415,7 @@ extension BatchGetFreeTrialInfoInput {
     }
 }
 
-public struct BatchGetFreeTrialInfoInput: Swift.Equatable {
+public struct BatchGetFreeTrialInfoInput {
     /// The account IDs to get free trial status for.
     /// This member is required.
     public var accountIds: [Swift.String]?
@@ -2428,7 +2428,7 @@ public struct BatchGetFreeTrialInfoInput: Swift.Equatable {
     }
 }
 
-struct BatchGetFreeTrialInfoInputBody: Swift.Equatable {
+struct BatchGetFreeTrialInfoInputBody {
     let accountIds: [Swift.String]?
 }
 
@@ -2467,7 +2467,7 @@ extension BatchGetFreeTrialInfoOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetFreeTrialInfoOutput: Swift.Equatable {
+public struct BatchGetFreeTrialInfoOutput {
     /// An array of objects that provide Amazon Inspector free trial details for each of the requested accounts.
     /// This member is required.
     public var accounts: [Inspector2ClientTypes.FreeTrialAccountInfo]?
@@ -2485,7 +2485,7 @@ public struct BatchGetFreeTrialInfoOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetFreeTrialInfoOutputBody: Swift.Equatable {
+struct BatchGetFreeTrialInfoOutputBody {
     let accounts: [Inspector2ClientTypes.FreeTrialAccountInfo]?
     let failedAccounts: [Inspector2ClientTypes.FreeTrialInfoError]?
 }
@@ -2560,7 +2560,7 @@ extension BatchGetMemberEc2DeepInspectionStatusInput {
     }
 }
 
-public struct BatchGetMemberEc2DeepInspectionStatusInput: Swift.Equatable {
+public struct BatchGetMemberEc2DeepInspectionStatusInput {
     /// The unique identifiers for the Amazon Web Services accounts to retrieve Amazon Inspector deep inspection activation status for.
     public var accountIds: [Swift.String]?
 
@@ -2572,7 +2572,7 @@ public struct BatchGetMemberEc2DeepInspectionStatusInput: Swift.Equatable {
     }
 }
 
-struct BatchGetMemberEc2DeepInspectionStatusInputBody: Swift.Equatable {
+struct BatchGetMemberEc2DeepInspectionStatusInputBody {
     let accountIds: [Swift.String]?
 }
 
@@ -2611,7 +2611,7 @@ extension BatchGetMemberEc2DeepInspectionStatusOutput: ClientRuntime.HttpRespons
     }
 }
 
-public struct BatchGetMemberEc2DeepInspectionStatusOutput: Swift.Equatable {
+public struct BatchGetMemberEc2DeepInspectionStatusOutput {
     /// An array of objects that provide details on the activation status of Amazon Inspector deep inspection for each of the requested accounts.
     public var accountIds: [Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatusState]?
     /// An array of objects that provide details on any accounts that failed to activate Amazon Inspector deep inspection and why.
@@ -2627,7 +2627,7 @@ public struct BatchGetMemberEc2DeepInspectionStatusOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetMemberEc2DeepInspectionStatusOutputBody: Swift.Equatable {
+struct BatchGetMemberEc2DeepInspectionStatusOutputBody {
     let accountIds: [Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatusState]?
     let failedAccountIds: [Inspector2ClientTypes.FailedMemberAccountEc2DeepInspectionStatusState]?
 }
@@ -2702,7 +2702,7 @@ extension BatchUpdateMemberEc2DeepInspectionStatusInput {
     }
 }
 
-public struct BatchUpdateMemberEc2DeepInspectionStatusInput: Swift.Equatable {
+public struct BatchUpdateMemberEc2DeepInspectionStatusInput {
     /// The unique identifiers for the Amazon Web Services accounts to change Amazon Inspector deep inspection status for.
     /// This member is required.
     public var accountIds: [Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatus]?
@@ -2715,7 +2715,7 @@ public struct BatchUpdateMemberEc2DeepInspectionStatusInput: Swift.Equatable {
     }
 }
 
-struct BatchUpdateMemberEc2DeepInspectionStatusInputBody: Swift.Equatable {
+struct BatchUpdateMemberEc2DeepInspectionStatusInputBody {
     let accountIds: [Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatus]?
 }
 
@@ -2754,7 +2754,7 @@ extension BatchUpdateMemberEc2DeepInspectionStatusOutput: ClientRuntime.HttpResp
     }
 }
 
-public struct BatchUpdateMemberEc2DeepInspectionStatusOutput: Swift.Equatable {
+public struct BatchUpdateMemberEc2DeepInspectionStatusOutput {
     /// An array of objects that provide details for each of the accounts that Amazon Inspector deep inspection status was successfully changed for.
     public var accountIds: [Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatusState]?
     /// An array of objects that provide details for each of the accounts that Amazon Inspector deep inspection status could not be successfully changed for.
@@ -2770,7 +2770,7 @@ public struct BatchUpdateMemberEc2DeepInspectionStatusOutput: Swift.Equatable {
     }
 }
 
-struct BatchUpdateMemberEc2DeepInspectionStatusOutputBody: Swift.Equatable {
+struct BatchUpdateMemberEc2DeepInspectionStatusOutputBody {
     let accountIds: [Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatusState]?
     let failedAccountIds: [Inspector2ClientTypes.FailedMemberAccountEc2DeepInspectionStatusState]?
 }
@@ -2842,7 +2842,7 @@ extension CancelFindingsReportInput {
     }
 }
 
-public struct CancelFindingsReportInput: Swift.Equatable {
+public struct CancelFindingsReportInput {
     /// The ID of the report to be canceled.
     /// This member is required.
     public var reportId: Swift.String?
@@ -2855,7 +2855,7 @@ public struct CancelFindingsReportInput: Swift.Equatable {
     }
 }
 
-struct CancelFindingsReportInputBody: Swift.Equatable {
+struct CancelFindingsReportInputBody {
     let reportId: Swift.String?
 }
 
@@ -2883,7 +2883,7 @@ extension CancelFindingsReportOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelFindingsReportOutput: Swift.Equatable {
+public struct CancelFindingsReportOutput {
     /// The ID of the canceled report.
     /// This member is required.
     public var reportId: Swift.String?
@@ -2896,7 +2896,7 @@ public struct CancelFindingsReportOutput: Swift.Equatable {
     }
 }
 
-struct CancelFindingsReportOutputBody: Swift.Equatable {
+struct CancelFindingsReportOutputBody {
     let reportId: Swift.String?
 }
 
@@ -2947,7 +2947,7 @@ extension CancelSbomExportInput {
     }
 }
 
-public struct CancelSbomExportInput: Swift.Equatable {
+public struct CancelSbomExportInput {
     /// The report ID of the SBOM export to cancel.
     /// This member is required.
     public var reportId: Swift.String?
@@ -2960,7 +2960,7 @@ public struct CancelSbomExportInput: Swift.Equatable {
     }
 }
 
-struct CancelSbomExportInputBody: Swift.Equatable {
+struct CancelSbomExportInputBody {
     let reportId: Swift.String?
 }
 
@@ -2988,7 +2988,7 @@ extension CancelSbomExportOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelSbomExportOutput: Swift.Equatable {
+public struct CancelSbomExportOutput {
     /// The report ID of the canceled SBOM export.
     public var reportId: Swift.String?
 
@@ -3000,7 +3000,7 @@ public struct CancelSbomExportOutput: Swift.Equatable {
     }
 }
 
-struct CancelSbomExportOutputBody: Swift.Equatable {
+struct CancelSbomExportOutputBody {
     let reportId: Swift.String?
 }
 
@@ -3094,7 +3094,7 @@ extension Inspector2ClientTypes.CisCheckAggregation: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// A CIS check.
-    public struct CisCheckAggregation: Swift.Equatable {
+    public struct CisCheckAggregation {
         /// The account ID for the CIS check.
         public var accountId: Swift.String?
         /// The description for the CIS check.
@@ -3164,7 +3164,7 @@ extension Inspector2ClientTypes.CisDateFilter: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The CIS date filter.
-    public struct CisDateFilter: Swift.Equatable {
+    public struct CisDateFilter {
         /// The CIS date filter's earliest scan start time.
         public var earliestScanStartTime: ClientRuntime.Date?
         /// The CIS date filter's latest scan start time.
@@ -3273,7 +3273,7 @@ extension Inspector2ClientTypes.CisFindingStatusFilter: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The CIS finding status filter.
-    public struct CisFindingStatusFilter: Swift.Equatable {
+    public struct CisFindingStatusFilter {
         /// The comparison value of the CIS finding status filter.
         /// This member is required.
         public var comparison: Inspector2ClientTypes.CisFindingStatusComparison?
@@ -3320,7 +3320,7 @@ extension Inspector2ClientTypes.CisNumberFilter: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The CIS number filter.
-    public struct CisNumberFilter: Swift.Equatable {
+    public struct CisNumberFilter {
         /// The CIS number filter's lower inclusive.
         public var lowerInclusive: Swift.Int?
         /// The CIS number filter's upper inclusive.
@@ -3464,7 +3464,7 @@ extension Inspector2ClientTypes.CisResultStatusFilter: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The CIS result status filter.
-    public struct CisResultStatusFilter: Swift.Equatable {
+    public struct CisResultStatusFilter {
         /// The comparison value of the CIS result status filter.
         /// This member is required.
         public var comparison: Inspector2ClientTypes.CisResultStatusComparison?
@@ -3606,7 +3606,7 @@ extension Inspector2ClientTypes.CisScan: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The CIS scan.
-    public struct CisScan: Swift.Equatable {
+    public struct CisScan {
         /// The CIS scan's failed checks.
         public var failedChecks: Swift.Int?
         /// The CIS scan's ARN.
@@ -3727,7 +3727,7 @@ extension Inspector2ClientTypes.CisScanConfiguration: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The CIS scan configuration.
-    public struct CisScanConfiguration: Swift.Equatable {
+    public struct CisScanConfiguration {
         /// The CIS scan configuration's owner ID.
         public var ownerId: Swift.String?
         /// The CIS scan configuration's scan configuration ARN.
@@ -3885,7 +3885,7 @@ extension Inspector2ClientTypes.CisScanResultDetails: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The CIS scan result details.
-    public struct CisScanResultDetails: Swift.Equatable {
+    public struct CisScanResultDetails {
         /// The CIS scan result details' account ID.
         public var accountId: Swift.String?
         /// The account ID that's associated with the CIS scan result details.
@@ -4049,7 +4049,7 @@ extension Inspector2ClientTypes.CisScanResultDetailsFilterCriteria: Swift.Codabl
 
 extension Inspector2ClientTypes {
     /// The CIS scan result details filter criteria.
-    public struct CisScanResultDetailsFilterCriteria: Swift.Equatable {
+    public struct CisScanResultDetailsFilterCriteria {
         /// The criteria's check ID filters.
         public var checkIdFilters: [Inspector2ClientTypes.CisStringFilter]?
         /// The criteria's finding ARN filters.
@@ -4234,7 +4234,7 @@ extension Inspector2ClientTypes.CisScanResultsAggregatedByChecksFilterCriteria: 
 
 extension Inspector2ClientTypes {
     /// The scan results aggregated by checks filter criteria.
-    public struct CisScanResultsAggregatedByChecksFilterCriteria: Swift.Equatable {
+    public struct CisScanResultsAggregatedByChecksFilterCriteria {
         /// The criteria's account ID filters.
         public var accountIdFilters: [Inspector2ClientTypes.CisStringFilter]?
         /// The criteria's check ID filters.
@@ -4486,7 +4486,7 @@ extension Inspector2ClientTypes.CisScanResultsAggregatedByTargetResourceFilterCr
 
 extension Inspector2ClientTypes {
     /// The scan results aggregated by target resource filter criteria.
-    public struct CisScanResultsAggregatedByTargetResourceFilterCriteria: Swift.Equatable {
+    public struct CisScanResultsAggregatedByTargetResourceFilterCriteria {
         /// The criteria's account ID filters.
         public var accountIdFilters: [Inspector2ClientTypes.CisStringFilter]?
         /// The criteria's check ID filters.
@@ -4670,7 +4670,7 @@ extension Inspector2ClientTypes.CisScanStatusFilter: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The CIS scan status filter.
-    public struct CisScanStatusFilter: Swift.Equatable {
+    public struct CisScanStatusFilter {
         /// The filter comparison value.
         /// This member is required.
         public var comparison: Inspector2ClientTypes.CisScanStatusComparison?
@@ -4778,7 +4778,7 @@ extension Inspector2ClientTypes.CisSecurityLevelFilter: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The CIS security level filter. Security level refers to the Benchmark levels that CIS assigns to a profile.
-    public struct CisSecurityLevelFilter: Swift.Equatable {
+    public struct CisSecurityLevelFilter {
         /// The CIS security filter comparison value.
         /// This member is required.
         public var comparison: Inspector2ClientTypes.CisSecurityLevelComparison?
@@ -4831,7 +4831,7 @@ extension Inspector2ClientTypes.CisSessionMessage: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The CIS session message.
-    public struct CisSessionMessage: Swift.Equatable {
+    public struct CisSessionMessage {
         /// The CIS rule details for the CIS session message.
         /// This member is required.
         public var cisRuleDetails: ClientRuntime.Data?
@@ -4950,7 +4950,7 @@ extension Inspector2ClientTypes.CisStringFilter: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The CIS string filter.
-    public struct CisStringFilter: Swift.Equatable {
+    public struct CisStringFilter {
         /// The comparison value of the CIS string filter.
         /// This member is required.
         public var comparison: Inspector2ClientTypes.CisStringComparison?
@@ -5055,7 +5055,7 @@ extension Inspector2ClientTypes.CisTargetResourceAggregation: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The CIS target resource aggregation.
-    public struct CisTargetResourceAggregation: Swift.Equatable {
+    public struct CisTargetResourceAggregation {
         /// The account ID for the CIS target resource.
         public var accountId: Swift.String?
         /// The platform for the CIS target resource.
@@ -5189,7 +5189,7 @@ extension Inspector2ClientTypes.CisTargetStatusFilter: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The CIS target status filter.
-    public struct CisTargetStatusFilter: Swift.Equatable {
+    public struct CisTargetStatusFilter {
         /// The comparison value of the CIS target status filter.
         /// This member is required.
         public var comparison: Inspector2ClientTypes.CisTargetStatusComparison?
@@ -5271,7 +5271,7 @@ extension Inspector2ClientTypes.CisTargetStatusReasonFilter: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The CIS target status reason filter.
-    public struct CisTargetStatusReasonFilter: Swift.Equatable {
+    public struct CisTargetStatusReasonFilter {
         /// The comparison value of the CIS target status reason filter.
         /// This member is required.
         public var comparison: Inspector2ClientTypes.CisTargetStatusComparison?
@@ -5352,7 +5352,7 @@ extension Inspector2ClientTypes.CisTargets: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The CIS targets.
-    public struct CisTargets: Swift.Equatable {
+    public struct CisTargets {
         /// The CIS target account ids.
         public var accountIds: [Swift.String]?
         /// The CIS target resource tags.
@@ -5403,7 +5403,7 @@ extension Inspector2ClientTypes.CisaData: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The Cybersecurity and Infrastructure Security Agency (CISA) details for a specific vulnerability.
-    public struct CisaData: Swift.Equatable {
+    public struct CisaData {
         /// The remediation action recommended by CISA for this vulnerability.
         public var action: Swift.String?
         /// The date and time CISA added this vulnerability to their catalogue.
@@ -5464,7 +5464,7 @@ extension Inspector2ClientTypes.CodeFilePath: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Contains information on where a code vulnerability is located in your Lambda function.
-    public struct CodeFilePath: Swift.Equatable {
+    public struct CodeFilePath {
         /// The line number of the last line of code that a vulnerability was found in.
         /// This member is required.
         public var endLine: Swift.Int?
@@ -5521,7 +5521,7 @@ extension Inspector2ClientTypes.CodeLine: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Contains information on the lines of code associated with a code snippet.
-    public struct CodeLine: Swift.Equatable {
+    public struct CodeLine {
         /// The content of a line of code
         /// This member is required.
         public var content: Swift.String?
@@ -5574,7 +5574,7 @@ extension Inspector2ClientTypes.CodeSnippetError: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Contains information about any errors encountered while trying to retrieve a code snippet.
-    public struct CodeSnippetError: Swift.Equatable {
+    public struct CodeSnippetError {
         /// The error code for the error that prevented a code snippet from being retrieved.
         /// This member is required.
         public var errorCode: Inspector2ClientTypes.CodeSnippetErrorCode?
@@ -5706,7 +5706,7 @@ extension Inspector2ClientTypes.CodeSnippetResult: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Contains information on a code snippet retrieved by Amazon Inspector from a code vulnerability finding.
-    public struct CodeSnippetResult: Swift.Equatable {
+    public struct CodeSnippetResult {
         /// Contains information on the retrieved code snippet.
         public var codeSnippet: [Inspector2ClientTypes.CodeLine]?
         /// The line number of the last line of a code snippet.
@@ -5835,7 +5835,7 @@ extension Inspector2ClientTypes.CodeVulnerabilityDetails: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Contains information on the code vulnerability identified in your Lambda function.
-    public struct CodeVulnerabilityDetails: Swift.Equatable {
+    public struct CodeVulnerabilityDetails {
         /// The Common Weakness Enumeration (CWE) item associated with the detected vulnerability.
         /// This member is required.
         public var cwes: [Swift.String]?
@@ -5914,7 +5914,7 @@ extension Inspector2ClientTypes.ComputePlatform: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// A compute platform.
-    public struct ComputePlatform: Swift.Equatable {
+    public struct ComputePlatform {
         /// The compute platform product.
         public var product: Swift.String?
         /// The compute platform vendor.
@@ -5990,7 +5990,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -6041,7 +6041,7 @@ extension Inspector2ClientTypes.Counts: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// a structure that contains information on the count of resources within a group.
-    public struct Counts: Swift.Equatable {
+    public struct Counts {
         /// The number of resources.
         public var count: Swift.Int
         /// The key associated with this group
@@ -6086,7 +6086,7 @@ extension Inspector2ClientTypes.CoverageDateFilter: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Contains details of a coverage date filter.
-    public struct CoverageDateFilter: Swift.Equatable {
+    public struct CoverageDateFilter {
         /// A timestamp representing the end of the time period to filter results by.
         public var endInclusive: ClientRuntime.Date?
         /// A timestamp representing the start of the time period to filter results by.
@@ -6371,7 +6371,7 @@ extension Inspector2ClientTypes.CoverageFilterCriteria: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// A structure that identifies filter criteria for GetCoverageStatistics.
-    public struct CoverageFilterCriteria: Swift.Equatable {
+    public struct CoverageFilterCriteria {
         /// An array of Amazon Web Services account IDs to return coverage statistics for.
         public var accountId: [Inspector2ClientTypes.CoverageStringFilter]?
         /// The Amazon EC2 instance tags to filter on.
@@ -6499,7 +6499,7 @@ extension Inspector2ClientTypes.CoverageMapFilter: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Contains details of a coverage map filter.
-    public struct CoverageMapFilter: Swift.Equatable {
+    public struct CoverageMapFilter {
         /// The operator to compare coverage on.
         /// This member is required.
         public var comparison: Inspector2ClientTypes.CoverageMapComparison?
@@ -6620,7 +6620,7 @@ extension Inspector2ClientTypes.CoverageStringFilter: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Contains details of a coverage string filter.
-    public struct CoverageStringFilter: Swift.Equatable {
+    public struct CoverageStringFilter {
         /// The operator to compare strings on.
         /// This member is required.
         public var comparison: Inspector2ClientTypes.CoverageStringComparison?
@@ -6697,7 +6697,7 @@ extension Inspector2ClientTypes.CoveredResource: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// An object that contains details about a resource covered by Amazon Inspector.
-    public struct CoveredResource: Swift.Equatable {
+    public struct CoveredResource {
         /// The Amazon Web Services account ID of the covered resource.
         /// This member is required.
         public var accountId: Swift.String?
@@ -6778,7 +6778,7 @@ extension CreateCisScanConfigurationInput {
     }
 }
 
-public struct CreateCisScanConfigurationInput: Swift.Equatable {
+public struct CreateCisScanConfigurationInput {
     /// The scan name for the CIS scan configuration.
     /// This member is required.
     public var scanName: Swift.String?
@@ -6810,7 +6810,7 @@ public struct CreateCisScanConfigurationInput: Swift.Equatable {
     }
 }
 
-struct CreateCisScanConfigurationInputBody: Swift.Equatable {
+struct CreateCisScanConfigurationInputBody {
     let scanName: Swift.String?
     let securityLevel: Inspector2ClientTypes.CisSecurityLevel?
     let schedule: Inspector2ClientTypes.Schedule?
@@ -6863,7 +6863,7 @@ extension CreateCisScanConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateCisScanConfigurationOutput: Swift.Equatable {
+public struct CreateCisScanConfigurationOutput {
     /// The scan configuration ARN for the CIS scan configuration.
     public var scanConfigurationArn: Swift.String?
 
@@ -6875,7 +6875,7 @@ public struct CreateCisScanConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct CreateCisScanConfigurationOutputBody: Swift.Equatable {
+struct CreateCisScanConfigurationOutputBody {
     let scanConfigurationArn: Swift.String?
 }
 
@@ -6966,7 +6966,7 @@ extension Inspector2ClientTypes.CreateCisTargets: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Creates CIS targets.
-    public struct CreateCisTargets: Swift.Equatable {
+    public struct CreateCisTargets {
         /// The CIS target account ids.
         /// This member is required.
         public var accountIds: [Swift.String]?
@@ -7029,7 +7029,7 @@ extension CreateFilterInput {
     }
 }
 
-public struct CreateFilterInput: Swift.Equatable {
+public struct CreateFilterInput {
     /// Defines the action that is to be applied to the findings that match the filter.
     /// This member is required.
     public var action: Inspector2ClientTypes.FilterAction?
@@ -7064,7 +7064,7 @@ public struct CreateFilterInput: Swift.Equatable {
     }
 }
 
-struct CreateFilterInputBody: Swift.Equatable {
+struct CreateFilterInputBody {
     let action: Inspector2ClientTypes.FilterAction?
     let description: Swift.String?
     let filterCriteria: Inspector2ClientTypes.FilterCriteria?
@@ -7121,7 +7121,7 @@ extension CreateFilterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateFilterOutput: Swift.Equatable {
+public struct CreateFilterOutput {
     /// The Amazon Resource Number (ARN) of the successfully created filter.
     /// This member is required.
     public var arn: Swift.String?
@@ -7134,7 +7134,7 @@ public struct CreateFilterOutput: Swift.Equatable {
     }
 }
 
-struct CreateFilterOutputBody: Swift.Equatable {
+struct CreateFilterOutputBody {
     let arn: Swift.String?
 }
 
@@ -7194,7 +7194,7 @@ extension CreateFindingsReportInput {
     }
 }
 
-public struct CreateFindingsReportInput: Swift.Equatable {
+public struct CreateFindingsReportInput {
     /// The filter criteria to apply to the results of the finding report.
     public var filterCriteria: Inspector2ClientTypes.FilterCriteria?
     /// The format to generate the report in.
@@ -7216,7 +7216,7 @@ public struct CreateFindingsReportInput: Swift.Equatable {
     }
 }
 
-struct CreateFindingsReportInputBody: Swift.Equatable {
+struct CreateFindingsReportInputBody {
     let filterCriteria: Inspector2ClientTypes.FilterCriteria?
     let reportFormat: Inspector2ClientTypes.ReportFormat?
     let s3Destination: Inspector2ClientTypes.Destination?
@@ -7252,7 +7252,7 @@ extension CreateFindingsReportOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateFindingsReportOutput: Swift.Equatable {
+public struct CreateFindingsReportOutput {
     /// The ID of the report.
     public var reportId: Swift.String?
 
@@ -7264,7 +7264,7 @@ public struct CreateFindingsReportOutput: Swift.Equatable {
     }
 }
 
-struct CreateFindingsReportOutputBody: Swift.Equatable {
+struct CreateFindingsReportOutputBody {
     let reportId: Swift.String?
 }
 
@@ -7323,7 +7323,7 @@ extension CreateSbomExportInput {
     }
 }
 
-public struct CreateSbomExportInput: Swift.Equatable {
+public struct CreateSbomExportInput {
     /// The output format for the software bill of materials (SBOM) report.
     /// This member is required.
     public var reportFormat: Inspector2ClientTypes.SbomReportFormat?
@@ -7345,7 +7345,7 @@ public struct CreateSbomExportInput: Swift.Equatable {
     }
 }
 
-struct CreateSbomExportInputBody: Swift.Equatable {
+struct CreateSbomExportInputBody {
     let resourceFilterCriteria: Inspector2ClientTypes.ResourceFilterCriteria?
     let reportFormat: Inspector2ClientTypes.SbomReportFormat?
     let s3Destination: Inspector2ClientTypes.Destination?
@@ -7381,7 +7381,7 @@ extension CreateSbomExportOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSbomExportOutput: Swift.Equatable {
+public struct CreateSbomExportOutput {
     /// The report ID for the software bill of materials (SBOM) report.
     public var reportId: Swift.String?
 
@@ -7393,7 +7393,7 @@ public struct CreateSbomExportOutput: Swift.Equatable {
     }
 }
 
-struct CreateSbomExportOutputBody: Swift.Equatable {
+struct CreateSbomExportOutputBody {
     let reportId: Swift.String?
 }
 
@@ -7480,7 +7480,7 @@ extension Inspector2ClientTypes.Cvss2: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The Common Vulnerability Scoring System (CVSS) version 2 details for the vulnerability.
-    public struct Cvss2: Swift.Equatable {
+    public struct Cvss2 {
         /// The CVSS v2 base score for the vulnerability.
         public var baseScore: Swift.Double
         /// The scoring vector associated with the CVSS v2 score.
@@ -7525,7 +7525,7 @@ extension Inspector2ClientTypes.Cvss3: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The Common Vulnerability Scoring System (CVSS) version 3 details for the vulnerability.
-    public struct Cvss3: Swift.Equatable {
+    public struct Cvss3 {
         /// The CVSS v3 base score for the vulnerability.
         public var baseScore: Swift.Double
         /// The scoring vector associated with the CVSS v3 score.
@@ -7582,7 +7582,7 @@ extension Inspector2ClientTypes.CvssScore: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The CVSS score for a finding.
-    public struct CvssScore: Swift.Equatable {
+    public struct CvssScore {
         /// The base CVSS score used for the finding.
         /// This member is required.
         public var baseScore: Swift.Double?
@@ -7639,7 +7639,7 @@ extension Inspector2ClientTypes.CvssScoreAdjustment: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Details on adjustments Amazon Inspector made to the CVSS score for a finding.
-    public struct CvssScoreAdjustment: Swift.Equatable {
+    public struct CvssScoreAdjustment {
         /// The metric used to adjust the CVSS score.
         /// This member is required.
         public var metric: Swift.String?
@@ -7722,7 +7722,7 @@ extension Inspector2ClientTypes.CvssScoreDetails: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Information about the CVSS score.
-    public struct CvssScoreDetails: Swift.Equatable {
+    public struct CvssScoreDetails {
         /// An object that contains details about adjustment Amazon Inspector made to the CVSS score.
         public var adjustments: [Inspector2ClientTypes.CvssScoreAdjustment]?
         /// The source of the CVSS data.
@@ -7781,7 +7781,7 @@ extension Inspector2ClientTypes.DailySchedule: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// A daily schedule.
-    public struct DailySchedule: Swift.Equatable {
+    public struct DailySchedule {
         /// The schedule start time.
         /// This member is required.
         public var startTime: Inspector2ClientTypes.Time?
@@ -7823,7 +7823,7 @@ extension Inspector2ClientTypes.DateFilter: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Contains details on the time range used to filter findings.
-    public struct DateFilter: Swift.Equatable {
+    public struct DateFilter {
         /// A timestamp representing the end of the time period filtered on.
         public var endInclusive: ClientRuntime.Date?
         /// A timestamp representing the start of the time period filtered on.
@@ -7915,7 +7915,7 @@ extension Inspector2ClientTypes.DelegatedAdmin: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Details of the Amazon Inspector delegated administrator for your organization.
-    public struct DelegatedAdmin: Swift.Equatable {
+    public struct DelegatedAdmin {
         /// The Amazon Web Services account ID of the Amazon Inspector delegated administrator for your organization.
         public var accountId: Swift.String?
         /// The status of the Amazon Inspector delegated administrator.
@@ -7960,7 +7960,7 @@ extension Inspector2ClientTypes.DelegatedAdminAccount: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Details of the Amazon Inspector delegated administrator for your organization.
-    public struct DelegatedAdminAccount: Swift.Equatable {
+    public struct DelegatedAdminAccount {
         /// The Amazon Web Services account ID of the Amazon Inspector delegated administrator for your organization.
         public var accountId: Swift.String?
         /// The status of the Amazon Inspector delegated administrator.
@@ -8030,7 +8030,7 @@ extension DeleteCisScanConfigurationInput {
     }
 }
 
-public struct DeleteCisScanConfigurationInput: Swift.Equatable {
+public struct DeleteCisScanConfigurationInput {
     /// The ARN of the CIS scan configuration.
     /// This member is required.
     public var scanConfigurationArn: Swift.String?
@@ -8043,7 +8043,7 @@ public struct DeleteCisScanConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DeleteCisScanConfigurationInputBody: Swift.Equatable {
+struct DeleteCisScanConfigurationInputBody {
     let scanConfigurationArn: Swift.String?
 }
 
@@ -8071,7 +8071,7 @@ extension DeleteCisScanConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteCisScanConfigurationOutput: Swift.Equatable {
+public struct DeleteCisScanConfigurationOutput {
     /// The ARN of the CIS scan configuration.
     /// This member is required.
     public var scanConfigurationArn: Swift.String?
@@ -8084,7 +8084,7 @@ public struct DeleteCisScanConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct DeleteCisScanConfigurationOutputBody: Swift.Equatable {
+struct DeleteCisScanConfigurationOutputBody {
     let scanConfigurationArn: Swift.String?
 }
 
@@ -8135,7 +8135,7 @@ extension DeleteFilterInput {
     }
 }
 
-public struct DeleteFilterInput: Swift.Equatable {
+public struct DeleteFilterInput {
     /// The Amazon Resource Number (ARN) of the filter to be deleted.
     /// This member is required.
     public var arn: Swift.String?
@@ -8148,7 +8148,7 @@ public struct DeleteFilterInput: Swift.Equatable {
     }
 }
 
-struct DeleteFilterInputBody: Swift.Equatable {
+struct DeleteFilterInputBody {
     let arn: Swift.String?
 }
 
@@ -8176,7 +8176,7 @@ extension DeleteFilterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteFilterOutput: Swift.Equatable {
+public struct DeleteFilterOutput {
     /// The Amazon Resource Number (ARN) of the filter that has been deleted.
     /// This member is required.
     public var arn: Swift.String?
@@ -8189,7 +8189,7 @@ public struct DeleteFilterOutput: Swift.Equatable {
     }
 }
 
-struct DeleteFilterOutputBody: Swift.Equatable {
+struct DeleteFilterOutputBody {
     let arn: Swift.String?
 }
 
@@ -8227,12 +8227,12 @@ extension DescribeOrganizationConfigurationInput {
     }
 }
 
-public struct DescribeOrganizationConfigurationInput: Swift.Equatable {
+public struct DescribeOrganizationConfigurationInput {
 
     public init() { }
 }
 
-struct DescribeOrganizationConfigurationInputBody: Swift.Equatable {
+struct DescribeOrganizationConfigurationInputBody {
 }
 
 extension DescribeOrganizationConfigurationInputBody: Swift.Decodable {
@@ -8255,7 +8255,7 @@ extension DescribeOrganizationConfigurationOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct DescribeOrganizationConfigurationOutput: Swift.Equatable {
+public struct DescribeOrganizationConfigurationOutput {
     /// The scan types are automatically enabled for new members of your organization.
     public var autoEnable: Inspector2ClientTypes.AutoEnable?
     /// Represents whether your organization has reached the maximum Amazon Web Services account limit for Amazon Inspector.
@@ -8271,7 +8271,7 @@ public struct DescribeOrganizationConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeOrganizationConfigurationOutputBody: Swift.Equatable {
+struct DescribeOrganizationConfigurationOutputBody {
     let autoEnable: Inspector2ClientTypes.AutoEnable?
     let maxAccountLimitReached: Swift.Bool?
 }
@@ -8338,7 +8338,7 @@ extension Inspector2ClientTypes.Destination: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Contains details of the Amazon S3 bucket and KMS key used to export findings.
-    public struct Destination: Swift.Equatable {
+    public struct Destination {
         /// The name of the Amazon S3 bucket to export findings to.
         /// This member is required.
         public var bucketName: Swift.String?
@@ -8382,7 +8382,7 @@ extension DisableDelegatedAdminAccountInput {
     }
 }
 
-public struct DisableDelegatedAdminAccountInput: Swift.Equatable {
+public struct DisableDelegatedAdminAccountInput {
     /// The Amazon Web Services account ID of the current Amazon Inspector delegated administrator.
     /// This member is required.
     public var delegatedAdminAccountId: Swift.String?
@@ -8395,7 +8395,7 @@ public struct DisableDelegatedAdminAccountInput: Swift.Equatable {
     }
 }
 
-struct DisableDelegatedAdminAccountInputBody: Swift.Equatable {
+struct DisableDelegatedAdminAccountInputBody {
     let delegatedAdminAccountId: Swift.String?
 }
 
@@ -8423,7 +8423,7 @@ extension DisableDelegatedAdminAccountOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DisableDelegatedAdminAccountOutput: Swift.Equatable {
+public struct DisableDelegatedAdminAccountOutput {
     /// The Amazon Web Services account ID of the successfully disabled delegated administrator.
     /// This member is required.
     public var delegatedAdminAccountId: Swift.String?
@@ -8436,7 +8436,7 @@ public struct DisableDelegatedAdminAccountOutput: Swift.Equatable {
     }
 }
 
-struct DisableDelegatedAdminAccountOutputBody: Swift.Equatable {
+struct DisableDelegatedAdminAccountOutputBody {
     let delegatedAdminAccountId: Swift.String?
 }
 
@@ -8498,7 +8498,7 @@ extension DisableInput {
     }
 }
 
-public struct DisableInput: Swift.Equatable {
+public struct DisableInput {
     /// An array of account IDs you want to disable Amazon Inspector scans for.
     public var accountIds: [Swift.String]?
     /// The resource scan types you want to disable.
@@ -8514,7 +8514,7 @@ public struct DisableInput: Swift.Equatable {
     }
 }
 
-struct DisableInputBody: Swift.Equatable {
+struct DisableInputBody {
     let accountIds: [Swift.String]?
     let resourceTypes: [Inspector2ClientTypes.ResourceScanType]?
 }
@@ -8566,7 +8566,7 @@ extension DisableOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisableOutput: Swift.Equatable {
+public struct DisableOutput {
     /// Information on the accounts that have had Amazon Inspector scans successfully disabled. Details are provided for each account.
     /// This member is required.
     public var accounts: [Inspector2ClientTypes.Account]?
@@ -8583,7 +8583,7 @@ public struct DisableOutput: Swift.Equatable {
     }
 }
 
-struct DisableOutputBody: Swift.Equatable {
+struct DisableOutputBody {
     let accounts: [Inspector2ClientTypes.Account]?
     let failedAccounts: [Inspector2ClientTypes.FailedAccount]?
 }
@@ -8656,7 +8656,7 @@ extension DisassociateMemberInput {
     }
 }
 
-public struct DisassociateMemberInput: Swift.Equatable {
+public struct DisassociateMemberInput {
     /// The Amazon Web Services account ID of the member account to disassociate.
     /// This member is required.
     public var accountId: Swift.String?
@@ -8669,7 +8669,7 @@ public struct DisassociateMemberInput: Swift.Equatable {
     }
 }
 
-struct DisassociateMemberInputBody: Swift.Equatable {
+struct DisassociateMemberInputBody {
     let accountId: Swift.String?
 }
 
@@ -8697,7 +8697,7 @@ extension DisassociateMemberOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateMemberOutput: Swift.Equatable {
+public struct DisassociateMemberOutput {
     /// The Amazon Web Services account ID of the successfully disassociated member.
     /// This member is required.
     public var accountId: Swift.String?
@@ -8710,7 +8710,7 @@ public struct DisassociateMemberOutput: Swift.Equatable {
     }
 }
 
-struct DisassociateMemberOutputBody: Swift.Equatable {
+struct DisassociateMemberOutputBody {
     let accountId: Swift.String?
 }
 
@@ -8877,7 +8877,7 @@ extension Inspector2ClientTypes.Ec2InstanceAggregation: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The details that define an aggregation based on Amazon EC2 instances.
-    public struct Ec2InstanceAggregation: Swift.Equatable {
+    public struct Ec2InstanceAggregation {
         /// The AMI IDs associated with the Amazon EC2 instances to aggregate findings for.
         public var amis: [Inspector2ClientTypes.StringFilter]?
         /// The Amazon EC2 instance IDs to aggregate findings for.
@@ -8980,7 +8980,7 @@ extension Inspector2ClientTypes.Ec2InstanceAggregationResponse: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// A response that contains the results of a finding aggregation by Amazon EC2 instance.
-    public struct Ec2InstanceAggregationResponse: Swift.Equatable {
+    public struct Ec2InstanceAggregationResponse {
         /// The Amazon Web Services account for the Amazon EC2 instance.
         public var accountId: Swift.String?
         /// The Amazon Machine Image (AMI) of the Amazon EC2 instance.
@@ -9102,7 +9102,7 @@ extension Inspector2ClientTypes.Ec2Metadata: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Meta data details of an Amazon EC2 instance.
-    public struct Ec2Metadata: Swift.Equatable {
+    public struct Ec2Metadata {
         /// The ID of the Amazon Machine Image (AMI) used to launch the instance.
         public var amiId: Swift.String?
         /// The platform of the instance.
@@ -9189,7 +9189,7 @@ extension Inspector2ClientTypes.EcrConfiguration: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Details about the ECR automated re-scan duration setting for your environment.
-    public struct EcrConfiguration: Swift.Equatable {
+    public struct EcrConfiguration {
         /// The rescan duration configured for image pull date.
         public var pullDateRescanDuration: Inspector2ClientTypes.EcrPullDateRescanDuration?
         /// The rescan duration configured for image push date.
@@ -9229,7 +9229,7 @@ extension Inspector2ClientTypes.EcrConfigurationState: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Details about the state of the ECR scans for your environment.
-    public struct EcrConfigurationState: Swift.Equatable {
+    public struct EcrConfigurationState {
         /// An object that contains details about the state of the ECR re-scan settings.
         public var rescanDurationState: Inspector2ClientTypes.EcrRescanDurationState?
 
@@ -9282,7 +9282,7 @@ extension Inspector2ClientTypes.EcrContainerImageMetadata: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Information on the Amazon ECR image metadata associated with a finding.
-    public struct EcrContainerImageMetadata: Swift.Equatable {
+    public struct EcrContainerImageMetadata {
         /// The date an image was last pulled at.
         public var imagePulledAt: ClientRuntime.Date?
         /// Tags associated with the Amazon ECR image metadata.
@@ -9368,7 +9368,7 @@ extension Inspector2ClientTypes.EcrRepositoryMetadata: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Information on the Amazon ECR repository metadata associated with a finding.
-    public struct EcrRepositoryMetadata: Swift.Equatable {
+    public struct EcrRepositoryMetadata {
         /// The name of the Amazon ECR repository.
         public var name: Swift.String?
         /// The frequency of scans.
@@ -9469,7 +9469,7 @@ extension Inspector2ClientTypes.EcrRescanDurationState: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Details about the state of your ECR re-scan duration settings. The ECR re-scan duration defines how long an ECR image will be actively scanned by Amazon Inspector. When the number of days since an image was last pushed exceeds the duration configured for image pull date, and the duration configured for image pull date, the monitoring state of that image becomes inactive and all associated findings are scheduled for closure.
-    public struct EcrRescanDurationState: Swift.Equatable {
+    public struct EcrRescanDurationState {
         /// The rescan duration configured for image pull date.
         public var pullDateRescanDuration: Inspector2ClientTypes.EcrPullDateRescanDuration?
         /// The rescan duration configured for image push date.
@@ -9589,7 +9589,7 @@ extension EnableDelegatedAdminAccountInput {
     }
 }
 
-public struct EnableDelegatedAdminAccountInput: Swift.Equatable {
+public struct EnableDelegatedAdminAccountInput {
     /// The idempotency token for the request.
     public var clientToken: Swift.String?
     /// The Amazon Web Services account ID of the Amazon Inspector delegated administrator.
@@ -9606,7 +9606,7 @@ public struct EnableDelegatedAdminAccountInput: Swift.Equatable {
     }
 }
 
-struct EnableDelegatedAdminAccountInputBody: Swift.Equatable {
+struct EnableDelegatedAdminAccountInputBody {
     let delegatedAdminAccountId: Swift.String?
     let clientToken: Swift.String?
 }
@@ -9638,7 +9638,7 @@ extension EnableDelegatedAdminAccountOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct EnableDelegatedAdminAccountOutput: Swift.Equatable {
+public struct EnableDelegatedAdminAccountOutput {
     /// The Amazon Web Services account ID of the successfully Amazon Inspector delegated administrator.
     /// This member is required.
     public var delegatedAdminAccountId: Swift.String?
@@ -9651,7 +9651,7 @@ public struct EnableDelegatedAdminAccountOutput: Swift.Equatable {
     }
 }
 
-struct EnableDelegatedAdminAccountOutputBody: Swift.Equatable {
+struct EnableDelegatedAdminAccountOutputBody {
     let delegatedAdminAccountId: Swift.String?
 }
 
@@ -9717,7 +9717,7 @@ extension EnableInput {
     }
 }
 
-public struct EnableInput: Swift.Equatable {
+public struct EnableInput {
     /// A list of account IDs you want to enable Amazon Inspector scans for.
     public var accountIds: [Swift.String]?
     /// The idempotency token for the request.
@@ -9738,7 +9738,7 @@ public struct EnableInput: Swift.Equatable {
     }
 }
 
-struct EnableInputBody: Swift.Equatable {
+struct EnableInputBody {
     let accountIds: [Swift.String]?
     let resourceTypes: [Inspector2ClientTypes.ResourceScanType]?
     let clientToken: Swift.String?
@@ -9794,7 +9794,7 @@ extension EnableOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct EnableOutput: Swift.Equatable {
+public struct EnableOutput {
     /// Information on the accounts that have had Amazon Inspector scans successfully enabled. Details are provided for each account.
     /// This member is required.
     public var accounts: [Inspector2ClientTypes.Account]?
@@ -9811,7 +9811,7 @@ public struct EnableOutput: Swift.Equatable {
     }
 }
 
-struct EnableOutputBody: Swift.Equatable {
+struct EnableOutputBody {
     let accounts: [Inspector2ClientTypes.Account]?
     let failedAccounts: [Inspector2ClientTypes.FailedAccount]?
 }
@@ -9885,7 +9885,7 @@ extension Inspector2ClientTypes.Epss: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Details about the Exploit Prediction Scoring System (EPSS) score.
-    public struct Epss: Swift.Equatable {
+    public struct Epss {
         /// The Exploit Prediction Scoring System (EPSS) score.
         public var score: Swift.Double
 
@@ -9920,7 +9920,7 @@ extension Inspector2ClientTypes.EpssDetails: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Details about the Exploit Prediction Scoring System (EPSS) score for a finding.
-    public struct EpssDetails: Swift.Equatable {
+    public struct EpssDetails {
         /// The EPSS score.
         public var score: Swift.Double
 
@@ -10035,7 +10035,7 @@ extension Inspector2ClientTypes.Evidence: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Details of the evidence for a vulnerability identified in a finding.
-    public struct Evidence: Swift.Equatable {
+    public struct Evidence {
         /// The evidence details.
         public var evidenceDetail: Swift.String?
         /// The evidence rule.
@@ -10116,7 +10116,7 @@ extension Inspector2ClientTypes.ExploitObserved: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Contains information on when this exploit was observed.
-    public struct ExploitObserved: Swift.Equatable {
+    public struct ExploitObserved {
         /// The date an time when the exploit was first seen.
         public var firstSeen: ClientRuntime.Date?
         /// The date an time when the exploit was last seen.
@@ -10155,7 +10155,7 @@ extension Inspector2ClientTypes.ExploitabilityDetails: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The details of an exploit available for a finding discovered in your environment.
-    public struct ExploitabilityDetails: Swift.Equatable {
+    public struct ExploitabilityDetails {
         /// The date and time of the last exploit associated with a finding discovered in your environment.
         public var lastKnownExploitAt: ClientRuntime.Date?
 
@@ -10252,7 +10252,7 @@ extension Inspector2ClientTypes.FailedAccount: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// An object with details on why an account failed to enable Amazon Inspector.
-    public struct FailedAccount: Swift.Equatable {
+    public struct FailedAccount {
         /// The Amazon Web Services account ID.
         /// This member is required.
         public var accountId: Swift.String?
@@ -10318,7 +10318,7 @@ extension Inspector2ClientTypes.FailedMemberAccountEc2DeepInspectionStatusState:
 
 extension Inspector2ClientTypes {
     /// An object that contains details about a member account in your organization that failed to activate Amazon Inspector deep inspection.
-    public struct FailedMemberAccountEc2DeepInspectionStatusState: Swift.Equatable {
+    public struct FailedMemberAccountEc2DeepInspectionStatusState {
         /// The unique identifier for the Amazon Web Services account of the organization member that failed to activate Amazon Inspector deep inspection.
         /// This member is required.
         public var accountId: Swift.String?
@@ -10428,7 +10428,7 @@ extension Inspector2ClientTypes.Filter: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Details about a filter.
-    public struct Filter: Swift.Equatable {
+    public struct Filter {
         /// The action that is to be applied to the findings that match the filter.
         /// This member is required.
         public var action: Inspector2ClientTypes.FilterAction?
@@ -11288,7 +11288,7 @@ extension Inspector2ClientTypes.FilterCriteria: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Details on the criteria used to define the filter.
-    public struct FilterCriteria: Swift.Equatable {
+    public struct FilterCriteria {
         /// Details of the Amazon Web Services account IDs used to filter findings.
         public var awsAccountId: [Inspector2ClientTypes.StringFilter]?
         /// The name of the detector used to identify a code vulnerability in a Lambda function used to filter findings.
@@ -11619,7 +11619,7 @@ extension Inspector2ClientTypes.Finding: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Details about an Amazon Inspector finding.
-    public struct Finding: Swift.Equatable {
+    public struct Finding {
         /// The Amazon Web Services account ID associated with the finding.
         /// This member is required.
         public var awsAccountId: Swift.String?
@@ -11858,7 +11858,7 @@ extension Inspector2ClientTypes.FindingDetail: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Details of the vulnerability identified in a finding.
-    public struct FindingDetail: Swift.Equatable {
+    public struct FindingDetail {
         /// The Cybersecurity and Infrastructure Security Agency (CISA) details for a specific vulnerability.
         public var cisaData: Inspector2ClientTypes.CisaData?
         /// The Common Weakness Enumerations (CWEs) associated with the vulnerability.
@@ -11941,7 +11941,7 @@ extension Inspector2ClientTypes.FindingDetailsError: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Details about an error encountered when trying to return vulnerability data for a finding.
-    public struct FindingDetailsError: Swift.Equatable {
+    public struct FindingDetailsError {
         /// The error code.
         /// This member is required.
         public var errorCode: Inspector2ClientTypes.FindingDetailsErrorCode?
@@ -12113,7 +12113,7 @@ extension Inspector2ClientTypes.FindingTypeAggregation: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The details that define an aggregation based on finding type.
-    public struct FindingTypeAggregation: Swift.Equatable {
+    public struct FindingTypeAggregation {
         /// The finding type to aggregate.
         public var findingType: Inspector2ClientTypes.AggregationFindingType?
         /// The resource type to aggregate.
@@ -12166,7 +12166,7 @@ extension Inspector2ClientTypes.FindingTypeAggregationResponse: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// A response that contains the results of a finding type aggregation.
-    public struct FindingTypeAggregationResponse: Swift.Equatable {
+    public struct FindingTypeAggregationResponse {
         /// The ID of the Amazon Web Services account associated with the findings.
         public var accountId: Swift.String?
         /// The value to sort results by.
@@ -12293,7 +12293,7 @@ extension Inspector2ClientTypes.FreeTrialAccountInfo: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Information about the Amazon Inspector free trial for an account.
-    public struct FreeTrialAccountInfo: Swift.Equatable {
+    public struct FreeTrialAccountInfo {
         /// The account associated with the Amazon Inspector free trial information.
         /// This member is required.
         public var accountId: Swift.String?
@@ -12352,7 +12352,7 @@ extension Inspector2ClientTypes.FreeTrialInfo: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// An object that contains information about the Amazon Inspector free trial for an account.
-    public struct FreeTrialInfo: Swift.Equatable {
+    public struct FreeTrialInfo {
         /// The date and time that the Amazon Inspector free trail ends for a given account.
         /// This member is required.
         public var end: ClientRuntime.Date?
@@ -12415,7 +12415,7 @@ extension Inspector2ClientTypes.FreeTrialInfoError: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Information about an error received while accessing free trail data for an account.
-    public struct FreeTrialInfoError: Swift.Equatable {
+    public struct FreeTrialInfoError {
         /// The account associated with the Amazon Inspector free trial information.
         /// This member is required.
         public var accountId: Swift.String?
@@ -12569,7 +12569,7 @@ extension GetCisScanReportInput {
     }
 }
 
-public struct GetCisScanReportInput: Swift.Equatable {
+public struct GetCisScanReportInput {
     /// The scan ARN.
     /// This member is required.
     public var scanArn: Swift.String?
@@ -12586,7 +12586,7 @@ public struct GetCisScanReportInput: Swift.Equatable {
     }
 }
 
-struct GetCisScanReportInputBody: Swift.Equatable {
+struct GetCisScanReportInputBody {
     let scanArn: Swift.String?
     let targetAccounts: [Swift.String]?
 }
@@ -12629,7 +12629,7 @@ extension GetCisScanReportOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCisScanReportOutput: Swift.Equatable {
+public struct GetCisScanReportOutput {
     /// The status.
     public var status: Inspector2ClientTypes.CisReportStatus?
     /// The URL where the CIS scan report PDF can be downloaded.
@@ -12645,7 +12645,7 @@ public struct GetCisScanReportOutput: Swift.Equatable {
     }
 }
 
-struct GetCisScanReportOutputBody: Swift.Equatable {
+struct GetCisScanReportOutputBody {
     let url: Swift.String?
     let status: Inspector2ClientTypes.CisReportStatus?
 }
@@ -12727,7 +12727,7 @@ extension GetCisScanResultDetailsInput {
     }
 }
 
-public struct GetCisScanResultDetailsInput: Swift.Equatable {
+public struct GetCisScanResultDetailsInput {
     /// The account ID.
     /// This member is required.
     public var accountId: Swift.String?
@@ -12770,7 +12770,7 @@ public struct GetCisScanResultDetailsInput: Swift.Equatable {
     }
 }
 
-struct GetCisScanResultDetailsInputBody: Swift.Equatable {
+struct GetCisScanResultDetailsInputBody {
     let scanArn: Swift.String?
     let targetResourceId: Swift.String?
     let accountId: Swift.String?
@@ -12828,7 +12828,7 @@ extension GetCisScanResultDetailsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCisScanResultDetailsOutput: Swift.Equatable {
+public struct GetCisScanResultDetailsOutput {
     /// The pagination token from a previous request that's used to retrieve the next page of results.
     public var nextToken: Swift.String?
     /// The scan result details.
@@ -12844,7 +12844,7 @@ public struct GetCisScanResultDetailsOutput: Swift.Equatable {
     }
 }
 
-struct GetCisScanResultDetailsOutputBody: Swift.Equatable {
+struct GetCisScanResultDetailsOutputBody {
     let scanResultDetails: [Inspector2ClientTypes.CisScanResultDetails]?
     let nextToken: Swift.String?
 }
@@ -12894,12 +12894,12 @@ extension GetConfigurationInput {
     }
 }
 
-public struct GetConfigurationInput: Swift.Equatable {
+public struct GetConfigurationInput {
 
     public init() { }
 }
 
-struct GetConfigurationInputBody: Swift.Equatable {
+struct GetConfigurationInputBody {
 }
 
 extension GetConfigurationInputBody: Swift.Decodable {
@@ -12920,7 +12920,7 @@ extension GetConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetConfigurationOutput: Swift.Equatable {
+public struct GetConfigurationOutput {
     /// Specifies how the ECR automated re-scan duration is currently configured for your environment.
     public var ecrConfiguration: Inspector2ClientTypes.EcrConfigurationState?
 
@@ -12932,7 +12932,7 @@ public struct GetConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetConfigurationOutputBody: Swift.Equatable {
+struct GetConfigurationOutputBody {
     let ecrConfiguration: Inspector2ClientTypes.EcrConfigurationState?
 }
 
@@ -12968,12 +12968,12 @@ extension GetDelegatedAdminAccountInput {
     }
 }
 
-public struct GetDelegatedAdminAccountInput: Swift.Equatable {
+public struct GetDelegatedAdminAccountInput {
 
     public init() { }
 }
 
-struct GetDelegatedAdminAccountInputBody: Swift.Equatable {
+struct GetDelegatedAdminAccountInputBody {
 }
 
 extension GetDelegatedAdminAccountInputBody: Swift.Decodable {
@@ -12994,7 +12994,7 @@ extension GetDelegatedAdminAccountOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDelegatedAdminAccountOutput: Swift.Equatable {
+public struct GetDelegatedAdminAccountOutput {
     /// The Amazon Web Services account ID of the Amazon Inspector delegated administrator.
     public var delegatedAdmin: Inspector2ClientTypes.DelegatedAdmin?
 
@@ -13006,7 +13006,7 @@ public struct GetDelegatedAdminAccountOutput: Swift.Equatable {
     }
 }
 
-struct GetDelegatedAdminAccountOutputBody: Swift.Equatable {
+struct GetDelegatedAdminAccountOutputBody {
     let delegatedAdmin: Inspector2ClientTypes.DelegatedAdmin?
 }
 
@@ -13044,12 +13044,12 @@ extension GetEc2DeepInspectionConfigurationInput {
     }
 }
 
-public struct GetEc2DeepInspectionConfigurationInput: Swift.Equatable {
+public struct GetEc2DeepInspectionConfigurationInput {
 
     public init() { }
 }
 
-struct GetEc2DeepInspectionConfigurationInputBody: Swift.Equatable {
+struct GetEc2DeepInspectionConfigurationInputBody {
 }
 
 extension GetEc2DeepInspectionConfigurationInputBody: Swift.Decodable {
@@ -13076,7 +13076,7 @@ extension GetEc2DeepInspectionConfigurationOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct GetEc2DeepInspectionConfigurationOutput: Swift.Equatable {
+public struct GetEc2DeepInspectionConfigurationOutput {
     /// An error message explaining why Amazon Inspector deep inspection configurations could not be retrieved for your account.
     public var errorMessage: Swift.String?
     /// The Amazon Inspector deep inspection custom paths for your organization.
@@ -13100,7 +13100,7 @@ public struct GetEc2DeepInspectionConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetEc2DeepInspectionConfigurationOutputBody: Swift.Equatable {
+struct GetEc2DeepInspectionConfigurationOutputBody {
     let packagePaths: [Swift.String]?
     let orgPackagePaths: [Swift.String]?
     let status: Inspector2ClientTypes.Ec2DeepInspectionStatus?
@@ -13187,7 +13187,7 @@ extension GetEncryptionKeyInput {
     }
 }
 
-public struct GetEncryptionKeyInput: Swift.Equatable {
+public struct GetEncryptionKeyInput {
     /// The resource type the key encrypts.
     /// This member is required.
     public var resourceType: Inspector2ClientTypes.ResourceType?
@@ -13205,7 +13205,7 @@ public struct GetEncryptionKeyInput: Swift.Equatable {
     }
 }
 
-struct GetEncryptionKeyInputBody: Swift.Equatable {
+struct GetEncryptionKeyInputBody {
 }
 
 extension GetEncryptionKeyInputBody: Swift.Decodable {
@@ -13226,7 +13226,7 @@ extension GetEncryptionKeyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEncryptionKeyOutput: Swift.Equatable {
+public struct GetEncryptionKeyOutput {
     /// A kms key ID.
     /// This member is required.
     public var kmsKeyId: Swift.String?
@@ -13239,7 +13239,7 @@ public struct GetEncryptionKeyOutput: Swift.Equatable {
     }
 }
 
-struct GetEncryptionKeyOutputBody: Swift.Equatable {
+struct GetEncryptionKeyOutputBody {
     let kmsKeyId: Swift.String?
 }
 
@@ -13290,7 +13290,7 @@ extension GetFindingsReportStatusInput {
     }
 }
 
-public struct GetFindingsReportStatusInput: Swift.Equatable {
+public struct GetFindingsReportStatusInput {
     /// The ID of the report to retrieve the status of.
     public var reportId: Swift.String?
 
@@ -13302,7 +13302,7 @@ public struct GetFindingsReportStatusInput: Swift.Equatable {
     }
 }
 
-struct GetFindingsReportStatusInputBody: Swift.Equatable {
+struct GetFindingsReportStatusInputBody {
     let reportId: Swift.String?
 }
 
@@ -13340,7 +13340,7 @@ extension GetFindingsReportStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetFindingsReportStatusOutput: Swift.Equatable {
+public struct GetFindingsReportStatusOutput {
     /// The destination of the report.
     public var destination: Inspector2ClientTypes.Destination?
     /// The error code of the report.
@@ -13372,7 +13372,7 @@ public struct GetFindingsReportStatusOutput: Swift.Equatable {
     }
 }
 
-struct GetFindingsReportStatusOutputBody: Swift.Equatable {
+struct GetFindingsReportStatusOutputBody {
     let reportId: Swift.String?
     let status: Inspector2ClientTypes.ExternalReportStatus?
     let errorCode: Inspector2ClientTypes.ReportingErrorCode?
@@ -13443,7 +13443,7 @@ extension GetMemberInput {
     }
 }
 
-public struct GetMemberInput: Swift.Equatable {
+public struct GetMemberInput {
     /// The Amazon Web Services account ID of the member account to retrieve information on.
     /// This member is required.
     public var accountId: Swift.String?
@@ -13456,7 +13456,7 @@ public struct GetMemberInput: Swift.Equatable {
     }
 }
 
-struct GetMemberInputBody: Swift.Equatable {
+struct GetMemberInputBody {
     let accountId: Swift.String?
 }
 
@@ -13484,7 +13484,7 @@ extension GetMemberOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMemberOutput: Swift.Equatable {
+public struct GetMemberOutput {
     /// Details of the retrieved member account.
     public var member: Inspector2ClientTypes.Member?
 
@@ -13496,7 +13496,7 @@ public struct GetMemberOutput: Swift.Equatable {
     }
 }
 
-struct GetMemberOutputBody: Swift.Equatable {
+struct GetMemberOutputBody {
     let member: Inspector2ClientTypes.Member?
 }
 
@@ -13547,7 +13547,7 @@ extension GetSbomExportInput {
     }
 }
 
-public struct GetSbomExportInput: Swift.Equatable {
+public struct GetSbomExportInput {
     /// The report ID of the SBOM export to get details for.
     /// This member is required.
     public var reportId: Swift.String?
@@ -13560,7 +13560,7 @@ public struct GetSbomExportInput: Swift.Equatable {
     }
 }
 
-struct GetSbomExportInputBody: Swift.Equatable {
+struct GetSbomExportInputBody {
     let reportId: Swift.String?
 }
 
@@ -13600,7 +13600,7 @@ extension GetSbomExportOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSbomExportOutput: Swift.Equatable {
+public struct GetSbomExportOutput {
     /// An error code.
     public var errorCode: Inspector2ClientTypes.ReportingErrorCode?
     /// An error message.
@@ -13636,7 +13636,7 @@ public struct GetSbomExportOutput: Swift.Equatable {
     }
 }
 
-struct GetSbomExportOutputBody: Swift.Equatable {
+struct GetSbomExportOutputBody {
     let reportId: Swift.String?
     let format: Inspector2ClientTypes.SbomReportFormat?
     let status: Inspector2ClientTypes.ExternalReportStatus?
@@ -13813,7 +13813,7 @@ extension Inspector2ClientTypes.ImageLayerAggregation: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The details that define an aggregation based on container image layers.
-    public struct ImageLayerAggregation: Swift.Equatable {
+    public struct ImageLayerAggregation {
         /// The hashes associated with the layers.
         public var layerHashes: [Inspector2ClientTypes.StringFilter]?
         /// The repository associated with the container image hosting the layers.
@@ -13888,7 +13888,7 @@ extension Inspector2ClientTypes.ImageLayerAggregationResponse: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// A response that contains the results of a finding aggregation by image layer.
-    public struct ImageLayerAggregationResponse: Swift.Equatable {
+    public struct ImageLayerAggregationResponse {
         /// The ID of the Amazon Web Services account that owns the container image hosting the layer image.
         /// This member is required.
         public var accountId: Swift.String?
@@ -13980,7 +13980,7 @@ extension Inspector2ClientTypes.InspectorScoreDetails: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Information about the Amazon Inspector score given to a finding.
-    public struct InspectorScoreDetails: Swift.Equatable {
+    public struct InspectorScoreDetails {
         /// An object that contains details about the CVSS score given to a finding.
         public var adjustedCvss: Inspector2ClientTypes.CvssScoreDetails?
 
@@ -14043,7 +14043,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -14158,7 +14158,7 @@ extension Inspector2ClientTypes.LambdaFunctionAggregation: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The details that define a findings aggregation based on Amazon Web Services Lambda functions.
-    public struct LambdaFunctionAggregation: Swift.Equatable {
+    public struct LambdaFunctionAggregation {
         /// The Amazon Web Services Lambda function names to include in the aggregation results.
         public var functionNames: [Inspector2ClientTypes.StringFilter]?
         /// The tags to include in the aggregation results.
@@ -14261,7 +14261,7 @@ extension Inspector2ClientTypes.LambdaFunctionAggregationResponse: Swift.Codable
 
 extension Inspector2ClientTypes {
     /// A response that contains the results of an Amazon Web Services Lambda function finding aggregation.
-    public struct LambdaFunctionAggregationResponse: Swift.Equatable {
+    public struct LambdaFunctionAggregationResponse {
         /// The ID of the Amazon Web Services account that owns the Amazon Web Services Lambda function.
         public var accountId: Swift.String?
         /// The Amazon Web Services Lambda function names included in the aggregation results.
@@ -14363,7 +14363,7 @@ extension Inspector2ClientTypes.LambdaFunctionMetadata: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The Amazon Web Services Lambda function metadata.
-    public struct LambdaFunctionMetadata: Swift.Equatable {
+    public struct LambdaFunctionMetadata {
         /// The name of a function.
         public var functionName: Swift.String?
         /// The resource tags on an Amazon Web Services Lambda function.
@@ -14505,7 +14505,7 @@ extension Inspector2ClientTypes.LambdaLayerAggregation: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The details that define a findings aggregation based on an Amazon Web Services Lambda function's layers.
-    public struct LambdaLayerAggregation: Swift.Equatable {
+    public struct LambdaLayerAggregation {
         /// The names of the Amazon Web Services Lambda functions associated with the layers.
         public var functionNames: [Inspector2ClientTypes.StringFilter]?
         /// The Amazon Resource Name (ARN) of the Amazon Web Services Lambda function layer.
@@ -14580,7 +14580,7 @@ extension Inspector2ClientTypes.LambdaLayerAggregationResponse: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// A response that contains the results of an Amazon Web Services Lambda function layer finding aggregation.
-    public struct LambdaLayerAggregationResponse: Swift.Equatable {
+    public struct LambdaLayerAggregationResponse {
         /// The account ID of the Amazon Web Services Lambda function layer.
         /// This member is required.
         public var accountId: Swift.String?
@@ -14706,7 +14706,7 @@ extension Inspector2ClientTypes.LambdaVpcConfig: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The VPC security groups and subnets that are attached to an Amazon Web Services Lambda function. For more information, see [VPC Settings](https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html).
-    public struct LambdaVpcConfig: Swift.Equatable {
+    public struct LambdaVpcConfig {
         /// The VPC security groups and subnets that are attached to an Amazon Web Services Lambda function. For more information, see [VPC Settings](https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html).
         public var securityGroupIds: [Swift.String]?
         /// A list of VPC subnet IDs.
@@ -14756,7 +14756,7 @@ extension ListAccountPermissionsInput {
     }
 }
 
-public struct ListAccountPermissionsInput: Swift.Equatable {
+public struct ListAccountPermissionsInput {
     /// The maximum number of results the response can return. If your request would return more than the maximum the response will return a nextToken value, use this value when you call the action again to get the remaining results.
     public var maxResults: Swift.Int?
     /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. If your response returns more than the maxResults maximum value it will also return a nextToken value. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
@@ -14776,7 +14776,7 @@ public struct ListAccountPermissionsInput: Swift.Equatable {
     }
 }
 
-struct ListAccountPermissionsInputBody: Swift.Equatable {
+struct ListAccountPermissionsInputBody {
     let service: Inspector2ClientTypes.Service?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -14814,7 +14814,7 @@ extension ListAccountPermissionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAccountPermissionsOutput: Swift.Equatable {
+public struct ListAccountPermissionsOutput {
     /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
     public var nextToken: Swift.String?
     /// Contains details on the permissions an account has to configure Amazon Inspector.
@@ -14831,7 +14831,7 @@ public struct ListAccountPermissionsOutput: Swift.Equatable {
     }
 }
 
-struct ListAccountPermissionsOutputBody: Swift.Equatable {
+struct ListAccountPermissionsOutputBody {
     let permissions: [Inspector2ClientTypes.Permission]?
     let nextToken: Swift.String?
 }
@@ -14943,7 +14943,7 @@ extension Inspector2ClientTypes.ListCisScanConfigurationsFilterCriteria: Swift.C
 
 extension Inspector2ClientTypes {
     /// A list of CIS scan configurations filter criteria.
-    public struct ListCisScanConfigurationsFilterCriteria: Swift.Equatable {
+    public struct ListCisScanConfigurationsFilterCriteria {
         /// The list of scan configuration ARN filters.
         public var scanConfigurationArnFilters: [Inspector2ClientTypes.CisStringFilter]?
         /// The list of scan name filters.
@@ -15001,7 +15001,7 @@ extension ListCisScanConfigurationsInput {
     }
 }
 
-public struct ListCisScanConfigurationsInput: Swift.Equatable {
+public struct ListCisScanConfigurationsInput {
     /// The CIS scan configuration filter criteria.
     public var filterCriteria: Inspector2ClientTypes.ListCisScanConfigurationsFilterCriteria?
     /// The maximum number of CIS scan configurations to be returned in a single page of results.
@@ -15029,7 +15029,7 @@ public struct ListCisScanConfigurationsInput: Swift.Equatable {
     }
 }
 
-struct ListCisScanConfigurationsInputBody: Swift.Equatable {
+struct ListCisScanConfigurationsInputBody {
     let filterCriteria: Inspector2ClientTypes.ListCisScanConfigurationsFilterCriteria?
     let sortBy: Inspector2ClientTypes.CisScanConfigurationsSortBy?
     let sortOrder: Inspector2ClientTypes.CisSortOrder?
@@ -15075,7 +15075,7 @@ extension ListCisScanConfigurationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCisScanConfigurationsOutput: Swift.Equatable {
+public struct ListCisScanConfigurationsOutput {
     /// The pagination token from a previous request that's used to retrieve the next page of results.
     public var nextToken: Swift.String?
     /// The CIS scan configuration scan configurations.
@@ -15091,7 +15091,7 @@ public struct ListCisScanConfigurationsOutput: Swift.Equatable {
     }
 }
 
-struct ListCisScanConfigurationsOutputBody: Swift.Equatable {
+struct ListCisScanConfigurationsOutputBody {
     let scanConfigurations: [Inspector2ClientTypes.CisScanConfiguration]?
     let nextToken: Swift.String?
 }
@@ -15174,7 +15174,7 @@ extension ListCisScanResultsAggregatedByChecksInput {
     }
 }
 
-public struct ListCisScanResultsAggregatedByChecksInput: Swift.Equatable {
+public struct ListCisScanResultsAggregatedByChecksInput {
     /// The filter criteria.
     public var filterCriteria: Inspector2ClientTypes.CisScanResultsAggregatedByChecksFilterCriteria?
     /// The maximum number of scan results aggregated by checks to be returned in a single page of results.
@@ -15207,7 +15207,7 @@ public struct ListCisScanResultsAggregatedByChecksInput: Swift.Equatable {
     }
 }
 
-struct ListCisScanResultsAggregatedByChecksInputBody: Swift.Equatable {
+struct ListCisScanResultsAggregatedByChecksInputBody {
     let scanArn: Swift.String?
     let filterCriteria: Inspector2ClientTypes.CisScanResultsAggregatedByChecksFilterCriteria?
     let sortBy: Inspector2ClientTypes.CisScanResultsAggregatedByChecksSortBy?
@@ -15257,7 +15257,7 @@ extension ListCisScanResultsAggregatedByChecksOutput: ClientRuntime.HttpResponse
     }
 }
 
-public struct ListCisScanResultsAggregatedByChecksOutput: Swift.Equatable {
+public struct ListCisScanResultsAggregatedByChecksOutput {
     /// The check aggregations.
     public var checkAggregations: [Inspector2ClientTypes.CisCheckAggregation]?
     /// The pagination token from a previous request that's used to retrieve the next page of results.
@@ -15273,7 +15273,7 @@ public struct ListCisScanResultsAggregatedByChecksOutput: Swift.Equatable {
     }
 }
 
-struct ListCisScanResultsAggregatedByChecksOutputBody: Swift.Equatable {
+struct ListCisScanResultsAggregatedByChecksOutputBody {
     let checkAggregations: [Inspector2ClientTypes.CisCheckAggregation]?
     let nextToken: Swift.String?
 }
@@ -15356,7 +15356,7 @@ extension ListCisScanResultsAggregatedByTargetResourceInput {
     }
 }
 
-public struct ListCisScanResultsAggregatedByTargetResourceInput: Swift.Equatable {
+public struct ListCisScanResultsAggregatedByTargetResourceInput {
     /// The filter criteria.
     public var filterCriteria: Inspector2ClientTypes.CisScanResultsAggregatedByTargetResourceFilterCriteria?
     /// The maximum number of scan results aggregated by a target resource to be returned in a single page of results.
@@ -15389,7 +15389,7 @@ public struct ListCisScanResultsAggregatedByTargetResourceInput: Swift.Equatable
     }
 }
 
-struct ListCisScanResultsAggregatedByTargetResourceInputBody: Swift.Equatable {
+struct ListCisScanResultsAggregatedByTargetResourceInputBody {
     let scanArn: Swift.String?
     let filterCriteria: Inspector2ClientTypes.CisScanResultsAggregatedByTargetResourceFilterCriteria?
     let sortBy: Inspector2ClientTypes.CisScanResultsAggregatedByTargetResourceSortBy?
@@ -15439,7 +15439,7 @@ extension ListCisScanResultsAggregatedByTargetResourceOutput: ClientRuntime.Http
     }
 }
 
-public struct ListCisScanResultsAggregatedByTargetResourceOutput: Swift.Equatable {
+public struct ListCisScanResultsAggregatedByTargetResourceOutput {
     /// The pagination token from a previous request that's used to retrieve the next page of results.
     public var nextToken: Swift.String?
     /// The resource aggregations.
@@ -15455,7 +15455,7 @@ public struct ListCisScanResultsAggregatedByTargetResourceOutput: Swift.Equatabl
     }
 }
 
-struct ListCisScanResultsAggregatedByTargetResourceOutputBody: Swift.Equatable {
+struct ListCisScanResultsAggregatedByTargetResourceOutputBody {
     let targetResourceAggregations: [Inspector2ClientTypes.CisTargetResourceAggregation]?
     let nextToken: Swift.String?
 }
@@ -15725,7 +15725,7 @@ extension Inspector2ClientTypes.ListCisScansFilterCriteria: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// A list of CIS scans filter criteria.
-    public struct ListCisScansFilterCriteria: Swift.Equatable {
+    public struct ListCisScansFilterCriteria {
         /// The list of failed checks filters.
         public var failedChecksFilters: [Inspector2ClientTypes.CisNumberFilter]?
         /// The list of scan ARN filters.
@@ -15815,7 +15815,7 @@ extension ListCisScansInput {
     }
 }
 
-public struct ListCisScansInput: Swift.Equatable {
+public struct ListCisScansInput {
     /// The detail applied to the CIS scan.
     public var detailLevel: Inspector2ClientTypes.ListCisScansDetailLevel?
     /// The CIS scan filter criteria.
@@ -15847,7 +15847,7 @@ public struct ListCisScansInput: Swift.Equatable {
     }
 }
 
-struct ListCisScansInputBody: Swift.Equatable {
+struct ListCisScansInputBody {
     let filterCriteria: Inspector2ClientTypes.ListCisScansFilterCriteria?
     let detailLevel: Inspector2ClientTypes.ListCisScansDetailLevel?
     let sortBy: Inspector2ClientTypes.ListCisScansSortBy?
@@ -15897,7 +15897,7 @@ extension ListCisScansOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCisScansOutput: Swift.Equatable {
+public struct ListCisScansOutput {
     /// The pagination token from a previous request that's used to retrieve the next page of results.
     public var nextToken: Swift.String?
     /// The CIS scans.
@@ -15913,7 +15913,7 @@ public struct ListCisScansOutput: Swift.Equatable {
     }
 }
 
-struct ListCisScansOutputBody: Swift.Equatable {
+struct ListCisScansOutputBody {
     let scans: [Inspector2ClientTypes.CisScan]?
     let nextToken: Swift.String?
 }
@@ -16022,7 +16022,7 @@ extension ListCoverageInput {
     }
 }
 
-public struct ListCoverageInput: Swift.Equatable {
+public struct ListCoverageInput {
     /// An object that contains details on the filters to apply to the coverage data for your environment.
     public var filterCriteria: Inspector2ClientTypes.CoverageFilterCriteria?
     /// The maximum number of results the response can return. If your request would return more than the maximum the response will return a nextToken value, use this value when you call the action again to get the remaining results.
@@ -16042,7 +16042,7 @@ public struct ListCoverageInput: Swift.Equatable {
     }
 }
 
-struct ListCoverageInputBody: Swift.Equatable {
+struct ListCoverageInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let filterCriteria: Inspector2ClientTypes.CoverageFilterCriteria?
@@ -16080,7 +16080,7 @@ extension ListCoverageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCoverageOutput: Swift.Equatable {
+public struct ListCoverageOutput {
     /// An object that contains details on the covered resources in your environment.
     public var coveredResources: [Inspector2ClientTypes.CoveredResource]?
     /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
@@ -16096,7 +16096,7 @@ public struct ListCoverageOutput: Swift.Equatable {
     }
 }
 
-struct ListCoverageOutputBody: Swift.Equatable {
+struct ListCoverageOutputBody {
     let nextToken: Swift.String?
     let coveredResources: [Inspector2ClientTypes.CoveredResource]?
 }
@@ -16166,7 +16166,7 @@ extension ListCoverageStatisticsInput {
     }
 }
 
-public struct ListCoverageStatisticsInput: Swift.Equatable {
+public struct ListCoverageStatisticsInput {
     /// An object that contains details on the filters to apply to the coverage data for your environment.
     public var filterCriteria: Inspector2ClientTypes.CoverageFilterCriteria?
     /// The value to group the results by.
@@ -16186,7 +16186,7 @@ public struct ListCoverageStatisticsInput: Swift.Equatable {
     }
 }
 
-struct ListCoverageStatisticsInputBody: Swift.Equatable {
+struct ListCoverageStatisticsInputBody {
     let filterCriteria: Inspector2ClientTypes.CoverageFilterCriteria?
     let groupBy: Inspector2ClientTypes.GroupKey?
     let nextToken: Swift.String?
@@ -16226,7 +16226,7 @@ extension ListCoverageStatisticsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCoverageStatisticsOutput: Swift.Equatable {
+public struct ListCoverageStatisticsOutput {
     /// An array with the number for each group.
     public var countsByGroup: [Inspector2ClientTypes.Counts]?
     /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
@@ -16247,7 +16247,7 @@ public struct ListCoverageStatisticsOutput: Swift.Equatable {
     }
 }
 
-struct ListCoverageStatisticsOutputBody: Swift.Equatable {
+struct ListCoverageStatisticsOutputBody {
     let countsByGroup: [Inspector2ClientTypes.Counts]?
     let totalCounts: Swift.Int?
     let nextToken: Swift.String?
@@ -16317,7 +16317,7 @@ extension ListDelegatedAdminAccountsInput {
     }
 }
 
-public struct ListDelegatedAdminAccountsInput: Swift.Equatable {
+public struct ListDelegatedAdminAccountsInput {
     /// The maximum number of results the response can return. If your request would return more than the maximum the response will return a nextToken value, use this value when you call the action again to get the remaining results.
     public var maxResults: Swift.Int?
     /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. If your response returns more than the maxResults maximum value it will also return a nextToken value. For subsequent calls, use the nextToken value returned from the previous request to continue listing results after the first page.
@@ -16333,7 +16333,7 @@ public struct ListDelegatedAdminAccountsInput: Swift.Equatable {
     }
 }
 
-struct ListDelegatedAdminAccountsInputBody: Swift.Equatable {
+struct ListDelegatedAdminAccountsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -16367,7 +16367,7 @@ extension ListDelegatedAdminAccountsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDelegatedAdminAccountsOutput: Swift.Equatable {
+public struct ListDelegatedAdminAccountsOutput {
     /// Details of the Amazon Inspector delegated administrator of your organization.
     public var delegatedAdminAccounts: [Inspector2ClientTypes.DelegatedAdminAccount]?
     /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
@@ -16383,7 +16383,7 @@ public struct ListDelegatedAdminAccountsOutput: Swift.Equatable {
     }
 }
 
-struct ListDelegatedAdminAccountsOutputBody: Swift.Equatable {
+struct ListDelegatedAdminAccountsOutputBody {
     let delegatedAdminAccounts: [Inspector2ClientTypes.DelegatedAdminAccount]?
     let nextToken: Swift.String?
 }
@@ -16461,7 +16461,7 @@ extension ListFiltersInput {
     }
 }
 
-public struct ListFiltersInput: Swift.Equatable {
+public struct ListFiltersInput {
     /// The action the filter applies to matched findings.
     public var action: Inspector2ClientTypes.FilterAction?
     /// The Amazon resource number (ARN) of the filter.
@@ -16485,7 +16485,7 @@ public struct ListFiltersInput: Swift.Equatable {
     }
 }
 
-struct ListFiltersInputBody: Swift.Equatable {
+struct ListFiltersInputBody {
     let arns: [Swift.String]?
     let action: Inspector2ClientTypes.FilterAction?
     let nextToken: Swift.String?
@@ -16536,7 +16536,7 @@ extension ListFiltersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFiltersOutput: Swift.Equatable {
+public struct ListFiltersOutput {
     /// Contains details on the filters associated with your account.
     /// This member is required.
     public var filters: [Inspector2ClientTypes.Filter]?
@@ -16553,7 +16553,7 @@ public struct ListFiltersOutput: Swift.Equatable {
     }
 }
 
-struct ListFiltersOutputBody: Swift.Equatable {
+struct ListFiltersOutputBody {
     let filters: [Inspector2ClientTypes.Filter]?
     let nextToken: Swift.String?
 }
@@ -16635,7 +16635,7 @@ extension ListFindingAggregationsInput {
     }
 }
 
-public struct ListFindingAggregationsInput: Swift.Equatable {
+public struct ListFindingAggregationsInput {
     /// The Amazon Web Services account IDs to retrieve finding aggregation data for.
     public var accountIds: [Inspector2ClientTypes.StringFilter]?
     /// Details of the aggregation request that is used to filter your aggregation results.
@@ -16664,7 +16664,7 @@ public struct ListFindingAggregationsInput: Swift.Equatable {
     }
 }
 
-struct ListFindingAggregationsInputBody: Swift.Equatable {
+struct ListFindingAggregationsInputBody {
     let aggregationType: Inspector2ClientTypes.AggregationType?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -16721,7 +16721,7 @@ extension ListFindingAggregationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFindingAggregationsOutput: Swift.Equatable {
+public struct ListFindingAggregationsOutput {
     /// The type of aggregation to perform.
     /// This member is required.
     public var aggregationType: Inspector2ClientTypes.AggregationType?
@@ -16742,7 +16742,7 @@ public struct ListFindingAggregationsOutput: Swift.Equatable {
     }
 }
 
-struct ListFindingAggregationsOutputBody: Swift.Equatable {
+struct ListFindingAggregationsOutputBody {
     let aggregationType: Inspector2ClientTypes.AggregationType?
     let responses: [Inspector2ClientTypes.AggregationResponse]?
     let nextToken: Swift.String?
@@ -16820,7 +16820,7 @@ extension ListFindingsInput {
     }
 }
 
-public struct ListFindingsInput: Swift.Equatable {
+public struct ListFindingsInput {
     /// Details on the filters to apply to your finding results.
     public var filterCriteria: Inspector2ClientTypes.FilterCriteria?
     /// The maximum number of results the response can return. If your request would return more than the maximum the response will return a nextToken value, use this value when you call the action again to get the remaining results.
@@ -16844,7 +16844,7 @@ public struct ListFindingsInput: Swift.Equatable {
     }
 }
 
-struct ListFindingsInputBody: Swift.Equatable {
+struct ListFindingsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let filterCriteria: Inspector2ClientTypes.FilterCriteria?
@@ -16886,7 +16886,7 @@ extension ListFindingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFindingsOutput: Swift.Equatable {
+public struct ListFindingsOutput {
     /// Contains details on the findings in your environment.
     public var findings: [Inspector2ClientTypes.Finding]?
     /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
@@ -16902,7 +16902,7 @@ public struct ListFindingsOutput: Swift.Equatable {
     }
 }
 
-struct ListFindingsOutputBody: Swift.Equatable {
+struct ListFindingsOutputBody {
     let nextToken: Swift.String?
     let findings: [Inspector2ClientTypes.Finding]?
 }
@@ -16972,7 +16972,7 @@ extension ListMembersInput {
     }
 }
 
-public struct ListMembersInput: Swift.Equatable {
+public struct ListMembersInput {
     /// The maximum number of results the response can return. If your request would return more than the maximum the response will return a nextToken value, use this value when you call the action again to get the remaining results.
     public var maxResults: Swift.Int?
     /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. If your response returns more than the maxResults maximum value it will also return a nextToken value. For subsequent calls, use the nextToken value returned from the previous request to continue listing results after the first page.
@@ -16992,7 +16992,7 @@ public struct ListMembersInput: Swift.Equatable {
     }
 }
 
-struct ListMembersInputBody: Swift.Equatable {
+struct ListMembersInputBody {
     let onlyAssociated: Swift.Bool?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -17030,7 +17030,7 @@ extension ListMembersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMembersOutput: Swift.Equatable {
+public struct ListMembersOutput {
     /// An object that contains details for each member account.
     public var members: [Inspector2ClientTypes.Member]?
     /// The pagination parameter to be used on the next list operation to retrieve more items.
@@ -17046,7 +17046,7 @@ public struct ListMembersOutput: Swift.Equatable {
     }
 }
 
-struct ListMembersOutputBody: Swift.Equatable {
+struct ListMembersOutputBody {
     let members: [Inspector2ClientTypes.Member]?
     let nextToken: Swift.String?
 }
@@ -17099,7 +17099,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon resource number (ARN) of the resource to list tags of.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -17112,7 +17112,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -17133,7 +17133,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The tags associated with the resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -17145,7 +17145,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -17215,7 +17215,7 @@ extension ListUsageTotalsInput {
     }
 }
 
-public struct ListUsageTotalsInput: Swift.Equatable {
+public struct ListUsageTotalsInput {
     /// The Amazon Web Services account IDs to retrieve usage totals for.
     public var accountIds: [Swift.String]?
     /// The maximum number of results the response can return. If your request would return more than the maximum the response will return a nextToken value, use this value when you call the action again to get the remaining results.
@@ -17235,7 +17235,7 @@ public struct ListUsageTotalsInput: Swift.Equatable {
     }
 }
 
-struct ListUsageTotalsInputBody: Swift.Equatable {
+struct ListUsageTotalsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let accountIds: [Swift.String]?
@@ -17282,7 +17282,7 @@ extension ListUsageTotalsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListUsageTotalsOutput: Swift.Equatable {
+public struct ListUsageTotalsOutput {
     /// The pagination parameter to be used on the next list operation to retrieve more items.
     public var nextToken: Swift.String?
     /// An object with details on the total usage for the requested account.
@@ -17298,7 +17298,7 @@ public struct ListUsageTotalsOutput: Swift.Equatable {
     }
 }
 
-struct ListUsageTotalsOutputBody: Swift.Equatable {
+struct ListUsageTotalsOutputBody {
     let nextToken: Swift.String?
     let totals: [Inspector2ClientTypes.UsageTotal]?
 }
@@ -17403,7 +17403,7 @@ extension Inspector2ClientTypes.MapFilter: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// An object that describes details of a map filter.
-    public struct MapFilter: Swift.Equatable {
+    public struct MapFilter {
         /// The operator to use when comparing values in the filter.
         /// This member is required.
         public var comparison: Inspector2ClientTypes.MapComparison?
@@ -17466,7 +17466,7 @@ extension Inspector2ClientTypes.Member: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Details on a member account in your organization.
-    public struct Member: Swift.Equatable {
+    public struct Member {
         /// The Amazon Web Services account ID of the member account.
         public var accountId: Swift.String?
         /// The Amazon Web Services account ID of the Amazon Inspector delegated administrator for this member account.
@@ -17519,7 +17519,7 @@ extension Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatus: Swift.Coda
 
 extension Inspector2ClientTypes {
     /// An object that contains details about the status of Amazon Inspector deep inspection for a member account in your organization.
-    public struct MemberAccountEc2DeepInspectionStatus: Swift.Equatable {
+    public struct MemberAccountEc2DeepInspectionStatus {
         /// The unique identifier for the Amazon Web Services account of the organization member.
         /// This member is required.
         public var accountId: Swift.String?
@@ -17572,7 +17572,7 @@ extension Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatusState: Swift
 
 extension Inspector2ClientTypes {
     /// An object that contains details about the state of Amazon Inspector deep inspection for a member account.
-    public struct MemberAccountEc2DeepInspectionStatusState: Swift.Equatable {
+    public struct MemberAccountEc2DeepInspectionStatusState {
         /// The unique identifier for the Amazon Web Services account of the organization member
         /// This member is required.
         public var accountId: Swift.String?
@@ -17622,7 +17622,7 @@ extension Inspector2ClientTypes.MonthlySchedule: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// A monthly schedule.
-    public struct MonthlySchedule: Swift.Equatable {
+    public struct MonthlySchedule {
         /// The monthly schedule's day.
         /// This member is required.
         public var day: Inspector2ClientTypes.Day?
@@ -17675,7 +17675,7 @@ extension Inspector2ClientTypes.NetworkPath: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Information on the network path associated with a finding.
-    public struct NetworkPath: Swift.Equatable {
+    public struct NetworkPath {
         /// The details on the steps in the network path.
         public var steps: [Inspector2ClientTypes.Step]?
 
@@ -17754,7 +17754,7 @@ extension Inspector2ClientTypes.NetworkReachabilityDetails: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Contains the details of a network reachability finding.
-    public struct NetworkReachabilityDetails: Swift.Equatable {
+    public struct NetworkReachabilityDetails {
         /// An object that contains details about a network path associated with a finding.
         /// This member is required.
         public var networkPath: Inspector2ClientTypes.NetworkPath?
@@ -17806,7 +17806,7 @@ extension Inspector2ClientTypes.NumberFilter: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// An object that describes the details of a number filter.
-    public struct NumberFilter: Swift.Equatable {
+    public struct NumberFilter {
         /// The lowest number to be included in the filter.
         public var lowerInclusive: Swift.Double?
         /// The highest number to be included in the filter.
@@ -17837,7 +17837,7 @@ extension Inspector2ClientTypes.OneTimeSchedule: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// A one time schedule.
-    public struct OneTimeSchedule: Swift.Equatable {
+    public struct OneTimeSchedule {
 
         public init() { }
     }
@@ -17927,7 +17927,7 @@ extension Inspector2ClientTypes.PackageAggregation: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The details that define an aggregation based on operating system package type.
-    public struct PackageAggregation: Swift.Equatable {
+    public struct PackageAggregation {
         /// The names of packages to aggregate findings on.
         public var packageNames: [Inspector2ClientTypes.StringFilter]?
         /// The value to sort results by.
@@ -17982,7 +17982,7 @@ extension Inspector2ClientTypes.PackageAggregationResponse: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// A response that contains the results of a finding aggregation by image layer.
-    public struct PackageAggregationResponse: Swift.Equatable {
+    public struct PackageAggregationResponse {
         /// The ID of the Amazon Web Services account associated with the findings.
         public var accountId: Swift.String?
         /// The name of the operating system package.
@@ -18062,7 +18062,7 @@ extension Inspector2ClientTypes.PackageFilter: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Contains information on the details of a package filter.
-    public struct PackageFilter: Swift.Equatable {
+    public struct PackageFilter {
         /// An object that contains details on the package architecture type to filter on.
         public var architecture: Inspector2ClientTypes.StringFilter?
         /// An object that contains details on the package epoch to filter on.
@@ -18367,7 +18367,7 @@ extension Inspector2ClientTypes.PackageVulnerabilityDetails: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Information about a package vulnerability finding.
-    public struct PackageVulnerabilityDetails: Swift.Equatable {
+    public struct PackageVulnerabilityDetails {
         /// An object that contains details about the CVSS score of a finding.
         public var cvss: [Inspector2ClientTypes.CvssScore]?
         /// One or more URLs that contain details about this vulnerability type.
@@ -18446,7 +18446,7 @@ extension Inspector2ClientTypes.Permission: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Contains information on the permissions an account has within Amazon Inspector.
-    public struct Permission: Swift.Equatable {
+    public struct Permission {
         /// The operations that can be performed with the given permissions.
         /// This member is required.
         public var operation: Inspector2ClientTypes.Operation?
@@ -18493,7 +18493,7 @@ extension Inspector2ClientTypes.PortRange: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Details about the port range associated with a finding.
-    public struct PortRange: Swift.Equatable {
+    public struct PortRange {
         /// The beginning port in a port range.
         /// This member is required.
         public var begin: Swift.Int?
@@ -18540,7 +18540,7 @@ extension Inspector2ClientTypes.PortRangeFilter: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// An object that describes the details of a port range filter.
-    public struct PortRangeFilter: Swift.Equatable {
+    public struct PortRangeFilter {
         /// The port number the port range begins at.
         public var beginInclusive: Swift.Int?
         /// The port number the port range ends at.
@@ -18585,7 +18585,7 @@ extension Inspector2ClientTypes.Recommendation: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Details about the recommended course of action to remediate the finding.
-    public struct Recommendation: Swift.Equatable {
+    public struct Recommendation {
         /// The recommended course of action to remediate the finding.
         public var text: Swift.String?
         /// The URL address to the CVE remediation recommendations.
@@ -18686,7 +18686,7 @@ extension Inspector2ClientTypes.Remediation: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Information on how to remediate a finding.
-    public struct Remediation: Swift.Equatable {
+    public struct Remediation {
         /// An object that contains information about the recommended course of action to remediate the finding.
         public var recommendation: Inspector2ClientTypes.Recommendation?
 
@@ -18821,7 +18821,7 @@ extension Inspector2ClientTypes.RepositoryAggregation: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The details that define an aggregation based on repository.
-    public struct RepositoryAggregation: Swift.Equatable {
+    public struct RepositoryAggregation {
         /// The names of repositories to aggregate findings on.
         public var repositories: [Inspector2ClientTypes.StringFilter]?
         /// The value to sort results by.
@@ -18882,7 +18882,7 @@ extension Inspector2ClientTypes.RepositoryAggregationResponse: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// A response that contains details on the results of a finding aggregation by repository.
-    public struct RepositoryAggregationResponse: Swift.Equatable {
+    public struct RepositoryAggregationResponse {
         /// The ID of the Amazon Web Services account associated with the findings.
         public var accountId: Swift.String?
         /// The number of container images impacted by the findings.
@@ -18971,7 +18971,7 @@ extension ResetEncryptionKeyInput {
     }
 }
 
-public struct ResetEncryptionKeyInput: Swift.Equatable {
+public struct ResetEncryptionKeyInput {
     /// The resource type the key encrypts.
     /// This member is required.
     public var resourceType: Inspector2ClientTypes.ResourceType?
@@ -18989,7 +18989,7 @@ public struct ResetEncryptionKeyInput: Swift.Equatable {
     }
 }
 
-struct ResetEncryptionKeyInputBody: Swift.Equatable {
+struct ResetEncryptionKeyInputBody {
     let scanType: Inspector2ClientTypes.ScanType?
     let resourceType: Inspector2ClientTypes.ResourceType?
 }
@@ -19014,7 +19014,7 @@ extension ResetEncryptionKeyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ResetEncryptionKeyOutput: Swift.Equatable {
+public struct ResetEncryptionKeyOutput {
 
     public init() { }
 }
@@ -19097,7 +19097,7 @@ extension Inspector2ClientTypes.Resource: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Details about the resource involved in a finding.
-    public struct Resource: Swift.Equatable {
+    public struct Resource {
         /// An object that contains details about the resource involved in a finding.
         public var details: Inspector2ClientTypes.ResourceDetails?
         /// The ID of the resource.
@@ -19166,7 +19166,7 @@ extension Inspector2ClientTypes.ResourceDetails: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Contains details about the resource involved in the finding.
-    public struct ResourceDetails: Swift.Equatable {
+    public struct ResourceDetails {
         /// An object that contains details about the Amazon EC2 instance involved in the finding.
         public var awsEc2Instance: Inspector2ClientTypes.AwsEc2InstanceDetails?
         /// An object that contains details about the Amazon ECR container image involved in the finding.
@@ -19347,7 +19347,7 @@ extension Inspector2ClientTypes.ResourceFilterCriteria: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The resource filter criteria for a Software bill of materials (SBOM) report.
-    public struct ResourceFilterCriteria: Swift.Equatable {
+    public struct ResourceFilterCriteria {
         /// The account IDs used as resource filter criteria.
         public var accountId: [Inspector2ClientTypes.ResourceStringFilter]?
         /// The EC2 instance tags used as resource filter criteria.
@@ -19451,7 +19451,7 @@ extension Inspector2ClientTypes.ResourceMapFilter: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// A resource map filter for a software bill of material report.
-    public struct ResourceMapFilter: Swift.Equatable {
+    public struct ResourceMapFilter {
         /// The filter's comparison.
         /// This member is required.
         public var comparison: Inspector2ClientTypes.ResourceMapComparison?
@@ -19515,7 +19515,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -19570,7 +19570,7 @@ extension Inspector2ClientTypes.ResourceScanMetadata: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// An object that contains details about the metadata for an Amazon ECR resource.
-    public struct ResourceScanMetadata: Swift.Equatable {
+    public struct ResourceScanMetadata {
         /// An object that contains metadata details for an Amazon EC2 instance.
         public var ec2: Inspector2ClientTypes.Ec2Metadata?
         /// An object that contains details about the container metadata for an Amazon ECR image.
@@ -19673,7 +19673,7 @@ extension Inspector2ClientTypes.ResourceState: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Details the state of Amazon Inspector for each resource type Amazon Inspector scans.
-    public struct ResourceState: Swift.Equatable {
+    public struct ResourceState {
         /// An object detailing the state of Amazon Inspector scanning for Amazon EC2 resources.
         /// This member is required.
         public var ec2: Inspector2ClientTypes.State?
@@ -19740,7 +19740,7 @@ extension Inspector2ClientTypes.ResourceStatus: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Details the status of Amazon Inspector for each resource type Amazon Inspector scans.
-    public struct ResourceStatus: Swift.Equatable {
+    public struct ResourceStatus {
         /// The status of Amazon Inspector scanning for Amazon EC2 resources.
         /// This member is required.
         public var ec2: Inspector2ClientTypes.Status?
@@ -19827,7 +19827,7 @@ extension Inspector2ClientTypes.ResourceStringFilter: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// A resource string filter for a software bill of materials report.
-    public struct ResourceStringFilter: Swift.Equatable {
+    public struct ResourceStringFilter {
         /// The filter's comparison.
         /// This member is required.
         public var comparison: Inspector2ClientTypes.ResourceStringComparison?
@@ -20015,7 +20015,7 @@ extension Inspector2ClientTypes.ScanStatus: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The status of the scan.
-    public struct ScanStatus: Swift.Equatable {
+    public struct ScanStatus {
         /// The scan status. Possible return values and descriptions are: PENDING_INITIAL_SCAN - This resource has been identified for scanning, results will be available soon. ACCESS_DENIED - Resource access policy restricting Amazon Inspector access. Please update the IAM policy. INTERNAL_ERROR - Amazon Inspector has encountered an internal error for this resource. Amazon Inspector service will automatically resolve the issue and resume the scanning. No action required from the user. UNMANAGED_EC2_INSTANCE - The EC2 instance is not managed by SSM, please use the following SSM automation to remediate the issue: [https://docs.aws.amazon.com/systems-manager-automation-runbooks/latest/userguide/automation-awssupport-troubleshoot-managed-instance.html](https://docs.aws.amazon.com/systems-manager-automation-runbooks/latest/userguide/automation-awssupport-troubleshoot-managed-instance.html). Once the instance becomes managed by SSM, Inspector will automatically begin scanning this instance. UNSUPPORTED_OS - Amazon Inspector does not support this OS, architecture, or image manifest type at this time. To see a complete list of supported operating systems see: [https://docs.aws.amazon.com/inspector/latest/user/supported.html](https://docs.aws.amazon.com/inspector/latest/user/supported.html). SCAN_ELIGIBILITY_EXPIRED - The configured scan duration has lapsed for this image. RESOURCE_TERMINATED - This resource has been terminated. The findings and coverage associated with this resource are in the process of being cleaned up. SUCCESSFUL - The scan was successful. NO_RESOURCES_FOUND - Reserved for future use. IMAGE_SIZE_EXCEEDED - Reserved for future use. SCAN_FREQUENCY_MANUAL - This image will not be covered by Amazon Inspector due to the repository scan frequency configuration. SCAN_FREQUENCY_SCAN_ON_PUSH - This image will be scanned one time and will not new findings because of the scan frequency configuration. EC2_INSTANCE_STOPPED - This EC2 instance is in a stopped state, therefore, Amazon Inspector will pause scanning. The existing findings will continue to exist until the instance is terminated. Once the instance is re-started, Inspector will automatically start scanning the instance again. Please note that you will not be charged for this instance while it’s in a stopped state. PENDING_DISABLE - This resource is pending cleanup during disablement. The customer will not be billed while a resource is in the pending disable status. NO INVENTORY - Amazon Inspector couldn’t find software application inventory to scan for vulnerabilities. This might be caused due to required Amazon Inspector associations being deleted or failing to run on your resource. Please verify the status of InspectorInventoryCollection-do-not-delete association in the SSM console for the resource. Additionally, you can verify the instance’s inventory in the SSM Fleet Manager console. STALE_INVENTORY - Amazon Inspector wasn’t able to collect an updated software application inventory in the last 7 days. Please confirm the required Amazon Inspector associations still exist and you can still see an updated inventory in the SSM console. EXCLUDED_BY_TAG - This resource was not scanned because it has been excluded by a tag. UNSUPPORTED_RUNTIME - The function was not scanned because it has an unsupported runtime. To see a complete list of supported runtimes see: [https://docs.aws.amazon.com/inspector/latest/user/supported.html](https://docs.aws.amazon.com/inspector/latest/user/supported.html). UNSUPPORTED_MEDIA_TYPE - The ECR image has an unsupported media type. UNSUPPORTED_CONFIG_FILE - Reserved for future use. DEEP_INSPECTION_PACKAGE_COLLECTION_LIMIT_EXCEEDED - The instance has exceeded the 5000 package limit for Amazon Inspector Deep inspection. To resume Deep inspection for this instance you can try to adjust the custom paths associated with the account. DEEP_INSPECTION_DAILY_SSM_INVENTORY_LIMIT_EXCEEDED - The SSM agent couldn't send inventory to Amazon Inspector because the SSM quota for Inventory data collected per instance per day has already been reached for this instance. DEEP_INSPECTION_COLLECTION_TIME_LIMIT_EXCEEDED - Amazon Inspector failed to extract the package inventory because the package collection time exceeding the maximum threshold of 15 minutes. DEEP_INSPECTION_NO_INVENTORY The Amazon Inspector plugin hasn't yet been able to collect an inventory of packages for this instance. This is usually the result of a pending scan, however, if this status persists after 6 hours, use SSM to ensure that the required Amazon Inspector associations exist and are running for the instance.
         /// This member is required.
         public var reason: Inspector2ClientTypes.ScanStatusReason?
@@ -20253,7 +20253,7 @@ extension Inspector2ClientTypes.Schedule: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// A schedule.
-    public enum Schedule: Swift.Equatable {
+    public enum Schedule {
         /// The schedule's one time.
         case onetime(Inspector2ClientTypes.OneTimeSchedule)
         /// The schedule's daily.
@@ -20300,7 +20300,7 @@ extension Inspector2ClientTypes.SearchVulnerabilitiesFilterCriteria: Swift.Codab
 
 extension Inspector2ClientTypes {
     /// Details on the criteria used to define the filter for a vulnerability search.
-    public struct SearchVulnerabilitiesFilterCriteria: Swift.Equatable {
+    public struct SearchVulnerabilitiesFilterCriteria {
         /// The IDs for specific vulnerabilities.
         /// This member is required.
         public var vulnerabilityIds: [Swift.String]?
@@ -20339,7 +20339,7 @@ extension SearchVulnerabilitiesInput {
     }
 }
 
-public struct SearchVulnerabilitiesInput: Swift.Equatable {
+public struct SearchVulnerabilitiesInput {
     /// The criteria used to filter the results of a vulnerability search.
     /// This member is required.
     public var filterCriteria: Inspector2ClientTypes.SearchVulnerabilitiesFilterCriteria?
@@ -20356,7 +20356,7 @@ public struct SearchVulnerabilitiesInput: Swift.Equatable {
     }
 }
 
-struct SearchVulnerabilitiesInputBody: Swift.Equatable {
+struct SearchVulnerabilitiesInputBody {
     let filterCriteria: Inspector2ClientTypes.SearchVulnerabilitiesFilterCriteria?
     let nextToken: Swift.String?
 }
@@ -20390,7 +20390,7 @@ extension SearchVulnerabilitiesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchVulnerabilitiesOutput: Swift.Equatable {
+public struct SearchVulnerabilitiesOutput {
     /// The pagination parameter to be used on the next list operation to retrieve more items.
     public var nextToken: Swift.String?
     /// Details about the listed vulnerability.
@@ -20407,7 +20407,7 @@ public struct SearchVulnerabilitiesOutput: Swift.Equatable {
     }
 }
 
-struct SearchVulnerabilitiesOutputBody: Swift.Equatable {
+struct SearchVulnerabilitiesOutputBody {
     let vulnerabilities: [Inspector2ClientTypes.Vulnerability]?
     let nextToken: Swift.String?
 }
@@ -20474,7 +20474,7 @@ extension SendCisSessionHealthInput {
     }
 }
 
-public struct SendCisSessionHealthInput: Swift.Equatable {
+public struct SendCisSessionHealthInput {
     /// A unique identifier for the scan job.
     /// This member is required.
     public var scanJobId: Swift.String?
@@ -20492,7 +20492,7 @@ public struct SendCisSessionHealthInput: Swift.Equatable {
     }
 }
 
-struct SendCisSessionHealthInputBody: Swift.Equatable {
+struct SendCisSessionHealthInputBody {
     let scanJobId: Swift.String?
     let sessionToken: Swift.String?
 }
@@ -20517,7 +20517,7 @@ extension SendCisSessionHealthOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SendCisSessionHealthOutput: Swift.Equatable {
+public struct SendCisSessionHealthOutput {
 
     public init() { }
 }
@@ -20568,7 +20568,7 @@ extension SendCisSessionTelemetryInput {
     }
 }
 
-public struct SendCisSessionTelemetryInput: Swift.Equatable {
+public struct SendCisSessionTelemetryInput {
     /// The CIS session telemetry messages.
     /// This member is required.
     public var messages: [Inspector2ClientTypes.CisSessionMessage]?
@@ -20591,7 +20591,7 @@ public struct SendCisSessionTelemetryInput: Swift.Equatable {
     }
 }
 
-struct SendCisSessionTelemetryInputBody: Swift.Equatable {
+struct SendCisSessionTelemetryInputBody {
     let scanJobId: Swift.String?
     let sessionToken: Swift.String?
     let messages: [Inspector2ClientTypes.CisSessionMessage]?
@@ -20629,7 +20629,7 @@ extension SendCisSessionTelemetryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SendCisSessionTelemetryOutput: Swift.Equatable {
+public struct SendCisSessionTelemetryOutput {
 
     public init() { }
 }
@@ -20731,7 +20731,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
 }
@@ -20834,7 +20834,7 @@ extension Inspector2ClientTypes.SeverityCounts: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// An object that contains the counts of aggregated finding per severity.
-    public struct SeverityCounts: Swift.Equatable {
+    public struct SeverityCounts {
         /// The total count of findings from all severities.
         public var all: Swift.Int?
         /// The total count of critical severity findings.
@@ -20887,7 +20887,7 @@ extension Inspector2ClientTypes.SortCriteria: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Details about the criteria used to sort finding results.
-    public struct SortCriteria: Swift.Equatable {
+    public struct SortCriteria {
         /// The finding detail field by which results are sorted.
         /// This member is required.
         public var field: Inspector2ClientTypes.SortField?
@@ -21040,7 +21040,7 @@ extension StartCisSessionInput {
     }
 }
 
-public struct StartCisSessionInput: Swift.Equatable {
+public struct StartCisSessionInput {
     /// The start CIS session message.
     /// This member is required.
     public var message: Inspector2ClientTypes.StartCisSessionMessage?
@@ -21058,7 +21058,7 @@ public struct StartCisSessionInput: Swift.Equatable {
     }
 }
 
-struct StartCisSessionInputBody: Swift.Equatable {
+struct StartCisSessionInputBody {
     let scanJobId: Swift.String?
     let message: Inspector2ClientTypes.StartCisSessionMessage?
 }
@@ -21099,7 +21099,7 @@ extension Inspector2ClientTypes.StartCisSessionMessage: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The start CIS session message.
-    public struct StartCisSessionMessage: Swift.Equatable {
+    public struct StartCisSessionMessage {
         /// The unique token that identifies the CIS session.
         /// This member is required.
         public var sessionToken: Swift.String?
@@ -21119,7 +21119,7 @@ extension StartCisSessionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartCisSessionOutput: Swift.Equatable {
+public struct StartCisSessionOutput {
 
     public init() { }
 }
@@ -21172,7 +21172,7 @@ extension Inspector2ClientTypes.State: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// An object that described the state of Amazon Inspector scans for an account.
-    public struct State: Swift.Equatable {
+    public struct State {
         /// The error code explaining why the account failed to enable Amazon Inspector.
         /// This member is required.
         public var errorCode: Inspector2ClientTypes.ErrorCode?
@@ -21274,7 +21274,7 @@ extension Inspector2ClientTypes.StatusCounts: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The status counts.
-    public struct StatusCounts: Swift.Equatable {
+    public struct StatusCounts {
         /// The number of checks that failed.
         public var failed: Swift.Int?
         /// The number of checks that passed.
@@ -21323,7 +21323,7 @@ extension Inspector2ClientTypes.Step: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Details about the step associated with a finding.
-    public struct Step: Swift.Equatable {
+    public struct Step {
         /// The component ID.
         /// This member is required.
         public var componentId: Swift.String?
@@ -21406,7 +21406,7 @@ extension Inspector2ClientTypes.StopCisMessageProgress: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The stop CIS message progress.
-    public struct StopCisMessageProgress: Swift.Equatable {
+    public struct StopCisMessageProgress {
         /// The progress' error checks.
         public var errorChecks: Swift.Int
         /// The progress' failed checks.
@@ -21476,7 +21476,7 @@ extension StopCisSessionInput {
     }
 }
 
-public struct StopCisSessionInput: Swift.Equatable {
+public struct StopCisSessionInput {
     /// The stop CIS session message.
     /// This member is required.
     public var message: Inspector2ClientTypes.StopCisSessionMessage?
@@ -21499,7 +21499,7 @@ public struct StopCisSessionInput: Swift.Equatable {
     }
 }
 
-struct StopCisSessionInputBody: Swift.Equatable {
+struct StopCisSessionInputBody {
     let scanJobId: Swift.String?
     let sessionToken: Swift.String?
     let message: Inspector2ClientTypes.StopCisSessionMessage?
@@ -21574,7 +21574,7 @@ extension Inspector2ClientTypes.StopCisSessionMessage: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The stop CIS session message.
-    public struct StopCisSessionMessage: Swift.Equatable {
+    public struct StopCisSessionMessage {
         /// The message benchmark profile.
         public var benchmarkProfile: Swift.String?
         /// The message benchmark version.
@@ -21615,7 +21615,7 @@ extension StopCisSessionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopCisSessionOutput: Swift.Equatable {
+public struct StopCisSessionOutput {
 
     public init() { }
 }
@@ -21735,7 +21735,7 @@ extension Inspector2ClientTypes.StringFilter: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// An object that describes the details of a string filter.
-    public struct StringFilter: Swift.Equatable {
+    public struct StringFilter {
         /// The operator to use when comparing values in the filter.
         /// This member is required.
         public var comparison: Inspector2ClientTypes.StringComparison?
@@ -21782,7 +21782,7 @@ extension Inspector2ClientTypes.SuggestedFix: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// A suggested fix for a vulnerability in your Lambda function code.
-    public struct SuggestedFix: Swift.Equatable {
+    public struct SuggestedFix {
         /// The fix's code.
         public var code: Swift.String?
         /// The fix's description.
@@ -21862,7 +21862,7 @@ extension Inspector2ClientTypes.TagFilter: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The tag filter.
-    public struct TagFilter: Swift.Equatable {
+    public struct TagFilter {
         /// The tag filter comparison value.
         /// This member is required.
         public var comparison: Inspector2ClientTypes.TagComparison?
@@ -21913,7 +21913,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource to apply a tag to.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -21931,7 +21931,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -21961,7 +21961,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -22030,7 +22030,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -22073,7 +22073,7 @@ extension Inspector2ClientTypes.Time: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The time.
-    public struct Time: Swift.Equatable {
+    public struct Time {
         /// The time of day in 24-hour format (00:00).
         /// This member is required.
         public var timeOfDay: Swift.String?
@@ -22168,7 +22168,7 @@ extension Inspector2ClientTypes.TitleAggregation: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The details that define an aggregation based on finding title.
-    public struct TitleAggregation: Swift.Equatable {
+    public struct TitleAggregation {
         /// The type of finding to aggregate on.
         public var findingType: Inspector2ClientTypes.AggregationFindingType?
         /// The resource type to aggregate on.
@@ -22241,7 +22241,7 @@ extension Inspector2ClientTypes.TitleAggregationResponse: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// A response that contains details on the results of a finding aggregation by title.
-    public struct TitleAggregationResponse: Swift.Equatable {
+    public struct TitleAggregationResponse {
         /// The ID of the Amazon Web Services account associated with the findings.
         public var accountId: Swift.String?
         /// An object that represent the count of matched findings per severity.
@@ -22329,7 +22329,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) for the resource to remove tags from.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -22347,7 +22347,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -22361,7 +22361,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -22416,7 +22416,7 @@ extension UpdateCisScanConfigurationInput {
     }
 }
 
-public struct UpdateCisScanConfigurationInput: Swift.Equatable {
+public struct UpdateCisScanConfigurationInput {
     /// The CIS scan configuration ARN.
     /// This member is required.
     public var scanConfigurationArn: Swift.String?
@@ -22445,7 +22445,7 @@ public struct UpdateCisScanConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateCisScanConfigurationInputBody: Swift.Equatable {
+struct UpdateCisScanConfigurationInputBody {
     let scanConfigurationArn: Swift.String?
     let scanName: Swift.String?
     let securityLevel: Inspector2ClientTypes.CisSecurityLevel?
@@ -22489,7 +22489,7 @@ extension UpdateCisScanConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateCisScanConfigurationOutput: Swift.Equatable {
+public struct UpdateCisScanConfigurationOutput {
     /// The CIS scan configuration ARN.
     /// This member is required.
     public var scanConfigurationArn: Swift.String?
@@ -22502,7 +22502,7 @@ public struct UpdateCisScanConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateCisScanConfigurationOutputBody: Swift.Equatable {
+struct UpdateCisScanConfigurationOutputBody {
     let scanConfigurationArn: Swift.String?
 }
 
@@ -22594,7 +22594,7 @@ extension Inspector2ClientTypes.UpdateCisTargets: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Updates CIS targets.
-    public struct UpdateCisTargets: Swift.Equatable {
+    public struct UpdateCisTargets {
         /// The target account ids.
         public var accountIds: [Swift.String]?
         /// The target resource tags.
@@ -22632,7 +22632,7 @@ extension UpdateConfigurationInput {
     }
 }
 
-public struct UpdateConfigurationInput: Swift.Equatable {
+public struct UpdateConfigurationInput {
     /// Specifies how the ECR automated re-scan will be updated for your environment.
     /// This member is required.
     public var ecrConfiguration: Inspector2ClientTypes.EcrConfiguration?
@@ -22645,7 +22645,7 @@ public struct UpdateConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateConfigurationInputBody: Swift.Equatable {
+struct UpdateConfigurationInputBody {
     let ecrConfiguration: Inspector2ClientTypes.EcrConfiguration?
 }
 
@@ -22666,7 +22666,7 @@ extension UpdateConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateConfigurationOutput: Swift.Equatable {
+public struct UpdateConfigurationOutput {
 
     public init() { }
 }
@@ -22712,7 +22712,7 @@ extension UpdateEc2DeepInspectionConfigurationInput {
     }
 }
 
-public struct UpdateEc2DeepInspectionConfigurationInput: Swift.Equatable {
+public struct UpdateEc2DeepInspectionConfigurationInput {
     /// Specify TRUE to activate Amazon Inspector deep inspection in your account, or FALSE to deactivate. Member accounts in an organization cannot deactivate deep inspection, instead the delegated administrator for the organization can deactivate a member account using [BatchUpdateMemberEc2DeepInspectionStatus](https://docs.aws.amazon.com/inspector/v2/APIReference/API_BatchUpdateMemberEc2DeepInspectionStatus.html).
     public var activateDeepInspection: Swift.Bool?
     /// The Amazon Inspector deep inspection custom paths you are adding for your account.
@@ -22728,7 +22728,7 @@ public struct UpdateEc2DeepInspectionConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateEc2DeepInspectionConfigurationInputBody: Swift.Equatable {
+struct UpdateEc2DeepInspectionConfigurationInputBody {
     let activateDeepInspection: Swift.Bool?
     let packagePaths: [Swift.String]?
 }
@@ -22775,7 +22775,7 @@ extension UpdateEc2DeepInspectionConfigurationOutput: ClientRuntime.HttpResponse
     }
 }
 
-public struct UpdateEc2DeepInspectionConfigurationOutput: Swift.Equatable {
+public struct UpdateEc2DeepInspectionConfigurationOutput {
     /// An error message explaining why new Amazon Inspector deep inspection custom paths could not be added.
     public var errorMessage: Swift.String?
     /// The current Amazon Inspector deep inspection custom paths for the organization.
@@ -22799,7 +22799,7 @@ public struct UpdateEc2DeepInspectionConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateEc2DeepInspectionConfigurationOutputBody: Swift.Equatable {
+struct UpdateEc2DeepInspectionConfigurationOutputBody {
     let packagePaths: [Swift.String]?
     let orgPackagePaths: [Swift.String]?
     let status: Inspector2ClientTypes.Ec2DeepInspectionStatus?
@@ -22887,7 +22887,7 @@ extension UpdateEncryptionKeyInput {
     }
 }
 
-public struct UpdateEncryptionKeyInput: Swift.Equatable {
+public struct UpdateEncryptionKeyInput {
     /// A KMS key ID for the encryption key.
     /// This member is required.
     public var kmsKeyId: Swift.String?
@@ -22910,7 +22910,7 @@ public struct UpdateEncryptionKeyInput: Swift.Equatable {
     }
 }
 
-struct UpdateEncryptionKeyInputBody: Swift.Equatable {
+struct UpdateEncryptionKeyInputBody {
     let kmsKeyId: Swift.String?
     let scanType: Inspector2ClientTypes.ScanType?
     let resourceType: Inspector2ClientTypes.ResourceType?
@@ -22939,7 +22939,7 @@ extension UpdateEncryptionKeyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateEncryptionKeyOutput: Swift.Equatable {
+public struct UpdateEncryptionKeyOutput {
 
     public init() { }
 }
@@ -22999,7 +22999,7 @@ extension UpdateFilterInput {
     }
 }
 
-public struct UpdateFilterInput: Swift.Equatable {
+public struct UpdateFilterInput {
     /// Specifies the action that is to be applied to the findings that match the filter.
     public var action: Inspector2ClientTypes.FilterAction?
     /// A description of the filter.
@@ -23032,7 +23032,7 @@ public struct UpdateFilterInput: Swift.Equatable {
     }
 }
 
-struct UpdateFilterInputBody: Swift.Equatable {
+struct UpdateFilterInputBody {
     let action: Inspector2ClientTypes.FilterAction?
     let description: Swift.String?
     let filterCriteria: Inspector2ClientTypes.FilterCriteria?
@@ -23080,7 +23080,7 @@ extension UpdateFilterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateFilterOutput: Swift.Equatable {
+public struct UpdateFilterOutput {
     /// The Amazon Resource Number (ARN) of the successfully updated filter.
     /// This member is required.
     public var arn: Swift.String?
@@ -23093,7 +23093,7 @@ public struct UpdateFilterOutput: Swift.Equatable {
     }
 }
 
-struct UpdateFilterOutputBody: Swift.Equatable {
+struct UpdateFilterOutputBody {
     let arn: Swift.String?
 }
 
@@ -23147,7 +23147,7 @@ extension UpdateOrgEc2DeepInspectionConfigurationInput {
     }
 }
 
-public struct UpdateOrgEc2DeepInspectionConfigurationInput: Swift.Equatable {
+public struct UpdateOrgEc2DeepInspectionConfigurationInput {
     /// The Amazon Inspector deep inspection custom paths you are adding for your organization.
     /// This member is required.
     public var orgPackagePaths: [Swift.String]?
@@ -23160,7 +23160,7 @@ public struct UpdateOrgEc2DeepInspectionConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateOrgEc2DeepInspectionConfigurationInputBody: Swift.Equatable {
+struct UpdateOrgEc2DeepInspectionConfigurationInputBody {
     let orgPackagePaths: [Swift.String]?
 }
 
@@ -23190,7 +23190,7 @@ extension UpdateOrgEc2DeepInspectionConfigurationOutput: ClientRuntime.HttpRespo
     }
 }
 
-public struct UpdateOrgEc2DeepInspectionConfigurationOutput: Swift.Equatable {
+public struct UpdateOrgEc2DeepInspectionConfigurationOutput {
 
     public init() { }
 }
@@ -23229,7 +23229,7 @@ extension UpdateOrganizationConfigurationInput {
     }
 }
 
-public struct UpdateOrganizationConfigurationInput: Swift.Equatable {
+public struct UpdateOrganizationConfigurationInput {
     /// Defines which scan types are enabled automatically for new members of your Amazon Inspector organization.
     /// This member is required.
     public var autoEnable: Inspector2ClientTypes.AutoEnable?
@@ -23242,7 +23242,7 @@ public struct UpdateOrganizationConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateOrganizationConfigurationInputBody: Swift.Equatable {
+struct UpdateOrganizationConfigurationInputBody {
     let autoEnable: Inspector2ClientTypes.AutoEnable?
 }
 
@@ -23270,7 +23270,7 @@ extension UpdateOrganizationConfigurationOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct UpdateOrganizationConfigurationOutput: Swift.Equatable {
+public struct UpdateOrganizationConfigurationOutput {
     /// The updated status of scan types automatically enabled for new members of your Amazon Inspector organization.
     /// This member is required.
     public var autoEnable: Inspector2ClientTypes.AutoEnable?
@@ -23283,7 +23283,7 @@ public struct UpdateOrganizationConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateOrganizationConfigurationOutputBody: Swift.Equatable {
+struct UpdateOrganizationConfigurationOutputBody {
     let autoEnable: Inspector2ClientTypes.AutoEnable?
 }
 
@@ -23352,7 +23352,7 @@ extension Inspector2ClientTypes.Usage: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Contains usage information about the cost of Amazon Inspector operation.
-    public struct Usage: Swift.Equatable {
+    public struct Usage {
         /// The currency type used when calculating usage data.
         public var currency: Inspector2ClientTypes.Currency?
         /// The estimated monthly cost of Amazon Inspector.
@@ -23417,7 +23417,7 @@ extension Inspector2ClientTypes.UsageTotal: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// The total of usage for an account ID.
-    public struct UsageTotal: Swift.Equatable {
+    public struct UsageTotal {
         /// The account ID of the account that usage data was retrieved for.
         public var accountId: Swift.String?
         /// An object representing the total usage for an account.
@@ -23529,7 +23529,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let reason: Inspector2ClientTypes.ValidationExceptionReason?
     let fields: [Inspector2ClientTypes.ValidationExceptionField]?
@@ -23589,7 +23589,7 @@ extension Inspector2ClientTypes.ValidationExceptionField: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// An object that describes a validation exception.
-    public struct ValidationExceptionField: Swift.Equatable {
+    public struct ValidationExceptionField {
         /// The validation exception message.
         /// This member is required.
         public var message: Swift.String?
@@ -23809,7 +23809,7 @@ extension Inspector2ClientTypes.Vulnerability: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Contains details about a specific vulnerability Amazon Inspector can detect.
-    public struct Vulnerability: Swift.Equatable {
+    public struct Vulnerability {
         /// An object that contains information about the Amazon Web Services Threat Intel Group (ATIG) details for the vulnerability.
         public var atigData: Inspector2ClientTypes.AtigData?
         /// An object that contains the Cybersecurity and Infrastructure Security Agency (CISA) details for the vulnerability.
@@ -23998,7 +23998,7 @@ extension Inspector2ClientTypes.VulnerablePackage: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// Information on the vulnerable package identified by a finding.
-    public struct VulnerablePackage: Swift.Equatable {
+    public struct VulnerablePackage {
         /// The architecture of the vulnerable package.
         public var arch: Swift.String?
         /// The epoch of the vulnerable package.
@@ -24093,7 +24093,7 @@ extension Inspector2ClientTypes.WeeklySchedule: Swift.Codable {
 
 extension Inspector2ClientTypes {
     /// A weekly schedule.
-    public struct WeeklySchedule: Swift.Equatable {
+    public struct WeeklySchedule {
         /// The weekly schedule's days.
         /// This member is required.
         public var days: [Inspector2ClientTypes.Day]?

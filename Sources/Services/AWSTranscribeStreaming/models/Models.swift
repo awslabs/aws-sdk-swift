@@ -59,7 +59,7 @@ extension TranscribeStreamingClientTypes.Alternative: Swift.Codable {
 
 extension TranscribeStreamingClientTypes {
     /// A list of possible alternative transcriptions for the input audio. Each alternative may contain one or more of Items, Entities, or Transcript.
-    public struct Alternative: Swift.Equatable {
+    public struct Alternative {
         /// Contains entities identified as personally identifiable information (PII) in your transcription output.
         public var entities: [TranscribeStreamingClientTypes.Entity]?
         /// Contains words, phrases, or punctuation marks in your transcription output.
@@ -102,7 +102,7 @@ extension TranscribeStreamingClientTypes.AudioEvent: Swift.Codable {
 
 extension TranscribeStreamingClientTypes {
     /// A wrapper for your audio chunks. Your audio stream consists of one or more audio events, which consist of one or more audio chunks. For more information, see [Event stream encoding](https://docs.aws.amazon.com/transcribe/latest/dg/event-stream.html).
-    public struct AudioEvent: Swift.Equatable {
+    public struct AudioEvent {
         /// An audio blob that contains the next part of the audio that you want to transcribe. The maximum audio chunk size is 32 KB.
         public var audioChunk: ClientRuntime.Data?
 
@@ -138,7 +138,7 @@ extension TranscribeStreamingClientTypes.AudioStream: ClientRuntime.MessageMarsh
 
 extension TranscribeStreamingClientTypes {
     /// An encoded stream of audio blobs. Audio streams are encoded as either HTTP/2 or WebSocket data frames. For more information, see [Transcribing streaming audio](https://docs.aws.amazon.com/transcribe/latest/dg/streaming.html).
-    public enum AudioStream: Swift.Equatable {
+    public enum AudioStream {
         /// A blob of audio from your application. Your audio stream consists of one or more audio events. For more information, see [Event stream encoding](https://docs.aws.amazon.com/transcribe/latest/dg/event-stream.html).
         case audioevent(TranscribeStreamingClientTypes.AudioEvent)
         /// Contains audio channel definitions and post-call analytics settings.
@@ -206,7 +206,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct BadRequestExceptionBody: Swift.Equatable {
+struct BadRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -273,7 +273,7 @@ extension TranscribeStreamingClientTypes.CallAnalyticsEntity: Swift.Codable {
 
 extension TranscribeStreamingClientTypes {
     /// Contains entities identified as personally identifiable information (PII) in your transcription output, along with various associated attributes. Examples include category, confidence score, content, type, and start and end times.
-    public struct CallAnalyticsEntity: Swift.Equatable {
+    public struct CallAnalyticsEntity {
         /// The time, in milliseconds, from the beginning of the audio stream to the start of the identified entity.
         public var beginOffsetMillis: Swift.Int?
         /// The category of information identified. For example, PII.
@@ -364,7 +364,7 @@ extension TranscribeStreamingClientTypes.CallAnalyticsItem: Swift.Codable {
 
 extension TranscribeStreamingClientTypes {
     /// A word, phrase, or punctuation mark in your Call Analytics transcription output, along with various associated attributes, such as confidence score, type, and start and end times.
-    public struct CallAnalyticsItem: Swift.Equatable {
+    public struct CallAnalyticsItem {
         /// The time, in milliseconds, from the beginning of the audio stream to the start of the identified item.
         public var beginOffsetMillis: Swift.Int?
         /// The confidence score associated with a word or phrase in your transcript. Confidence scores are values between 0 and 1. A larger value indicates a higher probability that the identified item correctly matches the item spoken in your media.
@@ -498,7 +498,7 @@ extension TranscribeStreamingClientTypes.CallAnalyticsTranscriptResultStream: Cl
 
 extension TranscribeStreamingClientTypes {
     /// Contains detailed information about your Call Analytics streaming session. These details are provided in the UtteranceEvent and CategoryEvent objects.
-    public enum CallAnalyticsTranscriptResultStream: Swift.Equatable {
+    public enum CallAnalyticsTranscriptResultStream {
         /// Contains set of transcription results from one or more audio segments, along with additional information per your request parameters. This can include information relating to channel definitions, partial result stabilization, sentiment, issue detection, and other transcription-related data.
         case utteranceevent(TranscribeStreamingClientTypes.UtteranceEvent)
         /// Provides information on matched categories that were used to generate real-time supervisor alerts.
@@ -559,7 +559,7 @@ extension TranscribeStreamingClientTypes.CategoryEvent: Swift.Codable {
 
 extension TranscribeStreamingClientTypes {
     /// Provides information on any TranscriptFilterType categories that matched your transcription output. Matches are identified for each segment upon completion of that segment.
-    public struct CategoryEvent: Swift.Equatable {
+    public struct CategoryEvent {
         /// Lists the categories that were matched in your audio segment.
         public var matchedCategories: [Swift.String]?
         /// Contains information about the matched categories, including category names and timestamps.
@@ -604,7 +604,7 @@ extension TranscribeStreamingClientTypes.ChannelDefinition: Swift.Codable {
 
 extension TranscribeStreamingClientTypes {
     /// Makes it possible to specify which speaker is on which audio channel. For example, if your agent is the first participant to speak, you would set ChannelId to 0 (to indicate the first channel) and ParticipantRole to AGENT (to indicate that it's the agent speaking).
-    public struct ChannelDefinition: Swift.Equatable {
+    public struct ChannelDefinition {
         /// Specify the audio channel you want to define.
         /// This member is required.
         public var channelId: Swift.Int
@@ -651,7 +651,7 @@ extension TranscribeStreamingClientTypes.CharacterOffsets: Swift.Codable {
 
 extension TranscribeStreamingClientTypes {
     /// Provides the location, using character count, in your transcript where a match is identified. For example, the location of an issue or a category match within a segment.
-    public struct CharacterOffsets: Swift.Equatable {
+    public struct CharacterOffsets {
         /// Provides the character count of the first character where a match is identified. For example, the first character associated with an issue or a category match in a segment transcript.
         public var begin: Swift.Int?
         /// Provides the character count of the last character where a match is identified. For example, the last character associated with an issue or a category match in a segment transcript.
@@ -708,7 +708,7 @@ extension TranscribeStreamingClientTypes.ConfigurationEvent: Swift.Codable {
 
 extension TranscribeStreamingClientTypes {
     /// Allows you to set audio channel definitions and post-call analytics settings.
-    public struct ConfigurationEvent: Swift.Equatable {
+    public struct ConfigurationEvent {
         /// Indicates which speaker is on which audio channel.
         public var channelDefinitions: [TranscribeStreamingClientTypes.ChannelDefinition]?
         /// Provides additional optional settings for your Call Analytics post-call request, including encryption and output locations for your redacted and unredacted transcript.
@@ -784,7 +784,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -941,7 +941,7 @@ extension TranscribeStreamingClientTypes.Entity: Swift.Codable {
 
 extension TranscribeStreamingClientTypes {
     /// Contains entities identified as personally identifiable information (PII) in your transcription output, along with various associated attributes. Examples include category, confidence score, type, stability score, and start and end times.
-    public struct Entity: Swift.Equatable {
+    public struct Entity {
         /// The category of information identified. The only category is PII.
         public var category: Swift.String?
         /// The confidence score associated with the identified PII entity in your audio. Confidence scores are values between 0 and 1. A larger value indicates a higher probability that the identified entity correctly matches the entity spoken in your media.
@@ -1033,7 +1033,7 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InternalFailureExceptionBody: Swift.Equatable {
+struct InternalFailureExceptionBody {
     let message: Swift.String?
 }
 
@@ -1070,7 +1070,7 @@ extension TranscribeStreamingClientTypes.IssueDetected: Swift.Codable {
 
 extension TranscribeStreamingClientTypes {
     /// Lists the issues that were identified in your audio segment.
-    public struct IssueDetected: Swift.Equatable {
+    public struct IssueDetected {
         /// Provides the timestamps that identify when in an audio segment the specified issue occurs.
         public var characterOffsets: TranscribeStreamingClientTypes.CharacterOffsets?
 
@@ -1147,7 +1147,7 @@ extension TranscribeStreamingClientTypes.Item: Swift.Codable {
 
 extension TranscribeStreamingClientTypes {
     /// A word, phrase, or punctuation mark in your transcription output, along with various associated attributes, such as confidence score, type, and start and end times.
-    public struct Item: Swift.Equatable {
+    public struct Item {
         /// The confidence score associated with a word or phrase in your transcript. Confidence scores are values between 0 and 1. A larger value indicates a higher probability that the identified item correctly matches the item spoken in your media.
         public var confidence: Swift.Double?
         /// The word or punctuation that was transcribed.
@@ -1316,7 +1316,7 @@ extension TranscribeStreamingClientTypes.LanguageWithScore: Swift.Codable {
 
 extension TranscribeStreamingClientTypes {
     /// The language code that represents the language identified in your audio, including the associated confidence score. If you enabled channel identification in your request and each channel contained a different language, you will have more than one LanguageWithScore result.
-    public struct LanguageWithScore: Swift.Equatable {
+    public struct LanguageWithScore {
         /// The language code of the identified language.
         public var languageCode: TranscribeStreamingClientTypes.LanguageCode?
         /// The confidence score associated with the identified language code. Confidence scores are values between zero and one; larger values indicate a higher confidence in the identified language.
@@ -1392,7 +1392,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -1500,7 +1500,7 @@ extension TranscribeStreamingClientTypes.MedicalAlternative: Swift.Codable {
 
 extension TranscribeStreamingClientTypes {
     /// A list of possible alternative transcriptions for the input audio. Each alternative may contain one or more of Items, Entities, or Transcript.
-    public struct MedicalAlternative: Swift.Equatable {
+    public struct MedicalAlternative {
         /// Contains entities identified as personal health information (PHI) in your transcription output.
         public var entities: [TranscribeStreamingClientTypes.MedicalEntity]?
         /// Contains words, phrases, or punctuation marks in your transcription output.
@@ -1596,7 +1596,7 @@ extension TranscribeStreamingClientTypes.MedicalEntity: Swift.Codable {
 
 extension TranscribeStreamingClientTypes {
     /// Contains entities identified as personal health information (PHI) in your transcription output, along with various associated attributes. Examples include category, confidence score, type, stability score, and start and end times.
-    public struct MedicalEntity: Swift.Equatable {
+    public struct MedicalEntity {
         /// The category of information identified. The only category is PHI.
         public var category: Swift.String?
         /// The confidence score associated with the identified PHI entity in your audio. Confidence scores are values between 0 and 1. A larger value indicates a higher probability that the identified entity correctly matches the entity spoken in your media.
@@ -1677,7 +1677,7 @@ extension TranscribeStreamingClientTypes.MedicalItem: Swift.Codable {
 
 extension TranscribeStreamingClientTypes {
     /// A word, phrase, or punctuation mark in your transcription output, along with various associated attributes, such as confidence score, type, and start and end times.
-    public struct MedicalItem: Swift.Equatable {
+    public struct MedicalItem {
         /// The confidence score associated with a word or phrase in your transcript. Confidence scores are values between 0 and 1. A larger value indicates a higher probability that the identified item correctly matches the item spoken in your media.
         public var confidence: Swift.Double?
         /// The word or punctuation that was transcribed.
@@ -1774,7 +1774,7 @@ extension TranscribeStreamingClientTypes.MedicalResult: Swift.Codable {
 
 extension TranscribeStreamingClientTypes {
     /// The Result associated with a . Contains a set of transcription results from one or more audio segments, along with additional information per your request parameters. This can include information relating to alternative transcriptions, channel identification, partial result stabilization, language identification, and other transcription-related data.
-    public struct MedicalResult: Swift.Equatable {
+    public struct MedicalResult {
         /// A list of possible alternative transcriptions for the input audio. Each alternative may contain one or more of Items, Entities, or Transcript.
         public var alternatives: [TranscribeStreamingClientTypes.MedicalAlternative]?
         /// Indicates the channel identified for the Result.
@@ -1841,7 +1841,7 @@ extension TranscribeStreamingClientTypes.MedicalTranscript: Swift.Codable {
 
 extension TranscribeStreamingClientTypes {
     /// The MedicalTranscript associated with a . MedicalTranscript contains Results, which contains a set of transcription results from one or more audio segments, along with additional information per your request parameters.
-    public struct MedicalTranscript: Swift.Equatable {
+    public struct MedicalTranscript {
         /// Contains a set of transcription results from one or more audio segments, along with additional information per your request parameters. This can include information relating to alternative transcriptions, channel identification, partial result stabilization, language identification, and other transcription-related data.
         public var results: [TranscribeStreamingClientTypes.MedicalResult]?
 
@@ -1876,7 +1876,7 @@ extension TranscribeStreamingClientTypes.MedicalTranscriptEvent: Swift.Codable {
 
 extension TranscribeStreamingClientTypes {
     /// The MedicalTranscriptEvent associated with a MedicalTranscriptResultStream. Contains a set of transcription results from one or more audio segments, along with additional information per your request parameters.
-    public struct MedicalTranscriptEvent: Swift.Equatable {
+    public struct MedicalTranscriptEvent {
         /// Contains Results, which contains a set of transcription results from one or more audio segments, along with additional information per your request parameters. This can include information relating to alternative transcriptions, channel identification, partial result stabilization, language identification, and other transcription-related data.
         public var transcript: TranscribeStreamingClientTypes.MedicalTranscript?
 
@@ -1931,7 +1931,7 @@ extension TranscribeStreamingClientTypes.MedicalTranscriptResultStream: ClientRu
 
 extension TranscribeStreamingClientTypes {
     /// Contains detailed information about your streaming session.
-    public enum MedicalTranscriptResultStream: Swift.Equatable {
+    public enum MedicalTranscriptResultStream {
         /// The MedicalTranscriptEvent associated with a MedicalTranscriptResultStream. Contains a set of transcription results from one or more audio segments, along with additional information per your request parameters. This can include information relating to alternative transcriptions, channel identification, partial result stabilization, language identification, and other transcription-related data.
         case transcriptevent(TranscribeStreamingClientTypes.MedicalTranscriptEvent)
         case sdkUnknown(Swift.String)
@@ -2039,7 +2039,7 @@ extension TranscribeStreamingClientTypes.PointsOfInterest: Swift.Codable {
 
 extension TranscribeStreamingClientTypes {
     /// Contains the timestamps of matched categories.
-    public struct PointsOfInterest: Swift.Equatable {
+    public struct PointsOfInterest {
         /// Contains the timestamp ranges (start time through end time) of matched categories and rules.
         public var timestampRanges: [TranscribeStreamingClientTypes.TimestampRange]?
 
@@ -2092,7 +2092,7 @@ extension TranscribeStreamingClientTypes.PostCallAnalyticsSettings: Swift.Codabl
 
 extension TranscribeStreamingClientTypes {
     /// Allows you to specify additional settings for your streaming Call Analytics post-call request, including output locations for your redacted and unredacted transcript, which IAM role to use, and, optionally, which encryption key to use. ContentRedactionOutput, DataAccessRoleArn, and OutputLocation are required fields.
-    public struct PostCallAnalyticsSettings: Swift.Equatable {
+    public struct PostCallAnalyticsSettings {
         /// Specify whether you want only a redacted transcript or both a redacted and an unredacted transcript. If you choose redacted and unredacted, two JSON files are generated and stored in the Amazon S3 output location you specify. Note that to include ContentRedactionOutput in your request, you must enable content redaction (ContentRedactionType).
         public var contentRedactionOutput: TranscribeStreamingClientTypes.ContentRedactionOutput?
         /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files. If the role that you specify doesn’t have the appropriate permissions to access the specified Amazon S3 location, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns).
@@ -2231,7 +2231,7 @@ extension TranscribeStreamingClientTypes.Result: Swift.Codable {
 
 extension TranscribeStreamingClientTypes {
     /// The Result associated with a . Contains a set of transcription results from one or more audio segments, along with additional information per your request parameters. This can include information relating to alternative transcriptions, channel identification, partial result stabilization, language identification, and other transcription-related data.
-    public struct Result: Swift.Equatable {
+    public struct Result {
         /// A list of possible alternative transcriptions for the input audio. Each alternative may contain one or more of Items, Entities, or Transcript.
         public var alternatives: [TranscribeStreamingClientTypes.Alternative]?
         /// Indicates which audio channel is associated with the Result.
@@ -2369,7 +2369,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct ServiceUnavailableExceptionBody: Swift.Equatable {
+struct ServiceUnavailableExceptionBody {
     let message: Swift.String?
 }
 
@@ -2483,7 +2483,7 @@ extension StartCallAnalyticsStreamTranscriptionInput {
     }
 }
 
-public struct StartCallAnalyticsStreamTranscriptionInput: Swift.Equatable {
+public struct StartCallAnalyticsStreamTranscriptionInput {
     /// An encoded stream of audio blobs. Audio streams are encoded as either HTTP/2 or WebSocket data frames. For more information, see [Transcribing streaming audio](https://docs.aws.amazon.com/transcribe/latest/dg/streaming.html).
     /// This member is required.
     public var audioStream: AsyncThrowingStream<TranscribeStreamingClientTypes.AudioStream, Swift.Error>?
@@ -2642,7 +2642,7 @@ extension StartCallAnalyticsStreamTranscriptionOutput: ClientRuntime.HttpRespons
     }
 }
 
-public struct StartCallAnalyticsStreamTranscriptionOutput: Swift.Equatable {
+public struct StartCallAnalyticsStreamTranscriptionOutput {
     /// Provides detailed information about your Call Analytics streaming session.
     public var callAnalyticsTranscriptResultStream: AsyncThrowingStream<TranscribeStreamingClientTypes.CallAnalyticsTranscriptResultStream, Swift.Error>?
     /// Shows whether content identification was enabled for your Call Analytics transcription.
@@ -2773,7 +2773,7 @@ extension StartMedicalStreamTranscriptionInput {
     }
 }
 
-public struct StartMedicalStreamTranscriptionInput: Swift.Equatable {
+public struct StartMedicalStreamTranscriptionInput {
     /// An encoded stream of audio blobs. Audio streams are encoded as either HTTP/2 or WebSocket data frames. For more information, see [Transcribing streaming audio](https://docs.aws.amazon.com/transcribe/latest/dg/streaming.html).
     /// This member is required.
     public var audioStream: AsyncThrowingStream<TranscribeStreamingClientTypes.AudioStream, Swift.Error>?
@@ -2916,7 +2916,7 @@ extension StartMedicalStreamTranscriptionOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct StartMedicalStreamTranscriptionOutput: Swift.Equatable {
+public struct StartMedicalStreamTranscriptionOutput {
     /// Shows whether content identification was enabled for your transcription.
     public var contentIdentificationType: TranscribeStreamingClientTypes.MedicalContentIdentificationType?
     /// Shows whether channel identification was enabled for your transcription.
@@ -3072,7 +3072,7 @@ extension StartStreamTranscriptionInput {
     }
 }
 
-public struct StartStreamTranscriptionInput: Swift.Equatable {
+public struct StartStreamTranscriptionInput {
     /// An encoded stream of audio blobs. Audio streams are encoded as either HTTP/2 or WebSocket data frames. For more information, see [Transcribing streaming audio](https://docs.aws.amazon.com/transcribe/latest/dg/streaming.html).
     /// This member is required.
     public var audioStream: AsyncThrowingStream<TranscribeStreamingClientTypes.AudioStream, Swift.Error>?
@@ -3311,7 +3311,7 @@ extension StartStreamTranscriptionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartStreamTranscriptionOutput: Swift.Equatable {
+public struct StartStreamTranscriptionOutput {
     /// Shows whether content identification was enabled for your transcription.
     public var contentIdentificationType: TranscribeStreamingClientTypes.ContentIdentificationType?
     /// Shows whether content redaction was enabled for your transcription.
@@ -3457,7 +3457,7 @@ extension TranscribeStreamingClientTypes.TimestampRange: Swift.Codable {
 
 extension TranscribeStreamingClientTypes {
     /// Contains the timestamp range (start time through end time) of a matched category.
-    public struct TimestampRange: Swift.Equatable {
+    public struct TimestampRange {
         /// The time, in milliseconds, from the beginning of the audio stream to the start of the category match.
         public var beginOffsetMillis: Swift.Int?
         /// The time, in milliseconds, from the beginning of the audio stream to the end of the category match.
@@ -3510,7 +3510,7 @@ extension TranscribeStreamingClientTypes.Transcript: Swift.Codable {
 
 extension TranscribeStreamingClientTypes {
     /// The Transcript associated with a . Transcript contains Results, which contains a set of transcription results from one or more audio segments, along with additional information per your request parameters.
-    public struct Transcript: Swift.Equatable {
+    public struct Transcript {
         /// Contains a set of transcription results from one or more audio segments, along with additional information per your request parameters. This can include information relating to alternative transcriptions, channel identification, partial result stabilization, language identification, and other transcription-related data.
         public var results: [TranscribeStreamingClientTypes.Result]?
 
@@ -3545,7 +3545,7 @@ extension TranscribeStreamingClientTypes.TranscriptEvent: Swift.Codable {
 
 extension TranscribeStreamingClientTypes {
     /// The TranscriptEvent associated with a TranscriptResultStream. Contains a set of transcription results from one or more audio segments, along with additional information per your request parameters.
-    public struct TranscriptEvent: Swift.Equatable {
+    public struct TranscriptEvent {
         /// Contains Results, which contains a set of transcription results from one or more audio segments, along with additional information per your request parameters. This can include information relating to alternative transcriptions, channel identification, partial result stabilization, language identification, and other transcription-related data.
         public var transcript: TranscribeStreamingClientTypes.Transcript?
 
@@ -3600,7 +3600,7 @@ extension TranscribeStreamingClientTypes.TranscriptResultStream: ClientRuntime.M
 
 extension TranscribeStreamingClientTypes {
     /// Contains detailed information about your streaming session.
-    public enum TranscriptResultStream: Swift.Equatable {
+    public enum TranscriptResultStream {
         /// Contains Transcript, which contains Results. The  object contains a set of transcription results from one or more audio segments, along with additional information per your request parameters.
         case transcriptevent(TranscribeStreamingClientTypes.TranscriptEvent)
         case sdkUnknown(Swift.String)
@@ -3751,7 +3751,7 @@ extension TranscribeStreamingClientTypes.UtteranceEvent: Swift.Codable {
 
 extension TranscribeStreamingClientTypes {
     /// Contains set of transcription results from one or more audio segments, along with additional information about the parameters included in your request. For example, channel definitions, partial result stabilization, sentiment, and issue detection.
-    public struct UtteranceEvent: Swift.Equatable {
+    public struct UtteranceEvent {
         /// The time, in milliseconds, from the beginning of the audio stream to the start of the UtteranceEvent.
         public var beginOffsetMillis: Swift.Int?
         /// The time, in milliseconds, from the beginning of the audio stream to the start of the UtteranceEvent.

@@ -29,7 +29,7 @@ extension ImagebuilderClientTypes.AccountAggregation: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Contains counts of vulnerability findings from image scans that run when you create new Image Builder images, or build new versions of existing images. The vulnerability counts are grouped by severity level. The counts are aggregated across resources to create the final tally for the account that owns them.
-    public struct AccountAggregation: Swift.Equatable {
+    public struct AccountAggregation {
         /// Identifies the account that owns the aggregated resource findings.
         public var accountId: Swift.String?
         /// Counts by severity level for medium severity and higher level findings, plus a total for all of the findings.
@@ -74,7 +74,7 @@ extension ImagebuilderClientTypes.AdditionalInstanceConfiguration: Swift.Codable
 
 extension ImagebuilderClientTypes {
     /// In addition to your infrastructure configuration, these settings provide an extra layer of control over your build instances. You can also specify commands to run on launch for all of your build instances. Image Builder does not automatically install the Systems Manager agent on Windows instances. If your base image includes the Systems Manager agent, then the AMI that you create will also include the agent. For Linux instances, if the base image does not already include the Systems Manager agent, Image Builder installs it. For Linux instances where Image Builder installs the Systems Manager agent, you can choose whether to keep it for the AMI that you create.
-    public struct AdditionalInstanceConfiguration: Swift.Equatable {
+    public struct AdditionalInstanceConfiguration {
         /// Contains settings for the Systems Manager agent on your build instance.
         public var systemsManagerAgent: ImagebuilderClientTypes.SystemsManagerAgent?
         /// Use this property to provide commands or a command script to run when you launch your build instance. The userDataOverride property replaces any commands that Image Builder might have added to ensure that Systems Manager is installed on your Linux build instance. If you override the user data, make sure that you add commands to install Systems Manager, if it is not pre-installed on your base image. The user data is always base 64 encoded. For example, the following commands are encoded as IyEvYmluL2Jhc2gKbWtkaXIgLXAgL3Zhci9iYi8KdG91Y2ggL3Zhci$: #!/bin/bash mkdir -p /var/bb/ touch /var
@@ -143,7 +143,7 @@ extension ImagebuilderClientTypes.Ami: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Details of an Amazon EC2 AMI.
-    public struct Ami: Swift.Equatable {
+    public struct Ami {
         /// The account ID of the owner of the AMI.
         public var accountId: Swift.String?
         /// The description of the Amazon EC2 AMI. Minimum and maximum length are in characters.
@@ -252,7 +252,7 @@ extension ImagebuilderClientTypes.AmiDistributionConfiguration: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Define and configure the output AMIs of the pipeline.
-    public struct AmiDistributionConfiguration: Swift.Equatable {
+    public struct AmiDistributionConfiguration {
         /// The tags to apply to AMIs distributed to this Region.
         public var amiTags: [Swift.String:Swift.String]?
         /// The description of the AMI distribution configuration. Minimum and maximum length are in characters.
@@ -360,7 +360,7 @@ public struct CallRateLimitExceededException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct CallRateLimitExceededExceptionBody: Swift.Equatable {
+struct CallRateLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -400,7 +400,7 @@ extension CancelImageCreationInput {
     }
 }
 
-public struct CancelImageCreationInput: Swift.Equatable {
+public struct CancelImageCreationInput {
     /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon EC2 API Reference.
     /// This member is required.
     public var clientToken: Swift.String?
@@ -418,7 +418,7 @@ public struct CancelImageCreationInput: Swift.Equatable {
     }
 }
 
-struct CancelImageCreationInputBody: Swift.Equatable {
+struct CancelImageCreationInputBody {
     let imageBuildVersionArn: Swift.String?
     let clientToken: Swift.String?
 }
@@ -454,7 +454,7 @@ extension CancelImageCreationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelImageCreationOutput: Swift.Equatable {
+public struct CancelImageCreationOutput {
     /// The client token that uniquely identifies the request.
     public var clientToken: Swift.String?
     /// The ARN of the image whose creation this request canceled.
@@ -474,7 +474,7 @@ public struct CancelImageCreationOutput: Swift.Equatable {
     }
 }
 
-struct CancelImageCreationOutputBody: Swift.Equatable {
+struct CancelImageCreationOutputBody {
     let requestId: Swift.String?
     let clientToken: Swift.String?
     let imageBuildVersionArn: Swift.String?
@@ -540,7 +540,7 @@ extension CancelLifecycleExecutionInput {
     }
 }
 
-public struct CancelLifecycleExecutionInput: Swift.Equatable {
+public struct CancelLifecycleExecutionInput {
     /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon EC2 API Reference.
     /// This member is required.
     public var clientToken: Swift.String?
@@ -558,7 +558,7 @@ public struct CancelLifecycleExecutionInput: Swift.Equatable {
     }
 }
 
-struct CancelLifecycleExecutionInputBody: Swift.Equatable {
+struct CancelLifecycleExecutionInputBody {
     let lifecycleExecutionId: Swift.String?
     let clientToken: Swift.String?
 }
@@ -590,7 +590,7 @@ extension CancelLifecycleExecutionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelLifecycleExecutionOutput: Swift.Equatable {
+public struct CancelLifecycleExecutionOutput {
     /// The unique identifier for the image lifecycle runtime instance that was canceled.
     public var lifecycleExecutionId: Swift.String?
 
@@ -602,7 +602,7 @@ public struct CancelLifecycleExecutionOutput: Swift.Equatable {
     }
 }
 
-struct CancelLifecycleExecutionOutputBody: Swift.Equatable {
+struct CancelLifecycleExecutionOutputBody {
     let lifecycleExecutionId: Swift.String?
 }
 
@@ -675,7 +675,7 @@ public struct ClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     }
 }
 
-struct ClientExceptionBody: Swift.Equatable {
+struct ClientExceptionBody {
     let message: Swift.String?
 }
 
@@ -850,7 +850,7 @@ extension ImagebuilderClientTypes.Component: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// A detailed view of a component.
-    public struct Component: Swift.Equatable {
+    public struct Component {
         /// The Amazon Resource Name (ARN) of the component.
         public var arn: Swift.String?
         /// Describes what change has been made in this version of the component, or what makes this version different from other versions of the component.
@@ -971,7 +971,7 @@ extension ImagebuilderClientTypes.ComponentConfiguration: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Configuration details of the component.
-    public struct ComponentConfiguration: Swift.Equatable {
+    public struct ComponentConfiguration {
         /// The Amazon Resource Name (ARN) of the component.
         /// This member is required.
         public var componentArn: Swift.String?
@@ -1058,7 +1058,7 @@ extension ImagebuilderClientTypes.ComponentParameter: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Contains a key/value pair that sets the named component parameter.
-    public struct ComponentParameter: Swift.Equatable {
+    public struct ComponentParameter {
         /// The name of the component parameter to set.
         /// This member is required.
         public var name: Swift.String?
@@ -1129,7 +1129,7 @@ extension ImagebuilderClientTypes.ComponentParameterDetail: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Defines a parameter that is used to provide configuration details for the component.
-    public struct ComponentParameterDetail: Swift.Equatable {
+    public struct ComponentParameterDetail {
         /// The default value of this parameter if no input is provided.
         public var defaultValue: [Swift.String]?
         /// Describes this parameter.
@@ -1184,7 +1184,7 @@ extension ImagebuilderClientTypes.ComponentState: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// A group of fields that describe the current status of components.
-    public struct ComponentState: Swift.Equatable {
+    public struct ComponentState {
         /// Describes how or why the component changed state.
         public var reason: Swift.String?
         /// The current state of the component.
@@ -1354,7 +1354,7 @@ extension ImagebuilderClientTypes.ComponentSummary: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// A high-level summary of a component.
-    public struct ComponentSummary: Swift.Equatable {
+    public struct ComponentSummary {
         /// The Amazon Resource Name (ARN) of the component.
         public var arn: Swift.String?
         /// The change description for the current version of the component.
@@ -1533,7 +1533,7 @@ extension ImagebuilderClientTypes.ComponentVersion: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// The defining characteristics of a specific version of an Amazon Web Services TOE component.
-    public struct ComponentVersion: Swift.Equatable {
+    public struct ComponentVersion {
         /// The Amazon Resource Name (ARN) of the component. Semantic versioning is included in each object's Amazon Resource Name (ARN), at the level that applies to that object as follows:
         ///
         /// * Versionless ARNs and Name ARNs do not include specific values in any of the nodes. The nodes are either left off entirely, or they are specified as wildcards, for example: x.x.x.
@@ -1624,7 +1624,7 @@ extension ImagebuilderClientTypes.Container: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// A container encapsulates the runtime environment for an application.
-    public struct Container: Swift.Equatable {
+    public struct Container {
         /// A list of URIs for containers created in the context Region.
         public var imageUris: [Swift.String]?
         /// Containers and container images are Region-specific. This is the Region context for the container.
@@ -1687,7 +1687,7 @@ extension ImagebuilderClientTypes.ContainerDistributionConfiguration: Swift.Coda
 
 extension ImagebuilderClientTypes {
     /// Container distribution settings for encryption, licensing, and sharing in a specific Region.
-    public struct ContainerDistributionConfiguration: Swift.Equatable {
+    public struct ContainerDistributionConfiguration {
         /// Tags that are attached to the container distribution configuration.
         public var containerTags: [Swift.String]?
         /// The description of the container distribution configuration.
@@ -1851,7 +1851,7 @@ extension ImagebuilderClientTypes.ContainerRecipe: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// A container recipe.
-    public struct ContainerRecipe: Swift.Equatable {
+    public struct ContainerRecipe {
         /// The Amazon Resource Name (ARN) of the container recipe. Semantic versioning is included in each object's Amazon Resource Name (ARN), at the level that applies to that object as follows:
         ///
         /// * Versionless ARNs and Name ARNs do not include specific values in any of the nodes. The nodes are either left off entirely, or they are specified as wildcards, for example: x.x.x.
@@ -2010,7 +2010,7 @@ extension ImagebuilderClientTypes.ContainerRecipeSummary: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// A summary of a container recipe
-    public struct ContainerRecipeSummary: Swift.Equatable {
+    public struct ContainerRecipeSummary {
         /// The Amazon Resource Name (ARN) of the container recipe.
         public var arn: Swift.String?
         /// Specifies the type of container, such as "Docker".
@@ -2176,7 +2176,7 @@ extension CreateComponentInput {
     }
 }
 
-public struct CreateComponentInput: Swift.Equatable {
+public struct CreateComponentInput {
     /// The change description of the component. Describes what change has been made in this version, or what makes this version different from other versions of the component.
     public var changeDescription: Swift.String?
     /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon EC2 API Reference.
@@ -2232,7 +2232,7 @@ public struct CreateComponentInput: Swift.Equatable {
     }
 }
 
-struct CreateComponentInputBody: Swift.Equatable {
+struct CreateComponentInputBody {
     let name: Swift.String?
     let semanticVersion: Swift.String?
     let description: Swift.String?
@@ -2322,7 +2322,7 @@ extension CreateComponentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateComponentOutput: Swift.Equatable {
+public struct CreateComponentOutput {
     /// The client token that uniquely identifies the request.
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the component that the request created.
@@ -2342,7 +2342,7 @@ public struct CreateComponentOutput: Swift.Equatable {
     }
 }
 
-struct CreateComponentOutputBody: Swift.Equatable {
+struct CreateComponentOutputBody {
     let requestId: Swift.String?
     let clientToken: Swift.String?
     let componentBuildVersionArn: Swift.String?
@@ -2473,7 +2473,7 @@ extension CreateContainerRecipeInput {
     }
 }
 
-public struct CreateContainerRecipeInput: Swift.Equatable {
+public struct CreateContainerRecipeInput {
     /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon EC2 API Reference.
     /// This member is required.
     public var clientToken: Swift.String?
@@ -2552,7 +2552,7 @@ public struct CreateContainerRecipeInput: Swift.Equatable {
     }
 }
 
-struct CreateContainerRecipeInputBody: Swift.Equatable {
+struct CreateContainerRecipeInputBody {
     let containerType: ImagebuilderClientTypes.ContainerType?
     let name: Swift.String?
     let description: Swift.String?
@@ -2662,7 +2662,7 @@ extension CreateContainerRecipeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateContainerRecipeOutput: Swift.Equatable {
+public struct CreateContainerRecipeOutput {
     /// The client token that uniquely identifies the request.
     public var clientToken: Swift.String?
     /// Returns the Amazon Resource Name (ARN) of the container recipe that the request created.
@@ -2682,7 +2682,7 @@ public struct CreateContainerRecipeOutput: Swift.Equatable {
     }
 }
 
-struct CreateContainerRecipeOutputBody: Swift.Equatable {
+struct CreateContainerRecipeOutputBody {
     let requestId: Swift.String?
     let clientToken: Swift.String?
     let containerRecipeArn: Swift.String?
@@ -2769,7 +2769,7 @@ extension CreateDistributionConfigurationInput {
     }
 }
 
-public struct CreateDistributionConfigurationInput: Swift.Equatable {
+public struct CreateDistributionConfigurationInput {
     /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon EC2 API Reference.
     /// This member is required.
     public var clientToken: Swift.String?
@@ -2800,7 +2800,7 @@ public struct CreateDistributionConfigurationInput: Swift.Equatable {
     }
 }
 
-struct CreateDistributionConfigurationInputBody: Swift.Equatable {
+struct CreateDistributionConfigurationInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let distributions: [ImagebuilderClientTypes.Distribution]?
@@ -2866,7 +2866,7 @@ extension CreateDistributionConfigurationOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct CreateDistributionConfigurationOutput: Swift.Equatable {
+public struct CreateDistributionConfigurationOutput {
     /// The client token that uniquely identifies the request.
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the distribution configuration that was created by this request.
@@ -2886,7 +2886,7 @@ public struct CreateDistributionConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct CreateDistributionConfigurationOutputBody: Swift.Equatable {
+struct CreateDistributionConfigurationOutputBody {
     let requestId: Swift.String?
     let clientToken: Swift.String?
     let distributionConfigurationArn: Swift.String?
@@ -2997,7 +2997,7 @@ extension CreateImageInput {
     }
 }
 
-public struct CreateImageInput: Swift.Equatable {
+public struct CreateImageInput {
     /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon EC2 API Reference.
     /// This member is required.
     public var clientToken: Swift.String?
@@ -3051,7 +3051,7 @@ public struct CreateImageInput: Swift.Equatable {
     }
 }
 
-struct CreateImageInputBody: Swift.Equatable {
+struct CreateImageInputBody {
     let imageRecipeArn: Swift.String?
     let containerRecipeArn: Swift.String?
     let distributionConfigurationArn: Swift.String?
@@ -3141,7 +3141,7 @@ extension CreateImageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateImageOutput: Swift.Equatable {
+public struct CreateImageOutput {
     /// The client token that uniquely identifies the request.
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the image that the request created.
@@ -3161,7 +3161,7 @@ public struct CreateImageOutput: Swift.Equatable {
     }
 }
 
-struct CreateImageOutputBody: Swift.Equatable {
+struct CreateImageOutputBody {
     let requestId: Swift.String?
     let clientToken: Swift.String?
     let imageBuildVersionArn: Swift.String?
@@ -3286,7 +3286,7 @@ extension CreateImagePipelineInput {
     }
 }
 
-public struct CreateImagePipelineInput: Swift.Equatable {
+public struct CreateImagePipelineInput {
     /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon EC2 API Reference.
     /// This member is required.
     public var clientToken: Swift.String?
@@ -3357,7 +3357,7 @@ public struct CreateImagePipelineInput: Swift.Equatable {
     }
 }
 
-struct CreateImagePipelineInputBody: Swift.Equatable {
+struct CreateImagePipelineInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let imageRecipeArn: Swift.String?
@@ -3463,7 +3463,7 @@ extension CreateImagePipelineOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateImagePipelineOutput: Swift.Equatable {
+public struct CreateImagePipelineOutput {
     /// The client token that uniquely identifies the request.
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the image pipeline that was created by this request.
@@ -3483,7 +3483,7 @@ public struct CreateImagePipelineOutput: Swift.Equatable {
     }
 }
 
-struct CreateImagePipelineOutputBody: Swift.Equatable {
+struct CreateImagePipelineOutputBody {
     let requestId: Swift.String?
     let clientToken: Swift.String?
     let imagePipelineArn: Swift.String?
@@ -3592,7 +3592,7 @@ extension CreateImageRecipeInput {
     }
 }
 
-public struct CreateImageRecipeInput: Swift.Equatable {
+public struct CreateImageRecipeInput {
     /// Specify additional settings and launch scripts for your build instances.
     public var additionalInstanceConfiguration: ImagebuilderClientTypes.AdditionalInstanceConfiguration?
     /// The block device mappings of the image recipe.
@@ -3645,7 +3645,7 @@ public struct CreateImageRecipeInput: Swift.Equatable {
     }
 }
 
-struct CreateImageRecipeInputBody: Swift.Equatable {
+struct CreateImageRecipeInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let semanticVersion: Swift.String?
@@ -3740,7 +3740,7 @@ extension CreateImageRecipeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateImageRecipeOutput: Swift.Equatable {
+public struct CreateImageRecipeOutput {
     /// The client token that uniquely identifies the request.
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the image recipe that was created by this request.
@@ -3760,7 +3760,7 @@ public struct CreateImageRecipeOutput: Swift.Equatable {
     }
 }
 
-struct CreateImageRecipeOutputBody: Swift.Equatable {
+struct CreateImageRecipeOutputBody {
     let requestId: Swift.String?
     let clientToken: Swift.String?
     let imageRecipeArn: Swift.String?
@@ -3889,7 +3889,7 @@ extension CreateInfrastructureConfigurationInput {
     }
 }
 
-public struct CreateInfrastructureConfigurationInput: Swift.Equatable {
+public struct CreateInfrastructureConfigurationInput {
     /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon EC2 API Reference.
     /// This member is required.
     public var clientToken: Swift.String?
@@ -3956,7 +3956,7 @@ public struct CreateInfrastructureConfigurationInput: Swift.Equatable {
     }
 }
 
-struct CreateInfrastructureConfigurationInputBody: Swift.Equatable {
+struct CreateInfrastructureConfigurationInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let instanceTypes: [Swift.String]?
@@ -4076,7 +4076,7 @@ extension CreateInfrastructureConfigurationOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct CreateInfrastructureConfigurationOutput: Swift.Equatable {
+public struct CreateInfrastructureConfigurationOutput {
     /// The client token that uniquely identifies the request.
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the infrastructure configuration that was created by this request.
@@ -4096,7 +4096,7 @@ public struct CreateInfrastructureConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct CreateInfrastructureConfigurationOutputBody: Swift.Equatable {
+struct CreateInfrastructureConfigurationOutputBody {
     let requestId: Swift.String?
     let clientToken: Swift.String?
     let infrastructureConfigurationArn: Swift.String?
@@ -4198,7 +4198,7 @@ extension CreateLifecyclePolicyInput {
     }
 }
 
-public struct CreateLifecyclePolicyInput: Swift.Equatable {
+public struct CreateLifecyclePolicyInput {
     /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon EC2 API Reference.
     /// This member is required.
     public var clientToken: Swift.String?
@@ -4248,7 +4248,7 @@ public struct CreateLifecyclePolicyInput: Swift.Equatable {
     }
 }
 
-struct CreateLifecyclePolicyInputBody: Swift.Equatable {
+struct CreateLifecyclePolicyInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let status: ImagebuilderClientTypes.LifecyclePolicyStatus?
@@ -4328,7 +4328,7 @@ extension CreateLifecyclePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateLifecyclePolicyOutput: Swift.Equatable {
+public struct CreateLifecyclePolicyOutput {
     /// The client token that uniquely identifies the request.
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the lifecycle policy that the request created.
@@ -4344,7 +4344,7 @@ public struct CreateLifecyclePolicyOutput: Swift.Equatable {
     }
 }
 
-struct CreateLifecyclePolicyOutputBody: Swift.Equatable {
+struct CreateLifecyclePolicyOutputBody {
     let clientToken: Swift.String?
     let lifecyclePolicyArn: Swift.String?
 }
@@ -4443,7 +4443,7 @@ extension CreateWorkflowInput {
     }
 }
 
-public struct CreateWorkflowInput: Swift.Equatable {
+public struct CreateWorkflowInput {
     /// Describes what change has been made in this version of the workflow, or what makes this version different from other versions of the workflow.
     public var changeDescription: Swift.String?
     /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon EC2 API Reference.
@@ -4495,7 +4495,7 @@ public struct CreateWorkflowInput: Swift.Equatable {
     }
 }
 
-struct CreateWorkflowInputBody: Swift.Equatable {
+struct CreateWorkflowInputBody {
     let name: Swift.String?
     let semanticVersion: Swift.String?
     let description: Swift.String?
@@ -4570,7 +4570,7 @@ extension CreateWorkflowOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateWorkflowOutput: Swift.Equatable {
+public struct CreateWorkflowOutput {
     /// The client token that uniquely identifies the request.
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the workflow resource that the request created.
@@ -4586,7 +4586,7 @@ public struct CreateWorkflowOutput: Swift.Equatable {
     }
 }
 
-struct CreateWorkflowOutputBody: Swift.Equatable {
+struct CreateWorkflowOutputBody {
     let clientToken: Swift.String?
     let workflowBuildVersionArn: Swift.String?
 }
@@ -4666,7 +4666,7 @@ extension ImagebuilderClientTypes.CvssScore: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Amazon Inspector generates a risk score for each finding. This score helps you to prioritize findings, to focus on the most critical findings and the most vulnerable resources. The score uses the Common Vulnerability Scoring System (CVSS) format. This format is a modification of the base CVSS score that the National Vulnerability Database (NVD) provides. For more information about severity levels, see [Severity levels for Amazon Inspector findings](https://docs.aws.amazon.com/inspector/latest/user/findings-understanding-severity.html) in the Amazon Inspector User Guide.
-    public struct CvssScore: Swift.Equatable {
+    public struct CvssScore {
         /// The CVSS base score.
         public var baseScore: Swift.Double?
         /// The vector string of the CVSS score.
@@ -4719,7 +4719,7 @@ extension ImagebuilderClientTypes.CvssScoreAdjustment: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Details about an adjustment that Amazon Inspector made to the CVSS score for a finding.
-    public struct CvssScoreAdjustment: Swift.Equatable {
+    public struct CvssScoreAdjustment {
         /// The metric that Amazon Inspector used to adjust the CVSS score.
         public var metric: Swift.String?
         /// The reason for the CVSS score adjustment.
@@ -4800,7 +4800,7 @@ extension ImagebuilderClientTypes.CvssScoreDetails: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Details about the source of the score, and the factors that determined the adjustments to create the final score.
-    public struct CvssScoreDetails: Swift.Equatable {
+    public struct CvssScoreDetails {
         /// An object that contains details about an adjustment that Amazon Inspector made to the CVSS score for the finding.
         public var adjustments: [ImagebuilderClientTypes.CvssScoreAdjustment]?
         /// The source of the finding.
@@ -4855,7 +4855,7 @@ extension DeleteComponentInput {
     }
 }
 
-public struct DeleteComponentInput: Swift.Equatable {
+public struct DeleteComponentInput {
     /// The Amazon Resource Name (ARN) of the component build version to delete.
     /// This member is required.
     public var componentBuildVersionArn: Swift.String?
@@ -4868,7 +4868,7 @@ public struct DeleteComponentInput: Swift.Equatable {
     }
 }
 
-struct DeleteComponentInputBody: Swift.Equatable {
+struct DeleteComponentInputBody {
 }
 
 extension DeleteComponentInputBody: Swift.Decodable {
@@ -4891,7 +4891,7 @@ extension DeleteComponentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteComponentOutput: Swift.Equatable {
+public struct DeleteComponentOutput {
     /// The ARN of the component build version that this request deleted.
     public var componentBuildVersionArn: Swift.String?
     /// The request ID that uniquely identifies this request.
@@ -4907,7 +4907,7 @@ public struct DeleteComponentOutput: Swift.Equatable {
     }
 }
 
-struct DeleteComponentOutputBody: Swift.Equatable {
+struct DeleteComponentOutputBody {
     let requestId: Swift.String?
     let componentBuildVersionArn: Swift.String?
 }
@@ -4965,7 +4965,7 @@ extension DeleteContainerRecipeInput {
     }
 }
 
-public struct DeleteContainerRecipeInput: Swift.Equatable {
+public struct DeleteContainerRecipeInput {
     /// The Amazon Resource Name (ARN) of the container recipe to delete.
     /// This member is required.
     public var containerRecipeArn: Swift.String?
@@ -4978,7 +4978,7 @@ public struct DeleteContainerRecipeInput: Swift.Equatable {
     }
 }
 
-struct DeleteContainerRecipeInputBody: Swift.Equatable {
+struct DeleteContainerRecipeInputBody {
 }
 
 extension DeleteContainerRecipeInputBody: Swift.Decodable {
@@ -5001,7 +5001,7 @@ extension DeleteContainerRecipeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteContainerRecipeOutput: Swift.Equatable {
+public struct DeleteContainerRecipeOutput {
     /// The Amazon Resource Name (ARN) of the container recipe that was deleted.
     public var containerRecipeArn: Swift.String?
     /// The request ID that uniquely identifies this request.
@@ -5017,7 +5017,7 @@ public struct DeleteContainerRecipeOutput: Swift.Equatable {
     }
 }
 
-struct DeleteContainerRecipeOutputBody: Swift.Equatable {
+struct DeleteContainerRecipeOutputBody {
     let requestId: Swift.String?
     let containerRecipeArn: Swift.String?
 }
@@ -5075,7 +5075,7 @@ extension DeleteDistributionConfigurationInput {
     }
 }
 
-public struct DeleteDistributionConfigurationInput: Swift.Equatable {
+public struct DeleteDistributionConfigurationInput {
     /// The Amazon Resource Name (ARN) of the distribution configuration to delete.
     /// This member is required.
     public var distributionConfigurationArn: Swift.String?
@@ -5088,7 +5088,7 @@ public struct DeleteDistributionConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DeleteDistributionConfigurationInputBody: Swift.Equatable {
+struct DeleteDistributionConfigurationInputBody {
 }
 
 extension DeleteDistributionConfigurationInputBody: Swift.Decodable {
@@ -5111,7 +5111,7 @@ extension DeleteDistributionConfigurationOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DeleteDistributionConfigurationOutput: Swift.Equatable {
+public struct DeleteDistributionConfigurationOutput {
     /// The Amazon Resource Name (ARN) of the distribution configuration that was deleted.
     public var distributionConfigurationArn: Swift.String?
     /// The request ID that uniquely identifies this request.
@@ -5127,7 +5127,7 @@ public struct DeleteDistributionConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct DeleteDistributionConfigurationOutputBody: Swift.Equatable {
+struct DeleteDistributionConfigurationOutputBody {
     let requestId: Swift.String?
     let distributionConfigurationArn: Swift.String?
 }
@@ -5185,7 +5185,7 @@ extension DeleteImageInput {
     }
 }
 
-public struct DeleteImageInput: Swift.Equatable {
+public struct DeleteImageInput {
     /// The Amazon Resource Name (ARN) of the Image Builder image resource to delete.
     /// This member is required.
     public var imageBuildVersionArn: Swift.String?
@@ -5198,7 +5198,7 @@ public struct DeleteImageInput: Swift.Equatable {
     }
 }
 
-struct DeleteImageInputBody: Swift.Equatable {
+struct DeleteImageInputBody {
 }
 
 extension DeleteImageInputBody: Swift.Decodable {
@@ -5221,7 +5221,7 @@ extension DeleteImageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteImageOutput: Swift.Equatable {
+public struct DeleteImageOutput {
     /// The ARN of the Image Builder image resource that this request deleted.
     public var imageBuildVersionArn: Swift.String?
     /// The request ID that uniquely identifies this request.
@@ -5237,7 +5237,7 @@ public struct DeleteImageOutput: Swift.Equatable {
     }
 }
 
-struct DeleteImageOutputBody: Swift.Equatable {
+struct DeleteImageOutputBody {
     let requestId: Swift.String?
     let imageBuildVersionArn: Swift.String?
 }
@@ -5295,7 +5295,7 @@ extension DeleteImagePipelineInput {
     }
 }
 
-public struct DeleteImagePipelineInput: Swift.Equatable {
+public struct DeleteImagePipelineInput {
     /// The Amazon Resource Name (ARN) of the image pipeline to delete.
     /// This member is required.
     public var imagePipelineArn: Swift.String?
@@ -5308,7 +5308,7 @@ public struct DeleteImagePipelineInput: Swift.Equatable {
     }
 }
 
-struct DeleteImagePipelineInputBody: Swift.Equatable {
+struct DeleteImagePipelineInputBody {
 }
 
 extension DeleteImagePipelineInputBody: Swift.Decodable {
@@ -5331,7 +5331,7 @@ extension DeleteImagePipelineOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteImagePipelineOutput: Swift.Equatable {
+public struct DeleteImagePipelineOutput {
     /// The Amazon Resource Name (ARN) of the image pipeline that was deleted.
     public var imagePipelineArn: Swift.String?
     /// The request ID that uniquely identifies this request.
@@ -5347,7 +5347,7 @@ public struct DeleteImagePipelineOutput: Swift.Equatable {
     }
 }
 
-struct DeleteImagePipelineOutputBody: Swift.Equatable {
+struct DeleteImagePipelineOutputBody {
     let requestId: Swift.String?
     let imagePipelineArn: Swift.String?
 }
@@ -5405,7 +5405,7 @@ extension DeleteImageRecipeInput {
     }
 }
 
-public struct DeleteImageRecipeInput: Swift.Equatable {
+public struct DeleteImageRecipeInput {
     /// The Amazon Resource Name (ARN) of the image recipe to delete.
     /// This member is required.
     public var imageRecipeArn: Swift.String?
@@ -5418,7 +5418,7 @@ public struct DeleteImageRecipeInput: Swift.Equatable {
     }
 }
 
-struct DeleteImageRecipeInputBody: Swift.Equatable {
+struct DeleteImageRecipeInputBody {
 }
 
 extension DeleteImageRecipeInputBody: Swift.Decodable {
@@ -5441,7 +5441,7 @@ extension DeleteImageRecipeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteImageRecipeOutput: Swift.Equatable {
+public struct DeleteImageRecipeOutput {
     /// The Amazon Resource Name (ARN) of the image recipe that was deleted.
     public var imageRecipeArn: Swift.String?
     /// The request ID that uniquely identifies this request.
@@ -5457,7 +5457,7 @@ public struct DeleteImageRecipeOutput: Swift.Equatable {
     }
 }
 
-struct DeleteImageRecipeOutputBody: Swift.Equatable {
+struct DeleteImageRecipeOutputBody {
     let requestId: Swift.String?
     let imageRecipeArn: Swift.String?
 }
@@ -5515,7 +5515,7 @@ extension DeleteInfrastructureConfigurationInput {
     }
 }
 
-public struct DeleteInfrastructureConfigurationInput: Swift.Equatable {
+public struct DeleteInfrastructureConfigurationInput {
     /// The Amazon Resource Name (ARN) of the infrastructure configuration to delete.
     /// This member is required.
     public var infrastructureConfigurationArn: Swift.String?
@@ -5528,7 +5528,7 @@ public struct DeleteInfrastructureConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DeleteInfrastructureConfigurationInputBody: Swift.Equatable {
+struct DeleteInfrastructureConfigurationInputBody {
 }
 
 extension DeleteInfrastructureConfigurationInputBody: Swift.Decodable {
@@ -5551,7 +5551,7 @@ extension DeleteInfrastructureConfigurationOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct DeleteInfrastructureConfigurationOutput: Swift.Equatable {
+public struct DeleteInfrastructureConfigurationOutput {
     /// The Amazon Resource Name (ARN) of the infrastructure configuration that was deleted.
     public var infrastructureConfigurationArn: Swift.String?
     /// The request ID that uniquely identifies this request.
@@ -5567,7 +5567,7 @@ public struct DeleteInfrastructureConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct DeleteInfrastructureConfigurationOutputBody: Swift.Equatable {
+struct DeleteInfrastructureConfigurationOutputBody {
     let requestId: Swift.String?
     let infrastructureConfigurationArn: Swift.String?
 }
@@ -5625,7 +5625,7 @@ extension DeleteLifecyclePolicyInput {
     }
 }
 
-public struct DeleteLifecyclePolicyInput: Swift.Equatable {
+public struct DeleteLifecyclePolicyInput {
     /// The Amazon Resource Name (ARN) of the lifecycle policy resource to delete.
     /// This member is required.
     public var lifecyclePolicyArn: Swift.String?
@@ -5638,7 +5638,7 @@ public struct DeleteLifecyclePolicyInput: Swift.Equatable {
     }
 }
 
-struct DeleteLifecyclePolicyInputBody: Swift.Equatable {
+struct DeleteLifecyclePolicyInputBody {
 }
 
 extension DeleteLifecyclePolicyInputBody: Swift.Decodable {
@@ -5659,7 +5659,7 @@ extension DeleteLifecyclePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteLifecyclePolicyOutput: Swift.Equatable {
+public struct DeleteLifecyclePolicyOutput {
     /// The ARN of the lifecycle policy that was deleted.
     public var lifecyclePolicyArn: Swift.String?
 
@@ -5671,7 +5671,7 @@ public struct DeleteLifecyclePolicyOutput: Swift.Equatable {
     }
 }
 
-struct DeleteLifecyclePolicyOutputBody: Swift.Equatable {
+struct DeleteLifecyclePolicyOutputBody {
     let lifecyclePolicyArn: Swift.String?
 }
 
@@ -5725,7 +5725,7 @@ extension DeleteWorkflowInput {
     }
 }
 
-public struct DeleteWorkflowInput: Swift.Equatable {
+public struct DeleteWorkflowInput {
     /// The Amazon Resource Name (ARN) of the workflow resource to delete.
     /// This member is required.
     public var workflowBuildVersionArn: Swift.String?
@@ -5738,7 +5738,7 @@ public struct DeleteWorkflowInput: Swift.Equatable {
     }
 }
 
-struct DeleteWorkflowInputBody: Swift.Equatable {
+struct DeleteWorkflowInputBody {
 }
 
 extension DeleteWorkflowInputBody: Swift.Decodable {
@@ -5759,7 +5759,7 @@ extension DeleteWorkflowOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteWorkflowOutput: Swift.Equatable {
+public struct DeleteWorkflowOutput {
     /// The ARN of the workflow resource that this request deleted.
     public var workflowBuildVersionArn: Swift.String?
 
@@ -5771,7 +5771,7 @@ public struct DeleteWorkflowOutput: Swift.Equatable {
     }
 }
 
-struct DeleteWorkflowOutputBody: Swift.Equatable {
+struct DeleteWorkflowOutputBody {
     let workflowBuildVersionArn: Swift.String?
 }
 
@@ -5932,7 +5932,7 @@ extension ImagebuilderClientTypes.Distribution: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Defines the settings for a specific Region.
-    public struct Distribution: Swift.Equatable {
+    public struct Distribution {
         /// The specific AMI settings; for example, launch permissions or AMI tags.
         public var amiDistributionConfiguration: ImagebuilderClientTypes.AmiDistributionConfiguration?
         /// Container distribution settings for encryption, licensing, and sharing in a specific Region.
@@ -6058,7 +6058,7 @@ extension ImagebuilderClientTypes.DistributionConfiguration: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// A distribution configuration.
-    public struct DistributionConfiguration: Swift.Equatable {
+    public struct DistributionConfiguration {
         /// The Amazon Resource Name (ARN) of the distribution configuration.
         public var arn: Swift.String?
         /// The date on which this distribution configuration was created.
@@ -6182,7 +6182,7 @@ extension ImagebuilderClientTypes.DistributionConfigurationSummary: Swift.Codabl
 
 extension ImagebuilderClientTypes {
     /// A high-level overview of a distribution configuration.
-    public struct DistributionConfigurationSummary: Swift.Equatable {
+    public struct DistributionConfigurationSummary {
         /// The Amazon Resource Name (ARN) of the distribution configuration.
         public var arn: Swift.String?
         /// The date on which the distribution configuration was created.
@@ -6283,7 +6283,7 @@ extension ImagebuilderClientTypes.EbsInstanceBlockDeviceSpecification: Swift.Cod
 
 extension ImagebuilderClientTypes {
     /// Amazon EBS-specific block device mapping specifications.
-    public struct EbsInstanceBlockDeviceSpecification: Swift.Equatable {
+    public struct EbsInstanceBlockDeviceSpecification {
         /// Use to configure delete on termination of the associated device.
         public var deleteOnTermination: Swift.Bool?
         /// Use to configure device encryption.
@@ -6411,7 +6411,7 @@ extension ImagebuilderClientTypes.EcrConfiguration: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Settings that Image Builder uses to configure the ECR repository and the output container images that Amazon Inspector scans.
-    public struct EcrConfiguration: Swift.Equatable {
+    public struct EcrConfiguration {
         /// Tags for Image Builder to apply to the output container image that &INS; scans. Tags can help you identify and manage your scanned images.
         public var containerTags: [Swift.String]?
         /// The name of the container repository that Amazon Inspector scans to identify findings for your container images. The name includes the path for the repository location. If you don’t provide this information, Image Builder creates a repository in your account named image-builder-image-scanning-repository for vulnerability scans of your output container images.
@@ -6474,7 +6474,7 @@ extension ImagebuilderClientTypes.FastLaunchConfiguration: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Define and configure faster launching for output Windows AMIs.
-    public struct FastLaunchConfiguration: Swift.Equatable {
+    public struct FastLaunchConfiguration {
         /// The owner account ID for the fast-launch enabled Windows AMI.
         public var accountId: Swift.String?
         /// A Boolean that represents the current state of faster launching for the Windows AMI. Set to true to start using Windows faster launching, or false to stop using it.
@@ -6538,7 +6538,7 @@ extension ImagebuilderClientTypes.FastLaunchLaunchTemplateSpecification: Swift.C
 
 extension ImagebuilderClientTypes {
     /// Identifies the launch template that the associated Windows AMI uses for launching an instance when faster launching is enabled. You can specify either the launchTemplateName or the launchTemplateId, but not both.
-    public struct FastLaunchLaunchTemplateSpecification: Swift.Equatable {
+    public struct FastLaunchLaunchTemplateSpecification {
         /// The ID of the launch template to use for faster launching for a Windows AMI.
         public var launchTemplateId: Swift.String?
         /// The name of the launch template to use for faster launching for a Windows AMI.
@@ -6581,7 +6581,7 @@ extension ImagebuilderClientTypes.FastLaunchSnapshotConfiguration: Swift.Codable
 
 extension ImagebuilderClientTypes {
     /// Configuration settings for creating and managing pre-provisioned snapshots for a fast-launch enabled Windows AMI.
-    public struct FastLaunchSnapshotConfiguration: Swift.Equatable {
+    public struct FastLaunchSnapshotConfiguration {
         /// The number of pre-provisioned snapshots to keep on hand for a fast-launch enabled Windows AMI.
         public var targetResourceCount: Swift.Int?
 
@@ -6634,7 +6634,7 @@ extension ImagebuilderClientTypes.Filter: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// A filter name and value pair that is used to return a more specific list of results from a list operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs.
-    public struct Filter: Swift.Equatable {
+    public struct Filter {
         /// The name of the filter. Filter names are case-sensitive.
         public var name: Swift.String?
         /// The filter values. Filter values are case-sensitive.
@@ -6691,7 +6691,7 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
     }
 }
 
-struct ForbiddenExceptionBody: Swift.Equatable {
+struct ForbiddenExceptionBody {
     let message: Swift.String?
 }
 
@@ -6728,7 +6728,7 @@ extension GetComponentInput {
     }
 }
 
-public struct GetComponentInput: Swift.Equatable {
+public struct GetComponentInput {
     /// The Amazon Resource Name (ARN) of the component that you want to get. Regex requires the suffix /\d+$.
     /// This member is required.
     public var componentBuildVersionArn: Swift.String?
@@ -6741,7 +6741,7 @@ public struct GetComponentInput: Swift.Equatable {
     }
 }
 
-struct GetComponentInputBody: Swift.Equatable {
+struct GetComponentInputBody {
 }
 
 extension GetComponentInputBody: Swift.Decodable {
@@ -6764,7 +6764,7 @@ extension GetComponentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetComponentOutput: Swift.Equatable {
+public struct GetComponentOutput {
     /// The component object specified in the request.
     public var component: ImagebuilderClientTypes.Component?
     /// The request ID that uniquely identifies this request.
@@ -6780,7 +6780,7 @@ public struct GetComponentOutput: Swift.Equatable {
     }
 }
 
-struct GetComponentOutputBody: Swift.Equatable {
+struct GetComponentOutputBody {
     let requestId: Swift.String?
     let component: ImagebuilderClientTypes.Component?
 }
@@ -6837,7 +6837,7 @@ extension GetComponentPolicyInput {
     }
 }
 
-public struct GetComponentPolicyInput: Swift.Equatable {
+public struct GetComponentPolicyInput {
     /// The Amazon Resource Name (ARN) of the component whose policy you want to retrieve.
     /// This member is required.
     public var componentArn: Swift.String?
@@ -6850,7 +6850,7 @@ public struct GetComponentPolicyInput: Swift.Equatable {
     }
 }
 
-struct GetComponentPolicyInputBody: Swift.Equatable {
+struct GetComponentPolicyInputBody {
 }
 
 extension GetComponentPolicyInputBody: Swift.Decodable {
@@ -6873,7 +6873,7 @@ extension GetComponentPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetComponentPolicyOutput: Swift.Equatable {
+public struct GetComponentPolicyOutput {
     /// The component policy.
     public var policy: Swift.String?
     /// The request ID that uniquely identifies this request.
@@ -6889,7 +6889,7 @@ public struct GetComponentPolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetComponentPolicyOutputBody: Swift.Equatable {
+struct GetComponentPolicyOutputBody {
     let requestId: Swift.String?
     let policy: Swift.String?
 }
@@ -6946,7 +6946,7 @@ extension GetContainerRecipeInput {
     }
 }
 
-public struct GetContainerRecipeInput: Swift.Equatable {
+public struct GetContainerRecipeInput {
     /// The Amazon Resource Name (ARN) of the container recipe to retrieve.
     /// This member is required.
     public var containerRecipeArn: Swift.String?
@@ -6959,7 +6959,7 @@ public struct GetContainerRecipeInput: Swift.Equatable {
     }
 }
 
-struct GetContainerRecipeInputBody: Swift.Equatable {
+struct GetContainerRecipeInputBody {
 }
 
 extension GetContainerRecipeInputBody: Swift.Decodable {
@@ -6982,7 +6982,7 @@ extension GetContainerRecipeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetContainerRecipeOutput: Swift.Equatable {
+public struct GetContainerRecipeOutput {
     /// The container recipe object that is returned.
     public var containerRecipe: ImagebuilderClientTypes.ContainerRecipe?
     /// The request ID that uniquely identifies this request.
@@ -6998,7 +6998,7 @@ public struct GetContainerRecipeOutput: Swift.Equatable {
     }
 }
 
-struct GetContainerRecipeOutputBody: Swift.Equatable {
+struct GetContainerRecipeOutputBody {
     let requestId: Swift.String?
     let containerRecipe: ImagebuilderClientTypes.ContainerRecipe?
 }
@@ -7055,7 +7055,7 @@ extension GetContainerRecipePolicyInput {
     }
 }
 
-public struct GetContainerRecipePolicyInput: Swift.Equatable {
+public struct GetContainerRecipePolicyInput {
     /// The Amazon Resource Name (ARN) of the container recipe for the policy being requested.
     /// This member is required.
     public var containerRecipeArn: Swift.String?
@@ -7068,7 +7068,7 @@ public struct GetContainerRecipePolicyInput: Swift.Equatable {
     }
 }
 
-struct GetContainerRecipePolicyInputBody: Swift.Equatable {
+struct GetContainerRecipePolicyInputBody {
 }
 
 extension GetContainerRecipePolicyInputBody: Swift.Decodable {
@@ -7091,7 +7091,7 @@ extension GetContainerRecipePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetContainerRecipePolicyOutput: Swift.Equatable {
+public struct GetContainerRecipePolicyOutput {
     /// The container recipe policy object that is returned.
     public var policy: Swift.String?
     /// The request ID that uniquely identifies this request.
@@ -7107,7 +7107,7 @@ public struct GetContainerRecipePolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetContainerRecipePolicyOutputBody: Swift.Equatable {
+struct GetContainerRecipePolicyOutputBody {
     let requestId: Swift.String?
     let policy: Swift.String?
 }
@@ -7164,7 +7164,7 @@ extension GetDistributionConfigurationInput {
     }
 }
 
-public struct GetDistributionConfigurationInput: Swift.Equatable {
+public struct GetDistributionConfigurationInput {
     /// The Amazon Resource Name (ARN) of the distribution configuration that you want to retrieve.
     /// This member is required.
     public var distributionConfigurationArn: Swift.String?
@@ -7177,7 +7177,7 @@ public struct GetDistributionConfigurationInput: Swift.Equatable {
     }
 }
 
-struct GetDistributionConfigurationInputBody: Swift.Equatable {
+struct GetDistributionConfigurationInputBody {
 }
 
 extension GetDistributionConfigurationInputBody: Swift.Decodable {
@@ -7200,7 +7200,7 @@ extension GetDistributionConfigurationOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct GetDistributionConfigurationOutput: Swift.Equatable {
+public struct GetDistributionConfigurationOutput {
     /// The distribution configuration object.
     public var distributionConfiguration: ImagebuilderClientTypes.DistributionConfiguration?
     /// The request ID that uniquely identifies this request.
@@ -7216,7 +7216,7 @@ public struct GetDistributionConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetDistributionConfigurationOutputBody: Swift.Equatable {
+struct GetDistributionConfigurationOutputBody {
     let requestId: Swift.String?
     let distributionConfiguration: ImagebuilderClientTypes.DistributionConfiguration?
 }
@@ -7273,7 +7273,7 @@ extension GetImageInput {
     }
 }
 
-public struct GetImageInput: Swift.Equatable {
+public struct GetImageInput {
     /// The Amazon Resource Name (ARN) of the image that you want to get.
     /// This member is required.
     public var imageBuildVersionArn: Swift.String?
@@ -7286,7 +7286,7 @@ public struct GetImageInput: Swift.Equatable {
     }
 }
 
-struct GetImageInputBody: Swift.Equatable {
+struct GetImageInputBody {
 }
 
 extension GetImageInputBody: Swift.Decodable {
@@ -7309,7 +7309,7 @@ extension GetImageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetImageOutput: Swift.Equatable {
+public struct GetImageOutput {
     /// The image object.
     public var image: ImagebuilderClientTypes.Image?
     /// The request ID that uniquely identifies this request.
@@ -7325,7 +7325,7 @@ public struct GetImageOutput: Swift.Equatable {
     }
 }
 
-struct GetImageOutputBody: Swift.Equatable {
+struct GetImageOutputBody {
     let requestId: Swift.String?
     let image: ImagebuilderClientTypes.Image?
 }
@@ -7382,7 +7382,7 @@ extension GetImagePipelineInput {
     }
 }
 
-public struct GetImagePipelineInput: Swift.Equatable {
+public struct GetImagePipelineInput {
     /// The Amazon Resource Name (ARN) of the image pipeline that you want to retrieve.
     /// This member is required.
     public var imagePipelineArn: Swift.String?
@@ -7395,7 +7395,7 @@ public struct GetImagePipelineInput: Swift.Equatable {
     }
 }
 
-struct GetImagePipelineInputBody: Swift.Equatable {
+struct GetImagePipelineInputBody {
 }
 
 extension GetImagePipelineInputBody: Swift.Decodable {
@@ -7418,7 +7418,7 @@ extension GetImagePipelineOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetImagePipelineOutput: Swift.Equatable {
+public struct GetImagePipelineOutput {
     /// The image pipeline object.
     public var imagePipeline: ImagebuilderClientTypes.ImagePipeline?
     /// The request ID that uniquely identifies this request.
@@ -7434,7 +7434,7 @@ public struct GetImagePipelineOutput: Swift.Equatable {
     }
 }
 
-struct GetImagePipelineOutputBody: Swift.Equatable {
+struct GetImagePipelineOutputBody {
     let requestId: Swift.String?
     let imagePipeline: ImagebuilderClientTypes.ImagePipeline?
 }
@@ -7491,7 +7491,7 @@ extension GetImagePolicyInput {
     }
 }
 
-public struct GetImagePolicyInput: Swift.Equatable {
+public struct GetImagePolicyInput {
     /// The Amazon Resource Name (ARN) of the image whose policy you want to retrieve.
     /// This member is required.
     public var imageArn: Swift.String?
@@ -7504,7 +7504,7 @@ public struct GetImagePolicyInput: Swift.Equatable {
     }
 }
 
-struct GetImagePolicyInputBody: Swift.Equatable {
+struct GetImagePolicyInputBody {
 }
 
 extension GetImagePolicyInputBody: Swift.Decodable {
@@ -7527,7 +7527,7 @@ extension GetImagePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetImagePolicyOutput: Swift.Equatable {
+public struct GetImagePolicyOutput {
     /// The image policy object.
     public var policy: Swift.String?
     /// The request ID that uniquely identifies this request.
@@ -7543,7 +7543,7 @@ public struct GetImagePolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetImagePolicyOutputBody: Swift.Equatable {
+struct GetImagePolicyOutputBody {
     let requestId: Swift.String?
     let policy: Swift.String?
 }
@@ -7600,7 +7600,7 @@ extension GetImageRecipeInput {
     }
 }
 
-public struct GetImageRecipeInput: Swift.Equatable {
+public struct GetImageRecipeInput {
     /// The Amazon Resource Name (ARN) of the image recipe that you want to retrieve.
     /// This member is required.
     public var imageRecipeArn: Swift.String?
@@ -7613,7 +7613,7 @@ public struct GetImageRecipeInput: Swift.Equatable {
     }
 }
 
-struct GetImageRecipeInputBody: Swift.Equatable {
+struct GetImageRecipeInputBody {
 }
 
 extension GetImageRecipeInputBody: Swift.Decodable {
@@ -7636,7 +7636,7 @@ extension GetImageRecipeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetImageRecipeOutput: Swift.Equatable {
+public struct GetImageRecipeOutput {
     /// The image recipe object.
     public var imageRecipe: ImagebuilderClientTypes.ImageRecipe?
     /// The request ID that uniquely identifies this request.
@@ -7652,7 +7652,7 @@ public struct GetImageRecipeOutput: Swift.Equatable {
     }
 }
 
-struct GetImageRecipeOutputBody: Swift.Equatable {
+struct GetImageRecipeOutputBody {
     let requestId: Swift.String?
     let imageRecipe: ImagebuilderClientTypes.ImageRecipe?
 }
@@ -7709,7 +7709,7 @@ extension GetImageRecipePolicyInput {
     }
 }
 
-public struct GetImageRecipePolicyInput: Swift.Equatable {
+public struct GetImageRecipePolicyInput {
     /// The Amazon Resource Name (ARN) of the image recipe whose policy you want to retrieve.
     /// This member is required.
     public var imageRecipeArn: Swift.String?
@@ -7722,7 +7722,7 @@ public struct GetImageRecipePolicyInput: Swift.Equatable {
     }
 }
 
-struct GetImageRecipePolicyInputBody: Swift.Equatable {
+struct GetImageRecipePolicyInputBody {
 }
 
 extension GetImageRecipePolicyInputBody: Swift.Decodable {
@@ -7745,7 +7745,7 @@ extension GetImageRecipePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetImageRecipePolicyOutput: Swift.Equatable {
+public struct GetImageRecipePolicyOutput {
     /// The image recipe policy object.
     public var policy: Swift.String?
     /// The request ID that uniquely identifies this request.
@@ -7761,7 +7761,7 @@ public struct GetImageRecipePolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetImageRecipePolicyOutputBody: Swift.Equatable {
+struct GetImageRecipePolicyOutputBody {
     let requestId: Swift.String?
     let policy: Swift.String?
 }
@@ -7819,7 +7819,7 @@ extension GetInfrastructureConfigurationInput {
 }
 
 /// GetInfrastructureConfiguration request object.
-public struct GetInfrastructureConfigurationInput: Swift.Equatable {
+public struct GetInfrastructureConfigurationInput {
     /// The Amazon Resource Name (ARN) of the infrastructure configuration that you want to retrieve.
     /// This member is required.
     public var infrastructureConfigurationArn: Swift.String?
@@ -7832,7 +7832,7 @@ public struct GetInfrastructureConfigurationInput: Swift.Equatable {
     }
 }
 
-struct GetInfrastructureConfigurationInputBody: Swift.Equatable {
+struct GetInfrastructureConfigurationInputBody {
 }
 
 extension GetInfrastructureConfigurationInputBody: Swift.Decodable {
@@ -7856,7 +7856,7 @@ extension GetInfrastructureConfigurationOutput: ClientRuntime.HttpResponseBindin
 }
 
 /// GetInfrastructureConfiguration response object.
-public struct GetInfrastructureConfigurationOutput: Swift.Equatable {
+public struct GetInfrastructureConfigurationOutput {
     /// The infrastructure configuration object.
     public var infrastructureConfiguration: ImagebuilderClientTypes.InfrastructureConfiguration?
     /// The request ID that uniquely identifies this request.
@@ -7872,7 +7872,7 @@ public struct GetInfrastructureConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetInfrastructureConfigurationOutputBody: Swift.Equatable {
+struct GetInfrastructureConfigurationOutputBody {
     let requestId: Swift.String?
     let infrastructureConfiguration: ImagebuilderClientTypes.InfrastructureConfiguration?
 }
@@ -7929,7 +7929,7 @@ extension GetLifecycleExecutionInput {
     }
 }
 
-public struct GetLifecycleExecutionInput: Swift.Equatable {
+public struct GetLifecycleExecutionInput {
     /// Use the unique identifier for a runtime instance of the lifecycle policy to get runtime details.
     /// This member is required.
     public var lifecycleExecutionId: Swift.String?
@@ -7942,7 +7942,7 @@ public struct GetLifecycleExecutionInput: Swift.Equatable {
     }
 }
 
-struct GetLifecycleExecutionInputBody: Swift.Equatable {
+struct GetLifecycleExecutionInputBody {
 }
 
 extension GetLifecycleExecutionInputBody: Swift.Decodable {
@@ -7963,7 +7963,7 @@ extension GetLifecycleExecutionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLifecycleExecutionOutput: Swift.Equatable {
+public struct GetLifecycleExecutionOutput {
     /// Runtime details for the specified runtime instance of the lifecycle policy.
     public var lifecycleExecution: ImagebuilderClientTypes.LifecycleExecution?
 
@@ -7975,7 +7975,7 @@ public struct GetLifecycleExecutionOutput: Swift.Equatable {
     }
 }
 
-struct GetLifecycleExecutionOutputBody: Swift.Equatable {
+struct GetLifecycleExecutionOutputBody {
     let lifecycleExecution: ImagebuilderClientTypes.LifecycleExecution?
 }
 
@@ -8028,7 +8028,7 @@ extension GetLifecyclePolicyInput {
     }
 }
 
-public struct GetLifecyclePolicyInput: Swift.Equatable {
+public struct GetLifecyclePolicyInput {
     /// Specifies the Amazon Resource Name (ARN) of the image lifecycle policy resource to get.
     /// This member is required.
     public var lifecyclePolicyArn: Swift.String?
@@ -8041,7 +8041,7 @@ public struct GetLifecyclePolicyInput: Swift.Equatable {
     }
 }
 
-struct GetLifecyclePolicyInputBody: Swift.Equatable {
+struct GetLifecyclePolicyInputBody {
 }
 
 extension GetLifecyclePolicyInputBody: Swift.Decodable {
@@ -8062,7 +8062,7 @@ extension GetLifecyclePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLifecyclePolicyOutput: Swift.Equatable {
+public struct GetLifecyclePolicyOutput {
     /// The ARN of the image lifecycle policy resource that was returned.
     public var lifecyclePolicy: ImagebuilderClientTypes.LifecyclePolicy?
 
@@ -8074,7 +8074,7 @@ public struct GetLifecyclePolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetLifecyclePolicyOutputBody: Swift.Equatable {
+struct GetLifecyclePolicyOutputBody {
     let lifecyclePolicy: ImagebuilderClientTypes.LifecyclePolicy?
 }
 
@@ -8127,7 +8127,7 @@ extension GetWorkflowExecutionInput {
     }
 }
 
-public struct GetWorkflowExecutionInput: Swift.Equatable {
+public struct GetWorkflowExecutionInput {
     /// Use the unique identifier for a runtime instance of the workflow to get runtime details.
     /// This member is required.
     public var workflowExecutionId: Swift.String?
@@ -8140,7 +8140,7 @@ public struct GetWorkflowExecutionInput: Swift.Equatable {
     }
 }
 
-struct GetWorkflowExecutionInputBody: Swift.Equatable {
+struct GetWorkflowExecutionInputBody {
 }
 
 extension GetWorkflowExecutionInputBody: Swift.Decodable {
@@ -8187,7 +8187,7 @@ extension GetWorkflowExecutionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetWorkflowExecutionOutput: Swift.Equatable {
+public struct GetWorkflowExecutionOutput {
     /// The timestamp when the specified runtime instance of the workflow finished.
     public var endTime: Swift.String?
     /// The Amazon Resource Name (ARN) of the image resource build version that the specified runtime instance of the workflow created.
@@ -8251,7 +8251,7 @@ public struct GetWorkflowExecutionOutput: Swift.Equatable {
     }
 }
 
-struct GetWorkflowExecutionOutputBody: Swift.Equatable {
+struct GetWorkflowExecutionOutputBody {
     let requestId: Swift.String?
     let workflowBuildVersionArn: Swift.String?
     let workflowExecutionId: Swift.String?
@@ -8356,7 +8356,7 @@ extension GetWorkflowInput {
     }
 }
 
-public struct GetWorkflowInput: Swift.Equatable {
+public struct GetWorkflowInput {
     /// The Amazon Resource Name (ARN) of the workflow resource that you want to get.
     /// This member is required.
     public var workflowBuildVersionArn: Swift.String?
@@ -8369,7 +8369,7 @@ public struct GetWorkflowInput: Swift.Equatable {
     }
 }
 
-struct GetWorkflowInputBody: Swift.Equatable {
+struct GetWorkflowInputBody {
 }
 
 extension GetWorkflowInputBody: Swift.Decodable {
@@ -8390,7 +8390,7 @@ extension GetWorkflowOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetWorkflowOutput: Swift.Equatable {
+public struct GetWorkflowOutput {
     /// The workflow resource specified in the request.
     public var workflow: ImagebuilderClientTypes.Workflow?
 
@@ -8402,7 +8402,7 @@ public struct GetWorkflowOutput: Swift.Equatable {
     }
 }
 
-struct GetWorkflowOutputBody: Swift.Equatable {
+struct GetWorkflowOutputBody {
     let workflow: ImagebuilderClientTypes.Workflow?
 }
 
@@ -8455,7 +8455,7 @@ extension GetWorkflowStepExecutionInput {
     }
 }
 
-public struct GetWorkflowStepExecutionInput: Swift.Equatable {
+public struct GetWorkflowStepExecutionInput {
     /// Use the unique identifier for a specific runtime instance of the workflow step to get runtime details for that step.
     /// This member is required.
     public var stepExecutionId: Swift.String?
@@ -8468,7 +8468,7 @@ public struct GetWorkflowStepExecutionInput: Swift.Equatable {
     }
 }
 
-struct GetWorkflowStepExecutionInputBody: Swift.Equatable {
+struct GetWorkflowStepExecutionInputBody {
 }
 
 extension GetWorkflowStepExecutionInputBody: Swift.Decodable {
@@ -8521,7 +8521,7 @@ extension GetWorkflowStepExecutionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetWorkflowStepExecutionOutput: Swift.Equatable {
+public struct GetWorkflowStepExecutionOutput {
     /// The name of the action that the specified step performs.
     public var action: Swift.String?
     /// Describes the specified workflow step.
@@ -8597,7 +8597,7 @@ public struct GetWorkflowStepExecutionOutput: Swift.Equatable {
     }
 }
 
-struct GetWorkflowStepExecutionOutputBody: Swift.Equatable {
+struct GetWorkflowStepExecutionOutputBody {
     let requestId: Swift.String?
     let stepExecutionId: Swift.String?
     let workflowBuildVersionArn: Swift.String?
@@ -8732,7 +8732,7 @@ public struct IdempotentParameterMismatchException: ClientRuntime.ModeledError, 
     }
 }
 
-struct IdempotentParameterMismatchExceptionBody: Swift.Equatable {
+struct IdempotentParameterMismatchExceptionBody {
     let message: Swift.String?
 }
 
@@ -8943,7 +8943,7 @@ extension ImagebuilderClientTypes.Image: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// An Image Builder image. You must specify exactly one recipe for the image – either a container recipe (containerRecipe), which creates a container image, or an image recipe (imageRecipe), which creates an AMI.
-    public struct Image: Swift.Equatable {
+    public struct Image {
         /// The Amazon Resource Name (ARN) of the image. Semantic versioning is included in each object's Amazon Resource Name (ARN), at the level that applies to that object as follows:
         ///
         /// * Versionless ARNs and Name ARNs do not include specific values in any of the nodes. The nodes are either left off entirely, or they are specified as wildcards, for example: x.x.x.
@@ -9096,7 +9096,7 @@ extension ImagebuilderClientTypes.ImageAggregation: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Contains vulnerability counts for a specific image.
-    public struct ImageAggregation: Swift.Equatable {
+    public struct ImageAggregation {
         /// The Amazon Resource Name (ARN) that identifies the image for this aggregation.
         public var imageBuildVersionArn: Swift.String?
         /// Counts by severity level for medium severity and higher level findings, plus a total for all of the findings for the specified image.
@@ -9141,7 +9141,7 @@ extension ImagebuilderClientTypes.ImagePackage: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Represents a package installed on an Image Builder image.
-    public struct ImagePackage: Swift.Equatable {
+    public struct ImagePackage {
         /// The name of the package as reported to the operating system package manager.
         public var packageName: Swift.String?
         /// The version of the package as reported to the operating system package manager.
@@ -9318,7 +9318,7 @@ extension ImagebuilderClientTypes.ImagePipeline: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Details of an image pipeline.
-    public struct ImagePipeline: Swift.Equatable {
+    public struct ImagePipeline {
         /// The Amazon Resource Name (ARN) of the image pipeline.
         public var arn: Swift.String?
         /// The Amazon Resource Name (ARN) of the container recipe that is used for this pipeline.
@@ -9435,7 +9435,7 @@ extension ImagebuilderClientTypes.ImagePipelineAggregation: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Contains vulnerability counts for a specific image pipeline.
-    public struct ImagePipelineAggregation: Swift.Equatable {
+    public struct ImagePipelineAggregation {
         /// The Amazon Resource Name (ARN) that identifies the image pipeline for this aggregation.
         public var imagePipelineArn: Swift.String?
         /// Counts by severity level for medium severity and higher level findings, plus a total for all of the findings for the specified image pipeline.
@@ -9588,7 +9588,7 @@ extension ImagebuilderClientTypes.ImageRecipe: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// An image recipe.
-    public struct ImageRecipe: Swift.Equatable {
+    public struct ImageRecipe {
         /// Before you create a new AMI, Image Builder launches temporary Amazon EC2 instances to build and test your image configuration. Instance configuration adds a layer of control over those instances. You can define settings and add scripts to run when an instance is launched from your AMI.
         public var additionalInstanceConfiguration: ImagebuilderClientTypes.AdditionalInstanceConfiguration?
         /// The Amazon Resource Name (ARN) of the image recipe.
@@ -9723,7 +9723,7 @@ extension ImagebuilderClientTypes.ImageRecipeSummary: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// A summary of an image recipe.
-    public struct ImageRecipeSummary: Swift.Equatable {
+    public struct ImageRecipeSummary {
         /// The Amazon Resource Name (ARN) of the image recipe.
         public var arn: Swift.String?
         /// The date on which this image recipe was created.
@@ -9860,7 +9860,7 @@ extension ImagebuilderClientTypes.ImageScanFinding: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Contains details about a vulnerability scan finding.
-    public struct ImageScanFinding: Swift.Equatable {
+    public struct ImageScanFinding {
         /// The Amazon Web Services account ID that's associated with the finding.
         public var awsAccountId: Swift.String?
         /// The description of the finding.
@@ -9965,7 +9965,7 @@ extension ImagebuilderClientTypes.ImageScanFindingAggregation: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// This returns exactly one type of aggregation, based on the filter that Image Builder applies in its API action.
-    public struct ImageScanFindingAggregation: Swift.Equatable {
+    public struct ImageScanFindingAggregation {
         /// Returns an object that contains severity counts based on an account ID.
         public var accountAggregation: ImagebuilderClientTypes.AccountAggregation?
         /// Returns an object that contains severity counts based on the Amazon Resource Name (ARN) for a specific image.
@@ -10030,7 +10030,7 @@ extension ImagebuilderClientTypes.ImageScanFindingsFilter: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// A name value pair that Image Builder applies to streamline results from the vulnerability scan findings list action.
-    public struct ImageScanFindingsFilter: Swift.Equatable {
+    public struct ImageScanFindingsFilter {
         /// The name of the image scan finding filter. Filter names are case-sensitive.
         public var name: Swift.String?
         /// The filter values. Filter values are case-sensitive.
@@ -10075,7 +10075,7 @@ extension ImagebuilderClientTypes.ImageScanState: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Shows the vulnerability scan status for a specific image, and the reason for that status.
-    public struct ImageScanState: Swift.Equatable {
+    public struct ImageScanState {
         /// The reason for the scan status for the image.
         public var reason: Swift.String?
         /// The current state of vulnerability scans for the image.
@@ -10167,7 +10167,7 @@ extension ImagebuilderClientTypes.ImageScanningConfiguration: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Contains settings for Image Builder image resource and container image scans.
-    public struct ImageScanningConfiguration: Swift.Equatable {
+    public struct ImageScanningConfiguration {
         /// Contains Amazon ECR settings for vulnerability scans.
         public var ecrConfiguration: ImagebuilderClientTypes.EcrConfiguration?
         /// A setting that indicates whether Image Builder keeps a snapshot of the vulnerability scans that Amazon Inspector runs against the build instance when you create a new image.
@@ -10250,7 +10250,7 @@ extension ImagebuilderClientTypes.ImageState: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Image status and the reason for that status.
-    public struct ImageState: Swift.Equatable {
+    public struct ImageState {
         /// The reason for the status of the image.
         public var reason: Swift.String?
         /// The status of the image.
@@ -10447,7 +10447,7 @@ extension ImagebuilderClientTypes.ImageSummary: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// An image summary.
-    public struct ImageSummary: Swift.Equatable {
+    public struct ImageSummary {
         /// The Amazon Resource Name (ARN) of the image.
         public var arn: Swift.String?
         /// Indicates the type of build that created this image. The build can be initiated in the following ways:
@@ -10550,7 +10550,7 @@ extension ImagebuilderClientTypes.ImageTestsConfiguration: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Configure image tests for your pipeline build. Tests run after building the image, to verify that the AMI or container image is valid before distributing it.
-    public struct ImageTestsConfiguration: Swift.Equatable {
+    public struct ImageTestsConfiguration {
         /// Determines if tests should run after building the image. Image Builder defaults to enable tests to run following the image build, before image distribution.
         public var imageTestsEnabled: Swift.Bool?
         /// The maximum time in minutes that tests are permitted to run. The timeoutMinutes attribute is not currently active. This value is ignored.
@@ -10675,7 +10675,7 @@ extension ImagebuilderClientTypes.ImageVersion: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// The defining characteristics of a specific version of an Image Builder image.
-    public struct ImageVersion: Swift.Equatable {
+    public struct ImageVersion {
         /// The Amazon Resource Name (ARN) of a specific version of an Image Builder image. Semantic versioning is included in each object's Amazon Resource Name (ARN), at the level that applies to that object as follows:
         ///
         /// * Versionless ARNs and Name ARNs do not include specific values in any of the nodes. The nodes are either left off entirely, or they are specified as wildcards, for example: x.x.x.
@@ -10806,7 +10806,7 @@ extension ImportComponentInput {
     }
 }
 
-public struct ImportComponentInput: Swift.Equatable {
+public struct ImportComponentInput {
     /// The change description of the component. This description indicates the change that has been made in this version, or what makes this version different from other versions of the component.
     public var changeDescription: Swift.String?
     /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon EC2 API Reference.
@@ -10868,7 +10868,7 @@ public struct ImportComponentInput: Swift.Equatable {
     }
 }
 
-struct ImportComponentInputBody: Swift.Equatable {
+struct ImportComponentInputBody {
     let name: Swift.String?
     let semanticVersion: Swift.String?
     let description: Swift.String?
@@ -10953,7 +10953,7 @@ extension ImportComponentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ImportComponentOutput: Swift.Equatable {
+public struct ImportComponentOutput {
     /// The client token that uniquely identifies the request.
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the imported component.
@@ -10973,7 +10973,7 @@ public struct ImportComponentOutput: Swift.Equatable {
     }
 }
 
-struct ImportComponentOutputBody: Swift.Equatable {
+struct ImportComponentOutputBody {
     let requestId: Swift.String?
     let clientToken: Swift.String?
     let componentBuildVersionArn: Swift.String?
@@ -11068,7 +11068,7 @@ extension ImportVmImageInput {
     }
 }
 
-public struct ImportVmImageInput: Swift.Equatable {
+public struct ImportVmImageInput {
     /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon EC2 API Reference.
     /// This member is required.
     public var clientToken: Swift.String?
@@ -11113,7 +11113,7 @@ public struct ImportVmImageInput: Swift.Equatable {
     }
 }
 
-struct ImportVmImageInputBody: Swift.Equatable {
+struct ImportVmImageInputBody {
     let name: Swift.String?
     let semanticVersion: Swift.String?
     let description: Swift.String?
@@ -11182,7 +11182,7 @@ extension ImportVmImageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ImportVmImageOutput: Swift.Equatable {
+public struct ImportVmImageOutput {
     /// The client token that uniquely identifies the request.
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the AMI that was created during the VM import process. This AMI is used as the base image for the recipe that imported the VM.
@@ -11202,7 +11202,7 @@ public struct ImportVmImageOutput: Swift.Equatable {
     }
 }
 
-struct ImportVmImageOutputBody: Swift.Equatable {
+struct ImportVmImageOutputBody {
     let requestId: Swift.String?
     let imageArn: Swift.String?
     let clientToken: Swift.String?
@@ -11398,7 +11398,7 @@ extension ImagebuilderClientTypes.InfrastructureConfiguration: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Details of the infrastructure configuration.
-    public struct InfrastructureConfiguration: Swift.Equatable {
+    public struct InfrastructureConfiguration {
         /// The Amazon Resource Name (ARN) of the infrastructure configuration.
         public var arn: Swift.String?
         /// The date on which the infrastructure configuration was created.
@@ -11577,7 +11577,7 @@ extension ImagebuilderClientTypes.InfrastructureConfigurationSummary: Swift.Coda
 
 extension ImagebuilderClientTypes {
     /// The infrastructure used when building Amazon EC2 AMIs.
-    public struct InfrastructureConfigurationSummary: Swift.Equatable {
+    public struct InfrastructureConfigurationSummary {
         /// The Amazon Resource Name (ARN) of the infrastructure configuration.
         public var arn: Swift.String?
         /// The date on which the infrastructure configuration was created.
@@ -11644,7 +11644,7 @@ extension ImagebuilderClientTypes.InspectorScoreDetails: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Information about the factors that influenced the score that Amazon Inspector assigned for a finding.
-    public struct InspectorScoreDetails: Swift.Equatable {
+    public struct InspectorScoreDetails {
         /// An object that contains details about an adjustment that Amazon Inspector made to the CVSS score for the finding.
         public var adjustedCvss: ImagebuilderClientTypes.CvssScoreDetails?
 
@@ -11697,7 +11697,7 @@ extension ImagebuilderClientTypes.InstanceBlockDeviceMapping: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Defines block device mappings for the instance used to configure your image.
-    public struct InstanceBlockDeviceMapping: Swift.Equatable {
+    public struct InstanceBlockDeviceMapping {
         /// The device to which these mappings apply.
         public var deviceName: Swift.String?
         /// Use to manage Amazon EBS-specific configuration for this mapping.
@@ -11762,7 +11762,7 @@ extension ImagebuilderClientTypes.InstanceConfiguration: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Defines a custom base AMI and block device mapping configurations of an instance used for building and testing container images.
-    public struct InstanceConfiguration: Swift.Equatable {
+    public struct InstanceConfiguration {
         /// Defines the block devices to attach for building an instance from this Image Builder AMI.
         public var blockDeviceMappings: [ImagebuilderClientTypes.InstanceBlockDeviceMapping]?
         /// The AMI ID to use as the base image for a container build and test instance. If not specified, Image Builder will use the appropriate ECS-optimized AMI as a base image.
@@ -11807,7 +11807,7 @@ extension ImagebuilderClientTypes.InstanceMetadataOptions: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// The instance metadata options that apply to the HTTP requests that pipeline builds use to launch EC2 build and test instances. For more information about instance metadata options, see [Configure the instance metadata options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-options.html) in the Amazon EC2 User Guide for Linux instances, or [Configure the instance metadata options](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/configuring-instance-metadata-options.html) in the Amazon EC2 Windows Guide for Windows instances.
-    public struct InstanceMetadataOptions: Swift.Equatable {
+    public struct InstanceMetadataOptions {
         /// Limit the number of hops that an instance metadata request can traverse to reach its destination. The default is one hop. However, if HTTP tokens are required, container image builds need a minimum of two hops.
         public var httpPutResponseHopLimit: Swift.Int?
         /// Indicates whether a signed token header is required for instance metadata retrieval requests. The values affect the response as follows:
@@ -11871,7 +11871,7 @@ public struct InvalidPaginationTokenException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct InvalidPaginationTokenExceptionBody: Swift.Equatable {
+struct InvalidPaginationTokenExceptionBody {
     let message: Swift.String?
 }
 
@@ -11926,7 +11926,7 @@ public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, 
     }
 }
 
-struct InvalidParameterCombinationExceptionBody: Swift.Equatable {
+struct InvalidParameterCombinationExceptionBody {
     let message: Swift.String?
 }
 
@@ -11981,7 +11981,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidParameterExceptionBody: Swift.Equatable {
+struct InvalidParameterExceptionBody {
     let message: Swift.String?
 }
 
@@ -12036,7 +12036,7 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct InvalidParameterValueExceptionBody: Swift.Equatable {
+struct InvalidParameterValueExceptionBody {
     let message: Swift.String?
 }
 
@@ -12091,7 +12091,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InvalidRequestExceptionBody: Swift.Equatable {
+struct InvalidRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -12146,7 +12146,7 @@ public struct InvalidVersionNumberException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct InvalidVersionNumberExceptionBody: Swift.Equatable {
+struct InvalidVersionNumberExceptionBody {
     let message: Swift.String?
 }
 
@@ -12249,7 +12249,7 @@ extension ImagebuilderClientTypes.LaunchPermissionConfiguration: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Describes the configuration for a launch permission. The launch permission modification request is sent to the [Amazon EC2 ModifyImageAttribute](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifyImageAttribute.html) API on behalf of the user for each Region they have selected to distribute the AMI. To make an AMI public, set the launch permission authorized accounts to all. See the examples for making an AMI public at [Amazon EC2 ModifyImageAttribute](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifyImageAttribute.html).
-    public struct LaunchPermissionConfiguration: Swift.Equatable {
+    public struct LaunchPermissionConfiguration {
         /// The ARN for an Amazon Web Services Organization that you want to share your AMI with. For more information, see [What is Organizations?](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_introduction.html).
         public var organizationArns: [Swift.String]?
         /// The ARN for an Organizations organizational unit (OU) that you want to share your AMI with. For more information about key concepts for Organizations, see [Organizations terminology and concepts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html).
@@ -12308,7 +12308,7 @@ extension ImagebuilderClientTypes.LaunchTemplateConfiguration: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Identifies an Amazon EC2 launch template to use for a specific account.
-    public struct LaunchTemplateConfiguration: Swift.Equatable {
+    public struct LaunchTemplateConfiguration {
         /// The account ID that this configuration applies to.
         public var accountId: Swift.String?
         /// Identifies the Amazon EC2 launch template to use.
@@ -12382,7 +12382,7 @@ extension ImagebuilderClientTypes.LifecycleExecution: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Contains metadata from a runtime instance of a lifecycle policy.
-    public struct LifecycleExecution: Swift.Equatable {
+    public struct LifecycleExecution {
         /// The timestamp when the lifecycle runtime instance completed.
         public var endTime: ClientRuntime.Date?
         /// Identifies the lifecycle policy runtime instance.
@@ -12509,7 +12509,7 @@ extension ImagebuilderClientTypes.LifecycleExecutionResource: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Contains details for a resource that the runtime instance of the lifecycle policy identified for action.
-    public struct LifecycleExecutionResource: Swift.Equatable {
+    public struct LifecycleExecutionResource {
         /// The account that owns the impacted resource.
         public var accountId: Swift.String?
         /// The action to take for the identified resource.
@@ -12588,7 +12588,7 @@ extension ImagebuilderClientTypes.LifecycleExecutionResourceAction: Swift.Codabl
 
 extension ImagebuilderClientTypes {
     /// The lifecycle policy action that was identified for the impacted resource.
-    public struct LifecycleExecutionResourceAction: Swift.Equatable {
+    public struct LifecycleExecutionResourceAction {
         /// The name of the resource that was identified for a lifecycle policy action.
         public var name: ImagebuilderClientTypes.LifecycleExecutionResourceActionName?
         /// The reason why the lifecycle policy action is taken.
@@ -12671,7 +12671,7 @@ extension ImagebuilderClientTypes.LifecycleExecutionResourceState: Swift.Codable
 
 extension ImagebuilderClientTypes {
     /// Contains the state of an impacted resource that the runtime instance of the lifecycle policy identified for action.
-    public struct LifecycleExecutionResourceState: Swift.Equatable {
+    public struct LifecycleExecutionResourceState {
         /// Messaging that clarifies the reason for the assigned status.
         public var reason: Swift.String?
         /// The runtime status of the lifecycle action taken for the impacted resource.
@@ -12748,7 +12748,7 @@ extension ImagebuilderClientTypes.LifecycleExecutionResourcesImpactedSummary: Sw
 
 extension ImagebuilderClientTypes {
     /// Contains details for an image resource that was identified for a lifecycle action.
-    public struct LifecycleExecutionResourcesImpactedSummary: Swift.Equatable {
+    public struct LifecycleExecutionResourcesImpactedSummary {
         /// Indicates whether an image resource that was identified for a lifecycle action has associated resources that are also impacted.
         public var hasImpactedResources: Swift.Bool
 
@@ -12789,7 +12789,7 @@ extension ImagebuilderClientTypes.LifecycleExecutionSnapshotResource: Swift.Coda
 
 extension ImagebuilderClientTypes {
     /// Contains the state of an impacted snapshot resource that the runtime instance of the lifecycle policy identified for action.
-    public struct LifecycleExecutionSnapshotResource: Swift.Equatable {
+    public struct LifecycleExecutionSnapshotResource {
         /// Identifies the impacted snapshot resource.
         public var snapshotId: Swift.String?
         /// The runtime status of the lifecycle action taken for the snapshot.
@@ -12834,7 +12834,7 @@ extension ImagebuilderClientTypes.LifecycleExecutionState: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// The current state of the runtime instance of the lifecycle policy.
-    public struct LifecycleExecutionState: Swift.Equatable {
+    public struct LifecycleExecutionState {
         /// The reason for the current status.
         public var reason: Swift.String?
         /// The runtime status of the lifecycle execution.
@@ -13007,7 +13007,7 @@ extension ImagebuilderClientTypes.LifecyclePolicy: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// The configuration details for a lifecycle policy resource.
-    public struct LifecyclePolicy: Swift.Equatable {
+    public struct LifecyclePolicy {
         /// The Amazon Resource Name (ARN) of the lifecycle policy resource.
         public var arn: Swift.String?
         /// The timestamp when Image Builder created the lifecycle policy resource.
@@ -13098,7 +13098,7 @@ extension ImagebuilderClientTypes.LifecyclePolicyDetail: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// The configuration details for a lifecycle policy resource.
-    public struct LifecyclePolicyDetail: Swift.Equatable {
+    public struct LifecyclePolicyDetail {
         /// Configuration details for the policy action.
         /// This member is required.
         public var action: ImagebuilderClientTypes.LifecyclePolicyDetailAction?
@@ -13149,7 +13149,7 @@ extension ImagebuilderClientTypes.LifecyclePolicyDetailAction: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Contains selection criteria for the lifecycle policy.
-    public struct LifecyclePolicyDetailAction: Swift.Equatable {
+    public struct LifecyclePolicyDetailAction {
         /// Specifies the resources that the lifecycle policy applies to.
         public var includeResources: ImagebuilderClientTypes.LifecyclePolicyDetailActionIncludeResources?
         /// Specifies the lifecycle action to take.
@@ -13201,7 +13201,7 @@ extension ImagebuilderClientTypes.LifecyclePolicyDetailActionIncludeResources: S
 
 extension ImagebuilderClientTypes {
     /// Specifies how the lifecycle policy should apply actions to selected resources.
-    public struct LifecyclePolicyDetailActionIncludeResources: Swift.Equatable {
+    public struct LifecyclePolicyDetailActionIncludeResources {
         /// Specifies whether the lifecycle action should apply to distributed AMIs.
         public var amis: Swift.Bool
         /// Specifies whether the lifecycle action should apply to distributed containers.
@@ -13297,7 +13297,7 @@ extension ImagebuilderClientTypes.LifecyclePolicyDetailExclusionRules: Swift.Cod
 
 extension ImagebuilderClientTypes {
     /// Specifies resources that lifecycle policy actions should not apply to.
-    public struct LifecyclePolicyDetailExclusionRules: Swift.Equatable {
+    public struct LifecyclePolicyDetailExclusionRules {
         /// Lists configuration values that apply to AMIs that Image Builder should exclude from the lifecycle action.
         public var amis: ImagebuilderClientTypes.LifecyclePolicyDetailExclusionRulesAmis?
         /// Contains a list of tags that Image Builder uses to skip lifecycle actions for Image Builder image resources that have them.
@@ -13396,7 +13396,7 @@ extension ImagebuilderClientTypes.LifecyclePolicyDetailExclusionRulesAmis: Swift
 
 extension ImagebuilderClientTypes {
     /// Defines criteria for AMIs that are excluded from lifecycle actions.
-    public struct LifecyclePolicyDetailExclusionRulesAmis: Swift.Equatable {
+    public struct LifecyclePolicyDetailExclusionRulesAmis {
         /// Configures whether public AMIs are excluded from the lifecycle action.
         public var isPublic: Swift.Bool
         /// Specifies configuration details for Image Builder to exclude the most recent resources from lifecycle actions.
@@ -13453,7 +13453,7 @@ extension ImagebuilderClientTypes.LifecyclePolicyDetailExclusionRulesAmisLastLau
 
 extension ImagebuilderClientTypes {
     /// Defines criteria to exclude AMIs from lifecycle actions based on the last time they were used to launch an instance.
-    public struct LifecyclePolicyDetailExclusionRulesAmisLastLaunched: Swift.Equatable {
+    public struct LifecyclePolicyDetailExclusionRulesAmisLastLaunched {
         /// Defines the unit of time that the lifecycle policy uses to calculate elapsed time since the last instance launched from the AMI. For example: days, weeks, months, or years.
         /// This member is required.
         public var unit: ImagebuilderClientTypes.LifecyclePolicyTimeUnit?
@@ -13512,7 +13512,7 @@ extension ImagebuilderClientTypes.LifecyclePolicyDetailFilter: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Defines filters that the lifecycle policy uses to determine impacted resource.
-    public struct LifecyclePolicyDetailFilter: Swift.Equatable {
+    public struct LifecyclePolicyDetailFilter {
         /// For age-based filters, this is the number of resources to keep on hand after the lifecycle DELETE action is applied. Impacted resources are only deleted if you have more than this number of resources. If you have fewer resources than this number, the impacted resource is not deleted.
         public var retainAtLeast: Swift.Int?
         /// Filter resources based on either age or count.
@@ -13623,7 +13623,7 @@ extension ImagebuilderClientTypes.LifecyclePolicyResourceSelection: Swift.Codabl
 
 extension ImagebuilderClientTypes {
     /// Resource selection criteria for the lifecycle policy.
-    public struct LifecyclePolicyResourceSelection: Swift.Equatable {
+    public struct LifecyclePolicyResourceSelection {
         /// A list of recipes that are used as selection criteria for the output images that the lifecycle policy applies to.
         public var recipes: [ImagebuilderClientTypes.LifecyclePolicyResourceSelectionRecipe]?
         /// A list of tags that are used as selection criteria for the Image Builder image resources that the lifecycle policy applies to.
@@ -13668,7 +13668,7 @@ extension ImagebuilderClientTypes.LifecyclePolicyResourceSelectionRecipe: Swift.
 
 extension ImagebuilderClientTypes {
     /// Specifies an Image Builder recipe that the lifecycle policy uses for resource selection.
-    public struct LifecyclePolicyResourceSelectionRecipe: Swift.Equatable {
+    public struct LifecyclePolicyResourceSelectionRecipe {
         /// The name of an Image Builder recipe that the lifecycle policy uses for resource selection.
         /// This member is required.
         public var name: Swift.String?
@@ -13839,7 +13839,7 @@ extension ImagebuilderClientTypes.LifecyclePolicySummary: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Contains a summary of lifecycle policy resources.
-    public struct LifecyclePolicySummary: Swift.Equatable {
+    public struct LifecyclePolicySummary {
         /// The Amazon Resource Name (ARN) of the lifecycle policy summary resource.
         public var arn: Swift.String?
         /// The timestamp when Image Builder created the lifecycle policy resource.
@@ -13955,7 +13955,7 @@ extension ListComponentBuildVersionsInput {
     }
 }
 
-public struct ListComponentBuildVersionsInput: Swift.Equatable {
+public struct ListComponentBuildVersionsInput {
     /// The component version Amazon Resource Name (ARN) whose versions you want to list.
     /// This member is required.
     public var componentVersionArn: Swift.String?
@@ -13976,7 +13976,7 @@ public struct ListComponentBuildVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListComponentBuildVersionsInputBody: Swift.Equatable {
+struct ListComponentBuildVersionsInputBody {
     let componentVersionArn: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -14016,7 +14016,7 @@ extension ListComponentBuildVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListComponentBuildVersionsOutput: Swift.Equatable {
+public struct ListComponentBuildVersionsOutput {
     /// The list of component summaries for the specified semantic version.
     public var componentSummaryList: [ImagebuilderClientTypes.ComponentSummary]?
     /// The next token used for paginated responses. When this field isn't empty, there are additional elements that the service hasn't included in this request. Use this token with the next request to retrieve additional objects.
@@ -14036,7 +14036,7 @@ public struct ListComponentBuildVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListComponentBuildVersionsOutputBody: Swift.Equatable {
+struct ListComponentBuildVersionsOutputBody {
     let requestId: Swift.String?
     let componentSummaryList: [ImagebuilderClientTypes.ComponentSummary]?
     let nextToken: Swift.String?
@@ -14125,7 +14125,7 @@ extension ListComponentsInput {
     }
 }
 
-public struct ListComponentsInput: Swift.Equatable {
+public struct ListComponentsInput {
     /// Returns the list of components for the specified name.
     public var byName: Swift.Bool?
     /// Use the following filters to streamline results:
@@ -14165,7 +14165,7 @@ public struct ListComponentsInput: Swift.Equatable {
     }
 }
 
-struct ListComponentsInputBody: Swift.Equatable {
+struct ListComponentsInputBody {
     let owner: ImagebuilderClientTypes.Ownership?
     let filters: [ImagebuilderClientTypes.Filter]?
     let byName: Swift.Bool?
@@ -14222,7 +14222,7 @@ extension ListComponentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListComponentsOutput: Swift.Equatable {
+public struct ListComponentsOutput {
     /// The list of component semantic versions. The semantic version has four nodes: ../. You can assign values for the first three, and can filter on all of them.
     public var componentVersionList: [ImagebuilderClientTypes.ComponentVersion]?
     /// The next token used for paginated responses. When this field isn't empty, there are additional elements that the service hasn't included in this request. Use this token with the next request to retrieve additional objects.
@@ -14242,7 +14242,7 @@ public struct ListComponentsOutput: Swift.Equatable {
     }
 }
 
-struct ListComponentsOutputBody: Swift.Equatable {
+struct ListComponentsOutputBody {
     let requestId: Swift.String?
     let componentVersionList: [ImagebuilderClientTypes.ComponentVersion]?
     let nextToken: Swift.String?
@@ -14327,7 +14327,7 @@ extension ListContainerRecipesInput {
     }
 }
 
-public struct ListContainerRecipesInput: Swift.Equatable {
+public struct ListContainerRecipesInput {
     /// Use the following filters to streamline results:
     ///
     /// * containerType
@@ -14359,7 +14359,7 @@ public struct ListContainerRecipesInput: Swift.Equatable {
     }
 }
 
-struct ListContainerRecipesInputBody: Swift.Equatable {
+struct ListContainerRecipesInputBody {
     let owner: ImagebuilderClientTypes.Ownership?
     let filters: [ImagebuilderClientTypes.Filter]?
     let maxResults: Swift.Int?
@@ -14412,7 +14412,7 @@ extension ListContainerRecipesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListContainerRecipesOutput: Swift.Equatable {
+public struct ListContainerRecipesOutput {
     /// The list of container recipes returned for the request.
     public var containerRecipeSummaryList: [ImagebuilderClientTypes.ContainerRecipeSummary]?
     /// The next token used for paginated responses. When this field isn't empty, there are additional elements that the service hasn't included in this request. Use this token with the next request to retrieve additional objects.
@@ -14432,7 +14432,7 @@ public struct ListContainerRecipesOutput: Swift.Equatable {
     }
 }
 
-struct ListContainerRecipesOutputBody: Swift.Equatable {
+struct ListContainerRecipesOutputBody {
     let requestId: Swift.String?
     let containerRecipeSummaryList: [ImagebuilderClientTypes.ContainerRecipeSummary]?
     let nextToken: Swift.String?
@@ -14513,7 +14513,7 @@ extension ListDistributionConfigurationsInput {
     }
 }
 
-public struct ListDistributionConfigurationsInput: Swift.Equatable {
+public struct ListDistributionConfigurationsInput {
     /// You can filter on name to streamline results.
     public var filters: [ImagebuilderClientTypes.Filter]?
     /// The maximum items to return in a request.
@@ -14533,7 +14533,7 @@ public struct ListDistributionConfigurationsInput: Swift.Equatable {
     }
 }
 
-struct ListDistributionConfigurationsInputBody: Swift.Equatable {
+struct ListDistributionConfigurationsInputBody {
     let filters: [ImagebuilderClientTypes.Filter]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -14582,7 +14582,7 @@ extension ListDistributionConfigurationsOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ListDistributionConfigurationsOutput: Swift.Equatable {
+public struct ListDistributionConfigurationsOutput {
     /// The list of distributions.
     public var distributionConfigurationSummaryList: [ImagebuilderClientTypes.DistributionConfigurationSummary]?
     /// The next token used for paginated responses. When this field isn't empty, there are additional elements that the service hasn't included in this request. Use this token with the next request to retrieve additional objects.
@@ -14602,7 +14602,7 @@ public struct ListDistributionConfigurationsOutput: Swift.Equatable {
     }
 }
 
-struct ListDistributionConfigurationsOutputBody: Swift.Equatable {
+struct ListDistributionConfigurationsOutputBody {
     let requestId: Swift.String?
     let distributionConfigurationSummaryList: [ImagebuilderClientTypes.DistributionConfigurationSummary]?
     let nextToken: Swift.String?
@@ -14687,7 +14687,7 @@ extension ListImageBuildVersionsInput {
     }
 }
 
-public struct ListImageBuildVersionsInput: Swift.Equatable {
+public struct ListImageBuildVersionsInput {
     /// Use the following filters to streamline results:
     ///
     /// * name
@@ -14722,7 +14722,7 @@ public struct ListImageBuildVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListImageBuildVersionsInputBody: Swift.Equatable {
+struct ListImageBuildVersionsInputBody {
     let imageVersionArn: Swift.String?
     let filters: [ImagebuilderClientTypes.Filter]?
     let maxResults: Swift.Int?
@@ -14775,7 +14775,7 @@ extension ListImageBuildVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListImageBuildVersionsOutput: Swift.Equatable {
+public struct ListImageBuildVersionsOutput {
     /// The list of image build versions.
     public var imageSummaryList: [ImagebuilderClientTypes.ImageSummary]?
     /// The next token used for paginated responses. When this field isn't empty, there are additional elements that the service hasn't included in this request. Use this token with the next request to retrieve additional objects.
@@ -14795,7 +14795,7 @@ public struct ListImageBuildVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListImageBuildVersionsOutputBody: Swift.Equatable {
+struct ListImageBuildVersionsOutputBody {
     let requestId: Swift.String?
     let imageSummaryList: [ImagebuilderClientTypes.ImageSummary]?
     let nextToken: Swift.String?
@@ -14873,7 +14873,7 @@ extension ListImagePackagesInput {
     }
 }
 
-public struct ListImagePackagesInput: Swift.Equatable {
+public struct ListImagePackagesInput {
     /// Filter results for the ListImagePackages request by the Image Build Version ARN
     /// This member is required.
     public var imageBuildVersionArn: Swift.String?
@@ -14894,7 +14894,7 @@ public struct ListImagePackagesInput: Swift.Equatable {
     }
 }
 
-struct ListImagePackagesInputBody: Swift.Equatable {
+struct ListImagePackagesInputBody {
     let imageBuildVersionArn: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -14934,7 +14934,7 @@ extension ListImagePackagesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListImagePackagesOutput: Swift.Equatable {
+public struct ListImagePackagesOutput {
     /// The list of Image Packages returned in the response.
     public var imagePackageList: [ImagebuilderClientTypes.ImagePackage]?
     /// The next token used for paginated responses. When this field isn't empty, there are additional elements that the service hasn't included in this request. Use this token with the next request to retrieve additional objects.
@@ -14954,7 +14954,7 @@ public struct ListImagePackagesOutput: Swift.Equatable {
     }
 }
 
-struct ListImagePackagesOutputBody: Swift.Equatable {
+struct ListImagePackagesOutputBody {
     let requestId: Swift.String?
     let imagePackageList: [ImagebuilderClientTypes.ImagePackage]?
     let nextToken: Swift.String?
@@ -15040,7 +15040,7 @@ extension ListImagePipelineImagesInput {
     }
 }
 
-public struct ListImagePipelineImagesInput: Swift.Equatable {
+public struct ListImagePipelineImagesInput {
     /// Use the following filters to streamline results:
     ///
     /// * name
@@ -15069,7 +15069,7 @@ public struct ListImagePipelineImagesInput: Swift.Equatable {
     }
 }
 
-struct ListImagePipelineImagesInputBody: Swift.Equatable {
+struct ListImagePipelineImagesInputBody {
     let imagePipelineArn: Swift.String?
     let filters: [ImagebuilderClientTypes.Filter]?
     let maxResults: Swift.Int?
@@ -15122,7 +15122,7 @@ extension ListImagePipelineImagesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListImagePipelineImagesOutput: Swift.Equatable {
+public struct ListImagePipelineImagesOutput {
     /// The list of images built by this pipeline.
     public var imageSummaryList: [ImagebuilderClientTypes.ImageSummary]?
     /// The next token used for paginated responses. When this field isn't empty, there are additional elements that the service hasn't included in this request. Use this token with the next request to retrieve additional objects.
@@ -15142,7 +15142,7 @@ public struct ListImagePipelineImagesOutput: Swift.Equatable {
     }
 }
 
-struct ListImagePipelineImagesOutputBody: Swift.Equatable {
+struct ListImagePipelineImagesOutputBody {
     let requestId: Swift.String?
     let imageSummaryList: [ImagebuilderClientTypes.ImageSummary]?
     let nextToken: Swift.String?
@@ -15224,7 +15224,7 @@ extension ListImagePipelinesInput {
     }
 }
 
-public struct ListImagePipelinesInput: Swift.Equatable {
+public struct ListImagePipelinesInput {
     /// Use the following filters to streamline results:
     ///
     /// * description
@@ -15256,7 +15256,7 @@ public struct ListImagePipelinesInput: Swift.Equatable {
     }
 }
 
-struct ListImagePipelinesInputBody: Swift.Equatable {
+struct ListImagePipelinesInputBody {
     let filters: [ImagebuilderClientTypes.Filter]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -15305,7 +15305,7 @@ extension ListImagePipelinesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListImagePipelinesOutput: Swift.Equatable {
+public struct ListImagePipelinesOutput {
     /// The list of image pipelines.
     public var imagePipelineList: [ImagebuilderClientTypes.ImagePipeline]?
     /// The next token used for paginated responses. When this field isn't empty, there are additional elements that the service hasn't included in this request. Use this token with the next request to retrieve additional objects.
@@ -15325,7 +15325,7 @@ public struct ListImagePipelinesOutput: Swift.Equatable {
     }
 }
 
-struct ListImagePipelinesOutputBody: Swift.Equatable {
+struct ListImagePipelinesOutputBody {
     let requestId: Swift.String?
     let imagePipelineList: [ImagebuilderClientTypes.ImagePipeline]?
     let nextToken: Swift.String?
@@ -15410,7 +15410,7 @@ extension ListImageRecipesInput {
     }
 }
 
-public struct ListImageRecipesInput: Swift.Equatable {
+public struct ListImageRecipesInput {
     /// Use the following filters to streamline results:
     ///
     /// * name
@@ -15440,7 +15440,7 @@ public struct ListImageRecipesInput: Swift.Equatable {
     }
 }
 
-struct ListImageRecipesInputBody: Swift.Equatable {
+struct ListImageRecipesInputBody {
     let owner: ImagebuilderClientTypes.Ownership?
     let filters: [ImagebuilderClientTypes.Filter]?
     let maxResults: Swift.Int?
@@ -15493,7 +15493,7 @@ extension ListImageRecipesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListImageRecipesOutput: Swift.Equatable {
+public struct ListImageRecipesOutput {
     /// The list of image pipelines.
     public var imageRecipeSummaryList: [ImagebuilderClientTypes.ImageRecipeSummary]?
     /// The next token used for paginated responses. When this field isn't empty, there are additional elements that the service hasn't included in this request. Use this token with the next request to retrieve additional objects.
@@ -15513,7 +15513,7 @@ public struct ListImageRecipesOutput: Swift.Equatable {
     }
 }
 
-struct ListImageRecipesOutputBody: Swift.Equatable {
+struct ListImageRecipesOutputBody {
     let requestId: Swift.String?
     let imageRecipeSummaryList: [ImagebuilderClientTypes.ImageRecipeSummary]?
     let nextToken: Swift.String?
@@ -15587,7 +15587,7 @@ extension ListImageScanFindingAggregationsInput {
     }
 }
 
-public struct ListImageScanFindingAggregationsInput: Swift.Equatable {
+public struct ListImageScanFindingAggregationsInput {
     /// A filter name and value pair that is used to return a more specific list of results from a list operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs.
     public var filter: ImagebuilderClientTypes.Filter?
     /// A token to specify where to start paginating. This is the nextToken from a previously truncated response.
@@ -15603,7 +15603,7 @@ public struct ListImageScanFindingAggregationsInput: Swift.Equatable {
     }
 }
 
-struct ListImageScanFindingAggregationsInputBody: Swift.Equatable {
+struct ListImageScanFindingAggregationsInputBody {
     let filter: ImagebuilderClientTypes.Filter?
     let nextToken: Swift.String?
 }
@@ -15641,7 +15641,7 @@ extension ListImageScanFindingAggregationsOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct ListImageScanFindingAggregationsOutput: Swift.Equatable {
+public struct ListImageScanFindingAggregationsOutput {
     /// The aggregation type specifies what type of key is used to group the image scan findings. Image Builder returns results based on the request filter. If you didn't specify a filter in the request, the type defaults to accountId. Aggregation types
     ///
     /// * accountId
@@ -15676,7 +15676,7 @@ public struct ListImageScanFindingAggregationsOutput: Swift.Equatable {
     }
 }
 
-struct ListImageScanFindingAggregationsOutputBody: Swift.Equatable {
+struct ListImageScanFindingAggregationsOutputBody {
     let requestId: Swift.String?
     let aggregationType: Swift.String?
     let responses: [ImagebuilderClientTypes.ImageScanFindingAggregation]?
@@ -15761,7 +15761,7 @@ extension ListImageScanFindingsInput {
     }
 }
 
-public struct ListImageScanFindingsInput: Swift.Equatable {
+public struct ListImageScanFindingsInput {
     /// An array of name value pairs that you can use to filter your results. You can use the following filters to streamline results:
     ///
     /// * imageBuildVersionArn
@@ -15792,7 +15792,7 @@ public struct ListImageScanFindingsInput: Swift.Equatable {
     }
 }
 
-struct ListImageScanFindingsInputBody: Swift.Equatable {
+struct ListImageScanFindingsInputBody {
     let filters: [ImagebuilderClientTypes.ImageScanFindingsFilter]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -15841,7 +15841,7 @@ extension ListImageScanFindingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListImageScanFindingsOutput: Swift.Equatable {
+public struct ListImageScanFindingsOutput {
     /// The image scan findings for your account that meet your request filter criteria.
     public var findings: [ImagebuilderClientTypes.ImageScanFinding]?
     /// The next token used for paginated responses. When this field isn't empty, there are additional elements that the service hasn't included in this request. Use this token with the next request to retrieve additional objects.
@@ -15861,7 +15861,7 @@ public struct ListImageScanFindingsOutput: Swift.Equatable {
     }
 }
 
-struct ListImageScanFindingsOutputBody: Swift.Equatable {
+struct ListImageScanFindingsOutputBody {
     let requestId: Swift.String?
     let findings: [ImagebuilderClientTypes.ImageScanFinding]?
     let nextToken: Swift.String?
@@ -15954,7 +15954,7 @@ extension ListImagesInput {
     }
 }
 
-public struct ListImagesInput: Swift.Equatable {
+public struct ListImagesInput {
     /// Requests a list of images with a specific recipe name.
     public var byName: Swift.Bool?
     /// Use the following filters to streamline results:
@@ -15996,7 +15996,7 @@ public struct ListImagesInput: Swift.Equatable {
     }
 }
 
-struct ListImagesInputBody: Swift.Equatable {
+struct ListImagesInputBody {
     let owner: ImagebuilderClientTypes.Ownership?
     let filters: [ImagebuilderClientTypes.Filter]?
     let byName: Swift.Bool?
@@ -16057,7 +16057,7 @@ extension ListImagesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListImagesOutput: Swift.Equatable {
+public struct ListImagesOutput {
     /// The list of image semantic versions. The semantic version has four nodes: ../. You can assign values for the first three, and can filter on all of them. Filtering: With semantic versioning, you have the flexibility to use wildcards (x) to specify the most recent versions or nodes when selecting the base image or components for your recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be wildcards.
     public var imageVersionList: [ImagebuilderClientTypes.ImageVersion]?
     /// The next token used for paginated responses. When this field isn't empty, there are additional elements that the service hasn't included in this request. Use this token with the next request to retrieve additional objects.
@@ -16077,7 +16077,7 @@ public struct ListImagesOutput: Swift.Equatable {
     }
 }
 
-struct ListImagesOutputBody: Swift.Equatable {
+struct ListImagesOutputBody {
     let requestId: Swift.String?
     let imageVersionList: [ImagebuilderClientTypes.ImageVersion]?
     let nextToken: Swift.String?
@@ -16158,7 +16158,7 @@ extension ListInfrastructureConfigurationsInput {
     }
 }
 
-public struct ListInfrastructureConfigurationsInput: Swift.Equatable {
+public struct ListInfrastructureConfigurationsInput {
     /// You can filter on name to streamline results.
     public var filters: [ImagebuilderClientTypes.Filter]?
     /// The maximum items to return in a request.
@@ -16178,7 +16178,7 @@ public struct ListInfrastructureConfigurationsInput: Swift.Equatable {
     }
 }
 
-struct ListInfrastructureConfigurationsInputBody: Swift.Equatable {
+struct ListInfrastructureConfigurationsInputBody {
     let filters: [ImagebuilderClientTypes.Filter]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -16227,7 +16227,7 @@ extension ListInfrastructureConfigurationsOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct ListInfrastructureConfigurationsOutput: Swift.Equatable {
+public struct ListInfrastructureConfigurationsOutput {
     /// The list of infrastructure configurations.
     public var infrastructureConfigurationSummaryList: [ImagebuilderClientTypes.InfrastructureConfigurationSummary]?
     /// The next token used for paginated responses. When this field isn't empty, there are additional elements that the service hasn't included in this request. Use this token with the next request to retrieve additional objects.
@@ -16247,7 +16247,7 @@ public struct ListInfrastructureConfigurationsOutput: Swift.Equatable {
     }
 }
 
-struct ListInfrastructureConfigurationsOutputBody: Swift.Equatable {
+struct ListInfrastructureConfigurationsOutputBody {
     let requestId: Swift.String?
     let infrastructureConfigurationSummaryList: [ImagebuilderClientTypes.InfrastructureConfigurationSummary]?
     let nextToken: Swift.String?
@@ -16329,7 +16329,7 @@ extension ListLifecycleExecutionResourcesInput {
     }
 }
 
-public struct ListLifecycleExecutionResourcesInput: Swift.Equatable {
+public struct ListLifecycleExecutionResourcesInput {
     /// Use the unique identifier for a runtime instance of the lifecycle policy to get runtime details.
     /// This member is required.
     public var lifecycleExecutionId: Swift.String?
@@ -16354,7 +16354,7 @@ public struct ListLifecycleExecutionResourcesInput: Swift.Equatable {
     }
 }
 
-struct ListLifecycleExecutionResourcesInputBody: Swift.Equatable {
+struct ListLifecycleExecutionResourcesInputBody {
     let lifecycleExecutionId: Swift.String?
     let parentResourceId: Swift.String?
     let maxResults: Swift.Int?
@@ -16400,7 +16400,7 @@ extension ListLifecycleExecutionResourcesOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ListLifecycleExecutionResourcesOutput: Swift.Equatable {
+public struct ListLifecycleExecutionResourcesOutput {
     /// Runtime details for the specified runtime instance of the lifecycle policy.
     public var lifecycleExecutionId: Swift.String?
     /// The current state of the lifecycle runtime instance.
@@ -16424,7 +16424,7 @@ public struct ListLifecycleExecutionResourcesOutput: Swift.Equatable {
     }
 }
 
-struct ListLifecycleExecutionResourcesOutputBody: Swift.Equatable {
+struct ListLifecycleExecutionResourcesOutputBody {
     let lifecycleExecutionId: Swift.String?
     let lifecycleExecutionState: ImagebuilderClientTypes.LifecycleExecutionState?
     let resources: [ImagebuilderClientTypes.LifecycleExecutionResource]?
@@ -16506,7 +16506,7 @@ extension ListLifecycleExecutionsInput {
     }
 }
 
-public struct ListLifecycleExecutionsInput: Swift.Equatable {
+public struct ListLifecycleExecutionsInput {
     /// The maximum items to return in a request.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. This is the nextToken from a previously truncated response.
@@ -16527,7 +16527,7 @@ public struct ListLifecycleExecutionsInput: Swift.Equatable {
     }
 }
 
-struct ListLifecycleExecutionsInputBody: Swift.Equatable {
+struct ListLifecycleExecutionsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let resourceArn: Swift.String?
@@ -16565,7 +16565,7 @@ extension ListLifecycleExecutionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListLifecycleExecutionsOutput: Swift.Equatable {
+public struct ListLifecycleExecutionsOutput {
     /// A list of lifecycle runtime instances for the specified resource.
     public var lifecycleExecutions: [ImagebuilderClientTypes.LifecycleExecution]?
     /// The next token used for paginated responses. When this field isn't empty, there are additional elements that the service hasn't included in this request. Use this token with the next request to retrieve additional objects.
@@ -16581,7 +16581,7 @@ public struct ListLifecycleExecutionsOutput: Swift.Equatable {
     }
 }
 
-struct ListLifecycleExecutionsOutputBody: Swift.Equatable {
+struct ListLifecycleExecutionsOutputBody {
     let lifecycleExecutions: [ImagebuilderClientTypes.LifecycleExecution]?
     let nextToken: Swift.String?
 }
@@ -16658,7 +16658,7 @@ extension ListLifecyclePoliciesInput {
     }
 }
 
-public struct ListLifecyclePoliciesInput: Swift.Equatable {
+public struct ListLifecyclePoliciesInput {
     /// Streamline results based on one of the following values: Name, Status.
     public var filters: [ImagebuilderClientTypes.Filter]?
     /// The maximum items to return in a request.
@@ -16678,7 +16678,7 @@ public struct ListLifecyclePoliciesInput: Swift.Equatable {
     }
 }
 
-struct ListLifecyclePoliciesInputBody: Swift.Equatable {
+struct ListLifecyclePoliciesInputBody {
     let filters: [ImagebuilderClientTypes.Filter]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -16725,7 +16725,7 @@ extension ListLifecyclePoliciesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListLifecyclePoliciesOutput: Swift.Equatable {
+public struct ListLifecyclePoliciesOutput {
     /// A list of lifecycle policies in your Amazon Web Services account that meet the criteria specified in the request.
     public var lifecyclePolicySummaryList: [ImagebuilderClientTypes.LifecyclePolicySummary]?
     /// The next token used for paginated responses. When this field isn't empty, there are additional elements that the service hasn't included in this request. Use this token with the next request to retrieve additional objects.
@@ -16741,7 +16741,7 @@ public struct ListLifecyclePoliciesOutput: Swift.Equatable {
     }
 }
 
-struct ListLifecyclePoliciesOutputBody: Swift.Equatable {
+struct ListLifecyclePoliciesOutputBody {
     let lifecyclePolicySummaryList: [ImagebuilderClientTypes.LifecyclePolicySummary]?
     let nextToken: Swift.String?
 }
@@ -16797,7 +16797,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource whose tags you want to retrieve.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -16810,7 +16810,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -16831,7 +16831,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The tags for the specified resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -16843,7 +16843,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -16905,7 +16905,7 @@ extension ListWaitingWorkflowStepsInput {
     }
 }
 
-public struct ListWaitingWorkflowStepsInput: Swift.Equatable {
+public struct ListWaitingWorkflowStepsInput {
     /// The maximum items to return in a request.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. This is the nextToken from a previously truncated response.
@@ -16921,7 +16921,7 @@ public struct ListWaitingWorkflowStepsInput: Swift.Equatable {
     }
 }
 
-struct ListWaitingWorkflowStepsInputBody: Swift.Equatable {
+struct ListWaitingWorkflowStepsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -16955,7 +16955,7 @@ extension ListWaitingWorkflowStepsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListWaitingWorkflowStepsOutput: Swift.Equatable {
+public struct ListWaitingWorkflowStepsOutput {
     /// The next token used for paginated responses. When this field isn't empty, there are additional elements that the service hasn't included in this request. Use this token with the next request to retrieve additional objects.
     public var nextToken: Swift.String?
     /// An array of the workflow steps that are waiting for action in your Amazon Web Services account.
@@ -16971,7 +16971,7 @@ public struct ListWaitingWorkflowStepsOutput: Swift.Equatable {
     }
 }
 
-struct ListWaitingWorkflowStepsOutputBody: Swift.Equatable {
+struct ListWaitingWorkflowStepsOutputBody {
     let steps: [ImagebuilderClientTypes.WorkflowStepExecution]?
     let nextToken: Swift.String?
 }
@@ -17045,7 +17045,7 @@ extension ListWorkflowBuildVersionsInput {
     }
 }
 
-public struct ListWorkflowBuildVersionsInput: Swift.Equatable {
+public struct ListWorkflowBuildVersionsInput {
     /// The maximum items to return in a request.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. This is the nextToken from a previously truncated response.
@@ -17066,7 +17066,7 @@ public struct ListWorkflowBuildVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListWorkflowBuildVersionsInputBody: Swift.Equatable {
+struct ListWorkflowBuildVersionsInputBody {
     let workflowVersionArn: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -17104,7 +17104,7 @@ extension ListWorkflowBuildVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListWorkflowBuildVersionsOutput: Swift.Equatable {
+public struct ListWorkflowBuildVersionsOutput {
     /// The next token used for paginated responses. When this field isn't empty, there are additional elements that the service hasn't included in this request. Use this token with the next request to retrieve additional objects.
     public var nextToken: Swift.String?
     /// A list that contains metadata for the workflow builds that have run for the workflow resource specified in the request.
@@ -17120,7 +17120,7 @@ public struct ListWorkflowBuildVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListWorkflowBuildVersionsOutputBody: Swift.Equatable {
+struct ListWorkflowBuildVersionsOutputBody {
     let workflowSummaryList: [ImagebuilderClientTypes.WorkflowSummary]?
     let nextToken: Swift.String?
 }
@@ -17194,7 +17194,7 @@ extension ListWorkflowExecutionsInput {
     }
 }
 
-public struct ListWorkflowExecutionsInput: Swift.Equatable {
+public struct ListWorkflowExecutionsInput {
     /// List all workflow runtime instances for the specified image build version resource ARN.
     /// This member is required.
     public var imageBuildVersionArn: Swift.String?
@@ -17215,7 +17215,7 @@ public struct ListWorkflowExecutionsInput: Swift.Equatable {
     }
 }
 
-struct ListWorkflowExecutionsInputBody: Swift.Equatable {
+struct ListWorkflowExecutionsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let imageBuildVersionArn: Swift.String?
@@ -17259,7 +17259,7 @@ extension ListWorkflowExecutionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListWorkflowExecutionsOutput: Swift.Equatable {
+public struct ListWorkflowExecutionsOutput {
     /// The resource ARN of the image build version for which you requested a list of workflow runtime details.
     public var imageBuildVersionArn: Swift.String?
     /// The output message from the list action, if applicable.
@@ -17287,7 +17287,7 @@ public struct ListWorkflowExecutionsOutput: Swift.Equatable {
     }
 }
 
-struct ListWorkflowExecutionsOutputBody: Swift.Equatable {
+struct ListWorkflowExecutionsOutputBody {
     let requestId: Swift.String?
     let workflowExecutions: [ImagebuilderClientTypes.WorkflowExecutionMetadata]?
     let imageBuildVersionArn: Swift.String?
@@ -17373,7 +17373,7 @@ extension ListWorkflowStepExecutionsInput {
     }
 }
 
-public struct ListWorkflowStepExecutionsInput: Swift.Equatable {
+public struct ListWorkflowStepExecutionsInput {
     /// The maximum items to return in a request.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. This is the nextToken from a previously truncated response.
@@ -17394,7 +17394,7 @@ public struct ListWorkflowStepExecutionsInput: Swift.Equatable {
     }
 }
 
-struct ListWorkflowStepExecutionsInputBody: Swift.Equatable {
+struct ListWorkflowStepExecutionsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let workflowExecutionId: Swift.String?
@@ -17442,7 +17442,7 @@ extension ListWorkflowStepExecutionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListWorkflowStepExecutionsOutput: Swift.Equatable {
+public struct ListWorkflowStepExecutionsOutput {
     /// The image build version resource ARN that's associated with the specified runtime instance of the workflow.
     public var imageBuildVersionArn: Swift.String?
     /// The output message from the list action, if applicable.
@@ -17478,7 +17478,7 @@ public struct ListWorkflowStepExecutionsOutput: Swift.Equatable {
     }
 }
 
-struct ListWorkflowStepExecutionsOutputBody: Swift.Equatable {
+struct ListWorkflowStepExecutionsOutputBody {
     let requestId: Swift.String?
     let steps: [ImagebuilderClientTypes.WorkflowStepMetadata]?
     let workflowBuildVersionArn: Swift.String?
@@ -17583,7 +17583,7 @@ extension ListWorkflowsInput {
     }
 }
 
-public struct ListWorkflowsInput: Swift.Equatable {
+public struct ListWorkflowsInput {
     /// Specify all or part of the workflow name to streamline results.
     public var byName: Swift.Bool?
     /// Used to streamline search results.
@@ -17611,7 +17611,7 @@ public struct ListWorkflowsInput: Swift.Equatable {
     }
 }
 
-struct ListWorkflowsInputBody: Swift.Equatable {
+struct ListWorkflowsInputBody {
     let owner: ImagebuilderClientTypes.Ownership?
     let filters: [ImagebuilderClientTypes.Filter]?
     let byName: Swift.Bool?
@@ -17666,7 +17666,7 @@ extension ListWorkflowsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListWorkflowsOutput: Swift.Equatable {
+public struct ListWorkflowsOutput {
     /// The next token used for paginated responses. When this field isn't empty, there are additional elements that the service hasn't included in this request. Use this token with the next request to retrieve additional objects.
     public var nextToken: Swift.String?
     /// A list of workflow build versions that match the request criteria.
@@ -17682,7 +17682,7 @@ public struct ListWorkflowsOutput: Swift.Equatable {
     }
 }
 
-struct ListWorkflowsOutputBody: Swift.Equatable {
+struct ListWorkflowsOutputBody {
     let workflowVersionList: [ImagebuilderClientTypes.WorkflowVersion]?
     let nextToken: Swift.String?
 }
@@ -17749,7 +17749,7 @@ extension ImagebuilderClientTypes.Logging: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Logging configuration defines where Image Builder uploads your logs.
-    public struct Logging: Swift.Equatable {
+    public struct Logging {
         /// The Amazon S3 logging configuration.
         public var s3Logs: ImagebuilderClientTypes.S3Logs?
 
@@ -17846,7 +17846,7 @@ extension ImagebuilderClientTypes.OutputResources: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// The resources produced by this image.
-    public struct OutputResources: Swift.Equatable {
+    public struct OutputResources {
         /// The Amazon EC2 AMIs created by this image.
         public var amis: [ImagebuilderClientTypes.Ami]?
         /// Container images that the pipeline has generated and stored in the output repository.
@@ -18025,7 +18025,7 @@ extension ImagebuilderClientTypes.PackageVulnerabilityDetails: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Information about package vulnerability findings.
-    public struct PackageVulnerabilityDetails: Swift.Equatable {
+    public struct PackageVulnerabilityDetails {
         /// CVSS scores for one or more vulnerabilities that Amazon Inspector identified for a package.
         public var cvss: [ImagebuilderClientTypes.CvssScore]?
         /// Links to web pages that contain details about the vulnerabilities that Amazon Inspector identified for the package.
@@ -18196,7 +18196,7 @@ extension PutComponentPolicyInput {
     }
 }
 
-public struct PutComponentPolicyInput: Swift.Equatable {
+public struct PutComponentPolicyInput {
     /// The Amazon Resource Name (ARN) of the component that this policy should be applied to.
     /// This member is required.
     public var componentArn: Swift.String?
@@ -18214,7 +18214,7 @@ public struct PutComponentPolicyInput: Swift.Equatable {
     }
 }
 
-struct PutComponentPolicyInputBody: Swift.Equatable {
+struct PutComponentPolicyInputBody {
     let componentArn: Swift.String?
     let policy: Swift.String?
 }
@@ -18248,7 +18248,7 @@ extension PutComponentPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutComponentPolicyOutput: Swift.Equatable {
+public struct PutComponentPolicyOutput {
     /// The Amazon Resource Name (ARN) of the component that this policy was applied to.
     public var componentArn: Swift.String?
     /// The request ID that uniquely identifies this request.
@@ -18264,7 +18264,7 @@ public struct PutComponentPolicyOutput: Swift.Equatable {
     }
 }
 
-struct PutComponentPolicyOutputBody: Swift.Equatable {
+struct PutComponentPolicyOutputBody {
     let requestId: Swift.String?
     let componentArn: Swift.String?
 }
@@ -18326,7 +18326,7 @@ extension PutContainerRecipePolicyInput {
     }
 }
 
-public struct PutContainerRecipePolicyInput: Swift.Equatable {
+public struct PutContainerRecipePolicyInput {
     /// The Amazon Resource Name (ARN) of the container recipe that this policy should be applied to.
     /// This member is required.
     public var containerRecipeArn: Swift.String?
@@ -18344,7 +18344,7 @@ public struct PutContainerRecipePolicyInput: Swift.Equatable {
     }
 }
 
-struct PutContainerRecipePolicyInputBody: Swift.Equatable {
+struct PutContainerRecipePolicyInputBody {
     let containerRecipeArn: Swift.String?
     let policy: Swift.String?
 }
@@ -18378,7 +18378,7 @@ extension PutContainerRecipePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutContainerRecipePolicyOutput: Swift.Equatable {
+public struct PutContainerRecipePolicyOutput {
     /// The Amazon Resource Name (ARN) of the container recipe that this policy was applied to.
     public var containerRecipeArn: Swift.String?
     /// The request ID that uniquely identifies this request.
@@ -18394,7 +18394,7 @@ public struct PutContainerRecipePolicyOutput: Swift.Equatable {
     }
 }
 
-struct PutContainerRecipePolicyOutputBody: Swift.Equatable {
+struct PutContainerRecipePolicyOutputBody {
     let requestId: Swift.String?
     let containerRecipeArn: Swift.String?
 }
@@ -18456,7 +18456,7 @@ extension PutImagePolicyInput {
     }
 }
 
-public struct PutImagePolicyInput: Swift.Equatable {
+public struct PutImagePolicyInput {
     /// The Amazon Resource Name (ARN) of the image that this policy should be applied to.
     /// This member is required.
     public var imageArn: Swift.String?
@@ -18474,7 +18474,7 @@ public struct PutImagePolicyInput: Swift.Equatable {
     }
 }
 
-struct PutImagePolicyInputBody: Swift.Equatable {
+struct PutImagePolicyInputBody {
     let imageArn: Swift.String?
     let policy: Swift.String?
 }
@@ -18508,7 +18508,7 @@ extension PutImagePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutImagePolicyOutput: Swift.Equatable {
+public struct PutImagePolicyOutput {
     /// The Amazon Resource Name (ARN) of the image that this policy was applied to.
     public var imageArn: Swift.String?
     /// The request ID that uniquely identifies this request.
@@ -18524,7 +18524,7 @@ public struct PutImagePolicyOutput: Swift.Equatable {
     }
 }
 
-struct PutImagePolicyOutputBody: Swift.Equatable {
+struct PutImagePolicyOutputBody {
     let requestId: Swift.String?
     let imageArn: Swift.String?
 }
@@ -18586,7 +18586,7 @@ extension PutImageRecipePolicyInput {
     }
 }
 
-public struct PutImageRecipePolicyInput: Swift.Equatable {
+public struct PutImageRecipePolicyInput {
     /// The Amazon Resource Name (ARN) of the image recipe that this policy should be applied to.
     /// This member is required.
     public var imageRecipeArn: Swift.String?
@@ -18604,7 +18604,7 @@ public struct PutImageRecipePolicyInput: Swift.Equatable {
     }
 }
 
-struct PutImageRecipePolicyInputBody: Swift.Equatable {
+struct PutImageRecipePolicyInputBody {
     let imageRecipeArn: Swift.String?
     let policy: Swift.String?
 }
@@ -18638,7 +18638,7 @@ extension PutImageRecipePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutImageRecipePolicyOutput: Swift.Equatable {
+public struct PutImageRecipePolicyOutput {
     /// The Amazon Resource Name (ARN) of the image recipe that this policy was applied to.
     public var imageRecipeArn: Swift.String?
     /// The request ID that uniquely identifies this request.
@@ -18654,7 +18654,7 @@ public struct PutImageRecipePolicyOutput: Swift.Equatable {
     }
 }
 
-struct PutImageRecipePolicyOutputBody: Swift.Equatable {
+struct PutImageRecipePolicyOutputBody {
     let requestId: Swift.String?
     let imageRecipeArn: Swift.String?
 }
@@ -18713,7 +18713,7 @@ extension ImagebuilderClientTypes.Remediation: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Information about how to remediate a finding.
-    public struct Remediation: Swift.Equatable {
+    public struct Remediation {
         /// An object that contains information about the recommended course of action to remediate the finding.
         public var recommendation: ImagebuilderClientTypes.RemediationRecommendation?
 
@@ -18754,7 +18754,7 @@ extension ImagebuilderClientTypes.RemediationRecommendation: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Details about the recommended course of action to remediate the finding.
-    public struct RemediationRecommendation: Swift.Equatable {
+    public struct RemediationRecommendation {
         /// The recommended course of action to remediate the finding.
         public var text: Swift.String?
         /// A link to more information about the recommended remediation for this vulnerability.
@@ -18811,7 +18811,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct ResourceAlreadyExistsExceptionBody: Swift.Equatable {
+struct ResourceAlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -18866,7 +18866,7 @@ public struct ResourceDependencyException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct ResourceDependencyExceptionBody: Swift.Equatable {
+struct ResourceDependencyExceptionBody {
     let message: Swift.String?
 }
 
@@ -18921,7 +18921,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ResourceInUseExceptionBody: Swift.Equatable {
+struct ResourceInUseExceptionBody {
     let message: Swift.String?
 }
 
@@ -18976,7 +18976,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -19013,7 +19013,7 @@ extension ImagebuilderClientTypes.ResourceState: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// The current state of an impacted resource.
-    public struct ResourceState: Swift.Equatable {
+    public struct ResourceState {
         /// Shows the current lifecycle policy action that was applied to an impacted resource.
         public var status: ImagebuilderClientTypes.ResourceStatus?
 
@@ -19048,7 +19048,7 @@ extension ImagebuilderClientTypes.ResourceStateUpdateExclusionRules: Swift.Codab
 
 extension ImagebuilderClientTypes {
     /// Additional rules to specify resources that should be exempt from ad-hoc lifecycle actions.
-    public struct ResourceStateUpdateExclusionRules: Swift.Equatable {
+    public struct ResourceStateUpdateExclusionRules {
         /// Defines criteria for AMIs that are excluded from lifecycle actions.
         public var amis: ImagebuilderClientTypes.LifecyclePolicyDetailExclusionRulesAmis?
 
@@ -19095,7 +19095,7 @@ extension ImagebuilderClientTypes.ResourceStateUpdateIncludeResources: Swift.Cod
 
 extension ImagebuilderClientTypes {
     /// Specifies if the lifecycle policy should apply actions to selected resources.
-    public struct ResourceStateUpdateIncludeResources: Swift.Equatable {
+    public struct ResourceStateUpdateIncludeResources {
         /// Specifies whether the lifecycle action should apply to distributed AMIs
         public var amis: Swift.Bool
         /// Specifies whether the lifecycle action should apply to distributed containers.
@@ -19194,7 +19194,7 @@ extension ImagebuilderClientTypes.S3ExportConfiguration: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Properties that configure export from your build instance to a compatible file format for your VM.
-    public struct S3ExportConfiguration: Swift.Equatable {
+    public struct S3ExportConfiguration {
         /// Export the updated image to one of the following supported disk image formats:
         ///
         /// * Virtual Hard Disk (VHD) – Compatible with Citrix Xen and Microsoft Hyper-V virtualization products.
@@ -19256,7 +19256,7 @@ extension ImagebuilderClientTypes.S3Logs: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Amazon S3 logging configuration.
-    public struct S3Logs: Swift.Equatable {
+    public struct S3Logs {
         /// The S3 bucket in which to store the logs.
         public var s3BucketName: Swift.String?
         /// The Amazon S3 path to the bucket where the logs are stored.
@@ -19307,7 +19307,7 @@ extension ImagebuilderClientTypes.Schedule: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// A schedule configures when and how often a pipeline will automatically create a new image.
-    public struct Schedule: Swift.Equatable {
+    public struct Schedule {
         /// The condition configures when the pipeline should trigger a new image build. When the pipelineExecutionStartCondition is set to EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE, and you use semantic version filters on the base image or components in your image recipe, EC2 Image Builder will build a new image only when there are new versions of the image or components in your recipe that match the semantic version filter. When it is set to EXPRESSION_MATCH_ONLY, it will build a new image every time the CRON expression matches the current time. For semantic version syntax, see [CreateComponent](https://docs.aws.amazon.com/imagebuilder/latest/APIReference/API_CreateComponent.html) in the EC2 Image Builder API Reference.
         public var pipelineExecutionStartCondition: ImagebuilderClientTypes.PipelineExecutionStartCondition?
         /// The cron expression determines how often EC2 Image Builder evaluates your pipelineExecutionStartCondition. For information on how to format a cron expression in Image Builder, see [Use cron expressions in EC2 Image Builder](https://docs.aws.amazon.com/imagebuilder/latest/userguide/image-builder-cron.html).
@@ -19365,7 +19365,7 @@ extension SendWorkflowStepActionInput {
     }
 }
 
-public struct SendWorkflowStepActionInput: Swift.Equatable {
+public struct SendWorkflowStepActionInput {
     /// The action for the image creation process to take while a workflow WaitForAction step waits for an asynchronous action to complete.
     /// This member is required.
     public var action: ImagebuilderClientTypes.WorkflowStepActionType?
@@ -19397,7 +19397,7 @@ public struct SendWorkflowStepActionInput: Swift.Equatable {
     }
 }
 
-struct SendWorkflowStepActionInputBody: Swift.Equatable {
+struct SendWorkflowStepActionInputBody {
     let stepExecutionId: Swift.String?
     let imageBuildVersionArn: Swift.String?
     let action: ImagebuilderClientTypes.WorkflowStepActionType?
@@ -19445,7 +19445,7 @@ extension SendWorkflowStepActionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SendWorkflowStepActionOutput: Swift.Equatable {
+public struct SendWorkflowStepActionOutput {
     /// The client token that uniquely identifies the request.
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the image build version that received the action request.
@@ -19465,7 +19465,7 @@ public struct SendWorkflowStepActionOutput: Swift.Equatable {
     }
 }
 
-struct SendWorkflowStepActionOutputBody: Swift.Equatable {
+struct SendWorkflowStepActionOutputBody {
     let stepExecutionId: Swift.String?
     let imageBuildVersionArn: Swift.String?
     let clientToken: Swift.String?
@@ -19548,7 +19548,7 @@ public struct ServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     }
 }
 
-struct ServiceExceptionBody: Swift.Equatable {
+struct ServiceExceptionBody {
     let message: Swift.String?
 }
 
@@ -19603,7 +19603,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -19658,7 +19658,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct ServiceUnavailableExceptionBody: Swift.Equatable {
+struct ServiceUnavailableExceptionBody {
     let message: Swift.String?
 }
 
@@ -19713,7 +19713,7 @@ extension ImagebuilderClientTypes.SeverityCounts: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Includes counts by severity level for medium severity and higher level findings, plus a total for all of the findings for the specified filter.
-    public struct SeverityCounts: Swift.Equatable {
+    public struct SeverityCounts {
         /// The total number of findings across all severity levels for the specified filter.
         public var all: Swift.Int?
         /// The number of critical severity findings for the specified filter.
@@ -19763,7 +19763,7 @@ extension StartImagePipelineExecutionInput {
     }
 }
 
-public struct StartImagePipelineExecutionInput: Swift.Equatable {
+public struct StartImagePipelineExecutionInput {
     /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon EC2 API Reference.
     /// This member is required.
     public var clientToken: Swift.String?
@@ -19781,7 +19781,7 @@ public struct StartImagePipelineExecutionInput: Swift.Equatable {
     }
 }
 
-struct StartImagePipelineExecutionInputBody: Swift.Equatable {
+struct StartImagePipelineExecutionInputBody {
     let imagePipelineArn: Swift.String?
     let clientToken: Swift.String?
 }
@@ -19817,7 +19817,7 @@ extension StartImagePipelineExecutionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartImagePipelineExecutionOutput: Swift.Equatable {
+public struct StartImagePipelineExecutionOutput {
     /// The client token that uniquely identifies the request.
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the image that the request created.
@@ -19837,7 +19837,7 @@ public struct StartImagePipelineExecutionOutput: Swift.Equatable {
     }
 }
 
-struct StartImagePipelineExecutionOutputBody: Swift.Equatable {
+struct StartImagePipelineExecutionOutputBody {
     let requestId: Swift.String?
     let clientToken: Swift.String?
     let imageBuildVersionArn: Swift.String?
@@ -19924,7 +19924,7 @@ extension StartResourceStateUpdateInput {
     }
 }
 
-public struct StartResourceStateUpdateInput: Swift.Equatable {
+public struct StartResourceStateUpdateInput {
     /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon EC2 API Reference.
     /// This member is required.
     public var clientToken: Swift.String?
@@ -19963,7 +19963,7 @@ public struct StartResourceStateUpdateInput: Swift.Equatable {
     }
 }
 
-struct StartResourceStateUpdateInputBody: Swift.Equatable {
+struct StartResourceStateUpdateInputBody {
     let resourceArn: Swift.String?
     let state: ImagebuilderClientTypes.ResourceState?
     let executionRole: Swift.String?
@@ -20017,7 +20017,7 @@ extension StartResourceStateUpdateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartResourceStateUpdateOutput: Swift.Equatable {
+public struct StartResourceStateUpdateOutput {
     /// Identifies the lifecycle runtime instance that started the resource state update.
     public var lifecycleExecutionId: Swift.String?
     /// The requested ARN of the Image Builder resource for the asynchronous update.
@@ -20033,7 +20033,7 @@ public struct StartResourceStateUpdateOutput: Swift.Equatable {
     }
 }
 
-struct StartResourceStateUpdateOutputBody: Swift.Equatable {
+struct StartResourceStateUpdateOutputBody {
     let lifecycleExecutionId: Swift.String?
     let resourceArn: Swift.String?
 }
@@ -20093,7 +20093,7 @@ extension ImagebuilderClientTypes.SystemsManagerAgent: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Contains settings for the Systems Manager agent on your build instance.
-    public struct SystemsManagerAgent: Swift.Equatable {
+    public struct SystemsManagerAgent {
         /// Controls whether the Systems Manager agent is removed from your final build image, prior to creating the new AMI. If this is set to true, then the agent is removed from the final image. If it's set to false, then the agent is left in, so that it is included in the new AMI. The default value is false.
         public var uninstallAfterBuild: Swift.Bool?
 
@@ -20133,7 +20133,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource that you want to tag.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -20151,7 +20151,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -20181,7 +20181,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -20226,7 +20226,7 @@ extension ImagebuilderClientTypes.TargetContainerRepository: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// The container repository where the output container image is stored.
-    public struct TargetContainerRepository: Swift.Equatable {
+    public struct TargetContainerRepository {
         /// The name of the container repository where the output container image is stored. This name is prefixed by the repository location.
         /// This member is required.
         public var repositoryName: Swift.String?
@@ -20272,7 +20272,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource that you want to untag.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -20290,7 +20290,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -20304,7 +20304,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -20357,7 +20357,7 @@ extension UpdateDistributionConfigurationInput {
     }
 }
 
-public struct UpdateDistributionConfigurationInput: Swift.Equatable {
+public struct UpdateDistributionConfigurationInput {
     /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon EC2 API Reference.
     /// This member is required.
     public var clientToken: Swift.String?
@@ -20384,7 +20384,7 @@ public struct UpdateDistributionConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateDistributionConfigurationInputBody: Swift.Equatable {
+struct UpdateDistributionConfigurationInputBody {
     let distributionConfigurationArn: Swift.String?
     let description: Swift.String?
     let distributions: [ImagebuilderClientTypes.Distribution]?
@@ -20437,7 +20437,7 @@ extension UpdateDistributionConfigurationOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct UpdateDistributionConfigurationOutput: Swift.Equatable {
+public struct UpdateDistributionConfigurationOutput {
     /// The client token that uniquely identifies the request.
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the distribution configuration that was updated by this request.
@@ -20457,7 +20457,7 @@ public struct UpdateDistributionConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDistributionConfigurationOutputBody: Swift.Equatable {
+struct UpdateDistributionConfigurationOutputBody {
     let requestId: Swift.String?
     let clientToken: Swift.String?
     let distributionConfigurationArn: Swift.String?
@@ -20575,7 +20575,7 @@ extension UpdateImagePipelineInput {
     }
 }
 
-public struct UpdateImagePipelineInput: Swift.Equatable {
+public struct UpdateImagePipelineInput {
     /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon EC2 API Reference.
     /// This member is required.
     public var clientToken: Swift.String?
@@ -20642,7 +20642,7 @@ public struct UpdateImagePipelineInput: Swift.Equatable {
     }
 }
 
-struct UpdateImagePipelineInputBody: Swift.Equatable {
+struct UpdateImagePipelineInputBody {
     let imagePipelineArn: Swift.String?
     let description: Swift.String?
     let imageRecipeArn: Swift.String?
@@ -20735,7 +20735,7 @@ extension UpdateImagePipelineOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateImagePipelineOutput: Swift.Equatable {
+public struct UpdateImagePipelineOutput {
     /// The client token that uniquely identifies the request.
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the image pipeline that was updated by this request.
@@ -20755,7 +20755,7 @@ public struct UpdateImagePipelineOutput: Swift.Equatable {
     }
 }
 
-struct UpdateImagePipelineOutputBody: Swift.Equatable {
+struct UpdateImagePipelineOutputBody {
     let requestId: Swift.String?
     let clientToken: Swift.String?
     let imagePipelineArn: Swift.String?
@@ -20874,7 +20874,7 @@ extension UpdateInfrastructureConfigurationInput {
     }
 }
 
-public struct UpdateInfrastructureConfigurationInput: Swift.Equatable {
+public struct UpdateInfrastructureConfigurationInput {
     /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon EC2 API Reference.
     /// This member is required.
     public var clientToken: Swift.String?
@@ -20941,7 +20941,7 @@ public struct UpdateInfrastructureConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateInfrastructureConfigurationInputBody: Swift.Equatable {
+struct UpdateInfrastructureConfigurationInputBody {
     let infrastructureConfigurationArn: Swift.String?
     let description: Swift.String?
     let instanceTypes: [Swift.String]?
@@ -21048,7 +21048,7 @@ extension UpdateInfrastructureConfigurationOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct UpdateInfrastructureConfigurationOutput: Swift.Equatable {
+public struct UpdateInfrastructureConfigurationOutput {
     /// The client token that uniquely identifies the request.
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the infrastructure configuration that was updated by this request.
@@ -21068,7 +21068,7 @@ public struct UpdateInfrastructureConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateInfrastructureConfigurationOutputBody: Swift.Equatable {
+struct UpdateInfrastructureConfigurationOutputBody {
     let requestId: Swift.String?
     let clientToken: Swift.String?
     let infrastructureConfigurationArn: Swift.String?
@@ -21161,7 +21161,7 @@ extension UpdateLifecyclePolicyInput {
     }
 }
 
-public struct UpdateLifecyclePolicyInput: Swift.Equatable {
+public struct UpdateLifecyclePolicyInput {
     /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon EC2 API Reference.
     /// This member is required.
     public var clientToken: Swift.String?
@@ -21207,7 +21207,7 @@ public struct UpdateLifecyclePolicyInput: Swift.Equatable {
     }
 }
 
-struct UpdateLifecyclePolicyInputBody: Swift.Equatable {
+struct UpdateLifecyclePolicyInputBody {
     let lifecyclePolicyArn: Swift.String?
     let description: Swift.String?
     let status: ImagebuilderClientTypes.LifecyclePolicyStatus?
@@ -21272,7 +21272,7 @@ extension UpdateLifecyclePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateLifecyclePolicyOutput: Swift.Equatable {
+public struct UpdateLifecyclePolicyOutput {
     /// The ARN of the image lifecycle policy resource that was updated.
     public var lifecyclePolicyArn: Swift.String?
 
@@ -21284,7 +21284,7 @@ public struct UpdateLifecyclePolicyOutput: Swift.Equatable {
     }
 }
 
-struct UpdateLifecyclePolicyOutputBody: Swift.Equatable {
+struct UpdateLifecyclePolicyOutputBody {
     let lifecyclePolicyArn: Swift.String?
 }
 
@@ -21346,7 +21346,7 @@ extension ImagebuilderClientTypes.VulnerabilityIdAggregation: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Includes counts of image and pipeline resource findings by vulnerability.
-    public struct VulnerabilityIdAggregation: Swift.Equatable {
+    public struct VulnerabilityIdAggregation {
         /// Counts by severity level for medium severity and higher level findings, plus a total for all of the findings for the specified vulnerability.
         public var severityCounts: ImagebuilderClientTypes.SeverityCounts?
         /// The vulnerability Id for this set of counts.
@@ -21439,7 +21439,7 @@ extension ImagebuilderClientTypes.VulnerablePackage: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Information about a vulnerable package that Amazon Inspector identifies in a finding.
-    public struct VulnerablePackage: Swift.Equatable {
+    public struct VulnerablePackage {
         /// The architecture of the vulnerable package.
         public var arch: Swift.String?
         /// The epoch of the vulnerable package.
@@ -21606,7 +21606,7 @@ extension ImagebuilderClientTypes.Workflow: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Defines a process that Image Builder uses to build and test images during the image creation process.
-    public struct Workflow: Swift.Equatable {
+    public struct Workflow {
         /// The Amazon Resource Name (ARN) of the workflow resource.
         public var arn: Swift.String?
         /// Describes what change has been made in this version of the workflow, or what makes this version different from other versions of the workflow.
@@ -21719,7 +21719,7 @@ extension ImagebuilderClientTypes.WorkflowConfiguration: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Contains control settings and configurable inputs for a workflow resource.
-    public struct WorkflowConfiguration: Swift.Equatable {
+    public struct WorkflowConfiguration {
         /// The action to take if the workflow fails.
         public var onFailure: ImagebuilderClientTypes.OnWorkflowFailure?
         /// Test workflows are defined within named runtime groups called parallel groups. The parallel group is the named group that contains this test workflow. Test workflows within a parallel group can run at the same time. Image Builder starts up to five test workflows in the group at the same time, and starts additional workflows as others complete, until all workflows in the group have completed. This field only applies for test workflows.
@@ -21833,7 +21833,7 @@ extension ImagebuilderClientTypes.WorkflowExecutionMetadata: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Metadata that includes details and status from this runtime instance of the workflow.
-    public struct WorkflowExecutionMetadata: Swift.Equatable {
+    public struct WorkflowExecutionMetadata {
         /// The timestamp when this runtime instance of the workflow finished.
         public var endTime: Swift.String?
         /// The runtime output message from the workflow, if applicable.
@@ -21980,7 +21980,7 @@ extension ImagebuilderClientTypes.WorkflowParameter: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Contains a key/value pair that sets the named workflow parameter.
-    public struct WorkflowParameter: Swift.Equatable {
+    public struct WorkflowParameter {
         /// The name of the workflow parameter to set.
         /// This member is required.
         public var name: Swift.String?
@@ -22051,7 +22051,7 @@ extension ImagebuilderClientTypes.WorkflowParameterDetail: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Defines a parameter that's used to provide configuration details for the workflow.
-    public struct WorkflowParameterDetail: Swift.Equatable {
+    public struct WorkflowParameterDetail {
         /// The default value of this parameter if no input is provided.
         public var defaultValue: [Swift.String]?
         /// Describes this parameter.
@@ -22106,7 +22106,7 @@ extension ImagebuilderClientTypes.WorkflowState: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// A group of fields that describe the current status of workflow.
-    public struct WorkflowState: Swift.Equatable {
+    public struct WorkflowState {
         /// Describes how or why the workflow changed state.
         public var reason: Swift.String?
         /// The current state of the workflow.
@@ -22242,7 +22242,7 @@ extension ImagebuilderClientTypes.WorkflowStepExecution: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Contains runtime details for an instance of a workflow that ran for the associated image build version.
-    public struct WorkflowStepExecution: Swift.Equatable {
+    public struct WorkflowStepExecution {
         /// The name of the step action.
         public var action: Swift.String?
         /// The Amazon Resource Name (ARN) of the image build version that ran the workflow.
@@ -22443,7 +22443,7 @@ extension ImagebuilderClientTypes.WorkflowStepMetadata: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Runtime details and status for the workflow step.
-    public struct WorkflowStepMetadata: Swift.Equatable {
+    public struct WorkflowStepMetadata {
         /// The step action name.
         public var action: Swift.String?
         /// Description of the workflow step.
@@ -22584,7 +22584,7 @@ extension ImagebuilderClientTypes.WorkflowSummary: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Contains metadata about the workflow resource.
-    public struct WorkflowSummary: Swift.Equatable {
+    public struct WorkflowSummary {
         /// The Amazon Resource Name (ARN) of the workflow resource.
         public var arn: Swift.String?
         /// The change description for the current version of the workflow resource.
@@ -22726,7 +22726,7 @@ extension ImagebuilderClientTypes.WorkflowVersion: Swift.Codable {
 
 extension ImagebuilderClientTypes {
     /// Contains details about this version of the workflow.
-    public struct WorkflowVersion: Swift.Equatable {
+    public struct WorkflowVersion {
         /// The Amazon Resource Name (ARN) of the workflow resource.
         public var arn: Swift.String?
         /// The timestamp when Image Builder created the workflow version.

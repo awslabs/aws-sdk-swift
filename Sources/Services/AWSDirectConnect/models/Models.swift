@@ -37,7 +37,7 @@ extension AcceptDirectConnectGatewayAssociationProposalInput {
     }
 }
 
-public struct AcceptDirectConnectGatewayAssociationProposalInput: Swift.Equatable {
+public struct AcceptDirectConnectGatewayAssociationProposalInput {
     /// The ID of the Amazon Web Services account that owns the virtual private gateway or transit gateway.
     /// This member is required.
     public var associatedGatewayOwnerAccount: Swift.String?
@@ -64,7 +64,7 @@ public struct AcceptDirectConnectGatewayAssociationProposalInput: Swift.Equatabl
     }
 }
 
-struct AcceptDirectConnectGatewayAssociationProposalInputBody: Swift.Equatable {
+struct AcceptDirectConnectGatewayAssociationProposalInputBody {
     let directConnectGatewayId: Swift.String?
     let proposalId: Swift.String?
     let associatedGatewayOwnerAccount: Swift.String?
@@ -113,7 +113,7 @@ extension AcceptDirectConnectGatewayAssociationProposalOutput: ClientRuntime.Htt
     }
 }
 
-public struct AcceptDirectConnectGatewayAssociationProposalOutput: Swift.Equatable {
+public struct AcceptDirectConnectGatewayAssociationProposalOutput {
     /// Information about an association between a Direct Connect gateway and a virtual private gateway or transit gateway.
     public var directConnectGatewayAssociation: DirectConnectClientTypes.DirectConnectGatewayAssociation?
 
@@ -125,7 +125,7 @@ public struct AcceptDirectConnectGatewayAssociationProposalOutput: Swift.Equatab
     }
 }
 
-struct AcceptDirectConnectGatewayAssociationProposalOutputBody: Swift.Equatable {
+struct AcceptDirectConnectGatewayAssociationProposalOutputBody {
     let directConnectGatewayAssociation: DirectConnectClientTypes.DirectConnectGatewayAssociation?
 }
 
@@ -221,7 +221,7 @@ extension AllocateConnectionOnInterconnectInput {
     }
 }
 
-public struct AllocateConnectionOnInterconnectInput: Swift.Equatable {
+public struct AllocateConnectionOnInterconnectInput {
     /// The bandwidth of the connection. The possible values are 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps, and 10Gbps. Note that only those Direct Connect Partners who have met specific requirements are allowed to create a 1Gbps, 2Gbps, 5Gbps or 10Gbps hosted connection.
     /// This member is required.
     public var bandwidth: Swift.String?
@@ -254,7 +254,7 @@ public struct AllocateConnectionOnInterconnectInput: Swift.Equatable {
     }
 }
 
-struct AllocateConnectionOnInterconnectInputBody: Swift.Equatable {
+struct AllocateConnectionOnInterconnectInputBody {
     let bandwidth: Swift.String?
     let connectionName: Swift.String?
     let ownerAccount: Swift.String?
@@ -341,7 +341,7 @@ extension AllocateConnectionOnInterconnectOutput: ClientRuntime.HttpResponseBind
 }
 
 /// Information about an Direct Connect connection.
-public struct AllocateConnectionOnInterconnectOutput: Swift.Equatable {
+public struct AllocateConnectionOnInterconnectOutput {
     /// The Direct Connect endpoint on which the physical connection terminates.
     @available(*, deprecated)
     public var awsDevice: Swift.String?
@@ -456,7 +456,7 @@ public struct AllocateConnectionOnInterconnectOutput: Swift.Equatable {
     }
 }
 
-struct AllocateConnectionOnInterconnectOutputBody: Swift.Equatable {
+struct AllocateConnectionOnInterconnectOutputBody {
     let ownerAccount: Swift.String?
     let connectionId: Swift.String?
     let connectionName: Swift.String?
@@ -629,7 +629,7 @@ extension AllocateHostedConnectionInput {
     }
 }
 
-public struct AllocateHostedConnectionInput: Swift.Equatable {
+public struct AllocateHostedConnectionInput {
     /// The bandwidth of the connection. The possible values are 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps, and 10Gbps. Note that only those Direct Connect Partners who have met specific requirements are allowed to create a 1Gbps, 2Gbps, 5Gbps or 10Gbps hosted connection.
     /// This member is required.
     public var bandwidth: Swift.String?
@@ -666,7 +666,7 @@ public struct AllocateHostedConnectionInput: Swift.Equatable {
     }
 }
 
-struct AllocateHostedConnectionInputBody: Swift.Equatable {
+struct AllocateHostedConnectionInputBody {
     let connectionId: Swift.String?
     let ownerAccount: Swift.String?
     let bandwidth: Swift.String?
@@ -766,7 +766,7 @@ extension AllocateHostedConnectionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Information about an Direct Connect connection.
-public struct AllocateHostedConnectionOutput: Swift.Equatable {
+public struct AllocateHostedConnectionOutput {
     /// The Direct Connect endpoint on which the physical connection terminates.
     @available(*, deprecated)
     public var awsDevice: Swift.String?
@@ -881,7 +881,7 @@ public struct AllocateHostedConnectionOutput: Swift.Equatable {
     }
 }
 
-struct AllocateHostedConnectionOutputBody: Swift.Equatable {
+struct AllocateHostedConnectionOutputBody {
     let ownerAccount: Swift.String?
     let connectionId: Swift.String?
     let connectionName: Swift.String?
@@ -1041,7 +1041,7 @@ extension AllocatePrivateVirtualInterfaceInput {
     }
 }
 
-public struct AllocatePrivateVirtualInterfaceInput: Swift.Equatable {
+public struct AllocatePrivateVirtualInterfaceInput {
     /// The ID of the connection on which the private virtual interface is provisioned.
     /// This member is required.
     public var connectionId: Swift.String?
@@ -1064,7 +1064,7 @@ public struct AllocatePrivateVirtualInterfaceInput: Swift.Equatable {
     }
 }
 
-struct AllocatePrivateVirtualInterfaceInputBody: Swift.Equatable {
+struct AllocatePrivateVirtualInterfaceInputBody {
     let connectionId: Swift.String?
     let ownerAccount: Swift.String?
     let newPrivateVirtualInterfaceAllocation: DirectConnectClientTypes.NewPrivateVirtualInterfaceAllocation?
@@ -1151,7 +1151,7 @@ extension AllocatePrivateVirtualInterfaceOutput: ClientRuntime.HttpResponseBindi
 }
 
 /// Information about a virtual interface.
-public struct AllocatePrivateVirtualInterfaceOutput: Swift.Equatable {
+public struct AllocatePrivateVirtualInterfaceOutput {
     /// The address family for the BGP peer.
     public var addressFamily: DirectConnectClientTypes.AddressFamily?
     /// The IP address assigned to the Amazon interface.
@@ -1281,7 +1281,7 @@ public struct AllocatePrivateVirtualInterfaceOutput: Swift.Equatable {
     }
 }
 
-struct AllocatePrivateVirtualInterfaceOutputBody: Swift.Equatable {
+struct AllocatePrivateVirtualInterfaceOutputBody {
     let ownerAccount: Swift.String?
     let virtualInterfaceId: Swift.String?
     let location: Swift.String?
@@ -1466,7 +1466,7 @@ extension AllocatePublicVirtualInterfaceInput {
     }
 }
 
-public struct AllocatePublicVirtualInterfaceInput: Swift.Equatable {
+public struct AllocatePublicVirtualInterfaceInput {
     /// The ID of the connection on which the public virtual interface is provisioned.
     /// This member is required.
     public var connectionId: Swift.String?
@@ -1489,7 +1489,7 @@ public struct AllocatePublicVirtualInterfaceInput: Swift.Equatable {
     }
 }
 
-struct AllocatePublicVirtualInterfaceInputBody: Swift.Equatable {
+struct AllocatePublicVirtualInterfaceInputBody {
     let connectionId: Swift.String?
     let ownerAccount: Swift.String?
     let newPublicVirtualInterfaceAllocation: DirectConnectClientTypes.NewPublicVirtualInterfaceAllocation?
@@ -1576,7 +1576,7 @@ extension AllocatePublicVirtualInterfaceOutput: ClientRuntime.HttpResponseBindin
 }
 
 /// Information about a virtual interface.
-public struct AllocatePublicVirtualInterfaceOutput: Swift.Equatable {
+public struct AllocatePublicVirtualInterfaceOutput {
     /// The address family for the BGP peer.
     public var addressFamily: DirectConnectClientTypes.AddressFamily?
     /// The IP address assigned to the Amazon interface.
@@ -1706,7 +1706,7 @@ public struct AllocatePublicVirtualInterfaceOutput: Swift.Equatable {
     }
 }
 
-struct AllocatePublicVirtualInterfaceOutputBody: Swift.Equatable {
+struct AllocatePublicVirtualInterfaceOutputBody {
     let ownerAccount: Swift.String?
     let virtualInterfaceId: Swift.String?
     let location: Swift.String?
@@ -1891,7 +1891,7 @@ extension AllocateTransitVirtualInterfaceInput {
     }
 }
 
-public struct AllocateTransitVirtualInterfaceInput: Swift.Equatable {
+public struct AllocateTransitVirtualInterfaceInput {
     /// The ID of the connection on which the transit virtual interface is provisioned.
     /// This member is required.
     public var connectionId: Swift.String?
@@ -1914,7 +1914,7 @@ public struct AllocateTransitVirtualInterfaceInput: Swift.Equatable {
     }
 }
 
-struct AllocateTransitVirtualInterfaceInputBody: Swift.Equatable {
+struct AllocateTransitVirtualInterfaceInputBody {
     let connectionId: Swift.String?
     let ownerAccount: Swift.String?
     let newTransitVirtualInterfaceAllocation: DirectConnectClientTypes.NewTransitVirtualInterfaceAllocation?
@@ -1950,7 +1950,7 @@ extension AllocateTransitVirtualInterfaceOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct AllocateTransitVirtualInterfaceOutput: Swift.Equatable {
+public struct AllocateTransitVirtualInterfaceOutput {
     /// Information about a virtual interface.
     public var virtualInterface: DirectConnectClientTypes.VirtualInterface?
 
@@ -1962,7 +1962,7 @@ public struct AllocateTransitVirtualInterfaceOutput: Swift.Equatable {
     }
 }
 
-struct AllocateTransitVirtualInterfaceOutputBody: Swift.Equatable {
+struct AllocateTransitVirtualInterfaceOutputBody {
     let virtualInterface: DirectConnectClientTypes.VirtualInterface?
 }
 
@@ -2016,7 +2016,7 @@ extension AssociateConnectionWithLagInput {
     }
 }
 
-public struct AssociateConnectionWithLagInput: Swift.Equatable {
+public struct AssociateConnectionWithLagInput {
     /// The ID of the connection.
     /// This member is required.
     public var connectionId: Swift.String?
@@ -2034,7 +2034,7 @@ public struct AssociateConnectionWithLagInput: Swift.Equatable {
     }
 }
 
-struct AssociateConnectionWithLagInputBody: Swift.Equatable {
+struct AssociateConnectionWithLagInputBody {
     let connectionId: Swift.String?
     let lagId: Swift.String?
 }
@@ -2109,7 +2109,7 @@ extension AssociateConnectionWithLagOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Information about an Direct Connect connection.
-public struct AssociateConnectionWithLagOutput: Swift.Equatable {
+public struct AssociateConnectionWithLagOutput {
     /// The Direct Connect endpoint on which the physical connection terminates.
     @available(*, deprecated)
     public var awsDevice: Swift.String?
@@ -2224,7 +2224,7 @@ public struct AssociateConnectionWithLagOutput: Swift.Equatable {
     }
 }
 
-struct AssociateConnectionWithLagOutputBody: Swift.Equatable {
+struct AssociateConnectionWithLagOutputBody {
     let ownerAccount: Swift.String?
     let connectionId: Swift.String?
     let connectionName: Swift.String?
@@ -2378,7 +2378,7 @@ extension AssociateHostedConnectionInput {
     }
 }
 
-public struct AssociateHostedConnectionInput: Swift.Equatable {
+public struct AssociateHostedConnectionInput {
     /// The ID of the hosted connection.
     /// This member is required.
     public var connectionId: Swift.String?
@@ -2396,7 +2396,7 @@ public struct AssociateHostedConnectionInput: Swift.Equatable {
     }
 }
 
-struct AssociateHostedConnectionInputBody: Swift.Equatable {
+struct AssociateHostedConnectionInputBody {
     let connectionId: Swift.String?
     let parentConnectionId: Swift.String?
 }
@@ -2471,7 +2471,7 @@ extension AssociateHostedConnectionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Information about an Direct Connect connection.
-public struct AssociateHostedConnectionOutput: Swift.Equatable {
+public struct AssociateHostedConnectionOutput {
     /// The Direct Connect endpoint on which the physical connection terminates.
     @available(*, deprecated)
     public var awsDevice: Swift.String?
@@ -2586,7 +2586,7 @@ public struct AssociateHostedConnectionOutput: Swift.Equatable {
     }
 }
 
-struct AssociateHostedConnectionOutputBody: Swift.Equatable {
+struct AssociateHostedConnectionOutputBody {
     let ownerAccount: Swift.String?
     let connectionId: Swift.String?
     let connectionName: Swift.String?
@@ -2748,7 +2748,7 @@ extension AssociateMacSecKeyInput {
     }
 }
 
-public struct AssociateMacSecKeyInput: Swift.Equatable {
+public struct AssociateMacSecKeyInput {
     /// The MAC Security (MACsec) CAK to associate with the dedicated connection. You can create the CKN/CAK pair using an industry standard tool. The valid values are 64 hexadecimal characters (0-9, A-E). If you use this request parameter, you must use the ckn request parameter and not use the secretARN request parameter.
     public var cak: Swift.String?
     /// The MAC Security (MACsec) CKN to associate with the dedicated connection. You can create the CKN/CAK pair using an industry standard tool. The valid values are 64 hexadecimal characters (0-9, A-E). If you use this request parameter, you must use the cak request parameter and not use the secretARN request parameter.
@@ -2773,7 +2773,7 @@ public struct AssociateMacSecKeyInput: Swift.Equatable {
     }
 }
 
-struct AssociateMacSecKeyInputBody: Swift.Equatable {
+struct AssociateMacSecKeyInputBody {
     let connectionId: Swift.String?
     let secretARN: Swift.String?
     let ckn: Swift.String?
@@ -2815,7 +2815,7 @@ extension AssociateMacSecKeyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateMacSecKeyOutput: Swift.Equatable {
+public struct AssociateMacSecKeyOutput {
     /// The ID of the dedicated connection (dxcon-xxxx), or the ID of the LAG (dxlag-xxxx).
     public var connectionId: Swift.String?
     /// The MAC Security (MACsec) security keys associated with the dedicated connection.
@@ -2831,7 +2831,7 @@ public struct AssociateMacSecKeyOutput: Swift.Equatable {
     }
 }
 
-struct AssociateMacSecKeyOutputBody: Swift.Equatable {
+struct AssociateMacSecKeyOutputBody {
     let connectionId: Swift.String?
     let macSecKeys: [DirectConnectClientTypes.MacSecKey]?
 }
@@ -2896,7 +2896,7 @@ extension AssociateVirtualInterfaceInput {
     }
 }
 
-public struct AssociateVirtualInterfaceInput: Swift.Equatable {
+public struct AssociateVirtualInterfaceInput {
     /// The ID of the LAG or connection.
     /// This member is required.
     public var connectionId: Swift.String?
@@ -2914,7 +2914,7 @@ public struct AssociateVirtualInterfaceInput: Swift.Equatable {
     }
 }
 
-struct AssociateVirtualInterfaceInputBody: Swift.Equatable {
+struct AssociateVirtualInterfaceInputBody {
     let virtualInterfaceId: Swift.String?
     let connectionId: Swift.String?
 }
@@ -2997,7 +2997,7 @@ extension AssociateVirtualInterfaceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Information about a virtual interface.
-public struct AssociateVirtualInterfaceOutput: Swift.Equatable {
+public struct AssociateVirtualInterfaceOutput {
     /// The address family for the BGP peer.
     public var addressFamily: DirectConnectClientTypes.AddressFamily?
     /// The IP address assigned to the Amazon interface.
@@ -3127,7 +3127,7 @@ public struct AssociateVirtualInterfaceOutput: Swift.Equatable {
     }
 }
 
-struct AssociateVirtualInterfaceOutputBody: Swift.Equatable {
+struct AssociateVirtualInterfaceOutputBody {
     let ownerAccount: Swift.String?
     let virtualInterfaceId: Swift.String?
     let location: Swift.String?
@@ -3321,7 +3321,7 @@ extension DirectConnectClientTypes.AssociatedGateway: Swift.Codable {
 
 extension DirectConnectClientTypes {
     /// Information about the associated gateway.
-    public struct AssociatedGateway: Swift.Equatable {
+    public struct AssociatedGateway {
         /// The ID of the associated gateway.
         public var id: Swift.String?
         /// The ID of the Amazon Web Services account that owns the associated virtual private gateway or transit gateway.
@@ -3422,7 +3422,7 @@ extension DirectConnectClientTypes.BGPPeer: Swift.Codable {
 
 extension DirectConnectClientTypes {
     /// Information about a BGP peer.
-    public struct BGPPeer: Swift.Equatable {
+    public struct BGPPeer {
         /// The address family for the BGP peer.
         public var addressFamily: DirectConnectClientTypes.AddressFamily?
         /// The IP address assigned to the Amazon interface.
@@ -3584,7 +3584,7 @@ extension ConfirmConnectionInput {
     }
 }
 
-public struct ConfirmConnectionInput: Swift.Equatable {
+public struct ConfirmConnectionInput {
     /// The ID of the hosted connection.
     /// This member is required.
     public var connectionId: Swift.String?
@@ -3597,7 +3597,7 @@ public struct ConfirmConnectionInput: Swift.Equatable {
     }
 }
 
-struct ConfirmConnectionInputBody: Swift.Equatable {
+struct ConfirmConnectionInputBody {
     let connectionId: Swift.String?
 }
 
@@ -3625,7 +3625,7 @@ extension ConfirmConnectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ConfirmConnectionOutput: Swift.Equatable {
+public struct ConfirmConnectionOutput {
     /// The state of the connection. The following are the possible values:
     ///
     /// * ordering: The initial state of a hosted connection provisioned on an interconnect. The connection stays in the ordering state until the owner of the hosted connection confirms or declines the connection order.
@@ -3655,7 +3655,7 @@ public struct ConfirmConnectionOutput: Swift.Equatable {
     }
 }
 
-struct ConfirmConnectionOutputBody: Swift.Equatable {
+struct ConfirmConnectionOutputBody {
     let connectionState: DirectConnectClientTypes.ConnectionState?
 }
 
@@ -3703,7 +3703,7 @@ extension ConfirmCustomerAgreementInput {
     }
 }
 
-public struct ConfirmCustomerAgreementInput: Swift.Equatable {
+public struct ConfirmCustomerAgreementInput {
     /// The name of the customer agreement.
     public var agreementName: Swift.String?
 
@@ -3715,7 +3715,7 @@ public struct ConfirmCustomerAgreementInput: Swift.Equatable {
     }
 }
 
-struct ConfirmCustomerAgreementInputBody: Swift.Equatable {
+struct ConfirmCustomerAgreementInputBody {
     let agreementName: Swift.String?
 }
 
@@ -3743,7 +3743,7 @@ extension ConfirmCustomerAgreementOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ConfirmCustomerAgreementOutput: Swift.Equatable {
+public struct ConfirmCustomerAgreementOutput {
     /// The status of the customer agreement when the connection was created. This will be either signed or unsigned.
     public var status: Swift.String?
 
@@ -3755,7 +3755,7 @@ public struct ConfirmCustomerAgreementOutput: Swift.Equatable {
     }
 }
 
-struct ConfirmCustomerAgreementOutputBody: Swift.Equatable {
+struct ConfirmCustomerAgreementOutputBody {
     let status: Swift.String?
 }
 
@@ -3811,7 +3811,7 @@ extension ConfirmPrivateVirtualInterfaceInput {
     }
 }
 
-public struct ConfirmPrivateVirtualInterfaceInput: Swift.Equatable {
+public struct ConfirmPrivateVirtualInterfaceInput {
     /// The ID of the Direct Connect gateway.
     public var directConnectGatewayId: Swift.String?
     /// The ID of the virtual private gateway.
@@ -3832,7 +3832,7 @@ public struct ConfirmPrivateVirtualInterfaceInput: Swift.Equatable {
     }
 }
 
-struct ConfirmPrivateVirtualInterfaceInputBody: Swift.Equatable {
+struct ConfirmPrivateVirtualInterfaceInputBody {
     let virtualInterfaceId: Swift.String?
     let virtualGatewayId: Swift.String?
     let directConnectGatewayId: Swift.String?
@@ -3868,7 +3868,7 @@ extension ConfirmPrivateVirtualInterfaceOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ConfirmPrivateVirtualInterfaceOutput: Swift.Equatable {
+public struct ConfirmPrivateVirtualInterfaceOutput {
     /// The state of the virtual interface. The following are the possible values:
     ///
     /// * confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.
@@ -3898,7 +3898,7 @@ public struct ConfirmPrivateVirtualInterfaceOutput: Swift.Equatable {
     }
 }
 
-struct ConfirmPrivateVirtualInterfaceOutputBody: Swift.Equatable {
+struct ConfirmPrivateVirtualInterfaceOutputBody {
     let virtualInterfaceState: DirectConnectClientTypes.VirtualInterfaceState?
 }
 
@@ -3946,7 +3946,7 @@ extension ConfirmPublicVirtualInterfaceInput {
     }
 }
 
-public struct ConfirmPublicVirtualInterfaceInput: Swift.Equatable {
+public struct ConfirmPublicVirtualInterfaceInput {
     /// The ID of the virtual interface.
     /// This member is required.
     public var virtualInterfaceId: Swift.String?
@@ -3959,7 +3959,7 @@ public struct ConfirmPublicVirtualInterfaceInput: Swift.Equatable {
     }
 }
 
-struct ConfirmPublicVirtualInterfaceInputBody: Swift.Equatable {
+struct ConfirmPublicVirtualInterfaceInputBody {
     let virtualInterfaceId: Swift.String?
 }
 
@@ -3987,7 +3987,7 @@ extension ConfirmPublicVirtualInterfaceOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ConfirmPublicVirtualInterfaceOutput: Swift.Equatable {
+public struct ConfirmPublicVirtualInterfaceOutput {
     /// The state of the virtual interface. The following are the possible values:
     ///
     /// * confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.
@@ -4017,7 +4017,7 @@ public struct ConfirmPublicVirtualInterfaceOutput: Swift.Equatable {
     }
 }
 
-struct ConfirmPublicVirtualInterfaceOutputBody: Swift.Equatable {
+struct ConfirmPublicVirtualInterfaceOutputBody {
     let virtualInterfaceState: DirectConnectClientTypes.VirtualInterfaceState?
 }
 
@@ -4069,7 +4069,7 @@ extension ConfirmTransitVirtualInterfaceInput {
     }
 }
 
-public struct ConfirmTransitVirtualInterfaceInput: Swift.Equatable {
+public struct ConfirmTransitVirtualInterfaceInput {
     /// The ID of the Direct Connect gateway.
     /// This member is required.
     public var directConnectGatewayId: Swift.String?
@@ -4087,7 +4087,7 @@ public struct ConfirmTransitVirtualInterfaceInput: Swift.Equatable {
     }
 }
 
-struct ConfirmTransitVirtualInterfaceInputBody: Swift.Equatable {
+struct ConfirmTransitVirtualInterfaceInputBody {
     let virtualInterfaceId: Swift.String?
     let directConnectGatewayId: Swift.String?
 }
@@ -4119,7 +4119,7 @@ extension ConfirmTransitVirtualInterfaceOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ConfirmTransitVirtualInterfaceOutput: Swift.Equatable {
+public struct ConfirmTransitVirtualInterfaceOutput {
     /// The state of the virtual interface. The following are the possible values:
     ///
     /// * confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.
@@ -4149,7 +4149,7 @@ public struct ConfirmTransitVirtualInterfaceOutput: Swift.Equatable {
     }
 }
 
-struct ConfirmTransitVirtualInterfaceOutputBody: Swift.Equatable {
+struct ConfirmTransitVirtualInterfaceOutputBody {
     let virtualInterfaceState: DirectConnectClientTypes.VirtualInterfaceState?
 }
 
@@ -4348,7 +4348,7 @@ extension DirectConnectClientTypes.Connection: Swift.Codable {
 
 extension DirectConnectClientTypes {
     /// Information about an Direct Connect connection.
-    public struct Connection: Swift.Equatable {
+    public struct Connection {
         /// The Direct Connect endpoint on which the physical connection terminates.
         @available(*, deprecated)
         public var awsDevice: Swift.String?
@@ -4542,7 +4542,7 @@ extension CreateBGPPeerInput {
     }
 }
 
-public struct CreateBGPPeerInput: Swift.Equatable {
+public struct CreateBGPPeerInput {
     /// Information about the BGP peer.
     public var newBGPPeer: DirectConnectClientTypes.NewBGPPeer?
     /// The ID of the virtual interface.
@@ -4558,7 +4558,7 @@ public struct CreateBGPPeerInput: Swift.Equatable {
     }
 }
 
-struct CreateBGPPeerInputBody: Swift.Equatable {
+struct CreateBGPPeerInputBody {
     let virtualInterfaceId: Swift.String?
     let newBGPPeer: DirectConnectClientTypes.NewBGPPeer?
 }
@@ -4590,7 +4590,7 @@ extension CreateBGPPeerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateBGPPeerOutput: Swift.Equatable {
+public struct CreateBGPPeerOutput {
     /// The virtual interface.
     public var virtualInterface: DirectConnectClientTypes.VirtualInterface?
 
@@ -4602,7 +4602,7 @@ public struct CreateBGPPeerOutput: Swift.Equatable {
     }
 }
 
-struct CreateBGPPeerOutputBody: Swift.Equatable {
+struct CreateBGPPeerOutputBody {
     let virtualInterface: DirectConnectClientTypes.VirtualInterface?
 }
 
@@ -4677,7 +4677,7 @@ extension CreateConnectionInput {
     }
 }
 
-public struct CreateConnectionInput: Swift.Equatable {
+public struct CreateConnectionInput {
     /// The bandwidth of the connection.
     /// This member is required.
     public var bandwidth: Swift.String?
@@ -4716,7 +4716,7 @@ public struct CreateConnectionInput: Swift.Equatable {
     }
 }
 
-struct CreateConnectionInputBody: Swift.Equatable {
+struct CreateConnectionInputBody {
     let location: Swift.String?
     let bandwidth: Swift.String?
     let connectionName: Swift.String?
@@ -4820,7 +4820,7 @@ extension CreateConnectionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Information about an Direct Connect connection.
-public struct CreateConnectionOutput: Swift.Equatable {
+public struct CreateConnectionOutput {
     /// The Direct Connect endpoint on which the physical connection terminates.
     @available(*, deprecated)
     public var awsDevice: Swift.String?
@@ -4935,7 +4935,7 @@ public struct CreateConnectionOutput: Swift.Equatable {
     }
 }
 
-struct CreateConnectionOutputBody: Swift.Equatable {
+struct CreateConnectionOutputBody {
     let ownerAccount: Swift.String?
     let connectionId: Swift.String?
     let connectionName: Swift.String?
@@ -5102,7 +5102,7 @@ extension CreateDirectConnectGatewayAssociationInput {
     }
 }
 
-public struct CreateDirectConnectGatewayAssociationInput: Swift.Equatable {
+public struct CreateDirectConnectGatewayAssociationInput {
     /// The Amazon VPC prefixes to advertise to the Direct Connect gateway This parameter is required when you create an association to a transit gateway. For information about how to set the prefixes, see [Allowed Prefixes](https://docs.aws.amazon.com/directconnect/latest/UserGuide/multi-account-associate-vgw.html#allowed-prefixes) in the Direct Connect User Guide.
     public var addAllowedPrefixesToDirectConnectGateway: [DirectConnectClientTypes.RouteFilterPrefix]?
     /// The ID of the Direct Connect gateway.
@@ -5127,7 +5127,7 @@ public struct CreateDirectConnectGatewayAssociationInput: Swift.Equatable {
     }
 }
 
-struct CreateDirectConnectGatewayAssociationInputBody: Swift.Equatable {
+struct CreateDirectConnectGatewayAssociationInputBody {
     let directConnectGatewayId: Swift.String?
     let gatewayId: Swift.String?
     let addAllowedPrefixesToDirectConnectGateway: [DirectConnectClientTypes.RouteFilterPrefix]?
@@ -5176,7 +5176,7 @@ extension CreateDirectConnectGatewayAssociationOutput: ClientRuntime.HttpRespons
     }
 }
 
-public struct CreateDirectConnectGatewayAssociationOutput: Swift.Equatable {
+public struct CreateDirectConnectGatewayAssociationOutput {
     /// The association to be created.
     public var directConnectGatewayAssociation: DirectConnectClientTypes.DirectConnectGatewayAssociation?
 
@@ -5188,7 +5188,7 @@ public struct CreateDirectConnectGatewayAssociationOutput: Swift.Equatable {
     }
 }
 
-struct CreateDirectConnectGatewayAssociationOutputBody: Swift.Equatable {
+struct CreateDirectConnectGatewayAssociationOutputBody {
     let directConnectGatewayAssociation: DirectConnectClientTypes.DirectConnectGatewayAssociation?
 }
 
@@ -5258,7 +5258,7 @@ extension CreateDirectConnectGatewayAssociationProposalInput {
     }
 }
 
-public struct CreateDirectConnectGatewayAssociationProposalInput: Swift.Equatable {
+public struct CreateDirectConnectGatewayAssociationProposalInput {
     /// The Amazon VPC prefixes to advertise to the Direct Connect gateway.
     public var addAllowedPrefixesToDirectConnectGateway: [DirectConnectClientTypes.RouteFilterPrefix]?
     /// The ID of the Direct Connect gateway.
@@ -5289,7 +5289,7 @@ public struct CreateDirectConnectGatewayAssociationProposalInput: Swift.Equatabl
     }
 }
 
-struct CreateDirectConnectGatewayAssociationProposalInputBody: Swift.Equatable {
+struct CreateDirectConnectGatewayAssociationProposalInputBody {
     let directConnectGatewayId: Swift.String?
     let directConnectGatewayOwnerAccount: Swift.String?
     let gatewayId: Swift.String?
@@ -5351,7 +5351,7 @@ extension CreateDirectConnectGatewayAssociationProposalOutput: ClientRuntime.Htt
     }
 }
 
-public struct CreateDirectConnectGatewayAssociationProposalOutput: Swift.Equatable {
+public struct CreateDirectConnectGatewayAssociationProposalOutput {
     /// Information about the Direct Connect gateway proposal.
     public var directConnectGatewayAssociationProposal: DirectConnectClientTypes.DirectConnectGatewayAssociationProposal?
 
@@ -5363,7 +5363,7 @@ public struct CreateDirectConnectGatewayAssociationProposalOutput: Swift.Equatab
     }
 }
 
-struct CreateDirectConnectGatewayAssociationProposalOutputBody: Swift.Equatable {
+struct CreateDirectConnectGatewayAssociationProposalOutputBody {
     let directConnectGatewayAssociationProposal: DirectConnectClientTypes.DirectConnectGatewayAssociationProposal?
 }
 
@@ -5415,7 +5415,7 @@ extension CreateDirectConnectGatewayInput {
     }
 }
 
-public struct CreateDirectConnectGatewayInput: Swift.Equatable {
+public struct CreateDirectConnectGatewayInput {
     /// The autonomous system number (ASN) for Border Gateway Protocol (BGP) to be configured on the Amazon side of the connection. The ASN must be in the private range of 64,512 to 65,534 or 4,200,000,000 to 4,294,967,294. The default is 64512.
     public var amazonSideAsn: Swift.Int?
     /// The name of the Direct Connect gateway.
@@ -5432,7 +5432,7 @@ public struct CreateDirectConnectGatewayInput: Swift.Equatable {
     }
 }
 
-struct CreateDirectConnectGatewayInputBody: Swift.Equatable {
+struct CreateDirectConnectGatewayInputBody {
     let directConnectGatewayName: Swift.String?
     let amazonSideAsn: Swift.Int?
 }
@@ -5464,7 +5464,7 @@ extension CreateDirectConnectGatewayOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDirectConnectGatewayOutput: Swift.Equatable {
+public struct CreateDirectConnectGatewayOutput {
     /// The Direct Connect gateway.
     public var directConnectGateway: DirectConnectClientTypes.DirectConnectGateway?
 
@@ -5476,7 +5476,7 @@ public struct CreateDirectConnectGatewayOutput: Swift.Equatable {
     }
 }
 
-struct CreateDirectConnectGatewayOutputBody: Swift.Equatable {
+struct CreateDirectConnectGatewayOutputBody {
     let directConnectGateway: DirectConnectClientTypes.DirectConnectGateway?
 }
 
@@ -5547,7 +5547,7 @@ extension CreateInterconnectInput {
     }
 }
 
-public struct CreateInterconnectInput: Swift.Equatable {
+public struct CreateInterconnectInput {
     /// The port bandwidth, in Gbps. The possible values are 1 and 10.
     /// This member is required.
     public var bandwidth: Swift.String?
@@ -5582,7 +5582,7 @@ public struct CreateInterconnectInput: Swift.Equatable {
     }
 }
 
-struct CreateInterconnectInputBody: Swift.Equatable {
+struct CreateInterconnectInputBody {
     let interconnectName: Swift.String?
     let bandwidth: Swift.String?
     let location: Swift.String?
@@ -5668,7 +5668,7 @@ extension CreateInterconnectOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Information about an interconnect.
-public struct CreateInterconnectOutput: Swift.Equatable {
+public struct CreateInterconnectOutput {
     /// The Direct Connect endpoint on which the physical connection terminates.
     @available(*, deprecated)
     public var awsDevice: Swift.String?
@@ -5751,7 +5751,7 @@ public struct CreateInterconnectOutput: Swift.Equatable {
     }
 }
 
-struct CreateInterconnectOutputBody: Swift.Equatable {
+struct CreateInterconnectOutputBody {
     let interconnectId: Swift.String?
     let interconnectName: Swift.String?
     let interconnectState: DirectConnectClientTypes.InterconnectState?
@@ -5904,7 +5904,7 @@ extension CreateLagInput {
     }
 }
 
-public struct CreateLagInput: Swift.Equatable {
+public struct CreateLagInput {
     /// The tags to associate with the automtically created LAGs.
     public var childConnectionTags: [DirectConnectClientTypes.Tag]?
     /// The ID of an existing dedicated connection to migrate to the LAG.
@@ -5952,7 +5952,7 @@ public struct CreateLagInput: Swift.Equatable {
     }
 }
 
-struct CreateLagInputBody: Swift.Equatable {
+struct CreateLagInputBody {
     let numberOfConnections: Swift.Int?
     let location: Swift.String?
     let connectionsBandwidth: Swift.String?
@@ -6071,7 +6071,7 @@ extension CreateLagOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Information about a link aggregation group (LAG).
-public struct CreateLagOutput: Swift.Equatable {
+public struct CreateLagOutput {
     /// Indicates whether the LAG can host other connections.
     public var allowsHostedConnections: Swift.Bool
     /// The Direct Connect endpoint that hosts the LAG.
@@ -6178,7 +6178,7 @@ public struct CreateLagOutput: Swift.Equatable {
     }
 }
 
-struct CreateLagOutputBody: Swift.Equatable {
+struct CreateLagOutputBody {
     let connectionsBandwidth: Swift.String?
     let numberOfConnections: Swift.Int
     let lagId: Swift.String?
@@ -6339,7 +6339,7 @@ extension CreatePrivateVirtualInterfaceInput {
     }
 }
 
-public struct CreatePrivateVirtualInterfaceInput: Swift.Equatable {
+public struct CreatePrivateVirtualInterfaceInput {
     /// The ID of the connection.
     /// This member is required.
     public var connectionId: Swift.String?
@@ -6357,7 +6357,7 @@ public struct CreatePrivateVirtualInterfaceInput: Swift.Equatable {
     }
 }
 
-struct CreatePrivateVirtualInterfaceInputBody: Swift.Equatable {
+struct CreatePrivateVirtualInterfaceInputBody {
     let connectionId: Swift.String?
     let newPrivateVirtualInterface: DirectConnectClientTypes.NewPrivateVirtualInterface?
 }
@@ -6440,7 +6440,7 @@ extension CreatePrivateVirtualInterfaceOutput: ClientRuntime.HttpResponseBinding
 }
 
 /// Information about a virtual interface.
-public struct CreatePrivateVirtualInterfaceOutput: Swift.Equatable {
+public struct CreatePrivateVirtualInterfaceOutput {
     /// The address family for the BGP peer.
     public var addressFamily: DirectConnectClientTypes.AddressFamily?
     /// The IP address assigned to the Amazon interface.
@@ -6570,7 +6570,7 @@ public struct CreatePrivateVirtualInterfaceOutput: Swift.Equatable {
     }
 }
 
-struct CreatePrivateVirtualInterfaceOutputBody: Swift.Equatable {
+struct CreatePrivateVirtualInterfaceOutputBody {
     let ownerAccount: Swift.String?
     let virtualInterfaceId: Swift.String?
     let location: Swift.String?
@@ -6751,7 +6751,7 @@ extension CreatePublicVirtualInterfaceInput {
     }
 }
 
-public struct CreatePublicVirtualInterfaceInput: Swift.Equatable {
+public struct CreatePublicVirtualInterfaceInput {
     /// The ID of the connection.
     /// This member is required.
     public var connectionId: Swift.String?
@@ -6769,7 +6769,7 @@ public struct CreatePublicVirtualInterfaceInput: Swift.Equatable {
     }
 }
 
-struct CreatePublicVirtualInterfaceInputBody: Swift.Equatable {
+struct CreatePublicVirtualInterfaceInputBody {
     let connectionId: Swift.String?
     let newPublicVirtualInterface: DirectConnectClientTypes.NewPublicVirtualInterface?
 }
@@ -6852,7 +6852,7 @@ extension CreatePublicVirtualInterfaceOutput: ClientRuntime.HttpResponseBinding 
 }
 
 /// Information about a virtual interface.
-public struct CreatePublicVirtualInterfaceOutput: Swift.Equatable {
+public struct CreatePublicVirtualInterfaceOutput {
     /// The address family for the BGP peer.
     public var addressFamily: DirectConnectClientTypes.AddressFamily?
     /// The IP address assigned to the Amazon interface.
@@ -6982,7 +6982,7 @@ public struct CreatePublicVirtualInterfaceOutput: Swift.Equatable {
     }
 }
 
-struct CreatePublicVirtualInterfaceOutputBody: Swift.Equatable {
+struct CreatePublicVirtualInterfaceOutputBody {
     let ownerAccount: Swift.String?
     let virtualInterfaceId: Swift.String?
     let location: Swift.String?
@@ -7163,7 +7163,7 @@ extension CreateTransitVirtualInterfaceInput {
     }
 }
 
-public struct CreateTransitVirtualInterfaceInput: Swift.Equatable {
+public struct CreateTransitVirtualInterfaceInput {
     /// The ID of the connection.
     /// This member is required.
     public var connectionId: Swift.String?
@@ -7181,7 +7181,7 @@ public struct CreateTransitVirtualInterfaceInput: Swift.Equatable {
     }
 }
 
-struct CreateTransitVirtualInterfaceInputBody: Swift.Equatable {
+struct CreateTransitVirtualInterfaceInputBody {
     let connectionId: Swift.String?
     let newTransitVirtualInterface: DirectConnectClientTypes.NewTransitVirtualInterface?
 }
@@ -7213,7 +7213,7 @@ extension CreateTransitVirtualInterfaceOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct CreateTransitVirtualInterfaceOutput: Swift.Equatable {
+public struct CreateTransitVirtualInterfaceOutput {
     /// Information about a virtual interface.
     public var virtualInterface: DirectConnectClientTypes.VirtualInterface?
 
@@ -7225,7 +7225,7 @@ public struct CreateTransitVirtualInterfaceOutput: Swift.Equatable {
     }
 }
 
-struct CreateTransitVirtualInterfaceOutputBody: Swift.Equatable {
+struct CreateTransitVirtualInterfaceOutputBody {
     let virtualInterface: DirectConnectClientTypes.VirtualInterface?
 }
 
@@ -7282,7 +7282,7 @@ extension DirectConnectClientTypes.CustomerAgreement: Swift.Codable {
 
 extension DirectConnectClientTypes {
     /// The name and status of a customer agreement.
-    public struct CustomerAgreement: Swift.Equatable {
+    public struct CustomerAgreement {
         /// The name of the agreement.
         public var agreementName: Swift.String?
         /// The status of the customer agreement. This will be either signed or unsigned
@@ -7332,7 +7332,7 @@ extension DeleteBGPPeerInput {
     }
 }
 
-public struct DeleteBGPPeerInput: Swift.Equatable {
+public struct DeleteBGPPeerInput {
     /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
     public var asn: Swift.Int?
     /// The ID of the BGP peer.
@@ -7356,7 +7356,7 @@ public struct DeleteBGPPeerInput: Swift.Equatable {
     }
 }
 
-struct DeleteBGPPeerInputBody: Swift.Equatable {
+struct DeleteBGPPeerInputBody {
     let virtualInterfaceId: Swift.String?
     let asn: Swift.Int?
     let customerAddress: Swift.String?
@@ -7396,7 +7396,7 @@ extension DeleteBGPPeerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteBGPPeerOutput: Swift.Equatable {
+public struct DeleteBGPPeerOutput {
     /// The virtual interface.
     public var virtualInterface: DirectConnectClientTypes.VirtualInterface?
 
@@ -7408,7 +7408,7 @@ public struct DeleteBGPPeerOutput: Swift.Equatable {
     }
 }
 
-struct DeleteBGPPeerOutputBody: Swift.Equatable {
+struct DeleteBGPPeerOutputBody {
     let virtualInterface: DirectConnectClientTypes.VirtualInterface?
 }
 
@@ -7456,7 +7456,7 @@ extension DeleteConnectionInput {
     }
 }
 
-public struct DeleteConnectionInput: Swift.Equatable {
+public struct DeleteConnectionInput {
     /// The ID of the connection.
     /// This member is required.
     public var connectionId: Swift.String?
@@ -7469,7 +7469,7 @@ public struct DeleteConnectionInput: Swift.Equatable {
     }
 }
 
-struct DeleteConnectionInputBody: Swift.Equatable {
+struct DeleteConnectionInputBody {
     let connectionId: Swift.String?
 }
 
@@ -7540,7 +7540,7 @@ extension DeleteConnectionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Information about an Direct Connect connection.
-public struct DeleteConnectionOutput: Swift.Equatable {
+public struct DeleteConnectionOutput {
     /// The Direct Connect endpoint on which the physical connection terminates.
     @available(*, deprecated)
     public var awsDevice: Swift.String?
@@ -7655,7 +7655,7 @@ public struct DeleteConnectionOutput: Swift.Equatable {
     }
 }
 
-struct DeleteConnectionOutputBody: Swift.Equatable {
+struct DeleteConnectionOutputBody {
     let ownerAccount: Swift.String?
     let connectionId: Swift.String?
     let connectionName: Swift.String?
@@ -7813,7 +7813,7 @@ extension DeleteDirectConnectGatewayAssociationInput {
     }
 }
 
-public struct DeleteDirectConnectGatewayAssociationInput: Swift.Equatable {
+public struct DeleteDirectConnectGatewayAssociationInput {
     /// The ID of the Direct Connect gateway association.
     public var associationId: Swift.String?
     /// The ID of the Direct Connect gateway.
@@ -7833,7 +7833,7 @@ public struct DeleteDirectConnectGatewayAssociationInput: Swift.Equatable {
     }
 }
 
-struct DeleteDirectConnectGatewayAssociationInputBody: Swift.Equatable {
+struct DeleteDirectConnectGatewayAssociationInputBody {
     let associationId: Swift.String?
     let directConnectGatewayId: Swift.String?
     let virtualGatewayId: Swift.String?
@@ -7869,7 +7869,7 @@ extension DeleteDirectConnectGatewayAssociationOutput: ClientRuntime.HttpRespons
     }
 }
 
-public struct DeleteDirectConnectGatewayAssociationOutput: Swift.Equatable {
+public struct DeleteDirectConnectGatewayAssociationOutput {
     /// Information about the deleted association.
     public var directConnectGatewayAssociation: DirectConnectClientTypes.DirectConnectGatewayAssociation?
 
@@ -7881,7 +7881,7 @@ public struct DeleteDirectConnectGatewayAssociationOutput: Swift.Equatable {
     }
 }
 
-struct DeleteDirectConnectGatewayAssociationOutputBody: Swift.Equatable {
+struct DeleteDirectConnectGatewayAssociationOutputBody {
     let directConnectGatewayAssociation: DirectConnectClientTypes.DirectConnectGatewayAssociation?
 }
 
@@ -7929,7 +7929,7 @@ extension DeleteDirectConnectGatewayAssociationProposalInput {
     }
 }
 
-public struct DeleteDirectConnectGatewayAssociationProposalInput: Swift.Equatable {
+public struct DeleteDirectConnectGatewayAssociationProposalInput {
     /// The ID of the proposal.
     /// This member is required.
     public var proposalId: Swift.String?
@@ -7942,7 +7942,7 @@ public struct DeleteDirectConnectGatewayAssociationProposalInput: Swift.Equatabl
     }
 }
 
-struct DeleteDirectConnectGatewayAssociationProposalInputBody: Swift.Equatable {
+struct DeleteDirectConnectGatewayAssociationProposalInputBody {
     let proposalId: Swift.String?
 }
 
@@ -7970,7 +7970,7 @@ extension DeleteDirectConnectGatewayAssociationProposalOutput: ClientRuntime.Htt
     }
 }
 
-public struct DeleteDirectConnectGatewayAssociationProposalOutput: Swift.Equatable {
+public struct DeleteDirectConnectGatewayAssociationProposalOutput {
     /// The ID of the associated gateway.
     public var directConnectGatewayAssociationProposal: DirectConnectClientTypes.DirectConnectGatewayAssociationProposal?
 
@@ -7982,7 +7982,7 @@ public struct DeleteDirectConnectGatewayAssociationProposalOutput: Swift.Equatab
     }
 }
 
-struct DeleteDirectConnectGatewayAssociationProposalOutputBody: Swift.Equatable {
+struct DeleteDirectConnectGatewayAssociationProposalOutputBody {
     let directConnectGatewayAssociationProposal: DirectConnectClientTypes.DirectConnectGatewayAssociationProposal?
 }
 
@@ -8030,7 +8030,7 @@ extension DeleteDirectConnectGatewayInput {
     }
 }
 
-public struct DeleteDirectConnectGatewayInput: Swift.Equatable {
+public struct DeleteDirectConnectGatewayInput {
     /// The ID of the Direct Connect gateway.
     /// This member is required.
     public var directConnectGatewayId: Swift.String?
@@ -8043,7 +8043,7 @@ public struct DeleteDirectConnectGatewayInput: Swift.Equatable {
     }
 }
 
-struct DeleteDirectConnectGatewayInputBody: Swift.Equatable {
+struct DeleteDirectConnectGatewayInputBody {
     let directConnectGatewayId: Swift.String?
 }
 
@@ -8071,7 +8071,7 @@ extension DeleteDirectConnectGatewayOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDirectConnectGatewayOutput: Swift.Equatable {
+public struct DeleteDirectConnectGatewayOutput {
     /// The Direct Connect gateway.
     public var directConnectGateway: DirectConnectClientTypes.DirectConnectGateway?
 
@@ -8083,7 +8083,7 @@ public struct DeleteDirectConnectGatewayOutput: Swift.Equatable {
     }
 }
 
-struct DeleteDirectConnectGatewayOutputBody: Swift.Equatable {
+struct DeleteDirectConnectGatewayOutputBody {
     let directConnectGateway: DirectConnectClientTypes.DirectConnectGateway?
 }
 
@@ -8131,7 +8131,7 @@ extension DeleteInterconnectInput {
     }
 }
 
-public struct DeleteInterconnectInput: Swift.Equatable {
+public struct DeleteInterconnectInput {
     /// The ID of the interconnect.
     /// This member is required.
     public var interconnectId: Swift.String?
@@ -8144,7 +8144,7 @@ public struct DeleteInterconnectInput: Swift.Equatable {
     }
 }
 
-struct DeleteInterconnectInputBody: Swift.Equatable {
+struct DeleteInterconnectInputBody {
     let interconnectId: Swift.String?
 }
 
@@ -8172,7 +8172,7 @@ extension DeleteInterconnectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteInterconnectOutput: Swift.Equatable {
+public struct DeleteInterconnectOutput {
     /// The state of the interconnect. The following are the possible values:
     ///
     /// * requested: The initial state of an interconnect. The interconnect stays in the requested state until the Letter of Authorization (LOA) is sent to the customer.
@@ -8198,7 +8198,7 @@ public struct DeleteInterconnectOutput: Swift.Equatable {
     }
 }
 
-struct DeleteInterconnectOutputBody: Swift.Equatable {
+struct DeleteInterconnectOutputBody {
     let interconnectState: DirectConnectClientTypes.InterconnectState?
 }
 
@@ -8246,7 +8246,7 @@ extension DeleteLagInput {
     }
 }
 
-public struct DeleteLagInput: Swift.Equatable {
+public struct DeleteLagInput {
     /// The ID of the LAG.
     /// This member is required.
     public var lagId: Swift.String?
@@ -8259,7 +8259,7 @@ public struct DeleteLagInput: Swift.Equatable {
     }
 }
 
-struct DeleteLagInputBody: Swift.Equatable {
+struct DeleteLagInputBody {
     let lagId: Swift.String?
 }
 
@@ -8328,7 +8328,7 @@ extension DeleteLagOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Information about a link aggregation group (LAG).
-public struct DeleteLagOutput: Swift.Equatable {
+public struct DeleteLagOutput {
     /// Indicates whether the LAG can host other connections.
     public var allowsHostedConnections: Swift.Bool
     /// The Direct Connect endpoint that hosts the LAG.
@@ -8435,7 +8435,7 @@ public struct DeleteLagOutput: Swift.Equatable {
     }
 }
 
-struct DeleteLagOutputBody: Swift.Equatable {
+struct DeleteLagOutputBody {
     let connectionsBandwidth: Swift.String?
     let numberOfConnections: Swift.Int
     let lagId: Swift.String?
@@ -8590,7 +8590,7 @@ extension DeleteVirtualInterfaceInput {
     }
 }
 
-public struct DeleteVirtualInterfaceInput: Swift.Equatable {
+public struct DeleteVirtualInterfaceInput {
     /// The ID of the virtual interface.
     /// This member is required.
     public var virtualInterfaceId: Swift.String?
@@ -8603,7 +8603,7 @@ public struct DeleteVirtualInterfaceInput: Swift.Equatable {
     }
 }
 
-struct DeleteVirtualInterfaceInputBody: Swift.Equatable {
+struct DeleteVirtualInterfaceInputBody {
     let virtualInterfaceId: Swift.String?
 }
 
@@ -8631,7 +8631,7 @@ extension DeleteVirtualInterfaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteVirtualInterfaceOutput: Swift.Equatable {
+public struct DeleteVirtualInterfaceOutput {
     /// The state of the virtual interface. The following are the possible values:
     ///
     /// * confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.
@@ -8661,7 +8661,7 @@ public struct DeleteVirtualInterfaceOutput: Swift.Equatable {
     }
 }
 
-struct DeleteVirtualInterfaceOutputBody: Swift.Equatable {
+struct DeleteVirtualInterfaceOutputBody {
     let virtualInterfaceState: DirectConnectClientTypes.VirtualInterfaceState?
 }
 
@@ -8717,7 +8717,7 @@ extension DescribeConnectionLoaInput {
     }
 }
 
-public struct DescribeConnectionLoaInput: Swift.Equatable {
+public struct DescribeConnectionLoaInput {
     /// The ID of the connection.
     /// This member is required.
     public var connectionId: Swift.String?
@@ -8738,7 +8738,7 @@ public struct DescribeConnectionLoaInput: Swift.Equatable {
     }
 }
 
-struct DescribeConnectionLoaInputBody: Swift.Equatable {
+struct DescribeConnectionLoaInputBody {
     let connectionId: Swift.String?
     let providerName: Swift.String?
     let loaContentType: DirectConnectClientTypes.LoaContentType?
@@ -8774,7 +8774,7 @@ extension DescribeConnectionLoaOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeConnectionLoaOutput: Swift.Equatable {
+public struct DescribeConnectionLoaOutput {
     /// The Letter of Authorization - Connecting Facility Assignment (LOA-CFA).
     public var loa: DirectConnectClientTypes.Loa?
 
@@ -8786,7 +8786,7 @@ public struct DescribeConnectionLoaOutput: Swift.Equatable {
     }
 }
 
-struct DescribeConnectionLoaOutputBody: Swift.Equatable {
+struct DescribeConnectionLoaOutputBody {
     let loa: DirectConnectClientTypes.Loa?
 }
 
@@ -8834,7 +8834,7 @@ extension DescribeConnectionsInput {
     }
 }
 
-public struct DescribeConnectionsInput: Swift.Equatable {
+public struct DescribeConnectionsInput {
     /// The ID of the connection.
     public var connectionId: Swift.String?
 
@@ -8846,7 +8846,7 @@ public struct DescribeConnectionsInput: Swift.Equatable {
     }
 }
 
-struct DescribeConnectionsInputBody: Swift.Equatable {
+struct DescribeConnectionsInputBody {
     let connectionId: Swift.String?
 }
 
@@ -8882,7 +8882,7 @@ extension DescribeConnectionsOnInterconnectInput {
     }
 }
 
-public struct DescribeConnectionsOnInterconnectInput: Swift.Equatable {
+public struct DescribeConnectionsOnInterconnectInput {
     /// The ID of the interconnect.
     /// This member is required.
     public var interconnectId: Swift.String?
@@ -8895,7 +8895,7 @@ public struct DescribeConnectionsOnInterconnectInput: Swift.Equatable {
     }
 }
 
-struct DescribeConnectionsOnInterconnectInputBody: Swift.Equatable {
+struct DescribeConnectionsOnInterconnectInputBody {
     let interconnectId: Swift.String?
 }
 
@@ -8923,7 +8923,7 @@ extension DescribeConnectionsOnInterconnectOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct DescribeConnectionsOnInterconnectOutput: Swift.Equatable {
+public struct DescribeConnectionsOnInterconnectOutput {
     /// The connections.
     public var connections: [DirectConnectClientTypes.Connection]?
 
@@ -8935,7 +8935,7 @@ public struct DescribeConnectionsOnInterconnectOutput: Swift.Equatable {
     }
 }
 
-struct DescribeConnectionsOnInterconnectOutputBody: Swift.Equatable {
+struct DescribeConnectionsOnInterconnectOutputBody {
     let connections: [DirectConnectClientTypes.Connection]?
 }
 
@@ -8984,7 +8984,7 @@ extension DescribeConnectionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeConnectionsOutput: Swift.Equatable {
+public struct DescribeConnectionsOutput {
     /// The connections.
     public var connections: [DirectConnectClientTypes.Connection]?
 
@@ -8996,7 +8996,7 @@ public struct DescribeConnectionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeConnectionsOutputBody: Swift.Equatable {
+struct DescribeConnectionsOutputBody {
     let connections: [DirectConnectClientTypes.Connection]?
 }
 
@@ -9048,12 +9048,12 @@ extension DescribeCustomerMetadataInput {
     }
 }
 
-public struct DescribeCustomerMetadataInput: Swift.Equatable {
+public struct DescribeCustomerMetadataInput {
 
     public init() { }
 }
 
-struct DescribeCustomerMetadataInputBody: Swift.Equatable {
+struct DescribeCustomerMetadataInputBody {
 }
 
 extension DescribeCustomerMetadataInputBody: Swift.Decodable {
@@ -9076,7 +9076,7 @@ extension DescribeCustomerMetadataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeCustomerMetadataOutput: Swift.Equatable {
+public struct DescribeCustomerMetadataOutput {
     /// The list of customer agreements.
     public var agreements: [DirectConnectClientTypes.CustomerAgreement]?
     /// The type of network-to-network interface (NNI) partner. The partner type will be one of the following:
@@ -9098,7 +9098,7 @@ public struct DescribeCustomerMetadataOutput: Swift.Equatable {
     }
 }
 
-struct DescribeCustomerMetadataOutputBody: Swift.Equatable {
+struct DescribeCustomerMetadataOutputBody {
     let agreements: [DirectConnectClientTypes.CustomerAgreement]?
     let nniPartnerType: DirectConnectClientTypes.NniPartnerType?
 }
@@ -9175,7 +9175,7 @@ extension DescribeDirectConnectGatewayAssociationProposalsInput {
     }
 }
 
-public struct DescribeDirectConnectGatewayAssociationProposalsInput: Swift.Equatable {
+public struct DescribeDirectConnectGatewayAssociationProposalsInput {
     /// The ID of the associated gateway.
     public var associatedGatewayId: Swift.String?
     /// The ID of the Direct Connect gateway.
@@ -9203,7 +9203,7 @@ public struct DescribeDirectConnectGatewayAssociationProposalsInput: Swift.Equat
     }
 }
 
-struct DescribeDirectConnectGatewayAssociationProposalsInputBody: Swift.Equatable {
+struct DescribeDirectConnectGatewayAssociationProposalsInputBody {
     let directConnectGatewayId: Swift.String?
     let proposalId: Swift.String?
     let associatedGatewayId: Swift.String?
@@ -9249,7 +9249,7 @@ extension DescribeDirectConnectGatewayAssociationProposalsOutput: ClientRuntime.
     }
 }
 
-public struct DescribeDirectConnectGatewayAssociationProposalsOutput: Swift.Equatable {
+public struct DescribeDirectConnectGatewayAssociationProposalsOutput {
     /// Describes the Direct Connect gateway association proposals.
     public var directConnectGatewayAssociationProposals: [DirectConnectClientTypes.DirectConnectGatewayAssociationProposal]?
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -9265,7 +9265,7 @@ public struct DescribeDirectConnectGatewayAssociationProposalsOutput: Swift.Equa
     }
 }
 
-struct DescribeDirectConnectGatewayAssociationProposalsOutputBody: Swift.Equatable {
+struct DescribeDirectConnectGatewayAssociationProposalsOutputBody {
     let directConnectGatewayAssociationProposals: [DirectConnectClientTypes.DirectConnectGatewayAssociationProposal]?
     let nextToken: Swift.String?
 }
@@ -9346,7 +9346,7 @@ extension DescribeDirectConnectGatewayAssociationsInput {
     }
 }
 
-public struct DescribeDirectConnectGatewayAssociationsInput: Swift.Equatable {
+public struct DescribeDirectConnectGatewayAssociationsInput {
     /// The ID of the associated gateway.
     public var associatedGatewayId: Swift.String?
     /// The ID of the Direct Connect gateway association.
@@ -9378,7 +9378,7 @@ public struct DescribeDirectConnectGatewayAssociationsInput: Swift.Equatable {
     }
 }
 
-struct DescribeDirectConnectGatewayAssociationsInputBody: Swift.Equatable {
+struct DescribeDirectConnectGatewayAssociationsInputBody {
     let associationId: Swift.String?
     let associatedGatewayId: Swift.String?
     let directConnectGatewayId: Swift.String?
@@ -9428,7 +9428,7 @@ extension DescribeDirectConnectGatewayAssociationsOutput: ClientRuntime.HttpResp
     }
 }
 
-public struct DescribeDirectConnectGatewayAssociationsOutput: Swift.Equatable {
+public struct DescribeDirectConnectGatewayAssociationsOutput {
     /// Information about the associations.
     public var directConnectGatewayAssociations: [DirectConnectClientTypes.DirectConnectGatewayAssociation]?
     /// The token to retrieve the next page.
@@ -9444,7 +9444,7 @@ public struct DescribeDirectConnectGatewayAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDirectConnectGatewayAssociationsOutputBody: Swift.Equatable {
+struct DescribeDirectConnectGatewayAssociationsOutputBody {
     let directConnectGatewayAssociations: [DirectConnectClientTypes.DirectConnectGatewayAssociation]?
     let nextToken: Swift.String?
 }
@@ -9517,7 +9517,7 @@ extension DescribeDirectConnectGatewayAttachmentsInput {
     }
 }
 
-public struct DescribeDirectConnectGatewayAttachmentsInput: Swift.Equatable {
+public struct DescribeDirectConnectGatewayAttachmentsInput {
     /// The ID of the Direct Connect gateway.
     public var directConnectGatewayId: Swift.String?
     /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
@@ -9541,7 +9541,7 @@ public struct DescribeDirectConnectGatewayAttachmentsInput: Swift.Equatable {
     }
 }
 
-struct DescribeDirectConnectGatewayAttachmentsInputBody: Swift.Equatable {
+struct DescribeDirectConnectGatewayAttachmentsInputBody {
     let directConnectGatewayId: Swift.String?
     let virtualInterfaceId: Swift.String?
     let maxResults: Swift.Int?
@@ -9583,7 +9583,7 @@ extension DescribeDirectConnectGatewayAttachmentsOutput: ClientRuntime.HttpRespo
     }
 }
 
-public struct DescribeDirectConnectGatewayAttachmentsOutput: Swift.Equatable {
+public struct DescribeDirectConnectGatewayAttachmentsOutput {
     /// The attachments.
     public var directConnectGatewayAttachments: [DirectConnectClientTypes.DirectConnectGatewayAttachment]?
     /// The token to retrieve the next page.
@@ -9599,7 +9599,7 @@ public struct DescribeDirectConnectGatewayAttachmentsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDirectConnectGatewayAttachmentsOutputBody: Swift.Equatable {
+struct DescribeDirectConnectGatewayAttachmentsOutputBody {
     let directConnectGatewayAttachments: [DirectConnectClientTypes.DirectConnectGatewayAttachment]?
     let nextToken: Swift.String?
 }
@@ -9668,7 +9668,7 @@ extension DescribeDirectConnectGatewaysInput {
     }
 }
 
-public struct DescribeDirectConnectGatewaysInput: Swift.Equatable {
+public struct DescribeDirectConnectGatewaysInput {
     /// The ID of the Direct Connect gateway.
     public var directConnectGatewayId: Swift.String?
     /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
@@ -9688,7 +9688,7 @@ public struct DescribeDirectConnectGatewaysInput: Swift.Equatable {
     }
 }
 
-struct DescribeDirectConnectGatewaysInputBody: Swift.Equatable {
+struct DescribeDirectConnectGatewaysInputBody {
     let directConnectGatewayId: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -9726,7 +9726,7 @@ extension DescribeDirectConnectGatewaysOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DescribeDirectConnectGatewaysOutput: Swift.Equatable {
+public struct DescribeDirectConnectGatewaysOutput {
     /// The Direct Connect gateways.
     public var directConnectGateways: [DirectConnectClientTypes.DirectConnectGateway]?
     /// The token to retrieve the next page.
@@ -9742,7 +9742,7 @@ public struct DescribeDirectConnectGatewaysOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDirectConnectGatewaysOutputBody: Swift.Equatable {
+struct DescribeDirectConnectGatewaysOutputBody {
     let directConnectGateways: [DirectConnectClientTypes.DirectConnectGateway]?
     let nextToken: Swift.String?
 }
@@ -9803,7 +9803,7 @@ extension DescribeHostedConnectionsInput {
     }
 }
 
-public struct DescribeHostedConnectionsInput: Swift.Equatable {
+public struct DescribeHostedConnectionsInput {
     /// The ID of the interconnect or LAG.
     /// This member is required.
     public var connectionId: Swift.String?
@@ -9816,7 +9816,7 @@ public struct DescribeHostedConnectionsInput: Swift.Equatable {
     }
 }
 
-struct DescribeHostedConnectionsInputBody: Swift.Equatable {
+struct DescribeHostedConnectionsInputBody {
     let connectionId: Swift.String?
 }
 
@@ -9844,7 +9844,7 @@ extension DescribeHostedConnectionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeHostedConnectionsOutput: Swift.Equatable {
+public struct DescribeHostedConnectionsOutput {
     /// The connections.
     public var connections: [DirectConnectClientTypes.Connection]?
 
@@ -9856,7 +9856,7 @@ public struct DescribeHostedConnectionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeHostedConnectionsOutputBody: Swift.Equatable {
+struct DescribeHostedConnectionsOutputBody {
     let connections: [DirectConnectClientTypes.Connection]?
 }
 
@@ -9921,7 +9921,7 @@ extension DescribeInterconnectLoaInput {
     }
 }
 
-public struct DescribeInterconnectLoaInput: Swift.Equatable {
+public struct DescribeInterconnectLoaInput {
     /// The ID of the interconnect.
     /// This member is required.
     public var interconnectId: Swift.String?
@@ -9942,7 +9942,7 @@ public struct DescribeInterconnectLoaInput: Swift.Equatable {
     }
 }
 
-struct DescribeInterconnectLoaInputBody: Swift.Equatable {
+struct DescribeInterconnectLoaInputBody {
     let interconnectId: Swift.String?
     let providerName: Swift.String?
     let loaContentType: DirectConnectClientTypes.LoaContentType?
@@ -9978,7 +9978,7 @@ extension DescribeInterconnectLoaOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeInterconnectLoaOutput: Swift.Equatable {
+public struct DescribeInterconnectLoaOutput {
     /// The Letter of Authorization - Connecting Facility Assignment (LOA-CFA).
     public var loa: DirectConnectClientTypes.Loa?
 
@@ -9990,7 +9990,7 @@ public struct DescribeInterconnectLoaOutput: Swift.Equatable {
     }
 }
 
-struct DescribeInterconnectLoaOutputBody: Swift.Equatable {
+struct DescribeInterconnectLoaOutputBody {
     let loa: DirectConnectClientTypes.Loa?
 }
 
@@ -10038,7 +10038,7 @@ extension DescribeInterconnectsInput {
     }
 }
 
-public struct DescribeInterconnectsInput: Swift.Equatable {
+public struct DescribeInterconnectsInput {
     /// The ID of the interconnect.
     public var interconnectId: Swift.String?
 
@@ -10050,7 +10050,7 @@ public struct DescribeInterconnectsInput: Swift.Equatable {
     }
 }
 
-struct DescribeInterconnectsInputBody: Swift.Equatable {
+struct DescribeInterconnectsInputBody {
     let interconnectId: Swift.String?
 }
 
@@ -10078,7 +10078,7 @@ extension DescribeInterconnectsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeInterconnectsOutput: Swift.Equatable {
+public struct DescribeInterconnectsOutput {
     /// The interconnects.
     public var interconnects: [DirectConnectClientTypes.Interconnect]?
 
@@ -10090,7 +10090,7 @@ public struct DescribeInterconnectsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeInterconnectsOutputBody: Swift.Equatable {
+struct DescribeInterconnectsOutputBody {
     let interconnects: [DirectConnectClientTypes.Interconnect]?
 }
 
@@ -10147,7 +10147,7 @@ extension DescribeLagsInput {
     }
 }
 
-public struct DescribeLagsInput: Swift.Equatable {
+public struct DescribeLagsInput {
     /// The ID of the LAG.
     public var lagId: Swift.String?
 
@@ -10159,7 +10159,7 @@ public struct DescribeLagsInput: Swift.Equatable {
     }
 }
 
-struct DescribeLagsInputBody: Swift.Equatable {
+struct DescribeLagsInputBody {
     let lagId: Swift.String?
 }
 
@@ -10187,7 +10187,7 @@ extension DescribeLagsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeLagsOutput: Swift.Equatable {
+public struct DescribeLagsOutput {
     /// The LAGs.
     public var lags: [DirectConnectClientTypes.Lag]?
 
@@ -10199,7 +10199,7 @@ public struct DescribeLagsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeLagsOutputBody: Swift.Equatable {
+struct DescribeLagsOutputBody {
     let lags: [DirectConnectClientTypes.Lag]?
 }
 
@@ -10264,7 +10264,7 @@ extension DescribeLoaInput {
     }
 }
 
-public struct DescribeLoaInput: Swift.Equatable {
+public struct DescribeLoaInput {
     /// The ID of a connection, LAG, or interconnect.
     /// This member is required.
     public var connectionId: Swift.String?
@@ -10285,7 +10285,7 @@ public struct DescribeLoaInput: Swift.Equatable {
     }
 }
 
-struct DescribeLoaInputBody: Swift.Equatable {
+struct DescribeLoaInputBody {
     let connectionId: Swift.String?
     let providerName: Swift.String?
     let loaContentType: DirectConnectClientTypes.LoaContentType?
@@ -10324,7 +10324,7 @@ extension DescribeLoaOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Information about a Letter of Authorization - Connecting Facility Assignment (LOA-CFA) for a connection.
-public struct DescribeLoaOutput: Swift.Equatable {
+public struct DescribeLoaOutput {
     /// The binary contents of the LOA-CFA document.
     public var loaContent: ClientRuntime.Data?
     /// The standard media type for the LOA-CFA document. The only supported value is application/pdf.
@@ -10340,7 +10340,7 @@ public struct DescribeLoaOutput: Swift.Equatable {
     }
 }
 
-struct DescribeLoaOutputBody: Swift.Equatable {
+struct DescribeLoaOutputBody {
     let loaContent: ClientRuntime.Data?
     let loaContentType: DirectConnectClientTypes.LoaContentType?
 }
@@ -10387,12 +10387,12 @@ extension DescribeLocationsInput {
     }
 }
 
-public struct DescribeLocationsInput: Swift.Equatable {
+public struct DescribeLocationsInput {
 
     public init() { }
 }
 
-struct DescribeLocationsInputBody: Swift.Equatable {
+struct DescribeLocationsInputBody {
 }
 
 extension DescribeLocationsInputBody: Swift.Decodable {
@@ -10413,7 +10413,7 @@ extension DescribeLocationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeLocationsOutput: Swift.Equatable {
+public struct DescribeLocationsOutput {
     /// The locations.
     public var locations: [DirectConnectClientTypes.Location]?
 
@@ -10425,7 +10425,7 @@ public struct DescribeLocationsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeLocationsOutputBody: Swift.Equatable {
+struct DescribeLocationsOutputBody {
     let locations: [DirectConnectClientTypes.Location]?
 }
 
@@ -10487,7 +10487,7 @@ extension DescribeRouterConfigurationInput {
 }
 
 /// Provides the details about a virtual interface's router.
-public struct DescribeRouterConfigurationInput: Swift.Equatable {
+public struct DescribeRouterConfigurationInput {
     /// Identifies the router by a combination of vendor, platform, and software version. For example, CiscoSystemsInc-2900SeriesRouters-IOS124.
     public var routerTypeIdentifier: Swift.String?
     /// The ID of the virtual interface.
@@ -10504,7 +10504,7 @@ public struct DescribeRouterConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DescribeRouterConfigurationInputBody: Swift.Equatable {
+struct DescribeRouterConfigurationInputBody {
     let virtualInterfaceId: Swift.String?
     let routerTypeIdentifier: Swift.String?
 }
@@ -10542,7 +10542,7 @@ extension DescribeRouterConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeRouterConfigurationOutput: Swift.Equatable {
+public struct DescribeRouterConfigurationOutput {
     /// The customer router configuration.
     public var customerRouterConfig: Swift.String?
     /// The details about the router.
@@ -10566,7 +10566,7 @@ public struct DescribeRouterConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeRouterConfigurationOutputBody: Swift.Equatable {
+struct DescribeRouterConfigurationOutputBody {
     let customerRouterConfig: Swift.String?
     let router: DirectConnectClientTypes.RouterType?
     let virtualInterfaceId: Swift.String?
@@ -10629,7 +10629,7 @@ extension DescribeTagsInput {
     }
 }
 
-public struct DescribeTagsInput: Swift.Equatable {
+public struct DescribeTagsInput {
     /// The Amazon Resource Names (ARNs) of the resources.
     /// This member is required.
     public var resourceArns: [Swift.String]?
@@ -10642,7 +10642,7 @@ public struct DescribeTagsInput: Swift.Equatable {
     }
 }
 
-struct DescribeTagsInputBody: Swift.Equatable {
+struct DescribeTagsInputBody {
     let resourceArns: [Swift.String]?
 }
 
@@ -10679,7 +10679,7 @@ extension DescribeTagsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeTagsOutput: Swift.Equatable {
+public struct DescribeTagsOutput {
     /// Information about the tags.
     public var resourceTags: [DirectConnectClientTypes.ResourceTag]?
 
@@ -10691,7 +10691,7 @@ public struct DescribeTagsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeTagsOutputBody: Swift.Equatable {
+struct DescribeTagsOutputBody {
     let resourceTags: [DirectConnectClientTypes.ResourceTag]?
 }
 
@@ -10743,12 +10743,12 @@ extension DescribeVirtualGatewaysInput {
     }
 }
 
-public struct DescribeVirtualGatewaysInput: Swift.Equatable {
+public struct DescribeVirtualGatewaysInput {
 
     public init() { }
 }
 
-struct DescribeVirtualGatewaysInputBody: Swift.Equatable {
+struct DescribeVirtualGatewaysInputBody {
 }
 
 extension DescribeVirtualGatewaysInputBody: Swift.Decodable {
@@ -10769,7 +10769,7 @@ extension DescribeVirtualGatewaysOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeVirtualGatewaysOutput: Swift.Equatable {
+public struct DescribeVirtualGatewaysOutput {
     /// The virtual private gateways.
     public var virtualGateways: [DirectConnectClientTypes.VirtualGateway]?
 
@@ -10781,7 +10781,7 @@ public struct DescribeVirtualGatewaysOutput: Swift.Equatable {
     }
 }
 
-struct DescribeVirtualGatewaysOutputBody: Swift.Equatable {
+struct DescribeVirtualGatewaysOutputBody {
     let virtualGateways: [DirectConnectClientTypes.VirtualGateway]?
 }
 
@@ -10842,7 +10842,7 @@ extension DescribeVirtualInterfacesInput {
     }
 }
 
-public struct DescribeVirtualInterfacesInput: Swift.Equatable {
+public struct DescribeVirtualInterfacesInput {
     /// The ID of the connection.
     public var connectionId: Swift.String?
     /// The ID of the virtual interface.
@@ -10858,7 +10858,7 @@ public struct DescribeVirtualInterfacesInput: Swift.Equatable {
     }
 }
 
-struct DescribeVirtualInterfacesInputBody: Swift.Equatable {
+struct DescribeVirtualInterfacesInputBody {
     let connectionId: Swift.String?
     let virtualInterfaceId: Swift.String?
 }
@@ -10890,7 +10890,7 @@ extension DescribeVirtualInterfacesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeVirtualInterfacesOutput: Swift.Equatable {
+public struct DescribeVirtualInterfacesOutput {
     /// The virtual interfaces
     public var virtualInterfaces: [DirectConnectClientTypes.VirtualInterface]?
 
@@ -10902,7 +10902,7 @@ public struct DescribeVirtualInterfacesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeVirtualInterfacesOutputBody: Swift.Equatable {
+struct DescribeVirtualInterfacesOutputBody {
     let virtualInterfaces: [DirectConnectClientTypes.VirtualInterface]?
 }
 
@@ -10978,7 +10978,7 @@ public struct DirectConnectClientException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct DirectConnectClientExceptionBody: Swift.Equatable {
+struct DirectConnectClientExceptionBody {
     let message: Swift.String?
 }
 
@@ -11047,7 +11047,7 @@ extension DirectConnectClientTypes.DirectConnectGateway: Swift.Codable {
 
 extension DirectConnectClientTypes {
     /// Information about a Direct Connect gateway, which enables you to connect virtual interfaces and virtual private gateway or transit gateways.
-    public struct DirectConnectGateway: Swift.Equatable {
+    public struct DirectConnectGateway {
         /// The autonomous system number (ASN) for the Amazon side of the connection.
         public var amazonSideAsn: Swift.Int?
         /// The ID of the Direct Connect gateway.
@@ -11176,7 +11176,7 @@ extension DirectConnectClientTypes.DirectConnectGatewayAssociation: Swift.Codabl
 
 extension DirectConnectClientTypes {
     /// Information about an association between a Direct Connect gateway and a virtual private gateway or transit gateway.
-    public struct DirectConnectGatewayAssociation: Swift.Equatable {
+    public struct DirectConnectGatewayAssociation {
         /// The Amazon VPC prefixes to advertise to the Direct Connect gateway.
         public var allowedPrefixesToDirectConnectGateway: [DirectConnectClientTypes.RouteFilterPrefix]?
         /// Information about the associated gateway.
@@ -11318,7 +11318,7 @@ extension DirectConnectClientTypes.DirectConnectGatewayAssociationProposal: Swif
 
 extension DirectConnectClientTypes {
     /// Information about the proposal request to attach a virtual private gateway to a Direct Connect gateway.
-    public struct DirectConnectGatewayAssociationProposal: Swift.Equatable {
+    public struct DirectConnectGatewayAssociationProposal {
         /// Information about the associated gateway.
         public var associatedGateway: DirectConnectClientTypes.AssociatedGateway?
         /// The ID of the Direct Connect gateway.
@@ -11495,7 +11495,7 @@ extension DirectConnectClientTypes.DirectConnectGatewayAttachment: Swift.Codable
 
 extension DirectConnectClientTypes {
     /// Information about an attachment between a Direct Connect gateway and a virtual interface.
-    public struct DirectConnectGatewayAttachment: Swift.Equatable {
+    public struct DirectConnectGatewayAttachment {
         /// The state of the attachment. The following are the possible values:
         ///
         /// * attaching: The initial state after a virtual interface is created using the Direct Connect gateway.
@@ -11688,7 +11688,7 @@ public struct DirectConnectServerException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct DirectConnectServerExceptionBody: Swift.Equatable {
+struct DirectConnectServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -11728,7 +11728,7 @@ extension DisassociateConnectionFromLagInput {
     }
 }
 
-public struct DisassociateConnectionFromLagInput: Swift.Equatable {
+public struct DisassociateConnectionFromLagInput {
     /// The ID of the connection.
     /// This member is required.
     public var connectionId: Swift.String?
@@ -11746,7 +11746,7 @@ public struct DisassociateConnectionFromLagInput: Swift.Equatable {
     }
 }
 
-struct DisassociateConnectionFromLagInputBody: Swift.Equatable {
+struct DisassociateConnectionFromLagInputBody {
     let connectionId: Swift.String?
     let lagId: Swift.String?
 }
@@ -11821,7 +11821,7 @@ extension DisassociateConnectionFromLagOutput: ClientRuntime.HttpResponseBinding
 }
 
 /// Information about an Direct Connect connection.
-public struct DisassociateConnectionFromLagOutput: Swift.Equatable {
+public struct DisassociateConnectionFromLagOutput {
     /// The Direct Connect endpoint on which the physical connection terminates.
     @available(*, deprecated)
     public var awsDevice: Swift.String?
@@ -11936,7 +11936,7 @@ public struct DisassociateConnectionFromLagOutput: Swift.Equatable {
     }
 }
 
-struct DisassociateConnectionFromLagOutputBody: Swift.Equatable {
+struct DisassociateConnectionFromLagOutputBody {
     let ownerAccount: Swift.String?
     let connectionId: Swift.String?
     let connectionName: Swift.String?
@@ -12090,7 +12090,7 @@ extension DisassociateMacSecKeyInput {
     }
 }
 
-public struct DisassociateMacSecKeyInput: Swift.Equatable {
+public struct DisassociateMacSecKeyInput {
     /// The ID of the dedicated connection (dxcon-xxxx), or the ID of the LAG (dxlag-xxxx). You can use [DescribeConnections] or [DescribeLags] to retrieve connection ID.
     /// This member is required.
     public var connectionId: Swift.String?
@@ -12108,7 +12108,7 @@ public struct DisassociateMacSecKeyInput: Swift.Equatable {
     }
 }
 
-struct DisassociateMacSecKeyInputBody: Swift.Equatable {
+struct DisassociateMacSecKeyInputBody {
     let connectionId: Swift.String?
     let secretARN: Swift.String?
 }
@@ -12142,7 +12142,7 @@ extension DisassociateMacSecKeyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateMacSecKeyOutput: Swift.Equatable {
+public struct DisassociateMacSecKeyOutput {
     /// The ID of the dedicated connection (dxcon-xxxx), or the ID of the LAG (dxlag-xxxx).
     public var connectionId: Swift.String?
     /// The MAC Security (MACsec) security keys no longer associated with the dedicated connection.
@@ -12158,7 +12158,7 @@ public struct DisassociateMacSecKeyOutput: Swift.Equatable {
     }
 }
 
-struct DisassociateMacSecKeyOutputBody: Swift.Equatable {
+struct DisassociateMacSecKeyOutputBody {
     let connectionId: Swift.String?
     let macSecKeys: [DirectConnectClientTypes.MacSecKey]?
 }
@@ -12238,7 +12238,7 @@ public struct DuplicateTagKeysException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct DuplicateTagKeysExceptionBody: Swift.Equatable {
+struct DuplicateTagKeysExceptionBody {
     let message: Swift.String?
 }
 
@@ -12438,7 +12438,7 @@ extension DirectConnectClientTypes.Interconnect: Swift.Codable {
 
 extension DirectConnectClientTypes {
     /// Information about an interconnect.
-    public struct Interconnect: Swift.Equatable {
+    public struct Interconnect {
         /// The Direct Connect endpoint on which the physical connection terminates.
         @available(*, deprecated)
         public var awsDevice: Swift.String?
@@ -12747,7 +12747,7 @@ extension DirectConnectClientTypes.Lag: Swift.Codable {
 
 extension DirectConnectClientTypes {
     /// Information about a link aggregation group (LAG).
-    public struct Lag: Swift.Equatable {
+    public struct Lag {
         /// Indicates whether the LAG can host other connections.
         public var allowsHostedConnections: Swift.Bool
         /// The Direct Connect endpoint that hosts the LAG.
@@ -12946,7 +12946,7 @@ extension ListVirtualInterfaceTestHistoryInput {
     }
 }
 
-public struct ListVirtualInterfaceTestHistoryInput: Swift.Equatable {
+public struct ListVirtualInterfaceTestHistoryInput {
     /// The BGP peers that were placed in the DOWN state during the virtual interface failover test.
     public var bgpPeers: [Swift.String]?
     /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
@@ -12978,7 +12978,7 @@ public struct ListVirtualInterfaceTestHistoryInput: Swift.Equatable {
     }
 }
 
-struct ListVirtualInterfaceTestHistoryInputBody: Swift.Equatable {
+struct ListVirtualInterfaceTestHistoryInputBody {
     let testId: Swift.String?
     let virtualInterfaceId: Swift.String?
     let bgpPeers: [Swift.String]?
@@ -13037,7 +13037,7 @@ extension ListVirtualInterfaceTestHistoryOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ListVirtualInterfaceTestHistoryOutput: Swift.Equatable {
+public struct ListVirtualInterfaceTestHistoryOutput {
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
     /// The ID of the tested virtual interface.
@@ -13053,7 +13053,7 @@ public struct ListVirtualInterfaceTestHistoryOutput: Swift.Equatable {
     }
 }
 
-struct ListVirtualInterfaceTestHistoryOutputBody: Swift.Equatable {
+struct ListVirtualInterfaceTestHistoryOutputBody {
     let virtualInterfaceTestHistory: [DirectConnectClientTypes.VirtualInterfaceTestHistory]?
     let nextToken: Swift.String?
 }
@@ -13121,7 +13121,7 @@ extension DirectConnectClientTypes.Loa: Swift.Codable {
 
 extension DirectConnectClientTypes {
     /// Information about a Letter of Authorization - Connecting Facility Assignment (LOA-CFA) for a connection.
-    public struct Loa: Swift.Equatable {
+    public struct Loa {
         /// The binary contents of the LOA-CFA document.
         public var loaContent: ClientRuntime.Data?
         /// The standard media type for the LOA-CFA document. The only supported value is application/pdf.
@@ -13255,7 +13255,7 @@ extension DirectConnectClientTypes.Location: Swift.Codable {
 
 extension DirectConnectClientTypes {
     /// Information about an Direct Connect location.
-    public struct Location: Swift.Equatable {
+    public struct Location {
         /// The available MAC Security (MACsec) port speeds for the location.
         public var availableMacSecPortSpeeds: [Swift.String]?
         /// The available port speeds for the location.
@@ -13328,7 +13328,7 @@ extension DirectConnectClientTypes.MacSecKey: Swift.Codable {
 
 extension DirectConnectClientTypes {
     /// Information about the MAC Security (MACsec) secret key.
-    public struct MacSecKey: Swift.Equatable {
+    public struct MacSecKey {
         /// The Connection Key Name (CKN) for the MAC Security secret key.
         public var ckn: Swift.String?
         /// The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key.
@@ -13407,7 +13407,7 @@ extension DirectConnectClientTypes.NewBGPPeer: Swift.Codable {
 
 extension DirectConnectClientTypes {
     /// Information about a new BGP peer.
-    public struct NewBGPPeer: Swift.Equatable {
+    public struct NewBGPPeer {
         /// The address family for the BGP peer.
         public var addressFamily: DirectConnectClientTypes.AddressFamily?
         /// The IP address assigned to the Amazon interface.
@@ -13536,7 +13536,7 @@ extension DirectConnectClientTypes.NewPrivateVirtualInterface: Swift.Codable {
 
 extension DirectConnectClientTypes {
     /// Information about a private virtual interface.
-    public struct NewPrivateVirtualInterface: Swift.Equatable {
+    public struct NewPrivateVirtualInterface {
         /// The address family for the BGP peer.
         public var addressFamily: DirectConnectClientTypes.AddressFamily?
         /// The IP address assigned to the Amazon interface.
@@ -13678,7 +13678,7 @@ extension DirectConnectClientTypes.NewPrivateVirtualInterfaceAllocation: Swift.C
 
 extension DirectConnectClientTypes {
     /// Information about a private virtual interface to be provisioned on a connection.
-    public struct NewPrivateVirtualInterfaceAllocation: Swift.Equatable {
+    public struct NewPrivateVirtualInterfaceAllocation {
         /// The address family for the BGP peer.
         public var addressFamily: DirectConnectClientTypes.AddressFamily?
         /// The IP address assigned to the Amazon interface.
@@ -13820,7 +13820,7 @@ extension DirectConnectClientTypes.NewPublicVirtualInterface: Swift.Codable {
 
 extension DirectConnectClientTypes {
     /// Information about a public virtual interface.
-    public struct NewPublicVirtualInterface: Swift.Equatable {
+    public struct NewPublicVirtualInterface {
         /// The address family for the BGP peer.
         public var addressFamily: DirectConnectClientTypes.AddressFamily?
         /// The IP address assigned to the Amazon interface.
@@ -13962,7 +13962,7 @@ extension DirectConnectClientTypes.NewPublicVirtualInterfaceAllocation: Swift.Co
 
 extension DirectConnectClientTypes {
     /// Information about a public virtual interface to be provisioned on a connection.
-    public struct NewPublicVirtualInterfaceAllocation: Swift.Equatable {
+    public struct NewPublicVirtualInterfaceAllocation {
         /// The address family for the BGP peer.
         public var addressFamily: DirectConnectClientTypes.AddressFamily?
         /// The IP address assigned to the Amazon interface.
@@ -14104,7 +14104,7 @@ extension DirectConnectClientTypes.NewTransitVirtualInterface: Swift.Codable {
 
 extension DirectConnectClientTypes {
     /// Information about a transit virtual interface.
-    public struct NewTransitVirtualInterface: Swift.Equatable {
+    public struct NewTransitVirtualInterface {
         /// The address family for the BGP peer.
         public var addressFamily: DirectConnectClientTypes.AddressFamily?
         /// The IP address assigned to the Amazon interface.
@@ -14239,7 +14239,7 @@ extension DirectConnectClientTypes.NewTransitVirtualInterfaceAllocation: Swift.C
 
 extension DirectConnectClientTypes {
     /// Information about a transit virtual interface to be provisioned on a connection.
-    public struct NewTransitVirtualInterfaceAllocation: Swift.Equatable {
+    public struct NewTransitVirtualInterfaceAllocation {
         /// The address family for the BGP peer.
         public var addressFamily: DirectConnectClientTypes.AddressFamily?
         /// The IP address assigned to the Amazon interface.
@@ -14359,7 +14359,7 @@ extension DirectConnectClientTypes.ResourceTag: Swift.Codable {
 
 extension DirectConnectClientTypes {
     /// Information about a tag associated with an Direct Connect resource.
-    public struct ResourceTag: Swift.Equatable {
+    public struct ResourceTag {
         /// The Amazon Resource Name (ARN) of the resource.
         public var resourceArn: Swift.String?
         /// The tags.
@@ -14398,7 +14398,7 @@ extension DirectConnectClientTypes.RouteFilterPrefix: Swift.Codable {
 
 extension DirectConnectClientTypes {
     /// Information about a route filter prefix that a customer can advertise through Border Gateway Protocol (BGP) over a public virtual interface.
-    public struct RouteFilterPrefix: Swift.Equatable {
+    public struct RouteFilterPrefix {
         /// The CIDR block for the advertised route. Separate multiple routes using commas. An IPv6 CIDR must use /64 or shorter.
         public var cidr: Swift.String?
 
@@ -14463,7 +14463,7 @@ extension DirectConnectClientTypes.RouterType: Swift.Codable {
 
 extension DirectConnectClientTypes {
     /// Information about the virtual router.
-    public struct RouterType: Swift.Equatable {
+    public struct RouterType {
         /// The virtual interface router platform.
         public var platform: Swift.String?
         /// Identifies the router by a combination of vendor, platform, and software version. For example, CiscoSystemsInc-2900SeriesRouters-IOS124.
@@ -14528,7 +14528,7 @@ extension StartBgpFailoverTestInput {
     }
 }
 
-public struct StartBgpFailoverTestInput: Swift.Equatable {
+public struct StartBgpFailoverTestInput {
     /// The BGP peers to place in the DOWN state.
     public var bgpPeers: [Swift.String]?
     /// The time in minutes that the virtual interface failover test will last. Maximum value: 4,320 minutes (72 hours). Default: 180 minutes (3 hours).
@@ -14549,7 +14549,7 @@ public struct StartBgpFailoverTestInput: Swift.Equatable {
     }
 }
 
-struct StartBgpFailoverTestInputBody: Swift.Equatable {
+struct StartBgpFailoverTestInputBody {
     let virtualInterfaceId: Swift.String?
     let bgpPeers: [Swift.String]?
     let testDurationInMinutes: Swift.Int?
@@ -14594,7 +14594,7 @@ extension StartBgpFailoverTestOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartBgpFailoverTestOutput: Swift.Equatable {
+public struct StartBgpFailoverTestOutput {
     /// Information about the virtual interface failover test.
     public var virtualInterfaceTest: DirectConnectClientTypes.VirtualInterfaceTestHistory?
 
@@ -14606,7 +14606,7 @@ public struct StartBgpFailoverTestOutput: Swift.Equatable {
     }
 }
 
-struct StartBgpFailoverTestOutputBody: Swift.Equatable {
+struct StartBgpFailoverTestOutputBody {
     let virtualInterfaceTest: DirectConnectClientTypes.VirtualInterfaceTestHistory?
 }
 
@@ -14654,7 +14654,7 @@ extension StopBgpFailoverTestInput {
     }
 }
 
-public struct StopBgpFailoverTestInput: Swift.Equatable {
+public struct StopBgpFailoverTestInput {
     /// The ID of the virtual interface you no longer want to test.
     /// This member is required.
     public var virtualInterfaceId: Swift.String?
@@ -14667,7 +14667,7 @@ public struct StopBgpFailoverTestInput: Swift.Equatable {
     }
 }
 
-struct StopBgpFailoverTestInputBody: Swift.Equatable {
+struct StopBgpFailoverTestInputBody {
     let virtualInterfaceId: Swift.String?
 }
 
@@ -14695,7 +14695,7 @@ extension StopBgpFailoverTestOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopBgpFailoverTestOutput: Swift.Equatable {
+public struct StopBgpFailoverTestOutput {
     /// Information about the virtual interface failover test.
     public var virtualInterfaceTest: DirectConnectClientTypes.VirtualInterfaceTestHistory?
 
@@ -14707,7 +14707,7 @@ public struct StopBgpFailoverTestOutput: Swift.Equatable {
     }
 }
 
-struct StopBgpFailoverTestOutputBody: Swift.Equatable {
+struct StopBgpFailoverTestOutputBody {
     let virtualInterfaceTest: DirectConnectClientTypes.VirtualInterfaceTestHistory?
 }
 
@@ -14762,7 +14762,7 @@ extension DirectConnectClientTypes.Tag: Swift.Codable {
 
 extension DirectConnectClientTypes {
     /// Information about a tag.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key.
         /// This member is required.
         public var key: Swift.String?
@@ -14808,7 +14808,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -14826,7 +14826,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceArn: Swift.String?
     let tags: [DirectConnectClientTypes.Tag]?
 }
@@ -14860,7 +14860,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -14918,7 +14918,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct TooManyTagsExceptionBody: Swift.Equatable {
+struct TooManyTagsExceptionBody {
     let message: Swift.String?
 }
 
@@ -14961,7 +14961,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -14979,7 +14979,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceArn: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -15013,7 +15013,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -15058,7 +15058,7 @@ extension UpdateConnectionInput {
     }
 }
 
-public struct UpdateConnectionInput: Swift.Equatable {
+public struct UpdateConnectionInput {
     /// The ID of the dedicated connection. You can use [DescribeConnections] to retrieve the connection ID.
     /// This member is required.
     public var connectionId: Swift.String?
@@ -15079,7 +15079,7 @@ public struct UpdateConnectionInput: Swift.Equatable {
     }
 }
 
-struct UpdateConnectionInputBody: Swift.Equatable {
+struct UpdateConnectionInputBody {
     let connectionId: Swift.String?
     let connectionName: Swift.String?
     let encryptionMode: Swift.String?
@@ -15158,7 +15158,7 @@ extension UpdateConnectionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Information about an Direct Connect connection.
-public struct UpdateConnectionOutput: Swift.Equatable {
+public struct UpdateConnectionOutput {
     /// The Direct Connect endpoint on which the physical connection terminates.
     @available(*, deprecated)
     public var awsDevice: Swift.String?
@@ -15273,7 +15273,7 @@ public struct UpdateConnectionOutput: Swift.Equatable {
     }
 }
 
-struct UpdateConnectionOutputBody: Swift.Equatable {
+struct UpdateConnectionOutputBody {
     let ownerAccount: Swift.String?
     let connectionId: Swift.String?
     let connectionName: Swift.String?
@@ -15437,7 +15437,7 @@ extension UpdateDirectConnectGatewayAssociationInput {
     }
 }
 
-public struct UpdateDirectConnectGatewayAssociationInput: Swift.Equatable {
+public struct UpdateDirectConnectGatewayAssociationInput {
     /// The Amazon VPC prefixes to advertise to the Direct Connect gateway.
     public var addAllowedPrefixesToDirectConnectGateway: [DirectConnectClientTypes.RouteFilterPrefix]?
     /// The ID of the Direct Connect gateway association.
@@ -15457,7 +15457,7 @@ public struct UpdateDirectConnectGatewayAssociationInput: Swift.Equatable {
     }
 }
 
-struct UpdateDirectConnectGatewayAssociationInputBody: Swift.Equatable {
+struct UpdateDirectConnectGatewayAssociationInputBody {
     let associationId: Swift.String?
     let addAllowedPrefixesToDirectConnectGateway: [DirectConnectClientTypes.RouteFilterPrefix]?
     let removeAllowedPrefixesToDirectConnectGateway: [DirectConnectClientTypes.RouteFilterPrefix]?
@@ -15511,7 +15511,7 @@ extension UpdateDirectConnectGatewayAssociationOutput: ClientRuntime.HttpRespons
     }
 }
 
-public struct UpdateDirectConnectGatewayAssociationOutput: Swift.Equatable {
+public struct UpdateDirectConnectGatewayAssociationOutput {
     /// Information about an association between a Direct Connect gateway and a virtual private gateway or transit gateway.
     public var directConnectGatewayAssociation: DirectConnectClientTypes.DirectConnectGatewayAssociation?
 
@@ -15523,7 +15523,7 @@ public struct UpdateDirectConnectGatewayAssociationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDirectConnectGatewayAssociationOutputBody: Swift.Equatable {
+struct UpdateDirectConnectGatewayAssociationOutputBody {
     let directConnectGatewayAssociation: DirectConnectClientTypes.DirectConnectGatewayAssociation?
 }
 
@@ -15575,7 +15575,7 @@ extension UpdateDirectConnectGatewayInput {
     }
 }
 
-public struct UpdateDirectConnectGatewayInput: Swift.Equatable {
+public struct UpdateDirectConnectGatewayInput {
     /// The ID of the Direct Connect gateway to update.
     /// This member is required.
     public var directConnectGatewayId: Swift.String?
@@ -15593,7 +15593,7 @@ public struct UpdateDirectConnectGatewayInput: Swift.Equatable {
     }
 }
 
-struct UpdateDirectConnectGatewayInputBody: Swift.Equatable {
+struct UpdateDirectConnectGatewayInputBody {
     let directConnectGatewayId: Swift.String?
     let newDirectConnectGatewayName: Swift.String?
 }
@@ -15625,7 +15625,7 @@ extension UpdateDirectConnectGatewayOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDirectConnectGatewayOutput: Swift.Equatable {
+public struct UpdateDirectConnectGatewayOutput {
     /// Information about a Direct Connect gateway, which enables you to connect virtual interfaces and virtual private gateway or transit gateways.
     public var directConnectGateway: DirectConnectClientTypes.DirectConnectGateway?
 
@@ -15637,7 +15637,7 @@ public struct UpdateDirectConnectGatewayOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDirectConnectGatewayOutputBody: Swift.Equatable {
+struct UpdateDirectConnectGatewayOutputBody {
     let directConnectGateway: DirectConnectClientTypes.DirectConnectGateway?
 }
 
@@ -15697,7 +15697,7 @@ extension UpdateLagInput {
     }
 }
 
-public struct UpdateLagInput: Swift.Equatable {
+public struct UpdateLagInput {
     /// The LAG MAC Security (MACsec) encryption mode. Amazon Web Services applies the value to all connections which are part of the LAG.
     public var encryptionMode: Swift.String?
     /// The ID of the LAG.
@@ -15722,7 +15722,7 @@ public struct UpdateLagInput: Swift.Equatable {
     }
 }
 
-struct UpdateLagInputBody: Swift.Equatable {
+struct UpdateLagInputBody {
     let lagId: Swift.String?
     let lagName: Swift.String?
     let minimumLinks: Swift.Int?
@@ -15803,7 +15803,7 @@ extension UpdateLagOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Information about a link aggregation group (LAG).
-public struct UpdateLagOutput: Swift.Equatable {
+public struct UpdateLagOutput {
     /// Indicates whether the LAG can host other connections.
     public var allowsHostedConnections: Swift.Bool
     /// The Direct Connect endpoint that hosts the LAG.
@@ -15910,7 +15910,7 @@ public struct UpdateLagOutput: Swift.Equatable {
     }
 }
 
-struct UpdateLagOutputBody: Swift.Equatable {
+struct UpdateLagOutputBody {
     let connectionsBandwidth: Swift.String?
     let numberOfConnections: Swift.Int
     let lagId: Swift.String?
@@ -16077,7 +16077,7 @@ extension UpdateVirtualInterfaceAttributesInput {
     }
 }
 
-public struct UpdateVirtualInterfaceAttributesInput: Swift.Equatable {
+public struct UpdateVirtualInterfaceAttributesInput {
     /// Indicates whether to enable or disable SiteLink.
     public var enableSiteLink: Swift.Bool?
     /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
@@ -16102,7 +16102,7 @@ public struct UpdateVirtualInterfaceAttributesInput: Swift.Equatable {
     }
 }
 
-struct UpdateVirtualInterfaceAttributesInputBody: Swift.Equatable {
+struct UpdateVirtualInterfaceAttributesInputBody {
     let virtualInterfaceId: Swift.String?
     let mtu: Swift.Int?
     let enableSiteLink: Swift.Bool?
@@ -16193,7 +16193,7 @@ extension UpdateVirtualInterfaceAttributesOutput: ClientRuntime.HttpResponseBind
 }
 
 /// Information about a virtual interface.
-public struct UpdateVirtualInterfaceAttributesOutput: Swift.Equatable {
+public struct UpdateVirtualInterfaceAttributesOutput {
     /// The address family for the BGP peer.
     public var addressFamily: DirectConnectClientTypes.AddressFamily?
     /// The IP address assigned to the Amazon interface.
@@ -16323,7 +16323,7 @@ public struct UpdateVirtualInterfaceAttributesOutput: Swift.Equatable {
     }
 }
 
-struct UpdateVirtualInterfaceAttributesOutputBody: Swift.Equatable {
+struct UpdateVirtualInterfaceAttributesOutputBody {
     let ownerAccount: Swift.String?
     let virtualInterfaceId: Swift.String?
     let location: Swift.String?
@@ -16505,7 +16505,7 @@ extension DirectConnectClientTypes.VirtualGateway: Swift.Codable {
 
 extension DirectConnectClientTypes {
     /// Information about a virtual private gateway for a private virtual interface.
-    public struct VirtualGateway: Swift.Equatable {
+    public struct VirtualGateway {
         /// The ID of the virtual private gateway.
         public var virtualGatewayId: Swift.String?
         /// The state of the virtual private gateway. The following are the possible values:
@@ -16738,7 +16738,7 @@ extension DirectConnectClientTypes.VirtualInterface: Swift.Codable {
 
 extension DirectConnectClientTypes {
     /// Information about a virtual interface.
-    public struct VirtualInterface: Swift.Equatable {
+    public struct VirtualInterface {
         /// The address family for the BGP peer.
         public var addressFamily: DirectConnectClientTypes.AddressFamily?
         /// The IP address assigned to the Amazon interface.
@@ -16998,7 +16998,7 @@ extension DirectConnectClientTypes.VirtualInterfaceTestHistory: Swift.Codable {
 
 extension DirectConnectClientTypes {
     /// Information about the virtual interface failover test.
-    public struct VirtualInterfaceTestHistory: Swift.Equatable {
+    public struct VirtualInterfaceTestHistory {
         /// The BGP peers that were put in the DOWN state as part of the virtual interface failover test.
         public var bgpPeers: [Swift.String]?
         /// The time that the virtual interface moves out of the DOWN state.

@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -160,7 +160,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -223,7 +223,7 @@ extension CreateFHIRDatastoreInput {
     }
 }
 
-public struct CreateFHIRDatastoreInput: Swift.Equatable {
+public struct CreateFHIRDatastoreInput {
     /// Optional user provided token used for ensuring idempotency.
     public var clientToken: Swift.String?
     /// The user generated name for the data store.
@@ -260,7 +260,7 @@ public struct CreateFHIRDatastoreInput: Swift.Equatable {
     }
 }
 
-struct CreateFHIRDatastoreInputBody: Swift.Equatable {
+struct CreateFHIRDatastoreInputBody {
     let datastoreName: Swift.String?
     let datastoreTypeVersion: HealthLakeClientTypes.FHIRVersion?
     let sseConfiguration: HealthLakeClientTypes.SseConfiguration?
@@ -327,7 +327,7 @@ extension CreateFHIRDatastoreOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateFHIRDatastoreOutput: Swift.Equatable {
+public struct CreateFHIRDatastoreOutput {
     /// The data store ARN is generated during the creation of the data store and can be found in the output from the initial data store creation call.
     /// This member is required.
     public var datastoreArn: Swift.String?
@@ -355,7 +355,7 @@ public struct CreateFHIRDatastoreOutput: Swift.Equatable {
     }
 }
 
-struct CreateFHIRDatastoreOutputBody: Swift.Equatable {
+struct CreateFHIRDatastoreOutputBody {
     let datastoreId: Swift.String?
     let datastoreArn: Swift.String?
     let datastoreStatus: HealthLakeClientTypes.DatastoreStatus?
@@ -436,7 +436,7 @@ extension HealthLakeClientTypes.DatastoreFilter: Swift.Codable {
 
 extension HealthLakeClientTypes {
     /// The filters applied to data store query.
-    public struct DatastoreFilter: Swift.Equatable {
+    public struct DatastoreFilter {
         /// A filter that allows the user to set cutoff dates for records. All data stores created after the specified date will be included in the results.
         public var createdAfter: ClientRuntime.Date?
         /// A filter that allows the user to set cutoff dates for records. All data stores created before the specified date will be included in the results.
@@ -543,7 +543,7 @@ extension HealthLakeClientTypes.DatastoreProperties: Swift.Codable {
 
 extension HealthLakeClientTypes {
     /// Displays the properties of the data store, including the ID, ARN, name, and the status of the data store.
-    public struct DatastoreProperties: Swift.Equatable {
+    public struct DatastoreProperties {
         /// The time that a data store was created.
         public var createdAt: ClientRuntime.Date?
         /// The Amazon Resource Name used in the creation of the data store.
@@ -663,7 +663,7 @@ extension DeleteFHIRDatastoreInput {
     }
 }
 
-public struct DeleteFHIRDatastoreInput: Swift.Equatable {
+public struct DeleteFHIRDatastoreInput {
     /// The AWS-generated ID for the data store to be deleted.
     /// This member is required.
     public var datastoreId: Swift.String?
@@ -676,7 +676,7 @@ public struct DeleteFHIRDatastoreInput: Swift.Equatable {
     }
 }
 
-struct DeleteFHIRDatastoreInputBody: Swift.Equatable {
+struct DeleteFHIRDatastoreInputBody {
     let datastoreId: Swift.String?
 }
 
@@ -710,7 +710,7 @@ extension DeleteFHIRDatastoreOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteFHIRDatastoreOutput: Swift.Equatable {
+public struct DeleteFHIRDatastoreOutput {
     /// The Amazon Resource Name (ARN) that gives AWS HealthLake access permission.
     /// This member is required.
     public var datastoreArn: Swift.String?
@@ -738,7 +738,7 @@ public struct DeleteFHIRDatastoreOutput: Swift.Equatable {
     }
 }
 
-struct DeleteFHIRDatastoreOutputBody: Swift.Equatable {
+struct DeleteFHIRDatastoreOutputBody {
     let datastoreId: Swift.String?
     let datastoreArn: Swift.String?
     let datastoreStatus: HealthLakeClientTypes.DatastoreStatus?
@@ -802,7 +802,7 @@ extension DescribeFHIRDatastoreInput {
     }
 }
 
-public struct DescribeFHIRDatastoreInput: Swift.Equatable {
+public struct DescribeFHIRDatastoreInput {
     /// The AWS-generated data store ID.
     /// This member is required.
     public var datastoreId: Swift.String?
@@ -815,7 +815,7 @@ public struct DescribeFHIRDatastoreInput: Swift.Equatable {
     }
 }
 
-struct DescribeFHIRDatastoreInputBody: Swift.Equatable {
+struct DescribeFHIRDatastoreInputBody {
     let datastoreId: Swift.String?
 }
 
@@ -843,7 +843,7 @@ extension DescribeFHIRDatastoreOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeFHIRDatastoreOutput: Swift.Equatable {
+public struct DescribeFHIRDatastoreOutput {
     /// All properties associated with a data store, including the data store ID, data store ARN, data store name, data store status, when the data store was created, data store type version, and the data store's endpoint.
     /// This member is required.
     public var datastoreProperties: HealthLakeClientTypes.DatastoreProperties?
@@ -856,7 +856,7 @@ public struct DescribeFHIRDatastoreOutput: Swift.Equatable {
     }
 }
 
-struct DescribeFHIRDatastoreOutputBody: Swift.Equatable {
+struct DescribeFHIRDatastoreOutputBody {
     let datastoreProperties: HealthLakeClientTypes.DatastoreProperties?
 }
 
@@ -910,7 +910,7 @@ extension DescribeFHIRExportJobInput {
     }
 }
 
-public struct DescribeFHIRExportJobInput: Swift.Equatable {
+public struct DescribeFHIRExportJobInput {
     /// The AWS generated ID for the data store from which files are being exported from for an export job.
     /// This member is required.
     public var datastoreId: Swift.String?
@@ -928,7 +928,7 @@ public struct DescribeFHIRExportJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeFHIRExportJobInputBody: Swift.Equatable {
+struct DescribeFHIRExportJobInputBody {
     let datastoreId: Swift.String?
     let jobId: Swift.String?
 }
@@ -960,7 +960,7 @@ extension DescribeFHIRExportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeFHIRExportJobOutput: Swift.Equatable {
+public struct DescribeFHIRExportJobOutput {
     /// Displays the properties of the export job, including the ID, Arn, Name, and the status of the job.
     /// This member is required.
     public var exportJobProperties: HealthLakeClientTypes.ExportJobProperties?
@@ -973,7 +973,7 @@ public struct DescribeFHIRExportJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeFHIRExportJobOutputBody: Swift.Equatable {
+struct DescribeFHIRExportJobOutputBody {
     let exportJobProperties: HealthLakeClientTypes.ExportJobProperties?
 }
 
@@ -1027,7 +1027,7 @@ extension DescribeFHIRImportJobInput {
     }
 }
 
-public struct DescribeFHIRImportJobInput: Swift.Equatable {
+public struct DescribeFHIRImportJobInput {
     /// The AWS-generated ID of the data store.
     /// This member is required.
     public var datastoreId: Swift.String?
@@ -1045,7 +1045,7 @@ public struct DescribeFHIRImportJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeFHIRImportJobInputBody: Swift.Equatable {
+struct DescribeFHIRImportJobInputBody {
     let datastoreId: Swift.String?
     let jobId: Swift.String?
 }
@@ -1077,7 +1077,7 @@ extension DescribeFHIRImportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeFHIRImportJobOutput: Swift.Equatable {
+public struct DescribeFHIRImportJobOutput {
     /// The properties of the Import job request, including the ID, ARN, name, status of the job, and the progress report of the job.
     /// This member is required.
     public var importJobProperties: HealthLakeClientTypes.ImportJobProperties?
@@ -1090,7 +1090,7 @@ public struct DescribeFHIRImportJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeFHIRImportJobOutputBody: Swift.Equatable {
+struct DescribeFHIRImportJobOutputBody {
     let importJobProperties: HealthLakeClientTypes.ImportJobProperties?
 }
 
@@ -1179,7 +1179,7 @@ extension HealthLakeClientTypes.ErrorCause: Swift.Codable {
 
 extension HealthLakeClientTypes {
     /// The error info of the create/delete data store operation.
-    public struct ErrorCause: Swift.Equatable {
+    public struct ErrorCause {
         /// The error category of the create/delete data store operation. Possible statuses are RETRYABLE_ERROR or NON_RETRYABLE_ERROR.
         public var errorCategory: HealthLakeClientTypes.ErrorCategory?
         /// The text of the error message.
@@ -1266,7 +1266,7 @@ extension HealthLakeClientTypes.ExportJobProperties: Swift.Codable {
 
 extension HealthLakeClientTypes {
     /// The properties of a FHIR export job, including the ID, ARN, name, and the status of the job.
-    public struct ExportJobProperties: Swift.Equatable {
+    public struct ExportJobProperties {
         /// The Amazon Resource Name used during the initiation of the job.
         public var dataAccessRoleArn: Swift.String?
         /// The AWS generated ID for the data store from which files are being exported for an export job.
@@ -1387,7 +1387,7 @@ extension HealthLakeClientTypes.IdentityProviderConfiguration: Swift.Codable {
 
 extension HealthLakeClientTypes {
     /// The identity provider configuration that you gave when the data store was created.
-    public struct IdentityProviderConfiguration: Swift.Equatable {
+    public struct IdentityProviderConfiguration {
         /// The authorization strategy that you selected when you created the data store.
         /// This member is required.
         public var authorizationStrategy: HealthLakeClientTypes.AuthorizationStrategy?
@@ -1495,7 +1495,7 @@ extension HealthLakeClientTypes.ImportJobProperties: Swift.Codable {
 
 extension HealthLakeClientTypes {
     /// Displays the properties of the import job, including the ID, Arn, Name, the status of the job, and the progress report of the job.
-    public struct ImportJobProperties: Swift.Equatable {
+    public struct ImportJobProperties {
         /// The Amazon Resource Name (ARN) that gives AWS HealthLake access to your input data.
         public var dataAccessRoleArn: Swift.String?
         /// The datastore id used when the Import job was created.
@@ -1583,7 +1583,7 @@ extension HealthLakeClientTypes.InputDataConfig: Swift.Codable {
 
 extension HealthLakeClientTypes {
     /// The input properties for an import job.
-    public enum InputDataConfig: Swift.Equatable {
+    public enum InputDataConfig {
         /// The S3Uri is the user specified S3 location of the FHIR data to be imported into AWS HealthLake.
         case s3uri(Swift.String)
         case sdkUnknown(Swift.String)
@@ -1630,7 +1630,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -1709,7 +1709,7 @@ extension HealthLakeClientTypes.JobProgressReport: Swift.Codable {
 
 extension HealthLakeClientTypes {
     /// The progress report of an import job.
-    public struct JobProgressReport: Swift.Equatable {
+    public struct JobProgressReport {
         /// The throughput (in MB/sec) of the import job.
         public var throughput: Swift.Double?
         /// The number of files that failed to be read from the input S3 bucket due to customer error.
@@ -1831,7 +1831,7 @@ extension HealthLakeClientTypes.KmsEncryptionConfig: Swift.Codable {
 
 extension HealthLakeClientTypes {
     /// The customer-managed-key(CMK) used when creating a data store. If a customer owned key is not specified, an AWS owned key will be used for encryption.
-    public struct KmsEncryptionConfig: Swift.Equatable {
+    public struct KmsEncryptionConfig {
         /// The type of customer-managed-key(CMK) used for encryption. The two types of supported CMKs are customer owned CMKs and AWS owned CMKs.
         /// This member is required.
         public var cmkType: HealthLakeClientTypes.CmkType?
@@ -1878,7 +1878,7 @@ extension ListFHIRDatastoresInput {
     }
 }
 
-public struct ListFHIRDatastoresInput: Swift.Equatable {
+public struct ListFHIRDatastoresInput {
     /// Lists all filters associated with a FHIR data store request.
     public var filter: HealthLakeClientTypes.DatastoreFilter?
     /// The maximum number of data stores returned in a single page of a ListFHIRDatastoresRequest call.
@@ -1898,7 +1898,7 @@ public struct ListFHIRDatastoresInput: Swift.Equatable {
     }
 }
 
-struct ListFHIRDatastoresInputBody: Swift.Equatable {
+struct ListFHIRDatastoresInputBody {
     let filter: HealthLakeClientTypes.DatastoreFilter?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -1936,7 +1936,7 @@ extension ListFHIRDatastoresOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFHIRDatastoresOutput: Swift.Equatable {
+public struct ListFHIRDatastoresOutput {
     /// All properties associated with the listed data stores.
     /// This member is required.
     public var datastorePropertiesList: [HealthLakeClientTypes.DatastoreProperties]?
@@ -1953,7 +1953,7 @@ public struct ListFHIRDatastoresOutput: Swift.Equatable {
     }
 }
 
-struct ListFHIRDatastoresOutputBody: Swift.Equatable {
+struct ListFHIRDatastoresOutputBody {
     let datastorePropertiesList: [HealthLakeClientTypes.DatastoreProperties]?
     let nextToken: Swift.String?
 }
@@ -2039,7 +2039,7 @@ extension ListFHIRExportJobsInput {
     }
 }
 
-public struct ListFHIRExportJobsInput: Swift.Equatable {
+public struct ListFHIRExportJobsInput {
     /// This parameter limits the response to the export job with the specified data store ID.
     /// This member is required.
     public var datastoreId: Swift.String?
@@ -2076,7 +2076,7 @@ public struct ListFHIRExportJobsInput: Swift.Equatable {
     }
 }
 
-struct ListFHIRExportJobsInputBody: Swift.Equatable {
+struct ListFHIRExportJobsInputBody {
     let datastoreId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -2130,7 +2130,7 @@ extension ListFHIRExportJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFHIRExportJobsOutput: Swift.Equatable {
+public struct ListFHIRExportJobsOutput {
     /// The properties of listed FHIR export jobs, including the ID, ARN, name, and the status of the job.
     /// This member is required.
     public var exportJobPropertiesList: [HealthLakeClientTypes.ExportJobProperties]?
@@ -2147,7 +2147,7 @@ public struct ListFHIRExportJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListFHIRExportJobsOutputBody: Swift.Equatable {
+struct ListFHIRExportJobsOutputBody {
     let exportJobPropertiesList: [HealthLakeClientTypes.ExportJobProperties]?
     let nextToken: Swift.String?
 }
@@ -2235,7 +2235,7 @@ extension ListFHIRImportJobsInput {
     }
 }
 
-public struct ListFHIRImportJobsInput: Swift.Equatable {
+public struct ListFHIRImportJobsInput {
     /// This parameter limits the response to the import job with the specified data store ID.
     /// This member is required.
     public var datastoreId: Swift.String?
@@ -2272,7 +2272,7 @@ public struct ListFHIRImportJobsInput: Swift.Equatable {
     }
 }
 
-struct ListFHIRImportJobsInputBody: Swift.Equatable {
+struct ListFHIRImportJobsInputBody {
     let datastoreId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -2326,7 +2326,7 @@ extension ListFHIRImportJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFHIRImportJobsOutput: Swift.Equatable {
+public struct ListFHIRImportJobsOutput {
     /// The properties of a listed FHIR import jobs, including the ID, ARN, name, the status of the job, and the progress report of the job.
     /// This member is required.
     public var importJobPropertiesList: [HealthLakeClientTypes.ImportJobProperties]?
@@ -2343,7 +2343,7 @@ public struct ListFHIRImportJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListFHIRImportJobsOutputBody: Swift.Equatable {
+struct ListFHIRImportJobsOutputBody {
     let importJobPropertiesList: [HealthLakeClientTypes.ImportJobProperties]?
     let nextToken: Swift.String?
 }
@@ -2407,7 +2407,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name(ARN) of the data store for which tags are being added.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -2420,7 +2420,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceARN: Swift.String?
 }
 
@@ -2448,7 +2448,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// Returns a list of tags associated with a data store.
     public var tags: [HealthLakeClientTypes.Tag]?
 
@@ -2460,7 +2460,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [HealthLakeClientTypes.Tag]?
 }
 
@@ -2526,7 +2526,7 @@ extension HealthLakeClientTypes.OutputDataConfig: Swift.Codable {
 
 extension HealthLakeClientTypes {
     /// The output data configuration that was supplied when the export job was created.
-    public enum OutputDataConfig: Swift.Equatable {
+    public enum OutputDataConfig {
         /// The output data configuration that was supplied when the export job was created.
         case s3configuration(HealthLakeClientTypes.S3Configuration)
         case sdkUnknown(Swift.String)
@@ -2555,7 +2555,7 @@ extension HealthLakeClientTypes.PreloadDataConfig: Swift.Codable {
 
 extension HealthLakeClientTypes {
     /// The input properties for the preloaded data store. Only data preloaded from Synthea is supported.
-    public struct PreloadDataConfig: Swift.Equatable {
+    public struct PreloadDataConfig {
         /// The type of preloaded data. Only Synthea preloaded data is supported.
         /// This member is required.
         public var preloadDataType: HealthLakeClientTypes.PreloadDataType?
@@ -2638,7 +2638,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -2681,7 +2681,7 @@ extension HealthLakeClientTypes.S3Configuration: Swift.Codable {
 
 extension HealthLakeClientTypes {
     /// The configuration of the S3 bucket for either an import or export job. This includes assigning permissions for access.
-    public struct S3Configuration: Swift.Equatable {
+    public struct S3Configuration {
         /// The KMS key ID used to access the S3 bucket.
         /// This member is required.
         public var kmsKeyId: Swift.String?
@@ -2722,7 +2722,7 @@ extension HealthLakeClientTypes.SseConfiguration: Swift.Codable {
 
 extension HealthLakeClientTypes {
     /// The server-side encryption key configuration for a customer provided encryption key.
-    public struct SseConfiguration: Swift.Equatable {
+    public struct SseConfiguration {
         /// The KMS encryption configuration used to provide details for data encryption.
         /// This member is required.
         public var kmsEncryptionConfig: HealthLakeClientTypes.KmsEncryptionConfig?
@@ -2773,7 +2773,7 @@ extension StartFHIRExportJobInput {
     }
 }
 
-public struct StartFHIRExportJobInput: Swift.Equatable {
+public struct StartFHIRExportJobInput {
     /// An optional user provided token used for ensuring idempotency.
     /// This member is required.
     public var clientToken: Swift.String?
@@ -2805,7 +2805,7 @@ public struct StartFHIRExportJobInput: Swift.Equatable {
     }
 }
 
-struct StartFHIRExportJobInputBody: Swift.Equatable {
+struct StartFHIRExportJobInputBody {
     let jobName: Swift.String?
     let outputDataConfig: HealthLakeClientTypes.OutputDataConfig?
     let datastoreId: Swift.String?
@@ -2853,7 +2853,7 @@ extension StartFHIRExportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartFHIRExportJobOutput: Swift.Equatable {
+public struct StartFHIRExportJobOutput {
     /// The AWS generated ID for the data store from which files are being exported for an export job.
     public var datastoreId: Swift.String?
     /// The AWS generated ID for an export job.
@@ -2875,7 +2875,7 @@ public struct StartFHIRExportJobOutput: Swift.Equatable {
     }
 }
 
-struct StartFHIRExportJobOutputBody: Swift.Equatable {
+struct StartFHIRExportJobOutputBody {
     let jobId: Swift.String?
     let jobStatus: HealthLakeClientTypes.JobStatus?
     let datastoreId: Swift.String?
@@ -2954,7 +2954,7 @@ extension StartFHIRImportJobInput {
     }
 }
 
-public struct StartFHIRImportJobInput: Swift.Equatable {
+public struct StartFHIRImportJobInput {
     /// Optional user provided token used for ensuring idempotency.
     /// This member is required.
     public var clientToken: Swift.String?
@@ -2991,7 +2991,7 @@ public struct StartFHIRImportJobInput: Swift.Equatable {
     }
 }
 
-struct StartFHIRImportJobInputBody: Swift.Equatable {
+struct StartFHIRImportJobInputBody {
     let jobName: Swift.String?
     let inputDataConfig: HealthLakeClientTypes.InputDataConfig?
     let jobOutputDataConfig: HealthLakeClientTypes.OutputDataConfig?
@@ -3043,7 +3043,7 @@ extension StartFHIRImportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartFHIRImportJobOutput: Swift.Equatable {
+public struct StartFHIRImportJobOutput {
     /// The AWS-generated data store ID.
     public var datastoreId: Swift.String?
     /// The AWS-generated job ID.
@@ -3065,7 +3065,7 @@ public struct StartFHIRImportJobOutput: Swift.Equatable {
     }
 }
 
-struct StartFHIRImportJobOutputBody: Swift.Equatable {
+struct StartFHIRImportJobOutputBody {
     let jobId: Swift.String?
     let jobStatus: HealthLakeClientTypes.JobStatus?
     let datastoreId: Swift.String?
@@ -3131,7 +3131,7 @@ extension HealthLakeClientTypes.Tag: Swift.Codable {
 
 extension HealthLakeClientTypes {
     /// A tag is a label consisting of a user-defined key and value. The form for tags is {"Key", "Value"}
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key portion of a tag. Tag keys are case sensitive.
         /// This member is required.
         public var key: Swift.String?
@@ -3178,7 +3178,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name(ARN)that gives AWS HealthLake access to the data store which tags are being added to.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -3196,7 +3196,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceARN: Swift.String?
     let tags: [HealthLakeClientTypes.Tag]?
 }
@@ -3230,7 +3230,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -3286,7 +3286,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -3329,7 +3329,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name(ARN) of the data store for which tags are being removed.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -3347,7 +3347,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceARN: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -3381,7 +3381,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -3437,7 +3437,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

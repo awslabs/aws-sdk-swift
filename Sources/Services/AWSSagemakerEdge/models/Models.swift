@@ -29,7 +29,7 @@ extension SagemakerEdgeClientTypes.Checksum: Swift.Codable {
 
 extension SagemakerEdgeClientTypes {
     /// Information about the checksum of a model deployed on a device.
-    public struct Checksum: Swift.Equatable {
+    public struct Checksum {
         /// The checksum of the model.
         public var sum: Swift.String?
         /// The type of the checksum.
@@ -115,7 +115,7 @@ extension SagemakerEdgeClientTypes.Definition: Swift.Codable {
 
 extension SagemakerEdgeClientTypes {
     ///
-    public struct Definition: Swift.Equatable {
+    public struct Definition {
         /// The checksum information of the model.
         public var checksum: SagemakerEdgeClientTypes.Checksum?
         /// The unique model handle.
@@ -204,7 +204,7 @@ extension SagemakerEdgeClientTypes.DeploymentModel: Swift.Codable {
 
 extension SagemakerEdgeClientTypes {
     ///
-    public struct DeploymentModel: Swift.Equatable {
+    public struct DeploymentModel {
         /// The desired state of the model.
         public var desiredState: SagemakerEdgeClientTypes.ModelState?
         /// The unique handle of the model.
@@ -309,7 +309,7 @@ extension SagemakerEdgeClientTypes.DeploymentResult: Swift.Codable {
 
 extension SagemakerEdgeClientTypes {
     /// Information about the result of a deployment on an edge device that is registered with SageMaker Edge Manager.
-    public struct DeploymentResult: Swift.Equatable {
+    public struct DeploymentResult {
         /// The timestamp of when the deployment was ended, and the agent got the deployment results.
         public var deploymentEndTime: ClientRuntime.Date?
         /// Returns a list of models deployed on the agent.
@@ -455,7 +455,7 @@ extension SagemakerEdgeClientTypes.EdgeDeployment: Swift.Codable {
 
 extension SagemakerEdgeClientTypes {
     /// Information about a deployment on an edge device that is registered with SageMaker Edge Manager.
-    public struct EdgeDeployment: Swift.Equatable {
+    public struct EdgeDeployment {
         /// Returns a list of Definition objects.
         public var definitions: [SagemakerEdgeClientTypes.Definition]?
         /// The name and unique ID of the deployment.
@@ -520,7 +520,7 @@ extension SagemakerEdgeClientTypes.EdgeMetric: Swift.Codable {
 
 extension SagemakerEdgeClientTypes {
     /// Information required for edge device metrics.
-    public struct EdgeMetric: Swift.Equatable {
+    public struct EdgeMetric {
         /// The dimension of metrics published.
         public var dimension: Swift.String?
         /// Returns the name of the metric.
@@ -602,7 +602,7 @@ extension GetDeploymentsInput {
     }
 }
 
-public struct GetDeploymentsInput: Swift.Equatable {
+public struct GetDeploymentsInput {
     /// The name of the fleet that the device belongs to.
     /// This member is required.
     public var deviceFleetName: Swift.String?
@@ -620,7 +620,7 @@ public struct GetDeploymentsInput: Swift.Equatable {
     }
 }
 
-struct GetDeploymentsInputBody: Swift.Equatable {
+struct GetDeploymentsInputBody {
     let deviceName: Swift.String?
     let deviceFleetName: Swift.String?
 }
@@ -652,7 +652,7 @@ extension GetDeploymentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDeploymentsOutput: Swift.Equatable {
+public struct GetDeploymentsOutput {
     /// Returns a list of the configurations of the active deployments on the device.
     public var deployments: [SagemakerEdgeClientTypes.EdgeDeployment]?
 
@@ -664,7 +664,7 @@ public struct GetDeploymentsOutput: Swift.Equatable {
     }
 }
 
-struct GetDeploymentsOutputBody: Swift.Equatable {
+struct GetDeploymentsOutputBody {
     let deployments: [SagemakerEdgeClientTypes.EdgeDeployment]?
 }
 
@@ -724,7 +724,7 @@ extension GetDeviceRegistrationInput {
     }
 }
 
-public struct GetDeviceRegistrationInput: Swift.Equatable {
+public struct GetDeviceRegistrationInput {
     /// The name of the fleet that the device belongs to.
     /// This member is required.
     public var deviceFleetName: Swift.String?
@@ -742,7 +742,7 @@ public struct GetDeviceRegistrationInput: Swift.Equatable {
     }
 }
 
-struct GetDeviceRegistrationInputBody: Swift.Equatable {
+struct GetDeviceRegistrationInputBody {
     let deviceName: Swift.String?
     let deviceFleetName: Swift.String?
 }
@@ -776,7 +776,7 @@ extension GetDeviceRegistrationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDeviceRegistrationOutput: Swift.Equatable {
+public struct GetDeviceRegistrationOutput {
     /// The amount of time, in seconds, that the registration status is stored on the device’s cache before it is refreshed.
     public var cacheTTL: Swift.String?
     /// Describes if the device is currently registered with SageMaker Edge Manager.
@@ -792,7 +792,7 @@ public struct GetDeviceRegistrationOutput: Swift.Equatable {
     }
 }
 
-struct GetDeviceRegistrationOutputBody: Swift.Equatable {
+struct GetDeviceRegistrationOutputBody {
     let deviceRegistration: Swift.String?
     let cacheTTL: Swift.String?
 }
@@ -862,7 +862,7 @@ public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InternalServiceExceptionBody: Swift.Equatable {
+struct InternalServiceExceptionBody {
     let message: Swift.String?
 }
 
@@ -935,7 +935,7 @@ extension SagemakerEdgeClientTypes.Model: Swift.Codable {
 
 extension SagemakerEdgeClientTypes {
     /// Information about a model deployed on an edge device that is registered with SageMaker Edge Manager.
-    public struct Model: Swift.Equatable {
+    public struct Model {
         /// The timestamp of the last inference that was made.
         public var latestInference: ClientRuntime.Date?
         /// The timestamp of the last data sample taken.
@@ -1045,7 +1045,7 @@ extension SendHeartbeatInput {
     }
 }
 
-public struct SendHeartbeatInput: Swift.Equatable {
+public struct SendHeartbeatInput {
     /// For internal use. Returns a list of SageMaker Edge Manager agent operating metrics.
     public var agentMetrics: [SagemakerEdgeClientTypes.EdgeMetric]?
     /// Returns the version of the agent.
@@ -1080,7 +1080,7 @@ public struct SendHeartbeatInput: Swift.Equatable {
     }
 }
 
-struct SendHeartbeatInputBody: Swift.Equatable {
+struct SendHeartbeatInputBody {
     let agentMetrics: [SagemakerEdgeClientTypes.EdgeMetric]?
     let models: [SagemakerEdgeClientTypes.Model]?
     let agentVersion: Swift.String?
@@ -1139,7 +1139,7 @@ extension SendHeartbeatOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SendHeartbeatOutput: Swift.Equatable {
+public struct SendHeartbeatOutput {
 
     public init() { }
 }

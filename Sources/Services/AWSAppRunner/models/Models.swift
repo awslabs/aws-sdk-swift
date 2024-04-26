@@ -32,7 +32,7 @@ extension AssociateCustomDomainInput {
     }
 }
 
-public struct AssociateCustomDomainInput: Swift.Equatable {
+public struct AssociateCustomDomainInput {
     /// A custom domain endpoint to associate. Specify a root domain (for example, example.com), a subdomain (for example, login.example.com or admin.login.example.com), or a wildcard (for example, *.example.com).
     /// This member is required.
     public var domainName: Swift.String?
@@ -54,7 +54,7 @@ public struct AssociateCustomDomainInput: Swift.Equatable {
     }
 }
 
-struct AssociateCustomDomainInputBody: Swift.Equatable {
+struct AssociateCustomDomainInputBody {
     let serviceArn: Swift.String?
     let domainName: Swift.String?
     let enableWWWSubdomain: Swift.Bool?
@@ -96,7 +96,7 @@ extension AssociateCustomDomainOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateCustomDomainOutput: Swift.Equatable {
+public struct AssociateCustomDomainOutput {
     /// A description of the domain name that's being associated.
     /// This member is required.
     public var customDomain: AppRunnerClientTypes.CustomDomain?
@@ -124,7 +124,7 @@ public struct AssociateCustomDomainOutput: Swift.Equatable {
     }
 }
 
-struct AssociateCustomDomainOutputBody: Swift.Equatable {
+struct AssociateCustomDomainOutputBody {
     let dnsTarget: Swift.String?
     let serviceArn: Swift.String?
     let customDomain: AppRunnerClientTypes.CustomDomain?
@@ -201,7 +201,7 @@ extension AppRunnerClientTypes.AuthenticationConfiguration: Swift.Codable {
 
 extension AppRunnerClientTypes {
     /// Describes resources needed to authenticate access to some source repositories. The specific resource depends on the repository provider.
-    public struct AuthenticationConfiguration: Swift.Equatable {
+    public struct AuthenticationConfiguration {
         /// The Amazon Resource Name (ARN) of the IAM role that grants the App Runner service access to a source repository. It's required for ECR image repositories (but not for ECR Public repositories).
         public var accessRoleArn: Swift.String?
         /// The Amazon Resource Name (ARN) of the App Runner connection that enables the App Runner service to connect to a source repository. It's required for GitHub code repositories.
@@ -306,7 +306,7 @@ extension AppRunnerClientTypes.AutoScalingConfiguration: Swift.Codable {
 
 extension AppRunnerClientTypes {
     /// Describes an App Runner automatic scaling configuration resource. A higher MinSize increases the spread of your App Runner service over more Availability Zones in the Amazon Web Services Region. The tradeoff is a higher minimal cost. A lower MaxSize controls your cost. The tradeoff is lower responsiveness during peak demand. Multiple revisions of a configuration might have the same AutoScalingConfigurationName and different AutoScalingConfigurationRevision values.
-    public struct AutoScalingConfiguration: Swift.Equatable {
+    public struct AutoScalingConfiguration {
         /// The Amazon Resource Name (ARN) of this auto scaling configuration.
         public var autoScalingConfigurationArn: Swift.String?
         /// The customer-provided auto scaling configuration name. It can be used in multiple revisions of a configuration.
@@ -453,7 +453,7 @@ extension AppRunnerClientTypes.AutoScalingConfigurationSummary: Swift.Codable {
 
 extension AppRunnerClientTypes {
     /// Provides summary information about an App Runner automatic scaling configuration resource. This type contains limited information about an auto scaling configuration. It includes only identification information, without configuration details. It's returned by the [ListAutoScalingConfigurations] action. Complete configuration information is returned by the [CreateAutoScalingConfiguration], [DescribeAutoScalingConfiguration], and [DeleteAutoScalingConfiguration] actions using the [AutoScalingConfiguration] type.
-    public struct AutoScalingConfigurationSummary: Swift.Equatable {
+    public struct AutoScalingConfigurationSummary {
         /// The Amazon Resource Name (ARN) of this auto scaling configuration.
         public var autoScalingConfigurationArn: Swift.String?
         /// The customer-provided auto scaling configuration name. It can be used in multiple revisions of a configuration.
@@ -530,7 +530,7 @@ extension AppRunnerClientTypes.CertificateValidationRecord: Swift.Codable {
 
 extension AppRunnerClientTypes {
     /// Describes a certificate CNAME record to add to your DNS. For more information, see [AssociateCustomDomain](https://docs.aws.amazon.com/apprunner/latest/api/API_AssociateCustomDomain.html).
-    public struct CertificateValidationRecord: Swift.Equatable {
+    public struct CertificateValidationRecord {
         /// The certificate CNAME record name.
         public var name: Swift.String?
         /// The current state of the certificate CNAME record validation. It should change to SUCCESS after App Runner completes validation with your DNS.
@@ -618,7 +618,7 @@ extension AppRunnerClientTypes.CodeConfiguration: Swift.Codable {
 
 extension AppRunnerClientTypes {
     /// Describes the configuration that App Runner uses to build and run an App Runner service from a source code repository.
-    public struct CodeConfiguration: Swift.Equatable {
+    public struct CodeConfiguration {
         /// The basic configuration for building and running the App Runner service. Use it to quickly launch an App Runner service without providing a apprunner.yaml file in the source code repository (or ignoring the file if it exists).
         public var codeConfigurationValues: AppRunnerClientTypes.CodeConfigurationValues?
         /// The source of the App Runner configuration. Values are interpreted as follows:
@@ -721,7 +721,7 @@ extension AppRunnerClientTypes.CodeConfigurationValues: Swift.CustomDebugStringC
 
 extension AppRunnerClientTypes {
     /// Describes the basic configuration needed for building and running an App Runner service. This type doesn't support the full set of possible configuration options. Fur full configuration capabilities, use a apprunner.yaml file in the source code repository.
-    public struct CodeConfigurationValues: Swift.Equatable {
+    public struct CodeConfigurationValues {
         /// The command App Runner runs to build your application.
         public var buildCommand: Swift.String?
         /// The port that your application listens to in the container. Default: 8080
@@ -799,7 +799,7 @@ extension AppRunnerClientTypes.CodeRepository: Swift.Codable {
 
 extension AppRunnerClientTypes {
     /// Describes a source code repository.
-    public struct CodeRepository: Swift.Equatable {
+    public struct CodeRepository {
         /// Configuration for building and running the service from a source code repository. CodeConfiguration is required only for CreateService request.
         public var codeConfiguration: AppRunnerClientTypes.CodeConfiguration?
         /// The location of the repository that contains the source code.
@@ -904,7 +904,7 @@ extension AppRunnerClientTypes.Connection: Swift.Codable {
 
 extension AppRunnerClientTypes {
     /// Describes an App Runner connection resource.
-    public struct Connection: Swift.Equatable {
+    public struct Connection {
         /// The Amazon Resource Name (ARN) of this connection.
         public var connectionArn: Swift.String?
         /// The customer-provided connection name.
@@ -1017,7 +1017,7 @@ extension AppRunnerClientTypes.ConnectionSummary: Swift.Codable {
 
 extension AppRunnerClientTypes {
     /// Provides summary information about an App Runner connection resource.
-    public struct ConnectionSummary: Swift.Equatable {
+    public struct ConnectionSummary {
         /// The Amazon Resource Name (ARN) of this connection.
         public var connectionArn: Swift.String?
         /// The customer-provided connection name.
@@ -1086,7 +1086,7 @@ extension CreateAutoScalingConfigurationInput {
     }
 }
 
-public struct CreateAutoScalingConfigurationInput: Swift.Equatable {
+public struct CreateAutoScalingConfigurationInput {
     /// A name for the auto scaling configuration. When you use it for the first time in an Amazon Web Services Region, App Runner creates revision number 1 of this name. When you use the same name in subsequent calls, App Runner creates incremental revisions of the configuration. Prior to the release of [Auto scale configuration enhancements](https://docs.aws.amazon.com/apprunner/latest/relnotes/release-2023-09-22-auto-scale-config.html), the name DefaultConfiguration was reserved. This restriction is no longer in place. You can now manage DefaultConfiguration the same way you manage your custom auto scaling configurations. This means you can do the following with the DefaultConfiguration that App Runner provides:
     ///
     /// * Create new revisions of the DefaultConfiguration.
@@ -1123,7 +1123,7 @@ public struct CreateAutoScalingConfigurationInput: Swift.Equatable {
     }
 }
 
-struct CreateAutoScalingConfigurationInputBody: Swift.Equatable {
+struct CreateAutoScalingConfigurationInputBody {
     let autoScalingConfigurationName: Swift.String?
     let maxConcurrency: Swift.Int?
     let minSize: Swift.Int?
@@ -1176,7 +1176,7 @@ extension CreateAutoScalingConfigurationOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct CreateAutoScalingConfigurationOutput: Swift.Equatable {
+public struct CreateAutoScalingConfigurationOutput {
     /// A description of the App Runner auto scaling configuration that's created by this request.
     /// This member is required.
     public var autoScalingConfiguration: AppRunnerClientTypes.AutoScalingConfiguration?
@@ -1189,7 +1189,7 @@ public struct CreateAutoScalingConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct CreateAutoScalingConfigurationOutputBody: Swift.Equatable {
+struct CreateAutoScalingConfigurationOutputBody {
     let autoScalingConfiguration: AppRunnerClientTypes.AutoScalingConfiguration?
 }
 
@@ -1249,7 +1249,7 @@ extension CreateConnectionInput {
     }
 }
 
-public struct CreateConnectionInput: Swift.Equatable {
+public struct CreateConnectionInput {
     /// A name for the new connection. It must be unique across all App Runner connections for the Amazon Web Services account in the Amazon Web Services Region.
     /// This member is required.
     public var connectionName: Swift.String?
@@ -1271,7 +1271,7 @@ public struct CreateConnectionInput: Swift.Equatable {
     }
 }
 
-struct CreateConnectionInputBody: Swift.Equatable {
+struct CreateConnectionInputBody {
     let connectionName: Swift.String?
     let providerType: AppRunnerClientTypes.ProviderType?
     let tags: [AppRunnerClientTypes.Tag]?
@@ -1316,7 +1316,7 @@ extension CreateConnectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateConnectionOutput: Swift.Equatable {
+public struct CreateConnectionOutput {
     /// A description of the App Runner connection that's created by this request.
     /// This member is required.
     public var connection: AppRunnerClientTypes.Connection?
@@ -1329,7 +1329,7 @@ public struct CreateConnectionOutput: Swift.Equatable {
     }
 }
 
-struct CreateConnectionOutputBody: Swift.Equatable {
+struct CreateConnectionOutputBody {
     let connection: AppRunnerClientTypes.Connection?
 }
 
@@ -1389,7 +1389,7 @@ extension CreateObservabilityConfigurationInput {
     }
 }
 
-public struct CreateObservabilityConfigurationInput: Swift.Equatable {
+public struct CreateObservabilityConfigurationInput {
     /// A name for the observability configuration. When you use it for the first time in an Amazon Web Services Region, App Runner creates revision number 1 of this name. When you use the same name in subsequent calls, App Runner creates incremental revisions of the configuration. The name DefaultConfiguration is reserved. You can't use it to create a new observability configuration, and you can't create a revision of it. When you want to use your own observability configuration for your App Runner service, create a configuration with a different name, and then provide it when you create or update your service.
     /// This member is required.
     public var observabilityConfigurationName: Swift.String?
@@ -1410,7 +1410,7 @@ public struct CreateObservabilityConfigurationInput: Swift.Equatable {
     }
 }
 
-struct CreateObservabilityConfigurationInputBody: Swift.Equatable {
+struct CreateObservabilityConfigurationInputBody {
     let observabilityConfigurationName: Swift.String?
     let traceConfiguration: AppRunnerClientTypes.TraceConfiguration?
     let tags: [AppRunnerClientTypes.Tag]?
@@ -1455,7 +1455,7 @@ extension CreateObservabilityConfigurationOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct CreateObservabilityConfigurationOutput: Swift.Equatable {
+public struct CreateObservabilityConfigurationOutput {
     /// A description of the App Runner observability configuration that's created by this request.
     /// This member is required.
     public var observabilityConfiguration: AppRunnerClientTypes.ObservabilityConfiguration?
@@ -1468,7 +1468,7 @@ public struct CreateObservabilityConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct CreateObservabilityConfigurationOutputBody: Swift.Equatable {
+struct CreateObservabilityConfigurationOutputBody {
     let observabilityConfiguration: AppRunnerClientTypes.ObservabilityConfiguration?
 }
 
@@ -1552,7 +1552,7 @@ extension CreateServiceInput {
     }
 }
 
-public struct CreateServiceInput: Swift.Equatable {
+public struct CreateServiceInput {
     /// The Amazon Resource Name (ARN) of an App Runner automatic scaling configuration resource that you want to associate with your service. If not provided, App Runner associates the latest revision of a default auto scaling configuration. Specify an ARN with a name and a revision number to associate that revision. For example: arn:aws:apprunner:us-east-1:123456789012:autoscalingconfiguration/high-availability/3 Specify just the name to associate the latest revision. For example: arn:aws:apprunner:us-east-1:123456789012:autoscalingconfiguration/high-availability
     public var autoScalingConfigurationArn: Swift.String?
     /// An optional custom encryption key that App Runner uses to encrypt the copy of your source repository that it maintains and your service logs. By default, App Runner uses an Amazon Web Services managed key.
@@ -1598,7 +1598,7 @@ public struct CreateServiceInput: Swift.Equatable {
     }
 }
 
-struct CreateServiceInputBody: Swift.Equatable {
+struct CreateServiceInputBody {
     let serviceName: Swift.String?
     let sourceConfiguration: AppRunnerClientTypes.SourceConfiguration?
     let instanceConfiguration: AppRunnerClientTypes.InstanceConfiguration?
@@ -1669,7 +1669,7 @@ extension CreateServiceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateServiceOutput: Swift.Equatable {
+public struct CreateServiceOutput {
     /// The unique ID of the asynchronous operation that this request started. You can use it combined with the [ListOperations](https://docs.aws.amazon.com/apprunner/latest/api/API_ListOperations.html) call to track the operation's progress.
     /// This member is required.
     public var operationId: Swift.String?
@@ -1687,7 +1687,7 @@ public struct CreateServiceOutput: Swift.Equatable {
     }
 }
 
-struct CreateServiceOutputBody: Swift.Equatable {
+struct CreateServiceOutputBody {
     let service: AppRunnerClientTypes.Service?
     let operationId: Swift.String?
 }
@@ -1761,7 +1761,7 @@ extension CreateVpcConnectorInput {
     }
 }
 
-public struct CreateVpcConnectorInput: Swift.Equatable {
+public struct CreateVpcConnectorInput {
     /// A list of IDs of security groups that App Runner should use for access to Amazon Web Services resources under the specified subnets. If not specified, App Runner uses the default security group of the Amazon VPC. The default security group allows all outbound traffic.
     public var securityGroups: [Swift.String]?
     /// A list of IDs of subnets that App Runner should use when it associates your service with a custom Amazon VPC. Specify IDs of subnets of a single Amazon VPC. App Runner determines the Amazon VPC from the subnets you specify. App Runner currently only provides support for IPv4.
@@ -1787,7 +1787,7 @@ public struct CreateVpcConnectorInput: Swift.Equatable {
     }
 }
 
-struct CreateVpcConnectorInputBody: Swift.Equatable {
+struct CreateVpcConnectorInputBody {
     let vpcConnectorName: Swift.String?
     let subnets: [Swift.String]?
     let securityGroups: [Swift.String]?
@@ -1854,7 +1854,7 @@ extension CreateVpcConnectorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateVpcConnectorOutput: Swift.Equatable {
+public struct CreateVpcConnectorOutput {
     /// A description of the App Runner VPC connector that's created by this request.
     /// This member is required.
     public var vpcConnector: AppRunnerClientTypes.VpcConnector?
@@ -1867,7 +1867,7 @@ public struct CreateVpcConnectorOutput: Swift.Equatable {
     }
 }
 
-struct CreateVpcConnectorOutputBody: Swift.Equatable {
+struct CreateVpcConnectorOutputBody {
     let vpcConnector: AppRunnerClientTypes.VpcConnector?
 }
 
@@ -1931,7 +1931,7 @@ extension CreateVpcIngressConnectionInput {
     }
 }
 
-public struct CreateVpcIngressConnectionInput: Swift.Equatable {
+public struct CreateVpcIngressConnectionInput {
     /// Specifications for the customer’s Amazon VPC and the related Amazon Web Services PrivateLink VPC endpoint that are used to create the VPC Ingress Connection resource.
     /// This member is required.
     public var ingressVpcConfiguration: AppRunnerClientTypes.IngressVpcConfiguration?
@@ -1958,7 +1958,7 @@ public struct CreateVpcIngressConnectionInput: Swift.Equatable {
     }
 }
 
-struct CreateVpcIngressConnectionInputBody: Swift.Equatable {
+struct CreateVpcIngressConnectionInputBody {
     let serviceArn: Swift.String?
     let vpcIngressConnectionName: Swift.String?
     let ingressVpcConfiguration: AppRunnerClientTypes.IngressVpcConfiguration?
@@ -2007,7 +2007,7 @@ extension CreateVpcIngressConnectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateVpcIngressConnectionOutput: Swift.Equatable {
+public struct CreateVpcIngressConnectionOutput {
     /// A description of the App Runner VPC Ingress Connection resource that's created by this request.
     /// This member is required.
     public var vpcIngressConnection: AppRunnerClientTypes.VpcIngressConnection?
@@ -2020,7 +2020,7 @@ public struct CreateVpcIngressConnectionOutput: Swift.Equatable {
     }
 }
 
-struct CreateVpcIngressConnectionOutputBody: Swift.Equatable {
+struct CreateVpcIngressConnectionOutputBody {
     let vpcIngressConnection: AppRunnerClientTypes.VpcIngressConnection?
 }
 
@@ -2101,7 +2101,7 @@ extension AppRunnerClientTypes.CustomDomain: Swift.Codable {
 
 extension AppRunnerClientTypes {
     /// Describes a custom domain that's associated with an App Runner service.
-    public struct CustomDomain: Swift.Equatable {
+    public struct CustomDomain {
         /// A list of certificate CNAME records that's used for this domain name.
         public var certificateValidationRecords: [AppRunnerClientTypes.CertificateValidationRecord]?
         /// An associated custom domain endpoint. It can be a root domain (for example, example.com), a subdomain (for example, login.example.com or admin.login.example.com), or a wildcard (for example, *.example.com).
@@ -2201,7 +2201,7 @@ extension DeleteAutoScalingConfigurationInput {
     }
 }
 
-public struct DeleteAutoScalingConfigurationInput: Swift.Equatable {
+public struct DeleteAutoScalingConfigurationInput {
     /// The Amazon Resource Name (ARN) of the App Runner auto scaling configuration that you want to delete. The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either .../name  or .../name/revision . If a revision isn't specified, the latest active revision is deleted.
     /// This member is required.
     public var autoScalingConfigurationArn: Swift.String?
@@ -2218,7 +2218,7 @@ public struct DeleteAutoScalingConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DeleteAutoScalingConfigurationInputBody: Swift.Equatable {
+struct DeleteAutoScalingConfigurationInputBody {
     let autoScalingConfigurationArn: Swift.String?
     let deleteAllRevisions: Swift.Bool?
 }
@@ -2250,7 +2250,7 @@ extension DeleteAutoScalingConfigurationOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DeleteAutoScalingConfigurationOutput: Swift.Equatable {
+public struct DeleteAutoScalingConfigurationOutput {
     /// A description of the App Runner auto scaling configuration that this request just deleted.
     /// This member is required.
     public var autoScalingConfiguration: AppRunnerClientTypes.AutoScalingConfiguration?
@@ -2263,7 +2263,7 @@ public struct DeleteAutoScalingConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct DeleteAutoScalingConfigurationOutputBody: Swift.Equatable {
+struct DeleteAutoScalingConfigurationOutputBody {
     let autoScalingConfiguration: AppRunnerClientTypes.AutoScalingConfiguration?
 }
 
@@ -2312,7 +2312,7 @@ extension DeleteConnectionInput {
     }
 }
 
-public struct DeleteConnectionInput: Swift.Equatable {
+public struct DeleteConnectionInput {
     /// The Amazon Resource Name (ARN) of the App Runner connection that you want to delete.
     /// This member is required.
     public var connectionArn: Swift.String?
@@ -2325,7 +2325,7 @@ public struct DeleteConnectionInput: Swift.Equatable {
     }
 }
 
-struct DeleteConnectionInputBody: Swift.Equatable {
+struct DeleteConnectionInputBody {
     let connectionArn: Swift.String?
 }
 
@@ -2353,7 +2353,7 @@ extension DeleteConnectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteConnectionOutput: Swift.Equatable {
+public struct DeleteConnectionOutput {
     /// A description of the App Runner connection that this request just deleted.
     public var connection: AppRunnerClientTypes.Connection?
 
@@ -2365,7 +2365,7 @@ public struct DeleteConnectionOutput: Swift.Equatable {
     }
 }
 
-struct DeleteConnectionOutputBody: Swift.Equatable {
+struct DeleteConnectionOutputBody {
     let connection: AppRunnerClientTypes.Connection?
 }
 
@@ -2414,7 +2414,7 @@ extension DeleteObservabilityConfigurationInput {
     }
 }
 
-public struct DeleteObservabilityConfigurationInput: Swift.Equatable {
+public struct DeleteObservabilityConfigurationInput {
     /// The Amazon Resource Name (ARN) of the App Runner observability configuration that you want to delete. The ARN can be a full observability configuration ARN, or a partial ARN ending with either .../name  or .../name/revision . If a revision isn't specified, the latest active revision is deleted.
     /// This member is required.
     public var observabilityConfigurationArn: Swift.String?
@@ -2427,7 +2427,7 @@ public struct DeleteObservabilityConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DeleteObservabilityConfigurationInputBody: Swift.Equatable {
+struct DeleteObservabilityConfigurationInputBody {
     let observabilityConfigurationArn: Swift.String?
 }
 
@@ -2455,7 +2455,7 @@ extension DeleteObservabilityConfigurationOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DeleteObservabilityConfigurationOutput: Swift.Equatable {
+public struct DeleteObservabilityConfigurationOutput {
     /// A description of the App Runner observability configuration that this request just deleted.
     /// This member is required.
     public var observabilityConfiguration: AppRunnerClientTypes.ObservabilityConfiguration?
@@ -2468,7 +2468,7 @@ public struct DeleteObservabilityConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct DeleteObservabilityConfigurationOutputBody: Swift.Equatable {
+struct DeleteObservabilityConfigurationOutputBody {
     let observabilityConfiguration: AppRunnerClientTypes.ObservabilityConfiguration?
 }
 
@@ -2517,7 +2517,7 @@ extension DeleteServiceInput {
     }
 }
 
-public struct DeleteServiceInput: Swift.Equatable {
+public struct DeleteServiceInput {
     /// The Amazon Resource Name (ARN) of the App Runner service that you want to delete.
     /// This member is required.
     public var serviceArn: Swift.String?
@@ -2530,7 +2530,7 @@ public struct DeleteServiceInput: Swift.Equatable {
     }
 }
 
-struct DeleteServiceInputBody: Swift.Equatable {
+struct DeleteServiceInputBody {
     let serviceArn: Swift.String?
 }
 
@@ -2560,7 +2560,7 @@ extension DeleteServiceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteServiceOutput: Swift.Equatable {
+public struct DeleteServiceOutput {
     /// The unique ID of the asynchronous operation that this request started. You can use it combined with the [ListOperations] call to track the operation's progress.
     /// This member is required.
     public var operationId: Swift.String?
@@ -2578,7 +2578,7 @@ public struct DeleteServiceOutput: Swift.Equatable {
     }
 }
 
-struct DeleteServiceOutputBody: Swift.Equatable {
+struct DeleteServiceOutputBody {
     let service: AppRunnerClientTypes.Service?
     let operationId: Swift.String?
 }
@@ -2632,7 +2632,7 @@ extension DeleteVpcConnectorInput {
     }
 }
 
-public struct DeleteVpcConnectorInput: Swift.Equatable {
+public struct DeleteVpcConnectorInput {
     /// The Amazon Resource Name (ARN) of the App Runner VPC connector that you want to delete. The ARN must be a full VPC connector ARN.
     /// This member is required.
     public var vpcConnectorArn: Swift.String?
@@ -2645,7 +2645,7 @@ public struct DeleteVpcConnectorInput: Swift.Equatable {
     }
 }
 
-struct DeleteVpcConnectorInputBody: Swift.Equatable {
+struct DeleteVpcConnectorInputBody {
     let vpcConnectorArn: Swift.String?
 }
 
@@ -2673,7 +2673,7 @@ extension DeleteVpcConnectorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteVpcConnectorOutput: Swift.Equatable {
+public struct DeleteVpcConnectorOutput {
     /// A description of the App Runner VPC connector that this request just deleted.
     /// This member is required.
     public var vpcConnector: AppRunnerClientTypes.VpcConnector?
@@ -2686,7 +2686,7 @@ public struct DeleteVpcConnectorOutput: Swift.Equatable {
     }
 }
 
-struct DeleteVpcConnectorOutputBody: Swift.Equatable {
+struct DeleteVpcConnectorOutputBody {
     let vpcConnector: AppRunnerClientTypes.VpcConnector?
 }
 
@@ -2735,7 +2735,7 @@ extension DeleteVpcIngressConnectionInput {
     }
 }
 
-public struct DeleteVpcIngressConnectionInput: Swift.Equatable {
+public struct DeleteVpcIngressConnectionInput {
     /// The Amazon Resource Name (ARN) of the App Runner VPC Ingress Connection that you want to delete.
     /// This member is required.
     public var vpcIngressConnectionArn: Swift.String?
@@ -2748,7 +2748,7 @@ public struct DeleteVpcIngressConnectionInput: Swift.Equatable {
     }
 }
 
-struct DeleteVpcIngressConnectionInputBody: Swift.Equatable {
+struct DeleteVpcIngressConnectionInputBody {
     let vpcIngressConnectionArn: Swift.String?
 }
 
@@ -2776,7 +2776,7 @@ extension DeleteVpcIngressConnectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteVpcIngressConnectionOutput: Swift.Equatable {
+public struct DeleteVpcIngressConnectionOutput {
     /// A description of the App Runner VPC Ingress Connection that this request just deleted.
     /// This member is required.
     public var vpcIngressConnection: AppRunnerClientTypes.VpcIngressConnection?
@@ -2789,7 +2789,7 @@ public struct DeleteVpcIngressConnectionOutput: Swift.Equatable {
     }
 }
 
-struct DeleteVpcIngressConnectionOutputBody: Swift.Equatable {
+struct DeleteVpcIngressConnectionOutputBody {
     let vpcIngressConnection: AppRunnerClientTypes.VpcIngressConnection?
 }
 
@@ -2839,7 +2839,7 @@ extension DescribeAutoScalingConfigurationInput {
     }
 }
 
-public struct DescribeAutoScalingConfigurationInput: Swift.Equatable {
+public struct DescribeAutoScalingConfigurationInput {
     /// The Amazon Resource Name (ARN) of the App Runner auto scaling configuration that you want a description for. The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either .../name  or .../name/revision . If a revision isn't specified, the latest active revision is described.
     /// This member is required.
     public var autoScalingConfigurationArn: Swift.String?
@@ -2852,7 +2852,7 @@ public struct DescribeAutoScalingConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DescribeAutoScalingConfigurationInputBody: Swift.Equatable {
+struct DescribeAutoScalingConfigurationInputBody {
     let autoScalingConfigurationArn: Swift.String?
 }
 
@@ -2880,7 +2880,7 @@ extension DescribeAutoScalingConfigurationOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DescribeAutoScalingConfigurationOutput: Swift.Equatable {
+public struct DescribeAutoScalingConfigurationOutput {
     /// A full description of the App Runner auto scaling configuration that you specified in this request.
     /// This member is required.
     public var autoScalingConfiguration: AppRunnerClientTypes.AutoScalingConfiguration?
@@ -2893,7 +2893,7 @@ public struct DescribeAutoScalingConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAutoScalingConfigurationOutputBody: Swift.Equatable {
+struct DescribeAutoScalingConfigurationOutputBody {
     let autoScalingConfiguration: AppRunnerClientTypes.AutoScalingConfiguration?
 }
 
@@ -2950,7 +2950,7 @@ extension DescribeCustomDomainsInput {
     }
 }
 
-public struct DescribeCustomDomainsInput: Swift.Equatable {
+public struct DescribeCustomDomainsInput {
     /// The maximum number of results that each response (result page) can include. It's used for a paginated request. If you don't specify MaxResults, the request retrieves all available results in a single response.
     public var maxResults: Swift.Int?
     /// A token from a previous result page. It's used for a paginated request. The request retrieves the next result page. All other parameter values must be identical to the ones that are specified in the initial request. If you don't specify NextToken, the request retrieves the first result page.
@@ -2971,7 +2971,7 @@ public struct DescribeCustomDomainsInput: Swift.Equatable {
     }
 }
 
-struct DescribeCustomDomainsInputBody: Swift.Equatable {
+struct DescribeCustomDomainsInputBody {
     let serviceArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -3015,7 +3015,7 @@ extension DescribeCustomDomainsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeCustomDomainsOutput: Swift.Equatable {
+public struct DescribeCustomDomainsOutput {
     /// A list of descriptions of custom domain names that are associated with the service. In a paginated request, the request returns up to MaxResults records per call.
     /// This member is required.
     public var customDomains: [AppRunnerClientTypes.CustomDomain]?
@@ -3047,7 +3047,7 @@ public struct DescribeCustomDomainsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeCustomDomainsOutputBody: Swift.Equatable {
+struct DescribeCustomDomainsOutputBody {
     let dnsTarget: Swift.String?
     let serviceArn: Swift.String?
     let customDomains: [AppRunnerClientTypes.CustomDomain]?
@@ -3130,7 +3130,7 @@ extension DescribeObservabilityConfigurationInput {
     }
 }
 
-public struct DescribeObservabilityConfigurationInput: Swift.Equatable {
+public struct DescribeObservabilityConfigurationInput {
     /// The Amazon Resource Name (ARN) of the App Runner observability configuration that you want a description for. The ARN can be a full observability configuration ARN, or a partial ARN ending with either .../name  or .../name/revision . If a revision isn't specified, the latest active revision is described.
     /// This member is required.
     public var observabilityConfigurationArn: Swift.String?
@@ -3143,7 +3143,7 @@ public struct DescribeObservabilityConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DescribeObservabilityConfigurationInputBody: Swift.Equatable {
+struct DescribeObservabilityConfigurationInputBody {
     let observabilityConfigurationArn: Swift.String?
 }
 
@@ -3171,7 +3171,7 @@ extension DescribeObservabilityConfigurationOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct DescribeObservabilityConfigurationOutput: Swift.Equatable {
+public struct DescribeObservabilityConfigurationOutput {
     /// A full description of the App Runner observability configuration that you specified in this request.
     /// This member is required.
     public var observabilityConfiguration: AppRunnerClientTypes.ObservabilityConfiguration?
@@ -3184,7 +3184,7 @@ public struct DescribeObservabilityConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeObservabilityConfigurationOutputBody: Swift.Equatable {
+struct DescribeObservabilityConfigurationOutputBody {
     let observabilityConfiguration: AppRunnerClientTypes.ObservabilityConfiguration?
 }
 
@@ -3233,7 +3233,7 @@ extension DescribeServiceInput {
     }
 }
 
-public struct DescribeServiceInput: Swift.Equatable {
+public struct DescribeServiceInput {
     /// The Amazon Resource Name (ARN) of the App Runner service that you want a description for.
     /// This member is required.
     public var serviceArn: Swift.String?
@@ -3246,7 +3246,7 @@ public struct DescribeServiceInput: Swift.Equatable {
     }
 }
 
-struct DescribeServiceInputBody: Swift.Equatable {
+struct DescribeServiceInputBody {
     let serviceArn: Swift.String?
 }
 
@@ -3274,7 +3274,7 @@ extension DescribeServiceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeServiceOutput: Swift.Equatable {
+public struct DescribeServiceOutput {
     /// A full description of the App Runner service that you specified in this request.
     /// This member is required.
     public var service: AppRunnerClientTypes.Service?
@@ -3287,7 +3287,7 @@ public struct DescribeServiceOutput: Swift.Equatable {
     }
 }
 
-struct DescribeServiceOutputBody: Swift.Equatable {
+struct DescribeServiceOutputBody {
     let service: AppRunnerClientTypes.Service?
 }
 
@@ -3336,7 +3336,7 @@ extension DescribeVpcConnectorInput {
     }
 }
 
-public struct DescribeVpcConnectorInput: Swift.Equatable {
+public struct DescribeVpcConnectorInput {
     /// The Amazon Resource Name (ARN) of the App Runner VPC connector that you want a description for. The ARN must be a full VPC connector ARN.
     /// This member is required.
     public var vpcConnectorArn: Swift.String?
@@ -3349,7 +3349,7 @@ public struct DescribeVpcConnectorInput: Swift.Equatable {
     }
 }
 
-struct DescribeVpcConnectorInputBody: Swift.Equatable {
+struct DescribeVpcConnectorInputBody {
     let vpcConnectorArn: Swift.String?
 }
 
@@ -3377,7 +3377,7 @@ extension DescribeVpcConnectorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeVpcConnectorOutput: Swift.Equatable {
+public struct DescribeVpcConnectorOutput {
     /// A description of the App Runner VPC connector that you specified in this request.
     /// This member is required.
     public var vpcConnector: AppRunnerClientTypes.VpcConnector?
@@ -3390,7 +3390,7 @@ public struct DescribeVpcConnectorOutput: Swift.Equatable {
     }
 }
 
-struct DescribeVpcConnectorOutputBody: Swift.Equatable {
+struct DescribeVpcConnectorOutputBody {
     let vpcConnector: AppRunnerClientTypes.VpcConnector?
 }
 
@@ -3439,7 +3439,7 @@ extension DescribeVpcIngressConnectionInput {
     }
 }
 
-public struct DescribeVpcIngressConnectionInput: Swift.Equatable {
+public struct DescribeVpcIngressConnectionInput {
     /// The Amazon Resource Name (ARN) of the App Runner VPC Ingress Connection that you want a description for.
     /// This member is required.
     public var vpcIngressConnectionArn: Swift.String?
@@ -3452,7 +3452,7 @@ public struct DescribeVpcIngressConnectionInput: Swift.Equatable {
     }
 }
 
-struct DescribeVpcIngressConnectionInputBody: Swift.Equatable {
+struct DescribeVpcIngressConnectionInputBody {
     let vpcIngressConnectionArn: Swift.String?
 }
 
@@ -3480,7 +3480,7 @@ extension DescribeVpcIngressConnectionOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DescribeVpcIngressConnectionOutput: Swift.Equatable {
+public struct DescribeVpcIngressConnectionOutput {
     /// A description of the App Runner VPC Ingress Connection that you specified in this request.
     /// This member is required.
     public var vpcIngressConnection: AppRunnerClientTypes.VpcIngressConnection?
@@ -3493,7 +3493,7 @@ public struct DescribeVpcIngressConnectionOutput: Swift.Equatable {
     }
 }
 
-struct DescribeVpcIngressConnectionOutputBody: Swift.Equatable {
+struct DescribeVpcIngressConnectionOutputBody {
     let vpcIngressConnection: AppRunnerClientTypes.VpcIngressConnection?
 }
 
@@ -3546,7 +3546,7 @@ extension DisassociateCustomDomainInput {
     }
 }
 
-public struct DisassociateCustomDomainInput: Swift.Equatable {
+public struct DisassociateCustomDomainInput {
     /// The domain name that you want to disassociate from the App Runner service.
     /// This member is required.
     public var domainName: Swift.String?
@@ -3564,7 +3564,7 @@ public struct DisassociateCustomDomainInput: Swift.Equatable {
     }
 }
 
-struct DisassociateCustomDomainInputBody: Swift.Equatable {
+struct DisassociateCustomDomainInputBody {
     let serviceArn: Swift.String?
     let domainName: Swift.String?
 }
@@ -3602,7 +3602,7 @@ extension DisassociateCustomDomainOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateCustomDomainOutput: Swift.Equatable {
+public struct DisassociateCustomDomainOutput {
     /// A description of the domain name that's being disassociated.
     /// This member is required.
     public var customDomain: AppRunnerClientTypes.CustomDomain?
@@ -3630,7 +3630,7 @@ public struct DisassociateCustomDomainOutput: Swift.Equatable {
     }
 }
 
-struct DisassociateCustomDomainOutputBody: Swift.Equatable {
+struct DisassociateCustomDomainOutputBody {
     let dnsTarget: Swift.String?
     let serviceArn: Swift.String?
     let customDomain: AppRunnerClientTypes.CustomDomain?
@@ -3708,7 +3708,7 @@ extension AppRunnerClientTypes.EgressConfiguration: Swift.Codable {
 
 extension AppRunnerClientTypes {
     /// Describes configuration settings related to outbound network traffic of an App Runner service.
-    public struct EgressConfiguration: Swift.Equatable {
+    public struct EgressConfiguration {
         /// The type of egress configuration. Set to DEFAULT for access to resources hosted on public networks. Set to VPC to associate your service to a custom VPC specified by VpcConnectorArn.
         public var egressType: AppRunnerClientTypes.EgressType?
         /// The Amazon Resource Name (ARN) of the App Runner VPC connector that you want to associate with your App Runner service. Only valid when EgressType = VPC.
@@ -3779,7 +3779,7 @@ extension AppRunnerClientTypes.EncryptionConfiguration: Swift.Codable {
 
 extension AppRunnerClientTypes {
     /// Describes a custom encryption key that App Runner uses to encrypt copies of the source repository and service logs.
-    public struct EncryptionConfiguration: Swift.Equatable {
+    public struct EncryptionConfiguration {
         /// The ARN of the KMS key that's used for encryption.
         /// This member is required.
         public var kmsKey: Swift.String?
@@ -3845,7 +3845,7 @@ extension AppRunnerClientTypes.HealthCheckConfiguration: Swift.Codable {
 
 extension AppRunnerClientTypes {
     /// Describes the settings for the health check that App Runner performs to monitor the health of a service.
-    public struct HealthCheckConfiguration: Swift.Equatable {
+    public struct HealthCheckConfiguration {
         /// The number of consecutive checks that must succeed before App Runner decides that the service is healthy. Default: 1
         public var healthyThreshold: Swift.Int?
         /// The time interval, in seconds, between health checks. Default: 5
@@ -3979,7 +3979,7 @@ extension AppRunnerClientTypes.ImageConfiguration: Swift.CustomDebugStringConver
 
 extension AppRunnerClientTypes {
     /// Describes the configuration that App Runner uses to run an App Runner service using an image pulled from a source image repository.
-    public struct ImageConfiguration: Swift.Equatable {
+    public struct ImageConfiguration {
         /// The port that your application listens to in the container. Default: 8080
         public var port: Swift.String?
         /// An array of key-value pairs representing the secrets and parameters that get referenced to your service as an environment variable. The supported values are either the full Amazon Resource Name (ARN) of the Secrets Manager secret or the full ARN of the parameter in the Amazon Web Services Systems Manager Parameter Store.
@@ -4042,7 +4042,7 @@ extension AppRunnerClientTypes.ImageRepository: Swift.Codable {
 
 extension AppRunnerClientTypes {
     /// Describes a source image repository.
-    public struct ImageRepository: Swift.Equatable {
+    public struct ImageRepository {
         /// Configuration for running the identified image.
         public var imageConfiguration: AppRunnerClientTypes.ImageConfiguration?
         /// The identifier of an image. For an image in Amazon Elastic Container Registry (Amazon ECR), this is an image name. For the image name format, see [Pulling an image](https://docs.aws.amazon.com/AmazonECR/latest/userguide/docker-pull-ecr-image.html) in the Amazon ECR User Guide.
@@ -4119,7 +4119,7 @@ extension AppRunnerClientTypes.IngressConfiguration: Swift.Codable {
 
 extension AppRunnerClientTypes {
     /// Network configuration settings for inbound network traffic.
-    public struct IngressConfiguration: Swift.Equatable {
+    public struct IngressConfiguration {
         /// Specifies whether your App Runner service is publicly accessible. To make the service publicly accessible set it to True. To make the service privately accessible, from only within an Amazon VPC set it to False.
         public var isPubliclyAccessible: Swift.Bool
 
@@ -4160,7 +4160,7 @@ extension AppRunnerClientTypes.IngressVpcConfiguration: Swift.Codable {
 
 extension AppRunnerClientTypes {
     /// The configuration of your VPC and the associated VPC endpoint. The VPC endpoint is an Amazon Web Services PrivateLink resource that allows access to your App Runner services from within an Amazon VPC.
-    public struct IngressVpcConfiguration: Swift.Equatable {
+    public struct IngressVpcConfiguration {
         /// The ID of the VPC endpoint that your App Runner service connects to.
         public var vpcEndpointId: Swift.String?
         /// The ID of the VPC that is used for the VPC endpoint.
@@ -4211,7 +4211,7 @@ extension AppRunnerClientTypes.InstanceConfiguration: Swift.Codable {
 
 extension AppRunnerClientTypes {
     /// Describes the runtime configuration of an App Runner service instance (scaling unit).
-    public struct InstanceConfiguration: Swift.Equatable {
+    public struct InstanceConfiguration {
         /// The number of CPU units reserved for each instance of your App Runner service. Default: 1 vCPU
         public var cpu: Swift.String?
         /// The Amazon Resource Name (ARN) of an IAM role that provides permissions to your App Runner service. These are permissions that your code needs when it calls any Amazon Web Services APIs.
@@ -4272,7 +4272,7 @@ public struct InternalServiceErrorException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct InternalServiceErrorExceptionBody: Swift.Equatable {
+struct InternalServiceErrorExceptionBody {
     let message: Swift.String?
 }
 
@@ -4327,7 +4327,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InvalidRequestExceptionBody: Swift.Equatable {
+struct InvalidRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -4382,7 +4382,7 @@ public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct InvalidStateExceptionBody: Swift.Equatable {
+struct InvalidStateExceptionBody {
     let message: Swift.String?
 }
 
@@ -4462,7 +4462,7 @@ extension ListAutoScalingConfigurationsInput {
     }
 }
 
-public struct ListAutoScalingConfigurationsInput: Swift.Equatable {
+public struct ListAutoScalingConfigurationsInput {
     /// The name of the App Runner auto scaling configuration that you want to list. If specified, App Runner lists revisions that share this name. If not specified, App Runner returns revisions of all active configurations.
     public var autoScalingConfigurationName: Swift.String?
     /// Set to true to list only the latest revision for each requested configuration name. Set to false to list all revisions for each requested configuration name. Default: true
@@ -4486,7 +4486,7 @@ public struct ListAutoScalingConfigurationsInput: Swift.Equatable {
     }
 }
 
-struct ListAutoScalingConfigurationsInputBody: Swift.Equatable {
+struct ListAutoScalingConfigurationsInputBody {
     let autoScalingConfigurationName: Swift.String?
     let latestOnly: Swift.Bool?
     let maxResults: Swift.Int?
@@ -4528,7 +4528,7 @@ extension ListAutoScalingConfigurationsOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ListAutoScalingConfigurationsOutput: Swift.Equatable {
+public struct ListAutoScalingConfigurationsOutput {
     /// A list of summary information records for auto scaling configurations. In a paginated request, the request returns up to MaxResults records for each call.
     /// This member is required.
     public var autoScalingConfigurationSummaryList: [AppRunnerClientTypes.AutoScalingConfigurationSummary]?
@@ -4545,7 +4545,7 @@ public struct ListAutoScalingConfigurationsOutput: Swift.Equatable {
     }
 }
 
-struct ListAutoScalingConfigurationsOutputBody: Swift.Equatable {
+struct ListAutoScalingConfigurationsOutputBody {
     let autoScalingConfigurationSummaryList: [AppRunnerClientTypes.AutoScalingConfigurationSummary]?
     let nextToken: Swift.String?
 }
@@ -4614,7 +4614,7 @@ extension ListConnectionsInput {
     }
 }
 
-public struct ListConnectionsInput: Swift.Equatable {
+public struct ListConnectionsInput {
     /// If specified, only this connection is returned. If not specified, the result isn't filtered by name.
     public var connectionName: Swift.String?
     /// The maximum number of results to include in each response (result page). Used for a paginated request. If you don't specify MaxResults, the request retrieves all available results in a single response.
@@ -4634,7 +4634,7 @@ public struct ListConnectionsInput: Swift.Equatable {
     }
 }
 
-struct ListConnectionsInputBody: Swift.Equatable {
+struct ListConnectionsInputBody {
     let connectionName: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -4672,7 +4672,7 @@ extension ListConnectionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListConnectionsOutput: Swift.Equatable {
+public struct ListConnectionsOutput {
     /// A list of summary information records for connections. In a paginated request, the request returns up to MaxResults records for each call.
     /// This member is required.
     public var connectionSummaryList: [AppRunnerClientTypes.ConnectionSummary]?
@@ -4689,7 +4689,7 @@ public struct ListConnectionsOutput: Swift.Equatable {
     }
 }
 
-struct ListConnectionsOutputBody: Swift.Equatable {
+struct ListConnectionsOutputBody {
     let connectionSummaryList: [AppRunnerClientTypes.ConnectionSummary]?
     let nextToken: Swift.String?
 }
@@ -4762,7 +4762,7 @@ extension ListObservabilityConfigurationsInput {
     }
 }
 
-public struct ListObservabilityConfigurationsInput: Swift.Equatable {
+public struct ListObservabilityConfigurationsInput {
     /// Set to true to list only the latest revision for each requested configuration name. Set to false to list all revisions for each requested configuration name. Default: true
     public var latestOnly: Swift.Bool?
     /// The maximum number of results to include in each response (result page). It's used for a paginated request. If you don't specify MaxResults, the request retrieves all available results in a single response.
@@ -4786,7 +4786,7 @@ public struct ListObservabilityConfigurationsInput: Swift.Equatable {
     }
 }
 
-struct ListObservabilityConfigurationsInputBody: Swift.Equatable {
+struct ListObservabilityConfigurationsInputBody {
     let observabilityConfigurationName: Swift.String?
     let latestOnly: Swift.Bool?
     let maxResults: Swift.Int?
@@ -4828,7 +4828,7 @@ extension ListObservabilityConfigurationsOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ListObservabilityConfigurationsOutput: Swift.Equatable {
+public struct ListObservabilityConfigurationsOutput {
     /// The token that you can pass in a subsequent request to get the next result page. It's returned in a paginated request.
     public var nextToken: Swift.String?
     /// A list of summary information records for observability configurations. In a paginated request, the request returns up to MaxResults records for each call.
@@ -4845,7 +4845,7 @@ public struct ListObservabilityConfigurationsOutput: Swift.Equatable {
     }
 }
 
-struct ListObservabilityConfigurationsOutputBody: Swift.Equatable {
+struct ListObservabilityConfigurationsOutputBody {
     let observabilityConfigurationSummaryList: [AppRunnerClientTypes.ObservabilityConfigurationSummary]?
     let nextToken: Swift.String?
 }
@@ -4914,7 +4914,7 @@ extension ListOperationsInput {
     }
 }
 
-public struct ListOperationsInput: Swift.Equatable {
+public struct ListOperationsInput {
     /// The maximum number of results to include in each response (result page). It's used for a paginated request. If you don't specify MaxResults, the request retrieves all available results in a single response.
     public var maxResults: Swift.Int?
     /// A token from a previous result page. It's used for a paginated request. The request retrieves the next result page. All other parameter values must be identical to the ones specified in the initial request. If you don't specify NextToken, the request retrieves the first result page.
@@ -4935,7 +4935,7 @@ public struct ListOperationsInput: Swift.Equatable {
     }
 }
 
-struct ListOperationsInputBody: Swift.Equatable {
+struct ListOperationsInputBody {
     let serviceArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -4973,7 +4973,7 @@ extension ListOperationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListOperationsOutput: Swift.Equatable {
+public struct ListOperationsOutput {
     /// The token that you can pass in a subsequent request to get the next result page. It's returned in a paginated request.
     public var nextToken: Swift.String?
     /// A list of operation summary information records. In a paginated request, the request returns up to MaxResults records for each call.
@@ -4989,7 +4989,7 @@ public struct ListOperationsOutput: Swift.Equatable {
     }
 }
 
-struct ListOperationsOutputBody: Swift.Equatable {
+struct ListOperationsOutputBody {
     let operationSummaryList: [AppRunnerClientTypes.OperationSummary]?
     let nextToken: Swift.String?
 }
@@ -5059,7 +5059,7 @@ extension ListServicesForAutoScalingConfigurationInput {
     }
 }
 
-public struct ListServicesForAutoScalingConfigurationInput: Swift.Equatable {
+public struct ListServicesForAutoScalingConfigurationInput {
     /// The Amazon Resource Name (ARN) of the App Runner auto scaling configuration that you want to list the services for. The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either .../name  or .../name/revision . If a revision isn't specified, the latest active revision is used.
     /// This member is required.
     public var autoScalingConfigurationArn: Swift.String?
@@ -5080,7 +5080,7 @@ public struct ListServicesForAutoScalingConfigurationInput: Swift.Equatable {
     }
 }
 
-struct ListServicesForAutoScalingConfigurationInputBody: Swift.Equatable {
+struct ListServicesForAutoScalingConfigurationInputBody {
     let autoScalingConfigurationArn: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -5118,7 +5118,7 @@ extension ListServicesForAutoScalingConfigurationOutput: ClientRuntime.HttpRespo
     }
 }
 
-public struct ListServicesForAutoScalingConfigurationOutput: Swift.Equatable {
+public struct ListServicesForAutoScalingConfigurationOutput {
     /// The token that you can pass in a subsequent request to get the next result page. It's returned in a paginated request.
     public var nextToken: Swift.String?
     /// A list of service ARN records. In a paginated request, the request returns up to MaxResults records for each call.
@@ -5135,7 +5135,7 @@ public struct ListServicesForAutoScalingConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct ListServicesForAutoScalingConfigurationOutputBody: Swift.Equatable {
+struct ListServicesForAutoScalingConfigurationOutputBody {
     let serviceArnList: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -5201,7 +5201,7 @@ extension ListServicesInput {
     }
 }
 
-public struct ListServicesInput: Swift.Equatable {
+public struct ListServicesInput {
     /// The maximum number of results to include in each response (result page). It's used for a paginated request. If you don't specify MaxResults, the request retrieves all available results in a single response.
     public var maxResults: Swift.Int?
     /// A token from a previous result page. Used for a paginated request. The request retrieves the next result page. All other parameter values must be identical to the ones specified in the initial request. If you don't specify NextToken, the request retrieves the first result page.
@@ -5217,7 +5217,7 @@ public struct ListServicesInput: Swift.Equatable {
     }
 }
 
-struct ListServicesInputBody: Swift.Equatable {
+struct ListServicesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -5251,7 +5251,7 @@ extension ListServicesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListServicesOutput: Swift.Equatable {
+public struct ListServicesOutput {
     /// The token that you can pass in a subsequent request to get the next result page. It's returned in a paginated request.
     public var nextToken: Swift.String?
     /// A list of service summary information records. In a paginated request, the request returns up to MaxResults records for each call.
@@ -5268,7 +5268,7 @@ public struct ListServicesOutput: Swift.Equatable {
     }
 }
 
-struct ListServicesOutputBody: Swift.Equatable {
+struct ListServicesOutputBody {
     let serviceSummaryList: [AppRunnerClientTypes.ServiceSummary]?
     let nextToken: Swift.String?
 }
@@ -5329,7 +5329,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource that a tag list is requested for. It must be the ARN of an App Runner resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -5342,7 +5342,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -5370,7 +5370,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// A list of the tag key-value pairs that are associated with the resource.
     public var tags: [AppRunnerClientTypes.Tag]?
 
@@ -5382,7 +5382,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [AppRunnerClientTypes.Tag]?
 }
 
@@ -5445,7 +5445,7 @@ extension ListVpcConnectorsInput {
     }
 }
 
-public struct ListVpcConnectorsInput: Swift.Equatable {
+public struct ListVpcConnectorsInput {
     /// The maximum number of results to include in each response (result page). It's used for a paginated request. If you don't specify MaxResults, the request retrieves all available results in a single response.
     public var maxResults: Swift.Int?
     /// A token from a previous result page. It's used for a paginated request. The request retrieves the next result page. All other parameter values must be identical to the ones that are specified in the initial request. If you don't specify NextToken, the request retrieves the first result page.
@@ -5461,7 +5461,7 @@ public struct ListVpcConnectorsInput: Swift.Equatable {
     }
 }
 
-struct ListVpcConnectorsInputBody: Swift.Equatable {
+struct ListVpcConnectorsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -5495,7 +5495,7 @@ extension ListVpcConnectorsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListVpcConnectorsOutput: Swift.Equatable {
+public struct ListVpcConnectorsOutput {
     /// The token that you can pass in a subsequent request to get the next result page. It's returned in a paginated request.
     public var nextToken: Swift.String?
     /// A list of information records for VPC connectors. In a paginated request, the request returns up to MaxResults records for each call.
@@ -5512,7 +5512,7 @@ public struct ListVpcConnectorsOutput: Swift.Equatable {
     }
 }
 
-struct ListVpcConnectorsOutputBody: Swift.Equatable {
+struct ListVpcConnectorsOutputBody {
     let vpcConnectors: [AppRunnerClientTypes.VpcConnector]?
     let nextToken: Swift.String?
 }
@@ -5580,7 +5580,7 @@ extension AppRunnerClientTypes.ListVpcIngressConnectionsFilter: Swift.Codable {
 
 extension AppRunnerClientTypes {
     /// Returns a list of VPC Ingress Connections based on the filter provided. It can return either ServiceArn or VpcEndpointId, or both.
-    public struct ListVpcIngressConnectionsFilter: Swift.Equatable {
+    public struct ListVpcIngressConnectionsFilter {
         /// The Amazon Resource Name (ARN) of a service to filter by.
         public var serviceArn: Swift.String?
         /// The ID of a VPC Endpoint to filter by.
@@ -5626,7 +5626,7 @@ extension ListVpcIngressConnectionsInput {
     }
 }
 
-public struct ListVpcIngressConnectionsInput: Swift.Equatable {
+public struct ListVpcIngressConnectionsInput {
     /// The VPC Ingress Connections to be listed based on either the Service Arn or Vpc Endpoint Id, or both.
     public var filter: AppRunnerClientTypes.ListVpcIngressConnectionsFilter?
     /// The maximum number of results to include in each response (result page). It's used for a paginated request. If you don't specify MaxResults, the request retrieves all available results in a single response.
@@ -5646,7 +5646,7 @@ public struct ListVpcIngressConnectionsInput: Swift.Equatable {
     }
 }
 
-struct ListVpcIngressConnectionsInputBody: Swift.Equatable {
+struct ListVpcIngressConnectionsInputBody {
     let filter: AppRunnerClientTypes.ListVpcIngressConnectionsFilter?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -5684,7 +5684,7 @@ extension ListVpcIngressConnectionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListVpcIngressConnectionsOutput: Swift.Equatable {
+public struct ListVpcIngressConnectionsOutput {
     /// The token that you can pass in a subsequent request to get the next result page. It's returned in a paginated request.
     public var nextToken: Swift.String?
     /// A list of summary information records for VPC Ingress Connections. In a paginated request, the request returns up to MaxResults records for each call.
@@ -5701,7 +5701,7 @@ public struct ListVpcIngressConnectionsOutput: Swift.Equatable {
     }
 }
 
-struct ListVpcIngressConnectionsOutputBody: Swift.Equatable {
+struct ListVpcIngressConnectionsOutputBody {
     let vpcIngressConnectionSummaryList: [AppRunnerClientTypes.VpcIngressConnectionSummary]?
     let nextToken: Swift.String?
 }
@@ -5775,7 +5775,7 @@ extension AppRunnerClientTypes.NetworkConfiguration: Swift.Codable {
 
 extension AppRunnerClientTypes {
     /// Describes configuration settings related to network traffic of an App Runner service. Consists of embedded objects for each configurable network feature.
-    public struct NetworkConfiguration: Swift.Equatable {
+    public struct NetworkConfiguration {
         /// Network configuration settings for outbound message traffic.
         public var egressConfiguration: AppRunnerClientTypes.EgressConfiguration?
         /// Network configuration settings for inbound message traffic.
@@ -5860,7 +5860,7 @@ extension AppRunnerClientTypes.ObservabilityConfiguration: Swift.Codable {
 
 extension AppRunnerClientTypes {
     /// Describes an App Runner observability configuration resource. Multiple revisions of a configuration have the same ObservabilityConfigurationName and different ObservabilityConfigurationRevision values. The resource is designed to configure multiple features (currently one feature, tracing). This type contains optional members that describe the configuration of these features (currently one member, TraceConfiguration). If a feature member isn't specified, the feature isn't enabled.
-    public struct ObservabilityConfiguration: Swift.Equatable {
+    public struct ObservabilityConfiguration {
         /// The time when the observability configuration was created. It's in Unix time stamp format.
         public var createdAt: ClientRuntime.Date?
         /// The time when the observability configuration was deleted. It's in Unix time stamp format.
@@ -5967,7 +5967,7 @@ extension AppRunnerClientTypes.ObservabilityConfigurationSummary: Swift.Codable 
 
 extension AppRunnerClientTypes {
     /// Provides summary information about an App Runner observability configuration resource. This type contains limited information about an observability configuration. It includes only identification information, without configuration details. It's returned by the [ListObservabilityConfigurations] action. Complete configuration information is returned by the [CreateObservabilityConfiguration], [DescribeObservabilityConfiguration], and [DeleteObservabilityConfiguration] actions using the [ObservabilityConfiguration] type.
-    public struct ObservabilityConfigurationSummary: Swift.Equatable {
+    public struct ObservabilityConfigurationSummary {
         /// The Amazon Resource Name (ARN) of this observability configuration.
         public var observabilityConfigurationArn: Swift.String?
         /// The customer-provided observability configuration name. It can be used in multiple revisions of a configuration.
@@ -6093,7 +6093,7 @@ extension AppRunnerClientTypes.OperationSummary: Swift.Codable {
 
 extension AppRunnerClientTypes {
     /// Provides summary information for an operation that occurred on an App Runner service.
-    public struct OperationSummary: Swift.Equatable {
+    public struct OperationSummary {
         /// The time when the operation ended. It's in the Unix time stamp format.
         public var endedAt: ClientRuntime.Date?
         /// A unique ID of this operation. It's unique in the scope of the App Runner service.
@@ -6195,7 +6195,7 @@ extension PauseServiceInput {
     }
 }
 
-public struct PauseServiceInput: Swift.Equatable {
+public struct PauseServiceInput {
     /// The Amazon Resource Name (ARN) of the App Runner service that you want to pause.
     /// This member is required.
     public var serviceArn: Swift.String?
@@ -6208,7 +6208,7 @@ public struct PauseServiceInput: Swift.Equatable {
     }
 }
 
-struct PauseServiceInputBody: Swift.Equatable {
+struct PauseServiceInputBody {
     let serviceArn: Swift.String?
 }
 
@@ -6238,7 +6238,7 @@ extension PauseServiceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PauseServiceOutput: Swift.Equatable {
+public struct PauseServiceOutput {
     /// The unique ID of the asynchronous operation that this request started. You can use it combined with the [ListOperations] call to track the operation's progress.
     public var operationId: Swift.String?
     /// A description of the App Runner service that this request just paused.
@@ -6255,7 +6255,7 @@ public struct PauseServiceOutput: Swift.Equatable {
     }
 }
 
-struct PauseServiceOutputBody: Swift.Equatable {
+struct PauseServiceOutputBody {
     let service: AppRunnerClientTypes.Service?
     let operationId: Swift.String?
 }
@@ -6360,7 +6360,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -6396,7 +6396,7 @@ extension ResumeServiceInput {
     }
 }
 
-public struct ResumeServiceInput: Swift.Equatable {
+public struct ResumeServiceInput {
     /// The Amazon Resource Name (ARN) of the App Runner service that you want to resume.
     /// This member is required.
     public var serviceArn: Swift.String?
@@ -6409,7 +6409,7 @@ public struct ResumeServiceInput: Swift.Equatable {
     }
 }
 
-struct ResumeServiceInputBody: Swift.Equatable {
+struct ResumeServiceInputBody {
     let serviceArn: Swift.String?
 }
 
@@ -6439,7 +6439,7 @@ extension ResumeServiceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ResumeServiceOutput: Swift.Equatable {
+public struct ResumeServiceOutput {
     /// The unique ID of the asynchronous operation that this request started. You can use it combined with the [ListOperations] call to track the operation's progress.
     public var operationId: Swift.String?
     /// A description of the App Runner service that this request just resumed.
@@ -6456,7 +6456,7 @@ public struct ResumeServiceOutput: Swift.Equatable {
     }
 }
 
-struct ResumeServiceOutputBody: Swift.Equatable {
+struct ResumeServiceOutputBody {
     let service: AppRunnerClientTypes.Service?
     let operationId: Swift.String?
 }
@@ -6657,7 +6657,7 @@ extension AppRunnerClientTypes.Service: Swift.Codable {
 
 extension AppRunnerClientTypes {
     /// Describes an App Runner service. It can describe a service in any state, including deleted services. This type contains the full information about a service, including configuration details. It's returned by the [CreateService](https://docs.aws.amazon.com/apprunner/latest/api/API_CreateService.html), [DescribeService](https://docs.aws.amazon.com/apprunner/latest/api/API_DescribeService.html), and [DeleteService](https://docs.aws.amazon.com/apprunner/latest/api/API_DeleteService.html) actions. A subset of this information is returned by the [ListServices](https://docs.aws.amazon.com/apprunner/latest/api/API_ListServices.html) action using the [ServiceSummary](https://docs.aws.amazon.com/apprunner/latest/api/API_ServiceSummary.html) type.
-    public struct Service: Swift.Equatable {
+    public struct Service {
         /// Summary information for the App Runner automatic scaling configuration resource that's associated with this service.
         /// This member is required.
         public var autoScalingConfigurationSummary: AppRunnerClientTypes.AutoScalingConfigurationSummary?
@@ -6768,7 +6768,7 @@ extension AppRunnerClientTypes.ServiceObservabilityConfiguration: Swift.Codable 
 
 extension AppRunnerClientTypes {
     /// Describes the observability configuration of an App Runner service. These are additional observability features, like tracing, that you choose to enable. They're configured in a separate resource that you associate with your service.
-    public struct ServiceObservabilityConfiguration: Swift.Equatable {
+    public struct ServiceObservabilityConfiguration {
         /// The Amazon Resource Name (ARN) of the observability configuration that is associated with the service. Specified only when ObservabilityEnabled is true. Specify an ARN with a name and a revision number to associate that revision. For example: arn:aws:apprunner:us-east-1:123456789012:observabilityconfiguration/xray-tracing/3 Specify just the name to associate the latest revision. For example: arn:aws:apprunner:us-east-1:123456789012:observabilityconfiguration/xray-tracing
         public var observabilityConfigurationArn: Swift.String?
         /// When true, an observability configuration resource is associated with the service, and an ObservabilityConfigurationArn is specified.
@@ -6826,7 +6826,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -6943,7 +6943,7 @@ extension AppRunnerClientTypes.ServiceSummary: Swift.Codable {
 
 extension AppRunnerClientTypes {
     /// Provides summary information for an App Runner service. This type contains limited information about a service. It doesn't include configuration details. It's returned by the [ListServices](https://docs.aws.amazon.com/apprunner/latest/api/API_ListServices.html) action. Complete service information is returned by the [CreateService](https://docs.aws.amazon.com/apprunner/latest/api/API_CreateService.html), [DescribeService](https://docs.aws.amazon.com/apprunner/latest/api/API_DescribeService.html), and [DeleteService](https://docs.aws.amazon.com/apprunner/latest/api/API_DeleteService.html) actions using the [Service](https://docs.aws.amazon.com/apprunner/latest/api/API_Service.html) type.
-    public struct ServiceSummary: Swift.Equatable {
+    public struct ServiceSummary {
         /// The time when the App Runner service was created. It's in the Unix time stamp format.
         public var createdAt: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) of this service.
@@ -7012,7 +7012,7 @@ extension AppRunnerClientTypes.SourceCodeVersion: Swift.Codable {
 
 extension AppRunnerClientTypes {
     /// Identifies a version of code that App Runner refers to within a source code repository.
-    public struct SourceCodeVersion: Swift.Equatable {
+    public struct SourceCodeVersion {
         /// The type of version identifier. For a git-based repository, branches represent versions.
         /// This member is required.
         public var type: AppRunnerClientTypes.SourceCodeVersionType?
@@ -7100,7 +7100,7 @@ extension AppRunnerClientTypes.SourceConfiguration: Swift.Codable {
 
 extension AppRunnerClientTypes {
     /// Describes the source deployed to an App Runner service. It can be a code or an image repository.
-    public struct SourceConfiguration: Swift.Equatable {
+    public struct SourceConfiguration {
         /// Describes the resources that are needed to authenticate access to some source repositories.
         public var authenticationConfiguration: AppRunnerClientTypes.AuthenticationConfiguration?
         /// If true, continuous integration from the source repository is enabled for the App Runner service. Each repository change (including any source code commit or new image version) starts a deployment. Default: App Runner sets to false for a source image that uses an ECR Public repository or an ECR repository that's in an Amazon Web Services account other than the one that the service is in. App Runner sets to true in all other cases (which currently include a source code repository or a source image using a same-account ECR repository).
@@ -7146,7 +7146,7 @@ extension StartDeploymentInput {
     }
 }
 
-public struct StartDeploymentInput: Swift.Equatable {
+public struct StartDeploymentInput {
     /// The Amazon Resource Name (ARN) of the App Runner service that you want to manually deploy to.
     /// This member is required.
     public var serviceArn: Swift.String?
@@ -7159,7 +7159,7 @@ public struct StartDeploymentInput: Swift.Equatable {
     }
 }
 
-struct StartDeploymentInputBody: Swift.Equatable {
+struct StartDeploymentInputBody {
     let serviceArn: Swift.String?
 }
 
@@ -7187,7 +7187,7 @@ extension StartDeploymentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartDeploymentOutput: Swift.Equatable {
+public struct StartDeploymentOutput {
     /// The unique ID of the asynchronous operation that this request started. You can use it combined with the [ListOperations] call to track the operation's progress.
     /// This member is required.
     public var operationId: Swift.String?
@@ -7200,7 +7200,7 @@ public struct StartDeploymentOutput: Swift.Equatable {
     }
 }
 
-struct StartDeploymentOutputBody: Swift.Equatable {
+struct StartDeploymentOutputBody {
     let operationId: Swift.String?
 }
 
@@ -7256,7 +7256,7 @@ extension AppRunnerClientTypes.Tag: Swift.Codable {
 
 extension AppRunnerClientTypes {
     /// Describes a tag that is applied to an App Runner resource. A tag is a metadata item consisting of a key-value pair.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key of the tag.
         public var key: Swift.String?
         /// The value of the tag.
@@ -7301,7 +7301,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource that you want to update tags for. It must be the ARN of an App Runner resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -7319,7 +7319,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceArn: Swift.String?
     let tags: [AppRunnerClientTypes.Tag]?
 }
@@ -7353,7 +7353,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -7393,7 +7393,7 @@ extension AppRunnerClientTypes.TraceConfiguration: Swift.Codable {
 
 extension AppRunnerClientTypes {
     /// Describes the configuration of the tracing feature within an App Runner observability configuration.
-    public struct TraceConfiguration: Swift.Equatable {
+    public struct TraceConfiguration {
         /// The implementation provider chosen for tracing App Runner services.
         /// This member is required.
         public var vendor: AppRunnerClientTypes.TracingVendor?
@@ -7464,7 +7464,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource that you want to remove tags from. It must be the ARN of an App Runner resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -7482,7 +7482,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceArn: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -7516,7 +7516,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -7555,7 +7555,7 @@ extension UpdateDefaultAutoScalingConfigurationInput {
     }
 }
 
-public struct UpdateDefaultAutoScalingConfigurationInput: Swift.Equatable {
+public struct UpdateDefaultAutoScalingConfigurationInput {
     /// The Amazon Resource Name (ARN) of the App Runner auto scaling configuration that you want to set as the default. The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either .../name  or .../name/revision . If a revision isn't specified, the latest active revision is set as the default.
     /// This member is required.
     public var autoScalingConfigurationArn: Swift.String?
@@ -7568,7 +7568,7 @@ public struct UpdateDefaultAutoScalingConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateDefaultAutoScalingConfigurationInputBody: Swift.Equatable {
+struct UpdateDefaultAutoScalingConfigurationInputBody {
     let autoScalingConfigurationArn: Swift.String?
 }
 
@@ -7596,7 +7596,7 @@ extension UpdateDefaultAutoScalingConfigurationOutput: ClientRuntime.HttpRespons
     }
 }
 
-public struct UpdateDefaultAutoScalingConfigurationOutput: Swift.Equatable {
+public struct UpdateDefaultAutoScalingConfigurationOutput {
     /// A description of the App Runner auto scaling configuration that was set as default.
     /// This member is required.
     public var autoScalingConfiguration: AppRunnerClientTypes.AutoScalingConfiguration?
@@ -7609,7 +7609,7 @@ public struct UpdateDefaultAutoScalingConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDefaultAutoScalingConfigurationOutputBody: Swift.Equatable {
+struct UpdateDefaultAutoScalingConfigurationOutputBody {
     let autoScalingConfiguration: AppRunnerClientTypes.AutoScalingConfiguration?
 }
 
@@ -7682,7 +7682,7 @@ extension UpdateServiceInput {
     }
 }
 
-public struct UpdateServiceInput: Swift.Equatable {
+public struct UpdateServiceInput {
     /// The Amazon Resource Name (ARN) of an App Runner automatic scaling configuration resource that you want to associate with the App Runner service.
     public var autoScalingConfigurationArn: Swift.String?
     /// The settings for the health check that App Runner performs to monitor the health of the App Runner service.
@@ -7719,7 +7719,7 @@ public struct UpdateServiceInput: Swift.Equatable {
     }
 }
 
-struct UpdateServiceInputBody: Swift.Equatable {
+struct UpdateServiceInputBody {
     let serviceArn: Swift.String?
     let sourceConfiguration: AppRunnerClientTypes.SourceConfiguration?
     let instanceConfiguration: AppRunnerClientTypes.InstanceConfiguration?
@@ -7773,7 +7773,7 @@ extension UpdateServiceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateServiceOutput: Swift.Equatable {
+public struct UpdateServiceOutput {
     /// The unique ID of the asynchronous operation that this request started. You can use it combined with the [ListOperations] call to track the operation's progress.
     /// This member is required.
     public var operationId: Swift.String?
@@ -7791,7 +7791,7 @@ public struct UpdateServiceOutput: Swift.Equatable {
     }
 }
 
-struct UpdateServiceOutputBody: Swift.Equatable {
+struct UpdateServiceOutputBody {
     let service: AppRunnerClientTypes.Service?
     let operationId: Swift.String?
 }
@@ -7849,7 +7849,7 @@ extension UpdateVpcIngressConnectionInput {
     }
 }
 
-public struct UpdateVpcIngressConnectionInput: Swift.Equatable {
+public struct UpdateVpcIngressConnectionInput {
     /// Specifications for the customer’s Amazon VPC and the related Amazon Web Services PrivateLink VPC endpoint that are used to update the VPC Ingress Connection resource.
     /// This member is required.
     public var ingressVpcConfiguration: AppRunnerClientTypes.IngressVpcConfiguration?
@@ -7867,7 +7867,7 @@ public struct UpdateVpcIngressConnectionInput: Swift.Equatable {
     }
 }
 
-struct UpdateVpcIngressConnectionInputBody: Swift.Equatable {
+struct UpdateVpcIngressConnectionInputBody {
     let vpcIngressConnectionArn: Swift.String?
     let ingressVpcConfiguration: AppRunnerClientTypes.IngressVpcConfiguration?
 }
@@ -7899,7 +7899,7 @@ extension UpdateVpcIngressConnectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateVpcIngressConnectionOutput: Swift.Equatable {
+public struct UpdateVpcIngressConnectionOutput {
     /// A description of the App Runner VPC Ingress Connection resource that's updated by this request.
     /// This member is required.
     public var vpcIngressConnection: AppRunnerClientTypes.VpcIngressConnection?
@@ -7912,7 +7912,7 @@ public struct UpdateVpcIngressConnectionOutput: Swift.Equatable {
     }
 }
 
-struct UpdateVpcIngressConnectionOutputBody: Swift.Equatable {
+struct UpdateVpcIngressConnectionOutputBody {
     let vpcIngressConnection: AppRunnerClientTypes.VpcIngressConnection?
 }
 
@@ -8029,7 +8029,7 @@ extension AppRunnerClientTypes.VpcConnector: Swift.Codable {
 
 extension AppRunnerClientTypes {
     /// Describes an App Runner VPC connector resource. A VPC connector describes the Amazon Virtual Private Cloud (Amazon VPC) that an App Runner service is associated with, and the subnets and security group that are used. Multiple revisions of a connector might have the same Name and different Revision values. At this time, App Runner supports only one revision per name.
-    public struct VpcConnector: Swift.Equatable {
+    public struct VpcConnector {
         /// The time when the VPC connector was created. It's in Unix time stamp format.
         public var createdAt: ClientRuntime.Date?
         /// The time when the VPC connector was deleted. It's in Unix time stamp format.
@@ -8136,7 +8136,7 @@ extension AppRunnerClientTypes.VpcDNSTarget: Swift.Codable {
 
 extension AppRunnerClientTypes {
     /// DNS Target record for a custom domain of this Amazon VPC.
-    public struct VpcDNSTarget: Swift.Equatable {
+    public struct VpcDNSTarget {
         /// The domain name of your target DNS that is associated with the Amazon VPC.
         public var domainName: Swift.String?
         /// The ID of the Amazon VPC that is associated with the custom domain name of the target DNS.
@@ -8227,7 +8227,7 @@ extension AppRunnerClientTypes.VpcIngressConnection: Swift.Codable {
 
 extension AppRunnerClientTypes {
     /// The App Runner resource that specifies an App Runner endpoint for incoming traffic. It establishes a connection between a VPC interface endpoint and a App Runner service, to make your App Runner service accessible from only within an Amazon VPC.
-    public struct VpcIngressConnection: Swift.Equatable {
+    public struct VpcIngressConnection {
         /// The Account Id you use to create the VPC Ingress Connection resource.
         public var accountId: Swift.String?
         /// The time when the VPC Ingress Connection was created. It's in the Unix time stamp format.
@@ -8358,7 +8358,7 @@ extension AppRunnerClientTypes.VpcIngressConnectionSummary: Swift.Codable {
 
 extension AppRunnerClientTypes {
     /// Provides summary information about an VPC Ingress Connection, which includes its VPC Ingress Connection ARN and its associated Service ARN.
-    public struct VpcIngressConnectionSummary: Swift.Equatable {
+    public struct VpcIngressConnectionSummary {
         /// The Amazon Resource Name (ARN) of the service associated with the VPC Ingress Connection.
         public var serviceArn: Swift.String?
         /// The Amazon Resource Name (ARN) of the VPC Ingress Connection.

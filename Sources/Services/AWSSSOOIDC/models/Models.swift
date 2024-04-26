@@ -48,7 +48,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let error: Swift.String?
     let error_description: Swift.String?
 }
@@ -114,7 +114,7 @@ public struct AuthorizationPendingException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct AuthorizationPendingExceptionBody: Swift.Equatable {
+struct AuthorizationPendingExceptionBody {
     let error: Swift.String?
     let error_description: Swift.String?
 }
@@ -190,7 +190,7 @@ extension CreateTokenInput {
     }
 }
 
-public struct CreateTokenInput: Swift.Equatable {
+public struct CreateTokenInput {
     /// The unique identifier string for the client or application. This value comes from the result of the [RegisterClient] API.
     /// This member is required.
     public var clientId: Swift.String?
@@ -233,7 +233,7 @@ public struct CreateTokenInput: Swift.Equatable {
     }
 }
 
-struct CreateTokenInputBody: Swift.Equatable {
+struct CreateTokenInputBody {
     let clientId: Swift.String?
     let clientSecret: Swift.String?
     let grantType: Swift.String?
@@ -311,7 +311,7 @@ extension CreateTokenOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateTokenOutput: Swift.Equatable {
+public struct CreateTokenOutput {
     /// A bearer token to access AWS accounts and applications assigned to a user.
     public var accessToken: Swift.String?
     /// Indicates the time in seconds when an access token will expire.
@@ -339,7 +339,7 @@ public struct CreateTokenOutput: Swift.Equatable {
     }
 }
 
-struct CreateTokenOutputBody: Swift.Equatable {
+struct CreateTokenOutputBody {
     let accessToken: Swift.String?
     let tokenType: Swift.String?
     let expiresIn: Swift.Int
@@ -465,7 +465,7 @@ extension CreateTokenWithIAMInput {
     }
 }
 
-public struct CreateTokenWithIAMInput: Swift.Equatable {
+public struct CreateTokenWithIAMInput {
     /// Used only when calling this API for the JWT Bearer grant type. This value specifies the JSON Web Token (JWT) issued by a trusted token issuer. To authorize a trusted token issuer, configure the JWT Bearer GrantOptions for the application.
     public var assertion: Swift.String?
     /// The unique identifier string for the client or application. This value is an application ARN that has OAuth grants configured.
@@ -515,7 +515,7 @@ public struct CreateTokenWithIAMInput: Swift.Equatable {
     }
 }
 
-struct CreateTokenWithIAMInputBody: Swift.Equatable {
+struct CreateTokenWithIAMInputBody {
     let clientId: Swift.String?
     let grantType: Swift.String?
     let code: Swift.String?
@@ -605,7 +605,7 @@ extension CreateTokenWithIAMOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateTokenWithIAMOutput: Swift.Equatable {
+public struct CreateTokenWithIAMOutput {
     /// A bearer token to access AWS accounts and applications assigned to a user.
     public var accessToken: Swift.String?
     /// Indicates the time in seconds when an access token will expire.
@@ -641,7 +641,7 @@ public struct CreateTokenWithIAMOutput: Swift.Equatable {
     }
 }
 
-struct CreateTokenWithIAMOutputBody: Swift.Equatable {
+struct CreateTokenWithIAMOutputBody {
     let accessToken: Swift.String?
     let tokenType: Swift.String?
     let expiresIn: Swift.Int
@@ -758,7 +758,7 @@ public struct ExpiredTokenException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct ExpiredTokenExceptionBody: Swift.Equatable {
+struct ExpiredTokenExceptionBody {
     let error: Swift.String?
     let error_description: Swift.String?
 }
@@ -824,7 +824,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let error: Swift.String?
     let error_description: Swift.String?
 }
@@ -890,7 +890,7 @@ public struct InvalidClientException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct InvalidClientExceptionBody: Swift.Equatable {
+struct InvalidClientExceptionBody {
     let error: Swift.String?
     let error_description: Swift.String?
 }
@@ -956,7 +956,7 @@ public struct InvalidClientMetadataException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct InvalidClientMetadataExceptionBody: Swift.Equatable {
+struct InvalidClientMetadataExceptionBody {
     let error: Swift.String?
     let error_description: Swift.String?
 }
@@ -1022,7 +1022,7 @@ public struct InvalidGrantException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct InvalidGrantExceptionBody: Swift.Equatable {
+struct InvalidGrantExceptionBody {
     let error: Swift.String?
     let error_description: Swift.String?
 }
@@ -1088,7 +1088,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InvalidRequestExceptionBody: Swift.Equatable {
+struct InvalidRequestExceptionBody {
     let error: Swift.String?
     let error_description: Swift.String?
 }
@@ -1166,7 +1166,7 @@ public struct InvalidRequestRegionException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct InvalidRequestRegionExceptionBody: Swift.Equatable {
+struct InvalidRequestRegionExceptionBody {
     let error: Swift.String?
     let error_description: Swift.String?
     let endpoint: Swift.String?
@@ -1240,7 +1240,7 @@ public struct InvalidScopeException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct InvalidScopeExceptionBody: Swift.Equatable {
+struct InvalidScopeExceptionBody {
     let error: Swift.String?
     let error_description: Swift.String?
 }
@@ -1291,7 +1291,7 @@ extension RegisterClientInput {
     }
 }
 
-public struct RegisterClientInput: Swift.Equatable {
+public struct RegisterClientInput {
     /// The friendly name of the client.
     /// This member is required.
     public var clientName: Swift.String?
@@ -1313,7 +1313,7 @@ public struct RegisterClientInput: Swift.Equatable {
     }
 }
 
-struct RegisterClientInputBody: Swift.Equatable {
+struct RegisterClientInputBody {
     let clientName: Swift.String?
     let clientType: Swift.String?
     let scopes: [Swift.String]?
@@ -1373,7 +1373,7 @@ extension RegisterClientOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RegisterClientOutput: Swift.Equatable {
+public struct RegisterClientOutput {
     /// An endpoint that the client can use to request authorization.
     public var authorizationEndpoint: Swift.String?
     /// The unique identifier string for each client. This client uses this identifier to get authenticated by the service in subsequent calls.
@@ -1405,7 +1405,7 @@ public struct RegisterClientOutput: Swift.Equatable {
     }
 }
 
-struct RegisterClientOutputBody: Swift.Equatable {
+struct RegisterClientOutputBody {
     let clientId: Swift.String?
     let clientSecret: Swift.String?
     let clientIdIssuedAt: Swift.Int
@@ -1503,7 +1503,7 @@ public struct SlowDownException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct SlowDownExceptionBody: Swift.Equatable {
+struct SlowDownExceptionBody {
     let error: Swift.String?
     let error_description: Swift.String?
 }
@@ -1556,7 +1556,7 @@ extension StartDeviceAuthorizationInput {
     }
 }
 
-public struct StartDeviceAuthorizationInput: Swift.Equatable {
+public struct StartDeviceAuthorizationInput {
     /// The unique identifier string for the client that is registered with IAM Identity Center. This value should come from the persisted result of the [RegisterClient] API operation.
     /// This member is required.
     public var clientId: Swift.String?
@@ -1579,7 +1579,7 @@ public struct StartDeviceAuthorizationInput: Swift.Equatable {
     }
 }
 
-struct StartDeviceAuthorizationInputBody: Swift.Equatable {
+struct StartDeviceAuthorizationInputBody {
     let clientId: Swift.String?
     let clientSecret: Swift.String?
     let startUrl: Swift.String?
@@ -1625,7 +1625,7 @@ extension StartDeviceAuthorizationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartDeviceAuthorizationOutput: Swift.Equatable {
+public struct StartDeviceAuthorizationOutput {
     /// The short-lived code that is used by the device when polling for a session token.
     public var deviceCode: Swift.String?
     /// Indicates the number of seconds in which the verification code will become invalid.
@@ -1657,7 +1657,7 @@ public struct StartDeviceAuthorizationOutput: Swift.Equatable {
     }
 }
 
-struct StartDeviceAuthorizationOutputBody: Swift.Equatable {
+struct StartDeviceAuthorizationOutputBody {
     let deviceCode: Swift.String?
     let userCode: Swift.String?
     let verificationUri: Swift.String?
@@ -1754,7 +1754,7 @@ public struct UnauthorizedClientException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct UnauthorizedClientExceptionBody: Swift.Equatable {
+struct UnauthorizedClientExceptionBody {
     let error: Swift.String?
     let error_description: Swift.String?
 }
@@ -1820,7 +1820,7 @@ public struct UnsupportedGrantTypeException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct UnsupportedGrantTypeExceptionBody: Swift.Equatable {
+struct UnsupportedGrantTypeExceptionBody {
     let error: Swift.String?
     let error_description: Swift.String?
 }

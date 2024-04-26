@@ -47,7 +47,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let reason: RbinClientTypes.ConflictExceptionReason?
 }
@@ -142,7 +142,7 @@ extension CreateRuleInput {
     }
 }
 
-public struct CreateRuleInput: Swift.Equatable {
+public struct CreateRuleInput {
     /// The retention rule description.
     public var description: Swift.String?
     /// Information about the retention rule lock configuration.
@@ -176,7 +176,7 @@ public struct CreateRuleInput: Swift.Equatable {
     }
 }
 
-struct CreateRuleInputBody: Swift.Equatable {
+struct CreateRuleInputBody {
     let retentionPeriod: RbinClientTypes.RetentionPeriod?
     let description: Swift.String?
     let tags: [RbinClientTypes.Tag]?
@@ -260,7 +260,7 @@ extension CreateRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRuleOutput: Swift.Equatable {
+public struct CreateRuleOutput {
     /// The retention rule description.
     public var description: Swift.String?
     /// The unique ID of the retention rule.
@@ -316,7 +316,7 @@ public struct CreateRuleOutput: Swift.Equatable {
     }
 }
 
-struct CreateRuleOutputBody: Swift.Equatable {
+struct CreateRuleOutputBody {
     let identifier: Swift.String?
     let retentionPeriod: RbinClientTypes.RetentionPeriod?
     let description: Swift.String?
@@ -409,7 +409,7 @@ extension DeleteRuleInput {
     }
 }
 
-public struct DeleteRuleInput: Swift.Equatable {
+public struct DeleteRuleInput {
     /// The unique ID of the retention rule.
     /// This member is required.
     public var identifier: Swift.String?
@@ -422,7 +422,7 @@ public struct DeleteRuleInput: Swift.Equatable {
     }
 }
 
-struct DeleteRuleInputBody: Swift.Equatable {
+struct DeleteRuleInputBody {
 }
 
 extension DeleteRuleInputBody: Swift.Decodable {
@@ -436,7 +436,7 @@ extension DeleteRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRuleOutput: Swift.Equatable {
+public struct DeleteRuleOutput {
 
     public init() { }
 }
@@ -465,7 +465,7 @@ extension GetRuleInput {
     }
 }
 
-public struct GetRuleInput: Swift.Equatable {
+public struct GetRuleInput {
     /// The unique ID of the retention rule.
     /// This member is required.
     public var identifier: Swift.String?
@@ -478,7 +478,7 @@ public struct GetRuleInput: Swift.Equatable {
     }
 }
 
-struct GetRuleInputBody: Swift.Equatable {
+struct GetRuleInputBody {
 }
 
 extension GetRuleInputBody: Swift.Decodable {
@@ -517,7 +517,7 @@ extension GetRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRuleOutput: Swift.Equatable {
+public struct GetRuleOutput {
     /// The retention rule description.
     public var description: Swift.String?
     /// The unique ID of the retention rule.
@@ -573,7 +573,7 @@ public struct GetRuleOutput: Swift.Equatable {
     }
 }
 
-struct GetRuleOutputBody: Swift.Equatable {
+struct GetRuleOutputBody {
     let identifier: Swift.String?
     let description: Swift.String?
     let resourceType: RbinClientTypes.ResourceType?
@@ -686,7 +686,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -741,7 +741,7 @@ extension ListRulesInput {
     }
 }
 
-public struct ListRulesInput: Swift.Equatable {
+public struct ListRulesInput {
     /// The lock state of the retention rules to list. Only retention rules with the specified lock state are returned.
     public var lockState: RbinClientTypes.LockState?
     /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned NextToken value.
@@ -770,7 +770,7 @@ public struct ListRulesInput: Swift.Equatable {
     }
 }
 
-struct ListRulesInputBody: Swift.Equatable {
+struct ListRulesInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let resourceType: RbinClientTypes.ResourceType?
@@ -825,7 +825,7 @@ extension ListRulesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRulesOutput: Swift.Equatable {
+public struct ListRulesOutput {
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
     /// Information about the retention rules.
@@ -841,7 +841,7 @@ public struct ListRulesOutput: Swift.Equatable {
     }
 }
 
-struct ListRulesOutputBody: Swift.Equatable {
+struct ListRulesOutputBody {
     let rules: [RbinClientTypes.RuleSummary]?
     let nextToken: Swift.String?
 }
@@ -892,7 +892,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the retention rule.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -905,7 +905,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -926,7 +926,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// Information about the tags assigned to the retention rule.
     public var tags: [RbinClientTypes.Tag]?
 
@@ -938,7 +938,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [RbinClientTypes.Tag]?
 }
 
@@ -997,7 +997,7 @@ extension RbinClientTypes.LockConfiguration: Swift.Codable {
 
 extension RbinClientTypes {
     /// Information about a retention rule lock configuration.
-    public struct LockConfiguration: Swift.Equatable {
+    public struct LockConfiguration {
         /// Information about the retention rule unlock delay.
         /// This member is required.
         public var unlockDelay: RbinClientTypes.UnlockDelay?
@@ -1035,7 +1035,7 @@ extension LockRuleInput {
     }
 }
 
-public struct LockRuleInput: Swift.Equatable {
+public struct LockRuleInput {
     /// The unique ID of the retention rule.
     /// This member is required.
     public var identifier: Swift.String?
@@ -1053,7 +1053,7 @@ public struct LockRuleInput: Swift.Equatable {
     }
 }
 
-struct LockRuleInputBody: Swift.Equatable {
+struct LockRuleInputBody {
     let lockConfiguration: RbinClientTypes.LockConfiguration?
 }
 
@@ -1097,7 +1097,7 @@ extension LockRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct LockRuleOutput: Swift.Equatable {
+public struct LockRuleOutput {
     /// The retention rule description.
     public var description: Swift.String?
     /// The unique ID of the retention rule.
@@ -1149,7 +1149,7 @@ public struct LockRuleOutput: Swift.Equatable {
     }
 }
 
-struct LockRuleOutputBody: Swift.Equatable {
+struct LockRuleOutputBody {
     let identifier: Swift.String?
     let description: Swift.String?
     let resourceType: RbinClientTypes.ResourceType?
@@ -1302,7 +1302,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let reason: RbinClientTypes.ResourceNotFoundExceptionReason?
 }
@@ -1378,7 +1378,7 @@ extension RbinClientTypes.ResourceTag: Swift.Codable {
 
 extension RbinClientTypes {
     /// Information about the resource tags used to identify resources that are retained by the retention rule.
-    public struct ResourceTag: Swift.Equatable {
+    public struct ResourceTag {
         /// The tag key.
         /// This member is required.
         public var resourceTagKey: Swift.String?
@@ -1456,7 +1456,7 @@ extension RbinClientTypes.RetentionPeriod: Swift.Codable {
 
 extension RbinClientTypes {
     /// Information about the retention period for which the retention rule is to retain resources.
-    public struct RetentionPeriod: Swift.Equatable {
+    public struct RetentionPeriod {
         /// The unit of time in which the retention period is measured. Currently, only DAYS is supported.
         /// This member is required.
         public var retentionPeriodUnit: RbinClientTypes.RetentionPeriodUnit?
@@ -1582,7 +1582,7 @@ extension RbinClientTypes.RuleSummary: Swift.Codable {
 
 extension RbinClientTypes {
     /// Information about a Recycle Bin retention rule.
-    public struct RuleSummary: Swift.Equatable {
+    public struct RuleSummary {
         /// The retention rule description.
         public var description: Swift.String?
         /// The unique ID of the retention rule.
@@ -1665,7 +1665,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
     let reason: RbinClientTypes.ServiceQuotaExceededExceptionReason?
 }
@@ -1741,7 +1741,7 @@ extension RbinClientTypes.Tag: Swift.Codable {
 
 extension RbinClientTypes {
     /// Information about the tags to assign to the retention rule.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The tag key.
         /// This member is required.
         public var key: Swift.String?
@@ -1787,7 +1787,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the retention rule.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -1805,7 +1805,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [RbinClientTypes.Tag]?
 }
 
@@ -1835,7 +1835,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -1881,7 +1881,7 @@ extension RbinClientTypes.UnlockDelay: Swift.Codable {
 
 extension RbinClientTypes {
     /// Information about the retention rule unlock delay. The unlock delay is the period after which a retention rule can be modified or edited after it has been unlocked by a user with the required permissions. The retention rule can't be modified or deleted during the unlock delay.
-    public struct UnlockDelay: Swift.Equatable {
+    public struct UnlockDelay {
         /// The unit of time in which to measure the unlock delay. Currently, the unlock delay can be measure only in days.
         /// This member is required.
         public var unlockDelayUnit: RbinClientTypes.UnlockDelayUnit?
@@ -1940,7 +1940,7 @@ extension UnlockRuleInput {
     }
 }
 
-public struct UnlockRuleInput: Swift.Equatable {
+public struct UnlockRuleInput {
     /// The unique ID of the retention rule.
     /// This member is required.
     public var identifier: Swift.String?
@@ -1953,7 +1953,7 @@ public struct UnlockRuleInput: Swift.Equatable {
     }
 }
 
-struct UnlockRuleInputBody: Swift.Equatable {
+struct UnlockRuleInputBody {
 }
 
 extension UnlockRuleInputBody: Swift.Decodable {
@@ -1992,7 +1992,7 @@ extension UnlockRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UnlockRuleOutput: Swift.Equatable {
+public struct UnlockRuleOutput {
     /// The retention rule description.
     public var description: Swift.String?
     /// The unique ID of the retention rule.
@@ -2048,7 +2048,7 @@ public struct UnlockRuleOutput: Swift.Equatable {
     }
 }
 
-struct UnlockRuleOutputBody: Swift.Equatable {
+struct UnlockRuleOutputBody {
     let identifier: Swift.String?
     let description: Swift.String?
     let resourceType: RbinClientTypes.ResourceType?
@@ -2149,7 +2149,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the retention rule.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2167,7 +2167,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -2181,7 +2181,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -2237,7 +2237,7 @@ extension UpdateRuleInput {
     }
 }
 
-public struct UpdateRuleInput: Swift.Equatable {
+public struct UpdateRuleInput {
     /// The retention rule description.
     public var description: Swift.String?
     /// The unique ID of the retention rule.
@@ -2266,7 +2266,7 @@ public struct UpdateRuleInput: Swift.Equatable {
     }
 }
 
-struct UpdateRuleInputBody: Swift.Equatable {
+struct UpdateRuleInputBody {
     let retentionPeriod: RbinClientTypes.RetentionPeriod?
     let description: Swift.String?
     let resourceType: RbinClientTypes.ResourceType?
@@ -2331,7 +2331,7 @@ extension UpdateRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateRuleOutput: Swift.Equatable {
+public struct UpdateRuleOutput {
     /// The retention rule description.
     public var description: Swift.String?
     /// The unique ID of the retention rule.
@@ -2383,7 +2383,7 @@ public struct UpdateRuleOutput: Swift.Equatable {
     }
 }
 
-struct UpdateRuleOutputBody: Swift.Equatable {
+struct UpdateRuleOutputBody {
     let identifier: Swift.String?
     let retentionPeriod: RbinClientTypes.RetentionPeriod?
     let description: Swift.String?
@@ -2500,7 +2500,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let reason: RbinClientTypes.ValidationExceptionReason?
 }

@@ -35,7 +35,7 @@ extension ApplicationDiscoveryClientTypes.AgentConfigurationStatus: Swift.Codabl
 
 extension ApplicationDiscoveryClientTypes {
     /// Information about agents that were instructed to start collecting data. Information includes the agent ID, a description of the operation, and whether the agent configuration was updated.
-    public struct AgentConfigurationStatus: Swift.Equatable {
+    public struct AgentConfigurationStatus {
         /// The agent ID.
         public var agentId: Swift.String?
         /// A description of the operation performed.
@@ -144,7 +144,7 @@ extension ApplicationDiscoveryClientTypes.AgentInfo: Swift.Codable {
 
 extension ApplicationDiscoveryClientTypes {
     /// Information about agents associated with the user’s Amazon Web Services account. Information includes agent IDs, IP addresses, media access control (MAC) addresses, agent or collector status, hostname where the agent resides, and agent version for each agent.
-    public struct AgentInfo: Swift.Equatable {
+    public struct AgentInfo {
         /// The agent or collector ID.
         public var agentId: Swift.String?
         /// Network details about the host where the agent or collector resides.
@@ -227,7 +227,7 @@ extension ApplicationDiscoveryClientTypes.AgentNetworkInfo: Swift.CustomDebugStr
 
 extension ApplicationDiscoveryClientTypes {
     /// Network details about the host where the agent/collector resides.
-    public struct AgentNetworkInfo: Swift.Equatable {
+    public struct AgentNetworkInfo {
         /// The IP address for the host where the agent/collector resides.
         public var ipAddress: Swift.String?
         /// The MAC address for the host where the agent/collector resides.
@@ -318,7 +318,7 @@ extension AssociateConfigurationItemsToApplicationInput {
     }
 }
 
-public struct AssociateConfigurationItemsToApplicationInput: Swift.Equatable {
+public struct AssociateConfigurationItemsToApplicationInput {
     /// The configuration ID of an application with which items are to be associated.
     /// This member is required.
     public var applicationConfigurationId: Swift.String?
@@ -336,7 +336,7 @@ public struct AssociateConfigurationItemsToApplicationInput: Swift.Equatable {
     }
 }
 
-struct AssociateConfigurationItemsToApplicationInputBody: Swift.Equatable {
+struct AssociateConfigurationItemsToApplicationInputBody {
     let applicationConfigurationId: Swift.String?
     let configurationIds: [Swift.String]?
 }
@@ -370,7 +370,7 @@ extension AssociateConfigurationItemsToApplicationOutput: ClientRuntime.HttpResp
     }
 }
 
-public struct AssociateConfigurationItemsToApplicationOutput: Swift.Equatable {
+public struct AssociateConfigurationItemsToApplicationOutput {
 
     public init() { }
 }
@@ -429,7 +429,7 @@ public struct AuthorizationErrorException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct AuthorizationErrorExceptionBody: Swift.Equatable {
+struct AuthorizationErrorExceptionBody {
     let message: Swift.String?
 }
 
@@ -478,7 +478,7 @@ extension ApplicationDiscoveryClientTypes.BatchDeleteAgentError: Swift.Codable {
 
 extension ApplicationDiscoveryClientTypes {
     /// An object representing the agent or data collector that failed to delete, each containing agentId, errorMessage, and errorCode.
-    public struct BatchDeleteAgentError: Swift.Equatable {
+    public struct BatchDeleteAgentError {
         /// The ID of the agent or data collector to delete.
         /// This member is required.
         public var agentId: Swift.String?
@@ -526,7 +526,7 @@ extension BatchDeleteAgentsInput {
     }
 }
 
-public struct BatchDeleteAgentsInput: Swift.Equatable {
+public struct BatchDeleteAgentsInput {
     /// The list of agents to delete.
     /// This member is required.
     public var deleteAgents: [ApplicationDiscoveryClientTypes.DeleteAgent]?
@@ -539,7 +539,7 @@ public struct BatchDeleteAgentsInput: Swift.Equatable {
     }
 }
 
-struct BatchDeleteAgentsInputBody: Swift.Equatable {
+struct BatchDeleteAgentsInputBody {
     let deleteAgents: [ApplicationDiscoveryClientTypes.DeleteAgent]?
 }
 
@@ -576,7 +576,7 @@ extension BatchDeleteAgentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchDeleteAgentsOutput: Swift.Equatable {
+public struct BatchDeleteAgentsOutput {
     /// A list of agent IDs that failed to delete during the deletion task, each paired with an error message.
     public var errors: [ApplicationDiscoveryClientTypes.BatchDeleteAgentError]?
 
@@ -588,7 +588,7 @@ public struct BatchDeleteAgentsOutput: Swift.Equatable {
     }
 }
 
-struct BatchDeleteAgentsOutputBody: Swift.Equatable {
+struct BatchDeleteAgentsOutputBody {
     let errors: [ApplicationDiscoveryClientTypes.BatchDeleteAgentError]?
 }
 
@@ -744,7 +744,7 @@ extension ApplicationDiscoveryClientTypes.BatchDeleteConfigurationTask: Swift.Co
 
 extension ApplicationDiscoveryClientTypes {
     /// A metadata object that represents the deletion task being executed.
-    public struct BatchDeleteConfigurationTask: Swift.Equatable {
+    public struct BatchDeleteConfigurationTask {
         /// The type of configuration item to delete. Supported types are: SERVER.
         public var configurationType: ApplicationDiscoveryClientTypes.DeletionConfigurationItemType?
         /// The list of configuration IDs that were successfully deleted by the deletion task.
@@ -864,7 +864,7 @@ extension ApplicationDiscoveryClientTypes.BatchDeleteImportDataError: Swift.Coda
 
 extension ApplicationDiscoveryClientTypes {
     /// Error messages returned for each import task that you deleted as a response for this command.
-    public struct BatchDeleteImportDataError: Swift.Equatable {
+    public struct BatchDeleteImportDataError {
         /// The type of error that occurred for a specific import task.
         public var errorCode: ApplicationDiscoveryClientTypes.BatchDeleteImportDataErrorCode?
         /// The description of the error that occurred for a specific import task.
@@ -948,7 +948,7 @@ extension BatchDeleteImportDataInput {
     }
 }
 
-public struct BatchDeleteImportDataInput: Swift.Equatable {
+public struct BatchDeleteImportDataInput {
     /// Set to true to remove the deleted import task from [DescribeImportTasks].
     public var deleteHistory: Swift.Bool?
     /// The IDs for the import tasks that you want to delete.
@@ -965,7 +965,7 @@ public struct BatchDeleteImportDataInput: Swift.Equatable {
     }
 }
 
-struct BatchDeleteImportDataInputBody: Swift.Equatable {
+struct BatchDeleteImportDataInputBody {
     let importTaskIds: [Swift.String]?
     let deleteHistory: Swift.Bool?
 }
@@ -1006,7 +1006,7 @@ extension BatchDeleteImportDataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchDeleteImportDataOutput: Swift.Equatable {
+public struct BatchDeleteImportDataOutput {
     /// Error messages returned for each import task that you deleted as a response for this command.
     public var errors: [ApplicationDiscoveryClientTypes.BatchDeleteImportDataError]?
 
@@ -1018,7 +1018,7 @@ public struct BatchDeleteImportDataOutput: Swift.Equatable {
     }
 }
 
-struct BatchDeleteImportDataOutputBody: Swift.Equatable {
+struct BatchDeleteImportDataOutputBody {
     let errors: [ApplicationDiscoveryClientTypes.BatchDeleteImportDataError]?
 }
 
@@ -1141,7 +1141,7 @@ extension ApplicationDiscoveryClientTypes.ConfigurationTag: Swift.Codable {
 
 extension ApplicationDiscoveryClientTypes {
     /// Tags for a configuration item. Tags are metadata that help you categorize IT assets.
-    public struct ConfigurationTag: Swift.Equatable {
+    public struct ConfigurationTag {
         /// The configuration ID for the item to tag. You can specify a list of keys and values.
         public var configurationId: Swift.String?
         /// A type of IT asset to tag.
@@ -1210,7 +1210,7 @@ public struct ConflictErrorException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ConflictErrorExceptionBody: Swift.Equatable {
+struct ConflictErrorExceptionBody {
     let message: Swift.String?
 }
 
@@ -1301,7 +1301,7 @@ extension ApplicationDiscoveryClientTypes.ContinuousExportDescription: Swift.Cod
 
 extension ApplicationDiscoveryClientTypes {
     /// A list of continuous export descriptions.
-    public struct ContinuousExportDescription: Swift.Equatable {
+    public struct ContinuousExportDescription {
         /// The type of data collector used to gather this data (currently only offered for AGENT).
         public var dataSource: ApplicationDiscoveryClientTypes.DataSource?
         /// The unique ID assigned to this export.
@@ -1460,7 +1460,7 @@ extension CreateApplicationInput {
     }
 }
 
-public struct CreateApplicationInput: Swift.Equatable {
+public struct CreateApplicationInput {
     /// Description of the application to be created.
     public var description: Swift.String?
     /// Name of the application to be created.
@@ -1477,7 +1477,7 @@ public struct CreateApplicationInput: Swift.Equatable {
     }
 }
 
-struct CreateApplicationInputBody: Swift.Equatable {
+struct CreateApplicationInputBody {
     let name: Swift.String?
     let description: Swift.String?
 }
@@ -1509,7 +1509,7 @@ extension CreateApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateApplicationOutput: Swift.Equatable {
+public struct CreateApplicationOutput {
     /// Configuration ID of an application to be created.
     public var configurationId: Swift.String?
 
@@ -1521,7 +1521,7 @@ public struct CreateApplicationOutput: Swift.Equatable {
     }
 }
 
-struct CreateApplicationOutputBody: Swift.Equatable {
+struct CreateApplicationOutputBody {
     let configurationId: Swift.String?
 }
 
@@ -1582,7 +1582,7 @@ extension CreateTagsInput {
     }
 }
 
-public struct CreateTagsInput: Swift.Equatable {
+public struct CreateTagsInput {
     /// A list of configuration items that you want to tag.
     /// This member is required.
     public var configurationIds: [Swift.String]?
@@ -1600,7 +1600,7 @@ public struct CreateTagsInput: Swift.Equatable {
     }
 }
 
-struct CreateTagsInputBody: Swift.Equatable {
+struct CreateTagsInputBody {
     let configurationIds: [Swift.String]?
     let tags: [ApplicationDiscoveryClientTypes.Tag]?
 }
@@ -1643,7 +1643,7 @@ extension CreateTagsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateTagsOutput: Swift.Equatable {
+public struct CreateTagsOutput {
 
     public init() { }
 }
@@ -1721,7 +1721,7 @@ extension ApplicationDiscoveryClientTypes.CustomerAgentInfo: Swift.Codable {
 
 extension ApplicationDiscoveryClientTypes {
     /// Inventory data for installed discovery agents.
-    public struct CustomerAgentInfo: Swift.Equatable {
+    public struct CustomerAgentInfo {
         /// Number of active discovery agents.
         /// This member is required.
         public var activeAgents: Swift.Int
@@ -1823,7 +1823,7 @@ extension ApplicationDiscoveryClientTypes.CustomerAgentlessCollectorInfo: Swift.
 
 extension ApplicationDiscoveryClientTypes {
     /// The inventory data for installed Agentless Collector collectors.
-    public struct CustomerAgentlessCollectorInfo: Swift.Equatable {
+    public struct CustomerAgentlessCollectorInfo {
         /// The number of active Agentless Collector collectors.
         /// This member is required.
         public var activeAgentlessCollectors: Swift.Int
@@ -1925,7 +1925,7 @@ extension ApplicationDiscoveryClientTypes.CustomerConnectorInfo: Swift.Codable {
 
 extension ApplicationDiscoveryClientTypes {
     /// Inventory data for installed discovery connectors.
-    public struct CustomerConnectorInfo: Swift.Equatable {
+    public struct CustomerConnectorInfo {
         /// Number of active discovery connectors.
         /// This member is required.
         public var activeConnectors: Swift.Int
@@ -2027,7 +2027,7 @@ extension ApplicationDiscoveryClientTypes.CustomerMeCollectorInfo: Swift.Codable
 
 extension ApplicationDiscoveryClientTypes {
     /// The inventory data for installed Migration Evaluator collectors.
-    public struct CustomerMeCollectorInfo: Swift.Equatable {
+    public struct CustomerMeCollectorInfo {
         /// The number of active Migration Evaluator collectors.
         /// This member is required.
         public var activeMeCollectors: Swift.Int
@@ -2128,7 +2128,7 @@ extension ApplicationDiscoveryClientTypes.DeleteAgent: Swift.Codable {
 
 extension ApplicationDiscoveryClientTypes {
     /// An object representing the agent or data collector to be deleted along with the optional configurations for error handling.
-    public struct DeleteAgent: Swift.Equatable {
+    public struct DeleteAgent {
         /// The ID of the agent or data collector to delete.
         /// This member is required.
         public var agentId: Swift.String?
@@ -2205,7 +2205,7 @@ extension DeleteApplicationsInput {
     }
 }
 
-public struct DeleteApplicationsInput: Swift.Equatable {
+public struct DeleteApplicationsInput {
     /// Configuration ID of an application to be deleted.
     /// This member is required.
     public var configurationIds: [Swift.String]?
@@ -2218,7 +2218,7 @@ public struct DeleteApplicationsInput: Swift.Equatable {
     }
 }
 
-struct DeleteApplicationsInputBody: Swift.Equatable {
+struct DeleteApplicationsInputBody {
     let configurationIds: [Swift.String]?
 }
 
@@ -2248,7 +2248,7 @@ extension DeleteApplicationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteApplicationsOutput: Swift.Equatable {
+public struct DeleteApplicationsOutput {
 
     public init() { }
 }
@@ -2298,7 +2298,7 @@ extension DeleteTagsInput {
     }
 }
 
-public struct DeleteTagsInput: Swift.Equatable {
+public struct DeleteTagsInput {
     /// A list of configuration items with tags that you want to delete.
     /// This member is required.
     public var configurationIds: [Swift.String]?
@@ -2315,7 +2315,7 @@ public struct DeleteTagsInput: Swift.Equatable {
     }
 }
 
-struct DeleteTagsInputBody: Swift.Equatable {
+struct DeleteTagsInputBody {
     let configurationIds: [Swift.String]?
     let tags: [ApplicationDiscoveryClientTypes.Tag]?
 }
@@ -2358,7 +2358,7 @@ extension DeleteTagsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteTagsOutput: Swift.Equatable {
+public struct DeleteTagsOutput {
 
     public init() { }
 }
@@ -2441,7 +2441,7 @@ extension ApplicationDiscoveryClientTypes.DeletionWarning: Swift.Codable {
 
 extension ApplicationDiscoveryClientTypes {
     /// A configuration ID paired with a warning message.
-    public struct DeletionWarning: Swift.Equatable {
+    public struct DeletionWarning {
         /// The unique identifier of the configuration that produced a warning.
         public var configurationId: Swift.String?
         /// The integer warning code associated with the warning message.
@@ -2501,7 +2501,7 @@ extension DescribeAgentsInput {
     }
 }
 
-public struct DescribeAgentsInput: Swift.Equatable {
+public struct DescribeAgentsInput {
     /// The agent or the collector IDs for which you want information. If you specify no IDs, the system returns information about all agents/collectors associated with your user.
     public var agentIds: [Swift.String]?
     /// You can filter the request using various logical operators and a key-value format. For example: {"key": "collectionStatus", "value": "STARTED"}
@@ -2525,7 +2525,7 @@ public struct DescribeAgentsInput: Swift.Equatable {
     }
 }
 
-struct DescribeAgentsInputBody: Swift.Equatable {
+struct DescribeAgentsInputBody {
     let agentIds: [Swift.String]?
     let filters: [ApplicationDiscoveryClientTypes.Filter]?
     let maxResults: Swift.Int?
@@ -2585,7 +2585,7 @@ extension DescribeAgentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAgentsOutput: Swift.Equatable {
+public struct DescribeAgentsOutput {
     /// Lists agents or the collector by ID or lists all agents/collectors associated with your user, if you did not specify an agent/collector ID. The output includes agent/collector IDs, IP addresses, media access control (MAC) addresses, agent/collector health, host name where the agent/collector resides, and the version number of each agent/collector.
     public var agentsInfo: [ApplicationDiscoveryClientTypes.AgentInfo]?
     /// Token to retrieve the next set of results. For example, if you specified 100 IDs for DescribeAgentsRequest$agentIds but set DescribeAgentsRequest$maxResults to 10, you received a set of 10 results along with this token. Use this token in the next query to retrieve the next set of 10.
@@ -2601,7 +2601,7 @@ public struct DescribeAgentsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAgentsOutputBody: Swift.Equatable {
+struct DescribeAgentsOutputBody {
     let agentsInfo: [ApplicationDiscoveryClientTypes.AgentInfo]?
     let nextToken: Swift.String?
 }
@@ -2665,7 +2665,7 @@ extension DescribeBatchDeleteConfigurationTaskInput {
     }
 }
 
-public struct DescribeBatchDeleteConfigurationTaskInput: Swift.Equatable {
+public struct DescribeBatchDeleteConfigurationTaskInput {
     /// The ID of the task to delete.
     /// This member is required.
     public var taskId: Swift.String?
@@ -2678,7 +2678,7 @@ public struct DescribeBatchDeleteConfigurationTaskInput: Swift.Equatable {
     }
 }
 
-struct DescribeBatchDeleteConfigurationTaskInputBody: Swift.Equatable {
+struct DescribeBatchDeleteConfigurationTaskInputBody {
     let taskId: Swift.String?
 }
 
@@ -2706,7 +2706,7 @@ extension DescribeBatchDeleteConfigurationTaskOutput: ClientRuntime.HttpResponse
     }
 }
 
-public struct DescribeBatchDeleteConfigurationTaskOutput: Swift.Equatable {
+public struct DescribeBatchDeleteConfigurationTaskOutput {
     /// The BatchDeleteConfigurationTask that represents the deletion task being executed.
     public var task: ApplicationDiscoveryClientTypes.BatchDeleteConfigurationTask?
 
@@ -2718,7 +2718,7 @@ public struct DescribeBatchDeleteConfigurationTaskOutput: Swift.Equatable {
     }
 }
 
-struct DescribeBatchDeleteConfigurationTaskOutputBody: Swift.Equatable {
+struct DescribeBatchDeleteConfigurationTaskOutputBody {
     let task: ApplicationDiscoveryClientTypes.BatchDeleteConfigurationTask?
 }
 
@@ -2771,7 +2771,7 @@ extension DescribeConfigurationsInput {
     }
 }
 
-public struct DescribeConfigurationsInput: Swift.Equatable {
+public struct DescribeConfigurationsInput {
     /// One or more configuration IDs.
     /// This member is required.
     public var configurationIds: [Swift.String]?
@@ -2784,7 +2784,7 @@ public struct DescribeConfigurationsInput: Swift.Equatable {
     }
 }
 
-struct DescribeConfigurationsInputBody: Swift.Equatable {
+struct DescribeConfigurationsInputBody {
     let configurationIds: [Swift.String]?
 }
 
@@ -2821,7 +2821,7 @@ extension DescribeConfigurationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeConfigurationsOutput: Swift.Equatable {
+public struct DescribeConfigurationsOutput {
     /// A key in the response map. The value is an array of data.
     public var configurations: [[Swift.String:Swift.String]]?
 
@@ -2833,7 +2833,7 @@ public struct DescribeConfigurationsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeConfigurationsOutputBody: Swift.Equatable {
+struct DescribeConfigurationsOutputBody {
     let configurations: [[Swift.String:Swift.String]]?
 }
 
@@ -2913,7 +2913,7 @@ extension DescribeContinuousExportsInput {
     }
 }
 
-public struct DescribeContinuousExportsInput: Swift.Equatable {
+public struct DescribeContinuousExportsInput {
     /// The unique IDs assigned to the exports.
     public var exportIds: [Swift.String]?
     /// A number between 1 and 100 specifying the maximum number of continuous export descriptions returned.
@@ -2933,7 +2933,7 @@ public struct DescribeContinuousExportsInput: Swift.Equatable {
     }
 }
 
-struct DescribeContinuousExportsInputBody: Swift.Equatable {
+struct DescribeContinuousExportsInputBody {
     let exportIds: [Swift.String]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -2980,7 +2980,7 @@ extension DescribeContinuousExportsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeContinuousExportsOutput: Swift.Equatable {
+public struct DescribeContinuousExportsOutput {
     /// A list of continuous export descriptions.
     public var descriptions: [ApplicationDiscoveryClientTypes.ContinuousExportDescription]?
     /// The token from the previous call to DescribeExportTasks.
@@ -2996,7 +2996,7 @@ public struct DescribeContinuousExportsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeContinuousExportsOutputBody: Swift.Equatable {
+struct DescribeContinuousExportsOutputBody {
     let descriptions: [ApplicationDiscoveryClientTypes.ContinuousExportDescription]?
     let nextToken: Swift.String?
 }
@@ -3073,7 +3073,7 @@ extension DescribeExportConfigurationsInput {
     }
 }
 
-public struct DescribeExportConfigurationsInput: Swift.Equatable {
+public struct DescribeExportConfigurationsInput {
     /// A list of continuous export IDs to search for.
     public var exportIds: [Swift.String]?
     /// A number between 1 and 100 specifying the maximum number of continuous export descriptions returned.
@@ -3093,7 +3093,7 @@ public struct DescribeExportConfigurationsInput: Swift.Equatable {
     }
 }
 
-struct DescribeExportConfigurationsInputBody: Swift.Equatable {
+struct DescribeExportConfigurationsInputBody {
     let exportIds: [Swift.String]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -3140,7 +3140,7 @@ extension DescribeExportConfigurationsOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DescribeExportConfigurationsOutput: Swift.Equatable {
+public struct DescribeExportConfigurationsOutput {
     ///
     public var exportsInfo: [ApplicationDiscoveryClientTypes.ExportInfo]?
     /// The token from the previous call to describe-export-tasks.
@@ -3156,7 +3156,7 @@ public struct DescribeExportConfigurationsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeExportConfigurationsOutputBody: Swift.Equatable {
+struct DescribeExportConfigurationsOutputBody {
     let exportsInfo: [ApplicationDiscoveryClientTypes.ExportInfo]?
     let nextToken: Swift.String?
 }
@@ -3239,7 +3239,7 @@ extension DescribeExportTasksInput {
     }
 }
 
-public struct DescribeExportTasksInput: Swift.Equatable {
+public struct DescribeExportTasksInput {
     /// One or more unique identifiers used to query the status of an export request.
     public var exportIds: [Swift.String]?
     /// One or more filters.
@@ -3265,7 +3265,7 @@ public struct DescribeExportTasksInput: Swift.Equatable {
     }
 }
 
-struct DescribeExportTasksInputBody: Swift.Equatable {
+struct DescribeExportTasksInputBody {
     let exportIds: [Swift.String]?
     let filters: [ApplicationDiscoveryClientTypes.ExportFilter]?
     let maxResults: Swift.Int?
@@ -3325,7 +3325,7 @@ extension DescribeExportTasksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeExportTasksOutput: Swift.Equatable {
+public struct DescribeExportTasksOutput {
     /// Contains one or more sets of export request details. When the status of a request is SUCCEEDED, the response includes a URL for an Amazon S3 bucket where you can view the data in a CSV file.
     public var exportsInfo: [ApplicationDiscoveryClientTypes.ExportInfo]?
     /// The nextToken value to include in a future DescribeExportTasks request. When the results of a DescribeExportTasks request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -3341,7 +3341,7 @@ public struct DescribeExportTasksOutput: Swift.Equatable {
     }
 }
 
-struct DescribeExportTasksOutputBody: Swift.Equatable {
+struct DescribeExportTasksOutputBody {
     let exportsInfo: [ApplicationDiscoveryClientTypes.ExportInfo]?
     let nextToken: Swift.String?
 }
@@ -3416,7 +3416,7 @@ extension DescribeImportTasksInput {
     }
 }
 
-public struct DescribeImportTasksInput: Swift.Equatable {
+public struct DescribeImportTasksInput {
     /// An array of name-value pairs that you provide to filter the results for the DescribeImportTask request to a specific subset of results. Currently, wildcard values aren't supported for filters.
     public var filters: [ApplicationDiscoveryClientTypes.ImportTaskFilter]?
     /// The maximum number of results that you want this request to return, up to 100.
@@ -3436,7 +3436,7 @@ public struct DescribeImportTasksInput: Swift.Equatable {
     }
 }
 
-struct DescribeImportTasksInputBody: Swift.Equatable {
+struct DescribeImportTasksInputBody {
     let filters: [ApplicationDiscoveryClientTypes.ImportTaskFilter]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -3483,7 +3483,7 @@ extension DescribeImportTasksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeImportTasksOutput: Swift.Equatable {
+public struct DescribeImportTasksOutput {
     /// The token to request the next page of results.
     public var nextToken: Swift.String?
     /// A returned array of import tasks that match any applied filters, up to the specified number of maximum results.
@@ -3499,7 +3499,7 @@ public struct DescribeImportTasksOutput: Swift.Equatable {
     }
 }
 
-struct DescribeImportTasksOutputBody: Swift.Equatable {
+struct DescribeImportTasksOutputBody {
     let nextToken: Swift.String?
     let tasks: [ApplicationDiscoveryClientTypes.ImportTask]?
 }
@@ -3574,7 +3574,7 @@ extension DescribeTagsInput {
     }
 }
 
-public struct DescribeTagsInput: Swift.Equatable {
+public struct DescribeTagsInput {
     /// You can filter the list using a key-value format. You can separate these items by using logical operators. Allowed filters include tagKey, tagValue, and configurationId.
     public var filters: [ApplicationDiscoveryClientTypes.TagFilter]?
     /// The total number of items to return in a single page of output. The maximum value is 100.
@@ -3594,7 +3594,7 @@ public struct DescribeTagsInput: Swift.Equatable {
     }
 }
 
-struct DescribeTagsInputBody: Swift.Equatable {
+struct DescribeTagsInputBody {
     let filters: [ApplicationDiscoveryClientTypes.TagFilter]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -3641,7 +3641,7 @@ extension DescribeTagsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeTagsOutput: Swift.Equatable {
+public struct DescribeTagsOutput {
     /// The call returns a token. Use this token to get the next set of results.
     public var nextToken: Swift.String?
     /// Depending on the input, this is a list of configuration items tagged with a specific tag, or a list of tags for a specific configuration item.
@@ -3657,7 +3657,7 @@ public struct DescribeTagsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeTagsOutputBody: Swift.Equatable {
+struct DescribeTagsOutputBody {
     let tags: [ApplicationDiscoveryClientTypes.ConfigurationTag]?
     let nextToken: Swift.String?
 }
@@ -3729,7 +3729,7 @@ extension DisassociateConfigurationItemsFromApplicationInput {
     }
 }
 
-public struct DisassociateConfigurationItemsFromApplicationInput: Swift.Equatable {
+public struct DisassociateConfigurationItemsFromApplicationInput {
     /// Configuration ID of an application from which each item is disassociated.
     /// This member is required.
     public var applicationConfigurationId: Swift.String?
@@ -3747,7 +3747,7 @@ public struct DisassociateConfigurationItemsFromApplicationInput: Swift.Equatabl
     }
 }
 
-struct DisassociateConfigurationItemsFromApplicationInputBody: Swift.Equatable {
+struct DisassociateConfigurationItemsFromApplicationInputBody {
     let applicationConfigurationId: Swift.String?
     let configurationIds: [Swift.String]?
 }
@@ -3781,7 +3781,7 @@ extension DisassociateConfigurationItemsFromApplicationOutput: ClientRuntime.Htt
     }
 }
 
-public struct DisassociateConfigurationItemsFromApplicationOutput: Swift.Equatable {
+public struct DisassociateConfigurationItemsFromApplicationOutput {
 
     public init() { }
 }
@@ -3870,7 +3870,7 @@ extension ApplicationDiscoveryClientTypes.Ec2RecommendationsExportPreferences: S
 
 extension ApplicationDiscoveryClientTypes {
     /// Indicates that the exported data must include EC2 instance type matches for on-premises servers that are discovered through Amazon Web Services Application Discovery Service.
-    public struct Ec2RecommendationsExportPreferences: Swift.Equatable {
+    public struct Ec2RecommendationsExportPreferences {
         /// The recommended EC2 instance type that matches the CPU usage metric of server performance data.
         public var cpuPerformanceMetricBasis: ApplicationDiscoveryClientTypes.UsageMetricBasis?
         /// If set to true, the export [preferences](https://docs.aws.amazon.com/application-discovery/latest/APIReference/API_StartExportTask.html#API_StartExportTask_RequestSyntax) is set to Ec2RecommendationsExportPreferences.
@@ -3923,12 +3923,12 @@ extension ExportConfigurationsInput {
     }
 }
 
-public struct ExportConfigurationsInput: Swift.Equatable {
+public struct ExportConfigurationsInput {
 
     public init() { }
 }
 
-struct ExportConfigurationsInputBody: Swift.Equatable {
+struct ExportConfigurationsInputBody {
 }
 
 extension ExportConfigurationsInputBody: Swift.Decodable {
@@ -3949,7 +3949,7 @@ extension ExportConfigurationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ExportConfigurationsOutput: Swift.Equatable {
+public struct ExportConfigurationsOutput {
     /// A unique identifier that you can use to query the export status.
     public var exportId: Swift.String?
 
@@ -3961,7 +3961,7 @@ public struct ExportConfigurationsOutput: Swift.Equatable {
     }
 }
 
-struct ExportConfigurationsOutputBody: Swift.Equatable {
+struct ExportConfigurationsOutputBody {
     let exportId: Swift.String?
 }
 
@@ -4067,7 +4067,7 @@ extension ApplicationDiscoveryClientTypes.ExportFilter: Swift.Codable {
 
 extension ApplicationDiscoveryClientTypes {
     /// Used to select which agent's data is to be exported. A single agent ID may be selected for export using the [StartExportTask](http://docs.aws.amazon.com/application-discovery/latest/APIReference/API_StartExportTask.html) action.
-    public struct ExportFilter: Swift.Equatable {
+    public struct ExportFilter {
         /// Supported condition: EQUALS
         /// This member is required.
         public var condition: Swift.String?
@@ -4155,7 +4155,7 @@ extension ApplicationDiscoveryClientTypes.ExportInfo: Swift.Codable {
 
 extension ApplicationDiscoveryClientTypes {
     /// Information regarding the export status of discovered data. The value is an array of objects.
-    public struct ExportInfo: Swift.Equatable {
+    public struct ExportInfo {
         /// A URL for an Amazon S3 bucket where you can review the exported data. The URL is displayed only if the export succeeded.
         public var configurationsDownloadUrl: Swift.String?
         /// A unique identifier used to query an export.
@@ -4230,7 +4230,7 @@ extension ApplicationDiscoveryClientTypes.ExportPreferences: Swift.Codable {
 
 extension ApplicationDiscoveryClientTypes {
     /// Indicates the type of data that is being exported. Only one ExportPreferences can be enabled for a [StartExportTask](https://docs.aws.amazon.com/application-discovery/latest/APIReference/API_StartExportTask.html) action.
-    public enum ExportPreferences: Swift.Equatable {
+    public enum ExportPreferences {
         /// If enabled, exported data includes EC2 instance type matches for on-premises servers discovered through Amazon Web Services Application Discovery Service.
         case ec2recommendationspreferences(ApplicationDiscoveryClientTypes.Ec2RecommendationsExportPreferences)
         case sdkUnknown(Swift.String)
@@ -4306,7 +4306,7 @@ extension ApplicationDiscoveryClientTypes.FailedConfiguration: Swift.Codable {
 
 extension ApplicationDiscoveryClientTypes {
     /// A configuration ID paired with an error message.
-    public struct FailedConfiguration: Swift.Equatable {
+    public struct FailedConfiguration {
         /// The unique identifier of the configuration the failed to delete.
         public var configurationId: Swift.String?
         /// A descriptive message indicating why the associated configuration failed to delete.
@@ -4373,7 +4373,7 @@ extension ApplicationDiscoveryClientTypes.Filter: Swift.Codable {
 
 extension ApplicationDiscoveryClientTypes {
     /// A filter that can use conditional operators. For more information about filters, see [Querying Discovered Configuration Items](https://docs.aws.amazon.com/application-discovery/latest/userguide/discovery-api-queries.html) in the Amazon Web Services Application Discovery Service User Guide.
-    public struct Filter: Swift.Equatable {
+    public struct Filter {
         /// A conditional operator. The following operators are valid: EQUALS, NOT_EQUALS, CONTAINS, NOT_CONTAINS. If you specify multiple filters, the system utilizes all filters as though concatenated by AND. If you specify multiple values for a particular filter, the system differentiates the values using OR. Calling either DescribeConfigurations or ListConfigurations returns attributes of matching configuration items.
         /// This member is required.
         public var condition: Swift.String?
@@ -4413,12 +4413,12 @@ extension GetDiscoverySummaryInput {
     }
 }
 
-public struct GetDiscoverySummaryInput: Swift.Equatable {
+public struct GetDiscoverySummaryInput {
 
     public init() { }
 }
 
-struct GetDiscoverySummaryInputBody: Swift.Equatable {
+struct GetDiscoverySummaryInputBody {
 }
 
 extension GetDiscoverySummaryInputBody: Swift.Decodable {
@@ -4453,7 +4453,7 @@ extension GetDiscoverySummaryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDiscoverySummaryOutput: Swift.Equatable {
+public struct GetDiscoverySummaryOutput {
     /// Details about discovered agents, including agent status and health.
     public var agentSummary: ApplicationDiscoveryClientTypes.CustomerAgentInfo?
     /// Details about Agentless Collector collectors, including status.
@@ -4493,7 +4493,7 @@ public struct GetDiscoverySummaryOutput: Swift.Equatable {
     }
 }
 
-struct GetDiscoverySummaryOutputBody: Swift.Equatable {
+struct GetDiscoverySummaryOutputBody {
     let servers: Swift.Int
     let applications: Swift.Int
     let serversMappedToApplications: Swift.Int
@@ -4591,7 +4591,7 @@ public struct HomeRegionNotSetException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct HomeRegionNotSetExceptionBody: Swift.Equatable {
+struct HomeRegionNotSetExceptionBody {
     let message: Swift.String?
 }
 
@@ -4759,7 +4759,7 @@ extension ApplicationDiscoveryClientTypes.ImportTask: Swift.Codable {
 
 extension ApplicationDiscoveryClientTypes {
     /// An array of information related to the import task request that includes status information, times, IDs, the Amazon S3 Object URL for the import file, and more.
-    public struct ImportTask: Swift.Equatable {
+    public struct ImportTask {
         /// The total number of application records in the import file that failed to be imported.
         public var applicationImportFailure: Swift.Int
         /// The total number of application records in the import file that were successfully imported.
@@ -4860,7 +4860,7 @@ extension ApplicationDiscoveryClientTypes.ImportTaskFilter: Swift.Codable {
 
 extension ApplicationDiscoveryClientTypes {
     /// A name-values pair of elements you can use to filter the results when querying your import tasks. Currently, wildcards are not supported for filters. When filtering by import status, all other filter values are ignored.
-    public struct ImportTaskFilter: Swift.Equatable {
+    public struct ImportTaskFilter {
         /// The name, status, or import task ID for a specific import task.
         public var name: ApplicationDiscoveryClientTypes.ImportTaskFilterName?
         /// An array of strings that you can provide to match against a specific name, status, or import task ID to filter the results for your import task queries.
@@ -4952,7 +4952,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidParameterExceptionBody: Swift.Equatable {
+struct InvalidParameterExceptionBody {
     let message: Swift.String?
 }
 
@@ -5007,7 +5007,7 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct InvalidParameterValueExceptionBody: Swift.Equatable {
+struct InvalidParameterValueExceptionBody {
     let message: Swift.String?
 }
 
@@ -5062,7 +5062,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -5120,7 +5120,7 @@ extension ListConfigurationsInput {
     }
 }
 
-public struct ListConfigurationsInput: Swift.Equatable {
+public struct ListConfigurationsInput {
     /// A valid configuration identified by Application Discovery Service.
     /// This member is required.
     public var configurationType: ApplicationDiscoveryClientTypes.ConfigurationItemType?
@@ -5149,7 +5149,7 @@ public struct ListConfigurationsInput: Swift.Equatable {
     }
 }
 
-struct ListConfigurationsInputBody: Swift.Equatable {
+struct ListConfigurationsInputBody {
     let configurationType: ApplicationDiscoveryClientTypes.ConfigurationItemType?
     let filters: [ApplicationDiscoveryClientTypes.Filter]?
     let maxResults: Swift.Int?
@@ -5213,7 +5213,7 @@ extension ListConfigurationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListConfigurationsOutput: Swift.Equatable {
+public struct ListConfigurationsOutput {
     /// Returns configuration details, including the configuration ID, attribute names, and attribute values.
     public var configurations: [[Swift.String:Swift.String]]?
     /// Token to retrieve the next set of results. For example, if your call to ListConfigurations returned 100 items, but you set ListConfigurationsRequest$maxResults to 10, you received a set of 10 results along with this token. Use this token in the next query to retrieve the next set of 10.
@@ -5229,7 +5229,7 @@ public struct ListConfigurationsOutput: Swift.Equatable {
     }
 }
 
-struct ListConfigurationsOutputBody: Swift.Equatable {
+struct ListConfigurationsOutputBody {
     let configurations: [[Swift.String:Swift.String]]?
     let nextToken: Swift.String?
 }
@@ -5322,7 +5322,7 @@ extension ListServerNeighborsInput {
     }
 }
 
-public struct ListServerNeighborsInput: Swift.Equatable {
+public struct ListServerNeighborsInput {
     /// Configuration ID of the server for which neighbors are being listed.
     /// This member is required.
     public var configurationId: Swift.String?
@@ -5351,7 +5351,7 @@ public struct ListServerNeighborsInput: Swift.Equatable {
     }
 }
 
-struct ListServerNeighborsInputBody: Swift.Equatable {
+struct ListServerNeighborsInputBody {
     let configurationId: Swift.String?
     let portInformationNeeded: Swift.Bool?
     let neighborConfigurationIds: [Swift.String]?
@@ -5408,7 +5408,7 @@ extension ListServerNeighborsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListServerNeighborsOutput: Swift.Equatable {
+public struct ListServerNeighborsOutput {
     /// Count of distinct servers that are one hop away from the given server.
     public var knownDependencyCount: Swift.Int
     /// List of distinct servers that are one hop away from the given server.
@@ -5429,7 +5429,7 @@ public struct ListServerNeighborsOutput: Swift.Equatable {
     }
 }
 
-struct ListServerNeighborsOutputBody: Swift.Equatable {
+struct ListServerNeighborsOutputBody {
     let neighbors: [ApplicationDiscoveryClientTypes.NeighborConnectionDetail]?
     let nextToken: Swift.String?
     let knownDependencyCount: Swift.Int
@@ -5522,7 +5522,7 @@ extension ApplicationDiscoveryClientTypes.NeighborConnectionDetail: Swift.Codabl
 
 extension ApplicationDiscoveryClientTypes {
     /// Details about neighboring servers.
-    public struct NeighborConnectionDetail: Swift.Equatable {
+    public struct NeighborConnectionDetail {
         /// The number of open network connections with the neighboring server.
         /// This member is required.
         public var connectionsCount: Swift.Int
@@ -5626,7 +5626,7 @@ public struct OperationNotPermittedException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct OperationNotPermittedExceptionBody: Swift.Equatable {
+struct OperationNotPermittedExceptionBody {
     let message: Swift.String?
 }
 
@@ -5669,7 +5669,7 @@ extension ApplicationDiscoveryClientTypes.OrderByElement: Swift.Codable {
 
 extension ApplicationDiscoveryClientTypes {
     /// A field and direction for ordered output.
-    public struct OrderByElement: Swift.Equatable {
+    public struct OrderByElement {
         /// The field on which to order.
         /// This member is required.
         public var fieldName: Swift.String?
@@ -5788,7 +5788,7 @@ extension ApplicationDiscoveryClientTypes.ReservedInstanceOptions: Swift.Codable
 
 extension ApplicationDiscoveryClientTypes {
     /// Used to provide Reserved Instance preferences for the recommendation.
-    public struct ReservedInstanceOptions: Swift.Equatable {
+    public struct ReservedInstanceOptions {
         /// The flexibility to change the instance types needed for your Reserved Instance.
         /// This member is required.
         public var offeringClass: ApplicationDiscoveryClientTypes.OfferingClass?
@@ -5852,7 +5852,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ResourceInUseExceptionBody: Swift.Equatable {
+struct ResourceInUseExceptionBody {
     let message: Swift.String?
 }
 
@@ -5907,7 +5907,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -5962,7 +5962,7 @@ public struct ServerInternalErrorException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct ServerInternalErrorExceptionBody: Swift.Equatable {
+struct ServerInternalErrorExceptionBody {
     let message: Swift.String?
 }
 
@@ -6005,7 +6005,7 @@ extension StartBatchDeleteConfigurationTaskInput {
     }
 }
 
-public struct StartBatchDeleteConfigurationTaskInput: Swift.Equatable {
+public struct StartBatchDeleteConfigurationTaskInput {
     /// The list of configuration IDs that will be deleted by the task.
     /// This member is required.
     public var configurationIds: [Swift.String]?
@@ -6023,7 +6023,7 @@ public struct StartBatchDeleteConfigurationTaskInput: Swift.Equatable {
     }
 }
 
-struct StartBatchDeleteConfigurationTaskInputBody: Swift.Equatable {
+struct StartBatchDeleteConfigurationTaskInputBody {
     let configurationType: ApplicationDiscoveryClientTypes.DeletionConfigurationItemType?
     let configurationIds: [Swift.String]?
 }
@@ -6064,7 +6064,7 @@ extension StartBatchDeleteConfigurationTaskOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct StartBatchDeleteConfigurationTaskOutput: Swift.Equatable {
+public struct StartBatchDeleteConfigurationTaskOutput {
     /// The unique identifier associated with the newly started deletion task.
     public var taskId: Swift.String?
 
@@ -6076,7 +6076,7 @@ public struct StartBatchDeleteConfigurationTaskOutput: Swift.Equatable {
     }
 }
 
-struct StartBatchDeleteConfigurationTaskOutputBody: Swift.Equatable {
+struct StartBatchDeleteConfigurationTaskOutputBody {
     let taskId: Swift.String?
 }
 
@@ -6123,12 +6123,12 @@ extension StartContinuousExportInput {
     }
 }
 
-public struct StartContinuousExportInput: Swift.Equatable {
+public struct StartContinuousExportInput {
 
     public init() { }
 }
 
-struct StartContinuousExportInputBody: Swift.Equatable {
+struct StartContinuousExportInputBody {
 }
 
 extension StartContinuousExportInputBody: Swift.Decodable {
@@ -6157,7 +6157,7 @@ extension StartContinuousExportOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartContinuousExportOutput: Swift.Equatable {
+public struct StartContinuousExportOutput {
     /// The type of data collector used to gather this data (currently only offered for AGENT).
     public var dataSource: ApplicationDiscoveryClientTypes.DataSource?
     /// The unique ID assigned to this export.
@@ -6187,7 +6187,7 @@ public struct StartContinuousExportOutput: Swift.Equatable {
     }
 }
 
-struct StartContinuousExportOutputBody: Swift.Equatable {
+struct StartContinuousExportOutputBody {
     let exportId: Swift.String?
     let s3Bucket: Swift.String?
     let startTime: ClientRuntime.Date?
@@ -6269,7 +6269,7 @@ extension StartDataCollectionByAgentIdsInput {
     }
 }
 
-public struct StartDataCollectionByAgentIdsInput: Swift.Equatable {
+public struct StartDataCollectionByAgentIdsInput {
     /// The IDs of the agents from which to start collecting data. If you send a request to an agent ID that you do not have permission to contact, according to your Amazon Web Services account, the service does not throw an exception. Instead, it returns the error in the Description field. If you send a request to multiple agents and you do not have permission to contact some of those agents, the system does not throw an exception. Instead, the system shows Failed in the Description field.
     /// This member is required.
     public var agentIds: [Swift.String]?
@@ -6282,7 +6282,7 @@ public struct StartDataCollectionByAgentIdsInput: Swift.Equatable {
     }
 }
 
-struct StartDataCollectionByAgentIdsInputBody: Swift.Equatable {
+struct StartDataCollectionByAgentIdsInputBody {
     let agentIds: [Swift.String]?
 }
 
@@ -6319,7 +6319,7 @@ extension StartDataCollectionByAgentIdsOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct StartDataCollectionByAgentIdsOutput: Swift.Equatable {
+public struct StartDataCollectionByAgentIdsOutput {
     /// Information about agents that were instructed to start collecting data. Information includes the agent ID, a description of the operation performed, and whether the agent configuration was updated.
     public var agentsConfigurationStatus: [ApplicationDiscoveryClientTypes.AgentConfigurationStatus]?
 
@@ -6331,7 +6331,7 @@ public struct StartDataCollectionByAgentIdsOutput: Swift.Equatable {
     }
 }
 
-struct StartDataCollectionByAgentIdsOutputBody: Swift.Equatable {
+struct StartDataCollectionByAgentIdsOutputBody {
     let agentsConfigurationStatus: [ApplicationDiscoveryClientTypes.AgentConfigurationStatus]?
 }
 
@@ -6413,7 +6413,7 @@ extension StartExportTaskInput {
     }
 }
 
-public struct StartExportTaskInput: Swift.Equatable {
+public struct StartExportTaskInput {
     /// The end timestamp for exported data from the single Application Discovery Agent selected in the filters. If no value is specified, exported data includes the most recent data collected by the agent.
     public var endTime: ClientRuntime.Date?
     /// The file format for the returned export data. Default value is CSV. Note: The GRAPHML option has been deprecated.
@@ -6441,7 +6441,7 @@ public struct StartExportTaskInput: Swift.Equatable {
     }
 }
 
-struct StartExportTaskInputBody: Swift.Equatable {
+struct StartExportTaskInputBody {
     let exportDataFormat: [ApplicationDiscoveryClientTypes.ExportDataFormat]?
     let filters: [ApplicationDiscoveryClientTypes.ExportFilter]?
     let startTime: ClientRuntime.Date?
@@ -6503,7 +6503,7 @@ extension StartExportTaskOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartExportTaskOutput: Swift.Equatable {
+public struct StartExportTaskOutput {
     /// A unique identifier used to query the status of an export request.
     public var exportId: Swift.String?
 
@@ -6515,7 +6515,7 @@ public struct StartExportTaskOutput: Swift.Equatable {
     }
 }
 
-struct StartExportTaskOutputBody: Swift.Equatable {
+struct StartExportTaskOutputBody {
     let exportId: Swift.String?
 }
 
@@ -6575,7 +6575,7 @@ extension StartImportTaskInput {
     }
 }
 
-public struct StartImportTaskInput: Swift.Equatable {
+public struct StartImportTaskInput {
     /// Optional. A unique token that you can provide to prevent the same import request from occurring more than once. If you don't provide a token, a token is automatically generated. Sending more than one StartImportTask request with the same client request token will return information about the original import task with that client request token.
     public var clientRequestToken: Swift.String?
     /// The URL for your import file that you've uploaded to Amazon S3. If you're using the Amazon Web Services CLI, this URL is structured as follows: s3://BucketName/ImportFileName.CSV
@@ -6597,7 +6597,7 @@ public struct StartImportTaskInput: Swift.Equatable {
     }
 }
 
-struct StartImportTaskInputBody: Swift.Equatable {
+struct StartImportTaskInputBody {
     let clientRequestToken: Swift.String?
     let name: Swift.String?
     let importUrl: Swift.String?
@@ -6633,7 +6633,7 @@ extension StartImportTaskOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartImportTaskOutput: Swift.Equatable {
+public struct StartImportTaskOutput {
     /// An array of information related to the import task request including status information, times, IDs, the Amazon S3 Object URL for the import file, and more.
     public var task: ApplicationDiscoveryClientTypes.ImportTask?
 
@@ -6645,7 +6645,7 @@ public struct StartImportTaskOutput: Swift.Equatable {
     }
 }
 
-struct StartImportTaskOutputBody: Swift.Equatable {
+struct StartImportTaskOutputBody {
     let task: ApplicationDiscoveryClientTypes.ImportTask?
 }
 
@@ -6697,7 +6697,7 @@ extension StopContinuousExportInput {
     }
 }
 
-public struct StopContinuousExportInput: Swift.Equatable {
+public struct StopContinuousExportInput {
     /// The unique ID assigned to this export.
     /// This member is required.
     public var exportId: Swift.String?
@@ -6710,7 +6710,7 @@ public struct StopContinuousExportInput: Swift.Equatable {
     }
 }
 
-struct StopContinuousExportInputBody: Swift.Equatable {
+struct StopContinuousExportInputBody {
     let exportId: Swift.String?
 }
 
@@ -6740,7 +6740,7 @@ extension StopContinuousExportOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopContinuousExportOutput: Swift.Equatable {
+public struct StopContinuousExportOutput {
     /// Timestamp that represents when this continuous export started collecting data.
     public var startTime: ClientRuntime.Date?
     /// Timestamp that represents when this continuous export was stopped.
@@ -6756,7 +6756,7 @@ public struct StopContinuousExportOutput: Swift.Equatable {
     }
 }
 
-struct StopContinuousExportOutputBody: Swift.Equatable {
+struct StopContinuousExportOutputBody {
     let startTime: ClientRuntime.Date?
     let stopTime: ClientRuntime.Date?
 }
@@ -6817,7 +6817,7 @@ extension StopDataCollectionByAgentIdsInput {
     }
 }
 
-public struct StopDataCollectionByAgentIdsInput: Swift.Equatable {
+public struct StopDataCollectionByAgentIdsInput {
     /// The IDs of the agents from which to stop collecting data.
     /// This member is required.
     public var agentIds: [Swift.String]?
@@ -6830,7 +6830,7 @@ public struct StopDataCollectionByAgentIdsInput: Swift.Equatable {
     }
 }
 
-struct StopDataCollectionByAgentIdsInputBody: Swift.Equatable {
+struct StopDataCollectionByAgentIdsInputBody {
     let agentIds: [Swift.String]?
 }
 
@@ -6867,7 +6867,7 @@ extension StopDataCollectionByAgentIdsOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct StopDataCollectionByAgentIdsOutput: Swift.Equatable {
+public struct StopDataCollectionByAgentIdsOutput {
     /// Information about the agents that were instructed to stop collecting data. Information includes the agent ID, a description of the operation performed, and whether the agent configuration was updated.
     public var agentsConfigurationStatus: [ApplicationDiscoveryClientTypes.AgentConfigurationStatus]?
 
@@ -6879,7 +6879,7 @@ public struct StopDataCollectionByAgentIdsOutput: Swift.Equatable {
     }
 }
 
-struct StopDataCollectionByAgentIdsOutputBody: Swift.Equatable {
+struct StopDataCollectionByAgentIdsOutputBody {
     let agentsConfigurationStatus: [ApplicationDiscoveryClientTypes.AgentConfigurationStatus]?
 }
 
@@ -6946,7 +6946,7 @@ extension ApplicationDiscoveryClientTypes.Tag: Swift.Codable {
 
 extension ApplicationDiscoveryClientTypes {
     /// Metadata that help you categorize IT assets. Do not store sensitive information (like personal data) in tags.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The type of tag on which to filter.
         /// This member is required.
         public var key: Swift.String?
@@ -7005,7 +7005,7 @@ extension ApplicationDiscoveryClientTypes.TagFilter: Swift.Codable {
 
 extension ApplicationDiscoveryClientTypes {
     /// The tag filter. Valid names are: tagKey, tagValue, configurationId.
-    public struct TagFilter: Swift.Equatable {
+    public struct TagFilter {
         /// A name of the tag filter.
         /// This member is required.
         public var name: Swift.String?
@@ -7117,7 +7117,7 @@ extension UpdateApplicationInput {
     }
 }
 
-public struct UpdateApplicationInput: Swift.Equatable {
+public struct UpdateApplicationInput {
     /// Configuration ID of the application to be updated.
     /// This member is required.
     public var configurationId: Swift.String?
@@ -7138,7 +7138,7 @@ public struct UpdateApplicationInput: Swift.Equatable {
     }
 }
 
-struct UpdateApplicationInputBody: Swift.Equatable {
+struct UpdateApplicationInputBody {
     let configurationId: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -7167,7 +7167,7 @@ extension UpdateApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateApplicationOutput: Swift.Equatable {
+public struct UpdateApplicationOutput {
 
     public init() { }
 }
@@ -7214,7 +7214,7 @@ extension ApplicationDiscoveryClientTypes.UsageMetricBasis: Swift.Codable {
 
 extension ApplicationDiscoveryClientTypes {
     /// Specifies the performance metrics to use for the server that is used for recommendations.
-    public struct UsageMetricBasis: Swift.Equatable {
+    public struct UsageMetricBasis {
         /// A utilization metric that is used by the recommendations.
         public var name: Swift.String?
         /// Specifies the percentage of the specified utilization metric that is used by the recommendations.

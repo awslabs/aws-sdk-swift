@@ -26,7 +26,7 @@ extension AcceptQualificationRequestInput {
     }
 }
 
-public struct AcceptQualificationRequestInput: Swift.Equatable {
+public struct AcceptQualificationRequestInput {
     /// The value of the Qualification. You can omit this value if you are using the presence or absence of the Qualification as the basis for a HIT requirement.
     public var integerValue: Swift.Int?
     /// The ID of the Qualification request, as returned by the GetQualificationRequests operation.
@@ -43,7 +43,7 @@ public struct AcceptQualificationRequestInput: Swift.Equatable {
     }
 }
 
-struct AcceptQualificationRequestInputBody: Swift.Equatable {
+struct AcceptQualificationRequestInputBody {
     let qualificationRequestId: Swift.String?
     let integerValue: Swift.Int?
 }
@@ -68,7 +68,7 @@ extension AcceptQualificationRequestOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AcceptQualificationRequestOutput: Swift.Equatable {
+public struct AcceptQualificationRequestOutput {
 
     public init() { }
 }
@@ -113,7 +113,7 @@ extension ApproveAssignmentInput {
     }
 }
 
-public struct ApproveAssignmentInput: Swift.Equatable {
+public struct ApproveAssignmentInput {
     /// The ID of the assignment. The assignment must correspond to a HIT created by the Requester.
     /// This member is required.
     public var assignmentId: Swift.String?
@@ -134,7 +134,7 @@ public struct ApproveAssignmentInput: Swift.Equatable {
     }
 }
 
-struct ApproveAssignmentInputBody: Swift.Equatable {
+struct ApproveAssignmentInputBody {
     let assignmentId: Swift.String?
     let requesterFeedback: Swift.String?
     let overrideRejection: Swift.Bool?
@@ -163,7 +163,7 @@ extension ApproveAssignmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ApproveAssignmentOutput: Swift.Equatable {
+public struct ApproveAssignmentOutput {
 
     public init() { }
 }
@@ -267,7 +267,7 @@ extension MTurkClientTypes.Assignment: Swift.Codable {
 
 extension MTurkClientTypes {
     /// The Assignment data structure represents a single assignment of a HIT to a Worker. The assignment tracks the Worker's efforts to complete the HIT, and contains the results for later retrieval.
-    public struct Assignment: Swift.Equatable {
+    public struct Assignment {
         /// The date and time the Worker accepted the assignment.
         public var acceptTime: ClientRuntime.Date?
         /// The Worker's answers submitted for the HIT contained in a QuestionFormAnswers document, if the Worker provides an answer. If the Worker does not provide any answers, Answer may contain a QuestionFormAnswers document, or Answer may be empty.
@@ -392,7 +392,7 @@ extension AssociateQualificationWithWorkerInput {
     }
 }
 
-public struct AssociateQualificationWithWorkerInput: Swift.Equatable {
+public struct AssociateQualificationWithWorkerInput {
     /// The value of the Qualification to assign.
     public var integerValue: Swift.Int?
     /// The ID of the Qualification type to use for the assigned Qualification.
@@ -418,7 +418,7 @@ public struct AssociateQualificationWithWorkerInput: Swift.Equatable {
     }
 }
 
-struct AssociateQualificationWithWorkerInputBody: Swift.Equatable {
+struct AssociateQualificationWithWorkerInputBody {
     let qualificationTypeId: Swift.String?
     let workerId: Swift.String?
     let integerValue: Swift.Int?
@@ -451,7 +451,7 @@ extension AssociateQualificationWithWorkerOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct AssociateQualificationWithWorkerOutput: Swift.Equatable {
+public struct AssociateQualificationWithWorkerOutput {
 
     public init() { }
 }
@@ -513,7 +513,7 @@ extension MTurkClientTypes.BonusPayment: Swift.Codable {
 
 extension MTurkClientTypes {
     /// An object representing a Bonus payment paid to a Worker.
-    public struct BonusPayment: Swift.Equatable {
+    public struct BonusPayment {
         /// The ID of the assignment associated with this bonus payment.
         public var assignmentId: Swift.String?
         /// A string representing a currency amount.
@@ -627,7 +627,7 @@ extension CreateAdditionalAssignmentsForHITInput {
     }
 }
 
-public struct CreateAdditionalAssignmentsForHITInput: Swift.Equatable {
+public struct CreateAdditionalAssignmentsForHITInput {
     /// The ID of the HIT to extend.
     /// This member is required.
     public var hitId: Swift.String?
@@ -649,7 +649,7 @@ public struct CreateAdditionalAssignmentsForHITInput: Swift.Equatable {
     }
 }
 
-struct CreateAdditionalAssignmentsForHITInputBody: Swift.Equatable {
+struct CreateAdditionalAssignmentsForHITInputBody {
     let hitId: Swift.String?
     let numberOfAdditionalAssignments: Swift.Int?
     let uniqueRequestToken: Swift.String?
@@ -678,7 +678,7 @@ extension CreateAdditionalAssignmentsForHITOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct CreateAdditionalAssignmentsForHITOutput: Swift.Equatable {
+public struct CreateAdditionalAssignmentsForHITOutput {
 
     public init() { }
 }
@@ -781,7 +781,7 @@ extension CreateHITInput {
     }
 }
 
-public struct CreateHITInput: Swift.Equatable {
+public struct CreateHITInput {
     /// The amount of time, in seconds, that a Worker has to complete the HIT after accepting it. If a Worker does not complete the assignment within the specified duration, the assignment is considered abandoned. If the HIT is still active (that is, its lifetime has not elapsed), the assignment becomes available for other users to find and accept.
     /// This member is required.
     public var assignmentDurationInSeconds: Swift.Int?
@@ -858,7 +858,7 @@ public struct CreateHITInput: Swift.Equatable {
     }
 }
 
-struct CreateHITInputBody: Swift.Equatable {
+struct CreateHITInputBody {
     let maxAssignments: Swift.Int?
     let autoApprovalDelayInSeconds: Swift.Int?
     let lifetimeInSeconds: Swift.Int?
@@ -964,7 +964,7 @@ extension CreateHITOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateHITOutput: Swift.Equatable {
+public struct CreateHITOutput {
     /// Contains the newly created HIT data. For a description of the HIT data structure as it appears in responses, see the HIT Data Structure documentation.
     public var hit: MTurkClientTypes.HIT?
 
@@ -976,7 +976,7 @@ public struct CreateHITOutput: Swift.Equatable {
     }
 }
 
-struct CreateHITOutputBody: Swift.Equatable {
+struct CreateHITOutputBody {
     let hit: MTurkClientTypes.HIT?
 }
 
@@ -1051,7 +1051,7 @@ extension CreateHITTypeInput {
     }
 }
 
-public struct CreateHITTypeInput: Swift.Equatable {
+public struct CreateHITTypeInput {
     /// The amount of time, in seconds, that a Worker has to complete the HIT after accepting it. If a Worker does not complete the assignment within the specified duration, the assignment is considered abandoned. If the HIT is still active (that is, its lifetime has not elapsed), the assignment becomes available for other users to find and accept.
     /// This member is required.
     public var assignmentDurationInSeconds: Swift.Int?
@@ -1091,7 +1091,7 @@ public struct CreateHITTypeInput: Swift.Equatable {
     }
 }
 
-struct CreateHITTypeInputBody: Swift.Equatable {
+struct CreateHITTypeInputBody {
     let autoApprovalDelayInSeconds: Swift.Int?
     let assignmentDurationInSeconds: Swift.Int?
     let reward: Swift.String?
@@ -1152,7 +1152,7 @@ extension CreateHITTypeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateHITTypeOutput: Swift.Equatable {
+public struct CreateHITTypeOutput {
     /// The ID of the newly registered HIT type.
     public var hitTypeId: Swift.String?
 
@@ -1164,7 +1164,7 @@ public struct CreateHITTypeOutput: Swift.Equatable {
     }
 }
 
-struct CreateHITTypeOutputBody: Swift.Equatable {
+struct CreateHITTypeOutputBody {
     let hitTypeId: Swift.String?
 }
 
@@ -1251,7 +1251,7 @@ extension CreateHITWithHITTypeInput {
     }
 }
 
-public struct CreateHITWithHITTypeInput: Swift.Equatable {
+public struct CreateHITWithHITTypeInput {
     /// The Assignment-level Review Policy applies to the assignments under the HIT. You can specify for Mechanical Turk to take various actions based on the policy.
     public var assignmentReviewPolicy: MTurkClientTypes.ReviewPolicy?
     /// The HITLayoutId allows you to use a pre-existing HIT design with placeholder values and create an additional HIT by providing those values as HITLayoutParameters. Constraints: Either a Question parameter or a HITLayoutId parameter must be provided.
@@ -1301,7 +1301,7 @@ public struct CreateHITWithHITTypeInput: Swift.Equatable {
     }
 }
 
-struct CreateHITWithHITTypeInputBody: Swift.Equatable {
+struct CreateHITWithHITTypeInputBody {
     let hitTypeId: Swift.String?
     let maxAssignments: Swift.Int?
     let lifetimeInSeconds: Swift.Int?
@@ -1374,7 +1374,7 @@ extension CreateHITWithHITTypeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateHITWithHITTypeOutput: Swift.Equatable {
+public struct CreateHITWithHITTypeOutput {
     /// Contains the newly created HIT data. For a description of the HIT data structure as it appears in responses, see the HIT Data Structure documentation.
     public var hit: MTurkClientTypes.HIT?
 
@@ -1386,7 +1386,7 @@ public struct CreateHITWithHITTypeOutput: Swift.Equatable {
     }
 }
 
-struct CreateHITWithHITTypeOutputBody: Swift.Equatable {
+struct CreateHITWithHITTypeOutputBody {
     let hit: MTurkClientTypes.HIT?
 }
 
@@ -1470,7 +1470,7 @@ extension CreateQualificationTypeInput {
     }
 }
 
-public struct CreateQualificationTypeInput: Swift.Equatable {
+public struct CreateQualificationTypeInput {
     /// The answers to the Qualification test specified in the Test parameter, in the form of an AnswerKey data structure. Constraints: Must not be longer than 65535 bytes. Constraints: None. If not specified, you must process Qualification requests manually.
     public var answerKey: Swift.String?
     /// Specifies whether requests for the Qualification type are granted immediately, without prompting the Worker with a Qualification test. Constraints: If the Test parameter is specified, this parameter cannot be true.
@@ -1521,7 +1521,7 @@ public struct CreateQualificationTypeInput: Swift.Equatable {
     }
 }
 
-struct CreateQualificationTypeInputBody: Swift.Equatable {
+struct CreateQualificationTypeInputBody {
     let name: Swift.String?
     let keywords: Swift.String?
     let description: Swift.String?
@@ -1585,7 +1585,7 @@ extension CreateQualificationTypeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateQualificationTypeOutput: Swift.Equatable {
+public struct CreateQualificationTypeOutput {
     /// The created Qualification type, returned as a QualificationType data structure.
     public var qualificationType: MTurkClientTypes.QualificationType?
 
@@ -1597,7 +1597,7 @@ public struct CreateQualificationTypeOutput: Swift.Equatable {
     }
 }
 
-struct CreateQualificationTypeOutputBody: Swift.Equatable {
+struct CreateQualificationTypeOutputBody {
     let qualificationType: MTurkClientTypes.QualificationType?
 }
 
@@ -1649,7 +1649,7 @@ extension CreateWorkerBlockInput {
     }
 }
 
-public struct CreateWorkerBlockInput: Swift.Equatable {
+public struct CreateWorkerBlockInput {
     /// A message explaining the reason for blocking the Worker. This parameter enables you to keep track of your Workers. The Worker does not see this message.
     /// This member is required.
     public var reason: Swift.String?
@@ -1667,7 +1667,7 @@ public struct CreateWorkerBlockInput: Swift.Equatable {
     }
 }
 
-struct CreateWorkerBlockInputBody: Swift.Equatable {
+struct CreateWorkerBlockInputBody {
     let workerId: Swift.String?
     let reason: Swift.String?
 }
@@ -1692,7 +1692,7 @@ extension CreateWorkerBlockOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateWorkerBlockOutput: Swift.Equatable {
+public struct CreateWorkerBlockOutput {
 
     public init() { }
 }
@@ -1729,7 +1729,7 @@ extension DeleteHITInput {
     }
 }
 
-public struct DeleteHITInput: Swift.Equatable {
+public struct DeleteHITInput {
     /// The ID of the HIT to be deleted.
     /// This member is required.
     public var hitId: Swift.String?
@@ -1742,7 +1742,7 @@ public struct DeleteHITInput: Swift.Equatable {
     }
 }
 
-struct DeleteHITInputBody: Swift.Equatable {
+struct DeleteHITInputBody {
     let hitId: Swift.String?
 }
 
@@ -1763,7 +1763,7 @@ extension DeleteHITOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteHITOutput: Swift.Equatable {
+public struct DeleteHITOutput {
 
     public init() { }
 }
@@ -1800,7 +1800,7 @@ extension DeleteQualificationTypeInput {
     }
 }
 
-public struct DeleteQualificationTypeInput: Swift.Equatable {
+public struct DeleteQualificationTypeInput {
     /// The ID of the QualificationType to dispose.
     /// This member is required.
     public var qualificationTypeId: Swift.String?
@@ -1813,7 +1813,7 @@ public struct DeleteQualificationTypeInput: Swift.Equatable {
     }
 }
 
-struct DeleteQualificationTypeInputBody: Swift.Equatable {
+struct DeleteQualificationTypeInputBody {
     let qualificationTypeId: Swift.String?
 }
 
@@ -1834,7 +1834,7 @@ extension DeleteQualificationTypeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteQualificationTypeOutput: Swift.Equatable {
+public struct DeleteQualificationTypeOutput {
 
     public init() { }
 }
@@ -1875,7 +1875,7 @@ extension DeleteWorkerBlockInput {
     }
 }
 
-public struct DeleteWorkerBlockInput: Swift.Equatable {
+public struct DeleteWorkerBlockInput {
     /// A message that explains the reason for unblocking the Worker. The Worker does not see this message.
     public var reason: Swift.String?
     /// The ID of the Worker to unblock.
@@ -1892,7 +1892,7 @@ public struct DeleteWorkerBlockInput: Swift.Equatable {
     }
 }
 
-struct DeleteWorkerBlockInputBody: Swift.Equatable {
+struct DeleteWorkerBlockInputBody {
     let workerId: Swift.String?
     let reason: Swift.String?
 }
@@ -1917,7 +1917,7 @@ extension DeleteWorkerBlockOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteWorkerBlockOutput: Swift.Equatable {
+public struct DeleteWorkerBlockOutput {
 
     public init() { }
 }
@@ -1962,7 +1962,7 @@ extension DisassociateQualificationFromWorkerInput {
     }
 }
 
-public struct DisassociateQualificationFromWorkerInput: Swift.Equatable {
+public struct DisassociateQualificationFromWorkerInput {
     /// The ID of the Qualification type of the Qualification to be revoked.
     /// This member is required.
     public var qualificationTypeId: Swift.String?
@@ -1984,7 +1984,7 @@ public struct DisassociateQualificationFromWorkerInput: Swift.Equatable {
     }
 }
 
-struct DisassociateQualificationFromWorkerInputBody: Swift.Equatable {
+struct DisassociateQualificationFromWorkerInputBody {
     let workerId: Swift.String?
     let qualificationTypeId: Swift.String?
     let reason: Swift.String?
@@ -2013,7 +2013,7 @@ extension DisassociateQualificationFromWorkerOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct DisassociateQualificationFromWorkerOutput: Swift.Equatable {
+public struct DisassociateQualificationFromWorkerOutput {
 
     public init() { }
 }
@@ -2107,12 +2107,12 @@ extension GetAccountBalanceInput {
     }
 }
 
-public struct GetAccountBalanceInput: Swift.Equatable {
+public struct GetAccountBalanceInput {
 
     public init() { }
 }
 
-struct GetAccountBalanceInputBody: Swift.Equatable {
+struct GetAccountBalanceInputBody {
 }
 
 extension GetAccountBalanceInputBody: Swift.Decodable {
@@ -2135,7 +2135,7 @@ extension GetAccountBalanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAccountBalanceOutput: Swift.Equatable {
+public struct GetAccountBalanceOutput {
     /// A string representing a currency amount.
     public var availableBalance: Swift.String?
     /// A string representing a currency amount.
@@ -2151,7 +2151,7 @@ public struct GetAccountBalanceOutput: Swift.Equatable {
     }
 }
 
-struct GetAccountBalanceOutputBody: Swift.Equatable {
+struct GetAccountBalanceOutputBody {
     let availableBalance: Swift.String?
     let onHoldBalance: Swift.String?
 }
@@ -2203,7 +2203,7 @@ extension GetAssignmentInput {
     }
 }
 
-public struct GetAssignmentInput: Swift.Equatable {
+public struct GetAssignmentInput {
     /// The ID of the Assignment to be retrieved.
     /// This member is required.
     public var assignmentId: Swift.String?
@@ -2216,7 +2216,7 @@ public struct GetAssignmentInput: Swift.Equatable {
     }
 }
 
-struct GetAssignmentInputBody: Swift.Equatable {
+struct GetAssignmentInputBody {
     let assignmentId: Swift.String?
 }
 
@@ -2246,7 +2246,7 @@ extension GetAssignmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAssignmentOutput: Swift.Equatable {
+public struct GetAssignmentOutput {
     /// The assignment. The response includes one Assignment element.
     public var assignment: MTurkClientTypes.Assignment?
     /// The HIT associated with this assignment. The response includes one HIT element.
@@ -2262,7 +2262,7 @@ public struct GetAssignmentOutput: Swift.Equatable {
     }
 }
 
-struct GetAssignmentOutputBody: Swift.Equatable {
+struct GetAssignmentOutputBody {
     let assignment: MTurkClientTypes.Assignment?
     let hit: MTurkClientTypes.HIT?
 }
@@ -2318,7 +2318,7 @@ extension GetFileUploadURLInput {
     }
 }
 
-public struct GetFileUploadURLInput: Swift.Equatable {
+public struct GetFileUploadURLInput {
     /// The ID of the assignment that contains the question with a FileUploadAnswer.
     /// This member is required.
     public var assignmentId: Swift.String?
@@ -2336,7 +2336,7 @@ public struct GetFileUploadURLInput: Swift.Equatable {
     }
 }
 
-struct GetFileUploadURLInputBody: Swift.Equatable {
+struct GetFileUploadURLInputBody {
     let assignmentId: Swift.String?
     let questionIdentifier: Swift.String?
 }
@@ -2368,7 +2368,7 @@ extension GetFileUploadURLOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetFileUploadURLOutput: Swift.Equatable {
+public struct GetFileUploadURLOutput {
     /// A temporary URL for the file that the Worker uploaded for the answer.
     public var fileUploadURL: Swift.String?
 
@@ -2380,7 +2380,7 @@ public struct GetFileUploadURLOutput: Swift.Equatable {
     }
 }
 
-struct GetFileUploadURLOutputBody: Swift.Equatable {
+struct GetFileUploadURLOutputBody {
     let fileUploadURL: Swift.String?
 }
 
@@ -2428,7 +2428,7 @@ extension GetHITInput {
     }
 }
 
-public struct GetHITInput: Swift.Equatable {
+public struct GetHITInput {
     /// The ID of the HIT to be retrieved.
     /// This member is required.
     public var hitId: Swift.String?
@@ -2441,7 +2441,7 @@ public struct GetHITInput: Swift.Equatable {
     }
 }
 
-struct GetHITInputBody: Swift.Equatable {
+struct GetHITInputBody {
     let hitId: Swift.String?
 }
 
@@ -2469,7 +2469,7 @@ extension GetHITOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetHITOutput: Swift.Equatable {
+public struct GetHITOutput {
     /// Contains the requested HIT data.
     public var hit: MTurkClientTypes.HIT?
 
@@ -2481,7 +2481,7 @@ public struct GetHITOutput: Swift.Equatable {
     }
 }
 
-struct GetHITOutputBody: Swift.Equatable {
+struct GetHITOutputBody {
     let hit: MTurkClientTypes.HIT?
 }
 
@@ -2533,7 +2533,7 @@ extension GetQualificationScoreInput {
     }
 }
 
-public struct GetQualificationScoreInput: Swift.Equatable {
+public struct GetQualificationScoreInput {
     /// The ID of the QualificationType.
     /// This member is required.
     public var qualificationTypeId: Swift.String?
@@ -2551,7 +2551,7 @@ public struct GetQualificationScoreInput: Swift.Equatable {
     }
 }
 
-struct GetQualificationScoreInputBody: Swift.Equatable {
+struct GetQualificationScoreInputBody {
     let qualificationTypeId: Swift.String?
     let workerId: Swift.String?
 }
@@ -2583,7 +2583,7 @@ extension GetQualificationScoreOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetQualificationScoreOutput: Swift.Equatable {
+public struct GetQualificationScoreOutput {
     /// The Qualification data structure of the Qualification assigned to a user, including the Qualification type and the value (score).
     public var qualification: MTurkClientTypes.Qualification?
 
@@ -2595,7 +2595,7 @@ public struct GetQualificationScoreOutput: Swift.Equatable {
     }
 }
 
-struct GetQualificationScoreOutputBody: Swift.Equatable {
+struct GetQualificationScoreOutputBody {
     let qualification: MTurkClientTypes.Qualification?
 }
 
@@ -2643,7 +2643,7 @@ extension GetQualificationTypeInput {
     }
 }
 
-public struct GetQualificationTypeInput: Swift.Equatable {
+public struct GetQualificationTypeInput {
     /// The ID of the QualificationType.
     /// This member is required.
     public var qualificationTypeId: Swift.String?
@@ -2656,7 +2656,7 @@ public struct GetQualificationTypeInput: Swift.Equatable {
     }
 }
 
-struct GetQualificationTypeInputBody: Swift.Equatable {
+struct GetQualificationTypeInputBody {
     let qualificationTypeId: Swift.String?
 }
 
@@ -2684,7 +2684,7 @@ extension GetQualificationTypeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetQualificationTypeOutput: Swift.Equatable {
+public struct GetQualificationTypeOutput {
     /// The returned Qualification Type
     public var qualificationType: MTurkClientTypes.QualificationType?
 
@@ -2696,7 +2696,7 @@ public struct GetQualificationTypeOutput: Swift.Equatable {
     }
 }
 
-struct GetQualificationTypeOutputBody: Swift.Equatable {
+struct GetQualificationTypeOutputBody {
     let qualificationType: MTurkClientTypes.QualificationType?
 }
 
@@ -2877,7 +2877,7 @@ extension MTurkClientTypes.HIT: Swift.Codable {
 
 extension MTurkClientTypes {
     /// The HIT data structure represents a single HIT, including all the information necessary for a Worker to accept and complete the HIT.
-    public struct HIT: Swift.Equatable {
+    public struct HIT {
         /// The length of time, in seconds, that a Worker has to complete the HIT after accepting it.
         public var assignmentDurationInSeconds: Swift.Int?
         /// The amount of time, in seconds, after the Worker submits an assignment for the HIT that the results are automatically approved by Amazon Mechanical Turk. This is the amount of time the Requester has to reject an assignment submitted by a Worker before the assignment is auto-approved and the Worker is paid.
@@ -3033,7 +3033,7 @@ extension MTurkClientTypes.HITLayoutParameter: Swift.Codable {
 
 extension MTurkClientTypes {
     /// The HITLayoutParameter data structure defines parameter values used with a HITLayout. A HITLayout is a reusable Amazon Mechanical Turk project template used to provide Human Intelligence Task (HIT) question data for CreateHIT.
-    public struct HITLayoutParameter: Swift.Equatable {
+    public struct HITLayoutParameter {
         /// The name of the parameter in the HITLayout.
         /// This member is required.
         public var name: Swift.String?
@@ -3167,7 +3167,7 @@ extension ListAssignmentsForHITInput {
     }
 }
 
-public struct ListAssignmentsForHITInput: Swift.Equatable {
+public struct ListAssignmentsForHITInput {
     /// The status of the assignments to return: Submitted | Approved | Rejected
     public var assignmentStatuses: [MTurkClientTypes.AssignmentStatus]?
     /// The ID of the HIT.
@@ -3191,7 +3191,7 @@ public struct ListAssignmentsForHITInput: Swift.Equatable {
     }
 }
 
-struct ListAssignmentsForHITInputBody: Swift.Equatable {
+struct ListAssignmentsForHITInputBody {
     let hitId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -3244,7 +3244,7 @@ extension ListAssignmentsForHITOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAssignmentsForHITOutput: Swift.Equatable {
+public struct ListAssignmentsForHITOutput {
     /// The collection of Assignment data structures returned by this call.
     public var assignments: [MTurkClientTypes.Assignment]?
     /// If the previous response was incomplete (because there is more data to retrieve), Amazon Mechanical Turk returns a pagination token in the response. You can use this pagination token to retrieve the next set of results.
@@ -3264,7 +3264,7 @@ public struct ListAssignmentsForHITOutput: Swift.Equatable {
     }
 }
 
-struct ListAssignmentsForHITOutputBody: Swift.Equatable {
+struct ListAssignmentsForHITOutputBody {
     let nextToken: Swift.String?
     let numResults: Swift.Int?
     let assignments: [MTurkClientTypes.Assignment]?
@@ -3341,7 +3341,7 @@ extension ListBonusPaymentsInput {
     }
 }
 
-public struct ListBonusPaymentsInput: Swift.Equatable {
+public struct ListBonusPaymentsInput {
     /// The ID of the assignment associated with the bonus payments to retrieve. If specified, only bonus payments for the given assignment are returned. Either the HITId parameter or the AssignmentId parameter must be specified
     public var assignmentId: Swift.String?
     /// The ID of the HIT associated with the bonus payments to retrieve. If not specified, all bonus payments for all assignments for the given HIT are returned. Either the HITId parameter or the AssignmentId parameter must be specified
@@ -3364,7 +3364,7 @@ public struct ListBonusPaymentsInput: Swift.Equatable {
     }
 }
 
-struct ListBonusPaymentsInputBody: Swift.Equatable {
+struct ListBonusPaymentsInputBody {
     let hitId: Swift.String?
     let assignmentId: Swift.String?
     let nextToken: Swift.String?
@@ -3408,7 +3408,7 @@ extension ListBonusPaymentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBonusPaymentsOutput: Swift.Equatable {
+public struct ListBonusPaymentsOutput {
     /// A successful request to the ListBonusPayments operation returns a list of BonusPayment objects.
     public var bonusPayments: [MTurkClientTypes.BonusPayment]?
     /// If the previous response was incomplete (because there is more data to retrieve), Amazon Mechanical Turk returns a pagination token in the response. You can use this pagination token to retrieve the next set of results.
@@ -3428,7 +3428,7 @@ public struct ListBonusPaymentsOutput: Swift.Equatable {
     }
 }
 
-struct ListBonusPaymentsOutputBody: Swift.Equatable {
+struct ListBonusPaymentsOutputBody {
     let numResults: Swift.Int?
     let nextToken: Swift.String?
     let bonusPayments: [MTurkClientTypes.BonusPayment]?
@@ -3501,7 +3501,7 @@ extension ListHITsForQualificationTypeInput {
     }
 }
 
-public struct ListHITsForQualificationTypeInput: Swift.Equatable {
+public struct ListHITsForQualificationTypeInput {
     /// Limit the number of results returned.
     public var maxResults: Swift.Int?
     /// Pagination Token
@@ -3522,7 +3522,7 @@ public struct ListHITsForQualificationTypeInput: Swift.Equatable {
     }
 }
 
-struct ListHITsForQualificationTypeInputBody: Swift.Equatable {
+struct ListHITsForQualificationTypeInputBody {
     let qualificationTypeId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -3562,7 +3562,7 @@ extension ListHITsForQualificationTypeOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListHITsForQualificationTypeOutput: Swift.Equatable {
+public struct ListHITsForQualificationTypeOutput {
     /// The list of HIT elements returned by the query.
     public var hiTs: [MTurkClientTypes.HIT]?
     /// If the previous response was incomplete (because there is more data to retrieve), Amazon Mechanical Turk returns a pagination token in the response. You can use this pagination token to retrieve the next set of results.
@@ -3582,7 +3582,7 @@ public struct ListHITsForQualificationTypeOutput: Swift.Equatable {
     }
 }
 
-struct ListHITsForQualificationTypeOutputBody: Swift.Equatable {
+struct ListHITsForQualificationTypeOutputBody {
     let nextToken: Swift.String?
     let numResults: Swift.Int?
     let hiTs: [MTurkClientTypes.HIT]?
@@ -3651,7 +3651,7 @@ extension ListHITsInput {
     }
 }
 
-public struct ListHITsInput: Swift.Equatable {
+public struct ListHITsInput {
     public var maxResults: Swift.Int?
     /// Pagination token
     public var nextToken: Swift.String?
@@ -3666,7 +3666,7 @@ public struct ListHITsInput: Swift.Equatable {
     }
 }
 
-struct ListHITsInputBody: Swift.Equatable {
+struct ListHITsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -3702,7 +3702,7 @@ extension ListHITsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListHITsOutput: Swift.Equatable {
+public struct ListHITsOutput {
     /// The list of HIT elements returned by the query.
     public var hiTs: [MTurkClientTypes.HIT]?
     /// If the previous response was incomplete (because there is more data to retrieve), Amazon Mechanical Turk returns a pagination token in the response. You can use this pagination token to retrieve the next set of results.
@@ -3722,7 +3722,7 @@ public struct ListHITsOutput: Swift.Equatable {
     }
 }
 
-struct ListHITsOutputBody: Swift.Equatable {
+struct ListHITsOutputBody {
     let nextToken: Swift.String?
     let numResults: Swift.Int?
     let hiTs: [MTurkClientTypes.HIT]?
@@ -3795,7 +3795,7 @@ extension ListQualificationRequestsInput {
     }
 }
 
-public struct ListQualificationRequestsInput: Swift.Equatable {
+public struct ListQualificationRequestsInput {
     /// The maximum number of results to return in a single call.
     public var maxResults: Swift.Int?
     /// If the previous response was incomplete (because there is more data to retrieve), Amazon Mechanical Turk returns a pagination token in the response. You can use this pagination token to retrieve the next set of results.
@@ -3815,7 +3815,7 @@ public struct ListQualificationRequestsInput: Swift.Equatable {
     }
 }
 
-struct ListQualificationRequestsInputBody: Swift.Equatable {
+struct ListQualificationRequestsInputBody {
     let qualificationTypeId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -3855,7 +3855,7 @@ extension ListQualificationRequestsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListQualificationRequestsOutput: Swift.Equatable {
+public struct ListQualificationRequestsOutput {
     /// If the previous response was incomplete (because there is more data to retrieve), Amazon Mechanical Turk returns a pagination token in the response. You can use this pagination token to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// The number of Qualification requests on this page in the filtered results list, equivalent to the number of Qualification requests being returned by this call.
@@ -3875,7 +3875,7 @@ public struct ListQualificationRequestsOutput: Swift.Equatable {
     }
 }
 
-struct ListQualificationRequestsOutputBody: Swift.Equatable {
+struct ListQualificationRequestsOutputBody {
     let numResults: Swift.Int?
     let nextToken: Swift.String?
     let qualificationRequests: [MTurkClientTypes.QualificationRequest]?
@@ -3956,7 +3956,7 @@ extension ListQualificationTypesInput {
     }
 }
 
-public struct ListQualificationTypesInput: Swift.Equatable {
+public struct ListQualificationTypesInput {
     /// The maximum number of results to return in a single call.
     public var maxResults: Swift.Int?
     /// Specifies that only Qualification types that the Requester created are returned. If false, the operation returns all Qualification types.
@@ -3985,7 +3985,7 @@ public struct ListQualificationTypesInput: Swift.Equatable {
     }
 }
 
-struct ListQualificationTypesInputBody: Swift.Equatable {
+struct ListQualificationTypesInputBody {
     let query: Swift.String?
     let mustBeRequestable: Swift.Bool?
     let mustBeOwnedByCaller: Swift.Bool?
@@ -4033,7 +4033,7 @@ extension ListQualificationTypesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListQualificationTypesOutput: Swift.Equatable {
+public struct ListQualificationTypesOutput {
     /// If the previous response was incomplete (because there is more data to retrieve), Amazon Mechanical Turk returns a pagination token in the response. You can use this pagination token to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// The number of Qualification types on this page in the filtered results list, equivalent to the number of types this operation returns.
@@ -4053,7 +4053,7 @@ public struct ListQualificationTypesOutput: Swift.Equatable {
     }
 }
 
-struct ListQualificationTypesOutputBody: Swift.Equatable {
+struct ListQualificationTypesOutputBody {
     let numResults: Swift.Int?
     let nextToken: Swift.String?
     let qualificationTypes: [MTurkClientTypes.QualificationType]?
@@ -4141,7 +4141,7 @@ extension ListReviewPolicyResultsForHITInput {
     }
 }
 
-public struct ListReviewPolicyResultsForHITInput: Swift.Equatable {
+public struct ListReviewPolicyResultsForHITInput {
     /// The unique identifier of the HIT to retrieve review results for.
     /// This member is required.
     public var hitId: Swift.String?
@@ -4174,7 +4174,7 @@ public struct ListReviewPolicyResultsForHITInput: Swift.Equatable {
     }
 }
 
-struct ListReviewPolicyResultsForHITInputBody: Swift.Equatable {
+struct ListReviewPolicyResultsForHITInputBody {
     let hitId: Swift.String?
     let policyLevels: [MTurkClientTypes.ReviewPolicyLevel]?
     let retrieveActions: Swift.Bool?
@@ -4241,7 +4241,7 @@ extension ListReviewPolicyResultsForHITOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ListReviewPolicyResultsForHITOutput: Swift.Equatable {
+public struct ListReviewPolicyResultsForHITOutput {
     /// The name of the Assignment-level Review Policy. This contains only the PolicyName element.
     public var assignmentReviewPolicy: MTurkClientTypes.ReviewPolicy?
     /// Contains both ReviewResult and ReviewAction elements for an Assignment.
@@ -4273,7 +4273,7 @@ public struct ListReviewPolicyResultsForHITOutput: Swift.Equatable {
     }
 }
 
-struct ListReviewPolicyResultsForHITOutputBody: Swift.Equatable {
+struct ListReviewPolicyResultsForHITOutputBody {
     let hitId: Swift.String?
     let assignmentReviewPolicy: MTurkClientTypes.ReviewPolicy?
     let hitReviewPolicy: MTurkClientTypes.ReviewPolicy?
@@ -4353,7 +4353,7 @@ extension ListReviewableHITsInput {
     }
 }
 
-public struct ListReviewableHITsInput: Swift.Equatable {
+public struct ListReviewableHITsInput {
     /// The ID of the HIT type of the HITs to consider for the query. If not specified, all HITs for the Reviewer are considered
     public var hitTypeId: Swift.String?
     /// Limit the number of results returned.
@@ -4377,7 +4377,7 @@ public struct ListReviewableHITsInput: Swift.Equatable {
     }
 }
 
-struct ListReviewableHITsInputBody: Swift.Equatable {
+struct ListReviewableHITsInputBody {
     let hitTypeId: Swift.String?
     let status: MTurkClientTypes.ReviewableHITStatus?
     let nextToken: Swift.String?
@@ -4421,7 +4421,7 @@ extension ListReviewableHITsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListReviewableHITsOutput: Swift.Equatable {
+public struct ListReviewableHITsOutput {
     /// The list of HIT elements returned by the query.
     public var hiTs: [MTurkClientTypes.HIT]?
     /// If the previous response was incomplete (because there is more data to retrieve), Amazon Mechanical Turk returns a pagination token in the response. You can use this pagination token to retrieve the next set of results.
@@ -4441,7 +4441,7 @@ public struct ListReviewableHITsOutput: Swift.Equatable {
     }
 }
 
-struct ListReviewableHITsOutputBody: Swift.Equatable {
+struct ListReviewableHITsOutputBody {
     let nextToken: Swift.String?
     let numResults: Swift.Int?
     let hiTs: [MTurkClientTypes.HIT]?
@@ -4510,7 +4510,7 @@ extension ListWorkerBlocksInput {
     }
 }
 
-public struct ListWorkerBlocksInput: Swift.Equatable {
+public struct ListWorkerBlocksInput {
     public var maxResults: Swift.Int?
     /// Pagination token
     public var nextToken: Swift.String?
@@ -4525,7 +4525,7 @@ public struct ListWorkerBlocksInput: Swift.Equatable {
     }
 }
 
-struct ListWorkerBlocksInputBody: Swift.Equatable {
+struct ListWorkerBlocksInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -4561,7 +4561,7 @@ extension ListWorkerBlocksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListWorkerBlocksOutput: Swift.Equatable {
+public struct ListWorkerBlocksOutput {
     /// If the previous response was incomplete (because there is more data to retrieve), Amazon Mechanical Turk returns a pagination token in the response. You can use this pagination token to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// The number of assignments on the page in the filtered results list, equivalent to the number of assignments returned by this call.
@@ -4581,7 +4581,7 @@ public struct ListWorkerBlocksOutput: Swift.Equatable {
     }
 }
 
-struct ListWorkerBlocksOutputBody: Swift.Equatable {
+struct ListWorkerBlocksOutputBody {
     let nextToken: Swift.String?
     let numResults: Swift.Int?
     let workerBlocks: [MTurkClientTypes.WorkerBlock]?
@@ -4658,7 +4658,7 @@ extension ListWorkersWithQualificationTypeInput {
     }
 }
 
-public struct ListWorkersWithQualificationTypeInput: Swift.Equatable {
+public struct ListWorkersWithQualificationTypeInput {
     /// Limit the number of results returned.
     public var maxResults: Swift.Int?
     /// Pagination Token
@@ -4683,7 +4683,7 @@ public struct ListWorkersWithQualificationTypeInput: Swift.Equatable {
     }
 }
 
-struct ListWorkersWithQualificationTypeInputBody: Swift.Equatable {
+struct ListWorkersWithQualificationTypeInputBody {
     let qualificationTypeId: Swift.String?
     let status: MTurkClientTypes.QualificationStatus?
     let nextToken: Swift.String?
@@ -4727,7 +4727,7 @@ extension ListWorkersWithQualificationTypeOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct ListWorkersWithQualificationTypeOutput: Swift.Equatable {
+public struct ListWorkersWithQualificationTypeOutput {
     /// If the previous response was incomplete (because there is more data to retrieve), Amazon Mechanical Turk returns a pagination token in the response. You can use this pagination token to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// The number of Qualifications on this page in the filtered results list, equivalent to the number of Qualifications being returned by this call.
@@ -4747,7 +4747,7 @@ public struct ListWorkersWithQualificationTypeOutput: Swift.Equatable {
     }
 }
 
-struct ListWorkersWithQualificationTypeOutputBody: Swift.Equatable {
+struct ListWorkersWithQualificationTypeOutputBody {
     let nextToken: Swift.String?
     let numResults: Swift.Int?
     let qualifications: [MTurkClientTypes.Qualification]?
@@ -4819,7 +4819,7 @@ extension MTurkClientTypes.Locale: Swift.Codable {
 
 extension MTurkClientTypes {
     /// The Locale data structure represents a geographical region or location.
-    public struct Locale: Swift.Equatable {
+    public struct Locale {
         /// The country of the locale. Must be a valid ISO 3166 country code. For example, the code US refers to the United States of America.
         /// This member is required.
         public var country: Swift.String?
@@ -4891,7 +4891,7 @@ extension MTurkClientTypes.NotificationSpecification: Swift.Codable {
 
 extension MTurkClientTypes {
     /// The NotificationSpecification data structure describes a HIT event notification for a HIT type.
-    public struct NotificationSpecification: Swift.Equatable {
+    public struct NotificationSpecification {
         /// The target for notification messages. The Destination’s format is determined by the specified Transport:
         ///
         /// * When Transport is Email, the Destination is your email address.
@@ -5027,7 +5027,7 @@ extension MTurkClientTypes.NotifyWorkersFailureStatus: Swift.Codable {
 
 extension MTurkClientTypes {
     /// When MTurk encounters an issue with notifying the Workers you specified, it returns back this object with failure details.
-    public struct NotifyWorkersFailureStatus: Swift.Equatable {
+    public struct NotifyWorkersFailureStatus {
         /// Encoded value for the failure type.
         public var notifyWorkersFailureCode: MTurkClientTypes.NotifyWorkersFailureCode?
         /// A message detailing the reason the Worker could not be notified.
@@ -5080,7 +5080,7 @@ extension NotifyWorkersInput {
     }
 }
 
-public struct NotifyWorkersInput: Swift.Equatable {
+public struct NotifyWorkersInput {
     /// The text of the email message to send. Can include up to 4,096 characters
     /// This member is required.
     public var messageText: Swift.String?
@@ -5103,7 +5103,7 @@ public struct NotifyWorkersInput: Swift.Equatable {
     }
 }
 
-struct NotifyWorkersInputBody: Swift.Equatable {
+struct NotifyWorkersInputBody {
     let subject: Swift.String?
     let messageText: Swift.String?
     let workerIds: [Swift.String]?
@@ -5148,7 +5148,7 @@ extension NotifyWorkersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct NotifyWorkersOutput: Swift.Equatable {
+public struct NotifyWorkersOutput {
     /// When MTurk sends notifications to the list of Workers, it returns back any failures it encounters in this list of NotifyWorkersFailureStatus objects.
     public var notifyWorkersFailureStatuses: [MTurkClientTypes.NotifyWorkersFailureStatus]?
 
@@ -5160,7 +5160,7 @@ public struct NotifyWorkersOutput: Swift.Equatable {
     }
 }
 
-struct NotifyWorkersOutputBody: Swift.Equatable {
+struct NotifyWorkersOutputBody {
     let notifyWorkersFailureStatuses: [MTurkClientTypes.NotifyWorkersFailureStatus]?
 }
 
@@ -5236,7 +5236,7 @@ extension MTurkClientTypes.ParameterMapEntry: Swift.Codable {
 
 extension MTurkClientTypes {
     /// This data structure is the data type for the AnswerKey parameter of the ScoreMyKnownAnswers/2011-09-01 Review Policy.
-    public struct ParameterMapEntry: Swift.Equatable {
+    public struct ParameterMapEntry {
         /// The QuestionID from the HIT that is used to identify which question requires Mechanical Turk to score as part of the ScoreMyKnownAnswers/2011-09-01 Review Policy.
         public var key: Swift.String?
         /// The list of answers to the question specified in the MapEntry Key element. The Worker must match all values in order for the answer to be scored correctly.
@@ -5311,7 +5311,7 @@ extension MTurkClientTypes.PolicyParameter: Swift.Codable {
 
 extension MTurkClientTypes {
     /// Name of the parameter from the Review policy.
-    public struct PolicyParameter: Swift.Equatable {
+    public struct PolicyParameter {
         /// Name of the parameter from the list of Review Polices.
         public var key: Swift.String?
         /// List of ParameterMapEntry objects.
@@ -5384,7 +5384,7 @@ extension MTurkClientTypes.Qualification: Swift.Codable {
 
 extension MTurkClientTypes {
     /// The Qualification data structure represents a Qualification assigned to a user, including the Qualification type and the value (score).
-    public struct Qualification: Swift.Equatable {
+    public struct Qualification {
         /// The date and time the Qualification was granted to the Worker. If the Worker's Qualification was revoked, and then re-granted based on a new Qualification request, GrantTime is the date and time of the last call to the AcceptQualificationRequest operation.
         public var grantTime: ClientRuntime.Date?
         /// The value (score) of the Qualification, if the Qualification has an integer value.
@@ -5469,7 +5469,7 @@ extension MTurkClientTypes.QualificationRequest: Swift.Codable {
 
 extension MTurkClientTypes {
     /// The QualificationRequest data structure represents a request a Worker has made for a Qualification.
-    public struct QualificationRequest: Swift.Equatable {
+    public struct QualificationRequest {
         /// The Worker's answers for the Qualification type's test contained in a QuestionFormAnswers document, if the type has a test and the Worker has submitted answers. If the Worker does not provide any answers, Answer may be empty.
         public var answer: Swift.String?
         /// The ID of the Qualification request, a unique identifier generated when the request was submitted.
@@ -5578,7 +5578,7 @@ extension MTurkClientTypes.QualificationRequirement: Swift.Codable {
 
 extension MTurkClientTypes {
     /// The QualificationRequirement data structure describes a Qualification that a Worker must have before the Worker is allowed to accept a HIT. A requirement may optionally state that a Worker must have the Qualification in order to preview the HIT, or see the HIT in search results.
-    public struct QualificationRequirement: Swift.Equatable {
+    public struct QualificationRequirement {
         /// Setting this attribute prevents Workers whose Qualifications do not meet this QualificationRequirement from taking the specified action. Valid arguments include "Accept" (Worker cannot accept the HIT, but can preview the HIT and see it in their search results), "PreviewAndAccept" (Worker cannot accept or preview the HIT, but can see the HIT in their search results), and "DiscoverPreviewAndAccept" (Worker cannot accept, preview, or see the HIT in their search results). It's possible for you to create a HIT with multiple QualificationRequirements (which can have different values for the ActionGuarded attribute). In this case, the Worker is only permitted to perform an action when they have met all QualificationRequirements guarding the action. The actions in the order of least restrictive to most restrictive are Discover, Preview and Accept. For example, if a Worker meets all QualificationRequirements that are set to DiscoverPreviewAndAccept, but do not meet all requirements that are set with PreviewAndAccept, then the Worker will be able to Discover, i.e. see the HIT in their search result, but will not be able to Preview or Accept the HIT. ActionsGuarded should not be used in combination with the RequiredToPreview field.
         public var actionsGuarded: MTurkClientTypes.HITAccessActions?
         /// The kind of comparison to make against a Qualification's value. You can compare a Qualification's value to an IntegerValue to see if it is LessThan, LessThanOrEqualTo, GreaterThan, GreaterThanOrEqualTo, EqualTo, or NotEqualTo the IntegerValue. You can compare it to a LocaleValue to see if it is EqualTo, or NotEqualTo the LocaleValue. You can check to see if the value is In or NotIn a set of IntegerValue or LocaleValue values. Lastly, a Qualification requirement can also test if a Qualification Exists or DoesNotExist in the user's profile, regardless of its value.
@@ -5740,7 +5740,7 @@ extension MTurkClientTypes.QualificationType: Swift.Codable {
 
 extension MTurkClientTypes {
     /// The QualificationType data structure represents a Qualification type, a description of a property of a Worker that must match the requirements of a HIT for the Worker to be able to accept the HIT. The type also describes how a Worker can obtain a Qualification of that type, such as through a Qualification test.
-    public struct QualificationType: Swift.Equatable {
+    public struct QualificationType {
         /// The answers to the Qualification test specified in the Test parameter.
         public var answerKey: Swift.String?
         /// Specifies that requests for the Qualification type are granted immediately, without prompting the Worker with a Qualification test. Valid values are True | False.
@@ -5858,7 +5858,7 @@ extension RejectAssignmentInput {
     }
 }
 
-public struct RejectAssignmentInput: Swift.Equatable {
+public struct RejectAssignmentInput {
     /// The ID of the assignment. The assignment must correspond to a HIT created by the Requester.
     /// This member is required.
     public var assignmentId: Swift.String?
@@ -5876,7 +5876,7 @@ public struct RejectAssignmentInput: Swift.Equatable {
     }
 }
 
-struct RejectAssignmentInputBody: Swift.Equatable {
+struct RejectAssignmentInputBody {
     let assignmentId: Swift.String?
     let requesterFeedback: Swift.String?
 }
@@ -5901,7 +5901,7 @@ extension RejectAssignmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RejectAssignmentOutput: Swift.Equatable {
+public struct RejectAssignmentOutput {
 
     public init() { }
 }
@@ -5942,7 +5942,7 @@ extension RejectQualificationRequestInput {
     }
 }
 
-public struct RejectQualificationRequestInput: Swift.Equatable {
+public struct RejectQualificationRequestInput {
     /// The ID of the Qualification request, as returned by the ListQualificationRequests operation.
     /// This member is required.
     public var qualificationRequestId: Swift.String?
@@ -5959,7 +5959,7 @@ public struct RejectQualificationRequestInput: Swift.Equatable {
     }
 }
 
-struct RejectQualificationRequestInputBody: Swift.Equatable {
+struct RejectQualificationRequestInputBody {
     let qualificationRequestId: Swift.String?
     let reason: Swift.String?
 }
@@ -5984,7 +5984,7 @@ extension RejectQualificationRequestOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RejectQualificationRequestOutput: Swift.Equatable {
+public struct RejectQualificationRequestOutput {
 
     public init() { }
 }
@@ -6045,7 +6045,7 @@ public struct RequestError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
     }
 }
 
-struct RequestErrorBody: Swift.Equatable {
+struct RequestErrorBody {
     let message: Swift.String?
     let turkErrorCode: Swift.String?
 }
@@ -6128,7 +6128,7 @@ extension MTurkClientTypes.ReviewActionDetail: Swift.Codable {
 
 extension MTurkClientTypes {
     /// Both the AssignmentReviewReport and the HITReviewReport elements contains the ReviewActionDetail data structure. This structure is returned multiple times for each action specified in the Review Policy.
-    public struct ReviewActionDetail: Swift.Equatable {
+    public struct ReviewActionDetail {
         /// The unique identifier for the action.
         public var actionId: Swift.String?
         /// The nature of the action itself. The Review Policy is responsible for examining the HIT and Assignments, emitting results, and deciding which other actions will be necessary.
@@ -6247,7 +6247,7 @@ extension MTurkClientTypes.ReviewPolicy: Swift.Codable {
 
 extension MTurkClientTypes {
     /// HIT Review Policy data structures represent HIT review policies, which you specify when you create a HIT.
-    public struct ReviewPolicy: Swift.Equatable {
+    public struct ReviewPolicy {
         /// Name of the parameter from the Review policy.
         public var parameters: [MTurkClientTypes.PolicyParameter]?
         /// Name of a Review Policy: SimplePlurality/2011-09-01 or ScoreMyKnownAnswers/2011-09-01
@@ -6349,7 +6349,7 @@ extension MTurkClientTypes.ReviewReport: Swift.Codable {
 
 extension MTurkClientTypes {
     /// Contains both ReviewResult and ReviewAction elements for a particular HIT.
-    public struct ReviewReport: Swift.Equatable {
+    public struct ReviewReport {
         /// A list of ReviewAction objects for each action specified in the Review Policy.
         public var reviewActions: [MTurkClientTypes.ReviewActionDetail]?
         /// A list of ReviewResults objects for each action specified in the Review Policy.
@@ -6418,7 +6418,7 @@ extension MTurkClientTypes.ReviewResultDetail: Swift.Codable {
 
 extension MTurkClientTypes {
     /// This data structure is returned multiple times for each result specified in the Review Policy.
-    public struct ReviewResultDetail: Swift.Equatable {
+    public struct ReviewResultDetail {
         /// A unique identifier of the Review action result.
         public var actionId: Swift.String?
         /// Key identifies the particular piece of reviewed information.
@@ -6520,7 +6520,7 @@ extension SendBonusInput {
     }
 }
 
-public struct SendBonusInput: Swift.Equatable {
+public struct SendBonusInput {
     /// The ID of the assignment for which this bonus is paid.
     /// This member is required.
     public var assignmentId: Swift.String?
@@ -6552,7 +6552,7 @@ public struct SendBonusInput: Swift.Equatable {
     }
 }
 
-struct SendBonusInputBody: Swift.Equatable {
+struct SendBonusInputBody {
     let workerId: Swift.String?
     let bonusAmount: Swift.String?
     let assignmentId: Swift.String?
@@ -6589,7 +6589,7 @@ extension SendBonusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SendBonusOutput: Swift.Equatable {
+public struct SendBonusOutput {
 
     public init() { }
 }
@@ -6630,7 +6630,7 @@ extension SendTestEventNotificationInput {
     }
 }
 
-public struct SendTestEventNotificationInput: Swift.Equatable {
+public struct SendTestEventNotificationInput {
     /// The notification specification to test. This value is identical to the value you would provide to the UpdateNotificationSettings operation when you establish the notification specification for a HIT type.
     /// This member is required.
     public var notification: MTurkClientTypes.NotificationSpecification?
@@ -6648,7 +6648,7 @@ public struct SendTestEventNotificationInput: Swift.Equatable {
     }
 }
 
-struct SendTestEventNotificationInputBody: Swift.Equatable {
+struct SendTestEventNotificationInputBody {
     let notification: MTurkClientTypes.NotificationSpecification?
     let testEventType: MTurkClientTypes.EventType?
 }
@@ -6673,7 +6673,7 @@ extension SendTestEventNotificationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SendTestEventNotificationOutput: Swift.Equatable {
+public struct SendTestEventNotificationOutput {
 
     public init() { }
 }
@@ -6734,7 +6734,7 @@ public struct ServiceFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
     }
 }
 
-struct ServiceFaultBody: Swift.Equatable {
+struct ServiceFaultBody {
     let message: Swift.String?
     let turkErrorCode: Swift.String?
 }
@@ -6778,7 +6778,7 @@ extension UpdateExpirationForHITInput {
     }
 }
 
-public struct UpdateExpirationForHITInput: Swift.Equatable {
+public struct UpdateExpirationForHITInput {
     /// The date and time at which you want the HIT to expire
     /// This member is required.
     public var expireAt: ClientRuntime.Date?
@@ -6796,7 +6796,7 @@ public struct UpdateExpirationForHITInput: Swift.Equatable {
     }
 }
 
-struct UpdateExpirationForHITInputBody: Swift.Equatable {
+struct UpdateExpirationForHITInputBody {
     let hitId: Swift.String?
     let expireAt: ClientRuntime.Date?
 }
@@ -6821,7 +6821,7 @@ extension UpdateExpirationForHITOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateExpirationForHITOutput: Swift.Equatable {
+public struct UpdateExpirationForHITOutput {
 
     public init() { }
 }
@@ -6862,7 +6862,7 @@ extension UpdateHITReviewStatusInput {
     }
 }
 
-public struct UpdateHITReviewStatusInput: Swift.Equatable {
+public struct UpdateHITReviewStatusInput {
     /// The ID of the HIT to update.
     /// This member is required.
     public var hitId: Swift.String?
@@ -6883,7 +6883,7 @@ public struct UpdateHITReviewStatusInput: Swift.Equatable {
     }
 }
 
-struct UpdateHITReviewStatusInputBody: Swift.Equatable {
+struct UpdateHITReviewStatusInputBody {
     let hitId: Swift.String?
     let revert: Swift.Bool?
 }
@@ -6908,7 +6908,7 @@ extension UpdateHITReviewStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateHITReviewStatusOutput: Swift.Equatable {
+public struct UpdateHITReviewStatusOutput {
 
     public init() { }
 }
@@ -6949,7 +6949,7 @@ extension UpdateHITTypeOfHITInput {
     }
 }
 
-public struct UpdateHITTypeOfHITInput: Swift.Equatable {
+public struct UpdateHITTypeOfHITInput {
     /// The HIT to update.
     /// This member is required.
     public var hitId: Swift.String?
@@ -6967,7 +6967,7 @@ public struct UpdateHITTypeOfHITInput: Swift.Equatable {
     }
 }
 
-struct UpdateHITTypeOfHITInputBody: Swift.Equatable {
+struct UpdateHITTypeOfHITInputBody {
     let hitId: Swift.String?
     let hitTypeId: Swift.String?
 }
@@ -6992,7 +6992,7 @@ extension UpdateHITTypeOfHITOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateHITTypeOfHITOutput: Swift.Equatable {
+public struct UpdateHITTypeOfHITOutput {
 
     public init() { }
 }
@@ -7037,7 +7037,7 @@ extension UpdateNotificationSettingsInput {
     }
 }
 
-public struct UpdateNotificationSettingsInput: Swift.Equatable {
+public struct UpdateNotificationSettingsInput {
     /// Specifies whether notifications are sent for HITs of this HIT type, according to the notification specification. You must specify either the Notification parameter or the Active parameter for the call to UpdateNotificationSettings to succeed.
     public var active: Swift.Bool?
     /// The ID of the HIT type whose notification specification is being updated.
@@ -7058,7 +7058,7 @@ public struct UpdateNotificationSettingsInput: Swift.Equatable {
     }
 }
 
-struct UpdateNotificationSettingsInputBody: Swift.Equatable {
+struct UpdateNotificationSettingsInputBody {
     let hitTypeId: Swift.String?
     let notification: MTurkClientTypes.NotificationSpecification?
     let active: Swift.Bool?
@@ -7087,7 +7087,7 @@ extension UpdateNotificationSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateNotificationSettingsOutput: Swift.Equatable {
+public struct UpdateNotificationSettingsOutput {
 
     public init() { }
 }
@@ -7156,7 +7156,7 @@ extension UpdateQualificationTypeInput {
     }
 }
 
-public struct UpdateQualificationTypeInput: Swift.Equatable {
+public struct UpdateQualificationTypeInput {
     /// The answers to the Qualification test specified in the Test parameter, in the form of an AnswerKey data structure.
     public var answerKey: Swift.String?
     /// Specifies whether requests for the Qualification type are granted immediately, without prompting the Worker with a Qualification test. Constraints: If the Test parameter is specified, this parameter cannot be true.
@@ -7201,7 +7201,7 @@ public struct UpdateQualificationTypeInput: Swift.Equatable {
     }
 }
 
-struct UpdateQualificationTypeInputBody: Swift.Equatable {
+struct UpdateQualificationTypeInputBody {
     let qualificationTypeId: Swift.String?
     let description: Swift.String?
     let qualificationTypeStatus: MTurkClientTypes.QualificationTypeStatus?
@@ -7261,7 +7261,7 @@ extension UpdateQualificationTypeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateQualificationTypeOutput: Swift.Equatable {
+public struct UpdateQualificationTypeOutput {
     /// Contains a QualificationType data structure.
     public var qualificationType: MTurkClientTypes.QualificationType?
 
@@ -7273,7 +7273,7 @@ public struct UpdateQualificationTypeOutput: Swift.Equatable {
     }
 }
 
-struct UpdateQualificationTypeOutputBody: Swift.Equatable {
+struct UpdateQualificationTypeOutputBody {
     let qualificationType: MTurkClientTypes.QualificationType?
 }
 
@@ -7328,7 +7328,7 @@ extension MTurkClientTypes.WorkerBlock: Swift.Codable {
 
 extension MTurkClientTypes {
     /// The WorkerBlock data structure represents a Worker who has been blocked. It has two elements: the WorkerId and the Reason for the block.
-    public struct WorkerBlock: Swift.Equatable {
+    public struct WorkerBlock {
         /// A message explaining the reason the Worker was blocked.
         public var reason: Swift.String?
         /// The ID of the Worker who accepted the HIT.

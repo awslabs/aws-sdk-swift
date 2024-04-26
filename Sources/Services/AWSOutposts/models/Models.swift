@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -138,7 +138,7 @@ extension OutpostsClientTypes.Address: Swift.Codable {
 
 extension OutpostsClientTypes {
     /// Information about an address.
-    public struct Address: Swift.Equatable {
+    public struct Address {
         /// The first line of the address.
         /// This member is required.
         public var addressLine1: Swift.String?
@@ -274,7 +274,7 @@ extension OutpostsClientTypes.AssetInfo: Swift.Codable {
 
 extension OutpostsClientTypes {
     /// Information about hardware assets.
-    public struct AssetInfo: Swift.Equatable {
+    public struct AssetInfo {
         /// The ID of the asset.
         public var assetId: Swift.String?
         /// The position of an asset in a rack.
@@ -325,7 +325,7 @@ extension OutpostsClientTypes.AssetLocation: Swift.Codable {
 
 extension OutpostsClientTypes {
     /// Information about the position of the asset in a rack.
-    public struct AssetLocation: Swift.Equatable {
+    public struct AssetLocation {
         /// The position of an asset in a rack measured in rack units.
         public var rackElevation: Swift.Float?
 
@@ -416,7 +416,7 @@ extension CancelCapacityTaskInput {
     }
 }
 
-public struct CancelCapacityTaskInput: Swift.Equatable {
+public struct CancelCapacityTaskInput {
     /// ID of the capacity task that you want to cancel.
     /// This member is required.
     public var capacityTaskId: Swift.String?
@@ -434,7 +434,7 @@ public struct CancelCapacityTaskInput: Swift.Equatable {
     }
 }
 
-struct CancelCapacityTaskInputBody: Swift.Equatable {
+struct CancelCapacityTaskInputBody {
 }
 
 extension CancelCapacityTaskInputBody: Swift.Decodable {
@@ -448,7 +448,7 @@ extension CancelCapacityTaskOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelCapacityTaskOutput: Swift.Equatable {
+public struct CancelCapacityTaskOutput {
 
     public init() { }
 }
@@ -478,7 +478,7 @@ extension CancelOrderInput {
     }
 }
 
-public struct CancelOrderInput: Swift.Equatable {
+public struct CancelOrderInput {
     /// The ID of the order.
     /// This member is required.
     public var orderId: Swift.String?
@@ -491,7 +491,7 @@ public struct CancelOrderInput: Swift.Equatable {
     }
 }
 
-struct CancelOrderInputBody: Swift.Equatable {
+struct CancelOrderInputBody {
 }
 
 extension CancelOrderInputBody: Swift.Decodable {
@@ -505,7 +505,7 @@ extension CancelOrderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelOrderOutput: Swift.Equatable {
+public struct CancelOrderOutput {
 
     public init() { }
 }
@@ -552,7 +552,7 @@ extension OutpostsClientTypes.CapacityTaskFailure: Swift.Codable {
 
 extension OutpostsClientTypes {
     /// The capacity tasks that failed.
-    public struct CapacityTaskFailure: Swift.Equatable {
+    public struct CapacityTaskFailure {
         /// The reason that the specified capacity task failed.
         /// This member is required.
         public var reason: Swift.String?
@@ -698,7 +698,7 @@ extension OutpostsClientTypes.CapacityTaskSummary: Swift.Codable {
 
 extension OutpostsClientTypes {
     /// The summary of the capacity task.
-    public struct CapacityTaskSummary: Swift.Equatable {
+    public struct CapacityTaskSummary {
         /// The ID of the specified capacity task.
         public var capacityTaskId: Swift.String?
         /// The status of the capacity task.
@@ -829,7 +829,7 @@ extension OutpostsClientTypes.CatalogItem: Swift.Codable {
 
 extension OutpostsClientTypes {
     /// Information about a catalog item.
-    public struct CatalogItem: Swift.Equatable {
+    public struct CatalogItem {
         /// The ID of the catalog item.
         public var catalogItemId: Swift.String?
         /// Information about the EC2 capacity of an item.
@@ -1011,7 +1011,7 @@ extension OutpostsClientTypes.ComputeAttributes: Swift.Codable {
 
 extension OutpostsClientTypes {
     /// Information about compute hardware assets.
-    public struct ComputeAttributes: Swift.Equatable {
+    public struct ComputeAttributes {
         /// The host ID of the Dedicated Host on the asset.
         public var hostId: Swift.String?
         /// A list of the names of instance families that are currently associated with a given asset.
@@ -1090,7 +1090,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: OutpostsClientTypes.ResourceType?
@@ -1177,7 +1177,7 @@ extension OutpostsClientTypes.ConnectionDetails: Swift.Codable {
 
 extension OutpostsClientTypes {
     /// Information about a connection.
-    public struct ConnectionDetails: Swift.Equatable {
+    public struct ConnectionDetails {
         /// The allowed IP addresses.
         public var allowedIps: [Swift.String]?
         /// The public key of the client.
@@ -1246,7 +1246,7 @@ extension CreateOrderInput {
     }
 }
 
-public struct CreateOrderInput: Swift.Equatable {
+public struct CreateOrderInput {
     /// The line items that make up the order.
     /// This member is required.
     public var lineItems: [OutpostsClientTypes.LineItemRequest]?
@@ -1273,7 +1273,7 @@ public struct CreateOrderInput: Swift.Equatable {
     }
 }
 
-struct CreateOrderInputBody: Swift.Equatable {
+struct CreateOrderInputBody {
     let outpostIdentifier: Swift.String?
     let lineItems: [OutpostsClientTypes.LineItemRequest]?
     let paymentOption: OutpostsClientTypes.PaymentOption?
@@ -1322,7 +1322,7 @@ extension CreateOrderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateOrderOutput: Swift.Equatable {
+public struct CreateOrderOutput {
     /// Information about this order.
     public var order: OutpostsClientTypes.Order?
 
@@ -1334,7 +1334,7 @@ public struct CreateOrderOutput: Swift.Equatable {
     }
 }
 
-struct CreateOrderOutputBody: Swift.Equatable {
+struct CreateOrderOutputBody {
     let order: OutpostsClientTypes.Order?
 }
 
@@ -1413,7 +1413,7 @@ extension CreateOutpostInput {
     }
 }
 
-public struct CreateOutpostInput: Swift.Equatable {
+public struct CreateOutpostInput {
     /// The Availability Zone.
     public var availabilityZone: Swift.String?
     /// The ID of the Availability Zone.
@@ -1451,7 +1451,7 @@ public struct CreateOutpostInput: Swift.Equatable {
     }
 }
 
-struct CreateOutpostInputBody: Swift.Equatable {
+struct CreateOutpostInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let siteId: Swift.String?
@@ -1512,7 +1512,7 @@ extension CreateOutpostOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateOutpostOutput: Swift.Equatable {
+public struct CreateOutpostOutput {
     /// Information about an Outpost.
     public var outpost: OutpostsClientTypes.Outpost?
 
@@ -1524,7 +1524,7 @@ public struct CreateOutpostOutput: Swift.Equatable {
     }
 }
 
-struct CreateOutpostOutputBody: Swift.Equatable {
+struct CreateOutpostOutputBody {
     let outpost: OutpostsClientTypes.Outpost?
 }
 
@@ -1603,7 +1603,7 @@ extension CreateSiteInput {
     }
 }
 
-public struct CreateSiteInput: Swift.Equatable {
+public struct CreateSiteInput {
     /// The description of the site.
     public var description: Swift.String?
     /// The name of the site.
@@ -1640,7 +1640,7 @@ public struct CreateSiteInput: Swift.Equatable {
     }
 }
 
-struct CreateSiteInputBody: Swift.Equatable {
+struct CreateSiteInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let notes: Swift.String?
@@ -1701,7 +1701,7 @@ extension CreateSiteOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSiteOutput: Swift.Equatable {
+public struct CreateSiteOutput {
     /// Information about a site.
     public var site: OutpostsClientTypes.Site?
 
@@ -1713,7 +1713,7 @@ public struct CreateSiteOutput: Swift.Equatable {
     }
 }
 
-struct CreateSiteOutputBody: Swift.Equatable {
+struct CreateSiteOutputBody {
     let site: OutpostsClientTypes.Site?
 }
 
@@ -1754,7 +1754,7 @@ extension DeleteOutpostInput {
     }
 }
 
-public struct DeleteOutpostInput: Swift.Equatable {
+public struct DeleteOutpostInput {
     /// The ID or ARN of the Outpost.
     /// This member is required.
     public var outpostId: Swift.String?
@@ -1767,7 +1767,7 @@ public struct DeleteOutpostInput: Swift.Equatable {
     }
 }
 
-struct DeleteOutpostInputBody: Swift.Equatable {
+struct DeleteOutpostInputBody {
 }
 
 extension DeleteOutpostInputBody: Swift.Decodable {
@@ -1781,7 +1781,7 @@ extension DeleteOutpostOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteOutpostOutput: Swift.Equatable {
+public struct DeleteOutpostOutput {
 
     public init() { }
 }
@@ -1811,7 +1811,7 @@ extension DeleteSiteInput {
     }
 }
 
-public struct DeleteSiteInput: Swift.Equatable {
+public struct DeleteSiteInput {
     /// The ID or the Amazon Resource Name (ARN) of the site.
     /// This member is required.
     public var siteId: Swift.String?
@@ -1824,7 +1824,7 @@ public struct DeleteSiteInput: Swift.Equatable {
     }
 }
 
-struct DeleteSiteInputBody: Swift.Equatable {
+struct DeleteSiteInputBody {
 }
 
 extension DeleteSiteInputBody: Swift.Decodable {
@@ -1838,7 +1838,7 @@ extension DeleteSiteOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSiteOutput: Swift.Equatable {
+public struct DeleteSiteOutput {
 
     public init() { }
 }
@@ -1891,7 +1891,7 @@ extension OutpostsClientTypes.EC2Capacity: Swift.Codable {
 
 extension OutpostsClientTypes {
     /// Information about EC2 capacity.
-    public struct EC2Capacity: Swift.Equatable {
+    public struct EC2Capacity {
         /// The family of the EC2 capacity.
         public var family: Swift.String?
         /// The maximum size of the EC2 capacity.
@@ -1958,7 +1958,7 @@ extension GetCapacityTaskInput {
     }
 }
 
-public struct GetCapacityTaskInput: Swift.Equatable {
+public struct GetCapacityTaskInput {
     /// ID of the capacity task.
     /// This member is required.
     public var capacityTaskId: Swift.String?
@@ -1976,7 +1976,7 @@ public struct GetCapacityTaskInput: Swift.Equatable {
     }
 }
 
-struct GetCapacityTaskInputBody: Swift.Equatable {
+struct GetCapacityTaskInputBody {
 }
 
 extension GetCapacityTaskInputBody: Swift.Decodable {
@@ -2015,7 +2015,7 @@ extension GetCapacityTaskOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCapacityTaskOutput: Swift.Equatable {
+public struct GetCapacityTaskOutput {
     /// ID of the capacity task.
     public var capacityTaskId: Swift.String?
     /// Status of the capacity task. A capacity task can have one of the following statuses:
@@ -2069,7 +2069,7 @@ public struct GetCapacityTaskOutput: Swift.Equatable {
     }
 }
 
-struct GetCapacityTaskOutputBody: Swift.Equatable {
+struct GetCapacityTaskOutputBody {
     let capacityTaskId: Swift.String?
     let outpostId: Swift.String?
     let orderId: Swift.String?
@@ -2154,7 +2154,7 @@ extension GetCatalogItemInput {
     }
 }
 
-public struct GetCatalogItemInput: Swift.Equatable {
+public struct GetCatalogItemInput {
     /// The ID of the catalog item.
     /// This member is required.
     public var catalogItemId: Swift.String?
@@ -2167,7 +2167,7 @@ public struct GetCatalogItemInput: Swift.Equatable {
     }
 }
 
-struct GetCatalogItemInputBody: Swift.Equatable {
+struct GetCatalogItemInputBody {
 }
 
 extension GetCatalogItemInputBody: Swift.Decodable {
@@ -2188,7 +2188,7 @@ extension GetCatalogItemOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCatalogItemOutput: Swift.Equatable {
+public struct GetCatalogItemOutput {
     /// Information about this catalog item.
     public var catalogItem: OutpostsClientTypes.CatalogItem?
 
@@ -2200,7 +2200,7 @@ public struct GetCatalogItemOutput: Swift.Equatable {
     }
 }
 
-struct GetCatalogItemOutputBody: Swift.Equatable {
+struct GetCatalogItemOutputBody {
     let catalogItem: OutpostsClientTypes.CatalogItem?
 }
 
@@ -2239,7 +2239,7 @@ extension GetConnectionInput {
     }
 }
 
-public struct GetConnectionInput: Swift.Equatable {
+public struct GetConnectionInput {
     /// The ID of the connection.
     /// This member is required.
     public var connectionId: Swift.String?
@@ -2252,7 +2252,7 @@ public struct GetConnectionInput: Swift.Equatable {
     }
 }
 
-struct GetConnectionInputBody: Swift.Equatable {
+struct GetConnectionInputBody {
 }
 
 extension GetConnectionInputBody: Swift.Decodable {
@@ -2275,7 +2275,7 @@ extension GetConnectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetConnectionOutput: Swift.Equatable {
+public struct GetConnectionOutput {
     /// Information about the connection.
     public var connectionDetails: OutpostsClientTypes.ConnectionDetails?
     /// The ID of the connection.
@@ -2291,7 +2291,7 @@ public struct GetConnectionOutput: Swift.Equatable {
     }
 }
 
-struct GetConnectionOutputBody: Swift.Equatable {
+struct GetConnectionOutputBody {
     let connectionId: Swift.String?
     let connectionDetails: OutpostsClientTypes.ConnectionDetails?
 }
@@ -2335,7 +2335,7 @@ extension GetOrderInput {
     }
 }
 
-public struct GetOrderInput: Swift.Equatable {
+public struct GetOrderInput {
     /// The ID of the order.
     /// This member is required.
     public var orderId: Swift.String?
@@ -2348,7 +2348,7 @@ public struct GetOrderInput: Swift.Equatable {
     }
 }
 
-struct GetOrderInputBody: Swift.Equatable {
+struct GetOrderInputBody {
 }
 
 extension GetOrderInputBody: Swift.Decodable {
@@ -2369,7 +2369,7 @@ extension GetOrderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetOrderOutput: Swift.Equatable {
+public struct GetOrderOutput {
     /// Information about an order.
     public var order: OutpostsClientTypes.Order?
 
@@ -2381,7 +2381,7 @@ public struct GetOrderOutput: Swift.Equatable {
     }
 }
 
-struct GetOrderOutputBody: Swift.Equatable {
+struct GetOrderOutputBody {
     let order: OutpostsClientTypes.Order?
 }
 
@@ -2420,7 +2420,7 @@ extension GetOutpostInput {
     }
 }
 
-public struct GetOutpostInput: Swift.Equatable {
+public struct GetOutpostInput {
     /// The ID or ARN of the Outpost.
     /// This member is required.
     public var outpostId: Swift.String?
@@ -2433,7 +2433,7 @@ public struct GetOutpostInput: Swift.Equatable {
     }
 }
 
-struct GetOutpostInputBody: Swift.Equatable {
+struct GetOutpostInputBody {
 }
 
 extension GetOutpostInputBody: Swift.Decodable {
@@ -2468,7 +2468,7 @@ extension GetOutpostInstanceTypesInput {
     }
 }
 
-public struct GetOutpostInstanceTypesInput: Swift.Equatable {
+public struct GetOutpostInstanceTypesInput {
     /// The maximum page size.
     public var maxResults: Swift.Int?
     /// The pagination token.
@@ -2489,7 +2489,7 @@ public struct GetOutpostInstanceTypesInput: Swift.Equatable {
     }
 }
 
-struct GetOutpostInstanceTypesInputBody: Swift.Equatable {
+struct GetOutpostInstanceTypesInputBody {
 }
 
 extension GetOutpostInstanceTypesInputBody: Swift.Decodable {
@@ -2516,7 +2516,7 @@ extension GetOutpostInstanceTypesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetOutpostInstanceTypesOutput: Swift.Equatable {
+public struct GetOutpostInstanceTypesOutput {
     /// Information about the instance types.
     public var instanceTypes: [OutpostsClientTypes.InstanceTypeItem]?
     /// The pagination token.
@@ -2540,7 +2540,7 @@ public struct GetOutpostInstanceTypesOutput: Swift.Equatable {
     }
 }
 
-struct GetOutpostInstanceTypesOutputBody: Swift.Equatable {
+struct GetOutpostInstanceTypesOutputBody {
     let instanceTypes: [OutpostsClientTypes.InstanceTypeItem]?
     let nextToken: Swift.String?
     let outpostId: Swift.String?
@@ -2603,7 +2603,7 @@ extension GetOutpostOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetOutpostOutput: Swift.Equatable {
+public struct GetOutpostOutput {
     /// Information about an Outpost.
     public var outpost: OutpostsClientTypes.Outpost?
 
@@ -2615,7 +2615,7 @@ public struct GetOutpostOutput: Swift.Equatable {
     }
 }
 
-struct GetOutpostOutputBody: Swift.Equatable {
+struct GetOutpostOutputBody {
     let outpost: OutpostsClientTypes.Outpost?
 }
 
@@ -2677,7 +2677,7 @@ extension GetOutpostSupportedInstanceTypesInput {
     }
 }
 
-public struct GetOutpostSupportedInstanceTypesInput: Swift.Equatable {
+public struct GetOutpostSupportedInstanceTypesInput {
     /// The maximum page size.
     public var maxResults: Swift.Int?
     /// The pagination token.
@@ -2703,7 +2703,7 @@ public struct GetOutpostSupportedInstanceTypesInput: Swift.Equatable {
     }
 }
 
-struct GetOutpostSupportedInstanceTypesInputBody: Swift.Equatable {
+struct GetOutpostSupportedInstanceTypesInputBody {
 }
 
 extension GetOutpostSupportedInstanceTypesInputBody: Swift.Decodable {
@@ -2726,7 +2726,7 @@ extension GetOutpostSupportedInstanceTypesOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct GetOutpostSupportedInstanceTypesOutput: Swift.Equatable {
+public struct GetOutpostSupportedInstanceTypesOutput {
     /// Information about the instance types.
     public var instanceTypes: [OutpostsClientTypes.InstanceTypeItem]?
     /// The pagination token.
@@ -2742,7 +2742,7 @@ public struct GetOutpostSupportedInstanceTypesOutput: Swift.Equatable {
     }
 }
 
-struct GetOutpostSupportedInstanceTypesOutputBody: Swift.Equatable {
+struct GetOutpostSupportedInstanceTypesOutputBody {
     let instanceTypes: [OutpostsClientTypes.InstanceTypeItem]?
     let nextToken: Swift.String?
 }
@@ -2809,7 +2809,7 @@ extension GetSiteAddressInput {
     }
 }
 
-public struct GetSiteAddressInput: Swift.Equatable {
+public struct GetSiteAddressInput {
     /// The type of the address you request.
     /// This member is required.
     public var addressType: OutpostsClientTypes.AddressType?
@@ -2827,7 +2827,7 @@ public struct GetSiteAddressInput: Swift.Equatable {
     }
 }
 
-struct GetSiteAddressInputBody: Swift.Equatable {
+struct GetSiteAddressInputBody {
 }
 
 extension GetSiteAddressInputBody: Swift.Decodable {
@@ -2852,7 +2852,7 @@ extension GetSiteAddressOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSiteAddressOutput: Swift.Equatable {
+public struct GetSiteAddressOutput {
     /// Information about the address.
     public var address: OutpostsClientTypes.Address?
     /// The type of the address you receive.
@@ -2872,7 +2872,7 @@ public struct GetSiteAddressOutput: Swift.Equatable {
     }
 }
 
-struct GetSiteAddressOutputBody: Swift.Equatable {
+struct GetSiteAddressOutputBody {
     let siteId: Swift.String?
     let addressType: OutpostsClientTypes.AddressType?
     let address: OutpostsClientTypes.Address?
@@ -2920,7 +2920,7 @@ extension GetSiteInput {
     }
 }
 
-public struct GetSiteInput: Swift.Equatable {
+public struct GetSiteInput {
     /// The ID or the Amazon Resource Name (ARN) of the site.
     /// This member is required.
     public var siteId: Swift.String?
@@ -2933,7 +2933,7 @@ public struct GetSiteInput: Swift.Equatable {
     }
 }
 
-struct GetSiteInputBody: Swift.Equatable {
+struct GetSiteInputBody {
 }
 
 extension GetSiteInputBody: Swift.Decodable {
@@ -2954,7 +2954,7 @@ extension GetSiteOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSiteOutput: Swift.Equatable {
+public struct GetSiteOutput {
     /// Information about a site.
     public var site: OutpostsClientTypes.Site?
 
@@ -2966,7 +2966,7 @@ public struct GetSiteOutput: Swift.Equatable {
     }
 }
 
-struct GetSiteOutputBody: Swift.Equatable {
+struct GetSiteOutputBody {
     let site: OutpostsClientTypes.Site?
 }
 
@@ -3023,7 +3023,7 @@ extension OutpostsClientTypes.InstanceTypeCapacity: Swift.Codable {
 
 extension OutpostsClientTypes {
     /// The instance type that you specify determines the combination of CPU, memory, storage, and networking capacity.
-    public struct InstanceTypeCapacity: Swift.Equatable {
+    public struct InstanceTypeCapacity {
         /// The number of instances for the specified instance type.
         /// This member is required.
         public var count: Swift.Int
@@ -3064,7 +3064,7 @@ extension OutpostsClientTypes.InstanceTypeItem: Swift.Codable {
 
 extension OutpostsClientTypes {
     /// Information about an instance type.
-    public struct InstanceTypeItem: Swift.Equatable {
+    public struct InstanceTypeItem {
         /// The instance type.
         public var instanceType: Swift.String?
 
@@ -3117,7 +3117,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -3208,7 +3208,7 @@ extension OutpostsClientTypes.LineItem: Swift.Codable {
 
 extension OutpostsClientTypes {
     /// Information about a line item.
-    public struct LineItem: Swift.Equatable {
+    public struct LineItem {
         /// Information about assets.
         public var assetInformationList: [OutpostsClientTypes.LineItemAssetInformation]?
         /// The ID of the catalog item.
@@ -3289,7 +3289,7 @@ extension OutpostsClientTypes.LineItemAssetInformation: Swift.Codable {
 
 extension OutpostsClientTypes {
     /// Information about a line item asset.
-    public struct LineItemAssetInformation: Swift.Equatable {
+    public struct LineItemAssetInformation {
         /// The ID of the asset.
         public var assetId: Swift.String?
         /// The MAC addresses of the asset.
@@ -3334,7 +3334,7 @@ extension OutpostsClientTypes.LineItemRequest: Swift.Codable {
 
 extension OutpostsClientTypes {
     /// Information about a line item request.
-    public struct LineItemRequest: Swift.Equatable {
+    public struct LineItemRequest {
         /// The ID of the catalog item.
         public var catalogItemId: Swift.String?
         /// The quantity of a line item request.
@@ -3443,7 +3443,7 @@ extension ListAssetsInput {
     }
 }
 
-public struct ListAssetsInput: Swift.Equatable {
+public struct ListAssetsInput {
     /// Filters the results by the host ID of a Dedicated Host.
     public var hostIdFilter: [Swift.String]?
     /// The maximum page size.
@@ -3472,7 +3472,7 @@ public struct ListAssetsInput: Swift.Equatable {
     }
 }
 
-struct ListAssetsInputBody: Swift.Equatable {
+struct ListAssetsInputBody {
 }
 
 extension ListAssetsInputBody: Swift.Decodable {
@@ -3495,7 +3495,7 @@ extension ListAssetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAssetsOutput: Swift.Equatable {
+public struct ListAssetsOutput {
     /// Information about the hardware assets.
     public var assets: [OutpostsClientTypes.AssetInfo]?
     /// The pagination token.
@@ -3511,7 +3511,7 @@ public struct ListAssetsOutput: Swift.Equatable {
     }
 }
 
-struct ListAssetsOutputBody: Swift.Equatable {
+struct ListAssetsOutputBody {
     let assets: [OutpostsClientTypes.AssetInfo]?
     let nextToken: Swift.String?
 }
@@ -3587,7 +3587,7 @@ extension ListCapacityTasksInput {
     }
 }
 
-public struct ListCapacityTasksInput: Swift.Equatable {
+public struct ListCapacityTasksInput {
     /// A list of statuses. For example, REQUESTED or WAITING_FOR_EVACUATION.
     public var capacityTaskStatusFilter: [OutpostsClientTypes.CapacityTaskStatus]?
     /// The maximum page size.
@@ -3611,7 +3611,7 @@ public struct ListCapacityTasksInput: Swift.Equatable {
     }
 }
 
-struct ListCapacityTasksInputBody: Swift.Equatable {
+struct ListCapacityTasksInputBody {
 }
 
 extension ListCapacityTasksInputBody: Swift.Decodable {
@@ -3634,7 +3634,7 @@ extension ListCapacityTasksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCapacityTasksOutput: Swift.Equatable {
+public struct ListCapacityTasksOutput {
     /// Lists all the capacity tasks.
     public var capacityTasks: [OutpostsClientTypes.CapacityTaskSummary]?
     /// The pagination token.
@@ -3650,7 +3650,7 @@ public struct ListCapacityTasksOutput: Swift.Equatable {
     }
 }
 
-struct ListCapacityTasksOutputBody: Swift.Equatable {
+struct ListCapacityTasksOutputBody {
     let capacityTasks: [OutpostsClientTypes.CapacityTaskSummary]?
     let nextToken: Swift.String?
 }
@@ -3734,7 +3734,7 @@ extension ListCatalogItemsInput {
     }
 }
 
-public struct ListCatalogItemsInput: Swift.Equatable {
+public struct ListCatalogItemsInput {
     /// Filters the results by EC2 family (for example, M5).
     public var ec2FamilyFilter: [Swift.String]?
     /// Filters the results by item class.
@@ -3762,7 +3762,7 @@ public struct ListCatalogItemsInput: Swift.Equatable {
     }
 }
 
-struct ListCatalogItemsInputBody: Swift.Equatable {
+struct ListCatalogItemsInputBody {
 }
 
 extension ListCatalogItemsInputBody: Swift.Decodable {
@@ -3785,7 +3785,7 @@ extension ListCatalogItemsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCatalogItemsOutput: Swift.Equatable {
+public struct ListCatalogItemsOutput {
     /// Information about the catalog items.
     public var catalogItems: [OutpostsClientTypes.CatalogItem]?
     /// The pagination token.
@@ -3801,7 +3801,7 @@ public struct ListCatalogItemsOutput: Swift.Equatable {
     }
 }
 
-struct ListCatalogItemsOutputBody: Swift.Equatable {
+struct ListCatalogItemsOutputBody {
     let catalogItems: [OutpostsClientTypes.CatalogItem]?
     let nextToken: Swift.String?
 }
@@ -3870,7 +3870,7 @@ extension ListOrdersInput {
     }
 }
 
-public struct ListOrdersInput: Swift.Equatable {
+public struct ListOrdersInput {
     /// The maximum page size.
     public var maxResults: Swift.Int?
     /// The pagination token.
@@ -3890,7 +3890,7 @@ public struct ListOrdersInput: Swift.Equatable {
     }
 }
 
-struct ListOrdersInputBody: Swift.Equatable {
+struct ListOrdersInputBody {
 }
 
 extension ListOrdersInputBody: Swift.Decodable {
@@ -3913,7 +3913,7 @@ extension ListOrdersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListOrdersOutput: Swift.Equatable {
+public struct ListOrdersOutput {
     /// The pagination token.
     public var nextToken: Swift.String?
     /// Information about the orders.
@@ -3929,7 +3929,7 @@ public struct ListOrdersOutput: Swift.Equatable {
     }
 }
 
-struct ListOrdersOutputBody: Swift.Equatable {
+struct ListOrdersOutputBody {
     let orders: [OutpostsClientTypes.OrderSummary]?
     let nextToken: Swift.String?
 }
@@ -4013,7 +4013,7 @@ extension ListOutpostsInput {
     }
 }
 
-public struct ListOutpostsInput: Swift.Equatable {
+public struct ListOutpostsInput {
     /// Filters the results by Availability Zone (for example, us-east-1a).
     public var availabilityZoneFilter: [Swift.String]?
     /// Filters the results by AZ ID (for example, use1-az1).
@@ -4041,7 +4041,7 @@ public struct ListOutpostsInput: Swift.Equatable {
     }
 }
 
-struct ListOutpostsInputBody: Swift.Equatable {
+struct ListOutpostsInputBody {
 }
 
 extension ListOutpostsInputBody: Swift.Decodable {
@@ -4064,7 +4064,7 @@ extension ListOutpostsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListOutpostsOutput: Swift.Equatable {
+public struct ListOutpostsOutput {
     /// The pagination token.
     public var nextToken: Swift.String?
     /// Information about the Outposts.
@@ -4080,7 +4080,7 @@ public struct ListOutpostsOutput: Swift.Equatable {
     }
 }
 
-struct ListOutpostsOutputBody: Swift.Equatable {
+struct ListOutpostsOutputBody {
     let outposts: [OutpostsClientTypes.Outpost]?
     let nextToken: Swift.String?
 }
@@ -4163,7 +4163,7 @@ extension ListSitesInput {
     }
 }
 
-public struct ListSitesInput: Swift.Equatable {
+public struct ListSitesInput {
     /// The maximum page size.
     public var maxResults: Swift.Int?
     /// The pagination token.
@@ -4191,7 +4191,7 @@ public struct ListSitesInput: Swift.Equatable {
     }
 }
 
-struct ListSitesInputBody: Swift.Equatable {
+struct ListSitesInputBody {
 }
 
 extension ListSitesInputBody: Swift.Decodable {
@@ -4214,7 +4214,7 @@ extension ListSitesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSitesOutput: Swift.Equatable {
+public struct ListSitesOutput {
     /// The pagination token.
     public var nextToken: Swift.String?
     /// Information about the sites.
@@ -4230,7 +4230,7 @@ public struct ListSitesOutput: Swift.Equatable {
     }
 }
 
-struct ListSitesOutputBody: Swift.Equatable {
+struct ListSitesOutputBody {
     let sites: [OutpostsClientTypes.Site]?
     let nextToken: Swift.String?
 }
@@ -4282,7 +4282,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4295,7 +4295,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -4316,7 +4316,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The resource tags.
     public var tags: [Swift.String:Swift.String]?
 
@@ -4328,7 +4328,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -4446,7 +4446,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct NotFoundExceptionBody: Swift.Equatable {
+struct NotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -4608,7 +4608,7 @@ extension OutpostsClientTypes.Order: Swift.Codable {
 
 extension OutpostsClientTypes {
     /// Information about an order.
-    public struct Order: Swift.Equatable {
+    public struct Order {
         /// The line items for the order
         public var lineItems: [OutpostsClientTypes.LineItem]?
         /// The fulfillment date of the order.
@@ -4792,7 +4792,7 @@ extension OutpostsClientTypes.OrderSummary: Swift.Codable {
 
 extension OutpostsClientTypes {
     /// A summary of line items in your order.
-    public struct OrderSummary: Swift.Equatable {
+    public struct OrderSummary {
         /// The status of all line items in the order.
         public var lineItemCountsByStatus: [Swift.String:Swift.Int]?
         /// The fulfilment date for the order.
@@ -4974,7 +4974,7 @@ extension OutpostsClientTypes.Outpost: Swift.Codable {
 
 extension OutpostsClientTypes {
     /// Information about an Outpost.
-    public struct Outpost: Swift.Equatable {
+    public struct Outpost {
         /// The Availability Zone.
         public var availabilityZone: Swift.String?
         /// The ID of the Availability Zone.
@@ -5310,7 +5310,7 @@ extension OutpostsClientTypes.RackPhysicalProperties: Swift.Codable {
 
 extension OutpostsClientTypes {
     /// Information about the physical and logistical details for racks at sites. For more information about hardware requirements for racks, see [Network readiness checklist](https://docs.aws.amazon.com/outposts/latest/userguide/outposts-requirements.html#checklist) in the Amazon Web Services Outposts User Guide.
-    public struct RackPhysicalProperties: Swift.Equatable {
+    public struct RackPhysicalProperties {
         /// The type of fiber used to attach the Outpost to the network.
         public var fiberOpticCableType: OutpostsClientTypes.FiberOpticCableType?
         /// The maximum rack weight that this site can support. NO_LIMIT is over 2000 lbs (907 kg).
@@ -5427,7 +5427,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -5511,7 +5511,7 @@ extension OutpostsClientTypes.ShipmentInformation: Swift.Codable {
 
 extension OutpostsClientTypes {
     /// Information about a line item shipment.
-    public struct ShipmentInformation: Swift.Equatable {
+    public struct ShipmentInformation {
         /// The carrier of the shipment.
         public var shipmentCarrier: OutpostsClientTypes.ShipmentCarrier?
         /// The tracking number of the shipment.
@@ -5622,7 +5622,7 @@ extension OutpostsClientTypes.Site: Swift.Codable {
 
 extension OutpostsClientTypes {
     /// Information about a site.
-    public struct Site: Swift.Equatable {
+    public struct Site {
         /// The ID of the Amazon Web Services account.
         public var accountId: Swift.String?
         /// The description of the site.
@@ -5710,7 +5710,7 @@ extension StartCapacityTaskInput {
     }
 }
 
-public struct StartCapacityTaskInput: Swift.Equatable {
+public struct StartCapacityTaskInput {
     /// You can request a dry run to determine if the instance type and instance size changes is above or below available instance capacity. Requesting a dry run does not make any changes to your plan.
     public var dryRun: Swift.Bool?
     /// The instance pools specified in the capacity task.
@@ -5737,7 +5737,7 @@ public struct StartCapacityTaskInput: Swift.Equatable {
     }
 }
 
-struct StartCapacityTaskInputBody: Swift.Equatable {
+struct StartCapacityTaskInputBody {
     let orderId: Swift.String?
     let instancePools: [OutpostsClientTypes.InstanceTypeCapacity]?
     let dryRun: Swift.Bool?
@@ -5800,7 +5800,7 @@ extension StartCapacityTaskOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartCapacityTaskOutput: Swift.Equatable {
+public struct StartCapacityTaskOutput {
     /// ID of the capacity task that you want to start.
     public var capacityTaskId: Swift.String?
     /// Status of the specified capacity task.
@@ -5848,7 +5848,7 @@ public struct StartCapacityTaskOutput: Swift.Equatable {
     }
 }
 
-struct StartCapacityTaskOutputBody: Swift.Equatable {
+struct StartCapacityTaskOutputBody {
     let capacityTaskId: Swift.String?
     let outpostId: Swift.String?
     let orderId: Swift.String?
@@ -5956,7 +5956,7 @@ extension StartConnectionInput {
     }
 }
 
-public struct StartConnectionInput: Swift.Equatable {
+public struct StartConnectionInput {
     /// The ID of the Outpost server.
     /// This member is required.
     public var assetId: Swift.String?
@@ -5983,7 +5983,7 @@ public struct StartConnectionInput: Swift.Equatable {
     }
 }
 
-struct StartConnectionInputBody: Swift.Equatable {
+struct StartConnectionInputBody {
     let deviceSerialNumber: Swift.String?
     let assetId: Swift.String?
     let clientPublicKey: Swift.String?
@@ -6025,7 +6025,7 @@ extension StartConnectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartConnectionOutput: Swift.Equatable {
+public struct StartConnectionOutput {
     /// The ID of the connection.
     public var connectionId: Swift.String?
     /// The underlay IP address.
@@ -6041,7 +6041,7 @@ public struct StartConnectionOutput: Swift.Equatable {
     }
 }
 
-struct StartConnectionOutputBody: Swift.Equatable {
+struct StartConnectionOutputBody {
     let connectionId: Swift.String?
     let underlayIpAddress: Swift.String?
 }
@@ -6165,7 +6165,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -6183,7 +6183,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -6213,7 +6213,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -6257,7 +6257,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -6275,7 +6275,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -6289,7 +6289,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -6338,7 +6338,7 @@ extension UpdateOutpostInput {
     }
 }
 
-public struct UpdateOutpostInput: Swift.Equatable {
+public struct UpdateOutpostInput {
     /// The description of the Outpost.
     public var description: Swift.String?
     /// The name of the Outpost.
@@ -6363,7 +6363,7 @@ public struct UpdateOutpostInput: Swift.Equatable {
     }
 }
 
-struct UpdateOutpostInputBody: Swift.Equatable {
+struct UpdateOutpostInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let supportedHardwareType: OutpostsClientTypes.SupportedHardwareType?
@@ -6399,7 +6399,7 @@ extension UpdateOutpostOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateOutpostOutput: Swift.Equatable {
+public struct UpdateOutpostOutput {
     /// Information about an Outpost.
     public var outpost: OutpostsClientTypes.Outpost?
 
@@ -6411,7 +6411,7 @@ public struct UpdateOutpostOutput: Swift.Equatable {
     }
 }
 
-struct UpdateOutpostOutputBody: Swift.Equatable {
+struct UpdateOutpostOutputBody {
     let outpost: OutpostsClientTypes.Outpost?
 }
 
@@ -6469,7 +6469,7 @@ extension UpdateSiteAddressInput {
     }
 }
 
-public struct UpdateSiteAddressInput: Swift.Equatable {
+public struct UpdateSiteAddressInput {
     /// The address for the site.
     /// This member is required.
     public var address: OutpostsClientTypes.Address?
@@ -6492,7 +6492,7 @@ public struct UpdateSiteAddressInput: Swift.Equatable {
     }
 }
 
-struct UpdateSiteAddressInputBody: Swift.Equatable {
+struct UpdateSiteAddressInputBody {
     let addressType: OutpostsClientTypes.AddressType?
     let address: OutpostsClientTypes.Address?
 }
@@ -6526,7 +6526,7 @@ extension UpdateSiteAddressOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSiteAddressOutput: Swift.Equatable {
+public struct UpdateSiteAddressOutput {
     /// Information about an address.
     public var address: OutpostsClientTypes.Address?
     /// The type of the address.
@@ -6542,7 +6542,7 @@ public struct UpdateSiteAddressOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSiteAddressOutputBody: Swift.Equatable {
+struct UpdateSiteAddressOutputBody {
     let addressType: OutpostsClientTypes.AddressType?
     let address: OutpostsClientTypes.Address?
 }
@@ -6608,7 +6608,7 @@ extension UpdateSiteInput {
     }
 }
 
-public struct UpdateSiteInput: Swift.Equatable {
+public struct UpdateSiteInput {
     /// The description of the site.
     public var description: Swift.String?
     /// The name of the site.
@@ -6633,7 +6633,7 @@ public struct UpdateSiteInput: Swift.Equatable {
     }
 }
 
-struct UpdateSiteInputBody: Swift.Equatable {
+struct UpdateSiteInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let notes: Swift.String?
@@ -6669,7 +6669,7 @@ extension UpdateSiteOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSiteOutput: Swift.Equatable {
+public struct UpdateSiteOutput {
     /// Information about a site.
     public var site: OutpostsClientTypes.Site?
 
@@ -6681,7 +6681,7 @@ public struct UpdateSiteOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSiteOutputBody: Swift.Equatable {
+struct UpdateSiteOutputBody {
     let site: OutpostsClientTypes.Site?
 }
 
@@ -6767,7 +6767,7 @@ extension UpdateSiteRackPhysicalPropertiesInput {
     }
 }
 
-public struct UpdateSiteRackPhysicalPropertiesInput: Swift.Equatable {
+public struct UpdateSiteRackPhysicalPropertiesInput {
     /// The type of fiber that you will use to attach the Outpost to your network.
     public var fiberOpticCableType: OutpostsClientTypes.FiberOpticCableType?
     /// The maximum rack weight that this site can support. NO_LIMIT is over 2000lbs.
@@ -6867,7 +6867,7 @@ public struct UpdateSiteRackPhysicalPropertiesInput: Swift.Equatable {
     }
 }
 
-struct UpdateSiteRackPhysicalPropertiesInputBody: Swift.Equatable {
+struct UpdateSiteRackPhysicalPropertiesInputBody {
     let powerDrawKva: OutpostsClientTypes.PowerDrawKva?
     let powerPhase: OutpostsClientTypes.PowerPhase?
     let powerConnector: OutpostsClientTypes.PowerConnector?
@@ -6927,7 +6927,7 @@ extension UpdateSiteRackPhysicalPropertiesOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct UpdateSiteRackPhysicalPropertiesOutput: Swift.Equatable {
+public struct UpdateSiteRackPhysicalPropertiesOutput {
     /// Information about a site.
     public var site: OutpostsClientTypes.Site?
 
@@ -6939,7 +6939,7 @@ public struct UpdateSiteRackPhysicalPropertiesOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSiteRackPhysicalPropertiesOutputBody: Swift.Equatable {
+struct UpdateSiteRackPhysicalPropertiesOutputBody {
     let site: OutpostsClientTypes.Site?
 }
 
@@ -7103,7 +7103,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

@@ -46,7 +46,7 @@ extension CreateDeploymentInput {
     }
 }
 
-public struct CreateDeploymentInput: Swift.Equatable {
+public struct CreateDeploymentInput {
     /// The name of the deployment pattern supported by a given workload. You can use the [ListWorkloadDeploymentPatterns](https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloadDeploymentPatterns.html) operation to discover supported values for this parameter.
     /// This member is required.
     public var deploymentPatternName: Swift.String?
@@ -78,7 +78,7 @@ public struct CreateDeploymentInput: Swift.Equatable {
     }
 }
 
-struct CreateDeploymentInputBody: Swift.Equatable {
+struct CreateDeploymentInputBody {
     let workloadName: Swift.String?
     let deploymentPatternName: Swift.String?
     let name: Swift.String?
@@ -131,7 +131,7 @@ extension CreateDeploymentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDeploymentOutput: Swift.Equatable {
+public struct CreateDeploymentOutput {
     /// The ID of the deployment.
     public var deploymentId: Swift.String?
 
@@ -143,7 +143,7 @@ public struct CreateDeploymentOutput: Swift.Equatable {
     }
 }
 
-struct CreateDeploymentOutputBody: Swift.Equatable {
+struct CreateDeploymentOutputBody {
     let deploymentId: Swift.String?
 }
 
@@ -193,7 +193,7 @@ extension DeleteDeploymentInput {
     }
 }
 
-public struct DeleteDeploymentInput: Swift.Equatable {
+public struct DeleteDeploymentInput {
     /// The ID of the deployment.
     /// This member is required.
     public var deploymentId: Swift.String?
@@ -206,7 +206,7 @@ public struct DeleteDeploymentInput: Swift.Equatable {
     }
 }
 
-struct DeleteDeploymentInputBody: Swift.Equatable {
+struct DeleteDeploymentInputBody {
     let deploymentId: Swift.String?
 }
 
@@ -236,7 +236,7 @@ extension DeleteDeploymentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDeploymentOutput: Swift.Equatable {
+public struct DeleteDeploymentOutput {
     /// The status of the deployment.
     public var status: LaunchWizardClientTypes.DeploymentStatus?
     /// The reason for the deployment status.
@@ -252,7 +252,7 @@ public struct DeleteDeploymentOutput: Swift.Equatable {
     }
 }
 
-struct DeleteDeploymentOutputBody: Swift.Equatable {
+struct DeleteDeploymentOutputBody {
     let status: LaunchWizardClientTypes.DeploymentStatus?
     let statusReason: Swift.String?
 }
@@ -371,7 +371,7 @@ extension LaunchWizardClientTypes.DeploymentData: Swift.CustomDebugStringConvert
 
 extension LaunchWizardClientTypes {
     /// The data associated with a deployment.
-    public struct DeploymentData: Swift.Equatable {
+    public struct DeploymentData {
         /// The time the deployment was created.
         public var createdAt: ClientRuntime.Date?
         /// The time the deployment was deleted.
@@ -468,7 +468,7 @@ extension LaunchWizardClientTypes.DeploymentDataSummary: Swift.Codable {
 
 extension LaunchWizardClientTypes {
     /// A summary of the deployment data.
-    public struct DeploymentDataSummary: Swift.Equatable {
+    public struct DeploymentDataSummary {
         /// The time the deployment was created.
         public var createdAt: ClientRuntime.Date?
         /// The ID of the deployment.
@@ -547,7 +547,7 @@ extension LaunchWizardClientTypes.DeploymentEventDataSummary: Swift.Codable {
 
 extension LaunchWizardClientTypes {
     /// A summary of the deployment event data.
-    public struct DeploymentEventDataSummary: Swift.Equatable {
+    public struct DeploymentEventDataSummary {
         /// The description of the deployment event.
         public var description: Swift.String?
         /// The name of the deployment event.
@@ -616,7 +616,7 @@ extension LaunchWizardClientTypes.DeploymentFilter: Swift.Codable {
 
 extension LaunchWizardClientTypes {
     /// A filter name and value pair that is used to return more specific results from a describe operation. Filters can be used to match a set of resources by specific criteria.
-    public struct DeploymentFilter: Swift.Equatable {
+    public struct DeploymentFilter {
         /// The name of the filter. Filter names are case-sensitive.
         public var name: LaunchWizardClientTypes.DeploymentFilterKey?
         /// The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR, and the request returns all results that match any of the specified values.
@@ -789,7 +789,7 @@ extension GetDeploymentInput {
     }
 }
 
-public struct GetDeploymentInput: Swift.Equatable {
+public struct GetDeploymentInput {
     /// The ID of the deployment.
     /// This member is required.
     public var deploymentId: Swift.String?
@@ -802,7 +802,7 @@ public struct GetDeploymentInput: Swift.Equatable {
     }
 }
 
-struct GetDeploymentInputBody: Swift.Equatable {
+struct GetDeploymentInputBody {
     let deploymentId: Swift.String?
 }
 
@@ -830,7 +830,7 @@ extension GetDeploymentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDeploymentOutput: Swift.Equatable {
+public struct GetDeploymentOutput {
     /// An object that details the deployment.
     public var deployment: LaunchWizardClientTypes.DeploymentData?
 
@@ -842,7 +842,7 @@ public struct GetDeploymentOutput: Swift.Equatable {
     }
 }
 
-struct GetDeploymentOutputBody: Swift.Equatable {
+struct GetDeploymentOutputBody {
     let deployment: LaunchWizardClientTypes.DeploymentData?
 }
 
@@ -891,7 +891,7 @@ extension GetWorkloadInput {
     }
 }
 
-public struct GetWorkloadInput: Swift.Equatable {
+public struct GetWorkloadInput {
     /// The name of the workload.
     /// This member is required.
     public var workloadName: Swift.String?
@@ -904,7 +904,7 @@ public struct GetWorkloadInput: Swift.Equatable {
     }
 }
 
-struct GetWorkloadInputBody: Swift.Equatable {
+struct GetWorkloadInputBody {
     let workloadName: Swift.String?
 }
 
@@ -932,7 +932,7 @@ extension GetWorkloadOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetWorkloadOutput: Swift.Equatable {
+public struct GetWorkloadOutput {
     /// Information about the workload.
     public var workload: LaunchWizardClientTypes.WorkloadData?
 
@@ -944,7 +944,7 @@ public struct GetWorkloadOutput: Swift.Equatable {
     }
 }
 
-struct GetWorkloadOutputBody: Swift.Equatable {
+struct GetWorkloadOutputBody {
     let workload: LaunchWizardClientTypes.WorkloadData?
 }
 
@@ -1012,7 +1012,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -1058,7 +1058,7 @@ extension ListDeploymentEventsInput {
     }
 }
 
-public struct ListDeploymentEventsInput: Swift.Equatable {
+public struct ListDeploymentEventsInput {
     /// The ID of the deployment.
     /// This member is required.
     public var deploymentId: Swift.String?
@@ -1079,7 +1079,7 @@ public struct ListDeploymentEventsInput: Swift.Equatable {
     }
 }
 
-struct ListDeploymentEventsInputBody: Swift.Equatable {
+struct ListDeploymentEventsInputBody {
     let deploymentId: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -1117,7 +1117,7 @@ extension ListDeploymentEventsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDeploymentEventsOutput: Swift.Equatable {
+public struct ListDeploymentEventsOutput {
     /// Lists the deployment events.
     public var deploymentEvents: [LaunchWizardClientTypes.DeploymentEventDataSummary]?
     /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
@@ -1133,7 +1133,7 @@ public struct ListDeploymentEventsOutput: Swift.Equatable {
     }
 }
 
-struct ListDeploymentEventsOutputBody: Swift.Equatable {
+struct ListDeploymentEventsOutputBody {
     let deploymentEvents: [LaunchWizardClientTypes.DeploymentEventDataSummary]?
     let nextToken: Swift.String?
 }
@@ -1206,7 +1206,7 @@ extension ListDeploymentsInput {
     }
 }
 
-public struct ListDeploymentsInput: Swift.Equatable {
+public struct ListDeploymentsInput {
     /// Filters to scope the results. The following filters are supported:
     ///
     /// * WORKLOAD_NAME
@@ -1230,7 +1230,7 @@ public struct ListDeploymentsInput: Swift.Equatable {
     }
 }
 
-struct ListDeploymentsInputBody: Swift.Equatable {
+struct ListDeploymentsInputBody {
     let filters: [LaunchWizardClientTypes.DeploymentFilter]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -1277,7 +1277,7 @@ extension ListDeploymentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDeploymentsOutput: Swift.Equatable {
+public struct ListDeploymentsOutput {
     /// Lists the deployments.
     public var deployments: [LaunchWizardClientTypes.DeploymentDataSummary]?
     /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
@@ -1293,7 +1293,7 @@ public struct ListDeploymentsOutput: Swift.Equatable {
     }
 }
 
-struct ListDeploymentsOutputBody: Swift.Equatable {
+struct ListDeploymentsOutputBody {
     let deployments: [LaunchWizardClientTypes.DeploymentDataSummary]?
     let nextToken: Swift.String?
 }
@@ -1362,7 +1362,7 @@ extension ListWorkloadDeploymentPatternsInput {
     }
 }
 
-public struct ListWorkloadDeploymentPatternsInput: Swift.Equatable {
+public struct ListWorkloadDeploymentPatternsInput {
     /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
     public var maxResults: Swift.Int?
     /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
@@ -1383,7 +1383,7 @@ public struct ListWorkloadDeploymentPatternsInput: Swift.Equatable {
     }
 }
 
-struct ListWorkloadDeploymentPatternsInputBody: Swift.Equatable {
+struct ListWorkloadDeploymentPatternsInputBody {
     let workloadName: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -1421,7 +1421,7 @@ extension ListWorkloadDeploymentPatternsOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ListWorkloadDeploymentPatternsOutput: Swift.Equatable {
+public struct ListWorkloadDeploymentPatternsOutput {
     /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
     public var nextToken: Swift.String?
     /// Describes the workload deployment patterns.
@@ -1437,7 +1437,7 @@ public struct ListWorkloadDeploymentPatternsOutput: Swift.Equatable {
     }
 }
 
-struct ListWorkloadDeploymentPatternsOutputBody: Swift.Equatable {
+struct ListWorkloadDeploymentPatternsOutputBody {
     let workloadDeploymentPatterns: [LaunchWizardClientTypes.WorkloadDeploymentPatternDataSummary]?
     let nextToken: Swift.String?
 }
@@ -1503,7 +1503,7 @@ extension ListWorkloadsInput {
     }
 }
 
-public struct ListWorkloadsInput: Swift.Equatable {
+public struct ListWorkloadsInput {
     /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
     public var maxResults: Swift.Int?
     /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
@@ -1519,7 +1519,7 @@ public struct ListWorkloadsInput: Swift.Equatable {
     }
 }
 
-struct ListWorkloadsInputBody: Swift.Equatable {
+struct ListWorkloadsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -1553,7 +1553,7 @@ extension ListWorkloadsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListWorkloadsOutput: Swift.Equatable {
+public struct ListWorkloadsOutput {
     /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
     public var nextToken: Swift.String?
     /// Information about the workloads.
@@ -1569,7 +1569,7 @@ public struct ListWorkloadsOutput: Swift.Equatable {
     }
 }
 
-struct ListWorkloadsOutputBody: Swift.Equatable {
+struct ListWorkloadsOutputBody {
     let workloads: [LaunchWizardClientTypes.WorkloadDataSummary]?
     let nextToken: Swift.String?
 }
@@ -1649,7 +1649,7 @@ public struct ResourceLimitException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ResourceLimitExceptionBody: Swift.Equatable {
+struct ResourceLimitExceptionBody {
     let message: Swift.String?
 }
 
@@ -1704,7 +1704,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -1759,7 +1759,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 
@@ -1832,7 +1832,7 @@ extension LaunchWizardClientTypes.WorkloadData: Swift.Codable {
 
 extension LaunchWizardClientTypes {
     /// Describes a workload.
-    public struct WorkloadData: Swift.Equatable {
+    public struct WorkloadData {
         /// The description of a workload.
         public var description: Swift.String?
         /// The display name of a workload.
@@ -1897,7 +1897,7 @@ extension LaunchWizardClientTypes.WorkloadDataSummary: Swift.Codable {
 
 extension LaunchWizardClientTypes {
     /// Describes workload data.
-    public struct WorkloadDataSummary: Swift.Equatable {
+    public struct WorkloadDataSummary {
         /// The display name of the workload data.
         public var displayName: Swift.String?
         /// The name of the workload.
@@ -1972,7 +1972,7 @@ extension LaunchWizardClientTypes.WorkloadDeploymentPatternDataSummary: Swift.Co
 
 extension LaunchWizardClientTypes {
     /// Describes a workload deployment pattern.
-    public struct WorkloadDeploymentPatternDataSummary: Swift.Equatable {
+    public struct WorkloadDeploymentPatternDataSummary {
         /// The name of a workload deployment pattern.
         public var deploymentPatternName: Swift.String?
         /// The description of a workload deployment pattern.

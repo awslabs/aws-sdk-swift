@@ -40,7 +40,7 @@ extension AuditManagerClientTypes.AWSAccount: Swift.CustomDebugStringConvertible
 
 extension AuditManagerClientTypes {
     /// The wrapper of Amazon Web Services account details, such as account ID or email address.
-    public struct AWSAccount: Swift.Equatable {
+    public struct AWSAccount {
         /// The email address that's associated with the Amazon Web Services account.
         public var emailAddress: Swift.String?
         /// The identifier for the Amazon Web Services account.
@@ -87,7 +87,7 @@ extension AuditManagerClientTypes {
     /// * [Finding an Amazon Web Service name to use in your assessment scope](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_GetServicesInScope.html#API_GetServicesInScope_Example_2)
     ///
     /// * [Defining an Amazon Web Service name in your assessment scope](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_GetServicesInScope.html#API_GetServicesInScope_Example_3)
-    public struct AWSService: Swift.Equatable {
+    public struct AWSService {
         /// The name of the Amazon Web Service.
         public var serviceName: Swift.String?
 
@@ -141,7 +141,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -304,7 +304,7 @@ extension AuditManagerClientTypes.Assessment: Swift.CustomDebugStringConvertible
 
 extension AuditManagerClientTypes {
     /// An entity that defines the scope of audit evidence collected by Audit Manager. An Audit Manager assessment is an implementation of an Audit Manager framework.
-    public struct Assessment: Swift.Equatable {
+    public struct Assessment {
         /// The Amazon Resource Name (ARN) of the assessment.
         public var arn: Swift.String?
         /// The Amazon Web Services account that's associated with the assessment.
@@ -427,7 +427,7 @@ extension AuditManagerClientTypes.AssessmentControl: Swift.Codable {
 
 extension AuditManagerClientTypes {
     /// The control entity that represents a standard control or a custom control in an Audit Manager assessment.
-    public struct AssessmentControl: Swift.Equatable {
+    public struct AssessmentControl {
         /// The amount of evidence in the assessment report.
         public var assessmentReportEvidenceCount: Swift.Int
         /// The list of comments that's attached to the control.
@@ -577,7 +577,7 @@ extension AuditManagerClientTypes.AssessmentControlSet: Swift.CustomDebugStringC
 
 extension AuditManagerClientTypes {
     /// Represents a set of controls in an Audit Manager assessment.
-    public struct AssessmentControlSet: Swift.Equatable {
+    public struct AssessmentControlSet {
         /// The list of controls that's contained with the control set.
         public var controls: [AuditManagerClientTypes.AssessmentControl]?
         /// The delegations that are associated with the control set.
@@ -742,7 +742,7 @@ extension AuditManagerClientTypes.AssessmentEvidenceFolder: Swift.Codable {
 
 extension AuditManagerClientTypes {
     /// The folder where Audit Manager stores evidence for an assessment.
-    public struct AssessmentEvidenceFolder: Swift.Equatable {
+    public struct AssessmentEvidenceFolder {
         /// The identifier for the assessment.
         public var assessmentId: Swift.String?
         /// The total count of evidence that's included in the assessment report.
@@ -881,7 +881,7 @@ extension AuditManagerClientTypes.AssessmentFramework: Swift.CustomDebugStringCo
 
 extension AuditManagerClientTypes {
     /// The file used to structure and automate Audit Manager assessments for a given compliance standard.
-    public struct AssessmentFramework: Swift.Equatable {
+    public struct AssessmentFramework {
         /// The Amazon Resource Name (ARN) of the framework.
         public var arn: Swift.String?
         /// The control sets that are associated with the framework.
@@ -993,7 +993,7 @@ extension AuditManagerClientTypes.AssessmentFrameworkMetadata: Swift.CustomDebug
 
 extension AuditManagerClientTypes {
     /// The metadata that's associated with a standard framework or a custom framework.
-    public struct AssessmentFrameworkMetadata: Swift.Equatable {
+    public struct AssessmentFrameworkMetadata {
         /// The Amazon Resource Name (ARN) of the framework.
         public var arn: Swift.String?
         /// The compliance type that the new custom framework supports, such as CIS or HIPAA.
@@ -1157,7 +1157,7 @@ extension AuditManagerClientTypes.AssessmentFrameworkShareRequest: Swift.CustomD
 
 extension AuditManagerClientTypes {
     /// Represents a share request for a custom framework in Audit Manager.
-    public struct AssessmentFrameworkShareRequest: Swift.Equatable {
+    public struct AssessmentFrameworkShareRequest {
         /// An optional comment from the sender about the share request.
         public var comment: Swift.String?
         /// The compliance type that the shared custom framework supports, such as CIS or HIPAA.
@@ -1337,7 +1337,7 @@ extension AuditManagerClientTypes.AssessmentMetadata: Swift.CustomDebugStringCon
 
 extension AuditManagerClientTypes {
     /// The metadata that's associated with the specified assessment.
-    public struct AssessmentMetadata: Swift.Equatable {
+    public struct AssessmentMetadata {
         /// The destination that evidence reports are stored in for the assessment.
         public var assessmentReportsDestination: AuditManagerClientTypes.AssessmentReportsDestination?
         /// The name of the compliance standard that's related to the assessment, such as PCI-DSS.
@@ -1483,7 +1483,7 @@ extension AuditManagerClientTypes.AssessmentMetadataItem: Swift.CustomDebugStrin
 
 extension AuditManagerClientTypes {
     /// A metadata object that's associated with an assessment in Audit Manager.
-    public struct AssessmentMetadataItem: Swift.Equatable {
+    public struct AssessmentMetadataItem {
         /// The name of the compliance standard that's related to the assessment, such as PCI-DSS.
         public var complianceType: Swift.String?
         /// Specifies when the assessment was created.
@@ -1599,7 +1599,7 @@ extension AuditManagerClientTypes.AssessmentReport: Swift.CustomDebugStringConve
 
 extension AuditManagerClientTypes {
     /// A finalized document that's generated from an Audit Manager assessment. These reports summarize the relevant evidence that was collected for your audit, and link to the relevant evidence folders. These evidence folders are named and organized according to the controls that are specified in your assessment.
-    public struct AssessmentReport: Swift.Equatable {
+    public struct AssessmentReport {
         /// The identifier for the specified assessment.
         public var assessmentId: Swift.String?
         /// The name of the associated assessment.
@@ -1707,7 +1707,7 @@ extension AuditManagerClientTypes.AssessmentReportEvidenceError: Swift.Codable {
 
 extension AuditManagerClientTypes {
     /// An error entity for assessment report evidence errors. This is used to provide more meaningful errors than a simple string message.
-    public struct AssessmentReportEvidenceError: Swift.Equatable {
+    public struct AssessmentReportEvidenceError {
         /// The error code that was returned.
         public var errorCode: Swift.String?
         /// The error message that was returned.
@@ -1797,7 +1797,7 @@ extension AuditManagerClientTypes.AssessmentReportMetadata: Swift.CustomDebugStr
 
 extension AuditManagerClientTypes {
     /// The metadata objects that are associated with the specified assessment report.
-    public struct AssessmentReportMetadata: Swift.Equatable {
+    public struct AssessmentReportMetadata {
         /// The unique identifier for the associated assessment.
         public var assessmentId: Swift.String?
         /// The name of the associated assessment.
@@ -1907,7 +1907,7 @@ extension AuditManagerClientTypes.AssessmentReportsDestination: Swift.CustomDebu
 
 extension AuditManagerClientTypes {
     /// The location where Audit Manager saves assessment reports for the given assessment.
-    public struct AssessmentReportsDestination: Swift.Equatable {
+    public struct AssessmentReportsDestination {
         /// The destination bucket where Audit Manager stores assessment reports.
         public var destination: Swift.String?
         /// The destination type, such as Amazon S3.
@@ -1980,7 +1980,7 @@ extension AssociateAssessmentReportEvidenceFolderInput {
     }
 }
 
-public struct AssociateAssessmentReportEvidenceFolderInput: Swift.Equatable {
+public struct AssociateAssessmentReportEvidenceFolderInput {
     /// The identifier for the assessment.
     /// This member is required.
     public var assessmentId: Swift.String?
@@ -1998,7 +1998,7 @@ public struct AssociateAssessmentReportEvidenceFolderInput: Swift.Equatable {
     }
 }
 
-struct AssociateAssessmentReportEvidenceFolderInputBody: Swift.Equatable {
+struct AssociateAssessmentReportEvidenceFolderInputBody {
     let evidenceFolderId: Swift.String?
 }
 
@@ -2019,7 +2019,7 @@ extension AssociateAssessmentReportEvidenceFolderOutput: ClientRuntime.HttpRespo
     }
 }
 
-public struct AssociateAssessmentReportEvidenceFolderOutput: Swift.Equatable {
+public struct AssociateAssessmentReportEvidenceFolderOutput {
 
     public init() { }
 }
@@ -2070,7 +2070,7 @@ extension BatchAssociateAssessmentReportEvidenceInput {
     }
 }
 
-public struct BatchAssociateAssessmentReportEvidenceInput: Swift.Equatable {
+public struct BatchAssociateAssessmentReportEvidenceInput {
     /// The identifier for the assessment.
     /// This member is required.
     public var assessmentId: Swift.String?
@@ -2093,7 +2093,7 @@ public struct BatchAssociateAssessmentReportEvidenceInput: Swift.Equatable {
     }
 }
 
-struct BatchAssociateAssessmentReportEvidenceInputBody: Swift.Equatable {
+struct BatchAssociateAssessmentReportEvidenceInputBody {
     let evidenceFolderId: Swift.String?
     let evidenceIds: [Swift.String]?
 }
@@ -2136,7 +2136,7 @@ extension BatchAssociateAssessmentReportEvidenceOutput: ClientRuntime.HttpRespon
     }
 }
 
-public struct BatchAssociateAssessmentReportEvidenceOutput: Swift.Equatable {
+public struct BatchAssociateAssessmentReportEvidenceOutput {
     /// A list of errors that the BatchAssociateAssessmentReportEvidence API returned.
     public var errors: [AuditManagerClientTypes.AssessmentReportEvidenceError]?
     /// The list of evidence identifiers.
@@ -2152,7 +2152,7 @@ public struct BatchAssociateAssessmentReportEvidenceOutput: Swift.Equatable {
     }
 }
 
-struct BatchAssociateAssessmentReportEvidenceOutputBody: Swift.Equatable {
+struct BatchAssociateAssessmentReportEvidenceOutputBody {
     let evidenceIds: [Swift.String]?
     let errors: [AuditManagerClientTypes.AssessmentReportEvidenceError]?
 }
@@ -2237,7 +2237,7 @@ extension AuditManagerClientTypes.BatchCreateDelegationByAssessmentError: Swift.
 
 extension AuditManagerClientTypes {
     /// An error entity for the BatchCreateDelegationByAssessment API. This is used to provide more meaningful errors than a simple string message.
-    public struct BatchCreateDelegationByAssessmentError: Swift.Equatable {
+    public struct BatchCreateDelegationByAssessmentError {
         /// The API request to batch create delegations in Audit Manager.
         public var createDelegationRequest: AuditManagerClientTypes.CreateDelegationRequest?
         /// The error code that the BatchCreateDelegationByAssessment API returned.
@@ -2290,7 +2290,7 @@ extension BatchCreateDelegationByAssessmentInput {
     }
 }
 
-public struct BatchCreateDelegationByAssessmentInput: Swift.Equatable {
+public struct BatchCreateDelegationByAssessmentInput {
     /// The identifier for the assessment.
     /// This member is required.
     public var assessmentId: Swift.String?
@@ -2308,7 +2308,7 @@ public struct BatchCreateDelegationByAssessmentInput: Swift.Equatable {
     }
 }
 
-struct BatchCreateDelegationByAssessmentInputBody: Swift.Equatable {
+struct BatchCreateDelegationByAssessmentInputBody {
     let createDelegationRequests: [AuditManagerClientTypes.CreateDelegationRequest]?
 }
 
@@ -2352,7 +2352,7 @@ extension BatchCreateDelegationByAssessmentOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct BatchCreateDelegationByAssessmentOutput: Swift.Equatable {
+public struct BatchCreateDelegationByAssessmentOutput {
     /// The delegations that are associated with the assessment.
     public var delegations: [AuditManagerClientTypes.Delegation]?
     /// A list of errors that the BatchCreateDelegationByAssessment API returned.
@@ -2368,7 +2368,7 @@ public struct BatchCreateDelegationByAssessmentOutput: Swift.Equatable {
     }
 }
 
-struct BatchCreateDelegationByAssessmentOutputBody: Swift.Equatable {
+struct BatchCreateDelegationByAssessmentOutputBody {
     let delegations: [AuditManagerClientTypes.Delegation]?
     let errors: [AuditManagerClientTypes.BatchCreateDelegationByAssessmentError]?
 }
@@ -2453,7 +2453,7 @@ extension AuditManagerClientTypes.BatchDeleteDelegationByAssessmentError: Swift.
 
 extension AuditManagerClientTypes {
     /// An error entity for the BatchDeleteDelegationByAssessment API. This is used to provide more meaningful errors than a simple string message.
-    public struct BatchDeleteDelegationByAssessmentError: Swift.Equatable {
+    public struct BatchDeleteDelegationByAssessmentError {
         /// The identifier for the delegation.
         public var delegationId: Swift.String?
         /// The error code that the BatchDeleteDelegationByAssessment API returned.
@@ -2501,7 +2501,7 @@ extension BatchDeleteDelegationByAssessmentInput {
     }
 }
 
-public struct BatchDeleteDelegationByAssessmentInput: Swift.Equatable {
+public struct BatchDeleteDelegationByAssessmentInput {
     /// The identifier for the assessment.
     /// This member is required.
     public var assessmentId: Swift.String?
@@ -2519,7 +2519,7 @@ public struct BatchDeleteDelegationByAssessmentInput: Swift.Equatable {
     }
 }
 
-struct BatchDeleteDelegationByAssessmentInputBody: Swift.Equatable {
+struct BatchDeleteDelegationByAssessmentInputBody {
     let delegationIds: [Swift.String]?
 }
 
@@ -2561,7 +2561,7 @@ extension BatchDeleteDelegationByAssessmentOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct BatchDeleteDelegationByAssessmentOutput: Swift.Equatable {
+public struct BatchDeleteDelegationByAssessmentOutput {
     /// A list of errors that the BatchDeleteDelegationByAssessment API returned.
     public var errors: [AuditManagerClientTypes.BatchDeleteDelegationByAssessmentError]?
 
@@ -2573,7 +2573,7 @@ public struct BatchDeleteDelegationByAssessmentOutput: Swift.Equatable {
     }
 }
 
-struct BatchDeleteDelegationByAssessmentOutputBody: Swift.Equatable {
+struct BatchDeleteDelegationByAssessmentOutputBody {
     let errors: [AuditManagerClientTypes.BatchDeleteDelegationByAssessmentError]?
 }
 
@@ -2642,7 +2642,7 @@ extension BatchDisassociateAssessmentReportEvidenceInput {
     }
 }
 
-public struct BatchDisassociateAssessmentReportEvidenceInput: Swift.Equatable {
+public struct BatchDisassociateAssessmentReportEvidenceInput {
     /// The identifier for the assessment.
     /// This member is required.
     public var assessmentId: Swift.String?
@@ -2665,7 +2665,7 @@ public struct BatchDisassociateAssessmentReportEvidenceInput: Swift.Equatable {
     }
 }
 
-struct BatchDisassociateAssessmentReportEvidenceInputBody: Swift.Equatable {
+struct BatchDisassociateAssessmentReportEvidenceInputBody {
     let evidenceFolderId: Swift.String?
     let evidenceIds: [Swift.String]?
 }
@@ -2708,7 +2708,7 @@ extension BatchDisassociateAssessmentReportEvidenceOutput: ClientRuntime.HttpRes
     }
 }
 
-public struct BatchDisassociateAssessmentReportEvidenceOutput: Swift.Equatable {
+public struct BatchDisassociateAssessmentReportEvidenceOutput {
     /// A list of errors that the BatchDisassociateAssessmentReportEvidence API returned.
     public var errors: [AuditManagerClientTypes.AssessmentReportEvidenceError]?
     /// The identifier for the evidence.
@@ -2724,7 +2724,7 @@ public struct BatchDisassociateAssessmentReportEvidenceOutput: Swift.Equatable {
     }
 }
 
-struct BatchDisassociateAssessmentReportEvidenceOutputBody: Swift.Equatable {
+struct BatchDisassociateAssessmentReportEvidenceOutputBody {
     let evidenceIds: [Swift.String]?
     let errors: [AuditManagerClientTypes.AssessmentReportEvidenceError]?
 }
@@ -2809,7 +2809,7 @@ extension AuditManagerClientTypes.BatchImportEvidenceToAssessmentControlError: S
 
 extension AuditManagerClientTypes {
     /// An error entity for the BatchImportEvidenceToAssessmentControl API. This is used to provide more meaningful errors than a simple string message.
-    public struct BatchImportEvidenceToAssessmentControlError: Swift.Equatable {
+    public struct BatchImportEvidenceToAssessmentControlError {
         /// The error code that the BatchImportEvidenceToAssessmentControl API returned.
         public var errorCode: Swift.String?
         /// The error message that the BatchImportEvidenceToAssessmentControl API returned.
@@ -2863,7 +2863,7 @@ extension BatchImportEvidenceToAssessmentControlInput {
     }
 }
 
-public struct BatchImportEvidenceToAssessmentControlInput: Swift.Equatable {
+public struct BatchImportEvidenceToAssessmentControlInput {
     /// The identifier for the assessment.
     /// This member is required.
     public var assessmentId: Swift.String?
@@ -2891,7 +2891,7 @@ public struct BatchImportEvidenceToAssessmentControlInput: Swift.Equatable {
     }
 }
 
-struct BatchImportEvidenceToAssessmentControlInputBody: Swift.Equatable {
+struct BatchImportEvidenceToAssessmentControlInputBody {
     let manualEvidence: [AuditManagerClientTypes.ManualEvidence]?
 }
 
@@ -2928,7 +2928,7 @@ extension BatchImportEvidenceToAssessmentControlOutput: ClientRuntime.HttpRespon
     }
 }
 
-public struct BatchImportEvidenceToAssessmentControlOutput: Swift.Equatable {
+public struct BatchImportEvidenceToAssessmentControlOutput {
     /// A list of errors that the BatchImportEvidenceToAssessmentControl API returned.
     public var errors: [AuditManagerClientTypes.BatchImportEvidenceToAssessmentControlError]?
 
@@ -2940,7 +2940,7 @@ public struct BatchImportEvidenceToAssessmentControlOutput: Swift.Equatable {
     }
 }
 
-struct BatchImportEvidenceToAssessmentControlOutputBody: Swift.Equatable {
+struct BatchImportEvidenceToAssessmentControlOutputBody {
     let errors: [AuditManagerClientTypes.BatchImportEvidenceToAssessmentControlError]?
 }
 
@@ -3025,7 +3025,7 @@ extension AuditManagerClientTypes.ChangeLog: Swift.Codable {
 
 extension AuditManagerClientTypes {
     /// The record of a change within Audit Manager. For example, this could be the status change of an assessment or the delegation of a control set.
-    public struct ChangeLog: Swift.Equatable {
+    public struct ChangeLog {
         /// The action that was performed.
         public var action: AuditManagerClientTypes.ActionEnum?
         /// The time when the action was performed and the changelog record was created.
@@ -3189,7 +3189,7 @@ extension AuditManagerClientTypes.Control: Swift.CustomDebugStringConvertible {
 
 extension AuditManagerClientTypes {
     /// A control in Audit Manager.
-    public struct Control: Swift.Equatable {
+    public struct Control {
         /// The recommended actions to carry out if the control isn't fulfilled.
         public var actionPlanInstructions: Swift.String?
         /// The title of the action plan for remediating the control.
@@ -3297,7 +3297,7 @@ extension AuditManagerClientTypes.ControlComment: Swift.CustomDebugStringConvert
 
 extension AuditManagerClientTypes {
     /// A comment that's posted by a user on a control. This includes the author's name, the comment text, and a timestamp.
-    public struct ControlComment: Swift.Equatable {
+    public struct ControlComment {
         /// The name of the user who authored the comment.
         public var authorName: Swift.String?
         /// The body text of a control comment.
@@ -3370,7 +3370,7 @@ extension AuditManagerClientTypes.ControlDomainInsights: Swift.Codable {
 
 extension AuditManagerClientTypes {
     /// A summary of the latest analytics data for a specific control domain. Control domain insights are grouped by control domain, and ranked by the highest total count of non-compliant evidence.
-    public struct ControlDomainInsights: Swift.Equatable {
+    public struct ControlDomainInsights {
         /// The number of controls in the control domain that collected non-compliant evidence on the lastUpdated date.
         public var controlsCountByNoncompliantEvidence: Swift.Int?
         /// A breakdown of the compliance check status for the evidence that’s associated with the control domain.
@@ -3449,7 +3449,7 @@ extension AuditManagerClientTypes.ControlInsightsMetadataByAssessmentItem: Swift
 
 extension AuditManagerClientTypes {
     /// A summary of the latest analytics data for a specific control in a specific active assessment. Control insights are grouped by control domain, and ranked by the highest total count of non-compliant evidence.
-    public struct ControlInsightsMetadataByAssessmentItem: Swift.Equatable {
+    public struct ControlInsightsMetadataByAssessmentItem {
         /// The name of the control set that the assessment control belongs to.
         public var controlSetName: Swift.String?
         /// A breakdown of the compliance check status for the evidence that’s associated with the assessment control.
@@ -3518,7 +3518,7 @@ extension AuditManagerClientTypes.ControlInsightsMetadataItem: Swift.Codable {
 
 extension AuditManagerClientTypes {
     /// A summary of the latest analytics data for a specific control. This data reflects the total counts for the specified control across all active assessments. Control insights are grouped by control domain, and ranked by the highest total count of non-compliant evidence.
-    public struct ControlInsightsMetadataItem: Swift.Equatable {
+    public struct ControlInsightsMetadataItem {
         /// A breakdown of the compliance check status for the evidence that’s associated with the control.
         public var evidenceInsights: AuditManagerClientTypes.EvidenceInsights?
         /// The unique identifier for the control.
@@ -3612,7 +3612,7 @@ extension AuditManagerClientTypes.ControlMappingSource: Swift.CustomDebugStringC
 
 extension AuditManagerClientTypes {
     /// The data source that determines where Audit Manager collects evidence from for the control.
-    public struct ControlMappingSource: Swift.Equatable {
+    public struct ControlMappingSource {
         /// The description of the source.
         public var sourceDescription: Swift.String?
         /// Specifies how often evidence is collected from the control mapping source.
@@ -3713,7 +3713,7 @@ extension AuditManagerClientTypes.ControlMetadata: Swift.Codable {
 
 extension AuditManagerClientTypes {
     /// The metadata that's associated with the standard control or custom control.
-    public struct ControlMetadata: Swift.Equatable {
+    public struct ControlMetadata {
         /// The Amazon Resource Name (ARN) of the control.
         public var arn: Swift.String?
         /// The data source that determines where Audit Manager collects evidence from for the control.
@@ -3830,7 +3830,7 @@ extension AuditManagerClientTypes.ControlSet: Swift.Codable {
 
 extension AuditManagerClientTypes {
     /// A set of controls in Audit Manager.
-    public struct ControlSet: Swift.Equatable {
+    public struct ControlSet {
         /// The list of controls within the control set.
         public var controls: [AuditManagerClientTypes.Control]?
         /// The identifier of the control set in the assessment. This is the control set name in a plain string format.
@@ -3975,7 +3975,7 @@ extension AuditManagerClientTypes.CreateAssessmentFrameworkControl: Swift.Codabl
 
 extension AuditManagerClientTypes {
     /// The control entity attributes that uniquely identify an existing control to be added to a framework in Audit Manager.
-    public struct CreateAssessmentFrameworkControl: Swift.Equatable {
+    public struct CreateAssessmentFrameworkControl {
         /// The unique identifier of the control.
         /// This member is required.
         public var id: Swift.String?
@@ -4029,7 +4029,7 @@ extension AuditManagerClientTypes.CreateAssessmentFrameworkControlSet: Swift.Cod
 
 extension AuditManagerClientTypes {
     /// A controlSet entity that represents a collection of controls in Audit Manager. This doesn't contain the control set ID.
-    public struct CreateAssessmentFrameworkControlSet: Swift.Equatable {
+    public struct CreateAssessmentFrameworkControlSet {
         /// The list of controls within the control set. This doesn't contain the control set ID.
         public var controls: [AuditManagerClientTypes.CreateAssessmentFrameworkControl]?
         /// The name of the control set.
@@ -4095,7 +4095,7 @@ extension CreateAssessmentFrameworkInput {
     }
 }
 
-public struct CreateAssessmentFrameworkInput: Swift.Equatable {
+public struct CreateAssessmentFrameworkInput {
     /// The compliance type that the new custom framework supports, such as CIS or HIPAA.
     public var complianceType: Swift.String?
     /// The control sets that are associated with the framework.
@@ -4125,7 +4125,7 @@ public struct CreateAssessmentFrameworkInput: Swift.Equatable {
     }
 }
 
-struct CreateAssessmentFrameworkInputBody: Swift.Equatable {
+struct CreateAssessmentFrameworkInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let complianceType: Swift.String?
@@ -4187,7 +4187,7 @@ extension CreateAssessmentFrameworkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAssessmentFrameworkOutput: Swift.Equatable {
+public struct CreateAssessmentFrameworkOutput {
     /// The name of the new framework that the CreateAssessmentFramework API returned.
     public var framework: AuditManagerClientTypes.Framework?
 
@@ -4199,7 +4199,7 @@ public struct CreateAssessmentFrameworkOutput: Swift.Equatable {
     }
 }
 
-struct CreateAssessmentFrameworkOutputBody: Swift.Equatable {
+struct CreateAssessmentFrameworkOutputBody {
     let framework: AuditManagerClientTypes.Framework?
 }
 
@@ -4285,7 +4285,7 @@ extension CreateAssessmentInput {
     }
 }
 
-public struct CreateAssessmentInput: Swift.Equatable {
+public struct CreateAssessmentInput {
     /// The assessment report storage destination for the assessment that's being created.
     /// This member is required.
     public var assessmentReportsDestination: AuditManagerClientTypes.AssessmentReportsDestination?
@@ -4326,7 +4326,7 @@ public struct CreateAssessmentInput: Swift.Equatable {
     }
 }
 
-struct CreateAssessmentInputBody: Swift.Equatable {
+struct CreateAssessmentInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let assessmentReportsDestination: AuditManagerClientTypes.AssessmentReportsDestination?
@@ -4396,7 +4396,7 @@ extension CreateAssessmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAssessmentOutput: Swift.Equatable {
+public struct CreateAssessmentOutput {
     /// An entity that defines the scope of audit evidence collected by Audit Manager. An Audit Manager assessment is an implementation of an Audit Manager framework.
     public var assessment: AuditManagerClientTypes.Assessment?
 
@@ -4408,7 +4408,7 @@ public struct CreateAssessmentOutput: Swift.Equatable {
     }
 }
 
-struct CreateAssessmentOutputBody: Swift.Equatable {
+struct CreateAssessmentOutputBody {
     let assessment: AuditManagerClientTypes.Assessment?
 }
 
@@ -4475,7 +4475,7 @@ extension CreateAssessmentReportInput {
     }
 }
 
-public struct CreateAssessmentReportInput: Swift.Equatable {
+public struct CreateAssessmentReportInput {
     /// The identifier for the assessment.
     /// This member is required.
     public var assessmentId: Swift.String?
@@ -4501,7 +4501,7 @@ public struct CreateAssessmentReportInput: Swift.Equatable {
     }
 }
 
-struct CreateAssessmentReportInputBody: Swift.Equatable {
+struct CreateAssessmentReportInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let queryStatement: Swift.String?
@@ -4537,7 +4537,7 @@ extension CreateAssessmentReportOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAssessmentReportOutput: Swift.Equatable {
+public struct CreateAssessmentReportOutput {
     /// The new assessment report that the CreateAssessmentReport API returned.
     public var assessmentReport: AuditManagerClientTypes.AssessmentReport?
 
@@ -4549,7 +4549,7 @@ public struct CreateAssessmentReportOutput: Swift.Equatable {
     }
 }
 
-struct CreateAssessmentReportOutputBody: Swift.Equatable {
+struct CreateAssessmentReportOutputBody {
     let assessmentReport: AuditManagerClientTypes.AssessmentReport?
 }
 
@@ -4634,7 +4634,7 @@ extension CreateControlInput {
     }
 }
 
-public struct CreateControlInput: Swift.Equatable {
+public struct CreateControlInput {
     /// The recommended actions to carry out if the control isn't fulfilled.
     public var actionPlanInstructions: Swift.String?
     /// The title of the action plan for remediating the control.
@@ -4672,7 +4672,7 @@ public struct CreateControlInput: Swift.Equatable {
     }
 }
 
-struct CreateControlInputBody: Swift.Equatable {
+struct CreateControlInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let testingInformation: Swift.String?
@@ -4792,7 +4792,7 @@ extension AuditManagerClientTypes.CreateControlMappingSource: Swift.CustomDebugS
 
 extension AuditManagerClientTypes {
     /// The control mapping fields that represent the source for evidence collection, along with related parameters and metadata. This doesn't contain mappingID.
-    public struct CreateControlMappingSource: Swift.Equatable {
+    public struct CreateControlMappingSource {
         /// The description of the data source that determines where Audit Manager collects evidence from for the control.
         public var sourceDescription: Swift.String?
         /// Specifies how often evidence is collected from the control mapping source.
@@ -4850,7 +4850,7 @@ extension CreateControlOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateControlOutput: Swift.Equatable {
+public struct CreateControlOutput {
     /// The new control that the CreateControl API returned.
     public var control: AuditManagerClientTypes.Control?
 
@@ -4862,7 +4862,7 @@ public struct CreateControlOutput: Swift.Equatable {
     }
 }
 
-struct CreateControlOutputBody: Swift.Equatable {
+struct CreateControlOutputBody {
     let control: AuditManagerClientTypes.Control?
 }
 
@@ -4937,7 +4937,7 @@ extension AuditManagerClientTypes.CreateDelegationRequest: Swift.CustomDebugStri
 
 extension AuditManagerClientTypes {
     /// A collection of attributes that's used to create a delegation for an assessment in Audit Manager.
-    public struct CreateDelegationRequest: Swift.Equatable {
+    public struct CreateDelegationRequest {
         /// A comment that's related to the delegation request.
         public var comment: Swift.String?
         /// The unique identifier for the control set.
@@ -4990,7 +4990,7 @@ extension AuditManagerClientTypes.DefaultExportDestination: Swift.Codable {
 
 extension AuditManagerClientTypes {
     /// The default s3 bucket where Audit Manager saves the files that you export from evidence finder.
-    public struct DefaultExportDestination: Swift.Equatable {
+    public struct DefaultExportDestination {
         /// The destination bucket where Audit Manager stores exported files.
         public var destination: Swift.String?
         /// The destination type, such as Amazon S3.
@@ -5095,7 +5095,7 @@ extension AuditManagerClientTypes.Delegation: Swift.CustomDebugStringConvertible
 
 extension AuditManagerClientTypes {
     /// The assignment of a control set to a delegate for review.
-    public struct Delegation: Swift.Equatable {
+    public struct Delegation {
         /// The identifier for the assessment that's associated with the delegation.
         public var assessmentId: Swift.String?
         /// The name of the assessment that's associated with the delegation.
@@ -5211,7 +5211,7 @@ extension AuditManagerClientTypes.DelegationMetadata: Swift.CustomDebugStringCon
 
 extension AuditManagerClientTypes {
     /// The metadata that's associated with the delegation.
-    public struct DelegationMetadata: Swift.Equatable {
+    public struct DelegationMetadata {
         /// The unique identifier for the assessment.
         public var assessmentId: Swift.String?
         /// The name of the associated assessment.
@@ -5294,7 +5294,7 @@ extension DeleteAssessmentFrameworkInput {
     }
 }
 
-public struct DeleteAssessmentFrameworkInput: Swift.Equatable {
+public struct DeleteAssessmentFrameworkInput {
     /// The identifier for the custom framework.
     /// This member is required.
     public var frameworkId: Swift.String?
@@ -5307,7 +5307,7 @@ public struct DeleteAssessmentFrameworkInput: Swift.Equatable {
     }
 }
 
-struct DeleteAssessmentFrameworkInputBody: Swift.Equatable {
+struct DeleteAssessmentFrameworkInputBody {
 }
 
 extension DeleteAssessmentFrameworkInputBody: Swift.Decodable {
@@ -5321,7 +5321,7 @@ extension DeleteAssessmentFrameworkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAssessmentFrameworkOutput: Swift.Equatable {
+public struct DeleteAssessmentFrameworkOutput {
 
     public init() { }
 }
@@ -5364,7 +5364,7 @@ extension DeleteAssessmentFrameworkShareInput {
     }
 }
 
-public struct DeleteAssessmentFrameworkShareInput: Swift.Equatable {
+public struct DeleteAssessmentFrameworkShareInput {
     /// The unique identifier for the share request to be deleted.
     /// This member is required.
     public var requestId: Swift.String?
@@ -5382,7 +5382,7 @@ public struct DeleteAssessmentFrameworkShareInput: Swift.Equatable {
     }
 }
 
-struct DeleteAssessmentFrameworkShareInputBody: Swift.Equatable {
+struct DeleteAssessmentFrameworkShareInputBody {
 }
 
 extension DeleteAssessmentFrameworkShareInputBody: Swift.Decodable {
@@ -5396,7 +5396,7 @@ extension DeleteAssessmentFrameworkShareOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DeleteAssessmentFrameworkShareOutput: Swift.Equatable {
+public struct DeleteAssessmentFrameworkShareOutput {
 
     public init() { }
 }
@@ -5425,7 +5425,7 @@ extension DeleteAssessmentInput {
     }
 }
 
-public struct DeleteAssessmentInput: Swift.Equatable {
+public struct DeleteAssessmentInput {
     /// The identifier for the assessment.
     /// This member is required.
     public var assessmentId: Swift.String?
@@ -5438,7 +5438,7 @@ public struct DeleteAssessmentInput: Swift.Equatable {
     }
 }
 
-struct DeleteAssessmentInputBody: Swift.Equatable {
+struct DeleteAssessmentInputBody {
 }
 
 extension DeleteAssessmentInputBody: Swift.Decodable {
@@ -5452,7 +5452,7 @@ extension DeleteAssessmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAssessmentOutput: Swift.Equatable {
+public struct DeleteAssessmentOutput {
 
     public init() { }
 }
@@ -5484,7 +5484,7 @@ extension DeleteAssessmentReportInput {
     }
 }
 
-public struct DeleteAssessmentReportInput: Swift.Equatable {
+public struct DeleteAssessmentReportInput {
     /// The unique identifier for the assessment.
     /// This member is required.
     public var assessmentId: Swift.String?
@@ -5502,7 +5502,7 @@ public struct DeleteAssessmentReportInput: Swift.Equatable {
     }
 }
 
-struct DeleteAssessmentReportInputBody: Swift.Equatable {
+struct DeleteAssessmentReportInputBody {
 }
 
 extension DeleteAssessmentReportInputBody: Swift.Decodable {
@@ -5516,7 +5516,7 @@ extension DeleteAssessmentReportOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAssessmentReportOutput: Swift.Equatable {
+public struct DeleteAssessmentReportOutput {
 
     public init() { }
 }
@@ -5545,7 +5545,7 @@ extension DeleteControlInput {
     }
 }
 
-public struct DeleteControlInput: Swift.Equatable {
+public struct DeleteControlInput {
     /// The unique identifier for the control.
     /// This member is required.
     public var controlId: Swift.String?
@@ -5558,7 +5558,7 @@ public struct DeleteControlInput: Swift.Equatable {
     }
 }
 
-struct DeleteControlInputBody: Swift.Equatable {
+struct DeleteControlInputBody {
 }
 
 extension DeleteControlInputBody: Swift.Decodable {
@@ -5572,7 +5572,7 @@ extension DeleteControlOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteControlOutput: Swift.Equatable {
+public struct DeleteControlOutput {
 
     public init() { }
 }
@@ -5630,12 +5630,12 @@ extension DeregisterAccountInput {
     }
 }
 
-public struct DeregisterAccountInput: Swift.Equatable {
+public struct DeregisterAccountInput {
 
     public init() { }
 }
 
-struct DeregisterAccountInputBody: Swift.Equatable {
+struct DeregisterAccountInputBody {
 }
 
 extension DeregisterAccountInputBody: Swift.Decodable {
@@ -5656,7 +5656,7 @@ extension DeregisterAccountOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeregisterAccountOutput: Swift.Equatable {
+public struct DeregisterAccountOutput {
     /// The registration status of the account.
     public var status: AuditManagerClientTypes.AccountStatus?
 
@@ -5668,7 +5668,7 @@ public struct DeregisterAccountOutput: Swift.Equatable {
     }
 }
 
-struct DeregisterAccountOutputBody: Swift.Equatable {
+struct DeregisterAccountOutputBody {
     let status: AuditManagerClientTypes.AccountStatus?
 }
 
@@ -5718,7 +5718,7 @@ extension DeregisterOrganizationAdminAccountInput {
     }
 }
 
-public struct DeregisterOrganizationAdminAccountInput: Swift.Equatable {
+public struct DeregisterOrganizationAdminAccountInput {
     /// The identifier for the administrator account.
     public var adminAccountId: Swift.String?
 
@@ -5730,7 +5730,7 @@ public struct DeregisterOrganizationAdminAccountInput: Swift.Equatable {
     }
 }
 
-struct DeregisterOrganizationAdminAccountInputBody: Swift.Equatable {
+struct DeregisterOrganizationAdminAccountInputBody {
     let adminAccountId: Swift.String?
 }
 
@@ -5751,7 +5751,7 @@ extension DeregisterOrganizationAdminAccountOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct DeregisterOrganizationAdminAccountOutput: Swift.Equatable {
+public struct DeregisterOrganizationAdminAccountOutput {
 
     public init() { }
 }
@@ -5791,7 +5791,7 @@ extension AuditManagerClientTypes.DeregistrationPolicy: Swift.Codable {
 
 extension AuditManagerClientTypes {
     /// The deregistration policy for the data that's stored in Audit Manager. You can use this attribute to determine how your data is handled when you [deregister Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_DeregisterAccount.html). By default, Audit Manager retains evidence data for two years from the time of its creation. Other Audit Manager resources (including assessments, custom controls, and custom frameworks) remain in Audit Manager indefinitely, and are available if you [re-register Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_RegisterAccount.html) in the future. For more information about data retention, see [Data Protection](https://docs.aws.amazon.com/audit-manager/latest/userguide/data-protection.html) in the Audit Manager User Guide. If you choose to delete all data, this action permanently deletes all evidence data in your account within seven days. It also deletes all of the Audit Manager resources that you created, including assessments, custom controls, and custom frameworks. Your data will not be available if you re-register Audit Manager in the future.
-    public struct DeregistrationPolicy: Swift.Equatable {
+    public struct DeregistrationPolicy {
         /// Specifies which Audit Manager data will be deleted when you deregister Audit Manager.
         ///
         /// * If you set the value to ALL, all of your data is deleted within seven days of deregistration.
@@ -5832,7 +5832,7 @@ extension DisassociateAssessmentReportEvidenceFolderInput {
     }
 }
 
-public struct DisassociateAssessmentReportEvidenceFolderInput: Swift.Equatable {
+public struct DisassociateAssessmentReportEvidenceFolderInput {
     /// The unique identifier for the assessment.
     /// This member is required.
     public var assessmentId: Swift.String?
@@ -5850,7 +5850,7 @@ public struct DisassociateAssessmentReportEvidenceFolderInput: Swift.Equatable {
     }
 }
 
-struct DisassociateAssessmentReportEvidenceFolderInputBody: Swift.Equatable {
+struct DisassociateAssessmentReportEvidenceFolderInputBody {
     let evidenceFolderId: Swift.String?
 }
 
@@ -5871,7 +5871,7 @@ extension DisassociateAssessmentReportEvidenceFolderOutput: ClientRuntime.HttpRe
     }
 }
 
-public struct DisassociateAssessmentReportEvidenceFolderOutput: Swift.Equatable {
+public struct DisassociateAssessmentReportEvidenceFolderOutput {
 
     public init() { }
 }
@@ -6019,7 +6019,7 @@ extension AuditManagerClientTypes.Evidence: Swift.Codable {
 
 extension AuditManagerClientTypes {
     /// A record that contains the information needed to demonstrate compliance with the requirements specified by a control. Examples of evidence include change activity invoked by a user, or a system configuration snapshot.
-    public struct Evidence: Swift.Equatable {
+    public struct Evidence {
         /// Specifies whether the evidence is included in the assessment report.
         public var assessmentReportSelection: Swift.String?
         /// The names and values that are used by the evidence event. This includes an attribute name (such as allowUsersToChangePassword) and value (such as true or false).
@@ -6169,7 +6169,7 @@ extension AuditManagerClientTypes.EvidenceFinderEnablement: Swift.Codable {
 
 extension AuditManagerClientTypes {
     /// The settings object that specifies whether evidence finder is enabled. This object also describes the related event data store, and the backfill status for populating the event data store with evidence data.
-    public struct EvidenceFinderEnablement: Swift.Equatable {
+    public struct EvidenceFinderEnablement {
         /// The current status of the evidence data backfill process. The backfill starts after you enable evidence finder. During this task, Audit Manager populates an event data store with your past two years’ worth of evidence data so that your evidence can be queried.
         ///
         /// * NOT_STARTED means that the backfill hasn’t started yet.
@@ -6280,7 +6280,7 @@ extension AuditManagerClientTypes.EvidenceInsights: Swift.Codable {
 
 extension AuditManagerClientTypes {
     /// A breakdown of the latest compliance check status for the evidence in your Audit Manager assessments.
-    public struct EvidenceInsights: Swift.Equatable {
+    public struct EvidenceInsights {
         /// The number of compliance check evidence that Audit Manager classified as compliant. This includes evidence that was collected from Security Hub with a Pass ruling, or collected from Config with a Compliant ruling.
         public var compliantEvidenceCount: Swift.Int?
         /// The number of evidence that a compliance check ruling isn't available for. Evidence is inconclusive when the associated control uses Security Hub or Config as a data source but you didn't enable those services. This is also the case when a control uses a data source that doesn’t support compliance checks (for example, manual evidence, API calls, or CloudTrail). If evidence has a compliance check status of not applicable in the console, it's classified as inconclusive in EvidenceInsights data.
@@ -6459,7 +6459,7 @@ extension AuditManagerClientTypes.Framework: Swift.CustomDebugStringConvertible 
 
 extension AuditManagerClientTypes {
     /// The file that's used to structure and automate Audit Manager assessments for a given compliance standard.
-    public struct Framework: Swift.Equatable {
+    public struct Framework {
         /// The Amazon Resource Name (ARN) of the framework.
         public var arn: Swift.String?
         /// The compliance type that the framework supports, such as CIS or HIPAA.
@@ -6569,7 +6569,7 @@ extension AuditManagerClientTypes.FrameworkMetadata: Swift.CustomDebugStringConv
 
 extension AuditManagerClientTypes {
     /// The metadata of a framework, such as the name, ID, or description.
-    public struct FrameworkMetadata: Swift.Equatable {
+    public struct FrameworkMetadata {
         /// The compliance standard that's associated with the framework. For example, this could be PCI DSS or HIPAA.
         public var complianceType: Swift.String?
         /// The description of the framework.
@@ -6634,12 +6634,12 @@ extension GetAccountStatusInput {
     }
 }
 
-public struct GetAccountStatusInput: Swift.Equatable {
+public struct GetAccountStatusInput {
 
     public init() { }
 }
 
-struct GetAccountStatusInputBody: Swift.Equatable {
+struct GetAccountStatusInputBody {
 }
 
 extension GetAccountStatusInputBody: Swift.Decodable {
@@ -6660,7 +6660,7 @@ extension GetAccountStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAccountStatusOutput: Swift.Equatable {
+public struct GetAccountStatusOutput {
     /// The status of the Amazon Web Services account.
     public var status: AuditManagerClientTypes.AccountStatus?
 
@@ -6672,7 +6672,7 @@ public struct GetAccountStatusOutput: Swift.Equatable {
     }
 }
 
-struct GetAccountStatusOutputBody: Swift.Equatable {
+struct GetAccountStatusOutputBody {
     let status: AuditManagerClientTypes.AccountStatus?
 }
 
@@ -6709,7 +6709,7 @@ extension GetAssessmentFrameworkInput {
     }
 }
 
-public struct GetAssessmentFrameworkInput: Swift.Equatable {
+public struct GetAssessmentFrameworkInput {
     /// The identifier for the framework.
     /// This member is required.
     public var frameworkId: Swift.String?
@@ -6722,7 +6722,7 @@ public struct GetAssessmentFrameworkInput: Swift.Equatable {
     }
 }
 
-struct GetAssessmentFrameworkInputBody: Swift.Equatable {
+struct GetAssessmentFrameworkInputBody {
 }
 
 extension GetAssessmentFrameworkInputBody: Swift.Decodable {
@@ -6743,7 +6743,7 @@ extension GetAssessmentFrameworkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAssessmentFrameworkOutput: Swift.Equatable {
+public struct GetAssessmentFrameworkOutput {
     /// The framework that the GetAssessmentFramework API returned.
     public var framework: AuditManagerClientTypes.Framework?
 
@@ -6755,7 +6755,7 @@ public struct GetAssessmentFrameworkOutput: Swift.Equatable {
     }
 }
 
-struct GetAssessmentFrameworkOutputBody: Swift.Equatable {
+struct GetAssessmentFrameworkOutputBody {
     let framework: AuditManagerClientTypes.Framework?
 }
 
@@ -6795,7 +6795,7 @@ extension GetAssessmentInput {
     }
 }
 
-public struct GetAssessmentInput: Swift.Equatable {
+public struct GetAssessmentInput {
     /// The unique identifier for the assessment.
     /// This member is required.
     public var assessmentId: Swift.String?
@@ -6808,7 +6808,7 @@ public struct GetAssessmentInput: Swift.Equatable {
     }
 }
 
-struct GetAssessmentInputBody: Swift.Equatable {
+struct GetAssessmentInputBody {
 }
 
 extension GetAssessmentInputBody: Swift.Decodable {
@@ -6831,7 +6831,7 @@ extension GetAssessmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAssessmentOutput: Swift.Equatable {
+public struct GetAssessmentOutput {
     /// An entity that defines the scope of audit evidence collected by Audit Manager. An Audit Manager assessment is an implementation of an Audit Manager framework.
     public var assessment: AuditManagerClientTypes.Assessment?
     /// The wrapper that contains the Audit Manager role information of the current user. This includes the role type and IAM Amazon Resource Name (ARN).
@@ -6847,7 +6847,7 @@ public struct GetAssessmentOutput: Swift.Equatable {
     }
 }
 
-struct GetAssessmentOutputBody: Swift.Equatable {
+struct GetAssessmentOutputBody {
     let assessment: AuditManagerClientTypes.Assessment?
     let userRole: AuditManagerClientTypes.Role?
 }
@@ -6894,7 +6894,7 @@ extension GetAssessmentReportUrlInput {
     }
 }
 
-public struct GetAssessmentReportUrlInput: Swift.Equatable {
+public struct GetAssessmentReportUrlInput {
     /// The unique identifier for the assessment.
     /// This member is required.
     public var assessmentId: Swift.String?
@@ -6912,7 +6912,7 @@ public struct GetAssessmentReportUrlInput: Swift.Equatable {
     }
 }
 
-struct GetAssessmentReportUrlInputBody: Swift.Equatable {
+struct GetAssessmentReportUrlInputBody {
 }
 
 extension GetAssessmentReportUrlInputBody: Swift.Decodable {
@@ -6933,7 +6933,7 @@ extension GetAssessmentReportUrlOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAssessmentReportUrlOutput: Swift.Equatable {
+public struct GetAssessmentReportUrlOutput {
     /// Short for uniform resource locator. A URL is used as a unique identifier to locate a resource on the internet.
     public var preSignedUrl: AuditManagerClientTypes.URL?
 
@@ -6945,7 +6945,7 @@ public struct GetAssessmentReportUrlOutput: Swift.Equatable {
     }
 }
 
-struct GetAssessmentReportUrlOutputBody: Swift.Equatable {
+struct GetAssessmentReportUrlOutputBody {
     let preSignedUrl: AuditManagerClientTypes.URL?
 }
 
@@ -7009,7 +7009,7 @@ extension GetChangeLogsInput {
     }
 }
 
-public struct GetChangeLogsInput: Swift.Equatable {
+public struct GetChangeLogsInput {
     /// The unique identifier for the assessment.
     /// This member is required.
     public var assessmentId: Swift.String?
@@ -7038,7 +7038,7 @@ public struct GetChangeLogsInput: Swift.Equatable {
     }
 }
 
-struct GetChangeLogsInputBody: Swift.Equatable {
+struct GetChangeLogsInputBody {
 }
 
 extension GetChangeLogsInputBody: Swift.Decodable {
@@ -7061,7 +7061,7 @@ extension GetChangeLogsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetChangeLogsOutput: Swift.Equatable {
+public struct GetChangeLogsOutput {
     /// The list of user activity for the control.
     public var changeLogs: [AuditManagerClientTypes.ChangeLog]?
     /// The pagination token that's used to fetch the next set of results.
@@ -7077,7 +7077,7 @@ public struct GetChangeLogsOutput: Swift.Equatable {
     }
 }
 
-struct GetChangeLogsOutputBody: Swift.Equatable {
+struct GetChangeLogsOutputBody {
     let changeLogs: [AuditManagerClientTypes.ChangeLog]?
     let nextToken: Swift.String?
 }
@@ -7130,7 +7130,7 @@ extension GetControlInput {
     }
 }
 
-public struct GetControlInput: Swift.Equatable {
+public struct GetControlInput {
     /// The identifier for the control.
     /// This member is required.
     public var controlId: Swift.String?
@@ -7143,7 +7143,7 @@ public struct GetControlInput: Swift.Equatable {
     }
 }
 
-struct GetControlInputBody: Swift.Equatable {
+struct GetControlInputBody {
 }
 
 extension GetControlInputBody: Swift.Decodable {
@@ -7164,7 +7164,7 @@ extension GetControlOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetControlOutput: Swift.Equatable {
+public struct GetControlOutput {
     /// The details of the control that the GetControl API returned.
     public var control: AuditManagerClientTypes.Control?
 
@@ -7176,7 +7176,7 @@ public struct GetControlOutput: Swift.Equatable {
     }
 }
 
-struct GetControlOutputBody: Swift.Equatable {
+struct GetControlOutputBody {
     let control: AuditManagerClientTypes.Control?
 }
 
@@ -7229,7 +7229,7 @@ extension GetDelegationsInput {
     }
 }
 
-public struct GetDelegationsInput: Swift.Equatable {
+public struct GetDelegationsInput {
     /// Represents the maximum number of results on a page or for an API request call.
     public var maxResults: Swift.Int?
     /// The pagination token that's used to fetch the next set of results.
@@ -7245,7 +7245,7 @@ public struct GetDelegationsInput: Swift.Equatable {
     }
 }
 
-struct GetDelegationsInputBody: Swift.Equatable {
+struct GetDelegationsInputBody {
 }
 
 extension GetDelegationsInputBody: Swift.Decodable {
@@ -7268,7 +7268,7 @@ extension GetDelegationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDelegationsOutput: Swift.Equatable {
+public struct GetDelegationsOutput {
     /// The list of delegations that the GetDelegations API returned.
     public var delegations: [AuditManagerClientTypes.DelegationMetadata]?
     /// The pagination token that's used to fetch the next set of results.
@@ -7284,7 +7284,7 @@ public struct GetDelegationsOutput: Swift.Equatable {
     }
 }
 
-struct GetDelegationsOutputBody: Swift.Equatable {
+struct GetDelegationsOutputBody {
     let delegations: [AuditManagerClientTypes.DelegationMetadata]?
     let nextToken: Swift.String?
 }
@@ -7358,7 +7358,7 @@ extension GetEvidenceByEvidenceFolderInput {
     }
 }
 
-public struct GetEvidenceByEvidenceFolderInput: Swift.Equatable {
+public struct GetEvidenceByEvidenceFolderInput {
     /// The identifier for the assessment.
     /// This member is required.
     public var assessmentId: Swift.String?
@@ -7389,7 +7389,7 @@ public struct GetEvidenceByEvidenceFolderInput: Swift.Equatable {
     }
 }
 
-struct GetEvidenceByEvidenceFolderInputBody: Swift.Equatable {
+struct GetEvidenceByEvidenceFolderInputBody {
 }
 
 extension GetEvidenceByEvidenceFolderInputBody: Swift.Decodable {
@@ -7412,7 +7412,7 @@ extension GetEvidenceByEvidenceFolderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEvidenceByEvidenceFolderOutput: Swift.Equatable {
+public struct GetEvidenceByEvidenceFolderOutput {
     /// The list of evidence that the GetEvidenceByEvidenceFolder API returned.
     public var evidence: [AuditManagerClientTypes.Evidence]?
     /// The pagination token that's used to fetch the next set of results.
@@ -7428,7 +7428,7 @@ public struct GetEvidenceByEvidenceFolderOutput: Swift.Equatable {
     }
 }
 
-struct GetEvidenceByEvidenceFolderOutputBody: Swift.Equatable {
+struct GetEvidenceByEvidenceFolderOutputBody {
     let evidence: [AuditManagerClientTypes.Evidence]?
     let nextToken: Swift.String?
 }
@@ -7497,7 +7497,7 @@ extension GetEvidenceFileUploadUrlInput {
     }
 }
 
-public struct GetEvidenceFileUploadUrlInput: Swift.Equatable {
+public struct GetEvidenceFileUploadUrlInput {
     /// The file that you want to upload. For a list of supported file formats, see [Supported file types for manual evidence](https://docs.aws.amazon.com/audit-manager/latest/userguide/upload-evidence.html#supported-manual-evidence-files) in the Audit Manager User Guide.
     /// This member is required.
     public var fileName: Swift.String?
@@ -7510,7 +7510,7 @@ public struct GetEvidenceFileUploadUrlInput: Swift.Equatable {
     }
 }
 
-struct GetEvidenceFileUploadUrlInputBody: Swift.Equatable {
+struct GetEvidenceFileUploadUrlInputBody {
 }
 
 extension GetEvidenceFileUploadUrlInputBody: Swift.Decodable {
@@ -7539,7 +7539,7 @@ extension GetEvidenceFileUploadUrlOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEvidenceFileUploadUrlOutput: Swift.Equatable {
+public struct GetEvidenceFileUploadUrlOutput {
     /// The name of the uploaded manual evidence file that the presigned URL was generated for.
     public var evidenceFileName: Swift.String?
     /// The presigned URL that was generated.
@@ -7555,7 +7555,7 @@ public struct GetEvidenceFileUploadUrlOutput: Swift.Equatable {
     }
 }
 
-struct GetEvidenceFileUploadUrlOutputBody: Swift.Equatable {
+struct GetEvidenceFileUploadUrlOutputBody {
     let evidenceFileName: Swift.String?
     let uploadUrl: Swift.String?
 }
@@ -7605,7 +7605,7 @@ extension GetEvidenceFolderInput {
     }
 }
 
-public struct GetEvidenceFolderInput: Swift.Equatable {
+public struct GetEvidenceFolderInput {
     /// The unique identifier for the assessment.
     /// This member is required.
     public var assessmentId: Swift.String?
@@ -7628,7 +7628,7 @@ public struct GetEvidenceFolderInput: Swift.Equatable {
     }
 }
 
-struct GetEvidenceFolderInputBody: Swift.Equatable {
+struct GetEvidenceFolderInputBody {
 }
 
 extension GetEvidenceFolderInputBody: Swift.Decodable {
@@ -7649,7 +7649,7 @@ extension GetEvidenceFolderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEvidenceFolderOutput: Swift.Equatable {
+public struct GetEvidenceFolderOutput {
     /// The folder that the evidence is stored in.
     public var evidenceFolder: AuditManagerClientTypes.AssessmentEvidenceFolder?
 
@@ -7661,7 +7661,7 @@ public struct GetEvidenceFolderOutput: Swift.Equatable {
     }
 }
 
-struct GetEvidenceFolderOutputBody: Swift.Equatable {
+struct GetEvidenceFolderOutputBody {
     let evidenceFolder: AuditManagerClientTypes.AssessmentEvidenceFolder?
 }
 
@@ -7723,7 +7723,7 @@ extension GetEvidenceFoldersByAssessmentControlInput {
     }
 }
 
-public struct GetEvidenceFoldersByAssessmentControlInput: Swift.Equatable {
+public struct GetEvidenceFoldersByAssessmentControlInput {
     /// The identifier for the assessment.
     /// This member is required.
     public var assessmentId: Swift.String?
@@ -7754,7 +7754,7 @@ public struct GetEvidenceFoldersByAssessmentControlInput: Swift.Equatable {
     }
 }
 
-struct GetEvidenceFoldersByAssessmentControlInputBody: Swift.Equatable {
+struct GetEvidenceFoldersByAssessmentControlInputBody {
 }
 
 extension GetEvidenceFoldersByAssessmentControlInputBody: Swift.Decodable {
@@ -7777,7 +7777,7 @@ extension GetEvidenceFoldersByAssessmentControlOutput: ClientRuntime.HttpRespons
     }
 }
 
-public struct GetEvidenceFoldersByAssessmentControlOutput: Swift.Equatable {
+public struct GetEvidenceFoldersByAssessmentControlOutput {
     /// The list of evidence folders that the GetEvidenceFoldersByAssessmentControl API returned.
     public var evidenceFolders: [AuditManagerClientTypes.AssessmentEvidenceFolder]?
     /// The pagination token that's used to fetch the next set of results.
@@ -7793,7 +7793,7 @@ public struct GetEvidenceFoldersByAssessmentControlOutput: Swift.Equatable {
     }
 }
 
-struct GetEvidenceFoldersByAssessmentControlOutputBody: Swift.Equatable {
+struct GetEvidenceFoldersByAssessmentControlOutputBody {
     let evidenceFolders: [AuditManagerClientTypes.AssessmentEvidenceFolder]?
     let nextToken: Swift.String?
 }
@@ -7862,7 +7862,7 @@ extension GetEvidenceFoldersByAssessmentInput {
     }
 }
 
-public struct GetEvidenceFoldersByAssessmentInput: Swift.Equatable {
+public struct GetEvidenceFoldersByAssessmentInput {
     /// The unique identifier for the assessment.
     /// This member is required.
     public var assessmentId: Swift.String?
@@ -7883,7 +7883,7 @@ public struct GetEvidenceFoldersByAssessmentInput: Swift.Equatable {
     }
 }
 
-struct GetEvidenceFoldersByAssessmentInputBody: Swift.Equatable {
+struct GetEvidenceFoldersByAssessmentInputBody {
 }
 
 extension GetEvidenceFoldersByAssessmentInputBody: Swift.Decodable {
@@ -7906,7 +7906,7 @@ extension GetEvidenceFoldersByAssessmentOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct GetEvidenceFoldersByAssessmentOutput: Swift.Equatable {
+public struct GetEvidenceFoldersByAssessmentOutput {
     /// The list of evidence folders that the GetEvidenceFoldersByAssessment API returned.
     public var evidenceFolders: [AuditManagerClientTypes.AssessmentEvidenceFolder]?
     /// The pagination token that's used to fetch the next set of results.
@@ -7922,7 +7922,7 @@ public struct GetEvidenceFoldersByAssessmentOutput: Swift.Equatable {
     }
 }
 
-struct GetEvidenceFoldersByAssessmentOutputBody: Swift.Equatable {
+struct GetEvidenceFoldersByAssessmentOutputBody {
     let evidenceFolders: [AuditManagerClientTypes.AssessmentEvidenceFolder]?
     let nextToken: Swift.String?
 }
@@ -7984,7 +7984,7 @@ extension GetEvidenceInput {
     }
 }
 
-public struct GetEvidenceInput: Swift.Equatable {
+public struct GetEvidenceInput {
     /// The unique identifier for the assessment.
     /// This member is required.
     public var assessmentId: Swift.String?
@@ -8012,7 +8012,7 @@ public struct GetEvidenceInput: Swift.Equatable {
     }
 }
 
-struct GetEvidenceInputBody: Swift.Equatable {
+struct GetEvidenceInputBody {
 }
 
 extension GetEvidenceInputBody: Swift.Decodable {
@@ -8033,7 +8033,7 @@ extension GetEvidenceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEvidenceOutput: Swift.Equatable {
+public struct GetEvidenceOutput {
     /// The evidence that the GetEvidence API returned.
     public var evidence: AuditManagerClientTypes.Evidence?
 
@@ -8045,7 +8045,7 @@ public struct GetEvidenceOutput: Swift.Equatable {
     }
 }
 
-struct GetEvidenceOutputBody: Swift.Equatable {
+struct GetEvidenceOutputBody {
     let evidence: AuditManagerClientTypes.Evidence?
 }
 
@@ -8085,7 +8085,7 @@ extension GetInsightsByAssessmentInput {
     }
 }
 
-public struct GetInsightsByAssessmentInput: Swift.Equatable {
+public struct GetInsightsByAssessmentInput {
     /// The unique identifier for the assessment.
     /// This member is required.
     public var assessmentId: Swift.String?
@@ -8098,7 +8098,7 @@ public struct GetInsightsByAssessmentInput: Swift.Equatable {
     }
 }
 
-struct GetInsightsByAssessmentInputBody: Swift.Equatable {
+struct GetInsightsByAssessmentInputBody {
 }
 
 extension GetInsightsByAssessmentInputBody: Swift.Decodable {
@@ -8119,7 +8119,7 @@ extension GetInsightsByAssessmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetInsightsByAssessmentOutput: Swift.Equatable {
+public struct GetInsightsByAssessmentOutput {
     /// The assessment analytics data that the GetInsightsByAssessment API returned.
     public var insights: AuditManagerClientTypes.InsightsByAssessment?
 
@@ -8131,7 +8131,7 @@ public struct GetInsightsByAssessmentOutput: Swift.Equatable {
     }
 }
 
-struct GetInsightsByAssessmentOutputBody: Swift.Equatable {
+struct GetInsightsByAssessmentOutputBody {
     let insights: AuditManagerClientTypes.InsightsByAssessment?
 }
 
@@ -8168,12 +8168,12 @@ extension GetInsightsInput {
     }
 }
 
-public struct GetInsightsInput: Swift.Equatable {
+public struct GetInsightsInput {
 
     public init() { }
 }
 
-struct GetInsightsInputBody: Swift.Equatable {
+struct GetInsightsInputBody {
 }
 
 extension GetInsightsInputBody: Swift.Decodable {
@@ -8194,7 +8194,7 @@ extension GetInsightsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetInsightsOutput: Swift.Equatable {
+public struct GetInsightsOutput {
     /// The analytics data that the GetInsights API returned.
     public var insights: AuditManagerClientTypes.Insights?
 
@@ -8206,7 +8206,7 @@ public struct GetInsightsOutput: Swift.Equatable {
     }
 }
 
-struct GetInsightsOutputBody: Swift.Equatable {
+struct GetInsightsOutputBody {
     let insights: AuditManagerClientTypes.Insights?
 }
 
@@ -8241,12 +8241,12 @@ extension GetOrganizationAdminAccountInput {
     }
 }
 
-public struct GetOrganizationAdminAccountInput: Swift.Equatable {
+public struct GetOrganizationAdminAccountInput {
 
     public init() { }
 }
 
-struct GetOrganizationAdminAccountInputBody: Swift.Equatable {
+struct GetOrganizationAdminAccountInputBody {
 }
 
 extension GetOrganizationAdminAccountInputBody: Swift.Decodable {
@@ -8269,7 +8269,7 @@ extension GetOrganizationAdminAccountOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetOrganizationAdminAccountOutput: Swift.Equatable {
+public struct GetOrganizationAdminAccountOutput {
     /// The identifier for the administrator account.
     public var adminAccountId: Swift.String?
     /// The identifier for the organization.
@@ -8285,7 +8285,7 @@ public struct GetOrganizationAdminAccountOutput: Swift.Equatable {
     }
 }
 
-struct GetOrganizationAdminAccountOutputBody: Swift.Equatable {
+struct GetOrganizationAdminAccountOutputBody {
     let adminAccountId: Swift.String?
     let organizationId: Swift.String?
 }
@@ -8326,12 +8326,12 @@ extension GetServicesInScopeInput {
     }
 }
 
-public struct GetServicesInScopeInput: Swift.Equatable {
+public struct GetServicesInScopeInput {
 
     public init() { }
 }
 
-struct GetServicesInScopeInputBody: Swift.Equatable {
+struct GetServicesInScopeInputBody {
 }
 
 extension GetServicesInScopeInputBody: Swift.Decodable {
@@ -8352,7 +8352,7 @@ extension GetServicesInScopeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetServicesInScopeOutput: Swift.Equatable {
+public struct GetServicesInScopeOutput {
     /// The metadata that's associated with the Amazon Web Service.
     public var serviceMetadata: [AuditManagerClientTypes.ServiceMetadata]?
 
@@ -8364,7 +8364,7 @@ public struct GetServicesInScopeOutput: Swift.Equatable {
     }
 }
 
-struct GetServicesInScopeOutputBody: Swift.Equatable {
+struct GetServicesInScopeOutputBody {
     let serviceMetadata: [AuditManagerClientTypes.ServiceMetadata]?
 }
 
@@ -8412,7 +8412,7 @@ extension GetSettingsInput {
     }
 }
 
-public struct GetSettingsInput: Swift.Equatable {
+public struct GetSettingsInput {
     /// The list of setting attribute enum values.
     /// This member is required.
     public var attribute: AuditManagerClientTypes.SettingAttribute?
@@ -8425,7 +8425,7 @@ public struct GetSettingsInput: Swift.Equatable {
     }
 }
 
-struct GetSettingsInputBody: Swift.Equatable {
+struct GetSettingsInputBody {
 }
 
 extension GetSettingsInputBody: Swift.Decodable {
@@ -8446,7 +8446,7 @@ extension GetSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSettingsOutput: Swift.Equatable {
+public struct GetSettingsOutput {
     /// The settings object that holds all supported Audit Manager settings.
     public var settings: AuditManagerClientTypes.Settings?
 
@@ -8458,7 +8458,7 @@ public struct GetSettingsOutput: Swift.Equatable {
     }
 }
 
-struct GetSettingsOutputBody: Swift.Equatable {
+struct GetSettingsOutputBody {
     let settings: AuditManagerClientTypes.Settings?
 }
 
@@ -8547,7 +8547,7 @@ extension AuditManagerClientTypes {
     /// * Inactive assessments - If Audit Manager collected evidence for your assessment before you changed it inactive, that evidence is included in the InsightsByAssessment counts for that day.
     ///
     /// * Deleted assessments - If Audit Manager collected evidence for your assessment before you deleted it, that evidence isn't included in the InsightsByAssessment counts for that day.
-    public struct Insights: Swift.Equatable {
+    public struct Insights {
         /// The number of active assessments in Audit Manager.
         public var activeAssessmentsCount: Swift.Int?
         /// The number of assessment controls that collected non-compliant evidence on the lastUpdated date.
@@ -8640,7 +8640,7 @@ extension AuditManagerClientTypes {
     /// * Inactive assessments - If Audit Manager collected evidence for your assessment before you changed it inactive, that evidence is included in the InsightsByAssessment counts for that day.
     ///
     /// * Deleted assessments - If Audit Manager collected evidence for your assessment before you deleted it, that evidence isn't included in the InsightsByAssessment counts for that day.
-    public struct InsightsByAssessment: Swift.Equatable {
+    public struct InsightsByAssessment {
         /// The number of assessment controls that collected non-compliant evidence on the lastUpdated date.
         public var assessmentControlsCountByNoncompliantEvidence: Swift.Int?
         /// The number of compliance check evidence that Audit Manager classified as compliant. This includes evidence that was collected from Security Hub with a Pass ruling, or collected from Config with a Compliant ruling.
@@ -8714,7 +8714,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -8800,7 +8800,7 @@ extension ListAssessmentControlInsightsByControlDomainInput {
     }
 }
 
-public struct ListAssessmentControlInsightsByControlDomainInput: Swift.Equatable {
+public struct ListAssessmentControlInsightsByControlDomainInput {
     /// The unique identifier for the active assessment.
     /// This member is required.
     public var assessmentId: Swift.String?
@@ -8826,7 +8826,7 @@ public struct ListAssessmentControlInsightsByControlDomainInput: Swift.Equatable
     }
 }
 
-struct ListAssessmentControlInsightsByControlDomainInputBody: Swift.Equatable {
+struct ListAssessmentControlInsightsByControlDomainInputBody {
 }
 
 extension ListAssessmentControlInsightsByControlDomainInputBody: Swift.Decodable {
@@ -8849,7 +8849,7 @@ extension ListAssessmentControlInsightsByControlDomainOutput: ClientRuntime.Http
     }
 }
 
-public struct ListAssessmentControlInsightsByControlDomainOutput: Swift.Equatable {
+public struct ListAssessmentControlInsightsByControlDomainOutput {
     /// The assessment control analytics data that the ListAssessmentControlInsightsByControlDomain API returned.
     public var controlInsightsByAssessment: [AuditManagerClientTypes.ControlInsightsMetadataByAssessmentItem]?
     /// The pagination token that's used to fetch the next set of results.
@@ -8865,7 +8865,7 @@ public struct ListAssessmentControlInsightsByControlDomainOutput: Swift.Equatabl
     }
 }
 
-struct ListAssessmentControlInsightsByControlDomainOutputBody: Swift.Equatable {
+struct ListAssessmentControlInsightsByControlDomainOutputBody {
     let controlInsightsByAssessment: [AuditManagerClientTypes.ControlInsightsMetadataByAssessmentItem]?
     let nextToken: Swift.String?
 }
@@ -8937,7 +8937,7 @@ extension ListAssessmentFrameworkShareRequestsInput {
     }
 }
 
-public struct ListAssessmentFrameworkShareRequestsInput: Swift.Equatable {
+public struct ListAssessmentFrameworkShareRequestsInput {
     /// Represents the maximum number of results on a page or for an API request call.
     public var maxResults: Swift.Int?
     /// The pagination token that's used to fetch the next set of results.
@@ -8958,7 +8958,7 @@ public struct ListAssessmentFrameworkShareRequestsInput: Swift.Equatable {
     }
 }
 
-struct ListAssessmentFrameworkShareRequestsInputBody: Swift.Equatable {
+struct ListAssessmentFrameworkShareRequestsInputBody {
 }
 
 extension ListAssessmentFrameworkShareRequestsInputBody: Swift.Decodable {
@@ -8981,7 +8981,7 @@ extension ListAssessmentFrameworkShareRequestsOutput: ClientRuntime.HttpResponse
     }
 }
 
-public struct ListAssessmentFrameworkShareRequestsOutput: Swift.Equatable {
+public struct ListAssessmentFrameworkShareRequestsOutput {
     /// The list of share requests that the ListAssessmentFrameworkShareRequests API returned.
     public var assessmentFrameworkShareRequests: [AuditManagerClientTypes.AssessmentFrameworkShareRequest]?
     /// The pagination token that's used to fetch the next set of results.
@@ -8997,7 +8997,7 @@ public struct ListAssessmentFrameworkShareRequestsOutput: Swift.Equatable {
     }
 }
 
-struct ListAssessmentFrameworkShareRequestsOutputBody: Swift.Equatable {
+struct ListAssessmentFrameworkShareRequestsOutputBody {
     let assessmentFrameworkShareRequests: [AuditManagerClientTypes.AssessmentFrameworkShareRequest]?
     let nextToken: Swift.String?
 }
@@ -9068,7 +9068,7 @@ extension ListAssessmentFrameworksInput {
     }
 }
 
-public struct ListAssessmentFrameworksInput: Swift.Equatable {
+public struct ListAssessmentFrameworksInput {
     /// The type of framework, such as a standard framework or a custom framework.
     /// This member is required.
     public var frameworkType: AuditManagerClientTypes.FrameworkType?
@@ -9089,7 +9089,7 @@ public struct ListAssessmentFrameworksInput: Swift.Equatable {
     }
 }
 
-struct ListAssessmentFrameworksInputBody: Swift.Equatable {
+struct ListAssessmentFrameworksInputBody {
 }
 
 extension ListAssessmentFrameworksInputBody: Swift.Decodable {
@@ -9112,7 +9112,7 @@ extension ListAssessmentFrameworksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAssessmentFrameworksOutput: Swift.Equatable {
+public struct ListAssessmentFrameworksOutput {
     /// A list of metadata that the ListAssessmentFrameworks API returns for each framework.
     public var frameworkMetadataList: [AuditManagerClientTypes.AssessmentFrameworkMetadata]?
     /// The pagination token that's used to fetch the next set of results.
@@ -9128,7 +9128,7 @@ public struct ListAssessmentFrameworksOutput: Swift.Equatable {
     }
 }
 
-struct ListAssessmentFrameworksOutputBody: Swift.Equatable {
+struct ListAssessmentFrameworksOutputBody {
     let frameworkMetadataList: [AuditManagerClientTypes.AssessmentFrameworkMetadata]?
     let nextToken: Swift.String?
 }
@@ -9193,7 +9193,7 @@ extension ListAssessmentReportsInput {
     }
 }
 
-public struct ListAssessmentReportsInput: Swift.Equatable {
+public struct ListAssessmentReportsInput {
     /// Represents the maximum number of results on a page or for an API request call.
     public var maxResults: Swift.Int?
     /// The pagination token that's used to fetch the next set of results.
@@ -9209,7 +9209,7 @@ public struct ListAssessmentReportsInput: Swift.Equatable {
     }
 }
 
-struct ListAssessmentReportsInputBody: Swift.Equatable {
+struct ListAssessmentReportsInputBody {
 }
 
 extension ListAssessmentReportsInputBody: Swift.Decodable {
@@ -9232,7 +9232,7 @@ extension ListAssessmentReportsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAssessmentReportsOutput: Swift.Equatable {
+public struct ListAssessmentReportsOutput {
     /// The list of assessment reports that the ListAssessmentReports API returned.
     public var assessmentReports: [AuditManagerClientTypes.AssessmentReportMetadata]?
     /// The pagination token that's used to fetch the next set of results.
@@ -9248,7 +9248,7 @@ public struct ListAssessmentReportsOutput: Swift.Equatable {
     }
 }
 
-struct ListAssessmentReportsOutputBody: Swift.Equatable {
+struct ListAssessmentReportsOutputBody {
     let assessmentReports: [AuditManagerClientTypes.AssessmentReportMetadata]?
     let nextToken: Swift.String?
 }
@@ -9317,7 +9317,7 @@ extension ListAssessmentsInput {
     }
 }
 
-public struct ListAssessmentsInput: Swift.Equatable {
+public struct ListAssessmentsInput {
     /// Represents the maximum number of results on a page or for an API request call.
     public var maxResults: Swift.Int?
     /// The pagination token that's used to fetch the next set of results.
@@ -9337,7 +9337,7 @@ public struct ListAssessmentsInput: Swift.Equatable {
     }
 }
 
-struct ListAssessmentsInputBody: Swift.Equatable {
+struct ListAssessmentsInputBody {
 }
 
 extension ListAssessmentsInputBody: Swift.Decodable {
@@ -9360,7 +9360,7 @@ extension ListAssessmentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAssessmentsOutput: Swift.Equatable {
+public struct ListAssessmentsOutput {
     /// The metadata that the ListAssessments API returns for each assessment.
     public var assessmentMetadata: [AuditManagerClientTypes.AssessmentMetadataItem]?
     /// The pagination token that's used to fetch the next set of results.
@@ -9376,7 +9376,7 @@ public struct ListAssessmentsOutput: Swift.Equatable {
     }
 }
 
-struct ListAssessmentsOutputBody: Swift.Equatable {
+struct ListAssessmentsOutputBody {
     let assessmentMetadata: [AuditManagerClientTypes.AssessmentMetadataItem]?
     let nextToken: Swift.String?
 }
@@ -9447,7 +9447,7 @@ extension ListControlDomainInsightsByAssessmentInput {
     }
 }
 
-public struct ListControlDomainInsightsByAssessmentInput: Swift.Equatable {
+public struct ListControlDomainInsightsByAssessmentInput {
     /// The unique identifier for the active assessment.
     /// This member is required.
     public var assessmentId: Swift.String?
@@ -9468,7 +9468,7 @@ public struct ListControlDomainInsightsByAssessmentInput: Swift.Equatable {
     }
 }
 
-struct ListControlDomainInsightsByAssessmentInputBody: Swift.Equatable {
+struct ListControlDomainInsightsByAssessmentInputBody {
 }
 
 extension ListControlDomainInsightsByAssessmentInputBody: Swift.Decodable {
@@ -9491,7 +9491,7 @@ extension ListControlDomainInsightsByAssessmentOutput: ClientRuntime.HttpRespons
     }
 }
 
-public struct ListControlDomainInsightsByAssessmentOutput: Swift.Equatable {
+public struct ListControlDomainInsightsByAssessmentOutput {
     /// The control domain analytics data that the ListControlDomainInsightsByAssessment API returned.
     public var controlDomainInsights: [AuditManagerClientTypes.ControlDomainInsights]?
     /// The pagination token that's used to fetch the next set of results.
@@ -9507,7 +9507,7 @@ public struct ListControlDomainInsightsByAssessmentOutput: Swift.Equatable {
     }
 }
 
-struct ListControlDomainInsightsByAssessmentOutputBody: Swift.Equatable {
+struct ListControlDomainInsightsByAssessmentOutputBody {
     let controlDomainInsights: [AuditManagerClientTypes.ControlDomainInsights]?
     let nextToken: Swift.String?
 }
@@ -9573,7 +9573,7 @@ extension ListControlDomainInsightsInput {
     }
 }
 
-public struct ListControlDomainInsightsInput: Swift.Equatable {
+public struct ListControlDomainInsightsInput {
     /// Represents the maximum number of results on a page or for an API request call.
     public var maxResults: Swift.Int?
     /// The pagination token that's used to fetch the next set of results.
@@ -9589,7 +9589,7 @@ public struct ListControlDomainInsightsInput: Swift.Equatable {
     }
 }
 
-struct ListControlDomainInsightsInputBody: Swift.Equatable {
+struct ListControlDomainInsightsInputBody {
 }
 
 extension ListControlDomainInsightsInputBody: Swift.Decodable {
@@ -9612,7 +9612,7 @@ extension ListControlDomainInsightsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListControlDomainInsightsOutput: Swift.Equatable {
+public struct ListControlDomainInsightsOutput {
     /// The control domain analytics data that the ListControlDomainInsights API returned.
     public var controlDomainInsights: [AuditManagerClientTypes.ControlDomainInsights]?
     /// The pagination token that's used to fetch the next set of results.
@@ -9628,7 +9628,7 @@ public struct ListControlDomainInsightsOutput: Swift.Equatable {
     }
 }
 
-struct ListControlDomainInsightsOutputBody: Swift.Equatable {
+struct ListControlDomainInsightsOutputBody {
     let controlDomainInsights: [AuditManagerClientTypes.ControlDomainInsights]?
     let nextToken: Swift.String?
 }
@@ -9700,7 +9700,7 @@ extension ListControlInsightsByControlDomainInput {
     }
 }
 
-public struct ListControlInsightsByControlDomainInput: Swift.Equatable {
+public struct ListControlInsightsByControlDomainInput {
     /// The unique identifier for the control domain.
     /// This member is required.
     public var controlDomainId: Swift.String?
@@ -9721,7 +9721,7 @@ public struct ListControlInsightsByControlDomainInput: Swift.Equatable {
     }
 }
 
-struct ListControlInsightsByControlDomainInputBody: Swift.Equatable {
+struct ListControlInsightsByControlDomainInputBody {
 }
 
 extension ListControlInsightsByControlDomainInputBody: Swift.Decodable {
@@ -9744,7 +9744,7 @@ extension ListControlInsightsByControlDomainOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct ListControlInsightsByControlDomainOutput: Swift.Equatable {
+public struct ListControlInsightsByControlDomainOutput {
     /// The control analytics data that the ListControlInsightsByControlDomain API returned.
     public var controlInsightsMetadata: [AuditManagerClientTypes.ControlInsightsMetadataItem]?
     /// The pagination token that's used to fetch the next set of results.
@@ -9760,7 +9760,7 @@ public struct ListControlInsightsByControlDomainOutput: Swift.Equatable {
     }
 }
 
-struct ListControlInsightsByControlDomainOutputBody: Swift.Equatable {
+struct ListControlInsightsByControlDomainOutputBody {
     let controlInsightsMetadata: [AuditManagerClientTypes.ControlInsightsMetadataItem]?
     let nextToken: Swift.String?
 }
@@ -9832,7 +9832,7 @@ extension ListControlsInput {
     }
 }
 
-public struct ListControlsInput: Swift.Equatable {
+public struct ListControlsInput {
     /// The type of control, such as a standard control or a custom control.
     /// This member is required.
     public var controlType: AuditManagerClientTypes.ControlType?
@@ -9853,7 +9853,7 @@ public struct ListControlsInput: Swift.Equatable {
     }
 }
 
-struct ListControlsInputBody: Swift.Equatable {
+struct ListControlsInputBody {
 }
 
 extension ListControlsInputBody: Swift.Decodable {
@@ -9876,7 +9876,7 @@ extension ListControlsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListControlsOutput: Swift.Equatable {
+public struct ListControlsOutput {
     /// A list of metadata that the ListControls API returns for each control.
     public var controlMetadataList: [AuditManagerClientTypes.ControlMetadata]?
     /// The pagination token that's used to fetch the next set of results.
@@ -9892,7 +9892,7 @@ public struct ListControlsOutput: Swift.Equatable {
     }
 }
 
-struct ListControlsOutputBody: Swift.Equatable {
+struct ListControlsOutputBody {
     let controlMetadataList: [AuditManagerClientTypes.ControlMetadata]?
     let nextToken: Swift.String?
 }
@@ -9963,7 +9963,7 @@ extension ListKeywordsForDataSourceInput {
     }
 }
 
-public struct ListKeywordsForDataSourceInput: Swift.Equatable {
+public struct ListKeywordsForDataSourceInput {
     /// Represents the maximum number of results on a page or for an API request call.
     public var maxResults: Swift.Int?
     /// The pagination token that's used to fetch the next set of results.
@@ -9984,7 +9984,7 @@ public struct ListKeywordsForDataSourceInput: Swift.Equatable {
     }
 }
 
-struct ListKeywordsForDataSourceInputBody: Swift.Equatable {
+struct ListKeywordsForDataSourceInputBody {
 }
 
 extension ListKeywordsForDataSourceInputBody: Swift.Decodable {
@@ -10007,7 +10007,7 @@ extension ListKeywordsForDataSourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListKeywordsForDataSourceOutput: Swift.Equatable {
+public struct ListKeywordsForDataSourceOutput {
     /// The list of keywords for the event mapping source.
     public var keywords: [Swift.String]?
     /// The pagination token that's used to fetch the next set of results.
@@ -10023,7 +10023,7 @@ public struct ListKeywordsForDataSourceOutput: Swift.Equatable {
     }
 }
 
-struct ListKeywordsForDataSourceOutputBody: Swift.Equatable {
+struct ListKeywordsForDataSourceOutputBody {
     let keywords: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -10088,7 +10088,7 @@ extension ListNotificationsInput {
     }
 }
 
-public struct ListNotificationsInput: Swift.Equatable {
+public struct ListNotificationsInput {
     /// Represents the maximum number of results on a page or for an API request call.
     public var maxResults: Swift.Int?
     /// The pagination token that's used to fetch the next set of results.
@@ -10104,7 +10104,7 @@ public struct ListNotificationsInput: Swift.Equatable {
     }
 }
 
-struct ListNotificationsInputBody: Swift.Equatable {
+struct ListNotificationsInputBody {
 }
 
 extension ListNotificationsInputBody: Swift.Decodable {
@@ -10127,7 +10127,7 @@ extension ListNotificationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListNotificationsOutput: Swift.Equatable {
+public struct ListNotificationsOutput {
     /// The pagination token that's used to fetch the next set of results.
     public var nextToken: Swift.String?
     /// The returned list of notifications.
@@ -10143,7 +10143,7 @@ public struct ListNotificationsOutput: Swift.Equatable {
     }
 }
 
-struct ListNotificationsOutputBody: Swift.Equatable {
+struct ListNotificationsOutputBody {
     let notifications: [AuditManagerClientTypes.Notification]?
     let nextToken: Swift.String?
 }
@@ -10195,7 +10195,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -10208,7 +10208,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -10229,7 +10229,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The list of tags that the ListTagsForResource API returned.
     public var tags: [Swift.String:Swift.String]?
 
@@ -10241,7 +10241,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -10317,7 +10317,7 @@ extension AuditManagerClientTypes.ManualEvidence: Swift.CustomDebugStringConvert
 
 extension AuditManagerClientTypes {
     /// Evidence that's manually added to a control in Audit Manager. manualEvidence can be one of the following: evidenceFileName, s3ResourcePath, or textResponse.
-    public struct ManualEvidence: Swift.Equatable {
+    public struct ManualEvidence {
         /// The name of the file that's uploaded as manual evidence. This name is populated using the evidenceFileName value from the [GetEvidenceFileUploadUrl](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_GetEvidenceFileUploadUrl.html) API response.
         public var evidenceFileName: Swift.String?
         /// The S3 URL of the object that's imported as manual evidence.
@@ -10407,7 +10407,7 @@ extension AuditManagerClientTypes.Notification: Swift.CustomDebugStringConvertib
 
 extension AuditManagerClientTypes {
     /// The notification that informs a user of an update in Audit Manager. For example, this includes the notification that's sent when a control set is delegated for review.
-    public struct Notification: Swift.Equatable {
+    public struct Notification {
         /// The identifier for the assessment.
         public var assessmentId: Swift.String?
         /// The name of the related assessment.
@@ -10514,7 +10514,7 @@ extension RegisterAccountInput {
     }
 }
 
-public struct RegisterAccountInput: Swift.Equatable {
+public struct RegisterAccountInput {
     /// The delegated administrator account for Audit Manager.
     public var delegatedAdminAccount: Swift.String?
     /// The KMS key details.
@@ -10530,7 +10530,7 @@ public struct RegisterAccountInput: Swift.Equatable {
     }
 }
 
-struct RegisterAccountInputBody: Swift.Equatable {
+struct RegisterAccountInputBody {
     let kmsKey: Swift.String?
     let delegatedAdminAccount: Swift.String?
 }
@@ -10562,7 +10562,7 @@ extension RegisterAccountOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RegisterAccountOutput: Swift.Equatable {
+public struct RegisterAccountOutput {
     /// The status of the account registration request.
     public var status: AuditManagerClientTypes.AccountStatus?
 
@@ -10574,7 +10574,7 @@ public struct RegisterAccountOutput: Swift.Equatable {
     }
 }
 
-struct RegisterAccountOutputBody: Swift.Equatable {
+struct RegisterAccountOutputBody {
     let status: AuditManagerClientTypes.AccountStatus?
 }
 
@@ -10625,7 +10625,7 @@ extension RegisterOrganizationAdminAccountInput {
     }
 }
 
-public struct RegisterOrganizationAdminAccountInput: Swift.Equatable {
+public struct RegisterOrganizationAdminAccountInput {
     /// The identifier for the delegated administrator account.
     /// This member is required.
     public var adminAccountId: Swift.String?
@@ -10638,7 +10638,7 @@ public struct RegisterOrganizationAdminAccountInput: Swift.Equatable {
     }
 }
 
-struct RegisterOrganizationAdminAccountInputBody: Swift.Equatable {
+struct RegisterOrganizationAdminAccountInputBody {
     let adminAccountId: Swift.String?
 }
 
@@ -10668,7 +10668,7 @@ extension RegisterOrganizationAdminAccountOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct RegisterOrganizationAdminAccountOutput: Swift.Equatable {
+public struct RegisterOrganizationAdminAccountOutput {
     /// The identifier for the delegated administrator account.
     public var adminAccountId: Swift.String?
     /// The identifier for the organization.
@@ -10684,7 +10684,7 @@ public struct RegisterOrganizationAdminAccountOutput: Swift.Equatable {
     }
 }
 
-struct RegisterOrganizationAdminAccountOutputBody: Swift.Equatable {
+struct RegisterOrganizationAdminAccountOutputBody {
     let adminAccountId: Swift.String?
     let organizationId: Swift.String?
 }
@@ -10751,7 +10751,7 @@ extension AuditManagerClientTypes.Resource: Swift.Codable {
 
 extension AuditManagerClientTypes {
     /// A system asset that's evaluated in an Audit Manager assessment.
-    public struct Resource: Swift.Equatable {
+    public struct Resource {
         /// The Amazon Resource Name (ARN) for the resource.
         public var arn: Swift.String?
         /// The evaluation status for a resource that was assessed when collecting compliance check evidence.
@@ -10833,7 +10833,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -10884,7 +10884,7 @@ extension AuditManagerClientTypes.Role: Swift.Codable {
 
 extension AuditManagerClientTypes {
     /// The wrapper that contains the Audit Manager role information of the current user. This includes the role type and IAM Amazon Resource Name (ARN).
-    public struct Role: Swift.Equatable {
+    public struct Role {
         /// The Amazon Resource Name (ARN) of the IAM role.
         /// This member is required.
         public var roleArn: Swift.String?
@@ -10993,7 +10993,7 @@ extension AuditManagerClientTypes.Scope: Swift.CustomDebugStringConvertible {
 
 extension AuditManagerClientTypes {
     /// The wrapper that contains the Amazon Web Services accounts and services that are in scope for the assessment.
-    public struct Scope: Swift.Equatable {
+    public struct Scope {
         /// The Amazon Web Services accounts that are included in the scope of the assessment.
         public var awsAccounts: [AuditManagerClientTypes.AWSAccount]?
         /// The Amazon Web Services services that are included in the scope of the assessment.
@@ -11050,7 +11050,7 @@ extension AuditManagerClientTypes.ServiceMetadata: Swift.Codable {
 
 extension AuditManagerClientTypes {
     /// The metadata that's associated with the Amazon Web Service.
-    public struct ServiceMetadata: Swift.Equatable {
+    public struct ServiceMetadata {
         /// The category that the Amazon Web Service belongs to, such as compute, storage, or database.
         public var category: Swift.String?
         /// The description of the Amazon Web Service.
@@ -11116,7 +11116,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -11262,7 +11262,7 @@ extension AuditManagerClientTypes.Settings: Swift.CustomDebugStringConvertible {
 
 extension AuditManagerClientTypes {
     /// The settings object that holds all supported Audit Manager settings.
-    public struct Settings: Swift.Equatable {
+    public struct Settings {
         /// The default S3 destination bucket for storing assessment reports.
         public var defaultAssessmentReportsDestination: AuditManagerClientTypes.AssessmentReportsDestination?
         /// The default S3 destination bucket for storing evidence finder exports.
@@ -11491,7 +11491,7 @@ extension AuditManagerClientTypes {
     /// * [API calls supported by Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-api.html)
     ///
     /// * [CloudTrail event names supported by Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-cloudtrail.html)
-    public struct SourceKeyword: Swift.Equatable {
+    public struct SourceKeyword {
         /// The input method for the keyword.
         ///
         /// * SELECT_FROM_LIST is used when mapping a data source for automated evidence.
@@ -11667,7 +11667,7 @@ extension StartAssessmentFrameworkShareInput {
     }
 }
 
-public struct StartAssessmentFrameworkShareInput: Swift.Equatable {
+public struct StartAssessmentFrameworkShareInput {
     /// An optional comment from the sender about the share request.
     public var comment: Swift.String?
     /// The Amazon Web Services account of the recipient.
@@ -11694,7 +11694,7 @@ public struct StartAssessmentFrameworkShareInput: Swift.Equatable {
     }
 }
 
-struct StartAssessmentFrameworkShareInputBody: Swift.Equatable {
+struct StartAssessmentFrameworkShareInputBody {
     let destinationAccount: Swift.String?
     let destinationRegion: Swift.String?
     let comment: Swift.String?
@@ -11730,7 +11730,7 @@ extension StartAssessmentFrameworkShareOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct StartAssessmentFrameworkShareOutput: Swift.Equatable {
+public struct StartAssessmentFrameworkShareOutput {
     /// The share request that's created by the StartAssessmentFrameworkShare API.
     public var assessmentFrameworkShareRequest: AuditManagerClientTypes.AssessmentFrameworkShareRequest?
 
@@ -11742,7 +11742,7 @@ public struct StartAssessmentFrameworkShareOutput: Swift.Equatable {
     }
 }
 
-struct StartAssessmentFrameworkShareOutputBody: Swift.Equatable {
+struct StartAssessmentFrameworkShareOutputBody {
     let assessmentFrameworkShareRequest: AuditManagerClientTypes.AssessmentFrameworkShareRequest?
 }
 
@@ -11798,7 +11798,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -11816,7 +11816,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -11846,7 +11846,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -11904,7 +11904,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -11947,7 +11947,7 @@ extension AuditManagerClientTypes.URL: Swift.Codable {
 
 extension AuditManagerClientTypes {
     /// Short for uniform resource locator. A URL is used as a unique identifier to locate a resource on the internet.
-    public struct URL: Swift.Equatable {
+    public struct URL {
         /// The name or word that's used as a hyperlink to the URL.
         public var hyperlinkName: Swift.String?
         /// The unique identifier for the internet resource.
@@ -11991,7 +11991,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the specified resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -12009,7 +12009,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -12023,7 +12023,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -12079,7 +12079,7 @@ extension UpdateAssessmentControlInput {
     }
 }
 
-public struct UpdateAssessmentControlInput: Swift.Equatable {
+public struct UpdateAssessmentControlInput {
     /// The unique identifier for the assessment.
     /// This member is required.
     public var assessmentId: Swift.String?
@@ -12110,7 +12110,7 @@ public struct UpdateAssessmentControlInput: Swift.Equatable {
     }
 }
 
-struct UpdateAssessmentControlInputBody: Swift.Equatable {
+struct UpdateAssessmentControlInputBody {
     let controlStatus: AuditManagerClientTypes.ControlStatus?
     let commentBody: Swift.String?
 }
@@ -12142,7 +12142,7 @@ extension UpdateAssessmentControlOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAssessmentControlOutput: Swift.Equatable {
+public struct UpdateAssessmentControlOutput {
     /// The name of the updated control set that the UpdateAssessmentControl API returned.
     public var control: AuditManagerClientTypes.AssessmentControl?
 
@@ -12154,7 +12154,7 @@ public struct UpdateAssessmentControlOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAssessmentControlOutputBody: Swift.Equatable {
+struct UpdateAssessmentControlOutputBody {
     let control: AuditManagerClientTypes.AssessmentControl?
 }
 
@@ -12219,7 +12219,7 @@ extension UpdateAssessmentControlSetStatusInput {
     }
 }
 
-public struct UpdateAssessmentControlSetStatusInput: Swift.Equatable {
+public struct UpdateAssessmentControlSetStatusInput {
     /// The unique identifier for the assessment.
     /// This member is required.
     public var assessmentId: Swift.String?
@@ -12247,7 +12247,7 @@ public struct UpdateAssessmentControlSetStatusInput: Swift.Equatable {
     }
 }
 
-struct UpdateAssessmentControlSetStatusInputBody: Swift.Equatable {
+struct UpdateAssessmentControlSetStatusInputBody {
     let status: AuditManagerClientTypes.ControlSetStatus?
     let comment: Swift.String?
 }
@@ -12279,7 +12279,7 @@ extension UpdateAssessmentControlSetStatusOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct UpdateAssessmentControlSetStatusOutput: Swift.Equatable {
+public struct UpdateAssessmentControlSetStatusOutput {
     /// The name of the updated control set that the UpdateAssessmentControlSetStatus API returned.
     public var controlSet: AuditManagerClientTypes.AssessmentControlSet?
 
@@ -12291,7 +12291,7 @@ public struct UpdateAssessmentControlSetStatusOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAssessmentControlSetStatusOutputBody: Swift.Equatable {
+struct UpdateAssessmentControlSetStatusOutputBody {
     let controlSet: AuditManagerClientTypes.AssessmentControlSet?
 }
 
@@ -12366,7 +12366,7 @@ extension AuditManagerClientTypes.UpdateAssessmentFrameworkControlSet: Swift.Cod
 
 extension AuditManagerClientTypes {
     /// A controlSet entity that represents a collection of controls in Audit Manager. This doesn't contain the control set ID.
-    public struct UpdateAssessmentFrameworkControlSet: Swift.Equatable {
+    public struct UpdateAssessmentFrameworkControlSet {
         /// The list of controls that are contained within the control set.
         /// This member is required.
         public var controls: [AuditManagerClientTypes.CreateAssessmentFrameworkControl]?
@@ -12433,7 +12433,7 @@ extension UpdateAssessmentFrameworkInput {
     }
 }
 
-public struct UpdateAssessmentFrameworkInput: Swift.Equatable {
+public struct UpdateAssessmentFrameworkInput {
     /// The compliance type that the new custom framework supports, such as CIS or HIPAA.
     public var complianceType: Swift.String?
     /// The control sets that are associated with the framework.
@@ -12464,7 +12464,7 @@ public struct UpdateAssessmentFrameworkInput: Swift.Equatable {
     }
 }
 
-struct UpdateAssessmentFrameworkInputBody: Swift.Equatable {
+struct UpdateAssessmentFrameworkInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let complianceType: Swift.String?
@@ -12513,7 +12513,7 @@ extension UpdateAssessmentFrameworkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAssessmentFrameworkOutput: Swift.Equatable {
+public struct UpdateAssessmentFrameworkOutput {
     /// The name of the framework.
     public var framework: AuditManagerClientTypes.Framework?
 
@@ -12525,7 +12525,7 @@ public struct UpdateAssessmentFrameworkOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAssessmentFrameworkOutputBody: Swift.Equatable {
+struct UpdateAssessmentFrameworkOutputBody {
     let framework: AuditManagerClientTypes.Framework?
 }
 
@@ -12582,7 +12582,7 @@ extension UpdateAssessmentFrameworkShareInput {
     }
 }
 
-public struct UpdateAssessmentFrameworkShareInput: Swift.Equatable {
+public struct UpdateAssessmentFrameworkShareInput {
     /// Specifies the update action for the share request.
     /// This member is required.
     public var action: AuditManagerClientTypes.ShareRequestAction?
@@ -12605,7 +12605,7 @@ public struct UpdateAssessmentFrameworkShareInput: Swift.Equatable {
     }
 }
 
-struct UpdateAssessmentFrameworkShareInputBody: Swift.Equatable {
+struct UpdateAssessmentFrameworkShareInputBody {
     let requestType: AuditManagerClientTypes.ShareRequestType?
     let action: AuditManagerClientTypes.ShareRequestAction?
 }
@@ -12637,7 +12637,7 @@ extension UpdateAssessmentFrameworkShareOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct UpdateAssessmentFrameworkShareOutput: Swift.Equatable {
+public struct UpdateAssessmentFrameworkShareOutput {
     /// The updated share request that's returned by the UpdateAssessmentFrameworkShare operation.
     public var assessmentFrameworkShareRequest: AuditManagerClientTypes.AssessmentFrameworkShareRequest?
 
@@ -12649,7 +12649,7 @@ public struct UpdateAssessmentFrameworkShareOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAssessmentFrameworkShareOutputBody: Swift.Equatable {
+struct UpdateAssessmentFrameworkShareOutputBody {
     let assessmentFrameworkShareRequest: AuditManagerClientTypes.AssessmentFrameworkShareRequest?
 }
 
@@ -12727,7 +12727,7 @@ extension UpdateAssessmentInput {
     }
 }
 
-public struct UpdateAssessmentInput: Swift.Equatable {
+public struct UpdateAssessmentInput {
     /// The description of the assessment.
     public var assessmentDescription: Swift.String?
     /// The unique identifier for the assessment.
@@ -12761,7 +12761,7 @@ public struct UpdateAssessmentInput: Swift.Equatable {
     }
 }
 
-struct UpdateAssessmentInputBody: Swift.Equatable {
+struct UpdateAssessmentInputBody {
     let assessmentName: Swift.String?
     let assessmentDescription: Swift.String?
     let scope: AuditManagerClientTypes.Scope?
@@ -12814,7 +12814,7 @@ extension UpdateAssessmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAssessmentOutput: Swift.Equatable {
+public struct UpdateAssessmentOutput {
     /// The response object for the UpdateAssessment API. This is the name of the updated assessment.
     public var assessment: AuditManagerClientTypes.Assessment?
 
@@ -12826,7 +12826,7 @@ public struct UpdateAssessmentOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAssessmentOutputBody: Swift.Equatable {
+struct UpdateAssessmentOutputBody {
     let assessment: AuditManagerClientTypes.Assessment?
 }
 
@@ -12879,7 +12879,7 @@ extension UpdateAssessmentStatusInput {
     }
 }
 
-public struct UpdateAssessmentStatusInput: Swift.Equatable {
+public struct UpdateAssessmentStatusInput {
     /// The unique identifier for the assessment.
     /// This member is required.
     public var assessmentId: Swift.String?
@@ -12897,7 +12897,7 @@ public struct UpdateAssessmentStatusInput: Swift.Equatable {
     }
 }
 
-struct UpdateAssessmentStatusInputBody: Swift.Equatable {
+struct UpdateAssessmentStatusInputBody {
     let status: AuditManagerClientTypes.AssessmentStatus?
 }
 
@@ -12925,7 +12925,7 @@ extension UpdateAssessmentStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAssessmentStatusOutput: Swift.Equatable {
+public struct UpdateAssessmentStatusOutput {
     /// The name of the updated assessment that the UpdateAssessmentStatus API returned.
     public var assessment: AuditManagerClientTypes.Assessment?
 
@@ -12937,7 +12937,7 @@ public struct UpdateAssessmentStatusOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAssessmentStatusOutputBody: Swift.Equatable {
+struct UpdateAssessmentStatusOutputBody {
     let assessment: AuditManagerClientTypes.Assessment?
 }
 
@@ -13019,7 +13019,7 @@ extension UpdateControlInput {
     }
 }
 
-public struct UpdateControlInput: Swift.Equatable {
+public struct UpdateControlInput {
     /// The recommended actions to carry out if the control isn't fulfilled.
     public var actionPlanInstructions: Swift.String?
     /// The title of the action plan for remediating the control.
@@ -13058,7 +13058,7 @@ public struct UpdateControlInput: Swift.Equatable {
     }
 }
 
-struct UpdateControlInputBody: Swift.Equatable {
+struct UpdateControlInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let testingInformation: Swift.String?
@@ -13115,7 +13115,7 @@ extension UpdateControlOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateControlOutput: Swift.Equatable {
+public struct UpdateControlOutput {
     /// The name of the updated control set that the UpdateControl API returned.
     public var control: AuditManagerClientTypes.Control?
 
@@ -13127,7 +13127,7 @@ public struct UpdateControlOutput: Swift.Equatable {
     }
 }
 
-struct UpdateControlOutputBody: Swift.Equatable {
+struct UpdateControlOutputBody {
     let control: AuditManagerClientTypes.Control?
 }
 
@@ -13209,7 +13209,7 @@ extension UpdateSettingsInput {
     }
 }
 
-public struct UpdateSettingsInput: Swift.Equatable {
+public struct UpdateSettingsInput {
     /// The default S3 destination bucket for storing assessment reports.
     public var defaultAssessmentReportsDestination: AuditManagerClientTypes.AssessmentReportsDestination?
     /// The default S3 destination bucket for storing evidence finder exports.
@@ -13245,7 +13245,7 @@ public struct UpdateSettingsInput: Swift.Equatable {
     }
 }
 
-struct UpdateSettingsInputBody: Swift.Equatable {
+struct UpdateSettingsInputBody {
     let snsTopic: Swift.String?
     let defaultAssessmentReportsDestination: AuditManagerClientTypes.AssessmentReportsDestination?
     let defaultProcessOwners: [AuditManagerClientTypes.Role]?
@@ -13306,7 +13306,7 @@ extension UpdateSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSettingsOutput: Swift.Equatable {
+public struct UpdateSettingsOutput {
     /// The current list of settings.
     public var settings: AuditManagerClientTypes.Settings?
 
@@ -13318,7 +13318,7 @@ public struct UpdateSettingsOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSettingsOutputBody: Swift.Equatable {
+struct UpdateSettingsOutputBody {
     let settings: AuditManagerClientTypes.Settings?
 }
 
@@ -13367,7 +13367,7 @@ extension ValidateAssessmentReportIntegrityInput {
     }
 }
 
-public struct ValidateAssessmentReportIntegrityInput: Swift.Equatable {
+public struct ValidateAssessmentReportIntegrityInput {
     /// The relative path of the Amazon S3 bucket that the assessment report is stored in.
     /// This member is required.
     public var s3RelativePath: Swift.String?
@@ -13380,7 +13380,7 @@ public struct ValidateAssessmentReportIntegrityInput: Swift.Equatable {
     }
 }
 
-struct ValidateAssessmentReportIntegrityInputBody: Swift.Equatable {
+struct ValidateAssessmentReportIntegrityInputBody {
     let s3RelativePath: Swift.String?
 }
 
@@ -13416,7 +13416,7 @@ extension ValidateAssessmentReportIntegrityOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct ValidateAssessmentReportIntegrityOutput: Swift.Equatable {
+public struct ValidateAssessmentReportIntegrityOutput {
     /// The signature algorithm that's used to code sign the assessment report file.
     public var signatureAlgorithm: Swift.String?
     /// The date and time signature that specifies when the assessment report was created.
@@ -13444,7 +13444,7 @@ public struct ValidateAssessmentReportIntegrityOutput: Swift.Equatable {
     }
 }
 
-struct ValidateAssessmentReportIntegrityOutputBody: Swift.Equatable {
+struct ValidateAssessmentReportIntegrityOutputBody {
     let signatureValid: Swift.Bool?
     let signatureAlgorithm: Swift.String?
     let signatureDateTime: Swift.String?
@@ -13551,7 +13551,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let reason: AuditManagerClientTypes.ValidationExceptionReason?
     let fields: [AuditManagerClientTypes.ValidationExceptionField]?
@@ -13611,7 +13611,7 @@ extension AuditManagerClientTypes.ValidationExceptionField: Swift.Codable {
 
 extension AuditManagerClientTypes {
     /// Indicates that the request has invalid or missing parameters for the field.
-    public struct ValidationExceptionField: Swift.Equatable {
+    public struct ValidationExceptionField {
         /// The body of the error message.
         /// This member is required.
         public var message: Swift.String?

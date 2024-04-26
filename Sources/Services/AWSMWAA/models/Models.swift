@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -67,7 +67,7 @@ extension CreateCliTokenInput {
     }
 }
 
-public struct CreateCliTokenInput: Swift.Equatable {
+public struct CreateCliTokenInput {
     /// The name of the Amazon MWAA environment. For example, MyMWAAEnvironment.
     /// This member is required.
     public var name: Swift.String?
@@ -80,7 +80,7 @@ public struct CreateCliTokenInput: Swift.Equatable {
     }
 }
 
-struct CreateCliTokenInputBody: Swift.Equatable {
+struct CreateCliTokenInputBody {
 }
 
 extension CreateCliTokenInputBody: Swift.Decodable {
@@ -108,7 +108,7 @@ extension CreateCliTokenOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateCliTokenOutput: Swift.Equatable {
+public struct CreateCliTokenOutput {
     /// An Airflow CLI login token.
     public var cliToken: Swift.String?
     /// The Airflow web server hostname for the environment.
@@ -124,7 +124,7 @@ public struct CreateCliTokenOutput: Swift.Equatable {
     }
 }
 
-struct CreateCliTokenOutputBody: Swift.Equatable {
+struct CreateCliTokenOutputBody {
     let cliToken: Swift.String?
     let webServerHostname: Swift.String?
 }
@@ -274,7 +274,7 @@ extension CreateEnvironmentInput {
 }
 
 /// This section contains the Amazon Managed Workflows for Apache Airflow (MWAA) API reference documentation to create an environment. For more information, see [Get started with Amazon Managed Workflows for Apache Airflow](https://docs.aws.amazon.com/mwaa/latest/userguide/get-started.html).
-public struct CreateEnvironmentInput: Swift.Equatable {
+public struct CreateEnvironmentInput {
     /// A list of key-value pairs containing the Apache Airflow configuration options you want to attach to your environment. For more information, see [Apache Airflow configuration options](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-env-variables.html).
     public var airflowConfigurationOptions: [Swift.String:Swift.String]?
     /// The Apache Airflow version for your environment. If no value is specified, it defaults to the latest version. For more information, see [Apache Airflow versions on Amazon Managed Workflows for Apache Airflow (MWAA)](https://docs.aws.amazon.com/mwaa/latest/userguide/airflow-versions.html). Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2
@@ -384,7 +384,7 @@ public struct CreateEnvironmentInput: Swift.Equatable {
     }
 }
 
-struct CreateEnvironmentInputBody: Swift.Equatable {
+struct CreateEnvironmentInputBody {
     let executionRoleArn: Swift.String?
     let sourceBucketArn: Swift.String?
     let dagS3Path: Swift.String?
@@ -514,7 +514,7 @@ extension CreateEnvironmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateEnvironmentOutput: Swift.Equatable {
+public struct CreateEnvironmentOutput {
     /// The Amazon Resource Name (ARN) returned in the response for the environment.
     public var arn: Swift.String?
 
@@ -526,7 +526,7 @@ public struct CreateEnvironmentOutput: Swift.Equatable {
     }
 }
 
-struct CreateEnvironmentOutputBody: Swift.Equatable {
+struct CreateEnvironmentOutputBody {
     let arn: Swift.String?
 }
 
@@ -564,7 +564,7 @@ extension CreateWebLoginTokenInput {
     }
 }
 
-public struct CreateWebLoginTokenInput: Swift.Equatable {
+public struct CreateWebLoginTokenInput {
     /// The name of the Amazon MWAA environment. For example, MyMWAAEnvironment.
     /// This member is required.
     public var name: Swift.String?
@@ -577,7 +577,7 @@ public struct CreateWebLoginTokenInput: Swift.Equatable {
     }
 }
 
-struct CreateWebLoginTokenInputBody: Swift.Equatable {
+struct CreateWebLoginTokenInputBody {
 }
 
 extension CreateWebLoginTokenInputBody: Swift.Decodable {
@@ -609,7 +609,7 @@ extension CreateWebLoginTokenOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateWebLoginTokenOutput: Swift.Equatable {
+public struct CreateWebLoginTokenOutput {
     /// The user name of the Apache Airflow identity creating the web login token.
     public var airflowIdentity: Swift.String?
     /// The name of the IAM identity creating the web login token. This might be an IAM user, or an assumed or federated identity. For example, assumed-role/Admin/your-name.
@@ -633,7 +633,7 @@ public struct CreateWebLoginTokenOutput: Swift.Equatable {
     }
 }
 
-struct CreateWebLoginTokenOutputBody: Swift.Equatable {
+struct CreateWebLoginTokenOutputBody {
     let webToken: Swift.String?
     let webServerHostname: Swift.String?
     let iamIdentity: Swift.String?
@@ -685,7 +685,7 @@ extension DeleteEnvironmentInput {
     }
 }
 
-public struct DeleteEnvironmentInput: Swift.Equatable {
+public struct DeleteEnvironmentInput {
     /// The name of the Amazon MWAA environment. For example, MyMWAAEnvironment.
     /// This member is required.
     public var name: Swift.String?
@@ -698,7 +698,7 @@ public struct DeleteEnvironmentInput: Swift.Equatable {
     }
 }
 
-struct DeleteEnvironmentInputBody: Swift.Equatable {
+struct DeleteEnvironmentInputBody {
 }
 
 extension DeleteEnvironmentInputBody: Swift.Decodable {
@@ -712,7 +712,7 @@ extension DeleteEnvironmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteEnvironmentOutput: Swift.Equatable {
+public struct DeleteEnvironmentOutput {
 
     public init() { }
 }
@@ -758,7 +758,7 @@ extension MWAAClientTypes.Dimension: Swift.Codable {
 extension MWAAClientTypes {
     /// Internal only. Represents the dimensions of a metric. To learn more about the metrics published to Amazon CloudWatch, see [Amazon MWAA performance metrics in Amazon CloudWatch](https://docs.aws.amazon.com/mwaa/latest/userguide/cw-metrics.html).
     @available(*, deprecated, message: "This type is for internal use and not meant for public use. Data set for this type will be ignored.")
-    public struct Dimension: Swift.Equatable {
+    public struct Dimension {
         /// Internal only. The name of the dimension.
         /// This member is required.
         public var name: Swift.String?
@@ -1046,7 +1046,7 @@ extension MWAAClientTypes.Environment: Swift.CustomDebugStringConvertible {
 
 extension MWAAClientTypes {
     /// Describes an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
-    public struct Environment: Swift.Equatable {
+    public struct Environment {
         /// A list of key-value pairs containing the Apache Airflow configuration options attached to your environment. For more information, see [Apache Airflow configuration options](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-env-variables.html).
         public var airflowConfigurationOptions: [Swift.String:Swift.String]?
         /// The Apache Airflow version on your environment. Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2.
@@ -1283,7 +1283,7 @@ extension GetEnvironmentInput {
     }
 }
 
-public struct GetEnvironmentInput: Swift.Equatable {
+public struct GetEnvironmentInput {
     /// The name of the Amazon MWAA environment. For example, MyMWAAEnvironment.
     /// This member is required.
     public var name: Swift.String?
@@ -1296,7 +1296,7 @@ public struct GetEnvironmentInput: Swift.Equatable {
     }
 }
 
-struct GetEnvironmentInputBody: Swift.Equatable {
+struct GetEnvironmentInputBody {
 }
 
 extension GetEnvironmentInputBody: Swift.Decodable {
@@ -1317,7 +1317,7 @@ extension GetEnvironmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEnvironmentOutput: Swift.Equatable {
+public struct GetEnvironmentOutput {
     /// An object containing all available details about the environment.
     public var environment: MWAAClientTypes.Environment?
 
@@ -1329,7 +1329,7 @@ public struct GetEnvironmentOutput: Swift.Equatable {
     }
 }
 
-struct GetEnvironmentOutputBody: Swift.Equatable {
+struct GetEnvironmentOutputBody {
     let environment: MWAAClientTypes.Environment?
 }
 
@@ -1397,7 +1397,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -1452,7 +1452,7 @@ extension MWAAClientTypes.LastUpdate: Swift.Codable {
 
 extension MWAAClientTypes {
     /// Describes the status of the last update on the environment, and any errors that were encountered.
-    public struct LastUpdate: Swift.Equatable {
+    public struct LastUpdate {
         /// The day and time of the last update on the environment.
         public var createdAt: ClientRuntime.Date?
         /// The error that was encountered during the last update of the environment.
@@ -1501,7 +1501,7 @@ extension ListEnvironmentsInput {
     }
 }
 
-public struct ListEnvironmentsInput: Swift.Equatable {
+public struct ListEnvironmentsInput {
     /// The maximum number of results to retrieve per page. For example, 5 environments per page.
     public var maxResults: Swift.Int?
     /// Retrieves the next page of the results.
@@ -1517,7 +1517,7 @@ public struct ListEnvironmentsInput: Swift.Equatable {
     }
 }
 
-struct ListEnvironmentsInputBody: Swift.Equatable {
+struct ListEnvironmentsInputBody {
 }
 
 extension ListEnvironmentsInputBody: Swift.Decodable {
@@ -1540,7 +1540,7 @@ extension ListEnvironmentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEnvironmentsOutput: Swift.Equatable {
+public struct ListEnvironmentsOutput {
     /// Returns a list of Amazon MWAA environments.
     /// This member is required.
     public var environments: [Swift.String]?
@@ -1557,7 +1557,7 @@ public struct ListEnvironmentsOutput: Swift.Equatable {
     }
 }
 
-struct ListEnvironmentsOutputBody: Swift.Equatable {
+struct ListEnvironmentsOutputBody {
     let environments: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -1608,7 +1608,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the Amazon MWAA environment. For example, arn:aws:airflow:us-east-1:123456789012:environment/MyMWAAEnvironment.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -1621,7 +1621,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -1642,7 +1642,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The key-value tag pairs associated to your environment. For more information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
     public var tags: [Swift.String:Swift.String]?
 
@@ -1654,7 +1654,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -1737,7 +1737,7 @@ extension MWAAClientTypes.LoggingConfiguration: Swift.Codable {
 
 extension MWAAClientTypes {
     /// Describes the Apache Airflow log types that are published to CloudWatch Logs.
-    public struct LoggingConfiguration: Swift.Equatable {
+    public struct LoggingConfiguration {
         /// The Airflow DAG processing logs published to CloudWatch Logs and the log level.
         public var dagProcessingLogs: MWAAClientTypes.ModuleLoggingConfiguration?
         /// The Airflow scheduler logs published to CloudWatch Logs and the log level.
@@ -1812,7 +1812,7 @@ extension MWAAClientTypes.LoggingConfigurationInput: Swift.Codable {
 
 extension MWAAClientTypes {
     /// Defines the Apache Airflow log types to send to CloudWatch Logs.
-    public struct LoggingConfigurationInput: Swift.Equatable {
+    public struct LoggingConfigurationInput {
         /// Publishes Airflow DAG processing logs to CloudWatch Logs.
         public var dagProcessingLogs: MWAAClientTypes.ModuleLoggingConfigurationInput?
         /// Publishes Airflow scheduler logs to CloudWatch Logs.
@@ -1949,7 +1949,7 @@ extension MWAAClientTypes.MetricDatum: Swift.Codable {
 extension MWAAClientTypes {
     /// Internal only. Collects Apache Airflow metrics. To learn more about the metrics published to Amazon CloudWatch, see [Amazon MWAA performance metrics in Amazon CloudWatch](https://docs.aws.amazon.com/mwaa/latest/userguide/cw-metrics.html).
     @available(*, deprecated, message: "This type is for internal use and not meant for public use. Data set for this type will be ignored.")
-    public struct MetricDatum: Swift.Equatable {
+    public struct MetricDatum {
         /// Internal only. The dimensions associated with the metric.
         @available(*, deprecated, message: "This type is for internal use and not meant for public use. Data set for this type will be ignored.")
         public var dimensions: [MWAAClientTypes.Dimension]?
@@ -2020,7 +2020,7 @@ extension MWAAClientTypes.ModuleLoggingConfiguration: Swift.Codable {
 
 extension MWAAClientTypes {
     /// Describes the Apache Airflow log details for the log type (e.g. DagProcessingLogs).
-    public struct ModuleLoggingConfiguration: Swift.Equatable {
+    public struct ModuleLoggingConfiguration {
         /// The Amazon Resource Name (ARN) for the CloudWatch Logs group where the Apache Airflow log type (e.g. DagProcessingLogs) is published. For example, arn:aws:logs:us-east-1:123456789012:log-group:airflow-MyMWAAEnvironment-MwaaEnvironment-DAGProcessing:*.
         public var cloudWatchLogGroupArn: Swift.String?
         /// Indicates whether the Apache Airflow log type (e.g. DagProcessingLogs) is enabled.
@@ -2069,7 +2069,7 @@ extension MWAAClientTypes.ModuleLoggingConfigurationInput: Swift.Codable {
 
 extension MWAAClientTypes {
     /// Enables the Apache Airflow log type (e.g. DagProcessingLogs) and defines the log level to send to CloudWatch Logs (e.g. INFO).
-    public struct ModuleLoggingConfigurationInput: Swift.Equatable {
+    public struct ModuleLoggingConfigurationInput {
         /// Indicates whether to enable the Apache Airflow log type (e.g. DagProcessingLogs).
         /// This member is required.
         public var enabled: Swift.Bool?
@@ -2140,7 +2140,7 @@ extension MWAAClientTypes.NetworkConfiguration: Swift.Codable {
 
 extension MWAAClientTypes {
     /// Describes the VPC networking components used to secure and enable network traffic between the Amazon Web Services resources for your environment. For more information, see [About networking on Amazon MWAA](https://docs.aws.amazon.com/mwaa/latest/userguide/networking-about.html).
-    public struct NetworkConfiguration: Swift.Equatable {
+    public struct NetworkConfiguration {
         /// A list of security group IDs. For more information, see [Security in your VPC on Amazon MWAA](https://docs.aws.amazon.com/mwaa/latest/userguide/vpc-security.html).
         public var securityGroupIds: [Swift.String]?
         /// A list of subnet IDs. For more information, see [About networking on Amazon MWAA](https://docs.aws.amazon.com/mwaa/latest/userguide/networking-about.html).
@@ -2185,7 +2185,7 @@ extension PublishMetricsInput {
 }
 
 @available(*, deprecated, message: "This type is for internal use and not meant for public use. Data set for this type will be ignored.")
-public struct PublishMetricsInput: Swift.Equatable {
+public struct PublishMetricsInput {
     /// Internal only. The name of the environment.
     /// This member is required.
     public var environmentName: Swift.String?
@@ -2204,7 +2204,7 @@ public struct PublishMetricsInput: Swift.Equatable {
     }
 }
 
-struct PublishMetricsInputBody: Swift.Equatable {
+struct PublishMetricsInputBody {
     let metricData: [MWAAClientTypes.MetricDatum]?
 }
 
@@ -2235,7 +2235,7 @@ extension PublishMetricsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 @available(*, deprecated, message: "This type is for internal use and not meant for public use. Data set for this type will be ignored.")
-public struct PublishMetricsOutput: Swift.Equatable {
+public struct PublishMetricsOutput {
 
     public init() { }
 }
@@ -2291,7 +2291,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -2347,7 +2347,7 @@ extension MWAAClientTypes.StatisticSet: Swift.Codable {
 extension MWAAClientTypes {
     /// Internal only. Represents a set of statistics that describe a specific metric. To learn more about the metrics published to Amazon CloudWatch, see [Amazon MWAA performance metrics in Amazon CloudWatch](https://docs.aws.amazon.com/mwaa/latest/userguide/cw-metrics.html).
     @available(*, deprecated, message: "This type is for internal use and not meant for public use. Data set for this type will be ignored.")
-    public struct StatisticSet: Swift.Equatable {
+    public struct StatisticSet {
         /// Internal only. The maximum value of the sample set.
         public var maximum: Swift.Double?
         /// Internal only. The minimum value of the sample set.
@@ -2399,7 +2399,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the Amazon MWAA environment. For example, arn:aws:airflow:us-east-1:123456789012:environment/MyMWAAEnvironment.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2417,7 +2417,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -2447,7 +2447,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -2598,7 +2598,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the Amazon MWAA environment. For example, arn:aws:airflow:us-east-1:123456789012:environment/MyMWAAEnvironment.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2616,7 +2616,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -2630,7 +2630,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -2751,7 +2751,7 @@ extension UpdateEnvironmentInput {
     }
 }
 
-public struct UpdateEnvironmentInput: Swift.Equatable {
+public struct UpdateEnvironmentInput {
     /// A list of key-value pairs containing the Apache Airflow configuration options you want to attach to your environment. For more information, see [Apache Airflow configuration options](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-env-variables.html).
     public var airflowConfigurationOptions: [Swift.String:Swift.String]?
     /// The Apache Airflow version for your environment. To upgrade your environment, specify a newer version of Apache Airflow supported by Amazon MWAA. Before you upgrade an environment, make sure your requirements, DAGs, plugins, and other resources used in your workflows are compatible with the new Apache Airflow version. For more information about updating your resources, see [Upgrading an Amazon MWAA environment](https://docs.aws.amazon.com/mwaa/latest/userguide/upgrading-environment.html). Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2.
@@ -2840,7 +2840,7 @@ public struct UpdateEnvironmentInput: Swift.Equatable {
     }
 }
 
-struct UpdateEnvironmentInputBody: Swift.Equatable {
+struct UpdateEnvironmentInputBody {
     let executionRoleArn: Swift.String?
     let airflowVersion: Swift.String?
     let sourceBucketArn: Swift.String?
@@ -2949,7 +2949,7 @@ extension UpdateEnvironmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateEnvironmentOutput: Swift.Equatable {
+public struct UpdateEnvironmentOutput {
     /// The Amazon Resource Name (ARN) of the Amazon MWAA environment. For example, arn:aws:airflow:us-east-1:123456789012:environment/MyMWAAEnvironment.
     public var arn: Swift.String?
 
@@ -2961,7 +2961,7 @@ public struct UpdateEnvironmentOutput: Swift.Equatable {
     }
 }
 
-struct UpdateEnvironmentOutputBody: Swift.Equatable {
+struct UpdateEnvironmentOutputBody {
     let arn: Swift.String?
 }
 
@@ -3017,7 +3017,7 @@ extension MWAAClientTypes.UpdateError: Swift.Codable {
 
 extension MWAAClientTypes {
     /// Describes the error(s) encountered with the last update of the environment.
-    public struct UpdateError: Swift.Equatable {
+    public struct UpdateError {
         /// The error code that corresponds to the error with the last update.
         public var errorCode: Swift.String?
         /// The error message that corresponds to the error code.
@@ -3068,7 +3068,7 @@ extension MWAAClientTypes.UpdateNetworkConfigurationInput: Swift.Codable {
 
 extension MWAAClientTypes {
     /// Defines the VPC networking components used to secure and enable network traffic between the Amazon Web Services resources for your environment. For more information, see [About networking on Amazon MWAA](https://docs.aws.amazon.com/mwaa/latest/userguide/networking-about.html).
-    public struct UpdateNetworkConfigurationInput: Swift.Equatable {
+    public struct UpdateNetworkConfigurationInput {
         /// A list of security group IDs. A security group must be attached to the same VPC as the subnets. For more information, see [Security in your VPC on Amazon MWAA](https://docs.aws.amazon.com/mwaa/latest/userguide/vpc-security.html).
         /// This member is required.
         public var securityGroupIds: [Swift.String]?
@@ -3157,7 +3157,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

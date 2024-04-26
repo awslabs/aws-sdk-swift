@@ -47,7 +47,7 @@ extension ElasticInferenceClientTypes.AcceleratorType: Swift.Codable {
 
 extension ElasticInferenceClientTypes {
     /// The details of an Elastic Inference Accelerator type.
-    public struct AcceleratorType: Swift.Equatable {
+    public struct AcceleratorType {
         /// The name of the Elastic Inference Accelerator type.
         public var acceleratorTypeName: Swift.String?
         /// The memory information of the Elastic Inference Accelerator type.
@@ -102,7 +102,7 @@ extension ElasticInferenceClientTypes.AcceleratorTypeOffering: Swift.Codable {
 
 extension ElasticInferenceClientTypes {
     /// The offering for an Elastic Inference Accelerator type.
-    public struct AcceleratorTypeOffering: Swift.Equatable {
+    public struct AcceleratorTypeOffering {
         /// The name of the Elastic Inference Accelerator type.
         public var acceleratorType: Swift.String?
         /// The location for the offering. It will return either the region, availability zone or availability zone id for the offering depending on the locationType value.
@@ -163,7 +163,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct BadRequestExceptionBody: Swift.Equatable {
+struct BadRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -206,7 +206,7 @@ extension DescribeAcceleratorOfferingsInput {
     }
 }
 
-public struct DescribeAcceleratorOfferingsInput: Swift.Equatable {
+public struct DescribeAcceleratorOfferingsInput {
     /// The list of accelerator types to describe.
     public var acceleratorTypes: [Swift.String]?
     /// The location type that you want to describe accelerator type offerings for. It can assume the following values: region: will return the accelerator type offering at the regional level. availability-zone: will return the accelerator type offering at the availability zone level. availability-zone-id: will return the accelerator type offering at the availability zone level returning the availability zone id.
@@ -223,7 +223,7 @@ public struct DescribeAcceleratorOfferingsInput: Swift.Equatable {
     }
 }
 
-struct DescribeAcceleratorOfferingsInputBody: Swift.Equatable {
+struct DescribeAcceleratorOfferingsInputBody {
     let locationType: ElasticInferenceClientTypes.LocationType?
     let acceleratorTypes: [Swift.String]?
 }
@@ -264,7 +264,7 @@ extension DescribeAcceleratorOfferingsOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DescribeAcceleratorOfferingsOutput: Swift.Equatable {
+public struct DescribeAcceleratorOfferingsOutput {
     /// The list of accelerator type offerings for a specific location.
     public var acceleratorTypeOfferings: [ElasticInferenceClientTypes.AcceleratorTypeOffering]?
 
@@ -276,7 +276,7 @@ public struct DescribeAcceleratorOfferingsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAcceleratorOfferingsOutputBody: Swift.Equatable {
+struct DescribeAcceleratorOfferingsOutputBody {
     let acceleratorTypeOfferings: [ElasticInferenceClientTypes.AcceleratorTypeOffering]?
 }
 
@@ -321,12 +321,12 @@ extension DescribeAcceleratorTypesInput {
     }
 }
 
-public struct DescribeAcceleratorTypesInput: Swift.Equatable {
+public struct DescribeAcceleratorTypesInput {
 
     public init() { }
 }
 
-struct DescribeAcceleratorTypesInputBody: Swift.Equatable {
+struct DescribeAcceleratorTypesInputBody {
 }
 
 extension DescribeAcceleratorTypesInputBody: Swift.Decodable {
@@ -347,7 +347,7 @@ extension DescribeAcceleratorTypesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAcceleratorTypesOutput: Swift.Equatable {
+public struct DescribeAcceleratorTypesOutput {
     /// The available accelerator types.
     public var acceleratorTypes: [ElasticInferenceClientTypes.AcceleratorType]?
 
@@ -359,7 +359,7 @@ public struct DescribeAcceleratorTypesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAcceleratorTypesOutputBody: Swift.Equatable {
+struct DescribeAcceleratorTypesOutputBody {
     let acceleratorTypes: [ElasticInferenceClientTypes.AcceleratorType]?
 }
 
@@ -433,7 +433,7 @@ extension DescribeAcceleratorsInput {
     }
 }
 
-public struct DescribeAcceleratorsInput: Swift.Equatable {
+public struct DescribeAcceleratorsInput {
     /// The IDs of the accelerators to describe.
     public var acceleratorIds: [Swift.String]?
     /// One or more filters. Filter names and values are case-sensitive. Valid filter names are: accelerator-types: can provide a list of accelerator type names to filter for. instance-id: can provide a list of EC2 instance ids to filter for.
@@ -457,7 +457,7 @@ public struct DescribeAcceleratorsInput: Swift.Equatable {
     }
 }
 
-struct DescribeAcceleratorsInputBody: Swift.Equatable {
+struct DescribeAcceleratorsInputBody {
     let acceleratorIds: [Swift.String]?
     let filters: [ElasticInferenceClientTypes.Filter]?
     let maxResults: Swift.Int?
@@ -517,7 +517,7 @@ extension DescribeAcceleratorsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAcceleratorsOutput: Swift.Equatable {
+public struct DescribeAcceleratorsOutput {
     /// The details of the Elastic Inference Accelerators.
     public var acceleratorSet: [ElasticInferenceClientTypes.ElasticInferenceAccelerator]?
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response.
@@ -533,7 +533,7 @@ public struct DescribeAcceleratorsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAcceleratorsOutputBody: Swift.Equatable {
+struct DescribeAcceleratorsOutputBody {
     let acceleratorSet: [ElasticInferenceClientTypes.ElasticInferenceAccelerator]?
     let nextToken: Swift.String?
 }
@@ -620,7 +620,7 @@ extension ElasticInferenceClientTypes.ElasticInferenceAccelerator: Swift.Codable
 
 extension ElasticInferenceClientTypes {
     /// The details of an Elastic Inference Accelerator.
-    public struct ElasticInferenceAccelerator: Swift.Equatable {
+    public struct ElasticInferenceAccelerator {
         /// The health of the Elastic Inference Accelerator.
         public var acceleratorHealth: ElasticInferenceClientTypes.ElasticInferenceAcceleratorHealth?
         /// The ID of the Elastic Inference Accelerator.
@@ -671,7 +671,7 @@ extension ElasticInferenceClientTypes.ElasticInferenceAcceleratorHealth: Swift.C
 
 extension ElasticInferenceClientTypes {
     /// The health details of an Elastic Inference Accelerator.
-    public struct ElasticInferenceAcceleratorHealth: Swift.Equatable {
+    public struct ElasticInferenceAcceleratorHealth {
         /// The health status of the Elastic Inference Accelerator.
         public var status: Swift.String?
 
@@ -726,7 +726,7 @@ extension ElasticInferenceClientTypes.Filter: Swift.Codable {
 
 extension ElasticInferenceClientTypes {
     /// A filter expression for the Elastic Inference Accelerator list.
-    public struct Filter: Swift.Equatable {
+    public struct Filter {
         /// The filter name for the Elastic Inference Accelerator list. It can assume the following values: accelerator-type: the type of Elastic Inference Accelerator to filter for. instance-id: an EC2 instance id to filter for.
         public var name: Swift.String?
         /// The values for the filter of the Elastic Inference Accelerator list.
@@ -783,7 +783,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -826,7 +826,7 @@ extension ElasticInferenceClientTypes.KeyValuePair: Swift.Codable {
 
 extension ElasticInferenceClientTypes {
     /// A throughput entry for an Elastic Inference Accelerator type.
-    public struct KeyValuePair: Swift.Equatable {
+    public struct KeyValuePair {
         /// The throughput value of the Elastic Inference Accelerator type. It can assume the following values: TFLOPS16bit: the throughput expressed in 16bit TeraFLOPS. TFLOPS32bit: the throughput expressed in 32bit TeraFLOPS.
         public var key: Swift.String?
         /// The throughput value of the Elastic Inference Accelerator type.
@@ -854,7 +854,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The ARN of the Elastic Inference Accelerator to list the tags for.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -867,7 +867,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -888,7 +888,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The tags of the Elastic Inference Accelerator.
     public var tags: [Swift.String:Swift.String]?
 
@@ -900,7 +900,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -994,7 +994,7 @@ extension ElasticInferenceClientTypes.MemoryInfo: Swift.Codable {
 
 extension ElasticInferenceClientTypes {
     /// The memory information of an Elastic Inference Accelerator type.
-    public struct MemoryInfo: Swift.Equatable {
+    public struct MemoryInfo {
         /// The size in mebibytes of the Elastic Inference Accelerator type.
         public var sizeInMiB: Swift.Int
 
@@ -1047,7 +1047,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -1089,7 +1089,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The ARN of the Elastic Inference Accelerator to tag.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -1107,7 +1107,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -1137,7 +1137,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -1181,7 +1181,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The ARN of the Elastic Inference Accelerator to untag.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -1199,7 +1199,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -1213,7 +1213,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }

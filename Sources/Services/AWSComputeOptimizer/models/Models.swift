@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -96,7 +96,7 @@ extension ComputeOptimizerClientTypes.AccountEnrollmentStatus: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// Describes the enrollment status of an organization's member accounts in Compute Optimizer.
-    public struct AccountEnrollmentStatus: Swift.Equatable {
+    public struct AccountEnrollmentStatus {
         /// The Amazon Web Services account ID.
         public var accountId: Swift.String?
         /// The Unix epoch timestamp, in seconds, of when the account enrollment status was last updated.
@@ -193,7 +193,7 @@ extension ComputeOptimizerClientTypes.AutoScalingGroupConfiguration: Swift.Codab
 
 extension ComputeOptimizerClientTypes {
     /// Describes the configuration of an Auto Scaling group.
-    public struct AutoScalingGroupConfiguration: Swift.Equatable {
+    public struct AutoScalingGroupConfiguration {
         /// The desired capacity, or number of instances, for the Auto Scaling group.
         public var desiredCapacity: Swift.Int
         /// The instance type for the Auto Scaling group.
@@ -246,7 +246,7 @@ extension ComputeOptimizerClientTypes.AutoScalingGroupEstimatedMonthlySavings: S
 
 extension ComputeOptimizerClientTypes {
     /// An object that describes the estimated monthly savings possible by adopting Compute Optimizer’s Auto Scaling group recommendations. This is based on the Savings Plans and Reserved Instances discounts.
-    public struct AutoScalingGroupEstimatedMonthlySavings: Swift.Equatable {
+    public struct AutoScalingGroupEstimatedMonthlySavings {
         /// The currency of the estimated monthly savings.
         public var currency: ComputeOptimizerClientTypes.Currency?
         /// The value of the estimated monthly savings.
@@ -393,7 +393,7 @@ extension ComputeOptimizerClientTypes.AutoScalingGroupRecommendation: Swift.Coda
 
 extension ComputeOptimizerClientTypes {
     /// Describes an Auto Scaling group recommendation.
-    public struct AutoScalingGroupRecommendation: Swift.Equatable {
+    public struct AutoScalingGroupRecommendation {
         /// The Amazon Web Services account ID of the Auto Scaling group.
         public var accountId: Swift.String?
         /// The Amazon Resource Name (ARN) of the Auto Scaling group.
@@ -552,7 +552,7 @@ extension ComputeOptimizerClientTypes.AutoScalingGroupRecommendationOption: Swif
 
 extension ComputeOptimizerClientTypes {
     /// Describes a recommendation option for an Auto Scaling group.
-    public struct AutoScalingGroupRecommendationOption: Swift.Equatable {
+    public struct AutoScalingGroupRecommendationOption {
         /// An array of objects that describe an Auto Scaling group configuration.
         public var configuration: ComputeOptimizerClientTypes.AutoScalingGroupConfiguration?
         /// Describes the GPU accelerator settings for the recommended instance type of the Auto Scaling group.
@@ -621,7 +621,7 @@ extension ComputeOptimizerClientTypes.AutoScalingGroupSavingsOpportunityAfterDis
 
 extension ComputeOptimizerClientTypes {
     /// Describes the savings opportunity for Auto Scaling group recommendations after applying the Savings Plans and Reserved Instances discounts. Savings opportunity represents the estimated monthly savings you can achieve by implementing Compute Optimizer recommendations.
-    public struct AutoScalingGroupSavingsOpportunityAfterDiscounts: Swift.Equatable {
+    public struct AutoScalingGroupSavingsOpportunityAfterDiscounts {
         /// An object that describes the estimated monthly savings possible by adopting Compute Optimizer’s Auto Scaling group recommendations. This is based on the Savings Plans and Reserved Instances pricing discounts.
         public var estimatedMonthlySavings: ComputeOptimizerClientTypes.AutoScalingGroupEstimatedMonthlySavings?
         /// The estimated monthly savings possible as a percentage of monthly cost after applying the Savings Plans and Reserved Instances discounts. This saving can be achieved by adopting Compute Optimizer’s Auto Scaling group recommendations.
@@ -674,7 +674,7 @@ extension ComputeOptimizerClientTypes.ContainerConfiguration: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// Describes the container configurations within the tasks of your Amazon ECS service.
-    public struct ContainerConfiguration: Swift.Equatable {
+    public struct ContainerConfiguration {
         /// The name of the container.
         public var containerName: Swift.String?
         /// The number of CPU units reserved for the container.
@@ -729,7 +729,7 @@ extension ComputeOptimizerClientTypes.ContainerRecommendation: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// The CPU and memory recommendations for a container within the tasks of your Amazon ECS service.
-    public struct ContainerRecommendation: Swift.Equatable {
+    public struct ContainerRecommendation {
         /// The name of the container.
         public var containerName: Swift.String?
         /// The recommended number of CPU units reserved for the container.
@@ -892,7 +892,7 @@ extension ComputeOptimizerClientTypes.CurrentPerformanceRiskRatings: Swift.Codab
 
 extension ComputeOptimizerClientTypes {
     /// Describes the performance risk ratings for a given resource type. Resources with a high or medium rating are at risk of not meeting the performance needs of their workloads, while resources with a low rating are performing well in their workloads.
-    public struct CurrentPerformanceRiskRatings: Swift.Equatable {
+    public struct CurrentPerformanceRiskRatings {
         /// A count of the applicable resource types with a high performance risk rating.
         public var high: Swift.Int
         /// A count of the applicable resource types with a low performance risk rating.
@@ -1015,7 +1015,7 @@ extension ComputeOptimizerClientTypes.CustomizableMetricParameters: Swift.Codabl
 
 extension ComputeOptimizerClientTypes {
     /// Defines the various metric parameters that can be customized, such as threshold and headroom.
-    public struct CustomizableMetricParameters: Swift.Equatable {
+    public struct CustomizableMetricParameters {
         /// The headroom value in percentage used for the specified metric parameter. The following lists the valid values for CPU and memory utilization.
         ///
         /// * CPU utilization: PERCENT_30 | PERCENT_20 | PERCENT_0
@@ -1103,7 +1103,7 @@ extension DeleteRecommendationPreferencesInput {
     }
 }
 
-public struct DeleteRecommendationPreferencesInput: Swift.Equatable {
+public struct DeleteRecommendationPreferencesInput {
     /// The name of the recommendation preference to delete.
     /// This member is required.
     public var recommendationPreferenceNames: [ComputeOptimizerClientTypes.RecommendationPreferenceName]?
@@ -1125,7 +1125,7 @@ public struct DeleteRecommendationPreferencesInput: Swift.Equatable {
     }
 }
 
-struct DeleteRecommendationPreferencesInputBody: Swift.Equatable {
+struct DeleteRecommendationPreferencesInputBody {
     let resourceType: ComputeOptimizerClientTypes.ResourceType?
     let scope: ComputeOptimizerClientTypes.Scope?
     let recommendationPreferenceNames: [ComputeOptimizerClientTypes.RecommendationPreferenceName]?
@@ -1163,7 +1163,7 @@ extension DeleteRecommendationPreferencesOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DeleteRecommendationPreferencesOutput: Swift.Equatable {
+public struct DeleteRecommendationPreferencesOutput {
 
     public init() { }
 }
@@ -1224,7 +1224,7 @@ extension DescribeRecommendationExportJobsInput {
     }
 }
 
-public struct DescribeRecommendationExportJobsInput: Swift.Equatable {
+public struct DescribeRecommendationExportJobsInput {
     /// An array of objects to specify a filter that returns a more specific list of export jobs.
     public var filters: [ComputeOptimizerClientTypes.JobFilter]?
     /// The identification numbers of the export jobs to return. An export job ID is returned when you create an export using the [ExportAutoScalingGroupRecommendations] or [ExportEC2InstanceRecommendations] actions. All export jobs created in the last seven days are returned if this parameter is omitted.
@@ -1248,7 +1248,7 @@ public struct DescribeRecommendationExportJobsInput: Swift.Equatable {
     }
 }
 
-struct DescribeRecommendationExportJobsInputBody: Swift.Equatable {
+struct DescribeRecommendationExportJobsInputBody {
     let jobIds: [Swift.String]?
     let filters: [ComputeOptimizerClientTypes.JobFilter]?
     let nextToken: Swift.String?
@@ -1308,7 +1308,7 @@ extension DescribeRecommendationExportJobsOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DescribeRecommendationExportJobsOutput: Swift.Equatable {
+public struct DescribeRecommendationExportJobsOutput {
     /// The token to use to advance to the next page of export jobs. This value is null when there are no more pages of export jobs to return.
     public var nextToken: Swift.String?
     /// An array of objects that describe recommendation export jobs.
@@ -1324,7 +1324,7 @@ public struct DescribeRecommendationExportJobsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeRecommendationExportJobsOutputBody: Swift.Equatable {
+struct DescribeRecommendationExportJobsOutputBody {
     let recommendationExportJobs: [ComputeOptimizerClientTypes.RecommendationExportJob]?
     let nextToken: Swift.String?
 }
@@ -1392,7 +1392,7 @@ extension ComputeOptimizerClientTypes.EBSEffectiveRecommendationPreferences: Swi
 
 extension ComputeOptimizerClientTypes {
     /// Describes the effective recommendation preferences for Amazon EBS volumes.
-    public struct EBSEffectiveRecommendationPreferences: Swift.Equatable {
+    public struct EBSEffectiveRecommendationPreferences {
         /// Describes the savings estimation mode preference applied for calculating savings opportunity for Amazon EBS volumes.
         public var savingsEstimationMode: ComputeOptimizerClientTypes.EBSSavingsEstimationMode?
 
@@ -1433,7 +1433,7 @@ extension ComputeOptimizerClientTypes.EBSEstimatedMonthlySavings: Swift.Codable 
 
 extension ComputeOptimizerClientTypes {
     /// An object that describes the estimated monthly savings possible by adopting Compute Optimizer’s Amazon EBS volume recommendations. This includes any applicable discounts.
-    public struct EBSEstimatedMonthlySavings: Swift.Equatable {
+    public struct EBSEstimatedMonthlySavings {
         /// The currency of the estimated monthly savings.
         public var currency: ComputeOptimizerClientTypes.Currency?
         /// The value of the estimated monthly savings.
@@ -1490,7 +1490,7 @@ extension ComputeOptimizerClientTypes.EBSFilter: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// Describes a filter that returns a more specific list of Amazon Elastic Block Store (Amazon EBS) volume recommendations. Use this filter with the [GetEBSVolumeRecommendations] action. You can use LambdaFunctionRecommendationFilter with the [GetLambdaFunctionRecommendations] action, JobFilter with the [DescribeRecommendationExportJobs] action, and Filter with the [GetAutoScalingGroupRecommendations] and [GetEC2InstanceRecommendations] actions.
-    public struct EBSFilter: Swift.Equatable {
+    public struct EBSFilter {
         /// The name of the filter. Specify Finding to return recommendations with a specific finding classification (for example, NotOptimized). You can filter your Amazon EBS volume recommendations by tag:key and tag-key tags. A tag:key is a key and value combination of a tag assigned to your Amazon EBS volume recommendations. Use the tag key in the filter name and the tag value as the filter value. For example, to find all Amazon EBS volume recommendations that have a tag with the key of Owner and the value of TeamA, specify tag:Owner for the filter name and TeamA for the filter value. A tag-key is the key of a tag assigned to your Amazon EBS volume recommendations. Use this filter to find all of your Amazon EBS volume recommendations that have a tag with a specific key. This doesn’t consider the tag value. For example, you can find your Amazon EBS volume recommendations with a tag key value of Owner or without any tag keys assigned.
         public var name: ComputeOptimizerClientTypes.EBSFilterName?
         /// The value of the filter. The valid values are Optimized, or NotOptimized.
@@ -1628,7 +1628,7 @@ extension ComputeOptimizerClientTypes.EBSSavingsEstimationMode: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// Describes the savings estimation mode used for calculating savings opportunity for Amazon EBS volumes.
-    public struct EBSSavingsEstimationMode: Swift.Equatable {
+    public struct EBSSavingsEstimationMode {
         /// Describes the source for calculating the savings opportunity for Amazon EBS volumes.
         public var source: ComputeOptimizerClientTypes.EBSSavingsEstimationModeSource?
 
@@ -1704,7 +1704,7 @@ extension ComputeOptimizerClientTypes.EBSSavingsOpportunityAfterDiscounts: Swift
 
 extension ComputeOptimizerClientTypes {
     /// Describes the savings opportunity for Amazon EBS volume recommendations after applying specific discounts.
-    public struct EBSSavingsOpportunityAfterDiscounts: Swift.Equatable {
+    public struct EBSSavingsOpportunityAfterDiscounts {
         /// The estimated monthly savings possible as a percentage of monthly cost by adopting Compute Optimizer’s Amazon EBS volume recommendations. This saving includes any applicable discounts.
         public var estimatedMonthlySavings: ComputeOptimizerClientTypes.EBSEstimatedMonthlySavings?
         /// The estimated monthly savings possible as a percentage of monthly cost after applying the specific discounts. This saving can be achieved by adopting Compute Optimizer’s Amazon EBS volume recommendations.
@@ -1755,7 +1755,7 @@ extension ComputeOptimizerClientTypes.EBSUtilizationMetric: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// Describes a utilization metric of an Amazon Elastic Block Store (Amazon EBS) volume. Compare the utilization metric data of your resource against its projected utilization metric data to determine the performance difference between your current resource and the recommended option.
-    public struct EBSUtilizationMetric: Swift.Equatable {
+    public struct EBSUtilizationMetric {
         /// The name of the utilization metric. The following utilization metrics are available:
         ///
         /// * VolumeReadOpsPerSecond - The completed read operations per second from the volume in a specified period of time. Unit: Count
@@ -1806,7 +1806,7 @@ extension ComputeOptimizerClientTypes.ECSEffectiveRecommendationPreferences: Swi
 
 extension ComputeOptimizerClientTypes {
     /// Describes the effective recommendation preferences for Amazon ECS services.
-    public struct ECSEffectiveRecommendationPreferences: Swift.Equatable {
+    public struct ECSEffectiveRecommendationPreferences {
         /// Describes the savings estimation mode preference applied for calculating savings opportunity for Amazon ECS services.
         public var savingsEstimationMode: ComputeOptimizerClientTypes.ECSSavingsEstimationMode?
 
@@ -1847,7 +1847,7 @@ extension ComputeOptimizerClientTypes.ECSEstimatedMonthlySavings: Swift.Codable 
 
 extension ComputeOptimizerClientTypes {
     /// Describes the estimated monthly savings possible for Amazon ECS services by adopting Compute Optimizer recommendations. This is based on Amazon ECS service pricing after applying Savings Plans discounts.
-    public struct ECSEstimatedMonthlySavings: Swift.Equatable {
+    public struct ECSEstimatedMonthlySavings {
         /// The currency of the estimated monthly savings.
         public var currency: ComputeOptimizerClientTypes.Currency?
         /// The value of the estimated monthly savings for Amazon ECS services.
@@ -1886,7 +1886,7 @@ extension ComputeOptimizerClientTypes.ECSSavingsEstimationMode: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// Describes the savings estimation mode used for calculating savings opportunity for Amazon ECS services.
-    public struct ECSSavingsEstimationMode: Swift.Equatable {
+    public struct ECSSavingsEstimationMode {
         /// Describes the source for calculating the savings opportunity for Amazon ECS services.
         public var source: ComputeOptimizerClientTypes.ECSSavingsEstimationModeSource?
 
@@ -1962,7 +1962,7 @@ extension ComputeOptimizerClientTypes.ECSSavingsOpportunityAfterDiscounts: Swift
 
 extension ComputeOptimizerClientTypes {
     /// Describes the savings opportunity for Amazon ECS service recommendations after applying Savings Plans discounts. Savings opportunity represents the estimated monthly savings after applying Savings Plans discounts. You can achieve this by implementing a given Compute Optimizer recommendation.
-    public struct ECSSavingsOpportunityAfterDiscounts: Swift.Equatable {
+    public struct ECSSavingsOpportunityAfterDiscounts {
         /// The estimated monthly savings possible by adopting Compute Optimizer’s Amazon ECS service recommendations. This includes any applicable Savings Plans discounts.
         public var estimatedMonthlySavings: ComputeOptimizerClientTypes.ECSEstimatedMonthlySavings?
         /// The estimated monthly savings possible as a percentage of monthly cost by adopting Compute Optimizer’s Amazon ECS service recommendations. This includes any applicable Savings Plans discounts.
@@ -2151,7 +2151,7 @@ extension ComputeOptimizerClientTypes.ECSServiceProjectedMetric: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// Describes the projected metrics of an Amazon ECS service recommendation option. To determine the performance difference between your current Amazon ECS service and the recommended option, compare the metric data of your service against its projected metric data.
-    public struct ECSServiceProjectedMetric: Swift.Equatable {
+    public struct ECSServiceProjectedMetric {
         /// The lower bound values for the projected metric.
         public var lowerBoundValues: [Swift.Double]?
         /// The name of the projected metric. The following metrics are available:
@@ -2220,7 +2220,7 @@ extension ComputeOptimizerClientTypes.ECSServiceProjectedUtilizationMetric: Swif
 
 extension ComputeOptimizerClientTypes {
     /// Describes the projected utilization metrics of an Amazon ECS service recommendation option. To determine the performance difference between your current Amazon ECS service and the recommended option, compare the utilization metric data of your service against its projected utilization metric data.
-    public struct ECSServiceProjectedUtilizationMetric: Swift.Equatable {
+    public struct ECSServiceProjectedUtilizationMetric {
         /// The lower bound values for the projected utilization metrics.
         public var lowerBoundValue: Swift.Double
         /// The name of the projected utilization metric. The following utilization metrics are available:
@@ -2391,7 +2391,7 @@ extension ComputeOptimizerClientTypes.ECSServiceRecommendation: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// Describes an Amazon ECS service recommendation.
-    public struct ECSServiceRecommendation: Swift.Equatable {
+    public struct ECSServiceRecommendation {
         /// The Amazon Web Services account ID of the Amazon ECS service.
         public var accountId: Swift.String?
         /// The risk of the current Amazon ECS service not meeting the performance needs of its workloads. The higher the risk, the more likely the current service can't meet the performance requirements of its workload.
@@ -2506,7 +2506,7 @@ extension ComputeOptimizerClientTypes.ECSServiceRecommendationFilter: Swift.Coda
 
 extension ComputeOptimizerClientTypes {
     /// Describes a filter that returns a more specific list of Amazon ECS service recommendations. Use this filter with the [GetECSServiceRecommendations] action.
-    public struct ECSServiceRecommendationFilter: Swift.Equatable {
+    public struct ECSServiceRecommendationFilter {
         /// The name of the filter. Specify Finding to return recommendations with a specific finding classification. Specify FindingReasonCode to return recommendations with a specific finding reason code. You can filter your Amazon ECS service recommendations by tag:key and tag-key tags. A tag:key is a key and value combination of a tag assigned to your Amazon ECS service recommendations. Use the tag key in the filter name and the tag value as the filter value. For example, to find all Amazon ECS service recommendations that have a tag with the key of Owner and the value of TeamA, specify tag:Owner for the filter name and TeamA for the filter value. A tag-key is the key of a tag assigned to your Amazon ECS service recommendations. Use this filter to find all of your Amazon ECS service recommendations that have a tag with a specific key. This doesn’t consider the tag value. For example, you can find your Amazon ECS service recommendations with a tag key value of Owner or without any tag keys assigned.
         public var name: ComputeOptimizerClientTypes.ECSServiceRecommendationFilterName?
         /// The value of the filter. The valid values for this parameter are as follows:
@@ -2708,7 +2708,7 @@ extension ComputeOptimizerClientTypes.ECSServiceRecommendationOption: Swift.Coda
 
 extension ComputeOptimizerClientTypes {
     /// Describes the recommendation options for an Amazon ECS service.
-    public struct ECSServiceRecommendationOption: Swift.Equatable {
+    public struct ECSServiceRecommendationOption {
         /// The CPU and memory size recommendations for the containers within the task of your Amazon ECS service.
         public var containerRecommendations: [ComputeOptimizerClientTypes.ContainerRecommendation]?
         /// The CPU size of the Amazon ECS service recommendation option.
@@ -2787,7 +2787,7 @@ extension ComputeOptimizerClientTypes.ECSServiceRecommendedOptionProjectedMetric
 
 extension ComputeOptimizerClientTypes {
     /// Describes the projected metrics of an Amazon ECS service recommendation option. To determine the performance difference between your current Amazon ECS service and the recommended option, compare the metric data of your service against its projected metric data.
-    public struct ECSServiceRecommendedOptionProjectedMetric: Swift.Equatable {
+    public struct ECSServiceRecommendedOptionProjectedMetric {
         /// An array of objects that describe the projected metric.
         public var projectedMetrics: [ComputeOptimizerClientTypes.ECSServiceProjectedMetric]?
         /// The recommended CPU size for the Amazon ECS service.
@@ -2842,7 +2842,7 @@ extension ComputeOptimizerClientTypes.ECSServiceUtilizationMetric: Swift.Codable
 
 extension ComputeOptimizerClientTypes {
     /// Describes the utilization metric of an Amazon ECS service. To determine the performance difference between your current Amazon ECS service and the recommended option, compare the utilization metric data of your service against its projected utilization metric data.
-    public struct ECSServiceUtilizationMetric: Swift.Equatable {
+    public struct ECSServiceUtilizationMetric {
         /// The name of the utilization metric. The following utilization metrics are available:
         ///
         /// * Cpu — The amount of CPU capacity that's used in the service.
@@ -2943,7 +2943,7 @@ extension ComputeOptimizerClientTypes.EffectivePreferredResource: Swift.Codable 
 
 extension ComputeOptimizerClientTypes {
     /// Describes the effective preferred resources that Compute Optimizer considers as rightsizing recommendation candidates. Compute Optimizer only supports Amazon EC2 instance types.
-    public struct EffectivePreferredResource: Swift.Equatable {
+    public struct EffectivePreferredResource {
         /// The expanded version of your preferred resource's include list.
         public var effectiveIncludeList: [Swift.String]?
         /// The list of preferred resources values that you want excluded from rightsizing recommendation candidates.
@@ -3068,7 +3068,7 @@ extension ComputeOptimizerClientTypes.EffectiveRecommendationPreferences: Swift.
 
 extension ComputeOptimizerClientTypes {
     /// Describes the effective recommendation preferences for a resource.
-    public struct EffectiveRecommendationPreferences: Swift.Equatable {
+    public struct EffectiveRecommendationPreferences {
         /// Describes the CPU vendor and architecture for an instance or Auto Scaling group recommendations. For example, when you specify AWS_ARM64 with:
         ///
         /// * A [GetEC2InstanceRecommendations] or [GetAutoScalingGroupRecommendations] request, Compute Optimizer returns recommendations that consist of Graviton2 instance types only.
@@ -3187,7 +3187,7 @@ extension ComputeOptimizerClientTypes.EnrollmentFilter: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// Describes a filter that returns a more specific list of account enrollment statuses. Use this filter with the [GetEnrollmentStatusesForOrganization] action.
-    public struct EnrollmentFilter: Swift.Equatable {
+    public struct EnrollmentFilter {
         /// The name of the filter. Specify Status to return accounts with a specific enrollment status (for example, Active).
         public var name: ComputeOptimizerClientTypes.EnrollmentFilterName?
         /// The value of the filter. The valid values are Active, Inactive, Pending, and Failed.
@@ -3261,7 +3261,7 @@ extension ComputeOptimizerClientTypes.EstimatedMonthlySavings: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// Describes the estimated monthly savings amount possible, based on On-Demand instance pricing, by adopting Compute Optimizer recommendations for a given resource. For more information, see [Estimated monthly savings and savings opportunities](https://docs.aws.amazon.com/compute-optimizer/latest/ug/view-ec2-recommendations.html#ec2-savings-calculation) in the Compute Optimizer User Guide.
-    public struct EstimatedMonthlySavings: Swift.Equatable {
+    public struct EstimatedMonthlySavings {
         /// The currency of the estimated monthly savings.
         public var currency: ComputeOptimizerClientTypes.Currency?
         /// The value of the estimated monthly savings.
@@ -3332,7 +3332,7 @@ extension ExportAutoScalingGroupRecommendationsInput {
     }
 }
 
-public struct ExportAutoScalingGroupRecommendationsInput: Swift.Equatable {
+public struct ExportAutoScalingGroupRecommendationsInput {
     /// The IDs of the Amazon Web Services accounts for which to export Auto Scaling group recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to export recommendations. This parameter cannot be specified together with the include member accounts parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the include member accounts parameter, is omitted. You can specify multiple account IDs per request.
     public var accountIds: [Swift.String]?
     /// The recommendations data to include in the export file. For more information about the fields that can be exported, see [Exported files](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html#exported-files) in the Compute Optimizer User Guide.
@@ -3369,7 +3369,7 @@ public struct ExportAutoScalingGroupRecommendationsInput: Swift.Equatable {
     }
 }
 
-struct ExportAutoScalingGroupRecommendationsInputBody: Swift.Equatable {
+struct ExportAutoScalingGroupRecommendationsInputBody {
     let accountIds: [Swift.String]?
     let filters: [ComputeOptimizerClientTypes.Filter]?
     let fieldsToExport: [ComputeOptimizerClientTypes.ExportableAutoScalingGroupField]?
@@ -3450,7 +3450,7 @@ extension ExportAutoScalingGroupRecommendationsOutput: ClientRuntime.HttpRespons
     }
 }
 
-public struct ExportAutoScalingGroupRecommendationsOutput: Swift.Equatable {
+public struct ExportAutoScalingGroupRecommendationsOutput {
     /// The identification number of the export job. Use the [DescribeRecommendationExportJobs] action, and specify the job ID to view the status of an export job.
     public var jobId: Swift.String?
     /// An object that describes the destination Amazon S3 bucket of a recommendations export file.
@@ -3466,7 +3466,7 @@ public struct ExportAutoScalingGroupRecommendationsOutput: Swift.Equatable {
     }
 }
 
-struct ExportAutoScalingGroupRecommendationsOutputBody: Swift.Equatable {
+struct ExportAutoScalingGroupRecommendationsOutputBody {
     let jobId: Swift.String?
     let s3Destination: ComputeOptimizerClientTypes.S3Destination?
 }
@@ -3525,7 +3525,7 @@ extension ComputeOptimizerClientTypes.ExportDestination: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// Describes the destination of the recommendations export and metadata files.
-    public struct ExportDestination: Swift.Equatable {
+    public struct ExportDestination {
         /// An object that describes the destination Amazon Simple Storage Service (Amazon S3) bucket name and object keys of a recommendations export file, and its associated metadata file.
         public var s3: ComputeOptimizerClientTypes.S3Destination?
 
@@ -3588,7 +3588,7 @@ extension ExportEBSVolumeRecommendationsInput {
     }
 }
 
-public struct ExportEBSVolumeRecommendationsInput: Swift.Equatable {
+public struct ExportEBSVolumeRecommendationsInput {
     /// The IDs of the Amazon Web Services accounts for which to export Amazon EBS volume recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to export recommendations. This parameter cannot be specified together with the include member accounts parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the include member accounts parameter, is omitted. You can specify multiple account IDs per request.
     public var accountIds: [Swift.String]?
     /// The recommendations data to include in the export file. For more information about the fields that can be exported, see [Exported files](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html#exported-files) in the Compute Optimizer User Guide.
@@ -3621,7 +3621,7 @@ public struct ExportEBSVolumeRecommendationsInput: Swift.Equatable {
     }
 }
 
-struct ExportEBSVolumeRecommendationsInputBody: Swift.Equatable {
+struct ExportEBSVolumeRecommendationsInputBody {
     let accountIds: [Swift.String]?
     let filters: [ComputeOptimizerClientTypes.EBSFilter]?
     let fieldsToExport: [ComputeOptimizerClientTypes.ExportableVolumeField]?
@@ -3698,7 +3698,7 @@ extension ExportEBSVolumeRecommendationsOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ExportEBSVolumeRecommendationsOutput: Swift.Equatable {
+public struct ExportEBSVolumeRecommendationsOutput {
     /// The identification number of the export job. Use the [DescribeRecommendationExportJobs] action, and specify the job ID to view the status of an export job.
     public var jobId: Swift.String?
     /// Describes the destination Amazon Simple Storage Service (Amazon S3) bucket name and object keys of a recommendations export file, and its associated metadata file.
@@ -3714,7 +3714,7 @@ public struct ExportEBSVolumeRecommendationsOutput: Swift.Equatable {
     }
 }
 
-struct ExportEBSVolumeRecommendationsOutputBody: Swift.Equatable {
+struct ExportEBSVolumeRecommendationsOutputBody {
     let jobId: Swift.String?
     let s3Destination: ComputeOptimizerClientTypes.S3Destination?
 }
@@ -3805,7 +3805,7 @@ extension ExportEC2InstanceRecommendationsInput {
     }
 }
 
-public struct ExportEC2InstanceRecommendationsInput: Swift.Equatable {
+public struct ExportEC2InstanceRecommendationsInput {
     /// The IDs of the Amazon Web Services accounts for which to export instance recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to export recommendations. This parameter cannot be specified together with the include member accounts parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the include member accounts parameter, is omitted. You can specify multiple account IDs per request.
     public var accountIds: [Swift.String]?
     /// The recommendations data to include in the export file. For more information about the fields that can be exported, see [Exported files](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html#exported-files) in the Compute Optimizer User Guide.
@@ -3842,7 +3842,7 @@ public struct ExportEC2InstanceRecommendationsInput: Swift.Equatable {
     }
 }
 
-struct ExportEC2InstanceRecommendationsInputBody: Swift.Equatable {
+struct ExportEC2InstanceRecommendationsInputBody {
     let accountIds: [Swift.String]?
     let filters: [ComputeOptimizerClientTypes.Filter]?
     let fieldsToExport: [ComputeOptimizerClientTypes.ExportableInstanceField]?
@@ -3923,7 +3923,7 @@ extension ExportEC2InstanceRecommendationsOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct ExportEC2InstanceRecommendationsOutput: Swift.Equatable {
+public struct ExportEC2InstanceRecommendationsOutput {
     /// The identification number of the export job. Use the [DescribeRecommendationExportJobs] action, and specify the job ID to view the status of an export job.
     public var jobId: Swift.String?
     /// An object that describes the destination Amazon S3 bucket of a recommendations export file.
@@ -3939,7 +3939,7 @@ public struct ExportEC2InstanceRecommendationsOutput: Swift.Equatable {
     }
 }
 
-struct ExportEC2InstanceRecommendationsOutputBody: Swift.Equatable {
+struct ExportEC2InstanceRecommendationsOutputBody {
     let jobId: Swift.String?
     let s3Destination: ComputeOptimizerClientTypes.S3Destination?
 }
@@ -4026,7 +4026,7 @@ extension ExportECSServiceRecommendationsInput {
     }
 }
 
-public struct ExportECSServiceRecommendationsInput: Swift.Equatable {
+public struct ExportECSServiceRecommendationsInput {
     /// The Amazon Web Services account IDs for the export Amazon ECS service recommendations. If your account is the management account or the delegated administrator of an organization, use this parameter to specify the member account you want to export recommendations to. This parameter can't be specified together with the include member accounts parameter. The parameters are mutually exclusive. If this parameter or the include member accounts parameter is omitted, the recommendations for member accounts aren't included in the export. You can specify multiple account IDs per request.
     public var accountIds: [Swift.String]?
     /// The recommendations data to include in the export file. For more information about the fields that can be exported, see [Exported files](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html#exported-files) in the Compute Optimizer User Guide.
@@ -4059,7 +4059,7 @@ public struct ExportECSServiceRecommendationsInput: Swift.Equatable {
     }
 }
 
-struct ExportECSServiceRecommendationsInputBody: Swift.Equatable {
+struct ExportECSServiceRecommendationsInputBody {
     let accountIds: [Swift.String]?
     let filters: [ComputeOptimizerClientTypes.ECSServiceRecommendationFilter]?
     let fieldsToExport: [ComputeOptimizerClientTypes.ExportableECSServiceField]?
@@ -4136,7 +4136,7 @@ extension ExportECSServiceRecommendationsOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ExportECSServiceRecommendationsOutput: Swift.Equatable {
+public struct ExportECSServiceRecommendationsOutput {
     /// The identification number of the export job. To view the status of an export job, use the [DescribeRecommendationExportJobs] action and specify the job ID.
     public var jobId: Swift.String?
     /// Describes the destination Amazon Simple Storage Service (Amazon S3) bucket name and object keys of a recommendations export file, and its associated metadata file.
@@ -4152,7 +4152,7 @@ public struct ExportECSServiceRecommendationsOutput: Swift.Equatable {
     }
 }
 
-struct ExportECSServiceRecommendationsOutputBody: Swift.Equatable {
+struct ExportECSServiceRecommendationsOutputBody {
     let jobId: Swift.String?
     let s3Destination: ComputeOptimizerClientTypes.S3Destination?
 }
@@ -4239,7 +4239,7 @@ extension ExportLambdaFunctionRecommendationsInput {
     }
 }
 
-public struct ExportLambdaFunctionRecommendationsInput: Swift.Equatable {
+public struct ExportLambdaFunctionRecommendationsInput {
     /// The IDs of the Amazon Web Services accounts for which to export Lambda function recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to export recommendations. This parameter cannot be specified together with the include member accounts parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the include member accounts parameter, is omitted. You can specify multiple account IDs per request.
     public var accountIds: [Swift.String]?
     /// The recommendations data to include in the export file. For more information about the fields that can be exported, see [Exported files](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html#exported-files) in the Compute Optimizer User Guide.
@@ -4272,7 +4272,7 @@ public struct ExportLambdaFunctionRecommendationsInput: Swift.Equatable {
     }
 }
 
-struct ExportLambdaFunctionRecommendationsInputBody: Swift.Equatable {
+struct ExportLambdaFunctionRecommendationsInputBody {
     let accountIds: [Swift.String]?
     let filters: [ComputeOptimizerClientTypes.LambdaFunctionRecommendationFilter]?
     let fieldsToExport: [ComputeOptimizerClientTypes.ExportableLambdaFunctionField]?
@@ -4349,7 +4349,7 @@ extension ExportLambdaFunctionRecommendationsOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct ExportLambdaFunctionRecommendationsOutput: Swift.Equatable {
+public struct ExportLambdaFunctionRecommendationsOutput {
     /// The identification number of the export job. Use the [DescribeRecommendationExportJobs] action, and specify the job ID to view the status of an export job.
     public var jobId: Swift.String?
     /// Describes the destination Amazon Simple Storage Service (Amazon S3) bucket name and object keys of a recommendations export file, and its associated metadata file.
@@ -4365,7 +4365,7 @@ public struct ExportLambdaFunctionRecommendationsOutput: Swift.Equatable {
     }
 }
 
-struct ExportLambdaFunctionRecommendationsOutputBody: Swift.Equatable {
+struct ExportLambdaFunctionRecommendationsOutputBody {
     let jobId: Swift.String?
     let s3Destination: ComputeOptimizerClientTypes.S3Destination?
 }
@@ -4452,7 +4452,7 @@ extension ExportLicenseRecommendationsInput {
     }
 }
 
-public struct ExportLicenseRecommendationsInput: Swift.Equatable {
+public struct ExportLicenseRecommendationsInput {
     /// The IDs of the Amazon Web Services accounts for which to export license recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to export recommendations. This parameter can't be specified together with the include member accounts parameter. The parameters are mutually exclusive. If this parameter is omitted, recommendations for member accounts aren't included in the export. You can specify multiple account IDs per request.
     public var accountIds: [Swift.String]?
     /// The recommendations data to include in the export file. For more information about the fields that can be exported, see [Exported files](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html#exported-files) in the Compute Optimizer User Guide.
@@ -4485,7 +4485,7 @@ public struct ExportLicenseRecommendationsInput: Swift.Equatable {
     }
 }
 
-struct ExportLicenseRecommendationsInputBody: Swift.Equatable {
+struct ExportLicenseRecommendationsInputBody {
     let accountIds: [Swift.String]?
     let filters: [ComputeOptimizerClientTypes.LicenseRecommendationFilter]?
     let fieldsToExport: [ComputeOptimizerClientTypes.ExportableLicenseField]?
@@ -4562,7 +4562,7 @@ extension ExportLicenseRecommendationsOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ExportLicenseRecommendationsOutput: Swift.Equatable {
+public struct ExportLicenseRecommendationsOutput {
     /// The identification number of the export job. To view the status of an export job, use the [DescribeRecommendationExportJobs] action and specify the job ID.
     public var jobId: Swift.String?
     /// Describes the destination Amazon Simple Storage Service (Amazon S3) bucket name and object keys of a recommendations export file, and its associated metadata file.
@@ -4578,7 +4578,7 @@ public struct ExportLicenseRecommendationsOutput: Swift.Equatable {
     }
 }
 
-struct ExportLicenseRecommendationsOutputBody: Swift.Equatable {
+struct ExportLicenseRecommendationsOutputBody {
     let jobId: Swift.String?
     let s3Destination: ComputeOptimizerClientTypes.S3Destination?
 }
@@ -5555,7 +5555,7 @@ extension ComputeOptimizerClientTypes.ExternalMetricStatus: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// Describes Compute Optimizer's integration status with your chosen external metric provider. For example, Datadog.
-    public struct ExternalMetricStatus: Swift.Equatable {
+    public struct ExternalMetricStatus {
         /// The status code for Compute Optimizer's integration with an external metrics provider.
         public var statusCode: ComputeOptimizerClientTypes.ExternalMetricStatusCode?
         /// The reason for Compute Optimizer's integration status with your external metric provider.
@@ -5650,7 +5650,7 @@ extension ComputeOptimizerClientTypes.ExternalMetricsPreference: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// Describes the external metrics preferences for EC2 rightsizing recommendations.
-    public struct ExternalMetricsPreference: Swift.Equatable {
+    public struct ExternalMetricsPreference {
         /// Contains the source options for external metrics preferences.
         public var source: ComputeOptimizerClientTypes.ExternalMetricsSource?
 
@@ -5770,7 +5770,7 @@ extension ComputeOptimizerClientTypes.Filter: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// Describes a filter that returns a more specific list of recommendations. Use this filter with the [GetAutoScalingGroupRecommendations] and [GetEC2InstanceRecommendations] actions. You can use EBSFilter with the [GetEBSVolumeRecommendations] action, LambdaFunctionRecommendationFilter with the [GetLambdaFunctionRecommendations] action, and JobFilter with the [DescribeRecommendationExportJobs] action.
-    public struct Filter: Swift.Equatable {
+    public struct Filter {
         /// The name of the filter. Specify Finding to return recommendations with a specific finding classification. For example, Underprovisioned. Specify RecommendationSourceType to return recommendations of a specific resource type. For example, Ec2Instance. Specify FindingReasonCodes to return recommendations with a specific finding reason code. For example, CPUUnderprovisioned. Specify InferredWorkloadTypes to return recommendations of a specific inferred workload. For example, Redis. You can filter your EC2 instance recommendations by tag:key and tag-key tags. A tag:key is a key and value combination of a tag assigned to your recommendations. Use the tag key in the filter name and the tag value as the filter value. For example, to find all recommendations that have a tag with the key of Owner and the value of TeamA, specify tag:Owner for the filter name and TeamA for the filter value. A tag-key is the key of a tag assigned to your recommendations. Use this filter to find all of your recommendations that have a tag with a specific key. This doesn’t consider the tag value. For example, you can find your recommendations with a tag key value of Owner or without any tag keys assigned.
         public var name: ComputeOptimizerClientTypes.FilterName?
         /// The value of the filter. The valid values for this parameter are as follows, depending on what you specify for the name parameter and the resource type that you wish to filter results for:
@@ -5985,7 +5985,7 @@ extension GetAutoScalingGroupRecommendationsInput {
     }
 }
 
-public struct GetAutoScalingGroupRecommendationsInput: Swift.Equatable {
+public struct GetAutoScalingGroupRecommendationsInput {
     /// The ID of the Amazon Web Services account for which to return Auto Scaling group recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return Auto Scaling group recommendations. Only one account ID can be specified per request.
     public var accountIds: [Swift.String]?
     /// The Amazon Resource Name (ARN) of the Auto Scaling groups for which to return recommendations.
@@ -6017,7 +6017,7 @@ public struct GetAutoScalingGroupRecommendationsInput: Swift.Equatable {
     }
 }
 
-struct GetAutoScalingGroupRecommendationsInputBody: Swift.Equatable {
+struct GetAutoScalingGroupRecommendationsInputBody {
     let accountIds: [Swift.String]?
     let autoScalingGroupArns: [Swift.String]?
     let nextToken: Swift.String?
@@ -6096,7 +6096,7 @@ extension GetAutoScalingGroupRecommendationsOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct GetAutoScalingGroupRecommendationsOutput: Swift.Equatable {
+public struct GetAutoScalingGroupRecommendationsOutput {
     /// An array of objects that describe Auto Scaling group recommendations.
     public var autoScalingGroupRecommendations: [ComputeOptimizerClientTypes.AutoScalingGroupRecommendation]?
     /// An array of objects that describe errors of the request. For example, an error is returned if you request recommendations for an unsupported Auto Scaling group.
@@ -6116,7 +6116,7 @@ public struct GetAutoScalingGroupRecommendationsOutput: Swift.Equatable {
     }
 }
 
-struct GetAutoScalingGroupRecommendationsOutputBody: Swift.Equatable {
+struct GetAutoScalingGroupRecommendationsOutputBody {
     let nextToken: Swift.String?
     let autoScalingGroupRecommendations: [ComputeOptimizerClientTypes.AutoScalingGroupRecommendation]?
     let errors: [ComputeOptimizerClientTypes.GetRecommendationError]?
@@ -6221,7 +6221,7 @@ extension GetEBSVolumeRecommendationsInput {
     }
 }
 
-public struct GetEBSVolumeRecommendationsInput: Swift.Equatable {
+public struct GetEBSVolumeRecommendationsInput {
     /// The ID of the Amazon Web Services account for which to return volume recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return volume recommendations. Only one account ID can be specified per request.
     public var accountIds: [Swift.String]?
     /// An array of objects to specify a filter that returns a more specific list of volume recommendations.
@@ -6249,7 +6249,7 @@ public struct GetEBSVolumeRecommendationsInput: Swift.Equatable {
     }
 }
 
-struct GetEBSVolumeRecommendationsInputBody: Swift.Equatable {
+struct GetEBSVolumeRecommendationsInputBody {
     let volumeArns: [Swift.String]?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -6324,7 +6324,7 @@ extension GetEBSVolumeRecommendationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEBSVolumeRecommendationsOutput: Swift.Equatable {
+public struct GetEBSVolumeRecommendationsOutput {
     /// An array of objects that describe errors of the request. For example, an error is returned if you request recommendations for an unsupported volume.
     public var errors: [ComputeOptimizerClientTypes.GetRecommendationError]?
     /// The token to use to advance to the next page of volume recommendations. This value is null when there are no more pages of volume recommendations to return.
@@ -6344,7 +6344,7 @@ public struct GetEBSVolumeRecommendationsOutput: Swift.Equatable {
     }
 }
 
-struct GetEBSVolumeRecommendationsOutputBody: Swift.Equatable {
+struct GetEBSVolumeRecommendationsOutputBody {
     let nextToken: Swift.String?
     let volumeRecommendations: [ComputeOptimizerClientTypes.VolumeRecommendation]?
     let errors: [ComputeOptimizerClientTypes.GetRecommendationError]?
@@ -6453,7 +6453,7 @@ extension GetEC2InstanceRecommendationsInput {
     }
 }
 
-public struct GetEC2InstanceRecommendationsInput: Swift.Equatable {
+public struct GetEC2InstanceRecommendationsInput {
     /// The ID of the Amazon Web Services account for which to return instance recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return instance recommendations. Only one account ID can be specified per request.
     public var accountIds: [Swift.String]?
     /// An array of objects to specify a filter that returns a more specific list of instance recommendations.
@@ -6485,7 +6485,7 @@ public struct GetEC2InstanceRecommendationsInput: Swift.Equatable {
     }
 }
 
-struct GetEC2InstanceRecommendationsInputBody: Swift.Equatable {
+struct GetEC2InstanceRecommendationsInputBody {
     let instanceArns: [Swift.String]?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -6564,7 +6564,7 @@ extension GetEC2InstanceRecommendationsOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct GetEC2InstanceRecommendationsOutput: Swift.Equatable {
+public struct GetEC2InstanceRecommendationsOutput {
     /// An array of objects that describe errors of the request. For example, an error is returned if you request recommendations for an instance of an unsupported instance family.
     public var errors: [ComputeOptimizerClientTypes.GetRecommendationError]?
     /// An array of objects that describe instance recommendations.
@@ -6584,7 +6584,7 @@ public struct GetEC2InstanceRecommendationsOutput: Swift.Equatable {
     }
 }
 
-struct GetEC2InstanceRecommendationsOutputBody: Swift.Equatable {
+struct GetEC2InstanceRecommendationsOutputBody {
     let nextToken: Swift.String?
     let instanceRecommendations: [ComputeOptimizerClientTypes.InstanceRecommendation]?
     let errors: [ComputeOptimizerClientTypes.GetRecommendationError]?
@@ -6684,7 +6684,7 @@ extension GetEC2RecommendationProjectedMetricsInput {
     }
 }
 
-public struct GetEC2RecommendationProjectedMetricsInput: Swift.Equatable {
+public struct GetEC2RecommendationProjectedMetricsInput {
     /// The timestamp of the last projected metrics data point to return.
     /// This member is required.
     public var endTime: ClientRuntime.Date?
@@ -6721,7 +6721,7 @@ public struct GetEC2RecommendationProjectedMetricsInput: Swift.Equatable {
     }
 }
 
-struct GetEC2RecommendationProjectedMetricsInputBody: Swift.Equatable {
+struct GetEC2RecommendationProjectedMetricsInputBody {
     let instanceArn: Swift.String?
     let stat: ComputeOptimizerClientTypes.MetricStatistic?
     let period: Swift.Int?
@@ -6769,7 +6769,7 @@ extension GetEC2RecommendationProjectedMetricsOutput: ClientRuntime.HttpResponse
     }
 }
 
-public struct GetEC2RecommendationProjectedMetricsOutput: Swift.Equatable {
+public struct GetEC2RecommendationProjectedMetricsOutput {
     /// An array of objects that describes projected metrics.
     public var recommendedOptionProjectedMetrics: [ComputeOptimizerClientTypes.RecommendedOptionProjectedMetric]?
 
@@ -6781,7 +6781,7 @@ public struct GetEC2RecommendationProjectedMetricsOutput: Swift.Equatable {
     }
 }
 
-struct GetEC2RecommendationProjectedMetricsOutputBody: Swift.Equatable {
+struct GetEC2RecommendationProjectedMetricsOutputBody {
     let recommendedOptionProjectedMetrics: [ComputeOptimizerClientTypes.RecommendedOptionProjectedMetric]?
 }
 
@@ -6860,7 +6860,7 @@ extension GetECSServiceRecommendationProjectedMetricsInput {
     }
 }
 
-public struct GetECSServiceRecommendationProjectedMetricsInput: Swift.Equatable {
+public struct GetECSServiceRecommendationProjectedMetricsInput {
     /// The timestamp of the last projected metrics data point to return.
     /// This member is required.
     public var endTime: ClientRuntime.Date?
@@ -6893,7 +6893,7 @@ public struct GetECSServiceRecommendationProjectedMetricsInput: Swift.Equatable 
     }
 }
 
-struct GetECSServiceRecommendationProjectedMetricsInputBody: Swift.Equatable {
+struct GetECSServiceRecommendationProjectedMetricsInputBody {
     let serviceArn: Swift.String?
     let stat: ComputeOptimizerClientTypes.MetricStatistic?
     let period: Swift.Int?
@@ -6937,7 +6937,7 @@ extension GetECSServiceRecommendationProjectedMetricsOutput: ClientRuntime.HttpR
     }
 }
 
-public struct GetECSServiceRecommendationProjectedMetricsOutput: Swift.Equatable {
+public struct GetECSServiceRecommendationProjectedMetricsOutput {
     /// An array of objects that describes the projected metrics.
     public var recommendedOptionProjectedMetrics: [ComputeOptimizerClientTypes.ECSServiceRecommendedOptionProjectedMetric]?
 
@@ -6949,7 +6949,7 @@ public struct GetECSServiceRecommendationProjectedMetricsOutput: Swift.Equatable
     }
 }
 
-struct GetECSServiceRecommendationProjectedMetricsOutputBody: Swift.Equatable {
+struct GetECSServiceRecommendationProjectedMetricsOutputBody {
     let recommendedOptionProjectedMetrics: [ComputeOptimizerClientTypes.ECSServiceRecommendedOptionProjectedMetric]?
 }
 
@@ -7037,7 +7037,7 @@ extension GetECSServiceRecommendationsInput {
     }
 }
 
-public struct GetECSServiceRecommendationsInput: Swift.Equatable {
+public struct GetECSServiceRecommendationsInput {
     /// Return the Amazon ECS service recommendations to the specified Amazon Web Services account IDs. If your account is the management account or the delegated administrator of an organization, use this parameter to return the Amazon ECS service recommendations to specific member accounts. You can only specify one account ID per request.
     public var accountIds: [Swift.String]?
     /// An array of objects to specify a filter that returns a more specific list of Amazon ECS service recommendations.
@@ -7065,7 +7065,7 @@ public struct GetECSServiceRecommendationsInput: Swift.Equatable {
     }
 }
 
-struct GetECSServiceRecommendationsInputBody: Swift.Equatable {
+struct GetECSServiceRecommendationsInputBody {
     let serviceArns: [Swift.String]?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -7140,7 +7140,7 @@ extension GetECSServiceRecommendationsOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct GetECSServiceRecommendationsOutput: Swift.Equatable {
+public struct GetECSServiceRecommendationsOutput {
     /// An array of objects that describe the Amazon ECS service recommendations.
     public var ecsServiceRecommendations: [ComputeOptimizerClientTypes.ECSServiceRecommendation]?
     /// An array of objects that describe errors of the request.
@@ -7160,7 +7160,7 @@ public struct GetECSServiceRecommendationsOutput: Swift.Equatable {
     }
 }
 
-struct GetECSServiceRecommendationsOutputBody: Swift.Equatable {
+struct GetECSServiceRecommendationsOutputBody {
     let nextToken: Swift.String?
     let ecsServiceRecommendations: [ComputeOptimizerClientTypes.ECSServiceRecommendation]?
     let errors: [ComputeOptimizerClientTypes.GetRecommendationError]?
@@ -7240,7 +7240,7 @@ extension GetEffectiveRecommendationPreferencesInput {
     }
 }
 
-public struct GetEffectiveRecommendationPreferencesInput: Swift.Equatable {
+public struct GetEffectiveRecommendationPreferencesInput {
     /// The Amazon Resource Name (ARN) of the resource for which to confirm effective recommendation preferences. Only EC2 instance and Auto Scaling group ARNs are currently supported.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -7253,7 +7253,7 @@ public struct GetEffectiveRecommendationPreferencesInput: Swift.Equatable {
     }
 }
 
-struct GetEffectiveRecommendationPreferencesInputBody: Swift.Equatable {
+struct GetEffectiveRecommendationPreferencesInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -7289,7 +7289,7 @@ extension GetEffectiveRecommendationPreferencesOutput: ClientRuntime.HttpRespons
     }
 }
 
-public struct GetEffectiveRecommendationPreferencesOutput: Swift.Equatable {
+public struct GetEffectiveRecommendationPreferencesOutput {
     /// The status of the enhanced infrastructure metrics recommendation preference. Considers all applicable preferences that you might have set at the resource, account, and organization level. A status of Active confirms that the preference is applied in the latest recommendation refresh, and a status of Inactive confirms that it's not yet applied to recommendations. To validate whether the preference is applied to your last generated set of recommendations, review the effectiveRecommendationPreferences value in the response of the [GetAutoScalingGroupRecommendations] and [GetEC2InstanceRecommendations] actions. For more information, see [Enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide.
     public var enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics?
     /// The provider of the external metrics recommendation preference. Considers all applicable preferences that you might have set at the account and organization level. If the preference is applied in the latest recommendation refresh, an object with a valid source value appears in the response. If the preference isn't applied to the recommendations already, then this object doesn't appear in the response. To validate whether the preference is applied to your last generated set of recommendations, review the effectiveRecommendationPreferences value in the response of the [GetEC2InstanceRecommendations] actions. For more information, see [Enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/external-metrics-ingestion.html) in the Compute Optimizer User Guide.
@@ -7317,7 +7317,7 @@ public struct GetEffectiveRecommendationPreferencesOutput: Swift.Equatable {
     }
 }
 
-struct GetEffectiveRecommendationPreferencesOutputBody: Swift.Equatable {
+struct GetEffectiveRecommendationPreferencesOutputBody {
     let enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics?
     let externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference?
     let lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference?
@@ -7400,12 +7400,12 @@ extension GetEnrollmentStatusInput {
     }
 }
 
-public struct GetEnrollmentStatusInput: Swift.Equatable {
+public struct GetEnrollmentStatusInput {
 
     public init() { }
 }
 
-struct GetEnrollmentStatusInputBody: Swift.Equatable {
+struct GetEnrollmentStatusInputBody {
 }
 
 extension GetEnrollmentStatusInputBody: Swift.Decodable {
@@ -7434,7 +7434,7 @@ extension GetEnrollmentStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEnrollmentStatusOutput: Swift.Equatable {
+public struct GetEnrollmentStatusOutput {
     /// The Unix epoch timestamp, in seconds, of when the account enrollment status was last updated.
     public var lastUpdatedTimestamp: ClientRuntime.Date?
     /// Confirms the enrollment status of member accounts of the organization, if the account is a management account of an organization.
@@ -7462,7 +7462,7 @@ public struct GetEnrollmentStatusOutput: Swift.Equatable {
     }
 }
 
-struct GetEnrollmentStatusOutputBody: Swift.Equatable {
+struct GetEnrollmentStatusOutputBody {
     let status: ComputeOptimizerClientTypes.Status?
     let statusReason: Swift.String?
     let memberAccountsEnrolled: Swift.Bool
@@ -7541,7 +7541,7 @@ extension GetEnrollmentStatusesForOrganizationInput {
     }
 }
 
-public struct GetEnrollmentStatusesForOrganizationInput: Swift.Equatable {
+public struct GetEnrollmentStatusesForOrganizationInput {
     /// An array of objects to specify a filter that returns a more specific list of account enrollment statuses.
     public var filters: [ComputeOptimizerClientTypes.EnrollmentFilter]?
     /// The maximum number of account enrollment statuses to return with a single request. You can specify up to 100 statuses to return with each request. To retrieve the remaining results, make another request with the returned nextToken value.
@@ -7561,7 +7561,7 @@ public struct GetEnrollmentStatusesForOrganizationInput: Swift.Equatable {
     }
 }
 
-struct GetEnrollmentStatusesForOrganizationInputBody: Swift.Equatable {
+struct GetEnrollmentStatusesForOrganizationInputBody {
     let filters: [ComputeOptimizerClientTypes.EnrollmentFilter]?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -7608,7 +7608,7 @@ extension GetEnrollmentStatusesForOrganizationOutput: ClientRuntime.HttpResponse
     }
 }
 
-public struct GetEnrollmentStatusesForOrganizationOutput: Swift.Equatable {
+public struct GetEnrollmentStatusesForOrganizationOutput {
     /// An array of objects that describe the enrollment statuses of organization member accounts.
     public var accountEnrollmentStatuses: [ComputeOptimizerClientTypes.AccountEnrollmentStatus]?
     /// The token to use to advance to the next page of account enrollment statuses. This value is null when there are no more pages of account enrollment statuses to return.
@@ -7624,7 +7624,7 @@ public struct GetEnrollmentStatusesForOrganizationOutput: Swift.Equatable {
     }
 }
 
-struct GetEnrollmentStatusesForOrganizationOutputBody: Swift.Equatable {
+struct GetEnrollmentStatusesForOrganizationOutputBody {
     let accountEnrollmentStatuses: [ComputeOptimizerClientTypes.AccountEnrollmentStatus]?
     let nextToken: Swift.String?
 }
@@ -7714,7 +7714,7 @@ extension GetLambdaFunctionRecommendationsInput {
     }
 }
 
-public struct GetLambdaFunctionRecommendationsInput: Swift.Equatable {
+public struct GetLambdaFunctionRecommendationsInput {
     /// The ID of the Amazon Web Services account for which to return function recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return function recommendations. Only one account ID can be specified per request.
     public var accountIds: [Swift.String]?
     /// An array of objects to specify a filter that returns a more specific list of function recommendations.
@@ -7742,7 +7742,7 @@ public struct GetLambdaFunctionRecommendationsInput: Swift.Equatable {
     }
 }
 
-struct GetLambdaFunctionRecommendationsInputBody: Swift.Equatable {
+struct GetLambdaFunctionRecommendationsInputBody {
     let functionArns: [Swift.String]?
     let accountIds: [Swift.String]?
     let filters: [ComputeOptimizerClientTypes.LambdaFunctionRecommendationFilter]?
@@ -7815,7 +7815,7 @@ extension GetLambdaFunctionRecommendationsOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct GetLambdaFunctionRecommendationsOutput: Swift.Equatable {
+public struct GetLambdaFunctionRecommendationsOutput {
     /// An array of objects that describe function recommendations.
     public var lambdaFunctionRecommendations: [ComputeOptimizerClientTypes.LambdaFunctionRecommendation]?
     /// The token to use to advance to the next page of function recommendations. This value is null when there are no more pages of function recommendations to return.
@@ -7831,7 +7831,7 @@ public struct GetLambdaFunctionRecommendationsOutput: Swift.Equatable {
     }
 }
 
-struct GetLambdaFunctionRecommendationsOutputBody: Swift.Equatable {
+struct GetLambdaFunctionRecommendationsOutputBody {
     let nextToken: Swift.String?
     let lambdaFunctionRecommendations: [ComputeOptimizerClientTypes.LambdaFunctionRecommendation]?
 }
@@ -7923,7 +7923,7 @@ extension GetLicenseRecommendationsInput {
     }
 }
 
-public struct GetLicenseRecommendationsInput: Swift.Equatable {
+public struct GetLicenseRecommendationsInput {
     /// The ID of the Amazon Web Services account for which to return license recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return license recommendations. Only one account ID can be specified per request.
     public var accountIds: [Swift.String]?
     /// An array of objects to specify a filter that returns a more specific list of license recommendations.
@@ -7951,7 +7951,7 @@ public struct GetLicenseRecommendationsInput: Swift.Equatable {
     }
 }
 
-struct GetLicenseRecommendationsInputBody: Swift.Equatable {
+struct GetLicenseRecommendationsInputBody {
     let resourceArns: [Swift.String]?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -8026,7 +8026,7 @@ extension GetLicenseRecommendationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLicenseRecommendationsOutput: Swift.Equatable {
+public struct GetLicenseRecommendationsOutput {
     /// An array of objects that describe errors of the request.
     public var errors: [ComputeOptimizerClientTypes.GetRecommendationError]?
     /// An array of objects that describe license recommendations.
@@ -8046,7 +8046,7 @@ public struct GetLicenseRecommendationsOutput: Swift.Equatable {
     }
 }
 
-struct GetLicenseRecommendationsOutputBody: Swift.Equatable {
+struct GetLicenseRecommendationsOutputBody {
     let nextToken: Swift.String?
     let licenseRecommendations: [ComputeOptimizerClientTypes.LicenseRecommendation]?
     let errors: [ComputeOptimizerClientTypes.GetRecommendationError]?
@@ -8139,7 +8139,7 @@ extension ComputeOptimizerClientTypes.GetRecommendationError: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// Describes an error experienced when getting recommendations. For example, an error is returned if you request recommendations for an unsupported Auto Scaling group, or if you request recommendations for an instance of an unsupported instance family.
-    public struct GetRecommendationError: Swift.Equatable {
+    public struct GetRecommendationError {
         /// The error code.
         public var code: Swift.String?
         /// The ID of the error.
@@ -8193,7 +8193,7 @@ extension GetRecommendationPreferencesInput {
     }
 }
 
-public struct GetRecommendationPreferencesInput: Swift.Equatable {
+public struct GetRecommendationPreferencesInput {
     /// The maximum number of recommendation preferences to return with a single request. To retrieve the remaining results, make another request with the returned nextToken value.
     public var maxResults: Swift.Int?
     /// The token to advance to the next page of recommendation preferences.
@@ -8218,7 +8218,7 @@ public struct GetRecommendationPreferencesInput: Swift.Equatable {
     }
 }
 
-struct GetRecommendationPreferencesInputBody: Swift.Equatable {
+struct GetRecommendationPreferencesInputBody {
     let resourceType: ComputeOptimizerClientTypes.ResourceType?
     let scope: ComputeOptimizerClientTypes.Scope?
     let nextToken: Swift.String?
@@ -8260,7 +8260,7 @@ extension GetRecommendationPreferencesOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct GetRecommendationPreferencesOutput: Swift.Equatable {
+public struct GetRecommendationPreferencesOutput {
     /// The token to use to advance to the next page of recommendation preferences. This value is null when there are no more pages of recommendation preferences to return.
     public var nextToken: Swift.String?
     /// An array of objects that describe recommendation preferences.
@@ -8276,7 +8276,7 @@ public struct GetRecommendationPreferencesOutput: Swift.Equatable {
     }
 }
 
-struct GetRecommendationPreferencesOutputBody: Swift.Equatable {
+struct GetRecommendationPreferencesOutputBody {
     let nextToken: Swift.String?
     let recommendationPreferencesDetails: [ComputeOptimizerClientTypes.RecommendationPreferencesDetail]?
 }
@@ -8354,7 +8354,7 @@ extension GetRecommendationSummariesInput {
     }
 }
 
-public struct GetRecommendationSummariesInput: Swift.Equatable {
+public struct GetRecommendationSummariesInput {
     /// The ID of the Amazon Web Services account for which to return recommendation summaries. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return recommendation summaries. Only one account ID can be specified per request.
     public var accountIds: [Swift.String]?
     /// The maximum number of recommendation summaries to return with a single request. To retrieve the remaining results, make another request with the returned nextToken value.
@@ -8374,7 +8374,7 @@ public struct GetRecommendationSummariesInput: Swift.Equatable {
     }
 }
 
-struct GetRecommendationSummariesInputBody: Swift.Equatable {
+struct GetRecommendationSummariesInputBody {
     let accountIds: [Swift.String]?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -8421,7 +8421,7 @@ extension GetRecommendationSummariesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRecommendationSummariesOutput: Swift.Equatable {
+public struct GetRecommendationSummariesOutput {
     /// The token to use to advance to the next page of recommendation summaries. This value is null when there are no more pages of recommendation summaries to return.
     public var nextToken: Swift.String?
     /// An array of objects that summarize a recommendation.
@@ -8437,7 +8437,7 @@ public struct GetRecommendationSummariesOutput: Swift.Equatable {
     }
 }
 
-struct GetRecommendationSummariesOutputBody: Swift.Equatable {
+struct GetRecommendationSummariesOutputBody {
     let nextToken: Swift.String?
     let recommendationSummaries: [ComputeOptimizerClientTypes.RecommendationSummary]?
 }
@@ -8510,7 +8510,7 @@ extension ComputeOptimizerClientTypes.Gpu: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// Describes the GPU accelerators for the instance type.
-    public struct Gpu: Swift.Equatable {
+    public struct Gpu {
         /// The number of GPUs for the instance type.
         public var gpuCount: Swift.Int
         /// The total size of the memory for the GPU accelerators for the instance type, in MiB.
@@ -8561,7 +8561,7 @@ extension ComputeOptimizerClientTypes.GpuInfo: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// Describes the GPU accelerator settings for the instance type.
-    public struct GpuInfo: Swift.Equatable {
+    public struct GpuInfo {
         /// Describes the GPU accelerators for the instance type.
         public var gpus: [ComputeOptimizerClientTypes.Gpu]?
 
@@ -8614,7 +8614,7 @@ extension ComputeOptimizerClientTypes.InferredWorkloadSaving: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// The estimated monthly savings after you adjust the configurations of your instances running on the inferred workload types to the recommended configurations. If the inferredWorkloadTypes list contains multiple entries, then the savings are the sum of the monthly savings from instances that run the exact combination of the inferred workload types.
-    public struct InferredWorkloadSaving: Swift.Equatable {
+    public struct InferredWorkloadSaving {
         /// An object that describes the estimated monthly savings amount possible by adopting Compute Optimizer recommendations for a given resource. This is based on the On-Demand instance pricing.
         public var estimatedMonthlySavings: ComputeOptimizerClientTypes.EstimatedMonthlySavings?
         /// The applications that might be running on the instance as inferred by Compute Optimizer. Compute Optimizer can infer if one of the following applications might be running on the instance:
@@ -8762,7 +8762,7 @@ extension ComputeOptimizerClientTypes.InstanceEstimatedMonthlySavings: Swift.Cod
 
 extension ComputeOptimizerClientTypes {
     /// An object that describes the estimated monthly savings possible by adopting Compute Optimizer’s Amazon EC2 instance recommendations. This is based on the Savings Plans and Reserved Instances pricing discounts.
-    public struct InstanceEstimatedMonthlySavings: Swift.Equatable {
+    public struct InstanceEstimatedMonthlySavings {
         /// The currency of the estimated monthly savings.
         public var currency: ComputeOptimizerClientTypes.Currency?
         /// The value of the estimated monthly savings.
@@ -9013,7 +9013,7 @@ extension ComputeOptimizerClientTypes.InstanceRecommendation: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// Describes an Amazon EC2 instance recommendation.
-    public struct InstanceRecommendation: Swift.Equatable {
+    public struct InstanceRecommendation {
         /// The Amazon Web Services account ID of the instance.
         public var accountId: Swift.String?
         /// Describes the GPU accelerator settings for the current instance type.
@@ -9337,7 +9337,7 @@ extension ComputeOptimizerClientTypes.InstanceRecommendationOption: Swift.Codabl
 
 extension ComputeOptimizerClientTypes {
     /// Describes a recommendation option for an Amazon EC2 instance.
-    public struct InstanceRecommendationOption: Swift.Equatable {
+    public struct InstanceRecommendationOption {
         /// Describes the GPU accelerator settings for the recommended instance type.
         public var instanceGpuInfo: ComputeOptimizerClientTypes.GpuInfo?
         /// The instance type of the instance recommendation.
@@ -9416,7 +9416,7 @@ extension ComputeOptimizerClientTypes.InstanceSavingsEstimationMode: Swift.Codab
 
 extension ComputeOptimizerClientTypes {
     /// Describes the savings estimation mode used for calculating savings opportunity for Amazon EC2 instances.
-    public struct InstanceSavingsEstimationMode: Swift.Equatable {
+    public struct InstanceSavingsEstimationMode {
         /// Describes the source for calculating the savings opportunity for Amazon EC2 instances.
         public var source: ComputeOptimizerClientTypes.InstanceSavingsEstimationModeSource?
 
@@ -9492,7 +9492,7 @@ extension ComputeOptimizerClientTypes.InstanceSavingsOpportunityAfterDiscounts: 
 
 extension ComputeOptimizerClientTypes {
     /// Describes the savings opportunity for instance recommendations after applying the Savings Plans and Reserved Instances discounts. Savings opportunity after discounts represents the estimated monthly savings you can achieve by implementing Compute Optimizer recommendations.
-    public struct InstanceSavingsOpportunityAfterDiscounts: Swift.Equatable {
+    public struct InstanceSavingsOpportunityAfterDiscounts {
         /// An object that describes the estimated monthly savings possible by adopting Compute Optimizer’s Amazon EC2 instance recommendations. This is based on pricing after applying the Savings Plans and Reserved Instances discounts.
         public var estimatedMonthlySavings: ComputeOptimizerClientTypes.InstanceEstimatedMonthlySavings?
         /// The estimated monthly savings possible as a percentage of monthly cost after applying the Savings Plans and Reserved Instances discounts. This saving can be achieved by adopting Compute Optimizer’s EC2 instance recommendations.
@@ -9593,7 +9593,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -9648,7 +9648,7 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct InvalidParameterValueExceptionBody: Swift.Equatable {
+struct InvalidParameterValueExceptionBody {
     let message: Swift.String?
 }
 
@@ -9703,7 +9703,7 @@ extension ComputeOptimizerClientTypes.JobFilter: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// Describes a filter that returns a more specific list of recommendation export jobs. Use this filter with the [DescribeRecommendationExportJobs] action. You can use EBSFilter with the [GetEBSVolumeRecommendations] action, LambdaFunctionRecommendationFilter with the [GetLambdaFunctionRecommendations] action, and Filter with the [GetAutoScalingGroupRecommendations] and [GetEC2InstanceRecommendations] actions.
-    public struct JobFilter: Swift.Equatable {
+    public struct JobFilter {
         /// The name of the filter. Specify ResourceType to return export jobs of a specific resource type (for example, Ec2Instance). Specify JobStatus to return export jobs with a specific status (e.g, Complete).
         public var name: ComputeOptimizerClientTypes.JobFilterName?
         /// The value of the filter. The valid values for this parameter are as follows, depending on what you specify for the name parameter:
@@ -9816,7 +9816,7 @@ extension ComputeOptimizerClientTypes.LambdaEffectiveRecommendationPreferences: 
 
 extension ComputeOptimizerClientTypes {
     /// Describes the effective recommendation preferences for Lambda functions.
-    public struct LambdaEffectiveRecommendationPreferences: Swift.Equatable {
+    public struct LambdaEffectiveRecommendationPreferences {
         /// Describes the savings estimation mode applied for calculating savings opportunity for Lambda functions.
         public var savingsEstimationMode: ComputeOptimizerClientTypes.LambdaSavingsEstimationMode?
 
@@ -9857,7 +9857,7 @@ extension ComputeOptimizerClientTypes.LambdaEstimatedMonthlySavings: Swift.Codab
 
 extension ComputeOptimizerClientTypes {
     /// Describes the estimated monthly savings possible for Lambda functions by adopting Compute Optimizer recommendations. This is based on Lambda functions pricing after applying Savings Plans discounts.
-    public struct LambdaEstimatedMonthlySavings: Swift.Equatable {
+    public struct LambdaEstimatedMonthlySavings {
         /// The currency of the estimated monthly savings.
         public var currency: ComputeOptimizerClientTypes.Currency?
         /// The value of the estimated monthly savings.
@@ -9972,7 +9972,7 @@ extension ComputeOptimizerClientTypes.LambdaFunctionMemoryProjectedMetric: Swift
 
 extension ComputeOptimizerClientTypes {
     /// Describes a projected utilization metric of an Lambda function recommendation option.
-    public struct LambdaFunctionMemoryProjectedMetric: Swift.Equatable {
+    public struct LambdaFunctionMemoryProjectedMetric {
         /// The name of the projected utilization metric.
         public var name: ComputeOptimizerClientTypes.LambdaFunctionMemoryMetricName?
         /// The statistic of the projected utilization metric.
@@ -10051,7 +10051,7 @@ extension ComputeOptimizerClientTypes.LambdaFunctionMemoryRecommendationOption: 
 
 extension ComputeOptimizerClientTypes {
     /// Describes a recommendation option for an Lambda function.
-    public struct LambdaFunctionMemoryRecommendationOption: Swift.Equatable {
+    public struct LambdaFunctionMemoryRecommendationOption {
         /// The memory size, in MB, of the function recommendation option.
         public var memorySize: Swift.Int
         /// An array of objects that describe the projected utilization metrics of the function recommendation option.
@@ -10292,7 +10292,7 @@ extension ComputeOptimizerClientTypes.LambdaFunctionRecommendation: Swift.Codabl
 
 extension ComputeOptimizerClientTypes {
     /// Describes an Lambda function recommendation.
-    public struct LambdaFunctionRecommendation: Swift.Equatable {
+    public struct LambdaFunctionRecommendation {
         /// The Amazon Web Services account ID of the function.
         public var accountId: Swift.String?
         /// The amount of memory, in MB, that's allocated to the current function.
@@ -10411,7 +10411,7 @@ extension ComputeOptimizerClientTypes.LambdaFunctionRecommendationFilter: Swift.
 
 extension ComputeOptimizerClientTypes {
     /// Describes a filter that returns a more specific list of Lambda function recommendations. Use this filter with the [GetLambdaFunctionRecommendations] action. You can use EBSFilter with the [GetEBSVolumeRecommendations] action, JobFilter with the [DescribeRecommendationExportJobs] action, and Filter with the [GetAutoScalingGroupRecommendations] and [GetEC2InstanceRecommendations] actions.
-    public struct LambdaFunctionRecommendationFilter: Swift.Equatable {
+    public struct LambdaFunctionRecommendationFilter {
         /// The name of the filter. Specify Finding to return recommendations with a specific finding classification (for example, NotOptimized). Specify FindingReasonCode to return recommendations with a specific finding reason code (for example, MemoryUnderprovisioned). You can filter your Lambda function recommendations by tag:key and tag-key tags. A tag:key is a key and value combination of a tag assigned to your Lambda function recommendations. Use the tag key in the filter name and the tag value as the filter value. For example, to find all Lambda function recommendations that have a tag with the key of Owner and the value of TeamA, specify tag:Owner for the filter name and TeamA for the filter value. A tag-key is the key of a tag assigned to your Lambda function recommendations. Use this filter to find all of your Lambda function recommendations that have a tag with a specific key. This doesn’t consider the tag value. For example, you can find your Lambda function recommendations with a tag key value of Owner or without any tag keys assigned.
         public var name: ComputeOptimizerClientTypes.LambdaFunctionRecommendationFilterName?
         /// The value of the filter. The valid values for this parameter are as follows, depending on what you specify for the name parameter:
@@ -10571,7 +10571,7 @@ extension ComputeOptimizerClientTypes.LambdaFunctionUtilizationMetric: Swift.Cod
 
 extension ComputeOptimizerClientTypes {
     /// Describes a utilization metric of an Lambda function.
-    public struct LambdaFunctionUtilizationMetric: Swift.Equatable {
+    public struct LambdaFunctionUtilizationMetric {
         /// The name of the utilization metric. The following utilization metrics are available:
         ///
         /// * Duration - The amount of time that your function code spends processing an event.
@@ -10618,7 +10618,7 @@ extension ComputeOptimizerClientTypes.LambdaSavingsEstimationMode: Swift.Codable
 
 extension ComputeOptimizerClientTypes {
     /// Describes the savings estimation used for calculating savings opportunity for Lambda functions.
-    public struct LambdaSavingsEstimationMode: Swift.Equatable {
+    public struct LambdaSavingsEstimationMode {
         /// Describes the source for calculation of savings opportunity for Lambda functions.
         public var source: ComputeOptimizerClientTypes.LambdaSavingsEstimationModeSource?
 
@@ -10694,7 +10694,7 @@ extension ComputeOptimizerClientTypes.LambdaSavingsOpportunityAfterDiscounts: Sw
 
 extension ComputeOptimizerClientTypes {
     /// Describes the savings opportunity for Lambda functions recommendations after applying Savings Plans discounts. Savings opportunity represents the estimated monthly savings after applying Savings Plans discounts. You can achieve this by implementing a given Compute Optimizer recommendation.
-    public struct LambdaSavingsOpportunityAfterDiscounts: Swift.Equatable {
+    public struct LambdaSavingsOpportunityAfterDiscounts {
         /// The estimated monthly savings possible by adopting Compute Optimizer’s Lambda function recommendations. This includes any applicable Savings Plans discounts.
         public var estimatedMonthlySavings: ComputeOptimizerClientTypes.LambdaEstimatedMonthlySavings?
         /// The estimated monthly savings possible as a percentage of monthly cost by adopting Compute Optimizer’s Lambda function recommendations. This includes any applicable Savings Plans discounts.
@@ -10787,7 +10787,7 @@ extension ComputeOptimizerClientTypes.LicenseConfiguration: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// Describes the configuration of a license for an Amazon EC2 instance.
-    public struct LicenseConfiguration: Swift.Equatable {
+    public struct LicenseConfiguration {
         /// The instance type used in the license.
         public var instanceType: Swift.String?
         /// The edition of the license for the application that runs on the instance.
@@ -11106,7 +11106,7 @@ extension ComputeOptimizerClientTypes.LicenseRecommendation: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// Describes a license recommendation for an EC2 instance.
-    public struct LicenseRecommendation: Swift.Equatable {
+    public struct LicenseRecommendation {
         /// The Amazon Web Services account ID of the license.
         public var accountId: Swift.String?
         /// An object that describes the current configuration of an instance that runs on a license.
@@ -11205,7 +11205,7 @@ extension ComputeOptimizerClientTypes.LicenseRecommendationFilter: Swift.Codable
 
 extension ComputeOptimizerClientTypes {
     /// Describes a filter that returns a more specific list of license recommendations. Use this filter with the GetLicenseRecommendation action.
-    public struct LicenseRecommendationFilter: Swift.Equatable {
+    public struct LicenseRecommendationFilter {
         /// The name of the filter. Specify Finding to return recommendations with a specific finding classification. Specify FindingReasonCode to return recommendations with a specific finding reason code. You can filter your license recommendations by tag:key and tag-key tags. A tag:key is a key and value combination of a tag assigned to your license recommendations. Use the tag key in the filter name and the tag value as the filter value. For example, to find all license recommendations that have a tag with the key of Owner and the value of TeamA, specify tag:Owner for the filter name and TeamA for the filter value. A tag-key is the key of a tag assigned to your license recommendations. Use this filter to find all of your license recommendations that have a tag with a specific key. This doesn’t consider the tag value. For example, you can find your license recommendations with a tag key value of Owner or without any tag keys assigned.
         public var name: ComputeOptimizerClientTypes.LicenseRecommendationFilterName?
         /// The value of the filter. The valid values for this parameter are as follows, depending on what you specify for the name parameter:
@@ -11307,7 +11307,7 @@ extension ComputeOptimizerClientTypes.LicenseRecommendationOption: Swift.Codable
 
 extension ComputeOptimizerClientTypes {
     /// Describes the recommendation options for licenses.
-    public struct LicenseRecommendationOption: Swift.Equatable {
+    public struct LicenseRecommendationOption {
         /// The recommended edition of the license for the application that runs on the instance.
         public var licenseEdition: ComputeOptimizerClientTypes.LicenseEdition?
         /// The recommended license type associated with the instance.
@@ -11376,7 +11376,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -11454,7 +11454,7 @@ extension ComputeOptimizerClientTypes.MemorySizeConfiguration: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// The memory size configurations of a container.
-    public struct MemorySizeConfiguration: Swift.Equatable {
+    public struct MemorySizeConfiguration {
         /// The amount of memory in the container.
         public var memory: Swift.Int?
         /// The limit of memory reserve for the container.
@@ -11573,7 +11573,7 @@ extension ComputeOptimizerClientTypes.MetricSource: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// The list of metric sources required to generate recommendations for commercial software licenses.
-    public struct MetricSource: Swift.Equatable {
+    public struct MetricSource {
         /// The name of the metric source provider.
         public var provider: ComputeOptimizerClientTypes.MetricSourceProvider?
         /// The ARN of the metric source provider.
@@ -11729,7 +11729,7 @@ public struct MissingAuthenticationToken: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct MissingAuthenticationTokenBody: Swift.Equatable {
+struct MissingAuthenticationTokenBody {
     let message: Swift.String?
 }
 
@@ -11784,7 +11784,7 @@ public struct OptInRequiredException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct OptInRequiredExceptionBody: Swift.Equatable {
+struct OptInRequiredExceptionBody {
     let message: Swift.String?
 }
 
@@ -11905,7 +11905,7 @@ extension ComputeOptimizerClientTypes {
     /// * This preference is only available for the Amazon EC2 instance and Auto Scaling group resource types.
     ///
     /// * Compute Optimizer only supports the customization of Ec2InstanceTypes.
-    public struct PreferredResource: Swift.Equatable {
+    public struct PreferredResource {
         /// The preferred resource type values to exclude from the recommendation candidates. If this isn’t specified, all supported resources are included by default. You can specify up to 1000 values in this list.
         public var excludeList: [Swift.String]?
         /// The preferred resource type values to include in the recommendation candidates. You can specify the exact resource type value, such as m5.large, or use wild card expressions, such as m5. If this isn’t specified, all supported resources are included by default. You can specify up to 1000 values in this list.
@@ -12013,7 +12013,7 @@ extension ComputeOptimizerClientTypes.ProjectedMetric: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// Describes a projected utilization metric of a recommendation option, such as an Amazon EC2 instance. This represents the projected utilization of a recommendation option had you used that resource during the analyzed period. Compare the utilization metric data of your resource against its projected utilization metric data to determine the performance difference between your current resource and the recommended option. The Cpu, Memory, GPU, and GPU_MEMORY metrics are the only projected utilization metrics returned when you run the [GetEC2RecommendationProjectedMetrics] action. Additionally, these metrics are only returned for resources with the unified CloudWatch agent installed on them. For more information, see [Enabling Memory Utilization with the CloudWatch Agent](https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#cw-agent) and [Enabling NVIDIA GPU utilization with the CloudWatch Agent](https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#nvidia-cw-agent).
-    public struct ProjectedMetric: Swift.Equatable {
+    public struct ProjectedMetric {
         /// The name of the projected utilization metric. The following projected utilization metrics are returned:
         ///
         /// * Cpu - The projected percentage of allocated EC2 compute units that would be in use on the recommendation option had you used that resource during the analyzed period. This metric identifies the processing power required to run an application on the recommendation option. Depending on the instance type, tools in your operating system can show a lower percentage than CloudWatch when the instance is not allocated a full processor core.
@@ -12101,7 +12101,7 @@ extension PutRecommendationPreferencesInput {
     }
 }
 
-public struct PutRecommendationPreferencesInput: Swift.Equatable {
+public struct PutRecommendationPreferencesInput {
     /// The status of the enhanced infrastructure metrics recommendation preference to create or update. Specify the Active status to activate the preference, or specify Inactive to deactivate the preference. For more information, see [Enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide.
     public var enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics?
     /// The provider of the external metrics recommendation preference to create or update. Specify a valid provider in the source field to activate the preference. To delete this preference, see the [DeleteRecommendationPreferences] action. This preference can only be set for the Ec2Instance resource type. For more information, see [External metrics ingestion](https://docs.aws.amazon.com/compute-optimizer/latest/ug/external-metrics-ingestion.html) in the Compute Optimizer User Guide.
@@ -12162,7 +12162,7 @@ public struct PutRecommendationPreferencesInput: Swift.Equatable {
     }
 }
 
-struct PutRecommendationPreferencesInputBody: Swift.Equatable {
+struct PutRecommendationPreferencesInputBody {
     let resourceType: ComputeOptimizerClientTypes.ResourceType?
     let scope: ComputeOptimizerClientTypes.Scope?
     let enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics?
@@ -12233,7 +12233,7 @@ extension PutRecommendationPreferencesOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct PutRecommendationPreferencesOutput: Swift.Equatable {
+public struct PutRecommendationPreferencesOutput {
 
     public init() { }
 }
@@ -12283,7 +12283,7 @@ extension ComputeOptimizerClientTypes.ReasonCodeSummary: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// A summary of a finding reason code.
-    public struct ReasonCodeSummary: Swift.Equatable {
+    public struct ReasonCodeSummary {
         /// The name of the finding reason code.
         public var name: ComputeOptimizerClientTypes.FindingReasonCode?
         /// The value of the finding reason code summary.
@@ -12358,7 +12358,7 @@ extension ComputeOptimizerClientTypes.RecommendationExportJob: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// Describes a recommendation export job. Use the [DescribeRecommendationExportJobs] action to view your recommendation export jobs. Use the [ExportAutoScalingGroupRecommendations] or [ExportEC2InstanceRecommendations] actions to request an export of your recommendations.
-    public struct RecommendationExportJob: Swift.Equatable {
+    public struct RecommendationExportJob {
         /// The timestamp of when the export job was created.
         public var creationTimestamp: ClientRuntime.Date?
         /// An object that describes the destination of the export file.
@@ -12473,7 +12473,7 @@ extension ComputeOptimizerClientTypes.RecommendationPreferences: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// Describes the recommendation preferences to return in the response of a [GetAutoScalingGroupRecommendations], [GetEC2InstanceRecommendations], and [GetEC2RecommendationProjectedMetrics] request.
-    public struct RecommendationPreferences: Swift.Equatable {
+    public struct RecommendationPreferences {
         /// Specifies the CPU vendor and architecture for Amazon EC2 instance and Auto Scaling group recommendations. For example, when you specify AWS_ARM64 with:
         ///
         /// * A [GetEC2InstanceRecommendations] or [GetAutoScalingGroupRecommendations] request, Compute Optimizer returns recommendations that consist of Graviton2 instance types only.
@@ -12586,7 +12586,7 @@ extension ComputeOptimizerClientTypes.RecommendationPreferencesDetail: Swift.Cod
 
 extension ComputeOptimizerClientTypes {
     /// Describes a recommendation preference.
-    public struct RecommendationPreferencesDetail: Swift.Equatable {
+    public struct RecommendationPreferencesDetail {
         /// The status of the enhanced infrastructure metrics recommendation preference. When the recommendations page is refreshed, a status of Active confirms that the preference is applied to the recommendations, and a status of Inactive confirms that the preference isn't yet applied to recommendations. For more information, see [Enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide.
         public var enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics?
         /// An object that describes the external metrics recommendation preference. If the preference is applied in the latest recommendation refresh, an object with a valid source value appears in the response. If the preference isn't applied to the recommendations already, then this object doesn't appear in the response.
@@ -12659,7 +12659,7 @@ extension ComputeOptimizerClientTypes.RecommendationSource: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// Describes the source of a recommendation, such as an Amazon EC2 instance or Auto Scaling group.
-    public struct RecommendationSource: Swift.Equatable {
+    public struct RecommendationSource {
         /// The Amazon Resource Name (ARN) of the recommendation source.
         public var recommendationSourceArn: Swift.String?
         /// The resource type of the recommendation source.
@@ -12796,7 +12796,7 @@ extension ComputeOptimizerClientTypes.RecommendationSummary: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// A summary of a recommendation.
-    public struct RecommendationSummary: Swift.Equatable {
+    public struct RecommendationSummary {
         /// The Amazon Web Services account ID of the recommendation summary.
         public var accountId: Swift.String?
         /// An object that describes the performance risk ratings for a given resource type.
@@ -12875,7 +12875,7 @@ extension ComputeOptimizerClientTypes.RecommendedOptionProjectedMetric: Swift.Co
 
 extension ComputeOptimizerClientTypes {
     /// Describes a projected utilization metric of a recommendation option. The Cpu and Memory metrics are the only projected utilization metrics returned when you run the [GetEC2RecommendationProjectedMetrics] action. Additionally, the Memory metric is returned only for resources that have the unified CloudWatch agent installed on them. For more information, see [Enabling Memory Utilization with the CloudWatch Agent](https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#cw-agent).
-    public struct RecommendedOptionProjectedMetric: Swift.Equatable {
+    public struct RecommendedOptionProjectedMetric {
         /// An array of objects that describe a projected utilization metric.
         public var projectedMetrics: [ComputeOptimizerClientTypes.ProjectedMetric]?
         /// The rank of the recommendation option projected metric. The top recommendation option is ranked as 1. The projected metric rank correlates to the recommendation option rank. For example, the projected metric ranked as 1 is related to the recommendation option that is also ranked as 1 in the same response.
@@ -12936,7 +12936,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -13032,7 +13032,7 @@ extension ComputeOptimizerClientTypes.S3Destination: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// Describes the destination Amazon Simple Storage Service (Amazon S3) bucket name and object keys of a recommendations export file, and its associated metadata file.
-    public struct S3Destination: Swift.Equatable {
+    public struct S3Destination {
         /// The name of the Amazon S3 bucket used as the destination of an export file.
         public var bucket: Swift.String?
         /// The Amazon S3 bucket key of an export file. The key uniquely identifies the object, or export file, in the S3 bucket.
@@ -13081,7 +13081,7 @@ extension ComputeOptimizerClientTypes.S3DestinationConfig: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// Describes the destination Amazon Simple Storage Service (Amazon S3) bucket name and key prefix for a recommendations export job. You must create the destination Amazon S3 bucket for your recommendations export before you create the export job. Compute Optimizer does not create the S3 bucket for you. After you create the S3 bucket, ensure that it has the required permission policy to allow Compute Optimizer to write the export file to it. If you plan to specify an object prefix when you create the export job, you must include the object prefix in the policy that you add to the S3 bucket. For more information, see [Amazon S3 Bucket Policy for Compute Optimizer](https://docs.aws.amazon.com/compute-optimizer/latest/ug/create-s3-bucket-policy-for-compute-optimizer.html) in the Compute Optimizer User Guide.
-    public struct S3DestinationConfig: Swift.Equatable {
+    public struct S3DestinationConfig {
         /// The name of the Amazon S3 bucket to use as the destination for an export job.
         public var bucket: Swift.String?
         /// The Amazon S3 bucket prefix for an export job.
@@ -13158,7 +13158,7 @@ extension ComputeOptimizerClientTypes.SavingsOpportunity: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// Describes the savings opportunity for recommendations of a given resource type or for the recommendation option of an individual resource. Savings opportunity represents the estimated monthly savings you can achieve by implementing a given Compute Optimizer recommendation. Savings opportunity data requires that you opt in to Cost Explorer, as well as activate Receive Amazon EC2 resource recommendations in the Cost Explorer preferences page. That creates a connection between Cost Explorer and Compute Optimizer. With this connection, Cost Explorer generates savings estimates considering the price of existing resources, the price of recommended resources, and historical usage data. Estimated monthly savings reflects the projected dollar savings associated with each of the recommendations generated. For more information, see [Enabling Cost Explorer](https://docs.aws.amazon.com/cost-management/latest/userguide/ce-enable.html) and [Optimizing your cost with Rightsizing Recommendations](https://docs.aws.amazon.com/cost-management/latest/userguide/ce-rightsizing.html) in the Cost Management User Guide.
-    public struct SavingsOpportunity: Swift.Equatable {
+    public struct SavingsOpportunity {
         /// An object that describes the estimated monthly savings amount possible by adopting Compute Optimizer recommendations for a given resource. This is based on the On-Demand instance pricing..
         public var estimatedMonthlySavings: ComputeOptimizerClientTypes.EstimatedMonthlySavings?
         /// The estimated monthly savings possible as a percentage of monthly cost by adopting Compute Optimizer recommendations for a given resource.
@@ -13203,7 +13203,7 @@ extension ComputeOptimizerClientTypes.Scope: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// Describes the scope of a recommendation preference. Recommendation preferences can be created at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see [Activating enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide. You cannot create recommendation preferences for Auto Scaling groups at the organization and account levels. You can create recommendation preferences for Auto Scaling groups only at the resource level by specifying a scope name of ResourceArn and a scope value of the Auto Scaling group Amazon Resource Name (ARN). This will configure the preference for all instances that are part of the specified Auto Scaling group. You also cannot create recommendation preferences at the resource level for instances that are part of an Auto Scaling group. You can create recommendation preferences at the resource level only for standalone instances.
-    public struct Scope: Swift.Equatable {
+    public struct Scope {
         /// The name of the scope. The following scopes are possible:
         ///
         /// * Organization - Specifies that the recommendation preference applies at the organization level, for all member accounts of an organization.
@@ -13328,7 +13328,7 @@ extension ComputeOptimizerClientTypes.ServiceConfiguration: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// The Amazon ECS service configurations used for recommendations.
-    public struct ServiceConfiguration: Swift.Equatable {
+    public struct ServiceConfiguration {
         /// Describes the Auto Scaling configuration methods for an Amazon ECS service. This affects the generated recommendations. For example, if Auto Scaling is configured on a service’s CPU, then Compute Optimizer doesn’t generate CPU size recommendations. The Auto Scaling configuration methods include:
         ///
         /// * TARGET_TRACKING_SCALING_CPU — If the Amazon ECS service is configured to use target scaling on CPU, Compute Optimizer doesn't generate CPU recommendations.
@@ -13404,7 +13404,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct ServiceUnavailableExceptionBody: Swift.Equatable {
+struct ServiceUnavailableExceptionBody {
     let message: Swift.String?
 }
 
@@ -13503,7 +13503,7 @@ extension ComputeOptimizerClientTypes.Summary: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// The summary of a recommendation.
-    public struct Summary: Swift.Equatable {
+    public struct Summary {
         /// The finding classification of the recommendation.
         public var name: ComputeOptimizerClientTypes.Finding?
         /// An array of objects that summarize a finding reason code.
@@ -13552,7 +13552,7 @@ extension ComputeOptimizerClientTypes.Tag: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// A list of tag key and value pairs that you define.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values.
         public var key: Swift.String?
         /// One part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). The value can be empty or null.
@@ -13610,7 +13610,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -13650,7 +13650,7 @@ extension UpdateEnrollmentStatusInput {
     }
 }
 
-public struct UpdateEnrollmentStatusInput: Swift.Equatable {
+public struct UpdateEnrollmentStatusInput {
     /// Indicates whether to enroll member accounts of the organization if the account is the management account of an organization.
     public var includeMemberAccounts: Swift.Bool?
     /// The new enrollment status of the account. The following status options are available:
@@ -13674,7 +13674,7 @@ public struct UpdateEnrollmentStatusInput: Swift.Equatable {
     }
 }
 
-struct UpdateEnrollmentStatusInputBody: Swift.Equatable {
+struct UpdateEnrollmentStatusInputBody {
     let status: ComputeOptimizerClientTypes.Status?
     let includeMemberAccounts: Swift.Bool?
 }
@@ -13708,7 +13708,7 @@ extension UpdateEnrollmentStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateEnrollmentStatusOutput: Swift.Equatable {
+public struct UpdateEnrollmentStatusOutput {
     /// The enrollment status of the account.
     public var status: ComputeOptimizerClientTypes.Status?
     /// The reason for the enrollment status of the account. For example, an account might show a status of Pending because member accounts of an organization require more time to be enrolled in the service.
@@ -13724,7 +13724,7 @@ public struct UpdateEnrollmentStatusOutput: Swift.Equatable {
     }
 }
 
-struct UpdateEnrollmentStatusOutputBody: Swift.Equatable {
+struct UpdateEnrollmentStatusOutputBody {
     let status: ComputeOptimizerClientTypes.Status?
     let statusReason: Swift.String?
 }
@@ -13793,7 +13793,7 @@ extension ComputeOptimizerClientTypes.UtilizationMetric: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// Describes a utilization metric of a resource, such as an Amazon EC2 instance. Compare the utilization metric data of your resource against its projected utilization metric data to determine the performance difference between your current resource and the recommended option.
-    public struct UtilizationMetric: Swift.Equatable {
+    public struct UtilizationMetric {
         /// The name of the utilization metric. The following utilization metrics are available:
         ///
         /// * Cpu - The percentage of allocated EC2 compute units that are currently in use on the instance. This metric identifies the processing power required to run an application on the instance. Depending on the instance type, tools in your operating system can show a lower percentage than CloudWatch when the instance is not allocated a full processor core. Units: Percent
@@ -13874,7 +13874,7 @@ extension ComputeOptimizerClientTypes.UtilizationPreference: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// The preference to control the resource’s CPU utilization thresholds - threshold and headroom. This preference is only available for the Amazon EC2 instance resource type.
-    public struct UtilizationPreference: Swift.Equatable {
+    public struct UtilizationPreference {
         /// The name of the resource utilization metric name to customize.
         public var metricName: ComputeOptimizerClientTypes.CustomizableMetricName?
         /// The parameters to set when customizing the resource utilization thresholds.
@@ -13949,7 +13949,7 @@ extension ComputeOptimizerClientTypes.VolumeConfiguration: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// Describes the configuration of an Amazon Elastic Block Store (Amazon EBS) volume.
-    public struct VolumeConfiguration: Swift.Equatable {
+    public struct VolumeConfiguration {
         /// Contains the image used to boot the instance during launch.
         public var rootVolume: Swift.Bool?
         /// The baseline IOPS of the volume.
@@ -14104,7 +14104,7 @@ extension ComputeOptimizerClientTypes.VolumeRecommendation: Swift.Codable {
 
 extension ComputeOptimizerClientTypes {
     /// Describes an Amazon Elastic Block Store (Amazon EBS) volume recommendation.
-    public struct VolumeRecommendation: Swift.Equatable {
+    public struct VolumeRecommendation {
         /// The Amazon Web Services account ID of the volume.
         public var accountId: Swift.String?
         /// An array of objects that describe the current configuration of the volume.
@@ -14207,7 +14207,7 @@ extension ComputeOptimizerClientTypes.VolumeRecommendationOption: Swift.Codable 
 
 extension ComputeOptimizerClientTypes {
     /// Describes a recommendation option for an Amazon Elastic Block Store (Amazon EBS) instance.
-    public struct VolumeRecommendationOption: Swift.Equatable {
+    public struct VolumeRecommendationOption {
         /// An array of objects that describe a volume configuration.
         public var configuration: ComputeOptimizerClientTypes.VolumeConfiguration?
         /// The performance risk of the volume recommendation option. Performance risk is the likelihood of the recommended volume type meeting the performance requirement of your workload. The value ranges from 0 - 4, with 0 meaning that the recommended resource is predicted to always provide enough hardware capability. The higher the performance risk is, the more likely you should validate whether the recommendation will meet the performance requirements of your workload before migrating your resource.

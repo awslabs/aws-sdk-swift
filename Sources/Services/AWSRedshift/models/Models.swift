@@ -30,7 +30,7 @@ extension AcceptReservedNodeExchangeInput {
     }
 }
 
-public struct AcceptReservedNodeExchangeInput: Swift.Equatable {
+public struct AcceptReservedNodeExchangeInput {
     /// A string representing the node identifier of the DC1 Reserved Node to be exchanged.
     /// This member is required.
     public var reservedNodeId: Swift.String?
@@ -61,7 +61,7 @@ extension AcceptReservedNodeExchangeOutput {
     }
 }
 
-public struct AcceptReservedNodeExchangeOutput: Swift.Equatable {
+public struct AcceptReservedNodeExchangeOutput {
     ///
     public var exchangedReservedNode: RedshiftClientTypes.ReservedNode?
 
@@ -206,7 +206,7 @@ extension RedshiftClientTypes.AccountAttribute: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// A name value pair that describes an aspect of an account.
-    public struct AccountAttribute: Swift.Equatable {
+    public struct AccountAttribute {
         /// The name of the attribute.
         public var attributeName: Swift.String?
         /// A list of attribute values.
@@ -253,7 +253,7 @@ extension RedshiftClientTypes.AccountWithRestoreAccess: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes an Amazon Web Services account authorized to restore a snapshot.
-    public struct AccountWithRestoreAccess: Swift.Equatable {
+    public struct AccountWithRestoreAccess {
         /// The identifier of an Amazon Web Services support account authorized to restore a snapshot. For Amazon Web Services Support, the identifier is amazon-redshift-support.
         public var accountAlias: Swift.String?
         /// The identifier of an Amazon Web Services account authorized to restore a snapshot.
@@ -340,7 +340,7 @@ extension AddPartnerInput {
     }
 }
 
-public struct AddPartnerInput: Swift.Equatable {
+public struct AddPartnerInput {
     /// The Amazon Web Services account ID that owns the cluster.
     /// This member is required.
     public var accountId: Swift.String?
@@ -382,7 +382,7 @@ extension AddPartnerOutput {
     }
 }
 
-public struct AddPartnerOutput: Swift.Equatable {
+public struct AddPartnerOutput {
     /// The name of the database that receives data from the partner.
     public var databaseName: Swift.String?
     /// The name of the partner that is authorized to send data.
@@ -447,7 +447,7 @@ extension RedshiftClientTypes.AquaConfiguration: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// The operation that uses this structure is retired. Amazon Redshift automatically determines whether to use AQUA (Advanced Query Accelerator).
-    public struct AquaConfiguration: Swift.Equatable {
+    public struct AquaConfiguration {
         /// This field is retired. Amazon Redshift automatically determines whether to use AQUA (Advanced Query Accelerator).
         public var aquaConfigurationStatus: RedshiftClientTypes.AquaConfigurationStatus?
         /// This field is retired. Amazon Redshift automatically determines whether to use AQUA (Advanced Query Accelerator).
@@ -573,7 +573,7 @@ extension AssociateDataShareConsumerInput {
     }
 }
 
-public struct AssociateDataShareConsumerInput: Swift.Equatable {
+public struct AssociateDataShareConsumerInput {
     /// If set to true, allows write operations for a datashare.
     public var allowWrites: Swift.Bool?
     /// A value that specifies whether the datashare is associated with the entire account.
@@ -619,7 +619,7 @@ extension AssociateDataShareConsumerOutput {
     }
 }
 
-public struct AssociateDataShareConsumerOutput: Swift.Equatable {
+public struct AssociateDataShareConsumerOutput {
     /// A value that specifies whether the datashare can be shared to a publicly accessible cluster.
     public var allowPubliclyAccessibleConsumers: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the datashare that the consumer is to use.
@@ -708,7 +708,7 @@ extension RedshiftClientTypes.Association: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Contains information about the custom domain name association.
-    public struct Association: Swift.Equatable {
+    public struct Association {
         /// A list of all associated clusters and domain names tied to a specific certificate.
         public var certificateAssociations: [RedshiftClientTypes.CertificateAssociation]?
         /// The Amazon Resource Name (ARN) for the certificate associated with the custom domain.
@@ -754,7 +754,7 @@ extension RedshiftClientTypes.AttributeValueTarget: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes an attribute value.
-    public struct AttributeValueTarget: Swift.Equatable {
+    public struct AttributeValueTarget {
         /// The value of the attribute.
         public var attributeValue: Swift.String?
 
@@ -797,7 +797,7 @@ extension RedshiftClientTypes.AuthenticationProfile: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes an authentication profile.
-    public struct AuthenticationProfile: Swift.Equatable {
+    public struct AuthenticationProfile {
         /// The content of the authentication profile in JSON format. The maximum length of the JSON string is determined by a quota for your account.
         public var authenticationProfileContent: Swift.String?
         /// The name of the authentication profile.
@@ -1098,7 +1098,7 @@ extension AuthorizeClusterSecurityGroupIngressInput {
 }
 
 ///
-public struct AuthorizeClusterSecurityGroupIngressInput: Swift.Equatable {
+public struct AuthorizeClusterSecurityGroupIngressInput {
     /// The IP range to be added the Amazon Redshift security group.
     public var cidrip: Swift.String?
     /// The name of the security group to which the ingress rule is added.
@@ -1136,7 +1136,7 @@ extension AuthorizeClusterSecurityGroupIngressOutput {
     }
 }
 
-public struct AuthorizeClusterSecurityGroupIngressOutput: Swift.Equatable {
+public struct AuthorizeClusterSecurityGroupIngressOutput {
     /// Describes a security group.
     public var clusterSecurityGroup: RedshiftClientTypes.ClusterSecurityGroup?
 
@@ -1198,7 +1198,7 @@ extension AuthorizeDataShareInput {
     }
 }
 
-public struct AuthorizeDataShareInput: Swift.Equatable {
+public struct AuthorizeDataShareInput {
     /// If set to true, allows write operations for a datashare.
     public var allowWrites: Swift.Bool?
     /// The identifier of the data consumer that is authorized to access the datashare. This identifier is an Amazon Web Services account ID or a keyword, such as ADX.
@@ -1237,7 +1237,7 @@ extension AuthorizeDataShareOutput {
     }
 }
 
-public struct AuthorizeDataShareOutput: Swift.Equatable {
+public struct AuthorizeDataShareOutput {
     /// A value that specifies whether the datashare can be shared to a publicly accessible cluster.
     public var allowPubliclyAccessibleConsumers: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the datashare that the consumer is to use.
@@ -1321,7 +1321,7 @@ extension AuthorizeEndpointAccessInput {
     }
 }
 
-public struct AuthorizeEndpointAccessInput: Swift.Equatable {
+public struct AuthorizeEndpointAccessInput {
     /// The Amazon Web Services account ID to grant access to.
     /// This member is required.
     public var account: Swift.String?
@@ -1364,7 +1364,7 @@ extension AuthorizeEndpointAccessOutput {
 }
 
 /// Describes an endpoint authorization for authorizing Redshift-managed VPC endpoint access to a cluster across Amazon Web Services accounts.
-public struct AuthorizeEndpointAccessOutput: Swift.Equatable {
+public struct AuthorizeEndpointAccessOutput {
     /// Indicates whether all VPCs in the grantee account are allowed access to the cluster.
     public var allowedAllVPCs: Swift.Bool?
     /// The VPCs allowed access to the cluster.
@@ -1465,7 +1465,7 @@ extension AuthorizeSnapshotAccessInput {
 }
 
 ///
-public struct AuthorizeSnapshotAccessInput: Swift.Equatable {
+public struct AuthorizeSnapshotAccessInput {
     /// The identifier of the Amazon Web Services account authorized to restore the specified snapshot. To share a snapshot with Amazon Web Services Support, specify amazon-redshift-support.
     /// This member is required.
     public var accountWithRestoreAccess: Swift.String?
@@ -1507,7 +1507,7 @@ extension AuthorizeSnapshotAccessOutput {
     }
 }
 
-public struct AuthorizeSnapshotAccessOutput: Swift.Equatable {
+public struct AuthorizeSnapshotAccessOutput {
     /// Describes a snapshot.
     public var snapshot: RedshiftClientTypes.Snapshot?
 
@@ -1580,7 +1580,7 @@ extension RedshiftClientTypes.AuthorizedTokenIssuer: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// The authorized token issuer for the Amazon Redshift IAM Identity Center application.
-    public struct AuthorizedTokenIssuer: Swift.Equatable {
+    public struct AuthorizedTokenIssuer {
         /// The list of audiences for the authorized token issuer for integrating Amazon Redshift with IDC Identity Center.
         public var authorizedAudiencesList: [Swift.String]?
         /// The ARN for the authorized token issuer for integrating Amazon Redshift with IDC Identity Center.
@@ -1636,7 +1636,7 @@ extension RedshiftClientTypes.AvailabilityZone: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes an availability zone.
-    public struct AvailabilityZone: Swift.Equatable {
+    public struct AvailabilityZone {
         /// The name of the availability zone.
         public var name: Swift.String?
         ///
@@ -1685,7 +1685,7 @@ extension BatchDeleteClusterSnapshotsInput {
     }
 }
 
-public struct BatchDeleteClusterSnapshotsInput: Swift.Equatable {
+public struct BatchDeleteClusterSnapshotsInput {
     /// A list of identifiers for the snapshots that you want to delete.
     /// This member is required.
     public var identifiers: [RedshiftClientTypes.DeleteClusterSnapshotMessage]?
@@ -1712,7 +1712,7 @@ extension BatchDeleteClusterSnapshotsOutput {
     }
 }
 
-public struct BatchDeleteClusterSnapshotsOutput: Swift.Equatable {
+public struct BatchDeleteClusterSnapshotsOutput {
     /// A list of any errors returned.
     public var errors: [RedshiftClientTypes.SnapshotErrorMessage]?
     /// A list of the snapshot identifiers that were deleted.
@@ -1820,7 +1820,7 @@ extension BatchModifyClusterSnapshotsInput {
     }
 }
 
-public struct BatchModifyClusterSnapshotsInput: Swift.Equatable {
+public struct BatchModifyClusterSnapshotsInput {
     /// A boolean value indicating whether to override an exception if the retention period has passed.
     public var force: Swift.Bool?
     /// The number of days that a manual snapshot is retained. If you specify the value -1, the manual snapshot is retained indefinitely. The number must be either -1 or an integer between 1 and 3,653. If you decrease the manual snapshot retention period from its current value, existing manual snapshots that fall outside of the new retention period will return an error. If you want to suppress the errors and delete the snapshots, use the force option.
@@ -1891,7 +1891,7 @@ extension BatchModifyClusterSnapshotsOutput {
     }
 }
 
-public struct BatchModifyClusterSnapshotsOutput: Swift.Equatable {
+public struct BatchModifyClusterSnapshotsOutput {
     /// A list of any errors returned.
     public var errors: [RedshiftClientTypes.SnapshotErrorMessage]?
     /// A list of the snapshots that were modified.
@@ -1983,7 +1983,7 @@ extension CancelResizeInput {
     }
 }
 
-public struct CancelResizeInput: Swift.Equatable {
+public struct CancelResizeInput {
     /// The unique identifier for the cluster that you want to cancel a resize operation for.
     /// This member is required.
     public var clusterIdentifier: Swift.String?
@@ -2025,7 +2025,7 @@ extension CancelResizeOutput {
 }
 
 /// Describes the result of a cluster resize operation.
-public struct CancelResizeOutput: Swift.Equatable {
+public struct CancelResizeOutput {
     /// The average rate of the resize operation over the last few minutes, measured in megabytes per second. After the resize operation completes, this value shows the average rate of the entire resize operation.
     public var avgResizeRateInMegaBytesPerSecond: Swift.Double?
     /// The percent of data transferred from source cluster to target cluster.
@@ -2146,7 +2146,7 @@ extension RedshiftClientTypes.CertificateAssociation: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// A cluster ID and custom domain name tied to a specific certificate. These are typically returned in a list.
-    public struct CertificateAssociation: Swift.Equatable {
+    public struct CertificateAssociation {
         /// The cluster identifier for the certificate association.
         public var clusterIdentifier: Swift.String?
         /// The custom domain name for the certificate association.
@@ -2555,7 +2555,7 @@ extension RedshiftClientTypes.Cluster: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes a cluster.
-    public struct Cluster: Swift.Equatable {
+    public struct Cluster {
         /// A boolean value that, if true, indicates that major version upgrades will be applied automatically to the cluster during the maintenance window.
         public var allowVersionUpgrade: Swift.Bool?
         /// This field is retired. Amazon Redshift automatically determines whether to use AQUA (Advanced Query Accelerator).
@@ -2928,7 +2928,7 @@ extension RedshiftClientTypes.ClusterAssociatedToSchedule: Swift.Encodable {
 
 extension RedshiftClientTypes {
     ///
-    public struct ClusterAssociatedToSchedule: Swift.Equatable {
+    public struct ClusterAssociatedToSchedule {
         ///
         public var clusterIdentifier: Swift.String?
         ///
@@ -2994,7 +2994,7 @@ extension RedshiftClientTypes.ClusterDbRevision: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes a ClusterDbRevision.
-    public struct ClusterDbRevision: Swift.Equatable {
+    public struct ClusterDbRevision {
         /// The unique identifier of the cluster.
         public var clusterIdentifier: Swift.String?
         /// A string representing the current cluster version.
@@ -3049,7 +3049,7 @@ extension RedshiftClientTypes.ClusterIamRole: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// An Identity and Access Management (IAM) role that can be used by the associated Amazon Redshift cluster to access other Amazon Web Services services.
-    public struct ClusterIamRole: Swift.Equatable {
+    public struct ClusterIamRole {
         /// A value that describes the status of the IAM role's association with an Amazon Redshift cluster. The following are possible statuses and descriptions.
         ///
         /// * in-sync: The role is available for use by the cluster.
@@ -3107,7 +3107,7 @@ extension RedshiftClientTypes.ClusterNode: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// The identifier of a node in a cluster.
-    public struct ClusterNode: Swift.Equatable {
+    public struct ClusterNode {
         /// Whether the node is a leader node or a compute node.
         public var nodeRole: Swift.String?
         /// The private IP address of a node within a cluster.
@@ -3249,7 +3249,7 @@ extension RedshiftClientTypes.ClusterParameterGroup: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes a parameter group.
-    public struct ClusterParameterGroup: Swift.Equatable {
+    public struct ClusterParameterGroup {
         /// The description of the parameter group.
         public var description: Swift.String?
         /// The name of the cluster parameter group family that this cluster parameter group is compatible with.
@@ -3426,7 +3426,7 @@ extension RedshiftClientTypes.ClusterParameterGroupStatus: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes the status of a parameter group.
-    public struct ClusterParameterGroupStatus: Swift.Equatable {
+    public struct ClusterParameterGroupStatus {
         /// The list of parameter statuses. For more information about parameters and parameter groups, go to [Amazon Redshift Parameter Groups](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html) in the Amazon Redshift Cluster Management Guide.
         public var clusterParameterStatusList: [RedshiftClientTypes.ClusterParameterStatus]?
         /// The status of parameter updates.
@@ -3482,7 +3482,7 @@ extension RedshiftClientTypes.ClusterParameterStatus: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes the status of a parameter group.
-    public struct ClusterParameterStatus: Swift.Equatable {
+    public struct ClusterParameterStatus {
         /// The error that prevented the parameter from being applied to the database.
         public var parameterApplyErrorDescription: Swift.String?
         /// The status of the parameter that indicates whether the parameter is in sync with the database, waiting for a cluster reboot, or encountered an error when being applied. The following are possible statuses and descriptions.
@@ -3625,7 +3625,7 @@ extension RedshiftClientTypes.ClusterSecurityGroup: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes a security group.
-    public struct ClusterSecurityGroup: Swift.Equatable {
+    public struct ClusterSecurityGroup {
         /// The name of the cluster security group to which the operation was applied.
         public var clusterSecurityGroupName: Swift.String?
         /// A description of the security group.
@@ -3720,7 +3720,7 @@ extension RedshiftClientTypes.ClusterSecurityGroupMembership: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes a cluster security group.
-    public struct ClusterSecurityGroupMembership: Swift.Equatable {
+    public struct ClusterSecurityGroupMembership {
         /// The name of the cluster security group.
         public var clusterSecurityGroupName: Swift.String?
         /// The status of the cluster security group.
@@ -3885,7 +3885,7 @@ extension RedshiftClientTypes.ClusterSnapshotCopyStatus: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Returns the destination region and retention period that are configured for cross-region snapshot copy.
-    public struct ClusterSnapshotCopyStatus: Swift.Equatable {
+    public struct ClusterSnapshotCopyStatus {
         /// The destination region that snapshots are automatically copied to when cross-region snapshot copy is enabled.
         public var destinationRegion: Swift.String?
         /// The number of days that automated snapshots are retained in the destination region after they are copied from a source region. If the value is -1, the manual snapshot is retained indefinitely. The value must be either -1 or an integer between 1 and 3,653.
@@ -4064,7 +4064,7 @@ extension RedshiftClientTypes.ClusterSubnetGroup: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes a subnet group.
-    public struct ClusterSubnetGroup: Swift.Equatable {
+    public struct ClusterSubnetGroup {
         /// The name of the cluster subnet group.
         public var clusterSubnetGroupName: Swift.String?
         /// The description of the cluster subnet group.
@@ -4280,7 +4280,7 @@ extension RedshiftClientTypes.ClusterVersion: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes a cluster version, including the parameter group family and description of the version.
-    public struct ClusterVersion: Swift.Equatable {
+    public struct ClusterVersion {
         /// The name of the cluster parameter group family for the cluster.
         public var clusterParameterGroupFamily: Swift.String?
         /// The version number used by the cluster.
@@ -4373,7 +4373,7 @@ extension CopyClusterSnapshotInput {
 }
 
 ///
-public struct CopyClusterSnapshotInput: Swift.Equatable {
+public struct CopyClusterSnapshotInput {
     /// The number of days that a manual snapshot is retained. If the value is -1, the manual snapshot is retained indefinitely. The value must be either -1 or an integer between 1 and 3,653. The default value is -1.
     public var manualSnapshotRetentionPeriod: Swift.Int?
     /// The identifier of the cluster the source snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name. Constraints:
@@ -4426,7 +4426,7 @@ extension CopyClusterSnapshotOutput {
     }
 }
 
-public struct CopyClusterSnapshotOutput: Swift.Equatable {
+public struct CopyClusterSnapshotOutput {
     /// Describes a snapshot.
     public var snapshot: RedshiftClientTypes.Snapshot?
 
@@ -4522,7 +4522,7 @@ extension CreateAuthenticationProfileInput {
     }
 }
 
-public struct CreateAuthenticationProfileInput: Swift.Equatable {
+public struct CreateAuthenticationProfileInput {
     /// The content of the authentication profile in JSON format. The maximum length of the JSON string is determined by a quota for your account.
     /// This member is required.
     public var authenticationProfileContent: Swift.String?
@@ -4554,7 +4554,7 @@ extension CreateAuthenticationProfileOutput {
     }
 }
 
-public struct CreateAuthenticationProfileOutput: Swift.Equatable {
+public struct CreateAuthenticationProfileOutput {
     /// The content of the authentication profile in JSON format.
     public var authenticationProfileContent: Swift.String?
     /// The name of the authentication profile that was created.
@@ -4805,7 +4805,7 @@ extension CreateClusterInput {
 }
 
 ///
-public struct CreateClusterInput: Swift.Equatable {
+public struct CreateClusterInput {
     /// Reserved.
     public var additionalInfo: Swift.String?
     /// If true, major version upgrades can be applied during the maintenance window to the Amazon Redshift engine that is running on the cluster. When a new major version of the Amazon Redshift engine is released, you can request that the service automatically apply upgrades during the maintenance window to the Amazon Redshift engine that is running on your cluster. Default: true
@@ -5041,7 +5041,7 @@ extension CreateClusterOutput {
     }
 }
 
-public struct CreateClusterOutput: Swift.Equatable {
+public struct CreateClusterOutput {
     /// Describes a cluster.
     public var cluster: RedshiftClientTypes.Cluster?
 
@@ -5138,7 +5138,7 @@ extension CreateClusterParameterGroupInput {
 }
 
 ///
-public struct CreateClusterParameterGroupInput: Swift.Equatable {
+public struct CreateClusterParameterGroupInput {
     /// A description of the parameter group.
     /// This member is required.
     public var description: Swift.String?
@@ -5189,7 +5189,7 @@ extension CreateClusterParameterGroupOutput {
     }
 }
 
-public struct CreateClusterParameterGroupOutput: Swift.Equatable {
+public struct CreateClusterParameterGroupOutput {
     /// Describes a parameter group.
     public var clusterParameterGroup: RedshiftClientTypes.ClusterParameterGroup?
 
@@ -5261,7 +5261,7 @@ extension CreateClusterSecurityGroupInput {
 }
 
 ///
-public struct CreateClusterSecurityGroupInput: Swift.Equatable {
+public struct CreateClusterSecurityGroupInput {
     /// The name for the security group. Amazon Redshift stores the value as a lowercase string. Constraints:
     ///
     /// * Must contain no more than 255 alphanumeric characters or hyphens.
@@ -5305,7 +5305,7 @@ extension CreateClusterSecurityGroupOutput {
     }
 }
 
-public struct CreateClusterSecurityGroupOutput: Swift.Equatable {
+public struct CreateClusterSecurityGroupOutput {
     /// Describes a security group.
     public var clusterSecurityGroup: RedshiftClientTypes.ClusterSecurityGroup?
 
@@ -5381,7 +5381,7 @@ extension CreateClusterSnapshotInput {
 }
 
 ///
-public struct CreateClusterSnapshotInput: Swift.Equatable {
+public struct CreateClusterSnapshotInput {
     /// The cluster identifier for which you want a snapshot.
     /// This member is required.
     public var clusterIdentifier: Swift.String?
@@ -5431,7 +5431,7 @@ extension CreateClusterSnapshotOutput {
     }
 }
 
-public struct CreateClusterSnapshotOutput: Swift.Equatable {
+public struct CreateClusterSnapshotOutput {
     /// Describes a snapshot.
     public var snapshot: RedshiftClientTypes.Snapshot?
 
@@ -5519,7 +5519,7 @@ extension CreateClusterSubnetGroupInput {
 }
 
 ///
-public struct CreateClusterSubnetGroupInput: Swift.Equatable {
+public struct CreateClusterSubnetGroupInput {
     /// The name for the subnet group. Amazon Redshift stores the value as a lowercase string. Constraints:
     ///
     /// * Must contain no more than 255 alphanumeric characters or hyphens.
@@ -5568,7 +5568,7 @@ extension CreateClusterSubnetGroupOutput {
     }
 }
 
-public struct CreateClusterSubnetGroupOutput: Swift.Equatable {
+public struct CreateClusterSubnetGroupOutput {
     /// Describes a subnet group.
     public var clusterSubnetGroup: RedshiftClientTypes.ClusterSubnetGroup?
 
@@ -5634,7 +5634,7 @@ extension CreateCustomDomainAssociationInput {
     }
 }
 
-public struct CreateCustomDomainAssociationInput: Swift.Equatable {
+public struct CreateCustomDomainAssociationInput {
     /// The cluster identifier that the custom domain is associated with.
     /// This member is required.
     public var clusterIdentifier: Swift.String?
@@ -5673,7 +5673,7 @@ extension CreateCustomDomainAssociationOutput {
     }
 }
 
-public struct CreateCustomDomainAssociationOutput: Swift.Equatable {
+public struct CreateCustomDomainAssociationOutput {
     /// The identifier of the cluster that the custom domain is associated with.
     public var clusterIdentifier: Swift.String?
     /// The expiration time for the certificate for the custom domain.
@@ -5763,7 +5763,7 @@ extension CreateEndpointAccessInput {
     }
 }
 
-public struct CreateEndpointAccessInput: Swift.Equatable {
+public struct CreateEndpointAccessInput {
     /// The cluster identifier of the cluster to access.
     public var clusterIdentifier: Swift.String?
     /// The Redshift-managed VPC endpoint name. An endpoint name must contain 1-30 characters. Valid characters are A-Z, a-z, 0-9, and hyphen(-). The first character must be a letter. The name can't contain two consecutive hyphens or end with a hyphen.
@@ -5816,7 +5816,7 @@ extension CreateEndpointAccessOutput {
 }
 
 /// Describes a Redshift-managed VPC endpoint.
-public struct CreateEndpointAccessOutput: Swift.Equatable {
+public struct CreateEndpointAccessOutput {
     /// The DNS address of the endpoint.
     public var address: Swift.String?
     /// The cluster identifier of the cluster associated with the endpoint.
@@ -5968,7 +5968,7 @@ extension CreateEventSubscriptionInput {
 }
 
 ///
-public struct CreateEventSubscriptionInput: Swift.Equatable {
+public struct CreateEventSubscriptionInput {
     /// A boolean value; set to true to activate the subscription, and set to false to create the subscription but not activate it.
     public var enabled: Swift.Bool?
     /// Specifies the Amazon Redshift event categories to be published by the event notification subscription. Values: configuration, management, monitoring, security, pending
@@ -6031,7 +6031,7 @@ extension CreateEventSubscriptionOutput {
     }
 }
 
-public struct CreateEventSubscriptionOutput: Swift.Equatable {
+public struct CreateEventSubscriptionOutput {
     /// Describes event subscriptions.
     public var eventSubscription: RedshiftClientTypes.EventSubscription?
 
@@ -6106,7 +6106,7 @@ extension CreateHsmClientCertificateInput {
 }
 
 ///
-public struct CreateHsmClientCertificateInput: Swift.Equatable {
+public struct CreateHsmClientCertificateInput {
     /// The identifier to be assigned to the new HSM client certificate that the cluster will use to connect to the HSM to use the database encryption keys.
     /// This member is required.
     public var hsmClientCertificateIdentifier: Swift.String?
@@ -6136,7 +6136,7 @@ extension CreateHsmClientCertificateOutput {
     }
 }
 
-public struct CreateHsmClientCertificateOutput: Swift.Equatable {
+public struct CreateHsmClientCertificateOutput {
     /// Returns information about an HSM client certificate. The certificate is stored in a secure Hardware Storage Module (HSM), and used by the Amazon Redshift cluster to encrypt data files.
     public var hsmClientCertificate: RedshiftClientTypes.HsmClientCertificate?
 
@@ -6224,7 +6224,7 @@ extension CreateHsmConfigurationInput {
 }
 
 ///
-public struct CreateHsmConfigurationInput: Swift.Equatable {
+public struct CreateHsmConfigurationInput {
     /// A text description of the HSM configuration to be created.
     /// This member is required.
     public var description: Swift.String?
@@ -6279,7 +6279,7 @@ extension CreateHsmConfigurationOutput {
     }
 }
 
-public struct CreateHsmConfigurationOutput: Swift.Equatable {
+public struct CreateHsmConfigurationOutput {
     /// Returns information about an HSM configuration, which is an object that describes to Amazon Redshift clusters the information they require to connect to an HSM where they can store database encryption keys.
     public var hsmConfiguration: RedshiftClientTypes.HsmConfiguration?
 
@@ -6375,7 +6375,7 @@ extension CreateRedshiftIdcApplicationInput {
     }
 }
 
-public struct CreateRedshiftIdcApplicationInput: Swift.Equatable {
+public struct CreateRedshiftIdcApplicationInput {
     /// The token issuer list for the Amazon Redshift IAM Identity Center application instance.
     public var authorizedTokenIssuerList: [RedshiftClientTypes.AuthorizedTokenIssuer]?
     /// The IAM role ARN for the Amazon Redshift IAM Identity Center application instance. It has the required permissions to be assumed and invoke the IDC Identity Center API.
@@ -6428,7 +6428,7 @@ extension CreateRedshiftIdcApplicationOutput {
     }
 }
 
-public struct CreateRedshiftIdcApplicationOutput: Swift.Equatable {
+public struct CreateRedshiftIdcApplicationOutput {
     /// Contains properties for the Redshift IDC application.
     public var redshiftIdcApplication: RedshiftClientTypes.RedshiftIdcApplication?
 
@@ -6511,7 +6511,7 @@ extension CreateScheduledActionInput {
     }
 }
 
-public struct CreateScheduledActionInput: Swift.Equatable {
+public struct CreateScheduledActionInput {
     /// If true, the schedule is enabled. If false, the scheduled action does not trigger. For more information about state of the scheduled action, see [ScheduledAction].
     public var enable: Swift.Bool?
     /// The end time in UTC of the scheduled action. After this time, the scheduled action does not trigger. For more information about this parameter, see [ScheduledAction].
@@ -6577,7 +6577,7 @@ extension CreateScheduledActionOutput {
 }
 
 /// Describes a scheduled action. You can use a scheduled action to trigger some Amazon Redshift API operations on a schedule. For information about which API operations can be scheduled, see [ScheduledActionType].
-public struct CreateScheduledActionOutput: Swift.Equatable {
+public struct CreateScheduledActionOutput {
     /// The end time in UTC when the schedule is no longer active. After this time, the scheduled action does not trigger.
     public var endTime: ClientRuntime.Date?
     /// The IAM role to assume to run the scheduled action. This IAM role must have permission to run the Amazon Redshift API operation in the scheduled action. This IAM role must allow the Amazon Redshift scheduler (Principal scheduler.redshift.amazonaws.com) to assume permissions on your behalf. For more information about the IAM role to use with the Amazon Redshift scheduler, see [Using Identity-Based Policies for Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-identity-based.html) in the Amazon Redshift Cluster Management Guide.
@@ -6685,7 +6685,7 @@ extension CreateSnapshotCopyGrantInput {
 }
 
 /// The result of the CreateSnapshotCopyGrant action.
-public struct CreateSnapshotCopyGrantInput: Swift.Equatable {
+public struct CreateSnapshotCopyGrantInput {
     /// The unique identifier of the encrypted symmetric key to which to grant Amazon Redshift permission. If no key is specified, the default key is used.
     public var kmsKeyId: Swift.String?
     /// The name of the snapshot copy grant. This name must be unique in the region for the Amazon Web Services account. Constraints:
@@ -6729,7 +6729,7 @@ extension CreateSnapshotCopyGrantOutput {
     }
 }
 
-public struct CreateSnapshotCopyGrantOutput: Swift.Equatable {
+public struct CreateSnapshotCopyGrantOutput {
     /// The snapshot copy grant that grants Amazon Redshift permission to encrypt copied snapshots with the specified encrypted symmetric key from Amazon Web Services KMS in the destination region. For more information about managing snapshot copy grants, go to [Amazon Redshift Database Encryption](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-db-encryption.html) in the Amazon Redshift Cluster Management Guide.
     public var snapshotCopyGrant: RedshiftClientTypes.SnapshotCopyGrant?
 
@@ -6823,7 +6823,7 @@ extension CreateSnapshotScheduleInput {
     }
 }
 
-public struct CreateSnapshotScheduleInput: Swift.Equatable {
+public struct CreateSnapshotScheduleInput {
     ///
     public var dryRun: Swift.Bool?
     ///
@@ -6875,7 +6875,7 @@ extension CreateSnapshotScheduleOutput {
 }
 
 /// Describes a snapshot schedule. You can set a regular interval for creating snapshots of a cluster. You can also schedule snapshots for specific dates.
-public struct CreateSnapshotScheduleOutput: Swift.Equatable {
+public struct CreateSnapshotScheduleOutput {
     /// The number of clusters associated with the schedule.
     public var associatedClusterCount: Swift.Int?
     /// A list of clusters associated with the schedule. A maximum of 100 clusters is returned.
@@ -6969,7 +6969,7 @@ extension CreateTagsInput {
 }
 
 /// Contains the output from the CreateTags action.
-public struct CreateTagsInput: Swift.Equatable {
+public struct CreateTagsInput {
     /// The Amazon Resource Name (ARN) to which you want to add the tag or tags. For example, arn:aws:redshift:us-east-2:123456789:cluster:t1.
     /// This member is required.
     public var resourceName: Swift.String?
@@ -6996,7 +6996,7 @@ extension CreateTagsOutput {
     }
 }
 
-public struct CreateTagsOutput: Swift.Equatable {
+public struct CreateTagsOutput {
 
     public init() { }
 }
@@ -7076,7 +7076,7 @@ extension CreateUsageLimitInput {
     }
 }
 
-public struct CreateUsageLimitInput: Swift.Equatable {
+public struct CreateUsageLimitInput {
     /// The limit amount. If time-based, this amount is in minutes. If data-based, this amount is in terabytes (TB). The value must be a positive number.
     /// This member is required.
     public var amount: Swift.Int?
@@ -7137,7 +7137,7 @@ extension CreateUsageLimitOutput {
 }
 
 /// Describes a usage limit object for a cluster.
-public struct CreateUsageLimitOutput: Swift.Equatable {
+public struct CreateUsageLimitOutput {
     /// The limit amount. If time-based, this amount is in minutes. If data-based, this amount is in terabytes (TB).
     public var amount: Swift.Int?
     /// The action that Amazon Redshift takes when the limit is reached. Possible values are:
@@ -7330,7 +7330,7 @@ extension RedshiftClientTypes.DataShare: Swift.Encodable {
 }
 
 extension RedshiftClientTypes {
-    public struct DataShare: Swift.Equatable {
+    public struct DataShare {
         /// A value that specifies whether the datashare can be shared to a publicly accessible cluster.
         public var allowPubliclyAccessibleConsumers: Swift.Bool?
         /// The Amazon Resource Name (ARN) of the datashare that the consumer is to use.
@@ -7414,7 +7414,7 @@ extension RedshiftClientTypes.DataShareAssociation: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// The association of a datashare from a producer account with a data consumer.
-    public struct DataShareAssociation: Swift.Equatable {
+    public struct DataShareAssociation {
         /// Specifies whether write operations were allowed during data share association.
         public var consumerAcceptedWrites: Swift.Bool?
         /// The name of the consumer accounts that have an association with a producer datashare.
@@ -7618,7 +7618,7 @@ extension RedshiftClientTypes.DataTransferProgress: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes the status of a cluster while it is in the process of resizing with an incremental resize.
-    public struct DataTransferProgress: Swift.Equatable {
+    public struct DataTransferProgress {
         /// Describes the data transfer rate in MB's per second.
         public var currentRateInMegaBytesPerSecond: Swift.Double?
         /// Describes the total amount of data that has been transfered in MB's.
@@ -7678,7 +7678,7 @@ extension DeauthorizeDataShareInput {
     }
 }
 
-public struct DeauthorizeDataShareInput: Swift.Equatable {
+public struct DeauthorizeDataShareInput {
     /// The identifier of the data consumer that is to have authorization removed from the datashare. This identifier is an Amazon Web Services account ID or a keyword, such as ADX.
     /// This member is required.
     public var consumerIdentifier: Swift.String?
@@ -7713,7 +7713,7 @@ extension DeauthorizeDataShareOutput {
     }
 }
 
-public struct DeauthorizeDataShareOutput: Swift.Equatable {
+public struct DeauthorizeDataShareOutput {
     /// A value that specifies whether the datashare can be shared to a publicly accessible cluster.
     public var allowPubliclyAccessibleConsumers: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the datashare that the consumer is to use.
@@ -7801,7 +7801,7 @@ extension RedshiftClientTypes.DefaultClusterParameters: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes the default cluster parameters for a parameter group family.
-    public struct DefaultClusterParameters: Swift.Equatable {
+    public struct DefaultClusterParameters : Swift.Equatable {
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
         public var marker: Swift.String?
         /// The name of the cluster parameter group family to which the engine default parameters apply.
@@ -7857,7 +7857,7 @@ extension RedshiftClientTypes.DeferredMaintenanceWindow: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes a deferred maintenance window
-    public struct DeferredMaintenanceWindow: Swift.Equatable {
+    public struct DeferredMaintenanceWindow {
         /// A timestamp for the end of the time period when we defer maintenance.
         public var deferMaintenanceEndTime: ClientRuntime.Date?
         /// A unique identifier for the maintenance window.
@@ -7901,7 +7901,7 @@ extension DeleteAuthenticationProfileInput {
     }
 }
 
-public struct DeleteAuthenticationProfileInput: Swift.Equatable {
+public struct DeleteAuthenticationProfileInput {
     /// The name of the authentication profile to delete.
     /// This member is required.
     public var authenticationProfileName: Swift.String?
@@ -7927,7 +7927,7 @@ extension DeleteAuthenticationProfileOutput {
     }
 }
 
-public struct DeleteAuthenticationProfileOutput: Swift.Equatable {
+public struct DeleteAuthenticationProfileOutput {
     /// The name of the authentication profile that was deleted.
     public var authenticationProfileName: Swift.String?
 
@@ -7992,7 +7992,7 @@ extension DeleteClusterInput {
 }
 
 ///
-public struct DeleteClusterInput: Swift.Equatable {
+public struct DeleteClusterInput {
     /// The identifier of the cluster to be deleted. Constraints:
     ///
     /// * Must contain lowercase characters.
@@ -8044,7 +8044,7 @@ extension DeleteClusterOutput {
     }
 }
 
-public struct DeleteClusterOutput: Swift.Equatable {
+public struct DeleteClusterOutput {
     /// Describes a cluster.
     public var cluster: RedshiftClientTypes.Cluster?
 
@@ -8100,7 +8100,7 @@ extension DeleteClusterParameterGroupInput {
 }
 
 ///
-public struct DeleteClusterParameterGroupInput: Swift.Equatable {
+public struct DeleteClusterParameterGroupInput {
     /// The name of the parameter group to be deleted. Constraints:
     ///
     /// * Must be the name of an existing cluster parameter group.
@@ -8126,7 +8126,7 @@ extension DeleteClusterParameterGroupOutput {
     }
 }
 
-public struct DeleteClusterParameterGroupOutput: Swift.Equatable {
+public struct DeleteClusterParameterGroupOutput {
 
     public init() { }
 }
@@ -8172,7 +8172,7 @@ extension DeleteClusterSecurityGroupInput {
 }
 
 ///
-public struct DeleteClusterSecurityGroupInput: Swift.Equatable {
+public struct DeleteClusterSecurityGroupInput {
     /// The name of the cluster security group to be deleted.
     /// This member is required.
     public var clusterSecurityGroupName: Swift.String?
@@ -8194,7 +8194,7 @@ extension DeleteClusterSecurityGroupOutput {
     }
 }
 
-public struct DeleteClusterSecurityGroupOutput: Swift.Equatable {
+public struct DeleteClusterSecurityGroupOutput {
 
     public init() { }
 }
@@ -8244,7 +8244,7 @@ extension DeleteClusterSnapshotInput {
 }
 
 ///
-public struct DeleteClusterSnapshotInput: Swift.Equatable {
+public struct DeleteClusterSnapshotInput {
     /// The unique identifier of the cluster the snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name. Constraints: Must be the name of valid cluster.
     public var snapshotClusterIdentifier: Swift.String?
     /// The unique identifier of the manual snapshot to be deleted. Constraints: Must be the name of an existing snapshot that is in the available, failed, or cancelled state.
@@ -8290,7 +8290,7 @@ extension RedshiftClientTypes.DeleteClusterSnapshotMessage: Swift.Encodable {
 
 extension RedshiftClientTypes {
     ///
-    public struct DeleteClusterSnapshotMessage: Swift.Equatable {
+    public struct DeleteClusterSnapshotMessage {
         /// The unique identifier of the cluster the snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name. Constraints: Must be the name of valid cluster.
         public var snapshotClusterIdentifier: Swift.String?
         /// The unique identifier of the manual snapshot to be deleted. Constraints: Must be the name of an existing snapshot that is in the available, failed, or cancelled state.
@@ -8322,7 +8322,7 @@ extension DeleteClusterSnapshotOutput {
     }
 }
 
-public struct DeleteClusterSnapshotOutput: Swift.Equatable {
+public struct DeleteClusterSnapshotOutput {
     /// Describes a snapshot.
     public var snapshot: RedshiftClientTypes.Snapshot?
 
@@ -8375,7 +8375,7 @@ extension DeleteClusterSubnetGroupInput {
 }
 
 ///
-public struct DeleteClusterSubnetGroupInput: Swift.Equatable {
+public struct DeleteClusterSubnetGroupInput {
     /// The name of the cluster subnet group name to be deleted.
     /// This member is required.
     public var clusterSubnetGroupName: Swift.String?
@@ -8397,7 +8397,7 @@ extension DeleteClusterSubnetGroupOutput {
     }
 }
 
-public struct DeleteClusterSubnetGroupOutput: Swift.Equatable {
+public struct DeleteClusterSubnetGroupOutput {
 
     public init() { }
 }
@@ -8447,7 +8447,7 @@ extension DeleteCustomDomainAssociationInput {
     }
 }
 
-public struct DeleteCustomDomainAssociationInput: Swift.Equatable {
+public struct DeleteCustomDomainAssociationInput {
     /// The identifier of the cluster to delete a custom domain association for.
     /// This member is required.
     public var clusterIdentifier: Swift.String?
@@ -8474,7 +8474,7 @@ extension DeleteCustomDomainAssociationOutput {
     }
 }
 
-public struct DeleteCustomDomainAssociationOutput: Swift.Equatable {
+public struct DeleteCustomDomainAssociationOutput {
 
     public init() { }
 }
@@ -8521,7 +8521,7 @@ extension DeleteEndpointAccessInput {
     }
 }
 
-public struct DeleteEndpointAccessInput: Swift.Equatable {
+public struct DeleteEndpointAccessInput {
     /// The Redshift-managed VPC endpoint to delete.
     /// This member is required.
     public var endpointName: Swift.String?
@@ -8557,7 +8557,7 @@ extension DeleteEndpointAccessOutput {
 }
 
 /// Describes a Redshift-managed VPC endpoint.
-public struct DeleteEndpointAccessOutput: Swift.Equatable {
+public struct DeleteEndpointAccessOutput {
     /// The DNS address of the endpoint.
     public var address: Swift.String?
     /// The cluster identifier of the cluster associated with the endpoint.
@@ -8649,7 +8649,7 @@ extension DeleteEventSubscriptionInput {
 }
 
 ///
-public struct DeleteEventSubscriptionInput: Swift.Equatable {
+public struct DeleteEventSubscriptionInput {
     /// The name of the Amazon Redshift event notification subscription to be deleted.
     /// This member is required.
     public var subscriptionName: Swift.String?
@@ -8671,7 +8671,7 @@ extension DeleteEventSubscriptionOutput {
     }
 }
 
-public struct DeleteEventSubscriptionOutput: Swift.Equatable {
+public struct DeleteEventSubscriptionOutput {
 
     public init() { }
 }
@@ -8717,7 +8717,7 @@ extension DeleteHsmClientCertificateInput {
 }
 
 ///
-public struct DeleteHsmClientCertificateInput: Swift.Equatable {
+public struct DeleteHsmClientCertificateInput {
     /// The identifier of the HSM client certificate to be deleted.
     /// This member is required.
     public var hsmClientCertificateIdentifier: Swift.String?
@@ -8739,7 +8739,7 @@ extension DeleteHsmClientCertificateOutput {
     }
 }
 
-public struct DeleteHsmClientCertificateOutput: Swift.Equatable {
+public struct DeleteHsmClientCertificateOutput {
 
     public init() { }
 }
@@ -8785,7 +8785,7 @@ extension DeleteHsmConfigurationInput {
 }
 
 ///
-public struct DeleteHsmConfigurationInput: Swift.Equatable {
+public struct DeleteHsmConfigurationInput {
     /// The identifier of the Amazon Redshift HSM configuration to be deleted.
     /// This member is required.
     public var hsmConfigurationIdentifier: Swift.String?
@@ -8807,7 +8807,7 @@ extension DeleteHsmConfigurationOutput {
     }
 }
 
-public struct DeleteHsmConfigurationOutput: Swift.Equatable {
+public struct DeleteHsmConfigurationOutput {
 
     public init() { }
 }
@@ -8864,7 +8864,7 @@ extension DeletePartnerInput {
     }
 }
 
-public struct DeletePartnerInput: Swift.Equatable {
+public struct DeletePartnerInput {
     /// The Amazon Web Services account ID that owns the cluster.
     /// This member is required.
     public var accountId: Swift.String?
@@ -8906,7 +8906,7 @@ extension DeletePartnerOutput {
     }
 }
 
-public struct DeletePartnerOutput: Swift.Equatable {
+public struct DeletePartnerOutput {
     /// The name of the database that receives data from the partner.
     public var databaseName: Swift.String?
     /// The name of the partner that is authorized to send data.
@@ -8964,7 +8964,7 @@ extension DeleteRedshiftIdcApplicationInput {
     }
 }
 
-public struct DeleteRedshiftIdcApplicationInput: Swift.Equatable {
+public struct DeleteRedshiftIdcApplicationInput {
     /// The ARN for a deleted Amazon Redshift IAM Identity Center application.
     /// This member is required.
     public var redshiftIdcApplicationArn: Swift.String?
@@ -8986,7 +8986,7 @@ extension DeleteRedshiftIdcApplicationOutput {
     }
 }
 
-public struct DeleteRedshiftIdcApplicationOutput: Swift.Equatable {
+public struct DeleteRedshiftIdcApplicationOutput {
 
     public init() { }
 }
@@ -9033,7 +9033,7 @@ extension DeleteResourcePolicyInput {
     }
 }
 
-public struct DeleteResourcePolicyInput: Swift.Equatable {
+public struct DeleteResourcePolicyInput {
     /// The Amazon Resource Name (ARN) of the resource of which its resource policy is deleted.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -9055,7 +9055,7 @@ extension DeleteResourcePolicyOutput {
     }
 }
 
-public struct DeleteResourcePolicyOutput: Swift.Equatable {
+public struct DeleteResourcePolicyOutput {
 
     public init() { }
 }
@@ -9100,7 +9100,7 @@ extension DeleteScheduledActionInput {
     }
 }
 
-public struct DeleteScheduledActionInput: Swift.Equatable {
+public struct DeleteScheduledActionInput {
     /// The name of the scheduled action to delete.
     /// This member is required.
     public var scheduledActionName: Swift.String?
@@ -9122,7 +9122,7 @@ extension DeleteScheduledActionOutput {
     }
 }
 
-public struct DeleteScheduledActionOutput: Swift.Equatable {
+public struct DeleteScheduledActionOutput {
 
     public init() { }
 }
@@ -9168,7 +9168,7 @@ extension DeleteSnapshotCopyGrantInput {
 }
 
 /// The result of the DeleteSnapshotCopyGrant action.
-public struct DeleteSnapshotCopyGrantInput: Swift.Equatable {
+public struct DeleteSnapshotCopyGrantInput {
     /// The name of the snapshot copy grant to delete.
     /// This member is required.
     public var snapshotCopyGrantName: Swift.String?
@@ -9190,7 +9190,7 @@ extension DeleteSnapshotCopyGrantOutput {
     }
 }
 
-public struct DeleteSnapshotCopyGrantOutput: Swift.Equatable {
+public struct DeleteSnapshotCopyGrantOutput {
 
     public init() { }
 }
@@ -9235,7 +9235,7 @@ extension DeleteSnapshotScheduleInput {
     }
 }
 
-public struct DeleteSnapshotScheduleInput: Swift.Equatable {
+public struct DeleteSnapshotScheduleInput {
     /// A unique identifier of the snapshot schedule to delete.
     /// This member is required.
     public var scheduleIdentifier: Swift.String?
@@ -9257,7 +9257,7 @@ extension DeleteSnapshotScheduleOutput {
     }
 }
 
-public struct DeleteSnapshotScheduleOutput: Swift.Equatable {
+public struct DeleteSnapshotScheduleOutput {
 
     public init() { }
 }
@@ -9316,7 +9316,7 @@ extension DeleteTagsInput {
 }
 
 /// Contains the output from the DeleteTags action.
-public struct DeleteTagsInput: Swift.Equatable {
+public struct DeleteTagsInput {
     /// The Amazon Resource Name (ARN) from which you want to remove the tag or tags. For example, arn:aws:redshift:us-east-2:123456789:cluster:t1.
     /// This member is required.
     public var resourceName: Swift.String?
@@ -9343,7 +9343,7 @@ extension DeleteTagsOutput {
     }
 }
 
-public struct DeleteTagsOutput: Swift.Equatable {
+public struct DeleteTagsOutput {
 
     public init() { }
 }
@@ -9388,7 +9388,7 @@ extension DeleteUsageLimitInput {
     }
 }
 
-public struct DeleteUsageLimitInput: Swift.Equatable {
+public struct DeleteUsageLimitInput {
     /// The identifier of the usage limit to delete.
     /// This member is required.
     public var usageLimitId: Swift.String?
@@ -9410,7 +9410,7 @@ extension DeleteUsageLimitOutput {
     }
 }
 
-public struct DeleteUsageLimitOutput: Swift.Equatable {
+public struct DeleteUsageLimitOutput {
 
     public init() { }
 }
@@ -9572,7 +9572,7 @@ extension DescribeAccountAttributesInput {
     }
 }
 
-public struct DescribeAccountAttributesInput: Swift.Equatable {
+public struct DescribeAccountAttributesInput {
     /// A list of attribute names.
     public var attributeNames: [Swift.String]?
 
@@ -9597,7 +9597,7 @@ extension DescribeAccountAttributesOutput {
     }
 }
 
-public struct DescribeAccountAttributesOutput: Swift.Equatable {
+public struct DescribeAccountAttributesOutput {
     /// A list of attributes assigned to an account.
     public var accountAttributes: [RedshiftClientTypes.AccountAttribute]?
 
@@ -9647,7 +9647,7 @@ extension DescribeAuthenticationProfilesInput {
     }
 }
 
-public struct DescribeAuthenticationProfilesInput: Swift.Equatable {
+public struct DescribeAuthenticationProfilesInput {
     /// The name of the authentication profile to describe. If not specified then all authentication profiles owned by the account are listed.
     public var authenticationProfileName: Swift.String?
 
@@ -9672,7 +9672,7 @@ extension DescribeAuthenticationProfilesOutput {
     }
 }
 
-public struct DescribeAuthenticationProfilesOutput: Swift.Equatable {
+public struct DescribeAuthenticationProfilesOutput {
     /// The list of authentication profiles.
     public var authenticationProfiles: [RedshiftClientTypes.AuthenticationProfile]?
 
@@ -9732,7 +9732,7 @@ extension DescribeClusterDbRevisionsInput {
     }
 }
 
-public struct DescribeClusterDbRevisionsInput: Swift.Equatable {
+public struct DescribeClusterDbRevisionsInput {
     /// A unique identifier for a cluster whose ClusterDbRevisions you are requesting. This parameter is case sensitive. All clusters defined for an account are returned by default.
     public var clusterIdentifier: Swift.String?
     /// An optional parameter that specifies the starting point for returning a set of response records. When the results of a DescribeClusterDbRevisions request exceed the value specified in MaxRecords, Amazon Redshift returns a value in the marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the marker parameter and retrying the request. Constraints: You can specify either the ClusterIdentifier parameter, or the marker parameter, but not both.
@@ -9766,7 +9766,7 @@ extension DescribeClusterDbRevisionsOutput {
     }
 }
 
-public struct DescribeClusterDbRevisionsOutput: Swift.Equatable {
+public struct DescribeClusterDbRevisionsOutput {
     /// A list of revisions.
     public var clusterDbRevisions: [RedshiftClientTypes.ClusterDbRevision]?
     /// A string representing the starting point for the next set of revisions. If a value is returned in a response, you can retrieve the next set of revisions by providing the value in the marker parameter and retrying the command. If the marker field is empty, all revisions have already been returned.
@@ -9857,7 +9857,7 @@ extension DescribeClusterParameterGroupsInput {
 }
 
 ///
-public struct DescribeClusterParameterGroupsInput: Swift.Equatable {
+public struct DescribeClusterParameterGroupsInput {
     /// An optional parameter that specifies the starting point to return a set of response records. When the results of a [DescribeClusterParameterGroups] request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
     public var marker: Swift.String?
     /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value. Default: 100 Constraints: minimum 20, maximum 100.
@@ -9900,7 +9900,7 @@ extension DescribeClusterParameterGroupsOutput {
 }
 
 /// Contains the output from the [DescribeClusterParameterGroups] action.
-public struct DescribeClusterParameterGroupsOutput: Swift.Equatable {
+public struct DescribeClusterParameterGroupsOutput {
     /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
     public var marker: Swift.String?
     /// A list of [ClusterParameterGroup] instances. Each instance describes one cluster parameter group.
@@ -9969,7 +9969,7 @@ extension DescribeClusterParametersInput {
 }
 
 ///
-public struct DescribeClusterParametersInput: Swift.Equatable {
+public struct DescribeClusterParametersInput {
     /// An optional parameter that specifies the starting point to return a set of response records. When the results of a [DescribeClusterParameters] request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
     public var marker: Swift.String?
     /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value. Default: 100 Constraints: minimum 20, maximum 100.
@@ -10009,7 +10009,7 @@ extension DescribeClusterParametersOutput {
 }
 
 /// Contains the output from the [DescribeClusterParameters] action.
-public struct DescribeClusterParametersOutput: Swift.Equatable {
+public struct DescribeClusterParametersOutput {
     /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
     public var marker: Swift.String?
     /// A list of [Parameter] instances. Each instance lists the parameters of one cluster parameter group.
@@ -10099,7 +10099,7 @@ extension DescribeClusterSecurityGroupsInput {
 }
 
 ///
-public struct DescribeClusterSecurityGroupsInput: Swift.Equatable {
+public struct DescribeClusterSecurityGroupsInput {
     /// The name of a cluster security group for which you are requesting details. You must specify either the Marker parameter or a ClusterSecurityGroupName parameter, but not both. Example: securitygroup1
     public var clusterSecurityGroupName: Swift.String?
     /// An optional parameter that specifies the starting point to return a set of response records. When the results of a [DescribeClusterSecurityGroups] request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. Constraints: You must specify either the ClusterSecurityGroupName parameter or the Marker parameter, but not both.
@@ -10142,7 +10142,7 @@ extension DescribeClusterSecurityGroupsOutput {
 }
 
 ///
-public struct DescribeClusterSecurityGroupsOutput: Swift.Equatable {
+public struct DescribeClusterSecurityGroupsOutput {
     /// A list of [ClusterSecurityGroup] instances.
     public var clusterSecurityGroups: [RedshiftClientTypes.ClusterSecurityGroup]?
     /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
@@ -10274,7 +10274,7 @@ extension DescribeClusterSnapshotsInput {
 }
 
 ///
-public struct DescribeClusterSnapshotsInput: Swift.Equatable {
+public struct DescribeClusterSnapshotsInput {
     /// A value that indicates whether to return snapshots only for an existing cluster. You can perform table-level restore only by using a snapshot of an existing cluster, that is, a cluster that has not been deleted. Values for this parameter work as follows:
     ///
     /// * If ClusterExists is set to true, ClusterIdentifier is required.
@@ -10357,7 +10357,7 @@ extension DescribeClusterSnapshotsOutput {
 }
 
 /// Contains the output from the [DescribeClusterSnapshots] action.
-public struct DescribeClusterSnapshotsOutput: Swift.Equatable {
+public struct DescribeClusterSnapshotsOutput {
     /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
     public var marker: Swift.String?
     /// A list of [Snapshot] instances.
@@ -10450,7 +10450,7 @@ extension DescribeClusterSubnetGroupsInput {
 }
 
 ///
-public struct DescribeClusterSubnetGroupsInput: Swift.Equatable {
+public struct DescribeClusterSubnetGroupsInput {
     /// The name of the cluster subnet group for which information is requested.
     public var clusterSubnetGroupName: Swift.String?
     /// An optional parameter that specifies the starting point to return a set of response records. When the results of a [DescribeClusterSubnetGroups] request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
@@ -10493,7 +10493,7 @@ extension DescribeClusterSubnetGroupsOutput {
 }
 
 /// Contains the output from the [DescribeClusterSubnetGroups] action.
-public struct DescribeClusterSubnetGroupsOutput: Swift.Equatable {
+public struct DescribeClusterSubnetGroupsOutput {
     /// A list of [ClusterSubnetGroup] instances.
     public var clusterSubnetGroups: [RedshiftClientTypes.ClusterSubnetGroup]?
     /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
@@ -10557,7 +10557,7 @@ extension DescribeClusterTracksInput {
     }
 }
 
-public struct DescribeClusterTracksInput: Swift.Equatable {
+public struct DescribeClusterTracksInput {
     /// The name of the maintenance track.
     public var maintenanceTrackName: Swift.String?
     /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeClusterTracks request exceed the value specified in MaxRecords, Amazon Redshift returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
@@ -10591,7 +10591,7 @@ extension DescribeClusterTracksOutput {
     }
 }
 
-public struct DescribeClusterTracksOutput: Swift.Equatable {
+public struct DescribeClusterTracksOutput {
     /// A list of maintenance tracks output by the DescribeClusterTracks operation.
     public var maintenanceTracks: [RedshiftClientTypes.MaintenanceTrack]?
     /// The starting point to return a set of response tracklist records. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
@@ -10660,7 +10660,7 @@ extension DescribeClusterVersionsInput {
 }
 
 ///
-public struct DescribeClusterVersionsInput: Swift.Equatable {
+public struct DescribeClusterVersionsInput {
     /// The name of a specific cluster parameter group family to return details for. Constraints:
     ///
     /// * Must be 1 to 255 alphanumeric characters
@@ -10705,7 +10705,7 @@ extension DescribeClusterVersionsOutput {
 }
 
 /// Contains the output from the [DescribeClusterVersions] action.
-public struct DescribeClusterVersionsOutput: Swift.Equatable {
+public struct DescribeClusterVersionsOutput {
     /// A list of Version elements.
     public var clusterVersions: [RedshiftClientTypes.ClusterVersion]?
     /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
@@ -10794,7 +10794,7 @@ extension DescribeClustersInput {
 }
 
 ///
-public struct DescribeClustersInput: Swift.Equatable {
+public struct DescribeClustersInput {
     /// The unique identifier of a cluster whose properties you are requesting. This parameter is case sensitive. The default is that all clusters defined for an account are returned.
     public var clusterIdentifier: Swift.String?
     /// An optional parameter that specifies the starting point to return a set of response records. When the results of a [DescribeClusters] request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. Constraints: You can specify either the ClusterIdentifier parameter or the Marker parameter, but not both.
@@ -10837,7 +10837,7 @@ extension DescribeClustersOutput {
 }
 
 /// Contains the output from the [DescribeClusters] action.
-public struct DescribeClustersOutput: Swift.Equatable {
+public struct DescribeClustersOutput {
     /// A list of Cluster objects, where each object describes one cluster.
     public var clusters: [RedshiftClientTypes.Cluster]?
     /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
@@ -10905,7 +10905,7 @@ extension DescribeCustomDomainAssociationsInput {
     }
 }
 
-public struct DescribeCustomDomainAssociationsInput: Swift.Equatable {
+public struct DescribeCustomDomainAssociationsInput {
     /// The certificate Amazon Resource Name (ARN) for the custom domain association.
     public var customDomainCertificateArn: Swift.String?
     /// The custom domain name for the custom domain association.
@@ -10943,7 +10943,7 @@ extension DescribeCustomDomainAssociationsOutput {
     }
 }
 
-public struct DescribeCustomDomainAssociationsOutput: Swift.Equatable {
+public struct DescribeCustomDomainAssociationsOutput {
     /// The associations for the custom domain.
     public var associations: [RedshiftClientTypes.Association]?
     /// The marker for the custom domain association.
@@ -11011,7 +11011,7 @@ extension DescribeDataSharesForConsumerInput {
     }
 }
 
-public struct DescribeDataSharesForConsumerInput: Swift.Equatable {
+public struct DescribeDataSharesForConsumerInput {
     /// The Amazon Resource Name (ARN) of the consumer namespace that returns in the list of datashares.
     public var consumerArn: Swift.String?
     /// An optional parameter that specifies the starting point to return a set of response records. When the results of a [DescribeDataSharesForConsumer] request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
@@ -11049,7 +11049,7 @@ extension DescribeDataSharesForConsumerOutput {
     }
 }
 
-public struct DescribeDataSharesForConsumerOutput: Swift.Equatable {
+public struct DescribeDataSharesForConsumerOutput {
     /// Shows the results of datashares available for consumers.
     public var dataShares: [RedshiftClientTypes.DataShare]?
     /// An optional parameter that specifies the starting point to return a set of response records. When the results of a [DescribeDataSharesForConsumer] request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
@@ -11116,7 +11116,7 @@ extension DescribeDataSharesForProducerInput {
     }
 }
 
-public struct DescribeDataSharesForProducerInput: Swift.Equatable {
+public struct DescribeDataSharesForProducerInput {
     /// An optional parameter that specifies the starting point to return a set of response records. When the results of a [DescribeDataSharesForProducer] request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
     public var marker: Swift.String?
     /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.
@@ -11154,7 +11154,7 @@ extension DescribeDataSharesForProducerOutput {
     }
 }
 
-public struct DescribeDataSharesForProducerOutput: Swift.Equatable {
+public struct DescribeDataSharesForProducerOutput {
     /// Shows the results of datashares available for producers.
     public var dataShares: [RedshiftClientTypes.DataShare]?
     /// An optional parameter that specifies the starting point to return a set of response records. When the results of a [DescribeDataSharesForProducer] request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
@@ -11217,7 +11217,7 @@ extension DescribeDataSharesInput {
     }
 }
 
-public struct DescribeDataSharesInput: Swift.Equatable {
+public struct DescribeDataSharesInput {
     /// The Amazon resource name (ARN) of the datashare to describe details of.
     public var dataShareArn: Swift.String?
     /// An optional parameter that specifies the starting point to return a set of response records. When the results of a [DescribeDataShares] request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
@@ -11251,7 +11251,7 @@ extension DescribeDataSharesOutput {
     }
 }
 
-public struct DescribeDataSharesOutput: Swift.Equatable {
+public struct DescribeDataSharesOutput {
     /// The results returned from describing datashares.
     public var dataShares: [RedshiftClientTypes.DataShare]?
     /// An optional parameter that specifies the starting point to return a set of response records. When the results of a [DescribeDataShares] request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
@@ -11315,7 +11315,7 @@ extension DescribeDefaultClusterParametersInput {
 }
 
 ///
-public struct DescribeDefaultClusterParametersInput: Swift.Equatable {
+public struct DescribeDefaultClusterParametersInput {
     /// An optional parameter that specifies the starting point to return a set of response records. When the results of a [DescribeDefaultClusterParameters] request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
     public var marker: Swift.String?
     /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value. Default: 100 Constraints: minimum 20, maximum 100.
@@ -11349,7 +11349,7 @@ extension DescribeDefaultClusterParametersOutput {
     }
 }
 
-public struct DescribeDefaultClusterParametersOutput: Swift.Equatable {
+public struct DescribeDefaultClusterParametersOutput {
     /// Describes the default cluster parameters for a parameter group family.
     public var defaultClusterParameters: RedshiftClientTypes.DefaultClusterParameters?
 
@@ -11419,7 +11419,7 @@ extension DescribeEndpointAccessInput {
     }
 }
 
-public struct DescribeEndpointAccessInput: Swift.Equatable {
+public struct DescribeEndpointAccessInput {
     /// The cluster identifier associated with the described endpoint.
     public var clusterIdentifier: Swift.String?
     /// The name of the endpoint to be described.
@@ -11465,7 +11465,7 @@ extension DescribeEndpointAccessOutput {
     }
 }
 
-public struct DescribeEndpointAccessOutput: Swift.Equatable {
+public struct DescribeEndpointAccessOutput {
     /// The list of endpoints with access to the cluster.
     public var endpointAccessList: [RedshiftClientTypes.EndpointAccess]?
     /// An optional pagination token provided by a previous DescribeEndpointAccess request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by the MaxRecords parameter.
@@ -11538,7 +11538,7 @@ extension DescribeEndpointAuthorizationInput {
     }
 }
 
-public struct DescribeEndpointAuthorizationInput: Swift.Equatable {
+public struct DescribeEndpointAuthorizationInput {
     /// The Amazon Web Services account ID of either the cluster owner (grantor) or grantee. If Grantee parameter is true, then the Account value is of the grantor.
     public var account: Swift.String?
     /// The cluster identifier of the cluster to access.
@@ -11580,7 +11580,7 @@ extension DescribeEndpointAuthorizationOutput {
     }
 }
 
-public struct DescribeEndpointAuthorizationOutput: Swift.Equatable {
+public struct DescribeEndpointAuthorizationOutput {
     /// The authorizations to an endpoint.
     public var endpointAuthorizationList: [RedshiftClientTypes.EndpointAuthorization]?
     /// An optional pagination token provided by a previous DescribeEndpointAuthorization request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by the MaxRecords parameter.
@@ -11637,7 +11637,7 @@ extension DescribeEventCategoriesInput {
 }
 
 ///
-public struct DescribeEventCategoriesInput: Swift.Equatable {
+public struct DescribeEventCategoriesInput {
     /// The source type, such as cluster or parameter group, to which the described event categories apply. Valid values: cluster, cluster-snapshot, cluster-parameter-group, cluster-security-group, and scheduled-action.
     public var sourceType: Swift.String?
 
@@ -11663,7 +11663,7 @@ extension DescribeEventCategoriesOutput {
 }
 
 ///
-public struct DescribeEventCategoriesOutput: Swift.Equatable {
+public struct DescribeEventCategoriesOutput {
     /// A list of event categories descriptions.
     public var eventCategoriesMapList: [RedshiftClientTypes.EventCategoriesMap]?
 
@@ -11748,7 +11748,7 @@ extension DescribeEventSubscriptionsInput {
 }
 
 ///
-public struct DescribeEventSubscriptionsInput: Swift.Equatable {
+public struct DescribeEventSubscriptionsInput {
     /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeEventSubscriptions request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
     public var marker: Swift.String?
     /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value. Default: 100 Constraints: minimum 20, maximum 100.
@@ -11791,7 +11791,7 @@ extension DescribeEventSubscriptionsOutput {
 }
 
 ///
-public struct DescribeEventSubscriptionsOutput: Swift.Equatable {
+public struct DescribeEventSubscriptionsOutput {
     /// A list of event subscriptions.
     public var eventSubscriptionsList: [RedshiftClientTypes.EventSubscription]?
     /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
@@ -11872,7 +11872,7 @@ extension DescribeEventsInput {
 }
 
 ///
-public struct DescribeEventsInput: Swift.Equatable {
+public struct DescribeEventsInput {
     /// The number of minutes prior to the time of the request for which to retrieve events. For example, if the request is sent at 18:00 and you specify a duration of 60, then only events which have occurred after 17:00 will be returned. Default: 60
     public var duration: Swift.Int?
     /// The end of the time interval for which to retrieve events, specified in ISO 8601 format. For more information about ISO 8601, go to the [ISO8601 Wikipedia page.](http://en.wikipedia.org/wiki/ISO_8601) Example: 2009-07-08T18:00Z
@@ -11939,7 +11939,7 @@ extension DescribeEventsOutput {
 }
 
 ///
-public struct DescribeEventsOutput: Swift.Equatable {
+public struct DescribeEventsOutput {
     /// A list of Event instances.
     public var events: [RedshiftClientTypes.Event]?
     /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
@@ -12028,7 +12028,7 @@ extension DescribeHsmClientCertificatesInput {
 }
 
 ///
-public struct DescribeHsmClientCertificatesInput: Swift.Equatable {
+public struct DescribeHsmClientCertificatesInput {
     /// The identifier of a specific HSM client certificate for which you want information. If no identifier is specified, information is returned for all HSM client certificates owned by your Amazon Web Services account.
     public var hsmClientCertificateIdentifier: Swift.String?
     /// An optional parameter that specifies the starting point to return a set of response records. When the results of a [DescribeHsmClientCertificates] request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
@@ -12071,7 +12071,7 @@ extension DescribeHsmClientCertificatesOutput {
 }
 
 ///
-public struct DescribeHsmClientCertificatesOutput: Swift.Equatable {
+public struct DescribeHsmClientCertificatesOutput {
     /// A list of the identifiers for one or more HSM client certificates used by Amazon Redshift clusters to store and retrieve database encryption keys in an HSM.
     public var hsmClientCertificates: [RedshiftClientTypes.HsmClientCertificate]?
     /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
@@ -12162,7 +12162,7 @@ extension DescribeHsmConfigurationsInput {
 }
 
 ///
-public struct DescribeHsmConfigurationsInput: Swift.Equatable {
+public struct DescribeHsmConfigurationsInput {
     /// The identifier of a specific Amazon Redshift HSM configuration to be described. If no identifier is specified, information is returned for all HSM configurations owned by your Amazon Web Services account.
     public var hsmConfigurationIdentifier: Swift.String?
     /// An optional parameter that specifies the starting point to return a set of response records. When the results of a [DescribeHsmConfigurations] request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
@@ -12205,7 +12205,7 @@ extension DescribeHsmConfigurationsOutput {
 }
 
 ///
-public struct DescribeHsmConfigurationsOutput: Swift.Equatable {
+public struct DescribeHsmConfigurationsOutput {
     /// A list of HsmConfiguration objects.
     public var hsmConfigurations: [RedshiftClientTypes.HsmConfiguration]?
     /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
@@ -12273,7 +12273,7 @@ extension DescribeInboundIntegrationsInput {
     }
 }
 
-public struct DescribeInboundIntegrationsInput: Swift.Equatable {
+public struct DescribeInboundIntegrationsInput {
     /// The Amazon Resource Name (ARN) of the inbound integration.
     public var integrationArn: Swift.String?
     /// An optional parameter that specifies the starting point to return a set of response records. When the results of a [DescribeInboundIntegrations] request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
@@ -12311,7 +12311,7 @@ extension DescribeInboundIntegrationsOutput {
     }
 }
 
-public struct DescribeInboundIntegrationsOutput: Swift.Equatable {
+public struct DescribeInboundIntegrationsOutput {
     /// A list of [InboundIntegration] instances.
     public var inboundIntegrations: [RedshiftClientTypes.InboundIntegration]?
     /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
@@ -12369,7 +12369,7 @@ extension DescribeLoggingStatusInput {
 }
 
 ///
-public struct DescribeLoggingStatusInput: Swift.Equatable {
+public struct DescribeLoggingStatusInput {
     /// The identifier of the cluster from which to get the logging status. Example: examplecluster
     /// This member is required.
     public var clusterIdentifier: Swift.String?
@@ -12403,7 +12403,7 @@ extension DescribeLoggingStatusOutput {
 }
 
 /// Describes the status of logging for a cluster.
-public struct DescribeLoggingStatusOutput: Swift.Equatable {
+public struct DescribeLoggingStatusOutput {
     /// The name of the S3 bucket where the log files are stored.
     public var bucketName: Swift.String?
     /// The message indicating that logs failed to be delivered.
@@ -12520,7 +12520,7 @@ extension DescribeNodeConfigurationOptionsInput {
     }
 }
 
-public struct DescribeNodeConfigurationOptionsInput: Swift.Equatable {
+public struct DescribeNodeConfigurationOptionsInput {
     /// The action type to evaluate for possible node configurations. Specify "restore-cluster" to get configuration combinations based on an existing snapshot. Specify "recommend-node-config" to get configuration recommendations based on an existing cluster or snapshot. Specify "resize-cluster" to get configuration combinations for elastic resize based on an existing cluster.
     /// This member is required.
     public var actionType: RedshiftClientTypes.ActionType?
@@ -12575,7 +12575,7 @@ extension DescribeNodeConfigurationOptionsOutput {
     }
 }
 
-public struct DescribeNodeConfigurationOptionsOutput: Swift.Equatable {
+public struct DescribeNodeConfigurationOptionsOutput {
     /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
     public var marker: Swift.String?
     /// A list of valid node configurations.
@@ -12647,7 +12647,7 @@ extension DescribeOrderableClusterOptionsInput {
 }
 
 ///
-public struct DescribeOrderableClusterOptionsInput: Swift.Equatable {
+public struct DescribeOrderableClusterOptionsInput {
     /// The version filter value. Specify this parameter to show only the available offerings matching the specified version. Default: All versions. Constraints: Must be one of the version returned from [DescribeClusterVersions].
     public var clusterVersion: Swift.String?
     /// An optional parameter that specifies the starting point to return a set of response records. When the results of a [DescribeOrderableClusterOptions] request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
@@ -12686,7 +12686,7 @@ extension DescribeOrderableClusterOptionsOutput {
 }
 
 /// Contains the output from the [DescribeOrderableClusterOptions] action.
-public struct DescribeOrderableClusterOptionsOutput: Swift.Equatable {
+public struct DescribeOrderableClusterOptionsOutput {
     /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
     public var marker: Swift.String?
     /// An OrderableClusterOption structure containing information about orderable options for the cluster.
@@ -12752,7 +12752,7 @@ extension DescribePartnersInput {
     }
 }
 
-public struct DescribePartnersInput: Swift.Equatable {
+public struct DescribePartnersInput {
     /// The Amazon Web Services account ID that owns the cluster.
     /// This member is required.
     public var accountId: Swift.String?
@@ -12791,7 +12791,7 @@ extension DescribePartnersOutput {
     }
 }
 
-public struct DescribePartnersOutput: Swift.Equatable {
+public struct DescribePartnersOutput {
     /// A list of partner integrations.
     public var partnerIntegrationInfoList: [RedshiftClientTypes.PartnerIntegrationInfo]?
 
@@ -12852,7 +12852,7 @@ extension DescribeRedshiftIdcApplicationsInput {
     }
 }
 
-public struct DescribeRedshiftIdcApplicationsInput: Swift.Equatable {
+public struct DescribeRedshiftIdcApplicationsInput {
     /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
     public var marker: Swift.String?
     /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.
@@ -12886,7 +12886,7 @@ extension DescribeRedshiftIdcApplicationsOutput {
     }
 }
 
-public struct DescribeRedshiftIdcApplicationsOutput: Swift.Equatable {
+public struct DescribeRedshiftIdcApplicationsOutput {
     /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
     public var marker: Swift.String?
     /// The list of Amazon Redshift IAM Identity Center applications.
@@ -12956,7 +12956,7 @@ extension DescribeReservedNodeExchangeStatusInput {
     }
 }
 
-public struct DescribeReservedNodeExchangeStatusInput: Swift.Equatable {
+public struct DescribeReservedNodeExchangeStatusInput {
     /// An optional pagination token provided by a previous DescribeReservedNodeExchangeStatus request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by the MaxRecords parameter. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
     public var marker: Swift.String?
     /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a Marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.
@@ -12994,7 +12994,7 @@ extension DescribeReservedNodeExchangeStatusOutput {
     }
 }
 
-public struct DescribeReservedNodeExchangeStatusOutput: Swift.Equatable {
+public struct DescribeReservedNodeExchangeStatusOutput {
     /// A pagination token provided by a previous DescribeReservedNodeExchangeStatus request.
     public var marker: Swift.String?
     /// The details of the reserved-node exchange request, including the status, request time, source reserved-node identifier, and additional details.
@@ -13060,7 +13060,7 @@ extension DescribeReservedNodeOfferingsInput {
 }
 
 ///
-public struct DescribeReservedNodeOfferingsInput: Swift.Equatable {
+public struct DescribeReservedNodeOfferingsInput {
     /// An optional parameter that specifies the starting point to return a set of response records. When the results of a [DescribeReservedNodeOfferings] request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
     public var marker: Swift.String?
     /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value. Default: 100 Constraints: minimum 20, maximum 100.
@@ -13095,7 +13095,7 @@ extension DescribeReservedNodeOfferingsOutput {
 }
 
 ///
-public struct DescribeReservedNodeOfferingsOutput: Swift.Equatable {
+public struct DescribeReservedNodeOfferingsOutput {
     /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
     public var marker: Swift.String?
     /// A list of ReservedNodeOffering objects.
@@ -13161,7 +13161,7 @@ extension DescribeReservedNodesInput {
 }
 
 ///
-public struct DescribeReservedNodesInput: Swift.Equatable {
+public struct DescribeReservedNodesInput {
     /// An optional parameter that specifies the starting point to return a set of response records. When the results of a [DescribeReservedNodes] request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
     public var marker: Swift.String?
     /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value. Default: 100 Constraints: minimum 20, maximum 100.
@@ -13196,7 +13196,7 @@ extension DescribeReservedNodesOutput {
 }
 
 ///
-public struct DescribeReservedNodesOutput: Swift.Equatable {
+public struct DescribeReservedNodesOutput {
     /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
     public var marker: Swift.String?
     /// The list of ReservedNode objects.
@@ -13253,7 +13253,7 @@ extension DescribeResizeInput {
 }
 
 ///
-public struct DescribeResizeInput: Swift.Equatable {
+public struct DescribeResizeInput {
     /// The unique identifier of a cluster whose resize progress you are requesting. This parameter is case-sensitive. By default, resize operations for all clusters defined for an Amazon Web Services account are returned.
     /// This member is required.
     public var clusterIdentifier: Swift.String?
@@ -13295,7 +13295,7 @@ extension DescribeResizeOutput {
 }
 
 /// Describes the result of a cluster resize operation.
-public struct DescribeResizeOutput: Swift.Equatable {
+public struct DescribeResizeOutput {
     /// The average rate of the resize operation over the last few minutes, measured in megabytes per second. After the resize operation completes, this value shows the average rate of the entire resize operation.
     public var avgResizeRateInMegaBytesPerSecond: Swift.Double?
     /// The percent of data transferred from source cluster to target cluster.
@@ -13445,7 +13445,7 @@ extension DescribeScheduledActionsInput {
     }
 }
 
-public struct DescribeScheduledActionsInput: Swift.Equatable {
+public struct DescribeScheduledActionsInput {
     /// If true, retrieve only active scheduled actions. If false, retrieve only disabled scheduled actions.
     public var active: Swift.Bool?
     /// The end time in UTC of the scheduled action to retrieve. Only active scheduled actions that have invocations before this time are retrieved.
@@ -13499,7 +13499,7 @@ extension DescribeScheduledActionsOutput {
     }
 }
 
-public struct DescribeScheduledActionsOutput: Swift.Equatable {
+public struct DescribeScheduledActionsOutput {
     /// An optional parameter that specifies the starting point to return a set of response records. When the results of a [DescribeScheduledActions] request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
     public var marker: Swift.String?
     /// List of retrieved scheduled actions.
@@ -13590,7 +13590,7 @@ extension DescribeSnapshotCopyGrantsInput {
 }
 
 /// The result of the DescribeSnapshotCopyGrants action.
-public struct DescribeSnapshotCopyGrantsInput: Swift.Equatable {
+public struct DescribeSnapshotCopyGrantsInput {
     /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeSnapshotCopyGrant request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. Constraints: You can specify either the SnapshotCopyGrantName parameter or the Marker parameter, but not both.
     public var marker: Swift.String?
     /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value. Default: 100 Constraints: minimum 20, maximum 100.
@@ -13633,7 +13633,7 @@ extension DescribeSnapshotCopyGrantsOutput {
 }
 
 ///
-public struct DescribeSnapshotCopyGrantsOutput: Swift.Equatable {
+public struct DescribeSnapshotCopyGrantsOutput {
     /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeSnapshotCopyGrant request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. Constraints: You can specify either the SnapshotCopyGrantName parameter or the Marker parameter, but not both.
     public var marker: Swift.String?
     /// The list of SnapshotCopyGrant objects.
@@ -13727,7 +13727,7 @@ extension DescribeSnapshotSchedulesInput {
     }
 }
 
-public struct DescribeSnapshotSchedulesInput: Swift.Equatable {
+public struct DescribeSnapshotSchedulesInput {
     /// The unique identifier for the cluster whose snapshot schedules you want to view.
     public var clusterIdentifier: Swift.String?
     /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the marker parameter and retrying the command. If the marker field is empty, all response records have been retrieved for the request.
@@ -13773,7 +13773,7 @@ extension DescribeSnapshotSchedulesOutput {
     }
 }
 
-public struct DescribeSnapshotSchedulesOutput: Swift.Equatable {
+public struct DescribeSnapshotSchedulesOutput {
     /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the marker parameter and retrying the command. If the marker field is empty, all response records have been retrieved for the request.
     public var marker: Swift.String?
     /// A list of SnapshotSchedules.
@@ -13821,7 +13821,7 @@ extension DescribeStorageInput {
     }
 }
 
-public struct DescribeStorageInput: Swift.Equatable {
+public struct DescribeStorageInput {
 
     public init() { }
 }
@@ -13840,7 +13840,7 @@ extension DescribeStorageOutput {
     }
 }
 
-public struct DescribeStorageOutput: Swift.Equatable {
+public struct DescribeStorageOutput {
     /// The total amount of storage currently used for snapshots.
     public var totalBackupSizeInMegaBytes: Swift.Double?
     /// The total amount of storage currently provisioned.
@@ -13907,7 +13907,7 @@ extension DescribeTableRestoreStatusInput {
 }
 
 ///
-public struct DescribeTableRestoreStatusInput: Swift.Equatable {
+public struct DescribeTableRestoreStatusInput {
     /// The Amazon Redshift cluster that the table is being restored to.
     public var clusterIdentifier: Swift.String?
     /// An optional pagination token provided by a previous DescribeTableRestoreStatus request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by the MaxRecords parameter.
@@ -13946,7 +13946,7 @@ extension DescribeTableRestoreStatusOutput {
 }
 
 ///
-public struct DescribeTableRestoreStatusOutput: Swift.Equatable {
+public struct DescribeTableRestoreStatusOutput {
     /// A pagination token that can be used in a subsequent [DescribeTableRestoreStatus] request.
     public var marker: Swift.String?
     /// A list of status details for one or more table restore requests.
@@ -14041,7 +14041,7 @@ extension DescribeTagsInput {
 }
 
 ///
-public struct DescribeTagsInput: Swift.Equatable {
+public struct DescribeTagsInput {
     /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the marker parameter and retrying the command. If the marker field is empty, all response records have been retrieved for the request.
     public var marker: Swift.String?
     /// The maximum number or response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.
@@ -14111,7 +14111,7 @@ extension DescribeTagsOutput {
 }
 
 ///
-public struct DescribeTagsOutput: Swift.Equatable {
+public struct DescribeTagsOutput {
     /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
     public var marker: Swift.String?
     /// A list of tags with their associated resources.
@@ -14209,7 +14209,7 @@ extension DescribeUsageLimitsInput {
     }
 }
 
-public struct DescribeUsageLimitsInput: Swift.Equatable {
+public struct DescribeUsageLimitsInput {
     /// The identifier of the cluster for which you want to describe usage limits.
     public var clusterIdentifier: Swift.String?
     /// The feature type for which you want to describe usage limits.
@@ -14259,7 +14259,7 @@ extension DescribeUsageLimitsOutput {
     }
 }
 
-public struct DescribeUsageLimitsOutput: Swift.Equatable {
+public struct DescribeUsageLimitsOutput {
     /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
     public var marker: Swift.String?
     /// Contains the output from the [DescribeUsageLimits] action.
@@ -14316,7 +14316,7 @@ extension DisableLoggingInput {
 }
 
 ///
-public struct DisableLoggingInput: Swift.Equatable {
+public struct DisableLoggingInput {
     /// The identifier of the cluster on which logging is to be stopped. Example: examplecluster
     /// This member is required.
     public var clusterIdentifier: Swift.String?
@@ -14350,7 +14350,7 @@ extension DisableLoggingOutput {
 }
 
 /// Describes the status of logging for a cluster.
-public struct DisableLoggingOutput: Swift.Equatable {
+public struct DisableLoggingOutput {
     /// The name of the S3 bucket where the log files are stored.
     public var bucketName: Swift.String?
     /// The message indicating that logs failed to be delivered.
@@ -14432,7 +14432,7 @@ extension DisableSnapshotCopyInput {
 }
 
 ///
-public struct DisableSnapshotCopyInput: Swift.Equatable {
+public struct DisableSnapshotCopyInput {
     /// The unique identifier of the source cluster that you want to disable copying of snapshots to a destination region. Constraints: Must be the valid name of an existing cluster that has cross-region snapshot copy enabled.
     /// This member is required.
     public var clusterIdentifier: Swift.String?
@@ -14458,7 +14458,7 @@ extension DisableSnapshotCopyOutput {
     }
 }
 
-public struct DisableSnapshotCopyOutput: Swift.Equatable {
+public struct DisableSnapshotCopyOutput {
     /// Describes a cluster.
     public var cluster: RedshiftClientTypes.Cluster?
 
@@ -14525,7 +14525,7 @@ extension DisassociateDataShareConsumerInput {
     }
 }
 
-public struct DisassociateDataShareConsumerInput: Swift.Equatable {
+public struct DisassociateDataShareConsumerInput {
     /// The Amazon Resource Name (ARN) of the consumer namespace that association for the datashare is removed from.
     public var consumerArn: Swift.String?
     /// From a datashare consumer account, removes association of a datashare from all the existing and future namespaces in the specified Amazon Web Services Region.
@@ -14567,7 +14567,7 @@ extension DisassociateDataShareConsumerOutput {
     }
 }
 
-public struct DisassociateDataShareConsumerOutput: Swift.Equatable {
+public struct DisassociateDataShareConsumerOutput {
     /// A value that specifies whether the datashare can be shared to a publicly accessible cluster.
     public var allowPubliclyAccessibleConsumers: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the datashare that the consumer is to use.
@@ -14661,7 +14661,7 @@ extension RedshiftClientTypes.EC2SecurityGroup: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes an Amazon EC2 security group.
-    public struct EC2SecurityGroup: Swift.Equatable {
+    public struct EC2SecurityGroup {
         /// The name of the EC2 Security Group.
         public var ec2SecurityGroupName: Swift.String?
         /// The Amazon Web Services account ID of the owner of the EC2 security group specified in the EC2SecurityGroupName field.
@@ -14716,7 +14716,7 @@ extension RedshiftClientTypes.ElasticIpStatus: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes the status of the elastic IP (EIP) address.
-    public struct ElasticIpStatus: Swift.Equatable {
+    public struct ElasticIpStatus {
         /// The elastic IP (EIP) address for the cluster.
         public var elasticIp: Swift.String?
         /// The status of the elastic IP (EIP) address.
@@ -14782,7 +14782,7 @@ extension EnableLoggingInput {
 }
 
 ///
-public struct EnableLoggingInput: Swift.Equatable {
+public struct EnableLoggingInput {
     /// The name of an existing S3 bucket where the log files are to be stored. Constraints:
     ///
     /// * Must be in the same region as the cluster
@@ -14850,7 +14850,7 @@ extension EnableLoggingOutput {
 }
 
 /// Describes the status of logging for a cluster.
-public struct EnableLoggingOutput: Swift.Equatable {
+public struct EnableLoggingOutput {
     /// The name of the S3 bucket where the log files are stored.
     public var bucketName: Swift.String?
     /// The message indicating that logs failed to be delivered.
@@ -14952,7 +14952,7 @@ extension EnableSnapshotCopyInput {
 }
 
 ///
-public struct EnableSnapshotCopyInput: Swift.Equatable {
+public struct EnableSnapshotCopyInput {
     /// The unique identifier of the source cluster to copy snapshots from. Constraints: Must be the valid name of an existing cluster that does not already have cross-region snapshot copy enabled.
     /// This member is required.
     public var clusterIdentifier: Swift.String?
@@ -14995,7 +14995,7 @@ extension EnableSnapshotCopyOutput {
     }
 }
 
-public struct EnableSnapshotCopyOutput: Swift.Equatable {
+public struct EnableSnapshotCopyOutput {
     /// Describes a cluster.
     public var cluster: RedshiftClientTypes.Cluster?
 
@@ -15077,7 +15077,7 @@ extension RedshiftClientTypes.Endpoint: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes a connection endpoint.
-    public struct Endpoint: Swift.Equatable {
+    public struct Endpoint {
         /// The DNS address of the Cluster.
         public var address: Swift.String?
         /// The port that the database engine is listening on.
@@ -15177,7 +15177,7 @@ extension RedshiftClientTypes.EndpointAccess: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes a Redshift-managed VPC endpoint.
-    public struct EndpointAccess: Swift.Equatable {
+    public struct EndpointAccess {
         /// The DNS address of the endpoint.
         public var address: Swift.String?
         /// The cluster identifier of the cluster associated with the endpoint.
@@ -15336,7 +15336,7 @@ extension RedshiftClientTypes.EndpointAuthorization: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes an endpoint authorization for authorizing Redshift-managed VPC endpoint access to a cluster across Amazon Web Services accounts.
-    public struct EndpointAuthorization: Swift.Equatable {
+    public struct EndpointAuthorization {
         /// Indicates whether all VPCs in the grantee account are allowed access to the cluster.
         public var allowedAllVPCs: Swift.Bool?
         /// The VPCs allowed access to the cluster.
@@ -15661,7 +15661,7 @@ extension RedshiftClientTypes.Event: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes an event.
-    public struct Event: Swift.Equatable {
+    public struct Event {
         /// The date and time of the event.
         public var date: ClientRuntime.Date?
         /// A list of the event categories. Values: Configuration, Management, Monitoring, Security, Pending
@@ -15737,7 +15737,7 @@ extension RedshiftClientTypes.EventCategoriesMap: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes event categories.
-    public struct EventCategoriesMap: Swift.Equatable {
+    public struct EventCategoriesMap {
         /// The events in the event category.
         public var events: [RedshiftClientTypes.EventInfoMap]?
         /// The source type, such as cluster or cluster-snapshot, that the returned categories belong to.
@@ -15803,7 +15803,7 @@ extension RedshiftClientTypes.EventInfoMap: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes event information.
-    public struct EventInfoMap: Swift.Equatable {
+    public struct EventInfoMap {
         /// The category of an Amazon Redshift event.
         public var eventCategories: [Swift.String]?
         /// The description of an Amazon Redshift event.
@@ -15930,7 +15930,7 @@ extension RedshiftClientTypes.EventSubscription: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes event subscriptions.
-    public struct EventSubscription: Swift.Equatable {
+    public struct EventSubscription {
         /// The name of the Amazon Redshift event notification subscription.
         public var custSubscriptionId: Swift.String?
         /// The Amazon Web Services account associated with the Amazon Redshift event notification subscription.
@@ -16046,7 +16046,7 @@ extension FailoverPrimaryComputeInput {
     }
 }
 
-public struct FailoverPrimaryComputeInput: Swift.Equatable {
+public struct FailoverPrimaryComputeInput {
     /// The unique identifier of the cluster for which the primary compute unit will be failed over to another Availability Zone.
     /// This member is required.
     public var clusterIdentifier: Swift.String?
@@ -16072,7 +16072,7 @@ extension FailoverPrimaryComputeOutput {
     }
 }
 
-public struct FailoverPrimaryComputeOutput: Swift.Equatable {
+public struct FailoverPrimaryComputeOutput {
     /// Describes a cluster.
     public var cluster: RedshiftClientTypes.Cluster?
 
@@ -16160,7 +16160,7 @@ extension GetClusterCredentialsInput {
 }
 
 /// The request parameters to get cluster credentials.
-public struct GetClusterCredentialsInput: Swift.Equatable {
+public struct GetClusterCredentialsInput {
     /// Create a database user with the name specified for the user named in DbUser if one does not exist.
     public var autoCreate: Swift.Bool?
     /// The unique identifier of the cluster that contains the database for which you are requesting credentials. This parameter is case sensitive.
@@ -16248,7 +16248,7 @@ extension GetClusterCredentialsOutput {
 }
 
 /// Temporary credentials with authorization to log on to an Amazon Redshift database.
-public struct GetClusterCredentialsOutput: Swift.Equatable {
+public struct GetClusterCredentialsOutput {
     /// A temporary password that authorizes the user name returned by DbUser to log on to the database DbName.
     public var dbPassword: Swift.String?
     /// A database user name that is authorized to log on to the database DbName using the password DbPassword. If the specified DbUser exists in the database, the new user name has the same database permissions as the the user named in DbUser. By default, the user is added to PUBLIC. If the DbGroups parameter is specifed, DbUser is added to the listed groups for any sessions created using these credentials.
@@ -16320,7 +16320,7 @@ extension GetClusterCredentialsWithIAMInput {
     }
 }
 
-public struct GetClusterCredentialsWithIAMInput: Swift.Equatable {
+public struct GetClusterCredentialsWithIAMInput {
     /// The unique identifier of the cluster that contains the database for which you are requesting credentials.
     public var clusterIdentifier: Swift.String?
     /// The custom domain name for the IAM message cluster credentials.
@@ -16365,7 +16365,7 @@ extension GetClusterCredentialsWithIAMOutput {
     }
 }
 
-public struct GetClusterCredentialsWithIAMOutput: Swift.Equatable {
+public struct GetClusterCredentialsWithIAMOutput {
     /// A temporary password that you provide when you connect to a database.
     public var dbPassword: Swift.String?
     /// A database user name that you provide when you connect to a database. The database user is mapped 1:1 to the source IAM identity.
@@ -16445,7 +16445,7 @@ extension GetReservedNodeExchangeConfigurationOptionsInput {
     }
 }
 
-public struct GetReservedNodeExchangeConfigurationOptionsInput: Swift.Equatable {
+public struct GetReservedNodeExchangeConfigurationOptionsInput {
     /// The action type of the reserved-node configuration. The action type can be an exchange initiated from either a snapshot or a resize.
     /// This member is required.
     public var actionType: RedshiftClientTypes.ReservedNodeExchangeActionType?
@@ -16488,7 +16488,7 @@ extension GetReservedNodeExchangeConfigurationOptionsOutput {
     }
 }
 
-public struct GetReservedNodeExchangeConfigurationOptionsOutput: Swift.Equatable {
+public struct GetReservedNodeExchangeConfigurationOptionsOutput {
     /// A pagination token provided by a previous GetReservedNodeExchangeConfigurationOptions request.
     public var marker: Swift.String?
     /// the configuration options for the reserved-node exchange. These options include information about the source reserved node and target reserved node. Details include the node type, the price, the node count, and the offering type.
@@ -16559,7 +16559,7 @@ extension GetReservedNodeExchangeOfferingsInput {
 }
 
 ///
-public struct GetReservedNodeExchangeOfferingsInput: Swift.Equatable {
+public struct GetReservedNodeExchangeOfferingsInput {
     /// A value that indicates the starting point for the next set of ReservedNodeOfferings.
     public var marker: Swift.String?
     /// An integer setting the maximum number of ReservedNodeOfferings to retrieve.
@@ -16594,7 +16594,7 @@ extension GetReservedNodeExchangeOfferingsOutput {
     }
 }
 
-public struct GetReservedNodeExchangeOfferingsOutput: Swift.Equatable {
+public struct GetReservedNodeExchangeOfferingsOutput {
     /// An optional parameter that specifies the starting point for returning a set of response records. When the results of a GetReservedNodeExchangeOfferings request exceed the value specified in MaxRecords, Amazon Redshift returns a value in the marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the marker parameter and retrying the request.
     public var marker: Swift.String?
     /// Returns an array of [ReservedNodeOffering] objects.
@@ -16654,7 +16654,7 @@ extension GetResourcePolicyInput {
     }
 }
 
-public struct GetResourcePolicyInput: Swift.Equatable {
+public struct GetResourcePolicyInput {
     /// The Amazon Resource Name (ARN) of the resource of which its resource policy is fetched.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -16680,7 +16680,7 @@ extension GetResourcePolicyOutput {
     }
 }
 
-public struct GetResourcePolicyOutput: Swift.Equatable {
+public struct GetResourcePolicyOutput {
     /// The content of the resource policy.
     public var resourcePolicy: RedshiftClientTypes.ResourcePolicy?
 
@@ -16754,7 +16754,7 @@ extension RedshiftClientTypes.HsmClientCertificate: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Returns information about an HSM client certificate. The certificate is stored in a secure Hardware Storage Module (HSM), and used by the Amazon Redshift cluster to encrypt data files.
-    public struct HsmClientCertificate: Swift.Equatable {
+    public struct HsmClientCertificate {
         /// The identifier of the HSM client certificate.
         public var hsmClientCertificateIdentifier: Swift.String?
         /// The public key that the Amazon Redshift cluster will use to connect to the HSM. You must register the public key in the HSM.
@@ -16937,7 +16937,7 @@ extension RedshiftClientTypes.HsmConfiguration: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Returns information about an HSM configuration, which is an object that describes to Amazon Redshift clusters the information they require to connect to an HSM where they can store database encryption keys.
-    public struct HsmConfiguration: Swift.Equatable {
+    public struct HsmConfiguration {
         /// A text description of the HSM configuration.
         public var description: Swift.String?
         /// The name of the Amazon Redshift HSM configuration.
@@ -17109,7 +17109,7 @@ extension RedshiftClientTypes.HsmStatus: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes the status of changes to HSM settings.
-    public struct HsmStatus: Swift.Equatable {
+    public struct HsmStatus {
         /// Specifies the name of the HSM client certificate the Amazon Redshift cluster uses to retrieve the data encryption keys stored in an HSM.
         public var hsmClientCertificateIdentifier: Swift.String?
         /// Specifies the name of the HSM configuration that contains the information the Amazon Redshift cluster can use to retrieve and store keys in an HSM.
@@ -17174,7 +17174,7 @@ extension RedshiftClientTypes.IPRange: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes an IP range used in a security group.
-    public struct IPRange: Swift.Equatable {
+    public struct IPRange {
         /// The IP range in Classless Inter-Domain Routing (CIDR) notation.
         public var cidrip: Swift.String?
         /// The status of the IP range, for example, "authorized".
@@ -17325,7 +17325,7 @@ extension RedshiftClientTypes.InboundIntegration: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// The content of an inbound integration.
-    public struct InboundIntegration: Swift.Equatable {
+    public struct InboundIntegration {
         /// The creation time of an inbound integration.
         public var createTime: ClientRuntime.Date?
         /// The outstanding errors of an inbound integration. Each item is an "IntegrationError". This is null if there is no error.
@@ -17496,7 +17496,7 @@ extension RedshiftClientTypes.IntegrationError: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// The error of an inbound integration.
-    public struct IntegrationError: Swift.Equatable {
+    public struct IntegrationError {
         /// The error code of an inbound integration error.
         /// This member is required.
         public var errorCode: Swift.String?
@@ -18727,7 +18727,7 @@ extension RedshiftClientTypes.LakeFormationQuery: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// The Lake Formation scope.
-    public struct LakeFormationQuery: Swift.Equatable {
+    public struct LakeFormationQuery {
         /// Determines whether the query scope is enabled or disabled.
         /// This member is required.
         public var authorization: RedshiftClientTypes.ServiceAuthorization?
@@ -18774,7 +18774,7 @@ extension RedshiftClientTypes.LakeFormationScopeUnion: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// A list of scopes set up for Lake Formation integration.
-    public enum LakeFormationScopeUnion: Swift.Equatable {
+    public enum LakeFormationScopeUnion {
         /// The Lake Formation scope.
         case lakeformationquery(RedshiftClientTypes.LakeFormationQuery)
         case sdkUnknown(Swift.String)
@@ -18852,7 +18852,7 @@ extension ListRecommendationsInput {
     }
 }
 
-public struct ListRecommendationsInput: Swift.Equatable {
+public struct ListRecommendationsInput {
     /// The unique identifier of the Amazon Redshift cluster for which the list of Advisor recommendations is returned. If the neither the cluster identifier and the cluster namespace ARN parameters are specified, then recommendations for all clusters in the account are returned.
     public var clusterIdentifier: Swift.String?
     /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
@@ -18890,7 +18890,7 @@ extension ListRecommendationsOutput {
     }
 }
 
-public struct ListRecommendationsOutput: Swift.Equatable {
+public struct ListRecommendationsOutput {
     /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
     public var marker: Swift.String?
     /// The Advisor recommendations for action on the Amazon Redshift cluster.
@@ -18999,7 +18999,7 @@ extension RedshiftClientTypes.MaintenanceTrack: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Defines a maintenance track that determines which Amazon Redshift version to apply during a maintenance window. If the value for MaintenanceTrack is current, the cluster is updated to the most recently certified maintenance release. If the value is trailing, the cluster is updated to the previously certified maintenance release.
-    public struct MaintenanceTrack: Swift.Equatable {
+    public struct MaintenanceTrack {
         /// The version number for the cluster release.
         public var databaseVersion: Swift.String?
         /// The name of the maintenance track. Possible values are current and trailing.
@@ -19079,7 +19079,7 @@ extension ModifyAquaConfigurationInput {
     }
 }
 
-public struct ModifyAquaConfigurationInput: Swift.Equatable {
+public struct ModifyAquaConfigurationInput {
     /// This parameter is retired. Amazon Redshift automatically determines whether to use AQUA (Advanced Query Accelerator).
     public var aquaConfigurationStatus: RedshiftClientTypes.AquaConfigurationStatus?
     /// The identifier of the cluster to be modified.
@@ -19109,7 +19109,7 @@ extension ModifyAquaConfigurationOutput {
     }
 }
 
-public struct ModifyAquaConfigurationOutput: Swift.Equatable {
+public struct ModifyAquaConfigurationOutput {
     /// This parameter is retired. Amazon Redshift automatically determines whether to use AQUA (Advanced Query Accelerator).
     public var aquaConfiguration: RedshiftClientTypes.AquaConfiguration?
 
@@ -19166,7 +19166,7 @@ extension ModifyAuthenticationProfileInput {
     }
 }
 
-public struct ModifyAuthenticationProfileInput: Swift.Equatable {
+public struct ModifyAuthenticationProfileInput {
     /// The new content of the authentication profile in JSON format. The maximum length of the JSON string is determined by a quota for your account.
     /// This member is required.
     public var authenticationProfileContent: Swift.String?
@@ -19198,7 +19198,7 @@ extension ModifyAuthenticationProfileOutput {
     }
 }
 
-public struct ModifyAuthenticationProfileOutput: Swift.Equatable {
+public struct ModifyAuthenticationProfileOutput {
     /// The updated content of the authentication profile in JSON format.
     public var authenticationProfileContent: Swift.String?
     /// The name of the authentication profile that was replaced.
@@ -19259,7 +19259,7 @@ extension ModifyClusterDbRevisionInput {
     }
 }
 
-public struct ModifyClusterDbRevisionInput: Swift.Equatable {
+public struct ModifyClusterDbRevisionInput {
     /// The unique identifier of a cluster whose database revision you want to modify. Example: examplecluster
     /// This member is required.
     public var clusterIdentifier: Swift.String?
@@ -19290,7 +19290,7 @@ extension ModifyClusterDbRevisionOutput {
     }
 }
 
-public struct ModifyClusterDbRevisionOutput: Swift.Equatable {
+public struct ModifyClusterDbRevisionOutput {
     /// Describes a cluster.
     public var cluster: RedshiftClientTypes.Cluster?
 
@@ -19375,7 +19375,7 @@ extension ModifyClusterIamRolesInput {
 }
 
 ///
-public struct ModifyClusterIamRolesInput: Swift.Equatable {
+public struct ModifyClusterIamRolesInput {
     /// Zero or more IAM roles to associate with the cluster. The roles must be in their Amazon Resource Name (ARN) format.
     public var addIamRoles: [Swift.String]?
     /// The unique identifier of the cluster for which you want to associate or disassociate IAM roles.
@@ -19413,7 +19413,7 @@ extension ModifyClusterIamRolesOutput {
     }
 }
 
-public struct ModifyClusterIamRolesOutput: Swift.Equatable {
+public struct ModifyClusterIamRolesOutput {
     /// Describes a cluster.
     public var cluster: RedshiftClientTypes.Cluster?
 
@@ -19601,7 +19601,7 @@ extension ModifyClusterInput {
 }
 
 ///
-public struct ModifyClusterInput: Swift.Equatable {
+public struct ModifyClusterInput {
     /// If true, major version upgrades will be applied automatically to the cluster during the maintenance window. Default: false
     public var allowVersionUpgrade: Swift.Bool?
     /// The number of days that automated snapshots are retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots are disabled, you can still create manual snapshots when you want with [CreateClusterSnapshot]. If you decrease the automated snapshot retention period from its current value, existing automated snapshots that fall outside of the new retention period will be immediately deleted. You can't disable automated snapshots for RA3 node types. Set the automated retention period from 1-35 days. Default: Uses existing setting. Constraints: Must be a value from 0 to 35.
@@ -19801,7 +19801,7 @@ extension ModifyClusterMaintenanceInput {
     }
 }
 
-public struct ModifyClusterMaintenanceInput: Swift.Equatable {
+public struct ModifyClusterMaintenanceInput {
     /// A unique identifier for the cluster.
     /// This member is required.
     public var clusterIdentifier: Swift.String?
@@ -19847,7 +19847,7 @@ extension ModifyClusterMaintenanceOutput {
     }
 }
 
-public struct ModifyClusterMaintenanceOutput: Swift.Equatable {
+public struct ModifyClusterMaintenanceOutput {
     /// Describes a cluster.
     public var cluster: RedshiftClientTypes.Cluster?
 
@@ -19890,7 +19890,7 @@ extension ModifyClusterOutput {
     }
 }
 
-public struct ModifyClusterOutput: Swift.Equatable {
+public struct ModifyClusterOutput {
     /// Describes a cluster.
     public var cluster: RedshiftClientTypes.Cluster?
 
@@ -19976,7 +19976,7 @@ extension ModifyClusterParameterGroupInput {
 }
 
 /// Describes a modify cluster parameter group operation.
-public struct ModifyClusterParameterGroupInput: Swift.Equatable {
+public struct ModifyClusterParameterGroupInput {
     /// The name of the parameter group to be modified.
     /// This member is required.
     public var parameterGroupName: Swift.String?
@@ -20009,7 +20009,7 @@ extension ModifyClusterParameterGroupOutput {
 }
 
 ///
-public struct ModifyClusterParameterGroupOutput: Swift.Equatable {
+public struct ModifyClusterParameterGroupOutput {
     /// The name of the cluster parameter group.
     public var parameterGroupName: Swift.String?
     /// The status of the parameter group. For example, if you made a change to a parameter group name-value pair, then the change could be pending a reboot of an associated cluster.
@@ -20073,7 +20073,7 @@ extension ModifyClusterSnapshotInput {
     }
 }
 
-public struct ModifyClusterSnapshotInput: Swift.Equatable {
+public struct ModifyClusterSnapshotInput {
     /// A Boolean option to override an exception if the retention period has already passed.
     public var force: Swift.Bool?
     /// The number of days that a manual snapshot is retained. If the value is -1, the manual snapshot is retained indefinitely. If the manual snapshot falls outside of the new retention period, you can specify the force option to immediately delete the snapshot. The value must be either -1 or an integer between 1 and 3,653.
@@ -20107,7 +20107,7 @@ extension ModifyClusterSnapshotOutput {
     }
 }
 
-public struct ModifyClusterSnapshotOutput: Swift.Equatable {
+public struct ModifyClusterSnapshotOutput {
     /// Describes a snapshot.
     public var snapshot: RedshiftClientTypes.Snapshot?
 
@@ -20168,7 +20168,7 @@ extension ModifyClusterSnapshotScheduleInput {
     }
 }
 
-public struct ModifyClusterSnapshotScheduleInput: Swift.Equatable {
+public struct ModifyClusterSnapshotScheduleInput {
     /// A unique identifier for the cluster whose snapshot schedule you want to modify.
     /// This member is required.
     public var clusterIdentifier: Swift.String?
@@ -20198,7 +20198,7 @@ extension ModifyClusterSnapshotScheduleOutput {
     }
 }
 
-public struct ModifyClusterSnapshotScheduleOutput: Swift.Equatable {
+public struct ModifyClusterSnapshotScheduleOutput {
 
     public init() { }
 }
@@ -20262,7 +20262,7 @@ extension ModifyClusterSubnetGroupInput {
 }
 
 ///
-public struct ModifyClusterSubnetGroupInput: Swift.Equatable {
+public struct ModifyClusterSubnetGroupInput {
     /// The name of the subnet group to be modified.
     /// This member is required.
     public var clusterSubnetGroupName: Swift.String?
@@ -20297,7 +20297,7 @@ extension ModifyClusterSubnetGroupOutput {
     }
 }
 
-public struct ModifyClusterSubnetGroupOutput: Swift.Equatable {
+public struct ModifyClusterSubnetGroupOutput {
     /// Describes a subnet group.
     public var clusterSubnetGroup: RedshiftClientTypes.ClusterSubnetGroup?
 
@@ -20361,7 +20361,7 @@ extension ModifyCustomDomainAssociationInput {
     }
 }
 
-public struct ModifyCustomDomainAssociationInput: Swift.Equatable {
+public struct ModifyCustomDomainAssociationInput {
     /// The identifier of the cluster to change a custom domain association for.
     /// This member is required.
     public var clusterIdentifier: Swift.String?
@@ -20400,7 +20400,7 @@ extension ModifyCustomDomainAssociationOutput {
     }
 }
 
-public struct ModifyCustomDomainAssociationOutput: Swift.Equatable {
+public struct ModifyCustomDomainAssociationOutput {
     /// The identifier of the cluster associated with the result for the changed custom domain association.
     public var clusterIdentifier: Swift.String?
     /// The certificate expiration time associated with the result for the changed custom domain association.
@@ -20479,7 +20479,7 @@ extension ModifyEndpointAccessInput {
     }
 }
 
-public struct ModifyEndpointAccessInput: Swift.Equatable {
+public struct ModifyEndpointAccessInput {
     /// The endpoint to be modified.
     /// This member is required.
     public var endpointName: Swift.String?
@@ -20519,7 +20519,7 @@ extension ModifyEndpointAccessOutput {
 }
 
 /// Describes a Redshift-managed VPC endpoint.
-public struct ModifyEndpointAccessOutput: Swift.Equatable {
+public struct ModifyEndpointAccessOutput {
     /// The DNS address of the endpoint.
     public var address: Swift.String?
     /// The cluster identifier of the cluster associated with the endpoint.
@@ -20654,7 +20654,7 @@ extension ModifyEventSubscriptionInput {
 }
 
 ///
-public struct ModifyEventSubscriptionInput: Swift.Equatable {
+public struct ModifyEventSubscriptionInput {
     /// A Boolean value indicating if the subscription is enabled. true indicates the subscription is enabled
     public var enabled: Swift.Bool?
     /// Specifies the Amazon Redshift event categories to be published by the event notification subscription. Values: configuration, management, monitoring, security, pending
@@ -20704,7 +20704,7 @@ extension ModifyEventSubscriptionOutput {
     }
 }
 
-public struct ModifyEventSubscriptionOutput: Swift.Equatable {
+public struct ModifyEventSubscriptionOutput {
     /// Describes event subscriptions.
     public var eventSubscription: RedshiftClientTypes.EventSubscription?
 
@@ -20801,7 +20801,7 @@ extension ModifyRedshiftIdcApplicationInput {
     }
 }
 
-public struct ModifyRedshiftIdcApplicationInput: Swift.Equatable {
+public struct ModifyRedshiftIdcApplicationInput {
     /// The authorized token issuer list for the Amazon Redshift IAM Identity Center application to change.
     public var authorizedTokenIssuerList: [RedshiftClientTypes.AuthorizedTokenIssuer]?
     /// The IAM role ARN associated with the Amazon Redshift IAM Identity Center application to change. It has the required permissions to be assumed and invoke the IDC Identity Center API.
@@ -20847,7 +20847,7 @@ extension ModifyRedshiftIdcApplicationOutput {
     }
 }
 
-public struct ModifyRedshiftIdcApplicationOutput: Swift.Equatable {
+public struct ModifyRedshiftIdcApplicationOutput {
     /// Contains properties for the Redshift IDC application.
     public var redshiftIdcApplication: RedshiftClientTypes.RedshiftIdcApplication?
 
@@ -20929,7 +20929,7 @@ extension ModifyScheduledActionInput {
     }
 }
 
-public struct ModifyScheduledActionInput: Swift.Equatable {
+public struct ModifyScheduledActionInput {
     /// A modified enable flag of the scheduled action. If true, the scheduled action is active. If false, the scheduled action is disabled.
     public var enable: Swift.Bool?
     /// A modified end time of the scheduled action. For more information about this parameter, see [ScheduledAction].
@@ -20992,7 +20992,7 @@ extension ModifyScheduledActionOutput {
 }
 
 /// Describes a scheduled action. You can use a scheduled action to trigger some Amazon Redshift API operations on a schedule. For information about which API operations can be scheduled, see [ScheduledActionType].
-public struct ModifyScheduledActionOutput: Swift.Equatable {
+public struct ModifyScheduledActionOutput {
     /// The end time in UTC when the schedule is no longer active. After this time, the scheduled action does not trigger.
     public var endTime: ClientRuntime.Date?
     /// The IAM role to assume to run the scheduled action. This IAM role must have permission to run the Amazon Redshift API operation in the scheduled action. This IAM role must allow the Amazon Redshift scheduler (Principal scheduler.redshift.amazonaws.com) to assume permissions on your behalf. For more information about the IAM role to use with the Amazon Redshift scheduler, see [Using Identity-Based Policies for Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-identity-based.html) in the Amazon Redshift Cluster Management Guide.
@@ -21090,7 +21090,7 @@ extension ModifySnapshotCopyRetentionPeriodInput {
 }
 
 ///
-public struct ModifySnapshotCopyRetentionPeriodInput: Swift.Equatable {
+public struct ModifySnapshotCopyRetentionPeriodInput {
     /// The unique identifier of the cluster for which you want to change the retention period for either automated or manual snapshots that are copied to a destination Amazon Web Services Region. Constraints: Must be the valid name of an existing cluster that has cross-region snapshot copy enabled.
     /// This member is required.
     public var clusterIdentifier: Swift.String?
@@ -21125,7 +21125,7 @@ extension ModifySnapshotCopyRetentionPeriodOutput {
     }
 }
 
-public struct ModifySnapshotCopyRetentionPeriodOutput: Swift.Equatable {
+public struct ModifySnapshotCopyRetentionPeriodOutput {
     /// Describes a cluster.
     public var cluster: RedshiftClientTypes.Cluster?
 
@@ -21193,7 +21193,7 @@ extension ModifySnapshotScheduleInput {
     }
 }
 
-public struct ModifySnapshotScheduleInput: Swift.Equatable {
+public struct ModifySnapshotScheduleInput {
     /// An updated list of schedule definitions. A schedule definition is made up of schedule expressions, for example, "cron(30 12 *)" or "rate(12 hours)".
     /// This member is required.
     public var scheduleDefinitions: [Swift.String]?
@@ -21231,7 +21231,7 @@ extension ModifySnapshotScheduleOutput {
 }
 
 /// Describes a snapshot schedule. You can set a regular interval for creating snapshots of a cluster. You can also schedule snapshots for specific dates.
-public struct ModifySnapshotScheduleOutput: Swift.Equatable {
+public struct ModifySnapshotScheduleOutput {
     /// The number of clusters associated with the schedule.
     public var associatedClusterCount: Swift.Int?
     /// A list of clusters associated with the schedule. A maximum of 100 clusters is returned.
@@ -21316,7 +21316,7 @@ extension ModifyUsageLimitInput {
     }
 }
 
-public struct ModifyUsageLimitInput: Swift.Equatable {
+public struct ModifyUsageLimitInput {
     /// The new limit amount. For more information about this parameter, see [UsageLimit].
     public var amount: Swift.Int?
     /// The new action that Amazon Redshift takes when the limit is reached. For more information about this parameter, see [UsageLimit].
@@ -21358,7 +21358,7 @@ extension ModifyUsageLimitOutput {
 }
 
 /// Describes a usage limit object for a cluster.
-public struct ModifyUsageLimitOutput: Swift.Equatable {
+public struct ModifyUsageLimitOutput {
     /// The limit amount. If time-based, this amount is in minutes. If data-based, this amount is in terabytes (TB).
     public var amount: Swift.Int?
     /// The action that Amazon Redshift takes when the limit is reached. Possible values are:
@@ -21467,7 +21467,7 @@ extension RedshiftClientTypes.NetworkInterface: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes a network interface.
-    public struct NetworkInterface: Swift.Equatable {
+    public struct NetworkInterface {
         /// The Availability Zone.
         public var availabilityZone: Swift.String?
         /// The IPv6 address of the network interface within the subnet.
@@ -21536,7 +21536,7 @@ extension RedshiftClientTypes.NodeConfigurationOption: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// A list of node configurations.
-    public struct NodeConfigurationOption: Swift.Equatable {
+    public struct NodeConfigurationOption {
         /// The estimated disk utilizaton percentage.
         public var estimatedDiskUtilizationPercent: Swift.Double?
         /// The category of the node configuration recommendation.
@@ -21605,7 +21605,7 @@ extension RedshiftClientTypes.NodeConfigurationOptionsFilter: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// A set of elements to filter the returned node configurations.
-    public struct NodeConfigurationOptionsFilter: Swift.Equatable {
+    public struct NodeConfigurationOptionsFilter {
         /// The name of the element to filter.
         public var name: RedshiftClientTypes.NodeConfigurationOptionsFilterName?
         /// The filter operator. If filter Name is NodeType only the 'in' operator is supported. Provide one value to evaluate for 'eq', 'lt', 'le', 'gt', and 'ge'. Provide two values to evaluate for 'between'. Provide a list of values for 'in'.
@@ -21832,7 +21832,7 @@ extension RedshiftClientTypes.OrderableClusterOption: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes an orderable cluster option.
-    public struct OrderableClusterOption: Swift.Equatable {
+    public struct OrderableClusterOption {
         /// A list of availability zones for the orderable cluster.
         public var availabilityZones: [RedshiftClientTypes.AvailabilityZone]?
         /// The cluster type, for example multi-node.
@@ -21922,7 +21922,7 @@ extension RedshiftClientTypes.Parameter: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes a parameter in a cluster parameter group.
-    public struct Parameter: Swift.Equatable {
+    public struct Parameter : Swift.Equatable {
         /// The valid range of values for the parameter.
         public var allowedValues: Swift.String?
         /// Specifies how to apply the WLM configuration parameter. Some properties can be applied dynamically, while other properties require that any associated clusters be rebooted for the configuration changes to be applied. For more information about parameters and parameter groups, go to [Amazon Redshift Parameter Groups](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html) in the Amazon Redshift Cluster Management Guide.
@@ -22049,7 +22049,7 @@ extension RedshiftClientTypes.PartnerIntegrationInfo: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes a partner integration.
-    public struct PartnerIntegrationInfo: Swift.Equatable {
+    public struct PartnerIntegrationInfo {
         /// The date (UTC) that the partner integration was created.
         public var createdAt: ClientRuntime.Date?
         /// The name of the database that receives data from a partner.
@@ -22180,7 +22180,7 @@ extension PauseClusterInput {
 }
 
 /// Describes a pause cluster operation. For example, a scheduled action to run the PauseCluster API operation.
-public struct PauseClusterInput: Swift.Equatable {
+public struct PauseClusterInput {
     /// The identifier of the cluster to be paused.
     /// This member is required.
     public var clusterIdentifier: Swift.String?
@@ -22217,7 +22217,7 @@ extension RedshiftClientTypes.PauseClusterMessage: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes a pause cluster operation. For example, a scheduled action to run the PauseCluster API operation.
-    public struct PauseClusterMessage: Swift.Equatable {
+    public struct PauseClusterMessage {
         /// The identifier of the cluster to be paused.
         /// This member is required.
         public var clusterIdentifier: Swift.String?
@@ -22245,7 +22245,7 @@ extension PauseClusterOutput {
     }
 }
 
-public struct PauseClusterOutput: Swift.Equatable {
+public struct PauseClusterOutput {
     /// Describes a cluster.
     public var cluster: RedshiftClientTypes.Cluster?
 
@@ -22355,7 +22355,7 @@ extension RedshiftClientTypes.PendingModifiedValues: Swift.CustomDebugStringConv
 
 extension RedshiftClientTypes {
     /// Describes cluster attributes that are in a pending state. A change to one or more the attributes was requested and is in progress or will be applied.
-    public struct PendingModifiedValues: Swift.Equatable {
+    public struct PendingModifiedValues {
         /// The pending or in-progress change of the automated snapshot retention period.
         public var automatedSnapshotRetentionPeriod: Swift.Int?
         /// The pending or in-progress change of the new identifier for the cluster.
@@ -22436,7 +22436,7 @@ extension PurchaseReservedNodeOfferingInput {
 }
 
 ///
-public struct PurchaseReservedNodeOfferingInput: Swift.Equatable {
+public struct PurchaseReservedNodeOfferingInput {
     /// The number of reserved nodes that you want to purchase. Default: 1
     public var nodeCount: Swift.Int?
     /// The unique identifier of the reserved node offering you want to purchase.
@@ -22466,7 +22466,7 @@ extension PurchaseReservedNodeOfferingOutput {
     }
 }
 
-public struct PurchaseReservedNodeOfferingOutput: Swift.Equatable {
+public struct PurchaseReservedNodeOfferingOutput {
     /// Describes a reserved node. You can call the [DescribeReservedNodeOfferings] API to obtain the available reserved node offerings.
     public var reservedNode: RedshiftClientTypes.ReservedNode?
 
@@ -22524,7 +22524,7 @@ extension PutResourcePolicyInput {
     }
 }
 
-public struct PutResourcePolicyInput: Swift.Equatable {
+public struct PutResourcePolicyInput {
     /// The content of the resource policy being updated.
     /// This member is required.
     public var policy: Swift.String?
@@ -22555,7 +22555,7 @@ extension PutResourcePolicyOutput {
     }
 }
 
-public struct PutResourcePolicyOutput: Swift.Equatable {
+public struct PutResourcePolicyOutput {
     /// The content of the updated resource policy.
     public var resourcePolicy: RedshiftClientTypes.ResourcePolicy?
 
@@ -22610,7 +22610,7 @@ extension RebootClusterInput {
 }
 
 ///
-public struct RebootClusterInput: Swift.Equatable {
+public struct RebootClusterInput {
     /// The cluster identifier.
     /// This member is required.
     public var clusterIdentifier: Swift.String?
@@ -22636,7 +22636,7 @@ extension RebootClusterOutput {
     }
 }
 
-public struct RebootClusterOutput: Swift.Equatable {
+public struct RebootClusterOutput {
     /// Describes a cluster.
     public var cluster: RedshiftClientTypes.Cluster?
 
@@ -22763,7 +22763,7 @@ extension RedshiftClientTypes.Recommendation: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// An Amazon Redshift Advisor recommended action on the Amazon Redshift cluster.
-    public struct Recommendation: Swift.Equatable {
+    public struct Recommendation {
         /// The unique identifier of the cluster for which the recommendation is returned.
         public var clusterIdentifier: Swift.String?
         /// The date and time (UTC) that the recommendation was created.
@@ -22860,7 +22860,7 @@ extension RedshiftClientTypes.RecommendedAction: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// The recommended action from the Amazon Redshift Advisor recommendation.
-    public struct RecommendedAction: Swift.Equatable {
+    public struct RecommendedAction {
         /// The command to run.
         public var command: Swift.String?
         /// The database name to perform the action on. Only applicable if the type of command is SQL.
@@ -22947,7 +22947,7 @@ extension RedshiftClientTypes.RecurringCharge: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes a recurring charge.
-    public struct RecurringCharge: Swift.Equatable {
+    public struct RecurringCharge {
         /// The amount charged per the period of time specified by the recurring charge frequency.
         public var recurringChargeAmount: Swift.Double?
         /// The frequency at which the recurring charge amount is applied.
@@ -23054,7 +23054,7 @@ extension RedshiftClientTypes.RedshiftIdcApplication: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Contains properties for the Redshift IDC application.
-    public struct RedshiftIdcApplication: Swift.Equatable {
+    public struct RedshiftIdcApplication {
         /// The authorized token issuer list for the Amazon Redshift IAM Identity Center application.
         public var authorizedTokenIssuerList: [RedshiftClientTypes.AuthorizedTokenIssuer]?
         /// The ARN for the Amazon Redshift IAM Identity Center application. It has the required permissions to be assumed and invoke the IDC Identity Center API.
@@ -23241,7 +23241,7 @@ extension RedshiftClientTypes.ReferenceLink: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// A link to an Amazon Redshift Advisor reference for more information about a recommendation.
-    public struct ReferenceLink: Swift.Equatable {
+    public struct ReferenceLink {
         /// The URL address to find more information.
         public var link: Swift.String?
         /// The hyperlink text that describes the link to more information.
@@ -23281,7 +23281,7 @@ extension RejectDataShareInput {
     }
 }
 
-public struct RejectDataShareInput: Swift.Equatable {
+public struct RejectDataShareInput {
     /// The Amazon Resource Name (ARN) of the datashare to reject.
     /// This member is required.
     public var dataShareArn: Swift.String?
@@ -23311,7 +23311,7 @@ extension RejectDataShareOutput {
     }
 }
 
-public struct RejectDataShareOutput: Swift.Equatable {
+public struct RejectDataShareOutput {
     /// A value that specifies whether the datashare can be shared to a publicly accessible cluster.
     public var allowPubliclyAccessibleConsumers: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the datashare that the consumer is to use.
@@ -23449,7 +23449,7 @@ extension RedshiftClientTypes.ReservedNode: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes a reserved node. You can call the [DescribeReservedNodeOfferings] API to obtain the available reserved node offerings.
-    public struct ReservedNode: Swift.Equatable {
+    public struct ReservedNode {
         /// The currency code for the reserved cluster.
         public var currencyCode: Swift.String?
         /// The duration of the node reservation in seconds.
@@ -23627,7 +23627,7 @@ extension RedshiftClientTypes.ReservedNodeConfigurationOption: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Details for a reserved-node exchange. Examples include the node type for a reserved node, the price for a node, the node's state, and other details.
-    public struct ReservedNodeConfigurationOption: Swift.Equatable {
+    public struct ReservedNodeConfigurationOption {
         /// Describes a reserved node. You can call the [DescribeReservedNodeOfferings] API to obtain the available reserved node offerings.
         public var sourceReservedNode: RedshiftClientTypes.ReservedNode?
         /// The target reserved-node count.
@@ -23781,7 +23781,7 @@ extension RedshiftClientTypes.ReservedNodeExchangeStatus: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Reserved-node status details, such as the source reserved-node identifier, the target reserved-node identifier, the node type, the node count, and other details.
-    public struct ReservedNodeExchangeStatus: Swift.Equatable {
+    public struct ReservedNodeExchangeStatus {
         /// A date and time that indicate when the reserved-node exchange was requested.
         public var requestTime: ClientRuntime.Date?
         /// The identifier of the reserved-node exchange request.
@@ -23980,7 +23980,7 @@ extension RedshiftClientTypes.ReservedNodeOffering: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes a reserved node offering.
-    public struct ReservedNodeOffering: Swift.Equatable {
+    public struct ReservedNodeOffering {
         /// The currency code for the compute nodes offering.
         public var currencyCode: Swift.String?
         /// The duration, in seconds, for which the offering will reserve the node.
@@ -24170,7 +24170,7 @@ extension ResetClusterParameterGroupInput {
 }
 
 ///
-public struct ResetClusterParameterGroupInput: Swift.Equatable {
+public struct ResetClusterParameterGroupInput {
     /// The name of the cluster parameter group to be reset.
     /// This member is required.
     public var parameterGroupName: Swift.String?
@@ -24206,7 +24206,7 @@ extension ResetClusterParameterGroupOutput {
 }
 
 ///
-public struct ResetClusterParameterGroupOutput: Swift.Equatable {
+public struct ResetClusterParameterGroupOutput {
     /// The name of the cluster parameter group.
     public var parameterGroupName: Swift.String?
     /// The status of the parameter group. For example, if you made a change to a parameter group name-value pair, then the change could be pending a reboot of an associated cluster.
@@ -24287,7 +24287,7 @@ extension ResizeClusterInput {
 }
 
 /// Describes a resize cluster operation. For example, a scheduled action to run the ResizeCluster API operation.
-public struct ResizeClusterInput: Swift.Equatable {
+public struct ResizeClusterInput {
     /// A boolean value indicating whether the resize operation is using the classic resize process. If you don't provide this parameter or set the value to false, the resize type is elastic.
     public var classic: Swift.Bool?
     /// The unique identifier for the cluster to resize.
@@ -24378,7 +24378,7 @@ extension RedshiftClientTypes.ResizeClusterMessage: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes a resize cluster operation. For example, a scheduled action to run the ResizeCluster API operation.
-    public struct ResizeClusterMessage: Swift.Equatable {
+    public struct ResizeClusterMessage {
         /// A boolean value indicating whether the resize operation is using the classic resize process. If you don't provide this parameter or set the value to false, the resize type is elastic.
         public var classic: Swift.Bool?
         /// The unique identifier for the cluster to resize.
@@ -24430,7 +24430,7 @@ extension ResizeClusterOutput {
     }
 }
 
-public struct ResizeClusterOutput: Swift.Equatable {
+public struct ResizeClusterOutput {
     /// Describes a cluster.
     public var cluster: RedshiftClientTypes.Cluster?
 
@@ -24502,7 +24502,7 @@ extension RedshiftClientTypes.ResizeInfo: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes a resize operation.
-    public struct ResizeInfo: Swift.Equatable {
+    public struct ResizeInfo {
         /// A boolean value indicating if the resize operation can be cancelled.
         public var allowCancelResize: Swift.Bool?
         /// Returns the value ClassicResize.
@@ -24621,7 +24621,7 @@ extension RedshiftClientTypes.ResourcePolicy: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// The policy that is attached to a resource.
-    public struct ResourcePolicy: Swift.Equatable {
+    public struct ResourcePolicy {
         /// The content of a resource policy.
         public var policy: Swift.String?
         /// The resources that a policy is attached to.
@@ -24833,7 +24833,7 @@ extension RestoreFromClusterSnapshotInput {
 }
 
 ///
-public struct RestoreFromClusterSnapshotInput: Swift.Equatable {
+public struct RestoreFromClusterSnapshotInput {
     /// Reserved.
     public var additionalInfo: Swift.String?
     /// If true, major version upgrades can be applied during the maintenance window to the Amazon Redshift engine that is running on the cluster. Default: true
@@ -25019,7 +25019,7 @@ extension RestoreFromClusterSnapshotOutput {
     }
 }
 
-public struct RestoreFromClusterSnapshotOutput: Swift.Equatable {
+public struct RestoreFromClusterSnapshotOutput {
     /// Describes a cluster.
     public var cluster: RedshiftClientTypes.Cluster?
 
@@ -25129,7 +25129,7 @@ extension RedshiftClientTypes.RestoreStatus: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes the status of a cluster restore action. Returns null if the cluster was not created by restoring a snapshot.
-    public struct RestoreStatus: Swift.Equatable {
+    public struct RestoreStatus {
         /// The number of megabytes per second being transferred from the backup storage. Returns the average rate for a completed backup. This field is only updated when you restore to DC2 and DS2 node types.
         public var currentRestoreRateInMegaBytesPerSecond: Swift.Double?
         /// The amount of time an in-progress restore has been running, or the amount of time it took a completed restore to finish. This field is only updated when you restore to DC2 and DS2 node types.
@@ -25218,7 +25218,7 @@ extension RestoreTableFromClusterSnapshotInput {
 }
 
 ///
-public struct RestoreTableFromClusterSnapshotInput: Swift.Equatable {
+public struct RestoreTableFromClusterSnapshotInput {
     /// The identifier of the Amazon Redshift cluster to restore the table to.
     /// This member is required.
     public var clusterIdentifier: Swift.String?
@@ -25280,7 +25280,7 @@ extension RestoreTableFromClusterSnapshotOutput {
     }
 }
 
-public struct RestoreTableFromClusterSnapshotOutput: Swift.Equatable {
+public struct RestoreTableFromClusterSnapshotOutput {
     /// Describes the status of a [RestoreTableFromClusterSnapshot] operation.
     public var tableRestoreStatus: RedshiftClientTypes.TableRestoreStatus?
 
@@ -25338,7 +25338,7 @@ extension ResumeClusterInput {
 }
 
 /// Describes a resume cluster operation. For example, a scheduled action to run the ResumeCluster API operation.
-public struct ResumeClusterInput: Swift.Equatable {
+public struct ResumeClusterInput {
     /// The identifier of the cluster to be resumed.
     /// This member is required.
     public var clusterIdentifier: Swift.String?
@@ -25375,7 +25375,7 @@ extension RedshiftClientTypes.ResumeClusterMessage: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes a resume cluster operation. For example, a scheduled action to run the ResumeCluster API operation.
-    public struct ResumeClusterMessage: Swift.Equatable {
+    public struct ResumeClusterMessage {
         /// The identifier of the cluster to be resumed.
         /// This member is required.
         public var clusterIdentifier: Swift.String?
@@ -25403,7 +25403,7 @@ extension ResumeClusterOutput {
     }
 }
 
-public struct ResumeClusterOutput: Swift.Equatable {
+public struct ResumeClusterOutput {
     /// Describes a cluster.
     public var cluster: RedshiftClientTypes.Cluster?
 
@@ -25469,7 +25469,7 @@ extension RedshiftClientTypes.RevisionTarget: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes a RevisionTarget.
-    public struct RevisionTarget: Swift.Equatable {
+    public struct RevisionTarget {
         /// A unique string that identifies the version to update the cluster to. You can use this value in [ModifyClusterDbRevision].
         public var databaseRevision: Swift.String?
         /// The date on which the database revision was released.
@@ -25526,7 +25526,7 @@ extension RevokeClusterSecurityGroupIngressInput {
 }
 
 ///
-public struct RevokeClusterSecurityGroupIngressInput: Swift.Equatable {
+public struct RevokeClusterSecurityGroupIngressInput {
     /// The IP range for which to revoke access. This range must be a valid Classless Inter-Domain Routing (CIDR) block of IP addresses. If CIDRIP is specified, EC2SecurityGroupName and EC2SecurityGroupOwnerId cannot be provided.
     public var cidrip: Swift.String?
     /// The name of the security Group from which to revoke the ingress rule.
@@ -25564,7 +25564,7 @@ extension RevokeClusterSecurityGroupIngressOutput {
     }
 }
 
-public struct RevokeClusterSecurityGroupIngressOutput: Swift.Equatable {
+public struct RevokeClusterSecurityGroupIngressOutput {
     /// Describes a security group.
     public var clusterSecurityGroup: RedshiftClientTypes.ClusterSecurityGroup?
 
@@ -25638,7 +25638,7 @@ extension RevokeEndpointAccessInput {
     }
 }
 
-public struct RevokeEndpointAccessInput: Swift.Equatable {
+public struct RevokeEndpointAccessInput {
     /// The Amazon Web Services account ID whose access is to be revoked.
     public var account: Swift.String?
     /// The cluster to revoke access from.
@@ -25684,7 +25684,7 @@ extension RevokeEndpointAccessOutput {
 }
 
 /// Describes an endpoint authorization for authorizing Redshift-managed VPC endpoint access to a cluster across Amazon Web Services accounts.
-public struct RevokeEndpointAccessOutput: Swift.Equatable {
+public struct RevokeEndpointAccessOutput {
     /// Indicates whether all VPCs in the grantee account are allowed access to the cluster.
     public var allowedAllVPCs: Swift.Bool?
     /// The VPCs allowed access to the cluster.
@@ -25786,7 +25786,7 @@ extension RevokeSnapshotAccessInput {
 }
 
 ///
-public struct RevokeSnapshotAccessInput: Swift.Equatable {
+public struct RevokeSnapshotAccessInput {
     /// The identifier of the Amazon Web Services account that can no longer restore the specified snapshot.
     /// This member is required.
     public var accountWithRestoreAccess: Swift.String?
@@ -25824,7 +25824,7 @@ extension RevokeSnapshotAccessOutput {
     }
 }
 
-public struct RevokeSnapshotAccessOutput: Swift.Equatable {
+public struct RevokeSnapshotAccessOutput {
     /// Describes a snapshot.
     public var snapshot: RedshiftClientTypes.Snapshot?
 
@@ -25879,7 +25879,7 @@ extension RotateEncryptionKeyInput {
 }
 
 ///
-public struct RotateEncryptionKeyInput: Swift.Equatable {
+public struct RotateEncryptionKeyInput {
     /// The unique identifier of the cluster that you want to rotate the encryption keys for. Constraints: Must be the name of valid cluster that has encryption enabled.
     /// This member is required.
     public var clusterIdentifier: Swift.String?
@@ -25905,7 +25905,7 @@ extension RotateEncryptionKeyOutput {
     }
 }
 
-public struct RotateEncryptionKeyOutput: Swift.Equatable {
+public struct RotateEncryptionKeyOutput {
     /// Describes a cluster.
     public var cluster: RedshiftClientTypes.Cluster?
 
@@ -26189,7 +26189,7 @@ extension RedshiftClientTypes.ScheduledAction: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes a scheduled action. You can use a scheduled action to trigger some Amazon Redshift API operations on a schedule. For information about which API operations can be scheduled, see [ScheduledActionType].
-    public struct ScheduledAction: Swift.Equatable {
+    public struct ScheduledAction {
         /// The end time in UTC when the schedule is no longer active. After this time, the scheduled action does not trigger.
         public var endTime: ClientRuntime.Date?
         /// The IAM role to assume to run the scheduled action. This IAM role must have permission to run the Amazon Redshift API operation in the scheduled action. This IAM role must allow the Amazon Redshift scheduler (Principal scheduler.redshift.amazonaws.com) to assume permissions on your behalf. For more information about the IAM role to use with the Amazon Redshift scheduler, see [Using Identity-Based Policies for Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-identity-based.html) in the Amazon Redshift Cluster Management Guide.
@@ -26309,7 +26309,7 @@ extension RedshiftClientTypes.ScheduledActionFilter: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// A set of elements to filter the returned scheduled actions.
-    public struct ScheduledActionFilter: Swift.Equatable {
+    public struct ScheduledActionFilter {
         /// The type of element to filter.
         /// This member is required.
         public var name: RedshiftClientTypes.ScheduledActionFilterName?
@@ -26499,7 +26499,7 @@ extension RedshiftClientTypes.ScheduledActionType: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// The action type that specifies an Amazon Redshift API operation that is supported by the Amazon Redshift scheduler.
-    public struct ScheduledActionType: Swift.Equatable {
+    public struct ScheduledActionType {
         /// An action that runs a PauseCluster API operation.
         public var pauseCluster: RedshiftClientTypes.PauseClusterMessage?
         /// An action that runs a ResizeCluster API operation.
@@ -26630,7 +26630,7 @@ extension RedshiftClientTypes.SecondaryClusterInfo: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// The AvailabilityZone and ClusterNodes information of the secondary compute unit.
-    public struct SecondaryClusterInfo: Swift.Equatable {
+    public struct SecondaryClusterInfo {
         /// The name of the Availability Zone in which the secondary compute unit of the cluster is located.
         public var availabilityZone: Swift.String?
         /// The nodes in the secondary compute unit.
@@ -26715,7 +26715,7 @@ extension RedshiftClientTypes.ServiceIntegrationsUnion: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// A list of service integrations.
-    public enum ServiceIntegrationsUnion: Swift.Equatable {
+    public enum ServiceIntegrationsUnion {
         /// A list of scopes set up for Lake Formation integration.
         case lakeformation([RedshiftClientTypes.LakeFormationScopeUnion])
         case sdkUnknown(Swift.String)
@@ -26954,7 +26954,7 @@ extension RedshiftClientTypes.Snapshot: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes a snapshot.
-    public struct Snapshot: Swift.Equatable {
+    public struct Snapshot {
         /// A list of the Amazon Web Services accounts authorized to restore the snapshot. Returns null if no accounts are authorized. Visible only to the snapshot owner.
         public var accountsWithRestoreAccess: [RedshiftClientTypes.AccountWithRestoreAccess]?
         /// The size of the incremental backup.
@@ -27304,7 +27304,7 @@ extension RedshiftClientTypes.SnapshotCopyGrant: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// The snapshot copy grant that grants Amazon Redshift permission to encrypt copied snapshots with the specified encrypted symmetric key from Amazon Web Services KMS in the destination region. For more information about managing snapshot copy grants, go to [Amazon Redshift Database Encryption](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-db-encryption.html) in the Amazon Redshift Cluster Management Guide.
-    public struct SnapshotCopyGrant: Swift.Equatable {
+    public struct SnapshotCopyGrant {
         /// The unique identifier of the encrypted symmetric key in Amazon Web Services KMS to which Amazon Redshift is granted permission.
         public var kmsKeyId: Swift.String?
         /// The name of the snapshot copy grant.
@@ -27473,7 +27473,7 @@ extension RedshiftClientTypes.SnapshotErrorMessage: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes the errors returned by a snapshot.
-    public struct SnapshotErrorMessage: Swift.Equatable {
+    public struct SnapshotErrorMessage {
         /// The failure code for the error.
         public var failureCode: Swift.String?
         /// The text message describing the error.
@@ -27589,7 +27589,7 @@ extension RedshiftClientTypes.SnapshotSchedule: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes a snapshot schedule. You can set a regular interval for creating snapshots of a cluster. You can also schedule snapshots for specific dates.
-    public struct SnapshotSchedule: Swift.Equatable {
+    public struct SnapshotSchedule {
         /// The number of clusters associated with the schedule.
         public var associatedClusterCount: Swift.Int?
         /// A list of clusters associated with the schedule. A maximum of 100 clusters is returned.
@@ -27800,7 +27800,7 @@ extension RedshiftClientTypes.SnapshotSortingEntity: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes a sorting entity
-    public struct SnapshotSortingEntity: Swift.Equatable {
+    public struct SnapshotSortingEntity {
         /// The category for sorting the snapshots.
         /// This member is required.
         public var attribute: RedshiftClientTypes.SnapshotAttributeToSortBy?
@@ -27962,7 +27962,7 @@ extension RedshiftClientTypes.Subnet: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes a subnet.
-    public struct Subnet: Swift.Equatable {
+    public struct Subnet {
         ///
         public var subnetAvailabilityZone: RedshiftClientTypes.AvailabilityZone?
         /// The identifier of the subnet.
@@ -28224,7 +28224,7 @@ extension RedshiftClientTypes.SupportedOperation: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes the operations that are allowed on a maintenance track.
-    public struct SupportedOperation: Swift.Equatable {
+    public struct SupportedOperation {
         /// A list of the supported operations.
         public var operationName: Swift.String?
 
@@ -28262,7 +28262,7 @@ extension RedshiftClientTypes.SupportedPlatform: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// A list of supported platforms for orderable clusters.
-    public struct SupportedPlatform: Swift.Equatable {
+    public struct SupportedPlatform {
         ///
         public var name: Swift.String?
 
@@ -28437,7 +28437,7 @@ extension RedshiftClientTypes.TableRestoreStatus: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes the status of a [RestoreTableFromClusterSnapshot] operation.
-    public struct TableRestoreStatus: Swift.Equatable {
+    public struct TableRestoreStatus {
         /// The identifier of the Amazon Redshift cluster that the table is being restored to.
         public var clusterIdentifier: Swift.String?
         /// A description of the status of the table restore request. Status values include SUCCEEDED, FAILED, CANCELED, PENDING, IN_PROGRESS.
@@ -28573,7 +28573,7 @@ extension RedshiftClientTypes.Tag: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// A tag consisting of a name/value pair for a resource.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key, or name, for the resource tag.
         public var key: Swift.String?
         /// The value for the resource tag.
@@ -28661,7 +28661,7 @@ extension RedshiftClientTypes.TaggedResource: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// A tag and its associated resource.
-    public struct TaggedResource: Swift.Equatable {
+    public struct TaggedResource {
         /// The Amazon Resource Name (ARN) with which the tag is associated, for example: arn:aws:redshift:us-east-2:123456789:cluster:t1.
         public var resourceName: Swift.String?
         /// The type of resource with which the tag is associated. Valid resource types are:
@@ -28926,7 +28926,7 @@ extension UpdatePartnerStatusInput {
     }
 }
 
-public struct UpdatePartnerStatusInput: Swift.Equatable {
+public struct UpdatePartnerStatusInput {
     /// The Amazon Web Services account ID that owns the cluster.
     /// This member is required.
     public var accountId: Swift.String?
@@ -28977,7 +28977,7 @@ extension UpdatePartnerStatusOutput {
     }
 }
 
-public struct UpdatePartnerStatusOutput: Swift.Equatable {
+public struct UpdatePartnerStatusOutput {
     /// The name of the database that receives data from the partner.
     public var databaseName: Swift.String?
     /// The name of the partner that is authorized to send data.
@@ -29056,7 +29056,7 @@ extension RedshiftClientTypes.UpdateTarget: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// A maintenance track that you can switch the current track to.
-    public struct UpdateTarget: Swift.Equatable {
+    public struct UpdateTarget {
         /// The cluster version for the new maintenance track.
         public var databaseVersion: Swift.String?
         /// The name of the new maintenance track.
@@ -29146,7 +29146,7 @@ extension RedshiftClientTypes.UsageLimit: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes a usage limit object for a cluster.
-    public struct UsageLimit: Swift.Equatable {
+    public struct UsageLimit {
         /// The limit amount. If time-based, this amount is in minutes. If data-based, this amount is in terabytes (TB).
         public var amount: Swift.Int?
         /// The action that Amazon Redshift takes when the limit is reached. Possible values are:
@@ -29446,7 +29446,7 @@ extension RedshiftClientTypes.VpcEndpoint: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// The connection endpoint for connecting to an Amazon Redshift cluster through the proxy.
-    public struct VpcEndpoint: Swift.Equatable {
+    public struct VpcEndpoint {
         /// One or more network interfaces of the endpoint. Also known as an interface endpoint.
         public var networkInterfaces: [RedshiftClientTypes.NetworkInterface]?
         /// The connection endpoint ID for connecting an Amazon Redshift cluster through the proxy.
@@ -29497,7 +29497,7 @@ extension RedshiftClientTypes.VpcSecurityGroupMembership: Swift.Encodable {
 
 extension RedshiftClientTypes {
     /// Describes the members of a VPC security group.
-    public struct VpcSecurityGroupMembership: Swift.Equatable {
+    public struct VpcSecurityGroupMembership {
         /// The status of the VPC security group.
         public var status: Swift.String?
         /// The identifier of the VPC security group.

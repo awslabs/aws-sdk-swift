@@ -34,7 +34,7 @@ extension PersonalizeEventsClientTypes.Action: Swift.CustomDebugStringConvertibl
 
 extension PersonalizeEventsClientTypes {
     /// Represents action metadata added to an Action dataset using the PutActions API. For more information see [Importing actions individually](https://docs.aws.amazon.com/personalize/latest/dg/importing-actions.html).
-    public struct Action: Swift.Equatable {
+    public struct Action {
         /// The ID associated with the action.
         /// This member is required.
         public var actionId: Swift.String?
@@ -139,7 +139,7 @@ extension PersonalizeEventsClientTypes.ActionInteraction: Swift.CustomDebugStrin
 
 extension PersonalizeEventsClientTypes {
     /// Represents an action interaction event sent using the PutActionInteractions API.
-    public struct ActionInteraction: Swift.Equatable {
+    public struct ActionInteraction {
         /// The ID of the action the user interacted with. This corresponds to the ACTION_ID field of the Action interaction schema.
         /// This member is required.
         public var actionId: Swift.String?
@@ -288,7 +288,7 @@ extension PersonalizeEventsClientTypes.Event: Swift.CustomDebugStringConvertible
 
 extension PersonalizeEventsClientTypes {
     /// Represents item interaction event information sent using the PutEvents API.
-    public struct Event: Swift.Equatable {
+    public struct Event {
         /// An ID associated with the event. If an event ID is not provided, Amazon Personalize generates a unique ID for the event. An event ID is not used as an input to the model. Amazon Personalize uses the event ID to distinguish unique events. Any subsequent events after the first with the same event ID are not used in model training.
         public var eventId: Swift.String?
         /// The type of event, such as click or download. This property corresponds to the EVENT_TYPE field of your Item interactions dataset's schema and depends on the types of events you are tracking.
@@ -387,7 +387,7 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct InvalidInputExceptionBody: Swift.Equatable {
+struct InvalidInputExceptionBody {
     let message: Swift.String?
 }
 
@@ -435,7 +435,7 @@ extension PersonalizeEventsClientTypes.Item: Swift.CustomDebugStringConvertible 
 
 extension PersonalizeEventsClientTypes {
     /// Represents item metadata added to an Items dataset using the PutItems API. For more information see [Importing items individually](https://docs.aws.amazon.com/personalize/latest/dg/importing-items.html).
-    public struct Item: Swift.Equatable {
+    public struct Item {
         /// The ID associated with the item.
         /// This member is required.
         public var itemId: Swift.String?
@@ -475,7 +475,7 @@ extension PersonalizeEventsClientTypes.MetricAttribution: Swift.Codable {
 
 extension PersonalizeEventsClientTypes {
     /// Contains information about a metric attribution associated with an event. For more information about metric attributions, see [Measuring impact of recommendations](https://docs.aws.amazon.com/personalize/latest/dg/measuring-recommendation-impact.html).
-    public struct MetricAttribution: Swift.Equatable {
+    public struct MetricAttribution {
         /// The source of the event, such as a third party.
         /// This member is required.
         public var eventAttributionSource: Swift.String?
@@ -519,7 +519,7 @@ extension PutActionInteractionsInput {
     }
 }
 
-public struct PutActionInteractionsInput: Swift.Equatable {
+public struct PutActionInteractionsInput {
     /// A list of action interaction events from the session.
     /// This member is required.
     public var actionInteractions: [PersonalizeEventsClientTypes.ActionInteraction]?
@@ -537,7 +537,7 @@ public struct PutActionInteractionsInput: Swift.Equatable {
     }
 }
 
-struct PutActionInteractionsInputBody: Swift.Equatable {
+struct PutActionInteractionsInputBody {
     let trackingId: Swift.String?
     let actionInteractions: [PersonalizeEventsClientTypes.ActionInteraction]?
 }
@@ -571,7 +571,7 @@ extension PutActionInteractionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutActionInteractionsOutput: Swift.Equatable {
+public struct PutActionInteractionsOutput {
 
     public init() { }
 }
@@ -616,7 +616,7 @@ extension PutActionsInput {
     }
 }
 
-public struct PutActionsInput: Swift.Equatable {
+public struct PutActionsInput {
     /// A list of action data.
     /// This member is required.
     public var actions: [PersonalizeEventsClientTypes.Action]?
@@ -634,7 +634,7 @@ public struct PutActionsInput: Swift.Equatable {
     }
 }
 
-struct PutActionsInputBody: Swift.Equatable {
+struct PutActionsInputBody {
     let datasetArn: Swift.String?
     let actions: [PersonalizeEventsClientTypes.Action]?
 }
@@ -668,7 +668,7 @@ extension PutActionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutActionsOutput: Swift.Equatable {
+public struct PutActionsOutput {
 
     public init() { }
 }
@@ -726,7 +726,7 @@ extension PutEventsInput {
     }
 }
 
-public struct PutEventsInput: Swift.Equatable {
+public struct PutEventsInput {
     /// A list of event data from the session.
     /// This member is required.
     public var eventList: [PersonalizeEventsClientTypes.Event]?
@@ -753,7 +753,7 @@ public struct PutEventsInput: Swift.Equatable {
     }
 }
 
-struct PutEventsInputBody: Swift.Equatable {
+struct PutEventsInputBody {
     let trackingId: Swift.String?
     let userId: Swift.String?
     let sessionId: Swift.String?
@@ -795,7 +795,7 @@ extension PutEventsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutEventsOutput: Swift.Equatable {
+public struct PutEventsOutput {
 
     public init() { }
 }
@@ -838,7 +838,7 @@ extension PutItemsInput {
     }
 }
 
-public struct PutItemsInput: Swift.Equatable {
+public struct PutItemsInput {
     /// The Amazon Resource Name (ARN) of the Items dataset you are adding the item or items to.
     /// This member is required.
     public var datasetArn: Swift.String?
@@ -856,7 +856,7 @@ public struct PutItemsInput: Swift.Equatable {
     }
 }
 
-struct PutItemsInputBody: Swift.Equatable {
+struct PutItemsInputBody {
     let datasetArn: Swift.String?
     let items: [PersonalizeEventsClientTypes.Item]?
 }
@@ -890,7 +890,7 @@ extension PutItemsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutItemsOutput: Swift.Equatable {
+public struct PutItemsOutput {
 
     public init() { }
 }
@@ -935,7 +935,7 @@ extension PutUsersInput {
     }
 }
 
-public struct PutUsersInput: Swift.Equatable {
+public struct PutUsersInput {
     /// The Amazon Resource Name (ARN) of the Users dataset you are adding the user or users to.
     /// This member is required.
     public var datasetArn: Swift.String?
@@ -953,7 +953,7 @@ public struct PutUsersInput: Swift.Equatable {
     }
 }
 
-struct PutUsersInputBody: Swift.Equatable {
+struct PutUsersInputBody {
     let datasetArn: Swift.String?
     let users: [PersonalizeEventsClientTypes.User]?
 }
@@ -987,7 +987,7 @@ extension PutUsersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutUsersOutput: Swift.Equatable {
+public struct PutUsersOutput {
 
     public init() { }
 }
@@ -1044,7 +1044,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ResourceInUseExceptionBody: Swift.Equatable {
+struct ResourceInUseExceptionBody {
     let message: Swift.String?
 }
 
@@ -1099,7 +1099,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -1147,7 +1147,7 @@ extension PersonalizeEventsClientTypes.User: Swift.CustomDebugStringConvertible 
 
 extension PersonalizeEventsClientTypes {
     /// Represents user metadata added to a Users dataset using the PutUsers API. For more information see [Importing users individually](https://docs.aws.amazon.com/personalize/latest/dg/importing-users.html).
-    public struct User: Swift.Equatable {
+    public struct User {
         /// A string map of user-specific metadata. Each element in the map consists of a key-value pair. For example, {"numberOfVideosWatched": "45"}. The keys use camel case names that match the fields in the schema for the Users dataset. In the previous example, the numberOfVideosWatched matches the 'NUMBER_OF_VIDEOS_WATCHED' field defined in the Users schema. For categorical string data, to include multiple categories for a single user, separate each category with a pipe separator (|). For example, \"Member|Frequent shopper\".
         public var properties: Swift.String?
         /// The ID associated with the user.

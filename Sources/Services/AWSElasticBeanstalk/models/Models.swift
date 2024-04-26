@@ -31,7 +31,7 @@ extension AbortEnvironmentUpdateInput {
 }
 
 ///
-public struct AbortEnvironmentUpdateInput: Swift.Equatable {
+public struct AbortEnvironmentUpdateInput {
     /// This specifies the ID of the environment with the in-progress update that you want to cancel.
     public var environmentId: Swift.String?
     /// This specifies the name of the environment with the in-progress update that you want to cancel.
@@ -56,7 +56,7 @@ extension AbortEnvironmentUpdateOutput {
     }
 }
 
-public struct AbortEnvironmentUpdateOutput: Swift.Equatable {
+public struct AbortEnvironmentUpdateOutput {
 
     public init() { }
 }
@@ -263,7 +263,7 @@ extension ElasticBeanstalkClientTypes.ApplicationDescription: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// Describes the properties of an application.
-    public struct ApplicationDescription: Swift.Equatable {
+    public struct ApplicationDescription {
         /// The Amazon Resource Name (ARN) of the application.
         public var applicationArn: Swift.String?
         /// The name of the application.
@@ -344,7 +344,7 @@ extension ElasticBeanstalkClientTypes.ApplicationMetrics: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// Application request metrics for an AWS Elastic Beanstalk environment.
-    public struct ApplicationMetrics: Swift.Equatable {
+    public struct ApplicationMetrics {
         /// The amount of time that the metrics cover (usually 10 seconds). For example, you might have 5 requests (request_count) within the most recent time slice of 10 seconds (duration).
         public var duration: Swift.Int?
         /// Represents the average latency for the slowest X percent of requests over the last 10 seconds. Latencies are in seconds with one millisecond resolution.
@@ -399,7 +399,7 @@ extension ElasticBeanstalkClientTypes.ApplicationResourceLifecycleConfig: Swift.
 
 extension ElasticBeanstalkClientTypes {
     /// The resource lifecycle configuration for an application. Defines lifecycle settings for resources that belong to the application, and the service role that AWS Elastic Beanstalk assumes in order to apply lifecycle settings. The version lifecycle configuration defines lifecycle settings for application versions.
-    public struct ApplicationResourceLifecycleConfig: Swift.Equatable {
+    public struct ApplicationResourceLifecycleConfig {
         /// The ARN of an IAM service role that Elastic Beanstalk has permission to assume. The ServiceRole property is required the first time that you provide a VersionLifecycleConfig for the application in one of the supporting calls (CreateApplication or UpdateApplicationResourceLifecycle). After you provide it once, in either one of the calls, Elastic Beanstalk persists the Service Role with the application, and you don't need to specify it again in subsequent UpdateApplicationResourceLifecycle calls. You can, however, specify it in subsequent calls to change the Service Role to another value.
         public var serviceRole: Swift.String?
         /// Defines lifecycle settings for application versions.
@@ -486,7 +486,7 @@ extension ElasticBeanstalkClientTypes.ApplicationVersionDescription: Swift.Encod
 
 extension ElasticBeanstalkClientTypes {
     /// Describes the properties of an application version.
-    public struct ApplicationVersionDescription: Swift.Equatable {
+    public struct ApplicationVersionDescription {
         /// The name of the application to which the application version belongs.
         public var applicationName: Swift.String?
         /// The Amazon Resource Name (ARN) of the application version.
@@ -575,7 +575,7 @@ extension ElasticBeanstalkClientTypes.ApplicationVersionLifecycleConfig: Swift.E
 
 extension ElasticBeanstalkClientTypes {
     /// The application version lifecycle settings for an application. Defines the rules that Elastic Beanstalk applies to an application's versions in order to avoid hitting the per-region limit for application versions. When Elastic Beanstalk deletes an application version from its database, you can no longer deploy that version to an environment. The source bundle remains in S3 unless you configure the rule to delete it.
-    public struct ApplicationVersionLifecycleConfig: Swift.Equatable {
+    public struct ApplicationVersionLifecycleConfig {
         /// Specify a max age rule to restrict the length of time that application versions are retained for an application.
         public var maxAgeRule: ElasticBeanstalkClientTypes.MaxAgeRule?
         /// Specify a max count rule to restrict the number of application versions that are retained for an application.
@@ -665,7 +665,7 @@ extension ApplyEnvironmentManagedActionInput {
 }
 
 /// Request to execute a scheduled managed action immediately.
-public struct ApplyEnvironmentManagedActionInput: Swift.Equatable {
+public struct ApplyEnvironmentManagedActionInput {
     /// The action ID of the scheduled managed action to execute.
     /// This member is required.
     public var actionId: Swift.String?
@@ -703,7 +703,7 @@ extension ApplyEnvironmentManagedActionOutput {
 }
 
 /// The result message containing information about the managed action.
-public struct ApplyEnvironmentManagedActionOutput: Swift.Equatable {
+public struct ApplyEnvironmentManagedActionOutput {
     /// A description of the managed action.
     public var actionDescription: Swift.String?
     /// The action ID of the managed action.
@@ -772,7 +772,7 @@ extension AssociateEnvironmentOperationsRoleInput {
 }
 
 /// Request to add or change the operations role used by an environment.
-public struct AssociateEnvironmentOperationsRoleInput: Swift.Equatable {
+public struct AssociateEnvironmentOperationsRoleInput {
     /// The name of the environment to which to set the operations role.
     /// This member is required.
     public var environmentName: Swift.String?
@@ -799,7 +799,7 @@ extension AssociateEnvironmentOperationsRoleOutput {
     }
 }
 
-public struct AssociateEnvironmentOperationsRoleOutput: Swift.Equatable {
+public struct AssociateEnvironmentOperationsRoleOutput {
 
     public init() { }
 }
@@ -845,7 +845,7 @@ extension ElasticBeanstalkClientTypes.AutoScalingGroup: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// Describes an Auto Scaling launch configuration.
-    public struct AutoScalingGroup: Swift.Equatable {
+    public struct AutoScalingGroup {
         /// The name of the AutoScalingGroup .
         public var name: Swift.String?
 
@@ -903,7 +903,7 @@ extension ElasticBeanstalkClientTypes.BuildConfiguration: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// Settings for an AWS CodeBuild build.
-    public struct BuildConfiguration: Swift.Equatable {
+    public struct BuildConfiguration {
         /// The name of the artifact of the CodeBuild build. If provided, Elastic Beanstalk stores the build artifact in the S3 location S3-bucket/resources/application-name/codebuild/codebuild-version-label-artifact-name.zip. If not provided, Elastic Beanstalk stores the build artifact in the S3 location S3-bucket/resources/application-name/codebuild/codebuild-version-label.zip.
         public var artifactName: Swift.String?
         /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that enables AWS CodeBuild to interact with dependent AWS services on behalf of the AWS account.
@@ -965,7 +965,7 @@ extension ElasticBeanstalkClientTypes.Builder: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// The builder used to build the custom platform.
-    public struct Builder: Swift.Equatable {
+    public struct Builder {
         /// The ARN of the builder.
         public var arn: Swift.String?
 
@@ -1038,7 +1038,7 @@ extension ElasticBeanstalkClientTypes.CPUUtilization: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// CPU utilization metrics for an instance.
-    public struct CPUUtilization: Swift.Equatable {
+    public struct CPUUtilization {
         /// Percentage of time that the CPU has spent in the Idle state over the last 10 seconds.
         public var idle: Swift.Double?
         /// Available on Linux environments only. Percentage of time that the CPU has spent in the I/O Wait state over the last 10 seconds.
@@ -1103,7 +1103,7 @@ extension CheckDNSAvailabilityInput {
 }
 
 /// Results message indicating whether a CNAME is available.
-public struct CheckDNSAvailabilityInput: Swift.Equatable {
+public struct CheckDNSAvailabilityInput {
     /// The prefix used when this CNAME is reserved.
     /// This member is required.
     public var cnamePrefix: Swift.String?
@@ -1131,7 +1131,7 @@ extension CheckDNSAvailabilityOutput {
 }
 
 /// Indicates if the specified CNAME is available.
-public struct CheckDNSAvailabilityOutput: Swift.Equatable {
+public struct CheckDNSAvailabilityOutput {
     /// Indicates if the specified CNAME is available:
     ///
     /// * true : The CNAME is available.
@@ -1244,7 +1244,7 @@ extension ComposeEnvironmentsInput {
 }
 
 /// Request to create or update a group of environments.
-public struct ComposeEnvironmentsInput: Swift.Equatable {
+public struct ComposeEnvironmentsInput {
     /// The name of the application to which the specified source bundles belong.
     public var applicationName: Swift.String?
     /// The name of the group to which the target environments belong. Specify a group name only if the environment name defined in each target environment's manifest ends with a + (plus) character. See [Environment Manifest (env.yaml)](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/environment-cfg-manifest.html) for details.
@@ -1279,7 +1279,7 @@ extension ComposeEnvironmentsOutput {
 }
 
 /// Result message containing a list of environment descriptions.
-public struct ComposeEnvironmentsOutput: Swift.Equatable {
+public struct ComposeEnvironmentsOutput {
     /// Returns an [EnvironmentDescription] list.
     public var environments: [ElasticBeanstalkClientTypes.EnvironmentDescription]?
     /// In a paginated request, the token that you can pass in a subsequent request to get the next response page.
@@ -1466,7 +1466,7 @@ extension ElasticBeanstalkClientTypes.ConfigurationOptionDescription: Swift.Enco
 
 extension ElasticBeanstalkClientTypes {
     /// Describes the possible values for a configuration option.
-    public struct ConfigurationOptionDescription: Swift.Equatable {
+    public struct ConfigurationOptionDescription {
         /// An indication of which action is required if the value for this configuration option changes:
         ///
         /// * NoInterruption : There is no interruption to the environment or application availability.
@@ -1580,7 +1580,7 @@ extension ElasticBeanstalkClientTypes.ConfigurationOptionSetting: Swift.Encodabl
 
 extension ElasticBeanstalkClientTypes {
     /// A specification identifying an individual configuration option along with its current value. For a list of possible namespaces and option values, see [Option Values](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/command-options.html) in the AWS Elastic Beanstalk Developer Guide.
-    public struct ConfigurationOptionSetting: Swift.Equatable {
+    public struct ConfigurationOptionSetting {
         /// A unique namespace that identifies the option's associated AWS resource.
         public var namespace: Swift.String?
         /// The name of the configuration option.
@@ -1716,7 +1716,7 @@ extension ElasticBeanstalkClientTypes.ConfigurationSettingsDescription: Swift.En
 
 extension ElasticBeanstalkClientTypes {
     /// Describes the settings for a configuration set.
-    public struct ConfigurationSettingsDescription: Swift.Equatable {
+    public struct ConfigurationSettingsDescription {
         /// The name of the application associated with this configuration set.
         public var applicationName: Swift.String?
         /// The date (in UTC time) when this configuration set was created.
@@ -1818,7 +1818,7 @@ extension CreateApplicationInput {
 }
 
 /// Request to create an application.
-public struct CreateApplicationInput: Swift.Equatable {
+public struct CreateApplicationInput {
     /// The name of the application. Must be unique within your account.
     /// This member is required.
     public var applicationName: Swift.String?
@@ -1857,7 +1857,7 @@ extension CreateApplicationOutput {
 }
 
 /// Result message containing a single description of an application.
-public struct CreateApplicationOutput: Swift.Equatable {
+public struct CreateApplicationOutput {
     /// The [ApplicationDescription] of the application.
     public var application: ElasticBeanstalkClientTypes.ApplicationDescription?
 
@@ -1950,7 +1950,7 @@ extension CreateApplicationVersionInput {
 }
 
 ///
-public struct CreateApplicationVersionInput: Swift.Equatable {
+public struct CreateApplicationVersionInput {
     /// The name of the application. If no application is found with this name, and AutoCreateApplication is false, returns an InvalidParameterValue error.
     /// This member is required.
     public var applicationName: Swift.String?
@@ -2010,7 +2010,7 @@ extension CreateApplicationVersionOutput {
 }
 
 /// Result message wrapping a single description of an application version.
-public struct CreateApplicationVersionOutput: Swift.Equatable {
+public struct CreateApplicationVersionOutput {
     /// The [ApplicationVersionDescription] of the application version.
     public var applicationVersion: ElasticBeanstalkClientTypes.ApplicationVersionDescription?
 
@@ -2116,7 +2116,7 @@ extension CreateConfigurationTemplateInput {
 }
 
 /// Request to create a configuration template.
-public struct CreateConfigurationTemplateInput: Swift.Equatable {
+public struct CreateConfigurationTemplateInput {
     /// The name of the Elastic Beanstalk application to associate with this configuration template.
     /// This member is required.
     public var applicationName: Swift.String?
@@ -2185,7 +2185,7 @@ extension CreateConfigurationTemplateOutput {
 }
 
 /// Describes the settings for a configuration set.
-public struct CreateConfigurationTemplateOutput: Swift.Equatable {
+public struct CreateConfigurationTemplateOutput {
     /// The name of the application associated with this configuration set.
     public var applicationName: Swift.String?
     /// The date (in UTC time) when this configuration set was created.
@@ -2362,7 +2362,7 @@ extension CreateEnvironmentInput {
 }
 
 ///
-public struct CreateEnvironmentInput: Swift.Equatable {
+public struct CreateEnvironmentInput {
     /// The name of the application that is associated with this environment.
     /// This member is required.
     public var applicationName: Swift.String?
@@ -2461,7 +2461,7 @@ extension CreateEnvironmentOutput {
 }
 
 /// Describes the properties of an environment.
-public struct CreateEnvironmentOutput: Swift.Equatable {
+public struct CreateEnvironmentOutput {
     /// Indicates if there is an in-progress environment configuration update or application version deployment that you can cancel. true: There is an update in progress. false: There are no updates currently in progress.
     public var abortableOperationInProgress: Swift.Bool?
     /// The name of the application associated with this environment.
@@ -2653,7 +2653,7 @@ extension CreatePlatformVersionInput {
 }
 
 /// Request to create a new platform version.
-public struct CreatePlatformVersionInput: Swift.Equatable {
+public struct CreatePlatformVersionInput {
     /// The name of the builder environment.
     public var environmentName: Swift.String?
     /// The configuration option settings to apply to the builder environment.
@@ -2702,7 +2702,7 @@ extension CreatePlatformVersionOutput {
     }
 }
 
-public struct CreatePlatformVersionOutput: Swift.Equatable {
+public struct CreatePlatformVersionOutput {
     /// The builder used to create the custom platform.
     public var builder: ElasticBeanstalkClientTypes.Builder?
     /// Detailed information about the new version of the custom platform.
@@ -2753,7 +2753,7 @@ extension CreateStorageLocationInput {
     }
 }
 
-public struct CreateStorageLocationInput: Swift.Equatable {
+public struct CreateStorageLocationInput {
 
     public init() { }
 }
@@ -2772,7 +2772,7 @@ extension CreateStorageLocationOutput {
 }
 
 /// Results of a [CreateStorageLocationResult] call.
-public struct CreateStorageLocationOutput: Swift.Equatable {
+public struct CreateStorageLocationOutput {
     /// The name of the Amazon S3 bucket created.
     public var s3Bucket: Swift.String?
 
@@ -2832,7 +2832,7 @@ extension ElasticBeanstalkClientTypes.CustomAmi: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// A custom AMI available to platforms.
-    public struct CustomAmi: Swift.Equatable {
+    public struct CustomAmi {
         /// THe ID of the image used to create the custom AMI.
         public var imageId: Swift.String?
         /// The type of virtualization used to create the custom AMI.
@@ -2877,7 +2877,7 @@ extension DeleteApplicationInput {
 }
 
 /// Request to delete an application.
-public struct DeleteApplicationInput: Swift.Equatable {
+public struct DeleteApplicationInput {
     /// The name of the application to delete.
     /// This member is required.
     public var applicationName: Swift.String?
@@ -2903,7 +2903,7 @@ extension DeleteApplicationOutput {
     }
 }
 
-public struct DeleteApplicationOutput: Swift.Equatable {
+public struct DeleteApplicationOutput {
 
     public init() { }
 }
@@ -2956,7 +2956,7 @@ extension DeleteApplicationVersionInput {
 }
 
 /// Request to delete an application version.
-public struct DeleteApplicationVersionInput: Swift.Equatable {
+public struct DeleteApplicationVersionInput {
     /// The name of the application to which the version belongs.
     /// This member is required.
     public var applicationName: Swift.String?
@@ -2987,7 +2987,7 @@ extension DeleteApplicationVersionOutput {
     }
 }
 
-public struct DeleteApplicationVersionOutput: Swift.Equatable {
+public struct DeleteApplicationVersionOutput {
 
     public init() { }
 }
@@ -3039,7 +3039,7 @@ extension DeleteConfigurationTemplateInput {
 }
 
 /// Request to delete a configuration template.
-public struct DeleteConfigurationTemplateInput: Swift.Equatable {
+public struct DeleteConfigurationTemplateInput {
     /// The name of the application to delete the configuration template from.
     /// This member is required.
     public var applicationName: Swift.String?
@@ -3066,7 +3066,7 @@ extension DeleteConfigurationTemplateOutput {
     }
 }
 
-public struct DeleteConfigurationTemplateOutput: Swift.Equatable {
+public struct DeleteConfigurationTemplateOutput {
 
     public init() { }
 }
@@ -3115,7 +3115,7 @@ extension DeleteEnvironmentConfigurationInput {
 }
 
 /// Request to delete a draft environment configuration.
-public struct DeleteEnvironmentConfigurationInput: Swift.Equatable {
+public struct DeleteEnvironmentConfigurationInput {
     /// The name of the application the environment is associated with.
     /// This member is required.
     public var applicationName: Swift.String?
@@ -3142,7 +3142,7 @@ extension DeleteEnvironmentConfigurationOutput {
     }
 }
 
-public struct DeleteEnvironmentConfigurationOutput: Swift.Equatable {
+public struct DeleteEnvironmentConfigurationOutput {
 
     public init() { }
 }
@@ -3185,7 +3185,7 @@ extension DeletePlatformVersionInput {
     }
 }
 
-public struct DeletePlatformVersionInput: Swift.Equatable {
+public struct DeletePlatformVersionInput {
     /// The ARN of the version of the custom platform.
     public var platformArn: Swift.String?
 
@@ -3210,7 +3210,7 @@ extension DeletePlatformVersionOutput {
     }
 }
 
-public struct DeletePlatformVersionOutput: Swift.Equatable {
+public struct DeletePlatformVersionOutput {
     /// Detailed information about the version of the custom platform.
     public var platformSummary: ElasticBeanstalkClientTypes.PlatformSummary?
 
@@ -3281,7 +3281,7 @@ extension ElasticBeanstalkClientTypes.Deployment: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// Information about an application version deployment.
-    public struct Deployment: Swift.Equatable {
+    public struct Deployment {
         /// The ID of the deployment. This number increases by one each time that you deploy source code or change instance configuration settings.
         public var deploymentId: Swift.Int?
         /// For in-progress deployments, the time that the deployment started. For completed deployments, the time that the deployment ended.
@@ -3329,7 +3329,7 @@ extension DescribeAccountAttributesInput {
     }
 }
 
-public struct DescribeAccountAttributesInput: Swift.Equatable {
+public struct DescribeAccountAttributesInput {
 
     public init() { }
 }
@@ -3347,7 +3347,7 @@ extension DescribeAccountAttributesOutput {
     }
 }
 
-public struct DescribeAccountAttributesOutput: Swift.Equatable {
+public struct DescribeAccountAttributesOutput {
     /// The Elastic Beanstalk resource quotas associated with the calling AWS account.
     public var resourceQuotas: ElasticBeanstalkClientTypes.ResourceQuotas?
 
@@ -3420,7 +3420,7 @@ extension DescribeApplicationVersionsInput {
 }
 
 /// Request to describe application versions.
-public struct DescribeApplicationVersionsInput: Swift.Equatable {
+public struct DescribeApplicationVersionsInput {
     /// Specify an application name to show only application versions for that application.
     public var applicationName: Swift.String?
     /// For a paginated request. Specify a maximum number of application versions to include in each response. If no MaxRecords is specified, all available application versions are retrieved in a single response.
@@ -3459,7 +3459,7 @@ extension DescribeApplicationVersionsOutput {
 }
 
 /// Result message wrapping a list of application version descriptions.
-public struct DescribeApplicationVersionsOutput: Swift.Equatable {
+public struct DescribeApplicationVersionsOutput {
     /// List of ApplicationVersionDescription objects sorted in order of creation.
     public var applicationVersions: [ElasticBeanstalkClientTypes.ApplicationVersionDescription]?
     /// In a paginated request, the token that you can pass in a subsequent request to get the next response page.
@@ -3523,7 +3523,7 @@ extension DescribeApplicationsInput {
 }
 
 /// Request to describe one or more applications.
-public struct DescribeApplicationsInput: Swift.Equatable {
+public struct DescribeApplicationsInput {
     /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to only include those with the specified names.
     public var applicationNames: [Swift.String]?
 
@@ -3549,7 +3549,7 @@ extension DescribeApplicationsOutput {
 }
 
 /// Result message containing a list of application descriptions.
-public struct DescribeApplicationsOutput: Swift.Equatable {
+public struct DescribeApplicationsOutput {
     /// This parameter contains a list of [ApplicationDescription].
     public var applications: [ElasticBeanstalkClientTypes.ApplicationDescription]?
 
@@ -3629,7 +3629,7 @@ extension DescribeConfigurationOptionsInput {
 }
 
 /// Result message containing a list of application version descriptions.
-public struct DescribeConfigurationOptionsInput: Swift.Equatable {
+public struct DescribeConfigurationOptionsInput {
     /// The name of the application associated with the configuration template or environment. Only needed if you want to describe the configuration options associated with either the configuration template or environment.
     public var applicationName: Swift.String?
     /// The name of the environment whose configuration options you want to describe.
@@ -3677,7 +3677,7 @@ extension DescribeConfigurationOptionsOutput {
 }
 
 /// Describes the settings for a specified configuration set.
-public struct DescribeConfigurationOptionsOutput: Swift.Equatable {
+public struct DescribeConfigurationOptionsOutput {
     /// A list of [ConfigurationOptionDescription].
     public var options: [ElasticBeanstalkClientTypes.ConfigurationOptionDescription]?
     /// The ARN of the platform version.
@@ -3745,7 +3745,7 @@ extension DescribeConfigurationSettingsInput {
 }
 
 /// Result message containing all of the configuration settings for a specified solution stack or configuration template.
-public struct DescribeConfigurationSettingsInput: Swift.Equatable {
+public struct DescribeConfigurationSettingsInput {
     /// The application for the environment or configuration template.
     /// This member is required.
     public var applicationName: Swift.String?
@@ -3780,7 +3780,7 @@ extension DescribeConfigurationSettingsOutput {
 }
 
 /// The results from a request to change the configuration settings of an environment.
-public struct DescribeConfigurationSettingsOutput: Swift.Equatable {
+public struct DescribeConfigurationSettingsOutput {
     /// A list of [ConfigurationSettingsDescription].
     public var configurationSettings: [ElasticBeanstalkClientTypes.ConfigurationSettingsDescription]?
 
@@ -3849,7 +3849,7 @@ extension DescribeEnvironmentHealthInput {
 }
 
 /// See the example below to learn how to create a request body.
-public struct DescribeEnvironmentHealthInput: Swift.Equatable {
+public struct DescribeEnvironmentHealthInput {
     /// Specify the response elements to return. To retrieve all attributes, set to All. If no attribute names are specified, returns the name of the environment.
     public var attributeNames: [ElasticBeanstalkClientTypes.EnvironmentHealthAttribute]?
     /// Specify the environment by ID. You must specify either this or an EnvironmentName, or both.
@@ -3890,7 +3890,7 @@ extension DescribeEnvironmentHealthOutput {
 }
 
 /// Health details for an AWS Elastic Beanstalk environment.
-public struct DescribeEnvironmentHealthOutput: Swift.Equatable {
+public struct DescribeEnvironmentHealthOutput {
     /// Application request metrics for the environment.
     public var applicationMetrics: ElasticBeanstalkClientTypes.ApplicationMetrics?
     /// Descriptions of the data that contributed to the environment's current health status.
@@ -3983,7 +3983,7 @@ extension DescribeEnvironmentManagedActionHistoryInput {
 }
 
 /// Request to list completed and failed managed actions.
-public struct DescribeEnvironmentManagedActionHistoryInput: Swift.Equatable {
+public struct DescribeEnvironmentManagedActionHistoryInput {
     /// The environment ID of the target environment.
     public var environmentId: Swift.String?
     /// The name of the target environment.
@@ -4022,7 +4022,7 @@ extension DescribeEnvironmentManagedActionHistoryOutput {
 }
 
 /// A result message containing a list of completed and failed managed actions.
-public struct DescribeEnvironmentManagedActionHistoryOutput: Swift.Equatable {
+public struct DescribeEnvironmentManagedActionHistoryOutput {
     /// A list of completed and failed managed actions.
     public var managedActionHistoryItems: [ElasticBeanstalkClientTypes.ManagedActionHistoryItem]?
     /// A pagination token that you pass to [DescribeEnvironmentManagedActionHistory] to get the next page of results.
@@ -4086,7 +4086,7 @@ extension DescribeEnvironmentManagedActionsInput {
 }
 
 /// Request to list an environment's upcoming and in-progress managed actions.
-public struct DescribeEnvironmentManagedActionsInput: Swift.Equatable {
+public struct DescribeEnvironmentManagedActionsInput {
     /// The environment ID of the target environment.
     public var environmentId: Swift.String?
     /// The name of the target environment.
@@ -4120,7 +4120,7 @@ extension DescribeEnvironmentManagedActionsOutput {
 }
 
 /// The result message containing a list of managed actions.
-public struct DescribeEnvironmentManagedActionsOutput: Swift.Equatable {
+public struct DescribeEnvironmentManagedActionsOutput {
     /// A list of upcoming and in-progress managed actions.
     public var managedActions: [ElasticBeanstalkClientTypes.ManagedAction]?
 
@@ -4176,7 +4176,7 @@ extension DescribeEnvironmentResourcesInput {
 }
 
 /// Request to describe the resources in an environment.
-public struct DescribeEnvironmentResourcesInput: Swift.Equatable {
+public struct DescribeEnvironmentResourcesInput {
     /// The ID of the environment to retrieve AWS resource usage data. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
     public var environmentId: Swift.String?
     /// The name of the environment to retrieve AWS resource usage data. Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
@@ -4206,7 +4206,7 @@ extension DescribeEnvironmentResourcesOutput {
 }
 
 /// Result message containing a list of environment resource descriptions.
-public struct DescribeEnvironmentResourcesOutput: Swift.Equatable {
+public struct DescribeEnvironmentResourcesOutput {
     /// A list of [EnvironmentResourceDescription].
     public var environmentResources: ElasticBeanstalkClientTypes.EnvironmentResourceDescription?
 
@@ -4304,7 +4304,7 @@ extension DescribeEnvironmentsInput {
 }
 
 /// Request to describe one or more environments.
-public struct DescribeEnvironmentsInput: Swift.Equatable {
+public struct DescribeEnvironmentsInput {
     /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application.
     public var applicationName: Swift.String?
     /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that have the specified IDs.
@@ -4359,7 +4359,7 @@ extension DescribeEnvironmentsOutput {
 }
 
 /// Result message containing a list of environment descriptions.
-public struct DescribeEnvironmentsOutput: Swift.Equatable {
+public struct DescribeEnvironmentsOutput {
     /// Returns an [EnvironmentDescription] list.
     public var environments: [ElasticBeanstalkClientTypes.EnvironmentDescription]?
     /// In a paginated request, the token that you can pass in a subsequent request to get the next response page.
@@ -4458,7 +4458,7 @@ extension DescribeEventsInput {
 }
 
 /// Request to retrieve a list of events for an environment.
-public struct DescribeEventsInput: Swift.Equatable {
+public struct DescribeEventsInput {
     /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those associated with this application.
     public var applicationName: Swift.String?
     /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to those that occur up to, but not including, the EndTime.
@@ -4529,7 +4529,7 @@ extension DescribeEventsOutput {
 }
 
 /// Result message wrapping a list of event descriptions.
-public struct DescribeEventsOutput: Swift.Equatable {
+public struct DescribeEventsOutput {
     /// A list of [EventDescription].
     public var events: [ElasticBeanstalkClientTypes.EventDescription]?
     /// If returned, this indicates that there are more results to obtain. Use this token in the next [DescribeEvents] call to get the next batch of events.
@@ -4605,7 +4605,7 @@ extension DescribeInstancesHealthInput {
 }
 
 /// Parameters for a call to DescribeInstancesHealth.
-public struct DescribeInstancesHealthInput: Swift.Equatable {
+public struct DescribeInstancesHealthInput {
     /// Specifies the response elements you wish to receive. To retrieve all attributes, set to All. If no attribute names are specified, returns a list of instances.
     public var attributeNames: [ElasticBeanstalkClientTypes.InstancesHealthAttribute]?
     /// Specify the AWS Elastic Beanstalk environment by ID.
@@ -4645,7 +4645,7 @@ extension DescribeInstancesHealthOutput {
 }
 
 /// Detailed health information about the Amazon EC2 instances in an AWS Elastic Beanstalk environment.
-public struct DescribeInstancesHealthOutput: Swift.Equatable {
+public struct DescribeInstancesHealthOutput {
     /// Detailed health information about each instance. The output differs slightly between Linux and Windows environments. There is a difference in the members that are supported under the  type.
     public var instanceHealthList: [ElasticBeanstalkClientTypes.SingleInstanceHealth]?
     /// Pagination token for the next page of results, if available.
@@ -4705,7 +4705,7 @@ extension DescribePlatformVersionInput {
     }
 }
 
-public struct DescribePlatformVersionInput: Swift.Equatable {
+public struct DescribePlatformVersionInput {
     /// The ARN of the platform version.
     public var platformArn: Swift.String?
 
@@ -4730,7 +4730,7 @@ extension DescribePlatformVersionOutput {
     }
 }
 
-public struct DescribePlatformVersionOutput: Swift.Equatable {
+public struct DescribePlatformVersionOutput {
     /// Detailed information about the platform version.
     public var platformDescription: ElasticBeanstalkClientTypes.PlatformDescription?
 
@@ -4783,7 +4783,7 @@ extension DisassociateEnvironmentOperationsRoleInput {
 }
 
 /// Request to disassociate the operations role from an environment.
-public struct DisassociateEnvironmentOperationsRoleInput: Swift.Equatable {
+public struct DisassociateEnvironmentOperationsRoleInput {
     /// The name of the environment from which to disassociate the operations role.
     /// This member is required.
     public var environmentName: Swift.String?
@@ -4805,7 +4805,7 @@ extension DisassociateEnvironmentOperationsRoleOutput {
     }
 }
 
-public struct DisassociateEnvironmentOperationsRoleOutput: Swift.Equatable {
+public struct DisassociateEnvironmentOperationsRoleOutput {
 
     public init() { }
 }
@@ -4999,7 +4999,7 @@ extension ElasticBeanstalkClientTypes.EnvironmentDescription: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// Describes the properties of an environment.
-    public struct EnvironmentDescription: Swift.Equatable {
+    public struct EnvironmentDescription {
         /// Indicates if there is an in-progress environment configuration update or application version deployment that you can cancel. true: There is an update in progress. false: There are no updates currently in progress.
         public var abortableOperationInProgress: Swift.Bool?
         /// The name of the application associated with this environment.
@@ -5294,7 +5294,7 @@ extension ElasticBeanstalkClientTypes.EnvironmentInfoDescription: Swift.Encodabl
 
 extension ElasticBeanstalkClientTypes {
     /// The information retrieved from the Amazon EC2 instances.
-    public struct EnvironmentInfoDescription: Swift.Equatable {
+    public struct EnvironmentInfoDescription {
         /// The Amazon EC2 Instance ID for this information.
         public var ec2InstanceId: Swift.String?
         /// The type of information retrieved.
@@ -5381,7 +5381,7 @@ extension ElasticBeanstalkClientTypes.EnvironmentLink: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// A link to another environment, defined in the environment's manifest. Links provide connection information in system properties that can be used to connect to another environment in the same group. See [Environment Manifest (env.yaml)](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/environment-cfg-manifest.html) for details.
-    public struct EnvironmentLink: Swift.Equatable {
+    public struct EnvironmentLink {
         /// The name of the linked environment (the dependency).
         public var environmentName: Swift.String?
         /// The name of the link.
@@ -5521,7 +5521,7 @@ extension ElasticBeanstalkClientTypes.EnvironmentResourceDescription: Swift.Enco
 
 extension ElasticBeanstalkClientTypes {
     /// Describes the AWS resources in use by this environment. This data is live.
-    public struct EnvironmentResourceDescription: Swift.Equatable {
+    public struct EnvironmentResourceDescription {
         /// The AutoScalingGroups used by this environment.
         public var autoScalingGroups: [ElasticBeanstalkClientTypes.AutoScalingGroup]?
         /// The name of the environment.
@@ -5587,7 +5587,7 @@ extension ElasticBeanstalkClientTypes.EnvironmentResourcesDescription: Swift.Enc
 
 extension ElasticBeanstalkClientTypes {
     /// Describes the AWS resources in use by this environment. This data is not live data.
-    public struct EnvironmentResourcesDescription: Swift.Equatable {
+    public struct EnvironmentResourcesDescription {
         /// Describes the LoadBalancer.
         public var loadBalancer: ElasticBeanstalkClientTypes.LoadBalancerDescription?
 
@@ -5685,7 +5685,7 @@ extension ElasticBeanstalkClientTypes.EnvironmentTier: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// Describes the properties of an environment tier
-    public struct EnvironmentTier: Swift.Equatable {
+    public struct EnvironmentTier {
         /// The name of this environment tier. Valid values:
         ///
         /// * For Web server tier – WebServer
@@ -5779,7 +5779,7 @@ extension ElasticBeanstalkClientTypes.EventDescription: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// Describes an event.
-    public struct EventDescription: Swift.Equatable {
+    public struct EventDescription {
         /// The application associated with the event.
         public var applicationName: Swift.String?
         /// The name of the environment associated with this event.
@@ -5940,7 +5940,7 @@ extension ElasticBeanstalkClientTypes.Instance: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// The description of an Amazon EC2 instance.
-    public struct Instance: Swift.Equatable {
+    public struct Instance {
         /// The ID of the Amazon EC2 instance.
         public var id: Swift.String?
 
@@ -6013,7 +6013,7 @@ extension ElasticBeanstalkClientTypes.InstanceHealthSummary: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// Represents summary information about the health of an instance. For more information, see [Health Colors and Statuses](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/health-enhanced-status.html).
-    public struct InstanceHealthSummary: Swift.Equatable {
+    public struct InstanceHealthSummary {
         /// Red. The health agent is reporting a high number of request failures or other issues for an instance or environment.
         public var degraded: Swift.Int?
         /// Green. An operation is in progress on an instance.
@@ -6247,7 +6247,7 @@ extension ElasticBeanstalkClientTypes.Latency: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// Represents the average latency for the slowest X percent of requests over the last 10 seconds.
-    public struct Latency: Swift.Equatable {
+    public struct Latency {
         /// The average latency for the slowest 90 percent of requests over the last 10 seconds.
         public var p10: Swift.Double?
         /// The average latency for the slowest 50 percent of requests over the last 10 seconds.
@@ -6313,7 +6313,7 @@ extension ElasticBeanstalkClientTypes.LaunchConfiguration: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// Describes an Auto Scaling launch configuration.
-    public struct LaunchConfiguration: Swift.Equatable {
+    public struct LaunchConfiguration {
         /// The name of the launch configuration.
         public var name: Swift.String?
 
@@ -6351,7 +6351,7 @@ extension ElasticBeanstalkClientTypes.LaunchTemplate: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// Describes an Amazon EC2 launch template.
-    public struct LaunchTemplate: Swift.Equatable {
+    public struct LaunchTemplate {
         /// The ID of the launch template.
         public var id: Swift.String?
 
@@ -6381,7 +6381,7 @@ extension ListAvailableSolutionStacksInput {
     }
 }
 
-public struct ListAvailableSolutionStacksInput: Swift.Equatable {
+public struct ListAvailableSolutionStacksInput {
 
     public init() { }
 }
@@ -6401,7 +6401,7 @@ extension ListAvailableSolutionStacksOutput {
 }
 
 /// A list of available AWS Elastic Beanstalk solution stacks.
-public struct ListAvailableSolutionStacksOutput: Swift.Equatable {
+public struct ListAvailableSolutionStacksOutput {
     /// A list of available solution stacks and their [SolutionStackDescription].
     public var solutionStackDetails: [ElasticBeanstalkClientTypes.SolutionStackDescription]?
     /// A list of available solution stacks.
@@ -6472,7 +6472,7 @@ extension ListPlatformBranchesInput {
     }
 }
 
-public struct ListPlatformBranchesInput: Swift.Equatable {
+public struct ListPlatformBranchesInput {
     /// Criteria for restricting the resulting list of platform branches. The filter is evaluated as a logical conjunction (AND) of the separate SearchFilter terms. The following list shows valid attribute values for each of the SearchFilter terms. Most operators take a single value. The in and not_in operators can take multiple values.
     ///
     /// * Attribute = BranchName:
@@ -6541,7 +6541,7 @@ extension ListPlatformBranchesOutput {
     }
 }
 
-public struct ListPlatformBranchesOutput: Swift.Equatable {
+public struct ListPlatformBranchesOutput {
     /// In a paginated request, if this value isn't null, it's the token that you can pass in a subsequent request to get the next response page.
     public var nextToken: Swift.String?
     /// Summary information about the platform branches.
@@ -6612,7 +6612,7 @@ extension ListPlatformVersionsInput {
     }
 }
 
-public struct ListPlatformVersionsInput: Swift.Equatable {
+public struct ListPlatformVersionsInput {
     /// Criteria for restricting the resulting list of platform versions. The filter is interpreted as a logical conjunction (AND) of the separate PlatformFilter terms.
     public var filters: [ElasticBeanstalkClientTypes.PlatformFilter]?
     /// The maximum number of platform version values returned in one call.
@@ -6646,7 +6646,7 @@ extension ListPlatformVersionsOutput {
     }
 }
 
-public struct ListPlatformVersionsOutput: Swift.Equatable {
+public struct ListPlatformVersionsOutput {
     /// In a paginated request, if this value isn't null, it's the token that you can pass in a subsequent request to get the next response page.
     public var nextToken: Swift.String?
     /// Summary information about the platform versions.
@@ -6702,7 +6702,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resouce for which a tag list is requested. Must be the ARN of an Elastic Beanstalk resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -6729,7 +6729,7 @@ extension ListTagsForResourceOutput {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The Amazon Resource Name (ARN) of the resource for which a tag list was requested.
     public var resourceArn: Swift.String?
     /// A list of tag key-value pairs.
@@ -6793,7 +6793,7 @@ extension ElasticBeanstalkClientTypes.Listener: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// Describes the properties of a Listener for the LoadBalancer.
-    public struct Listener: Swift.Equatable {
+    public struct Listener {
         /// The port that is used by the Listener.
         public var port: Swift.Int
         /// The protocol that is used by the Listener.
@@ -6835,7 +6835,7 @@ extension ElasticBeanstalkClientTypes.LoadBalancer: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// Describes a LoadBalancer.
-    public struct LoadBalancer: Swift.Equatable {
+    public struct LoadBalancer {
         /// The name of the LoadBalancer.
         public var name: Swift.String?
 
@@ -6892,7 +6892,7 @@ extension ElasticBeanstalkClientTypes.LoadBalancerDescription: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// Describes the details of a LoadBalancer.
-    public struct LoadBalancerDescription: Swift.Equatable {
+    public struct LoadBalancerDescription {
         /// The domain name of the LoadBalancer.
         public var domain: Swift.String?
         /// A list of Listeners used by the LoadBalancer.
@@ -6958,7 +6958,7 @@ extension ElasticBeanstalkClientTypes.ManagedAction: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// The record of an upcoming or in-progress managed action.
-    public struct ManagedAction: Swift.Equatable {
+    public struct ManagedAction {
         /// A description of the managed action.
         public var actionDescription: Swift.String?
         /// A unique identifier for the managed action.
@@ -7047,7 +7047,7 @@ extension ElasticBeanstalkClientTypes.ManagedActionHistoryItem: Swift.Encodable 
 
 extension ElasticBeanstalkClientTypes {
     /// The record of a completed or failed managed action.
-    public struct ManagedActionHistoryItem: Swift.Equatable {
+    public struct ManagedActionHistoryItem {
         /// A description of the managed action.
         public var actionDescription: Swift.String?
         /// A unique identifier for the managed action.
@@ -7160,7 +7160,7 @@ extension ElasticBeanstalkClientTypes.MaxAgeRule: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// A lifecycle rule that deletes application versions after the specified number of days.
-    public struct MaxAgeRule: Swift.Equatable {
+    public struct MaxAgeRule {
         /// Set to true to delete a version's source bundle from Amazon S3 when Elastic Beanstalk deletes the application version.
         public var deleteSourceFromS3: Swift.Bool?
         /// Specify true to apply the rule, or false to disable it.
@@ -7217,7 +7217,7 @@ extension ElasticBeanstalkClientTypes.MaxCountRule: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// A lifecycle rule that deletes the oldest application version when the maximum count is exceeded.
-    public struct MaxCountRule: Swift.Equatable {
+    public struct MaxCountRule {
         /// Set to true to delete a version's source bundle from Amazon S3 when Elastic Beanstalk deletes the application version.
         public var deleteSourceFromS3: Swift.Bool?
         /// Specify true to apply the rule, or false to disable it.
@@ -7306,7 +7306,7 @@ extension ElasticBeanstalkClientTypes.OptionRestrictionRegex: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// A regular expression representing a restriction on a string configuration option value.
-    public struct OptionRestrictionRegex: Swift.Equatable {
+    public struct OptionRestrictionRegex {
         /// A unique name representing this regular expression.
         public var label: Swift.String?
         /// The regular expression pattern that a string configuration option value with this restriction must match.
@@ -7358,7 +7358,7 @@ extension ElasticBeanstalkClientTypes.OptionSpecification: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// A specification identifying an individual configuration option.
-    public struct OptionSpecification: Swift.Equatable {
+    public struct OptionSpecification {
         /// A unique namespace identifying the option's associated AWS resource.
         public var namespace: Swift.String?
         /// The name of the configuration option.
@@ -7433,7 +7433,7 @@ extension ElasticBeanstalkClientTypes.PlatformBranchSummary: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// Summary information about a platform branch.
-    public struct PlatformBranchSummary: Swift.Equatable {
+    public struct PlatformBranchSummary {
         /// The name of the platform branch.
         public var branchName: Swift.String?
         /// An ordinal number that designates the order in which platform branches have been added to a platform. This can be helpful, for example, if your code calls the ListPlatformBranches action and then displays a list of platform branches. A larger BranchOrder value designates a newer platform branch within the platform.
@@ -7632,7 +7632,7 @@ extension ElasticBeanstalkClientTypes.PlatformDescription: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// Detailed information about a platform version.
-    public struct PlatformDescription: Swift.Equatable {
+    public struct PlatformDescription {
         /// The custom AMIs supported by the platform version.
         public var customAmiList: [ElasticBeanstalkClientTypes.CustomAmi]?
         /// The date when the platform version was created.
@@ -7769,7 +7769,7 @@ extension ElasticBeanstalkClientTypes.PlatformFilter: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// Describes criteria to restrict the results when listing platform versions. The filter is evaluated as follows: Type Operator Values[1]
-    public struct PlatformFilter: Swift.Equatable {
+    public struct PlatformFilter {
         /// The operator to apply to the Type with each of the Values. Valid values: = | != | < | <= | > | >= | contains | begins_with | ends_with
         public var `operator`: Swift.String?
         /// The platform version attribute to which the filter values are applied. Valid values: PlatformName | PlatformVersion | PlatformStatus | PlatformBranchName | PlatformLifecycleState | PlatformOwner | SupportedTier | SupportedAddon | ProgrammingLanguageName | OperatingSystemName
@@ -7828,7 +7828,7 @@ extension ElasticBeanstalkClientTypes.PlatformFramework: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// A framework supported by the platform.
-    public struct PlatformFramework: Swift.Equatable {
+    public struct PlatformFramework {
         /// The name of the framework.
         public var name: Swift.String?
         /// The version of the framework.
@@ -7875,7 +7875,7 @@ extension ElasticBeanstalkClientTypes.PlatformProgrammingLanguage: Swift.Encodab
 
 extension ElasticBeanstalkClientTypes {
     /// A programming language supported by the platform.
-    public struct PlatformProgrammingLanguage: Swift.Equatable {
+    public struct PlatformProgrammingLanguage {
         /// The name of the programming language.
         public var name: Swift.String?
         /// The version of the programming language.
@@ -8031,7 +8031,7 @@ extension ElasticBeanstalkClientTypes.PlatformSummary: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// Summary information about a platform version.
-    public struct PlatformSummary: Swift.Equatable {
+    public struct PlatformSummary {
         /// The operating system used by the platform version.
         public var operatingSystemName: Swift.String?
         /// The version of the operating system used by the platform version.
@@ -8155,7 +8155,7 @@ extension ElasticBeanstalkClientTypes.Queue: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// Describes a queue.
-    public struct Queue: Swift.Equatable {
+    public struct Queue {
         /// The name of the queue.
         public var name: Swift.String?
         /// The URL of the queue.
@@ -8200,7 +8200,7 @@ extension RebuildEnvironmentInput {
 }
 
 ///
-public struct RebuildEnvironmentInput: Swift.Equatable {
+public struct RebuildEnvironmentInput {
     /// The ID of the environment to rebuild. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
     public var environmentId: Swift.String?
     /// The name of the environment to rebuild. Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
@@ -8225,7 +8225,7 @@ extension RebuildEnvironmentOutput {
     }
 }
 
-public struct RebuildEnvironmentOutput: Swift.Equatable {
+public struct RebuildEnvironmentOutput {
 
     public init() { }
 }
@@ -8278,7 +8278,7 @@ extension RequestEnvironmentInfoInput {
 }
 
 /// Request to retrieve logs from an environment and store them in your Elastic Beanstalk storage bucket.
-public struct RequestEnvironmentInfoInput: Swift.Equatable {
+public struct RequestEnvironmentInfoInput {
     /// The ID of the environment of the requested data. If no such environment is found, RequestEnvironmentInfo returns an InvalidParameterValue error. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
     public var environmentId: Swift.String?
     /// The name of the environment of the requested data. If no such environment is found, RequestEnvironmentInfo returns an InvalidParameterValue error. Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
@@ -8308,7 +8308,7 @@ extension RequestEnvironmentInfoOutput {
     }
 }
 
-public struct RequestEnvironmentInfoOutput: Swift.Equatable {
+public struct RequestEnvironmentInfoOutput {
 
     public init() { }
 }
@@ -8390,7 +8390,7 @@ extension ElasticBeanstalkClientTypes.ResourceQuota: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// The AWS Elastic Beanstalk quota information for a single resource type in an AWS account. It reflects the resource's limits for this account.
-    public struct ResourceQuota: Swift.Equatable {
+    public struct ResourceQuota {
         /// The maximum number of instances of this Elastic Beanstalk resource type that an AWS account can use.
         public var maximum: Swift.Int?
 
@@ -8448,7 +8448,7 @@ extension ElasticBeanstalkClientTypes.ResourceQuotas: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// A set of per-resource AWS Elastic Beanstalk quotas associated with an AWS account. They reflect Elastic Beanstalk resource limits for this account.
-    public struct ResourceQuotas: Swift.Equatable {
+    public struct ResourceQuotas {
         /// The quota for applications in the AWS account.
         public var applicationQuota: ElasticBeanstalkClientTypes.ResourceQuota?
         /// The quota for application versions in the AWS account.
@@ -8542,7 +8542,7 @@ extension RestartAppServerInput {
 }
 
 ///
-public struct RestartAppServerInput: Swift.Equatable {
+public struct RestartAppServerInput {
     /// The ID of the environment to restart the server for. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
     public var environmentId: Swift.String?
     /// The name of the environment to restart the server for. Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
@@ -8567,7 +8567,7 @@ extension RestartAppServerOutput {
     }
 }
 
-public struct RestartAppServerOutput: Swift.Equatable {
+public struct RestartAppServerOutput {
 
     public init() { }
 }
@@ -8619,7 +8619,7 @@ extension RetrieveEnvironmentInfoInput {
 }
 
 /// Request to download logs retrieved with [RequestEnvironmentInfo].
-public struct RetrieveEnvironmentInfoInput: Swift.Equatable {
+public struct RetrieveEnvironmentInfoInput {
     /// The ID of the data's environment. If no such environment is found, returns an InvalidParameterValue error. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
     public var environmentId: Swift.String?
     /// The name of the data's environment. If no such environment is found, returns an InvalidParameterValue error. Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
@@ -8654,7 +8654,7 @@ extension RetrieveEnvironmentInfoOutput {
 }
 
 /// Result message containing a description of the requested environment info.
-public struct RetrieveEnvironmentInfoOutput: Swift.Equatable {
+public struct RetrieveEnvironmentInfoOutput {
     /// The [EnvironmentInfoDescription] of the environment.
     public var environmentInfo: [ElasticBeanstalkClientTypes.EnvironmentInfoDescription]?
 
@@ -8711,7 +8711,7 @@ extension ElasticBeanstalkClientTypes.S3Location: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// The bucket and key of an item stored in Amazon S3.
-    public struct S3Location: Swift.Equatable {
+    public struct S3Location {
         /// The Amazon S3 bucket where the data is located.
         public var s3Bucket: Swift.String?
         /// The Amazon S3 key where the data is located.
@@ -8852,7 +8852,7 @@ extension ElasticBeanstalkClientTypes.SearchFilter: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// Describes criteria to restrict a list of results. For operators that apply a single value to the attribute, the filter is evaluated as follows: Attribute Operator Values[1] Some operators, e.g. in, can apply multiple values. In this case, the filter is evaluated as a logical union (OR) of applications of the operator to the attribute with each one of the values: (Attribute Operator Values[1]) OR (Attribute Operator Values[2]) OR ... The valid values for attributes of SearchFilter depend on the API action. For valid values, see the reference page for the API action you're calling that takes a SearchFilter parameter.
-    public struct SearchFilter: Swift.Equatable {
+    public struct SearchFilter {
         /// The result attribute to which the filter values are applied. Valid values vary by API action.
         public var attribute: Swift.String?
         /// The operator to apply to the Attribute with each of the Values. Valid values vary by Attribute.
@@ -8952,7 +8952,7 @@ extension ElasticBeanstalkClientTypes.SingleInstanceHealth: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// Detailed health information about an Amazon EC2 instance in your Elastic Beanstalk environment.
-    public struct SingleInstanceHealth: Swift.Equatable {
+    public struct SingleInstanceHealth {
         /// Request metrics from your application.
         public var applicationMetrics: ElasticBeanstalkClientTypes.ApplicationMetrics?
         /// The availability zone in which the instance runs.
@@ -9040,7 +9040,7 @@ extension ElasticBeanstalkClientTypes.SolutionStackDescription: Swift.Encodable 
 
 extension ElasticBeanstalkClientTypes {
     /// Describes the solution stack.
-    public struct SolutionStackDescription: Swift.Equatable {
+    public struct SolutionStackDescription {
         /// The permitted file types allowed for a solution stack.
         public var permittedFileTypes: [Swift.String]?
         /// The name of the solution stack.
@@ -9092,7 +9092,7 @@ extension ElasticBeanstalkClientTypes.SourceBuildInformation: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// Location of the source code for an application version.
-    public struct SourceBuildInformation: Swift.Equatable {
+    public struct SourceBuildInformation {
         /// The location of the source code, as a formatted string, depending on the value of SourceRepository
         ///
         /// * For CodeCommit, the format is the repository name and commit ID, separated by a forward slash. For example, my-git-repo/265cfa0cf6af46153527f55d6503ec030551f57a.
@@ -9195,7 +9195,7 @@ extension ElasticBeanstalkClientTypes.SourceConfiguration: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// A specification for an environment configuration.
-    public struct SourceConfiguration: Swift.Equatable {
+    public struct SourceConfiguration {
         /// The name of the application associated with the configuration.
         public var applicationName: Swift.String?
         /// The name of the configuration template.
@@ -9316,7 +9316,7 @@ extension ElasticBeanstalkClientTypes.StatusCodes: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// Represents the percentage of requests over the last 10 seconds that resulted in each type of status code response. For more information, see [Status Code Definitions](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html).
-    public struct StatusCodes: Swift.Equatable {
+    public struct StatusCodes {
         /// The percentage of requests over the last 10 seconds that resulted in a 2xx (200, 201, etc.) status code.
         public var status2xx: Swift.Int?
         /// The percentage of requests over the last 10 seconds that resulted in a 3xx (300, 301, etc.) status code.
@@ -9377,7 +9377,7 @@ extension SwapEnvironmentCNAMEsInput {
 }
 
 /// Swaps the CNAMEs of two environments.
-public struct SwapEnvironmentCNAMEsInput: Swift.Equatable {
+public struct SwapEnvironmentCNAMEsInput {
     /// The ID of the destination environment. Condition: You must specify at least the DestinationEnvironmentID or the DestinationEnvironmentName. You may also specify both. You must specify the SourceEnvironmentId with the DestinationEnvironmentId.
     public var destinationEnvironmentId: Swift.String?
     /// The name of the destination environment. Condition: You must specify at least the DestinationEnvironmentID or the DestinationEnvironmentName. You may also specify both. You must specify the SourceEnvironmentName with the DestinationEnvironmentName.
@@ -9410,7 +9410,7 @@ extension SwapEnvironmentCNAMEsOutput {
     }
 }
 
-public struct SwapEnvironmentCNAMEsOutput: Swift.Equatable {
+public struct SwapEnvironmentCNAMEsOutput {
 
     public init() { }
 }
@@ -9469,7 +9469,7 @@ extension ElasticBeanstalkClientTypes.SystemStatus: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// CPU utilization and load average metrics for an Amazon EC2 instance.
-    public struct SystemStatus: Swift.Equatable {
+    public struct SystemStatus {
         /// CPU utilization metrics for the instance.
         public var cpuUtilization: ElasticBeanstalkClientTypes.CPUUtilization?
         /// Load average in the last 1-minute, 5-minute, and 15-minute periods. For more information, see [Operating System Metrics](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/health-enhanced-metrics.html#health-enhanced-metrics-os).
@@ -9516,7 +9516,7 @@ extension ElasticBeanstalkClientTypes.Tag: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// Describes a tag applied to a resource in an environment.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key of the tag.
         public var key: Swift.String?
         /// The value of the tag.
@@ -9569,7 +9569,7 @@ extension TerminateEnvironmentInput {
 }
 
 /// Request to terminate an environment.
-public struct TerminateEnvironmentInput: Swift.Equatable {
+public struct TerminateEnvironmentInput {
     /// The ID of the environment to terminate. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
     public var environmentId: Swift.String?
     /// The name of the environment to terminate. Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
@@ -9634,7 +9634,7 @@ extension TerminateEnvironmentOutput {
 }
 
 /// Describes the properties of an environment.
-public struct TerminateEnvironmentOutput: Swift.Equatable {
+public struct TerminateEnvironmentOutput {
     /// Indicates if there is an in-progress environment configuration update or application version deployment that you can cancel. true: There is an update in progress. false: There are no updates currently in progress.
     public var abortableOperationInProgress: Swift.Bool?
     /// The name of the application associated with this environment.
@@ -10047,7 +10047,7 @@ extension ElasticBeanstalkClientTypes.Trigger: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// Describes a trigger.
-    public struct Trigger: Swift.Equatable {
+    public struct Trigger {
         /// The name of the trigger.
         public var name: Swift.String?
 
@@ -10088,7 +10088,7 @@ extension UpdateApplicationInput {
 }
 
 /// Request to update an application.
-public struct UpdateApplicationInput: Swift.Equatable {
+public struct UpdateApplicationInput {
     /// The name of the application to update. If no such application is found, UpdateApplication returns an InvalidParameterValue error.
     /// This member is required.
     public var applicationName: Swift.String?
@@ -10119,7 +10119,7 @@ extension UpdateApplicationOutput {
 }
 
 /// Result message containing a single description of an application.
-public struct UpdateApplicationOutput: Swift.Equatable {
+public struct UpdateApplicationOutput {
     /// The [ApplicationDescription] of the application.
     public var application: ElasticBeanstalkClientTypes.ApplicationDescription?
 
@@ -10173,7 +10173,7 @@ extension UpdateApplicationResourceLifecycleInput {
     }
 }
 
-public struct UpdateApplicationResourceLifecycleInput: Swift.Equatable {
+public struct UpdateApplicationResourceLifecycleInput {
     /// The name of the application.
     /// This member is required.
     public var applicationName: Swift.String?
@@ -10205,7 +10205,7 @@ extension UpdateApplicationResourceLifecycleOutput {
     }
 }
 
-public struct UpdateApplicationResourceLifecycleOutput: Swift.Equatable {
+public struct UpdateApplicationResourceLifecycleOutput {
     /// The name of the application.
     public var applicationName: Swift.String?
     /// The lifecycle configuration.
@@ -10269,7 +10269,7 @@ extension UpdateApplicationVersionInput {
 }
 
 ///
-public struct UpdateApplicationVersionInput: Swift.Equatable {
+public struct UpdateApplicationVersionInput {
     /// The name of the application associated with this version. If no application is found with this name, UpdateApplication returns an InvalidParameterValue error.
     /// This member is required.
     public var applicationName: Swift.String?
@@ -10305,7 +10305,7 @@ extension UpdateApplicationVersionOutput {
 }
 
 /// Result message wrapping a single description of an application version.
-public struct UpdateApplicationVersionOutput: Swift.Equatable {
+public struct UpdateApplicationVersionOutput {
     /// The [ApplicationVersionDescription] of the application version.
     public var applicationVersion: ElasticBeanstalkClientTypes.ApplicationVersionDescription?
 
@@ -10390,7 +10390,7 @@ extension UpdateConfigurationTemplateInput {
 }
 
 /// The result message containing the options for the specified solution stack.
-public struct UpdateConfigurationTemplateInput: Swift.Equatable {
+public struct UpdateConfigurationTemplateInput {
     /// The name of the application associated with the configuration template to update. If no application is found with this name, UpdateConfigurationTemplate returns an InvalidParameterValue error.
     /// This member is required.
     public var applicationName: Swift.String?
@@ -10443,7 +10443,7 @@ extension UpdateConfigurationTemplateOutput {
 }
 
 /// Describes the settings for a configuration set.
-public struct UpdateConfigurationTemplateOutput: Swift.Equatable {
+public struct UpdateConfigurationTemplateOutput {
     /// The name of the application associated with this configuration set.
     public var applicationName: Swift.String?
     /// The date (in UTC time) when this configuration set was created.
@@ -10602,7 +10602,7 @@ extension UpdateEnvironmentInput {
 }
 
 /// Request to update an environment.
-public struct UpdateEnvironmentInput: Swift.Equatable {
+public struct UpdateEnvironmentInput {
     /// The name of the application with which the environment is associated.
     public var applicationName: Swift.String?
     /// If this parameter is specified, AWS Elastic Beanstalk updates the description of this environment.
@@ -10692,7 +10692,7 @@ extension UpdateEnvironmentOutput {
 }
 
 /// Describes the properties of an environment.
-public struct UpdateEnvironmentOutput: Swift.Equatable {
+public struct UpdateEnvironmentOutput {
     /// Indicates if there is an in-progress environment configuration update or application version deployment that you can cancel. true: There is an update in progress. false: There are no updates currently in progress.
     public var abortableOperationInProgress: Swift.Bool?
     /// The name of the application associated with this environment.
@@ -10871,7 +10871,7 @@ extension UpdateTagsForResourceInput {
     }
 }
 
-public struct UpdateTagsForResourceInput: Swift.Equatable {
+public struct UpdateTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resouce to be updated. Must be the ARN of an Elastic Beanstalk resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -10901,7 +10901,7 @@ extension UpdateTagsForResourceOutput {
     }
 }
 
-public struct UpdateTagsForResourceOutput: Swift.Equatable {
+public struct UpdateTagsForResourceOutput {
 
     public init() { }
 }
@@ -10971,7 +10971,7 @@ extension ValidateConfigurationSettingsInput {
 }
 
 /// A list of validation messages for a specified configuration template.
-public struct ValidateConfigurationSettingsInput: Swift.Equatable {
+public struct ValidateConfigurationSettingsInput {
     /// The name of the application that the configuration template or environment belongs to.
     /// This member is required.
     public var applicationName: Swift.String?
@@ -11011,7 +11011,7 @@ extension ValidateConfigurationSettingsOutput {
 }
 
 /// Provides a list of validation messages.
-public struct ValidateConfigurationSettingsOutput: Swift.Equatable {
+public struct ValidateConfigurationSettingsOutput {
     /// A list of [ValidationMessage].
     public var messages: [ElasticBeanstalkClientTypes.ValidationMessage]?
 
@@ -11080,7 +11080,7 @@ extension ElasticBeanstalkClientTypes.ValidationMessage: Swift.Encodable {
 
 extension ElasticBeanstalkClientTypes {
     /// An error or warning for a desired configuration option value.
-    public struct ValidationMessage: Swift.Equatable {
+    public struct ValidationMessage {
         /// A message describing the error or warning.
         public var message: Swift.String?
         /// The namespace to which the option belongs.

@@ -88,7 +88,7 @@ extension FMSClientTypes.AccountScope: Swift.Codable {
 
 extension FMSClientTypes {
     /// Configures the accounts within the administrator's Organizations organization that the specified Firewall Manager administrator can apply policies to.
-    public struct AccountScope: Swift.Equatable {
+    public struct AccountScope {
         /// The list of accounts within the organization that the specified Firewall Manager administrator either can or cannot apply policies to, based on the value of ExcludeSpecifiedAccounts. If ExcludeSpecifiedAccounts is set to true, then the Firewall Manager administrator can apply policies to all members of the organization except for the accounts in this list. If ExcludeSpecifiedAccounts is set to false, then the Firewall Manager administrator can only apply policies to the accounts in this list.
         public var accounts: [Swift.String]?
         /// A boolean value that indicates if the administrator can apply policies to all accounts within an organization. If true, the administrator can apply policies to all accounts within the organization. You can either enable management of all accounts through this operation, or you can specify a list of accounts to manage in AccountScope$Accounts. You cannot specify both.
@@ -137,7 +137,7 @@ extension FMSClientTypes.ActionTarget: Swift.Codable {
 
 extension FMSClientTypes {
     /// Describes a remediation action target.
-    public struct ActionTarget: Swift.Equatable {
+    public struct ActionTarget {
         /// A description of the remediation action target.
         public var description: Swift.String?
         /// The ID of the remediation target.
@@ -188,7 +188,7 @@ extension FMSClientTypes.AdminAccountSummary: Swift.Codable {
 
 extension FMSClientTypes {
     /// Contains high level information about the Firewall Manager administrator account.
-    public struct AdminAccountSummary: Swift.Equatable {
+    public struct AdminAccountSummary {
         /// The Amazon Web Services account ID of the Firewall Manager administrator's account.
         public var adminAccount: Swift.String?
         /// A boolean value that indicates if the administrator is the default administrator. If true, then this is the default administrator account. The default administrator can manage third-party firewalls and has full administrative scope. There is only one default administrator account per organization. For information about Firewall Manager default administrator accounts, see [Managing Firewall Manager administrators](https://docs.aws.amazon.com/waf/latest/developerguide/fms-administrators.html) in the Firewall Manager Developer Guide.
@@ -257,7 +257,7 @@ extension FMSClientTypes.AdminScope: Swift.Codable {
 
 extension FMSClientTypes {
     /// Defines the resources that the Firewall Manager administrator can manage. For more information about administrative scope, see [Managing Firewall Manager administrators](https://docs.aws.amazon.com/waf/latest/developerguide/fms-administrators.html) in the Firewall Manager Developer Guide.
-    public struct AdminScope: Swift.Equatable {
+    public struct AdminScope {
         /// Defines the accounts that the specified Firewall Manager administrator can apply policies to.
         public var accountScope: FMSClientTypes.AccountScope?
         /// Defines the Organizations organizational units that the specified Firewall Manager administrator can apply policies to. For more information about OUs in Organizations, see [Managing organizational units (OUs) ](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_ous.html) in the Organizations User Guide.
@@ -316,7 +316,7 @@ extension FMSClientTypes.App: Swift.Codable {
 
 extension FMSClientTypes {
     /// An individual Firewall Manager application.
-    public struct App: Swift.Equatable {
+    public struct App {
         /// The application's name.
         /// This member is required.
         public var appName: Swift.String?
@@ -432,7 +432,7 @@ extension FMSClientTypes.AppsListData: Swift.Codable {
 
 extension FMSClientTypes {
     /// An Firewall Manager applications list.
-    public struct AppsListData: Swift.Equatable {
+    public struct AppsListData {
         /// An array of applications in the Firewall Manager applications list.
         /// This member is required.
         public var appsList: [FMSClientTypes.App]?
@@ -523,7 +523,7 @@ extension FMSClientTypes.AppsListDataSummary: Swift.Codable {
 
 extension FMSClientTypes {
     /// Details of the Firewall Manager applications list.
-    public struct AppsListDataSummary: Swift.Equatable {
+    public struct AppsListDataSummary {
         /// An array of App objects in the Firewall Manager applications list.
         public var appsList: [FMSClientTypes.App]?
         /// The Amazon Resource Name (ARN) of the applications list.
@@ -569,7 +569,7 @@ extension AssociateAdminAccountInput {
     }
 }
 
-public struct AssociateAdminAccountInput: Swift.Equatable {
+public struct AssociateAdminAccountInput {
     /// The Amazon Web Services account ID to associate with Firewall Manager as the Firewall Manager default administrator account. This account must be a member account of the organization in Organizations whose resources you want to protect. For more information about Organizations, see [Managing the Amazon Web Services Accounts in Your Organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts.html).
     /// This member is required.
     public var adminAccount: Swift.String?
@@ -582,7 +582,7 @@ public struct AssociateAdminAccountInput: Swift.Equatable {
     }
 }
 
-struct AssociateAdminAccountInputBody: Swift.Equatable {
+struct AssociateAdminAccountInputBody {
     let adminAccount: Swift.String?
 }
 
@@ -603,7 +603,7 @@ extension AssociateAdminAccountOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateAdminAccountOutput: Swift.Equatable {
+public struct AssociateAdminAccountOutput {
 
     public init() { }
 }
@@ -643,7 +643,7 @@ extension AssociateThirdPartyFirewallInput {
     }
 }
 
-public struct AssociateThirdPartyFirewallInput: Swift.Equatable {
+public struct AssociateThirdPartyFirewallInput {
     /// The name of the third-party firewall vendor.
     /// This member is required.
     public var thirdPartyFirewall: FMSClientTypes.ThirdPartyFirewall?
@@ -656,7 +656,7 @@ public struct AssociateThirdPartyFirewallInput: Swift.Equatable {
     }
 }
 
-struct AssociateThirdPartyFirewallInputBody: Swift.Equatable {
+struct AssociateThirdPartyFirewallInputBody {
     let thirdPartyFirewall: FMSClientTypes.ThirdPartyFirewall?
 }
 
@@ -684,7 +684,7 @@ extension AssociateThirdPartyFirewallOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateThirdPartyFirewallOutput: Swift.Equatable {
+public struct AssociateThirdPartyFirewallOutput {
     /// The current status for setting a Firewall Manager policy administrator's account as an administrator of the third-party firewall tenant.
     ///
     /// * ONBOARDING - The Firewall Manager policy administrator is being designated as a tenant administrator.
@@ -706,7 +706,7 @@ public struct AssociateThirdPartyFirewallOutput: Swift.Equatable {
     }
 }
 
-struct AssociateThirdPartyFirewallOutputBody: Swift.Equatable {
+struct AssociateThirdPartyFirewallOutputBody {
     let thirdPartyFirewallStatus: FMSClientTypes.ThirdPartyFirewallAssociationStatus?
 }
 
@@ -775,7 +775,7 @@ extension FMSClientTypes.AwsEc2InstanceViolation: Swift.Codable {
 
 extension FMSClientTypes {
     /// Violation detail for an EC2 instance resource.
-    public struct AwsEc2InstanceViolation: Swift.Equatable {
+    public struct AwsEc2InstanceViolation {
         /// Violation detail for network interfaces associated with the EC2 instance.
         public var awsEc2NetworkInterfaceViolations: [FMSClientTypes.AwsEc2NetworkInterfaceViolation]?
         /// The resource ID of the EC2 instance.
@@ -832,7 +832,7 @@ extension FMSClientTypes.AwsEc2NetworkInterfaceViolation: Swift.Codable {
 
 extension FMSClientTypes {
     /// Violation detail for network interfaces associated with an EC2 instance.
-    public struct AwsEc2NetworkInterfaceViolation: Swift.Equatable {
+    public struct AwsEc2NetworkInterfaceViolation {
         /// List of security groups that violate the rules specified in the primary security group of the Firewall Manager policy.
         public var violatingSecurityGroups: [Swift.String]?
         /// The resource ID of the network interface.
@@ -913,7 +913,7 @@ extension FMSClientTypes.AwsVPCSecurityGroupViolation: Swift.Codable {
 
 extension FMSClientTypes {
     /// Violation detail for the rule violation in a security group when compared to the primary security group of the Firewall Manager policy.
-    public struct AwsVPCSecurityGroupViolation: Swift.Equatable {
+    public struct AwsVPCSecurityGroupViolation {
         /// List of rules specified in the security group of the Firewall Manager policy that partially match the ViolationTarget rule.
         public var partialMatches: [FMSClientTypes.PartialMatch]?
         /// Remediation options for the rule specified in the ViolationTarget.
@@ -966,7 +966,7 @@ extension BatchAssociateResourceInput {
     }
 }
 
-public struct BatchAssociateResourceInput: Swift.Equatable {
+public struct BatchAssociateResourceInput {
     /// The uniform resource identifiers (URIs) of resources that should be associated to the resource set. The URIs must be Amazon Resource Names (ARNs).
     /// This member is required.
     public var items: [Swift.String]?
@@ -984,7 +984,7 @@ public struct BatchAssociateResourceInput: Swift.Equatable {
     }
 }
 
-struct BatchAssociateResourceInputBody: Swift.Equatable {
+struct BatchAssociateResourceInputBody {
     let resourceSetIdentifier: Swift.String?
     let items: [Swift.String]?
 }
@@ -1027,7 +1027,7 @@ extension BatchAssociateResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchAssociateResourceOutput: Swift.Equatable {
+public struct BatchAssociateResourceOutput {
     /// The resources that failed to associate to the resource set.
     /// This member is required.
     public var failedItems: [FMSClientTypes.FailedItem]?
@@ -1045,7 +1045,7 @@ public struct BatchAssociateResourceOutput: Swift.Equatable {
     }
 }
 
-struct BatchAssociateResourceOutputBody: Swift.Equatable {
+struct BatchAssociateResourceOutputBody {
     let resourceSetIdentifier: Swift.String?
     let failedItems: [FMSClientTypes.FailedItem]?
 }
@@ -1116,7 +1116,7 @@ extension BatchDisassociateResourceInput {
     }
 }
 
-public struct BatchDisassociateResourceInput: Swift.Equatable {
+public struct BatchDisassociateResourceInput {
     /// The uniform resource identifiers (URI) of resources that should be disassociated from the resource set. The URIs must be Amazon Resource Names (ARNs).
     /// This member is required.
     public var items: [Swift.String]?
@@ -1134,7 +1134,7 @@ public struct BatchDisassociateResourceInput: Swift.Equatable {
     }
 }
 
-struct BatchDisassociateResourceInputBody: Swift.Equatable {
+struct BatchDisassociateResourceInputBody {
     let resourceSetIdentifier: Swift.String?
     let items: [Swift.String]?
 }
@@ -1177,7 +1177,7 @@ extension BatchDisassociateResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchDisassociateResourceOutput: Swift.Equatable {
+public struct BatchDisassociateResourceOutput {
     /// The resources that failed to disassociate from the resource set.
     /// This member is required.
     public var failedItems: [FMSClientTypes.FailedItem]?
@@ -1195,7 +1195,7 @@ public struct BatchDisassociateResourceOutput: Swift.Equatable {
     }
 }
 
-struct BatchDisassociateResourceOutputBody: Swift.Equatable {
+struct BatchDisassociateResourceOutputBody {
     let resourceSetIdentifier: Swift.String?
     let failedItems: [FMSClientTypes.FailedItem]?
 }
@@ -1289,7 +1289,7 @@ extension FMSClientTypes.ComplianceViolator: Swift.Codable {
 
 extension FMSClientTypes {
     /// Details of the resource that is not protected by the policy.
-    public struct ComplianceViolator: Swift.Equatable {
+    public struct ComplianceViolator {
         /// Metadata about the resource that doesn't comply with the policy scope.
         public var metadata: [Swift.String:Swift.String]?
         /// The resource ID.
@@ -1399,7 +1399,7 @@ extension DeleteAppsListInput {
     }
 }
 
-public struct DeleteAppsListInput: Swift.Equatable {
+public struct DeleteAppsListInput {
     /// The ID of the applications list that you want to delete. You can retrieve this ID from PutAppsList, ListAppsLists, and GetAppsList.
     /// This member is required.
     public var listId: Swift.String?
@@ -1412,7 +1412,7 @@ public struct DeleteAppsListInput: Swift.Equatable {
     }
 }
 
-struct DeleteAppsListInputBody: Swift.Equatable {
+struct DeleteAppsListInputBody {
     let listId: Swift.String?
 }
 
@@ -1433,7 +1433,7 @@ extension DeleteAppsListOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAppsListOutput: Swift.Equatable {
+public struct DeleteAppsListOutput {
 
     public init() { }
 }
@@ -1466,12 +1466,12 @@ extension DeleteNotificationChannelInput {
     }
 }
 
-public struct DeleteNotificationChannelInput: Swift.Equatable {
+public struct DeleteNotificationChannelInput {
 
     public init() { }
 }
 
-struct DeleteNotificationChannelInputBody: Swift.Equatable {
+struct DeleteNotificationChannelInputBody {
 }
 
 extension DeleteNotificationChannelInputBody: Swift.Decodable {
@@ -1485,7 +1485,7 @@ extension DeleteNotificationChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteNotificationChannelOutput: Swift.Equatable {
+public struct DeleteNotificationChannelOutput {
 
     public init() { }
 }
@@ -1527,7 +1527,7 @@ extension DeletePolicyInput {
     }
 }
 
-public struct DeletePolicyInput: Swift.Equatable {
+public struct DeletePolicyInput {
     /// If True, the request performs cleanup according to the policy type. For WAF and Shield Advanced policies, the cleanup does the following:
     ///
     /// * Deletes rule groups created by Firewall Manager
@@ -1560,7 +1560,7 @@ public struct DeletePolicyInput: Swift.Equatable {
     }
 }
 
-struct DeletePolicyInputBody: Swift.Equatable {
+struct DeletePolicyInputBody {
     let policyId: Swift.String?
     let deleteAllPolicyResources: Swift.Bool?
 }
@@ -1585,7 +1585,7 @@ extension DeletePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePolicyOutput: Swift.Equatable {
+public struct DeletePolicyOutput {
 
     public init() { }
 }
@@ -1625,7 +1625,7 @@ extension DeleteProtocolsListInput {
     }
 }
 
-public struct DeleteProtocolsListInput: Swift.Equatable {
+public struct DeleteProtocolsListInput {
     /// The ID of the protocols list that you want to delete. You can retrieve this ID from PutProtocolsList, ListProtocolsLists, and GetProtocolsLost.
     /// This member is required.
     public var listId: Swift.String?
@@ -1638,7 +1638,7 @@ public struct DeleteProtocolsListInput: Swift.Equatable {
     }
 }
 
-struct DeleteProtocolsListInputBody: Swift.Equatable {
+struct DeleteProtocolsListInputBody {
     let listId: Swift.String?
 }
 
@@ -1659,7 +1659,7 @@ extension DeleteProtocolsListOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteProtocolsListOutput: Swift.Equatable {
+public struct DeleteProtocolsListOutput {
 
     public init() { }
 }
@@ -1697,7 +1697,7 @@ extension DeleteResourceSetInput {
     }
 }
 
-public struct DeleteResourceSetInput: Swift.Equatable {
+public struct DeleteResourceSetInput {
     /// A unique identifier for the resource set, used in a request to refer to the resource set.
     /// This member is required.
     public var identifier: Swift.String?
@@ -1710,7 +1710,7 @@ public struct DeleteResourceSetInput: Swift.Equatable {
     }
 }
 
-struct DeleteResourceSetInputBody: Swift.Equatable {
+struct DeleteResourceSetInputBody {
     let identifier: Swift.String?
 }
 
@@ -1731,7 +1731,7 @@ extension DeleteResourceSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteResourceSetOutput: Swift.Equatable {
+public struct DeleteResourceSetOutput {
 
     public init() { }
 }
@@ -1838,12 +1838,12 @@ extension DisassociateAdminAccountInput {
     }
 }
 
-public struct DisassociateAdminAccountInput: Swift.Equatable {
+public struct DisassociateAdminAccountInput {
 
     public init() { }
 }
 
-struct DisassociateAdminAccountInputBody: Swift.Equatable {
+struct DisassociateAdminAccountInputBody {
 }
 
 extension DisassociateAdminAccountInputBody: Swift.Decodable {
@@ -1857,7 +1857,7 @@ extension DisassociateAdminAccountOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateAdminAccountOutput: Swift.Equatable {
+public struct DisassociateAdminAccountOutput {
 
     public init() { }
 }
@@ -1895,7 +1895,7 @@ extension DisassociateThirdPartyFirewallInput {
     }
 }
 
-public struct DisassociateThirdPartyFirewallInput: Swift.Equatable {
+public struct DisassociateThirdPartyFirewallInput {
     /// The name of the third-party firewall vendor.
     /// This member is required.
     public var thirdPartyFirewall: FMSClientTypes.ThirdPartyFirewall?
@@ -1908,7 +1908,7 @@ public struct DisassociateThirdPartyFirewallInput: Swift.Equatable {
     }
 }
 
-struct DisassociateThirdPartyFirewallInputBody: Swift.Equatable {
+struct DisassociateThirdPartyFirewallInputBody {
     let thirdPartyFirewall: FMSClientTypes.ThirdPartyFirewall?
 }
 
@@ -1936,7 +1936,7 @@ extension DisassociateThirdPartyFirewallOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DisassociateThirdPartyFirewallOutput: Swift.Equatable {
+public struct DisassociateThirdPartyFirewallOutput {
     /// The current status for the disassociation of a Firewall Manager administrators account with a third-party firewall.
     public var thirdPartyFirewallStatus: FMSClientTypes.ThirdPartyFirewallAssociationStatus?
 
@@ -1948,7 +1948,7 @@ public struct DisassociateThirdPartyFirewallOutput: Swift.Equatable {
     }
 }
 
-struct DisassociateThirdPartyFirewallOutputBody: Swift.Equatable {
+struct DisassociateThirdPartyFirewallOutputBody {
     let thirdPartyFirewallStatus: FMSClientTypes.ThirdPartyFirewallAssociationStatus?
 }
 
@@ -2017,7 +2017,7 @@ extension FMSClientTypes.DiscoveredResource: Swift.Codable {
 
 extension FMSClientTypes {
     /// A resource in the organization that's available to be associated with a Firewall Manager resource set.
-    public struct DiscoveredResource: Swift.Equatable {
+    public struct DiscoveredResource {
         /// The Amazon Web Services account ID associated with the discovered resource.
         public var accountId: Swift.String?
         /// The name of the discovered resource.
@@ -2070,7 +2070,7 @@ extension FMSClientTypes.DnsDuplicateRuleGroupViolation: Swift.Codable {
 
 extension FMSClientTypes {
     /// A DNS Firewall rule group that Firewall Manager tried to associate with a VPC is already associated with the VPC and can't be associated again.
-    public struct DnsDuplicateRuleGroupViolation: Swift.Equatable {
+    public struct DnsDuplicateRuleGroupViolation {
         /// Information about the VPC ID.
         public var violationTarget: Swift.String?
         /// A description of the violation that specifies the rule group and VPC.
@@ -2121,7 +2121,7 @@ extension FMSClientTypes.DnsRuleGroupLimitExceededViolation: Swift.Codable {
 
 extension FMSClientTypes {
     /// The VPC that Firewall Manager was applying a DNS Fireall policy to reached the limit for associated DNS Firewall rule groups. Firewall Manager tried to associate another rule group with the VPC and failed due to the limit.
-    public struct DnsRuleGroupLimitExceededViolation: Swift.Equatable {
+    public struct DnsRuleGroupLimitExceededViolation {
         /// The number of rule groups currently associated with the VPC.
         public var numberOfRuleGroupsAlreadyAssociated: Swift.Int
         /// Information about the VPC ID.
@@ -2200,7 +2200,7 @@ extension FMSClientTypes.DnsRuleGroupPriorityConflictViolation: Swift.Codable {
 
 extension FMSClientTypes {
     /// A rule group that Firewall Manager tried to associate with a VPC has the same priority as a rule group that's already associated.
-    public struct DnsRuleGroupPriorityConflictViolation: Swift.Equatable {
+    public struct DnsRuleGroupPriorityConflictViolation {
         /// The ID of the Firewall Manager DNS Firewall policy that was already applied to the VPC. This policy contains the rule group that's already associated with the VPC.
         public var conflictingPolicyId: Swift.String?
         /// The priority setting of the two conflicting rule groups.
@@ -2269,7 +2269,7 @@ extension FMSClientTypes.EC2AssociateRouteTableAction: Swift.Codable {
 
 extension FMSClientTypes {
     /// The action of associating an EC2 resource, such as a subnet or internet gateway, with a route table.
-    public struct EC2AssociateRouteTableAction: Swift.Equatable {
+    public struct EC2AssociateRouteTableAction {
         /// A description of the EC2 route table that is associated with the remediation action.
         public var description: Swift.String?
         /// The ID of the gateway to be used with the EC2 route table that is associated with the remediation action.
@@ -2329,7 +2329,7 @@ extension FMSClientTypes.EC2CopyRouteTableAction: Swift.Codable {
 
 extension FMSClientTypes {
     /// An action that copies the EC2 route table for use in remediation.
-    public struct EC2CopyRouteTableAction: Swift.Equatable {
+    public struct EC2CopyRouteTableAction {
         /// A description of the copied EC2 route table that is associated with the remediation action.
         public var description: Swift.String?
         /// The ID of the copied EC2 route table that is associated with the remediation action.
@@ -2410,7 +2410,7 @@ extension FMSClientTypes.EC2CreateRouteAction: Swift.Codable {
 
 extension FMSClientTypes {
     /// Information about the CreateRoute action in Amazon EC2.
-    public struct EC2CreateRouteAction: Swift.Equatable {
+    public struct EC2CreateRouteAction {
         /// A description of CreateRoute action in Amazon EC2.
         public var description: Swift.String?
         /// Information about the IPv4 CIDR address block used for the destination match.
@@ -2476,7 +2476,7 @@ extension FMSClientTypes.EC2CreateRouteTableAction: Swift.Codable {
 
 extension FMSClientTypes {
     /// Information about the CreateRouteTable action in Amazon EC2.
-    public struct EC2CreateRouteTableAction: Swift.Equatable {
+    public struct EC2CreateRouteTableAction {
         /// A description of the CreateRouteTable action.
         public var description: Swift.String?
         /// Information about the ID of a VPC.
@@ -2540,7 +2540,7 @@ extension FMSClientTypes.EC2DeleteRouteAction: Swift.Codable {
 
 extension FMSClientTypes {
     /// Information about the DeleteRoute action in Amazon EC2.
-    public struct EC2DeleteRouteAction: Swift.Equatable {
+    public struct EC2DeleteRouteAction {
         /// A description of the DeleteRoute action.
         public var description: Swift.String?
         /// Information about the IPv4 CIDR range for the route. The value you specify must match the CIDR for the route exactly.
@@ -2622,7 +2622,7 @@ extension FMSClientTypes.EC2ReplaceRouteAction: Swift.Codable {
 
 extension FMSClientTypes {
     /// Information about the ReplaceRoute action in Amazon EC2.
-    public struct EC2ReplaceRouteAction: Swift.Equatable {
+    public struct EC2ReplaceRouteAction {
         /// A description of the ReplaceRoute action in Amazon EC2.
         public var description: Swift.String?
         /// Information about the IPv4 CIDR address block used for the destination match. The value that you provide must match the CIDR of an existing route in the table.
@@ -2690,7 +2690,7 @@ extension FMSClientTypes.EC2ReplaceRouteTableAssociationAction: Swift.Codable {
 
 extension FMSClientTypes {
     /// Information about the ReplaceRouteTableAssociation action in Amazon EC2.
-    public struct EC2ReplaceRouteTableAssociationAction: Swift.Equatable {
+    public struct EC2ReplaceRouteTableAssociationAction {
         /// Information about the association ID.
         /// This member is required.
         public var associationId: FMSClientTypes.ActionTarget?
@@ -2747,7 +2747,7 @@ extension FMSClientTypes.EvaluationResult: Swift.Codable {
 
 extension FMSClientTypes {
     /// Describes the compliance status for the account. An account is considered noncompliant if it includes resources that are not protected by the specified policy or that don't comply with the policy.
-    public struct EvaluationResult: Swift.Equatable {
+    public struct EvaluationResult {
         /// Describes an Amazon Web Services account's compliance with the Firewall Manager policy.
         public var complianceStatus: FMSClientTypes.PolicyComplianceStatusType?
         /// Indicates that over 100 resources are noncompliant with the Firewall Manager policy.
@@ -2844,7 +2844,7 @@ extension FMSClientTypes.ExpectedRoute: Swift.Codable {
 
 extension FMSClientTypes {
     /// Information about the expected route in the route table.
-    public struct ExpectedRoute: Swift.Equatable {
+    public struct ExpectedRoute {
         /// Information about the allowed targets.
         public var allowedTargets: [Swift.String]?
         /// Information about the contributing subnets.
@@ -2907,7 +2907,7 @@ extension FMSClientTypes.FMSPolicyUpdateFirewallCreationConfigAction: Swift.Coda
 
 extension FMSClientTypes {
     /// Contains information about the actions that you can take to remediate scope violations caused by your policy's FirewallCreationConfig. FirewallCreationConfig is an optional configuration that you can use to choose which Availability Zones Firewall Manager creates Network Firewall endpoints in.
-    public struct FMSPolicyUpdateFirewallCreationConfigAction: Swift.Equatable {
+    public struct FMSPolicyUpdateFirewallCreationConfigAction {
         /// Describes the remedial action.
         public var description: Swift.String?
         /// A FirewallCreationConfig that you can copy into your current policy's [SecurityServiceData](https://docs.aws.amazon.com/fms/2018-01-01/APIReference/API_SecurityServicePolicyData.html) in order to remedy scope violations.
@@ -2952,7 +2952,7 @@ extension FMSClientTypes.FailedItem: Swift.Codable {
 
 extension FMSClientTypes {
     /// Details of a resource that failed when trying to update it's association to a resource set.
-    public struct FailedItem: Swift.Equatable {
+    public struct FailedItem {
         /// The reason the resource's association could not be updated.
         public var reason: FMSClientTypes.FailedItemReason?
         /// The univeral resource indicator (URI) of the resource that failed.
@@ -3091,7 +3091,7 @@ extension FMSClientTypes.FirewallSubnetIsOutOfScopeViolation: Swift.Codable {
 
 extension FMSClientTypes {
     /// Contains details about the firewall subnet that violates the policy scope.
-    public struct FirewallSubnetIsOutOfScopeViolation: Swift.Equatable {
+    public struct FirewallSubnetIsOutOfScopeViolation {
         /// The ID of the firewall subnet that violates the policy scope.
         public var firewallSubnetId: Swift.String?
         /// The Availability Zone of the firewall subnet that violates the policy scope.
@@ -3160,7 +3160,7 @@ extension FMSClientTypes.FirewallSubnetMissingVPCEndpointViolation: Swift.Codabl
 
 extension FMSClientTypes {
     /// The violation details for a firewall subnet's VPC endpoint that's deleted or missing.
-    public struct FirewallSubnetMissingVPCEndpointViolation: Swift.Equatable {
+    public struct FirewallSubnetMissingVPCEndpointViolation {
         /// The ID of the firewall that this VPC endpoint is associated with.
         public var firewallSubnetId: Swift.String?
         /// The name of the Availability Zone of the deleted VPC subnet.
@@ -3201,12 +3201,12 @@ extension GetAdminAccountInput {
     }
 }
 
-public struct GetAdminAccountInput: Swift.Equatable {
+public struct GetAdminAccountInput {
 
     public init() { }
 }
 
-struct GetAdminAccountInputBody: Swift.Equatable {
+struct GetAdminAccountInputBody {
 }
 
 extension GetAdminAccountInputBody: Swift.Decodable {
@@ -3229,7 +3229,7 @@ extension GetAdminAccountOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAdminAccountOutput: Swift.Equatable {
+public struct GetAdminAccountOutput {
     /// The account that is set as the Firewall Manager default administrator.
     public var adminAccount: Swift.String?
     /// The status of the account that you set as the Firewall Manager default administrator.
@@ -3245,7 +3245,7 @@ public struct GetAdminAccountOutput: Swift.Equatable {
     }
 }
 
-struct GetAdminAccountOutputBody: Swift.Equatable {
+struct GetAdminAccountOutputBody {
     let adminAccount: Swift.String?
     let roleStatus: FMSClientTypes.AccountRoleStatus?
 }
@@ -3298,7 +3298,7 @@ extension GetAdminScopeInput {
     }
 }
 
-public struct GetAdminScopeInput: Swift.Equatable {
+public struct GetAdminScopeInput {
     /// The administator account that you want to get the details for.
     /// This member is required.
     public var adminAccount: Swift.String?
@@ -3311,7 +3311,7 @@ public struct GetAdminScopeInput: Swift.Equatable {
     }
 }
 
-struct GetAdminScopeInputBody: Swift.Equatable {
+struct GetAdminScopeInputBody {
     let adminAccount: Swift.String?
 }
 
@@ -3341,7 +3341,7 @@ extension GetAdminScopeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAdminScopeOutput: Swift.Equatable {
+public struct GetAdminScopeOutput {
     /// Contains details about the administrative scope of the requested account.
     public var adminScope: FMSClientTypes.AdminScope?
     /// The current status of the request to onboard a member account as an Firewall Manager administator.
@@ -3365,7 +3365,7 @@ public struct GetAdminScopeOutput: Swift.Equatable {
     }
 }
 
-struct GetAdminScopeOutputBody: Swift.Equatable {
+struct GetAdminScopeOutputBody {
     let adminScope: FMSClientTypes.AdminScope?
     let status: FMSClientTypes.OrganizationStatus?
 }
@@ -3424,7 +3424,7 @@ extension GetAppsListInput {
     }
 }
 
-public struct GetAppsListInput: Swift.Equatable {
+public struct GetAppsListInput {
     /// Specifies whether the list to retrieve is a default list owned by Firewall Manager.
     public var defaultList: Swift.Bool?
     /// The ID of the Firewall Manager applications list that you want the details for.
@@ -3441,7 +3441,7 @@ public struct GetAppsListInput: Swift.Equatable {
     }
 }
 
-struct GetAppsListInputBody: Swift.Equatable {
+struct GetAppsListInputBody {
     let listId: Swift.String?
     let defaultList: Swift.Bool?
 }
@@ -3475,7 +3475,7 @@ extension GetAppsListOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAppsListOutput: Swift.Equatable {
+public struct GetAppsListOutput {
     /// Information about the specified Firewall Manager applications list.
     public var appsList: FMSClientTypes.AppsListData?
     /// The Amazon Resource Name (ARN) of the applications list.
@@ -3491,7 +3491,7 @@ public struct GetAppsListOutput: Swift.Equatable {
     }
 }
 
-struct GetAppsListOutputBody: Swift.Equatable {
+struct GetAppsListOutputBody {
     let appsList: FMSClientTypes.AppsListData?
     let appsListArn: Swift.String?
 }
@@ -3548,7 +3548,7 @@ extension GetComplianceDetailInput {
     }
 }
 
-public struct GetComplianceDetailInput: Swift.Equatable {
+public struct GetComplianceDetailInput {
     /// The Amazon Web Services account that owns the resources that you want to get the details for.
     /// This member is required.
     public var memberAccount: Swift.String?
@@ -3566,7 +3566,7 @@ public struct GetComplianceDetailInput: Swift.Equatable {
     }
 }
 
-struct GetComplianceDetailInputBody: Swift.Equatable {
+struct GetComplianceDetailInputBody {
     let policyId: Swift.String?
     let memberAccount: Swift.String?
 }
@@ -3598,7 +3598,7 @@ extension GetComplianceDetailOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetComplianceDetailOutput: Swift.Equatable {
+public struct GetComplianceDetailOutput {
     /// Information about the resources and the policy that you specified in the GetComplianceDetail request.
     public var policyComplianceDetail: FMSClientTypes.PolicyComplianceDetail?
 
@@ -3610,7 +3610,7 @@ public struct GetComplianceDetailOutput: Swift.Equatable {
     }
 }
 
-struct GetComplianceDetailOutputBody: Swift.Equatable {
+struct GetComplianceDetailOutputBody {
     let policyComplianceDetail: FMSClientTypes.PolicyComplianceDetail?
 }
 
@@ -3655,12 +3655,12 @@ extension GetNotificationChannelInput {
     }
 }
 
-public struct GetNotificationChannelInput: Swift.Equatable {
+public struct GetNotificationChannelInput {
 
     public init() { }
 }
 
-struct GetNotificationChannelInputBody: Swift.Equatable {
+struct GetNotificationChannelInputBody {
 }
 
 extension GetNotificationChannelInputBody: Swift.Decodable {
@@ -3683,7 +3683,7 @@ extension GetNotificationChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetNotificationChannelOutput: Swift.Equatable {
+public struct GetNotificationChannelOutput {
     /// The IAM role that is used by Firewall Manager to record activity to SNS.
     public var snsRoleName: Swift.String?
     /// The SNS topic that records Firewall Manager activity.
@@ -3699,7 +3699,7 @@ public struct GetNotificationChannelOutput: Swift.Equatable {
     }
 }
 
-struct GetNotificationChannelOutputBody: Swift.Equatable {
+struct GetNotificationChannelOutputBody {
     let snsTopicArn: Swift.String?
     let snsRoleName: Swift.String?
 }
@@ -3752,7 +3752,7 @@ extension GetPolicyInput {
     }
 }
 
-public struct GetPolicyInput: Swift.Equatable {
+public struct GetPolicyInput {
     /// The ID of the Firewall Manager policy that you want the details for.
     /// This member is required.
     public var policyId: Swift.String?
@@ -3765,7 +3765,7 @@ public struct GetPolicyInput: Swift.Equatable {
     }
 }
 
-struct GetPolicyInputBody: Swift.Equatable {
+struct GetPolicyInputBody {
     let policyId: Swift.String?
 }
 
@@ -3795,7 +3795,7 @@ extension GetPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPolicyOutput: Swift.Equatable {
+public struct GetPolicyOutput {
     /// Information about the specified Firewall Manager policy.
     public var policy: FMSClientTypes.Policy?
     /// The Amazon Resource Name (ARN) of the specified policy.
@@ -3811,7 +3811,7 @@ public struct GetPolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetPolicyOutputBody: Swift.Equatable {
+struct GetPolicyOutputBody {
     let policy: FMSClientTypes.Policy?
     let policyArn: Swift.String?
 }
@@ -3885,7 +3885,7 @@ extension GetProtectionStatusInput {
     }
 }
 
-public struct GetProtectionStatusInput: Swift.Equatable {
+public struct GetProtectionStatusInput {
     /// The end of the time period to query for the attacks. This is a timestamp type. The request syntax listing indicates a number type because the default used by Firewall Manager is Unix time in seconds. However, any valid timestamp format is allowed.
     public var endTime: ClientRuntime.Date?
     /// Specifies the number of objects that you want Firewall Manager to return for this request. If you have more objects than the number that you specify for MaxResults, the response includes a NextToken value that you can use to get another batch of objects.
@@ -3918,7 +3918,7 @@ public struct GetProtectionStatusInput: Swift.Equatable {
     }
 }
 
-struct GetProtectionStatusInputBody: Swift.Equatable {
+struct GetProtectionStatusInputBody {
     let policyId: Swift.String?
     let memberAccountId: Swift.String?
     let startTime: ClientRuntime.Date?
@@ -3972,7 +3972,7 @@ extension GetProtectionStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetProtectionStatusOutput: Swift.Equatable {
+public struct GetProtectionStatusOutput {
     /// The ID of the Firewall Manager administrator account for this policy.
     public var adminAccountId: Swift.String?
     /// Details about the attack, including the following:
@@ -4009,7 +4009,7 @@ public struct GetProtectionStatusOutput: Swift.Equatable {
     }
 }
 
-struct GetProtectionStatusOutputBody: Swift.Equatable {
+struct GetProtectionStatusOutputBody {
     let adminAccountId: Swift.String?
     let serviceType: FMSClientTypes.SecurityServiceType?
     let data: Swift.String?
@@ -4074,7 +4074,7 @@ extension GetProtocolsListInput {
     }
 }
 
-public struct GetProtocolsListInput: Swift.Equatable {
+public struct GetProtocolsListInput {
     /// Specifies whether the list to retrieve is a default list owned by Firewall Manager.
     public var defaultList: Swift.Bool?
     /// The ID of the Firewall Manager protocols list that you want the details for.
@@ -4091,7 +4091,7 @@ public struct GetProtocolsListInput: Swift.Equatable {
     }
 }
 
-struct GetProtocolsListInputBody: Swift.Equatable {
+struct GetProtocolsListInputBody {
     let listId: Swift.String?
     let defaultList: Swift.Bool?
 }
@@ -4125,7 +4125,7 @@ extension GetProtocolsListOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetProtocolsListOutput: Swift.Equatable {
+public struct GetProtocolsListOutput {
     /// Information about the specified Firewall Manager protocols list.
     public var protocolsList: FMSClientTypes.ProtocolsListData?
     /// The Amazon Resource Name (ARN) of the specified protocols list.
@@ -4141,7 +4141,7 @@ public struct GetProtocolsListOutput: Swift.Equatable {
     }
 }
 
-struct GetProtocolsListOutputBody: Swift.Equatable {
+struct GetProtocolsListOutputBody {
     let protocolsList: FMSClientTypes.ProtocolsListData?
     let protocolsListArn: Swift.String?
 }
@@ -4194,7 +4194,7 @@ extension GetResourceSetInput {
     }
 }
 
-public struct GetResourceSetInput: Swift.Equatable {
+public struct GetResourceSetInput {
     /// A unique identifier for the resource set, used in a request to refer to the resource set.
     /// This member is required.
     public var identifier: Swift.String?
@@ -4207,7 +4207,7 @@ public struct GetResourceSetInput: Swift.Equatable {
     }
 }
 
-struct GetResourceSetInputBody: Swift.Equatable {
+struct GetResourceSetInputBody {
     let identifier: Swift.String?
 }
 
@@ -4237,7 +4237,7 @@ extension GetResourceSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetResourceSetOutput: Swift.Equatable {
+public struct GetResourceSetOutput {
     /// Information about the specified resource set.
     /// This member is required.
     public var resourceSet: FMSClientTypes.ResourceSet?
@@ -4255,7 +4255,7 @@ public struct GetResourceSetOutput: Swift.Equatable {
     }
 }
 
-struct GetResourceSetOutputBody: Swift.Equatable {
+struct GetResourceSetOutputBody {
     let resourceSet: FMSClientTypes.ResourceSet?
     let resourceSetArn: Swift.String?
 }
@@ -4309,7 +4309,7 @@ extension GetThirdPartyFirewallAssociationStatusInput {
     }
 }
 
-public struct GetThirdPartyFirewallAssociationStatusInput: Swift.Equatable {
+public struct GetThirdPartyFirewallAssociationStatusInput {
     /// The name of the third-party firewall vendor.
     /// This member is required.
     public var thirdPartyFirewall: FMSClientTypes.ThirdPartyFirewall?
@@ -4322,7 +4322,7 @@ public struct GetThirdPartyFirewallAssociationStatusInput: Swift.Equatable {
     }
 }
 
-struct GetThirdPartyFirewallAssociationStatusInputBody: Swift.Equatable {
+struct GetThirdPartyFirewallAssociationStatusInputBody {
     let thirdPartyFirewall: FMSClientTypes.ThirdPartyFirewall?
 }
 
@@ -4352,7 +4352,7 @@ extension GetThirdPartyFirewallAssociationStatusOutput: ClientRuntime.HttpRespon
     }
 }
 
-public struct GetThirdPartyFirewallAssociationStatusOutput: Swift.Equatable {
+public struct GetThirdPartyFirewallAssociationStatusOutput {
     /// The status for subscribing to the third-party firewall vendor in the Amazon Web Services Marketplace.
     ///
     /// * NO_SUBSCRIPTION - The Firewall Manager policy administrator isn't subscribed to the third-party firewall service in the Amazon Web Services Marketplace.
@@ -4384,7 +4384,7 @@ public struct GetThirdPartyFirewallAssociationStatusOutput: Swift.Equatable {
     }
 }
 
-struct GetThirdPartyFirewallAssociationStatusOutputBody: Swift.Equatable {
+struct GetThirdPartyFirewallAssociationStatusOutputBody {
     let thirdPartyFirewallStatus: FMSClientTypes.ThirdPartyFirewallAssociationStatus?
     let marketplaceOnboardingStatus: FMSClientTypes.MarketplaceSubscriptionOnboardingStatus?
 }
@@ -4450,7 +4450,7 @@ extension GetViolationDetailsInput {
     }
 }
 
-public struct GetViolationDetailsInput: Swift.Equatable {
+public struct GetViolationDetailsInput {
     /// The Amazon Web Services account ID that you want the details for.
     /// This member is required.
     public var memberAccount: Swift.String?
@@ -4488,7 +4488,7 @@ public struct GetViolationDetailsInput: Swift.Equatable {
     }
 }
 
-struct GetViolationDetailsInputBody: Swift.Equatable {
+struct GetViolationDetailsInputBody {
     let policyId: Swift.String?
     let memberAccount: Swift.String?
     let resourceId: Swift.String?
@@ -4528,7 +4528,7 @@ extension GetViolationDetailsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetViolationDetailsOutput: Swift.Equatable {
+public struct GetViolationDetailsOutput {
     /// Violation detail for a resource.
     public var violationDetail: FMSClientTypes.ViolationDetail?
 
@@ -4540,7 +4540,7 @@ public struct GetViolationDetailsOutput: Swift.Equatable {
     }
 }
 
-struct GetViolationDetailsOutputBody: Swift.Equatable {
+struct GetViolationDetailsOutputBody {
     let violationDetail: FMSClientTypes.ViolationDetail?
 }
 
@@ -4608,7 +4608,7 @@ public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct InternalErrorExceptionBody: Swift.Equatable {
+struct InternalErrorExceptionBody {
     let message: Swift.String?
 }
 
@@ -4663,7 +4663,7 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct InvalidInputExceptionBody: Swift.Equatable {
+struct InvalidInputExceptionBody {
     let message: Swift.String?
 }
 
@@ -4718,7 +4718,7 @@ public struct InvalidOperationException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidOperationExceptionBody: Swift.Equatable {
+struct InvalidOperationExceptionBody {
     let message: Swift.String?
 }
 
@@ -4773,7 +4773,7 @@ public struct InvalidTypeException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct InvalidTypeExceptionBody: Swift.Equatable {
+struct InvalidTypeExceptionBody {
     let message: Swift.String?
 }
 
@@ -4828,7 +4828,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -4868,7 +4868,7 @@ extension ListAdminAccountsForOrganizationInput {
     }
 }
 
-public struct ListAdminAccountsForOrganizationInput: Swift.Equatable {
+public struct ListAdminAccountsForOrganizationInput {
     /// The maximum number of objects that you want Firewall Manager to return for this request. If more objects are available, in the response, Firewall Manager provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
     public var maxResults: Swift.Int?
     /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Firewall Manager returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
@@ -4884,7 +4884,7 @@ public struct ListAdminAccountsForOrganizationInput: Swift.Equatable {
     }
 }
 
-struct ListAdminAccountsForOrganizationInputBody: Swift.Equatable {
+struct ListAdminAccountsForOrganizationInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -4918,7 +4918,7 @@ extension ListAdminAccountsForOrganizationOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct ListAdminAccountsForOrganizationOutput: Swift.Equatable {
+public struct ListAdminAccountsForOrganizationOutput {
     /// A list of Firewall Manager administrator accounts within the organization that were onboarded as administrators by [AssociateAdminAccount] or [PutAdminAccount].
     public var adminAccounts: [FMSClientTypes.AdminAccountSummary]?
     /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Firewall Manager returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
@@ -4934,7 +4934,7 @@ public struct ListAdminAccountsForOrganizationOutput: Swift.Equatable {
     }
 }
 
-struct ListAdminAccountsForOrganizationOutputBody: Swift.Equatable {
+struct ListAdminAccountsForOrganizationOutputBody {
     let adminAccounts: [FMSClientTypes.AdminAccountSummary]?
     let nextToken: Swift.String?
 }
@@ -5001,7 +5001,7 @@ extension ListAdminsManagingAccountInput {
     }
 }
 
-public struct ListAdminsManagingAccountInput: Swift.Equatable {
+public struct ListAdminsManagingAccountInput {
     /// The maximum number of objects that you want Firewall Manager to return for this request. If more objects are available, in the response, Firewall Manager provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
     public var maxResults: Swift.Int?
     /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Firewall Manager returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
@@ -5017,7 +5017,7 @@ public struct ListAdminsManagingAccountInput: Swift.Equatable {
     }
 }
 
-struct ListAdminsManagingAccountInputBody: Swift.Equatable {
+struct ListAdminsManagingAccountInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -5051,7 +5051,7 @@ extension ListAdminsManagingAccountOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAdminsManagingAccountOutput: Swift.Equatable {
+public struct ListAdminsManagingAccountOutput {
     /// The list of accounts who manage member accounts within their [AdminScope].
     public var adminAccounts: [Swift.String]?
     /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Firewall Manager returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
@@ -5067,7 +5067,7 @@ public struct ListAdminsManagingAccountOutput: Swift.Equatable {
     }
 }
 
-struct ListAdminsManagingAccountOutputBody: Swift.Equatable {
+struct ListAdminsManagingAccountOutputBody {
     let adminAccounts: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -5137,7 +5137,7 @@ extension ListAppsListsInput {
     }
 }
 
-public struct ListAppsListsInput: Swift.Equatable {
+public struct ListAppsListsInput {
     /// Specifies whether the lists to retrieve are default lists owned by Firewall Manager.
     public var defaultLists: Swift.Bool?
     /// The maximum number of objects that you want Firewall Manager to return for this request. If more objects are available, in the response, Firewall Manager provides a NextToken value that you can use in a subsequent call to get the next batch of objects. If you don't specify this, Firewall Manager returns all available objects.
@@ -5158,7 +5158,7 @@ public struct ListAppsListsInput: Swift.Equatable {
     }
 }
 
-struct ListAppsListsInputBody: Swift.Equatable {
+struct ListAppsListsInputBody {
     let defaultLists: Swift.Bool?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -5196,7 +5196,7 @@ extension ListAppsListsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAppsListsOutput: Swift.Equatable {
+public struct ListAppsListsOutput {
     /// An array of AppsListDataSummary objects.
     public var appsLists: [FMSClientTypes.AppsListDataSummary]?
     /// If you specify a value for MaxResults in your list request, and you have more objects than the maximum, Firewall Manager returns this token in the response. You can use this token in subsequent requests to retrieve the next batch of objects.
@@ -5212,7 +5212,7 @@ public struct ListAppsListsOutput: Swift.Equatable {
     }
 }
 
-struct ListAppsListsOutputBody: Swift.Equatable {
+struct ListAppsListsOutputBody {
     let appsLists: [FMSClientTypes.AppsListDataSummary]?
     let nextToken: Swift.String?
 }
@@ -5283,7 +5283,7 @@ extension ListComplianceStatusInput {
     }
 }
 
-public struct ListComplianceStatusInput: Swift.Equatable {
+public struct ListComplianceStatusInput {
     /// Specifies the number of PolicyComplianceStatus objects that you want Firewall Manager to return for this request. If you have more PolicyComplianceStatus objects than the number that you specify for MaxResults, the response includes a NextToken value that you can use to get another batch of PolicyComplianceStatus objects.
     public var maxResults: Swift.Int?
     /// If you specify a value for MaxResults and you have more PolicyComplianceStatus objects than the number that you specify for MaxResults, Firewall Manager returns a NextToken value in the response that allows you to list another group of PolicyComplianceStatus objects. For the second and subsequent ListComplianceStatus requests, specify the value of NextToken from the previous response to get information about another batch of PolicyComplianceStatus objects.
@@ -5304,7 +5304,7 @@ public struct ListComplianceStatusInput: Swift.Equatable {
     }
 }
 
-struct ListComplianceStatusInputBody: Swift.Equatable {
+struct ListComplianceStatusInputBody {
     let policyId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -5342,7 +5342,7 @@ extension ListComplianceStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListComplianceStatusOutput: Swift.Equatable {
+public struct ListComplianceStatusOutput {
     /// If you have more PolicyComplianceStatus objects than the number that you specified for MaxResults in the request, the response includes a NextToken value. To list more PolicyComplianceStatus objects, submit another ListComplianceStatus request, and specify the NextToken value from the response in the NextToken value in the next request.
     public var nextToken: Swift.String?
     /// An array of PolicyComplianceStatus objects.
@@ -5358,7 +5358,7 @@ public struct ListComplianceStatusOutput: Swift.Equatable {
     }
 }
 
-struct ListComplianceStatusOutputBody: Swift.Equatable {
+struct ListComplianceStatusOutputBody {
     let policyComplianceStatusList: [FMSClientTypes.PolicyComplianceStatus]?
     let nextToken: Swift.String?
 }
@@ -5434,7 +5434,7 @@ extension ListDiscoveredResourcesInput {
     }
 }
 
-public struct ListDiscoveredResourcesInput: Swift.Equatable {
+public struct ListDiscoveredResourcesInput {
     /// The maximum number of objects that you want Firewall Manager to return for this request. If more objects are available, in the response, Firewall Manager provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
     public var maxResults: Swift.Int?
     /// The Amazon Web Services account IDs to discover resources in. Only one account is supported per request. The account must be a member of your organization.
@@ -5460,7 +5460,7 @@ public struct ListDiscoveredResourcesInput: Swift.Equatable {
     }
 }
 
-struct ListDiscoveredResourcesInputBody: Swift.Equatable {
+struct ListDiscoveredResourcesInputBody {
     let memberAccountIds: [Swift.String]?
     let resourceType: Swift.String?
     let maxResults: Swift.Int?
@@ -5511,7 +5511,7 @@ extension ListDiscoveredResourcesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDiscoveredResourcesOutput: Swift.Equatable {
+public struct ListDiscoveredResourcesOutput {
     /// Details of the resources that were discovered.
     public var items: [FMSClientTypes.DiscoveredResource]?
     /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Firewall Manager returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
@@ -5527,7 +5527,7 @@ public struct ListDiscoveredResourcesOutput: Swift.Equatable {
     }
 }
 
-struct ListDiscoveredResourcesOutputBody: Swift.Equatable {
+struct ListDiscoveredResourcesOutputBody {
     let items: [FMSClientTypes.DiscoveredResource]?
     let nextToken: Swift.String?
 }
@@ -5593,7 +5593,7 @@ extension ListMemberAccountsInput {
     }
 }
 
-public struct ListMemberAccountsInput: Swift.Equatable {
+public struct ListMemberAccountsInput {
     /// Specifies the number of member account IDs that you want Firewall Manager to return for this request. If you have more IDs than the number that you specify for MaxResults, the response includes a NextToken value that you can use to get another batch of member account IDs.
     public var maxResults: Swift.Int?
     /// If you specify a value for MaxResults and you have more account IDs than the number that you specify for MaxResults, Firewall Manager returns a NextToken value in the response that allows you to list another group of IDs. For the second and subsequent ListMemberAccountsRequest requests, specify the value of NextToken from the previous response to get information about another batch of member account IDs.
@@ -5609,7 +5609,7 @@ public struct ListMemberAccountsInput: Swift.Equatable {
     }
 }
 
-struct ListMemberAccountsInputBody: Swift.Equatable {
+struct ListMemberAccountsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -5643,7 +5643,7 @@ extension ListMemberAccountsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMemberAccountsOutput: Swift.Equatable {
+public struct ListMemberAccountsOutput {
     /// An array of account IDs.
     public var memberAccounts: [Swift.String]?
     /// If you have more member account IDs than the number that you specified for MaxResults in the request, the response includes a NextToken value. To list more IDs, submit another ListMemberAccounts request, and specify the NextToken value from the response in the NextToken value in the next request.
@@ -5659,7 +5659,7 @@ public struct ListMemberAccountsOutput: Swift.Equatable {
     }
 }
 
-struct ListMemberAccountsOutputBody: Swift.Equatable {
+struct ListMemberAccountsOutputBody {
     let memberAccounts: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -5724,7 +5724,7 @@ extension ListPoliciesInput {
     }
 }
 
-public struct ListPoliciesInput: Swift.Equatable {
+public struct ListPoliciesInput {
     /// Specifies the number of PolicySummary objects that you want Firewall Manager to return for this request. If you have more PolicySummary objects than the number that you specify for MaxResults, the response includes a NextToken value that you can use to get another batch of PolicySummary objects.
     public var maxResults: Swift.Int?
     /// If you specify a value for MaxResults and you have more PolicySummary objects than the number that you specify for MaxResults, Firewall Manager returns a NextToken value in the response that allows you to list another group of PolicySummary objects. For the second and subsequent ListPolicies requests, specify the value of NextToken from the previous response to get information about another batch of PolicySummary objects.
@@ -5740,7 +5740,7 @@ public struct ListPoliciesInput: Swift.Equatable {
     }
 }
 
-struct ListPoliciesInputBody: Swift.Equatable {
+struct ListPoliciesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -5774,7 +5774,7 @@ extension ListPoliciesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPoliciesOutput: Swift.Equatable {
+public struct ListPoliciesOutput {
     /// If you have more PolicySummary objects than the number that you specified for MaxResults in the request, the response includes a NextToken value. To list more PolicySummary objects, submit another ListPolicies request, and specify the NextToken value from the response in the NextToken value in the next request.
     public var nextToken: Swift.String?
     /// An array of PolicySummary objects.
@@ -5790,7 +5790,7 @@ public struct ListPoliciesOutput: Swift.Equatable {
     }
 }
 
-struct ListPoliciesOutputBody: Swift.Equatable {
+struct ListPoliciesOutputBody {
     let policyList: [FMSClientTypes.PolicySummary]?
     let nextToken: Swift.String?
 }
@@ -5861,7 +5861,7 @@ extension ListProtocolsListsInput {
     }
 }
 
-public struct ListProtocolsListsInput: Swift.Equatable {
+public struct ListProtocolsListsInput {
     /// Specifies whether the lists to retrieve are default lists owned by Firewall Manager.
     public var defaultLists: Swift.Bool?
     /// The maximum number of objects that you want Firewall Manager to return for this request. If more objects are available, in the response, Firewall Manager provides a NextToken value that you can use in a subsequent call to get the next batch of objects. If you don't specify this, Firewall Manager returns all available objects.
@@ -5882,7 +5882,7 @@ public struct ListProtocolsListsInput: Swift.Equatable {
     }
 }
 
-struct ListProtocolsListsInputBody: Swift.Equatable {
+struct ListProtocolsListsInputBody {
     let defaultLists: Swift.Bool?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -5920,7 +5920,7 @@ extension ListProtocolsListsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListProtocolsListsOutput: Swift.Equatable {
+public struct ListProtocolsListsOutput {
     /// If you specify a value for MaxResults in your list request, and you have more objects than the maximum, Firewall Manager returns this token in the response. You can use this token in subsequent requests to retrieve the next batch of objects.
     public var nextToken: Swift.String?
     /// An array of ProtocolsListDataSummary objects.
@@ -5936,7 +5936,7 @@ public struct ListProtocolsListsOutput: Swift.Equatable {
     }
 }
 
-struct ListProtocolsListsOutputBody: Swift.Equatable {
+struct ListProtocolsListsOutputBody {
     let protocolsLists: [FMSClientTypes.ProtocolsListDataSummary]?
     let nextToken: Swift.String?
 }
@@ -6006,7 +6006,7 @@ extension ListResourceSetResourcesInput {
     }
 }
 
-public struct ListResourceSetResourcesInput: Swift.Equatable {
+public struct ListResourceSetResourcesInput {
     /// A unique identifier for the resource set, used in a request to refer to the resource set.
     /// This member is required.
     public var identifier: Swift.String?
@@ -6027,7 +6027,7 @@ public struct ListResourceSetResourcesInput: Swift.Equatable {
     }
 }
 
-struct ListResourceSetResourcesInputBody: Swift.Equatable {
+struct ListResourceSetResourcesInputBody {
     let identifier: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -6065,7 +6065,7 @@ extension ListResourceSetResourcesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListResourceSetResourcesOutput: Swift.Equatable {
+public struct ListResourceSetResourcesOutput {
     /// An array of the associated resources' uniform resource identifiers (URI).
     /// This member is required.
     public var items: [FMSClientTypes.Resource]?
@@ -6082,7 +6082,7 @@ public struct ListResourceSetResourcesOutput: Swift.Equatable {
     }
 }
 
-struct ListResourceSetResourcesOutputBody: Swift.Equatable {
+struct ListResourceSetResourcesOutputBody {
     let items: [FMSClientTypes.Resource]?
     let nextToken: Swift.String?
 }
@@ -6149,7 +6149,7 @@ extension ListResourceSetsInput {
     }
 }
 
-public struct ListResourceSetsInput: Swift.Equatable {
+public struct ListResourceSetsInput {
     /// The maximum number of objects that you want Firewall Manager to return for this request. If more objects are available, in the response, Firewall Manager provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
     public var maxResults: Swift.Int?
     /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Firewall Manager returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
@@ -6165,7 +6165,7 @@ public struct ListResourceSetsInput: Swift.Equatable {
     }
 }
 
-struct ListResourceSetsInputBody: Swift.Equatable {
+struct ListResourceSetsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -6199,7 +6199,7 @@ extension ListResourceSetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListResourceSetsOutput: Swift.Equatable {
+public struct ListResourceSetsOutput {
     /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Firewall Manager returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
     public var nextToken: Swift.String?
     /// An array of ResourceSetSummary objects.
@@ -6215,7 +6215,7 @@ public struct ListResourceSetsOutput: Swift.Equatable {
     }
 }
 
-struct ListResourceSetsOutputBody: Swift.Equatable {
+struct ListResourceSetsOutputBody {
     let resourceSets: [FMSClientTypes.ResourceSetSummary]?
     let nextToken: Swift.String?
 }
@@ -6277,7 +6277,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource to return tags for. The Firewall Manager resources that support tagging are policies, applications lists, and protocols lists.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -6290,7 +6290,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -6318,7 +6318,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The tags associated with the resource.
     public var tagList: [FMSClientTypes.Tag]?
 
@@ -6330,7 +6330,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tagList: [FMSClientTypes.Tag]?
 }
 
@@ -6397,7 +6397,7 @@ extension ListThirdPartyFirewallFirewallPoliciesInput {
     }
 }
 
-public struct ListThirdPartyFirewallFirewallPoliciesInput: Swift.Equatable {
+public struct ListThirdPartyFirewallFirewallPoliciesInput {
     /// The maximum number of third-party firewall policies that you want Firewall Manager to return. If the specified third-party firewall vendor is associated with more than MaxResults firewall policies, the response includes a NextToken element. NextToken contains an encrypted token that identifies the first third-party firewall policies that Firewall Manager will return if you submit another request.
     /// This member is required.
     public var maxResults: Swift.Int?
@@ -6419,7 +6419,7 @@ public struct ListThirdPartyFirewallFirewallPoliciesInput: Swift.Equatable {
     }
 }
 
-struct ListThirdPartyFirewallFirewallPoliciesInputBody: Swift.Equatable {
+struct ListThirdPartyFirewallFirewallPoliciesInputBody {
     let thirdPartyFirewall: FMSClientTypes.ThirdPartyFirewall?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -6457,7 +6457,7 @@ extension ListThirdPartyFirewallFirewallPoliciesOutput: ClientRuntime.HttpRespon
     }
 }
 
-public struct ListThirdPartyFirewallFirewallPoliciesOutput: Swift.Equatable {
+public struct ListThirdPartyFirewallFirewallPoliciesOutput {
     /// The value that you will use for NextToken in the next ListThirdPartyFirewallFirewallPolicies request.
     public var nextToken: Swift.String?
     /// A list that contains one ThirdPartyFirewallFirewallPolicies element for each third-party firewall policies that the specified third-party firewall vendor is associated with. Each ThirdPartyFirewallFirewallPolicies element contains the firewall policy name and ID.
@@ -6473,7 +6473,7 @@ public struct ListThirdPartyFirewallFirewallPoliciesOutput: Swift.Equatable {
     }
 }
 
-struct ListThirdPartyFirewallFirewallPoliciesOutputBody: Swift.Equatable {
+struct ListThirdPartyFirewallFirewallPoliciesOutputBody {
     let thirdPartyFirewallFirewallPolicies: [FMSClientTypes.ThirdPartyFirewallFirewallPolicy]?
     let nextToken: Swift.String?
 }
@@ -6602,7 +6602,7 @@ extension FMSClientTypes.NetworkFirewallBlackHoleRouteDetectedViolation: Swift.C
 
 extension FMSClientTypes {
     /// Violation detail for an internet gateway route with an inactive state in the customer subnet route table or Network Firewall subnet route table.
-    public struct NetworkFirewallBlackHoleRouteDetectedViolation: Swift.Equatable {
+    public struct NetworkFirewallBlackHoleRouteDetectedViolation {
         /// Information about the route table ID.
         public var routeTableId: Swift.String?
         /// Information about the route or routes that are in violation.
@@ -6793,7 +6793,7 @@ extension FMSClientTypes.NetworkFirewallInternetTrafficNotInspectedViolation: Sw
 
 extension FMSClientTypes {
     /// Violation detail for the subnet for which internet traffic that hasn't been inspected.
-    public struct NetworkFirewallInternetTrafficNotInspectedViolation: Swift.Equatable {
+    public struct NetworkFirewallInternetTrafficNotInspectedViolation {
         /// The actual firewall subnet routes.
         public var actualFirewallSubnetRoutes: [FMSClientTypes.Route]?
         /// The actual internet gateway routes.
@@ -7034,7 +7034,7 @@ extension FMSClientTypes.NetworkFirewallInvalidRouteConfigurationViolation: Swif
 
 extension FMSClientTypes {
     /// Violation detail for the improperly configured subnet route. It's possible there is a missing route table route, or a configuration that causes traffic to cross an Availability Zone boundary.
-    public struct NetworkFirewallInvalidRouteConfigurationViolation: Swift.Equatable {
+    public struct NetworkFirewallInvalidRouteConfigurationViolation {
         /// The actual firewall endpoint.
         public var actualFirewallEndpoint: Swift.String?
         /// The actual subnet ID for the firewall.
@@ -7153,7 +7153,7 @@ extension FMSClientTypes.NetworkFirewallMissingExpectedRTViolation: Swift.Codabl
 
 extension FMSClientTypes {
     /// Violation detail for Network Firewall for a subnet that's not associated to the expected Firewall Manager managed route table.
-    public struct NetworkFirewallMissingExpectedRTViolation: Swift.Equatable {
+    public struct NetworkFirewallMissingExpectedRTViolation {
         /// The Availability Zone of a violating subnet.
         public var availabilityZone: Swift.String?
         /// The resource ID of the current route table that's associated with the subnet, if one is available.
@@ -7228,7 +7228,7 @@ extension FMSClientTypes.NetworkFirewallMissingExpectedRoutesViolation: Swift.Co
 
 extension FMSClientTypes {
     /// Violation detail for an expected route missing in Network Firewall.
-    public struct NetworkFirewallMissingExpectedRoutesViolation: Swift.Equatable {
+    public struct NetworkFirewallMissingExpectedRoutesViolation {
         /// The expected routes.
         public var expectedRoutes: [FMSClientTypes.ExpectedRoute]?
         /// The target of the violation.
@@ -7289,7 +7289,7 @@ extension FMSClientTypes.NetworkFirewallMissingFirewallViolation: Swift.Codable 
 
 extension FMSClientTypes {
     /// Violation detail for Network Firewall for a subnet that doesn't have a Firewall Manager managed firewall in its VPC.
-    public struct NetworkFirewallMissingFirewallViolation: Swift.Equatable {
+    public struct NetworkFirewallMissingFirewallViolation {
         /// The Availability Zone of a violating subnet.
         public var availabilityZone: Swift.String?
         /// The reason the resource has this violation, if one is available.
@@ -7354,7 +7354,7 @@ extension FMSClientTypes.NetworkFirewallMissingSubnetViolation: Swift.Codable {
 
 extension FMSClientTypes {
     /// Violation detail for Network Firewall for an Availability Zone that's missing the expected Firewall Manager managed subnet.
-    public struct NetworkFirewallMissingSubnetViolation: Swift.Equatable {
+    public struct NetworkFirewallMissingSubnetViolation {
         /// The Availability Zone of a violating subnet.
         public var availabilityZone: Swift.String?
         /// The reason the resource has this violation, if one is available.
@@ -7430,7 +7430,7 @@ extension FMSClientTypes.NetworkFirewallPolicy: Swift.Codable {
 
 extension FMSClientTypes {
     /// Configures the firewall policy deployment model of Network Firewall. For information about Network Firewall deployment models, see [Network Firewall example architectures with routing](https://docs.aws.amazon.com/network-firewall/latest/developerguide/architectures.html) in the Network Firewall Developer Guide.
-    public struct NetworkFirewallPolicy: Swift.Equatable {
+    public struct NetworkFirewallPolicy {
         /// Defines the deployment model to use for the firewall policy. To use a distributed model, set [PolicyOption](https://docs.aws.amazon.com/fms/2018-01-01/APIReference/API_PolicyOption.html) to NULL.
         public var firewallDeploymentModel: FMSClientTypes.FirewallDeploymentModel?
 
@@ -7573,7 +7573,7 @@ extension FMSClientTypes.NetworkFirewallPolicyDescription: Swift.Codable {
 
 extension FMSClientTypes {
     /// The definition of the Network Firewall firewall policy.
-    public struct NetworkFirewallPolicyDescription: Swift.Equatable {
+    public struct NetworkFirewallPolicyDescription {
         /// The default actions to take on a packet that doesn't match any stateful rules. The stateful default action is optional, and is only valid when using the strict rule order. Valid values of the stateful default action:
         ///
         /// * aws:drop_strict
@@ -7652,7 +7652,7 @@ extension FMSClientTypes.NetworkFirewallPolicyModifiedViolation: Swift.Codable {
 
 extension FMSClientTypes {
     /// Violation detail for Network Firewall for a firewall policy that has a different [NetworkFirewallPolicyDescription] than is required by the Firewall Manager policy.
-    public struct NetworkFirewallPolicyModifiedViolation: Swift.Equatable {
+    public struct NetworkFirewallPolicyModifiedViolation {
         /// The policy that's currently in use in the individual account.
         public var currentPolicyDescription: FMSClientTypes.NetworkFirewallPolicyDescription?
         /// The policy that should be in use in the individual account in order to be compliant.
@@ -7695,7 +7695,7 @@ extension FMSClientTypes.NetworkFirewallStatefulRuleGroupOverride: Swift.Codable
 
 extension FMSClientTypes {
     /// The setting that allows the policy owner to change the behavior of the rule group within a policy.
-    public struct NetworkFirewallStatefulRuleGroupOverride: Swift.Equatable {
+    public struct NetworkFirewallStatefulRuleGroupOverride {
         /// The action that changes the rule group from DROP to ALERT. This only applies to managed rule groups.
         public var action: FMSClientTypes.NetworkFirewallOverrideAction?
 
@@ -7766,7 +7766,7 @@ extension FMSClientTypes.NetworkFirewallUnexpectedFirewallRoutesViolation: Swift
 
 extension FMSClientTypes {
     /// Violation detail for an unexpected route that's present in a route table.
-    public struct NetworkFirewallUnexpectedFirewallRoutesViolation: Swift.Equatable {
+    public struct NetworkFirewallUnexpectedFirewallRoutesViolation {
         /// The endpoint of the firewall.
         public var firewallEndpoint: Swift.String?
         /// The subnet ID for the firewall.
@@ -7847,7 +7847,7 @@ extension FMSClientTypes.NetworkFirewallUnexpectedGatewayRoutesViolation: Swift.
 
 extension FMSClientTypes {
     /// Violation detail for an unexpected gateway route that’s present in a route table.
-    public struct NetworkFirewallUnexpectedGatewayRoutesViolation: Swift.Equatable {
+    public struct NetworkFirewallUnexpectedGatewayRoutesViolation {
         /// Information about the gateway ID.
         public var gatewayId: Swift.String?
         /// Information about the route table.
@@ -7956,7 +7956,7 @@ extension FMSClientTypes.OrganizationalUnitScope: Swift.Codable {
 
 extension FMSClientTypes {
     /// Defines the Organizations organizational units (OUs) that the specified Firewall Manager administrator can apply policies to. For more information about OUs in Organizations, see [Managing organizational units (OUs) ](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_ous.html) in the Organizations User Guide.
-    public struct OrganizationalUnitScope: Swift.Equatable {
+    public struct OrganizationalUnitScope {
         /// A boolean value that indicates if the administrator can apply policies to all OUs within an organization. If true, the administrator can manage all OUs within the organization. You can either enable management of all OUs through this operation, or you can specify OUs to manage in OrganizationalUnitScope$OrganizationalUnits. You cannot specify both.
         public var allOrganizationalUnitsEnabled: Swift.Bool
         /// A boolean value that excludes the OUs in OrganizationalUnitScope$OrganizationalUnits from the administrator's scope. If true, the Firewall Manager administrator can apply policies to all OUs in the organization except for the OUs listed in OrganizationalUnitScope$OrganizationalUnits. You can either specify a list of OUs to exclude by OrganizationalUnitScope$OrganizationalUnits, or you can enable management of all OUs by OrganizationalUnitScope$AllOrganizationalUnitsEnabled. You cannot specify both.
@@ -8017,7 +8017,7 @@ extension FMSClientTypes.PartialMatch: Swift.Codable {
 
 extension FMSClientTypes {
     /// The reference rule that partially matches the ViolationTarget rule and violation reason.
-    public struct PartialMatch: Swift.Equatable {
+    public struct PartialMatch {
         /// The reference rule from the primary security group of the Firewall Manager policy.
         public var reference: Swift.String?
         /// The violation reason.
@@ -8220,7 +8220,7 @@ extension FMSClientTypes.Policy: Swift.Codable {
 
 extension FMSClientTypes {
     /// An Firewall Manager policy.
-    public struct Policy: Swift.Equatable {
+    public struct Policy {
         /// Indicates whether Firewall Manager should automatically remove protections from resources that leave the policy scope and clean up resources that Firewall Manager is managing for accounts when those accounts leave policy scope. For example, Firewall Manager will disassociate a Firewall Manager managed web ACL from a protected customer resource when the customer resource leaves policy scope. By default, Firewall Manager doesn't remove protections or delete Firewall Manager managed resources. This option is not available for Shield Advanced or WAF Classic policies.
         public var deleteUnusedFMManagedResources: Swift.Bool
         /// Specifies the Amazon Web Services account IDs and Organizations organizational units (OUs) to exclude from the policy. Specifying an OU is the equivalent of specifying all accounts in the OU and in any of its child OUs, including any child OUs and accounts that are added at a later time. You can specify inclusions or exclusions, but not both. If you specify an IncludeMap, Firewall Manager applies the policy to all accounts specified by the IncludeMap, and does not evaluate any ExcludeMap specifications. If you do not specify an IncludeMap, then Firewall Manager applies the policy to all accounts except for those specified by the ExcludeMap. You can specify account IDs, OUs, or a combination:
@@ -8404,7 +8404,7 @@ extension FMSClientTypes.PolicyComplianceDetail: Swift.Codable {
 
 extension FMSClientTypes {
     /// Describes the noncompliant resources in a member account for a specific Firewall Manager policy. A maximum of 100 entries are displayed. If more than 100 resources are noncompliant, EvaluationLimitExceeded is set to True.
-    public struct PolicyComplianceDetail: Swift.Equatable {
+    public struct PolicyComplianceDetail {
         /// Indicates if over 100 resources are noncompliant with the Firewall Manager policy.
         public var evaluationLimitExceeded: Swift.Bool
         /// A timestamp that indicates when the returned information should be considered out of date.
@@ -8523,7 +8523,7 @@ extension FMSClientTypes.PolicyComplianceStatus: Swift.Codable {
 
 extension FMSClientTypes {
     /// Indicates whether the account is compliant with the specified policy. An account is considered noncompliant if it includes resources that are not protected by the policy, for WAF and Shield Advanced policies, or that are noncompliant with the policy, for security group policies.
-    public struct PolicyComplianceStatus: Swift.Equatable {
+    public struct PolicyComplianceStatus {
         /// An array of EvaluationResult objects.
         public var evaluationResults: [FMSClientTypes.EvaluationResult]?
         /// Details about problems with dependent services, such as WAF or Config, and the error message received that indicates the problem with the service.
@@ -8620,7 +8620,7 @@ extension FMSClientTypes.PolicyOption: Swift.Codable {
 
 extension FMSClientTypes {
     /// Contains the Network Firewall firewall policy options to configure the policy's deployment model and third-party firewall policy settings.
-    public struct PolicyOption: Swift.Equatable {
+    public struct PolicyOption {
         /// Defines the deployment model to use for the firewall policy.
         public var networkFirewallPolicy: FMSClientTypes.NetworkFirewallPolicy?
         /// Defines the policy options for a third-party firewall policy.
@@ -8701,7 +8701,7 @@ extension FMSClientTypes.PolicySummary: Swift.Codable {
 
 extension FMSClientTypes {
     /// Details of the Firewall Manager policy.
-    public struct PolicySummary: Swift.Equatable {
+    public struct PolicySummary {
         /// Indicates whether Firewall Manager should automatically remove protections from resources that leave the policy scope and clean up resources that Firewall Manager is managing for accounts when those accounts leave policy scope. For example, Firewall Manager will disassociate a Firewall Manager managed web ACL from a protected customer resource when the customer resource leaves policy scope. By default, Firewall Manager doesn't remove protections or delete Firewall Manager managed resources. This option is not available for Shield Advanced or WAF Classic policies.
         public var deleteUnusedFMManagedResources: Swift.Bool
         /// The Amazon Resource Name (ARN) of the specified policy.
@@ -8786,7 +8786,7 @@ extension FMSClientTypes.PolicyTypeScope: Swift.Codable {
 
 extension FMSClientTypes {
     /// Defines the policy types that the specified Firewall Manager administrator can manage.
-    public struct PolicyTypeScope: Swift.Equatable {
+    public struct PolicyTypeScope {
         /// Allows the specified Firewall Manager administrator to manage all Firewall Manager policy types, except for third-party policy types. Third-party policy types can only be managed by the Firewall Manager default administrator.
         public var allPolicyTypesEnabled: Swift.Bool
         /// The list of policy types that the specified Firewall Manager administrator can manage.
@@ -8849,7 +8849,7 @@ extension FMSClientTypes.PossibleRemediationAction: Swift.Codable {
 
 extension FMSClientTypes {
     /// A list of remediation actions.
-    public struct PossibleRemediationAction: Swift.Equatable {
+    public struct PossibleRemediationAction {
         /// A description of the list of remediation actions.
         public var description: Swift.String?
         /// Information about whether an action is taken by default.
@@ -8911,7 +8911,7 @@ extension FMSClientTypes.PossibleRemediationActions: Swift.Codable {
 
 extension FMSClientTypes {
     /// A list of possible remediation action lists. Each individual possible remediation action is a list of individual remediation actions.
-    public struct PossibleRemediationActions: Swift.Equatable {
+    public struct PossibleRemediationActions {
         /// Information about the actions.
         public var actions: [FMSClientTypes.PossibleRemediationAction]?
         /// A description of the possible remediation actions list.
@@ -9020,7 +9020,7 @@ extension FMSClientTypes.ProtocolsListData: Swift.Codable {
 
 extension FMSClientTypes {
     /// An Firewall Manager protocols list.
-    public struct ProtocolsListData: Swift.Equatable {
+    public struct ProtocolsListData {
         /// The time that the Firewall Manager protocols list was created.
         public var createTime: ClientRuntime.Date?
         /// The time that the Firewall Manager protocols list was last updated.
@@ -9111,7 +9111,7 @@ extension FMSClientTypes.ProtocolsListDataSummary: Swift.Codable {
 
 extension FMSClientTypes {
     /// Details of the Firewall Manager protocols list.
-    public struct ProtocolsListDataSummary: Swift.Equatable {
+    public struct ProtocolsListDataSummary {
         /// The Amazon Resource Name (ARN) of the specified protocols list.
         public var listArn: Swift.String?
         /// The ID of the specified protocols list.
@@ -9161,7 +9161,7 @@ extension PutAdminAccountInput {
     }
 }
 
-public struct PutAdminAccountInput: Swift.Equatable {
+public struct PutAdminAccountInput {
     /// The Amazon Web Services account ID to add as an Firewall Manager administrator account. The account must be a member of the organization that was onboarded to Firewall Manager by [AssociateAdminAccount]. For more information about Organizations, see [Managing the Amazon Web Services Accounts in Your Organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts.html).
     /// This member is required.
     public var adminAccount: Swift.String?
@@ -9178,7 +9178,7 @@ public struct PutAdminAccountInput: Swift.Equatable {
     }
 }
 
-struct PutAdminAccountInputBody: Swift.Equatable {
+struct PutAdminAccountInputBody {
     let adminAccount: Swift.String?
     let adminScope: FMSClientTypes.AdminScope?
 }
@@ -9203,7 +9203,7 @@ extension PutAdminAccountOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutAdminAccountOutput: Swift.Equatable {
+public struct PutAdminAccountOutput {
 
     public init() { }
 }
@@ -9249,7 +9249,7 @@ extension PutAppsListInput {
     }
 }
 
-public struct PutAppsListInput: Swift.Equatable {
+public struct PutAppsListInput {
     /// The details of the Firewall Manager applications list to be created.
     /// This member is required.
     public var appsList: FMSClientTypes.AppsListData?
@@ -9266,7 +9266,7 @@ public struct PutAppsListInput: Swift.Equatable {
     }
 }
 
-struct PutAppsListInputBody: Swift.Equatable {
+struct PutAppsListInputBody {
     let appsList: FMSClientTypes.AppsListData?
     let tagList: [FMSClientTypes.Tag]?
 }
@@ -9309,7 +9309,7 @@ extension PutAppsListOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutAppsListOutput: Swift.Equatable {
+public struct PutAppsListOutput {
     /// The details of the Firewall Manager applications list.
     public var appsList: FMSClientTypes.AppsListData?
     /// The Amazon Resource Name (ARN) of the applications list.
@@ -9325,7 +9325,7 @@ public struct PutAppsListOutput: Swift.Equatable {
     }
 }
 
-struct PutAppsListOutputBody: Swift.Equatable {
+struct PutAppsListOutputBody {
     let appsList: FMSClientTypes.AppsListData?
     let appsListArn: Swift.String?
 }
@@ -9384,7 +9384,7 @@ extension PutNotificationChannelInput {
     }
 }
 
-public struct PutNotificationChannelInput: Swift.Equatable {
+public struct PutNotificationChannelInput {
     /// The Amazon Resource Name (ARN) of the IAM role that allows Amazon SNS to record Firewall Manager activity.
     /// This member is required.
     public var snsRoleName: Swift.String?
@@ -9402,7 +9402,7 @@ public struct PutNotificationChannelInput: Swift.Equatable {
     }
 }
 
-struct PutNotificationChannelInputBody: Swift.Equatable {
+struct PutNotificationChannelInputBody {
     let snsTopicArn: Swift.String?
     let snsRoleName: Swift.String?
 }
@@ -9427,7 +9427,7 @@ extension PutNotificationChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutNotificationChannelOutput: Swift.Equatable {
+public struct PutNotificationChannelOutput {
 
     public init() { }
 }
@@ -9472,7 +9472,7 @@ extension PutPolicyInput {
     }
 }
 
-public struct PutPolicyInput: Swift.Equatable {
+public struct PutPolicyInput {
     /// The details of the Firewall Manager policy to be created.
     /// This member is required.
     public var policy: FMSClientTypes.Policy?
@@ -9489,7 +9489,7 @@ public struct PutPolicyInput: Swift.Equatable {
     }
 }
 
-struct PutPolicyInputBody: Swift.Equatable {
+struct PutPolicyInputBody {
     let policy: FMSClientTypes.Policy?
     let tagList: [FMSClientTypes.Tag]?
 }
@@ -9532,7 +9532,7 @@ extension PutPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutPolicyOutput: Swift.Equatable {
+public struct PutPolicyOutput {
     /// The details of the Firewall Manager policy.
     public var policy: FMSClientTypes.Policy?
     /// The Amazon Resource Name (ARN) of the policy.
@@ -9548,7 +9548,7 @@ public struct PutPolicyOutput: Swift.Equatable {
     }
 }
 
-struct PutPolicyOutputBody: Swift.Equatable {
+struct PutPolicyOutputBody {
     let policy: FMSClientTypes.Policy?
     let policyArn: Swift.String?
 }
@@ -9611,7 +9611,7 @@ extension PutProtocolsListInput {
     }
 }
 
-public struct PutProtocolsListInput: Swift.Equatable {
+public struct PutProtocolsListInput {
     /// The details of the Firewall Manager protocols list to be created.
     /// This member is required.
     public var protocolsList: FMSClientTypes.ProtocolsListData?
@@ -9628,7 +9628,7 @@ public struct PutProtocolsListInput: Swift.Equatable {
     }
 }
 
-struct PutProtocolsListInputBody: Swift.Equatable {
+struct PutProtocolsListInputBody {
     let protocolsList: FMSClientTypes.ProtocolsListData?
     let tagList: [FMSClientTypes.Tag]?
 }
@@ -9671,7 +9671,7 @@ extension PutProtocolsListOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutProtocolsListOutput: Swift.Equatable {
+public struct PutProtocolsListOutput {
     /// The details of the Firewall Manager protocols list.
     public var protocolsList: FMSClientTypes.ProtocolsListData?
     /// The Amazon Resource Name (ARN) of the protocols list.
@@ -9687,7 +9687,7 @@ public struct PutProtocolsListOutput: Swift.Equatable {
     }
 }
 
-struct PutProtocolsListOutputBody: Swift.Equatable {
+struct PutProtocolsListOutputBody {
     let protocolsList: FMSClientTypes.ProtocolsListData?
     let protocolsListArn: Swift.String?
 }
@@ -9749,7 +9749,7 @@ extension PutResourceSetInput {
     }
 }
 
-public struct PutResourceSetInput: Swift.Equatable {
+public struct PutResourceSetInput {
     /// Details about the resource set to be created or updated.>
     /// This member is required.
     public var resourceSet: FMSClientTypes.ResourceSet?
@@ -9766,7 +9766,7 @@ public struct PutResourceSetInput: Swift.Equatable {
     }
 }
 
-struct PutResourceSetInputBody: Swift.Equatable {
+struct PutResourceSetInputBody {
     let resourceSet: FMSClientTypes.ResourceSet?
     let tagList: [FMSClientTypes.Tag]?
 }
@@ -9809,7 +9809,7 @@ extension PutResourceSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutResourceSetOutput: Swift.Equatable {
+public struct PutResourceSetOutput {
     /// Details about the resource set.
     /// This member is required.
     public var resourceSet: FMSClientTypes.ResourceSet?
@@ -9827,7 +9827,7 @@ public struct PutResourceSetOutput: Swift.Equatable {
     }
 }
 
-struct PutResourceSetOutputBody: Swift.Equatable {
+struct PutResourceSetOutputBody {
     let resourceSet: FMSClientTypes.ResourceSet?
     let resourceSetArn: Swift.String?
 }
@@ -9900,7 +9900,7 @@ extension FMSClientTypes.RegionScope: Swift.Codable {
 
 extension FMSClientTypes {
     /// Defines the Amazon Web Services Regions that the specified Firewall Manager administrator can manage.
-    public struct RegionScope: Swift.Equatable {
+    public struct RegionScope {
         /// Allows the specified Firewall Manager administrator to manage all Amazon Web Services Regions.
         public var allRegionsEnabled: Swift.Bool
         /// The Amazon Web Services Regions that the specified Firewall Manager administrator can perform actions in.
@@ -9987,7 +9987,7 @@ extension FMSClientTypes.RemediationAction: Swift.Codable {
 
 extension FMSClientTypes {
     /// Information about an individual action you can take to remediate a violation.
-    public struct RemediationAction: Swift.Equatable {
+    public struct RemediationAction {
         /// A description of a remediation action.
         public var description: Swift.String?
         /// Information about the AssociateRouteTable action in the Amazon EC2 API.
@@ -10092,7 +10092,7 @@ extension FMSClientTypes.RemediationActionWithOrder: Swift.Codable {
 
 extension FMSClientTypes {
     /// An ordered list of actions you can take to remediate a violation.
-    public struct RemediationActionWithOrder: Swift.Equatable {
+    public struct RemediationActionWithOrder {
         /// The order of the remediation actions in the list.
         public var order: Swift.Int
         /// Information about an action you can take to remediate a violation.
@@ -10137,7 +10137,7 @@ extension FMSClientTypes.Resource: Swift.Codable {
 
 extension FMSClientTypes {
     /// Details of a resource that is associated to an Firewall Manager resource set.
-    public struct Resource: Swift.Equatable {
+    public struct Resource {
         /// The Amazon Web Services account ID that the associated resource belongs to.
         public var accountId: Swift.String?
         /// The resource's universal resource indicator (URI).
@@ -10195,7 +10195,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -10280,7 +10280,7 @@ extension FMSClientTypes.ResourceSet: Swift.Codable {
 
 extension FMSClientTypes {
     /// A set of resources to include in a policy.
-    public struct ResourceSet: Swift.Equatable {
+    public struct ResourceSet {
         /// A description of the resource set.
         public var description: Swift.String?
         /// A unique identifier for the resource set. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
@@ -10401,7 +10401,7 @@ extension FMSClientTypes.ResourceSetSummary: Swift.Codable {
 
 extension FMSClientTypes {
     /// Summarizes the resource sets used in a policy.
-    public struct ResourceSetSummary: Swift.Equatable {
+    public struct ResourceSetSummary {
         /// A description of the resource set.
         public var description: Swift.String?
         /// A unique identifier for the resource set. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
@@ -10462,7 +10462,7 @@ extension FMSClientTypes.ResourceTag: Swift.Codable {
 
 extension FMSClientTypes {
     /// The resource tags that Firewall Manager uses to determine if a particular resource should be included or excluded from the Firewall Manager policy. Tags enable you to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. Each tag consists of a key and an optional value. Firewall Manager combines the tags with "AND" so that, if you add more than one tag to a policy scope, a resource must have all the specified tags to be included or excluded. For more information, see [Working with Tag Editor](https://docs.aws.amazon.com/awsconsolehelpdocs/latest/gsg/tag-editor.html).
-    public struct ResourceTag: Swift.Equatable {
+    public struct ResourceTag {
         /// The resource tag key.
         /// This member is required.
         public var key: Swift.String?
@@ -10634,7 +10634,7 @@ extension FMSClientTypes.ResourceViolation: Swift.Codable {
 
 extension FMSClientTypes {
     /// Violation detail based on resource type.
-    public struct ResourceViolation: Swift.Equatable {
+    public struct ResourceViolation {
         /// Violation detail for an EC2 instance.
         public var awsEc2InstanceViolation: FMSClientTypes.AwsEc2InstanceViolation?
         /// Violation detail for a network interface.
@@ -10775,7 +10775,7 @@ extension FMSClientTypes.Route: Swift.Codable {
 
 extension FMSClientTypes {
     /// Describes a route in a route table.
-    public struct Route: Swift.Equatable {
+    public struct Route {
         /// The destination of the route.
         public var destination: Swift.String?
         /// The type of destination for the route.
@@ -10924,7 +10924,7 @@ extension FMSClientTypes.RouteHasOutOfScopeEndpointViolation: Swift.Codable {
 
 extension FMSClientTypes {
     /// Contains details about the route endpoint that violates the policy scope.
-    public struct RouteHasOutOfScopeEndpointViolation: Swift.Equatable {
+    public struct RouteHasOutOfScopeEndpointViolation {
         /// The route table associated with the current firewall subnet.
         public var currentFirewallSubnetRouteTable: Swift.String?
         /// The current route table associated with the Internet Gateway.
@@ -11053,7 +11053,7 @@ extension FMSClientTypes.SecurityGroupRemediationAction: Swift.Codable {
 
 extension FMSClientTypes {
     /// Remediation option for the rule specified in the ViolationTarget.
-    public struct SecurityGroupRemediationAction: Swift.Equatable {
+    public struct SecurityGroupRemediationAction {
         /// Brief description of the action that will be performed.
         public var description: Swift.String?
         /// Indicates if the current action is the default action.
@@ -11130,7 +11130,7 @@ extension FMSClientTypes.SecurityGroupRuleDescription: Swift.Codable {
 
 extension FMSClientTypes {
     /// Describes a set of permissions for a security group rule.
-    public struct SecurityGroupRuleDescription: Swift.Equatable {
+    public struct SecurityGroupRuleDescription {
         /// The start of the port range for the TCP and UDP protocols, or an ICMP/ICMPv6 type number. A value of -1 indicates all ICMP/ICMPv6 types.
         public var fromPort: Swift.Int?
         /// The IPv4 ranges for the security group rule.
@@ -11197,7 +11197,7 @@ extension FMSClientTypes.SecurityServicePolicyData: Swift.Codable {
 
 extension FMSClientTypes {
     /// Details about the security service that is being used to protect the resources.
-    public struct SecurityServicePolicyData: Swift.Equatable {
+    public struct SecurityServicePolicyData {
         /// Details about the service that are specific to the service type, in JSON format.
         ///
         /// * Example: DNS_FIREWALL"{\"type\":\"DNS_FIREWALL\",\"preProcessRuleGroups\":[{\"ruleGroupId\":\"rslvr-frg-1\",\"priority\":10}],\"postProcessRuleGroups\":[{\"ruleGroupId\":\"rslvr-frg-2\",\"priority\":9911}]}" Valid values for preProcessRuleGroups are between 1 and 99. Valid values for postProcessRuleGroups are between 9901 and 10000.
@@ -11355,7 +11355,7 @@ extension FMSClientTypes.StatefulEngineOptions: Swift.Codable {
 
 extension FMSClientTypes {
     /// Configuration settings for the handling of the stateful rule groups in a Network Firewall firewall policy.
-    public struct StatefulEngineOptions: Swift.Equatable {
+    public struct StatefulEngineOptions {
         /// Indicates how to manage the order of stateful rule evaluation for the policy. DEFAULT_ACTION_ORDER is the default behavior. Stateful rules are provided to the rule engine as Suricata compatible strings, and Suricata evaluates them based on certain settings. For more information, see [Evaluation order for stateful rules](https://docs.aws.amazon.com/network-firewall/latest/developerguide/suricata-rule-evaluation-order.html) in the Network Firewall Developer Guide.
         public var ruleOrder: FMSClientTypes.RuleOrder?
 
@@ -11408,7 +11408,7 @@ extension FMSClientTypes.StatefulRuleGroup: Swift.Codable {
 
 extension FMSClientTypes {
     /// Network Firewall stateful rule group, used in a [NetworkFirewallPolicyDescription].
-    public struct StatefulRuleGroup: Swift.Equatable {
+    public struct StatefulRuleGroup {
         /// The action that allows the policy owner to override the behavior of the rule group within a policy.
         public var `override`: FMSClientTypes.NetworkFirewallStatefulRuleGroupOverride?
         /// An integer setting that indicates the order in which to run the stateful rule groups in a single Network Firewall firewall policy. This setting only applies to firewall policies that specify the STRICT_ORDER rule order in the stateful engine options settings. Network Firewall evalutes each stateful rule group against a packet starting with the group that has the lowest priority setting. You must ensure that the priority settings are unique within each policy. For information about You can change the priority settings of your rule groups at any time. To make it easier to insert rule groups later, number them so there's a wide range in between, for example use 100, 200, and so on.
@@ -11467,7 +11467,7 @@ extension FMSClientTypes.StatelessRuleGroup: Swift.Codable {
 
 extension FMSClientTypes {
     /// Network Firewall stateless rule group, used in a [NetworkFirewallPolicyDescription].
-    public struct StatelessRuleGroup: Swift.Equatable {
+    public struct StatelessRuleGroup {
         /// The priority of the rule group. Network Firewall evaluates the stateless rule groups in a firewall policy starting from the lowest priority setting.
         public var priority: Swift.Int?
         /// The resource ID of the rule group.
@@ -11516,7 +11516,7 @@ extension FMSClientTypes.Tag: Swift.Codable {
 
 extension FMSClientTypes {
     /// A collection of key:value pairs associated with an Amazon Web Services resource. The key:value pair can be anything you define. Typically, the tag key represents a category (such as "environment") and the tag value represents a specific value within that category (such as "test," "development," or "production"). You can add up to 50 tags to each Amazon Web Services resource.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// Part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "customer." Tag keys are case-sensitive.
         /// This member is required.
         public var key: Swift.String?
@@ -11563,7 +11563,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource to return tags for. The Firewall Manager resources that support tagging are policies, applications lists, and protocols lists.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -11581,7 +11581,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceArn: Swift.String?
     let tagList: [FMSClientTypes.Tag]?
 }
@@ -11615,7 +11615,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -11791,7 +11791,7 @@ extension FMSClientTypes.ThirdPartyFirewallFirewallPolicy: Swift.Codable {
 
 extension FMSClientTypes {
     /// Configures the third-party firewall's firewall policy.
-    public struct ThirdPartyFirewallFirewallPolicy: Swift.Equatable {
+    public struct ThirdPartyFirewallFirewallPolicy {
         /// The ID of the specified firewall policy.
         public var firewallPolicyId: Swift.String?
         /// The name of the specified firewall policy.
@@ -11854,7 +11854,7 @@ extension FMSClientTypes.ThirdPartyFirewallMissingExpectedRouteTableViolation: S
 
 extension FMSClientTypes {
     /// The violation details for a third-party firewall that's not associated with an Firewall Manager managed route table.
-    public struct ThirdPartyFirewallMissingExpectedRouteTableViolation: Swift.Equatable {
+    public struct ThirdPartyFirewallMissingExpectedRouteTableViolation {
         /// The Availability Zone of the firewall subnet that's causing the violation.
         public var availabilityZone: Swift.String?
         /// The resource ID of the current route table that's associated with the subnet, if one is available.
@@ -11923,7 +11923,7 @@ extension FMSClientTypes.ThirdPartyFirewallMissingFirewallViolation: Swift.Codab
 
 extension FMSClientTypes {
     /// The violation details about a third-party firewall's subnet that doesn't have a Firewall Manager managed firewall in its VPC.
-    public struct ThirdPartyFirewallMissingFirewallViolation: Swift.Equatable {
+    public struct ThirdPartyFirewallMissingFirewallViolation {
         /// The Availability Zone of the third-party firewall that's causing the violation.
         public var availabilityZone: Swift.String?
         /// The reason the resource is causing this violation, if a reason is available.
@@ -11988,7 +11988,7 @@ extension FMSClientTypes.ThirdPartyFirewallMissingSubnetViolation: Swift.Codable
 
 extension FMSClientTypes {
     /// The violation details for a third-party firewall for an Availability Zone that's missing the Firewall Manager managed subnet.
-    public struct ThirdPartyFirewallMissingSubnetViolation: Swift.Equatable {
+    public struct ThirdPartyFirewallMissingSubnetViolation {
         /// The Availability Zone of a subnet that's causing the violation.
         public var availabilityZone: Swift.String?
         /// The reason the resource is causing the violation, if a reason is available.
@@ -12035,7 +12035,7 @@ extension FMSClientTypes.ThirdPartyFirewallPolicy: Swift.Codable {
 
 extension FMSClientTypes {
     /// Configures the deployment model for the third-party firewall.
-    public struct ThirdPartyFirewallPolicy: Swift.Equatable {
+    public struct ThirdPartyFirewallPolicy {
         /// Defines the deployment model to use for the third-party firewall policy.
         public var firewallDeploymentModel: FMSClientTypes.FirewallDeploymentModel?
 
@@ -12076,7 +12076,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource to return tags for. The Firewall Manager resources that support tagging are policies, applications lists, and protocols lists.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -12094,7 +12094,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceArn: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -12128,7 +12128,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -12228,7 +12228,7 @@ extension FMSClientTypes.ViolationDetail: Swift.Codable {
 
 extension FMSClientTypes {
     /// Violations for a resource based on the specified Firewall Manager policy and Amazon Web Services account.
-    public struct ViolationDetail: Swift.Equatable {
+    public struct ViolationDetail {
         /// The Amazon Web Services account that the violation details were requested for.
         /// This member is required.
         public var memberAccount: Swift.String?

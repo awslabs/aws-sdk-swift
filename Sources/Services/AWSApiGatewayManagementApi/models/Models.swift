@@ -14,7 +14,7 @@ extension DeleteConnectionInput {
     }
 }
 
-public struct DeleteConnectionInput: Swift.Equatable {
+public struct DeleteConnectionInput {
     /// This member is required.
     public var connectionId: Swift.String?
 
@@ -26,7 +26,7 @@ public struct DeleteConnectionInput: Swift.Equatable {
     }
 }
 
-struct DeleteConnectionInputBody: Swift.Equatable {
+struct DeleteConnectionInputBody {
 }
 
 extension DeleteConnectionInputBody: Swift.Decodable {
@@ -40,7 +40,7 @@ extension DeleteConnectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteConnectionOutput: Swift.Equatable {
+public struct DeleteConnectionOutput {
 
     public init() { }
 }
@@ -89,7 +89,7 @@ extension GetConnectionInput {
     }
 }
 
-public struct GetConnectionInput: Swift.Equatable {
+public struct GetConnectionInput {
     /// This member is required.
     public var connectionId: Swift.String?
 
@@ -101,7 +101,7 @@ public struct GetConnectionInput: Swift.Equatable {
     }
 }
 
-struct GetConnectionInputBody: Swift.Equatable {
+struct GetConnectionInputBody {
 }
 
 extension GetConnectionInputBody: Swift.Decodable {
@@ -126,7 +126,7 @@ extension GetConnectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetConnectionOutput: Swift.Equatable {
+public struct GetConnectionOutput {
     /// The time in ISO 8601 format for when the connection was established.
     public var connectedAt: ClientRuntime.Date?
     public var identity: ApiGatewayManagementApiClientTypes.Identity?
@@ -145,7 +145,7 @@ public struct GetConnectionOutput: Swift.Equatable {
     }
 }
 
-struct GetConnectionOutputBody: Swift.Equatable {
+struct GetConnectionOutputBody {
     let connectedAt: ClientRuntime.Date?
     let identity: ApiGatewayManagementApiClientTypes.Identity?
     let lastActiveAt: ClientRuntime.Date?
@@ -229,7 +229,7 @@ extension ApiGatewayManagementApiClientTypes.Identity: Swift.Codable {
 }
 
 extension ApiGatewayManagementApiClientTypes {
-    public struct Identity: Swift.Equatable {
+    public struct Identity {
         /// The source IP address of the TCP connection making the request to API Gateway.
         /// This member is required.
         public var sourceIp: Swift.String?
@@ -309,7 +309,7 @@ public struct PayloadTooLargeException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct PayloadTooLargeExceptionBody: Swift.Equatable {
+struct PayloadTooLargeExceptionBody {
     let message: Swift.String?
 }
 
@@ -348,7 +348,7 @@ extension PostToConnectionInput {
     }
 }
 
-public struct PostToConnectionInput: Swift.Equatable {
+public struct PostToConnectionInput {
     /// The identifier of the connection that a specific client is using.
     /// This member is required.
     public var connectionId: Swift.String?
@@ -366,7 +366,7 @@ public struct PostToConnectionInput: Swift.Equatable {
     }
 }
 
-struct PostToConnectionInputBody: Swift.Equatable {
+struct PostToConnectionInputBody {
     let data: ClientRuntime.Data?
 }
 
@@ -387,7 +387,7 @@ extension PostToConnectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PostToConnectionOutput: Swift.Equatable {
+public struct PostToConnectionOutput {
 
     public init() { }
 }

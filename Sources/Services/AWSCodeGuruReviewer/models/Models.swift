@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -124,7 +124,7 @@ extension AssociateRepositoryInput {
     }
 }
 
-public struct AssociateRepositoryInput: Swift.Equatable {
+public struct AssociateRepositoryInput {
     /// Amazon CodeGuru Reviewer uses this value to prevent the accidental creation of duplicate repository associations if there are failures and retries.
     public var clientRequestToken: Swift.String?
     /// A KMSKeyDetails object that contains:
@@ -157,7 +157,7 @@ public struct AssociateRepositoryInput: Swift.Equatable {
     }
 }
 
-struct AssociateRepositoryInputBody: Swift.Equatable {
+struct AssociateRepositoryInputBody {
     let repository: CodeGuruReviewerClientTypes.Repository?
     let clientRequestToken: Swift.String?
     let tags: [Swift.String:Swift.String]?
@@ -208,7 +208,7 @@ extension AssociateRepositoryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateRepositoryOutput: Swift.Equatable {
+public struct AssociateRepositoryOutput {
     /// Information about the repository association.
     public var repositoryAssociation: CodeGuruReviewerClientTypes.RepositoryAssociation?
     /// An array of key-value pairs used to tag an associated repository. A tag is a custom attribute label with two parts:
@@ -228,7 +228,7 @@ public struct AssociateRepositoryOutput: Swift.Equatable {
     }
 }
 
-struct AssociateRepositoryOutputBody: Swift.Equatable {
+struct AssociateRepositoryOutputBody {
     let repositoryAssociation: CodeGuruReviewerClientTypes.RepositoryAssociation?
     let tags: [Swift.String:Swift.String]?
 }
@@ -299,7 +299,7 @@ extension CodeGuruReviewerClientTypes.BranchDiffSourceCodeType: Swift.Codable {
 
 extension CodeGuruReviewerClientTypes {
     /// A type of [SourceCodeType](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_SourceCodeType) that specifies a code diff between a source and destination branch in an associated repository.
-    public struct BranchDiffSourceCodeType: Swift.Equatable {
+    public struct BranchDiffSourceCodeType {
         /// The destination branch for a diff in an associated repository.
         /// This member is required.
         public var destinationBranchName: Swift.String?
@@ -350,7 +350,7 @@ extension CodeGuruReviewerClientTypes {
     /// * Source code artifacts are source code files in a Git repository that are compressed into a .zip file.
     ///
     /// * Build artifacts are .jar or .class files that are compressed in a .zip file.
-    public struct CodeArtifacts: Swift.Equatable {
+    public struct CodeArtifacts {
         /// The S3 object key for a build artifacts .zip file that contains .jar or .class files. This is required for a code review with security analysis. For more information, see [Create code reviews with GitHub Actions](https://docs.aws.amazon.com/codeguru/latest/reviewer-ug/working-with-cicd.html) in the Amazon CodeGuru Reviewer User Guide.
         public var buildArtifactsObjectKey: Swift.String?
         /// The S3 object key for a source code .zip file. This is required for all code reviews.
@@ -390,7 +390,7 @@ extension CodeGuruReviewerClientTypes.CodeCommitRepository: Swift.Codable {
 
 extension CodeGuruReviewerClientTypes {
     /// Information about an Amazon Web Services CodeCommit repository. The CodeCommit repository must be in the same Amazon Web Services Region and Amazon Web Services account where its CodeGuru Reviewer code reviews are configured.
-    public struct CodeCommitRepository: Swift.Equatable {
+    public struct CodeCommitRepository {
         /// The name of the Amazon Web Services CodeCommit repository. For more information, see [repositoryName](https://docs.aws.amazon.com/codecommit/latest/APIReference/API_GetRepository.html#CodeCommit-GetRepository-request-repositoryName) in the Amazon Web Services CodeCommit API Reference.
         /// This member is required.
         public var name: Swift.String?
@@ -530,7 +530,7 @@ extension CodeGuruReviewerClientTypes.CodeReview: Swift.Codable {
 
 extension CodeGuruReviewerClientTypes {
     /// Information about a code review. A code review belongs to the associated repository that contains the reviewed code.
-    public struct CodeReview: Swift.Equatable {
+    public struct CodeReview {
         /// The types of analysis performed during a repository analysis or a pull request review. You can specify either Security, CodeQuality, or both.
         public var analysisTypes: [CodeGuruReviewerClientTypes.AnalysisType]?
         /// The Amazon Resource Name (ARN) of the [RepositoryAssociation](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociation.html) that contains the reviewed source code. You can retrieve associated repository ARNs by calling [ListRepositoryAssociations](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_ListRepositoryAssociations.html).
@@ -699,7 +699,7 @@ extension CodeGuruReviewerClientTypes.CodeReviewSummary: Swift.Codable {
 
 extension CodeGuruReviewerClientTypes {
     /// Information about the summary of the code review.
-    public struct CodeReviewSummary: Swift.Equatable {
+    public struct CodeReviewSummary {
         /// The Amazon Resource Name (ARN) of the [CodeReview](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_CodeReview.html) object.
         public var codeReviewArn: Swift.String?
         /// The time, in milliseconds since the epoch, when the code review was created.
@@ -808,7 +808,7 @@ extension CodeGuruReviewerClientTypes {
     /// * PullRequest - A code review that is automatically triggered by a pull request on an associated repository.
     ///
     /// * RepositoryAnalysis - A code review that analyzes all code under a specified branch in an associated repository. The associated repository is specified using its ARN in [CreateCodeReview](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_CreateCodeReview).
-    public struct CodeReviewType: Swift.Equatable {
+    public struct CodeReviewType {
         /// They types of analysis performed during a repository analysis or a pull request review. You can specify either Security, CodeQuality, or both.
         public var analysisTypes: [CodeGuruReviewerClientTypes.AnalysisType]?
         /// A code review that analyzes all code under a specified branch in an associated repository. The associated repository is specified using its ARN in [CreateCodeReview](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_CreateCodeReview).
@@ -860,7 +860,7 @@ extension CodeGuruReviewerClientTypes.CommitDiffSourceCodeType: Swift.Codable {
 
 extension CodeGuruReviewerClientTypes {
     /// A type of [SourceCodeType](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_SourceCodeType) that specifies the commit diff for a pull request on an associated repository. The SourceCommit and DestinationCommit fields are required to do a pull request code review.
-    public struct CommitDiffSourceCodeType: Swift.Equatable {
+    public struct CommitDiffSourceCodeType {
         /// The SHA of the destination commit used to generate a commit diff. This field is required for a pull request code review.
         public var destinationCommit: Swift.String?
         /// The SHA of the merge base of a commit.
@@ -956,7 +956,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -1004,7 +1004,7 @@ extension CreateCodeReviewInput {
     }
 }
 
-public struct CreateCodeReviewInput: Swift.Equatable {
+public struct CreateCodeReviewInput {
     /// Amazon CodeGuru Reviewer uses this value to prevent the accidental creation of duplicate code reviews if there are failures and retries.
     public var clientRequestToken: Swift.String?
     /// The name of the code review. The name of each code review in your Amazon Web Services account must be unique.
@@ -1031,7 +1031,7 @@ public struct CreateCodeReviewInput: Swift.Equatable {
     }
 }
 
-struct CreateCodeReviewInputBody: Swift.Equatable {
+struct CreateCodeReviewInputBody {
     let name: Swift.String?
     let repositoryAssociationArn: Swift.String?
     let type: CodeGuruReviewerClientTypes.CodeReviewType?
@@ -1071,7 +1071,7 @@ extension CreateCodeReviewOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateCodeReviewOutput: Swift.Equatable {
+public struct CreateCodeReviewOutput {
     /// Information about a code review. A code review belongs to the associated repository that contains the reviewed code.
     public var codeReview: CodeGuruReviewerClientTypes.CodeReview?
 
@@ -1083,7 +1083,7 @@ public struct CreateCodeReviewOutput: Swift.Equatable {
     }
 }
 
-struct CreateCodeReviewOutputBody: Swift.Equatable {
+struct CreateCodeReviewOutputBody {
     let codeReview: CodeGuruReviewerClientTypes.CodeReview?
 }
 
@@ -1125,7 +1125,7 @@ extension DescribeCodeReviewInput {
     }
 }
 
-public struct DescribeCodeReviewInput: Swift.Equatable {
+public struct DescribeCodeReviewInput {
     /// The Amazon Resource Name (ARN) of the [CodeReview](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_CodeReview.html) object.
     /// This member is required.
     public var codeReviewArn: Swift.String?
@@ -1138,7 +1138,7 @@ public struct DescribeCodeReviewInput: Swift.Equatable {
     }
 }
 
-struct DescribeCodeReviewInputBody: Swift.Equatable {
+struct DescribeCodeReviewInputBody {
 }
 
 extension DescribeCodeReviewInputBody: Swift.Decodable {
@@ -1159,7 +1159,7 @@ extension DescribeCodeReviewOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeCodeReviewOutput: Swift.Equatable {
+public struct DescribeCodeReviewOutput {
     /// Information about the code review.
     public var codeReview: CodeGuruReviewerClientTypes.CodeReview?
 
@@ -1171,7 +1171,7 @@ public struct DescribeCodeReviewOutput: Swift.Equatable {
     }
 }
 
-struct DescribeCodeReviewOutputBody: Swift.Equatable {
+struct DescribeCodeReviewOutputBody {
     let codeReview: CodeGuruReviewerClientTypes.CodeReview?
 }
 
@@ -1230,7 +1230,7 @@ extension DescribeRecommendationFeedbackInput {
     }
 }
 
-public struct DescribeRecommendationFeedbackInput: Swift.Equatable {
+public struct DescribeRecommendationFeedbackInput {
     /// The Amazon Resource Name (ARN) of the [CodeReview](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_CodeReview.html) object.
     /// This member is required.
     public var codeReviewArn: Swift.String?
@@ -1252,7 +1252,7 @@ public struct DescribeRecommendationFeedbackInput: Swift.Equatable {
     }
 }
 
-struct DescribeRecommendationFeedbackInputBody: Swift.Equatable {
+struct DescribeRecommendationFeedbackInputBody {
 }
 
 extension DescribeRecommendationFeedbackInputBody: Swift.Decodable {
@@ -1273,7 +1273,7 @@ extension DescribeRecommendationFeedbackOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DescribeRecommendationFeedbackOutput: Swift.Equatable {
+public struct DescribeRecommendationFeedbackOutput {
     /// The recommendation feedback given by the user.
     public var recommendationFeedback: CodeGuruReviewerClientTypes.RecommendationFeedback?
 
@@ -1285,7 +1285,7 @@ public struct DescribeRecommendationFeedbackOutput: Swift.Equatable {
     }
 }
 
-struct DescribeRecommendationFeedbackOutputBody: Swift.Equatable {
+struct DescribeRecommendationFeedbackOutputBody {
     let recommendationFeedback: CodeGuruReviewerClientTypes.RecommendationFeedback?
 }
 
@@ -1326,7 +1326,7 @@ extension DescribeRepositoryAssociationInput {
     }
 }
 
-public struct DescribeRepositoryAssociationInput: Swift.Equatable {
+public struct DescribeRepositoryAssociationInput {
     /// The Amazon Resource Name (ARN) of the [RepositoryAssociation](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociation.html) object. You can retrieve this ARN by calling [ListRepositoryAssociations](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_ListRepositoryAssociations.html).
     /// This member is required.
     public var associationArn: Swift.String?
@@ -1339,7 +1339,7 @@ public struct DescribeRepositoryAssociationInput: Swift.Equatable {
     }
 }
 
-struct DescribeRepositoryAssociationInputBody: Swift.Equatable {
+struct DescribeRepositoryAssociationInputBody {
 }
 
 extension DescribeRepositoryAssociationInputBody: Swift.Decodable {
@@ -1362,7 +1362,7 @@ extension DescribeRepositoryAssociationOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DescribeRepositoryAssociationOutput: Swift.Equatable {
+public struct DescribeRepositoryAssociationOutput {
     /// Information about the repository association.
     public var repositoryAssociation: CodeGuruReviewerClientTypes.RepositoryAssociation?
     /// An array of key-value pairs used to tag an associated repository. A tag is a custom attribute label with two parts:
@@ -1382,7 +1382,7 @@ public struct DescribeRepositoryAssociationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeRepositoryAssociationOutputBody: Swift.Equatable {
+struct DescribeRepositoryAssociationOutputBody {
     let repositoryAssociation: CodeGuruReviewerClientTypes.RepositoryAssociation?
     let tags: [Swift.String:Swift.String]?
 }
@@ -1436,7 +1436,7 @@ extension DisassociateRepositoryInput {
     }
 }
 
-public struct DisassociateRepositoryInput: Swift.Equatable {
+public struct DisassociateRepositoryInput {
     /// The Amazon Resource Name (ARN) of the [RepositoryAssociation](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociation.html) object. You can retrieve this ARN by calling [ListRepositoryAssociations](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_ListRepositoryAssociations.html).
     /// This member is required.
     public var associationArn: Swift.String?
@@ -1449,7 +1449,7 @@ public struct DisassociateRepositoryInput: Swift.Equatable {
     }
 }
 
-struct DisassociateRepositoryInputBody: Swift.Equatable {
+struct DisassociateRepositoryInputBody {
 }
 
 extension DisassociateRepositoryInputBody: Swift.Decodable {
@@ -1472,7 +1472,7 @@ extension DisassociateRepositoryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateRepositoryOutput: Swift.Equatable {
+public struct DisassociateRepositoryOutput {
     /// Information about the disassociated repository.
     public var repositoryAssociation: CodeGuruReviewerClientTypes.RepositoryAssociation?
     /// An array of key-value pairs used to tag an associated repository. A tag is a custom attribute label with two parts:
@@ -1492,7 +1492,7 @@ public struct DisassociateRepositoryOutput: Swift.Equatable {
     }
 }
 
-struct DisassociateRepositoryOutputBody: Swift.Equatable {
+struct DisassociateRepositoryOutputBody {
     let repositoryAssociation: CodeGuruReviewerClientTypes.RepositoryAssociation?
     let tags: [Swift.String:Swift.String]?
 }
@@ -1596,7 +1596,7 @@ extension CodeGuruReviewerClientTypes.EventInfo: Swift.Codable {
 
 extension CodeGuruReviewerClientTypes {
     /// Information about an event. The event might be a push, pull request, scheduled request, or another type of event.
-    public struct EventInfo: Swift.Equatable {
+    public struct EventInfo {
         /// The name of the event. The possible names are pull_request, workflow_dispatch, schedule, and push
         public var name: Swift.String?
         /// The state of an event. The state might be open, closed, or another state.
@@ -1653,7 +1653,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -1738,7 +1738,7 @@ extension CodeGuruReviewerClientTypes {
     /// * The encryption option for a repository association. It is either owned by Amazon Web Services Key Management Service (KMS) (AWS_OWNED_CMK) or customer managed (CUSTOMER_MANAGED_CMK).
     ///
     /// * The ID of the Amazon Web Services KMS key that is associated with a repository association.
-    public struct KMSKeyDetails: Swift.Equatable {
+    public struct KMSKeyDetails {
         /// The encryption option for a repository association. It is either owned by Amazon Web Services Key Management Service (KMS) (AWS_OWNED_CMK) or customer managed (CUSTOMER_MANAGED_CMK).
         public var encryptionOption: CodeGuruReviewerClientTypes.EncryptionOption?
         /// The ID of the Amazon Web Services KMS key that is associated with a repository association.
@@ -1803,7 +1803,7 @@ extension ListCodeReviewsInput {
     }
 }
 
-public struct ListCodeReviewsInput: Swift.Equatable {
+public struct ListCodeReviewsInput {
     /// The maximum number of results that are returned per call. The default is 100.
     public var maxResults: Swift.Int?
     /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
@@ -1844,7 +1844,7 @@ public struct ListCodeReviewsInput: Swift.Equatable {
     }
 }
 
-struct ListCodeReviewsInputBody: Swift.Equatable {
+struct ListCodeReviewsInputBody {
 }
 
 extension ListCodeReviewsInputBody: Swift.Decodable {
@@ -1867,7 +1867,7 @@ extension ListCodeReviewsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCodeReviewsOutput: Swift.Equatable {
+public struct ListCodeReviewsOutput {
     /// A list of code reviews that meet the criteria of the request.
     public var codeReviewSummaries: [CodeGuruReviewerClientTypes.CodeReviewSummary]?
     /// Pagination token.
@@ -1883,7 +1883,7 @@ public struct ListCodeReviewsOutput: Swift.Equatable {
     }
 }
 
-struct ListCodeReviewsOutputBody: Swift.Equatable {
+struct ListCodeReviewsOutputBody {
     let codeReviewSummaries: [CodeGuruReviewerClientTypes.CodeReviewSummary]?
     let nextToken: Swift.String?
 }
@@ -1964,7 +1964,7 @@ extension ListRecommendationFeedbackInput {
     }
 }
 
-public struct ListRecommendationFeedbackInput: Swift.Equatable {
+public struct ListRecommendationFeedbackInput {
     /// The Amazon Resource Name (ARN) of the [CodeReview](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_CodeReview.html) object.
     /// This member is required.
     public var codeReviewArn: Swift.String?
@@ -1993,7 +1993,7 @@ public struct ListRecommendationFeedbackInput: Swift.Equatable {
     }
 }
 
-struct ListRecommendationFeedbackInputBody: Swift.Equatable {
+struct ListRecommendationFeedbackInputBody {
 }
 
 extension ListRecommendationFeedbackInputBody: Swift.Decodable {
@@ -2016,7 +2016,7 @@ extension ListRecommendationFeedbackOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRecommendationFeedbackOutput: Swift.Equatable {
+public struct ListRecommendationFeedbackOutput {
     /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
     public var nextToken: Swift.String?
     /// Recommendation feedback summaries corresponding to the code review ARN.
@@ -2032,7 +2032,7 @@ public struct ListRecommendationFeedbackOutput: Swift.Equatable {
     }
 }
 
-struct ListRecommendationFeedbackOutputBody: Swift.Equatable {
+struct ListRecommendationFeedbackOutputBody {
     let recommendationFeedbackSummaries: [CodeGuruReviewerClientTypes.RecommendationFeedbackSummary]?
     let nextToken: Swift.String?
 }
@@ -2102,7 +2102,7 @@ extension ListRecommendationsInput {
     }
 }
 
-public struct ListRecommendationsInput: Swift.Equatable {
+public struct ListRecommendationsInput {
     /// The Amazon Resource Name (ARN) of the [CodeReview](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_CodeReview.html) object.
     /// This member is required.
     public var codeReviewArn: Swift.String?
@@ -2123,7 +2123,7 @@ public struct ListRecommendationsInput: Swift.Equatable {
     }
 }
 
-struct ListRecommendationsInputBody: Swift.Equatable {
+struct ListRecommendationsInputBody {
 }
 
 extension ListRecommendationsInputBody: Swift.Decodable {
@@ -2146,7 +2146,7 @@ extension ListRecommendationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRecommendationsOutput: Swift.Equatable {
+public struct ListRecommendationsOutput {
     /// Pagination token.
     public var nextToken: Swift.String?
     /// List of recommendations for the requested code review.
@@ -2162,7 +2162,7 @@ public struct ListRecommendationsOutput: Swift.Equatable {
     }
 }
 
-struct ListRecommendationsOutputBody: Swift.Equatable {
+struct ListRecommendationsOutputBody {
     let recommendationSummaries: [CodeGuruReviewerClientTypes.RecommendationSummary]?
     let nextToken: Swift.String?
 }
@@ -2253,7 +2253,7 @@ extension ListRepositoryAssociationsInput {
     }
 }
 
-public struct ListRepositoryAssociationsInput: Swift.Equatable {
+public struct ListRepositoryAssociationsInput {
     /// The maximum number of repository association results returned by ListRepositoryAssociations in paginated output. When this parameter is used, ListRepositoryAssociations only returns maxResults results in a single page with a nextToken response element. The remaining results of the initial request can be seen by sending another ListRepositoryAssociations request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, ListRepositoryAssociations returns up to 100 results and a nextToken value if applicable.
     public var maxResults: Swift.Int?
     /// List of repository names to use as a filter.
@@ -2302,7 +2302,7 @@ public struct ListRepositoryAssociationsInput: Swift.Equatable {
     }
 }
 
-struct ListRepositoryAssociationsInputBody: Swift.Equatable {
+struct ListRepositoryAssociationsInputBody {
 }
 
 extension ListRepositoryAssociationsInputBody: Swift.Decodable {
@@ -2325,7 +2325,7 @@ extension ListRepositoryAssociationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRepositoryAssociationsOutput: Swift.Equatable {
+public struct ListRepositoryAssociationsOutput {
     /// The nextToken value to include in a future ListRecommendations request. When the results of a ListRecommendations request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
     /// A list of repository associations that meet the criteria of the request.
@@ -2341,7 +2341,7 @@ public struct ListRepositoryAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct ListRepositoryAssociationsOutputBody: Swift.Equatable {
+struct ListRepositoryAssociationsOutputBody {
     let repositoryAssociationSummaries: [CodeGuruReviewerClientTypes.RepositoryAssociationSummary]?
     let nextToken: Swift.String?
 }
@@ -2393,7 +2393,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the [RepositoryAssociation](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociation.html) object. You can retrieve this ARN by calling [ListRepositoryAssociations](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_ListRepositoryAssociations.html).
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2406,7 +2406,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -2427,7 +2427,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// An array of key-value pairs used to tag an associated repository. A tag is a custom attribute label with two parts:
     ///
     /// * A tag key (for example, CostCenter, Environment, Project, or Secret). Tag keys are case sensitive.
@@ -2443,7 +2443,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -2514,7 +2514,7 @@ extension CodeGuruReviewerClientTypes.Metrics: Swift.Codable {
 
 extension CodeGuruReviewerClientTypes {
     /// Information about the statistics from the code review.
-    public struct Metrics: Swift.Equatable {
+    public struct Metrics {
         /// Total number of recommendations found in the code review.
         public var findingsCount: Swift.Int?
         /// MeteredLinesOfCodeCount is the number of lines of code in the repository where the code review happened. This does not include non-code lines such as comments and blank lines.
@@ -2569,7 +2569,7 @@ extension CodeGuruReviewerClientTypes.MetricsSummary: Swift.Codable {
 
 extension CodeGuruReviewerClientTypes {
     /// Information about metrics summaries.
-    public struct MetricsSummary: Swift.Equatable {
+    public struct MetricsSummary {
         /// Total number of recommendations found in the code review.
         public var findingsCount: Swift.Int?
         /// Lines of code metered in the code review. For the initial code review pull request and all subsequent revisions, this includes all lines of code in the files added to the pull request. In subsequent revisions, for files that already existed in the pull request, this includes only the changed lines of code. In both cases, this does not include non-code lines such as comments and import statements. For example, if you submit a pull request containing 5 files, each with 500 lines of code, and in a subsequent revision you added a new file with 200 lines of code, and also modified a total of 25 lines across the initial 5 files, MeteredLinesOfCodeCount includes the first 5 files (5 * 500 = 2,500 lines), the new file (200 lines) and the 25 changed lines of code for a total of 2,725 lines of code.
@@ -2630,7 +2630,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct NotFoundExceptionBody: Swift.Equatable {
+struct NotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -2718,7 +2718,7 @@ extension PutRecommendationFeedbackInput {
     }
 }
 
-public struct PutRecommendationFeedbackInput: Swift.Equatable {
+public struct PutRecommendationFeedbackInput {
     /// The Amazon Resource Name (ARN) of the [CodeReview](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_CodeReview.html) object.
     /// This member is required.
     public var codeReviewArn: Swift.String?
@@ -2741,7 +2741,7 @@ public struct PutRecommendationFeedbackInput: Swift.Equatable {
     }
 }
 
-struct PutRecommendationFeedbackInputBody: Swift.Equatable {
+struct PutRecommendationFeedbackInputBody {
     let codeReviewArn: Swift.String?
     let recommendationId: Swift.String?
     let reactions: [CodeGuruReviewerClientTypes.Reaction]?
@@ -2779,7 +2779,7 @@ extension PutRecommendationFeedbackOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutRecommendationFeedbackOutput: Swift.Equatable {
+public struct PutRecommendationFeedbackOutput {
 
     public init() { }
 }
@@ -2953,7 +2953,7 @@ extension CodeGuruReviewerClientTypes.RecommendationFeedback: Swift.Codable {
 
 extension CodeGuruReviewerClientTypes {
     /// Information about the recommendation feedback.
-    public struct RecommendationFeedback: Swift.Equatable {
+    public struct RecommendationFeedback {
         /// The Amazon Resource Name (ARN) of the [CodeReview](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_CodeReview.html) object.
         public var codeReviewArn: Swift.String?
         /// The time at which the feedback was created.
@@ -3032,7 +3032,7 @@ extension CodeGuruReviewerClientTypes.RecommendationFeedbackSummary: Swift.Codab
 
 extension CodeGuruReviewerClientTypes {
     /// Information about recommendation feedback summaries.
-    public struct RecommendationFeedbackSummary: Swift.Equatable {
+    public struct RecommendationFeedbackSummary {
         /// List for storing reactions. Reactions are utf-8 text code for emojis.
         public var reactions: [CodeGuruReviewerClientTypes.Reaction]?
         /// The recommendation ID that can be used to track the provided recommendations. Later on it can be used to collect the feedback.
@@ -3117,7 +3117,7 @@ extension CodeGuruReviewerClientTypes.RecommendationSummary: Swift.Codable {
 
 extension CodeGuruReviewerClientTypes {
     /// Information about recommendations.
-    public struct RecommendationSummary: Swift.Equatable {
+    public struct RecommendationSummary {
         /// A description of the recommendation generated by CodeGuru Reviewer for the lines of code between the start line and the end line.
         public var description: Swift.String?
         /// Last line where the recommendation is applicable in the source commit or source branch. For a single line comment the start line and end line values are the same.
@@ -3198,7 +3198,7 @@ extension CodeGuruReviewerClientTypes.Repository: Swift.Codable {
 
 extension CodeGuruReviewerClientTypes {
     /// Information about an associated Amazon Web Services CodeCommit repository or an associated repository that is managed by Amazon Web Services CodeStar Connections (for example, Bitbucket). This Repository object is not used if your source code is in an associated GitHub repository.
-    public struct Repository: Swift.Equatable {
+    public struct Repository {
         /// Information about a Bitbucket repository.
         public var bitbucket: CodeGuruReviewerClientTypes.ThirdPartySourceRepository?
         /// Information about an Amazon Web Services CodeCommit repository.
@@ -3251,7 +3251,7 @@ extension CodeGuruReviewerClientTypes.RepositoryAnalysis: Swift.Codable {
 
 extension CodeGuruReviewerClientTypes {
     /// A code review type that analyzes all code under a specified branch in an associated repository. The associated repository is specified using its ARN when you call [CreateCodeReview](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_CreateCodeReview).
-    public struct RepositoryAnalysis: Swift.Equatable {
+    public struct RepositoryAnalysis {
         /// A [SourceCodeType](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_SourceCodeType) that specifies the tip of a branch in an associated repository.
         public var repositoryHead: CodeGuruReviewerClientTypes.RepositoryHeadSourceCodeType?
         /// Specifies the source code that is analyzed in a code review.
@@ -3356,7 +3356,7 @@ extension CodeGuruReviewerClientTypes.RepositoryAssociation: Swift.Codable {
 
 extension CodeGuruReviewerClientTypes {
     /// Information about a repository association. The [DescribeRepositoryAssociation](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_DescribeRepositoryAssociation.html) operation returns a RepositoryAssociation object.
-    public struct RepositoryAssociation: Swift.Equatable {
+    public struct RepositoryAssociation {
         /// The Amazon Resource Name (ARN) identifying the repository association.
         public var associationArn: Swift.String?
         /// The ID of the repository association.
@@ -3539,7 +3539,7 @@ extension CodeGuruReviewerClientTypes.RepositoryAssociationSummary: Swift.Codabl
 
 extension CodeGuruReviewerClientTypes {
     /// Summary information about a repository association. The [ListRepositoryAssociations](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_ListRepositoryAssociations.html) operation returns a list of RepositoryAssociationSummary objects.
-    public struct RepositoryAssociationSummary: Swift.Equatable {
+    public struct RepositoryAssociationSummary {
         /// The Amazon Resource Name (ARN) of the [RepositoryAssociation](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociation.html) object. You can retrieve this ARN by calling [ListRepositoryAssociations](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_ListRepositoryAssociations.html).
         public var associationArn: Swift.String?
         /// The repository association ID.
@@ -3619,7 +3619,7 @@ extension CodeGuruReviewerClientTypes.RepositoryHeadSourceCodeType: Swift.Codabl
 
 extension CodeGuruReviewerClientTypes {
     /// A [SourceCodeType](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_SourceCodeType) that specifies the tip of a branch in an associated repository.
-    public struct RepositoryHeadSourceCodeType: Swift.Equatable {
+    public struct RepositoryHeadSourceCodeType {
         /// The name of the branch in an associated repository. The RepositoryHeadSourceCodeType specifies the tip of this branch.
         /// This member is required.
         public var branchName: Swift.String?
@@ -3673,7 +3673,7 @@ extension CodeGuruReviewerClientTypes.RequestMetadata: Swift.Codable {
 
 extension CodeGuruReviewerClientTypes {
     /// Metadata that is associated with a code review. This applies to both pull request and repository analysis code reviews.
-    public struct RequestMetadata: Swift.Equatable {
+    public struct RequestMetadata {
         /// Information about the event associated with a code review.
         public var eventInfo: CodeGuruReviewerClientTypes.EventInfo?
         /// The ID of the request. This is required for a pull request code review.
@@ -3738,7 +3738,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -3811,7 +3811,7 @@ extension CodeGuruReviewerClientTypes.RuleMetadata: Swift.Codable {
 
 extension CodeGuruReviewerClientTypes {
     /// Metadata about a rule. Rule metadata includes an ID, a name, a list of tags, and a short and long description. CodeGuru Reviewer uses rules to analyze code. A rule's recommendation is included in analysis results if code is detected that violates the rule.
-    public struct RuleMetadata: Swift.Equatable {
+    public struct RuleMetadata {
         /// A long description of the rule.
         public var longDescription: Swift.String?
         /// The ID of the rule.
@@ -3868,7 +3868,7 @@ extension CodeGuruReviewerClientTypes.S3BucketRepository: Swift.Codable {
 
 extension CodeGuruReviewerClientTypes {
     /// Information about an associated repository in an S3 bucket. The associated repository contains a source code .zip file and a build artifacts .zip file that contains .jar or .class files.
-    public struct S3BucketRepository: Swift.Equatable {
+    public struct S3BucketRepository {
         /// An S3RepositoryDetails object that specifies the name of an S3 bucket and a CodeArtifacts object. The CodeArtifacts object includes the S3 object keys for a source code .zip file and for a build artifacts .zip file.
         public var details: CodeGuruReviewerClientTypes.S3RepositoryDetails?
         /// The name of the repository when the ProviderType is S3Bucket.
@@ -3914,7 +3914,7 @@ extension CodeGuruReviewerClientTypes.S3Repository: Swift.Codable {
 
 extension CodeGuruReviewerClientTypes {
     /// Information about a repository in an S3 bucket.
-    public struct S3Repository: Swift.Equatable {
+    public struct S3Repository {
         /// The name of the S3 bucket used for associating a new S3 repository. It must begin with codeguru-reviewer-.
         /// This member is required.
         public var bucketName: Swift.String?
@@ -3961,7 +3961,7 @@ extension CodeGuruReviewerClientTypes.S3RepositoryDetails: Swift.Codable {
 
 extension CodeGuruReviewerClientTypes {
     /// Specifies the name of an S3 bucket and a CodeArtifacts object that contains the S3 object keys for a source code .zip file and for a build artifacts .zip file that contains .jar or .class files.
-    public struct S3RepositoryDetails: Swift.Equatable {
+    public struct S3RepositoryDetails {
         /// The name of the S3 bucket used for associating a new S3 repository. It must begin with codeguru-reviewer-.
         public var bucketName: Swift.String?
         /// A CodeArtifacts object. The CodeArtifacts object includes the S3 object key for a source code .zip file and for a build artifacts .zip file that contains .jar or .class files.
@@ -4065,7 +4065,7 @@ extension CodeGuruReviewerClientTypes.SourceCodeType: Swift.Codable {
 
 extension CodeGuruReviewerClientTypes {
     /// Specifies the source code that is analyzed in a code review.
-    public struct SourceCodeType: Swift.Equatable {
+    public struct SourceCodeType {
         /// A type of [SourceCodeType](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_SourceCodeType) that specifies a source branch name and a destination branch name in an associated repository.
         public var branchDiff: CodeGuruReviewerClientTypes.BranchDiffSourceCodeType?
         /// A [SourceCodeType](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_SourceCodeType) that specifies a commit diff created by a pull request on an associated repository.
@@ -4121,7 +4121,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the [RepositoryAssociation](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociation.html) object. You can retrieve this ARN by calling [ListRepositoryAssociations](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_ListRepositoryAssociations.html).
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4143,7 +4143,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -4173,7 +4173,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -4224,7 +4224,7 @@ extension CodeGuruReviewerClientTypes.ThirdPartySourceRepository: Swift.Codable 
 
 extension CodeGuruReviewerClientTypes {
     /// Information about a third-party source repository connected to CodeGuru Reviewer.
-    public struct ThirdPartySourceRepository: Swift.Equatable {
+    public struct ThirdPartySourceRepository {
         /// The Amazon Resource Name (ARN) of an Amazon Web Services CodeStar Connections connection. Its format is arn:aws:codestar-connections:region-id:aws-account_id:connection/connection-id. For more information, see [Connection](https://docs.aws.amazon.com/codestar-connections/latest/APIReference/API_Connection.html) in the Amazon Web Services CodeStar Connections API Reference.
         /// This member is required.
         public var connectionArn: Swift.String?
@@ -4288,7 +4288,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -4362,7 +4362,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the [RepositoryAssociation](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociation.html) object. You can retrieve this ARN by calling [ListRepositoryAssociations](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_ListRepositoryAssociations.html).
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4380,7 +4380,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -4394,7 +4394,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -4451,7 +4451,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

@@ -29,7 +29,7 @@ extension SWFClientTypes.ActivityTaskCancelRequestedEventAttributes: Swift.Codab
 
 extension SWFClientTypes {
     /// Provides the details of the ActivityTaskCancelRequested event.
-    public struct ActivityTaskCancelRequestedEventAttributes: Swift.Equatable {
+    public struct ActivityTaskCancelRequestedEventAttributes {
         /// The unique ID of the task.
         /// This member is required.
         public var activityId: Swift.String?
@@ -88,7 +88,7 @@ extension SWFClientTypes.ActivityTaskCanceledEventAttributes: Swift.Codable {
 
 extension SWFClientTypes {
     /// Provides the details of the ActivityTaskCanceled event.
-    public struct ActivityTaskCanceledEventAttributes: Swift.Equatable {
+    public struct ActivityTaskCanceledEventAttributes {
         /// Details of the cancellation.
         public var details: Swift.String?
         /// If set, contains the ID of the last ActivityTaskCancelRequested event recorded for this activity task. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
@@ -149,7 +149,7 @@ extension SWFClientTypes.ActivityTaskCompletedEventAttributes: Swift.Codable {
 
 extension SWFClientTypes {
     /// Provides the details of the ActivityTaskCompleted event.
-    public struct ActivityTaskCompletedEventAttributes: Swift.Equatable {
+    public struct ActivityTaskCompletedEventAttributes {
         /// The results of the activity task.
         public var result: Swift.String?
         /// The ID of the ActivityTaskScheduled event that was recorded when this activity task was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
@@ -212,7 +212,7 @@ extension SWFClientTypes.ActivityTaskFailedEventAttributes: Swift.Codable {
 
 extension SWFClientTypes {
     /// Provides the details of the ActivityTaskFailed event.
-    public struct ActivityTaskFailedEventAttributes: Swift.Equatable {
+    public struct ActivityTaskFailedEventAttributes {
         /// The details of the failure.
         public var details: Swift.String?
         /// The reason provided for the failure.
@@ -321,7 +321,7 @@ extension SWFClientTypes.ActivityTaskScheduledEventAttributes: Swift.Codable {
 
 extension SWFClientTypes {
     /// Provides the details of the ActivityTaskScheduled event.
-    public struct ActivityTaskScheduledEventAttributes: Swift.Equatable {
+    public struct ActivityTaskScheduledEventAttributes {
         /// The unique ID of the activity task.
         /// This member is required.
         public var activityId: Swift.String?
@@ -406,7 +406,7 @@ extension SWFClientTypes.ActivityTaskStartedEventAttributes: Swift.Codable {
 
 extension SWFClientTypes {
     /// Provides the details of the ActivityTaskStarted event.
-    public struct ActivityTaskStartedEventAttributes: Swift.Equatable {
+    public struct ActivityTaskStartedEventAttributes {
         /// Identity of the worker that was assigned this task. This aids diagnostics when problems arise. The form of this identity is user defined.
         public var identity: Swift.String?
         /// The ID of the ActivityTaskScheduled event that was recorded when this activity task was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
@@ -464,7 +464,7 @@ extension SWFClientTypes.ActivityTaskTimedOutEventAttributes: Swift.Codable {
 
 extension SWFClientTypes {
     /// Provides the details of the ActivityTaskTimedOut event.
-    public struct ActivityTaskTimedOutEventAttributes: Swift.Equatable {
+    public struct ActivityTaskTimedOutEventAttributes {
         /// Contains the content of the details parameter for the last call made by the activity to RecordActivityTaskHeartbeat.
         public var details: Swift.String?
         /// The ID of the ActivityTaskScheduled event that was recorded when this activity task was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
@@ -558,7 +558,7 @@ extension SWFClientTypes.ActivityType: Swift.Codable {
 
 extension SWFClientTypes {
     /// Represents an activity type.
-    public struct ActivityType: Swift.Equatable {
+    public struct ActivityType {
         /// The name of this activity. The combination of activity type name and version must be unique within a domain.
         /// This member is required.
         public var name: Swift.String?
@@ -629,7 +629,7 @@ extension SWFClientTypes.ActivityTypeConfiguration: Swift.Codable {
 
 extension SWFClientTypes {
     /// Configuration settings registered with the activity type.
-    public struct ActivityTypeConfiguration: Swift.Equatable {
+    public struct ActivityTypeConfiguration {
         /// The default maximum time, in seconds, before which a worker processing a task must report progress by calling [RecordActivityTaskHeartbeat]. You can specify this value only when registering an activity type. The registered default value can be overridden when you schedule a task through the ScheduleActivityTask[Decision]. If the activity worker subsequently attempts to record a heartbeat or returns a result, the activity worker receives an UnknownResource fault. In this case, Amazon SWF no longer considers the activity task to be valid; the activity worker should clean up the activity task. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration.
         public var defaultTaskHeartbeatTimeout: Swift.String?
         /// The default task list specified for this activity type at registration. This default is used if a task list isn't provided when a task is scheduled through the ScheduleActivityTask[Decision]. You can override the default registered task list when scheduling a task through the ScheduleActivityTask[Decision].
@@ -708,7 +708,7 @@ extension SWFClientTypes.ActivityTypeInfo: Swift.Codable {
 
 extension SWFClientTypes {
     /// Detailed information about an activity type.
-    public struct ActivityTypeInfo: Swift.Equatable {
+    public struct ActivityTypeInfo {
         /// The [ActivityType] type structure representing the activity type.
         /// This member is required.
         public var activityType: SWFClientTypes.ActivityType?
@@ -771,7 +771,7 @@ extension SWFClientTypes {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
-    public struct CancelTimerDecisionAttributes: Swift.Equatable {
+    public struct CancelTimerDecisionAttributes {
         /// The unique ID of the timer to cancel.
         /// This member is required.
         public var timerId: Swift.String?
@@ -851,7 +851,7 @@ extension SWFClientTypes.CancelTimerFailedEventAttributes: Swift.Codable {
 
 extension SWFClientTypes {
     /// Provides the details of the CancelTimerFailed event.
-    public struct CancelTimerFailedEventAttributes: Swift.Equatable {
+    public struct CancelTimerFailedEventAttributes {
         /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes. If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
         /// This member is required.
         public var cause: SWFClientTypes.CancelTimerFailedCause?
@@ -906,7 +906,7 @@ extension SWFClientTypes {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
-    public struct CancelWorkflowExecutionDecisionAttributes: Swift.Equatable {
+    public struct CancelWorkflowExecutionDecisionAttributes {
         /// Details of the cancellation.
         public var details: Swift.String?
 
@@ -979,7 +979,7 @@ extension SWFClientTypes.CancelWorkflowExecutionFailedEventAttributes: Swift.Cod
 
 extension SWFClientTypes {
     /// Provides the details of the CancelWorkflowExecutionFailed event.
-    public struct CancelWorkflowExecutionFailedEventAttributes: Swift.Equatable {
+    public struct CancelWorkflowExecutionFailedEventAttributes {
         /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes. If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
         /// This member is required.
         public var cause: SWFClientTypes.CancelWorkflowExecutionFailedCause?
@@ -1079,7 +1079,7 @@ extension SWFClientTypes.ChildWorkflowExecutionCanceledEventAttributes: Swift.Co
 
 extension SWFClientTypes {
     /// Provide details of the ChildWorkflowExecutionCanceled event.
-    public struct ChildWorkflowExecutionCanceledEventAttributes: Swift.Equatable {
+    public struct ChildWorkflowExecutionCanceledEventAttributes {
         /// Details of the cancellation (if provided).
         public var details: Swift.String?
         /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution[Decision] to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
@@ -1158,7 +1158,7 @@ extension SWFClientTypes.ChildWorkflowExecutionCompletedEventAttributes: Swift.C
 
 extension SWFClientTypes {
     /// Provides the details of the ChildWorkflowExecutionCompleted event.
-    public struct ChildWorkflowExecutionCompletedEventAttributes: Swift.Equatable {
+    public struct ChildWorkflowExecutionCompletedEventAttributes {
         /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution[Decision] to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         /// This member is required.
         public var initiatedEventId: Swift.Int
@@ -1243,7 +1243,7 @@ extension SWFClientTypes.ChildWorkflowExecutionFailedEventAttributes: Swift.Coda
 
 extension SWFClientTypes {
     /// Provides the details of the ChildWorkflowExecutionFailed event.
-    public struct ChildWorkflowExecutionFailedEventAttributes: Swift.Equatable {
+    public struct ChildWorkflowExecutionFailedEventAttributes {
         /// The details of the failure (if provided).
         public var details: Swift.String?
         /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution[Decision] to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
@@ -1314,7 +1314,7 @@ extension SWFClientTypes.ChildWorkflowExecutionStartedEventAttributes: Swift.Cod
 
 extension SWFClientTypes {
     /// Provides the details of the ChildWorkflowExecutionStarted event.
-    public struct ChildWorkflowExecutionStartedEventAttributes: Swift.Equatable {
+    public struct ChildWorkflowExecutionStartedEventAttributes {
         /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution[Decision] to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         /// This member is required.
         public var initiatedEventId: Swift.Int
@@ -1378,7 +1378,7 @@ extension SWFClientTypes.ChildWorkflowExecutionTerminatedEventAttributes: Swift.
 
 extension SWFClientTypes {
     /// Provides the details of the ChildWorkflowExecutionTerminated event.
-    public struct ChildWorkflowExecutionTerminatedEventAttributes: Swift.Equatable {
+    public struct ChildWorkflowExecutionTerminatedEventAttributes {
         /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution[Decision] to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         /// This member is required.
         public var initiatedEventId: Swift.Int
@@ -1453,7 +1453,7 @@ extension SWFClientTypes.ChildWorkflowExecutionTimedOutEventAttributes: Swift.Co
 
 extension SWFClientTypes {
     /// Provides the details of the ChildWorkflowExecutionTimedOut event.
-    public struct ChildWorkflowExecutionTimedOutEventAttributes: Swift.Equatable {
+    public struct ChildWorkflowExecutionTimedOutEventAttributes {
         /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution[Decision] to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         /// This member is required.
         public var initiatedEventId: Swift.Int
@@ -1553,7 +1553,7 @@ extension SWFClientTypes.CloseStatusFilter: Swift.Codable {
 
 extension SWFClientTypes {
     /// Used to filter the closed workflow executions in visibility APIs by their close status.
-    public struct CloseStatusFilter: Swift.Equatable {
+    public struct CloseStatusFilter {
         /// The close status that must match the close status of an execution for it to meet the criteria of this filter.
         /// This member is required.
         public var status: SWFClientTypes.CloseStatus?
@@ -1598,7 +1598,7 @@ extension SWFClientTypes {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
-    public struct CompleteWorkflowExecutionDecisionAttributes: Swift.Equatable {
+    public struct CompleteWorkflowExecutionDecisionAttributes {
         /// The result of the workflow execution. The form of the result is implementation defined.
         public var result: Swift.String?
 
@@ -1671,7 +1671,7 @@ extension SWFClientTypes.CompleteWorkflowExecutionFailedEventAttributes: Swift.C
 
 extension SWFClientTypes {
     /// Provides the details of the CompleteWorkflowExecutionFailed event.
-    public struct CompleteWorkflowExecutionFailedEventAttributes: Swift.Equatable {
+    public struct CompleteWorkflowExecutionFailedEventAttributes {
         /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes. If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
         /// This member is required.
         public var cause: SWFClientTypes.CompleteWorkflowExecutionFailedCause?
@@ -1790,7 +1790,7 @@ extension SWFClientTypes {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
-    public struct ContinueAsNewWorkflowExecutionDecisionAttributes: Swift.Equatable {
+    public struct ContinueAsNewWorkflowExecutionDecisionAttributes {
         /// If set, specifies the policy to use for the child workflow executions of the new execution if it is terminated by calling the [TerminateWorkflowExecution] action explicitly or due to an expired timeout. This policy overrides the default child policy specified when registering the workflow type using [RegisterWorkflowType]. The supported child policies are:
         ///
         /// * TERMINATE – The child executions are terminated.
@@ -1925,7 +1925,7 @@ extension SWFClientTypes.ContinueAsNewWorkflowExecutionFailedEventAttributes: Sw
 
 extension SWFClientTypes {
     /// Provides the details of the ContinueAsNewWorkflowExecutionFailed event.
-    public struct ContinueAsNewWorkflowExecutionFailedEventAttributes: Swift.Equatable {
+    public struct ContinueAsNewWorkflowExecutionFailedEventAttributes {
         /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes. If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
         /// This member is required.
         public var cause: SWFClientTypes.ContinueAsNewWorkflowExecutionFailedCause?
@@ -1989,7 +1989,7 @@ extension CountClosedWorkflowExecutionsInput {
     }
 }
 
-public struct CountClosedWorkflowExecutionsInput: Swift.Equatable {
+public struct CountClosedWorkflowExecutionsInput {
     /// If specified, only workflow executions that match this close status are counted. This filter has an affect only if executionStatus is specified as CLOSED. closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
     public var closeStatusFilter: SWFClientTypes.CloseStatusFilter?
     /// If specified, only workflow executions that meet the close time criteria of the filter are counted. startTimeFilter and closeTimeFilter are mutually exclusive. You must specify one of these in a request but not both.
@@ -2026,7 +2026,7 @@ public struct CountClosedWorkflowExecutionsInput: Swift.Equatable {
     }
 }
 
-struct CountClosedWorkflowExecutionsInputBody: Swift.Equatable {
+struct CountClosedWorkflowExecutionsInputBody {
     let domain: Swift.String?
     let startTimeFilter: SWFClientTypes.ExecutionTimeFilter?
     let closeTimeFilter: SWFClientTypes.ExecutionTimeFilter?
@@ -2081,7 +2081,7 @@ extension CountClosedWorkflowExecutionsOutput: ClientRuntime.HttpResponseBinding
 }
 
 /// Contains the count of workflow executions returned from [CountOpenWorkflowExecutions] or [CountClosedWorkflowExecutions]
-public struct CountClosedWorkflowExecutionsOutput: Swift.Equatable {
+public struct CountClosedWorkflowExecutionsOutput {
     /// The number of workflow executions.
     /// This member is required.
     public var count: Swift.Int
@@ -2098,7 +2098,7 @@ public struct CountClosedWorkflowExecutionsOutput: Swift.Equatable {
     }
 }
 
-struct CountClosedWorkflowExecutionsOutputBody: Swift.Equatable {
+struct CountClosedWorkflowExecutionsOutputBody {
     let count: Swift.Int
     let truncated: Swift.Bool
 }
@@ -2166,7 +2166,7 @@ extension CountOpenWorkflowExecutionsInput {
     }
 }
 
-public struct CountOpenWorkflowExecutionsInput: Swift.Equatable {
+public struct CountOpenWorkflowExecutionsInput {
     /// The name of the domain containing the workflow executions to count.
     /// This member is required.
     public var domain: Swift.String?
@@ -2196,7 +2196,7 @@ public struct CountOpenWorkflowExecutionsInput: Swift.Equatable {
     }
 }
 
-struct CountOpenWorkflowExecutionsInputBody: Swift.Equatable {
+struct CountOpenWorkflowExecutionsInputBody {
     let domain: Swift.String?
     let startTimeFilter: SWFClientTypes.ExecutionTimeFilter?
     let typeFilter: SWFClientTypes.WorkflowTypeFilter?
@@ -2243,7 +2243,7 @@ extension CountOpenWorkflowExecutionsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the count of workflow executions returned from [CountOpenWorkflowExecutions] or [CountClosedWorkflowExecutions]
-public struct CountOpenWorkflowExecutionsOutput: Swift.Equatable {
+public struct CountOpenWorkflowExecutionsOutput {
     /// The number of workflow executions.
     /// This member is required.
     public var count: Swift.Int
@@ -2260,7 +2260,7 @@ public struct CountOpenWorkflowExecutionsOutput: Swift.Equatable {
     }
 }
 
-struct CountOpenWorkflowExecutionsOutputBody: Swift.Equatable {
+struct CountOpenWorkflowExecutionsOutputBody {
     let count: Swift.Int
     let truncated: Swift.Bool
 }
@@ -2316,7 +2316,7 @@ extension CountPendingActivityTasksInput {
     }
 }
 
-public struct CountPendingActivityTasksInput: Swift.Equatable {
+public struct CountPendingActivityTasksInput {
     /// The name of the domain that contains the task list.
     /// This member is required.
     public var domain: Swift.String?
@@ -2334,7 +2334,7 @@ public struct CountPendingActivityTasksInput: Swift.Equatable {
     }
 }
 
-struct CountPendingActivityTasksInputBody: Swift.Equatable {
+struct CountPendingActivityTasksInputBody {
     let domain: Swift.String?
     let taskList: SWFClientTypes.TaskList?
 }
@@ -2369,7 +2369,7 @@ extension CountPendingActivityTasksOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the count of tasks in a task list.
-public struct CountPendingActivityTasksOutput: Swift.Equatable {
+public struct CountPendingActivityTasksOutput {
     /// The number of tasks in the task list.
     /// This member is required.
     public var count: Swift.Int
@@ -2386,7 +2386,7 @@ public struct CountPendingActivityTasksOutput: Swift.Equatable {
     }
 }
 
-struct CountPendingActivityTasksOutputBody: Swift.Equatable {
+struct CountPendingActivityTasksOutputBody {
     let count: Swift.Int
     let truncated: Swift.Bool
 }
@@ -2442,7 +2442,7 @@ extension CountPendingDecisionTasksInput {
     }
 }
 
-public struct CountPendingDecisionTasksInput: Swift.Equatable {
+public struct CountPendingDecisionTasksInput {
     /// The name of the domain that contains the task list.
     /// This member is required.
     public var domain: Swift.String?
@@ -2460,7 +2460,7 @@ public struct CountPendingDecisionTasksInput: Swift.Equatable {
     }
 }
 
-struct CountPendingDecisionTasksInputBody: Swift.Equatable {
+struct CountPendingDecisionTasksInputBody {
     let domain: Swift.String?
     let taskList: SWFClientTypes.TaskList?
 }
@@ -2495,7 +2495,7 @@ extension CountPendingDecisionTasksOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the count of tasks in a task list.
-public struct CountPendingDecisionTasksOutput: Swift.Equatable {
+public struct CountPendingDecisionTasksOutput {
     /// The number of tasks in the task list.
     /// This member is required.
     public var count: Swift.Int
@@ -2512,7 +2512,7 @@ public struct CountPendingDecisionTasksOutput: Swift.Equatable {
     }
 }
 
-struct CountPendingDecisionTasksOutputBody: Swift.Equatable {
+struct CountPendingDecisionTasksOutputBody {
     let count: Swift.Int
     let truncated: Swift.Bool
 }
@@ -2728,7 +2728,7 @@ extension SWFClientTypes {
     /// * [RequestCancelExternalWorkflowExecutionDecisionAttributes]
     ///
     /// * [StartChildWorkflowExecutionDecisionAttributes]
-    public struct Decision: Swift.Equatable {
+    public struct Decision {
         /// Provides the details of the CancelTimer decision. It isn't set for other decision types.
         public var cancelTimerDecisionAttributes: SWFClientTypes.CancelTimerDecisionAttributes?
         /// Provides the details of the CancelWorkflowExecution decision. It isn't set for other decision types.
@@ -2840,7 +2840,7 @@ extension SWFClientTypes.DecisionTaskCompletedEventAttributes: Swift.Codable {
 
 extension SWFClientTypes {
     /// Provides the details of the DecisionTaskCompleted event.
-    public struct DecisionTaskCompletedEventAttributes: Swift.Equatable {
+    public struct DecisionTaskCompletedEventAttributes {
         /// User defined context for the workflow execution.
         public var executionContext: Swift.String?
         /// The ID of the DecisionTaskScheduled event that was recorded when this decision task was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
@@ -2911,7 +2911,7 @@ extension SWFClientTypes.DecisionTaskScheduledEventAttributes: Swift.Codable {
 
 extension SWFClientTypes {
     /// Provides details about the DecisionTaskScheduled event.
-    public struct DecisionTaskScheduledEventAttributes: Swift.Equatable {
+    public struct DecisionTaskScheduledEventAttributes {
         /// The maximum amount of time the decision task can wait to be assigned to a worker.
         public var scheduleToStartTimeout: Swift.String?
         /// The maximum duration for this decision task. The task is considered timed out if it doesn't completed within this duration. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration.
@@ -2965,7 +2965,7 @@ extension SWFClientTypes.DecisionTaskStartedEventAttributes: Swift.Codable {
 
 extension SWFClientTypes {
     /// Provides the details of the DecisionTaskStarted event.
-    public struct DecisionTaskStartedEventAttributes: Swift.Equatable {
+    public struct DecisionTaskStartedEventAttributes {
         /// Identity of the decider making the request. This enables diagnostic tracing when problems arise. The form of this identity is user defined.
         public var identity: Swift.String?
         /// The ID of the DecisionTaskScheduled event that was recorded when this decision task was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
@@ -3017,7 +3017,7 @@ extension SWFClientTypes.DecisionTaskTimedOutEventAttributes: Swift.Codable {
 
 extension SWFClientTypes {
     /// Provides the details of the DecisionTaskTimedOut event.
-    public struct DecisionTaskTimedOutEventAttributes: Swift.Equatable {
+    public struct DecisionTaskTimedOutEventAttributes {
         /// The ID of the DecisionTaskScheduled event that was recorded when this decision task was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         /// This member is required.
         public var scheduledEventId: Swift.Int
@@ -3178,7 +3178,7 @@ public struct DefaultUndefinedFault: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct DefaultUndefinedFaultBody: Swift.Equatable {
+struct DefaultUndefinedFaultBody {
     let message: Swift.String?
 }
 
@@ -3218,7 +3218,7 @@ extension DeprecateActivityTypeInput {
     }
 }
 
-public struct DeprecateActivityTypeInput: Swift.Equatable {
+public struct DeprecateActivityTypeInput {
     /// The activity type to deprecate.
     /// This member is required.
     public var activityType: SWFClientTypes.ActivityType?
@@ -3236,7 +3236,7 @@ public struct DeprecateActivityTypeInput: Swift.Equatable {
     }
 }
 
-struct DeprecateActivityTypeInputBody: Swift.Equatable {
+struct DeprecateActivityTypeInputBody {
     let domain: Swift.String?
     let activityType: SWFClientTypes.ActivityType?
 }
@@ -3261,7 +3261,7 @@ extension DeprecateActivityTypeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeprecateActivityTypeOutput: Swift.Equatable {
+public struct DeprecateActivityTypeOutput {
 
     public init() { }
 }
@@ -3299,7 +3299,7 @@ extension DeprecateDomainInput {
     }
 }
 
-public struct DeprecateDomainInput: Swift.Equatable {
+public struct DeprecateDomainInput {
     /// The name of the domain to deprecate.
     /// This member is required.
     public var name: Swift.String?
@@ -3312,7 +3312,7 @@ public struct DeprecateDomainInput: Swift.Equatable {
     }
 }
 
-struct DeprecateDomainInputBody: Swift.Equatable {
+struct DeprecateDomainInputBody {
     let name: Swift.String?
 }
 
@@ -3333,7 +3333,7 @@ extension DeprecateDomainOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeprecateDomainOutput: Swift.Equatable {
+public struct DeprecateDomainOutput {
 
     public init() { }
 }
@@ -3375,7 +3375,7 @@ extension DeprecateWorkflowTypeInput {
     }
 }
 
-public struct DeprecateWorkflowTypeInput: Swift.Equatable {
+public struct DeprecateWorkflowTypeInput {
     /// The name of the domain in which the workflow type is registered.
     /// This member is required.
     public var domain: Swift.String?
@@ -3393,7 +3393,7 @@ public struct DeprecateWorkflowTypeInput: Swift.Equatable {
     }
 }
 
-struct DeprecateWorkflowTypeInputBody: Swift.Equatable {
+struct DeprecateWorkflowTypeInputBody {
     let domain: Swift.String?
     let workflowType: SWFClientTypes.WorkflowType?
 }
@@ -3418,7 +3418,7 @@ extension DeprecateWorkflowTypeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeprecateWorkflowTypeOutput: Swift.Equatable {
+public struct DeprecateWorkflowTypeOutput {
 
     public init() { }
 }
@@ -3460,7 +3460,7 @@ extension DescribeActivityTypeInput {
     }
 }
 
-public struct DescribeActivityTypeInput: Swift.Equatable {
+public struct DescribeActivityTypeInput {
     /// The activity type to get information about. Activity types are identified by the name and version that were supplied when the activity was registered.
     /// This member is required.
     public var activityType: SWFClientTypes.ActivityType?
@@ -3478,7 +3478,7 @@ public struct DescribeActivityTypeInput: Swift.Equatable {
     }
 }
 
-struct DescribeActivityTypeInputBody: Swift.Equatable {
+struct DescribeActivityTypeInputBody {
     let domain: Swift.String?
     let activityType: SWFClientTypes.ActivityType?
 }
@@ -3513,7 +3513,7 @@ extension DescribeActivityTypeOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Detailed information about an activity type.
-public struct DescribeActivityTypeOutput: Swift.Equatable {
+public struct DescribeActivityTypeOutput {
     /// The configuration settings registered with the activity type.
     /// This member is required.
     public var configuration: SWFClientTypes.ActivityTypeConfiguration?
@@ -3535,7 +3535,7 @@ public struct DescribeActivityTypeOutput: Swift.Equatable {
     }
 }
 
-struct DescribeActivityTypeOutputBody: Swift.Equatable {
+struct DescribeActivityTypeOutputBody {
     let typeInfo: SWFClientTypes.ActivityTypeInfo?
     let configuration: SWFClientTypes.ActivityTypeConfiguration?
 }
@@ -3587,7 +3587,7 @@ extension DescribeDomainInput {
     }
 }
 
-public struct DescribeDomainInput: Swift.Equatable {
+public struct DescribeDomainInput {
     /// The name of the domain to describe.
     /// This member is required.
     public var name: Swift.String?
@@ -3600,7 +3600,7 @@ public struct DescribeDomainInput: Swift.Equatable {
     }
 }
 
-struct DescribeDomainInputBody: Swift.Equatable {
+struct DescribeDomainInputBody {
     let name: Swift.String?
 }
 
@@ -3631,7 +3631,7 @@ extension DescribeDomainOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains details of a domain.
-public struct DescribeDomainOutput: Swift.Equatable {
+public struct DescribeDomainOutput {
     /// The domain configuration. Currently, this includes only the domain's retention period.
     /// This member is required.
     public var configuration: SWFClientTypes.DomainConfiguration?
@@ -3649,7 +3649,7 @@ public struct DescribeDomainOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDomainOutputBody: Swift.Equatable {
+struct DescribeDomainOutputBody {
     let domainInfo: SWFClientTypes.DomainInfo?
     let configuration: SWFClientTypes.DomainConfiguration?
 }
@@ -3705,7 +3705,7 @@ extension DescribeWorkflowExecutionInput {
     }
 }
 
-public struct DescribeWorkflowExecutionInput: Swift.Equatable {
+public struct DescribeWorkflowExecutionInput {
     /// The name of the domain containing the workflow execution.
     /// This member is required.
     public var domain: Swift.String?
@@ -3723,7 +3723,7 @@ public struct DescribeWorkflowExecutionInput: Swift.Equatable {
     }
 }
 
-struct DescribeWorkflowExecutionInputBody: Swift.Equatable {
+struct DescribeWorkflowExecutionInputBody {
     let domain: Swift.String?
     let execution: SWFClientTypes.WorkflowExecution?
 }
@@ -3764,7 +3764,7 @@ extension DescribeWorkflowExecutionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains details about a workflow execution.
-public struct DescribeWorkflowExecutionOutput: Swift.Equatable {
+public struct DescribeWorkflowExecutionOutput {
     /// The configuration settings for this workflow execution including timeout values, tasklist etc.
     /// This member is required.
     public var executionConfiguration: SWFClientTypes.WorkflowExecutionConfiguration?
@@ -3795,7 +3795,7 @@ public struct DescribeWorkflowExecutionOutput: Swift.Equatable {
     }
 }
 
-struct DescribeWorkflowExecutionOutputBody: Swift.Equatable {
+struct DescribeWorkflowExecutionOutputBody {
     let executionInfo: SWFClientTypes.WorkflowExecutionInfo?
     let executionConfiguration: SWFClientTypes.WorkflowExecutionConfiguration?
     let openCounts: SWFClientTypes.WorkflowExecutionOpenCounts?
@@ -3863,7 +3863,7 @@ extension DescribeWorkflowTypeInput {
     }
 }
 
-public struct DescribeWorkflowTypeInput: Swift.Equatable {
+public struct DescribeWorkflowTypeInput {
     /// The name of the domain in which this workflow type is registered.
     /// This member is required.
     public var domain: Swift.String?
@@ -3881,7 +3881,7 @@ public struct DescribeWorkflowTypeInput: Swift.Equatable {
     }
 }
 
-struct DescribeWorkflowTypeInputBody: Swift.Equatable {
+struct DescribeWorkflowTypeInputBody {
     let domain: Swift.String?
     let workflowType: SWFClientTypes.WorkflowType?
 }
@@ -3916,7 +3916,7 @@ extension DescribeWorkflowTypeOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains details about a workflow type.
-public struct DescribeWorkflowTypeOutput: Swift.Equatable {
+public struct DescribeWorkflowTypeOutput {
     /// Configuration settings of the workflow type registered through [RegisterWorkflowType]
     /// This member is required.
     public var configuration: SWFClientTypes.WorkflowTypeConfiguration?
@@ -3938,7 +3938,7 @@ public struct DescribeWorkflowTypeOutput: Swift.Equatable {
     }
 }
 
-struct DescribeWorkflowTypeOutputBody: Swift.Equatable {
+struct DescribeWorkflowTypeOutputBody {
     let typeInfo: SWFClientTypes.WorkflowTypeInfo?
     let configuration: SWFClientTypes.WorkflowTypeConfiguration?
 }
@@ -4010,7 +4010,7 @@ public struct DomainAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct DomainAlreadyExistsFaultBody: Swift.Equatable {
+struct DomainAlreadyExistsFaultBody {
     let message: Swift.String?
 }
 
@@ -4047,7 +4047,7 @@ extension SWFClientTypes.DomainConfiguration: Swift.Codable {
 
 extension SWFClientTypes {
     /// Contains the configuration settings of a domain.
-    public struct DomainConfiguration: Swift.Equatable {
+    public struct DomainConfiguration {
         /// The retention period for workflow executions in this domain.
         /// This member is required.
         public var workflowExecutionRetentionPeriodInDays: Swift.String?
@@ -4102,7 +4102,7 @@ public struct DomainDeprecatedFault: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct DomainDeprecatedFaultBody: Swift.Equatable {
+struct DomainDeprecatedFaultBody {
     let message: Swift.String?
 }
 
@@ -4157,7 +4157,7 @@ extension SWFClientTypes.DomainInfo: Swift.Codable {
 
 extension SWFClientTypes {
     /// Contains general information about a domain.
-    public struct DomainInfo: Swift.Equatable {
+    public struct DomainInfo {
         /// The ARN of the domain.
         public var arn: Swift.String?
         /// The description of the domain provided through [RegisterDomain].
@@ -4436,7 +4436,7 @@ extension SWFClientTypes.ExecutionTimeFilter: Swift.Codable {
 
 extension SWFClientTypes {
     /// Used to filter the workflow executions in visibility APIs by various time-based rules. Each parameter, if specified, defines a rule that must be satisfied by each returned query result. The parameter values are in the [Unix Time format](https://en.wikipedia.org/wiki/Unix_time). For example: "oldestDate": 1325376070.
-    public struct ExecutionTimeFilter: Swift.Equatable {
+    public struct ExecutionTimeFilter {
         /// Specifies the latest start or close date and time to return.
         public var latestDate: ClientRuntime.Date?
         /// Specifies the oldest start or close date and time to return.
@@ -4482,7 +4482,7 @@ extension SWFClientTypes.ExternalWorkflowExecutionCancelRequestedEventAttributes
 
 extension SWFClientTypes {
     /// Provides the details of the ExternalWorkflowExecutionCancelRequested event.
-    public struct ExternalWorkflowExecutionCancelRequestedEventAttributes: Swift.Equatable {
+    public struct ExternalWorkflowExecutionCancelRequestedEventAttributes {
         /// The ID of the RequestCancelExternalWorkflowExecutionInitiated event corresponding to the RequestCancelExternalWorkflowExecution decision to cancel this external workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         /// This member is required.
         public var initiatedEventId: Swift.Int
@@ -4529,7 +4529,7 @@ extension SWFClientTypes.ExternalWorkflowExecutionSignaledEventAttributes: Swift
 
 extension SWFClientTypes {
     /// Provides the details of the ExternalWorkflowExecutionSignaled event.
-    public struct ExternalWorkflowExecutionSignaledEventAttributes: Swift.Equatable {
+    public struct ExternalWorkflowExecutionSignaledEventAttributes {
         /// The ID of the SignalExternalWorkflowExecutionInitiated event corresponding to the SignalExternalWorkflowExecution decision to request this signal. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         /// This member is required.
         public var initiatedEventId: Swift.Int
@@ -4585,7 +4585,7 @@ extension SWFClientTypes {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
-    public struct FailWorkflowExecutionDecisionAttributes: Swift.Equatable {
+    public struct FailWorkflowExecutionDecisionAttributes {
         /// Details of the failure.
         public var details: Swift.String?
         /// A descriptive reason for the failure that may help in diagnostics.
@@ -4662,7 +4662,7 @@ extension SWFClientTypes.FailWorkflowExecutionFailedEventAttributes: Swift.Codab
 
 extension SWFClientTypes {
     /// Provides the details of the FailWorkflowExecutionFailed event.
-    public struct FailWorkflowExecutionFailedEventAttributes: Swift.Equatable {
+    public struct FailWorkflowExecutionFailedEventAttributes {
         /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes. If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
         /// This member is required.
         public var cause: SWFClientTypes.FailWorkflowExecutionFailedCause?
@@ -4718,7 +4718,7 @@ extension GetWorkflowExecutionHistoryInput {
     }
 }
 
-public struct GetWorkflowExecutionHistoryInput: Swift.Equatable {
+public struct GetWorkflowExecutionHistoryInput {
     /// The name of the domain containing the workflow execution.
     /// This member is required.
     public var domain: Swift.String?
@@ -4748,7 +4748,7 @@ public struct GetWorkflowExecutionHistoryInput: Swift.Equatable {
     }
 }
 
-struct GetWorkflowExecutionHistoryInputBody: Swift.Equatable {
+struct GetWorkflowExecutionHistoryInputBody {
     let domain: Swift.String?
     let execution: SWFClientTypes.WorkflowExecution?
     let nextPageToken: Swift.String?
@@ -4795,7 +4795,7 @@ extension GetWorkflowExecutionHistoryOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Paginated representation of a workflow history for a workflow execution. This is the up to date, complete and authoritative record of the events related to all tasks and events in the life of the workflow execution.
-public struct GetWorkflowExecutionHistoryOutput: Swift.Equatable {
+public struct GetWorkflowExecutionHistoryOutput {
     /// The list of history events.
     /// This member is required.
     public var events: [SWFClientTypes.HistoryEvent]?
@@ -4812,7 +4812,7 @@ public struct GetWorkflowExecutionHistoryOutput: Swift.Equatable {
     }
 }
 
-struct GetWorkflowExecutionHistoryOutputBody: Swift.Equatable {
+struct GetWorkflowExecutionHistoryOutputBody {
     let events: [SWFClientTypes.HistoryEvent]?
     let nextPageToken: Swift.String?
 }
@@ -5306,7 +5306,7 @@ extension SWFClientTypes {
     /// * WorkflowExecutionTerminated – The workflow execution was terminated.
     ///
     /// * WorkflowExecutionTimedOut – The workflow execution was closed because a time out was exceeded.
-    public struct HistoryEvent: Swift.Equatable {
+    public struct HistoryEvent {
         /// If the event is of type ActivityTaskcancelRequested then this member is set and provides detailed information about the event. It isn't set for other event types.
         public var activityTaskCancelRequestedEventAttributes: SWFClientTypes.ActivityTaskCancelRequestedEventAttributes?
         /// If the event is of type ActivityTaskCanceled then this member is set and provides detailed information about the event. It isn't set for other event types.
@@ -5580,7 +5580,7 @@ extension SWFClientTypes.LambdaFunctionCompletedEventAttributes: Swift.Codable {
 
 extension SWFClientTypes {
     /// Provides the details of the LambdaFunctionCompleted event. It isn't set for other event types.
-    public struct LambdaFunctionCompletedEventAttributes: Swift.Equatable {
+    public struct LambdaFunctionCompletedEventAttributes {
         /// The results of the Lambda task.
         public var result: Swift.String?
         /// The ID of the LambdaFunctionScheduled event that was recorded when this Lambda task was scheduled. To help diagnose issues, use this information to trace back the chain of events leading up to this event.
@@ -5643,7 +5643,7 @@ extension SWFClientTypes.LambdaFunctionFailedEventAttributes: Swift.Codable {
 
 extension SWFClientTypes {
     /// Provides the details of the LambdaFunctionFailed event. It isn't set for other event types.
-    public struct LambdaFunctionFailedEventAttributes: Swift.Equatable {
+    public struct LambdaFunctionFailedEventAttributes {
         /// The details of the failure.
         public var details: Swift.String?
         /// The reason provided for the failure.
@@ -5722,7 +5722,7 @@ extension SWFClientTypes.LambdaFunctionScheduledEventAttributes: Swift.Codable {
 
 extension SWFClientTypes {
     /// Provides the details of the LambdaFunctionScheduled event. It isn't set for other event types.
-    public struct LambdaFunctionScheduledEventAttributes: Swift.Equatable {
+    public struct LambdaFunctionScheduledEventAttributes {
         /// Data attached to the event that the decider can use in subsequent workflow tasks. This data isn't sent to the Lambda task.
         public var control: Swift.String?
         /// The ID of the LambdaFunctionCompleted event corresponding to the decision that resulted in scheduling this activity task. To help diagnose issues, use this information to trace back the chain of events leading up to this event.
@@ -5780,7 +5780,7 @@ extension SWFClientTypes.LambdaFunctionStartedEventAttributes: Swift.Codable {
 
 extension SWFClientTypes {
     /// Provides the details of the LambdaFunctionStarted event. It isn't set for other event types.
-    public struct LambdaFunctionStartedEventAttributes: Swift.Equatable {
+    public struct LambdaFunctionStartedEventAttributes {
         /// The ID of the LambdaFunctionScheduled event that was recorded when this activity task was scheduled. To help diagnose issues, use this information to trace back the chain of events leading up to this event.
         /// This member is required.
         public var scheduledEventId: Swift.Int
@@ -5828,7 +5828,7 @@ extension SWFClientTypes.LambdaFunctionTimedOutEventAttributes: Swift.Codable {
 
 extension SWFClientTypes {
     /// Provides details of the LambdaFunctionTimedOut event.
-    public struct LambdaFunctionTimedOutEventAttributes: Swift.Equatable {
+    public struct LambdaFunctionTimedOutEventAttributes {
         /// The ID of the LambdaFunctionScheduled event that was recorded when this activity task was scheduled. To help diagnose issues, use this information to trace back the chain of events leading up to this event.
         /// This member is required.
         public var scheduledEventId: Swift.Int
@@ -5921,7 +5921,7 @@ public struct LimitExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.A
     }
 }
 
-struct LimitExceededFaultBody: Swift.Equatable {
+struct LimitExceededFaultBody {
     let message: Swift.String?
 }
 
@@ -5977,7 +5977,7 @@ extension ListActivityTypesInput {
     }
 }
 
-public struct ListActivityTypesInput: Swift.Equatable {
+public struct ListActivityTypesInput {
     /// The name of the domain in which the activity types have been registered.
     /// This member is required.
     public var domain: Swift.String?
@@ -6011,7 +6011,7 @@ public struct ListActivityTypesInput: Swift.Equatable {
     }
 }
 
-struct ListActivityTypesInputBody: Swift.Equatable {
+struct ListActivityTypesInputBody {
     let domain: Swift.String?
     let name: Swift.String?
     let registrationStatus: SWFClientTypes.RegistrationStatus?
@@ -6062,7 +6062,7 @@ extension ListActivityTypesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains a paginated list of activity type information structures.
-public struct ListActivityTypesOutput: Swift.Equatable {
+public struct ListActivityTypesOutput {
     /// If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken. Keep all other arguments unchanged. The configured maximumPageSize determines how many results can be returned in a single call.
     public var nextPageToken: Swift.String?
     /// List of activity type information.
@@ -6079,7 +6079,7 @@ public struct ListActivityTypesOutput: Swift.Equatable {
     }
 }
 
-struct ListActivityTypesOutputBody: Swift.Equatable {
+struct ListActivityTypesOutputBody {
     let typeInfos: [SWFClientTypes.ActivityTypeInfo]?
     let nextPageToken: Swift.String?
 }
@@ -6176,7 +6176,7 @@ extension ListClosedWorkflowExecutionsInput {
     }
 }
 
-public struct ListClosedWorkflowExecutionsInput: Swift.Equatable {
+public struct ListClosedWorkflowExecutionsInput {
     /// If specified, only workflow executions that match this close status are listed. For example, if TERMINATED is specified, then only TERMINATED workflow executions are listed. closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
     public var closeStatusFilter: SWFClientTypes.CloseStatusFilter?
     /// If specified, the workflow executions are included in the returned results based on whether their close times are within the range specified by this filter. Also, if this parameter is specified, the returned results are ordered by their close times. startTimeFilter and closeTimeFilter are mutually exclusive. You must specify one of these in a request but not both.
@@ -6225,7 +6225,7 @@ public struct ListClosedWorkflowExecutionsInput: Swift.Equatable {
     }
 }
 
-struct ListClosedWorkflowExecutionsInputBody: Swift.Equatable {
+struct ListClosedWorkflowExecutionsInputBody {
     let domain: Swift.String?
     let startTimeFilter: SWFClientTypes.ExecutionTimeFilter?
     let closeTimeFilter: SWFClientTypes.ExecutionTimeFilter?
@@ -6292,7 +6292,7 @@ extension ListClosedWorkflowExecutionsOutput: ClientRuntime.HttpResponseBinding 
 }
 
 /// Contains a paginated list of information about workflow executions.
-public struct ListClosedWorkflowExecutionsOutput: Swift.Equatable {
+public struct ListClosedWorkflowExecutionsOutput {
     /// The list of workflow information structures.
     /// This member is required.
     public var executionInfos: [SWFClientTypes.WorkflowExecutionInfo]?
@@ -6309,7 +6309,7 @@ public struct ListClosedWorkflowExecutionsOutput: Swift.Equatable {
     }
 }
 
-struct ListClosedWorkflowExecutionsOutputBody: Swift.Equatable {
+struct ListClosedWorkflowExecutionsOutputBody {
     let executionInfos: [SWFClientTypes.WorkflowExecutionInfo]?
     let nextPageToken: Swift.String?
 }
@@ -6382,7 +6382,7 @@ extension ListDomainsInput {
     }
 }
 
-public struct ListDomainsInput: Swift.Equatable {
+public struct ListDomainsInput {
     /// The maximum number of results that are returned per call. Use nextPageToken to obtain further pages of results.
     public var maximumPageSize: Swift.Int?
     /// If NextPageToken is returned there are more results available. The value of NextPageToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return a 400 error: "Specified token has exceeded its maximum lifetime". The configured maximumPageSize determines how many results can be returned in a single call.
@@ -6407,7 +6407,7 @@ public struct ListDomainsInput: Swift.Equatable {
     }
 }
 
-struct ListDomainsInputBody: Swift.Equatable {
+struct ListDomainsInputBody {
     let nextPageToken: Swift.String?
     let registrationStatus: SWFClientTypes.RegistrationStatus?
     let maximumPageSize: Swift.Int?
@@ -6450,7 +6450,7 @@ extension ListDomainsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains a paginated collection of DomainInfo structures.
-public struct ListDomainsOutput: Swift.Equatable {
+public struct ListDomainsOutput {
     /// A list of DomainInfo structures.
     /// This member is required.
     public var domainInfos: [SWFClientTypes.DomainInfo]?
@@ -6467,7 +6467,7 @@ public struct ListDomainsOutput: Swift.Equatable {
     }
 }
 
-struct ListDomainsOutputBody: Swift.Equatable {
+struct ListDomainsOutputBody {
     let domainInfos: [SWFClientTypes.DomainInfo]?
     let nextPageToken: Swift.String?
 }
@@ -6555,7 +6555,7 @@ extension ListOpenWorkflowExecutionsInput {
     }
 }
 
-public struct ListOpenWorkflowExecutionsInput: Swift.Equatable {
+public struct ListOpenWorkflowExecutionsInput {
     /// The name of the domain that contains the workflow executions to list.
     /// This member is required.
     public var domain: Swift.String?
@@ -6597,7 +6597,7 @@ public struct ListOpenWorkflowExecutionsInput: Swift.Equatable {
     }
 }
 
-struct ListOpenWorkflowExecutionsInputBody: Swift.Equatable {
+struct ListOpenWorkflowExecutionsInputBody {
     let domain: Swift.String?
     let startTimeFilter: SWFClientTypes.ExecutionTimeFilter?
     let typeFilter: SWFClientTypes.WorkflowTypeFilter?
@@ -6656,7 +6656,7 @@ extension ListOpenWorkflowExecutionsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains a paginated list of information about workflow executions.
-public struct ListOpenWorkflowExecutionsOutput: Swift.Equatable {
+public struct ListOpenWorkflowExecutionsOutput {
     /// The list of workflow information structures.
     /// This member is required.
     public var executionInfos: [SWFClientTypes.WorkflowExecutionInfo]?
@@ -6673,7 +6673,7 @@ public struct ListOpenWorkflowExecutionsOutput: Swift.Equatable {
     }
 }
 
-struct ListOpenWorkflowExecutionsOutputBody: Swift.Equatable {
+struct ListOpenWorkflowExecutionsOutputBody {
     let executionInfos: [SWFClientTypes.WorkflowExecutionInfo]?
     let nextPageToken: Swift.String?
 }
@@ -6734,7 +6734,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) for the Amazon SWF domain.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -6747,7 +6747,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -6775,7 +6775,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// An array of tags associated with the domain.
     public var tags: [SWFClientTypes.ResourceTag]?
 
@@ -6787,7 +6787,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [SWFClientTypes.ResourceTag]?
 }
 
@@ -6865,7 +6865,7 @@ extension ListWorkflowTypesInput {
     }
 }
 
-public struct ListWorkflowTypesInput: Swift.Equatable {
+public struct ListWorkflowTypesInput {
     /// The name of the domain in which the workflow types have been registered.
     /// This member is required.
     public var domain: Swift.String?
@@ -6899,7 +6899,7 @@ public struct ListWorkflowTypesInput: Swift.Equatable {
     }
 }
 
-struct ListWorkflowTypesInputBody: Swift.Equatable {
+struct ListWorkflowTypesInputBody {
     let domain: Swift.String?
     let name: Swift.String?
     let registrationStatus: SWFClientTypes.RegistrationStatus?
@@ -6950,7 +6950,7 @@ extension ListWorkflowTypesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains a paginated list of information structures about workflow types.
-public struct ListWorkflowTypesOutput: Swift.Equatable {
+public struct ListWorkflowTypesOutput {
     /// If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken. Keep all other arguments unchanged. The configured maximumPageSize determines how many results can be returned in a single call.
     public var nextPageToken: Swift.String?
     /// The list of workflow type information.
@@ -6967,7 +6967,7 @@ public struct ListWorkflowTypesOutput: Swift.Equatable {
     }
 }
 
-struct ListWorkflowTypesOutputBody: Swift.Equatable {
+struct ListWorkflowTypesOutputBody {
     let typeInfos: [SWFClientTypes.WorkflowTypeInfo]?
     let nextPageToken: Swift.String?
 }
@@ -7041,7 +7041,7 @@ extension SWFClientTypes.MarkerRecordedEventAttributes: Swift.Codable {
 
 extension SWFClientTypes {
     /// Provides the details of the MarkerRecorded event.
-    public struct MarkerRecordedEventAttributes: Swift.Equatable {
+    public struct MarkerRecordedEventAttributes {
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the RecordMarker decision that requested this marker. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         /// This member is required.
         public var decisionTaskCompletedEventId: Swift.Int
@@ -7105,7 +7105,7 @@ public struct OperationNotPermittedFault: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct OperationNotPermittedFaultBody: Swift.Equatable {
+struct OperationNotPermittedFaultBody {
     let message: Swift.String?
 }
 
@@ -7149,7 +7149,7 @@ extension PollForActivityTaskInput {
     }
 }
 
-public struct PollForActivityTaskInput: Swift.Equatable {
+public struct PollForActivityTaskInput {
     /// The name of the domain that contains the task lists being polled.
     /// This member is required.
     public var domain: Swift.String?
@@ -7171,7 +7171,7 @@ public struct PollForActivityTaskInput: Swift.Equatable {
     }
 }
 
-struct PollForActivityTaskInputBody: Swift.Equatable {
+struct PollForActivityTaskInputBody {
     let domain: Swift.String?
     let taskList: SWFClientTypes.TaskList?
     let identity: Swift.String?
@@ -7218,7 +7218,7 @@ extension PollForActivityTaskOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Unit of work sent to an activity worker.
-public struct PollForActivityTaskOutput: Swift.Equatable {
+public struct PollForActivityTaskOutput {
     /// The unique ID of the task.
     /// This member is required.
     public var activityId: Swift.String?
@@ -7255,7 +7255,7 @@ public struct PollForActivityTaskOutput: Swift.Equatable {
     }
 }
 
-struct PollForActivityTaskOutputBody: Swift.Equatable {
+struct PollForActivityTaskOutputBody {
     let taskToken: Swift.String?
     let activityId: Swift.String?
     let startedEventId: Swift.Int
@@ -7348,7 +7348,7 @@ extension PollForDecisionTaskInput {
     }
 }
 
-public struct PollForDecisionTaskInput: Swift.Equatable {
+public struct PollForDecisionTaskInput {
     /// The name of the domain containing the task lists to poll.
     /// This member is required.
     public var domain: Swift.String?
@@ -7386,7 +7386,7 @@ public struct PollForDecisionTaskInput: Swift.Equatable {
     }
 }
 
-struct PollForDecisionTaskInputBody: Swift.Equatable {
+struct PollForDecisionTaskInputBody {
     let domain: Swift.String?
     let taskList: SWFClientTypes.TaskList?
     let identity: Swift.String?
@@ -7451,7 +7451,7 @@ extension PollForDecisionTaskOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A structure that represents a decision task. Decision tasks are sent to deciders in order for them to make decisions.
-public struct PollForDecisionTaskOutput: Swift.Equatable {
+public struct PollForDecisionTaskOutput {
     /// A paginated list of history events of the workflow execution. The decider uses this during the processing of the decision task.
     /// This member is required.
     public var events: [SWFClientTypes.HistoryEvent]?
@@ -7492,7 +7492,7 @@ public struct PollForDecisionTaskOutput: Swift.Equatable {
     }
 }
 
-struct PollForDecisionTaskOutputBody: Swift.Equatable {
+struct PollForDecisionTaskOutputBody {
     let taskToken: Swift.String?
     let startedEventId: Swift.Int
     let workflowExecution: SWFClientTypes.WorkflowExecution?
@@ -7578,7 +7578,7 @@ extension RecordActivityTaskHeartbeatInput {
     }
 }
 
-public struct RecordActivityTaskHeartbeatInput: Swift.Equatable {
+public struct RecordActivityTaskHeartbeatInput {
     /// If specified, contains details about the progress of the task.
     public var details: Swift.String?
     /// The taskToken of the [ActivityTask]. taskToken is generated by the service and should be treated as an opaque value. If the task is passed to another process, its taskToken must also be passed. This enables it to provide its progress and respond with results.
@@ -7595,7 +7595,7 @@ public struct RecordActivityTaskHeartbeatInput: Swift.Equatable {
     }
 }
 
-struct RecordActivityTaskHeartbeatInputBody: Swift.Equatable {
+struct RecordActivityTaskHeartbeatInputBody {
     let taskToken: Swift.String?
     let details: Swift.String?
 }
@@ -7628,7 +7628,7 @@ extension RecordActivityTaskHeartbeatOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Status information about an activity task.
-public struct RecordActivityTaskHeartbeatOutput: Swift.Equatable {
+public struct RecordActivityTaskHeartbeatOutput {
     /// Set to true if cancellation of the task is requested.
     /// This member is required.
     public var cancelRequested: Swift.Bool
@@ -7641,7 +7641,7 @@ public struct RecordActivityTaskHeartbeatOutput: Swift.Equatable {
     }
 }
 
-struct RecordActivityTaskHeartbeatOutputBody: Swift.Equatable {
+struct RecordActivityTaskHeartbeatOutputBody {
     let cancelRequested: Swift.Bool
 }
 
@@ -7705,7 +7705,7 @@ extension SWFClientTypes {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
-    public struct RecordMarkerDecisionAttributes: Swift.Equatable {
+    public struct RecordMarkerDecisionAttributes {
         /// The details of the marker.
         public var details: Swift.String?
         /// The name of the marker.
@@ -7786,7 +7786,7 @@ extension SWFClientTypes.RecordMarkerFailedEventAttributes: Swift.Codable {
 
 extension SWFClientTypes {
     /// Provides the details of the RecordMarkerFailed event.
-    public struct RecordMarkerFailedEventAttributes: Swift.Equatable {
+    public struct RecordMarkerFailedEventAttributes {
         /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes. If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
         /// This member is required.
         public var cause: SWFClientTypes.RecordMarkerFailedCause?
@@ -7867,7 +7867,7 @@ extension RegisterActivityTypeInput {
     }
 }
 
-public struct RegisterActivityTypeInput: Swift.Equatable {
+public struct RegisterActivityTypeInput {
     /// If set, specifies the default maximum time before which a worker processing a task of this type must report progress by calling [RecordActivityTaskHeartbeat]. If the timeout is exceeded, the activity task is automatically timed out. This default can be overridden when scheduling an activity task using the ScheduleActivityTask[Decision]. If the activity worker subsequently attempts to record a heartbeat or returns a result, the activity worker receives an UnknownResource fault. In this case, Amazon SWF no longer considers the activity task to be valid; the activity worker should clean up the activity task. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration.
     public var defaultTaskHeartbeatTimeout: Swift.String?
     /// If set, specifies the default task list to use for scheduling tasks of this activity type. This default task list is used if a task list isn't provided when a task is scheduled through the ScheduleActivityTask[Decision].
@@ -7918,7 +7918,7 @@ public struct RegisterActivityTypeInput: Swift.Equatable {
     }
 }
 
-struct RegisterActivityTypeInputBody: Swift.Equatable {
+struct RegisterActivityTypeInputBody {
     let domain: Swift.String?
     let name: Swift.String?
     let version: Swift.String?
@@ -7975,7 +7975,7 @@ extension RegisterActivityTypeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RegisterActivityTypeOutput: Swift.Equatable {
+public struct RegisterActivityTypeOutput {
 
     public init() { }
 }
@@ -8029,7 +8029,7 @@ extension RegisterDomainInput {
     }
 }
 
-public struct RegisterDomainInput: Swift.Equatable {
+public struct RegisterDomainInput {
     /// A text description of the domain.
     public var description: Swift.String?
     /// Name of the domain to register. The name must be unique in the region that the domain is registered in. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not be the literal string arn.
@@ -8055,7 +8055,7 @@ public struct RegisterDomainInput: Swift.Equatable {
     }
 }
 
-struct RegisterDomainInputBody: Swift.Equatable {
+struct RegisterDomainInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let workflowExecutionRetentionPeriodInDays: Swift.String?
@@ -8097,7 +8097,7 @@ extension RegisterDomainOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RegisterDomainOutput: Swift.Equatable {
+public struct RegisterDomainOutput {
 
     public init() { }
 }
@@ -8172,7 +8172,7 @@ extension RegisterWorkflowTypeInput {
     }
 }
 
-public struct RegisterWorkflowTypeInput: Swift.Equatable {
+public struct RegisterWorkflowTypeInput {
     /// If set, specifies the default policy to use for the child workflow executions when a workflow execution of this type is terminated, by calling the [TerminateWorkflowExecution] action explicitly or due to an expired timeout. This default can be overridden when starting a workflow execution using the [StartWorkflowExecution] action or the StartChildWorkflowExecution[Decision]. The supported child policies are:
     ///
     /// * TERMINATE – The child executions are terminated.
@@ -8229,7 +8229,7 @@ public struct RegisterWorkflowTypeInput: Swift.Equatable {
     }
 }
 
-struct RegisterWorkflowTypeInputBody: Swift.Equatable {
+struct RegisterWorkflowTypeInputBody {
     let domain: Swift.String?
     let name: Swift.String?
     let version: Swift.String?
@@ -8286,7 +8286,7 @@ extension RegisterWorkflowTypeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RegisterWorkflowTypeOutput: Swift.Equatable {
+public struct RegisterWorkflowTypeOutput {
 
     public init() { }
 }
@@ -8367,7 +8367,7 @@ extension SWFClientTypes {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
-    public struct RequestCancelActivityTaskDecisionAttributes: Swift.Equatable {
+    public struct RequestCancelActivityTaskDecisionAttributes {
         /// The activityId of the activity task to be canceled.
         /// This member is required.
         public var activityId: Swift.String?
@@ -8447,7 +8447,7 @@ extension SWFClientTypes.RequestCancelActivityTaskFailedEventAttributes: Swift.C
 
 extension SWFClientTypes {
     /// Provides the details of the RequestCancelActivityTaskFailed event.
-    public struct RequestCancelActivityTaskFailedEventAttributes: Swift.Equatable {
+    public struct RequestCancelActivityTaskFailedEventAttributes {
         /// The activityId provided in the RequestCancelActivityTask decision that failed.
         /// This member is required.
         public var activityId: Swift.String?
@@ -8514,7 +8514,7 @@ extension SWFClientTypes {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
-    public struct RequestCancelExternalWorkflowExecutionDecisionAttributes: Swift.Equatable {
+    public struct RequestCancelExternalWorkflowExecutionDecisionAttributes {
         /// The data attached to the event that can be used by the decider in subsequent workflow tasks.
         public var control: Swift.String?
         /// The runId of the external workflow execution to cancel.
@@ -8623,7 +8623,7 @@ extension SWFClientTypes.RequestCancelExternalWorkflowExecutionFailedEventAttrib
 
 extension SWFClientTypes {
     /// Provides the details of the RequestCancelExternalWorkflowExecutionFailed event.
-    public struct RequestCancelExternalWorkflowExecutionFailedEventAttributes: Swift.Equatable {
+    public struct RequestCancelExternalWorkflowExecutionFailedEventAttributes {
         /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes. If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
         /// This member is required.
         public var cause: SWFClientTypes.RequestCancelExternalWorkflowExecutionFailedCause?
@@ -8700,7 +8700,7 @@ extension SWFClientTypes.RequestCancelExternalWorkflowExecutionInitiatedEventAtt
 
 extension SWFClientTypes {
     /// Provides the details of the RequestCancelExternalWorkflowExecutionInitiated event.
-    public struct RequestCancelExternalWorkflowExecutionInitiatedEventAttributes: Swift.Equatable {
+    public struct RequestCancelExternalWorkflowExecutionInitiatedEventAttributes {
         /// Data attached to the event that can be used by the decider in subsequent workflow tasks.
         public var control: Swift.String?
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the RequestCancelExternalWorkflowExecution decision for this cancellation request. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
@@ -8756,7 +8756,7 @@ extension RequestCancelWorkflowExecutionInput {
     }
 }
 
-public struct RequestCancelWorkflowExecutionInput: Swift.Equatable {
+public struct RequestCancelWorkflowExecutionInput {
     /// The name of the domain containing the workflow execution to cancel.
     /// This member is required.
     public var domain: Swift.String?
@@ -8778,7 +8778,7 @@ public struct RequestCancelWorkflowExecutionInput: Swift.Equatable {
     }
 }
 
-struct RequestCancelWorkflowExecutionInputBody: Swift.Equatable {
+struct RequestCancelWorkflowExecutionInputBody {
     let domain: Swift.String?
     let workflowId: Swift.String?
     let runId: Swift.String?
@@ -8807,7 +8807,7 @@ extension RequestCancelWorkflowExecutionOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct RequestCancelWorkflowExecutionOutput: Swift.Equatable {
+public struct RequestCancelWorkflowExecutionOutput {
 
     public init() { }
 }
@@ -8851,7 +8851,7 @@ extension SWFClientTypes.ResourceTag: Swift.Codable {
 
 extension SWFClientTypes {
     /// Tags are key-value pairs that can be associated with Amazon SWF state machines and activities. Tags may only contain unicode letters, digits, whitespace, or these symbols: _ . : / = + - @.
-    public struct ResourceTag: Swift.Equatable {
+    public struct ResourceTag {
         /// The key of a tag.
         /// This member is required.
         public var key: Swift.String?
@@ -8894,7 +8894,7 @@ extension RespondActivityTaskCanceledInput {
     }
 }
 
-public struct RespondActivityTaskCanceledInput: Swift.Equatable {
+public struct RespondActivityTaskCanceledInput {
     /// Information about the cancellation.
     public var details: Swift.String?
     /// The taskToken of the [ActivityTask]. taskToken is generated by the service and should be treated as an opaque value. If the task is passed to another process, its taskToken must also be passed. This enables it to provide its progress and respond with results.
@@ -8911,7 +8911,7 @@ public struct RespondActivityTaskCanceledInput: Swift.Equatable {
     }
 }
 
-struct RespondActivityTaskCanceledInputBody: Swift.Equatable {
+struct RespondActivityTaskCanceledInputBody {
     let taskToken: Swift.String?
     let details: Swift.String?
 }
@@ -8936,7 +8936,7 @@ extension RespondActivityTaskCanceledOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RespondActivityTaskCanceledOutput: Swift.Equatable {
+public struct RespondActivityTaskCanceledOutput {
 
     public init() { }
 }
@@ -8977,7 +8977,7 @@ extension RespondActivityTaskCompletedInput {
     }
 }
 
-public struct RespondActivityTaskCompletedInput: Swift.Equatable {
+public struct RespondActivityTaskCompletedInput {
     /// The result of the activity task. It is a free form string that is implementation specific.
     public var result: Swift.String?
     /// The taskToken of the [ActivityTask]. taskToken is generated by the service and should be treated as an opaque value. If the task is passed to another process, its taskToken must also be passed. This enables it to provide its progress and respond with results.
@@ -8994,7 +8994,7 @@ public struct RespondActivityTaskCompletedInput: Swift.Equatable {
     }
 }
 
-struct RespondActivityTaskCompletedInputBody: Swift.Equatable {
+struct RespondActivityTaskCompletedInputBody {
     let taskToken: Swift.String?
     let result: Swift.String?
 }
@@ -9019,7 +9019,7 @@ extension RespondActivityTaskCompletedOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct RespondActivityTaskCompletedOutput: Swift.Equatable {
+public struct RespondActivityTaskCompletedOutput {
 
     public init() { }
 }
@@ -9064,7 +9064,7 @@ extension RespondActivityTaskFailedInput {
     }
 }
 
-public struct RespondActivityTaskFailedInput: Swift.Equatable {
+public struct RespondActivityTaskFailedInput {
     /// Detailed information about the failure.
     public var details: Swift.String?
     /// Description of the error that may assist in diagnostics.
@@ -9085,7 +9085,7 @@ public struct RespondActivityTaskFailedInput: Swift.Equatable {
     }
 }
 
-struct RespondActivityTaskFailedInputBody: Swift.Equatable {
+struct RespondActivityTaskFailedInputBody {
     let taskToken: Swift.String?
     let reason: Swift.String?
     let details: Swift.String?
@@ -9114,7 +9114,7 @@ extension RespondActivityTaskFailedOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RespondActivityTaskFailedOutput: Swift.Equatable {
+public struct RespondActivityTaskFailedOutput {
 
     public init() { }
 }
@@ -9171,7 +9171,7 @@ extension RespondDecisionTaskCompletedInput {
 }
 
 /// Input data for a TaskCompleted response to a decision task.
-public struct RespondDecisionTaskCompletedInput: Swift.Equatable {
+public struct RespondDecisionTaskCompletedInput {
     /// The list of decisions (possibly empty) made by the decider while processing this decision task. See the docs for the [Decision] structure for details.
     public var decisions: [SWFClientTypes.Decision]?
     /// User defined context to add to workflow execution.
@@ -9200,7 +9200,7 @@ public struct RespondDecisionTaskCompletedInput: Swift.Equatable {
     }
 }
 
-struct RespondDecisionTaskCompletedInputBody: Swift.Equatable {
+struct RespondDecisionTaskCompletedInputBody {
     let taskToken: Swift.String?
     let decisions: [SWFClientTypes.Decision]?
     let executionContext: Swift.String?
@@ -9246,7 +9246,7 @@ extension RespondDecisionTaskCompletedOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct RespondDecisionTaskCompletedOutput: Swift.Equatable {
+public struct RespondDecisionTaskCompletedOutput {
 
     public init() { }
 }
@@ -9358,7 +9358,7 @@ extension SWFClientTypes {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
-    public struct ScheduleActivityTaskDecisionAttributes: Swift.Equatable {
+    public struct ScheduleActivityTaskDecisionAttributes {
         /// The activityId of the activity task. The specified string must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not be the literal string arn.
         /// This member is required.
         public var activityId: Swift.String?
@@ -9508,7 +9508,7 @@ extension SWFClientTypes.ScheduleActivityTaskFailedEventAttributes: Swift.Codabl
 
 extension SWFClientTypes {
     /// Provides the details of the ScheduleActivityTaskFailed event.
-    public struct ScheduleActivityTaskFailedEventAttributes: Swift.Equatable {
+    public struct ScheduleActivityTaskFailedEventAttributes {
         /// The activityId provided in the ScheduleActivityTask decision that failed.
         /// This member is required.
         public var activityId: Swift.String?
@@ -9583,7 +9583,7 @@ extension SWFClientTypes.ScheduleLambdaFunctionDecisionAttributes: Swift.Codable
 
 extension SWFClientTypes {
     /// Decision attributes specified in scheduleLambdaFunctionDecisionAttributes within the list of decisions decisions passed to [RespondDecisionTaskCompleted].
-    public struct ScheduleLambdaFunctionDecisionAttributes: Swift.Equatable {
+    public struct ScheduleLambdaFunctionDecisionAttributes {
         /// The data attached to the event that the decider can use in subsequent workflow tasks. This data isn't sent to the Lambda task.
         public var control: Swift.String?
         /// A string that identifies the Lambda function execution in the event history.
@@ -9692,7 +9692,7 @@ extension SWFClientTypes.ScheduleLambdaFunctionFailedEventAttributes: Swift.Coda
 
 extension SWFClientTypes {
     /// Provides the details of the ScheduleLambdaFunctionFailed event. It isn't set for other event types.
-    public struct ScheduleLambdaFunctionFailedEventAttributes: Swift.Equatable {
+    public struct ScheduleLambdaFunctionFailedEventAttributes {
         /// The cause of the failure. To help diagnose issues, use this information to trace back the chain of events leading up to this event. If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
         /// This member is required.
         public var cause: SWFClientTypes.ScheduleLambdaFunctionFailedCause?
@@ -9776,7 +9776,7 @@ extension SWFClientTypes {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
-    public struct SignalExternalWorkflowExecutionDecisionAttributes: Swift.Equatable {
+    public struct SignalExternalWorkflowExecutionDecisionAttributes {
         /// The data attached to the event that can be used by the decider in subsequent decision tasks.
         public var control: Swift.String?
         /// The input data to be provided with the signal. The target workflow execution uses the signal name and input data to process the signal.
@@ -9894,7 +9894,7 @@ extension SWFClientTypes.SignalExternalWorkflowExecutionFailedEventAttributes: S
 
 extension SWFClientTypes {
     /// Provides the details of the SignalExternalWorkflowExecutionFailed event.
-    public struct SignalExternalWorkflowExecutionFailedEventAttributes: Swift.Equatable {
+    public struct SignalExternalWorkflowExecutionFailedEventAttributes {
         /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes. If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
         /// This member is required.
         public var cause: SWFClientTypes.SignalExternalWorkflowExecutionFailedCause?
@@ -9983,7 +9983,7 @@ extension SWFClientTypes.SignalExternalWorkflowExecutionInitiatedEventAttributes
 
 extension SWFClientTypes {
     /// Provides the details of the SignalExternalWorkflowExecutionInitiated event.
-    public struct SignalExternalWorkflowExecutionInitiatedEventAttributes: Swift.Equatable {
+    public struct SignalExternalWorkflowExecutionInitiatedEventAttributes {
         /// Data attached to the event that can be used by the decider in subsequent decision tasks.
         public var control: Swift.String?
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the SignalExternalWorkflowExecution decision for this signal. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
@@ -10056,7 +10056,7 @@ extension SignalWorkflowExecutionInput {
     }
 }
 
-public struct SignalWorkflowExecutionInput: Swift.Equatable {
+public struct SignalWorkflowExecutionInput {
     /// The name of the domain containing the workflow execution to signal.
     /// This member is required.
     public var domain: Swift.String?
@@ -10087,7 +10087,7 @@ public struct SignalWorkflowExecutionInput: Swift.Equatable {
     }
 }
 
-struct SignalWorkflowExecutionInputBody: Swift.Equatable {
+struct SignalWorkflowExecutionInputBody {
     let domain: Swift.String?
     let workflowId: Swift.String?
     let runId: Swift.String?
@@ -10124,7 +10124,7 @@ extension SignalWorkflowExecutionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SignalWorkflowExecutionOutput: Swift.Equatable {
+public struct SignalWorkflowExecutionOutput {
 
     public init() { }
 }
@@ -10254,7 +10254,7 @@ extension SWFClientTypes {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
-    public struct StartChildWorkflowExecutionDecisionAttributes: Swift.Equatable {
+    public struct StartChildWorkflowExecutionDecisionAttributes {
         /// If set, specifies the policy to use for the child workflow executions if the workflow execution being started is terminated by calling the [TerminateWorkflowExecution] action explicitly or due to an expired timeout. This policy overrides the default child policy specified when registering the workflow type using [RegisterWorkflowType]. The supported child policies are:
         ///
         /// * TERMINATE – The child executions are terminated.
@@ -10429,7 +10429,7 @@ extension SWFClientTypes.StartChildWorkflowExecutionFailedEventAttributes: Swift
 
 extension SWFClientTypes {
     /// Provides the details of the StartChildWorkflowExecutionFailed event.
-    public struct StartChildWorkflowExecutionFailedEventAttributes: Swift.Equatable {
+    public struct StartChildWorkflowExecutionFailedEventAttributes {
         /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes. When cause is set to OPERATION_NOT_PERMITTED, the decision fails because it lacks sufficient permissions. For details and example IAM policies, see [ Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
         /// This member is required.
         public var cause: SWFClientTypes.StartChildWorkflowExecutionFailedCause?
@@ -10567,7 +10567,7 @@ extension SWFClientTypes.StartChildWorkflowExecutionInitiatedEventAttributes: Sw
 
 extension SWFClientTypes {
     /// Provides the details of the StartChildWorkflowExecutionInitiated event.
-    public struct StartChildWorkflowExecutionInitiatedEventAttributes: Swift.Equatable {
+    public struct StartChildWorkflowExecutionInitiatedEventAttributes {
         /// The policy to use for the child workflow executions if this execution gets terminated by explicitly calling the [TerminateWorkflowExecution] action or due to an expired timeout. The supported child policies are:
         ///
         /// * TERMINATE – The child executions are terminated.
@@ -10698,7 +10698,7 @@ extension SWFClientTypes.StartLambdaFunctionFailedEventAttributes: Swift.Codable
 
 extension SWFClientTypes {
     /// Provides the details of the StartLambdaFunctionFailed event. It isn't set for other event types.
-    public struct StartLambdaFunctionFailedEventAttributes: Swift.Equatable {
+    public struct StartLambdaFunctionFailedEventAttributes {
         /// The cause of the failure. To help diagnose issues, use this information to trace back the chain of events leading up to this event. If cause is set to OPERATION_NOT_PERMITTED, the decision failed because the IAM role attached to the execution lacked sufficient permissions. For details and example IAM policies, see [Lambda Tasks](https://docs.aws.amazon.com/amazonswf/latest/developerguide/lambda-task.html) in the Amazon SWF Developer Guide.
         public var cause: SWFClientTypes.StartLambdaFunctionFailedCause?
         /// A description that can help diagnose the cause of the fault.
@@ -10762,7 +10762,7 @@ extension SWFClientTypes {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
-    public struct StartTimerDecisionAttributes: Swift.Equatable {
+    public struct StartTimerDecisionAttributes {
         /// The data attached to the event that can be used by the decider in subsequent workflow tasks.
         public var control: Swift.String?
         /// The duration to wait before firing the timer. The duration is specified in seconds, an integer greater than or equal to 0.
@@ -10857,7 +10857,7 @@ extension SWFClientTypes.StartTimerFailedEventAttributes: Swift.Codable {
 
 extension SWFClientTypes {
     /// Provides the details of the StartTimerFailed event.
-    public struct StartTimerFailedEventAttributes: Swift.Equatable {
+    public struct StartTimerFailedEventAttributes {
         /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes. If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
         /// This member is required.
         public var cause: SWFClientTypes.StartTimerFailedCause?
@@ -10945,7 +10945,7 @@ extension StartWorkflowExecutionInput {
     }
 }
 
-public struct StartWorkflowExecutionInput: Swift.Equatable {
+public struct StartWorkflowExecutionInput {
     /// If set, specifies the policy to use for the child workflow executions of this workflow execution if it is terminated, by calling the [TerminateWorkflowExecution] action explicitly or due to an expired timeout. This policy overrides the default child policy specified when registering the workflow type using [RegisterWorkflowType]. The supported child policies are:
     ///
     /// * TERMINATE – The child executions are terminated.
@@ -11009,7 +11009,7 @@ public struct StartWorkflowExecutionInput: Swift.Equatable {
     }
 }
 
-struct StartWorkflowExecutionInputBody: Swift.Equatable {
+struct StartWorkflowExecutionInputBody {
     let domain: Swift.String?
     let workflowId: Swift.String?
     let workflowType: SWFClientTypes.WorkflowType?
@@ -11087,7 +11087,7 @@ extension StartWorkflowExecutionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Specifies the runId of a workflow execution.
-public struct StartWorkflowExecutionOutput: Swift.Equatable {
+public struct StartWorkflowExecutionOutput {
     /// The runId of a workflow execution. This ID is generated by the service and can be used to uniquely identify the workflow execution within a domain.
     public var runId: Swift.String?
 
@@ -11099,7 +11099,7 @@ public struct StartWorkflowExecutionOutput: Swift.Equatable {
     }
 }
 
-struct StartWorkflowExecutionOutputBody: Swift.Equatable {
+struct StartWorkflowExecutionOutputBody {
     let runId: Swift.String?
 }
 
@@ -11152,7 +11152,7 @@ extension SWFClientTypes.TagFilter: Swift.Codable {
 
 extension SWFClientTypes {
     /// Used to filter the workflow executions in visibility APIs based on a tag.
-    public struct TagFilter: Swift.Equatable {
+    public struct TagFilter {
         /// Specifies the tag that must be associated with the execution for it to meet the filter criteria. Tags may only contain unicode letters, digits, whitespace, or these symbols: _ . : / = + - @.
         /// This member is required.
         public var tag: Swift.String?
@@ -11194,7 +11194,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) for the Amazon SWF domain.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -11212,7 +11212,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceArn: Swift.String?
     let tags: [SWFClientTypes.ResourceTag]?
 }
@@ -11246,7 +11246,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -11286,7 +11286,7 @@ extension SWFClientTypes.TaskList: Swift.Codable {
 
 extension SWFClientTypes {
     /// Represents a task list.
-    public struct TaskList: Swift.Equatable {
+    public struct TaskList {
         /// The name of the task list.
         /// This member is required.
         public var name: Swift.String?
@@ -11341,7 +11341,7 @@ extension TerminateWorkflowExecutionInput {
     }
 }
 
-public struct TerminateWorkflowExecutionInput: Swift.Equatable {
+public struct TerminateWorkflowExecutionInput {
     /// If set, specifies the policy to use for the child workflow executions of the workflow execution being terminated. This policy overrides the child policy specified for the workflow execution at registration time or when starting the execution. The supported child policies are:
     ///
     /// * TERMINATE – The child executions are terminated.
@@ -11384,7 +11384,7 @@ public struct TerminateWorkflowExecutionInput: Swift.Equatable {
     }
 }
 
-struct TerminateWorkflowExecutionInputBody: Swift.Equatable {
+struct TerminateWorkflowExecutionInputBody {
     let domain: Swift.String?
     let workflowId: Swift.String?
     let runId: Swift.String?
@@ -11425,7 +11425,7 @@ extension TerminateWorkflowExecutionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TerminateWorkflowExecutionOutput: Swift.Equatable {
+public struct TerminateWorkflowExecutionOutput {
 
     public init() { }
 }
@@ -11475,7 +11475,7 @@ extension SWFClientTypes.TimerCanceledEventAttributes: Swift.Codable {
 
 extension SWFClientTypes {
     /// Provides the details of the TimerCanceled event.
-    public struct TimerCanceledEventAttributes: Swift.Equatable {
+    public struct TimerCanceledEventAttributes {
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the CancelTimer decision to cancel this timer. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         /// This member is required.
         public var decisionTaskCompletedEventId: Swift.Int
@@ -11527,7 +11527,7 @@ extension SWFClientTypes.TimerFiredEventAttributes: Swift.Codable {
 
 extension SWFClientTypes {
     /// Provides the details of the TimerFired event.
-    public struct TimerFiredEventAttributes: Swift.Equatable {
+    public struct TimerFiredEventAttributes {
         /// The ID of the TimerStarted event that was recorded when this timer was started. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         /// This member is required.
         public var startedEventId: Swift.Int
@@ -11586,7 +11586,7 @@ extension SWFClientTypes.TimerStartedEventAttributes: Swift.Codable {
 
 extension SWFClientTypes {
     /// Provides the details of the TimerStarted event.
-    public struct TimerStartedEventAttributes: Swift.Equatable {
+    public struct TimerStartedEventAttributes {
         /// Data attached to the event that can be used by the decider in subsequent workflow tasks.
         public var control: Swift.String?
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the StartTimer decision for this activity task. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
@@ -11654,7 +11654,7 @@ public struct TooManyTagsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     }
 }
 
-struct TooManyTagsFaultBody: Swift.Equatable {
+struct TooManyTagsFaultBody {
     let message: Swift.String?
 }
 
@@ -11710,7 +11710,7 @@ public struct TypeAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct TypeAlreadyExistsFaultBody: Swift.Equatable {
+struct TypeAlreadyExistsFaultBody {
     let message: Swift.String?
 }
 
@@ -11766,7 +11766,7 @@ public struct TypeDeprecatedFault: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct TypeDeprecatedFaultBody: Swift.Equatable {
+struct TypeDeprecatedFaultBody {
     let message: Swift.String?
 }
 
@@ -11806,7 +11806,7 @@ extension UndeprecateActivityTypeInput {
     }
 }
 
-public struct UndeprecateActivityTypeInput: Swift.Equatable {
+public struct UndeprecateActivityTypeInput {
     /// The activity type to undeprecate.
     /// This member is required.
     public var activityType: SWFClientTypes.ActivityType?
@@ -11824,7 +11824,7 @@ public struct UndeprecateActivityTypeInput: Swift.Equatable {
     }
 }
 
-struct UndeprecateActivityTypeInputBody: Swift.Equatable {
+struct UndeprecateActivityTypeInputBody {
     let domain: Swift.String?
     let activityType: SWFClientTypes.ActivityType?
 }
@@ -11849,7 +11849,7 @@ extension UndeprecateActivityTypeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UndeprecateActivityTypeOutput: Swift.Equatable {
+public struct UndeprecateActivityTypeOutput {
 
     public init() { }
 }
@@ -11887,7 +11887,7 @@ extension UndeprecateDomainInput {
     }
 }
 
-public struct UndeprecateDomainInput: Swift.Equatable {
+public struct UndeprecateDomainInput {
     /// The name of the domain of the deprecated workflow type.
     /// This member is required.
     public var name: Swift.String?
@@ -11900,7 +11900,7 @@ public struct UndeprecateDomainInput: Swift.Equatable {
     }
 }
 
-struct UndeprecateDomainInputBody: Swift.Equatable {
+struct UndeprecateDomainInputBody {
     let name: Swift.String?
 }
 
@@ -11921,7 +11921,7 @@ extension UndeprecateDomainOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UndeprecateDomainOutput: Swift.Equatable {
+public struct UndeprecateDomainOutput {
 
     public init() { }
 }
@@ -11963,7 +11963,7 @@ extension UndeprecateWorkflowTypeInput {
     }
 }
 
-public struct UndeprecateWorkflowTypeInput: Swift.Equatable {
+public struct UndeprecateWorkflowTypeInput {
     /// The name of the domain of the deprecated workflow type.
     /// This member is required.
     public var domain: Swift.String?
@@ -11981,7 +11981,7 @@ public struct UndeprecateWorkflowTypeInput: Swift.Equatable {
     }
 }
 
-struct UndeprecateWorkflowTypeInputBody: Swift.Equatable {
+struct UndeprecateWorkflowTypeInputBody {
     let domain: Swift.String?
     let workflowType: SWFClientTypes.WorkflowType?
 }
@@ -12006,7 +12006,7 @@ extension UndeprecateWorkflowTypeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UndeprecateWorkflowTypeOutput: Swift.Equatable {
+public struct UndeprecateWorkflowTypeOutput {
 
     public init() { }
 }
@@ -12064,7 +12064,7 @@ public struct UnknownResourceFault: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct UnknownResourceFaultBody: Swift.Equatable {
+struct UnknownResourceFaultBody {
     let message: Swift.String?
 }
 
@@ -12107,7 +12107,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) for the Amazon SWF domain.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -12125,7 +12125,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceArn: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -12159,7 +12159,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -12204,7 +12204,7 @@ extension SWFClientTypes.WorkflowExecution: Swift.Codable {
 
 extension SWFClientTypes {
     /// Represents a workflow execution.
-    public struct WorkflowExecution: Swift.Equatable {
+    public struct WorkflowExecution {
         /// A system-generated unique identifier for the workflow execution.
         /// This member is required.
         public var runId: Swift.String?
@@ -12264,7 +12264,7 @@ public struct WorkflowExecutionAlreadyStartedFault: ClientRuntime.ModeledError, 
     }
 }
 
-struct WorkflowExecutionAlreadyStartedFaultBody: Swift.Equatable {
+struct WorkflowExecutionAlreadyStartedFaultBody {
     let message: Swift.String?
 }
 
@@ -12342,7 +12342,7 @@ extension SWFClientTypes.WorkflowExecutionCancelRequestedEventAttributes: Swift.
 
 extension SWFClientTypes {
     /// Provides the details of the WorkflowExecutionCancelRequested event.
-    public struct WorkflowExecutionCancelRequestedEventAttributes: Swift.Equatable {
+    public struct WorkflowExecutionCancelRequestedEventAttributes {
         /// If set, indicates that the request to cancel the workflow execution was automatically generated, and specifies the cause. This happens if the parent workflow execution times out or is terminated, and the child policy is set to cancel child executions.
         public var cause: SWFClientTypes.WorkflowExecutionCancelRequestedCause?
         /// The ID of the RequestCancelExternalWorkflowExecutionInitiated event corresponding to the RequestCancelExternalWorkflowExecution decision to cancel this workflow execution.The source event with this ID can be found in the history of the source workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
@@ -12391,7 +12391,7 @@ extension SWFClientTypes.WorkflowExecutionCanceledEventAttributes: Swift.Codable
 
 extension SWFClientTypes {
     /// Provides the details of the WorkflowExecutionCanceled event.
-    public struct WorkflowExecutionCanceledEventAttributes: Swift.Equatable {
+    public struct WorkflowExecutionCanceledEventAttributes {
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the CancelWorkflowExecution decision for this cancellation request. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         /// This member is required.
         public var decisionTaskCompletedEventId: Swift.Int
@@ -12437,7 +12437,7 @@ extension SWFClientTypes.WorkflowExecutionCompletedEventAttributes: Swift.Codabl
 
 extension SWFClientTypes {
     /// Provides the details of the WorkflowExecutionCompleted event.
-    public struct WorkflowExecutionCompletedEventAttributes: Swift.Equatable {
+    public struct WorkflowExecutionCompletedEventAttributes {
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the CompleteWorkflowExecution decision to complete this execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         /// This member is required.
         public var decisionTaskCompletedEventId: Swift.Int
@@ -12507,7 +12507,7 @@ extension SWFClientTypes.WorkflowExecutionConfiguration: Swift.Codable {
 
 extension SWFClientTypes {
     /// The configuration settings for a workflow execution including timeout values, tasklist etc. These configuration settings are determined from the defaults specified when registering the workflow type and those specified when starting the workflow execution.
-    public struct WorkflowExecutionConfiguration: Swift.Equatable {
+    public struct WorkflowExecutionConfiguration {
         /// The policy to use for the child workflow executions if this workflow execution is terminated, by calling the [TerminateWorkflowExecution] action explicitly or due to an expired timeout. The supported child policies are:
         ///
         /// * TERMINATE – The child executions are terminated.
@@ -12644,7 +12644,7 @@ extension SWFClientTypes.WorkflowExecutionContinuedAsNewEventAttributes: Swift.C
 
 extension SWFClientTypes {
     /// Provides the details of the WorkflowExecutionContinuedAsNew event.
-    public struct WorkflowExecutionContinuedAsNewEventAttributes: Swift.Equatable {
+    public struct WorkflowExecutionContinuedAsNewEventAttributes {
         /// The policy to use for the child workflow executions of the new execution if it is terminated by calling the [TerminateWorkflowExecution] action explicitly or due to an expired timeout. The supported child policies are:
         ///
         /// * TERMINATE – The child executions are terminated.
@@ -12742,7 +12742,7 @@ extension SWFClientTypes.WorkflowExecutionFailedEventAttributes: Swift.Codable {
 
 extension SWFClientTypes {
     /// Provides the details of the WorkflowExecutionFailed event.
-    public struct WorkflowExecutionFailedEventAttributes: Swift.Equatable {
+    public struct WorkflowExecutionFailedEventAttributes {
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the FailWorkflowExecution decision to fail this execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         /// This member is required.
         public var decisionTaskCompletedEventId: Swift.Int
@@ -12786,7 +12786,7 @@ extension SWFClientTypes.WorkflowExecutionFilter: Swift.Codable {
 
 extension SWFClientTypes {
     /// Used to filter the workflow executions in visibility APIs by their workflowId.
-    public struct WorkflowExecutionFilter: Swift.Equatable {
+    public struct WorkflowExecutionFilter {
         /// The workflowId to pass of match the criteria of this filter.
         /// This member is required.
         public var workflowId: Swift.String?
@@ -12882,7 +12882,7 @@ extension SWFClientTypes.WorkflowExecutionInfo: Swift.Codable {
 
 extension SWFClientTypes {
     /// Contains information about a workflow execution.
-    public struct WorkflowExecutionInfo: Swift.Equatable {
+    public struct WorkflowExecutionInfo {
         /// Set to true if a cancellation is requested for this workflow execution.
         public var cancelRequested: Swift.Bool
         /// If the execution status is closed then this specifies how the execution was closed:
@@ -12989,7 +12989,7 @@ extension SWFClientTypes.WorkflowExecutionOpenCounts: Swift.Codable {
 
 extension SWFClientTypes {
     /// Contains the counts of open tasks, child workflow executions and timers for a workflow execution.
-    public struct WorkflowExecutionOpenCounts: Swift.Equatable {
+    public struct WorkflowExecutionOpenCounts {
         /// The count of activity tasks whose status is OPEN.
         /// This member is required.
         public var openActivityTasks: Swift.Int
@@ -13062,7 +13062,7 @@ extension SWFClientTypes.WorkflowExecutionSignaledEventAttributes: Swift.Codable
 
 extension SWFClientTypes {
     /// Provides the details of the WorkflowExecutionSignaled event.
-    public struct WorkflowExecutionSignaledEventAttributes: Swift.Equatable {
+    public struct WorkflowExecutionSignaledEventAttributes {
         /// The ID of the SignalExternalWorkflowExecutionInitiated event corresponding to the SignalExternalWorkflow decision to signal this workflow execution.The source event with this ID can be found in the history of the source workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event. This field is set only if the signal was initiated by another workflow execution.
         public var externalInitiatedEventId: Swift.Int
         /// The workflow execution that sent the signal. This is set only of the signal was sent by another workflow execution.
@@ -13188,7 +13188,7 @@ extension SWFClientTypes.WorkflowExecutionStartedEventAttributes: Swift.Codable 
 
 extension SWFClientTypes {
     /// Provides details of WorkflowExecutionStarted event.
-    public struct WorkflowExecutionStartedEventAttributes: Swift.Equatable {
+    public struct WorkflowExecutionStartedEventAttributes {
         /// The policy to use for the child workflow executions if this workflow execution is terminated, by calling the [TerminateWorkflowExecution] action explicitly or due to an expired timeout. The supported child policies are:
         ///
         /// * TERMINATE – The child executions are terminated.
@@ -13329,7 +13329,7 @@ extension SWFClientTypes.WorkflowExecutionTerminatedEventAttributes: Swift.Codab
 
 extension SWFClientTypes {
     /// Provides the details of the WorkflowExecutionTerminated event.
-    public struct WorkflowExecutionTerminatedEventAttributes: Swift.Equatable {
+    public struct WorkflowExecutionTerminatedEventAttributes {
         /// If set, indicates that the workflow execution was automatically terminated, and specifies the cause. This happens if the parent workflow execution times out or is terminated and the child policy is set to terminate child executions.
         public var cause: SWFClientTypes.WorkflowExecutionTerminatedCause?
         /// The policy used for the child workflow executions of this workflow execution. The supported child policies are:
@@ -13389,7 +13389,7 @@ extension SWFClientTypes.WorkflowExecutionTimedOutEventAttributes: Swift.Codable
 
 extension SWFClientTypes {
     /// Provides the details of the WorkflowExecutionTimedOut event.
-    public struct WorkflowExecutionTimedOutEventAttributes: Swift.Equatable {
+    public struct WorkflowExecutionTimedOutEventAttributes {
         /// The policy used for the child workflow executions of this workflow execution. The supported child policies are:
         ///
         /// * TERMINATE – The child executions are terminated.
@@ -13471,7 +13471,7 @@ extension SWFClientTypes.WorkflowType: Swift.Codable {
 
 extension SWFClientTypes {
     /// Represents a workflow type.
-    public struct WorkflowType: Swift.Equatable {
+    public struct WorkflowType {
         /// The name of the workflow type. The combination of workflow type name and version must be unique with in a domain.
         /// This member is required.
         public var name: Swift.String?
@@ -13542,7 +13542,7 @@ extension SWFClientTypes.WorkflowTypeConfiguration: Swift.Codable {
 
 extension SWFClientTypes {
     /// The configuration settings of a workflow type.
-    public struct WorkflowTypeConfiguration: Swift.Equatable {
+    public struct WorkflowTypeConfiguration {
         /// The default policy to use for the child workflow executions when a workflow execution of this type is terminated, by calling the [TerminateWorkflowExecution] action explicitly or due to an expired timeout. This default can be overridden when starting a workflow execution using the [StartWorkflowExecution] action or the StartChildWorkflowExecution[Decision]. The supported child policies are:
         ///
         /// * TERMINATE – The child executions are terminated.
@@ -13609,7 +13609,7 @@ extension SWFClientTypes.WorkflowTypeFilter: Swift.Codable {
 
 extension SWFClientTypes {
     /// Used to filter workflow execution query results by type. Each parameter, if specified, defines a rule that must be satisfied by each returned result.
-    public struct WorkflowTypeFilter: Swift.Equatable {
+    public struct WorkflowTypeFilter {
         /// Name of the workflow type.
         /// This member is required.
         public var name: Swift.String?
@@ -13673,7 +13673,7 @@ extension SWFClientTypes.WorkflowTypeInfo: Swift.Codable {
 
 extension SWFClientTypes {
     /// Contains information about a workflow type.
-    public struct WorkflowTypeInfo: Swift.Equatable {
+    public struct WorkflowTypeInfo {
         /// The date when this type was registered.
         /// This member is required.
         public var creationDate: ClientRuntime.Date?

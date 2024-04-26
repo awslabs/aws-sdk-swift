@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -98,7 +98,7 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct ConcurrentModificationExceptionBody: Swift.Equatable {
+struct ConcurrentModificationExceptionBody {
     let message: Swift.String?
 }
 
@@ -153,7 +153,7 @@ public struct ConfigurationException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ConfigurationExceptionBody: Swift.Equatable {
+struct ConfigurationExceptionBody {
     let message: Swift.String?
 }
 
@@ -231,7 +231,7 @@ extension CreateNotificationRuleInput {
     }
 }
 
-public struct CreateNotificationRuleInput: Swift.Equatable {
+public struct CreateNotificationRuleInput {
     /// A unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request with the same parameters is received and a token is included, the request returns information about the initial request that used that token. The Amazon Web Services SDKs prepopulate client request tokens. If you are using an Amazon Web Services SDK, an idempotency token is created for you.
     public var clientRequestToken: Swift.String?
     /// The level of detail to include in the notifications for this resource. BASIC will include only the contents of the event as it would appear in Amazon CloudWatch. FULL will include any supplemental information provided by CodeStar Notifications and/or the service for the resource for which the notification is created.
@@ -276,7 +276,7 @@ public struct CreateNotificationRuleInput: Swift.Equatable {
     }
 }
 
-struct CreateNotificationRuleInputBody: Swift.Equatable {
+struct CreateNotificationRuleInputBody {
     let name: Swift.String?
     let eventTypeIds: [Swift.String]?
     let resource: Swift.String?
@@ -359,7 +359,7 @@ extension CreateNotificationRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateNotificationRuleOutput: Swift.Equatable {
+public struct CreateNotificationRuleOutput {
     /// The Amazon Resource Name (ARN) of the notification rule.
     public var arn: Swift.String?
 
@@ -371,7 +371,7 @@ public struct CreateNotificationRuleOutput: Swift.Equatable {
     }
 }
 
-struct CreateNotificationRuleOutputBody: Swift.Equatable {
+struct CreateNotificationRuleOutputBody {
     let arn: Swift.String?
 }
 
@@ -423,7 +423,7 @@ extension DeleteNotificationRuleInput {
     }
 }
 
-public struct DeleteNotificationRuleInput: Swift.Equatable {
+public struct DeleteNotificationRuleInput {
     /// The Amazon Resource Name (ARN) of the notification rule you want to delete.
     /// This member is required.
     public var arn: Swift.String?
@@ -436,7 +436,7 @@ public struct DeleteNotificationRuleInput: Swift.Equatable {
     }
 }
 
-struct DeleteNotificationRuleInputBody: Swift.Equatable {
+struct DeleteNotificationRuleInputBody {
     let arn: Swift.String?
 }
 
@@ -464,7 +464,7 @@ extension DeleteNotificationRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteNotificationRuleOutput: Swift.Equatable {
+public struct DeleteNotificationRuleOutput {
     /// The Amazon Resource Name (ARN) of the deleted notification rule.
     public var arn: Swift.String?
 
@@ -476,7 +476,7 @@ public struct DeleteNotificationRuleOutput: Swift.Equatable {
     }
 }
 
-struct DeleteNotificationRuleOutputBody: Swift.Equatable {
+struct DeleteNotificationRuleOutputBody {
     let arn: Swift.String?
 }
 
@@ -534,7 +534,7 @@ extension DeleteTargetInput {
     }
 }
 
-public struct DeleteTargetInput: Swift.Equatable {
+public struct DeleteTargetInput {
     /// A Boolean value that can be used to delete all associations with this Chatbot topic. The default value is FALSE. If set to TRUE, all associations between that target and every notification rule in your Amazon Web Services account are deleted.
     public var forceUnsubscribeAll: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the Chatbot topic or Chatbot client to delete.
@@ -551,7 +551,7 @@ public struct DeleteTargetInput: Swift.Equatable {
     }
 }
 
-struct DeleteTargetInputBody: Swift.Equatable {
+struct DeleteTargetInputBody {
     let targetAddress: Swift.String?
     let forceUnsubscribeAll: Swift.Bool?
 }
@@ -576,7 +576,7 @@ extension DeleteTargetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteTargetOutput: Swift.Equatable {
+public struct DeleteTargetOutput {
 
     public init() { }
 }
@@ -612,7 +612,7 @@ extension DescribeNotificationRuleInput {
     }
 }
 
-public struct DescribeNotificationRuleInput: Swift.Equatable {
+public struct DescribeNotificationRuleInput {
     /// The Amazon Resource Name (ARN) of the notification rule.
     /// This member is required.
     public var arn: Swift.String?
@@ -625,7 +625,7 @@ public struct DescribeNotificationRuleInput: Swift.Equatable {
     }
 }
 
-struct DescribeNotificationRuleInputBody: Swift.Equatable {
+struct DescribeNotificationRuleInputBody {
     let arn: Swift.String?
 }
 
@@ -678,7 +678,7 @@ extension DescribeNotificationRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeNotificationRuleOutput: Swift.Equatable {
+public struct DescribeNotificationRuleOutput {
     /// The Amazon Resource Name (ARN) of the notification rule.
     /// This member is required.
     public var arn: Swift.String?
@@ -731,7 +731,7 @@ public struct DescribeNotificationRuleOutput: Swift.Equatable {
     }
 }
 
-struct DescribeNotificationRuleOutputBody: Swift.Equatable {
+struct DescribeNotificationRuleOutputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let eventTypes: [CodestarnotificationsClientTypes.EventTypeSummary]?
@@ -897,7 +897,7 @@ extension CodestarnotificationsClientTypes.EventTypeSummary: Swift.Codable {
 
 extension CodestarnotificationsClientTypes {
     /// Returns information about an event that has triggered a notification rule.
-    public struct EventTypeSummary: Swift.Equatable {
+    public struct EventTypeSummary {
         /// The system-generated ID of the event. For a complete list of event types and IDs, see [Notification concepts](https://docs.aws.amazon.com/codestar-notifications/latest/userguide/concepts.html#concepts-api) in the Developer Tools Console User Guide.
         public var eventTypeId: Swift.String?
         /// The name of the event.
@@ -962,7 +962,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidNextTokenExceptionBody: Swift.Equatable {
+struct InvalidNextTokenExceptionBody {
     let message: Swift.String?
 }
 
@@ -1017,7 +1017,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -1060,7 +1060,7 @@ extension CodestarnotificationsClientTypes.ListEventTypesFilter: Swift.Codable {
 
 extension CodestarnotificationsClientTypes {
     /// Information about a filter to apply to the list of returned event types. You can filter by resource type or service name.
-    public struct ListEventTypesFilter: Swift.Equatable {
+    public struct ListEventTypesFilter {
         /// The system-generated name of the filter type you want to filter by.
         /// This member is required.
         public var name: CodestarnotificationsClientTypes.ListEventTypesFilterName?
@@ -1143,7 +1143,7 @@ extension ListEventTypesInput {
     }
 }
 
-public struct ListEventTypesInput: Swift.Equatable {
+public struct ListEventTypesInput {
     /// The filters to use to return information by service or resource type.
     public var filters: [CodestarnotificationsClientTypes.ListEventTypesFilter]?
     /// A non-negative integer used to limit the number of returned results. The default number is 50. The maximum number of results that can be returned is 100.
@@ -1163,7 +1163,7 @@ public struct ListEventTypesInput: Swift.Equatable {
     }
 }
 
-struct ListEventTypesInputBody: Swift.Equatable {
+struct ListEventTypesInputBody {
     let filters: [CodestarnotificationsClientTypes.ListEventTypesFilter]?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -1210,7 +1210,7 @@ extension ListEventTypesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEventTypesOutput: Swift.Equatable {
+public struct ListEventTypesOutput {
     /// Information about each event, including service name, resource type, event ID, and event name.
     public var eventTypes: [CodestarnotificationsClientTypes.EventTypeSummary]?
     /// An enumeration token that can be used in a request to return the next batch of the results.
@@ -1226,7 +1226,7 @@ public struct ListEventTypesOutput: Swift.Equatable {
     }
 }
 
-struct ListEventTypesOutputBody: Swift.Equatable {
+struct ListEventTypesOutputBody {
     let eventTypes: [CodestarnotificationsClientTypes.EventTypeSummary]?
     let nextToken: Swift.String?
 }
@@ -1294,7 +1294,7 @@ extension CodestarnotificationsClientTypes.ListNotificationRulesFilter: Swift.Co
 
 extension CodestarnotificationsClientTypes {
     /// Information about a filter to apply to the list of returned notification rules. You can filter by event type, owner, resource, or target.
-    public struct ListNotificationRulesFilter: Swift.Equatable {
+    public struct ListNotificationRulesFilter {
         /// The name of the attribute you want to use to filter the returned notification rules.
         /// This member is required.
         public var name: CodestarnotificationsClientTypes.ListNotificationRulesFilterName?
@@ -1383,7 +1383,7 @@ extension ListNotificationRulesInput {
     }
 }
 
-public struct ListNotificationRulesInput: Swift.Equatable {
+public struct ListNotificationRulesInput {
     /// The filters to use to return information by service or resource type. For valid values, see [ListNotificationRulesFilter]. A filter with the same name can appear more than once when used with OR statements. Filters with different names should be applied with AND statements.
     public var filters: [CodestarnotificationsClientTypes.ListNotificationRulesFilter]?
     /// A non-negative integer used to limit the number of returned results. The maximum number of results that can be returned is 100.
@@ -1403,7 +1403,7 @@ public struct ListNotificationRulesInput: Swift.Equatable {
     }
 }
 
-struct ListNotificationRulesInputBody: Swift.Equatable {
+struct ListNotificationRulesInputBody {
     let filters: [CodestarnotificationsClientTypes.ListNotificationRulesFilter]?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -1450,7 +1450,7 @@ extension ListNotificationRulesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListNotificationRulesOutput: Swift.Equatable {
+public struct ListNotificationRulesOutput {
     /// An enumeration token that can be used in a request to return the next batch of the results.
     public var nextToken: Swift.String?
     /// The list of notification rules for the Amazon Web Services account, by Amazon Resource Name (ARN) and ID.
@@ -1466,7 +1466,7 @@ public struct ListNotificationRulesOutput: Swift.Equatable {
     }
 }
 
-struct ListNotificationRulesOutputBody: Swift.Equatable {
+struct ListNotificationRulesOutputBody {
     let nextToken: Swift.String?
     let notificationRules: [CodestarnotificationsClientTypes.NotificationRuleSummary]?
 }
@@ -1527,7 +1527,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) for the notification rule.
     /// This member is required.
     public var arn: Swift.String?
@@ -1540,7 +1540,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let arn: Swift.String?
 }
 
@@ -1568,7 +1568,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The tags associated with the notification rule.
     public var tags: [Swift.String:Swift.String]?
 
@@ -1580,7 +1580,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -1644,7 +1644,7 @@ extension CodestarnotificationsClientTypes.ListTargetsFilter: Swift.Codable {
 
 extension CodestarnotificationsClientTypes {
     /// Information about a filter to apply to the list of returned targets. You can filter by target type, address, or status. For example, to filter results to notification rules that have active Chatbot topics as targets, you could specify a ListTargetsFilter Name as TargetType and a Value of SNS, and a Name of TARGET_STATUS and a Value of ACTIVE.
-    public struct ListTargetsFilter: Swift.Equatable {
+    public struct ListTargetsFilter {
         /// The name of the attribute you want to use to filter the returned targets.
         /// This member is required.
         public var name: CodestarnotificationsClientTypes.ListTargetsFilterName?
@@ -1730,7 +1730,7 @@ extension ListTargetsInput {
     }
 }
 
-public struct ListTargetsInput: Swift.Equatable {
+public struct ListTargetsInput {
     /// The filters to use to return information by service or resource type. Valid filters include target type, target address, and target status. A filter with the same name can appear more than once when used with OR statements. Filters with different names should be applied with AND statements.
     public var filters: [CodestarnotificationsClientTypes.ListTargetsFilter]?
     /// A non-negative integer used to limit the number of returned results. The maximum number of results that can be returned is 100.
@@ -1750,7 +1750,7 @@ public struct ListTargetsInput: Swift.Equatable {
     }
 }
 
-struct ListTargetsInputBody: Swift.Equatable {
+struct ListTargetsInputBody {
     let filters: [CodestarnotificationsClientTypes.ListTargetsFilter]?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -1797,7 +1797,7 @@ extension ListTargetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTargetsOutput: Swift.Equatable {
+public struct ListTargetsOutput {
     /// An enumeration token that can be used in a request to return the next batch of results.
     public var nextToken: Swift.String?
     /// The list of notification rule targets.
@@ -1813,7 +1813,7 @@ public struct ListTargetsOutput: Swift.Equatable {
     }
 }
 
-struct ListTargetsOutputBody: Swift.Equatable {
+struct ListTargetsOutputBody {
     let targets: [CodestarnotificationsClientTypes.TargetSummary]?
     let nextToken: Swift.String?
 }
@@ -1913,7 +1913,7 @@ extension CodestarnotificationsClientTypes.NotificationRuleSummary: Swift.Codabl
 
 extension CodestarnotificationsClientTypes {
     /// Information about a specified notification rule.
-    public struct NotificationRuleSummary: Swift.Equatable {
+    public struct NotificationRuleSummary {
         /// The Amazon Resource Name (ARN) of the notification rule.
         public var arn: Swift.String?
         /// The unique ID of the notification rule.
@@ -1970,7 +1970,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct ResourceAlreadyExistsExceptionBody: Swift.Equatable {
+struct ResourceAlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -2025,7 +2025,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -2069,7 +2069,7 @@ extension SubscribeInput {
     }
 }
 
-public struct SubscribeInput: Swift.Equatable {
+public struct SubscribeInput {
     /// The Amazon Resource Name (ARN) of the notification rule for which you want to create the association.
     /// This member is required.
     public var arn: Swift.String?
@@ -2091,7 +2091,7 @@ public struct SubscribeInput: Swift.Equatable {
     }
 }
 
-struct SubscribeInputBody: Swift.Equatable {
+struct SubscribeInputBody {
     let arn: Swift.String?
     let target: CodestarnotificationsClientTypes.Target?
     let clientRequestToken: Swift.String?
@@ -2127,7 +2127,7 @@ extension SubscribeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SubscribeOutput: Swift.Equatable {
+public struct SubscribeOutput {
     /// The Amazon Resource Name (ARN) of the notification rule for which you have created assocations.
     public var arn: Swift.String?
 
@@ -2139,7 +2139,7 @@ public struct SubscribeOutput: Swift.Equatable {
     }
 }
 
-struct SubscribeOutputBody: Swift.Equatable {
+struct SubscribeOutputBody {
     let arn: Swift.String?
 }
 
@@ -2195,7 +2195,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the notification rule to tag.
     /// This member is required.
     public var arn: Swift.String?
@@ -2213,7 +2213,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let arn: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
@@ -2254,7 +2254,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
     /// The list of tags associated with the resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -2266,7 +2266,7 @@ public struct TagResourceOutput: Swift.Equatable {
     }
 }
 
-struct TagResourceOutputBody: Swift.Equatable {
+struct TagResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -2337,7 +2337,7 @@ extension CodestarnotificationsClientTypes.Target: Swift.CustomDebugStringConver
 
 extension CodestarnotificationsClientTypes {
     /// Information about the Chatbot topics or Chatbot clients associated with a notification rule.
-    public struct Target: Swift.Equatable {
+    public struct Target {
         /// The Amazon Resource Name (ARN) of the Chatbot topic or Chatbot client.
         public var targetAddress: Swift.String?
         /// The target type. Can be an Chatbot topic or Chatbot client.
@@ -2438,7 +2438,7 @@ extension CodestarnotificationsClientTypes.TargetSummary: Swift.CustomDebugStrin
 
 extension CodestarnotificationsClientTypes {
     /// Information about the targets specified for a notification rule.
-    public struct TargetSummary: Swift.Equatable {
+    public struct TargetSummary {
         /// The Amazon Resource Name (ARN) of the Chatbot topic or Chatbot client.
         public var targetAddress: Swift.String?
         /// The status of the target.
@@ -2493,7 +2493,7 @@ extension UnsubscribeInput {
     }
 }
 
-public struct UnsubscribeInput: Swift.Equatable {
+public struct UnsubscribeInput {
     /// The Amazon Resource Name (ARN) of the notification rule.
     /// This member is required.
     public var arn: Swift.String?
@@ -2511,7 +2511,7 @@ public struct UnsubscribeInput: Swift.Equatable {
     }
 }
 
-struct UnsubscribeInputBody: Swift.Equatable {
+struct UnsubscribeInputBody {
     let arn: Swift.String?
     let targetAddress: Swift.String?
 }
@@ -2543,7 +2543,7 @@ extension UnsubscribeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UnsubscribeOutput: Swift.Equatable {
+public struct UnsubscribeOutput {
     /// The Amazon Resource Name (ARN) of the the notification rule from which you have removed a subscription.
     /// This member is required.
     public var arn: Swift.String?
@@ -2556,7 +2556,7 @@ public struct UnsubscribeOutput: Swift.Equatable {
     }
 }
 
-struct UnsubscribeOutputBody: Swift.Equatable {
+struct UnsubscribeOutputBody {
     let arn: Swift.String?
 }
 
@@ -2609,7 +2609,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the notification rule from which to remove the tags.
     /// This member is required.
     public var arn: Swift.String?
@@ -2627,7 +2627,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -2641,7 +2641,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -2711,7 +2711,7 @@ extension UpdateNotificationRuleInput {
     }
 }
 
-public struct UpdateNotificationRuleInput: Swift.Equatable {
+public struct UpdateNotificationRuleInput {
     /// The Amazon Resource Name (ARN) of the notification rule.
     /// This member is required.
     public var arn: Swift.String?
@@ -2744,7 +2744,7 @@ public struct UpdateNotificationRuleInput: Swift.Equatable {
     }
 }
 
-struct UpdateNotificationRuleInputBody: Swift.Equatable {
+struct UpdateNotificationRuleInputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let status: CodestarnotificationsClientTypes.NotificationRuleStatus?
@@ -2803,7 +2803,7 @@ extension UpdateNotificationRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateNotificationRuleOutput: Swift.Equatable {
+public struct UpdateNotificationRuleOutput {
 
     public init() { }
 }
@@ -2860,7 +2860,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

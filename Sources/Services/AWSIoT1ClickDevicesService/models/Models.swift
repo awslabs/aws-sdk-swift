@@ -14,7 +14,7 @@ extension IoT1ClickDevicesClientTypes.Attributes: Swift.Codable {
 }
 
 extension IoT1ClickDevicesClientTypes {
-    public struct Attributes: Swift.Equatable {
+    public struct Attributes {
 
         public init() { }
     }
@@ -31,7 +31,7 @@ extension ClaimDevicesByClaimCodeInput {
     }
 }
 
-public struct ClaimDevicesByClaimCodeInput: Swift.Equatable {
+public struct ClaimDevicesByClaimCodeInput {
     /// The claim code, starting with "C-", as provided by the device manufacturer.
     /// This member is required.
     public var claimCode: Swift.String?
@@ -44,7 +44,7 @@ public struct ClaimDevicesByClaimCodeInput: Swift.Equatable {
     }
 }
 
-struct ClaimDevicesByClaimCodeInputBody: Swift.Equatable {
+struct ClaimDevicesByClaimCodeInputBody {
 }
 
 extension ClaimDevicesByClaimCodeInputBody: Swift.Decodable {
@@ -67,7 +67,7 @@ extension ClaimDevicesByClaimCodeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ClaimDevicesByClaimCodeOutput: Swift.Equatable {
+public struct ClaimDevicesByClaimCodeOutput {
     /// The claim code provided by the device manufacturer.
     public var claimCode: Swift.String?
     /// The total number of devices associated with the claim code that has been processed in the claim request.
@@ -83,7 +83,7 @@ public struct ClaimDevicesByClaimCodeOutput: Swift.Equatable {
     }
 }
 
-struct ClaimDevicesByClaimCodeOutputBody: Swift.Equatable {
+struct ClaimDevicesByClaimCodeOutputBody {
     let claimCode: Swift.String?
     let total: Swift.Int?
 }
@@ -126,7 +126,7 @@ extension DescribeDeviceInput {
     }
 }
 
-public struct DescribeDeviceInput: Swift.Equatable {
+public struct DescribeDeviceInput {
     /// The unique identifier of the device.
     /// This member is required.
     public var deviceId: Swift.String?
@@ -139,7 +139,7 @@ public struct DescribeDeviceInput: Swift.Equatable {
     }
 }
 
-struct DescribeDeviceInputBody: Swift.Equatable {
+struct DescribeDeviceInputBody {
 }
 
 extension DescribeDeviceInputBody: Swift.Decodable {
@@ -160,7 +160,7 @@ extension DescribeDeviceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDeviceOutput: Swift.Equatable {
+public struct DescribeDeviceOutput {
     /// Device details.
     public var deviceDescription: IoT1ClickDevicesClientTypes.DeviceDescription?
 
@@ -172,7 +172,7 @@ public struct DescribeDeviceOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDeviceOutputBody: Swift.Equatable {
+struct DescribeDeviceOutputBody {
     let deviceDescription: IoT1ClickDevicesClientTypes.DeviceDescription?
 }
 
@@ -233,7 +233,7 @@ extension IoT1ClickDevicesClientTypes.Device: Swift.Codable {
 }
 
 extension IoT1ClickDevicesClientTypes {
-    public struct Device: Swift.Equatable {
+    public struct Device {
         /// The user specified attributes associated with the device for an event.
         public var attributes: IoT1ClickDevicesClientTypes.Attributes?
         /// The unique identifier of the device.
@@ -335,7 +335,7 @@ extension IoT1ClickDevicesClientTypes.DeviceDescription: Swift.Codable {
 }
 
 extension IoT1ClickDevicesClientTypes {
-    public struct DeviceDescription: Swift.Equatable {
+    public struct DeviceDescription {
         /// The ARN of the device.
         public var arn: Swift.String?
         /// An array of zero or more elements of DeviceAttribute objects providing user specified device attributes.
@@ -399,7 +399,7 @@ extension IoT1ClickDevicesClientTypes.DeviceEvent: Swift.Codable {
 }
 
 extension IoT1ClickDevicesClientTypes {
-    public struct DeviceEvent: Swift.Equatable {
+    public struct DeviceEvent {
         /// An object representing the device associated with the event.
         public var device: IoT1ClickDevicesClientTypes.Device?
         /// A serialized JSON object representing the device-type specific event.
@@ -443,7 +443,7 @@ extension IoT1ClickDevicesClientTypes.DeviceMethod: Swift.Codable {
 }
 
 extension IoT1ClickDevicesClientTypes {
-    public struct DeviceMethod: Swift.Equatable {
+    public struct DeviceMethod {
         /// The type of the device, such as "button".
         public var deviceType: Swift.String?
         /// The name of the method applicable to the deviceType.
@@ -487,7 +487,7 @@ extension FinalizeDeviceClaimInput {
     }
 }
 
-public struct FinalizeDeviceClaimInput: Swift.Equatable {
+public struct FinalizeDeviceClaimInput {
     /// The unique identifier of the device.
     /// This member is required.
     public var deviceId: Swift.String?
@@ -504,7 +504,7 @@ public struct FinalizeDeviceClaimInput: Swift.Equatable {
     }
 }
 
-struct FinalizeDeviceClaimInputBody: Swift.Equatable {
+struct FinalizeDeviceClaimInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -541,7 +541,7 @@ extension FinalizeDeviceClaimOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct FinalizeDeviceClaimOutput: Swift.Equatable {
+public struct FinalizeDeviceClaimOutput {
     /// The device's final claim state.
     public var state: Swift.String?
 
@@ -553,7 +553,7 @@ public struct FinalizeDeviceClaimOutput: Swift.Equatable {
     }
 }
 
-struct FinalizeDeviceClaimOutputBody: Swift.Equatable {
+struct FinalizeDeviceClaimOutputBody {
     let state: Swift.String?
 }
 
@@ -629,7 +629,7 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
     }
 }
 
-struct ForbiddenExceptionBody: Swift.Equatable {
+struct ForbiddenExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
 }
@@ -659,7 +659,7 @@ extension GetDeviceMethodsInput {
     }
 }
 
-public struct GetDeviceMethodsInput: Swift.Equatable {
+public struct GetDeviceMethodsInput {
     /// The unique identifier of the device.
     /// This member is required.
     public var deviceId: Swift.String?
@@ -672,7 +672,7 @@ public struct GetDeviceMethodsInput: Swift.Equatable {
     }
 }
 
-struct GetDeviceMethodsInputBody: Swift.Equatable {
+struct GetDeviceMethodsInputBody {
 }
 
 extension GetDeviceMethodsInputBody: Swift.Decodable {
@@ -693,7 +693,7 @@ extension GetDeviceMethodsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDeviceMethodsOutput: Swift.Equatable {
+public struct GetDeviceMethodsOutput {
     /// List of available device APIs.
     public var deviceMethods: [IoT1ClickDevicesClientTypes.DeviceMethod]?
 
@@ -705,7 +705,7 @@ public struct GetDeviceMethodsOutput: Swift.Equatable {
     }
 }
 
-struct GetDeviceMethodsOutputBody: Swift.Equatable {
+struct GetDeviceMethodsOutputBody {
     let deviceMethods: [IoT1ClickDevicesClientTypes.DeviceMethod]?
 }
 
@@ -753,7 +753,7 @@ extension InitiateDeviceClaimInput {
     }
 }
 
-public struct InitiateDeviceClaimInput: Swift.Equatable {
+public struct InitiateDeviceClaimInput {
     /// The unique identifier of the device.
     /// This member is required.
     public var deviceId: Swift.String?
@@ -766,7 +766,7 @@ public struct InitiateDeviceClaimInput: Swift.Equatable {
     }
 }
 
-struct InitiateDeviceClaimInputBody: Swift.Equatable {
+struct InitiateDeviceClaimInputBody {
 }
 
 extension InitiateDeviceClaimInputBody: Swift.Decodable {
@@ -787,7 +787,7 @@ extension InitiateDeviceClaimOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct InitiateDeviceClaimOutput: Swift.Equatable {
+public struct InitiateDeviceClaimOutput {
     /// The device's final claim state.
     public var state: Swift.String?
 
@@ -799,7 +799,7 @@ public struct InitiateDeviceClaimOutput: Swift.Equatable {
     }
 }
 
-struct InitiateDeviceClaimOutputBody: Swift.Equatable {
+struct InitiateDeviceClaimOutputBody {
     let state: Swift.String?
 }
 
@@ -874,7 +874,7 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InternalFailureExceptionBody: Swift.Equatable {
+struct InternalFailureExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
 }
@@ -939,7 +939,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InvalidRequestExceptionBody: Swift.Equatable {
+struct InvalidRequestExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
 }
@@ -986,7 +986,7 @@ extension InvokeDeviceMethodInput {
     }
 }
 
-public struct InvokeDeviceMethodInput: Swift.Equatable {
+public struct InvokeDeviceMethodInput {
     /// The unique identifier of the device.
     /// This member is required.
     public var deviceId: Swift.String?
@@ -1007,7 +1007,7 @@ public struct InvokeDeviceMethodInput: Swift.Equatable {
     }
 }
 
-struct InvokeDeviceMethodInputBody: Swift.Equatable {
+struct InvokeDeviceMethodInputBody {
     let deviceMethod: IoT1ClickDevicesClientTypes.DeviceMethod?
     let deviceMethodParameters: Swift.String?
 }
@@ -1039,7 +1039,7 @@ extension InvokeDeviceMethodOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct InvokeDeviceMethodOutput: Swift.Equatable {
+public struct InvokeDeviceMethodOutput {
     /// A JSON encoded string containing the device method response.
     public var deviceMethodResponse: Swift.String?
 
@@ -1051,7 +1051,7 @@ public struct InvokeDeviceMethodOutput: Swift.Equatable {
     }
 }
 
-struct InvokeDeviceMethodOutputBody: Swift.Equatable {
+struct InvokeDeviceMethodOutputBody {
     let deviceMethodResponse: Swift.String?
 }
 
@@ -1123,7 +1123,7 @@ extension ListDeviceEventsInput {
     }
 }
 
-public struct ListDeviceEventsInput: Swift.Equatable {
+public struct ListDeviceEventsInput {
     /// The unique identifier of the device.
     /// This member is required.
     public var deviceId: Swift.String?
@@ -1154,7 +1154,7 @@ public struct ListDeviceEventsInput: Swift.Equatable {
     }
 }
 
-struct ListDeviceEventsInputBody: Swift.Equatable {
+struct ListDeviceEventsInputBody {
 }
 
 extension ListDeviceEventsInputBody: Swift.Decodable {
@@ -1177,7 +1177,7 @@ extension ListDeviceEventsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDeviceEventsOutput: Swift.Equatable {
+public struct ListDeviceEventsOutput {
     /// An array of zero or more elements describing the event(s) associated with the device.
     public var events: [IoT1ClickDevicesClientTypes.DeviceEvent]?
     /// The token to retrieve the next set of results.
@@ -1193,7 +1193,7 @@ public struct ListDeviceEventsOutput: Swift.Equatable {
     }
 }
 
-struct ListDeviceEventsOutputBody: Swift.Equatable {
+struct ListDeviceEventsOutputBody {
     let events: [IoT1ClickDevicesClientTypes.DeviceEvent]?
     let nextToken: Swift.String?
 }
@@ -1263,7 +1263,7 @@ extension ListDevicesInput {
     }
 }
 
-public struct ListDevicesInput: Swift.Equatable {
+public struct ListDevicesInput {
     /// The type of the device, such as "button".
     public var deviceType: Swift.String?
     /// The maximum number of results to return per request. If not set, a default value of 100 is used.
@@ -1283,7 +1283,7 @@ public struct ListDevicesInput: Swift.Equatable {
     }
 }
 
-struct ListDevicesInputBody: Swift.Equatable {
+struct ListDevicesInputBody {
 }
 
 extension ListDevicesInputBody: Swift.Decodable {
@@ -1306,7 +1306,7 @@ extension ListDevicesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDevicesOutput: Swift.Equatable {
+public struct ListDevicesOutput {
     /// A list of devices.
     public var devices: [IoT1ClickDevicesClientTypes.DeviceDescription]?
     /// The token to retrieve the next set of results.
@@ -1322,7 +1322,7 @@ public struct ListDevicesOutput: Swift.Equatable {
     }
 }
 
-struct ListDevicesOutputBody: Swift.Equatable {
+struct ListDevicesOutputBody {
     let devices: [IoT1ClickDevicesClientTypes.DeviceDescription]?
     let nextToken: Swift.String?
 }
@@ -1374,7 +1374,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The ARN of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -1387,7 +1387,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -1408,7 +1408,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// A collection of key/value pairs defining the resource tags. For example, { "tags": {"key1": "value1", "key2": "value2"} }. For more information, see [AWS Tagging Strategies](https://aws.amazon.com/answers/account-management/aws-tagging-strategies/).
     public var tags: [Swift.String:Swift.String]?
 
@@ -1420,7 +1420,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -1502,7 +1502,7 @@ public struct PreconditionFailedException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct PreconditionFailedExceptionBody: Swift.Equatable {
+struct PreconditionFailedExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
 }
@@ -1567,7 +1567,7 @@ public struct RangeNotSatisfiableException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct RangeNotSatisfiableExceptionBody: Swift.Equatable {
+struct RangeNotSatisfiableExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
 }
@@ -1632,7 +1632,7 @@ public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceConflictExceptionBody: Swift.Equatable {
+struct ResourceConflictExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
 }
@@ -1697,7 +1697,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
 }
@@ -1743,7 +1743,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The ARN of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -1761,7 +1761,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -1791,7 +1791,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -1819,7 +1819,7 @@ extension UnclaimDeviceInput {
     }
 }
 
-public struct UnclaimDeviceInput: Swift.Equatable {
+public struct UnclaimDeviceInput {
     /// The unique identifier of the device.
     /// This member is required.
     public var deviceId: Swift.String?
@@ -1832,7 +1832,7 @@ public struct UnclaimDeviceInput: Swift.Equatable {
     }
 }
 
-struct UnclaimDeviceInputBody: Swift.Equatable {
+struct UnclaimDeviceInputBody {
 }
 
 extension UnclaimDeviceInputBody: Swift.Decodable {
@@ -1853,7 +1853,7 @@ extension UnclaimDeviceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UnclaimDeviceOutput: Swift.Equatable {
+public struct UnclaimDeviceOutput {
     /// The device's final claim state.
     public var state: Swift.String?
 
@@ -1865,7 +1865,7 @@ public struct UnclaimDeviceOutput: Swift.Equatable {
     }
 }
 
-struct UnclaimDeviceOutputBody: Swift.Equatable {
+struct UnclaimDeviceOutputBody {
     let state: Swift.String?
 }
 
@@ -1920,7 +1920,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The ARN of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -1938,7 +1938,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -1952,7 +1952,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -1993,7 +1993,7 @@ extension UpdateDeviceStateInput {
     }
 }
 
-public struct UpdateDeviceStateInput: Swift.Equatable {
+public struct UpdateDeviceStateInput {
     /// The unique identifier of the device.
     /// This member is required.
     public var deviceId: Swift.String?
@@ -2010,7 +2010,7 @@ public struct UpdateDeviceStateInput: Swift.Equatable {
     }
 }
 
-struct UpdateDeviceStateInputBody: Swift.Equatable {
+struct UpdateDeviceStateInputBody {
     let enabled: Swift.Bool?
 }
 
@@ -2031,7 +2031,7 @@ extension UpdateDeviceStateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDeviceStateOutput: Swift.Equatable {
+public struct UpdateDeviceStateOutput {
 
     public init() { }
 }

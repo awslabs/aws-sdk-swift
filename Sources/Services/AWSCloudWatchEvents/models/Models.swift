@@ -22,7 +22,7 @@ extension ActivateEventSourceInput {
     }
 }
 
-public struct ActivateEventSourceInput: Swift.Equatable {
+public struct ActivateEventSourceInput {
     /// The name of the partner event source to activate.
     /// This member is required.
     public var name: Swift.String?
@@ -35,7 +35,7 @@ public struct ActivateEventSourceInput: Swift.Equatable {
     }
 }
 
-struct ActivateEventSourceInputBody: Swift.Equatable {
+struct ActivateEventSourceInputBody {
     let name: Swift.String?
 }
 
@@ -56,7 +56,7 @@ extension ActivateEventSourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ActivateEventSourceOutput: Swift.Equatable {
+public struct ActivateEventSourceOutput {
 
     public init() { }
 }
@@ -145,7 +145,7 @@ extension CloudWatchEventsClientTypes.ApiDestination: Swift.Codable {
 
 extension CloudWatchEventsClientTypes {
     /// Contains details about an API destination.
-    public struct ApiDestination: Swift.Equatable {
+    public struct ApiDestination {
         /// The ARN of the API destination.
         public var apiDestinationArn: Swift.String?
         /// The state of the API destination.
@@ -333,7 +333,7 @@ extension CloudWatchEventsClientTypes.Archive: Swift.Codable {
 
 extension CloudWatchEventsClientTypes {
     /// An Archive object that contains details about an archive.
-    public struct Archive: Swift.Equatable {
+    public struct Archive {
         /// The name of the archive.
         public var archiveName: Swift.String?
         /// The time stamp for the time that the archive was created.
@@ -508,7 +508,7 @@ extension CloudWatchEventsClientTypes.AwsVpcConfiguration: Swift.Codable {
 
 extension CloudWatchEventsClientTypes {
     /// This structure specifies the VPC subnets and security groups for the task, and whether a public IP address is to be used. This structure is relevant only for ECS tasks that use the awsvpc network mode.
-    public struct AwsVpcConfiguration: Swift.Equatable {
+    public struct AwsVpcConfiguration {
         /// Specifies whether the task's elastic network interface receives a public IP address. You can specify ENABLED only when LaunchType in EcsParameters is set to FARGATE.
         public var assignPublicIp: CloudWatchEventsClientTypes.AssignPublicIp?
         /// Specifies the security groups associated with the task. These security groups must all be in the same VPC. You can specify as many as five security groups. If you do not specify a security group, the default security group for the VPC is used.
@@ -552,7 +552,7 @@ extension CloudWatchEventsClientTypes.BatchArrayProperties: Swift.Codable {
 
 extension CloudWatchEventsClientTypes {
     /// The array properties for the submitted job, such as the size of the array. The array size can be between 2 and 10,000. If you specify array properties for a job, it becomes an array job. This parameter is used only if the target is an Batch job.
-    public struct BatchArrayProperties: Swift.Equatable {
+    public struct BatchArrayProperties {
         /// The size of the array, if this is an array batch job. Valid values are integers between 2 and 10,000.
         public var size: Swift.Int
 
@@ -605,7 +605,7 @@ extension CloudWatchEventsClientTypes.BatchParameters: Swift.Codable {
 
 extension CloudWatchEventsClientTypes {
     /// The custom parameters to be used when the target is an Batch job.
-    public struct BatchParameters: Swift.Equatable {
+    public struct BatchParameters {
         /// The array properties for the submitted job, such as the size of the array. The array size can be between 2 and 10,000. If you specify array properties for a job, it becomes an array job. This parameter is used only if the target is an Batch job.
         public var arrayProperties: CloudWatchEventsClientTypes.BatchArrayProperties?
         /// The ARN or name of the job definition to use if the event target is an Batch job. This job definition must already exist.
@@ -654,7 +654,7 @@ extension CloudWatchEventsClientTypes.BatchRetryStrategy: Swift.Codable {
 
 extension CloudWatchEventsClientTypes {
     /// The retry strategy to use for failed jobs, if the target is an Batch job. If you specify a retry strategy here, it overrides the retry strategy defined in the job definition.
-    public struct BatchRetryStrategy: Swift.Equatable {
+    public struct BatchRetryStrategy {
         /// The number of times to attempt to retry, if the job fails. Valid values are 1–10.
         public var attempts: Swift.Int
 
@@ -688,7 +688,7 @@ extension CancelReplayInput {
     }
 }
 
-public struct CancelReplayInput: Swift.Equatable {
+public struct CancelReplayInput {
     /// The name of the replay to cancel.
     /// This member is required.
     public var replayName: Swift.String?
@@ -701,7 +701,7 @@ public struct CancelReplayInput: Swift.Equatable {
     }
 }
 
-struct CancelReplayInputBody: Swift.Equatable {
+struct CancelReplayInputBody {
     let replayName: Swift.String?
 }
 
@@ -733,7 +733,7 @@ extension CancelReplayOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelReplayOutput: Swift.Equatable {
+public struct CancelReplayOutput {
     /// The ARN of the replay to cancel.
     public var replayArn: Swift.String?
     /// The current state of the replay.
@@ -753,7 +753,7 @@ public struct CancelReplayOutput: Swift.Equatable {
     }
 }
 
-struct CancelReplayOutputBody: Swift.Equatable {
+struct CancelReplayOutputBody {
     let replayArn: Swift.String?
     let state: CloudWatchEventsClientTypes.ReplayState?
     let stateReason: Swift.String?
@@ -824,7 +824,7 @@ extension CloudWatchEventsClientTypes.CapacityProviderStrategyItem: Swift.Codabl
 
 extension CloudWatchEventsClientTypes {
     /// The details of a capacity provider strategy. To learn more, see [CapacityProviderStrategyItem](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CapacityProviderStrategyItem.html) in the Amazon ECS API Reference.
-    public struct CapacityProviderStrategyItem: Swift.Equatable {
+    public struct CapacityProviderStrategyItem {
         /// The base value designates how many tasks, at a minimum, to run on the specified capacity provider. Only one capacity provider in a capacity provider strategy can have a base defined. If no value is specified, the default value of 0 is used.
         public var base: Swift.Int
         /// The short name of the capacity provider.
@@ -888,7 +888,7 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct ConcurrentModificationExceptionBody: Swift.Equatable {
+struct ConcurrentModificationExceptionBody {
     let message: Swift.String?
 }
 
@@ -937,7 +937,7 @@ extension CloudWatchEventsClientTypes.Condition: Swift.Codable {
 
 extension CloudWatchEventsClientTypes {
     /// A JSON string which you can use to limit the event bus permissions you are granting to only accounts that fulfill the condition. Currently, the only supported condition is membership in a certain Amazon Web Services organization. The string must contain Type, Key, and Value fields. The Value field specifies the ID of the Amazon Web Services organization. Following is an example value for Condition: '{"Type" : "StringEquals", "Key": "aws:PrincipalOrgID", "Value": "o-1234567890"}'
-    public struct Condition: Swift.Equatable {
+    public struct Condition {
         /// Specifies the key for the condition. Currently the only supported key is aws:PrincipalOrgID.
         /// This member is required.
         public var key: Swift.String?
@@ -1025,7 +1025,7 @@ extension CloudWatchEventsClientTypes.Connection: Swift.Codable {
 
 extension CloudWatchEventsClientTypes {
     /// Contains information about a connection.
-    public struct Connection: Swift.Equatable {
+    public struct Connection {
         /// The authorization type specified for the connection.
         public var authorizationType: CloudWatchEventsClientTypes.ConnectionAuthorizationType?
         /// The ARN of the connection.
@@ -1088,7 +1088,7 @@ extension CloudWatchEventsClientTypes.ConnectionApiKeyAuthResponseParameters: Sw
 
 extension CloudWatchEventsClientTypes {
     /// Contains the authorization parameters for the connection if API Key is specified as the authorization type.
-    public struct ConnectionApiKeyAuthResponseParameters: Swift.Equatable {
+    public struct ConnectionApiKeyAuthResponseParameters {
         /// The name of the header to use for the APIKeyValue used for authorization.
         public var apiKeyName: Swift.String?
 
@@ -1141,7 +1141,7 @@ extension CloudWatchEventsClientTypes.ConnectionAuthResponseParameters: Swift.Co
 
 extension CloudWatchEventsClientTypes {
     /// Contains the authorization parameters to use for the connection.
-    public struct ConnectionAuthResponseParameters: Swift.Equatable {
+    public struct ConnectionAuthResponseParameters {
         /// The API Key parameters to use for authorization.
         public var apiKeyAuthParameters: CloudWatchEventsClientTypes.ConnectionApiKeyAuthResponseParameters?
         /// The authorization parameters for Basic authorization.
@@ -1223,7 +1223,7 @@ extension CloudWatchEventsClientTypes.ConnectionBasicAuthResponseParameters: Swi
 
 extension CloudWatchEventsClientTypes {
     /// Contains the authorization parameters for the connection if Basic is specified as the authorization type.
-    public struct ConnectionBasicAuthResponseParameters: Swift.Equatable {
+    public struct ConnectionBasicAuthResponseParameters {
         /// The user name to use for Basic authorization.
         public var username: Swift.String?
 
@@ -1275,7 +1275,7 @@ extension CloudWatchEventsClientTypes.ConnectionBodyParameter: Swift.CustomDebug
 
 extension CloudWatchEventsClientTypes {
     /// Additional parameter included in the body. You can include up to 100 additional body parameters per request. An event payload cannot exceed 64 KB.
-    public struct ConnectionBodyParameter: Swift.Equatable {
+    public struct ConnectionBodyParameter {
         /// Specified whether the value is secret.
         public var isValueSecret: Swift.Bool
         /// The key for the parameter.
@@ -1335,7 +1335,7 @@ extension CloudWatchEventsClientTypes.ConnectionHeaderParameter: Swift.CustomDeb
 
 extension CloudWatchEventsClientTypes {
     /// Additional parameter included in the header. You can include up to 100 additional header parameters per request. An event payload cannot exceed 64 KB.
-    public struct ConnectionHeaderParameter: Swift.Equatable {
+    public struct ConnectionHeaderParameter {
         /// Specified whether the value is a secret.
         public var isValueSecret: Swift.Bool
         /// The key for the parameter.
@@ -1426,7 +1426,7 @@ extension CloudWatchEventsClientTypes.ConnectionHttpParameters: Swift.Codable {
 
 extension CloudWatchEventsClientTypes {
     /// Contains additional parameters for the connection.
-    public struct ConnectionHttpParameters: Swift.Equatable {
+    public struct ConnectionHttpParameters {
         /// Contains additional body string parameters for the connection.
         public var bodyParameters: [CloudWatchEventsClientTypes.ConnectionBodyParameter]?
         /// Contains additional header parameters for the connection.
@@ -1469,7 +1469,7 @@ extension CloudWatchEventsClientTypes.ConnectionOAuthClientResponseParameters: S
 
 extension CloudWatchEventsClientTypes {
     /// Contains the client response parameters for the connection when OAuth is specified as the authorization type.
-    public struct ConnectionOAuthClientResponseParameters: Swift.Equatable {
+    public struct ConnectionOAuthClientResponseParameters {
         /// The client ID associated with the response to the connection request.
         public var clientID: Swift.String?
 
@@ -1557,7 +1557,7 @@ extension CloudWatchEventsClientTypes.ConnectionOAuthResponseParameters: Swift.C
 
 extension CloudWatchEventsClientTypes {
     /// Contains the response parameters when OAuth is specified as the authorization type.
-    public struct ConnectionOAuthResponseParameters: Swift.Equatable {
+    public struct ConnectionOAuthResponseParameters {
         /// The URL to the HTTP endpoint that authorized the request.
         public var authorizationEndpoint: Swift.String?
         /// A ConnectionOAuthClientResponseParameters object that contains details about the client parameters returned when OAuth is specified as the authorization type.
@@ -1621,7 +1621,7 @@ extension CloudWatchEventsClientTypes.ConnectionQueryStringParameter: Swift.Cust
 
 extension CloudWatchEventsClientTypes {
     /// Additional query string parameter for the connection. You can include up to 100 additional query string parameters per request. Each additional parameter counts towards the event payload size, which cannot exceed 64 KB.
-    public struct ConnectionQueryStringParameter: Swift.Equatable {
+    public struct ConnectionQueryStringParameter {
         /// Specifies whether the value is secret.
         public var isValueSecret: Swift.Bool
         /// The key for a query string parameter.
@@ -1730,7 +1730,7 @@ extension CreateApiDestinationInput {
     }
 }
 
-public struct CreateApiDestinationInput: Swift.Equatable {
+public struct CreateApiDestinationInput {
     /// The ARN of the connection to use for the API destination. The destination endpoint must support the authorization type specified for the connection.
     /// This member is required.
     public var connectionArn: Swift.String?
@@ -1766,7 +1766,7 @@ public struct CreateApiDestinationInput: Swift.Equatable {
     }
 }
 
-struct CreateApiDestinationInputBody: Swift.Equatable {
+struct CreateApiDestinationInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let connectionArn: Swift.String?
@@ -1820,7 +1820,7 @@ extension CreateApiDestinationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateApiDestinationOutput: Swift.Equatable {
+public struct CreateApiDestinationOutput {
     /// The ARN of the API destination that was created by the request.
     public var apiDestinationArn: Swift.String?
     /// The state of the API destination that was created by the request.
@@ -1844,7 +1844,7 @@ public struct CreateApiDestinationOutput: Swift.Equatable {
     }
 }
 
-struct CreateApiDestinationOutputBody: Swift.Equatable {
+struct CreateApiDestinationOutputBody {
     let apiDestinationArn: Swift.String?
     let apiDestinationState: CloudWatchEventsClientTypes.ApiDestinationState?
     let creationTime: ClientRuntime.Date?
@@ -1922,7 +1922,7 @@ extension CreateArchiveInput {
     }
 }
 
-public struct CreateArchiveInput: Swift.Equatable {
+public struct CreateArchiveInput {
     /// The name for the archive to create.
     /// This member is required.
     public var archiveName: Swift.String?
@@ -1952,7 +1952,7 @@ public struct CreateArchiveInput: Swift.Equatable {
     }
 }
 
-struct CreateArchiveInputBody: Swift.Equatable {
+struct CreateArchiveInputBody {
     let archiveName: Swift.String?
     let eventSourceArn: Swift.String?
     let description: Swift.String?
@@ -2002,7 +2002,7 @@ extension CreateArchiveOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateArchiveOutput: Swift.Equatable {
+public struct CreateArchiveOutput {
     /// The ARN of the archive that was created.
     public var archiveArn: Swift.String?
     /// The time at which the archive was created.
@@ -2026,7 +2026,7 @@ public struct CreateArchiveOutput: Swift.Equatable {
     }
 }
 
-struct CreateArchiveOutputBody: Swift.Equatable {
+struct CreateArchiveOutputBody {
     let archiveArn: Swift.String?
     let state: CloudWatchEventsClientTypes.ArchiveState?
     let stateReason: Swift.String?
@@ -2102,7 +2102,7 @@ extension CloudWatchEventsClientTypes.CreateConnectionApiKeyAuthRequestParameter
 
 extension CloudWatchEventsClientTypes {
     /// Contains the API key authorization parameters for the connection.
-    public struct CreateConnectionApiKeyAuthRequestParameters: Swift.Equatable {
+    public struct CreateConnectionApiKeyAuthRequestParameters {
         /// The name of the API key to use for authorization.
         /// This member is required.
         public var apiKeyName: Swift.String?
@@ -2161,7 +2161,7 @@ extension CloudWatchEventsClientTypes.CreateConnectionAuthRequestParameters: Swi
 
 extension CloudWatchEventsClientTypes {
     /// Contains the authorization parameters for the connection.
-    public struct CreateConnectionAuthRequestParameters: Swift.Equatable {
+    public struct CreateConnectionAuthRequestParameters {
         /// A CreateConnectionApiKeyAuthRequestParameters object that contains the API key authorization parameters to use for the connection.
         public var apiKeyAuthParameters: CloudWatchEventsClientTypes.CreateConnectionApiKeyAuthRequestParameters?
         /// A CreateConnectionBasicAuthRequestParameters object that contains the Basic authorization parameters to use for the connection.
@@ -2219,7 +2219,7 @@ extension CloudWatchEventsClientTypes.CreateConnectionBasicAuthRequestParameters
 
 extension CloudWatchEventsClientTypes {
     /// Contains the Basic authorization parameters to use for the connection.
-    public struct CreateConnectionBasicAuthRequestParameters: Swift.Equatable {
+    public struct CreateConnectionBasicAuthRequestParameters {
         /// The password associated with the user name to use for Basic authorization.
         /// This member is required.
         public var password: Swift.String?
@@ -2271,7 +2271,7 @@ extension CreateConnectionInput {
     }
 }
 
-public struct CreateConnectionInput: Swift.Equatable {
+public struct CreateConnectionInput {
     /// A CreateConnectionAuthRequestParameters object that contains the authorization parameters to use to authorize with the endpoint.
     /// This member is required.
     public var authParameters: CloudWatchEventsClientTypes.CreateConnectionAuthRequestParameters?
@@ -2298,7 +2298,7 @@ public struct CreateConnectionInput: Swift.Equatable {
     }
 }
 
-struct CreateConnectionInputBody: Swift.Equatable {
+struct CreateConnectionInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let authorizationType: CloudWatchEventsClientTypes.ConnectionAuthorizationType?
@@ -2358,7 +2358,7 @@ extension CloudWatchEventsClientTypes.CreateConnectionOAuthClientRequestParamete
 
 extension CloudWatchEventsClientTypes {
     /// Contains the Basic authorization parameters to use for the connection.
-    public struct CreateConnectionOAuthClientRequestParameters: Swift.Equatable {
+    public struct CreateConnectionOAuthClientRequestParameters {
         /// The client ID to use for OAuth authorization for the connection.
         /// This member is required.
         public var clientID: Swift.String?
@@ -2417,7 +2417,7 @@ extension CloudWatchEventsClientTypes.CreateConnectionOAuthRequestParameters: Sw
 
 extension CloudWatchEventsClientTypes {
     /// Contains the OAuth authorization parameters to use for the connection.
-    public struct CreateConnectionOAuthRequestParameters: Swift.Equatable {
+    public struct CreateConnectionOAuthRequestParameters {
         /// The URL to the authorization endpoint when OAuth is specified as the authorization type.
         /// This member is required.
         public var authorizationEndpoint: Swift.String?
@@ -2464,7 +2464,7 @@ extension CreateConnectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateConnectionOutput: Swift.Equatable {
+public struct CreateConnectionOutput {
     /// The ARN of the connection that was created by the request.
     public var connectionArn: Swift.String?
     /// The state of the connection that was created by the request.
@@ -2488,7 +2488,7 @@ public struct CreateConnectionOutput: Swift.Equatable {
     }
 }
 
-struct CreateConnectionOutputBody: Swift.Equatable {
+struct CreateConnectionOutputBody {
     let connectionArn: Swift.String?
     let connectionState: CloudWatchEventsClientTypes.ConnectionState?
     let creationTime: ClientRuntime.Date?
@@ -2560,7 +2560,7 @@ extension CreateEventBusInput {
     }
 }
 
-public struct CreateEventBusInput: Swift.Equatable {
+public struct CreateEventBusInput {
     /// If you are creating a partner event bus, this specifies the partner event source that the new event bus will be matched with.
     public var eventSourceName: Swift.String?
     /// The name of the new event bus. Event bus names cannot contain the / character. You can't use the name default for a custom event bus, as this name is already used for your account's default event bus. If this is a partner event bus, the name must exactly match the name of the partner event source that this event bus is matched to.
@@ -2581,7 +2581,7 @@ public struct CreateEventBusInput: Swift.Equatable {
     }
 }
 
-struct CreateEventBusInputBody: Swift.Equatable {
+struct CreateEventBusInputBody {
     let name: Swift.String?
     let eventSourceName: Swift.String?
     let tags: [CloudWatchEventsClientTypes.Tag]?
@@ -2626,7 +2626,7 @@ extension CreateEventBusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateEventBusOutput: Swift.Equatable {
+public struct CreateEventBusOutput {
     /// The ARN of the new event bus.
     public var eventBusArn: Swift.String?
 
@@ -2638,7 +2638,7 @@ public struct CreateEventBusOutput: Swift.Equatable {
     }
 }
 
-struct CreateEventBusOutputBody: Swift.Equatable {
+struct CreateEventBusOutputBody {
     let eventBusArn: Swift.String?
 }
 
@@ -2695,7 +2695,7 @@ extension CreatePartnerEventSourceInput {
     }
 }
 
-public struct CreatePartnerEventSourceInput: Swift.Equatable {
+public struct CreatePartnerEventSourceInput {
     /// The Amazon Web Services account ID that is permitted to create a matching partner event bus for this partner event source.
     /// This member is required.
     public var account: Swift.String?
@@ -2713,7 +2713,7 @@ public struct CreatePartnerEventSourceInput: Swift.Equatable {
     }
 }
 
-struct CreatePartnerEventSourceInputBody: Swift.Equatable {
+struct CreatePartnerEventSourceInputBody {
     let name: Swift.String?
     let account: Swift.String?
 }
@@ -2745,7 +2745,7 @@ extension CreatePartnerEventSourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePartnerEventSourceOutput: Swift.Equatable {
+public struct CreatePartnerEventSourceOutput {
     /// The ARN of the partner event source.
     public var eventSourceArn: Swift.String?
 
@@ -2757,7 +2757,7 @@ public struct CreatePartnerEventSourceOutput: Swift.Equatable {
     }
 }
 
-struct CreatePartnerEventSourceOutputBody: Swift.Equatable {
+struct CreatePartnerEventSourceOutputBody {
     let eventSourceArn: Swift.String?
 }
 
@@ -2808,7 +2808,7 @@ extension DeactivateEventSourceInput {
     }
 }
 
-public struct DeactivateEventSourceInput: Swift.Equatable {
+public struct DeactivateEventSourceInput {
     /// The name of the partner event source to deactivate.
     /// This member is required.
     public var name: Swift.String?
@@ -2821,7 +2821,7 @@ public struct DeactivateEventSourceInput: Swift.Equatable {
     }
 }
 
-struct DeactivateEventSourceInputBody: Swift.Equatable {
+struct DeactivateEventSourceInputBody {
     let name: Swift.String?
 }
 
@@ -2842,7 +2842,7 @@ extension DeactivateEventSourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeactivateEventSourceOutput: Swift.Equatable {
+public struct DeactivateEventSourceOutput {
 
     public init() { }
 }
@@ -2883,7 +2883,7 @@ extension CloudWatchEventsClientTypes.DeadLetterConfig: Swift.Codable {
 
 extension CloudWatchEventsClientTypes {
     /// A DeadLetterConfig object that contains information about a dead-letter queue configuration.
-    public struct DeadLetterConfig: Swift.Equatable {
+    public struct DeadLetterConfig {
         /// The ARN of the SQS queue specified as the target for the dead-letter queue.
         public var arn: Swift.String?
 
@@ -2917,7 +2917,7 @@ extension DeauthorizeConnectionInput {
     }
 }
 
-public struct DeauthorizeConnectionInput: Swift.Equatable {
+public struct DeauthorizeConnectionInput {
     /// The name of the connection to remove authorization from.
     /// This member is required.
     public var name: Swift.String?
@@ -2930,7 +2930,7 @@ public struct DeauthorizeConnectionInput: Swift.Equatable {
     }
 }
 
-struct DeauthorizeConnectionInputBody: Swift.Equatable {
+struct DeauthorizeConnectionInputBody {
     let name: Swift.String?
 }
 
@@ -2966,7 +2966,7 @@ extension DeauthorizeConnectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeauthorizeConnectionOutput: Swift.Equatable {
+public struct DeauthorizeConnectionOutput {
     /// The ARN of the connection that authorization was removed from.
     public var connectionArn: Swift.String?
     /// The state of the connection.
@@ -2994,7 +2994,7 @@ public struct DeauthorizeConnectionOutput: Swift.Equatable {
     }
 }
 
-struct DeauthorizeConnectionOutputBody: Swift.Equatable {
+struct DeauthorizeConnectionOutputBody {
     let connectionArn: Swift.String?
     let connectionState: CloudWatchEventsClientTypes.ConnectionState?
     let creationTime: ClientRuntime.Date?
@@ -3059,7 +3059,7 @@ extension DeleteApiDestinationInput {
     }
 }
 
-public struct DeleteApiDestinationInput: Swift.Equatable {
+public struct DeleteApiDestinationInput {
     /// The name of the destination to delete.
     /// This member is required.
     public var name: Swift.String?
@@ -3072,7 +3072,7 @@ public struct DeleteApiDestinationInput: Swift.Equatable {
     }
 }
 
-struct DeleteApiDestinationInputBody: Swift.Equatable {
+struct DeleteApiDestinationInputBody {
     let name: Swift.String?
 }
 
@@ -3093,7 +3093,7 @@ extension DeleteApiDestinationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteApiDestinationOutput: Swift.Equatable {
+public struct DeleteApiDestinationOutput {
 
     public init() { }
 }
@@ -3131,7 +3131,7 @@ extension DeleteArchiveInput {
     }
 }
 
-public struct DeleteArchiveInput: Swift.Equatable {
+public struct DeleteArchiveInput {
     /// The name of the archive to delete.
     /// This member is required.
     public var archiveName: Swift.String?
@@ -3144,7 +3144,7 @@ public struct DeleteArchiveInput: Swift.Equatable {
     }
 }
 
-struct DeleteArchiveInputBody: Swift.Equatable {
+struct DeleteArchiveInputBody {
     let archiveName: Swift.String?
 }
 
@@ -3165,7 +3165,7 @@ extension DeleteArchiveOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteArchiveOutput: Swift.Equatable {
+public struct DeleteArchiveOutput {
 
     public init() { }
 }
@@ -3203,7 +3203,7 @@ extension DeleteConnectionInput {
     }
 }
 
-public struct DeleteConnectionInput: Swift.Equatable {
+public struct DeleteConnectionInput {
     /// The name of the connection to delete.
     /// This member is required.
     public var name: Swift.String?
@@ -3216,7 +3216,7 @@ public struct DeleteConnectionInput: Swift.Equatable {
     }
 }
 
-struct DeleteConnectionInputBody: Swift.Equatable {
+struct DeleteConnectionInputBody {
     let name: Swift.String?
 }
 
@@ -3252,7 +3252,7 @@ extension DeleteConnectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteConnectionOutput: Swift.Equatable {
+public struct DeleteConnectionOutput {
     /// The ARN of the connection that was deleted.
     public var connectionArn: Swift.String?
     /// The state of the connection before it was deleted.
@@ -3280,7 +3280,7 @@ public struct DeleteConnectionOutput: Swift.Equatable {
     }
 }
 
-struct DeleteConnectionOutputBody: Swift.Equatable {
+struct DeleteConnectionOutputBody {
     let connectionArn: Swift.String?
     let connectionState: CloudWatchEventsClientTypes.ConnectionState?
     let creationTime: ClientRuntime.Date?
@@ -3345,7 +3345,7 @@ extension DeleteEventBusInput {
     }
 }
 
-public struct DeleteEventBusInput: Swift.Equatable {
+public struct DeleteEventBusInput {
     /// The name of the event bus to delete.
     /// This member is required.
     public var name: Swift.String?
@@ -3358,7 +3358,7 @@ public struct DeleteEventBusInput: Swift.Equatable {
     }
 }
 
-struct DeleteEventBusInputBody: Swift.Equatable {
+struct DeleteEventBusInputBody {
     let name: Swift.String?
 }
 
@@ -3379,7 +3379,7 @@ extension DeleteEventBusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteEventBusOutput: Swift.Equatable {
+public struct DeleteEventBusOutput {
 
     public init() { }
 }
@@ -3420,7 +3420,7 @@ extension DeletePartnerEventSourceInput {
     }
 }
 
-public struct DeletePartnerEventSourceInput: Swift.Equatable {
+public struct DeletePartnerEventSourceInput {
     /// The Amazon Web Services account ID of the Amazon Web Services customer that the event source was created for.
     /// This member is required.
     public var account: Swift.String?
@@ -3438,7 +3438,7 @@ public struct DeletePartnerEventSourceInput: Swift.Equatable {
     }
 }
 
-struct DeletePartnerEventSourceInputBody: Swift.Equatable {
+struct DeletePartnerEventSourceInputBody {
     let name: Swift.String?
     let account: Swift.String?
 }
@@ -3463,7 +3463,7 @@ extension DeletePartnerEventSourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePartnerEventSourceOutput: Swift.Equatable {
+public struct DeletePartnerEventSourceOutput {
 
     public init() { }
 }
@@ -3509,7 +3509,7 @@ extension DeleteRuleInput {
     }
 }
 
-public struct DeleteRuleInput: Swift.Equatable {
+public struct DeleteRuleInput {
     /// The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
     public var eventBusName: Swift.String?
     /// If this is a managed rule, created by an Amazon Web Services service on your behalf, you must specify Force as True to delete the rule. This parameter is ignored for rules that are not managed rules. You can check whether a rule is a managed rule by using DescribeRule or ListRules and checking the ManagedBy field of the response.
@@ -3530,7 +3530,7 @@ public struct DeleteRuleInput: Swift.Equatable {
     }
 }
 
-struct DeleteRuleInputBody: Swift.Equatable {
+struct DeleteRuleInputBody {
     let name: Swift.String?
     let eventBusName: Swift.String?
     let force: Swift.Bool?
@@ -3559,7 +3559,7 @@ extension DeleteRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRuleOutput: Swift.Equatable {
+public struct DeleteRuleOutput {
 
     public init() { }
 }
@@ -3598,7 +3598,7 @@ extension DescribeApiDestinationInput {
     }
 }
 
-public struct DescribeApiDestinationInput: Swift.Equatable {
+public struct DescribeApiDestinationInput {
     /// The name of the API destination to retrieve.
     /// This member is required.
     public var name: Swift.String?
@@ -3611,7 +3611,7 @@ public struct DescribeApiDestinationInput: Swift.Equatable {
     }
 }
 
-struct DescribeApiDestinationInputBody: Swift.Equatable {
+struct DescribeApiDestinationInputBody {
     let name: Swift.String?
 }
 
@@ -3657,7 +3657,7 @@ extension DescribeApiDestinationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeApiDestinationOutput: Swift.Equatable {
+public struct DescribeApiDestinationOutput {
     /// The ARN of the API destination retrieved.
     public var apiDestinationArn: Swift.String?
     /// The state of the API destination retrieved.
@@ -3705,7 +3705,7 @@ public struct DescribeApiDestinationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeApiDestinationOutputBody: Swift.Equatable {
+struct DescribeApiDestinationOutputBody {
     let apiDestinationArn: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -3789,7 +3789,7 @@ extension DescribeArchiveInput {
     }
 }
 
-public struct DescribeArchiveInput: Swift.Equatable {
+public struct DescribeArchiveInput {
     /// The name of the archive to retrieve.
     /// This member is required.
     public var archiveName: Swift.String?
@@ -3802,7 +3802,7 @@ public struct DescribeArchiveInput: Swift.Equatable {
     }
 }
 
-struct DescribeArchiveInputBody: Swift.Equatable {
+struct DescribeArchiveInputBody {
     let archiveName: Swift.String?
 }
 
@@ -3850,7 +3850,7 @@ extension DescribeArchiveOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeArchiveOutput: Swift.Equatable {
+public struct DescribeArchiveOutput {
     /// The ARN of the archive.
     public var archiveArn: Swift.String?
     /// The name of the archive.
@@ -3902,7 +3902,7 @@ public struct DescribeArchiveOutput: Swift.Equatable {
     }
 }
 
-struct DescribeArchiveOutputBody: Swift.Equatable {
+struct DescribeArchiveOutputBody {
     let archiveArn: Swift.String?
     let archiveName: Swift.String?
     let eventSourceArn: Swift.String?
@@ -3991,7 +3991,7 @@ extension DescribeConnectionInput {
     }
 }
 
-public struct DescribeConnectionInput: Swift.Equatable {
+public struct DescribeConnectionInput {
     /// The name of the connection to retrieve.
     /// This member is required.
     public var name: Swift.String?
@@ -4004,7 +4004,7 @@ public struct DescribeConnectionInput: Swift.Equatable {
     }
 }
 
-struct DescribeConnectionInputBody: Swift.Equatable {
+struct DescribeConnectionInputBody {
     let name: Swift.String?
 }
 
@@ -4052,7 +4052,7 @@ extension DescribeConnectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeConnectionOutput: Swift.Equatable {
+public struct DescribeConnectionOutput {
     /// The parameters to use for authorization for the connection.
     public var authParameters: CloudWatchEventsClientTypes.ConnectionAuthResponseParameters?
     /// The type of authorization specified for the connection.
@@ -4104,7 +4104,7 @@ public struct DescribeConnectionOutput: Swift.Equatable {
     }
 }
 
-struct DescribeConnectionOutputBody: Swift.Equatable {
+struct DescribeConnectionOutputBody {
     let connectionArn: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -4192,7 +4192,7 @@ extension DescribeEventBusInput {
     }
 }
 
-public struct DescribeEventBusInput: Swift.Equatable {
+public struct DescribeEventBusInput {
     /// The name or ARN of the event bus to show details for. If you omit this, the default event bus is displayed.
     public var name: Swift.String?
 
@@ -4204,7 +4204,7 @@ public struct DescribeEventBusInput: Swift.Equatable {
     }
 }
 
-struct DescribeEventBusInputBody: Swift.Equatable {
+struct DescribeEventBusInputBody {
     let name: Swift.String?
 }
 
@@ -4236,7 +4236,7 @@ extension DescribeEventBusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeEventBusOutput: Swift.Equatable {
+public struct DescribeEventBusOutput {
     /// The Amazon Resource Name (ARN) of the account permitted to write events to the current account.
     public var arn: Swift.String?
     /// The name of the event bus. Currently, this is always default.
@@ -4256,7 +4256,7 @@ public struct DescribeEventBusOutput: Swift.Equatable {
     }
 }
 
-struct DescribeEventBusOutputBody: Swift.Equatable {
+struct DescribeEventBusOutputBody {
     let name: Swift.String?
     let arn: Swift.String?
     let policy: Swift.String?
@@ -4312,7 +4312,7 @@ extension DescribeEventSourceInput {
     }
 }
 
-public struct DescribeEventSourceInput: Swift.Equatable {
+public struct DescribeEventSourceInput {
     /// The name of the partner event source to display the details of.
     /// This member is required.
     public var name: Swift.String?
@@ -4325,7 +4325,7 @@ public struct DescribeEventSourceInput: Swift.Equatable {
     }
 }
 
-struct DescribeEventSourceInputBody: Swift.Equatable {
+struct DescribeEventSourceInputBody {
     let name: Swift.String?
 }
 
@@ -4363,7 +4363,7 @@ extension DescribeEventSourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeEventSourceOutput: Swift.Equatable {
+public struct DescribeEventSourceOutput {
     /// The ARN of the partner event source.
     public var arn: Swift.String?
     /// The name of the SaaS partner that created the event source.
@@ -4395,7 +4395,7 @@ public struct DescribeEventSourceOutput: Swift.Equatable {
     }
 }
 
-struct DescribeEventSourceOutputBody: Swift.Equatable {
+struct DescribeEventSourceOutputBody {
     let arn: Swift.String?
     let createdBy: Swift.String?
     let creationTime: ClientRuntime.Date?
@@ -4464,7 +4464,7 @@ extension DescribePartnerEventSourceInput {
     }
 }
 
-public struct DescribePartnerEventSourceInput: Swift.Equatable {
+public struct DescribePartnerEventSourceInput {
     /// The name of the event source to display.
     /// This member is required.
     public var name: Swift.String?
@@ -4477,7 +4477,7 @@ public struct DescribePartnerEventSourceInput: Swift.Equatable {
     }
 }
 
-struct DescribePartnerEventSourceInputBody: Swift.Equatable {
+struct DescribePartnerEventSourceInputBody {
     let name: Swift.String?
 }
 
@@ -4507,7 +4507,7 @@ extension DescribePartnerEventSourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribePartnerEventSourceOutput: Swift.Equatable {
+public struct DescribePartnerEventSourceOutput {
     /// The ARN of the event source.
     public var arn: Swift.String?
     /// The name of the event source.
@@ -4523,7 +4523,7 @@ public struct DescribePartnerEventSourceOutput: Swift.Equatable {
     }
 }
 
-struct DescribePartnerEventSourceOutputBody: Swift.Equatable {
+struct DescribePartnerEventSourceOutputBody {
     let arn: Swift.String?
     let name: Swift.String?
 }
@@ -4576,7 +4576,7 @@ extension DescribeReplayInput {
     }
 }
 
-public struct DescribeReplayInput: Swift.Equatable {
+public struct DescribeReplayInput {
     /// The name of the replay to retrieve.
     /// This member is required.
     public var replayName: Swift.String?
@@ -4589,7 +4589,7 @@ public struct DescribeReplayInput: Swift.Equatable {
     }
 }
 
-struct DescribeReplayInputBody: Swift.Equatable {
+struct DescribeReplayInputBody {
     let replayName: Swift.String?
 }
 
@@ -4639,7 +4639,7 @@ extension DescribeReplayOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeReplayOutput: Swift.Equatable {
+public struct DescribeReplayOutput {
     /// The description of the replay.
     public var description: Swift.String?
     /// A ReplayDestination object that contains details about the replay.
@@ -4695,7 +4695,7 @@ public struct DescribeReplayOutput: Swift.Equatable {
     }
 }
 
-struct DescribeReplayOutputBody: Swift.Equatable {
+struct DescribeReplayOutputBody {
     let replayName: Swift.String?
     let replayArn: Swift.String?
     let description: Swift.String?
@@ -4791,7 +4791,7 @@ extension DescribeRuleInput {
     }
 }
 
-public struct DescribeRuleInput: Swift.Equatable {
+public struct DescribeRuleInput {
     /// The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
     public var eventBusName: Swift.String?
     /// The name of the rule.
@@ -4808,7 +4808,7 @@ public struct DescribeRuleInput: Swift.Equatable {
     }
 }
 
-struct DescribeRuleInputBody: Swift.Equatable {
+struct DescribeRuleInputBody {
     let name: Swift.String?
     let eventBusName: Swift.String?
 }
@@ -4858,7 +4858,7 @@ extension DescribeRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeRuleOutput: Swift.Equatable {
+public struct DescribeRuleOutput {
     /// The Amazon Resource Name (ARN) of the rule.
     public var arn: Swift.String?
     /// The account ID of the user that created the rule. If you use PutRule to put a rule on an event bus in another account, the other account is the owner of the rule, and the rule ARN includes the account ID for that account. However, the value for CreatedBy is the account ID as the account that created the rule in the other account.
@@ -4906,7 +4906,7 @@ public struct DescribeRuleOutput: Swift.Equatable {
     }
 }
 
-struct DescribeRuleOutputBody: Swift.Equatable {
+struct DescribeRuleOutputBody {
     let name: Swift.String?
     let arn: Swift.String?
     let eventPattern: Swift.String?
@@ -4994,7 +4994,7 @@ extension DisableRuleInput {
     }
 }
 
-public struct DisableRuleInput: Swift.Equatable {
+public struct DisableRuleInput {
     /// The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
     public var eventBusName: Swift.String?
     /// The name of the rule.
@@ -5011,7 +5011,7 @@ public struct DisableRuleInput: Swift.Equatable {
     }
 }
 
-struct DisableRuleInputBody: Swift.Equatable {
+struct DisableRuleInputBody {
     let name: Swift.String?
     let eventBusName: Swift.String?
 }
@@ -5036,7 +5036,7 @@ extension DisableRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisableRuleOutput: Swift.Equatable {
+public struct DisableRuleOutput {
 
     public init() { }
 }
@@ -5202,7 +5202,7 @@ extension CloudWatchEventsClientTypes.EcsParameters: Swift.Codable {
 
 extension CloudWatchEventsClientTypes {
     /// The custom parameters to be used when the target is an Amazon ECS task.
-    public struct EcsParameters: Swift.Equatable {
+    public struct EcsParameters {
         /// The capacity provider strategy to use for the task. If a capacityProviderStrategy is specified, the launchType parameter must be omitted. If no capacityProviderStrategy or launchType is specified, the defaultCapacityProviderStrategy for the cluster is used.
         public var capacityProviderStrategy: [CloudWatchEventsClientTypes.CapacityProviderStrategyItem]?
         /// Specifies whether to enable Amazon ECS managed tags for the task. For more information, see [Tagging Your Amazon ECS Resources](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-using-tags.html) in the Amazon Elastic Container Service Developer Guide.
@@ -5293,7 +5293,7 @@ extension EnableRuleInput {
     }
 }
 
-public struct EnableRuleInput: Swift.Equatable {
+public struct EnableRuleInput {
     /// The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
     public var eventBusName: Swift.String?
     /// The name of the rule.
@@ -5310,7 +5310,7 @@ public struct EnableRuleInput: Swift.Equatable {
     }
 }
 
-struct EnableRuleInputBody: Swift.Equatable {
+struct EnableRuleInputBody {
     let name: Swift.String?
     let eventBusName: Swift.String?
 }
@@ -5335,7 +5335,7 @@ extension EnableRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct EnableRuleOutput: Swift.Equatable {
+public struct EnableRuleOutput {
 
     public init() { }
 }
@@ -5387,7 +5387,7 @@ extension CloudWatchEventsClientTypes.EventBus: Swift.Codable {
 
 extension CloudWatchEventsClientTypes {
     /// An event bus receives events from a source and routes them to rules associated with that event bus. Your account's default event bus receives events from Amazon Web Services services. A custom event bus can receive events from your custom applications and services. A partner event bus receives events from an event source created by an SaaS partner. These events come from the partners services or applications.
-    public struct EventBus: Swift.Equatable {
+    public struct EventBus {
         /// The ARN of the event bus.
         public var arn: Swift.String?
         /// The name of the event bus.
@@ -5460,7 +5460,7 @@ extension CloudWatchEventsClientTypes.EventSource: Swift.Codable {
 
 extension CloudWatchEventsClientTypes {
     /// A partner event source is created by an SaaS partner. If a customer creates a partner event bus that matches this event source, that Amazon Web Services account can receive events from the partner's applications or services.
-    public struct EventSource: Swift.Equatable {
+    public struct EventSource {
         /// The ARN of the event source.
         public var arn: Swift.String?
         /// The name of the partner that created the event source.
@@ -5598,7 +5598,7 @@ extension CloudWatchEventsClientTypes.HttpParameters: Swift.Codable {
 
 extension CloudWatchEventsClientTypes {
     /// These are custom parameter to be used when the target is an API Gateway REST APIs or EventBridge ApiDestinations. In the latter case, these are merged with any InvocationParameters specified on the Connection, with any values from the Connection taking precedence.
-    public struct HttpParameters: Swift.Equatable {
+    public struct HttpParameters {
         /// The headers that need to be sent as part of request invoking the API Gateway REST API or EventBridge ApiDestination.
         public var headerParameters: [Swift.String:Swift.String]?
         /// The path parameter values to be used to populate API Gateway REST API or EventBridge ApiDestination path wildcards ("*").
@@ -5659,7 +5659,7 @@ public struct IllegalStatusException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct IllegalStatusExceptionBody: Swift.Equatable {
+struct IllegalStatusExceptionBody {
     let message: Swift.String?
 }
 
@@ -5714,7 +5714,7 @@ extension CloudWatchEventsClientTypes.InputTransformer: Swift.Codable {
 
 extension CloudWatchEventsClientTypes {
     /// Contains the parameters needed for you to provide custom input to a target based on one or more pieces of data extracted from the event.
-    public struct InputTransformer: Swift.Equatable {
+    public struct InputTransformer {
         /// Map of JSON paths to be extracted from the event. You can then insert these in the template in InputTemplate to produce the output you want to be sent to the target. InputPathsMap is an array key-value pairs, where each value is a valid JSON path. You can have as many as 100 key-value pairs. You must use JSON dot notation, not bracket notation. The keys cannot start with "Amazon Web Services."
         public var inputPathsMap: [Swift.String:Swift.String]?
         /// Input template where you specify placeholders that will be filled with the values of the keys from InputPathsMap to customize the data sent to the target. Enclose each InputPathsMaps value in brackets: <value> The InputTemplate must be valid JSON. If InputTemplate is a JSON object (surrounded by curly braces), the following restrictions apply:
@@ -5805,7 +5805,7 @@ public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct InternalExceptionBody: Swift.Equatable {
+struct InternalExceptionBody {
     let message: Swift.String?
 }
 
@@ -5860,7 +5860,7 @@ public struct InvalidEventPatternException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct InvalidEventPatternExceptionBody: Swift.Equatable {
+struct InvalidEventPatternExceptionBody {
     let message: Swift.String?
 }
 
@@ -5915,7 +5915,7 @@ public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct InvalidStateExceptionBody: Swift.Equatable {
+struct InvalidStateExceptionBody {
     let message: Swift.String?
 }
 
@@ -5952,7 +5952,7 @@ extension CloudWatchEventsClientTypes.KinesisParameters: Swift.Codable {
 
 extension CloudWatchEventsClientTypes {
     /// This object enables you to specify a JSON path to extract from the event and use as the partition key for the Amazon Kinesis data stream, so that you can control the shard to which the event goes. If you do not include this parameter, the default is to use the eventId as the partition key.
-    public struct KinesisParameters: Swift.Equatable {
+    public struct KinesisParameters {
         /// The JSON path to be extracted from the event and used as the partition key. For more information, see [Amazon Kinesis Streams Key Concepts](https://docs.aws.amazon.com/streams/latest/dev/key-concepts.html#partition-key) in the Amazon Kinesis Streams Developer Guide.
         /// This member is required.
         public var partitionKeyPath: Swift.String?
@@ -6041,7 +6041,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -6089,7 +6089,7 @@ extension ListApiDestinationsInput {
     }
 }
 
-public struct ListApiDestinationsInput: Swift.Equatable {
+public struct ListApiDestinationsInput {
     /// The ARN of the connection specified for the API destination.
     public var connectionArn: Swift.String?
     /// The maximum number of API destinations to include in the response.
@@ -6113,7 +6113,7 @@ public struct ListApiDestinationsInput: Swift.Equatable {
     }
 }
 
-struct ListApiDestinationsInputBody: Swift.Equatable {
+struct ListApiDestinationsInputBody {
     let namePrefix: Swift.String?
     let connectionArn: Swift.String?
     let nextToken: Swift.String?
@@ -6155,7 +6155,7 @@ extension ListApiDestinationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListApiDestinationsOutput: Swift.Equatable {
+public struct ListApiDestinationsOutput {
     /// An array of ApiDestination objects that include information about an API destination.
     public var apiDestinations: [CloudWatchEventsClientTypes.ApiDestination]?
     /// A token you can use in a subsequent request to retrieve the next set of results.
@@ -6171,7 +6171,7 @@ public struct ListApiDestinationsOutput: Swift.Equatable {
     }
 }
 
-struct ListApiDestinationsOutputBody: Swift.Equatable {
+struct ListApiDestinationsOutputBody {
     let apiDestinations: [CloudWatchEventsClientTypes.ApiDestination]?
     let nextToken: Swift.String?
 }
@@ -6247,7 +6247,7 @@ extension ListArchivesInput {
     }
 }
 
-public struct ListArchivesInput: Swift.Equatable {
+public struct ListArchivesInput {
     /// The ARN of the event source associated with the archive.
     public var eventSourceArn: Swift.String?
     /// The maximum number of results to return.
@@ -6275,7 +6275,7 @@ public struct ListArchivesInput: Swift.Equatable {
     }
 }
 
-struct ListArchivesInputBody: Swift.Equatable {
+struct ListArchivesInputBody {
     let namePrefix: Swift.String?
     let eventSourceArn: Swift.String?
     let state: CloudWatchEventsClientTypes.ArchiveState?
@@ -6321,7 +6321,7 @@ extension ListArchivesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListArchivesOutput: Swift.Equatable {
+public struct ListArchivesOutput {
     /// An array of Archive objects that include details about an archive.
     public var archives: [CloudWatchEventsClientTypes.Archive]?
     /// The token returned by a previous call to retrieve the next set of results.
@@ -6337,7 +6337,7 @@ public struct ListArchivesOutput: Swift.Equatable {
     }
 }
 
-struct ListArchivesOutputBody: Swift.Equatable {
+struct ListArchivesOutputBody {
     let archives: [CloudWatchEventsClientTypes.Archive]?
     let nextToken: Swift.String?
 }
@@ -6410,7 +6410,7 @@ extension ListConnectionsInput {
     }
 }
 
-public struct ListConnectionsInput: Swift.Equatable {
+public struct ListConnectionsInput {
     /// The state of the connection.
     public var connectionState: CloudWatchEventsClientTypes.ConnectionState?
     /// The maximum number of connections to return.
@@ -6434,7 +6434,7 @@ public struct ListConnectionsInput: Swift.Equatable {
     }
 }
 
-struct ListConnectionsInputBody: Swift.Equatable {
+struct ListConnectionsInputBody {
     let namePrefix: Swift.String?
     let connectionState: CloudWatchEventsClientTypes.ConnectionState?
     let nextToken: Swift.String?
@@ -6476,7 +6476,7 @@ extension ListConnectionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListConnectionsOutput: Swift.Equatable {
+public struct ListConnectionsOutput {
     /// An array of connections objects that include details about the connections.
     public var connections: [CloudWatchEventsClientTypes.Connection]?
     /// A token you can use in a subsequent request to retrieve the next set of results.
@@ -6492,7 +6492,7 @@ public struct ListConnectionsOutput: Swift.Equatable {
     }
 }
 
-struct ListConnectionsOutputBody: Swift.Equatable {
+struct ListConnectionsOutputBody {
     let connections: [CloudWatchEventsClientTypes.Connection]?
     let nextToken: Swift.String?
 }
@@ -6560,7 +6560,7 @@ extension ListEventBusesInput {
     }
 }
 
-public struct ListEventBusesInput: Swift.Equatable {
+public struct ListEventBusesInput {
     /// Specifying this limits the number of results returned by this operation. The operation also returns a NextToken which you can use in a subsequent operation to retrieve the next set of results.
     public var limit: Swift.Int?
     /// Specifying this limits the results to only those event buses with names that start with the specified prefix.
@@ -6580,7 +6580,7 @@ public struct ListEventBusesInput: Swift.Equatable {
     }
 }
 
-struct ListEventBusesInputBody: Swift.Equatable {
+struct ListEventBusesInputBody {
     let namePrefix: Swift.String?
     let nextToken: Swift.String?
     let limit: Swift.Int?
@@ -6618,7 +6618,7 @@ extension ListEventBusesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEventBusesOutput: Swift.Equatable {
+public struct ListEventBusesOutput {
     /// This list of event buses.
     public var eventBuses: [CloudWatchEventsClientTypes.EventBus]?
     /// A token you can use in a subsequent operation to retrieve the next set of results.
@@ -6634,7 +6634,7 @@ public struct ListEventBusesOutput: Swift.Equatable {
     }
 }
 
-struct ListEventBusesOutputBody: Swift.Equatable {
+struct ListEventBusesOutputBody {
     let eventBuses: [CloudWatchEventsClientTypes.EventBus]?
     let nextToken: Swift.String?
 }
@@ -6702,7 +6702,7 @@ extension ListEventSourcesInput {
     }
 }
 
-public struct ListEventSourcesInput: Swift.Equatable {
+public struct ListEventSourcesInput {
     /// Specifying this limits the number of results returned by this operation. The operation also returns a NextToken which you can use in a subsequent operation to retrieve the next set of results.
     public var limit: Swift.Int?
     /// Specifying this limits the results to only those partner event sources with names that start with the specified prefix.
@@ -6722,7 +6722,7 @@ public struct ListEventSourcesInput: Swift.Equatable {
     }
 }
 
-struct ListEventSourcesInputBody: Swift.Equatable {
+struct ListEventSourcesInputBody {
     let namePrefix: Swift.String?
     let nextToken: Swift.String?
     let limit: Swift.Int?
@@ -6760,7 +6760,7 @@ extension ListEventSourcesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEventSourcesOutput: Swift.Equatable {
+public struct ListEventSourcesOutput {
     /// The list of event sources.
     public var eventSources: [CloudWatchEventsClientTypes.EventSource]?
     /// A token you can use in a subsequent operation to retrieve the next set of results.
@@ -6776,7 +6776,7 @@ public struct ListEventSourcesOutput: Swift.Equatable {
     }
 }
 
-struct ListEventSourcesOutputBody: Swift.Equatable {
+struct ListEventSourcesOutputBody {
     let eventSources: [CloudWatchEventsClientTypes.EventSource]?
     let nextToken: Swift.String?
 }
@@ -6845,7 +6845,7 @@ extension ListPartnerEventSourceAccountsInput {
     }
 }
 
-public struct ListPartnerEventSourceAccountsInput: Swift.Equatable {
+public struct ListPartnerEventSourceAccountsInput {
     /// The name of the partner event source to display account information about.
     /// This member is required.
     public var eventSourceName: Swift.String?
@@ -6866,7 +6866,7 @@ public struct ListPartnerEventSourceAccountsInput: Swift.Equatable {
     }
 }
 
-struct ListPartnerEventSourceAccountsInputBody: Swift.Equatable {
+struct ListPartnerEventSourceAccountsInputBody {
     let eventSourceName: Swift.String?
     let nextToken: Swift.String?
     let limit: Swift.Int?
@@ -6904,7 +6904,7 @@ extension ListPartnerEventSourceAccountsOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ListPartnerEventSourceAccountsOutput: Swift.Equatable {
+public struct ListPartnerEventSourceAccountsOutput {
     /// A token you can use in a subsequent operation to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// The list of partner event sources returned by the operation.
@@ -6920,7 +6920,7 @@ public struct ListPartnerEventSourceAccountsOutput: Swift.Equatable {
     }
 }
 
-struct ListPartnerEventSourceAccountsOutputBody: Swift.Equatable {
+struct ListPartnerEventSourceAccountsOutputBody {
     let partnerEventSourceAccounts: [CloudWatchEventsClientTypes.PartnerEventSourceAccount]?
     let nextToken: Swift.String?
 }
@@ -6990,7 +6990,7 @@ extension ListPartnerEventSourcesInput {
     }
 }
 
-public struct ListPartnerEventSourcesInput: Swift.Equatable {
+public struct ListPartnerEventSourcesInput {
     /// pecifying this limits the number of results returned by this operation. The operation also returns a NextToken which you can use in a subsequent operation to retrieve the next set of results.
     public var limit: Swift.Int?
     /// If you specify this, the results are limited to only those partner event sources that start with the string you specify.
@@ -7011,7 +7011,7 @@ public struct ListPartnerEventSourcesInput: Swift.Equatable {
     }
 }
 
-struct ListPartnerEventSourcesInputBody: Swift.Equatable {
+struct ListPartnerEventSourcesInputBody {
     let namePrefix: Swift.String?
     let nextToken: Swift.String?
     let limit: Swift.Int?
@@ -7049,7 +7049,7 @@ extension ListPartnerEventSourcesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPartnerEventSourcesOutput: Swift.Equatable {
+public struct ListPartnerEventSourcesOutput {
     /// A token you can use in a subsequent operation to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// The list of partner event sources returned by the operation.
@@ -7065,7 +7065,7 @@ public struct ListPartnerEventSourcesOutput: Swift.Equatable {
     }
 }
 
-struct ListPartnerEventSourcesOutputBody: Swift.Equatable {
+struct ListPartnerEventSourcesOutputBody {
     let partnerEventSources: [CloudWatchEventsClientTypes.PartnerEventSource]?
     let nextToken: Swift.String?
 }
@@ -7142,7 +7142,7 @@ extension ListReplaysInput {
     }
 }
 
-public struct ListReplaysInput: Swift.Equatable {
+public struct ListReplaysInput {
     /// The ARN of the archive from which the events are replayed.
     public var eventSourceArn: Swift.String?
     /// The maximum number of replays to retrieve.
@@ -7170,7 +7170,7 @@ public struct ListReplaysInput: Swift.Equatable {
     }
 }
 
-struct ListReplaysInputBody: Swift.Equatable {
+struct ListReplaysInputBody {
     let namePrefix: Swift.String?
     let state: CloudWatchEventsClientTypes.ReplayState?
     let eventSourceArn: Swift.String?
@@ -7216,7 +7216,7 @@ extension ListReplaysOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListReplaysOutput: Swift.Equatable {
+public struct ListReplaysOutput {
     /// The token returned by a previous call to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// An array of Replay objects that contain information about the replay.
@@ -7232,7 +7232,7 @@ public struct ListReplaysOutput: Swift.Equatable {
     }
 }
 
-struct ListReplaysOutputBody: Swift.Equatable {
+struct ListReplaysOutputBody {
     let replays: [CloudWatchEventsClientTypes.Replay]?
     let nextToken: Swift.String?
 }
@@ -7304,7 +7304,7 @@ extension ListRuleNamesByTargetInput {
     }
 }
 
-public struct ListRuleNamesByTargetInput: Swift.Equatable {
+public struct ListRuleNamesByTargetInput {
     /// The name or ARN of the event bus to list rules for. If you omit this, the default event bus is used.
     public var eventBusName: Swift.String?
     /// The maximum number of results to return.
@@ -7329,7 +7329,7 @@ public struct ListRuleNamesByTargetInput: Swift.Equatable {
     }
 }
 
-struct ListRuleNamesByTargetInputBody: Swift.Equatable {
+struct ListRuleNamesByTargetInputBody {
     let targetArn: Swift.String?
     let eventBusName: Swift.String?
     let nextToken: Swift.String?
@@ -7371,7 +7371,7 @@ extension ListRuleNamesByTargetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRuleNamesByTargetOutput: Swift.Equatable {
+public struct ListRuleNamesByTargetOutput {
     /// Indicates whether there are additional results to retrieve. If there are no more results, the value is null.
     public var nextToken: Swift.String?
     /// The names of the rules that can invoke the given target.
@@ -7387,7 +7387,7 @@ public struct ListRuleNamesByTargetOutput: Swift.Equatable {
     }
 }
 
-struct ListRuleNamesByTargetOutputBody: Swift.Equatable {
+struct ListRuleNamesByTargetOutputBody {
     let ruleNames: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -7460,7 +7460,7 @@ extension ListRulesInput {
     }
 }
 
-public struct ListRulesInput: Swift.Equatable {
+public struct ListRulesInput {
     /// The name or ARN of the event bus to list the rules for. If you omit this, the default event bus is used.
     public var eventBusName: Swift.String?
     /// The maximum number of results to return.
@@ -7484,7 +7484,7 @@ public struct ListRulesInput: Swift.Equatable {
     }
 }
 
-struct ListRulesInputBody: Swift.Equatable {
+struct ListRulesInputBody {
     let namePrefix: Swift.String?
     let eventBusName: Swift.String?
     let nextToken: Swift.String?
@@ -7526,7 +7526,7 @@ extension ListRulesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRulesOutput: Swift.Equatable {
+public struct ListRulesOutput {
     /// Indicates whether there are additional results to retrieve. If there are no more results, the value is null.
     public var nextToken: Swift.String?
     /// The rules that match the specified criteria.
@@ -7542,7 +7542,7 @@ public struct ListRulesOutput: Swift.Equatable {
     }
 }
 
-struct ListRulesOutputBody: Swift.Equatable {
+struct ListRulesOutputBody {
     let rules: [CloudWatchEventsClientTypes.Rule]?
     let nextToken: Swift.String?
 }
@@ -7603,7 +7603,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The ARN of the EventBridge resource for which you want to view tags.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -7616,7 +7616,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceARN: Swift.String?
 }
 
@@ -7644,7 +7644,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The list of tag keys and values associated with the resource you specified
     public var tags: [CloudWatchEventsClientTypes.Tag]?
 
@@ -7656,7 +7656,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [CloudWatchEventsClientTypes.Tag]?
 }
 
@@ -7725,7 +7725,7 @@ extension ListTargetsByRuleInput {
     }
 }
 
-public struct ListTargetsByRuleInput: Swift.Equatable {
+public struct ListTargetsByRuleInput {
     /// The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
     public var eventBusName: Swift.String?
     /// The maximum number of results to return.
@@ -7750,7 +7750,7 @@ public struct ListTargetsByRuleInput: Swift.Equatable {
     }
 }
 
-struct ListTargetsByRuleInputBody: Swift.Equatable {
+struct ListTargetsByRuleInputBody {
     let rule: Swift.String?
     let eventBusName: Swift.String?
     let nextToken: Swift.String?
@@ -7792,7 +7792,7 @@ extension ListTargetsByRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTargetsByRuleOutput: Swift.Equatable {
+public struct ListTargetsByRuleOutput {
     /// Indicates whether there are additional results to retrieve. If there are no more results, the value is null.
     public var nextToken: Swift.String?
     /// The targets assigned to the rule.
@@ -7808,7 +7808,7 @@ public struct ListTargetsByRuleOutput: Swift.Equatable {
     }
 }
 
-struct ListTargetsByRuleOutputBody: Swift.Equatable {
+struct ListTargetsByRuleOutputBody {
     let targets: [CloudWatchEventsClientTypes.Target]?
     let nextToken: Swift.String?
 }
@@ -7888,7 +7888,7 @@ public struct ManagedRuleException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct ManagedRuleExceptionBody: Swift.Equatable {
+struct ManagedRuleExceptionBody {
     let message: Swift.String?
 }
 
@@ -7925,7 +7925,7 @@ extension CloudWatchEventsClientTypes.NetworkConfiguration: Swift.Codable {
 
 extension CloudWatchEventsClientTypes {
     /// This structure specifies the network configuration for an ECS task.
-    public struct NetworkConfiguration: Swift.Equatable {
+    public struct NetworkConfiguration {
         /// Use this structure to specify the VPC subnets and security groups for the task, and whether a public IP address is to be used. This structure is relevant only for ECS tasks that use the awsvpc network mode.
         public var awsvpcConfiguration: CloudWatchEventsClientTypes.AwsVpcConfiguration?
 
@@ -7978,7 +7978,7 @@ public struct OperationDisabledException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct OperationDisabledExceptionBody: Swift.Equatable {
+struct OperationDisabledExceptionBody {
     let message: Swift.String?
 }
 
@@ -8021,7 +8021,7 @@ extension CloudWatchEventsClientTypes.PartnerEventSource: Swift.Codable {
 
 extension CloudWatchEventsClientTypes {
     /// A partner event source is created by an SaaS partner. If a customer creates a partner event bus that matches this event source, that Amazon Web Services account can receive events from the partner's applications or services.
-    public struct PartnerEventSource: Swift.Equatable {
+    public struct PartnerEventSource {
         /// The ARN of the partner event source.
         public var arn: Swift.String?
         /// The name of the partner event source.
@@ -8078,7 +8078,7 @@ extension CloudWatchEventsClientTypes.PartnerEventSourceAccount: Swift.Codable {
 
 extension CloudWatchEventsClientTypes {
     /// The Amazon Web Services account that a partner event source has been offered to.
-    public struct PartnerEventSourceAccount: Swift.Equatable {
+    public struct PartnerEventSourceAccount {
         /// The Amazon Web Services account ID that the partner event source was offered to.
         public var account: Swift.String?
         /// The date and time the event source was created.
@@ -8131,7 +8131,7 @@ extension CloudWatchEventsClientTypes.PlacementConstraint: Swift.Codable {
 
 extension CloudWatchEventsClientTypes {
     /// An object representing a constraint on task placement. To learn more, see [Task Placement Constraints](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-constraints.html) in the Amazon Elastic Container Service Developer Guide.
-    public struct PlacementConstraint: Swift.Equatable {
+    public struct PlacementConstraint {
         /// A cluster query language expression to apply to the constraint. You cannot specify an expression if the constraint type is distinctInstance. To learn more, see [Cluster Query Language](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-query-language.html) in the Amazon Elastic Container Service Developer Guide.
         public var expression: Swift.String?
         /// The type of constraint. Use distinctInstance to ensure that each task in a particular group is running on a different container instance. Use memberOf to restrict the selection to a group of valid candidates.
@@ -8208,7 +8208,7 @@ extension CloudWatchEventsClientTypes.PlacementStrategy: Swift.Codable {
 
 extension CloudWatchEventsClientTypes {
     /// The task placement strategy for a task or service. To learn more, see [Task Placement Strategies](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-strategies.html) in the Amazon Elastic Container Service Service Developer Guide.
-    public struct PlacementStrategy: Swift.Equatable {
+    public struct PlacementStrategy {
         /// The field to apply the placement strategy against. For the spread placement strategy, valid values are instanceId (or host, which has the same effect), or any platform or custom attribute that is applied to a container instance, such as attribute:ecs.availability-zone. For the binpack placement strategy, valid values are cpu and memory. For the random placement strategy, this field is not used.
         public var field: Swift.String?
         /// The type of placement strategy. The random placement strategy randomly places tasks on available candidates. The spread placement strategy spreads placement across available candidates evenly based on the field parameter. The binpack strategy places tasks on available candidates that have the least available amount of the resource that is specified with the field parameter. For example, if you binpack on memory, a task is placed on the instance with the least amount of remaining memory (but still enough to run the task).
@@ -8300,7 +8300,7 @@ public struct PolicyLengthExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct PolicyLengthExceededExceptionBody: Swift.Equatable {
+struct PolicyLengthExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -8368,7 +8368,7 @@ extension PutEventsInput {
     }
 }
 
-public struct PutEventsInput: Swift.Equatable {
+public struct PutEventsInput {
     /// The entry that defines an event in your system. You can specify several parameters for the entry such as the source and type of the event, resources associated with the event, and so on.
     /// This member is required.
     public var entries: [CloudWatchEventsClientTypes.PutEventsRequestEntry]?
@@ -8381,7 +8381,7 @@ public struct PutEventsInput: Swift.Equatable {
     }
 }
 
-struct PutEventsInputBody: Swift.Equatable {
+struct PutEventsInputBody {
     let entries: [CloudWatchEventsClientTypes.PutEventsRequestEntry]?
 }
 
@@ -8420,7 +8420,7 @@ extension PutEventsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutEventsOutput: Swift.Equatable {
+public struct PutEventsOutput {
     /// The successfully and unsuccessfully ingested events results. If the ingestion was successful, the entry has the event ID in it. Otherwise, you can use the error code and error message to identify the problem with the entry.
     public var entries: [CloudWatchEventsClientTypes.PutEventsResultEntry]?
     /// The number of failed entries.
@@ -8436,7 +8436,7 @@ public struct PutEventsOutput: Swift.Equatable {
     }
 }
 
-struct PutEventsOutputBody: Swift.Equatable {
+struct PutEventsOutputBody {
     let failedEntryCount: Swift.Int
     let entries: [CloudWatchEventsClientTypes.PutEventsResultEntry]?
 }
@@ -8545,7 +8545,7 @@ extension CloudWatchEventsClientTypes.PutEventsRequestEntry: Swift.Codable {
 
 extension CloudWatchEventsClientTypes {
     /// Represents an event to be submitted.
-    public struct PutEventsRequestEntry: Swift.Equatable {
+    public struct PutEventsRequestEntry {
         /// A valid JSON string. There is no other schema imposed. The JSON string may contain fields and nested subobjects.
         public var detail: Swift.String?
         /// Free-form string used to decide what fields to expect in the event detail.
@@ -8616,7 +8616,7 @@ extension CloudWatchEventsClientTypes.PutEventsResultEntry: Swift.Codable {
 
 extension CloudWatchEventsClientTypes {
     /// Represents an event that failed to be submitted.
-    public struct PutEventsResultEntry: Swift.Equatable {
+    public struct PutEventsResultEntry {
         /// The error code that indicates why the event submission failed.
         public var errorCode: Swift.String?
         /// The error message that explains why the event submission failed.
@@ -8661,7 +8661,7 @@ extension PutPartnerEventsInput {
     }
 }
 
-public struct PutPartnerEventsInput: Swift.Equatable {
+public struct PutPartnerEventsInput {
     /// The list of events to write to the event bus.
     /// This member is required.
     public var entries: [CloudWatchEventsClientTypes.PutPartnerEventsRequestEntry]?
@@ -8674,7 +8674,7 @@ public struct PutPartnerEventsInput: Swift.Equatable {
     }
 }
 
-struct PutPartnerEventsInputBody: Swift.Equatable {
+struct PutPartnerEventsInputBody {
     let entries: [CloudWatchEventsClientTypes.PutPartnerEventsRequestEntry]?
 }
 
@@ -8713,7 +8713,7 @@ extension PutPartnerEventsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutPartnerEventsOutput: Swift.Equatable {
+public struct PutPartnerEventsOutput {
     /// The list of events from this operation that were successfully written to the partner event bus.
     public var entries: [CloudWatchEventsClientTypes.PutPartnerEventsResultEntry]?
     /// The number of events from this operation that could not be written to the partner event bus.
@@ -8729,7 +8729,7 @@ public struct PutPartnerEventsOutput: Swift.Equatable {
     }
 }
 
-struct PutPartnerEventsOutputBody: Swift.Equatable {
+struct PutPartnerEventsOutputBody {
     let failedEntryCount: Swift.Int
     let entries: [CloudWatchEventsClientTypes.PutPartnerEventsResultEntry]?
 }
@@ -8827,7 +8827,7 @@ extension CloudWatchEventsClientTypes.PutPartnerEventsRequestEntry: Swift.Codabl
 
 extension CloudWatchEventsClientTypes {
     /// The details about an event generated by an SaaS partner.
-    public struct PutPartnerEventsRequestEntry: Swift.Equatable {
+    public struct PutPartnerEventsRequestEntry {
         /// A valid JSON string. There is no other schema imposed. The JSON string may contain fields and nested subobjects.
         public var detail: Swift.String?
         /// A free-form string used to decide what fields to expect in the event detail.
@@ -8890,7 +8890,7 @@ extension CloudWatchEventsClientTypes.PutPartnerEventsResultEntry: Swift.Codable
 
 extension CloudWatchEventsClientTypes {
     /// Represents an event that a partner tried to generate, but failed.
-    public struct PutPartnerEventsResultEntry: Swift.Equatable {
+    public struct PutPartnerEventsResultEntry {
         /// The error code that indicates why the event submission failed.
         public var errorCode: Swift.String?
         /// The error message that explains why the event submission failed.
@@ -8952,7 +8952,7 @@ extension PutPermissionInput {
     }
 }
 
-public struct PutPermissionInput: Swift.Equatable {
+public struct PutPermissionInput {
     /// The action that you are enabling the other account to perform.
     public var action: Swift.String?
     /// This parameter enables you to limit the permission to accounts that fulfill a certain condition, such as being a member of a certain Amazon Web Services organization. For more information about Amazon Web Services Organizations, see [What Is Amazon Web Services Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_introduction.html) in the Amazon Web Services Organizations User Guide. If you specify Condition with an Amazon Web Services organization ID, and specify "*" as the value for Principal, you grant permission to all the accounts in the named organization. The Condition is a JSON string which must contain Type, Key, and Value fields.
@@ -8984,7 +8984,7 @@ public struct PutPermissionInput: Swift.Equatable {
     }
 }
 
-struct PutPermissionInputBody: Swift.Equatable {
+struct PutPermissionInputBody {
     let eventBusName: Swift.String?
     let action: Swift.String?
     let principal: Swift.String?
@@ -9025,7 +9025,7 @@ extension PutPermissionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutPermissionOutput: Swift.Equatable {
+public struct PutPermissionOutput {
 
     public init() { }
 }
@@ -9096,7 +9096,7 @@ extension PutRuleInput {
     }
 }
 
-public struct PutRuleInput: Swift.Equatable {
+public struct PutRuleInput {
     /// A description of the rule.
     public var description: Swift.String?
     /// The name or ARN of the event bus to associate with this rule. If you omit this, the default event bus is used.
@@ -9137,7 +9137,7 @@ public struct PutRuleInput: Swift.Equatable {
     }
 }
 
-struct PutRuleInputBody: Swift.Equatable {
+struct PutRuleInputBody {
     let name: Swift.String?
     let scheduleExpression: Swift.String?
     let eventPattern: Swift.String?
@@ -9202,7 +9202,7 @@ extension PutRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutRuleOutput: Swift.Equatable {
+public struct PutRuleOutput {
     /// The Amazon Resource Name (ARN) of the rule.
     public var ruleArn: Swift.String?
 
@@ -9214,7 +9214,7 @@ public struct PutRuleOutput: Swift.Equatable {
     }
 }
 
-struct PutRuleOutputBody: Swift.Equatable {
+struct PutRuleOutputBody {
     let ruleArn: Swift.String?
 }
 
@@ -9277,7 +9277,7 @@ extension PutTargetsInput {
     }
 }
 
-public struct PutTargetsInput: Swift.Equatable {
+public struct PutTargetsInput {
     /// The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
     public var eventBusName: Swift.String?
     /// The name of the rule.
@@ -9299,7 +9299,7 @@ public struct PutTargetsInput: Swift.Equatable {
     }
 }
 
-struct PutTargetsInputBody: Swift.Equatable {
+struct PutTargetsInputBody {
     let rule: Swift.String?
     let eventBusName: Swift.String?
     let targets: [CloudWatchEventsClientTypes.Target]?
@@ -9346,7 +9346,7 @@ extension PutTargetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutTargetsOutput: Swift.Equatable {
+public struct PutTargetsOutput {
     /// The failed target entries.
     public var failedEntries: [CloudWatchEventsClientTypes.PutTargetsResultEntry]?
     /// The number of failed entries.
@@ -9362,7 +9362,7 @@ public struct PutTargetsOutput: Swift.Equatable {
     }
 }
 
-struct PutTargetsOutputBody: Swift.Equatable {
+struct PutTargetsOutputBody {
     let failedEntryCount: Swift.Int
     let failedEntries: [CloudWatchEventsClientTypes.PutTargetsResultEntry]?
 }
@@ -9439,7 +9439,7 @@ extension CloudWatchEventsClientTypes.PutTargetsResultEntry: Swift.Codable {
 
 extension CloudWatchEventsClientTypes {
     /// Represents a target that failed to be added to a rule.
-    public struct PutTargetsResultEntry: Swift.Equatable {
+    public struct PutTargetsResultEntry {
         /// The error code that indicates why the target addition failed. If the value is ConcurrentModificationException, too many requests were made at the same time.
         public var errorCode: Swift.String?
         /// The error message that explains why the target addition failed.
@@ -9512,7 +9512,7 @@ extension CloudWatchEventsClientTypes.RedshiftDataParameters: Swift.Codable {
 
 extension CloudWatchEventsClientTypes {
     /// These are custom parameters to be used when the target is a Amazon Redshift cluster to invoke the Amazon Redshift Data API ExecuteStatement based on EventBridge events.
-    public struct RedshiftDataParameters: Swift.Equatable {
+    public struct RedshiftDataParameters {
         /// The name of the database. Required when authenticating using temporary credentials.
         /// This member is required.
         public var database: Swift.String?
@@ -9576,7 +9576,7 @@ extension RemovePermissionInput {
     }
 }
 
-public struct RemovePermissionInput: Swift.Equatable {
+public struct RemovePermissionInput {
     /// The name of the event bus to revoke permissions for. If you omit this, the default event bus is used.
     public var eventBusName: Swift.String?
     /// Specifies whether to remove all permissions.
@@ -9596,7 +9596,7 @@ public struct RemovePermissionInput: Swift.Equatable {
     }
 }
 
-struct RemovePermissionInputBody: Swift.Equatable {
+struct RemovePermissionInputBody {
     let statementId: Swift.String?
     let removeAllPermissions: Swift.Bool?
     let eventBusName: Swift.String?
@@ -9625,7 +9625,7 @@ extension RemovePermissionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RemovePermissionOutput: Swift.Equatable {
+public struct RemovePermissionOutput {
 
     public init() { }
 }
@@ -9679,7 +9679,7 @@ extension RemoveTargetsInput {
     }
 }
 
-public struct RemoveTargetsInput: Swift.Equatable {
+public struct RemoveTargetsInput {
     /// The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
     public var eventBusName: Swift.String?
     /// If this is a managed rule, created by an Amazon Web Services service on your behalf, you must specify Force as True to remove targets. This parameter is ignored for rules that are not managed rules. You can check whether a rule is a managed rule by using DescribeRule or ListRules and checking the ManagedBy field of the response.
@@ -9705,7 +9705,7 @@ public struct RemoveTargetsInput: Swift.Equatable {
     }
 }
 
-struct RemoveTargetsInputBody: Swift.Equatable {
+struct RemoveTargetsInputBody {
     let rule: Swift.String?
     let eventBusName: Swift.String?
     let ids: [Swift.String]?
@@ -9756,7 +9756,7 @@ extension RemoveTargetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RemoveTargetsOutput: Swift.Equatable {
+public struct RemoveTargetsOutput {
     /// The failed target entries.
     public var failedEntries: [CloudWatchEventsClientTypes.RemoveTargetsResultEntry]?
     /// The number of failed entries.
@@ -9772,7 +9772,7 @@ public struct RemoveTargetsOutput: Swift.Equatable {
     }
 }
 
-struct RemoveTargetsOutputBody: Swift.Equatable {
+struct RemoveTargetsOutputBody {
     let failedEntryCount: Swift.Int
     let failedEntries: [CloudWatchEventsClientTypes.RemoveTargetsResultEntry]?
 }
@@ -9848,7 +9848,7 @@ extension CloudWatchEventsClientTypes.RemoveTargetsResultEntry: Swift.Codable {
 
 extension CloudWatchEventsClientTypes {
     /// Represents a target that failed to be removed from a rule.
-    public struct RemoveTargetsResultEntry: Swift.Equatable {
+    public struct RemoveTargetsResultEntry {
         /// The error code that indicates why the target removal failed. If the value is ConcurrentModificationException, too many requests were made at the same time.
         public var errorCode: Swift.String?
         /// The error message that explains why the target removal failed.
@@ -9939,7 +9939,7 @@ extension CloudWatchEventsClientTypes.Replay: Swift.Codable {
 
 extension CloudWatchEventsClientTypes {
     /// A Replay object that contains details about a replay.
-    public struct Replay: Swift.Equatable {
+    public struct Replay {
         /// A time stamp for the time to start replaying events. Any event with a creation time prior to the EventEndTime specified is replayed.
         public var eventEndTime: ClientRuntime.Date?
         /// A time stamp for the time that the last event was replayed.
@@ -10024,7 +10024,7 @@ extension CloudWatchEventsClientTypes.ReplayDestination: Swift.Codable {
 
 extension CloudWatchEventsClientTypes {
     /// A ReplayDestination object that contains details about a replay.
-    public struct ReplayDestination: Swift.Equatable {
+    public struct ReplayDestination {
         /// The ARN of the event bus to replay event to. You can replay events only to the event bus specified to create the archive.
         /// This member is required.
         public var arn: Swift.String?
@@ -10126,7 +10126,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct ResourceAlreadyExistsExceptionBody: Swift.Equatable {
+struct ResourceAlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -10181,7 +10181,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -10224,7 +10224,7 @@ extension CloudWatchEventsClientTypes.RetryPolicy: Swift.Codable {
 
 extension CloudWatchEventsClientTypes {
     /// A RetryPolicy object that includes information about the retry policy settings.
-    public struct RetryPolicy: Swift.Equatable {
+    public struct RetryPolicy {
         /// The maximum amount of time, in seconds, to continue to make retry attempts.
         public var maximumEventAgeInSeconds: Swift.Int?
         /// The maximum number of retry attempts to make before the request fails. Retry attempts continue until either the maximum number of attempts is made or until the duration of the MaximumEventAgeInSeconds is met.
@@ -10311,7 +10311,7 @@ extension CloudWatchEventsClientTypes.Rule: Swift.Codable {
 
 extension CloudWatchEventsClientTypes {
     /// Contains information about a rule in Amazon EventBridge.
-    public struct Rule: Swift.Equatable {
+    public struct Rule {
         /// The Amazon Resource Name (ARN) of the rule.
         public var arn: Swift.String?
         /// The description of the rule.
@@ -10422,7 +10422,7 @@ extension CloudWatchEventsClientTypes.RunCommandParameters: Swift.Codable {
 
 extension CloudWatchEventsClientTypes {
     /// This parameter contains the criteria (either InstanceIds or a tag) used to specify which EC2 instances are to be sent the command.
-    public struct RunCommandParameters: Swift.Equatable {
+    public struct RunCommandParameters {
         /// Currently, we support including only one RunCommandTarget block, which specifies either an array of InstanceIds or a tag.
         /// This member is required.
         public var runCommandTargets: [CloudWatchEventsClientTypes.RunCommandTarget]?
@@ -10476,7 +10476,7 @@ extension CloudWatchEventsClientTypes.RunCommandTarget: Swift.Codable {
 
 extension CloudWatchEventsClientTypes {
     /// Information about the EC2 instances that are to be sent the command, specified as key-value pairs. Each RunCommandTarget block can include only one key, but this key may specify multiple values.
-    public struct RunCommandTarget: Swift.Equatable {
+    public struct RunCommandTarget {
         /// Can be either tag: tag-key or InstanceIds.
         /// This member is required.
         public var key: Swift.String?
@@ -10523,7 +10523,7 @@ extension CloudWatchEventsClientTypes.SageMakerPipelineParameter: Swift.Codable 
 
 extension CloudWatchEventsClientTypes {
     /// Name/Value pair of a parameter to start execution of a SageMaker Model Building Pipeline.
-    public struct SageMakerPipelineParameter: Swift.Equatable {
+    public struct SageMakerPipelineParameter {
         /// Name of parameter to start execution of a SageMaker Model Building Pipeline.
         /// This member is required.
         public var name: Swift.String?
@@ -10576,7 +10576,7 @@ extension CloudWatchEventsClientTypes.SageMakerPipelineParameters: Swift.Codable
 
 extension CloudWatchEventsClientTypes {
     /// These are custom parameters to use when the target is a SageMaker Model Building Pipeline that starts based on EventBridge events.
-    public struct SageMakerPipelineParameters: Swift.Equatable {
+    public struct SageMakerPipelineParameters {
         /// List of Parameter names and values for SageMaker Model Building Pipeline execution.
         public var pipelineParameterList: [CloudWatchEventsClientTypes.SageMakerPipelineParameter]?
 
@@ -10611,7 +10611,7 @@ extension CloudWatchEventsClientTypes.SqsParameters: Swift.Codable {
 
 extension CloudWatchEventsClientTypes {
     /// This structure includes the custom parameter to be used when the target is an SQS FIFO queue.
-    public struct SqsParameters: Swift.Equatable {
+    public struct SqsParameters {
         /// The FIFO message group ID to use as the target.
         public var messageGroupId: Swift.String?
 
@@ -10665,7 +10665,7 @@ extension StartReplayInput {
     }
 }
 
-public struct StartReplayInput: Swift.Equatable {
+public struct StartReplayInput {
     /// A description for the replay to start.
     public var description: Swift.String?
     /// A ReplayDestination object that includes details about the destination for the replay.
@@ -10702,7 +10702,7 @@ public struct StartReplayInput: Swift.Equatable {
     }
 }
 
-struct StartReplayInputBody: Swift.Equatable {
+struct StartReplayInputBody {
     let replayName: Swift.String?
     let description: Swift.String?
     let eventSourceArn: Swift.String?
@@ -10756,7 +10756,7 @@ extension StartReplayOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartReplayOutput: Swift.Equatable {
+public struct StartReplayOutput {
     /// The ARN of the replay.
     public var replayArn: Swift.String?
     /// The time at which the replay started.
@@ -10780,7 +10780,7 @@ public struct StartReplayOutput: Swift.Equatable {
     }
 }
 
-struct StartReplayOutputBody: Swift.Equatable {
+struct StartReplayOutputBody {
     let replayArn: Swift.String?
     let state: CloudWatchEventsClientTypes.ReplayState?
     let stateReason: Swift.String?
@@ -10850,7 +10850,7 @@ extension CloudWatchEventsClientTypes.Tag: Swift.Codable {
 
 extension CloudWatchEventsClientTypes {
     /// A key-value pair associated with an Amazon Web Services resource. In EventBridge, rules and event buses support tagging.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// A string you can use to assign a value. The combination of tag keys and values can help you organize and categorize your resources.
         /// This member is required.
         public var key: Swift.String?
@@ -10897,7 +10897,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The ARN of the EventBridge resource that you're adding tags to.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -10915,7 +10915,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceARN: Swift.String?
     let tags: [CloudWatchEventsClientTypes.Tag]?
 }
@@ -10949,7 +10949,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -11079,7 +11079,7 @@ extension CloudWatchEventsClientTypes.Target: Swift.Codable {
 
 extension CloudWatchEventsClientTypes {
     /// Targets are the resources to be invoked when a rule is triggered. For a complete list of services and resources that can be set as a target, see [PutTargets](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_PutTargets.html). If you are setting the event bus of another account as the target, and that account granted permission to your account through an organization instead of directly by the account ID, then you must specify a RoleArn with proper permissions in the Target structure. For more information, see [Sending and Receiving Events Between Amazon Web Services Accounts](https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-cross-account-event-delivery.html) in the Amazon EventBridge User Guide.
-    public struct Target: Swift.Equatable {
+    public struct Target {
         /// The Amazon Resource Name (ARN) of the target.
         /// This member is required.
         public var arn: Swift.String?
@@ -11179,7 +11179,7 @@ extension TestEventPatternInput {
     }
 }
 
-public struct TestEventPatternInput: Swift.Equatable {
+public struct TestEventPatternInput {
     /// The event, in JSON format, to test against the event pattern. The JSON must follow the format specified in [Amazon Web Services Events](https://docs.aws.amazon.com/eventbridge/latest/userguide/aws-events.html), and the following fields are mandatory:
     ///
     /// * id
@@ -11211,7 +11211,7 @@ public struct TestEventPatternInput: Swift.Equatable {
     }
 }
 
-struct TestEventPatternInputBody: Swift.Equatable {
+struct TestEventPatternInputBody {
     let eventPattern: Swift.String?
     let event: Swift.String?
 }
@@ -11243,7 +11243,7 @@ extension TestEventPatternOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TestEventPatternOutput: Swift.Equatable {
+public struct TestEventPatternOutput {
     /// Indicates whether the event matches the event pattern.
     public var result: Swift.Bool
 
@@ -11255,7 +11255,7 @@ public struct TestEventPatternOutput: Swift.Equatable {
     }
 }
 
-struct TestEventPatternOutputBody: Swift.Equatable {
+struct TestEventPatternOutputBody {
     let result: Swift.Bool
 }
 
@@ -11310,7 +11310,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The ARN of the EventBridge resource from which you are removing tags.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -11328,7 +11328,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceARN: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -11362,7 +11362,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -11421,7 +11421,7 @@ extension UpdateApiDestinationInput {
     }
 }
 
-public struct UpdateApiDestinationInput: Swift.Equatable {
+public struct UpdateApiDestinationInput {
     /// The ARN of the connection to use for the API destination.
     public var connectionArn: Swift.String?
     /// The name of the API destination to update.
@@ -11454,7 +11454,7 @@ public struct UpdateApiDestinationInput: Swift.Equatable {
     }
 }
 
-struct UpdateApiDestinationInputBody: Swift.Equatable {
+struct UpdateApiDestinationInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let connectionArn: Swift.String?
@@ -11508,7 +11508,7 @@ extension UpdateApiDestinationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateApiDestinationOutput: Swift.Equatable {
+public struct UpdateApiDestinationOutput {
     /// The ARN of the API destination that was updated.
     public var apiDestinationArn: Swift.String?
     /// The state of the API destination that was updated.
@@ -11532,7 +11532,7 @@ public struct UpdateApiDestinationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateApiDestinationOutputBody: Swift.Equatable {
+struct UpdateApiDestinationOutputBody {
     let apiDestinationArn: Swift.String?
     let apiDestinationState: CloudWatchEventsClientTypes.ApiDestinationState?
     let creationTime: ClientRuntime.Date?
@@ -11606,7 +11606,7 @@ extension UpdateArchiveInput {
     }
 }
 
-public struct UpdateArchiveInput: Swift.Equatable {
+public struct UpdateArchiveInput {
     /// The name of the archive to update.
     /// This member is required.
     public var archiveName: Swift.String?
@@ -11631,7 +11631,7 @@ public struct UpdateArchiveInput: Swift.Equatable {
     }
 }
 
-struct UpdateArchiveInputBody: Swift.Equatable {
+struct UpdateArchiveInputBody {
     let archiveName: Swift.String?
     let description: Swift.String?
     let eventPattern: Swift.String?
@@ -11677,7 +11677,7 @@ extension UpdateArchiveOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateArchiveOutput: Swift.Equatable {
+public struct UpdateArchiveOutput {
     /// The ARN of the archive.
     public var archiveArn: Swift.String?
     /// The time at which the archive was updated.
@@ -11701,7 +11701,7 @@ public struct UpdateArchiveOutput: Swift.Equatable {
     }
 }
 
-struct UpdateArchiveOutputBody: Swift.Equatable {
+struct UpdateArchiveOutputBody {
     let archiveArn: Swift.String?
     let state: CloudWatchEventsClientTypes.ArchiveState?
     let stateReason: Swift.String?
@@ -11776,7 +11776,7 @@ extension CloudWatchEventsClientTypes.UpdateConnectionApiKeyAuthRequestParameter
 
 extension CloudWatchEventsClientTypes {
     /// Contains the API key authorization parameters to use to update the connection.
-    public struct UpdateConnectionApiKeyAuthRequestParameters: Swift.Equatable {
+    public struct UpdateConnectionApiKeyAuthRequestParameters {
         /// The name of the API key to use for authorization.
         public var apiKeyName: Swift.String?
         /// The value associated with teh API key to use for authorization.
@@ -11833,7 +11833,7 @@ extension CloudWatchEventsClientTypes.UpdateConnectionAuthRequestParameters: Swi
 
 extension CloudWatchEventsClientTypes {
     /// Contains the additional parameters to use for the connection.
-    public struct UpdateConnectionAuthRequestParameters: Swift.Equatable {
+    public struct UpdateConnectionAuthRequestParameters {
         /// A UpdateConnectionApiKeyAuthRequestParameters object that contains the authorization parameters for API key authorization.
         public var apiKeyAuthParameters: CloudWatchEventsClientTypes.UpdateConnectionApiKeyAuthRequestParameters?
         /// A UpdateConnectionBasicAuthRequestParameters object that contains the authorization parameters for Basic authorization.
@@ -11891,7 +11891,7 @@ extension CloudWatchEventsClientTypes.UpdateConnectionBasicAuthRequestParameters
 
 extension CloudWatchEventsClientTypes {
     /// Contains the Basic authorization parameters for the connection.
-    public struct UpdateConnectionBasicAuthRequestParameters: Swift.Equatable {
+    public struct UpdateConnectionBasicAuthRequestParameters {
         /// The password associated with the user name to use for Basic authorization.
         public var password: Swift.String?
         /// The user name to use for Basic authorization.
@@ -11941,7 +11941,7 @@ extension UpdateConnectionInput {
     }
 }
 
-public struct UpdateConnectionInput: Swift.Equatable {
+public struct UpdateConnectionInput {
     /// The authorization parameters to use for the connection.
     public var authParameters: CloudWatchEventsClientTypes.UpdateConnectionAuthRequestParameters?
     /// The type of authorization to use for the connection.
@@ -11966,7 +11966,7 @@ public struct UpdateConnectionInput: Swift.Equatable {
     }
 }
 
-struct UpdateConnectionInputBody: Swift.Equatable {
+struct UpdateConnectionInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let authorizationType: CloudWatchEventsClientTypes.ConnectionAuthorizationType?
@@ -12026,7 +12026,7 @@ extension CloudWatchEventsClientTypes.UpdateConnectionOAuthClientRequestParamete
 
 extension CloudWatchEventsClientTypes {
     /// Contains the OAuth authorization parameters to use for the connection.
-    public struct UpdateConnectionOAuthClientRequestParameters: Swift.Equatable {
+    public struct UpdateConnectionOAuthClientRequestParameters {
         /// The client ID to use for OAuth authorization.
         public var clientID: Swift.String?
         /// The client secret assciated with the client ID to use for OAuth authorization.
@@ -12083,7 +12083,7 @@ extension CloudWatchEventsClientTypes.UpdateConnectionOAuthRequestParameters: Sw
 
 extension CloudWatchEventsClientTypes {
     /// Contains the OAuth request parameters to use for the connection.
-    public struct UpdateConnectionOAuthRequestParameters: Swift.Equatable {
+    public struct UpdateConnectionOAuthRequestParameters {
         /// The URL to the authorization endpoint when OAuth is specified as the authorization type.
         public var authorizationEndpoint: Swift.String?
         /// A UpdateConnectionOAuthClientRequestParameters object that contains the client parameters to use for the connection when OAuth is specified as the authorization type.
@@ -12129,7 +12129,7 @@ extension UpdateConnectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateConnectionOutput: Swift.Equatable {
+public struct UpdateConnectionOutput {
     /// The ARN of the connection that was updated.
     public var connectionArn: Swift.String?
     /// The state of the connection that was updated.
@@ -12157,7 +12157,7 @@ public struct UpdateConnectionOutput: Swift.Equatable {
     }
 }
 
-struct UpdateConnectionOutputBody: Swift.Equatable {
+struct UpdateConnectionOutputBody {
     let connectionArn: Swift.String?
     let connectionState: CloudWatchEventsClientTypes.ConnectionState?
     let creationTime: ClientRuntime.Date?

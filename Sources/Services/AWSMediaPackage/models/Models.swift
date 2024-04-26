@@ -106,7 +106,7 @@ extension MediaPackageClientTypes.Authorization: Swift.Codable {
 
 extension MediaPackageClientTypes {
     /// CDN Authorization credentials
-    public struct Authorization: Swift.Equatable {
+    public struct Authorization {
         /// The Amazon Resource Name (ARN) for the secret in Secrets Manager that your Content Distribution Network (CDN) uses for authorization to access your endpoint.
         /// This member is required.
         public var cdnIdentifierSecret: Swift.String?
@@ -201,7 +201,7 @@ extension MediaPackageClientTypes.Channel: Swift.Codable {
 
 extension MediaPackageClientTypes {
     /// A Channel resource configuration.
-    public struct Channel: Swift.Equatable {
+    public struct Channel {
         /// The Amazon Resource Name (ARN) assigned to the Channel.
         public var arn: Swift.String?
         /// The date and time the Channel was created.
@@ -282,7 +282,7 @@ extension MediaPackageClientTypes.CmafEncryption: Swift.Codable {
 
 extension MediaPackageClientTypes {
     /// A Common Media Application Format (CMAF) encryption configuration.
-    public struct CmafEncryption: Swift.Equatable {
+    public struct CmafEncryption {
         /// An optional 128-bit, 16-byte hex value represented by a 32-character string, used in conjunction with the key for encrypting blocks. If you don't specify a value, then MediaPackage creates the constant initialization vector (IV).
         public var constantInitializationVector: Swift.String?
         /// The encryption method to use.
@@ -399,7 +399,7 @@ extension MediaPackageClientTypes.CmafPackage: Swift.Codable {
 
 extension MediaPackageClientTypes {
     /// A Common Media Application Format (CMAF) packaging configuration.
-    public struct CmafPackage: Swift.Equatable {
+    public struct CmafPackage {
         /// A Common Media Application Format (CMAF) encryption configuration.
         public var encryption: MediaPackageClientTypes.CmafEncryption?
         /// A list of HLS manifest configurations
@@ -486,7 +486,7 @@ extension MediaPackageClientTypes.CmafPackageCreateOrUpdateParameters: Swift.Cod
 
 extension MediaPackageClientTypes {
     /// A Common Media Application Format (CMAF) packaging configuration.
-    public struct CmafPackageCreateOrUpdateParameters: Swift.Equatable {
+    public struct CmafPackageCreateOrUpdateParameters {
         /// A Common Media Application Format (CMAF) encryption configuration.
         public var encryption: MediaPackageClientTypes.CmafEncryption?
         /// A list of HLS manifest configurations
@@ -544,7 +544,7 @@ extension ConfigureLogsInput {
 }
 
 /// the option to configure log subscription.
-public struct ConfigureLogsInput: Swift.Equatable {
+public struct ConfigureLogsInput {
     /// Configure egress access logging.
     public var egressAccessLogs: MediaPackageClientTypes.EgressAccessLogs?
     /// The ID of the channel to log subscription.
@@ -565,7 +565,7 @@ public struct ConfigureLogsInput: Swift.Equatable {
     }
 }
 
-struct ConfigureLogsInputBody: Swift.Equatable {
+struct ConfigureLogsInputBody {
     let egressAccessLogs: MediaPackageClientTypes.EgressAccessLogs?
     let ingressAccessLogs: MediaPackageClientTypes.IngressAccessLogs?
 }
@@ -611,7 +611,7 @@ extension ConfigureLogsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ConfigureLogsOutput: Swift.Equatable {
+public struct ConfigureLogsOutput {
     /// The Amazon Resource Name (ARN) assigned to the Channel.
     public var arn: Swift.String?
     /// The date and time the Channel was created.
@@ -651,7 +651,7 @@ public struct ConfigureLogsOutput: Swift.Equatable {
     }
 }
 
-struct ConfigureLogsOutputBody: Swift.Equatable {
+struct ConfigureLogsOutputBody {
     let arn: Swift.String?
     let createdAt: Swift.String?
     let description: Swift.String?
@@ -752,7 +752,7 @@ extension CreateChannelInput {
 }
 
 /// A new Channel configuration.
-public struct CreateChannelInput: Swift.Equatable {
+public struct CreateChannelInput {
     /// A short text description of the Channel.
     public var description: Swift.String?
     /// The ID of the Channel. The ID must be unique within the region and it cannot be changed after a Channel is created.
@@ -773,7 +773,7 @@ public struct CreateChannelInput: Swift.Equatable {
     }
 }
 
-struct CreateChannelInputBody: Swift.Equatable {
+struct CreateChannelInputBody {
     let description: Swift.String?
     let id: Swift.String?
     let tags: [Swift.String:Swift.String]?
@@ -832,7 +832,7 @@ extension CreateChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateChannelOutput: Swift.Equatable {
+public struct CreateChannelOutput {
     /// The Amazon Resource Name (ARN) assigned to the Channel.
     public var arn: Swift.String?
     /// The date and time the Channel was created.
@@ -872,7 +872,7 @@ public struct CreateChannelOutput: Swift.Equatable {
     }
 }
 
-struct CreateChannelOutputBody: Swift.Equatable {
+struct CreateChannelOutputBody {
     let arn: Swift.String?
     let createdAt: Swift.String?
     let description: Swift.String?
@@ -978,7 +978,7 @@ extension CreateHarvestJobInput {
 }
 
 /// Configuration parameters used to create a new HarvestJob.
-public struct CreateHarvestJobInput: Swift.Equatable {
+public struct CreateHarvestJobInput {
     /// The end of the time-window which will be harvested
     /// This member is required.
     public var endTime: Swift.String?
@@ -1011,7 +1011,7 @@ public struct CreateHarvestJobInput: Swift.Equatable {
     }
 }
 
-struct CreateHarvestJobInputBody: Swift.Equatable {
+struct CreateHarvestJobInputBody {
     let endTime: Swift.String?
     let id: Swift.String?
     let originEndpointId: Swift.String?
@@ -1071,7 +1071,7 @@ extension CreateHarvestJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateHarvestJobOutput: Swift.Equatable {
+public struct CreateHarvestJobOutput {
     /// The Amazon Resource Name (ARN) assigned to the HarvestJob.
     public var arn: Swift.String?
     /// The ID of the Channel that the HarvestJob will harvest from.
@@ -1115,7 +1115,7 @@ public struct CreateHarvestJobOutput: Swift.Equatable {
     }
 }
 
-struct CreateHarvestJobOutputBody: Swift.Equatable {
+struct CreateHarvestJobOutputBody {
     let arn: Swift.String?
     let channelId: Swift.String?
     let createdAt: Swift.String?
@@ -1258,7 +1258,7 @@ extension CreateOriginEndpointInput {
 }
 
 /// Configuration parameters used to create a new OriginEndpoint.
-public struct CreateOriginEndpointInput: Swift.Equatable {
+public struct CreateOriginEndpointInput {
     /// CDN Authorization credentials
     public var authorization: MediaPackageClientTypes.Authorization?
     /// The ID of the Channel that the OriginEndpoint will be associated with. This cannot be changed after the OriginEndpoint is created.
@@ -1324,7 +1324,7 @@ public struct CreateOriginEndpointInput: Swift.Equatable {
     }
 }
 
-struct CreateOriginEndpointInputBody: Swift.Equatable {
+struct CreateOriginEndpointInputBody {
     let authorization: MediaPackageClientTypes.Authorization?
     let channelId: Swift.String?
     let cmafPackage: MediaPackageClientTypes.CmafPackageCreateOrUpdateParameters?
@@ -1454,7 +1454,7 @@ extension CreateOriginEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateOriginEndpointOutput: Swift.Equatable {
+public struct CreateOriginEndpointOutput {
     /// The Amazon Resource Name (ARN) assigned to the OriginEndpoint.
     public var arn: Swift.String?
     /// CDN Authorization credentials
@@ -1530,7 +1530,7 @@ public struct CreateOriginEndpointOutput: Swift.Equatable {
     }
 }
 
-struct CreateOriginEndpointOutputBody: Swift.Equatable {
+struct CreateOriginEndpointOutputBody {
     let arn: Swift.String?
     let authorization: MediaPackageClientTypes.Authorization?
     let channelId: Swift.String?
@@ -1671,7 +1671,7 @@ extension MediaPackageClientTypes.DashEncryption: Swift.Codable {
 
 extension MediaPackageClientTypes {
     /// A Dynamic Adaptive Streaming over HTTP (DASH) encryption configuration.
-    public struct DashEncryption: Swift.Equatable {
+    public struct DashEncryption {
         /// Time (in seconds) between each encryption key rotation.
         public var keyRotationIntervalSeconds: Swift.Int?
         /// A configuration for accessing an external Secure Packager and Encoder Key Exchange (SPEKE) service that will provide encryption keys.
@@ -1825,7 +1825,7 @@ extension MediaPackageClientTypes.DashPackage: Swift.Codable {
 
 extension MediaPackageClientTypes {
     /// A Dynamic Adaptive Streaming over HTTP (DASH) packaging configuration.
-    public struct DashPackage: Swift.Equatable {
+    public struct DashPackage {
         /// A list of SCTE-35 message types that are treated as ad markers in the output. If empty, no ad markers are output. Specify multiple items to create ad markers for all of the included message types.
         public var adTriggers: [MediaPackageClientTypes.__AdTriggersElement]?
         /// This setting allows the delivery restriction flags on SCTE-35 segmentation descriptors to determine whether a message signals an ad. Choosing "NONE" means no SCTE-35 messages become ads. Choosing "RESTRICTED" means SCTE-35 messages of the types specified in AdTriggers that contain delivery restrictions will be treated as ads. Choosing "UNRESTRICTED" means SCTE-35 messages of the types specified in AdTriggers that do not contain delivery restrictions will be treated as ads. Choosing "BOTH" means all SCTE-35 messages of the types specified in AdTriggers will be treated as ads. Note that Splice Insert messages do not have these flags and are always treated as ads if specified in AdTriggers.
@@ -1909,7 +1909,7 @@ extension DeleteChannelInput {
     }
 }
 
-public struct DeleteChannelInput: Swift.Equatable {
+public struct DeleteChannelInput {
     /// The ID of the Channel to delete.
     /// This member is required.
     public var id: Swift.String?
@@ -1922,7 +1922,7 @@ public struct DeleteChannelInput: Swift.Equatable {
     }
 }
 
-struct DeleteChannelInputBody: Swift.Equatable {
+struct DeleteChannelInputBody {
 }
 
 extension DeleteChannelInputBody: Swift.Decodable {
@@ -1936,7 +1936,7 @@ extension DeleteChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteChannelOutput: Swift.Equatable {
+public struct DeleteChannelOutput {
 
     public init() { }
 }
@@ -1967,7 +1967,7 @@ extension DeleteOriginEndpointInput {
     }
 }
 
-public struct DeleteOriginEndpointInput: Swift.Equatable {
+public struct DeleteOriginEndpointInput {
     /// The ID of the OriginEndpoint to delete.
     /// This member is required.
     public var id: Swift.String?
@@ -1980,7 +1980,7 @@ public struct DeleteOriginEndpointInput: Swift.Equatable {
     }
 }
 
-struct DeleteOriginEndpointInputBody: Swift.Equatable {
+struct DeleteOriginEndpointInputBody {
 }
 
 extension DeleteOriginEndpointInputBody: Swift.Decodable {
@@ -1994,7 +1994,7 @@ extension DeleteOriginEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteOriginEndpointOutput: Swift.Equatable {
+public struct DeleteOriginEndpointOutput {
 
     public init() { }
 }
@@ -2025,7 +2025,7 @@ extension DescribeChannelInput {
     }
 }
 
-public struct DescribeChannelInput: Swift.Equatable {
+public struct DescribeChannelInput {
     /// The ID of a Channel.
     /// This member is required.
     public var id: Swift.String?
@@ -2038,7 +2038,7 @@ public struct DescribeChannelInput: Swift.Equatable {
     }
 }
 
-struct DescribeChannelInputBody: Swift.Equatable {
+struct DescribeChannelInputBody {
 }
 
 extension DescribeChannelInputBody: Swift.Decodable {
@@ -2073,7 +2073,7 @@ extension DescribeChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeChannelOutput: Swift.Equatable {
+public struct DescribeChannelOutput {
     /// The Amazon Resource Name (ARN) assigned to the Channel.
     public var arn: Swift.String?
     /// The date and time the Channel was created.
@@ -2113,7 +2113,7 @@ public struct DescribeChannelOutput: Swift.Equatable {
     }
 }
 
-struct DescribeChannelOutputBody: Swift.Equatable {
+struct DescribeChannelOutputBody {
     let arn: Swift.String?
     let createdAt: Swift.String?
     let description: Swift.String?
@@ -2192,7 +2192,7 @@ extension DescribeHarvestJobInput {
     }
 }
 
-public struct DescribeHarvestJobInput: Swift.Equatable {
+public struct DescribeHarvestJobInput {
     /// The ID of the HarvestJob.
     /// This member is required.
     public var id: Swift.String?
@@ -2205,7 +2205,7 @@ public struct DescribeHarvestJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeHarvestJobInputBody: Swift.Equatable {
+struct DescribeHarvestJobInputBody {
 }
 
 extension DescribeHarvestJobInputBody: Swift.Decodable {
@@ -2242,7 +2242,7 @@ extension DescribeHarvestJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeHarvestJobOutput: Swift.Equatable {
+public struct DescribeHarvestJobOutput {
     /// The Amazon Resource Name (ARN) assigned to the HarvestJob.
     public var arn: Swift.String?
     /// The ID of the Channel that the HarvestJob will harvest from.
@@ -2286,7 +2286,7 @@ public struct DescribeHarvestJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeHarvestJobOutputBody: Swift.Equatable {
+struct DescribeHarvestJobOutputBody {
     let arn: Swift.String?
     let channelId: Swift.String?
     let createdAt: Swift.String?
@@ -2360,7 +2360,7 @@ extension DescribeOriginEndpointInput {
     }
 }
 
-public struct DescribeOriginEndpointInput: Swift.Equatable {
+public struct DescribeOriginEndpointInput {
     /// The ID of the OriginEndpoint.
     /// This member is required.
     public var id: Swift.String?
@@ -2373,7 +2373,7 @@ public struct DescribeOriginEndpointInput: Swift.Equatable {
     }
 }
 
-struct DescribeOriginEndpointInputBody: Swift.Equatable {
+struct DescribeOriginEndpointInputBody {
 }
 
 extension DescribeOriginEndpointInputBody: Swift.Decodable {
@@ -2426,7 +2426,7 @@ extension DescribeOriginEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeOriginEndpointOutput: Swift.Equatable {
+public struct DescribeOriginEndpointOutput {
     /// The Amazon Resource Name (ARN) assigned to the OriginEndpoint.
     public var arn: Swift.String?
     /// CDN Authorization credentials
@@ -2502,7 +2502,7 @@ public struct DescribeOriginEndpointOutput: Swift.Equatable {
     }
 }
 
-struct DescribeOriginEndpointOutputBody: Swift.Equatable {
+struct DescribeOriginEndpointOutputBody {
     let arn: Swift.String?
     let authorization: MediaPackageClientTypes.Authorization?
     let channelId: Swift.String?
@@ -2637,7 +2637,7 @@ extension MediaPackageClientTypes.EgressAccessLogs: Swift.Codable {
 
 extension MediaPackageClientTypes {
     /// Configure egress access logging.
-    public struct EgressAccessLogs: Swift.Equatable {
+    public struct EgressAccessLogs {
         /// Customize the log group name.
         public var logGroupName: Swift.String?
 
@@ -2678,7 +2678,7 @@ extension MediaPackageClientTypes.EncryptionContractConfiguration: Swift.Codable
 
 extension MediaPackageClientTypes {
     /// Use encryptionContractConfiguration to configure one or more content encryption keys for your endpoints that use SPEKE 2.0. The encryption contract defines which content keys are used to encrypt the audio and video tracks in your stream. To configure the encryption contract, specify which audio and video encryption presets to use. Note the following considerations when using encryptionContractConfiguration: encryptionContractConfiguration can be used for DASH or CMAF endpoints that use SPEKE 2.0. SPEKE 2.0 relies on the CPIX 2.3 specification. You must disable key rotation for this endpoint by setting keyRotationIntervalSeconds to 0.
-    public struct EncryptionContractConfiguration: Swift.Equatable {
+    public struct EncryptionContractConfiguration {
         /// A collection of audio encryption presets.
         /// This member is required.
         public var presetSpeke20Audio: MediaPackageClientTypes.PresetSpeke20Audio?
@@ -2769,7 +2769,7 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
     }
 }
 
-struct ForbiddenExceptionBody: Swift.Equatable {
+struct ForbiddenExceptionBody {
     let message: Swift.String?
 }
 
@@ -2854,7 +2854,7 @@ extension MediaPackageClientTypes.HarvestJob: Swift.Codable {
 
 extension MediaPackageClientTypes {
     /// A HarvestJob resource configuration
-    public struct HarvestJob: Swift.Equatable {
+    public struct HarvestJob {
         /// The Amazon Resource Name (ARN) assigned to the HarvestJob.
         public var arn: Swift.String?
         /// The ID of the Channel that the HarvestJob will harvest from.
@@ -2945,7 +2945,7 @@ extension MediaPackageClientTypes.HlsEncryption: Swift.Codable {
 
 extension MediaPackageClientTypes {
     /// An HTTP Live Streaming (HLS) encryption configuration.
-    public struct HlsEncryption: Swift.Equatable {
+    public struct HlsEncryption {
         /// A constant initialization vector for encryption (optional). When not specified the initialization vector will be periodically rotated.
         public var constantInitializationVector: Swift.String?
         /// The encryption method to use.
@@ -3009,7 +3009,7 @@ extension MediaPackageClientTypes.HlsIngest: Swift.Codable {
 
 extension MediaPackageClientTypes {
     /// An HTTP Live Streaming (HLS) ingest resource configuration.
-    public struct HlsIngest: Swift.Equatable {
+    public struct HlsIngest {
         /// A list of endpoints to which the source stream should be sent.
         public var ingestEndpoints: [MediaPackageClientTypes.IngestEndpoint]?
 
@@ -3110,7 +3110,7 @@ extension MediaPackageClientTypes.HlsManifest: Swift.Codable {
 
 extension MediaPackageClientTypes {
     /// A HTTP Live Streaming (HLS) manifest configuration.
-    public struct HlsManifest: Swift.Equatable {
+    public struct HlsManifest {
         /// This setting controls how ad markers are included in the packaged OriginEndpoint. "NONE" will omit all SCTE-35 ad markers from the output. "PASSTHROUGH" causes the manifest to contain a copy of the SCTE-35 ad markers (comments) taken directly from the input HTTP Live Streaming (HLS) manifest. "SCTE35_ENHANCED" generates ad markers and blackout tags based on SCTE-35 messages in the input source. "DATERANGE" inserts EXT-X-DATERANGE tags to signal ad and program transition events in HLS and CMAF manifests. For this option, you must set a programDateTimeIntervalSeconds value that is greater than 0.
         public var adMarkers: MediaPackageClientTypes.AdMarkers?
         /// A list of SCTE-35 message types that are treated as ad markers in the output. If empty, no ad markers are output. Specify multiple items to create ad markers for all of the included message types.
@@ -3242,7 +3242,7 @@ extension MediaPackageClientTypes.HlsManifestCreateOrUpdateParameters: Swift.Cod
 
 extension MediaPackageClientTypes {
     /// A HTTP Live Streaming (HLS) manifest configuration.
-    public struct HlsManifestCreateOrUpdateParameters: Swift.Equatable {
+    public struct HlsManifestCreateOrUpdateParameters {
         /// This setting controls how ad markers are included in the packaged OriginEndpoint. "NONE" will omit all SCTE-35 ad markers from the output. "PASSTHROUGH" causes the manifest to contain a copy of the SCTE-35 ad markers (comments) taken directly from the input HTTP Live Streaming (HLS) manifest. "SCTE35_ENHANCED" generates ad markers and blackout tags based on SCTE-35 messages in the input source. "DATERANGE" inserts EXT-X-DATERANGE tags to signal ad and program transition events in HLS and CMAF manifests. For this option, you must set a programDateTimeIntervalSeconds value that is greater than 0.
         public var adMarkers: MediaPackageClientTypes.AdMarkers?
         /// A list of SCTE-35 message types that are treated as ad markers in the output. If empty, no ad markers are output. Specify multiple items to create ad markers for all of the included message types.
@@ -3388,7 +3388,7 @@ extension MediaPackageClientTypes.HlsPackage: Swift.Codable {
 
 extension MediaPackageClientTypes {
     /// An HTTP Live Streaming (HLS) packaging configuration.
-    public struct HlsPackage: Swift.Equatable {
+    public struct HlsPackage {
         /// This setting controls how ad markers are included in the packaged OriginEndpoint. "NONE" will omit all SCTE-35 ad markers from the output. "PASSTHROUGH" causes the manifest to contain a copy of the SCTE-35 ad markers (comments) taken directly from the input HTTP Live Streaming (HLS) manifest. "SCTE35_ENHANCED" generates ad markers and blackout tags based on SCTE-35 messages in the input source. "DATERANGE" inserts EXT-X-DATERANGE tags to signal ad and program transition events in HLS and CMAF manifests. For this option, you must set a programDateTimeIntervalSeconds value that is greater than 0.
         public var adMarkers: MediaPackageClientTypes.AdMarkers?
         /// A list of SCTE-35 message types that are treated as ad markers in the output. If empty, no ad markers are output. Specify multiple items to create ad markers for all of the included message types.
@@ -3490,7 +3490,7 @@ extension MediaPackageClientTypes.IngestEndpoint: Swift.CustomDebugStringConvert
 
 extension MediaPackageClientTypes {
     /// An endpoint for ingesting source content for a Channel.
-    public struct IngestEndpoint: Swift.Equatable {
+    public struct IngestEndpoint {
         /// The system generated unique identifier for the IngestEndpoint
         public var id: Swift.String?
         /// The system generated password for ingest authentication.
@@ -3537,7 +3537,7 @@ extension MediaPackageClientTypes.IngressAccessLogs: Swift.Codable {
 
 extension MediaPackageClientTypes {
     /// Configure ingress access logging.
-    public struct IngressAccessLogs: Swift.Equatable {
+    public struct IngressAccessLogs {
         /// Customize the log group name.
         public var logGroupName: Swift.String?
 
@@ -3590,7 +3590,7 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct InternalServerErrorExceptionBody: Swift.Equatable {
+struct InternalServerErrorExceptionBody {
     let message: Swift.String?
 }
 
@@ -3629,7 +3629,7 @@ extension ListChannelsInput {
     }
 }
 
-public struct ListChannelsInput: Swift.Equatable {
+public struct ListChannelsInput {
     /// Upper bound on number of records to return.
     public var maxResults: Swift.Int?
     /// A token used to resume pagination from the end of a previous request.
@@ -3645,7 +3645,7 @@ public struct ListChannelsInput: Swift.Equatable {
     }
 }
 
-struct ListChannelsInputBody: Swift.Equatable {
+struct ListChannelsInputBody {
 }
 
 extension ListChannelsInputBody: Swift.Decodable {
@@ -3668,7 +3668,7 @@ extension ListChannelsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListChannelsOutput: Swift.Equatable {
+public struct ListChannelsOutput {
     /// A list of Channel records.
     public var channels: [MediaPackageClientTypes.Channel]?
     /// A token that can be used to resume pagination from the end of the collection.
@@ -3684,7 +3684,7 @@ public struct ListChannelsOutput: Swift.Equatable {
     }
 }
 
-struct ListChannelsOutputBody: Swift.Equatable {
+struct ListChannelsOutputBody {
     let channels: [MediaPackageClientTypes.Channel]?
     let nextToken: Swift.String?
 }
@@ -3760,7 +3760,7 @@ extension ListHarvestJobsInput {
     }
 }
 
-public struct ListHarvestJobsInput: Swift.Equatable {
+public struct ListHarvestJobsInput {
     /// When specified, the request will return only HarvestJobs associated with the given Channel ID.
     public var includeChannelId: Swift.String?
     /// When specified, the request will return only HarvestJobs in the given status.
@@ -3784,7 +3784,7 @@ public struct ListHarvestJobsInput: Swift.Equatable {
     }
 }
 
-struct ListHarvestJobsInputBody: Swift.Equatable {
+struct ListHarvestJobsInputBody {
 }
 
 extension ListHarvestJobsInputBody: Swift.Decodable {
@@ -3807,7 +3807,7 @@ extension ListHarvestJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListHarvestJobsOutput: Swift.Equatable {
+public struct ListHarvestJobsOutput {
     /// A list of HarvestJob records.
     public var harvestJobs: [MediaPackageClientTypes.HarvestJob]?
     /// A token that can be used to resume pagination from the end of the collection.
@@ -3823,7 +3823,7 @@ public struct ListHarvestJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListHarvestJobsOutputBody: Swift.Equatable {
+struct ListHarvestJobsOutputBody {
     let harvestJobs: [MediaPackageClientTypes.HarvestJob]?
     let nextToken: Swift.String?
 }
@@ -3895,7 +3895,7 @@ extension ListOriginEndpointsInput {
     }
 }
 
-public struct ListOriginEndpointsInput: Swift.Equatable {
+public struct ListOriginEndpointsInput {
     /// When specified, the request will return only OriginEndpoints associated with the given Channel ID.
     public var channelId: Swift.String?
     /// The upper bound on the number of records to return.
@@ -3915,7 +3915,7 @@ public struct ListOriginEndpointsInput: Swift.Equatable {
     }
 }
 
-struct ListOriginEndpointsInputBody: Swift.Equatable {
+struct ListOriginEndpointsInputBody {
 }
 
 extension ListOriginEndpointsInputBody: Swift.Decodable {
@@ -3938,7 +3938,7 @@ extension ListOriginEndpointsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListOriginEndpointsOutput: Swift.Equatable {
+public struct ListOriginEndpointsOutput {
     /// A token that can be used to resume pagination from the end of the collection.
     public var nextToken: Swift.String?
     /// A list of OriginEndpoint records.
@@ -3954,7 +3954,7 @@ public struct ListOriginEndpointsOutput: Swift.Equatable {
     }
 }
 
-struct ListOriginEndpointsOutputBody: Swift.Equatable {
+struct ListOriginEndpointsOutputBody {
     let nextToken: Swift.String?
     let originEndpoints: [MediaPackageClientTypes.OriginEndpoint]?
 }
@@ -4009,7 +4009,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -4021,7 +4021,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -4042,7 +4042,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     public var tags: [Swift.String:Swift.String]?
 
     public init(
@@ -4053,7 +4053,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -4146,7 +4146,7 @@ extension MediaPackageClientTypes.MssEncryption: Swift.Codable {
 
 extension MediaPackageClientTypes {
     /// A Microsoft Smooth Streaming (MSS) encryption configuration.
-    public struct MssEncryption: Swift.Equatable {
+    public struct MssEncryption {
         /// A configuration for accessing an external Secure Packager and Encoder Key Exchange (SPEKE) service that will provide encryption keys.
         /// This member is required.
         public var spekeKeyProvider: MediaPackageClientTypes.SpekeKeyProvider?
@@ -4200,7 +4200,7 @@ extension MediaPackageClientTypes.MssPackage: Swift.Codable {
 
 extension MediaPackageClientTypes {
     /// A Microsoft Smooth Streaming (MSS) packaging configuration.
-    public struct MssPackage: Swift.Equatable {
+    public struct MssPackage {
         /// A Microsoft Smooth Streaming (MSS) encryption configuration.
         public var encryption: MediaPackageClientTypes.MssEncryption?
         /// The time window (in seconds) contained in each manifest.
@@ -4265,7 +4265,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct NotFoundExceptionBody: Swift.Equatable {
+struct NotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -4422,7 +4422,7 @@ extension MediaPackageClientTypes.OriginEndpoint: Swift.Codable {
 
 extension MediaPackageClientTypes {
     /// An OriginEndpoint resource configuration.
-    public struct OriginEndpoint: Swift.Equatable {
+    public struct OriginEndpoint {
         /// The Amazon Resource Name (ARN) assigned to the OriginEndpoint.
         public var arn: Swift.String?
         /// CDN Authorization credentials
@@ -4713,7 +4713,7 @@ extension RotateChannelCredentialsInput {
 }
 
 @available(*, deprecated)
-public struct RotateChannelCredentialsInput: Swift.Equatable {
+public struct RotateChannelCredentialsInput {
     /// The ID of the channel to update.
     /// This member is required.
     public var id: Swift.String?
@@ -4726,7 +4726,7 @@ public struct RotateChannelCredentialsInput: Swift.Equatable {
     }
 }
 
-struct RotateChannelCredentialsInputBody: Swift.Equatable {
+struct RotateChannelCredentialsInputBody {
 }
 
 extension RotateChannelCredentialsInputBody: Swift.Decodable {
@@ -4762,7 +4762,7 @@ extension RotateChannelCredentialsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 @available(*, deprecated)
-public struct RotateChannelCredentialsOutput: Swift.Equatable {
+public struct RotateChannelCredentialsOutput {
     /// The Amazon Resource Name (ARN) assigned to the Channel.
     public var arn: Swift.String?
     /// The date and time the Channel was created.
@@ -4802,7 +4802,7 @@ public struct RotateChannelCredentialsOutput: Swift.Equatable {
     }
 }
 
-struct RotateChannelCredentialsOutputBody: Swift.Equatable {
+struct RotateChannelCredentialsOutputBody {
     let arn: Swift.String?
     let createdAt: Swift.String?
     let description: Swift.String?
@@ -4884,7 +4884,7 @@ extension RotateIngestEndpointCredentialsInput {
     }
 }
 
-public struct RotateIngestEndpointCredentialsInput: Swift.Equatable {
+public struct RotateIngestEndpointCredentialsInput {
     /// The ID of the channel the IngestEndpoint is on.
     /// This member is required.
     public var id: Swift.String?
@@ -4902,7 +4902,7 @@ public struct RotateIngestEndpointCredentialsInput: Swift.Equatable {
     }
 }
 
-struct RotateIngestEndpointCredentialsInputBody: Swift.Equatable {
+struct RotateIngestEndpointCredentialsInputBody {
 }
 
 extension RotateIngestEndpointCredentialsInputBody: Swift.Decodable {
@@ -4937,7 +4937,7 @@ extension RotateIngestEndpointCredentialsOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct RotateIngestEndpointCredentialsOutput: Swift.Equatable {
+public struct RotateIngestEndpointCredentialsOutput {
     /// The Amazon Resource Name (ARN) assigned to the Channel.
     public var arn: Swift.String?
     /// The date and time the Channel was created.
@@ -4977,7 +4977,7 @@ public struct RotateIngestEndpointCredentialsOutput: Swift.Equatable {
     }
 }
 
-struct RotateIngestEndpointCredentialsOutputBody: Swift.Equatable {
+struct RotateIngestEndpointCredentialsOutputBody {
     let arn: Swift.String?
     let createdAt: Swift.String?
     let description: Swift.String?
@@ -5079,7 +5079,7 @@ extension MediaPackageClientTypes.S3Destination: Swift.Codable {
 
 extension MediaPackageClientTypes {
     /// Configuration parameters for where in an S3 bucket to place the harvested content
-    public struct S3Destination: Swift.Equatable {
+    public struct S3Destination {
         /// The name of an S3 bucket within which harvested content will be exported
         /// This member is required.
         public var bucketName: Swift.String?
@@ -5178,7 +5178,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct ServiceUnavailableExceptionBody: Swift.Equatable {
+struct ServiceUnavailableExceptionBody {
     let message: Swift.String?
 }
 
@@ -5257,7 +5257,7 @@ extension MediaPackageClientTypes.SpekeKeyProvider: Swift.Codable {
 
 extension MediaPackageClientTypes {
     /// A configuration for accessing an external Secure Packager and Encoder Key Exchange (SPEKE) service that will provide encryption keys.
-    public struct SpekeKeyProvider: Swift.Equatable {
+    public struct SpekeKeyProvider {
         /// An Amazon Resource Name (ARN) of a Certificate Manager certificate that MediaPackage will use for enforcing secure end-to-end data transfer with the key provider service.
         public var certificateArn: Swift.String?
         /// Use encryptionContractConfiguration to configure one or more content encryption keys for your endpoints that use SPEKE 2.0. The encryption contract defines which content keys are used to encrypt the audio and video tracks in your stream. To configure the encryption contract, specify which audio and video encryption presets to use. Note the following considerations when using encryptionContractConfiguration: encryptionContractConfiguration can be used for DASH or CMAF endpoints that use SPEKE 2.0. SPEKE 2.0 relies on the CPIX 2.3 specification. You must disable key rotation for this endpoint by setting keyRotationIntervalSeconds to 0.
@@ -5398,7 +5398,7 @@ extension MediaPackageClientTypes.StreamSelection: Swift.Codable {
 
 extension MediaPackageClientTypes {
     /// A StreamSelection configuration.
-    public struct StreamSelection: Swift.Equatable {
+    public struct StreamSelection {
         /// The maximum video bitrate (bps) to include in output.
         public var maxVideoBitsPerSecond: Swift.Int?
         /// The minimum video bitrate (bps) to include in output.
@@ -5446,7 +5446,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// This member is required.
     public var resourceArn: Swift.String?
     /// This member is required.
@@ -5462,7 +5462,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -5492,7 +5492,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -5546,7 +5546,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct TooManyRequestsExceptionBody: Swift.Equatable {
+struct TooManyRequestsExceptionBody {
     let message: Swift.String?
 }
 
@@ -5601,7 +5601,7 @@ public struct UnprocessableEntityException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct UnprocessableEntityExceptionBody: Swift.Equatable {
+struct UnprocessableEntityExceptionBody {
     let message: Swift.String?
 }
 
@@ -5643,7 +5643,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// This member is required.
     public var resourceArn: Swift.String?
     /// The key(s) of tag to be deleted
@@ -5660,7 +5660,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -5674,7 +5674,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -5713,7 +5713,7 @@ extension UpdateChannelInput {
 }
 
 /// Configuration parameters used to update the Channel.
-public struct UpdateChannelInput: Swift.Equatable {
+public struct UpdateChannelInput {
     /// A short text description of the Channel.
     public var description: Swift.String?
     /// The ID of the Channel to update.
@@ -5730,7 +5730,7 @@ public struct UpdateChannelInput: Swift.Equatable {
     }
 }
 
-struct UpdateChannelInputBody: Swift.Equatable {
+struct UpdateChannelInputBody {
     let description: Swift.String?
 }
 
@@ -5772,7 +5772,7 @@ extension UpdateChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateChannelOutput: Swift.Equatable {
+public struct UpdateChannelOutput {
     /// The Amazon Resource Name (ARN) assigned to the Channel.
     public var arn: Swift.String?
     /// The date and time the Channel was created.
@@ -5812,7 +5812,7 @@ public struct UpdateChannelOutput: Swift.Equatable {
     }
 }
 
-struct UpdateChannelOutputBody: Swift.Equatable {
+struct UpdateChannelOutputBody {
     let arn: Swift.String?
     let createdAt: Swift.String?
     let description: Swift.String?
@@ -5948,7 +5948,7 @@ extension UpdateOriginEndpointInput {
 }
 
 /// Configuration parameters used to update an existing OriginEndpoint.
-public struct UpdateOriginEndpointInput: Swift.Equatable {
+public struct UpdateOriginEndpointInput {
     /// CDN Authorization credentials
     public var authorization: MediaPackageClientTypes.Authorization?
     /// A Common Media Application Format (CMAF) packaging configuration.
@@ -6005,7 +6005,7 @@ public struct UpdateOriginEndpointInput: Swift.Equatable {
     }
 }
 
-struct UpdateOriginEndpointInputBody: Swift.Equatable {
+struct UpdateOriginEndpointInputBody {
     let authorization: MediaPackageClientTypes.Authorization?
     let cmafPackage: MediaPackageClientTypes.CmafPackageCreateOrUpdateParameters?
     let dashPackage: MediaPackageClientTypes.DashPackage?
@@ -6114,7 +6114,7 @@ extension UpdateOriginEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateOriginEndpointOutput: Swift.Equatable {
+public struct UpdateOriginEndpointOutput {
     /// The Amazon Resource Name (ARN) assigned to the OriginEndpoint.
     public var arn: Swift.String?
     /// CDN Authorization credentials
@@ -6190,7 +6190,7 @@ public struct UpdateOriginEndpointOutput: Swift.Equatable {
     }
 }
 
-struct UpdateOriginEndpointOutputBody: Swift.Equatable {
+struct UpdateOriginEndpointOutputBody {
     let arn: Swift.String?
     let authorization: MediaPackageClientTypes.Authorization?
     let channelId: Swift.String?

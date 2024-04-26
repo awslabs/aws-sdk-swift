@@ -29,7 +29,7 @@ extension ForecastqueryClientTypes.DataPoint: Swift.Codable {
 
 extension ForecastqueryClientTypes {
     /// The forecast value for a specific date. Part of the [Forecast] object.
-    public struct DataPoint: Swift.Equatable {
+    public struct DataPoint {
         /// The timestamp of the specific forecast.
         public var timestamp: Swift.String?
         /// The forecast value.
@@ -90,7 +90,7 @@ extension ForecastqueryClientTypes.Forecast: Swift.Codable {
 
 extension ForecastqueryClientTypes {
     /// Provides information about a forecast. Returned as part of the [QueryForecast] response.
-    public struct Forecast: Swift.Equatable {
+    public struct Forecast {
         /// The forecast. The string of the string-to-array map is one of the following values:
         ///
         /// * p10
@@ -154,7 +154,7 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct InvalidInputExceptionBody: Swift.Equatable {
+struct InvalidInputExceptionBody {
     let message: Swift.String?
 }
 
@@ -209,7 +209,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidNextTokenExceptionBody: Swift.Equatable {
+struct InvalidNextTokenExceptionBody {
     let message: Swift.String?
 }
 
@@ -264,7 +264,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -319,7 +319,7 @@ extension QueryForecastInput {
     }
 }
 
-public struct QueryForecastInput: Swift.Equatable {
+public struct QueryForecastInput {
     /// The end date for the forecast. Specify the date using this format: yyyy-MM-dd'T'HH:mm:ss (ISO 8601 format). For example, 2015-01-01T20:00:00.
     public var endDate: Swift.String?
     /// The filtering criteria to apply when retrieving the forecast. For example, to get the forecast for client_21 in the electricity usage dataset, specify the following: {"item_id" : "client_21"} To get the full forecast, use the [CreateForecastExportJob](https://docs.aws.amazon.com/en_us/forecast/latest/dg/API_CreateForecastExportJob.html) operation.
@@ -349,7 +349,7 @@ public struct QueryForecastInput: Swift.Equatable {
     }
 }
 
-struct QueryForecastInputBody: Swift.Equatable {
+struct QueryForecastInputBody {
     let forecastArn: Swift.String?
     let startDate: Swift.String?
     let endDate: Swift.String?
@@ -402,7 +402,7 @@ extension QueryForecastOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct QueryForecastOutput: Swift.Equatable {
+public struct QueryForecastOutput {
     /// The forecast.
     public var forecast: ForecastqueryClientTypes.Forecast?
 
@@ -414,7 +414,7 @@ public struct QueryForecastOutput: Swift.Equatable {
     }
 }
 
-struct QueryForecastOutputBody: Swift.Equatable {
+struct QueryForecastOutputBody {
     let forecast: ForecastqueryClientTypes.Forecast?
 }
 
@@ -484,7 +484,7 @@ extension QueryWhatIfForecastInput {
     }
 }
 
-public struct QueryWhatIfForecastInput: Swift.Equatable {
+public struct QueryWhatIfForecastInput {
     /// The end date for the what-if forecast. Specify the date using this format: yyyy-MM-dd'T'HH:mm:ss (ISO 8601 format). For example, 2015-01-01T20:00:00.
     public var endDate: Swift.String?
     /// The filtering criteria to apply when retrieving the forecast. For example, to get the forecast for client_21 in the electricity usage dataset, specify the following: {"item_id" : "client_21"} To get the full what-if forecast, use the [CreateForecastExportJob](https://docs.aws.amazon.com/en_us/forecast/latest/dg/API_CreateWhatIfForecastExport.html) operation.
@@ -514,7 +514,7 @@ public struct QueryWhatIfForecastInput: Swift.Equatable {
     }
 }
 
-struct QueryWhatIfForecastInputBody: Swift.Equatable {
+struct QueryWhatIfForecastInputBody {
     let whatIfForecastArn: Swift.String?
     let startDate: Swift.String?
     let endDate: Swift.String?
@@ -567,7 +567,7 @@ extension QueryWhatIfForecastOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct QueryWhatIfForecastOutput: Swift.Equatable {
+public struct QueryWhatIfForecastOutput {
     /// Provides information about a forecast. Returned as part of the [QueryForecast] response.
     public var forecast: ForecastqueryClientTypes.Forecast?
 
@@ -579,7 +579,7 @@ public struct QueryWhatIfForecastOutput: Swift.Equatable {
     }
 }
 
-struct QueryWhatIfForecastOutputBody: Swift.Equatable {
+struct QueryWhatIfForecastOutputBody {
     let forecast: ForecastqueryClientTypes.Forecast?
 }
 
@@ -649,7 +649,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ResourceInUseExceptionBody: Swift.Equatable {
+struct ResourceInUseExceptionBody {
     let message: Swift.String?
 }
 
@@ -704,7 +704,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 

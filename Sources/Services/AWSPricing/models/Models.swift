@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -78,7 +78,7 @@ extension PricingClientTypes.AttributeValue: Swift.Codable {
 
 extension PricingClientTypes {
     /// The values of a given attribute, such as Throughput Optimized HDD or Provisioned IOPS for the Amazon EC2volumeType attribute.
-    public struct AttributeValue: Swift.Equatable {
+    public struct AttributeValue {
         /// The specific value of an attributeName.
         public var value: Swift.String?
 
@@ -124,7 +124,7 @@ extension DescribeServicesInput {
     }
 }
 
-public struct DescribeServicesInput: Swift.Equatable {
+public struct DescribeServicesInput {
     /// The format version that you want the response to be in. Valid values are: aws_v1
     public var formatVersion: Swift.String?
     /// The maximum number of results that you want returned in the response.
@@ -148,7 +148,7 @@ public struct DescribeServicesInput: Swift.Equatable {
     }
 }
 
-struct DescribeServicesInputBody: Swift.Equatable {
+struct DescribeServicesInputBody {
     let serviceCode: Swift.String?
     let formatVersion: Swift.String?
     let nextToken: Swift.String?
@@ -192,7 +192,7 @@ extension DescribeServicesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeServicesOutput: Swift.Equatable {
+public struct DescribeServicesOutput {
     /// The format version of the response. For example, aws_v1.
     public var formatVersion: Swift.String?
     /// The pagination token for the next set of retrievable results.
@@ -212,7 +212,7 @@ public struct DescribeServicesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeServicesOutputBody: Swift.Equatable {
+struct DescribeServicesOutputBody {
     let services: [PricingClientTypes.Service]?
     let formatVersion: Swift.String?
     let nextToken: Swift.String?
@@ -300,7 +300,7 @@ public struct ExpiredNextTokenException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ExpiredNextTokenExceptionBody: Swift.Equatable {
+struct ExpiredNextTokenExceptionBody {
     let message: Swift.String?
 }
 
@@ -349,7 +349,7 @@ extension PricingClientTypes.Filter: Swift.Codable {
 
 extension PricingClientTypes {
     /// The constraints that you want all returned products to match.
-    public struct Filter: Swift.Equatable {
+    public struct Filter {
         /// The product metadata field that you want to filter on. You can filter by just the service code to see all products for a specific service, filter by just the attribute name to see a specific attribute for multiple services, or use both a service code and an attribute name to retrieve only products that match both fields. Valid values include: ServiceCode, and all attribute names For example, you can filter by the AmazonEC2 service code and the volumeType attribute name to get the prices for only Amazon EC2 volumes.
         /// This member is required.
         public var field: Swift.String?
@@ -435,7 +435,7 @@ extension GetAttributeValuesInput {
     }
 }
 
-public struct GetAttributeValuesInput: Swift.Equatable {
+public struct GetAttributeValuesInput {
     /// The name of the attribute that you want to retrieve the values for, such as volumeType.
     /// This member is required.
     public var attributeName: Swift.String?
@@ -461,7 +461,7 @@ public struct GetAttributeValuesInput: Swift.Equatable {
     }
 }
 
-struct GetAttributeValuesInputBody: Swift.Equatable {
+struct GetAttributeValuesInputBody {
     let serviceCode: Swift.String?
     let attributeName: Swift.String?
     let nextToken: Swift.String?
@@ -503,7 +503,7 @@ extension GetAttributeValuesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAttributeValuesOutput: Swift.Equatable {
+public struct GetAttributeValuesOutput {
     /// The list of values for an attribute. For example, Throughput Optimized HDD and Provisioned IOPS are two available values for the AmazonEC2volumeType.
     public var attributeValues: [PricingClientTypes.AttributeValue]?
     /// The pagination token that indicates the next set of results to retrieve.
@@ -519,7 +519,7 @@ public struct GetAttributeValuesOutput: Swift.Equatable {
     }
 }
 
-struct GetAttributeValuesOutputBody: Swift.Equatable {
+struct GetAttributeValuesOutputBody {
     let attributeValues: [PricingClientTypes.AttributeValue]?
     let nextToken: Swift.String?
 }
@@ -588,7 +588,7 @@ extension GetPriceListFileUrlInput {
     }
 }
 
-public struct GetPriceListFileUrlInput: Swift.Equatable {
+public struct GetPriceListFileUrlInput {
     /// The format that you want to retrieve your Price List files in. The FileFormat can be obtained from the [ListPriceLists](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_ListPriceLists.html) response.
     /// This member is required.
     public var fileFormat: Swift.String?
@@ -606,7 +606,7 @@ public struct GetPriceListFileUrlInput: Swift.Equatable {
     }
 }
 
-struct GetPriceListFileUrlInputBody: Swift.Equatable {
+struct GetPriceListFileUrlInputBody {
     let priceListArn: Swift.String?
     let fileFormat: Swift.String?
 }
@@ -638,7 +638,7 @@ extension GetPriceListFileUrlOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPriceListFileUrlOutput: Swift.Equatable {
+public struct GetPriceListFileUrlOutput {
     /// The URL to download your Price List file from.
     public var url: Swift.String?
 
@@ -650,7 +650,7 @@ public struct GetPriceListFileUrlOutput: Swift.Equatable {
     }
 }
 
-struct GetPriceListFileUrlOutputBody: Swift.Equatable {
+struct GetPriceListFileUrlOutputBody {
     let url: Swift.String?
 }
 
@@ -721,7 +721,7 @@ extension GetProductsInput {
     }
 }
 
-public struct GetProductsInput: Swift.Equatable {
+public struct GetProductsInput {
     /// The list of filters that limit the returned products. only products that match all filters are returned.
     public var filters: [PricingClientTypes.Filter]?
     /// The format version that you want the response to be in. Valid values are: aws_v1
@@ -750,7 +750,7 @@ public struct GetProductsInput: Swift.Equatable {
     }
 }
 
-struct GetProductsInputBody: Swift.Equatable {
+struct GetProductsInputBody {
     let serviceCode: Swift.String?
     let filters: [PricingClientTypes.Filter]?
     let formatVersion: Swift.String?
@@ -807,7 +807,7 @@ extension GetProductsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetProductsOutput: Swift.Equatable {
+public struct GetProductsOutput {
     /// The format version of the response. For example, aws_v1.
     public var formatVersion: Swift.String?
     /// The pagination token that indicates the next set of results to retrieve.
@@ -827,7 +827,7 @@ public struct GetProductsOutput: Swift.Equatable {
     }
 }
 
-struct GetProductsOutputBody: Swift.Equatable {
+struct GetProductsOutputBody {
     let formatVersion: Swift.String?
     let priceList: [Swift.String]?
     let nextToken: Swift.String?
@@ -915,7 +915,7 @@ public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct InternalErrorExceptionBody: Swift.Equatable {
+struct InternalErrorExceptionBody {
     let message: Swift.String?
 }
 
@@ -970,7 +970,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidNextTokenExceptionBody: Swift.Equatable {
+struct InvalidNextTokenExceptionBody {
     let message: Swift.String?
 }
 
@@ -1025,7 +1025,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidParameterExceptionBody: Swift.Equatable {
+struct InvalidParameterExceptionBody {
     let message: Swift.String?
 }
 
@@ -1081,7 +1081,7 @@ extension ListPriceListsInput {
     }
 }
 
-public struct ListPriceListsInput: Swift.Equatable {
+public struct ListPriceListsInput {
     /// The three alphabetical character ISO-4217 currency code that the Price List files are denominated in.
     /// This member is required.
     public var currencyCode: Swift.String?
@@ -1116,7 +1116,7 @@ public struct ListPriceListsInput: Swift.Equatable {
     }
 }
 
-struct ListPriceListsInputBody: Swift.Equatable {
+struct ListPriceListsInputBody {
     let serviceCode: Swift.String?
     let effectiveDate: ClientRuntime.Date?
     let regionCode: Swift.String?
@@ -1166,7 +1166,7 @@ extension ListPriceListsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPriceListsOutput: Swift.Equatable {
+public struct ListPriceListsOutput {
     /// The pagination token that indicates the next set of results to retrieve.
     public var nextToken: Swift.String?
     /// The type of price list references that match your request.
@@ -1182,7 +1182,7 @@ public struct ListPriceListsOutput: Swift.Equatable {
     }
 }
 
-struct ListPriceListsOutputBody: Swift.Equatable {
+struct ListPriceListsOutputBody {
     let priceLists: [PricingClientTypes.PriceList]?
     let nextToken: Swift.String?
 }
@@ -1268,7 +1268,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct NotFoundExceptionBody: Swift.Equatable {
+struct NotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -1335,7 +1335,7 @@ extension PricingClientTypes.PriceList: Swift.Codable {
 
 extension PricingClientTypes {
     /// This feature is in preview release and is subject to change. Your use of Amazon Web Services Price List API is subject to the Beta Service Participation terms of the [Amazon Web Services Service Terms](https://aws.amazon.com/service-terms/) (Section 1.10). This is the type of price list references that match your request.
-    public struct PriceList: Swift.Equatable {
+    public struct PriceList {
         /// The three alphabetical character ISO-4217 currency code the Price List files are denominated in.
         public var currencyCode: Swift.String?
         /// The format you want to retrieve your Price List files. The FileFormat can be obtained from the [ListPriceList](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_ListPriceLists.html) response.
@@ -1402,7 +1402,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -1457,7 +1457,7 @@ extension PricingClientTypes.Service: Swift.Codable {
 
 extension PricingClientTypes {
     /// The metadata for a service, such as the service code and available attribute names.
-    public struct Service: Swift.Equatable {
+    public struct Service {
         /// The attributes that are available for this service.
         public var attributeNames: [Swift.String]?
         /// The code for the Amazon Web Services service.
@@ -1515,7 +1515,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 

@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -99,7 +99,7 @@ extension AddFacetToObjectInput {
     }
 }
 
-public struct AddFacetToObjectInput: Swift.Equatable {
+public struct AddFacetToObjectInput {
     /// The Amazon Resource Name (ARN) that is associated with the [Directory] where the object resides. For more information, see [arns].
     /// This member is required.
     public var directoryArn: Swift.String?
@@ -126,7 +126,7 @@ public struct AddFacetToObjectInput: Swift.Equatable {
     }
 }
 
-struct AddFacetToObjectInputBody: Swift.Equatable {
+struct AddFacetToObjectInputBody {
     let schemaFacet: CloudDirectoryClientTypes.SchemaFacet?
     let objectAttributeList: [CloudDirectoryClientTypes.AttributeKeyAndValue]?
     let objectReference: CloudDirectoryClientTypes.ObjectReference?
@@ -164,7 +164,7 @@ extension AddFacetToObjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AddFacetToObjectOutput: Swift.Equatable {
+public struct AddFacetToObjectOutput {
 
     public init() { }
 }
@@ -219,7 +219,7 @@ extension ApplySchemaInput {
     }
 }
 
-public struct ApplySchemaInput: Swift.Equatable {
+public struct ApplySchemaInput {
     /// The Amazon Resource Name (ARN) that is associated with the [Directory] into which the schema is copied. For more information, see [arns].
     /// This member is required.
     public var directoryArn: Swift.String?
@@ -237,7 +237,7 @@ public struct ApplySchemaInput: Swift.Equatable {
     }
 }
 
-struct ApplySchemaInputBody: Swift.Equatable {
+struct ApplySchemaInputBody {
     let publishedSchemaArn: Swift.String?
 }
 
@@ -267,7 +267,7 @@ extension ApplySchemaOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ApplySchemaOutput: Swift.Equatable {
+public struct ApplySchemaOutput {
     /// The applied schema ARN that is associated with the copied schema in the [Directory]. You can use this ARN to describe the schema information applied on this directory. For more information, see [arns].
     public var appliedSchemaArn: Swift.String?
     /// The ARN that is associated with the [Directory]. For more information, see [arns].
@@ -283,7 +283,7 @@ public struct ApplySchemaOutput: Swift.Equatable {
     }
 }
 
-struct ApplySchemaOutputBody: Swift.Equatable {
+struct ApplySchemaOutputBody {
     let appliedSchemaArn: Swift.String?
     let directoryArn: Swift.String?
 }
@@ -361,7 +361,7 @@ extension AttachObjectInput {
     }
 }
 
-public struct AttachObjectInput: Swift.Equatable {
+public struct AttachObjectInput {
     /// The child object reference to be attached to the object.
     /// This member is required.
     public var childReference: CloudDirectoryClientTypes.ObjectReference?
@@ -389,7 +389,7 @@ public struct AttachObjectInput: Swift.Equatable {
     }
 }
 
-struct AttachObjectInputBody: Swift.Equatable {
+struct AttachObjectInputBody {
     let parentReference: CloudDirectoryClientTypes.ObjectReference?
     let childReference: CloudDirectoryClientTypes.ObjectReference?
     let linkName: Swift.String?
@@ -425,7 +425,7 @@ extension AttachObjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AttachObjectOutput: Swift.Equatable {
+public struct AttachObjectOutput {
     /// The attached ObjectIdentifier, which is the child ObjectIdentifier.
     public var attachedObjectIdentifier: Swift.String?
 
@@ -437,7 +437,7 @@ public struct AttachObjectOutput: Swift.Equatable {
     }
 }
 
-struct AttachObjectOutputBody: Swift.Equatable {
+struct AttachObjectOutputBody {
     let attachedObjectIdentifier: Swift.String?
 }
 
@@ -509,7 +509,7 @@ extension AttachPolicyInput {
     }
 }
 
-public struct AttachPolicyInput: Swift.Equatable {
+public struct AttachPolicyInput {
     /// The Amazon Resource Name (ARN) that is associated with the [Directory] where both objects reside. For more information, see [arns].
     /// This member is required.
     public var directoryArn: Swift.String?
@@ -532,7 +532,7 @@ public struct AttachPolicyInput: Swift.Equatable {
     }
 }
 
-struct AttachPolicyInputBody: Swift.Equatable {
+struct AttachPolicyInputBody {
     let policyReference: CloudDirectoryClientTypes.ObjectReference?
     let objectReference: CloudDirectoryClientTypes.ObjectReference?
 }
@@ -557,7 +557,7 @@ extension AttachPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AttachPolicyOutput: Swift.Equatable {
+public struct AttachPolicyOutput {
 
     public init() { }
 }
@@ -616,7 +616,7 @@ extension AttachToIndexInput {
     }
 }
 
-public struct AttachToIndexInput: Swift.Equatable {
+public struct AttachToIndexInput {
     /// The Amazon Resource Name (ARN) of the directory where the object and index exist.
     /// This member is required.
     public var directoryArn: Swift.String?
@@ -639,7 +639,7 @@ public struct AttachToIndexInput: Swift.Equatable {
     }
 }
 
-struct AttachToIndexInputBody: Swift.Equatable {
+struct AttachToIndexInputBody {
     let indexReference: CloudDirectoryClientTypes.ObjectReference?
     let targetReference: CloudDirectoryClientTypes.ObjectReference?
 }
@@ -671,7 +671,7 @@ extension AttachToIndexOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AttachToIndexOutput: Swift.Equatable {
+public struct AttachToIndexOutput {
     /// The ObjectIdentifier of the object that was attached to the index.
     public var attachedObjectIdentifier: Swift.String?
 
@@ -683,7 +683,7 @@ public struct AttachToIndexOutput: Swift.Equatable {
     }
 }
 
-struct AttachToIndexOutputBody: Swift.Equatable {
+struct AttachToIndexOutputBody {
     let attachedObjectIdentifier: Swift.String?
 }
 
@@ -767,7 +767,7 @@ extension AttachTypedLinkInput {
     }
 }
 
-public struct AttachTypedLinkInput: Swift.Equatable {
+public struct AttachTypedLinkInput {
     /// A set of attributes that are associated with the typed link.
     /// This member is required.
     public var attributes: [CloudDirectoryClientTypes.AttributeNameAndValue]?
@@ -800,7 +800,7 @@ public struct AttachTypedLinkInput: Swift.Equatable {
     }
 }
 
-struct AttachTypedLinkInputBody: Swift.Equatable {
+struct AttachTypedLinkInputBody {
     let sourceObjectReference: CloudDirectoryClientTypes.ObjectReference?
     let targetObjectReference: CloudDirectoryClientTypes.ObjectReference?
     let typedLinkFacet: CloudDirectoryClientTypes.TypedLinkSchemaAndFacetName?
@@ -849,7 +849,7 @@ extension AttachTypedLinkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AttachTypedLinkOutput: Swift.Equatable {
+public struct AttachTypedLinkOutput {
     /// Returns a typed link specifier as output.
     public var typedLinkSpecifier: CloudDirectoryClientTypes.TypedLinkSpecifier?
 
@@ -861,7 +861,7 @@ public struct AttachTypedLinkOutput: Swift.Equatable {
     }
 }
 
-struct AttachTypedLinkOutputBody: Swift.Equatable {
+struct AttachTypedLinkOutputBody {
     let typedLinkSpecifier: CloudDirectoryClientTypes.TypedLinkSpecifier?
 }
 
@@ -930,7 +930,7 @@ extension CloudDirectoryClientTypes.AttributeKey: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// A unique identifier for an attribute.
-    public struct AttributeKey: Swift.Equatable {
+    public struct AttributeKey {
         /// The name of the facet that the attribute exists within.
         /// This member is required.
         public var facetName: Swift.String?
@@ -982,7 +982,7 @@ extension CloudDirectoryClientTypes.AttributeKeyAndValue: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// The combination of an attribute key and an attribute value.
-    public struct AttributeKeyAndValue: Swift.Equatable {
+    public struct AttributeKeyAndValue {
         /// The key of the attribute.
         /// This member is required.
         public var key: CloudDirectoryClientTypes.AttributeKey?
@@ -1029,7 +1029,7 @@ extension CloudDirectoryClientTypes.AttributeNameAndValue: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Identifies the attribute name and value for a typed link.
-    public struct AttributeNameAndValue: Swift.Equatable {
+    public struct AttributeNameAndValue {
         /// The attribute name of the typed link.
         /// This member is required.
         public var attributeName: Swift.String?
@@ -1094,7 +1094,7 @@ extension CloudDirectoryClientTypes.BatchAddFacetToObject: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Represents the output of a batch add facet to object operation.
-    public struct BatchAddFacetToObject: Swift.Equatable {
+    public struct BatchAddFacetToObject {
         /// The attributes to set on the object.
         /// This member is required.
         public var objectAttributeList: [CloudDirectoryClientTypes.AttributeKeyAndValue]?
@@ -1132,7 +1132,7 @@ extension CloudDirectoryClientTypes.BatchAddFacetToObjectResponse: Swift.Codable
 
 extension CloudDirectoryClientTypes {
     /// The result of a batch add facet to object operation.
-    public struct BatchAddFacetToObjectResponse: Swift.Equatable {
+    public struct BatchAddFacetToObjectResponse {
 
         public init() { }
     }
@@ -1172,7 +1172,7 @@ extension CloudDirectoryClientTypes.BatchAttachObject: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Represents the output of an [AttachObject] operation.
-    public struct BatchAttachObject: Swift.Equatable {
+    public struct BatchAttachObject {
         /// The child object reference that is to be attached to the object.
         /// This member is required.
         public var childReference: CloudDirectoryClientTypes.ObjectReference?
@@ -1218,7 +1218,7 @@ extension CloudDirectoryClientTypes.BatchAttachObjectResponse: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Represents the output batch [AttachObject] response operation.
-    public struct BatchAttachObjectResponse: Swift.Equatable {
+    public struct BatchAttachObjectResponse {
         /// The ObjectIdentifier of the object that has been attached.
         public var attachedObjectIdentifier: Swift.String?
 
@@ -1259,7 +1259,7 @@ extension CloudDirectoryClientTypes.BatchAttachPolicy: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Attaches a policy object to a regular object inside a [BatchRead] operation. For more information, see [AttachPolicy] and [BatchReadRequest$Operations].
-    public struct BatchAttachPolicy: Swift.Equatable {
+    public struct BatchAttachPolicy {
         /// The reference that identifies the object to which the policy will be attached.
         /// This member is required.
         public var objectReference: CloudDirectoryClientTypes.ObjectReference?
@@ -1292,7 +1292,7 @@ extension CloudDirectoryClientTypes.BatchAttachPolicyResponse: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Represents the output of an [AttachPolicy] response operation.
-    public struct BatchAttachPolicyResponse: Swift.Equatable {
+    public struct BatchAttachPolicyResponse {
 
         public init() { }
     }
@@ -1326,7 +1326,7 @@ extension CloudDirectoryClientTypes.BatchAttachToIndex: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Attaches the specified object to the specified index inside a [BatchRead] operation. For more information, see [AttachToIndex] and [BatchReadRequest$Operations].
-    public struct BatchAttachToIndex: Swift.Equatable {
+    public struct BatchAttachToIndex {
         /// A reference to the index that you are attaching the object to.
         /// This member is required.
         public var indexReference: CloudDirectoryClientTypes.ObjectReference?
@@ -1367,7 +1367,7 @@ extension CloudDirectoryClientTypes.BatchAttachToIndexResponse: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Represents the output of a [AttachToIndex] response operation.
-    public struct BatchAttachToIndexResponse: Swift.Equatable {
+    public struct BatchAttachToIndexResponse {
         /// The ObjectIdentifier of the object that was attached to the index.
         public var attachedObjectIdentifier: Swift.String?
 
@@ -1432,7 +1432,7 @@ extension CloudDirectoryClientTypes.BatchAttachTypedLink: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Attaches a typed link to a specified source and target object inside a [BatchRead] operation. For more information, see [AttachTypedLink] and [BatchReadRequest$Operations].
-    public struct BatchAttachTypedLink: Swift.Equatable {
+    public struct BatchAttachTypedLink {
         /// A set of attributes that are associated with the typed link.
         /// This member is required.
         public var attributes: [CloudDirectoryClientTypes.AttributeNameAndValue]?
@@ -1483,7 +1483,7 @@ extension CloudDirectoryClientTypes.BatchAttachTypedLinkResponse: Swift.Codable 
 
 extension CloudDirectoryClientTypes {
     /// Represents the output of a [AttachTypedLink] response operation.
-    public struct BatchAttachTypedLinkResponse: Swift.Equatable {
+    public struct BatchAttachTypedLinkResponse {
         /// Returns a typed link specifier as output.
         public var typedLinkSpecifier: CloudDirectoryClientTypes.TypedLinkSpecifier?
 
@@ -1554,7 +1554,7 @@ extension CloudDirectoryClientTypes.BatchCreateIndex: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Creates an index object inside of a [BatchRead] operation. For more information, see [CreateIndex] and [BatchReadRequest$Operations].
-    public struct BatchCreateIndex: Swift.Equatable {
+    public struct BatchCreateIndex {
         /// The batch reference name. See [Transaction Support](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/transaction_support.html) for more information.
         public var batchReferenceName: Swift.String?
         /// Indicates whether the attribute that is being indexed has unique values or not.
@@ -1607,7 +1607,7 @@ extension CloudDirectoryClientTypes.BatchCreateIndexResponse: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Represents the output of a [CreateIndex] response operation.
-    public struct BatchCreateIndexResponse: Swift.Equatable {
+    public struct BatchCreateIndexResponse {
         /// The ObjectIdentifier of the index created by this operation.
         public var objectIdentifier: Swift.String?
 
@@ -1690,7 +1690,7 @@ extension CloudDirectoryClientTypes.BatchCreateObject: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Represents the output of a [CreateObject] operation.
-    public struct BatchCreateObject: Swift.Equatable {
+    public struct BatchCreateObject {
         /// The batch reference name. See [Transaction Support](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/transaction_support.html) for more information.
         public var batchReferenceName: Swift.String?
         /// The name of the link.
@@ -1743,7 +1743,7 @@ extension CloudDirectoryClientTypes.BatchCreateObjectResponse: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Represents the output of a [CreateObject] response operation.
-    public struct BatchCreateObjectResponse: Swift.Equatable {
+    public struct BatchCreateObjectResponse {
         /// The ID that is associated with the object.
         public var objectIdentifier: Swift.String?
 
@@ -1778,7 +1778,7 @@ extension CloudDirectoryClientTypes.BatchDeleteObject: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Represents the output of a [DeleteObject] operation.
-    public struct BatchDeleteObject: Swift.Equatable {
+    public struct BatchDeleteObject {
         /// The reference that identifies the object.
         /// This member is required.
         public var objectReference: CloudDirectoryClientTypes.ObjectReference?
@@ -1806,7 +1806,7 @@ extension CloudDirectoryClientTypes.BatchDeleteObjectResponse: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Represents the output of a [DeleteObject] response operation.
-    public struct BatchDeleteObjectResponse: Swift.Equatable {
+    public struct BatchDeleteObjectResponse {
 
         public init() { }
     }
@@ -1840,7 +1840,7 @@ extension CloudDirectoryClientTypes.BatchDetachFromIndex: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Detaches the specified object from the specified index inside a [BatchRead] operation. For more information, see [DetachFromIndex] and [BatchReadRequest$Operations].
-    public struct BatchDetachFromIndex: Swift.Equatable {
+    public struct BatchDetachFromIndex {
         /// A reference to the index object.
         /// This member is required.
         public var indexReference: CloudDirectoryClientTypes.ObjectReference?
@@ -1881,7 +1881,7 @@ extension CloudDirectoryClientTypes.BatchDetachFromIndexResponse: Swift.Codable 
 
 extension CloudDirectoryClientTypes {
     /// Represents the output of a [DetachFromIndex] response operation.
-    public struct BatchDetachFromIndexResponse: Swift.Equatable {
+    public struct BatchDetachFromIndexResponse {
         /// The ObjectIdentifier of the object that was detached from the index.
         public var detachedObjectIdentifier: Swift.String?
 
@@ -1928,7 +1928,7 @@ extension CloudDirectoryClientTypes.BatchDetachObject: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Represents the output of a [DetachObject] operation.
-    public struct BatchDetachObject: Swift.Equatable {
+    public struct BatchDetachObject {
         /// The batch reference name. See [Transaction Support](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/transaction_support.html) for more information.
         public var batchReferenceName: Swift.String?
         /// The name of the link.
@@ -1973,7 +1973,7 @@ extension CloudDirectoryClientTypes.BatchDetachObjectResponse: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Represents the output of a [DetachObject] response operation.
-    public struct BatchDetachObjectResponse: Swift.Equatable {
+    public struct BatchDetachObjectResponse {
         /// The ObjectIdentifier of the detached object.
         public var detachedObjectIdentifier: Swift.String?
 
@@ -2014,7 +2014,7 @@ extension CloudDirectoryClientTypes.BatchDetachPolicy: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Detaches the specified policy from the specified directory inside a [BatchWrite] operation. For more information, see [DetachPolicy] and [BatchWriteRequest$Operations].
-    public struct BatchDetachPolicy: Swift.Equatable {
+    public struct BatchDetachPolicy {
         /// Reference that identifies the object whose policy object will be detached.
         /// This member is required.
         public var objectReference: CloudDirectoryClientTypes.ObjectReference?
@@ -2047,7 +2047,7 @@ extension CloudDirectoryClientTypes.BatchDetachPolicyResponse: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Represents the output of a [DetachPolicy] response operation.
-    public struct BatchDetachPolicyResponse: Swift.Equatable {
+    public struct BatchDetachPolicyResponse {
 
         public init() { }
     }
@@ -2075,7 +2075,7 @@ extension CloudDirectoryClientTypes.BatchDetachTypedLink: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Detaches a typed link from a specified source and target object inside a [BatchRead] operation. For more information, see [DetachTypedLink] and [BatchReadRequest$Operations].
-    public struct BatchDetachTypedLink: Swift.Equatable {
+    public struct BatchDetachTypedLink {
         /// Used to accept a typed link specifier as input.
         /// This member is required.
         public var typedLinkSpecifier: CloudDirectoryClientTypes.TypedLinkSpecifier?
@@ -2103,7 +2103,7 @@ extension CloudDirectoryClientTypes.BatchDetachTypedLinkResponse: Swift.Codable 
 
 extension CloudDirectoryClientTypes {
     /// Represents the output of a [DetachTypedLink] response operation.
-    public struct BatchDetachTypedLinkResponse: Swift.Equatable {
+    public struct BatchDetachTypedLinkResponse {
 
         public init() { }
     }
@@ -2149,7 +2149,7 @@ extension CloudDirectoryClientTypes.BatchGetLinkAttributes: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Retrieves attributes that are associated with a typed link inside a [BatchRead] operation. For more information, see [GetLinkAttributes] and [BatchReadRequest$Operations].
-    public struct BatchGetLinkAttributes: Swift.Equatable {
+    public struct BatchGetLinkAttributes {
         /// A list of attribute names whose values will be retrieved.
         /// This member is required.
         public var attributeNames: [Swift.String]?
@@ -2202,7 +2202,7 @@ extension CloudDirectoryClientTypes.BatchGetLinkAttributesResponse: Swift.Codabl
 
 extension CloudDirectoryClientTypes {
     /// Represents the output of a [GetLinkAttributes] response operation.
-    public struct BatchGetLinkAttributesResponse: Swift.Equatable {
+    public struct BatchGetLinkAttributesResponse {
         /// The attributes that are associated with the typed link.
         public var attributes: [CloudDirectoryClientTypes.AttributeKeyAndValue]?
 
@@ -2261,7 +2261,7 @@ extension CloudDirectoryClientTypes.BatchGetObjectAttributes: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Retrieves attributes within a facet that are associated with an object inside an [BatchRead] operation. For more information, see [GetObjectAttributes] and [BatchReadRequest$Operations].
-    public struct BatchGetObjectAttributes: Swift.Equatable {
+    public struct BatchGetObjectAttributes {
         /// List of attribute names whose values will be retrieved.
         /// This member is required.
         public var attributeNames: [Swift.String]?
@@ -2319,7 +2319,7 @@ extension CloudDirectoryClientTypes.BatchGetObjectAttributesResponse: Swift.Coda
 
 extension CloudDirectoryClientTypes {
     /// Represents the output of a [GetObjectAttributes] response operation.
-    public struct BatchGetObjectAttributesResponse: Swift.Equatable {
+    public struct BatchGetObjectAttributesResponse {
         /// The attribute values that are associated with an object.
         public var attributes: [CloudDirectoryClientTypes.AttributeKeyAndValue]?
 
@@ -2354,7 +2354,7 @@ extension CloudDirectoryClientTypes.BatchGetObjectInformation: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Retrieves metadata about an object inside a [BatchRead] operation. For more information, see [GetObjectInformation] and [BatchReadRequest$Operations].
-    public struct BatchGetObjectInformation: Swift.Equatable {
+    public struct BatchGetObjectInformation {
         /// A reference to the object.
         /// This member is required.
         public var objectReference: CloudDirectoryClientTypes.ObjectReference?
@@ -2408,7 +2408,7 @@ extension CloudDirectoryClientTypes.BatchGetObjectInformationResponse: Swift.Cod
 
 extension CloudDirectoryClientTypes {
     /// Represents the output of a [GetObjectInformation] response operation.
-    public struct BatchGetObjectInformationResponse: Swift.Equatable {
+    public struct BatchGetObjectInformationResponse {
         /// The ObjectIdentifier of the specified object.
         public var objectIdentifier: Swift.String?
         /// The facets attached to the specified object.
@@ -2459,7 +2459,7 @@ extension CloudDirectoryClientTypes.BatchListAttachedIndices: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Lists indices attached to an object inside a [BatchRead] operation. For more information, see [ListAttachedIndices] and [BatchReadRequest$Operations].
-    public struct BatchListAttachedIndices: Swift.Equatable {
+    public struct BatchListAttachedIndices {
         /// The maximum number of results to retrieve.
         public var maxResults: Swift.Int?
         /// The pagination token.
@@ -2521,7 +2521,7 @@ extension CloudDirectoryClientTypes.BatchListAttachedIndicesResponse: Swift.Coda
 
 extension CloudDirectoryClientTypes {
     /// Represents the output of a [ListAttachedIndices] response operation.
-    public struct BatchListAttachedIndicesResponse: Swift.Equatable {
+    public struct BatchListAttachedIndicesResponse {
         /// The indices attached to the specified object.
         public var indexAttachments: [CloudDirectoryClientTypes.IndexAttachment]?
         /// The pagination token.
@@ -2596,7 +2596,7 @@ extension CloudDirectoryClientTypes.BatchListIncomingTypedLinks: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Returns a paginated list of all the incoming [TypedLinkSpecifier] information for an object inside a [BatchRead] operation. For more information, see [ListIncomingTypedLinks] and [BatchReadRequest$Operations].
-    public struct BatchListIncomingTypedLinks: Swift.Equatable {
+    public struct BatchListIncomingTypedLinks {
         /// Provides range filters for multiple attributes. When providing ranges to typed link selection, any inexact ranges must be specified at the end. Any attributes that do not have a range specified are presumed to match the entire range.
         public var filterAttributeRanges: [CloudDirectoryClientTypes.TypedLinkAttributeRange]?
         /// Filters are interpreted in the order of the attributes on the typed link facet, not the order in which they are supplied to any API calls.
@@ -2666,7 +2666,7 @@ extension CloudDirectoryClientTypes.BatchListIncomingTypedLinksResponse: Swift.C
 
 extension CloudDirectoryClientTypes {
     /// Represents the output of a [ListIncomingTypedLinks] response operation.
-    public struct BatchListIncomingTypedLinksResponse: Swift.Equatable {
+    public struct BatchListIncomingTypedLinksResponse {
         /// Returns one or more typed link specifiers as output.
         public var linkSpecifiers: [CloudDirectoryClientTypes.TypedLinkSpecifier]?
         /// The pagination token.
@@ -2735,7 +2735,7 @@ extension CloudDirectoryClientTypes.BatchListIndex: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Lists objects attached to the specified index inside a [BatchRead] operation. For more information, see [ListIndex] and [BatchReadRequest$Operations].
-    public struct BatchListIndex: Swift.Equatable {
+    public struct BatchListIndex {
         /// The reference to the index to list.
         /// This member is required.
         public var indexReference: CloudDirectoryClientTypes.ObjectReference?
@@ -2801,7 +2801,7 @@ extension CloudDirectoryClientTypes.BatchListIndexResponse: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Represents the output of a [ListIndex] response operation.
-    public struct BatchListIndexResponse: Swift.Equatable {
+    public struct BatchListIndexResponse {
         /// The objects and indexed values attached to the index.
         public var indexAttachments: [CloudDirectoryClientTypes.IndexAttachment]?
         /// The pagination token.
@@ -2858,7 +2858,7 @@ extension CloudDirectoryClientTypes.BatchListObjectAttributes: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Represents the output of a [ListObjectAttributes] operation.
-    public struct BatchListObjectAttributes: Swift.Equatable {
+    public struct BatchListObjectAttributes {
         /// Used to filter the list of object attributes that are associated with a certain facet.
         public var facetFilter: CloudDirectoryClientTypes.SchemaFacet?
         /// The maximum number of items to be retrieved in a single call. This is an approximate number.
@@ -2924,7 +2924,7 @@ extension CloudDirectoryClientTypes.BatchListObjectAttributesResponse: Swift.Cod
 
 extension CloudDirectoryClientTypes {
     /// Represents the output of a [ListObjectAttributes] response operation.
-    public struct BatchListObjectAttributesResponse: Swift.Equatable {
+    public struct BatchListObjectAttributesResponse {
         /// The attributes map that is associated with the object. AttributeArn is the key; attribute value is the value.
         public var attributes: [CloudDirectoryClientTypes.AttributeKeyAndValue]?
         /// The pagination token.
@@ -2975,7 +2975,7 @@ extension CloudDirectoryClientTypes.BatchListObjectChildren: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Represents the output of a [ListObjectChildren] operation.
-    public struct BatchListObjectChildren: Swift.Equatable {
+    public struct BatchListObjectChildren {
         /// Maximum number of items to be retrieved in a single call. This is an approximate number.
         public var maxResults: Swift.Int?
         /// The pagination token.
@@ -3037,7 +3037,7 @@ extension CloudDirectoryClientTypes.BatchListObjectChildrenResponse: Swift.Codab
 
 extension CloudDirectoryClientTypes {
     /// Represents the output of a [ListObjectChildren] response operation.
-    public struct BatchListObjectChildrenResponse: Swift.Equatable {
+    public struct BatchListObjectChildrenResponse {
         /// The children structure, which is a map with the key as the LinkName and ObjectIdentifier as the value.
         public var children: [Swift.String:Swift.String]?
         /// The pagination token.
@@ -3088,7 +3088,7 @@ extension CloudDirectoryClientTypes.BatchListObjectParentPaths: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Retrieves all available parent paths for any object type such as node, leaf node, policy node, and index node objects inside a [BatchRead] operation. For more information, see [ListObjectParentPaths] and [BatchReadRequest$Operations].
-    public struct BatchListObjectParentPaths: Swift.Equatable {
+    public struct BatchListObjectParentPaths {
         /// The maximum number of results to retrieve.
         public var maxResults: Swift.Int?
         /// The pagination token.
@@ -3150,7 +3150,7 @@ extension CloudDirectoryClientTypes.BatchListObjectParentPathsResponse: Swift.Co
 
 extension CloudDirectoryClientTypes {
     /// Represents the output of a [ListObjectParentPaths] response operation.
-    public struct BatchListObjectParentPathsResponse: Swift.Equatable {
+    public struct BatchListObjectParentPathsResponse {
         /// The pagination token.
         public var nextToken: Swift.String?
         /// Returns the path to the ObjectIdentifiers that are associated with the directory.
@@ -3201,7 +3201,7 @@ extension CloudDirectoryClientTypes.BatchListObjectParents: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Lists parent objects that are associated with a given object in pagination fashion.
-    public struct BatchListObjectParents: Swift.Equatable {
+    public struct BatchListObjectParents {
         /// The maximum number of items to be retrieved in a single call. This is an approximate number.
         public var maxResults: Swift.Int?
         /// The pagination token.
@@ -3263,7 +3263,7 @@ extension CloudDirectoryClientTypes.BatchListObjectParentsResponse: Swift.Codabl
 
 extension CloudDirectoryClientTypes {
     /// Represents the output of a [ListObjectParents] response operation.
-    public struct BatchListObjectParentsResponse: Swift.Equatable {
+    public struct BatchListObjectParentsResponse {
         /// The pagination token.
         public var nextToken: Swift.String?
         /// Returns a list of parent reference and LinkName Tuples.
@@ -3314,7 +3314,7 @@ extension CloudDirectoryClientTypes.BatchListObjectPolicies: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Returns policies attached to an object in pagination fashion inside a [BatchRead] operation. For more information, see [ListObjectPolicies] and [BatchReadRequest$Operations].
-    public struct BatchListObjectPolicies: Swift.Equatable {
+    public struct BatchListObjectPolicies {
         /// The maximum number of results to retrieve.
         public var maxResults: Swift.Int?
         /// The pagination token.
@@ -3376,7 +3376,7 @@ extension CloudDirectoryClientTypes.BatchListObjectPoliciesResponse: Swift.Codab
 
 extension CloudDirectoryClientTypes {
     /// Represents the output of a [ListObjectPolicies] response operation.
-    public struct BatchListObjectPoliciesResponse: Swift.Equatable {
+    public struct BatchListObjectPoliciesResponse {
         /// A list of policy ObjectIdentifiers, that are attached to the object.
         public var attachedPolicyIds: [Swift.String]?
         /// The pagination token.
@@ -3451,7 +3451,7 @@ extension CloudDirectoryClientTypes.BatchListOutgoingTypedLinks: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Returns a paginated list of all the outgoing [TypedLinkSpecifier] information for an object inside a [BatchRead] operation. For more information, see [ListOutgoingTypedLinks] and [BatchReadRequest$Operations].
-    public struct BatchListOutgoingTypedLinks: Swift.Equatable {
+    public struct BatchListOutgoingTypedLinks {
         /// Provides range filters for multiple attributes. When providing ranges to typed link selection, any inexact ranges must be specified at the end. Any attributes that do not have a range specified are presumed to match the entire range.
         public var filterAttributeRanges: [CloudDirectoryClientTypes.TypedLinkAttributeRange]?
         /// Filters are interpreted in the order of the attributes defined on the typed link facet, not the order they are supplied to any API calls.
@@ -3521,7 +3521,7 @@ extension CloudDirectoryClientTypes.BatchListOutgoingTypedLinksResponse: Swift.C
 
 extension CloudDirectoryClientTypes {
     /// Represents the output of a [ListOutgoingTypedLinks] response operation.
-    public struct BatchListOutgoingTypedLinksResponse: Swift.Equatable {
+    public struct BatchListOutgoingTypedLinksResponse {
         /// The pagination token.
         public var nextToken: Swift.String?
         /// Returns a typed link specifier as output.
@@ -3572,7 +3572,7 @@ extension CloudDirectoryClientTypes.BatchListPolicyAttachments: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Returns all of the ObjectIdentifiers to which a given policy is attached inside a [BatchRead] operation. For more information, see [ListPolicyAttachments] and [BatchReadRequest$Operations].
-    public struct BatchListPolicyAttachments: Swift.Equatable {
+    public struct BatchListPolicyAttachments {
         /// The maximum number of results to retrieve.
         public var maxResults: Swift.Int?
         /// The pagination token.
@@ -3634,7 +3634,7 @@ extension CloudDirectoryClientTypes.BatchListPolicyAttachmentsResponse: Swift.Co
 
 extension CloudDirectoryClientTypes {
     /// Represents the output of a [ListPolicyAttachments] response operation.
-    public struct BatchListPolicyAttachmentsResponse: Swift.Equatable {
+    public struct BatchListPolicyAttachmentsResponse {
         /// The pagination token.
         public var nextToken: Swift.String?
         /// A list of ObjectIdentifiers to which the policy is attached.
@@ -3685,7 +3685,7 @@ extension CloudDirectoryClientTypes.BatchLookupPolicy: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Lists all policies from the root of the Directory to the object specified inside a [BatchRead] operation. For more information, see [LookupPolicy] and [BatchReadRequest$Operations].
-    public struct BatchLookupPolicy: Swift.Equatable {
+    public struct BatchLookupPolicy {
         /// The maximum number of results to retrieve.
         public var maxResults: Swift.Int?
         /// The pagination token.
@@ -3747,7 +3747,7 @@ extension CloudDirectoryClientTypes.BatchLookupPolicyResponse: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Represents the output of a [LookupPolicy] response operation.
-    public struct BatchLookupPolicyResponse: Swift.Equatable {
+    public struct BatchLookupPolicyResponse {
         /// The pagination token.
         public var nextToken: Swift.String?
         /// Provides list of path to policies. Policies contain PolicyId, ObjectIdentifier, and PolicyType. For more information, see [Policies](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directory.html#key_concepts_policies).
@@ -3792,7 +3792,7 @@ extension CloudDirectoryClientTypes.BatchReadException: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// The batch read exception structure, which contains the exception type and message.
-    public struct BatchReadException: Swift.Equatable {
+    public struct BatchReadException {
         /// An exception message that is associated with the failure.
         public var message: Swift.String?
         /// A type of exception, such as InvalidArnException.
@@ -3912,7 +3912,7 @@ extension BatchReadInput {
     }
 }
 
-public struct BatchReadInput: Swift.Equatable {
+public struct BatchReadInput {
     /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
     public var consistencyLevel: CloudDirectoryClientTypes.ConsistencyLevel?
     /// The Amazon Resource Name (ARN) that is associated with the [Directory]. For more information, see [arns].
@@ -3934,7 +3934,7 @@ public struct BatchReadInput: Swift.Equatable {
     }
 }
 
-struct BatchReadInputBody: Swift.Equatable {
+struct BatchReadInputBody {
     let operations: [CloudDirectoryClientTypes.BatchReadOperation]?
 }
 
@@ -4058,7 +4058,7 @@ extension CloudDirectoryClientTypes.BatchReadOperation: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Represents the output of a BatchRead operation.
-    public struct BatchReadOperation: Swift.Equatable {
+    public struct BatchReadOperation {
         /// Retrieves attributes that are associated with a typed link.
         public var getLinkAttributes: CloudDirectoryClientTypes.BatchGetLinkAttributes?
         /// Retrieves attributes within a facet that are associated with an object.
@@ -4151,7 +4151,7 @@ extension CloudDirectoryClientTypes.BatchReadOperationResponse: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Represents the output of a BatchRead response operation.
-    public struct BatchReadOperationResponse: Swift.Equatable {
+    public struct BatchReadOperationResponse {
         /// Identifies which operation in a batch has failed.
         public var exceptionResponse: CloudDirectoryClientTypes.BatchReadException?
         /// Identifies which operation in a batch has succeeded.
@@ -4181,7 +4181,7 @@ extension BatchReadOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchReadOutput: Swift.Equatable {
+public struct BatchReadOutput {
     /// A list of all the responses for each batch read.
     public var responses: [CloudDirectoryClientTypes.BatchReadOperationResponse]?
 
@@ -4193,7 +4193,7 @@ public struct BatchReadOutput: Swift.Equatable {
     }
 }
 
-struct BatchReadOutputBody: Swift.Equatable {
+struct BatchReadOutputBody {
     let responses: [CloudDirectoryClientTypes.BatchReadOperationResponse]?
 }
 
@@ -4334,7 +4334,7 @@ extension CloudDirectoryClientTypes.BatchReadSuccessfulResponse: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Represents the output of a BatchRead success response operation.
-    public struct BatchReadSuccessfulResponse: Swift.Equatable {
+    public struct BatchReadSuccessfulResponse {
         /// The list of attributes to retrieve from the typed link.
         public var getLinkAttributes: CloudDirectoryClientTypes.BatchGetLinkAttributesResponse?
         /// Retrieves attributes within a facet that are associated with an object.
@@ -4427,7 +4427,7 @@ extension CloudDirectoryClientTypes.BatchRemoveFacetFromObject: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// A batch operation to remove a facet from an object.
-    public struct BatchRemoveFacetFromObject: Swift.Equatable {
+    public struct BatchRemoveFacetFromObject {
         /// A reference to the object whose facet will be removed.
         /// This member is required.
         public var objectReference: CloudDirectoryClientTypes.ObjectReference?
@@ -4460,7 +4460,7 @@ extension CloudDirectoryClientTypes.BatchRemoveFacetFromObjectResponse: Swift.Co
 
 extension CloudDirectoryClientTypes {
     /// An empty result that represents success.
-    public struct BatchRemoveFacetFromObjectResponse: Swift.Equatable {
+    public struct BatchRemoveFacetFromObjectResponse {
 
         public init() { }
     }
@@ -4506,7 +4506,7 @@ extension CloudDirectoryClientTypes.BatchUpdateLinkAttributes: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Updates a given typed link’s attributes inside a [BatchRead] operation. Attributes to be updated must not contribute to the typed link’s identity, as defined by its IdentityAttributeOrder. For more information, see [UpdateLinkAttributes] and [BatchReadRequest$Operations].
-    public struct BatchUpdateLinkAttributes: Swift.Equatable {
+    public struct BatchUpdateLinkAttributes {
         /// The attributes update structure.
         /// This member is required.
         public var attributeUpdates: [CloudDirectoryClientTypes.LinkAttributeUpdate]?
@@ -4539,7 +4539,7 @@ extension CloudDirectoryClientTypes.BatchUpdateLinkAttributesResponse: Swift.Cod
 
 extension CloudDirectoryClientTypes {
     /// Represents the output of a [UpdateLinkAttributes] response operation.
-    public struct BatchUpdateLinkAttributesResponse: Swift.Equatable {
+    public struct BatchUpdateLinkAttributesResponse {
 
         public init() { }
     }
@@ -4585,7 +4585,7 @@ extension CloudDirectoryClientTypes.BatchUpdateObjectAttributes: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Represents the output of a BatchUpdate operation.
-    public struct BatchUpdateObjectAttributes: Swift.Equatable {
+    public struct BatchUpdateObjectAttributes {
         /// Attributes update structure.
         /// This member is required.
         public var attributeUpdates: [CloudDirectoryClientTypes.ObjectAttributeUpdate]?
@@ -4626,7 +4626,7 @@ extension CloudDirectoryClientTypes.BatchUpdateObjectAttributesResponse: Swift.C
 
 extension CloudDirectoryClientTypes {
     /// Represents the output of a BatchUpdate response operation.
-    public struct BatchUpdateObjectAttributesResponse: Swift.Equatable {
+    public struct BatchUpdateObjectAttributesResponse {
         /// ID that is associated with the object.
         public var objectIdentifier: Swift.String?
 
@@ -4689,7 +4689,7 @@ public struct BatchWriteException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct BatchWriteExceptionBody: Swift.Equatable {
+struct BatchWriteExceptionBody {
     let index: Swift.Int
     let type: CloudDirectoryClientTypes.BatchWriteExceptionType?
     let message: Swift.String?
@@ -4827,7 +4827,7 @@ extension BatchWriteInput {
     }
 }
 
-public struct BatchWriteInput: Swift.Equatable {
+public struct BatchWriteInput {
     /// The Amazon Resource Name (ARN) that is associated with the [Directory]. For more information, see [arns].
     /// This member is required.
     public var directoryArn: Swift.String?
@@ -4845,7 +4845,7 @@ public struct BatchWriteInput: Swift.Equatable {
     }
 }
 
-struct BatchWriteInputBody: Swift.Equatable {
+struct BatchWriteInputBody {
     let operations: [CloudDirectoryClientTypes.BatchWriteOperation]?
 }
 
@@ -4975,7 +4975,7 @@ extension CloudDirectoryClientTypes.BatchWriteOperation: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Represents the output of a BatchWrite operation.
-    public struct BatchWriteOperation: Swift.Equatable {
+    public struct BatchWriteOperation {
         /// A batch operation that adds a facet to an object.
         public var addFacetToObject: CloudDirectoryClientTypes.BatchAddFacetToObject?
         /// Attaches an object to a [Directory].
@@ -5150,7 +5150,7 @@ extension CloudDirectoryClientTypes.BatchWriteOperationResponse: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Represents the output of a BatchWrite response operation.
-    public struct BatchWriteOperationResponse: Swift.Equatable {
+    public struct BatchWriteOperationResponse {
         /// The result of an add facet to object batch operation.
         public var addFacetToObject: CloudDirectoryClientTypes.BatchAddFacetToObjectResponse?
         /// Attaches an object to a [Directory].
@@ -5232,7 +5232,7 @@ extension BatchWriteOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchWriteOutput: Swift.Equatable {
+public struct BatchWriteOutput {
     /// A list of all the responses for each batch write.
     public var responses: [CloudDirectoryClientTypes.BatchWriteOperationResponse]?
 
@@ -5244,7 +5244,7 @@ public struct BatchWriteOutput: Swift.Equatable {
     }
 }
 
-struct BatchWriteOutputBody: Swift.Equatable {
+struct BatchWriteOutputBody {
     let responses: [CloudDirectoryClientTypes.BatchWriteOperationResponse]?
 }
 
@@ -5326,7 +5326,7 @@ public struct CannotListParentOfRootException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct CannotListParentOfRootExceptionBody: Swift.Equatable {
+struct CannotListParentOfRootExceptionBody {
     let message: Swift.String?
 }
 
@@ -5407,7 +5407,7 @@ extension CreateDirectoryInput {
     }
 }
 
-public struct CreateDirectoryInput: Swift.Equatable {
+public struct CreateDirectoryInput {
     /// The name of the [Directory]. Should be unique per account, per region.
     /// This member is required.
     public var name: Swift.String?
@@ -5425,7 +5425,7 @@ public struct CreateDirectoryInput: Swift.Equatable {
     }
 }
 
-struct CreateDirectoryInputBody: Swift.Equatable {
+struct CreateDirectoryInputBody {
     let name: Swift.String?
 }
 
@@ -5459,7 +5459,7 @@ extension CreateDirectoryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDirectoryOutput: Swift.Equatable {
+public struct CreateDirectoryOutput {
     /// The ARN of the published schema in the [Directory]. Once a published schema is copied into the directory, it has its own ARN, which is referred to applied schema ARN. For more information, see [arns].
     /// This member is required.
     public var appliedSchemaArn: Swift.String?
@@ -5487,7 +5487,7 @@ public struct CreateDirectoryOutput: Swift.Equatable {
     }
 }
 
-struct CreateDirectoryOutputBody: Swift.Equatable {
+struct CreateDirectoryOutputBody {
     let directoryArn: Swift.String?
     let name: Swift.String?
     let objectIdentifier: Swift.String?
@@ -5579,7 +5579,7 @@ extension CreateFacetInput {
     }
 }
 
-public struct CreateFacetInput: Swift.Equatable {
+public struct CreateFacetInput {
     /// The attributes that are associated with the [Facet].
     public var attributes: [CloudDirectoryClientTypes.FacetAttribute]?
     /// There are two different styles that you can define on any given facet, Static and Dynamic. For static facets, all attributes must be defined in the schema. For dynamic facets, attributes can be defined during data plane operations.
@@ -5626,7 +5626,7 @@ public struct CreateFacetInput: Swift.Equatable {
     }
 }
 
-struct CreateFacetInputBody: Swift.Equatable {
+struct CreateFacetInputBody {
     let name: Swift.String?
     let attributes: [CloudDirectoryClientTypes.FacetAttribute]?
     let objectType: CloudDirectoryClientTypes.ObjectType?
@@ -5668,7 +5668,7 @@ extension CreateFacetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateFacetOutput: Swift.Equatable {
+public struct CreateFacetOutput {
 
     public init() { }
 }
@@ -5739,7 +5739,7 @@ extension CreateIndexInput {
     }
 }
 
-public struct CreateIndexInput: Swift.Equatable {
+public struct CreateIndexInput {
     /// The ARN of the directory where the index should be created.
     /// This member is required.
     public var directoryArn: Swift.String?
@@ -5770,7 +5770,7 @@ public struct CreateIndexInput: Swift.Equatable {
     }
 }
 
-struct CreateIndexInputBody: Swift.Equatable {
+struct CreateIndexInputBody {
     let orderedIndexedAttributeList: [CloudDirectoryClientTypes.AttributeKey]?
     let isUnique: Swift.Bool?
     let parentReference: CloudDirectoryClientTypes.ObjectReference?
@@ -5819,7 +5819,7 @@ extension CreateIndexOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateIndexOutput: Swift.Equatable {
+public struct CreateIndexOutput {
     /// The ObjectIdentifier of the index created by this operation.
     public var objectIdentifier: Swift.String?
 
@@ -5831,7 +5831,7 @@ public struct CreateIndexOutput: Swift.Equatable {
     }
 }
 
-struct CreateIndexOutputBody: Swift.Equatable {
+struct CreateIndexOutputBody {
     let objectIdentifier: Swift.String?
 }
 
@@ -5917,7 +5917,7 @@ extension CreateObjectInput {
     }
 }
 
-public struct CreateObjectInput: Swift.Equatable {
+public struct CreateObjectInput {
     /// The Amazon Resource Name (ARN) that is associated with the [Directory] in which the object will be created. For more information, see [arns].
     /// This member is required.
     public var directoryArn: Swift.String?
@@ -5947,7 +5947,7 @@ public struct CreateObjectInput: Swift.Equatable {
     }
 }
 
-struct CreateObjectInputBody: Swift.Equatable {
+struct CreateObjectInputBody {
     let schemaFacets: [CloudDirectoryClientTypes.SchemaFacet]?
     let objectAttributeList: [CloudDirectoryClientTypes.AttributeKeyAndValue]?
     let parentReference: CloudDirectoryClientTypes.ObjectReference?
@@ -6005,7 +6005,7 @@ extension CreateObjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateObjectOutput: Swift.Equatable {
+public struct CreateObjectOutput {
     /// The identifier that is associated with the object.
     public var objectIdentifier: Swift.String?
 
@@ -6017,7 +6017,7 @@ public struct CreateObjectOutput: Swift.Equatable {
     }
 }
 
-struct CreateObjectOutputBody: Swift.Equatable {
+struct CreateObjectOutputBody {
     let objectIdentifier: Swift.String?
 }
 
@@ -6074,7 +6074,7 @@ extension CreateSchemaInput {
     }
 }
 
-public struct CreateSchemaInput: Swift.Equatable {
+public struct CreateSchemaInput {
     /// The name that is associated with the schema. This is unique to each account and in each region.
     /// This member is required.
     public var name: Swift.String?
@@ -6087,7 +6087,7 @@ public struct CreateSchemaInput: Swift.Equatable {
     }
 }
 
-struct CreateSchemaInputBody: Swift.Equatable {
+struct CreateSchemaInputBody {
     let name: Swift.String?
 }
 
@@ -6115,7 +6115,7 @@ extension CreateSchemaOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSchemaOutput: Swift.Equatable {
+public struct CreateSchemaOutput {
     /// The Amazon Resource Name (ARN) that is associated with the schema. For more information, see [arns].
     public var schemaArn: Swift.String?
 
@@ -6127,7 +6127,7 @@ public struct CreateSchemaOutput: Swift.Equatable {
     }
 }
 
-struct CreateSchemaOutputBody: Swift.Equatable {
+struct CreateSchemaOutputBody {
     let schemaArn: Swift.String?
 }
 
@@ -6191,7 +6191,7 @@ extension CreateTypedLinkFacetInput {
     }
 }
 
-public struct CreateTypedLinkFacetInput: Swift.Equatable {
+public struct CreateTypedLinkFacetInput {
     /// [Facet] structure that is associated with the typed link facet.
     /// This member is required.
     public var facet: CloudDirectoryClientTypes.TypedLinkFacet?
@@ -6209,7 +6209,7 @@ public struct CreateTypedLinkFacetInput: Swift.Equatable {
     }
 }
 
-struct CreateTypedLinkFacetInputBody: Swift.Equatable {
+struct CreateTypedLinkFacetInputBody {
     let facet: CloudDirectoryClientTypes.TypedLinkFacet?
 }
 
@@ -6230,7 +6230,7 @@ extension CreateTypedLinkFacetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateTypedLinkFacetOutput: Swift.Equatable {
+public struct CreateTypedLinkFacetOutput {
 
     public init() { }
 }
@@ -6273,7 +6273,7 @@ extension DeleteDirectoryInput {
     }
 }
 
-public struct DeleteDirectoryInput: Swift.Equatable {
+public struct DeleteDirectoryInput {
     /// The ARN of the directory to delete.
     /// This member is required.
     public var directoryArn: Swift.String?
@@ -6286,7 +6286,7 @@ public struct DeleteDirectoryInput: Swift.Equatable {
     }
 }
 
-struct DeleteDirectoryInputBody: Swift.Equatable {
+struct DeleteDirectoryInputBody {
 }
 
 extension DeleteDirectoryInputBody: Swift.Decodable {
@@ -6307,7 +6307,7 @@ extension DeleteDirectoryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDirectoryOutput: Swift.Equatable {
+public struct DeleteDirectoryOutput {
     /// The ARN of the deleted directory.
     /// This member is required.
     public var directoryArn: Swift.String?
@@ -6320,7 +6320,7 @@ public struct DeleteDirectoryOutput: Swift.Equatable {
     }
 }
 
-struct DeleteDirectoryOutputBody: Swift.Equatable {
+struct DeleteDirectoryOutputBody {
     let directoryArn: Swift.String?
 }
 
@@ -6386,7 +6386,7 @@ extension DeleteFacetInput {
     }
 }
 
-public struct DeleteFacetInput: Swift.Equatable {
+public struct DeleteFacetInput {
     /// The name of the facet to delete.
     /// This member is required.
     public var name: Swift.String?
@@ -6404,7 +6404,7 @@ public struct DeleteFacetInput: Swift.Equatable {
     }
 }
 
-struct DeleteFacetInputBody: Swift.Equatable {
+struct DeleteFacetInputBody {
     let name: Swift.String?
 }
 
@@ -6425,7 +6425,7 @@ extension DeleteFacetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteFacetOutput: Swift.Equatable {
+public struct DeleteFacetOutput {
 
     public init() { }
 }
@@ -6480,7 +6480,7 @@ extension DeleteObjectInput {
     }
 }
 
-public struct DeleteObjectInput: Swift.Equatable {
+public struct DeleteObjectInput {
     /// The Amazon Resource Name (ARN) that is associated with the [Directory] where the object resides. For more information, see [arns].
     /// This member is required.
     public var directoryArn: Swift.String?
@@ -6498,7 +6498,7 @@ public struct DeleteObjectInput: Swift.Equatable {
     }
 }
 
-struct DeleteObjectInputBody: Swift.Equatable {
+struct DeleteObjectInputBody {
     let objectReference: CloudDirectoryClientTypes.ObjectReference?
 }
 
@@ -6519,7 +6519,7 @@ extension DeleteObjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteObjectOutput: Swift.Equatable {
+public struct DeleteObjectOutput {
 
     public init() { }
 }
@@ -6561,7 +6561,7 @@ extension DeleteSchemaInput {
     }
 }
 
-public struct DeleteSchemaInput: Swift.Equatable {
+public struct DeleteSchemaInput {
     /// The Amazon Resource Name (ARN) of the development schema. For more information, see [arns].
     /// This member is required.
     public var schemaArn: Swift.String?
@@ -6574,7 +6574,7 @@ public struct DeleteSchemaInput: Swift.Equatable {
     }
 }
 
-struct DeleteSchemaInputBody: Swift.Equatable {
+struct DeleteSchemaInputBody {
 }
 
 extension DeleteSchemaInputBody: Swift.Decodable {
@@ -6595,7 +6595,7 @@ extension DeleteSchemaOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSchemaOutput: Swift.Equatable {
+public struct DeleteSchemaOutput {
     /// The input ARN that is returned as part of the response. For more information, see [arns].
     public var schemaArn: Swift.String?
 
@@ -6607,7 +6607,7 @@ public struct DeleteSchemaOutput: Swift.Equatable {
     }
 }
 
-struct DeleteSchemaOutputBody: Swift.Equatable {
+struct DeleteSchemaOutputBody {
     let schemaArn: Swift.String?
 }
 
@@ -6672,7 +6672,7 @@ extension DeleteTypedLinkFacetInput {
     }
 }
 
-public struct DeleteTypedLinkFacetInput: Swift.Equatable {
+public struct DeleteTypedLinkFacetInput {
     /// The unique name of the typed link facet.
     /// This member is required.
     public var name: Swift.String?
@@ -6690,7 +6690,7 @@ public struct DeleteTypedLinkFacetInput: Swift.Equatable {
     }
 }
 
-struct DeleteTypedLinkFacetInputBody: Swift.Equatable {
+struct DeleteTypedLinkFacetInputBody {
     let name: Swift.String?
 }
 
@@ -6711,7 +6711,7 @@ extension DeleteTypedLinkFacetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteTypedLinkFacetOutput: Swift.Equatable {
+public struct DeleteTypedLinkFacetOutput {
 
     public init() { }
 }
@@ -6769,7 +6769,7 @@ extension DetachFromIndexInput {
     }
 }
 
-public struct DetachFromIndexInput: Swift.Equatable {
+public struct DetachFromIndexInput {
     /// The Amazon Resource Name (ARN) of the directory the index and object exist in.
     /// This member is required.
     public var directoryArn: Swift.String?
@@ -6792,7 +6792,7 @@ public struct DetachFromIndexInput: Swift.Equatable {
     }
 }
 
-struct DetachFromIndexInputBody: Swift.Equatable {
+struct DetachFromIndexInputBody {
     let indexReference: CloudDirectoryClientTypes.ObjectReference?
     let targetReference: CloudDirectoryClientTypes.ObjectReference?
 }
@@ -6824,7 +6824,7 @@ extension DetachFromIndexOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DetachFromIndexOutput: Swift.Equatable {
+public struct DetachFromIndexOutput {
     /// The ObjectIdentifier of the object that was detached from the index.
     public var detachedObjectIdentifier: Swift.String?
 
@@ -6836,7 +6836,7 @@ public struct DetachFromIndexOutput: Swift.Equatable {
     }
 }
 
-struct DetachFromIndexOutputBody: Swift.Equatable {
+struct DetachFromIndexOutputBody {
     let detachedObjectIdentifier: Swift.String?
 }
 
@@ -6907,7 +6907,7 @@ extension DetachObjectInput {
     }
 }
 
-public struct DetachObjectInput: Swift.Equatable {
+public struct DetachObjectInput {
     /// The Amazon Resource Name (ARN) that is associated with the [Directory] where objects reside. For more information, see [arns].
     /// This member is required.
     public var directoryArn: Swift.String?
@@ -6930,7 +6930,7 @@ public struct DetachObjectInput: Swift.Equatable {
     }
 }
 
-struct DetachObjectInputBody: Swift.Equatable {
+struct DetachObjectInputBody {
     let parentReference: CloudDirectoryClientTypes.ObjectReference?
     let linkName: Swift.String?
 }
@@ -6962,7 +6962,7 @@ extension DetachObjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DetachObjectOutput: Swift.Equatable {
+public struct DetachObjectOutput {
     /// The ObjectIdentifier that was detached from the object.
     public var detachedObjectIdentifier: Swift.String?
 
@@ -6974,7 +6974,7 @@ public struct DetachObjectOutput: Swift.Equatable {
     }
 }
 
-struct DetachObjectOutputBody: Swift.Equatable {
+struct DetachObjectOutputBody {
     let detachedObjectIdentifier: Swift.String?
 }
 
@@ -7044,7 +7044,7 @@ extension DetachPolicyInput {
     }
 }
 
-public struct DetachPolicyInput: Swift.Equatable {
+public struct DetachPolicyInput {
     /// The Amazon Resource Name (ARN) that is associated with the [Directory] where both objects reside. For more information, see [arns].
     /// This member is required.
     public var directoryArn: Swift.String?
@@ -7067,7 +7067,7 @@ public struct DetachPolicyInput: Swift.Equatable {
     }
 }
 
-struct DetachPolicyInputBody: Swift.Equatable {
+struct DetachPolicyInputBody {
     let policyReference: CloudDirectoryClientTypes.ObjectReference?
     let objectReference: CloudDirectoryClientTypes.ObjectReference?
 }
@@ -7092,7 +7092,7 @@ extension DetachPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DetachPolicyOutput: Swift.Equatable {
+public struct DetachPolicyOutput {
 
     public init() { }
 }
@@ -7147,7 +7147,7 @@ extension DetachTypedLinkInput {
     }
 }
 
-public struct DetachTypedLinkInput: Swift.Equatable {
+public struct DetachTypedLinkInput {
     /// The Amazon Resource Name (ARN) of the directory where you want to detach the typed link.
     /// This member is required.
     public var directoryArn: Swift.String?
@@ -7165,7 +7165,7 @@ public struct DetachTypedLinkInput: Swift.Equatable {
     }
 }
 
-struct DetachTypedLinkInputBody: Swift.Equatable {
+struct DetachTypedLinkInputBody {
     let typedLinkSpecifier: CloudDirectoryClientTypes.TypedLinkSpecifier?
 }
 
@@ -7186,7 +7186,7 @@ extension DetachTypedLinkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DetachTypedLinkOutput: Swift.Equatable {
+public struct DetachTypedLinkOutput {
 
     public init() { }
 }
@@ -7249,7 +7249,7 @@ extension CloudDirectoryClientTypes.Directory: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Directory structure that includes the directory name and directory ARN.
-    public struct Directory: Swift.Equatable {
+    public struct Directory {
         /// The date and time when the directory was created.
         public var creationDateTime: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) that is associated with the directory. For more information, see [arns].
@@ -7314,7 +7314,7 @@ public struct DirectoryAlreadyExistsException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct DirectoryAlreadyExistsExceptionBody: Swift.Equatable {
+struct DirectoryAlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -7369,7 +7369,7 @@ public struct DirectoryDeletedException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct DirectoryDeletedExceptionBody: Swift.Equatable {
+struct DirectoryDeletedExceptionBody {
     let message: Swift.String?
 }
 
@@ -7424,7 +7424,7 @@ public struct DirectoryNotDisabledException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct DirectoryNotDisabledExceptionBody: Swift.Equatable {
+struct DirectoryNotDisabledExceptionBody {
     let message: Swift.String?
 }
 
@@ -7479,7 +7479,7 @@ public struct DirectoryNotEnabledException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct DirectoryNotEnabledExceptionBody: Swift.Equatable {
+struct DirectoryNotEnabledExceptionBody {
     let message: Swift.String?
 }
 
@@ -7548,7 +7548,7 @@ extension DisableDirectoryInput {
     }
 }
 
-public struct DisableDirectoryInput: Swift.Equatable {
+public struct DisableDirectoryInput {
     /// The ARN of the directory to disable.
     /// This member is required.
     public var directoryArn: Swift.String?
@@ -7561,7 +7561,7 @@ public struct DisableDirectoryInput: Swift.Equatable {
     }
 }
 
-struct DisableDirectoryInputBody: Swift.Equatable {
+struct DisableDirectoryInputBody {
 }
 
 extension DisableDirectoryInputBody: Swift.Decodable {
@@ -7582,7 +7582,7 @@ extension DisableDirectoryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisableDirectoryOutput: Swift.Equatable {
+public struct DisableDirectoryOutput {
     /// The ARN of the directory that has been disabled.
     /// This member is required.
     public var directoryArn: Swift.String?
@@ -7595,7 +7595,7 @@ public struct DisableDirectoryOutput: Swift.Equatable {
     }
 }
 
-struct DisableDirectoryOutputBody: Swift.Equatable {
+struct DisableDirectoryOutputBody {
     let directoryArn: Swift.String?
 }
 
@@ -7647,7 +7647,7 @@ extension EnableDirectoryInput {
     }
 }
 
-public struct EnableDirectoryInput: Swift.Equatable {
+public struct EnableDirectoryInput {
     /// The ARN of the directory to enable.
     /// This member is required.
     public var directoryArn: Swift.String?
@@ -7660,7 +7660,7 @@ public struct EnableDirectoryInput: Swift.Equatable {
     }
 }
 
-struct EnableDirectoryInputBody: Swift.Equatable {
+struct EnableDirectoryInputBody {
 }
 
 extension EnableDirectoryInputBody: Swift.Decodable {
@@ -7681,7 +7681,7 @@ extension EnableDirectoryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct EnableDirectoryOutput: Swift.Equatable {
+public struct EnableDirectoryOutput {
     /// The ARN of the enabled directory.
     /// This member is required.
     public var directoryArn: Swift.String?
@@ -7694,7 +7694,7 @@ public struct EnableDirectoryOutput: Swift.Equatable {
     }
 }
 
-struct EnableDirectoryOutputBody: Swift.Equatable {
+struct EnableDirectoryOutputBody {
     let directoryArn: Swift.String?
 }
 
@@ -7761,7 +7761,7 @@ extension CloudDirectoryClientTypes.Facet: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// A structure that contains Name, ARN, Attributes, [Rule]s, and ObjectTypes. See [Facets](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_whatarefacets.html) for more information.
-    public struct Facet: Swift.Equatable {
+    public struct Facet {
         /// There are two different styles that you can define on any given facet, Static and Dynamic. For static facets, all attributes must be defined in the schema. For dynamic facets, attributes can be defined during data plane operations.
         public var facetStyle: CloudDirectoryClientTypes.FacetStyle?
         /// The name of the [Facet].
@@ -7822,7 +7822,7 @@ public struct FacetAlreadyExistsException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct FacetAlreadyExistsExceptionBody: Swift.Equatable {
+struct FacetAlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -7877,7 +7877,7 @@ extension CloudDirectoryClientTypes.FacetAttribute: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// An attribute that is associated with the [Facet].
-    public struct FacetAttribute: Swift.Equatable {
+    public struct FacetAttribute {
         /// A facet attribute consists of either a definition or a reference. This structure contains the attribute definition. See [Attribute References](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_attributereferences.html) for more information.
         public var attributeDefinition: CloudDirectoryClientTypes.FacetAttributeDefinition?
         /// An attribute reference that is associated with the attribute. See [Attribute References](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_attributereferences.html) for more information.
@@ -7955,7 +7955,7 @@ extension CloudDirectoryClientTypes.FacetAttributeDefinition: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// A facet attribute definition. See [Attribute References](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_attributereferences.html) for more information.
-    public struct FacetAttributeDefinition: Swift.Equatable {
+    public struct FacetAttributeDefinition {
         /// The default value of the attribute (if configured).
         public var defaultValue: CloudDirectoryClientTypes.TypedAttributeValue?
         /// Whether the attribute is mutable or not.
@@ -8009,7 +8009,7 @@ extension CloudDirectoryClientTypes.FacetAttributeReference: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// The facet attribute reference that specifies the attribute definition that contains the attribute facet name and attribute name.
-    public struct FacetAttributeReference: Swift.Equatable {
+    public struct FacetAttributeReference {
         /// The target attribute name that is associated with the facet reference. See [Attribute References](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_attributereferences.html) for more information.
         /// This member is required.
         public var targetAttributeName: Swift.String?
@@ -8100,7 +8100,7 @@ extension CloudDirectoryClientTypes.FacetAttributeUpdate: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// A structure that contains information used to update an attribute.
-    public struct FacetAttributeUpdate: Swift.Equatable {
+    public struct FacetAttributeUpdate {
         /// The action to perform when updating the attribute.
         public var action: CloudDirectoryClientTypes.UpdateActionType?
         /// The attribute to update.
@@ -8157,7 +8157,7 @@ public struct FacetInUseException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct FacetInUseExceptionBody: Swift.Equatable {
+struct FacetInUseExceptionBody {
     let message: Swift.String?
 }
 
@@ -8212,7 +8212,7 @@ public struct FacetNotFoundException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct FacetNotFoundExceptionBody: Swift.Equatable {
+struct FacetNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -8299,7 +8299,7 @@ public struct FacetValidationException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct FacetValidationExceptionBody: Swift.Equatable {
+struct FacetValidationExceptionBody {
     let message: Swift.String?
 }
 
@@ -8335,7 +8335,7 @@ extension GetAppliedSchemaVersionInput {
     }
 }
 
-public struct GetAppliedSchemaVersionInput: Swift.Equatable {
+public struct GetAppliedSchemaVersionInput {
     /// The ARN of the applied schema.
     /// This member is required.
     public var schemaArn: Swift.String?
@@ -8348,7 +8348,7 @@ public struct GetAppliedSchemaVersionInput: Swift.Equatable {
     }
 }
 
-struct GetAppliedSchemaVersionInputBody: Swift.Equatable {
+struct GetAppliedSchemaVersionInputBody {
     let schemaArn: Swift.String?
 }
 
@@ -8376,7 +8376,7 @@ extension GetAppliedSchemaVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAppliedSchemaVersionOutput: Swift.Equatable {
+public struct GetAppliedSchemaVersionOutput {
     /// Current applied schema ARN, including the minor version in use if one was provided.
     public var appliedSchemaArn: Swift.String?
 
@@ -8388,7 +8388,7 @@ public struct GetAppliedSchemaVersionOutput: Swift.Equatable {
     }
 }
 
-struct GetAppliedSchemaVersionOutputBody: Swift.Equatable {
+struct GetAppliedSchemaVersionOutputBody {
     let appliedSchemaArn: Swift.String?
 }
 
@@ -8439,7 +8439,7 @@ extension GetDirectoryInput {
     }
 }
 
-public struct GetDirectoryInput: Swift.Equatable {
+public struct GetDirectoryInput {
     /// The ARN of the directory.
     /// This member is required.
     public var directoryArn: Swift.String?
@@ -8452,7 +8452,7 @@ public struct GetDirectoryInput: Swift.Equatable {
     }
 }
 
-struct GetDirectoryInputBody: Swift.Equatable {
+struct GetDirectoryInputBody {
 }
 
 extension GetDirectoryInputBody: Swift.Decodable {
@@ -8473,7 +8473,7 @@ extension GetDirectoryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDirectoryOutput: Swift.Equatable {
+public struct GetDirectoryOutput {
     /// Metadata about the directory.
     /// This member is required.
     public var directory: CloudDirectoryClientTypes.Directory?
@@ -8486,7 +8486,7 @@ public struct GetDirectoryOutput: Swift.Equatable {
     }
 }
 
-struct GetDirectoryOutputBody: Swift.Equatable {
+struct GetDirectoryOutputBody {
     let directory: CloudDirectoryClientTypes.Directory?
 }
 
@@ -8549,7 +8549,7 @@ extension GetFacetInput {
     }
 }
 
-public struct GetFacetInput: Swift.Equatable {
+public struct GetFacetInput {
     /// The name of the facet to retrieve.
     /// This member is required.
     public var name: Swift.String?
@@ -8567,7 +8567,7 @@ public struct GetFacetInput: Swift.Equatable {
     }
 }
 
-struct GetFacetInputBody: Swift.Equatable {
+struct GetFacetInputBody {
     let name: Swift.String?
 }
 
@@ -8595,7 +8595,7 @@ extension GetFacetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetFacetOutput: Swift.Equatable {
+public struct GetFacetOutput {
     /// The [Facet] structure that is associated with the facet.
     public var facet: CloudDirectoryClientTypes.Facet?
 
@@ -8607,7 +8607,7 @@ public struct GetFacetOutput: Swift.Equatable {
     }
 }
 
-struct GetFacetOutputBody: Swift.Equatable {
+struct GetFacetOutputBody {
     let facet: CloudDirectoryClientTypes.Facet?
 }
 
@@ -8683,7 +8683,7 @@ extension GetLinkAttributesInput {
     }
 }
 
-public struct GetLinkAttributesInput: Swift.Equatable {
+public struct GetLinkAttributesInput {
     /// A list of attribute names whose values will be retrieved.
     /// This member is required.
     public var attributeNames: [Swift.String]?
@@ -8710,7 +8710,7 @@ public struct GetLinkAttributesInput: Swift.Equatable {
     }
 }
 
-struct GetLinkAttributesInputBody: Swift.Equatable {
+struct GetLinkAttributesInputBody {
     let typedLinkSpecifier: CloudDirectoryClientTypes.TypedLinkSpecifier?
     let attributeNames: [Swift.String]?
     let consistencyLevel: CloudDirectoryClientTypes.ConsistencyLevel?
@@ -8755,7 +8755,7 @@ extension GetLinkAttributesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLinkAttributesOutput: Swift.Equatable {
+public struct GetLinkAttributesOutput {
     /// The attributes that are associated with the typed link.
     public var attributes: [CloudDirectoryClientTypes.AttributeKeyAndValue]?
 
@@ -8767,7 +8767,7 @@ public struct GetLinkAttributesOutput: Swift.Equatable {
     }
 }
 
-struct GetLinkAttributesOutputBody: Swift.Equatable {
+struct GetLinkAttributesOutputBody {
     let attributes: [CloudDirectoryClientTypes.AttributeKeyAndValue]?
 }
 
@@ -8856,7 +8856,7 @@ extension GetObjectAttributesInput {
     }
 }
 
-public struct GetObjectAttributesInput: Swift.Equatable {
+public struct GetObjectAttributesInput {
     /// List of attribute names whose values will be retrieved.
     /// This member is required.
     public var attributeNames: [Swift.String]?
@@ -8888,7 +8888,7 @@ public struct GetObjectAttributesInput: Swift.Equatable {
     }
 }
 
-struct GetObjectAttributesInputBody: Swift.Equatable {
+struct GetObjectAttributesInputBody {
     let objectReference: CloudDirectoryClientTypes.ObjectReference?
     let schemaFacet: CloudDirectoryClientTypes.SchemaFacet?
     let attributeNames: [Swift.String]?
@@ -8933,7 +8933,7 @@ extension GetObjectAttributesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetObjectAttributesOutput: Swift.Equatable {
+public struct GetObjectAttributesOutput {
     /// The attributes that are associated with the object.
     public var attributes: [CloudDirectoryClientTypes.AttributeKeyAndValue]?
 
@@ -8945,7 +8945,7 @@ public struct GetObjectAttributesOutput: Swift.Equatable {
     }
 }
 
-struct GetObjectAttributesOutputBody: Swift.Equatable {
+struct GetObjectAttributesOutputBody {
     let attributes: [CloudDirectoryClientTypes.AttributeKeyAndValue]?
 }
 
@@ -9023,7 +9023,7 @@ extension GetObjectInformationInput {
     }
 }
 
-public struct GetObjectInformationInput: Swift.Equatable {
+public struct GetObjectInformationInput {
     /// The consistency level at which to retrieve the object information.
     public var consistencyLevel: CloudDirectoryClientTypes.ConsistencyLevel?
     /// The ARN of the directory being retrieved.
@@ -9045,7 +9045,7 @@ public struct GetObjectInformationInput: Swift.Equatable {
     }
 }
 
-struct GetObjectInformationInputBody: Swift.Equatable {
+struct GetObjectInformationInputBody {
     let objectReference: CloudDirectoryClientTypes.ObjectReference?
 }
 
@@ -9075,7 +9075,7 @@ extension GetObjectInformationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetObjectInformationOutput: Swift.Equatable {
+public struct GetObjectInformationOutput {
     /// The ObjectIdentifier of the specified object.
     public var objectIdentifier: Swift.String?
     /// The facets attached to the specified object. Although the response does not include minor version information, the most recently applied minor version of each Facet is in effect. See [GetAppliedSchemaVersion] for details.
@@ -9091,7 +9091,7 @@ public struct GetObjectInformationOutput: Swift.Equatable {
     }
 }
 
-struct GetObjectInformationOutputBody: Swift.Equatable {
+struct GetObjectInformationOutputBody {
     let schemaFacets: [CloudDirectoryClientTypes.SchemaFacet]?
     let objectIdentifier: Swift.String?
 }
@@ -9156,7 +9156,7 @@ extension GetSchemaAsJsonInput {
     }
 }
 
-public struct GetSchemaAsJsonInput: Swift.Equatable {
+public struct GetSchemaAsJsonInput {
     /// The ARN of the schema to retrieve.
     /// This member is required.
     public var schemaArn: Swift.String?
@@ -9169,7 +9169,7 @@ public struct GetSchemaAsJsonInput: Swift.Equatable {
     }
 }
 
-struct GetSchemaAsJsonInputBody: Swift.Equatable {
+struct GetSchemaAsJsonInputBody {
 }
 
 extension GetSchemaAsJsonInputBody: Swift.Decodable {
@@ -9192,7 +9192,7 @@ extension GetSchemaAsJsonOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSchemaAsJsonOutput: Swift.Equatable {
+public struct GetSchemaAsJsonOutput {
     /// The JSON representation of the schema document.
     public var document: Swift.String?
     /// The name of the retrieved schema.
@@ -9208,7 +9208,7 @@ public struct GetSchemaAsJsonOutput: Swift.Equatable {
     }
 }
 
-struct GetSchemaAsJsonOutputBody: Swift.Equatable {
+struct GetSchemaAsJsonOutputBody {
     let name: Swift.String?
     let document: Swift.String?
 }
@@ -9276,7 +9276,7 @@ extension GetTypedLinkFacetInformationInput {
     }
 }
 
-public struct GetTypedLinkFacetInformationInput: Swift.Equatable {
+public struct GetTypedLinkFacetInformationInput {
     /// The unique name of the typed link facet.
     /// This member is required.
     public var name: Swift.String?
@@ -9294,7 +9294,7 @@ public struct GetTypedLinkFacetInformationInput: Swift.Equatable {
     }
 }
 
-struct GetTypedLinkFacetInformationInputBody: Swift.Equatable {
+struct GetTypedLinkFacetInformationInputBody {
     let name: Swift.String?
 }
 
@@ -9322,7 +9322,7 @@ extension GetTypedLinkFacetInformationOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct GetTypedLinkFacetInformationOutput: Swift.Equatable {
+public struct GetTypedLinkFacetInformationOutput {
     /// The order of identity attributes for the facet, from most significant to least significant. The ability to filter typed links considers the order that the attributes are defined on the typed link facet. When providing ranges to typed link selection, any inexact ranges must be specified at the end. Any attributes that do not have a range specified are presumed to match the entire range. Filters are interpreted in the order of the attributes on the typed link facet, not the order in which they are supplied to any API calls. For more information about identity attributes, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
     public var identityAttributeOrder: [Swift.String]?
 
@@ -9334,7 +9334,7 @@ public struct GetTypedLinkFacetInformationOutput: Swift.Equatable {
     }
 }
 
-struct GetTypedLinkFacetInformationOutputBody: Swift.Equatable {
+struct GetTypedLinkFacetInformationOutputBody {
     let identityAttributeOrder: [Swift.String]?
 }
 
@@ -9417,7 +9417,7 @@ public struct IncompatibleSchemaException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct IncompatibleSchemaExceptionBody: Swift.Equatable {
+struct IncompatibleSchemaExceptionBody {
     let message: Swift.String?
 }
 
@@ -9472,7 +9472,7 @@ extension CloudDirectoryClientTypes.IndexAttachment: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Represents an index and an attached object.
-    public struct IndexAttachment: Swift.Equatable {
+    public struct IndexAttachment {
         /// The indexed attribute values.
         public var indexedAttributes: [CloudDirectoryClientTypes.AttributeKeyAndValue]?
         /// In response to [ListIndex], the ObjectIdentifier of the object attached to the index. In response to [ListAttachedIndices], the ObjectIdentifier of the index attached to the object. This field will always contain the ObjectIdentifier of the object on the opposite side of the attachment specified in the query.
@@ -9529,7 +9529,7 @@ public struct IndexedAttributeMissingException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct IndexedAttributeMissingExceptionBody: Swift.Equatable {
+struct IndexedAttributeMissingExceptionBody {
     let message: Swift.String?
 }
 
@@ -9584,7 +9584,7 @@ public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InternalServiceExceptionBody: Swift.Equatable {
+struct InternalServiceExceptionBody {
     let message: Swift.String?
 }
 
@@ -9639,7 +9639,7 @@ public struct InvalidArnException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct InvalidArnExceptionBody: Swift.Equatable {
+struct InvalidArnExceptionBody {
     let message: Swift.String?
 }
 
@@ -9694,7 +9694,7 @@ public struct InvalidAttachmentException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct InvalidAttachmentExceptionBody: Swift.Equatable {
+struct InvalidAttachmentExceptionBody {
     let message: Swift.String?
 }
 
@@ -9749,7 +9749,7 @@ public struct InvalidFacetUpdateException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct InvalidFacetUpdateExceptionBody: Swift.Equatable {
+struct InvalidFacetUpdateExceptionBody {
     let message: Swift.String?
 }
 
@@ -9804,7 +9804,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidNextTokenExceptionBody: Swift.Equatable {
+struct InvalidNextTokenExceptionBody {
     let message: Swift.String?
 }
 
@@ -9859,7 +9859,7 @@ public struct InvalidRuleException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct InvalidRuleExceptionBody: Swift.Equatable {
+struct InvalidRuleExceptionBody {
     let message: Swift.String?
 }
 
@@ -9914,7 +9914,7 @@ public struct InvalidSchemaDocException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidSchemaDocExceptionBody: Swift.Equatable {
+struct InvalidSchemaDocExceptionBody {
     let message: Swift.String?
 }
 
@@ -9969,7 +9969,7 @@ public struct InvalidTaggingRequestException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct InvalidTaggingRequestExceptionBody: Swift.Equatable {
+struct InvalidTaggingRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -10024,7 +10024,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -10067,7 +10067,7 @@ extension CloudDirectoryClientTypes.LinkAttributeAction: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// The action to take on a typed link attribute value. Updates are only supported for attributes which don’t contribute to link identity.
-    public struct LinkAttributeAction: Swift.Equatable {
+    public struct LinkAttributeAction {
         /// A type that can be either UPDATE_OR_CREATE or DELETE.
         public var attributeActionType: CloudDirectoryClientTypes.UpdateActionType?
         /// The value that you want to update to.
@@ -10112,7 +10112,7 @@ extension CloudDirectoryClientTypes.LinkAttributeUpdate: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Structure that contains attribute update information.
-    public struct LinkAttributeUpdate: Swift.Equatable {
+    public struct LinkAttributeUpdate {
         /// The action to perform as part of the attribute update.
         public var attributeAction: CloudDirectoryClientTypes.LinkAttributeAction?
         /// The key of the attribute being updated.
@@ -10169,7 +10169,7 @@ public struct LinkNameAlreadyInUseException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct LinkNameAlreadyInUseExceptionBody: Swift.Equatable {
+struct LinkNameAlreadyInUseExceptionBody {
     let message: Swift.String?
 }
 
@@ -10217,7 +10217,7 @@ extension ListAppliedSchemaArnsInput {
     }
 }
 
-public struct ListAppliedSchemaArnsInput: Swift.Equatable {
+public struct ListAppliedSchemaArnsInput {
     /// The ARN of the directory you are listing.
     /// This member is required.
     public var directoryArn: Swift.String?
@@ -10242,7 +10242,7 @@ public struct ListAppliedSchemaArnsInput: Swift.Equatable {
     }
 }
 
-struct ListAppliedSchemaArnsInputBody: Swift.Equatable {
+struct ListAppliedSchemaArnsInputBody {
     let directoryArn: Swift.String?
     let schemaArn: Swift.String?
     let nextToken: Swift.String?
@@ -10284,7 +10284,7 @@ extension ListAppliedSchemaArnsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAppliedSchemaArnsOutput: Swift.Equatable {
+public struct ListAppliedSchemaArnsOutput {
     /// The pagination token.
     public var nextToken: Swift.String?
     /// The ARNs of schemas that are applied to the directory.
@@ -10300,7 +10300,7 @@ public struct ListAppliedSchemaArnsOutput: Swift.Equatable {
     }
 }
 
-struct ListAppliedSchemaArnsOutputBody: Swift.Equatable {
+struct ListAppliedSchemaArnsOutputBody {
     let schemaArns: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -10389,7 +10389,7 @@ extension ListAttachedIndicesInput {
     }
 }
 
-public struct ListAttachedIndicesInput: Swift.Equatable {
+public struct ListAttachedIndicesInput {
     /// The consistency level to use for this operation.
     public var consistencyLevel: CloudDirectoryClientTypes.ConsistencyLevel?
     /// The ARN of the directory.
@@ -10419,7 +10419,7 @@ public struct ListAttachedIndicesInput: Swift.Equatable {
     }
 }
 
-struct ListAttachedIndicesInputBody: Swift.Equatable {
+struct ListAttachedIndicesInputBody {
     let targetReference: CloudDirectoryClientTypes.ObjectReference?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -10457,7 +10457,7 @@ extension ListAttachedIndicesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAttachedIndicesOutput: Swift.Equatable {
+public struct ListAttachedIndicesOutput {
     /// The indices attached to the specified object.
     public var indexAttachments: [CloudDirectoryClientTypes.IndexAttachment]?
     /// The pagination token.
@@ -10473,7 +10473,7 @@ public struct ListAttachedIndicesOutput: Swift.Equatable {
     }
 }
 
-struct ListAttachedIndicesOutputBody: Swift.Equatable {
+struct ListAttachedIndicesOutputBody {
     let indexAttachments: [CloudDirectoryClientTypes.IndexAttachment]?
     let nextToken: Swift.String?
 }
@@ -10544,7 +10544,7 @@ extension ListDevelopmentSchemaArnsInput {
     }
 }
 
-public struct ListDevelopmentSchemaArnsInput: Swift.Equatable {
+public struct ListDevelopmentSchemaArnsInput {
     /// The maximum number of results to retrieve.
     public var maxResults: Swift.Int?
     /// The pagination token.
@@ -10560,7 +10560,7 @@ public struct ListDevelopmentSchemaArnsInput: Swift.Equatable {
     }
 }
 
-struct ListDevelopmentSchemaArnsInputBody: Swift.Equatable {
+struct ListDevelopmentSchemaArnsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -10594,7 +10594,7 @@ extension ListDevelopmentSchemaArnsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDevelopmentSchemaArnsOutput: Swift.Equatable {
+public struct ListDevelopmentSchemaArnsOutput {
     /// The pagination token.
     public var nextToken: Swift.String?
     /// The ARNs of retrieved development schemas.
@@ -10610,7 +10610,7 @@ public struct ListDevelopmentSchemaArnsOutput: Swift.Equatable {
     }
 }
 
-struct ListDevelopmentSchemaArnsOutputBody: Swift.Equatable {
+struct ListDevelopmentSchemaArnsOutputBody {
     let schemaArns: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -10685,7 +10685,7 @@ extension ListDirectoriesInput {
     }
 }
 
-public struct ListDirectoriesInput: Swift.Equatable {
+public struct ListDirectoriesInput {
     /// The maximum number of results to retrieve.
     public var maxResults: Swift.Int?
     /// The pagination token.
@@ -10705,7 +10705,7 @@ public struct ListDirectoriesInput: Swift.Equatable {
     }
 }
 
-struct ListDirectoriesInputBody: Swift.Equatable {
+struct ListDirectoriesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let state: CloudDirectoryClientTypes.DirectoryState?
@@ -10743,7 +10743,7 @@ extension ListDirectoriesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDirectoriesOutput: Swift.Equatable {
+public struct ListDirectoriesOutput {
     /// Lists all directories that are associated with your account in pagination fashion.
     /// This member is required.
     public var directories: [CloudDirectoryClientTypes.Directory]?
@@ -10760,7 +10760,7 @@ public struct ListDirectoriesOutput: Swift.Equatable {
     }
 }
 
-struct ListDirectoriesOutputBody: Swift.Equatable {
+struct ListDirectoriesOutputBody {
     let directories: [CloudDirectoryClientTypes.Directory]?
     let nextToken: Swift.String?
 }
@@ -10845,7 +10845,7 @@ extension ListFacetAttributesInput {
     }
 }
 
-public struct ListFacetAttributesInput: Swift.Equatable {
+public struct ListFacetAttributesInput {
     /// The maximum number of results to retrieve.
     public var maxResults: Swift.Int?
     /// The name of the facet whose attributes will be retrieved.
@@ -10871,7 +10871,7 @@ public struct ListFacetAttributesInput: Swift.Equatable {
     }
 }
 
-struct ListFacetAttributesInputBody: Swift.Equatable {
+struct ListFacetAttributesInputBody {
     let name: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -10909,7 +10909,7 @@ extension ListFacetAttributesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFacetAttributesOutput: Swift.Equatable {
+public struct ListFacetAttributesOutput {
     /// The attributes attached to the facet.
     public var attributes: [CloudDirectoryClientTypes.FacetAttribute]?
     /// The pagination token.
@@ -10925,7 +10925,7 @@ public struct ListFacetAttributesOutput: Swift.Equatable {
     }
 }
 
-struct ListFacetAttributesOutputBody: Swift.Equatable {
+struct ListFacetAttributesOutputBody {
     let attributes: [CloudDirectoryClientTypes.FacetAttribute]?
     let nextToken: Swift.String?
 }
@@ -11008,7 +11008,7 @@ extension ListFacetNamesInput {
     }
 }
 
-public struct ListFacetNamesInput: Swift.Equatable {
+public struct ListFacetNamesInput {
     /// The maximum number of results to retrieve.
     public var maxResults: Swift.Int?
     /// The pagination token.
@@ -11029,7 +11029,7 @@ public struct ListFacetNamesInput: Swift.Equatable {
     }
 }
 
-struct ListFacetNamesInputBody: Swift.Equatable {
+struct ListFacetNamesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -11063,7 +11063,7 @@ extension ListFacetNamesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFacetNamesOutput: Swift.Equatable {
+public struct ListFacetNamesOutput {
     /// The names of facets that exist within the schema.
     public var facetNames: [Swift.String]?
     /// The pagination token.
@@ -11079,7 +11079,7 @@ public struct ListFacetNamesOutput: Swift.Equatable {
     }
 }
 
-struct ListFacetNamesOutputBody: Swift.Equatable {
+struct ListFacetNamesOutputBody {
     let facetNames: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -11180,7 +11180,7 @@ extension ListIncomingTypedLinksInput {
     }
 }
 
-public struct ListIncomingTypedLinksInput: Swift.Equatable {
+public struct ListIncomingTypedLinksInput {
     /// The consistency level to execute the request at.
     public var consistencyLevel: CloudDirectoryClientTypes.ConsistencyLevel?
     /// The Amazon Resource Name (ARN) of the directory where you want to list the typed links.
@@ -11218,7 +11218,7 @@ public struct ListIncomingTypedLinksInput: Swift.Equatable {
     }
 }
 
-struct ListIncomingTypedLinksInputBody: Swift.Equatable {
+struct ListIncomingTypedLinksInputBody {
     let objectReference: CloudDirectoryClientTypes.ObjectReference?
     let filterAttributeRanges: [CloudDirectoryClientTypes.TypedLinkAttributeRange]?
     let filterTypedLink: CloudDirectoryClientTypes.TypedLinkSchemaAndFacetName?
@@ -11277,7 +11277,7 @@ extension ListIncomingTypedLinksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListIncomingTypedLinksOutput: Swift.Equatable {
+public struct ListIncomingTypedLinksOutput {
     /// Returns one or more typed link specifiers as output.
     public var linkSpecifiers: [CloudDirectoryClientTypes.TypedLinkSpecifier]?
     /// The pagination token.
@@ -11293,7 +11293,7 @@ public struct ListIncomingTypedLinksOutput: Swift.Equatable {
     }
 }
 
-struct ListIncomingTypedLinksOutputBody: Swift.Equatable {
+struct ListIncomingTypedLinksOutputBody {
     let linkSpecifiers: [CloudDirectoryClientTypes.TypedLinkSpecifier]?
     let nextToken: Swift.String?
 }
@@ -11391,7 +11391,7 @@ extension ListIndexInput {
     }
 }
 
-public struct ListIndexInput: Swift.Equatable {
+public struct ListIndexInput {
     /// The consistency level to execute the request at.
     public var consistencyLevel: CloudDirectoryClientTypes.ConsistencyLevel?
     /// The ARN of the directory that the index exists in.
@@ -11425,7 +11425,7 @@ public struct ListIndexInput: Swift.Equatable {
     }
 }
 
-struct ListIndexInputBody: Swift.Equatable {
+struct ListIndexInputBody {
     let rangesOnIndexedValues: [CloudDirectoryClientTypes.ObjectAttributeRange]?
     let indexReference: CloudDirectoryClientTypes.ObjectReference?
     let maxResults: Swift.Int?
@@ -11476,7 +11476,7 @@ extension ListIndexOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListIndexOutput: Swift.Equatable {
+public struct ListIndexOutput {
     /// The objects and indexed values attached to the index.
     public var indexAttachments: [CloudDirectoryClientTypes.IndexAttachment]?
     /// The pagination token.
@@ -11492,7 +11492,7 @@ public struct ListIndexOutput: Swift.Equatable {
     }
 }
 
-struct ListIndexOutputBody: Swift.Equatable {
+struct ListIndexOutputBody {
     let indexAttachments: [CloudDirectoryClientTypes.IndexAttachment]?
     let nextToken: Swift.String?
 }
@@ -11570,7 +11570,7 @@ extension ListManagedSchemaArnsInput {
     }
 }
 
-public struct ListManagedSchemaArnsInput: Swift.Equatable {
+public struct ListManagedSchemaArnsInput {
     /// The maximum number of results to retrieve.
     public var maxResults: Swift.Int?
     /// The pagination token.
@@ -11590,7 +11590,7 @@ public struct ListManagedSchemaArnsInput: Swift.Equatable {
     }
 }
 
-struct ListManagedSchemaArnsInputBody: Swift.Equatable {
+struct ListManagedSchemaArnsInputBody {
     let schemaArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -11628,7 +11628,7 @@ extension ListManagedSchemaArnsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListManagedSchemaArnsOutput: Swift.Equatable {
+public struct ListManagedSchemaArnsOutput {
     /// The pagination token.
     public var nextToken: Swift.String?
     /// The ARNs for all AWS managed schemas.
@@ -11644,7 +11644,7 @@ public struct ListManagedSchemaArnsOutput: Swift.Equatable {
     }
 }
 
-struct ListManagedSchemaArnsOutputBody: Swift.Equatable {
+struct ListManagedSchemaArnsOutputBody {
     let schemaArns: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -11735,7 +11735,7 @@ extension ListObjectAttributesInput {
     }
 }
 
-public struct ListObjectAttributesInput: Swift.Equatable {
+public struct ListObjectAttributesInput {
     /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
     public var consistencyLevel: CloudDirectoryClientTypes.ConsistencyLevel?
     /// The Amazon Resource Name (ARN) that is associated with the [Directory] where the object resides. For more information, see [arns].
@@ -11769,7 +11769,7 @@ public struct ListObjectAttributesInput: Swift.Equatable {
     }
 }
 
-struct ListObjectAttributesInputBody: Swift.Equatable {
+struct ListObjectAttributesInputBody {
     let objectReference: CloudDirectoryClientTypes.ObjectReference?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -11811,7 +11811,7 @@ extension ListObjectAttributesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListObjectAttributesOutput: Swift.Equatable {
+public struct ListObjectAttributesOutput {
     /// Attributes map that is associated with the object. AttributeArn is the key, and attribute value is the value.
     public var attributes: [CloudDirectoryClientTypes.AttributeKeyAndValue]?
     /// The pagination token.
@@ -11827,7 +11827,7 @@ public struct ListObjectAttributesOutput: Swift.Equatable {
     }
 }
 
-struct ListObjectAttributesOutputBody: Swift.Equatable {
+struct ListObjectAttributesOutputBody {
     let attributes: [CloudDirectoryClientTypes.AttributeKeyAndValue]?
     let nextToken: Swift.String?
 }
@@ -11918,7 +11918,7 @@ extension ListObjectChildrenInput {
     }
 }
 
-public struct ListObjectChildrenInput: Swift.Equatable {
+public struct ListObjectChildrenInput {
     /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
     public var consistencyLevel: CloudDirectoryClientTypes.ConsistencyLevel?
     /// The Amazon Resource Name (ARN) that is associated with the [Directory] where the object resides. For more information, see [arns].
@@ -11948,7 +11948,7 @@ public struct ListObjectChildrenInput: Swift.Equatable {
     }
 }
 
-struct ListObjectChildrenInputBody: Swift.Equatable {
+struct ListObjectChildrenInputBody {
     let objectReference: CloudDirectoryClientTypes.ObjectReference?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -11986,7 +11986,7 @@ extension ListObjectChildrenOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListObjectChildrenOutput: Swift.Equatable {
+public struct ListObjectChildrenOutput {
     /// Children structure, which is a map with key as the LinkName and ObjectIdentifier as the value.
     public var children: [Swift.String:Swift.String]?
     /// The pagination token.
@@ -12002,7 +12002,7 @@ public struct ListObjectChildrenOutput: Swift.Equatable {
     }
 }
 
-struct ListObjectChildrenOutputBody: Swift.Equatable {
+struct ListObjectChildrenOutputBody {
     let children: [Swift.String:Swift.String]?
     let nextToken: Swift.String?
 }
@@ -12090,7 +12090,7 @@ extension ListObjectParentPathsInput {
     }
 }
 
-public struct ListObjectParentPathsInput: Swift.Equatable {
+public struct ListObjectParentPathsInput {
     /// The ARN of the directory to which the parent path applies.
     /// This member is required.
     public var directoryArn: Swift.String?
@@ -12116,7 +12116,7 @@ public struct ListObjectParentPathsInput: Swift.Equatable {
     }
 }
 
-struct ListObjectParentPathsInputBody: Swift.Equatable {
+struct ListObjectParentPathsInputBody {
     let objectReference: CloudDirectoryClientTypes.ObjectReference?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -12154,7 +12154,7 @@ extension ListObjectParentPathsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListObjectParentPathsOutput: Swift.Equatable {
+public struct ListObjectParentPathsOutput {
     /// The pagination token.
     public var nextToken: Swift.String?
     /// Returns the path to the ObjectIdentifiers that are associated with the directory.
@@ -12170,7 +12170,7 @@ public struct ListObjectParentPathsOutput: Swift.Equatable {
     }
 }
 
-struct ListObjectParentPathsOutputBody: Swift.Equatable {
+struct ListObjectParentPathsOutputBody {
     let pathToObjectIdentifiersList: [CloudDirectoryClientTypes.PathToObjectIdentifiers]?
     let nextToken: Swift.String?
 }
@@ -12264,7 +12264,7 @@ extension ListObjectParentsInput {
     }
 }
 
-public struct ListObjectParentsInput: Swift.Equatable {
+public struct ListObjectParentsInput {
     /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
     public var consistencyLevel: CloudDirectoryClientTypes.ConsistencyLevel?
     /// The Amazon Resource Name (ARN) that is associated with the [Directory] where the object resides. For more information, see [arns].
@@ -12298,7 +12298,7 @@ public struct ListObjectParentsInput: Swift.Equatable {
     }
 }
 
-struct ListObjectParentsInputBody: Swift.Equatable {
+struct ListObjectParentsInputBody {
     let objectReference: CloudDirectoryClientTypes.ObjectReference?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -12342,7 +12342,7 @@ extension ListObjectParentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListObjectParentsOutput: Swift.Equatable {
+public struct ListObjectParentsOutput {
     /// The pagination token.
     public var nextToken: Swift.String?
     /// Returns a list of parent reference and LinkName Tuples.
@@ -12362,7 +12362,7 @@ public struct ListObjectParentsOutput: Swift.Equatable {
     }
 }
 
-struct ListObjectParentsOutputBody: Swift.Equatable {
+struct ListObjectParentsOutputBody {
     let parents: [Swift.String:Swift.String]?
     let nextToken: Swift.String?
     let parentLinks: [CloudDirectoryClientTypes.ObjectIdentifierAndLinkNameTuple]?
@@ -12466,7 +12466,7 @@ extension ListObjectPoliciesInput {
     }
 }
 
-public struct ListObjectPoliciesInput: Swift.Equatable {
+public struct ListObjectPoliciesInput {
     /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
     public var consistencyLevel: CloudDirectoryClientTypes.ConsistencyLevel?
     /// The Amazon Resource Name (ARN) that is associated with the [Directory] where objects reside. For more information, see [arns].
@@ -12496,7 +12496,7 @@ public struct ListObjectPoliciesInput: Swift.Equatable {
     }
 }
 
-struct ListObjectPoliciesInputBody: Swift.Equatable {
+struct ListObjectPoliciesInputBody {
     let objectReference: CloudDirectoryClientTypes.ObjectReference?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -12534,7 +12534,7 @@ extension ListObjectPoliciesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListObjectPoliciesOutput: Swift.Equatable {
+public struct ListObjectPoliciesOutput {
     /// A list of policy ObjectIdentifiers, that are attached to the object.
     public var attachedPolicyIds: [Swift.String]?
     /// The pagination token.
@@ -12550,7 +12550,7 @@ public struct ListObjectPoliciesOutput: Swift.Equatable {
     }
 }
 
-struct ListObjectPoliciesOutputBody: Swift.Equatable {
+struct ListObjectPoliciesOutputBody {
     let attachedPolicyIds: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -12652,7 +12652,7 @@ extension ListOutgoingTypedLinksInput {
     }
 }
 
-public struct ListOutgoingTypedLinksInput: Swift.Equatable {
+public struct ListOutgoingTypedLinksInput {
     /// The consistency level to execute the request at.
     public var consistencyLevel: CloudDirectoryClientTypes.ConsistencyLevel?
     /// The Amazon Resource Name (ARN) of the directory where you want to list the typed links.
@@ -12690,7 +12690,7 @@ public struct ListOutgoingTypedLinksInput: Swift.Equatable {
     }
 }
 
-struct ListOutgoingTypedLinksInputBody: Swift.Equatable {
+struct ListOutgoingTypedLinksInputBody {
     let objectReference: CloudDirectoryClientTypes.ObjectReference?
     let filterAttributeRanges: [CloudDirectoryClientTypes.TypedLinkAttributeRange]?
     let filterTypedLink: CloudDirectoryClientTypes.TypedLinkSchemaAndFacetName?
@@ -12749,7 +12749,7 @@ extension ListOutgoingTypedLinksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListOutgoingTypedLinksOutput: Swift.Equatable {
+public struct ListOutgoingTypedLinksOutput {
     /// The pagination token.
     public var nextToken: Swift.String?
     /// Returns a typed link specifier as output.
@@ -12765,7 +12765,7 @@ public struct ListOutgoingTypedLinksOutput: Swift.Equatable {
     }
 }
 
-struct ListOutgoingTypedLinksOutputBody: Swift.Equatable {
+struct ListOutgoingTypedLinksOutputBody {
     let typedLinkSpecifiers: [CloudDirectoryClientTypes.TypedLinkSpecifier]?
     let nextToken: Swift.String?
 }
@@ -12856,7 +12856,7 @@ extension ListPolicyAttachmentsInput {
     }
 }
 
-public struct ListPolicyAttachmentsInput: Swift.Equatable {
+public struct ListPolicyAttachmentsInput {
     /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
     public var consistencyLevel: CloudDirectoryClientTypes.ConsistencyLevel?
     /// The Amazon Resource Name (ARN) that is associated with the [Directory] where objects reside. For more information, see [arns].
@@ -12886,7 +12886,7 @@ public struct ListPolicyAttachmentsInput: Swift.Equatable {
     }
 }
 
-struct ListPolicyAttachmentsInputBody: Swift.Equatable {
+struct ListPolicyAttachmentsInputBody {
     let policyReference: CloudDirectoryClientTypes.ObjectReference?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -12924,7 +12924,7 @@ extension ListPolicyAttachmentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPolicyAttachmentsOutput: Swift.Equatable {
+public struct ListPolicyAttachmentsOutput {
     /// The pagination token.
     public var nextToken: Swift.String?
     /// A list of ObjectIdentifiers to which the policy is attached.
@@ -12940,7 +12940,7 @@ public struct ListPolicyAttachmentsOutput: Swift.Equatable {
     }
 }
 
-struct ListPolicyAttachmentsOutputBody: Swift.Equatable {
+struct ListPolicyAttachmentsOutputBody {
     let objectIdentifiers: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -13017,7 +13017,7 @@ extension ListPublishedSchemaArnsInput {
     }
 }
 
-public struct ListPublishedSchemaArnsInput: Swift.Equatable {
+public struct ListPublishedSchemaArnsInput {
     /// The maximum number of results to retrieve.
     public var maxResults: Swift.Int?
     /// The pagination token.
@@ -13037,7 +13037,7 @@ public struct ListPublishedSchemaArnsInput: Swift.Equatable {
     }
 }
 
-struct ListPublishedSchemaArnsInputBody: Swift.Equatable {
+struct ListPublishedSchemaArnsInputBody {
     let schemaArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -13075,7 +13075,7 @@ extension ListPublishedSchemaArnsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPublishedSchemaArnsOutput: Swift.Equatable {
+public struct ListPublishedSchemaArnsOutput {
     /// The pagination token.
     public var nextToken: Swift.String?
     /// The ARNs of published schemas.
@@ -13091,7 +13091,7 @@ public struct ListPublishedSchemaArnsOutput: Swift.Equatable {
     }
 }
 
-struct ListPublishedSchemaArnsOutputBody: Swift.Equatable {
+struct ListPublishedSchemaArnsOutputBody {
     let schemaArns: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -13166,7 +13166,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The MaxResults parameter sets the maximum number of results returned in a single page. This is for future use and is not supported currently.
     public var maxResults: Swift.Int?
     /// The pagination token. This is for future use. Currently pagination is not supported for tagging.
@@ -13187,7 +13187,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -13225,7 +13225,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
     /// A list of tag key value pairs that are associated with the response.
@@ -13241,7 +13241,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [CloudDirectoryClientTypes.Tag]?
     let nextToken: Swift.String?
 }
@@ -13327,7 +13327,7 @@ extension ListTypedLinkFacetAttributesInput {
     }
 }
 
-public struct ListTypedLinkFacetAttributesInput: Swift.Equatable {
+public struct ListTypedLinkFacetAttributesInput {
     /// The maximum number of results to retrieve.
     public var maxResults: Swift.Int?
     /// The unique name of the typed link facet.
@@ -13353,7 +13353,7 @@ public struct ListTypedLinkFacetAttributesInput: Swift.Equatable {
     }
 }
 
-struct ListTypedLinkFacetAttributesInputBody: Swift.Equatable {
+struct ListTypedLinkFacetAttributesInputBody {
     let name: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -13391,7 +13391,7 @@ extension ListTypedLinkFacetAttributesOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListTypedLinkFacetAttributesOutput: Swift.Equatable {
+public struct ListTypedLinkFacetAttributesOutput {
     /// An ordered set of attributes associate with the typed link.
     public var attributes: [CloudDirectoryClientTypes.TypedLinkAttributeDefinition]?
     /// The pagination token.
@@ -13407,7 +13407,7 @@ public struct ListTypedLinkFacetAttributesOutput: Swift.Equatable {
     }
 }
 
-struct ListTypedLinkFacetAttributesOutputBody: Swift.Equatable {
+struct ListTypedLinkFacetAttributesOutputBody {
     let attributes: [CloudDirectoryClientTypes.TypedLinkAttributeDefinition]?
     let nextToken: Swift.String?
 }
@@ -13490,7 +13490,7 @@ extension ListTypedLinkFacetNamesInput {
     }
 }
 
-public struct ListTypedLinkFacetNamesInput: Swift.Equatable {
+public struct ListTypedLinkFacetNamesInput {
     /// The maximum number of results to retrieve.
     public var maxResults: Swift.Int?
     /// The pagination token.
@@ -13511,7 +13511,7 @@ public struct ListTypedLinkFacetNamesInput: Swift.Equatable {
     }
 }
 
-struct ListTypedLinkFacetNamesInputBody: Swift.Equatable {
+struct ListTypedLinkFacetNamesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -13545,7 +13545,7 @@ extension ListTypedLinkFacetNamesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTypedLinkFacetNamesOutput: Swift.Equatable {
+public struct ListTypedLinkFacetNamesOutput {
     /// The names of typed link facets that exist within the schema.
     public var facetNames: [Swift.String]?
     /// The pagination token.
@@ -13561,7 +13561,7 @@ public struct ListTypedLinkFacetNamesOutput: Swift.Equatable {
     }
 }
 
-struct ListTypedLinkFacetNamesOutputBody: Swift.Equatable {
+struct ListTypedLinkFacetNamesOutputBody {
     let facetNames: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -13647,7 +13647,7 @@ extension LookupPolicyInput {
     }
 }
 
-public struct LookupPolicyInput: Swift.Equatable {
+public struct LookupPolicyInput {
     /// The Amazon Resource Name (ARN) that is associated with the [Directory]. For more information, see [arns].
     /// This member is required.
     public var directoryArn: Swift.String?
@@ -13673,7 +13673,7 @@ public struct LookupPolicyInput: Swift.Equatable {
     }
 }
 
-struct LookupPolicyInputBody: Swift.Equatable {
+struct LookupPolicyInputBody {
     let objectReference: CloudDirectoryClientTypes.ObjectReference?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -13711,7 +13711,7 @@ extension LookupPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct LookupPolicyOutput: Swift.Equatable {
+public struct LookupPolicyOutput {
     /// The pagination token.
     public var nextToken: Swift.String?
     /// Provides list of path to policies. Policies contain PolicyId, ObjectIdentifier, and PolicyType. For more information, see [Policies](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directory.html#key_concepts_policies).
@@ -13727,7 +13727,7 @@ public struct LookupPolicyOutput: Swift.Equatable {
     }
 }
 
-struct LookupPolicyOutputBody: Swift.Equatable {
+struct LookupPolicyOutputBody {
     let policyToPathList: [CloudDirectoryClientTypes.PolicyToPath]?
     let nextToken: Swift.String?
 }
@@ -13814,7 +13814,7 @@ public struct NotIndexException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct NotIndexExceptionBody: Swift.Equatable {
+struct NotIndexExceptionBody {
     let message: Swift.String?
 }
 
@@ -13869,7 +13869,7 @@ public struct NotNodeException: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     }
 }
 
-struct NotNodeExceptionBody: Swift.Equatable {
+struct NotNodeExceptionBody {
     let message: Swift.String?
 }
 
@@ -13924,7 +13924,7 @@ public struct NotPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.A
     }
 }
 
-struct NotPolicyExceptionBody: Swift.Equatable {
+struct NotPolicyExceptionBody {
     let message: Swift.String?
 }
 
@@ -13979,7 +13979,7 @@ public struct ObjectAlreadyDetachedException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct ObjectAlreadyDetachedExceptionBody: Swift.Equatable {
+struct ObjectAlreadyDetachedExceptionBody {
     let message: Swift.String?
 }
 
@@ -14022,7 +14022,7 @@ extension CloudDirectoryClientTypes.ObjectAttributeAction: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// The action to take on the object attribute.
-    public struct ObjectAttributeAction: Swift.Equatable {
+    public struct ObjectAttributeAction {
         /// A type that can be either Update or Delete.
         public var objectAttributeActionType: CloudDirectoryClientTypes.UpdateActionType?
         /// The value that you want to update to.
@@ -14067,7 +14067,7 @@ extension CloudDirectoryClientTypes.ObjectAttributeRange: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// A range of attributes.
-    public struct ObjectAttributeRange: Swift.Equatable {
+    public struct ObjectAttributeRange {
         /// The key of the attribute that the attribute range covers.
         public var attributeKey: CloudDirectoryClientTypes.AttributeKey?
         /// The range of attribute values being selected.
@@ -14112,7 +14112,7 @@ extension CloudDirectoryClientTypes.ObjectAttributeUpdate: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Structure that contains attribute update information.
-    public struct ObjectAttributeUpdate: Swift.Equatable {
+    public struct ObjectAttributeUpdate {
         /// The action to perform as part of the attribute update.
         public var objectAttributeAction: CloudDirectoryClientTypes.ObjectAttributeAction?
         /// The key of the attribute being updated.
@@ -14157,7 +14157,7 @@ extension CloudDirectoryClientTypes.ObjectIdentifierAndLinkNameTuple: Swift.Coda
 
 extension CloudDirectoryClientTypes {
     /// A pair of ObjectIdentifier and LinkName.
-    public struct ObjectIdentifierAndLinkNameTuple: Swift.Equatable {
+    public struct ObjectIdentifierAndLinkNameTuple {
         /// The name of the link between the parent and the child object.
         public var linkName: Swift.String?
         /// The ID that is associated with the object.
@@ -14214,7 +14214,7 @@ public struct ObjectNotDetachedException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct ObjectNotDetachedExceptionBody: Swift.Equatable {
+struct ObjectNotDetachedExceptionBody {
     let message: Swift.String?
 }
 
@@ -14251,7 +14251,7 @@ extension CloudDirectoryClientTypes.ObjectReference: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// The reference that identifies an object.
-    public struct ObjectReference: Swift.Equatable {
+    public struct ObjectReference {
         /// A path selector supports easy selection of an object by the parent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are separated by slashes. For more information about paths, see [Access Objects](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_access_objects.html). You can identify an object in one of the following ways:
         ///
         /// * $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created object. An object’s identifier is immutable and no two objects will ever share the same object identifier. To identify an object with ObjectIdentifier, the ObjectIdentifier must be wrapped in double quotes.
@@ -14348,7 +14348,7 @@ extension CloudDirectoryClientTypes.PathToObjectIdentifiers: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Returns the path to the ObjectIdentifiers that is associated with the directory.
-    public struct PathToObjectIdentifiers: Swift.Equatable {
+    public struct PathToObjectIdentifiers {
         /// Lists ObjectIdentifiers starting from directory root to the object in the request.
         public var objectIdentifiers: [Swift.String]?
         /// The path that is used to identify the object starting from directory root.
@@ -14399,7 +14399,7 @@ extension CloudDirectoryClientTypes.PolicyAttachment: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Contains the PolicyType, PolicyId, and the ObjectIdentifier to which it is attached. For more information, see [Policies](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directory.html#key_concepts_policies).
-    public struct PolicyAttachment: Swift.Equatable {
+    public struct PolicyAttachment {
         /// The ObjectIdentifier that is associated with PolicyAttachment.
         public var objectIdentifier: Swift.String?
         /// The ID of PolicyAttachment.
@@ -14460,7 +14460,7 @@ extension CloudDirectoryClientTypes.PolicyToPath: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Used when a regular object exists in a [Directory] and you want to find all of the policies that are associated with that object and the parent to that object.
-    public struct PolicyToPath: Swift.Equatable {
+    public struct PolicyToPath {
         /// The path that is referenced from the root.
         public var path: Swift.String?
         /// List of policy objects.
@@ -14517,7 +14517,7 @@ extension PublishSchemaInput {
     }
 }
 
-public struct PublishSchemaInput: Swift.Equatable {
+public struct PublishSchemaInput {
     /// The Amazon Resource Name (ARN) that is associated with the development schema. For more information, see [arns].
     /// This member is required.
     public var developmentSchemaArn: Swift.String?
@@ -14543,7 +14543,7 @@ public struct PublishSchemaInput: Swift.Equatable {
     }
 }
 
-struct PublishSchemaInputBody: Swift.Equatable {
+struct PublishSchemaInputBody {
     let version: Swift.String?
     let minorVersion: Swift.String?
     let name: Swift.String?
@@ -14579,7 +14579,7 @@ extension PublishSchemaOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PublishSchemaOutput: Swift.Equatable {
+public struct PublishSchemaOutput {
     /// The ARN that is associated with the published schema. For more information, see [arns].
     public var publishedSchemaArn: Swift.String?
 
@@ -14591,7 +14591,7 @@ public struct PublishSchemaOutput: Swift.Equatable {
     }
 }
 
-struct PublishSchemaOutputBody: Swift.Equatable {
+struct PublishSchemaOutputBody {
     let publishedSchemaArn: Swift.String?
 }
 
@@ -14656,7 +14656,7 @@ extension PutSchemaFromJsonInput {
     }
 }
 
-public struct PutSchemaFromJsonInput: Swift.Equatable {
+public struct PutSchemaFromJsonInput {
     /// The replacement JSON schema.
     /// This member is required.
     public var document: Swift.String?
@@ -14674,7 +14674,7 @@ public struct PutSchemaFromJsonInput: Swift.Equatable {
     }
 }
 
-struct PutSchemaFromJsonInputBody: Swift.Equatable {
+struct PutSchemaFromJsonInputBody {
     let document: Swift.String?
 }
 
@@ -14702,7 +14702,7 @@ extension PutSchemaFromJsonOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutSchemaFromJsonOutput: Swift.Equatable {
+public struct PutSchemaFromJsonOutput {
     /// The ARN of the schema to update.
     public var arn: Swift.String?
 
@@ -14714,7 +14714,7 @@ public struct PutSchemaFromJsonOutput: Swift.Equatable {
     }
 }
 
-struct PutSchemaFromJsonOutputBody: Swift.Equatable {
+struct PutSchemaFromJsonOutputBody {
     let arn: Swift.String?
 }
 
@@ -14824,7 +14824,7 @@ extension RemoveFacetFromObjectInput {
     }
 }
 
-public struct RemoveFacetFromObjectInput: Swift.Equatable {
+public struct RemoveFacetFromObjectInput {
     /// The ARN of the directory in which the object resides.
     /// This member is required.
     public var directoryArn: Swift.String?
@@ -14847,7 +14847,7 @@ public struct RemoveFacetFromObjectInput: Swift.Equatable {
     }
 }
 
-struct RemoveFacetFromObjectInputBody: Swift.Equatable {
+struct RemoveFacetFromObjectInputBody {
     let schemaFacet: CloudDirectoryClientTypes.SchemaFacet?
     let objectReference: CloudDirectoryClientTypes.ObjectReference?
 }
@@ -14872,7 +14872,7 @@ extension RemoveFacetFromObjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RemoveFacetFromObjectOutput: Swift.Equatable {
+public struct RemoveFacetFromObjectOutput {
 
     public init() { }
 }
@@ -14967,7 +14967,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -15022,7 +15022,7 @@ public struct RetryableConflictException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct RetryableConflictExceptionBody: Swift.Equatable {
+struct RetryableConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -15077,7 +15077,7 @@ extension CloudDirectoryClientTypes.Rule: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Contains an Amazon Resource Name (ARN) and parameters that are associated with the rule.
-    public struct Rule: Swift.Equatable {
+    public struct Rule {
         /// The minimum and maximum parameters that are associated with the rule.
         public var parameters: [Swift.String:Swift.String]?
         /// The type of attribute validation rule.
@@ -15172,7 +15172,7 @@ public struct SchemaAlreadyExistsException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct SchemaAlreadyExistsExceptionBody: Swift.Equatable {
+struct SchemaAlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -15227,7 +15227,7 @@ public struct SchemaAlreadyPublishedException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct SchemaAlreadyPublishedExceptionBody: Swift.Equatable {
+struct SchemaAlreadyPublishedExceptionBody {
     let message: Swift.String?
 }
 
@@ -15270,7 +15270,7 @@ extension CloudDirectoryClientTypes.SchemaFacet: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// A facet.
-    public struct SchemaFacet: Swift.Equatable {
+    public struct SchemaFacet {
         /// The name of the facet. If this value is set, SchemaArn must also be set.
         public var facetName: Swift.String?
         /// The ARN of the schema that contains the facet with no minor component. See [arns] and [In-Place Schema Upgrade](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_inplaceschemaupgrade.html) for a description of when to provide minor versions. If this value is set, FacetName must also be set.
@@ -15327,7 +15327,7 @@ public struct StillContainsLinksException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct StillContainsLinksExceptionBody: Swift.Equatable {
+struct StillContainsLinksExceptionBody {
     let message: Swift.String?
 }
 
@@ -15370,7 +15370,7 @@ extension CloudDirectoryClientTypes.Tag: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// The tag structure that contains a tag key and value.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key that is associated with the tag.
         public var key: Swift.String?
         /// The value that is associated with the tag.
@@ -15415,7 +15415,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource. Tagging is only supported for directories.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -15433,7 +15433,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceArn: Swift.String?
     let tags: [CloudDirectoryClientTypes.Tag]?
 }
@@ -15467,7 +15467,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -15551,7 +15551,7 @@ extension CloudDirectoryClientTypes.TypedAttributeValue: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Represents the data for a typed attribute. You can set one, and only one, of the elements. Each attribute in an item is a name-value pair. Attributes have a single value.
-    public enum TypedAttributeValue: Swift.Equatable {
+    public enum TypedAttributeValue {
         /// A string data value.
         case stringvalue(Swift.String)
         /// A binary data value.
@@ -15606,7 +15606,7 @@ extension CloudDirectoryClientTypes.TypedAttributeValueRange: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// A range of attribute values. For more information, see [Range Filters](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_range_filters.html).
-    public struct TypedAttributeValueRange: Swift.Equatable {
+    public struct TypedAttributeValueRange {
         /// The inclusive or exclusive range end.
         /// This member is required.
         public var endMode: CloudDirectoryClientTypes.RangeMode?
@@ -15697,7 +15697,7 @@ extension CloudDirectoryClientTypes.TypedLinkAttributeDefinition: Swift.Codable 
 
 extension CloudDirectoryClientTypes {
     /// A typed link attribute definition.
-    public struct TypedLinkAttributeDefinition: Swift.Equatable {
+    public struct TypedLinkAttributeDefinition {
         /// The default value of the attribute (if configured).
         public var defaultValue: CloudDirectoryClientTypes.TypedAttributeValue?
         /// Whether the attribute is mutable or not.
@@ -15761,7 +15761,7 @@ extension CloudDirectoryClientTypes.TypedLinkAttributeRange: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Identifies the range of attributes that are used by a specified filter.
-    public struct TypedLinkAttributeRange: Swift.Equatable {
+    public struct TypedLinkAttributeRange {
         /// The unique name of the typed link attribute.
         public var attributeName: Swift.String?
         /// The range of attribute values that are being selected.
@@ -15837,7 +15837,7 @@ extension CloudDirectoryClientTypes.TypedLinkFacet: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Defines the typed links structure and its attributes. To create a typed link facet, use the [CreateTypedLinkFacet] API.
-    public struct TypedLinkFacet: Swift.Equatable {
+    public struct TypedLinkFacet {
         /// A set of key-value pairs associated with the typed link. Typed link attributes are used when you have data values that are related to the link itself, and not to one of the two objects being linked. Identity attributes also serve to distinguish the link from others of the same type between the same objects.
         /// This member is required.
         public var attributes: [CloudDirectoryClientTypes.TypedLinkAttributeDefinition]?
@@ -15889,7 +15889,7 @@ extension CloudDirectoryClientTypes.TypedLinkFacetAttributeUpdate: Swift.Codable
 
 extension CloudDirectoryClientTypes {
     /// A typed link facet attribute update.
-    public struct TypedLinkFacetAttributeUpdate: Swift.Equatable {
+    public struct TypedLinkFacetAttributeUpdate {
         /// The action to perform when updating the attribute.
         /// This member is required.
         public var action: CloudDirectoryClientTypes.UpdateActionType?
@@ -15936,7 +15936,7 @@ extension CloudDirectoryClientTypes.TypedLinkSchemaAndFacetName: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Identifies the schema Amazon Resource Name (ARN) and facet name for the typed link.
-    public struct TypedLinkSchemaAndFacetName: Swift.Equatable {
+    public struct TypedLinkSchemaAndFacetName {
         /// The Amazon Resource Name (ARN) that is associated with the schema. For more information, see [arns].
         /// This member is required.
         public var schemaArn: Swift.String?
@@ -16007,7 +16007,7 @@ extension CloudDirectoryClientTypes.TypedLinkSpecifier: Swift.Codable {
 
 extension CloudDirectoryClientTypes {
     /// Contains all the information that is used to uniquely identify a typed link. The parameters discussed in this topic are used to uniquely specify the typed link being operated on. The [AttachTypedLink] API returns a typed link specifier while the [DetachTypedLink] API accepts one as input. Similarly, the [ListIncomingTypedLinks] and [ListOutgoingTypedLinks] API operations provide typed link specifiers as output. You can also construct a typed link specifier from scratch.
-    public struct TypedLinkSpecifier: Swift.Equatable {
+    public struct TypedLinkSpecifier {
         /// Identifies the attribute value to update.
         /// This member is required.
         public var identityAttributeValues: [CloudDirectoryClientTypes.AttributeNameAndValue]?
@@ -16076,7 +16076,7 @@ public struct UnsupportedIndexTypeException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct UnsupportedIndexTypeExceptionBody: Swift.Equatable {
+struct UnsupportedIndexTypeExceptionBody {
     let message: Swift.String?
 }
 
@@ -16119,7 +16119,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource. Tagging is only supported for directories.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -16137,7 +16137,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceArn: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -16171,7 +16171,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -16268,7 +16268,7 @@ extension UpdateFacetInput {
     }
 }
 
-public struct UpdateFacetInput: Swift.Equatable {
+public struct UpdateFacetInput {
     /// List of attributes that need to be updated in a given schema [Facet]. Each attribute is followed by AttributeAction, which specifies the type of update operation to perform.
     public var attributeUpdates: [CloudDirectoryClientTypes.FacetAttributeUpdate]?
     /// The name of the facet.
@@ -16294,7 +16294,7 @@ public struct UpdateFacetInput: Swift.Equatable {
     }
 }
 
-struct UpdateFacetInputBody: Swift.Equatable {
+struct UpdateFacetInputBody {
     let name: Swift.String?
     let attributeUpdates: [CloudDirectoryClientTypes.FacetAttributeUpdate]?
     let objectType: CloudDirectoryClientTypes.ObjectType?
@@ -16332,7 +16332,7 @@ extension UpdateFacetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateFacetOutput: Swift.Equatable {
+public struct UpdateFacetOutput {
 
     public init() { }
 }
@@ -16396,7 +16396,7 @@ extension UpdateLinkAttributesInput {
     }
 }
 
-public struct UpdateLinkAttributesInput: Swift.Equatable {
+public struct UpdateLinkAttributesInput {
     /// The attributes update structure.
     /// This member is required.
     public var attributeUpdates: [CloudDirectoryClientTypes.LinkAttributeUpdate]?
@@ -16419,7 +16419,7 @@ public struct UpdateLinkAttributesInput: Swift.Equatable {
     }
 }
 
-struct UpdateLinkAttributesInputBody: Swift.Equatable {
+struct UpdateLinkAttributesInputBody {
     let typedLinkSpecifier: CloudDirectoryClientTypes.TypedLinkSpecifier?
     let attributeUpdates: [CloudDirectoryClientTypes.LinkAttributeUpdate]?
 }
@@ -16453,7 +16453,7 @@ extension UpdateLinkAttributesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateLinkAttributesOutput: Swift.Equatable {
+public struct UpdateLinkAttributesOutput {
 
     public init() { }
 }
@@ -16515,7 +16515,7 @@ extension UpdateObjectAttributesInput {
     }
 }
 
-public struct UpdateObjectAttributesInput: Swift.Equatable {
+public struct UpdateObjectAttributesInput {
     /// The attributes update structure.
     /// This member is required.
     public var attributeUpdates: [CloudDirectoryClientTypes.ObjectAttributeUpdate]?
@@ -16538,7 +16538,7 @@ public struct UpdateObjectAttributesInput: Swift.Equatable {
     }
 }
 
-struct UpdateObjectAttributesInputBody: Swift.Equatable {
+struct UpdateObjectAttributesInputBody {
     let objectReference: CloudDirectoryClientTypes.ObjectReference?
     let attributeUpdates: [CloudDirectoryClientTypes.ObjectAttributeUpdate]?
 }
@@ -16579,7 +16579,7 @@ extension UpdateObjectAttributesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateObjectAttributesOutput: Swift.Equatable {
+public struct UpdateObjectAttributesOutput {
     /// The ObjectIdentifier of the updated object.
     public var objectIdentifier: Swift.String?
 
@@ -16591,7 +16591,7 @@ public struct UpdateObjectAttributesOutput: Swift.Equatable {
     }
 }
 
-struct UpdateObjectAttributesOutputBody: Swift.Equatable {
+struct UpdateObjectAttributesOutputBody {
     let objectIdentifier: Swift.String?
 }
 
@@ -16658,7 +16658,7 @@ extension UpdateSchemaInput {
     }
 }
 
-public struct UpdateSchemaInput: Swift.Equatable {
+public struct UpdateSchemaInput {
     /// The name of the schema.
     /// This member is required.
     public var name: Swift.String?
@@ -16676,7 +16676,7 @@ public struct UpdateSchemaInput: Swift.Equatable {
     }
 }
 
-struct UpdateSchemaInputBody: Swift.Equatable {
+struct UpdateSchemaInputBody {
     let name: Swift.String?
 }
 
@@ -16704,7 +16704,7 @@ extension UpdateSchemaOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSchemaOutput: Swift.Equatable {
+public struct UpdateSchemaOutput {
     /// The ARN that is associated with the updated schema. For more information, see [arns].
     public var schemaArn: Swift.String?
 
@@ -16716,7 +16716,7 @@ public struct UpdateSchemaOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSchemaOutputBody: Swift.Equatable {
+struct UpdateSchemaOutputBody {
     let schemaArn: Swift.String?
 }
 
@@ -16794,7 +16794,7 @@ extension UpdateTypedLinkFacetInput {
     }
 }
 
-public struct UpdateTypedLinkFacetInput: Swift.Equatable {
+public struct UpdateTypedLinkFacetInput {
     /// Attributes update structure.
     /// This member is required.
     public var attributeUpdates: [CloudDirectoryClientTypes.TypedLinkFacetAttributeUpdate]?
@@ -16822,7 +16822,7 @@ public struct UpdateTypedLinkFacetInput: Swift.Equatable {
     }
 }
 
-struct UpdateTypedLinkFacetInputBody: Swift.Equatable {
+struct UpdateTypedLinkFacetInputBody {
     let name: Swift.String?
     let attributeUpdates: [CloudDirectoryClientTypes.TypedLinkFacetAttributeUpdate]?
     let identityAttributeOrder: [Swift.String]?
@@ -16869,7 +16869,7 @@ extension UpdateTypedLinkFacetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateTypedLinkFacetOutput: Swift.Equatable {
+public struct UpdateTypedLinkFacetOutput {
 
     public init() { }
 }
@@ -16923,7 +16923,7 @@ extension UpgradeAppliedSchemaInput {
     }
 }
 
-public struct UpgradeAppliedSchemaInput: Swift.Equatable {
+public struct UpgradeAppliedSchemaInput {
     /// The ARN for the directory to which the upgraded schema will be applied.
     /// This member is required.
     public var directoryArn: Swift.String?
@@ -16945,7 +16945,7 @@ public struct UpgradeAppliedSchemaInput: Swift.Equatable {
     }
 }
 
-struct UpgradeAppliedSchemaInputBody: Swift.Equatable {
+struct UpgradeAppliedSchemaInputBody {
     let publishedSchemaArn: Swift.String?
     let directoryArn: Swift.String?
     let dryRun: Swift.Bool?
@@ -16983,7 +16983,7 @@ extension UpgradeAppliedSchemaOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpgradeAppliedSchemaOutput: Swift.Equatable {
+public struct UpgradeAppliedSchemaOutput {
     /// The ARN of the directory that is returned as part of the response.
     public var directoryArn: Swift.String?
     /// The ARN of the upgraded schema that is returned as part of the response.
@@ -16999,7 +16999,7 @@ public struct UpgradeAppliedSchemaOutput: Swift.Equatable {
     }
 }
 
-struct UpgradeAppliedSchemaOutputBody: Swift.Equatable {
+struct UpgradeAppliedSchemaOutputBody {
     let upgradedSchemaArn: Swift.String?
     let directoryArn: Swift.String?
 }
@@ -17070,7 +17070,7 @@ extension UpgradePublishedSchemaInput {
     }
 }
 
-public struct UpgradePublishedSchemaInput: Swift.Equatable {
+public struct UpgradePublishedSchemaInput {
     /// The ARN of the development schema with the changes used for the upgrade.
     /// This member is required.
     public var developmentSchemaArn: Swift.String?
@@ -17097,7 +17097,7 @@ public struct UpgradePublishedSchemaInput: Swift.Equatable {
     }
 }
 
-struct UpgradePublishedSchemaInputBody: Swift.Equatable {
+struct UpgradePublishedSchemaInputBody {
     let developmentSchemaArn: Swift.String?
     let publishedSchemaArn: Swift.String?
     let minorVersion: Swift.String?
@@ -17137,7 +17137,7 @@ extension UpgradePublishedSchemaOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpgradePublishedSchemaOutput: Swift.Equatable {
+public struct UpgradePublishedSchemaOutput {
     /// The ARN of the upgraded schema that is returned as part of the response.
     public var upgradedSchemaArn: Swift.String?
 
@@ -17149,7 +17149,7 @@ public struct UpgradePublishedSchemaOutput: Swift.Equatable {
     }
 }
 
-struct UpgradePublishedSchemaOutputBody: Swift.Equatable {
+struct UpgradePublishedSchemaOutputBody {
     let upgradedSchemaArn: Swift.String?
 }
 
@@ -17223,7 +17223,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

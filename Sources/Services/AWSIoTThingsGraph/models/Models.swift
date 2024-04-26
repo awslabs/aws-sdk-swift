@@ -30,7 +30,7 @@ extension AssociateEntityToThingInput {
     }
 }
 
-public struct AssociateEntityToThingInput: Swift.Equatable {
+public struct AssociateEntityToThingInput {
     /// The ID of the device to be associated with the thing. The ID should be in the following format. urn:tdm:REGION/ACCOUNT ID/default:device:DEVICENAME
     /// This member is required.
     public var entityId: Swift.String?
@@ -52,7 +52,7 @@ public struct AssociateEntityToThingInput: Swift.Equatable {
     }
 }
 
-struct AssociateEntityToThingInputBody: Swift.Equatable {
+struct AssociateEntityToThingInputBody {
     let thingName: Swift.String?
     let entityId: Swift.String?
     let namespaceVersion: Swift.Int?
@@ -81,7 +81,7 @@ extension AssociateEntityToThingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateEntityToThingOutput: Swift.Equatable {
+public struct AssociateEntityToThingOutput {
 
     public init() { }
 }
@@ -124,7 +124,7 @@ extension CreateFlowTemplateInput {
     }
 }
 
-public struct CreateFlowTemplateInput: Swift.Equatable {
+public struct CreateFlowTemplateInput {
     /// The namespace version in which the workflow is to be created. If no value is specified, the latest version is used by default.
     public var compatibleNamespaceVersion: Swift.Int?
     /// The workflow DefinitionDocument.
@@ -141,7 +141,7 @@ public struct CreateFlowTemplateInput: Swift.Equatable {
     }
 }
 
-struct CreateFlowTemplateInputBody: Swift.Equatable {
+struct CreateFlowTemplateInputBody {
     let definition: IoTThingsGraphClientTypes.DefinitionDocument?
     let compatibleNamespaceVersion: Swift.Int?
 }
@@ -173,7 +173,7 @@ extension CreateFlowTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateFlowTemplateOutput: Swift.Equatable {
+public struct CreateFlowTemplateOutput {
     /// The summary object that describes the created workflow.
     public var summary: IoTThingsGraphClientTypes.FlowTemplateSummary?
 
@@ -185,7 +185,7 @@ public struct CreateFlowTemplateOutput: Swift.Equatable {
     }
 }
 
-struct CreateFlowTemplateOutputBody: Swift.Equatable {
+struct CreateFlowTemplateOutputBody {
     let summary: IoTThingsGraphClientTypes.FlowTemplateSummary?
 }
 
@@ -263,7 +263,7 @@ extension CreateSystemInstanceInput {
     }
 }
 
-public struct CreateSystemInstanceInput: Swift.Equatable {
+public struct CreateSystemInstanceInput {
     /// A document that defines an entity.
     /// This member is required.
     public var definition: IoTThingsGraphClientTypes.DefinitionDocument?
@@ -301,7 +301,7 @@ public struct CreateSystemInstanceInput: Swift.Equatable {
     }
 }
 
-struct CreateSystemInstanceInputBody: Swift.Equatable {
+struct CreateSystemInstanceInputBody {
     let tags: [IoTThingsGraphClientTypes.Tag]?
     let definition: IoTThingsGraphClientTypes.DefinitionDocument?
     let target: IoTThingsGraphClientTypes.DeploymentTarget?
@@ -362,7 +362,7 @@ extension CreateSystemInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSystemInstanceOutput: Swift.Equatable {
+public struct CreateSystemInstanceOutput {
     /// The summary object that describes the new system instance.
     public var summary: IoTThingsGraphClientTypes.SystemInstanceSummary?
 
@@ -374,7 +374,7 @@ public struct CreateSystemInstanceOutput: Swift.Equatable {
     }
 }
 
-struct CreateSystemInstanceOutputBody: Swift.Equatable {
+struct CreateSystemInstanceOutputBody {
     let summary: IoTThingsGraphClientTypes.SystemInstanceSummary?
 }
 
@@ -429,7 +429,7 @@ extension CreateSystemTemplateInput {
     }
 }
 
-public struct CreateSystemTemplateInput: Swift.Equatable {
+public struct CreateSystemTemplateInput {
     /// The namespace version in which the system is to be created. If no value is specified, the latest version is used by default.
     public var compatibleNamespaceVersion: Swift.Int?
     /// The DefinitionDocument used to create the system.
@@ -446,7 +446,7 @@ public struct CreateSystemTemplateInput: Swift.Equatable {
     }
 }
 
-struct CreateSystemTemplateInputBody: Swift.Equatable {
+struct CreateSystemTemplateInputBody {
     let definition: IoTThingsGraphClientTypes.DefinitionDocument?
     let compatibleNamespaceVersion: Swift.Int?
 }
@@ -478,7 +478,7 @@ extension CreateSystemTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSystemTemplateOutput: Swift.Equatable {
+public struct CreateSystemTemplateOutput {
     /// The summary object that describes the created system.
     public var summary: IoTThingsGraphClientTypes.SystemTemplateSummary?
 
@@ -490,7 +490,7 @@ public struct CreateSystemTemplateOutput: Swift.Equatable {
     }
 }
 
-struct CreateSystemTemplateOutputBody: Swift.Equatable {
+struct CreateSystemTemplateOutputBody {
     let summary: IoTThingsGraphClientTypes.SystemTemplateSummary?
 }
 
@@ -547,7 +547,7 @@ extension IoTThingsGraphClientTypes.DefinitionDocument: Swift.Codable {
 
 extension IoTThingsGraphClientTypes {
     /// A document that defines an entity.
-    public struct DefinitionDocument: Swift.Equatable {
+    public struct DefinitionDocument {
         /// The language used to define the entity. GRAPHQL is the only valid value.
         /// This member is required.
         public var language: IoTThingsGraphClientTypes.DefinitionLanguage?
@@ -616,7 +616,7 @@ extension DeleteFlowTemplateInput {
     }
 }
 
-public struct DeleteFlowTemplateInput: Swift.Equatable {
+public struct DeleteFlowTemplateInput {
     /// The ID of the workflow to be deleted. The ID should be in the following format. urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME
     /// This member is required.
     public var id: Swift.String?
@@ -629,7 +629,7 @@ public struct DeleteFlowTemplateInput: Swift.Equatable {
     }
 }
 
-struct DeleteFlowTemplateInputBody: Swift.Equatable {
+struct DeleteFlowTemplateInputBody {
     let id: Swift.String?
 }
 
@@ -650,7 +650,7 @@ extension DeleteFlowTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteFlowTemplateOutput: Swift.Equatable {
+public struct DeleteFlowTemplateOutput {
 
     public init() { }
 }
@@ -684,12 +684,12 @@ extension DeleteNamespaceInput {
     }
 }
 
-public struct DeleteNamespaceInput: Swift.Equatable {
+public struct DeleteNamespaceInput {
 
     public init() { }
 }
 
-struct DeleteNamespaceInputBody: Swift.Equatable {
+struct DeleteNamespaceInputBody {
 }
 
 extension DeleteNamespaceInputBody: Swift.Decodable {
@@ -712,7 +712,7 @@ extension DeleteNamespaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteNamespaceOutput: Swift.Equatable {
+public struct DeleteNamespaceOutput {
     /// The ARN of the namespace to be deleted.
     public var namespaceArn: Swift.String?
     /// The name of the namespace to be deleted.
@@ -728,7 +728,7 @@ public struct DeleteNamespaceOutput: Swift.Equatable {
     }
 }
 
-struct DeleteNamespaceOutputBody: Swift.Equatable {
+struct DeleteNamespaceOutputBody {
     let namespaceArn: Swift.String?
     let namespaceName: Swift.String?
 }
@@ -780,7 +780,7 @@ extension DeleteSystemInstanceInput {
     }
 }
 
-public struct DeleteSystemInstanceInput: Swift.Equatable {
+public struct DeleteSystemInstanceInput {
     /// The ID of the system instance to be deleted.
     public var id: Swift.String?
 
@@ -792,7 +792,7 @@ public struct DeleteSystemInstanceInput: Swift.Equatable {
     }
 }
 
-struct DeleteSystemInstanceInputBody: Swift.Equatable {
+struct DeleteSystemInstanceInputBody {
     let id: Swift.String?
 }
 
@@ -813,7 +813,7 @@ extension DeleteSystemInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSystemInstanceOutput: Swift.Equatable {
+public struct DeleteSystemInstanceOutput {
 
     public init() { }
 }
@@ -852,7 +852,7 @@ extension DeleteSystemTemplateInput {
     }
 }
 
-public struct DeleteSystemTemplateInput: Swift.Equatable {
+public struct DeleteSystemTemplateInput {
     /// The ID of the system to be deleted. The ID should be in the following format. urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME
     /// This member is required.
     public var id: Swift.String?
@@ -865,7 +865,7 @@ public struct DeleteSystemTemplateInput: Swift.Equatable {
     }
 }
 
-struct DeleteSystemTemplateInputBody: Swift.Equatable {
+struct DeleteSystemTemplateInputBody {
     let id: Swift.String?
 }
 
@@ -886,7 +886,7 @@ extension DeleteSystemTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSystemTemplateOutput: Swift.Equatable {
+public struct DeleteSystemTemplateOutput {
 
     public init() { }
 }
@@ -932,7 +932,7 @@ extension IoTThingsGraphClientTypes.DependencyRevision: Swift.Codable {
 
 extension IoTThingsGraphClientTypes {
     /// An object that contains the ID and revision number of a workflow or system that is part of a deployment.
-    public struct DependencyRevision: Swift.Equatable {
+    public struct DependencyRevision {
         /// The ID of the workflow or system.
         public var id: Swift.String?
         /// The revision number of the workflow or system.
@@ -970,7 +970,7 @@ extension DeploySystemInstanceInput {
     }
 }
 
-public struct DeploySystemInstanceInput: Swift.Equatable {
+public struct DeploySystemInstanceInput {
     /// The ID of the system instance. This value is returned by the CreateSystemInstance action. The ID should be in the following format. urn:tdm:REGION/ACCOUNT ID/default:deployment:DEPLOYMENTNAME
     public var id: Swift.String?
 
@@ -982,7 +982,7 @@ public struct DeploySystemInstanceInput: Swift.Equatable {
     }
 }
 
-struct DeploySystemInstanceInputBody: Swift.Equatable {
+struct DeploySystemInstanceInputBody {
     let id: Swift.String?
 }
 
@@ -1012,7 +1012,7 @@ extension DeploySystemInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeploySystemInstanceOutput: Swift.Equatable {
+public struct DeploySystemInstanceOutput {
     /// The ID of the Greengrass deployment used to deploy the system instance.
     public var greengrassDeploymentId: Swift.String?
     /// An object that contains summary information about a system instance that was deployed.
@@ -1029,7 +1029,7 @@ public struct DeploySystemInstanceOutput: Swift.Equatable {
     }
 }
 
-struct DeploySystemInstanceOutputBody: Swift.Equatable {
+struct DeploySystemInstanceOutputBody {
     let summary: IoTThingsGraphClientTypes.SystemInstanceSummary?
     let greengrassDeploymentId: Swift.String?
 }
@@ -1116,7 +1116,7 @@ extension DeprecateFlowTemplateInput {
     }
 }
 
-public struct DeprecateFlowTemplateInput: Swift.Equatable {
+public struct DeprecateFlowTemplateInput {
     /// The ID of the workflow to be deleted. The ID should be in the following format. urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME
     /// This member is required.
     public var id: Swift.String?
@@ -1129,7 +1129,7 @@ public struct DeprecateFlowTemplateInput: Swift.Equatable {
     }
 }
 
-struct DeprecateFlowTemplateInputBody: Swift.Equatable {
+struct DeprecateFlowTemplateInputBody {
     let id: Swift.String?
 }
 
@@ -1150,7 +1150,7 @@ extension DeprecateFlowTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeprecateFlowTemplateOutput: Swift.Equatable {
+public struct DeprecateFlowTemplateOutput {
 
     public init() { }
 }
@@ -1189,7 +1189,7 @@ extension DeprecateSystemTemplateInput {
     }
 }
 
-public struct DeprecateSystemTemplateInput: Swift.Equatable {
+public struct DeprecateSystemTemplateInput {
     /// The ID of the system to delete. The ID should be in the following format. urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME
     /// This member is required.
     public var id: Swift.String?
@@ -1202,7 +1202,7 @@ public struct DeprecateSystemTemplateInput: Swift.Equatable {
     }
 }
 
-struct DeprecateSystemTemplateInputBody: Swift.Equatable {
+struct DeprecateSystemTemplateInputBody {
     let id: Swift.String?
 }
 
@@ -1223,7 +1223,7 @@ extension DeprecateSystemTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeprecateSystemTemplateOutput: Swift.Equatable {
+public struct DeprecateSystemTemplateOutput {
 
     public init() { }
 }
@@ -1262,7 +1262,7 @@ extension DescribeNamespaceInput {
     }
 }
 
-public struct DescribeNamespaceInput: Swift.Equatable {
+public struct DescribeNamespaceInput {
     /// The name of the user's namespace. Set this to aws to get the public namespace.
     public var namespaceName: Swift.String?
 
@@ -1274,7 +1274,7 @@ public struct DescribeNamespaceInput: Swift.Equatable {
     }
 }
 
-struct DescribeNamespaceInputBody: Swift.Equatable {
+struct DescribeNamespaceInputBody {
     let namespaceName: Swift.String?
 }
 
@@ -1310,7 +1310,7 @@ extension DescribeNamespaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeNamespaceOutput: Swift.Equatable {
+public struct DescribeNamespaceOutput {
     /// The ARN of the namespace.
     public var namespaceArn: Swift.String?
     /// The name of the namespace.
@@ -1338,7 +1338,7 @@ public struct DescribeNamespaceOutput: Swift.Equatable {
     }
 }
 
-struct DescribeNamespaceOutputBody: Swift.Equatable {
+struct DescribeNamespaceOutputBody {
     let namespaceArn: Swift.String?
     let namespaceName: Swift.String?
     let trackingNamespaceName: Swift.String?
@@ -1408,7 +1408,7 @@ extension DissociateEntityFromThingInput {
     }
 }
 
-public struct DissociateEntityFromThingInput: Swift.Equatable {
+public struct DissociateEntityFromThingInput {
     /// The entity type from which to disassociate the thing.
     /// This member is required.
     public var entityType: IoTThingsGraphClientTypes.EntityType?
@@ -1426,7 +1426,7 @@ public struct DissociateEntityFromThingInput: Swift.Equatable {
     }
 }
 
-struct DissociateEntityFromThingInputBody: Swift.Equatable {
+struct DissociateEntityFromThingInputBody {
     let thingName: Swift.String?
     let entityType: IoTThingsGraphClientTypes.EntityType?
 }
@@ -1451,7 +1451,7 @@ extension DissociateEntityFromThingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DissociateEntityFromThingOutput: Swift.Equatable {
+public struct DissociateEntityFromThingOutput {
 
     public init() { }
 }
@@ -1515,7 +1515,7 @@ extension IoTThingsGraphClientTypes.EntityDescription: Swift.Codable {
 
 extension IoTThingsGraphClientTypes {
     /// Describes the properties of an entity.
-    public struct EntityDescription: Swift.Equatable {
+    public struct EntityDescription {
         /// The entity ARN.
         public var arn: Swift.String?
         /// The time at which the entity was created.
@@ -1584,7 +1584,7 @@ extension IoTThingsGraphClientTypes.EntityFilter: Swift.Codable {
 
 extension IoTThingsGraphClientTypes {
     /// An object that filters an entity search. Multiple filters function as OR criteria in the search. For example a search that includes a NAMESPACE and a REFERENCED_ENTITY_ID filter searches for entities in the specified namespace that use the entity specified by the value of REFERENCED_ENTITY_ID.
-    public struct EntityFilter: Swift.Equatable {
+    public struct EntityFilter {
         /// The name of the entity search filter field. REFERENCED_ENTITY_ID filters on entities that are used by the entity in the result set. For example, you can filter on the ID of a property that is used in a state.
         public var name: IoTThingsGraphClientTypes.EntityFilterName?
         /// An array of string values for the search filter field. Multiple values function as AND criteria in the search.
@@ -1812,7 +1812,7 @@ extension IoTThingsGraphClientTypes.FlowExecutionMessage: Swift.Codable {
 
 extension IoTThingsGraphClientTypes {
     /// An object that contains information about a flow event.
-    public struct FlowExecutionMessage: Swift.Equatable {
+    public struct FlowExecutionMessage {
         /// The type of flow event .
         public var eventType: IoTThingsGraphClientTypes.FlowExecutionEventType?
         /// The unique identifier of the message.
@@ -1927,7 +1927,7 @@ extension IoTThingsGraphClientTypes.FlowExecutionSummary: Swift.Codable {
 
 extension IoTThingsGraphClientTypes {
     /// An object that contains summary information about a flow execution.
-    public struct FlowExecutionSummary: Swift.Equatable {
+    public struct FlowExecutionSummary {
         /// The date and time when the flow execution summary was created.
         public var createdAt: ClientRuntime.Date?
         /// The ID of the flow execution.
@@ -1994,7 +1994,7 @@ extension IoTThingsGraphClientTypes.FlowTemplateDescription: Swift.Codable {
 
 extension IoTThingsGraphClientTypes {
     /// An object that contains a workflow's definition and summary information.
-    public struct FlowTemplateDescription: Swift.Equatable {
+    public struct FlowTemplateDescription {
         /// A workflow's definition document.
         public var definition: IoTThingsGraphClientTypes.DefinitionDocument?
         /// An object that contains summary information about a workflow.
@@ -2055,7 +2055,7 @@ extension IoTThingsGraphClientTypes.FlowTemplateFilter: Swift.Codable {
 
 extension IoTThingsGraphClientTypes {
     /// An object that filters a workflow search.
-    public struct FlowTemplateFilter: Swift.Equatable {
+    public struct FlowTemplateFilter {
         /// The name of the search filter field.
         /// This member is required.
         public var name: IoTThingsGraphClientTypes.FlowTemplateFilterName?
@@ -2143,7 +2143,7 @@ extension IoTThingsGraphClientTypes.FlowTemplateSummary: Swift.Codable {
 
 extension IoTThingsGraphClientTypes {
     /// An object that contains summary information about a workflow.
-    public struct FlowTemplateSummary: Swift.Equatable {
+    public struct FlowTemplateSummary {
         /// The ARN of the workflow.
         public var arn: Swift.String?
         /// The date when the workflow was created.
@@ -2196,7 +2196,7 @@ extension GetEntitiesInput {
     }
 }
 
-public struct GetEntitiesInput: Swift.Equatable {
+public struct GetEntitiesInput {
     /// An array of entity IDs. The IDs should be in the following format. urn:tdm:REGION/ACCOUNT ID/default:device:DEVICENAME
     /// This member is required.
     public var ids: [Swift.String]?
@@ -2213,7 +2213,7 @@ public struct GetEntitiesInput: Swift.Equatable {
     }
 }
 
-struct GetEntitiesInputBody: Swift.Equatable {
+struct GetEntitiesInputBody {
     let ids: [Swift.String]?
     let namespaceVersion: Swift.Int?
 }
@@ -2254,7 +2254,7 @@ extension GetEntitiesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEntitiesOutput: Swift.Equatable {
+public struct GetEntitiesOutput {
     /// An array of descriptions for the specified entities.
     public var descriptions: [IoTThingsGraphClientTypes.EntityDescription]?
 
@@ -2266,7 +2266,7 @@ public struct GetEntitiesOutput: Swift.Equatable {
     }
 }
 
-struct GetEntitiesOutputBody: Swift.Equatable {
+struct GetEntitiesOutputBody {
     let descriptions: [IoTThingsGraphClientTypes.EntityDescription]?
 }
 
@@ -2329,7 +2329,7 @@ extension GetFlowTemplateInput {
     }
 }
 
-public struct GetFlowTemplateInput: Swift.Equatable {
+public struct GetFlowTemplateInput {
     /// The ID of the workflow. The ID should be in the following format. urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME
     /// This member is required.
     public var id: Swift.String?
@@ -2346,7 +2346,7 @@ public struct GetFlowTemplateInput: Swift.Equatable {
     }
 }
 
-struct GetFlowTemplateInputBody: Swift.Equatable {
+struct GetFlowTemplateInputBody {
     let id: Swift.String?
     let revisionNumber: Swift.Int?
 }
@@ -2378,7 +2378,7 @@ extension GetFlowTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetFlowTemplateOutput: Swift.Equatable {
+public struct GetFlowTemplateOutput {
     /// The object that describes the specified workflow.
     public var description: IoTThingsGraphClientTypes.FlowTemplateDescription?
 
@@ -2390,7 +2390,7 @@ public struct GetFlowTemplateOutput: Swift.Equatable {
     }
 }
 
-struct GetFlowTemplateOutputBody: Swift.Equatable {
+struct GetFlowTemplateOutputBody {
     let description: IoTThingsGraphClientTypes.FlowTemplateDescription?
 }
 
@@ -2448,7 +2448,7 @@ extension GetFlowTemplateRevisionsInput {
     }
 }
 
-public struct GetFlowTemplateRevisionsInput: Swift.Equatable {
+public struct GetFlowTemplateRevisionsInput {
     /// The ID of the workflow. The ID should be in the following format. urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME
     /// This member is required.
     public var id: Swift.String?
@@ -2469,7 +2469,7 @@ public struct GetFlowTemplateRevisionsInput: Swift.Equatable {
     }
 }
 
-struct GetFlowTemplateRevisionsInputBody: Swift.Equatable {
+struct GetFlowTemplateRevisionsInputBody {
     let id: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -2507,7 +2507,7 @@ extension GetFlowTemplateRevisionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetFlowTemplateRevisionsOutput: Swift.Equatable {
+public struct GetFlowTemplateRevisionsOutput {
     /// The string to specify as nextToken when you request the next page of results.
     public var nextToken: Swift.String?
     /// An array of objects that provide summary data about each revision.
@@ -2523,7 +2523,7 @@ public struct GetFlowTemplateRevisionsOutput: Swift.Equatable {
     }
 }
 
-struct GetFlowTemplateRevisionsOutputBody: Swift.Equatable {
+struct GetFlowTemplateRevisionsOutputBody {
     let summaries: [IoTThingsGraphClientTypes.FlowTemplateSummary]?
     let nextToken: Swift.String?
 }
@@ -2581,12 +2581,12 @@ extension GetNamespaceDeletionStatusInput {
     }
 }
 
-public struct GetNamespaceDeletionStatusInput: Swift.Equatable {
+public struct GetNamespaceDeletionStatusInput {
 
     public init() { }
 }
 
-struct GetNamespaceDeletionStatusInputBody: Swift.Equatable {
+struct GetNamespaceDeletionStatusInputBody {
 }
 
 extension GetNamespaceDeletionStatusInputBody: Swift.Decodable {
@@ -2615,7 +2615,7 @@ extension GetNamespaceDeletionStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetNamespaceDeletionStatusOutput: Swift.Equatable {
+public struct GetNamespaceDeletionStatusOutput {
     /// An error code returned by the namespace deletion task.
     public var errorCode: IoTThingsGraphClientTypes.NamespaceDeletionStatusErrorCodes?
     /// An error code returned by the namespace deletion task.
@@ -2643,7 +2643,7 @@ public struct GetNamespaceDeletionStatusOutput: Swift.Equatable {
     }
 }
 
-struct GetNamespaceDeletionStatusOutputBody: Swift.Equatable {
+struct GetNamespaceDeletionStatusOutputBody {
     let namespaceArn: Swift.String?
     let namespaceName: Swift.String?
     let status: IoTThingsGraphClientTypes.NamespaceDeletionStatus?
@@ -2708,7 +2708,7 @@ extension GetSystemInstanceInput {
     }
 }
 
-public struct GetSystemInstanceInput: Swift.Equatable {
+public struct GetSystemInstanceInput {
     /// The ID of the system deployment instance. This value is returned by CreateSystemInstance. The ID should be in the following format. urn:tdm:REGION/ACCOUNT ID/default:deployment:DEPLOYMENTNAME
     /// This member is required.
     public var id: Swift.String?
@@ -2721,7 +2721,7 @@ public struct GetSystemInstanceInput: Swift.Equatable {
     }
 }
 
-struct GetSystemInstanceInputBody: Swift.Equatable {
+struct GetSystemInstanceInputBody {
     let id: Swift.String?
 }
 
@@ -2749,7 +2749,7 @@ extension GetSystemInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSystemInstanceOutput: Swift.Equatable {
+public struct GetSystemInstanceOutput {
     /// An object that describes the system instance.
     public var description: IoTThingsGraphClientTypes.SystemInstanceDescription?
 
@@ -2761,7 +2761,7 @@ public struct GetSystemInstanceOutput: Swift.Equatable {
     }
 }
 
-struct GetSystemInstanceOutputBody: Swift.Equatable {
+struct GetSystemInstanceOutputBody {
     let description: IoTThingsGraphClientTypes.SystemInstanceDescription?
 }
 
@@ -2815,7 +2815,7 @@ extension GetSystemTemplateInput {
     }
 }
 
-public struct GetSystemTemplateInput: Swift.Equatable {
+public struct GetSystemTemplateInput {
     /// The ID of the system to get. This ID must be in the user's namespace. The ID should be in the following format. urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME
     /// This member is required.
     public var id: Swift.String?
@@ -2832,7 +2832,7 @@ public struct GetSystemTemplateInput: Swift.Equatable {
     }
 }
 
-struct GetSystemTemplateInputBody: Swift.Equatable {
+struct GetSystemTemplateInputBody {
     let id: Swift.String?
     let revisionNumber: Swift.Int?
 }
@@ -2864,7 +2864,7 @@ extension GetSystemTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSystemTemplateOutput: Swift.Equatable {
+public struct GetSystemTemplateOutput {
     /// An object that contains summary data about the system.
     public var description: IoTThingsGraphClientTypes.SystemTemplateDescription?
 
@@ -2876,7 +2876,7 @@ public struct GetSystemTemplateOutput: Swift.Equatable {
     }
 }
 
-struct GetSystemTemplateOutputBody: Swift.Equatable {
+struct GetSystemTemplateOutputBody {
     let description: IoTThingsGraphClientTypes.SystemTemplateDescription?
 }
 
@@ -2934,7 +2934,7 @@ extension GetSystemTemplateRevisionsInput {
     }
 }
 
-public struct GetSystemTemplateRevisionsInput: Swift.Equatable {
+public struct GetSystemTemplateRevisionsInput {
     /// The ID of the system template. The ID should be in the following format. urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME
     /// This member is required.
     public var id: Swift.String?
@@ -2955,7 +2955,7 @@ public struct GetSystemTemplateRevisionsInput: Swift.Equatable {
     }
 }
 
-struct GetSystemTemplateRevisionsInputBody: Swift.Equatable {
+struct GetSystemTemplateRevisionsInputBody {
     let id: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -2993,7 +2993,7 @@ extension GetSystemTemplateRevisionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSystemTemplateRevisionsOutput: Swift.Equatable {
+public struct GetSystemTemplateRevisionsOutput {
     /// The string to specify as nextToken when you request the next page of results.
     public var nextToken: Swift.String?
     /// An array of objects that contain summary data about the system template revisions.
@@ -3009,7 +3009,7 @@ public struct GetSystemTemplateRevisionsOutput: Swift.Equatable {
     }
 }
 
-struct GetSystemTemplateRevisionsOutputBody: Swift.Equatable {
+struct GetSystemTemplateRevisionsOutputBody {
     let summaries: [IoTThingsGraphClientTypes.SystemTemplateSummary]?
     let nextToken: Swift.String?
 }
@@ -3072,7 +3072,7 @@ extension GetUploadStatusInput {
     }
 }
 
-public struct GetUploadStatusInput: Swift.Equatable {
+public struct GetUploadStatusInput {
     /// The ID of the upload. This value is returned by the UploadEntityDefinitions action.
     /// This member is required.
     public var uploadId: Swift.String?
@@ -3085,7 +3085,7 @@ public struct GetUploadStatusInput: Swift.Equatable {
     }
 }
 
-struct GetUploadStatusInputBody: Swift.Equatable {
+struct GetUploadStatusInputBody {
     let uploadId: Swift.String?
 }
 
@@ -3125,7 +3125,7 @@ extension GetUploadStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetUploadStatusOutput: Swift.Equatable {
+public struct GetUploadStatusOutput {
     /// The date at which the upload was created.
     /// This member is required.
     public var createdDate: ClientRuntime.Date?
@@ -3164,7 +3164,7 @@ public struct GetUploadStatusOutput: Swift.Equatable {
     }
 }
 
-struct GetUploadStatusOutputBody: Swift.Equatable {
+struct GetUploadStatusOutputBody {
     let uploadId: Swift.String?
     let uploadStatus: IoTThingsGraphClientTypes.UploadStatus?
     let namespaceArn: Swift.String?
@@ -3266,7 +3266,7 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InternalFailureExceptionBody: Swift.Equatable {
+struct InternalFailureExceptionBody {
     let message: Swift.String?
 }
 
@@ -3321,7 +3321,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InvalidRequestExceptionBody: Swift.Equatable {
+struct InvalidRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -3378,7 +3378,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -3422,7 +3422,7 @@ extension ListFlowExecutionMessagesInput {
     }
 }
 
-public struct ListFlowExecutionMessagesInput: Swift.Equatable {
+public struct ListFlowExecutionMessagesInput {
     /// The ID of the flow execution.
     /// This member is required.
     public var flowExecutionId: Swift.String?
@@ -3443,7 +3443,7 @@ public struct ListFlowExecutionMessagesInput: Swift.Equatable {
     }
 }
 
-struct ListFlowExecutionMessagesInputBody: Swift.Equatable {
+struct ListFlowExecutionMessagesInputBody {
     let flowExecutionId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -3481,7 +3481,7 @@ extension ListFlowExecutionMessagesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFlowExecutionMessagesOutput: Swift.Equatable {
+public struct ListFlowExecutionMessagesOutput {
     /// A list of objects that contain information about events in the specified flow execution.
     public var messages: [IoTThingsGraphClientTypes.FlowExecutionMessage]?
     /// The string to specify as nextToken when you request the next page of results.
@@ -3497,7 +3497,7 @@ public struct ListFlowExecutionMessagesOutput: Swift.Equatable {
     }
 }
 
-struct ListFlowExecutionMessagesOutputBody: Swift.Equatable {
+struct ListFlowExecutionMessagesOutputBody {
     let messages: [IoTThingsGraphClientTypes.FlowExecutionMessage]?
     let nextToken: Swift.String?
 }
@@ -3568,7 +3568,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The maximum number of tags to return.
     public var maxResults: Swift.Int?
     /// The token that specifies the next page of results to return.
@@ -3589,7 +3589,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let maxResults: Swift.Int?
     let resourceArn: Swift.String?
     let nextToken: Swift.String?
@@ -3627,7 +3627,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The token that specifies the next page of results to return.
     public var nextToken: Swift.String?
     /// List of tags returned by the ListTagsForResource operation.
@@ -3643,7 +3643,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [IoTThingsGraphClientTypes.Tag]?
     let nextToken: Swift.String?
 }
@@ -3713,7 +3713,7 @@ extension IoTThingsGraphClientTypes.MetricsConfiguration: Swift.Codable {
 
 extension IoTThingsGraphClientTypes {
     /// An object that specifies whether cloud metrics are collected in a deployment and, if so, what role is used to collect metrics.
-    public struct MetricsConfiguration: Swift.Equatable {
+    public struct MetricsConfiguration {
         /// A Boolean that specifies whether cloud metrics are collected.
         public var cloudMetricEnabled: Swift.Bool
         /// The ARN of the role that is used to collect cloud metrics.
@@ -3834,7 +3834,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct ResourceAlreadyExistsExceptionBody: Swift.Equatable {
+struct ResourceAlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -3889,7 +3889,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ResourceInUseExceptionBody: Swift.Equatable {
+struct ResourceInUseExceptionBody {
     let message: Swift.String?
 }
 
@@ -3944,7 +3944,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -4002,7 +4002,7 @@ extension SearchEntitiesInput {
     }
 }
 
-public struct SearchEntitiesInput: Swift.Equatable {
+public struct SearchEntitiesInput {
     /// The entity types for which to search.
     /// This member is required.
     public var entityTypes: [IoTThingsGraphClientTypes.EntityType]?
@@ -4031,7 +4031,7 @@ public struct SearchEntitiesInput: Swift.Equatable {
     }
 }
 
-struct SearchEntitiesInputBody: Swift.Equatable {
+struct SearchEntitiesInputBody {
     let entityTypes: [IoTThingsGraphClientTypes.EntityType]?
     let filters: [IoTThingsGraphClientTypes.EntityFilter]?
     let nextToken: Swift.String?
@@ -4095,7 +4095,7 @@ extension SearchEntitiesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchEntitiesOutput: Swift.Equatable {
+public struct SearchEntitiesOutput {
     /// An array of descriptions for each entity returned in the search result.
     public var descriptions: [IoTThingsGraphClientTypes.EntityDescription]?
     /// The string to specify as nextToken when you request the next page of results.
@@ -4111,7 +4111,7 @@ public struct SearchEntitiesOutput: Swift.Equatable {
     }
 }
 
-struct SearchEntitiesOutputBody: Swift.Equatable {
+struct SearchEntitiesOutputBody {
     let descriptions: [IoTThingsGraphClientTypes.EntityDescription]?
     let nextToken: Swift.String?
 }
@@ -4193,7 +4193,7 @@ extension SearchFlowExecutionsInput {
     }
 }
 
-public struct SearchFlowExecutionsInput: Swift.Equatable {
+public struct SearchFlowExecutionsInput {
     /// The date and time of the latest flow execution to return.
     public var endTime: ClientRuntime.Date?
     /// The ID of a flow execution.
@@ -4226,7 +4226,7 @@ public struct SearchFlowExecutionsInput: Swift.Equatable {
     }
 }
 
-struct SearchFlowExecutionsInputBody: Swift.Equatable {
+struct SearchFlowExecutionsInputBody {
     let systemInstanceId: Swift.String?
     let flowExecutionId: Swift.String?
     let startTime: ClientRuntime.Date?
@@ -4276,7 +4276,7 @@ extension SearchFlowExecutionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchFlowExecutionsOutput: Swift.Equatable {
+public struct SearchFlowExecutionsOutput {
     /// The string to specify as nextToken when you request the next page of results.
     public var nextToken: Swift.String?
     /// An array of objects that contain summary information about each workflow execution in the result set.
@@ -4292,7 +4292,7 @@ public struct SearchFlowExecutionsOutput: Swift.Equatable {
     }
 }
 
-struct SearchFlowExecutionsOutputBody: Swift.Equatable {
+struct SearchFlowExecutionsOutputBody {
     let summaries: [IoTThingsGraphClientTypes.FlowExecutionSummary]?
     let nextToken: Swift.String?
 }
@@ -4366,7 +4366,7 @@ extension SearchFlowTemplatesInput {
     }
 }
 
-public struct SearchFlowTemplatesInput: Swift.Equatable {
+public struct SearchFlowTemplatesInput {
     /// An array of objects that limit the result set. The only valid filter is DEVICE_MODEL_ID.
     public var filters: [IoTThingsGraphClientTypes.FlowTemplateFilter]?
     /// The maximum number of results to return in the response.
@@ -4386,7 +4386,7 @@ public struct SearchFlowTemplatesInput: Swift.Equatable {
     }
 }
 
-struct SearchFlowTemplatesInputBody: Swift.Equatable {
+struct SearchFlowTemplatesInputBody {
     let filters: [IoTThingsGraphClientTypes.FlowTemplateFilter]?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -4433,7 +4433,7 @@ extension SearchFlowTemplatesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchFlowTemplatesOutput: Swift.Equatable {
+public struct SearchFlowTemplatesOutput {
     /// The string to specify as nextToken when you request the next page of results.
     public var nextToken: Swift.String?
     /// An array of objects that contain summary information about each workflow in the result set.
@@ -4449,7 +4449,7 @@ public struct SearchFlowTemplatesOutput: Swift.Equatable {
     }
 }
 
-struct SearchFlowTemplatesOutputBody: Swift.Equatable {
+struct SearchFlowTemplatesOutputBody {
     let summaries: [IoTThingsGraphClientTypes.FlowTemplateSummary]?
     let nextToken: Swift.String?
 }
@@ -4522,7 +4522,7 @@ extension SearchSystemInstancesInput {
     }
 }
 
-public struct SearchSystemInstancesInput: Swift.Equatable {
+public struct SearchSystemInstancesInput {
     /// Optional filter to apply to the search. Valid filters are SYSTEM_TEMPLATE_ID, STATUS, and GREENGRASS_GROUP_NAME. Multiple filters function as OR criteria in the query. Multiple values passed inside the filter function as AND criteria.
     public var filters: [IoTThingsGraphClientTypes.SystemInstanceFilter]?
     /// The maximum number of results to return in the response.
@@ -4542,7 +4542,7 @@ public struct SearchSystemInstancesInput: Swift.Equatable {
     }
 }
 
-struct SearchSystemInstancesInputBody: Swift.Equatable {
+struct SearchSystemInstancesInputBody {
     let filters: [IoTThingsGraphClientTypes.SystemInstanceFilter]?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -4589,7 +4589,7 @@ extension SearchSystemInstancesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchSystemInstancesOutput: Swift.Equatable {
+public struct SearchSystemInstancesOutput {
     /// The string to specify as nextToken when you request the next page of results.
     public var nextToken: Swift.String?
     /// An array of objects that contain summary data abour the system instances in the result set.
@@ -4605,7 +4605,7 @@ public struct SearchSystemInstancesOutput: Swift.Equatable {
     }
 }
 
-struct SearchSystemInstancesOutputBody: Swift.Equatable {
+struct SearchSystemInstancesOutputBody {
     let summaries: [IoTThingsGraphClientTypes.SystemInstanceSummary]?
     let nextToken: Swift.String?
 }
@@ -4678,7 +4678,7 @@ extension SearchSystemTemplatesInput {
     }
 }
 
-public struct SearchSystemTemplatesInput: Swift.Equatable {
+public struct SearchSystemTemplatesInput {
     /// An array of filters that limit the result set. The only valid filter is FLOW_TEMPLATE_ID.
     public var filters: [IoTThingsGraphClientTypes.SystemTemplateFilter]?
     /// The maximum number of results to return in the response.
@@ -4698,7 +4698,7 @@ public struct SearchSystemTemplatesInput: Swift.Equatable {
     }
 }
 
-struct SearchSystemTemplatesInputBody: Swift.Equatable {
+struct SearchSystemTemplatesInputBody {
     let filters: [IoTThingsGraphClientTypes.SystemTemplateFilter]?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -4745,7 +4745,7 @@ extension SearchSystemTemplatesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchSystemTemplatesOutput: Swift.Equatable {
+public struct SearchSystemTemplatesOutput {
     /// The string to specify as nextToken when you request the next page of results.
     public var nextToken: Swift.String?
     /// An array of objects that contain summary information about each system deployment in the result set.
@@ -4761,7 +4761,7 @@ public struct SearchSystemTemplatesOutput: Swift.Equatable {
     }
 }
 
-struct SearchSystemTemplatesOutputBody: Swift.Equatable {
+struct SearchSystemTemplatesOutputBody {
     let summaries: [IoTThingsGraphClientTypes.SystemTemplateSummary]?
     let nextToken: Swift.String?
 }
@@ -4835,7 +4835,7 @@ extension SearchThingsInput {
     }
 }
 
-public struct SearchThingsInput: Swift.Equatable {
+public struct SearchThingsInput {
     /// The ID of the entity to which the things are associated. The IDs should be in the following format. urn:tdm:REGION/ACCOUNT ID/default:device:DEVICENAME
     /// This member is required.
     public var entityId: Swift.String?
@@ -4860,7 +4860,7 @@ public struct SearchThingsInput: Swift.Equatable {
     }
 }
 
-struct SearchThingsInputBody: Swift.Equatable {
+struct SearchThingsInputBody {
     let entityId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -4902,7 +4902,7 @@ extension SearchThingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchThingsOutput: Swift.Equatable {
+public struct SearchThingsOutput {
     /// The string to specify as nextToken when you request the next page of results.
     public var nextToken: Swift.String?
     /// An array of things in the result set.
@@ -4918,7 +4918,7 @@ public struct SearchThingsOutput: Swift.Equatable {
     }
 }
 
-struct SearchThingsOutputBody: Swift.Equatable {
+struct SearchThingsOutputBody {
     let things: [IoTThingsGraphClientTypes.Thing]?
     let nextToken: Swift.String?
 }
@@ -5080,7 +5080,7 @@ extension IoTThingsGraphClientTypes.SystemInstanceDescription: Swift.Codable {
 
 extension IoTThingsGraphClientTypes {
     /// An object that contains a system instance definition and summary information.
-    public struct SystemInstanceDescription: Swift.Equatable {
+    public struct SystemInstanceDescription {
         /// A document that defines an entity.
         public var definition: IoTThingsGraphClientTypes.DefinitionDocument?
         /// The AWS Identity and Access Management (IAM) role that AWS IoT Things Graph assumes during flow execution in a cloud deployment. This role must have read and write permissionss to AWS Lambda and AWS IoT and to any other AWS services that the flow uses.
@@ -5157,7 +5157,7 @@ extension IoTThingsGraphClientTypes.SystemInstanceFilter: Swift.Codable {
 
 extension IoTThingsGraphClientTypes {
     /// An object that filters a system instance search. Multiple filters function as OR criteria in the search. For example a search that includes a GREENGRASS_GROUP_NAME and a STATUS filter searches for system instances in the specified Greengrass group that have the specified status.
-    public struct SystemInstanceFilter: Swift.Equatable {
+    public struct SystemInstanceFilter {
         /// The name of the search filter field.
         public var name: IoTThingsGraphClientTypes.SystemInstanceFilterName?
         /// An array of string values for the search filter field. Multiple values function as AND criteria in the search.
@@ -5279,7 +5279,7 @@ extension IoTThingsGraphClientTypes.SystemInstanceSummary: Swift.Codable {
 
 extension IoTThingsGraphClientTypes {
     /// An object that contains summary information about a system instance.
-    public struct SystemInstanceSummary: Swift.Equatable {
+    public struct SystemInstanceSummary {
         /// The ARN of the system instance.
         public var arn: Swift.String?
         /// The date when the system instance was created.
@@ -5358,7 +5358,7 @@ extension IoTThingsGraphClientTypes.SystemTemplateDescription: Swift.Codable {
 
 extension IoTThingsGraphClientTypes {
     /// An object that contains a system's definition document and summary information.
-    public struct SystemTemplateDescription: Swift.Equatable {
+    public struct SystemTemplateDescription {
         /// The definition document of a system.
         public var definition: IoTThingsGraphClientTypes.DefinitionDocument?
         /// An object that contains summary information about a system.
@@ -5419,7 +5419,7 @@ extension IoTThingsGraphClientTypes.SystemTemplateFilter: Swift.Codable {
 
 extension IoTThingsGraphClientTypes {
     /// An object that filters a system search.
-    public struct SystemTemplateFilter: Swift.Equatable {
+    public struct SystemTemplateFilter {
         /// The name of the system search filter field.
         /// This member is required.
         public var name: IoTThingsGraphClientTypes.SystemTemplateFilterName?
@@ -5507,7 +5507,7 @@ extension IoTThingsGraphClientTypes.SystemTemplateSummary: Swift.Codable {
 
 extension IoTThingsGraphClientTypes {
     /// An object that contains information about a system.
-    public struct SystemTemplateSummary: Swift.Equatable {
+    public struct SystemTemplateSummary {
         /// The ARN of the system.
         public var arn: Swift.String?
         /// The date when the system was created.
@@ -5560,7 +5560,7 @@ extension IoTThingsGraphClientTypes.Tag: Swift.Codable {
 
 extension IoTThingsGraphClientTypes {
     /// Metadata assigned to an AWS IoT Things Graph resource consisting of a key-value pair.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The required name of the tag. The string value can be from 1 to 128 Unicode characters in length.
         /// This member is required.
         public var key: Swift.String?
@@ -5607,7 +5607,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource whose tags are returned.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -5625,7 +5625,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceArn: Swift.String?
     let tags: [IoTThingsGraphClientTypes.Tag]?
 }
@@ -5659,7 +5659,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -5705,7 +5705,7 @@ extension IoTThingsGraphClientTypes.Thing: Swift.Codable {
 
 extension IoTThingsGraphClientTypes {
     /// An AWS IoT thing.
-    public struct Thing: Swift.Equatable {
+    public struct Thing {
         /// The ARN of the thing.
         public var thingArn: Swift.String?
         /// The name of the thing.
@@ -5762,7 +5762,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -5798,7 +5798,7 @@ extension UndeploySystemInstanceInput {
     }
 }
 
-public struct UndeploySystemInstanceInput: Swift.Equatable {
+public struct UndeploySystemInstanceInput {
     /// The ID of the system instance to remove from its target.
     public var id: Swift.String?
 
@@ -5810,7 +5810,7 @@ public struct UndeploySystemInstanceInput: Swift.Equatable {
     }
 }
 
-struct UndeploySystemInstanceInputBody: Swift.Equatable {
+struct UndeploySystemInstanceInputBody {
     let id: Swift.String?
 }
 
@@ -5838,7 +5838,7 @@ extension UndeploySystemInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UndeploySystemInstanceOutput: Swift.Equatable {
+public struct UndeploySystemInstanceOutput {
     /// An object that contains summary information about the system instance that was removed from its target.
     public var summary: IoTThingsGraphClientTypes.SystemInstanceSummary?
 
@@ -5850,7 +5850,7 @@ public struct UndeploySystemInstanceOutput: Swift.Equatable {
     }
 }
 
-struct UndeploySystemInstanceOutputBody: Swift.Equatable {
+struct UndeploySystemInstanceOutputBody {
     let summary: IoTThingsGraphClientTypes.SystemInstanceSummary?
 }
 
@@ -5908,7 +5908,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource whose tags are to be removed.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -5926,7 +5926,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceArn: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -5960,7 +5960,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -6007,7 +6007,7 @@ extension UpdateFlowTemplateInput {
     }
 }
 
-public struct UpdateFlowTemplateInput: Swift.Equatable {
+public struct UpdateFlowTemplateInput {
     /// The version of the user's namespace. If no value is specified, the latest version is used by default. Use the GetFlowTemplateRevisions if you want to find earlier revisions of the flow to update.
     public var compatibleNamespaceVersion: Swift.Int?
     /// The DefinitionDocument that contains the updated workflow definition.
@@ -6029,7 +6029,7 @@ public struct UpdateFlowTemplateInput: Swift.Equatable {
     }
 }
 
-struct UpdateFlowTemplateInputBody: Swift.Equatable {
+struct UpdateFlowTemplateInputBody {
     let id: Swift.String?
     let definition: IoTThingsGraphClientTypes.DefinitionDocument?
     let compatibleNamespaceVersion: Swift.Int?
@@ -6065,7 +6065,7 @@ extension UpdateFlowTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateFlowTemplateOutput: Swift.Equatable {
+public struct UpdateFlowTemplateOutput {
     /// An object containing summary information about the updated workflow.
     public var summary: IoTThingsGraphClientTypes.FlowTemplateSummary?
 
@@ -6077,7 +6077,7 @@ public struct UpdateFlowTemplateOutput: Swift.Equatable {
     }
 }
 
-struct UpdateFlowTemplateOutputBody: Swift.Equatable {
+struct UpdateFlowTemplateOutputBody {
     let summary: IoTThingsGraphClientTypes.FlowTemplateSummary?
 }
 
@@ -6135,7 +6135,7 @@ extension UpdateSystemTemplateInput {
     }
 }
 
-public struct UpdateSystemTemplateInput: Swift.Equatable {
+public struct UpdateSystemTemplateInput {
     /// The version of the user's namespace. Defaults to the latest version of the user's namespace. If no value is specified, the latest version is used by default.
     public var compatibleNamespaceVersion: Swift.Int?
     /// The DefinitionDocument that contains the updated system definition.
@@ -6157,7 +6157,7 @@ public struct UpdateSystemTemplateInput: Swift.Equatable {
     }
 }
 
-struct UpdateSystemTemplateInputBody: Swift.Equatable {
+struct UpdateSystemTemplateInputBody {
     let id: Swift.String?
     let definition: IoTThingsGraphClientTypes.DefinitionDocument?
     let compatibleNamespaceVersion: Swift.Int?
@@ -6193,7 +6193,7 @@ extension UpdateSystemTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSystemTemplateOutput: Swift.Equatable {
+public struct UpdateSystemTemplateOutput {
     /// An object containing summary information about the updated system.
     public var summary: IoTThingsGraphClientTypes.SystemTemplateSummary?
 
@@ -6205,7 +6205,7 @@ public struct UpdateSystemTemplateOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSystemTemplateOutputBody: Swift.Equatable {
+struct UpdateSystemTemplateOutputBody {
     let summary: IoTThingsGraphClientTypes.SystemTemplateSummary?
 }
 
@@ -6263,7 +6263,7 @@ extension UploadEntityDefinitionsInput {
     }
 }
 
-public struct UploadEntityDefinitionsInput: Swift.Equatable {
+public struct UploadEntityDefinitionsInput {
     /// A Boolean that specifies whether to deprecate all entities in the latest version before uploading the new DefinitionDocument. If set to true, the upload will create a new namespace version.
     public var deprecateExistingEntities: Swift.Bool?
     /// The DefinitionDocument that defines the updated entities.
@@ -6283,7 +6283,7 @@ public struct UploadEntityDefinitionsInput: Swift.Equatable {
     }
 }
 
-struct UploadEntityDefinitionsInputBody: Swift.Equatable {
+struct UploadEntityDefinitionsInputBody {
     let document: IoTThingsGraphClientTypes.DefinitionDocument?
     let syncWithPublicNamespace: Swift.Bool?
     let deprecateExistingEntities: Swift.Bool?
@@ -6319,7 +6319,7 @@ extension UploadEntityDefinitionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UploadEntityDefinitionsOutput: Swift.Equatable {
+public struct UploadEntityDefinitionsOutput {
     /// The ID that specifies the upload action. You can use this to track the status of the upload.
     /// This member is required.
     public var uploadId: Swift.String?
@@ -6332,7 +6332,7 @@ public struct UploadEntityDefinitionsOutput: Swift.Equatable {
     }
 }
 
-struct UploadEntityDefinitionsOutputBody: Swift.Equatable {
+struct UploadEntityDefinitionsOutputBody {
     let uploadId: Swift.String?
 }
 

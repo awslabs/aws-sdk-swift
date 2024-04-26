@@ -95,7 +95,7 @@ extension CloudHSMV2ClientTypes.Backup: Swift.Codable {
 
 extension CloudHSMV2ClientTypes {
     /// Contains information about a backup of an AWS CloudHSM cluster. All backup objects contain the BackupId, BackupState, ClusterId, and CreateTimestamp parameters. Backups that were copied into a destination region additionally contain the CopyTimestamp, SourceBackup, SourceCluster, and SourceRegion parameters. A backup that is pending deletion will include the DeleteTimestamp parameter.
-    public struct Backup: Swift.Equatable {
+    public struct Backup {
         /// The identifier (ID) of the backup.
         /// This member is required.
         public var backupId: Swift.String?
@@ -206,7 +206,7 @@ extension CloudHSMV2ClientTypes.BackupRetentionPolicy: Swift.Codable {
 
 extension CloudHSMV2ClientTypes {
     /// A policy that defines the number of days to retain backups.
-    public struct BackupRetentionPolicy: Swift.Equatable {
+    public struct BackupRetentionPolicy {
         /// The type of backup retention policy. For the DAYS type, the value is the number of days to retain backups.
         public var type: CloudHSMV2ClientTypes.BackupRetentionType?
         /// Use a value between 7 - 379.
@@ -336,7 +336,7 @@ extension CloudHSMV2ClientTypes.Certificates: Swift.Codable {
 
 extension CloudHSMV2ClientTypes {
     /// Contains one or more certificates or a certificate signing request (CSR).
-    public struct Certificates: Swift.Equatable {
+    public struct Certificates {
         /// The HSM hardware certificate issued (signed) by AWS CloudHSM.
         public var awsHardwareCertificate: Swift.String?
         /// The cluster certificate issued (signed) by the issuing certificate authority (CA) of the cluster's owner.
@@ -407,7 +407,7 @@ public struct CloudHsmAccessDeniedException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct CloudHsmAccessDeniedExceptionBody: Swift.Equatable {
+struct CloudHsmAccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -462,7 +462,7 @@ public struct CloudHsmInternalFailureException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct CloudHsmInternalFailureExceptionBody: Swift.Equatable {
+struct CloudHsmInternalFailureExceptionBody {
     let message: Swift.String?
 }
 
@@ -517,7 +517,7 @@ public struct CloudHsmInvalidRequestException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct CloudHsmInvalidRequestExceptionBody: Swift.Equatable {
+struct CloudHsmInvalidRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -572,7 +572,7 @@ public struct CloudHsmResourceNotFoundException: ClientRuntime.ModeledError, AWS
     }
 }
 
-struct CloudHsmResourceNotFoundExceptionBody: Swift.Equatable {
+struct CloudHsmResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -627,7 +627,7 @@ public struct CloudHsmServiceException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct CloudHsmServiceExceptionBody: Swift.Equatable {
+struct CloudHsmServiceExceptionBody {
     let message: Swift.String?
 }
 
@@ -682,7 +682,7 @@ public struct CloudHsmTagException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct CloudHsmTagExceptionBody: Swift.Equatable {
+struct CloudHsmTagExceptionBody {
     let message: Swift.String?
 }
 
@@ -839,7 +839,7 @@ extension CloudHSMV2ClientTypes.Cluster: Swift.Codable {
 
 extension CloudHSMV2ClientTypes {
     /// Contains information about an AWS CloudHSM cluster.
-    public struct Cluster: Swift.Equatable {
+    public struct Cluster {
         /// The cluster's backup policy.
         public var backupPolicy: CloudHSMV2ClientTypes.BackupPolicy?
         /// A policy that defines how the service retains backups.
@@ -993,7 +993,7 @@ extension CopyBackupToRegionInput {
     }
 }
 
-public struct CopyBackupToRegionInput: Swift.Equatable {
+public struct CopyBackupToRegionInput {
     /// The ID of the backup that will be copied to the destination region.
     /// This member is required.
     public var backupId: Swift.String?
@@ -1015,7 +1015,7 @@ public struct CopyBackupToRegionInput: Swift.Equatable {
     }
 }
 
-struct CopyBackupToRegionInputBody: Swift.Equatable {
+struct CopyBackupToRegionInputBody {
     let destinationRegion: Swift.String?
     let backupId: Swift.String?
     let tagList: [CloudHSMV2ClientTypes.Tag]?
@@ -1060,7 +1060,7 @@ extension CopyBackupToRegionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CopyBackupToRegionOutput: Swift.Equatable {
+public struct CopyBackupToRegionOutput {
     /// Information on the backup that will be copied to the destination region, including CreateTimestamp, SourceBackup, SourceCluster, and Source Region. CreateTimestamp of the destination backup will be the same as that of the source backup. You will need to use the sourceBackupID returned in this operation to use the [DescribeBackups] operation on the backup that will be copied to the destination region.
     public var destinationBackup: CloudHSMV2ClientTypes.DestinationBackup?
 
@@ -1072,7 +1072,7 @@ public struct CopyBackupToRegionOutput: Swift.Equatable {
     }
 }
 
-struct CopyBackupToRegionOutputBody: Swift.Equatable {
+struct CopyBackupToRegionOutputBody {
     let destinationBackup: CloudHSMV2ClientTypes.DestinationBackup?
 }
 
@@ -1146,7 +1146,7 @@ extension CreateClusterInput {
     }
 }
 
-public struct CreateClusterInput: Swift.Equatable {
+public struct CreateClusterInput {
     /// A policy that defines how the service retains backups.
     public var backupRetentionPolicy: CloudHSMV2ClientTypes.BackupRetentionPolicy?
     /// The type of HSM to use in the cluster. Currently the only allowed value is hsm1.medium.
@@ -1180,7 +1180,7 @@ public struct CreateClusterInput: Swift.Equatable {
     }
 }
 
-struct CreateClusterInputBody: Swift.Equatable {
+struct CreateClusterInputBody {
     let backupRetentionPolicy: CloudHSMV2ClientTypes.BackupRetentionPolicy?
     let hsmType: Swift.String?
     let sourceBackupId: Swift.String?
@@ -1242,7 +1242,7 @@ extension CreateClusterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateClusterOutput: Swift.Equatable {
+public struct CreateClusterOutput {
     /// Information about the cluster that was created.
     public var cluster: CloudHSMV2ClientTypes.Cluster?
 
@@ -1254,7 +1254,7 @@ public struct CreateClusterOutput: Swift.Equatable {
     }
 }
 
-struct CreateClusterOutputBody: Swift.Equatable {
+struct CreateClusterOutputBody {
     let cluster: CloudHSMV2ClientTypes.Cluster?
 }
 
@@ -1314,7 +1314,7 @@ extension CreateHsmInput {
     }
 }
 
-public struct CreateHsmInput: Swift.Equatable {
+public struct CreateHsmInput {
     /// The Availability Zone where you are creating the HSM. To find the cluster's Availability Zones, use [DescribeClusters].
     /// This member is required.
     public var availabilityZone: Swift.String?
@@ -1336,7 +1336,7 @@ public struct CreateHsmInput: Swift.Equatable {
     }
 }
 
-struct CreateHsmInputBody: Swift.Equatable {
+struct CreateHsmInputBody {
     let clusterId: Swift.String?
     let availabilityZone: Swift.String?
     let ipAddress: Swift.String?
@@ -1372,7 +1372,7 @@ extension CreateHsmOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateHsmOutput: Swift.Equatable {
+public struct CreateHsmOutput {
     /// Information about the HSM that was created.
     public var hsm: CloudHSMV2ClientTypes.Hsm?
 
@@ -1384,7 +1384,7 @@ public struct CreateHsmOutput: Swift.Equatable {
     }
 }
 
-struct CreateHsmOutputBody: Swift.Equatable {
+struct CreateHsmOutputBody {
     let hsm: CloudHSMV2ClientTypes.Hsm?
 }
 
@@ -1435,7 +1435,7 @@ extension DeleteBackupInput {
     }
 }
 
-public struct DeleteBackupInput: Swift.Equatable {
+public struct DeleteBackupInput {
     /// The ID of the backup to be deleted. To find the ID of a backup, use the [DescribeBackups] operation.
     /// This member is required.
     public var backupId: Swift.String?
@@ -1448,7 +1448,7 @@ public struct DeleteBackupInput: Swift.Equatable {
     }
 }
 
-struct DeleteBackupInputBody: Swift.Equatable {
+struct DeleteBackupInputBody {
     let backupId: Swift.String?
 }
 
@@ -1476,7 +1476,7 @@ extension DeleteBackupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteBackupOutput: Swift.Equatable {
+public struct DeleteBackupOutput {
     /// Information on the Backup object deleted.
     public var backup: CloudHSMV2ClientTypes.Backup?
 
@@ -1488,7 +1488,7 @@ public struct DeleteBackupOutput: Swift.Equatable {
     }
 }
 
-struct DeleteBackupOutputBody: Swift.Equatable {
+struct DeleteBackupOutputBody {
     let backup: CloudHSMV2ClientTypes.Backup?
 }
 
@@ -1539,7 +1539,7 @@ extension DeleteClusterInput {
     }
 }
 
-public struct DeleteClusterInput: Swift.Equatable {
+public struct DeleteClusterInput {
     /// The identifier (ID) of the cluster that you are deleting. To find the cluster ID, use [DescribeClusters].
     /// This member is required.
     public var clusterId: Swift.String?
@@ -1552,7 +1552,7 @@ public struct DeleteClusterInput: Swift.Equatable {
     }
 }
 
-struct DeleteClusterInputBody: Swift.Equatable {
+struct DeleteClusterInputBody {
     let clusterId: Swift.String?
 }
 
@@ -1580,7 +1580,7 @@ extension DeleteClusterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteClusterOutput: Swift.Equatable {
+public struct DeleteClusterOutput {
     /// Information about the cluster that was deleted.
     public var cluster: CloudHSMV2ClientTypes.Cluster?
 
@@ -1592,7 +1592,7 @@ public struct DeleteClusterOutput: Swift.Equatable {
     }
 }
 
-struct DeleteClusterOutputBody: Swift.Equatable {
+struct DeleteClusterOutputBody {
     let cluster: CloudHSMV2ClientTypes.Cluster?
 }
 
@@ -1656,7 +1656,7 @@ extension DeleteHsmInput {
     }
 }
 
-public struct DeleteHsmInput: Swift.Equatable {
+public struct DeleteHsmInput {
     /// The identifier (ID) of the cluster that contains the HSM that you are deleting.
     /// This member is required.
     public var clusterId: Swift.String?
@@ -1681,7 +1681,7 @@ public struct DeleteHsmInput: Swift.Equatable {
     }
 }
 
-struct DeleteHsmInputBody: Swift.Equatable {
+struct DeleteHsmInputBody {
     let clusterId: Swift.String?
     let hsmId: Swift.String?
     let eniId: Swift.String?
@@ -1721,7 +1721,7 @@ extension DeleteHsmOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteHsmOutput: Swift.Equatable {
+public struct DeleteHsmOutput {
     /// The identifier (ID) of the HSM that was deleted.
     public var hsmId: Swift.String?
 
@@ -1733,7 +1733,7 @@ public struct DeleteHsmOutput: Swift.Equatable {
     }
 }
 
-struct DeleteHsmOutputBody: Swift.Equatable {
+struct DeleteHsmOutputBody {
     let hsmId: Swift.String?
 }
 
@@ -1802,7 +1802,7 @@ extension DescribeBackupsInput {
     }
 }
 
-public struct DescribeBackupsInput: Swift.Equatable {
+public struct DescribeBackupsInput {
     /// One or more filters to limit the items returned in the response. Use the backupIds filter to return only the specified backups. Specify backups by their backup identifier (ID). Use the sourceBackupIds filter to return only the backups created from a source backup. The sourceBackupID of a source backup is returned by the [CopyBackupToRegion] operation. Use the clusterIds filter to return only the backups for the specified clusters. Specify clusters by their cluster identifier (ID). Use the states filter to return only backups that match the specified state. Use the neverExpires filter to return backups filtered by the value in the neverExpires parameter. True returns all backups exempt from the backup retention policy. False returns all backups with a backup retention policy defined at the cluster.
     public var filters: [Swift.String:[Swift.String]]?
     /// The maximum number of backups to return in the response. When there are more backups than the number you specify, the response contains a NextToken value.
@@ -1826,7 +1826,7 @@ public struct DescribeBackupsInput: Swift.Equatable {
     }
 }
 
-struct DescribeBackupsInputBody: Swift.Equatable {
+struct DescribeBackupsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let filters: [Swift.String:[Swift.String]]?
@@ -1884,7 +1884,7 @@ extension DescribeBackupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeBackupsOutput: Swift.Equatable {
+public struct DescribeBackupsOutput {
     /// A list of backups.
     public var backups: [CloudHSMV2ClientTypes.Backup]?
     /// An opaque string that indicates that the response contains only a subset of backups. Use this value in a subsequent DescribeBackups request to get more backups.
@@ -1900,7 +1900,7 @@ public struct DescribeBackupsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeBackupsOutputBody: Swift.Equatable {
+struct DescribeBackupsOutputBody {
     let backups: [CloudHSMV2ClientTypes.Backup]?
     let nextToken: Swift.String?
 }
@@ -1979,7 +1979,7 @@ extension DescribeClustersInput {
     }
 }
 
-public struct DescribeClustersInput: Swift.Equatable {
+public struct DescribeClustersInput {
     /// One or more filters to limit the items returned in the response. Use the clusterIds filter to return only the specified clusters. Specify clusters by their cluster identifier (ID). Use the vpcIds filter to return only the clusters in the specified virtual private clouds (VPCs). Specify VPCs by their VPC identifier (ID). Use the states filter to return only clusters that match the specified state.
     public var filters: [Swift.String:[Swift.String]]?
     /// The maximum number of clusters to return in the response. When there are more clusters than the number you specify, the response contains a NextToken value.
@@ -1999,7 +1999,7 @@ public struct DescribeClustersInput: Swift.Equatable {
     }
 }
 
-struct DescribeClustersInputBody: Swift.Equatable {
+struct DescribeClustersInputBody {
     let filters: [Swift.String:[Swift.String]]?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -2053,7 +2053,7 @@ extension DescribeClustersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeClustersOutput: Swift.Equatable {
+public struct DescribeClustersOutput {
     /// A list of clusters.
     public var clusters: [CloudHSMV2ClientTypes.Cluster]?
     /// An opaque string that indicates that the response contains only a subset of clusters. Use this value in a subsequent DescribeClusters request to get more clusters.
@@ -2069,7 +2069,7 @@ public struct DescribeClustersOutput: Swift.Equatable {
     }
 }
 
-struct DescribeClustersOutputBody: Swift.Equatable {
+struct DescribeClustersOutputBody {
     let clusters: [CloudHSMV2ClientTypes.Cluster]?
     let nextToken: Swift.String?
 }
@@ -2152,7 +2152,7 @@ extension CloudHSMV2ClientTypes.DestinationBackup: Swift.Codable {
 
 extension CloudHSMV2ClientTypes {
     /// Contains information about the backup that will be copied and created by the [CopyBackupToRegion] operation.
-    public struct DestinationBackup: Swift.Equatable {
+    public struct DestinationBackup {
         /// The date and time when both the source backup was created.
         public var createTimestamp: ClientRuntime.Date?
         /// The identifier (ID) of the source backup from which the new backup was copied.
@@ -2241,7 +2241,7 @@ extension CloudHSMV2ClientTypes.Hsm: Swift.Codable {
 
 extension CloudHSMV2ClientTypes {
     /// Contains information about a hardware security module (HSM) in an AWS CloudHSM cluster.
-    public struct Hsm: Swift.Equatable {
+    public struct Hsm {
         /// The Availability Zone that contains the HSM.
         public var availabilityZone: Swift.String?
         /// The identifier (ID) of the cluster that contains the HSM.
@@ -2353,7 +2353,7 @@ extension InitializeClusterInput {
     }
 }
 
-public struct InitializeClusterInput: Swift.Equatable {
+public struct InitializeClusterInput {
     /// The identifier (ID) of the cluster that you are claiming. To find the cluster ID, use [DescribeClusters].
     /// This member is required.
     public var clusterId: Swift.String?
@@ -2376,7 +2376,7 @@ public struct InitializeClusterInput: Swift.Equatable {
     }
 }
 
-struct InitializeClusterInputBody: Swift.Equatable {
+struct InitializeClusterInputBody {
     let clusterId: Swift.String?
     let signedCert: Swift.String?
     let trustAnchor: Swift.String?
@@ -2414,7 +2414,7 @@ extension InitializeClusterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct InitializeClusterOutput: Swift.Equatable {
+public struct InitializeClusterOutput {
     /// The cluster's state.
     public var state: CloudHSMV2ClientTypes.ClusterState?
     /// A description of the cluster's state.
@@ -2430,7 +2430,7 @@ public struct InitializeClusterOutput: Swift.Equatable {
     }
 }
 
-struct InitializeClusterOutputBody: Swift.Equatable {
+struct InitializeClusterOutputBody {
     let state: CloudHSMV2ClientTypes.ClusterState?
     let stateMessage: Swift.String?
 }
@@ -2493,7 +2493,7 @@ extension ListTagsInput {
     }
 }
 
-public struct ListTagsInput: Swift.Equatable {
+public struct ListTagsInput {
     /// The maximum number of tags to return in the response. When there are more tags than the number you specify, the response contains a NextToken value.
     public var maxResults: Swift.Int?
     /// The NextToken value that you received in the previous response. Use this value to get more tags.
@@ -2514,7 +2514,7 @@ public struct ListTagsInput: Swift.Equatable {
     }
 }
 
-struct ListTagsInputBody: Swift.Equatable {
+struct ListTagsInputBody {
     let resourceId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -2552,7 +2552,7 @@ extension ListTagsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsOutput: Swift.Equatable {
+public struct ListTagsOutput {
     /// An opaque string that indicates that the response contains only a subset of tags. Use this value in a subsequent ListTags request to get more tags.
     public var nextToken: Swift.String?
     /// A list of tags.
@@ -2569,7 +2569,7 @@ public struct ListTagsOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsOutputBody: Swift.Equatable {
+struct ListTagsOutputBody {
     let tagList: [CloudHSMV2ClientTypes.Tag]?
     let nextToken: Swift.String?
 }
@@ -2638,7 +2638,7 @@ extension ModifyBackupAttributesInput {
     }
 }
 
-public struct ModifyBackupAttributesInput: Swift.Equatable {
+public struct ModifyBackupAttributesInput {
     /// The identifier (ID) of the backup to modify. To find the ID of a backup, use the [DescribeBackups] operation.
     /// This member is required.
     public var backupId: Swift.String?
@@ -2656,7 +2656,7 @@ public struct ModifyBackupAttributesInput: Swift.Equatable {
     }
 }
 
-struct ModifyBackupAttributesInputBody: Swift.Equatable {
+struct ModifyBackupAttributesInputBody {
     let backupId: Swift.String?
     let neverExpires: Swift.Bool?
 }
@@ -2688,7 +2688,7 @@ extension ModifyBackupAttributesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ModifyBackupAttributesOutput: Swift.Equatable {
+public struct ModifyBackupAttributesOutput {
     /// Contains information about a backup of an AWS CloudHSM cluster. All backup objects contain the BackupId, BackupState, ClusterId, and CreateTimestamp parameters. Backups that were copied into a destination region additionally contain the CopyTimestamp, SourceBackup, SourceCluster, and SourceRegion parameters. A backup that is pending deletion will include the DeleteTimestamp parameter.
     public var backup: CloudHSMV2ClientTypes.Backup?
 
@@ -2700,7 +2700,7 @@ public struct ModifyBackupAttributesOutput: Swift.Equatable {
     }
 }
 
-struct ModifyBackupAttributesOutputBody: Swift.Equatable {
+struct ModifyBackupAttributesOutputBody {
     let backup: CloudHSMV2ClientTypes.Backup?
 }
 
@@ -2755,7 +2755,7 @@ extension ModifyClusterInput {
     }
 }
 
-public struct ModifyClusterInput: Swift.Equatable {
+public struct ModifyClusterInput {
     /// A policy that defines how the service retains backups.
     /// This member is required.
     public var backupRetentionPolicy: CloudHSMV2ClientTypes.BackupRetentionPolicy?
@@ -2773,7 +2773,7 @@ public struct ModifyClusterInput: Swift.Equatable {
     }
 }
 
-struct ModifyClusterInputBody: Swift.Equatable {
+struct ModifyClusterInputBody {
     let backupRetentionPolicy: CloudHSMV2ClientTypes.BackupRetentionPolicy?
     let clusterId: Swift.String?
 }
@@ -2805,7 +2805,7 @@ extension ModifyClusterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ModifyClusterOutput: Swift.Equatable {
+public struct ModifyClusterOutput {
     /// Contains information about an AWS CloudHSM cluster.
     public var cluster: CloudHSMV2ClientTypes.Cluster?
 
@@ -2817,7 +2817,7 @@ public struct ModifyClusterOutput: Swift.Equatable {
     }
 }
 
-struct ModifyClusterOutputBody: Swift.Equatable {
+struct ModifyClusterOutputBody {
     let cluster: CloudHSMV2ClientTypes.Cluster?
 }
 
@@ -2868,7 +2868,7 @@ extension RestoreBackupInput {
     }
 }
 
-public struct RestoreBackupInput: Swift.Equatable {
+public struct RestoreBackupInput {
     /// The ID of the backup to be restored. To find the ID of a backup, use the [DescribeBackups] operation.
     /// This member is required.
     public var backupId: Swift.String?
@@ -2881,7 +2881,7 @@ public struct RestoreBackupInput: Swift.Equatable {
     }
 }
 
-struct RestoreBackupInputBody: Swift.Equatable {
+struct RestoreBackupInputBody {
     let backupId: Swift.String?
 }
 
@@ -2909,7 +2909,7 @@ extension RestoreBackupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RestoreBackupOutput: Swift.Equatable {
+public struct RestoreBackupOutput {
     /// Information on the Backup object created.
     public var backup: CloudHSMV2ClientTypes.Backup?
 
@@ -2921,7 +2921,7 @@ public struct RestoreBackupOutput: Swift.Equatable {
     }
 }
 
-struct RestoreBackupOutputBody: Swift.Equatable {
+struct RestoreBackupOutputBody {
     let backup: CloudHSMV2ClientTypes.Backup?
 }
 
@@ -2979,7 +2979,7 @@ extension CloudHSMV2ClientTypes.Tag: Swift.Codable {
 
 extension CloudHSMV2ClientTypes {
     /// Contains a tag. A tag is a key-value pair.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key of the tag.
         /// This member is required.
         public var key: Swift.String?
@@ -3026,7 +3026,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The cluster identifier (ID) for the cluster that you are tagging. To find the cluster ID, use [DescribeClusters].
     /// This member is required.
     public var resourceId: Swift.String?
@@ -3044,7 +3044,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceId: Swift.String?
     let tagList: [CloudHSMV2ClientTypes.Tag]?
 }
@@ -3078,7 +3078,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -3126,7 +3126,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The cluster identifier (ID) for the cluster whose tags you are removing. To find the cluster ID, use [DescribeClusters].
     /// This member is required.
     public var resourceId: Swift.String?
@@ -3144,7 +3144,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceId: Swift.String?
     let tagKeyList: [Swift.String]?
 }
@@ -3178,7 +3178,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
