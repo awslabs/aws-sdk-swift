@@ -26,7 +26,7 @@ class AuthSchemePlugin(private val serviceConfig: ServiceConfig) : Plugin {
     override fun render(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter) {
         writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target, false, "FileBasedConfig")
 
-        writer.openBlock("public class $pluginName: Plugin {", "}") {
+        writer.openBlock("public class $pluginName: \$N {", "}", ClientRuntimeTypes.Core.Plugin) {
             writer.write("private var authSchemes: \$N", ClientRuntimeTypes.Auth.AuthSchemes.toOptional())
             writer.write("private var authSchemeResolver: \$N", ClientRuntimeTypes.Auth.AuthSchemeResolver.toOptional())
             writer.write("private var awsCredentialIdentityResolver: \$N", AWSClientRuntimeTypes.Core.AWSCredentialIdentityResolver.toGeneric().toOptional())
