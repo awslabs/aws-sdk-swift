@@ -5,7 +5,6 @@ import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.model.transform.ModelTransformer
 import software.amazon.smithy.swift.codegen.SwiftSettings
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
-import software.amazon.smithy.swift.codegen.model.defaultName
 import software.amazon.smithy.swift.codegen.model.expectShape
 
 class S3Expires : SwiftIntegration {
@@ -15,7 +14,7 @@ class S3Expires : SwiftIntegration {
     }
 
     override fun preprocessModel(model: Model, settings: SwiftSettings): Model {
-        // Find all the members named "Expires" in all of the output structures
+        // Find all the members named "Expires" in all of the structures
         // and change their shape from `Timestamp` to `String`
         val updates = model.structureShapes
             .flatMap { it.allMembers.values }
