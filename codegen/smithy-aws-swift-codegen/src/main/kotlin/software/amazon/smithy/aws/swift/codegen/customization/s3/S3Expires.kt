@@ -18,7 +18,6 @@ class S3Expires : SwiftIntegration {
         // Find all the members named "Expires" in all of the output structures
         // and change their shape from `Timestamp` to `String`
         val updates = model.structureShapes
-            .filter { it.defaultName().endsWith("Output") }
             .flatMap { it.allMembers.values }
             .filter { it.memberName == "Expires" }
             .map {
