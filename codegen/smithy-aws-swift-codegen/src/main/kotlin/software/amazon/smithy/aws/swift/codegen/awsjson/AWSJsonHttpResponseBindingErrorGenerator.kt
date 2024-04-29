@@ -29,33 +29,30 @@ class AWSJsonHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGenerat
             with(writer) {
                 addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
                 addImport(SwiftDependency.CLIENT_RUNTIME.target)
-
-                openBlock("extension ${ctx.symbolProvider.toSymbol(ctx.service).name}Types {", "}") {
-                    openBlock(
-                        "static func makeServiceError(_ httpResponse: \$N, _ decoder: \$D, _ error: \$N, _ id: String?) async throws -> \$N? {",
-                        "}",
-                        ClientRuntimeTypes.Http.HttpResponse,
-                        ClientRuntimeTypes.Serde.ResponseDecoder,
-                        AWSClientRuntimeTypes.RestJSON.RestJSONError,
-                        SwiftTypes.Error
-                    ) {
-                        openBlock("switch error.errorType {", "}") {
-                            val serviceErrorShapes =
-                                serviceShape.errors
-                                    .map { ctx.model.expectShape(it) as StructureShape }
-                                    .toSet()
-                                    .sorted()
-                            serviceErrorShapes.forEach { errorShape ->
-                                val errorShapeName = errorShape.errorShapeName(ctx.symbolProvider)
-                                val errorShapeType = ctx.symbolProvider.toSymbol(errorShape).name
-                                write(
-                                    "case \$S: return try await \$L(httpResponse: httpResponse, decoder: decoder, message: error.errorMessage, requestID: id)",
-                                    errorShapeName,
-                                    errorShapeType
-                                )
-                            }
-                            write("default: return nil")
+                openBlock(
+                    "func makeServiceError(_ httpResponse: \$N, _ decoder: \$D, _ error: \$N, _ id: String?) async throws -> \$N? {",
+                    "}",
+                    ClientRuntimeTypes.Http.HttpResponse,
+                    ClientRuntimeTypes.Serde.ResponseDecoder,
+                    AWSClientRuntimeTypes.RestJSON.RestJSONError,
+                    SwiftTypes.Error
+                ) {
+                    openBlock("switch error.errorType {", "}") {
+                        val serviceErrorShapes =
+                            serviceShape.errors
+                                .map { ctx.model.expectShape(it) as StructureShape }
+                                .toSet()
+                                .sorted()
+                        serviceErrorShapes.forEach { errorShape ->
+                            val errorShapeName = errorShape.errorShapeName(ctx.symbolProvider)
+                            val errorShapeType = ctx.symbolProvider.toSymbol(errorShape).name
+                            write(
+                                "case \$S: return try await \$L(httpResponse: httpResponse, decoder: decoder, message: error.errorMessage, requestID: id)",
+                                errorShapeName,
+                                errorShapeType
+                            )
                         }
+                        write("default: return nil")
                     }
                 }
             }
@@ -94,7 +91,7 @@ class AWSJsonHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGenerat
                         write("let requestID = httpResponse.requestId")
 
                         if (ctx.service.errors.isNotEmpty()) {
-                            write("let serviceError = try await ${ctx.symbolProvider.toSymbol(ctx.service).name}Types.makeServiceError(httpResponse, decoder, restJSONError, requestID)")
+                            write("let serviceError = try await makeServiceError(httpResponse, decoder, restJSONError, requestID)")
                             write("if let error = serviceError { return error }")
                         }
 

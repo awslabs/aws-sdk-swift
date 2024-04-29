@@ -2,6 +2,7 @@ package software.amazon.smithy.aws.swift.codegen.plugins
 
 import software.amazon.smithy.aws.swift.codegen.AWSServiceTypes
 import software.amazon.smithy.codegen.core.Symbol
+import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.Plugin
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
@@ -19,7 +20,7 @@ class EndpointPlugin(private val serviceConfig: ServiceConfig) : Plugin {
         }
 
     override fun render(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter) {
-        writer.openBlock("public class $pluginName: Plugin {", "}") {
+        writer.openBlock("public class $pluginName: \$N {", "}", ClientRuntimeTypes.Core.Plugin) {
             writer.write("private var endpointResolver: \$L", AWSServiceTypes.EndpointResolver)
             writer.openBlock("public init(endpointResolver: \$L) {", "}", AWSServiceTypes.EndpointResolver) {
                 writer.write("self.endpointResolver = endpointResolver")

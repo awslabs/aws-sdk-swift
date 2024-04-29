@@ -30,32 +30,30 @@ class AWSEc2QueryHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGen
             with(writer) {
                 addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
                 addImport(SwiftDependency.CLIENT_RUNTIME.target)
-                openBlock("extension ${ctx.symbolProvider.toSymbol(ctx.service).name}Types {", "}") {
-                    openBlock(
-                        "static func makeServiceError(_ httpResponse: \$N, _ decoder: \$D, _ error: \$N) async throws -> \$N? {",
-                        "}",
-                        ClientRuntimeTypes.Http.HttpResponse,
-                        ClientRuntimeTypes.Serde.ResponseDecoder,
-                        AWSClientRuntimeTypes.EC2Query.Ec2QueryError,
-                        SwiftTypes.Error
-                    ) {
-                        openBlock("switch error.errorCode {", "}") {
-                            val serviceErrorShapes =
-                                serviceShape.errors
-                                    .map { ctx.model.expectShape(it) as StructureShape }
-                                    .toSet()
-                                    .sorted()
-                            serviceErrorShapes.forEach { errorShape ->
-                                val errorShapeName = errorShape.errorShapeName(ctx.symbolProvider)
-                                val errorShapeType = ctx.symbolProvider.toSymbol(errorShape).name
-                                write(
-                                    "case \$S: return try await \$L(httpResponse: httpResponse, decoder: decoder, message: error.message, requestID: error.requestId)",
-                                    errorShapeName,
-                                    errorShapeType
-                                )
-                            }
-                            write("default: return nil")
+                openBlock(
+                    "func makeServiceError(_ httpResponse: \$N, _ decoder: \$D, _ error: \$N) async throws -> \$N? {",
+                    "}",
+                    ClientRuntimeTypes.Http.HttpResponse,
+                    ClientRuntimeTypes.Serde.ResponseDecoder,
+                    AWSClientRuntimeTypes.EC2Query.Ec2QueryError,
+                    SwiftTypes.Error
+                ) {
+                    openBlock("switch error.errorCode {", "}") {
+                        val serviceErrorShapes =
+                            serviceShape.errors
+                                .map { ctx.model.expectShape(it) as StructureShape }
+                                .toSet()
+                                .sorted()
+                        serviceErrorShapes.forEach { errorShape ->
+                            val errorShapeName = errorShape.errorShapeName(ctx.symbolProvider)
+                            val errorShapeType = ctx.symbolProvider.toSymbol(errorShape).name
+                            write(
+                                "case \$S: return try await \$L(httpResponse: httpResponse, decoder: decoder, message: error.message, requestID: error.requestId)",
+                                errorShapeName,
+                                errorShapeType
+                            )
                         }
+                        write("default: return nil")
                     }
                 }
             }
@@ -85,7 +83,7 @@ class AWSEc2QueryHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGen
                     ) {
                         writer.openBlock("{ httpResponse, responseDocumentClosure in", "}") {
                             if (ctx.service.errors.isNotEmpty()) {
-                                write("let serviceError = try await ${ctx.symbolProvider.toSymbol(ctx.service).name}Types.makeServiceError(httpResponse, decoder, ec2QueryError)")
+                                write("let serviceError = try await makeServiceError(httpResponse, decoder, ec2QueryError)")
                                 write("if let error = serviceError { return error }")
                             }
                             writer.write("let responseReader = try await responseDocumentClosure(httpResponse)")

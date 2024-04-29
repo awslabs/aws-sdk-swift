@@ -115,9 +115,10 @@ class RulesBasedAuthSchemeResolverGenerator {
     private fun renderConstructParametersMethod(ctx: ProtocolGenerator.GenerationContext, returnTypeName: String, writer: SwiftWriter) {
         writer.apply {
             openBlock(
-                "public func constructParameters(context: HttpContext) throws -> \$L {",
+                "public func constructParameters(context: \$N) throws -> \$L {",
                 "}",
-                ClientRuntimeTypes.Auth.AuthSchemeResolverParams
+                ClientRuntimeTypes.Http.HttpContext,
+                ClientRuntimeTypes.Auth.AuthSchemeResolverParams,
             ) {
                 openBlock("guard let opName = context.getOperation() else {", "}") {
                     write("throw ClientError.dataNotFound(\"Operation name not configured in middleware context for auth scheme resolver params construction.\")")

@@ -62,7 +62,7 @@ class EndpointResolverMiddleware(
         writer.write("var signingRegion: String? = nil")
         writer.write("var signingAlgorithm: String? = nil")
         writer.openBlock("if let authSchemes = endpoint.authSchemes() {", "}") {
-            writer.write("let schemes = try authSchemes.map { try AuthScheme(from: \$$0) }")
+            writer.write("let schemes = try authSchemes.map { try \$N(from: \$$0) }", AWSClientRuntimeTypes.Auth.AuthScheme)
             writer.write("let authScheme = try authSchemeResolver.resolve(authSchemes: schemes)")
             writer.write("signingAlgorithm = authScheme.name")
             writer.write("switch authScheme {")
@@ -83,8 +83,11 @@ class EndpointResolverMiddleware(
             writer.write("}")
         }
         writer.write("")
-        writer.write("let awsEndpoint = AWSEndpoint(endpoint: endpoint, signingName: signingName, signingRegion: signingRegion)")
-            .write("")
+        writer.write(
+            "let awsEndpoint = \$N(endpoint: endpoint, signingName: signingName, signingRegion: signingRegion)",
+            AWSClientRuntimeTypes.Core.AWSEndpoint,
+        )
+        writer.write("")
 
         writer.write("""var host = """"")
             .openBlock("if let hostOverride = context.getHost() {", "} else {") {

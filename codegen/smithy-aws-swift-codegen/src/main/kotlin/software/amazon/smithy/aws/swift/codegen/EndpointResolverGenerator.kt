@@ -71,7 +71,10 @@ class EndpointResolverGenerator() {
                 "public func resolve(params: EndpointParams) throws -> \$L {", "}", ClientRuntimeTypes.Core.Endpoint
             ) {
                 endpointRules?.let {
-                    writer.write("let context = try \$L()", AWSClientRuntimeTypes.Core.AWSEndpointsRequestContext)
+                    writer.write(
+                        "let context = try \$L()",
+                        AWSClientRuntimeTypes.Core.AWSEndpointsRequestContext,
+                    )
                     endpointRules.parameters?.toList()?.sortedBy { it.name.toString() }?.let { sortedParameters ->
                         sortedParameters.forEach { param ->
                             val memberName = param.name.toString().toLowerCamelCase()
@@ -81,22 +84,32 @@ class EndpointResolverGenerator() {
                         writer.write("")
                     }
                     writer.openBlock("guard let crtResolvedEndpoint = try engine.resolve(context: context) else {", "}") {
-                        writer.write("throw EndpointError.unresolved(\"Failed to resolved endpoint\")")
+                        writer.write(
+                            "throw \$N.unresolved(\"Failed to resolved endpoint\")",
+                            AWSClientRuntimeTypes.Core.EndpointError,
+                        )
                     }.write("")
 
                     writer.openBlock("if crtResolvedEndpoint.getType() == .error {", "}") {
                         writer.write("let error = crtResolvedEndpoint.getError()")
-                        writer.write("throw EndpointError.unresolved(error)")
+                        writer.write("throw \$N.unresolved(error)", AWSClientRuntimeTypes.Core.EndpointError)
                     }.write("")
 
                     writer.openBlock("guard let url = crtResolvedEndpoint.getURL() else {", "}") {
                         writer.write("assertionFailure(\"This must be a bug in either CRT or the rule engine, if the endpoint is not an error, it must have a url\")")
-                        writer.write("throw EndpointError.unresolved(\"Failed to resolved endpoint\")")
+                        writer.write(
+                            "throw \$N.unresolved(\"Failed to resolved endpoint\")",
+                            AWSClientRuntimeTypes.Core.EndpointError,
+                        )
                     }.write("")
 
                     writer.write("let headers = crtResolvedEndpoint.getHeaders() ?? [:]")
                     writer.write("let properties = crtResolvedEndpoint.getProperties() ?? [:]")
-                    writer.write("return try Endpoint(urlString: url, headers: Headers(headers), properties: properties)")
+                    writer.write(
+                        "return try \$N(urlString: url, headers: \$N(headers), properties: properties)",
+                        ClientRuntimeTypes.Core.Endpoint,
+                        ClientRuntimeTypes.Http.Headers,
+                    )
                 } ?: run {
                     writer.write("fatalError(\"EndpointResolver not implemented\")")
                 }
