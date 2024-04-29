@@ -34,31 +34,28 @@ class AWSRestXMLHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGene
             with(writer) {
                 addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
                 addImport(SwiftDependency.CLIENT_RUNTIME.target)
-
-                openBlock("extension ${ctx.symbolProvider.toSymbol(ctx.service).name}Types {", "}") {
-                    openBlock(
-                        "static func responseServiceErrorBinding(httpResponse: \$N, reader: \$N) async throws -> \$N? {", "}",
-                        ClientRuntimeTypes.Http.HttpResponse,
-                        SmithyXMLTypes.Reader,
-                        SwiftTypes.Error
-                    ) {
-                        openBlock("switch error.errorCode {", "}") {
-                            val serviceErrorShapes =
-                                serviceShape.errors
-                                    .map { ctx.model.expectShape(it) as StructureShape }
-                                    .toSet()
-                                    .sorted()
-                            serviceErrorShapes.forEach { errorShape ->
-                                val errorShapeName = errorShape.errorShapeName(ctx.symbolProvider)
-                                val errorShapeType = ctx.symbolProvider.toSymbol(errorShape).name
-                                write(
-                                    "case \$S: return try await \$L(httpResponse: httpResponse, reader: reader, message: error.message, requestID: error.requestId)",
-                                    errorShapeName,
-                                    errorShapeType
-                                )
-                            }
-                            write("default: return nil")
+                openBlock(
+                    "static func responseServiceErrorBinding(httpResponse: \$N, reader: \$N) async throws -> \$N? {", "}",
+                    ClientRuntimeTypes.Http.HttpResponse,
+                    SmithyXMLTypes.Reader,
+                    SwiftTypes.Error
+                ) {
+                    openBlock("switch error.errorCode {", "}") {
+                        val serviceErrorShapes =
+                            serviceShape.errors
+                                .map { ctx.model.expectShape(it) as StructureShape }
+                                .toSet()
+                                .sorted()
+                        serviceErrorShapes.forEach { errorShape ->
+                            val errorShapeName = errorShape.errorShapeName(ctx.symbolProvider)
+                            val errorShapeType = ctx.symbolProvider.toSymbol(errorShape).name
+                            write(
+                                "case \$S: return try await \$L(httpResponse: httpResponse, reader: reader, message: error.message, requestID: error.requestId)",
+                                errorShapeName,
+                                errorShapeType
+                            )
                         }
+                        write("default: return nil")
                     }
                 }
             }
