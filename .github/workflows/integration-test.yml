@@ -30,7 +30,7 @@ jobs:
           - Xcode_15.1
           - Xcode_15.2
           - Xcode_15.3
-        #exclude:
+        exclude:
           # Don't run old macOS with new Xcode
           - runner: macos-13-xlarge
             xcode: Xcode_15.3
