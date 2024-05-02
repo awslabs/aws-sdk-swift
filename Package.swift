@@ -19,6 +19,8 @@ extension Target.Dependency {
     static var awsClientRuntime: Self { "AWSClientRuntime" }
     static var crt: Self { .product(name: "AwsCommonRuntimeKit", package: "aws-crt-swift") }
     static var clientRuntime: Self { .product(name: "ClientRuntime", package: "smithy-swift") }
+    static var smithyRetriesAPI: Self { .product(name: "SmithyRetriesAPI", package: "smithy-swift") }
+    static var smithyRetries: Self { .product(name: "SmithyRetries", package: "smithy-swift") }
     static var smithyTestUtils: Self { .product(name: "SmithyTestUtil", package: "smithy-swift") }
 }
 
@@ -43,7 +45,7 @@ let package = Package(
         ),
         .target(
             name: "AWSClientRuntime",
-            dependencies: [.crt, .clientRuntime],
+            dependencies: [.crt, .clientRuntime, .smithyRetriesAPI, .smithyRetries],
             path: "./Sources/Core/AWSClientRuntime",
             resources: [
                 .copy("PrivacyInfo.xcprivacy")

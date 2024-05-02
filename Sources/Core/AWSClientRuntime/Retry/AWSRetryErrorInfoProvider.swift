@@ -7,9 +7,9 @@
 
 import struct Foundation.TimeInterval
 import enum AwsCommonRuntimeKit.CommonRunTimeError
-import protocol ClientRuntime.RetryErrorInfoProvider
+import protocol SmithyRetriesAPI.RetryErrorInfoProvider
 import enum ClientRuntime.DefaultRetryErrorInfoProvider
-import struct ClientRuntime.RetryErrorInfo
+import struct SmithyRetriesAPI.RetryErrorInfo
 import protocol ClientRuntime.ServiceError
 import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
@@ -53,7 +53,7 @@ public enum AWSRetryErrorInfoProvider: RetryErrorInfoProvider {
     // HTTP status codes should be treated as timeouts.
     private static let timeoutStatusCodes = [408, 504]
 
-    public static func errorInfo(for error: Error) -> ClientRuntime.RetryErrorInfo? {
+    public static func errorInfo(for error: Error) -> RetryErrorInfo? {
 
         // Look for a header with a retry after value; use it as retry after hint
         var retryAfterHint: TimeInterval?
