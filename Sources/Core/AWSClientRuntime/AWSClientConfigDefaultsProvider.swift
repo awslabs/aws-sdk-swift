@@ -105,6 +105,10 @@ public class AWSClientConfigDefaultsProvider {
             resolvedRateLimitingMode = .adaptive
         }
 
-        return RetryStrategyOptions(backoffStrategy: ExponentialBackoffStrategy(), maxRetriesBase: resolvedMaxAttempts - 1, rateLimitingMode: resolvedRateLimitingMode)
+        return RetryStrategyOptions(
+            backoffStrategy: ExponentialBackoffStrategy(),
+            maxRetriesBase: resolvedMaxAttempts - 1,
+            rateLimitingMode: resolvedRateLimitingMode
+        )
     }
 }
