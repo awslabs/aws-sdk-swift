@@ -111,7 +111,7 @@ func addServiceTarget(_ name: String) {
     package.targets += [
         .target(
             name: name,
-            dependencies: [.clientRuntime, .awsClientRuntime],
+            dependencies: [.clientRuntime, .awsClientRuntime, .smithyRetriesAPI, .smithyRetries],
             path: "./Sources/Services/\(name)"
         )
     ]

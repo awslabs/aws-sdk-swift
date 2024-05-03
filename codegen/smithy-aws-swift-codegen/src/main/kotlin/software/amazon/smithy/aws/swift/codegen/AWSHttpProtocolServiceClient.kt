@@ -9,6 +9,7 @@ import software.amazon.smithy.aws.swift.codegen.SigV4Utils.Companion.getModeledA
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
 import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
+import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.config.ConfigProperty
 import software.amazon.smithy.swift.codegen.config.DefaultProvider
@@ -17,6 +18,7 @@ import software.amazon.smithy.swift.codegen.integration.HttpProtocolServiceClien
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.ServiceConfig
 import software.amazon.smithy.swift.codegen.model.toOptional
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyRetriesAPITypes
 import software.amazon.smithy.swift.codegen.utils.toUpperCamelCase
 
 class AWSHttpProtocolServiceClient(
@@ -47,7 +49,8 @@ class AWSHttpProtocolServiceClient(
                     ConfigProperty("authSchemes", ClientRuntimeTypes.Auth.AuthSchemes.toOptional(), authSchemesDefaultProvider)
                 }
                 "retryStrategyOptions" -> {
-                    ConfigProperty("retryStrategyOptions", ClientRuntimeTypes.Core.RetryStrategyOptions, "AWSClientConfigDefaultsProvider.retryStrategyOptions()", true)
+                    writer.addImport(SwiftDependency.SMITHY_RETRIES_API.target)
+                    ConfigProperty("retryStrategyOptions", SmithyRetriesAPITypes.RetryStrategyOptions, "AWSClientConfigDefaultsProvider.retryStrategyOptions()", true)
                 }
                 "clientLogMode" -> {
                     ConfigProperty("clientLogMode", ClientRuntimeTypes.Core.ClientLogMode, "AWSClientConfigDefaultsProvider.clientLogMode")
