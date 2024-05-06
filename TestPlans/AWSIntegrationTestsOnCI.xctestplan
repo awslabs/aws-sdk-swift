@@ -4,9 +4,6 @@
       "id" : "FF4C1A8F-5D70-4A2A-BFDE-77467500C547",
       "name" : "Test Scheme Action",
       "options" : {
-        "environmentVariableEntries" : [
-
-        ]
       }
     }
   ],
