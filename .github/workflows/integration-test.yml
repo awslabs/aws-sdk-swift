@@ -98,16 +98,17 @@ jobs:
         run: ./scripts/ci_steps/log_tool_versions.sh
       - name: Add Credentials to Test Plan
         run: |
+          # JSON-escape the credentials.  They are also surrounded with double quotes.
           AKID_ESCAPED=`echo -n "$AWS_ACCESS_KEY_ID" | jq -Rsa .`
           SECRET_ESCAPED=`echo -n "$AWS_SECRET_ACCESS_KEY" | jq -Rsa .`
           REGION_ESCAPED=`echo -n "$AWS_DEFAULT_REGION" | jq -Rsa .`
           TOKEN_ESCAPED=`echo -n "$AWS_SESSION_TOKEN" | jq -Rsa .`
+          # Insert the credentials into the .xctestplan file, write the modified JSON
+          # to a temp file, then move the temp over the original.
           jq ".defaultOptions.environmentVariableEntries += [{\"key\": \"AWS_ACCESS_KEY_ID\", \"value\": $AKID_ESCAPED}, {\"key\": \"AWS_SECRET_ACCESS_KEY\", \"value\": $SECRET_ESCAPED}, {\"key\": \"AWS_DEFAULT_REGION\", \"value\": $REGION_ESCAPED}, {\"key\": \"AWS_SESSION_TOKEN\", \"value\": $TOKEN_ESCAPED}]" TestPlans/AWSIntegrationTestsOnCI.xctestplan > testplan.tmp
           mv testplan.tmp TestPlans/AWSIntegrationTestsOnCI.xctestplan
       - name: Prepare Integration Tests
         run: ./scripts/ci_steps/prepare_integration_tests.sh
-      - name: List Schemes
-        run: xcodebuild -list
       - name: Run Integration Tests
         run: |
           set -o pipefail && \
