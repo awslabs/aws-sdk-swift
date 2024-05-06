@@ -102,22 +102,24 @@ jobs:
           mv testplan.tmp TestPlans/AWSIntegrationTestsOnCI.xctestplan
       - name: Prepare Integration Tests
         run: ./scripts/ci_steps/prepare_integration_tests.sh
+      - name: List Schemes
+        run: xcodebuild -list
       - name: Build Integration Tests
         run: |
           set -o pipefail && \
           NSUnbufferedIO=YES xcodebuild \
             -scheme AWSIntegrationTestsOnCI \
             -destination '${{ matrix.destination }}' \
-            build 2>&1 \
-            | xcpretty
+            build 2>&1 #\
+            #| xcpretty
       - name: Run Integration Tests
         run: |
           set -o pipefail && \
           NSUnbufferedIO=YES xcodebuild \
             -scheme AWSIntegrationTestsOnCI \
             -destination '${{ matrix.destination }}' \
-            test 2>&1 \
-            | xcpretty
+            test 2>&1 #\
+            #| xcpretty
 
   linux:
     runs-on: ubuntu-latest
