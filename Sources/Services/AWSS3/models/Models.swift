@@ -1911,7 +1911,7 @@ extension CopyObjectInput {
             items.add(Header(name: "x-amz-source-expected-bucket-owner", value: Swift.String(expectedSourceBucketOwner)))
         }
         if let expires = value.expires {
-            items.add(Header(name: "Expires", value: Swift.String(TimestampFormatter(format: .httpDate).string(from: expires))))
+            items.add(Header(name: "Expires", value: Swift.String(expires)))
         }
         if let grantFullControl = value.grantFullControl {
             items.add(Header(name: "x-amz-grant-full-control", value: Swift.String(grantFullControl)))
@@ -2076,7 +2076,7 @@ public struct CopyObjectInput {
     /// The account ID of the expected source bucket owner. If the account ID that you provide does not match the actual owner of the source bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     public var expectedSourceBucketOwner: Swift.String?
     /// The date and time at which the object is no longer cacheable.
-    public var expires: ClientRuntime.Date?
+    public var expires: Swift.String?
     /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object.
     ///
     /// * This functionality is not supported for directory buckets.
@@ -2205,7 +2205,7 @@ public struct CopyObjectInput {
         copySourceSSECustomerKeyMD5: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil,
         expectedSourceBucketOwner: Swift.String? = nil,
-        expires: ClientRuntime.Date? = nil,
+        expires: Swift.String? = nil,
         grantFullControl: Swift.String? = nil,
         grantRead: Swift.String? = nil,
         grantReadACP: Swift.String? = nil,
@@ -2732,7 +2732,7 @@ extension CreateMultipartUploadInput {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         if let expires = value.expires {
-            items.add(Header(name: "Expires", value: Swift.String(TimestampFormatter(format: .httpDate).string(from: expires))))
+            items.add(Header(name: "Expires", value: Swift.String(expires)))
         }
         if let grantFullControl = value.grantFullControl {
             items.add(Header(name: "x-amz-grant-full-control", value: Swift.String(grantFullControl)))
@@ -2841,7 +2841,7 @@ public struct CreateMultipartUploadInput {
     /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     public var expectedBucketOwner: Swift.String?
     /// The date and time at which the object is no longer cacheable.
-    public var expires: ClientRuntime.Date?
+    public var expires: Swift.String?
     /// Specify access permissions explicitly to give the grantee READ, READ_ACP, and WRITE_ACP permissions on the object. By default, all objects are private. Only the owner has full access control. When uploading an object, you can use this header to explicitly grant access permissions to specific Amazon Web Services accounts or groups. This header maps to specific permissions that Amazon S3 supports in an ACL. For more information, see [Access Control List (ACL) Overview](https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html) in the Amazon S3 User Guide. You specify each grantee as a type=value pair, where the type is one of the following:
     ///
     /// * id – if the value specified is the canonical user ID of an Amazon Web Services account
@@ -3025,7 +3025,7 @@ public struct CreateMultipartUploadInput {
         contentLanguage: Swift.String? = nil,
         contentType: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil,
-        expires: ClientRuntime.Date? = nil,
+        expires: Swift.String? = nil,
         grantFullControl: Swift.String? = nil,
         grantRead: Swift.String? = nil,
         grantReadACP: Swift.String? = nil,
@@ -17961,7 +17961,7 @@ extension PutObjectInput {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         if let expires = value.expires {
-            items.add(Header(name: "Expires", value: Swift.String(TimestampFormatter(format: .httpDate).string(from: expires))))
+            items.add(Header(name: "Expires", value: Swift.String(expires)))
         }
         if let grantFullControl = value.grantFullControl {
             items.add(Header(name: "x-amz-grant-full-control", value: Swift.String(grantFullControl)))
@@ -18218,7 +18218,7 @@ public struct PutObjectInput {
     /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     public var expectedBucketOwner: Swift.String?
     /// The date and time at which the object is no longer cacheable. For more information, see [https://www.rfc-editor.org/rfc/rfc7234#section-5.3](https://www.rfc-editor.org/rfc/rfc7234#section-5.3).
-    public var expires: ClientRuntime.Date?
+    public var expires: Swift.String?
     /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object.
     ///
     /// * This functionality is not supported for directory buckets.
@@ -18297,7 +18297,7 @@ public struct PutObjectInput {
         contentMD5: Swift.String? = nil,
         contentType: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil,
-        expires: ClientRuntime.Date? = nil,
+        expires: Swift.String? = nil,
         grantFullControl: Swift.String? = nil,
         grantRead: Swift.String? = nil,
         grantReadACP: Swift.String? = nil,
@@ -22559,7 +22559,7 @@ extension WriteGetObjectResponseInput {
             items.add(Header(name: "x-amz-fwd-header-x-amz-expiration", value: Swift.String(expiration)))
         }
         if let expires = value.expires {
-            items.add(Header(name: "x-amz-fwd-header-Expires", value: Swift.String(TimestampFormatter(format: .httpDate).string(from: expires))))
+            items.add(Header(name: "x-amz-fwd-header-Expires", value: Swift.String(expires)))
         }
         if let lastModified = value.lastModified {
             items.add(Header(name: "x-amz-fwd-header-Last-Modified", value: Swift.String(TimestampFormatter(format: .httpDate).string(from: lastModified))))
@@ -22683,7 +22683,7 @@ public struct WriteGetObjectResponseInput {
     /// If the object expiration is configured (see PUT Bucket lifecycle), the response includes this header. It includes the expiry-date and rule-id key-value pairs that provide the object expiration information. The value of the rule-id is URL-encoded.
     public var expiration: Swift.String?
     /// The date and time at which the object is no longer cacheable.
-    public var expires: ClientRuntime.Date?
+    public var expires: Swift.String?
     /// The date and time that the object was last modified.
     public var lastModified: ClientRuntime.Date?
     /// A map of metadata to store with the object in S3.
@@ -22775,7 +22775,7 @@ public struct WriteGetObjectResponseInput {
         errorCode: Swift.String? = nil,
         errorMessage: Swift.String? = nil,
         expiration: Swift.String? = nil,
-        expires: ClientRuntime.Date? = nil,
+        expires: Swift.String? = nil,
         lastModified: ClientRuntime.Date? = nil,
         metadata: [Swift.String:Swift.String]? = nil,
         missingMeta: Swift.Int? = nil,

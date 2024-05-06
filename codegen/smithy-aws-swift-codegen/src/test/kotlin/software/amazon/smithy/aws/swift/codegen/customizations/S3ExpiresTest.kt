@@ -35,18 +35,18 @@ class S3ExpiresTest {
     }
 
     @Test
-    fun `002 test S3 input members named expires are not changed`() {
+    fun `002 test S3 input members named expires are changed to string type`() {
         val context = setupTests("s3-expires.smithy", "com.amazonaws.s3#S3", "S3")
         val contents = TestUtils.getFileContents(context.manifest, "/Example/models/FooInput.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
             public struct FooInput {
-                public var expires: ClientRuntime.Date?
+                public var expires: Swift.String?
                 public var payload1: Swift.String?
             
                 public init(
-                    expires: ClientRuntime.Date? = nil,
+                    expires: Swift.String? = nil,
                     payload1: Swift.String? = nil
                 )
                 {
