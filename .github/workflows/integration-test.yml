@@ -101,7 +101,7 @@ jobs:
       - name: Build Integration Tests
         run: swift build --build-tests
       - name: List schemes
-        run xcodebuild -list
+        run: xcodebuild -list
       - name: Run Integration Tests
         run: |
           set -o pipefail && \
