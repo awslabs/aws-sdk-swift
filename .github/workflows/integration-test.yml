@@ -101,7 +101,7 @@ jobs:
           AKID_ESCAPED=`echo -n "$AWS_ACCESS_KEY_ID" | jq -Rsa .`
           SECRET_ESCAPED=`echo -n "$AWS_SECRET_ACCESS_KEY" | jq -Rsa .`
           REGION_ESCAPED=`echo -n "$AWS_DEFAULT_REGION" | jq -Rsa .`
-          jq ".defaultOptions.environmentVariableEntries += [{\"key\": \"AWS_ACCESS_KEY_ID\", \"value\": \"$AKID_ESCAPED\"}, {\"key\": \"AWS_SECRET_ACCESS_KEY\", \"value\": \"$SECRET_ESCAPED\"}, {\"key\": \"AWS_DEFAULT_REGION\", \"value\": \"$REGION_ESCAPED\"}]" TestPlans/AWSIntegrationTestsOnCI.xctestplan > testplan.tmp
+          jq ".defaultOptions.environmentVariableEntries += [{\"key\": \"AWS_ACCESS_KEY_ID\", \"value\": $AKID_ESCAPED}, {\"key\": \"AWS_SECRET_ACCESS_KEY\", \"value\": $SECRET_ESCAPED}, {\"key\": \"AWS_DEFAULT_REGION\", \"value\": $REGION_ESCAPED}]" TestPlans/AWSIntegrationTestsOnCI.xctestplan > testplan.tmp
           mv testplan.tmp TestPlans/AWSIntegrationTestsOnCI.xctestplan
       - name: Prepare Integration Tests
         run: ./scripts/ci_steps/prepare_integration_tests.sh
