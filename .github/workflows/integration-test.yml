@@ -109,7 +109,7 @@ jobs:
           set -o pipefail && \
           NSUnbufferedIO=YES xcodebuild \
             -scheme AWSIntegrationTestsOnCI \
-            -testPlan TestPlans/AWSIntegrationTestsOnCI.xctestplan \
+            -testPlan AWSIntegrationTestsOnCI \
             -destination '${{ matrix.destination }}' \
             test 2>&1 \
             | xcpretty
