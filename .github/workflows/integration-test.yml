@@ -110,8 +110,8 @@ jobs:
           NSUnbufferedIO=YES xcodebuild \
             -scheme AWSIntegrationTestsOnCI \
             -destination '${{ matrix.destination }}' \
-            test 2>&1 #\
-            #| xcpretty
+            test 2>&1 \
+            | xcpretty
 
   linux:
     runs-on: ubuntu-latest
