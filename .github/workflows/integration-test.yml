@@ -18,19 +18,35 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # This matrix runs tests on Mac, on oldest & newest supported Xcodes
+        # This matrix runs tests on iOS sim & Mac, on oldest & newest supported Xcodes
         runner:
           - macos-13-xlarge
           - macos-14-xlarge
         xcode:
           - Xcode_14.1
           - Xcode_15.3
+        destination:
+          - 'platform=iOS Simulator,OS=16.1,name=iPhone 14'
+          - 'platform=iOS Simulator,OS=17.4,name=iPhone 15'
+          - 'platform=tvOS Simulator,OS=16.1,name=Apple TV 4K (3rd generation) (at 1080p)'
+          - 'platform=tvOS Simulator,OS=17.4,name=Apple TV 4K (3rd generation) (at 1080p)'
+          - 'platform=OS X'
         exclude:
           # Don't run old macOS with new Xcode
           - runner: macos-13-xlarge
             xcode: Xcode_15.3
           # Don't run new macOS with old Xcode
           - runner: macos-14-xlarge
+            xcode: Xcode_14.1
+          # Don't run old simulators with new Xcode
+          - destination: 'platform=tvOS Simulator,OS=16.1,name=Apple TV 4K (3rd generation) (at 1080p)'
+            xcode: Xcode_15.3
+          - destination: 'platform=iOS Simulator,OS=16.1,name=iPhone 14'
+            xcode: Xcode_15.3
+          # Don't run new simulators with old Xcode
+          - destination: 'platform=tvOS Simulator,OS=17.4,name=Apple TV 4K (3rd generation) (at 1080p)'
+            xcode: Xcode_14.1
+          - destination: 'platform=iOS Simulator,OS=17.4,name=iPhone 15'
             xcode: Xcode_14.1
     steps:
       - name: Configure AWS Credentials for Integration Tests
@@ -85,6 +101,16 @@ jobs:
       - name: Build Integration Tests
         run: swift build --build-tests
       - name: Run Integration Tests
+        run: |
+          set -o pipefail && \
+          NSUnbufferedIO=YES xcodebuild \
+            AWS_ACCESS_KEY_ID="$AWS_ACCESS_KEY_ID" \
+            AWS_SECRET_ACCESS_KEY="$AWS_SECRET_ACCESS_KEY" \
+            AWS_DEFAULT_REGION="$AWS_DEFAULT_REGION" \
+            -scheme aws-sdk-swift \
+            -destination '${{ matrix.destination }}' \
+            test 2>&1 \
+            | xcpretty
         run: swift test
 
   linux:
