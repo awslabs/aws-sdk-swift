@@ -72,10 +72,11 @@ final class TranscribeStreamingTests: XCTestCase {
         }
 
         XCTAssertEqual("Hello transcribed streaming from swift sdk.", fullMessage)
-        print("********* FINISHED **********")
     }
-
+    
+    /// Transcribe streaming is initiated concurrently, but the transcribe operations only run in series.
+    /// I think this is due to the bidirectional nature of the request.
     func test_2xConcurrent_startStreamTranscription() async throws {
-        try await repeatConcurrently(count: 10, test: test_startStreamTranscription)
+        try await repeatConcurrently(count: 2, test: test_startStreamTranscription)
     }
 }
