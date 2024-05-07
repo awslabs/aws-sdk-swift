@@ -10,6 +10,7 @@ import ClientRuntime
 import Foundation
 import XCTest
 import AWSS3
+import AWSIntegrationTestUtils
 
 class S3EmptyBody404Tests: S3XCTestCase {
 
@@ -46,5 +47,9 @@ class S3EmptyBody404Tests: S3XCTestCase {
 
         // If there was any error not caught by the catch clause above, it will be caught by
         // XCTest & fail the test.
+    }
+
+    func test_100xConcurrent_emptyBody404_correctlyParsesAnEmpty404() async throws {
+        try await repeatConcurrently(count: 100, test: test_emptyBody404_correctlyParsesAnEmpty404)
     }
 }

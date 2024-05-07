@@ -9,6 +9,7 @@ import XCTest
 import AWSS3
 import ClientRuntime
 import AWSClientRuntime
+import AWSIntegrationTestUtils
 
 /// Tests presigned request using S3.
 class S3PresignedRequestTests: S3XCTestCase {
@@ -21,7 +22,7 @@ class S3PresignedRequestTests: S3XCTestCase {
         s3Config.authSchemes = [SigV4AuthScheme()]
     }
 
-    func testS3PresignedRequest() async throws {
+    func test_s3PresignedRequest() async throws {
         let putObjectInput = PutObjectInput(
             body: .noStream,
             bucket: bucketName,
@@ -35,7 +36,6 @@ class S3PresignedRequestTests: S3XCTestCase {
         )
         guard let presignedRequest else {
             XCTFail("Presigning PutObjectInput failed.")
-            // return added for compiler to not complain.
             return
         }
 
@@ -47,5 +47,9 @@ class S3PresignedRequestTests: S3XCTestCase {
         XCTAssertNotNil(fetchedObject.metadata)
         let metadata = try XCTUnwrap(fetchedObject.metadata)
         XCTAssertEqual(metadata["filename"], key)
+    }
+
+    func test_100xConcurrent_s3PresignedRequest() async throws {
+        try await repeatConcurrently(count: 100, test: test_s3PresignedRequest)
     }
 }

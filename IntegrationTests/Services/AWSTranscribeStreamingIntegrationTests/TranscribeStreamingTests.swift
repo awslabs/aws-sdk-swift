@@ -8,13 +8,14 @@
 import XCTest
 import Foundation
 import AWSTranscribeStreaming
+import AWSIntegrationTestUtils
 
 final class TranscribeStreamingTests: XCTestCase {
 
-    func testStartStreamTranscription() async throws {
+    func test_startStreamTranscription() async throws {
 
-        // The heelo-swift.wav resource is an audio file that contains an automated voice
-        // saying the words "Hello transcribed streaming from Swift S. D. K.".
+        // The hello-swift.wav resource is an audio file that contains an automated voice
+        // saying the words "Hello transcribed streaming from swift sdk.".
         // It is 2.976 seconds in duration.
         let audioURL = Bundle.module.url(forResource: "hello-swift", withExtension: "wav")!
         let audioData = try Data(contentsOf: audioURL)
@@ -71,5 +72,10 @@ final class TranscribeStreamingTests: XCTestCase {
         }
 
         XCTAssertEqual("Hello transcribed streaming from swift sdk.", fullMessage)
+        print("********* FINISHED **********")
+    }
+
+    func test_2xConcurrent_startStreamTranscription() async throws {
+        try await repeatConcurrently(count: 10, test: test_startStreamTranscription)
     }
 }

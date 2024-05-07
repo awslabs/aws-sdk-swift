@@ -9,6 +9,7 @@ import XCTest
 import AWSKinesis
 import ClientRuntime
 import AWSClientRuntime
+import AWSIntegrationTestUtils
 
 class KinesisTests: XCTestCase {
 
@@ -91,6 +92,10 @@ class KinesisTests: XCTestCase {
             await cleanUpKinesis(client: client, streamName: streamName)
             throw error
         }
+    }
+
+    func test_5xConcurrent_kinesisIntegrationTest() async throws {
+        try await repeatConcurrently(count: 5, test: test_kinesisIntegrationTest)
     }
 
     private func cleanUpKinesis(client: KinesisClient, streamName: String) async {
