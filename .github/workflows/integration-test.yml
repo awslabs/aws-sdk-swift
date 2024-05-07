@@ -133,7 +133,9 @@ jobs:
           - "5.10"
     steps:
       - name: Configure AWS Credentials for Integration Tests
-        uses: aws-actions/configure-aws-credentials@v4
+        # configure-aws-credentials@v4 does not work with AL2 images, so @v3 is used instead.  See:
+        #   https://github.com/aws-actions/configure-aws-credentials/issues/862
+        uses: aws-actions/configure-aws-credentials@v3
         with:
           role-to-assume: ${{ secrets.INTEGRATION_TEST_ROLE_ARN }}
           aws-region: us-west-2
