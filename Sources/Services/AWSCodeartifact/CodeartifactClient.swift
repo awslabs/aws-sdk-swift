@@ -1441,6 +1441,8 @@ extension CodeartifactClient {
     ///
     /// * pypi
     ///
+    /// * ruby
+    ///
     /// * swift
     ///
     /// - Parameter GetRepositoryEndpointInput : [no documentation found]

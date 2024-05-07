@@ -388,7 +388,7 @@ extension CodeartifactClientTypes {
         ///
         /// * The namespace of a generic package is its namespace.
         ///
-        /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+        /// * Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
         public var namespace: Swift.String?
         /// The name of the associated package.
         public var package: Swift.String?
@@ -604,7 +604,7 @@ public struct CopyPackageVersionsInput {
     ///
     /// * The namespace of a generic package is its namespace.
     ///
-    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+    /// * Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     public var namespace: Swift.String?
     /// The name of the package that contains the versions to be copied.
     /// This member is required.
@@ -1721,7 +1721,7 @@ public struct DeletePackageInput {
     ///
     /// * The namespace of a generic package is its namespace.
     ///
-    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+    /// * Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     public var namespace: Swift.String?
     /// The name of the package to delete.
     /// This member is required.
@@ -1908,7 +1908,7 @@ public struct DeletePackageVersionsInput {
     ///
     /// * The namespace of a generic package is its namespace.
     ///
-    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+    /// * Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     public var namespace: Swift.String?
     /// The name of the package with the versions to delete.
     /// This member is required.
@@ -2607,7 +2607,7 @@ public struct DescribePackageInput {
     ///
     /// * The namespace of a generic package is its namespace.
     ///
-    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+    /// * Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     public var namespace: Swift.String?
     /// The name of the requested package.
     /// This member is required.
@@ -2778,7 +2778,7 @@ public struct DescribePackageVersionInput {
     ///
     /// * The namespace of a generic package is its namespace.
     ///
-    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+    /// * Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     public var namespace: Swift.String?
     /// The name of the requested package version.
     /// This member is required.
@@ -3225,7 +3225,7 @@ public struct DisposePackageVersionsInput {
     ///
     /// * The namespace of a generic package is its namespace.
     ///
-    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+    /// * Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     public var namespace: Swift.String?
     /// The name of the package with the versions you want to dispose.
     /// This member is required.
@@ -3774,7 +3774,7 @@ public struct GetAssociatedPackageGroupInput {
     ///
     /// * The namespace of a generic package is its namespace.
     ///
-    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+    /// * Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     public var namespace: Swift.String?
     /// The package from which to get the associated package group.
     /// This member is required.
@@ -4197,7 +4197,7 @@ public struct GetPackageVersionAssetInput {
     ///
     /// * The namespace of a generic package is its namespace.
     ///
-    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+    /// * Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     public var namespace: Swift.String?
     /// The name of the package that contains the requested asset.
     /// This member is required.
@@ -4407,7 +4407,7 @@ public struct GetPackageVersionReadmeInput {
     ///
     /// * The namespace of a generic package is its namespace.
     ///
-    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+    /// * Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     public var namespace: Swift.String?
     /// The name of the package version that contains the requested readme file.
     /// This member is required.
@@ -4481,7 +4481,7 @@ public struct GetPackageVersionReadmeOutput {
     ///
     /// * The namespace of a generic package is its namespace.
     ///
-    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+    /// * Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     public var namespace: Swift.String?
     /// The name of the package that contains the returned readme file.
     public var package: Swift.String?
@@ -5639,7 +5639,7 @@ public struct ListPackageVersionAssetsInput {
     ///
     /// * The namespace of a generic package is its namespace.
     ///
-    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+    /// * Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     public var namespace: Swift.String?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
@@ -5723,7 +5723,7 @@ public struct ListPackageVersionAssetsOutput {
     ///
     /// * The namespace of a generic package is its namespace.
     ///
-    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+    /// * Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     public var namespace: Swift.String?
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
@@ -5901,7 +5901,7 @@ public struct ListPackageVersionDependenciesInput {
     ///
     /// * The namespace of a generic package is its namespace.
     ///
-    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+    /// * Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     public var namespace: Swift.String?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
@@ -5983,7 +5983,7 @@ public struct ListPackageVersionDependenciesOutput {
     ///
     /// * The namespace of a generic package is its namespace.
     ///
-    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+    /// * Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     public var namespace: Swift.String?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
@@ -6173,7 +6173,7 @@ public struct ListPackageVersionsInput {
     ///
     /// * The namespace of a generic package is its namespace.
     ///
-    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+    /// * Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     public var namespace: Swift.String?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
@@ -6266,7 +6266,7 @@ public struct ListPackageVersionsOutput {
     ///
     /// * The namespace of a generic package is its namespace.
     ///
-    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+    /// * Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     public var namespace: Swift.String?
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
@@ -6430,7 +6430,7 @@ public struct ListPackagesInput {
     ///
     /// * The namespace of a generic package is its namespace.
     ///
-    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+    /// * Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     public var namespace: Swift.String?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
@@ -7155,7 +7155,7 @@ extension CodeartifactClientTypes {
         ///
         /// * The namespace of a generic package is its namespace.
         ///
-        /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+        /// * Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
         public var namespace: Swift.String?
         /// The name of the package that this package depends on.
         public var package: Swift.String?
@@ -7230,7 +7230,7 @@ extension CodeartifactClientTypes {
         ///
         /// * The namespace of a generic package is its namespace.
         ///
-        /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+        /// * Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
         public var namespace: Swift.String?
         /// The package origin configuration for the package.
         public var originConfiguration: CodeartifactClientTypes.PackageOriginConfiguration?
@@ -7258,6 +7258,7 @@ extension CodeartifactClientTypes {
         case npm
         case nuget
         case pypi
+        case ruby
         case swift
         case sdkUnknown(Swift.String)
 
@@ -7268,6 +7269,7 @@ extension CodeartifactClientTypes {
                 .npm,
                 .nuget,
                 .pypi,
+                .ruby,
                 .swift,
                 .sdkUnknown("")
             ]
@@ -7283,6 +7285,7 @@ extension CodeartifactClientTypes {
             case .npm: return "npm"
             case .nuget: return "nuget"
             case .pypi: return "pypi"
+            case .ruby: return "ruby"
             case .swift: return "swift"
             case let .sdkUnknown(s): return s
             }
@@ -7996,7 +7999,7 @@ extension CodeartifactClientTypes {
         ///
         /// * The namespace of a generic package is its namespace.
         ///
-        /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+        /// * Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
         public var namespace: Swift.String?
         /// A [PackageOriginConfiguration](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageOriginConfiguration.html) object that contains a [PackageOriginRestrictions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageOriginRestrictions.html) object that contains information about the upstream and publish package origin restrictions.
         public var originConfiguration: CodeartifactClientTypes.PackageOriginConfiguration?
@@ -8141,7 +8144,7 @@ extension CodeartifactClientTypes {
         ///
         /// * The namespace of a generic package is its namespace.
         ///
-        /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+        /// * Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
         public var namespace: Swift.String?
         /// A [PackageVersionOrigin](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageVersionOrigin.html) object that contains information about how the package version was added to the repository.
         public var origin: CodeartifactClientTypes.PackageVersionOrigin?
@@ -9015,7 +9018,7 @@ public struct PutPackageOriginConfigurationInput {
     ///
     /// * The namespace of a generic package is its namespace.
     ///
-    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+    /// * Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     public var namespace: Swift.String?
     /// The name of the package to be updated.
     /// This member is required.
@@ -10673,7 +10676,7 @@ public struct UpdatePackageVersionsStatusInput {
     ///
     /// * The namespace of a generic package is its namespace.
     ///
-    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+    /// * Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     public var namespace: Swift.String?
     /// The name of the package with the version statuses to update.
     /// This member is required.

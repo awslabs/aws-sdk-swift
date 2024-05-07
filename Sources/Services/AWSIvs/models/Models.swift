@@ -157,7 +157,7 @@ extension IvsClientTypes.BatchError: Swift.Codable {
 extension IvsClientTypes {
     /// Error related to a specific channel, specified by its ARN.
     public struct BatchError {
-        /// Channel ARN.
+        /// ARN of an IVS resource; e.g., channel.
         public var arn: Swift.String?
         /// Error code.
         public var code: Swift.String?

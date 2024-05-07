@@ -105,6 +105,38 @@ extension PaginatorSequence where OperationStackInput == ListManagedEndpointsInp
     }
 }
 extension EMRcontainersClient {
+    /// Paginate over `[ListSecurityConfigurationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSecurityConfigurationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSecurityConfigurationsOutput`
+    public func listSecurityConfigurationsPaginated(input: ListSecurityConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListSecurityConfigurationsInput, ListSecurityConfigurationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListSecurityConfigurationsInput, ListSecurityConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSecurityConfigurations(input:))
+    }
+}
+
+extension ListSecurityConfigurationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListSecurityConfigurationsInput {
+        return ListSecurityConfigurationsInput(
+            createdAfter: self.createdAfter,
+            createdBefore: self.createdBefore,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListSecurityConfigurationsInput, OperationStackOutput == ListSecurityConfigurationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listSecurityConfigurationsPaginated`
+    /// to access the nested member `[EMRcontainersClientTypes.SecurityConfiguration]`
+    /// - Returns: `[EMRcontainersClientTypes.SecurityConfiguration]`
+    public func securityConfigurations() async throws -> [EMRcontainersClientTypes.SecurityConfiguration] {
+        return try await self.asyncCompactMap { item in item.securityConfigurations }
+    }
+}
+extension EMRcontainersClient {
     /// Paginate over `[ListVirtualClustersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

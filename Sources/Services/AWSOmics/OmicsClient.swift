@@ -196,7 +196,7 @@ extension OmicsClient {
 
     /// Performs the `AcceptShare` operation on the `Omics` service.
     ///
-    /// Accepts a share for an analytics store.
+    /// Accept a resource share request.
     ///
     /// - Parameter AcceptShareInput : [no documentation found]
     ///
@@ -854,7 +854,13 @@ extension OmicsClient {
 
     /// Performs the `CreateShare` operation on the `Omics` service.
     ///
-    /// Creates a share offer that can be accepted outside the account by a subscriber. The share is created by the owner and accepted by the principal subscriber.
+    /// Creates a cross-account shared resource. The resource owner makes an offer to share the resource with the principal subscriber (an AWS user with a different account than the resource owner). The following resources support cross-account sharing:
+    ///
+    /// * Healthomics variant stores
+    ///
+    /// * Healthomics annotation stores
+    ///
+    /// * Private workflows
     ///
     /// - Parameter CreateShareInput : [no documentation found]
     ///
@@ -1400,7 +1406,7 @@ extension OmicsClient {
 
     /// Performs the `DeleteShare` operation on the `Omics` service.
     ///
-    /// Deletes a share of an analytics store.
+    /// Deletes a resource share. If you are the resource owner, the subscriber will no longer have access to the shared resource. If you are the subscriber, this operation deletes your access to the share.
     ///
     /// - Parameter DeleteShareInput : [no documentation found]
     ///
@@ -2187,7 +2193,7 @@ extension OmicsClient {
 
     /// Performs the `GetRun` operation on the `Omics` service.
     ///
-    /// Gets information about a workflow run.
+    /// Gets information about a workflow run. If a workflow is shared with you, you cannot export information about the run.
     ///
     /// - Parameter GetRunInput : [no documentation found]
     ///
@@ -2402,7 +2408,7 @@ extension OmicsClient {
 
     /// Performs the `GetShare` operation on the `Omics` service.
     ///
-    /// Retrieves the metadata for a share.
+    /// Retrieves the metadata for the specified resource share.
     ///
     /// - Parameter GetShareInput : [no documentation found]
     ///
@@ -2557,7 +2563,7 @@ extension OmicsClient {
 
     /// Performs the `GetWorkflow` operation on the `Omics` service.
     ///
-    /// Gets information about a workflow.
+    /// Gets information about a workflow. If a workflow is shared with you, you cannot export the workflow.
     ///
     /// - Parameter GetWorkflowInput : [no documentation found]
     ///
@@ -3501,7 +3507,7 @@ extension OmicsClient {
 
     /// Performs the `ListShares` operation on the `Omics` service.
     ///
-    /// Lists all shares associated with an account.
+    /// Retrieves the resource shares associated with an account. Use the filter parameter to retrieve a specific subset of the shares.
     ///
     /// - Parameter ListSharesInput : [no documentation found]
     ///
@@ -4056,7 +4062,7 @@ extension OmicsClient {
 
     /// Performs the `StartRun` operation on the `Omics` service.
     ///
-    /// Starts a workflow run. To duplicate a run, specify the run's ID and a role ARN. The remaining parameters are copied from the previous run. The total number of runs in your account is subject to a quota per Region. To avoid needing to delete runs manually, you can set the retention mode to REMOVE. Runs with this setting are deleted automatically when the run quoata is exceeded.
+    /// Starts a workflow run. To duplicate a run, specify the run's ID and a role ARN. The remaining parameters are copied from the previous run. StartRun will not support re-run for a workflow that is shared with you. The total number of runs in your account is subject to a quota per Region. To avoid needing to delete runs manually, you can set the retention mode to REMOVE. Runs with this setting are deleted automatically when the run quoata is exceeded. By default, the run uses STATIC storage. For STATIC storage, set the storageCapacity field. You can set the storage type to DYNAMIC. You do not set storageCapacity, because HealthOmics dynamically scales the storage up or down as required. For more information about static and dynamic storage, see [Running workflows](https://docs.aws.amazon.com/omics/latest/dev/Using-workflows.html) in the AWS HealthOmics User Guide.
     ///
     /// - Parameter StartRunInput : [no documentation found]
     ///

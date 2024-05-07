@@ -2706,6 +2706,239 @@ enum AssociateUserProficienciesOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
+extension ConnectClientTypes.AttachedFile: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case associatedResourceArn = "AssociatedResourceArn"
+        case createdBy = "CreatedBy"
+        case creationTime = "CreationTime"
+        case fileArn = "FileArn"
+        case fileId = "FileId"
+        case fileName = "FileName"
+        case fileSizeInBytes = "FileSizeInBytes"
+        case fileStatus = "FileStatus"
+        case fileUseCaseType = "FileUseCaseType"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let associatedResourceArn = self.associatedResourceArn {
+            try encodeContainer.encode(associatedResourceArn, forKey: .associatedResourceArn)
+        }
+        if let createdBy = self.createdBy {
+            try encodeContainer.encode(createdBy, forKey: .createdBy)
+        }
+        if let creationTime = self.creationTime {
+            try encodeContainer.encode(creationTime, forKey: .creationTime)
+        }
+        if let fileArn = self.fileArn {
+            try encodeContainer.encode(fileArn, forKey: .fileArn)
+        }
+        if let fileId = self.fileId {
+            try encodeContainer.encode(fileId, forKey: .fileId)
+        }
+        if let fileName = self.fileName {
+            try encodeContainer.encode(fileName, forKey: .fileName)
+        }
+        if let fileSizeInBytes = self.fileSizeInBytes {
+            try encodeContainer.encode(fileSizeInBytes, forKey: .fileSizeInBytes)
+        }
+        if let fileStatus = self.fileStatus {
+            try encodeContainer.encode(fileStatus.rawValue, forKey: .fileStatus)
+        }
+        if let fileUseCaseType = self.fileUseCaseType {
+            try encodeContainer.encode(fileUseCaseType.rawValue, forKey: .fileUseCaseType)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let creationTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let fileArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileArn)
+        fileArn = fileArnDecoded
+        let fileIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileId)
+        fileId = fileIdDecoded
+        let fileNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileName)
+        fileName = fileNameDecoded
+        let fileSizeInBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fileSizeInBytes)
+        fileSizeInBytes = fileSizeInBytesDecoded
+        let fileStatusDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.FileStatusType.self, forKey: .fileStatus)
+        fileStatus = fileStatusDecoded
+        let createdByDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.CreatedByInfo.self, forKey: .createdBy)
+        createdBy = createdByDecoded
+        let fileUseCaseTypeDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.FileUseCaseType.self, forKey: .fileUseCaseType)
+        fileUseCaseType = fileUseCaseTypeDecoded
+        let associatedResourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .associatedResourceArn)
+        associatedResourceArn = associatedResourceArnDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information about the attached file.
+    public struct AttachedFile {
+        /// The resource to which the attached file is (being) uploaded to. [Cases](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html) are the only current supported resource. This value must be a valid ARN.
+        public var associatedResourceArn: Swift.String?
+        /// Represents the identity that created the file.
+        public var createdBy: ConnectClientTypes.CreatedByInfo?
+        /// The time of Creation of the file resource as an ISO timestamp. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2024-05-03T02:41:28.172Z.
+        /// This member is required.
+        public var creationTime: Swift.String?
+        /// The unique identifier of the attached file resource (ARN).
+        /// This member is required.
+        public var fileArn: Swift.String?
+        /// The unique identifier of the attached file resource.
+        /// This member is required.
+        public var fileId: Swift.String?
+        /// A case-sensitive name of the attached file being uploaded.
+        /// This member is required.
+        public var fileName: Swift.String?
+        /// The size of the attached file in bytes.
+        /// This member is required.
+        public var fileSizeInBytes: Swift.Int?
+        /// The current status of the attached file.
+        /// This member is required.
+        public var fileStatus: ConnectClientTypes.FileStatusType?
+        /// The use case for the file.
+        public var fileUseCaseType: ConnectClientTypes.FileUseCaseType?
+        /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
+        public var tags: [Swift.String:Swift.String]?
+
+        public init(
+            associatedResourceArn: Swift.String? = nil,
+            createdBy: ConnectClientTypes.CreatedByInfo? = nil,
+            creationTime: Swift.String? = nil,
+            fileArn: Swift.String? = nil,
+            fileId: Swift.String? = nil,
+            fileName: Swift.String? = nil,
+            fileSizeInBytes: Swift.Int? = nil,
+            fileStatus: ConnectClientTypes.FileStatusType? = nil,
+            fileUseCaseType: ConnectClientTypes.FileUseCaseType? = nil,
+            tags: [Swift.String:Swift.String]? = nil
+        )
+        {
+            self.associatedResourceArn = associatedResourceArn
+            self.createdBy = createdBy
+            self.creationTime = creationTime
+            self.fileArn = fileArn
+            self.fileId = fileId
+            self.fileName = fileName
+            self.fileSizeInBytes = fileSizeInBytes
+            self.fileStatus = fileStatus
+            self.fileUseCaseType = fileUseCaseType
+            self.tags = tags
+        }
+    }
+
+}
+
+extension ConnectClientTypes.AttachedFileError: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorCode = "ErrorCode"
+        case errorMessage = "ErrorMessage"
+        case fileId = "FileId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let errorCode = self.errorCode {
+            try encodeContainer.encode(errorCode, forKey: .errorCode)
+        }
+        if let errorMessage = self.errorMessage {
+            try encodeContainer.encode(errorMessage, forKey: .errorMessage)
+        }
+        if let fileId = self.fileId {
+            try encodeContainer.encode(fileId, forKey: .fileId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let errorCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorCode)
+        errorCode = errorCodeDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+        let fileIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileId)
+        fileId = fileIdDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Error describing a failure to retrieve attached file metadata through BatchGetAttachedFileMetadata action.
+    public struct AttachedFileError {
+        /// Status code describing the failure.
+        public var errorCode: Swift.String?
+        /// Why the attached file couldn't be retrieved.
+        public var errorMessage: Swift.String?
+        /// The unique identifier of the attached file resource.
+        public var fileId: Swift.String?
+
+        public init(
+            errorCode: Swift.String? = nil,
+            errorMessage: Swift.String? = nil,
+            fileId: Swift.String? = nil
+        )
+        {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.fileId = fileId
+        }
+    }
+
+}
+
+extension ConnectClientTypes {
+    public enum AttachedFileInvalidRequestExceptionReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case invalidFileName
+        case invalidFileSize
+        case invalidFileType
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AttachedFileInvalidRequestExceptionReason] {
+            return [
+                .invalidFileName,
+                .invalidFileSize,
+                .invalidFileType,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .invalidFileName: return "INVALID_FILE_NAME"
+            case .invalidFileSize: return "INVALID_FILE_SIZE"
+            case .invalidFileType: return "INVALID_FILE_TYPE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AttachedFileInvalidRequestExceptionReason(rawValue: rawValue) ?? AttachedFileInvalidRequestExceptionReason.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ConnectClientTypes.AttachmentReference: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
@@ -3323,6 +3556,177 @@ enum BatchDisassociateAnalyticsDataSetOutputError: ClientRuntime.HttpResponseErr
         switch restJSONError.errorType {
             case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension BatchGetAttachedFileMetadataInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fileIds = "FileIds"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let fileIds = fileIds {
+            var fileIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fileIds)
+            for fileid0 in fileIds {
+                try fileIdsContainer.encode(fileid0)
+            }
+        }
+    }
+}
+
+extension BatchGetAttachedFileMetadataInput {
+
+    static func queryItemProvider(_ value: BatchGetAttachedFileMetadataInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let associatedResourceArn = value.associatedResourceArn else {
+            let message = "Creating a URL Query Item failed. associatedResourceArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let associatedResourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "associatedResourceArn".urlPercentEncoding(), value: Swift.String(associatedResourceArn).urlPercentEncoding())
+        items.append(associatedResourceArnQueryItem)
+        return items
+    }
+}
+
+extension BatchGetAttachedFileMetadataInput {
+
+    static func urlPathProvider(_ value: BatchGetAttachedFileMetadataInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        return "/attached-files/\(instanceId.urlPercentEncoding())"
+    }
+}
+
+public struct BatchGetAttachedFileMetadataInput {
+    /// The resource to which the attached file is (being) uploaded to. [Cases](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html) are the only current supported resource. This value must be a valid ARN.
+    /// This member is required.
+    public var associatedResourceArn: Swift.String?
+    /// The unique identifiers of the attached file resource.
+    /// This member is required.
+    public var fileIds: [Swift.String]?
+    /// The unique identifier of the Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init(
+        associatedResourceArn: Swift.String? = nil,
+        fileIds: [Swift.String]? = nil,
+        instanceId: Swift.String? = nil
+    )
+    {
+        self.associatedResourceArn = associatedResourceArn
+        self.fileIds = fileIds
+        self.instanceId = instanceId
+    }
+}
+
+struct BatchGetAttachedFileMetadataInputBody {
+    let fileIds: [Swift.String]?
+}
+
+extension BatchGetAttachedFileMetadataInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fileIds = "FileIds"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fileIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .fileIds)
+        var fileIdsDecoded0:[Swift.String]? = nil
+        if let fileIdsContainer = fileIdsContainer {
+            fileIdsDecoded0 = [Swift.String]()
+            for string0 in fileIdsContainer {
+                if let string0 = string0 {
+                    fileIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        fileIds = fileIdsDecoded0
+    }
+}
+
+extension BatchGetAttachedFileMetadataOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: BatchGetAttachedFileMetadataOutputBody = try responseDecoder.decode(responseBody: data)
+            self.errors = output.errors
+            self.files = output.files
+        } else {
+            self.errors = nil
+            self.files = nil
+        }
+    }
+}
+
+public struct BatchGetAttachedFileMetadataOutput {
+    /// List of errors of attached files that could not be retrieved.
+    public var errors: [ConnectClientTypes.AttachedFileError]?
+    /// List of attached files that were successfully retrieved.
+    public var files: [ConnectClientTypes.AttachedFile]?
+
+    public init(
+        errors: [ConnectClientTypes.AttachedFileError]? = nil,
+        files: [ConnectClientTypes.AttachedFile]? = nil
+    )
+    {
+        self.errors = errors
+        self.files = files
+    }
+}
+
+struct BatchGetAttachedFileMetadataOutputBody {
+    let files: [ConnectClientTypes.AttachedFile]?
+    let errors: [ConnectClientTypes.AttachedFileError]?
+}
+
+extension BatchGetAttachedFileMetadataOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errors = "Errors"
+        case files = "Files"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let filesContainer = try containerValues.decodeIfPresent([ConnectClientTypes.AttachedFile?].self, forKey: .files)
+        var filesDecoded0:[ConnectClientTypes.AttachedFile]? = nil
+        if let filesContainer = filesContainer {
+            filesDecoded0 = [ConnectClientTypes.AttachedFile]()
+            for structure0 in filesContainer {
+                if let structure0 = structure0 {
+                    filesDecoded0?.append(structure0)
+                }
+            }
+        }
+        files = filesDecoded0
+        let errorsContainer = try containerValues.decodeIfPresent([ConnectClientTypes.AttachedFileError?].self, forKey: .errors)
+        var errorsDecoded0:[ConnectClientTypes.AttachedFileError]? = nil
+        if let errorsContainer = errorsContainer {
+            errorsDecoded0 = [ConnectClientTypes.AttachedFileError]()
+            for structure0 in errorsContainer {
+                if let structure0 = structure0 {
+                    errorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        errors = errorsDecoded0
+    }
+}
+
+enum BatchGetAttachedFileMetadataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -4354,6 +4758,92 @@ extension ConnectClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = Comparison(rawValue: rawValue) ?? Comparison.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CompleteAttachedFileUploadInput {
+
+    static func queryItemProvider(_ value: CompleteAttachedFileUploadInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let associatedResourceArn = value.associatedResourceArn else {
+            let message = "Creating a URL Query Item failed. associatedResourceArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let associatedResourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "associatedResourceArn".urlPercentEncoding(), value: Swift.String(associatedResourceArn).urlPercentEncoding())
+        items.append(associatedResourceArnQueryItem)
+        return items
+    }
+}
+
+extension CompleteAttachedFileUploadInput {
+
+    static func urlPathProvider(_ value: CompleteAttachedFileUploadInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let fileId = value.fileId else {
+            return nil
+        }
+        return "/attached-files/\(instanceId.urlPercentEncoding())/\(fileId.urlPercentEncoding())"
+    }
+}
+
+/// Request to CompleteAttachedFileUpload API
+public struct CompleteAttachedFileUploadInput {
+    /// The resource to which the attached file is (being) uploaded to. [Cases](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html) are the only current supported resource. This value must be a valid ARN.
+    /// This member is required.
+    public var associatedResourceArn: Swift.String?
+    /// The unique identifier of the attached file resource.
+    /// This member is required.
+    public var fileId: Swift.String?
+    /// The unique identifier of the Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init(
+        associatedResourceArn: Swift.String? = nil,
+        fileId: Swift.String? = nil,
+        instanceId: Swift.String? = nil
+    )
+    {
+        self.associatedResourceArn = associatedResourceArn
+        self.fileId = fileId
+        self.instanceId = instanceId
+    }
+}
+
+struct CompleteAttachedFileUploadInputBody {
+}
+
+extension CompleteAttachedFileUploadInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension CompleteAttachedFileUploadOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// Response from CompleteAttachedFileUpload API
+public struct CompleteAttachedFileUploadOutput {
+
+    public init() { }
+}
+
+enum CompleteAttachedFileUploadOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
@@ -10691,6 +11181,53 @@ enum CreateVocabularyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension ConnectClientTypes.CreatedByInfo: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case awsidentityarn = "AWSIdentityArn"
+        case connectuserarn = "ConnectUserArn"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .awsidentityarn(awsidentityarn):
+                try container.encode(awsidentityarn, forKey: .awsidentityarn)
+            case let .connectuserarn(connectuserarn):
+                try container.encode(connectuserarn, forKey: .connectuserarn)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let connectuserarnDecoded = try values.decodeIfPresent(Swift.String.self, forKey: .connectuserarn)
+        if let connectuserarn = connectuserarnDecoded {
+            self = .connectuserarn(connectuserarn)
+            return
+        }
+        let awsidentityarnDecoded = try values.decodeIfPresent(Swift.String.self, forKey: .awsidentityarn)
+        if let awsidentityarn = awsidentityarnDecoded {
+            self = .awsidentityarn(awsidentityarn)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information on the identity that created the file.
+    public enum CreatedByInfo {
+        /// An agent ARN representing a [connect user](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonconnect.html#amazonconnect-resources-for-iam-policies).
+        case connectuserarn(Swift.String)
+        /// STS or IAM ARN representing the identity of API Caller. SDK users cannot populate this and this value is calculated automatically if ConnectUserArn is not provided.
+        case awsidentityarn(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
 extension ConnectClientTypes.Credentials: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessToken = "AccessToken"
@@ -11311,6 +11848,92 @@ extension ConnectClientTypes {
         }
     }
 
+}
+
+extension DeleteAttachedFileInput {
+
+    static func queryItemProvider(_ value: DeleteAttachedFileInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let associatedResourceArn = value.associatedResourceArn else {
+            let message = "Creating a URL Query Item failed. associatedResourceArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let associatedResourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "associatedResourceArn".urlPercentEncoding(), value: Swift.String(associatedResourceArn).urlPercentEncoding())
+        items.append(associatedResourceArnQueryItem)
+        return items
+    }
+}
+
+extension DeleteAttachedFileInput {
+
+    static func urlPathProvider(_ value: DeleteAttachedFileInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let fileId = value.fileId else {
+            return nil
+        }
+        return "/attached-files/\(instanceId.urlPercentEncoding())/\(fileId.urlPercentEncoding())"
+    }
+}
+
+/// Request to DeleteAttachedFile API
+public struct DeleteAttachedFileInput {
+    /// The resource to which the attached file is (being) uploaded to. [Cases](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html) are the only current supported resource. This value must be a valid ARN.
+    /// This member is required.
+    public var associatedResourceArn: Swift.String?
+    /// The unique identifier of the attached file resource.
+    /// This member is required.
+    public var fileId: Swift.String?
+    /// The unique identifier of the Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init(
+        associatedResourceArn: Swift.String? = nil,
+        fileId: Swift.String? = nil,
+        instanceId: Swift.String? = nil
+    )
+    {
+        self.associatedResourceArn = associatedResourceArn
+        self.fileId = fileId
+        self.instanceId = instanceId
+    }
+}
+
+struct DeleteAttachedFileInputBody {
+}
+
+extension DeleteAttachedFileInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteAttachedFileOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// Response from DeleteAttachedFile API
+public struct DeleteAttachedFileOutput {
+
+    public init() { }
+}
+
+enum DeleteAttachedFileOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
 }
 
 extension DeleteContactEvaluationInput {
@@ -16565,6 +17188,51 @@ extension ConnectClientTypes {
 
 }
 
+extension ConnectClientTypes.DownloadUrlMetadata: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case url = "Url"
+        case urlExpiry = "UrlExpiry"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let url = self.url {
+            try encodeContainer.encode(url, forKey: .url)
+        }
+        if let urlExpiry = self.urlExpiry {
+            try encodeContainer.encode(urlExpiry, forKey: .urlExpiry)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let urlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .url)
+        url = urlDecoded
+        let urlExpiryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .urlExpiry)
+        urlExpiry = urlExpiryDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Metadata used to download the attached file.
+    public struct DownloadUrlMetadata {
+        /// A pre-signed URL that should be used to download the attached file.
+        public var url: Swift.String?
+        /// The expiration time of the URL in ISO timestamp. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
+        public var urlExpiry: Swift.String?
+
+        public init(
+            url: Swift.String? = nil,
+            urlExpiry: Swift.String? = nil
+        )
+        {
+            self.url = url
+            self.urlExpiry = urlExpiry
+        }
+    }
+
+}
+
 extension DuplicateResourceException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -19338,6 +20006,73 @@ extension ConnectClientTypes {
 
 }
 
+extension ConnectClientTypes {
+    public enum FileStatusType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case approved
+        case failed
+        case processing
+        case rejected
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FileStatusType] {
+            return [
+                .approved,
+                .failed,
+                .processing,
+                .rejected,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .approved: return "APPROVED"
+            case .failed: return "FAILED"
+            case .processing: return "PROCESSING"
+            case .rejected: return "REJECTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = FileStatusType(rawValue: rawValue) ?? FileStatusType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ConnectClientTypes {
+    public enum FileUseCaseType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case attachment
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FileUseCaseType] {
+            return [
+                .attachment,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .attachment: return "ATTACHMENT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = FileUseCaseType(rawValue: rawValue) ?? FileUseCaseType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ConnectClientTypes.FilterV2: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case filterKey = "FilterKey"
@@ -19590,6 +20325,240 @@ extension ConnectClientTypes {
         }
     }
 
+}
+
+extension GetAttachedFileInput {
+
+    static func queryItemProvider(_ value: GetAttachedFileInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let urlExpiryInSeconds = value.urlExpiryInSeconds {
+            let urlExpiryInSecondsQueryItem = ClientRuntime.SDKURLQueryItem(name: "urlExpiryInSeconds".urlPercentEncoding(), value: Swift.String(urlExpiryInSeconds).urlPercentEncoding())
+            items.append(urlExpiryInSecondsQueryItem)
+        }
+        guard let associatedResourceArn = value.associatedResourceArn else {
+            let message = "Creating a URL Query Item failed. associatedResourceArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let associatedResourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "associatedResourceArn".urlPercentEncoding(), value: Swift.String(associatedResourceArn).urlPercentEncoding())
+        items.append(associatedResourceArnQueryItem)
+        return items
+    }
+}
+
+extension GetAttachedFileInput {
+
+    static func urlPathProvider(_ value: GetAttachedFileInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let fileId = value.fileId else {
+            return nil
+        }
+        return "/attached-files/\(instanceId.urlPercentEncoding())/\(fileId.urlPercentEncoding())"
+    }
+}
+
+/// Request to GetAttachedFile API.
+public struct GetAttachedFileInput {
+    /// The resource to which the attached file is (being) uploaded to. [Cases](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html) are the only current supported resource. This value must be a valid ARN.
+    /// This member is required.
+    public var associatedResourceArn: Swift.String?
+    /// The unique identifier of the attached file resource.
+    /// This member is required.
+    public var fileId: Swift.String?
+    /// The unique identifier of the Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// Optional override for the expiry of the pre-signed S3 URL in seconds.
+    public var urlExpiryInSeconds: Swift.Int?
+
+    public init(
+        associatedResourceArn: Swift.String? = nil,
+        fileId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        urlExpiryInSeconds: Swift.Int? = nil
+    )
+    {
+        self.associatedResourceArn = associatedResourceArn
+        self.fileId = fileId
+        self.instanceId = instanceId
+        self.urlExpiryInSeconds = urlExpiryInSeconds
+    }
+}
+
+struct GetAttachedFileInputBody {
+}
+
+extension GetAttachedFileInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetAttachedFileOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetAttachedFileOutputBody = try responseDecoder.decode(responseBody: data)
+            self.associatedResourceArn = output.associatedResourceArn
+            self.createdBy = output.createdBy
+            self.creationTime = output.creationTime
+            self.downloadUrlMetadata = output.downloadUrlMetadata
+            self.fileArn = output.fileArn
+            self.fileId = output.fileId
+            self.fileName = output.fileName
+            self.fileSizeInBytes = output.fileSizeInBytes
+            self.fileStatus = output.fileStatus
+            self.fileUseCaseType = output.fileUseCaseType
+            self.tags = output.tags
+        } else {
+            self.associatedResourceArn = nil
+            self.createdBy = nil
+            self.creationTime = nil
+            self.downloadUrlMetadata = nil
+            self.fileArn = nil
+            self.fileId = nil
+            self.fileName = nil
+            self.fileSizeInBytes = nil
+            self.fileStatus = nil
+            self.fileUseCaseType = nil
+            self.tags = nil
+        }
+    }
+}
+
+/// Response from GetAttachedFile API.
+public struct GetAttachedFileOutput {
+    /// The resource to which the attached file is (being) uploaded to. [Cases](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html) are the only current supported resource. This value must be a valid ARN.
+    public var associatedResourceArn: Swift.String?
+    /// Represents the identity that created the file.
+    public var createdBy: ConnectClientTypes.CreatedByInfo?
+    /// The time of Creation of the file resource as an ISO timestamp. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2024-05-03T02:41:28.172Z.
+    public var creationTime: Swift.String?
+    /// URL and expiry to be used when downloading the attached file.
+    public var downloadUrlMetadata: ConnectClientTypes.DownloadUrlMetadata?
+    /// The unique identifier of the attached file resource (ARN).
+    public var fileArn: Swift.String?
+    /// The unique identifier of the attached file resource.
+    public var fileId: Swift.String?
+    /// A case-sensitive name of the attached file being uploaded.
+    public var fileName: Swift.String?
+    /// The size of the attached file in bytes.
+    /// This member is required.
+    public var fileSizeInBytes: Swift.Int?
+    /// The current status of the attached file.
+    public var fileStatus: ConnectClientTypes.FileStatusType?
+    /// The use case for the file.
+    public var fileUseCaseType: ConnectClientTypes.FileUseCaseType?
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        associatedResourceArn: Swift.String? = nil,
+        createdBy: ConnectClientTypes.CreatedByInfo? = nil,
+        creationTime: Swift.String? = nil,
+        downloadUrlMetadata: ConnectClientTypes.DownloadUrlMetadata? = nil,
+        fileArn: Swift.String? = nil,
+        fileId: Swift.String? = nil,
+        fileName: Swift.String? = nil,
+        fileSizeInBytes: Swift.Int? = nil,
+        fileStatus: ConnectClientTypes.FileStatusType? = nil,
+        fileUseCaseType: ConnectClientTypes.FileUseCaseType? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.associatedResourceArn = associatedResourceArn
+        self.createdBy = createdBy
+        self.creationTime = creationTime
+        self.downloadUrlMetadata = downloadUrlMetadata
+        self.fileArn = fileArn
+        self.fileId = fileId
+        self.fileName = fileName
+        self.fileSizeInBytes = fileSizeInBytes
+        self.fileStatus = fileStatus
+        self.fileUseCaseType = fileUseCaseType
+        self.tags = tags
+    }
+}
+
+struct GetAttachedFileOutputBody {
+    let fileArn: Swift.String?
+    let fileId: Swift.String?
+    let creationTime: Swift.String?
+    let fileStatus: ConnectClientTypes.FileStatusType?
+    let fileName: Swift.String?
+    let fileSizeInBytes: Swift.Int?
+    let associatedResourceArn: Swift.String?
+    let fileUseCaseType: ConnectClientTypes.FileUseCaseType?
+    let createdBy: ConnectClientTypes.CreatedByInfo?
+    let downloadUrlMetadata: ConnectClientTypes.DownloadUrlMetadata?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension GetAttachedFileOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case associatedResourceArn = "AssociatedResourceArn"
+        case createdBy = "CreatedBy"
+        case creationTime = "CreationTime"
+        case downloadUrlMetadata = "DownloadUrlMetadata"
+        case fileArn = "FileArn"
+        case fileId = "FileId"
+        case fileName = "FileName"
+        case fileSizeInBytes = "FileSizeInBytes"
+        case fileStatus = "FileStatus"
+        case fileUseCaseType = "FileUseCaseType"
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fileArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileArn)
+        fileArn = fileArnDecoded
+        let fileIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileId)
+        fileId = fileIdDecoded
+        let creationTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let fileStatusDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.FileStatusType.self, forKey: .fileStatus)
+        fileStatus = fileStatusDecoded
+        let fileNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileName)
+        fileName = fileNameDecoded
+        let fileSizeInBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fileSizeInBytes)
+        fileSizeInBytes = fileSizeInBytesDecoded
+        let associatedResourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .associatedResourceArn)
+        associatedResourceArn = associatedResourceArnDecoded
+        let fileUseCaseTypeDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.FileUseCaseType.self, forKey: .fileUseCaseType)
+        fileUseCaseType = fileUseCaseTypeDecoded
+        let createdByDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.CreatedByInfo.self, forKey: .createdBy)
+        createdBy = createdByDecoded
+        let downloadUrlMetadataDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.DownloadUrlMetadata.self, forKey: .downloadUrlMetadata)
+        downloadUrlMetadata = downloadUrlMetadataDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+enum GetAttachedFileOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
 }
 
 extension GetContactAttributesInput {
@@ -20732,7 +21701,7 @@ public struct GetMetricDataV2Input {
     public var interval: ConnectClientTypes.IntervalDetails?
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
-    /// The metrics to retrieve. Specify the name, groupings, and filters for each metric. The following historical metrics are available. For a description of each metric, see [Historical metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html) in the Amazon Connect Administrator's Guide. ABANDONMENT_RATE Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype UI name: [Abandonment rate](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#abandonment-rate-historical) AGENT_ADHERENT_TIME This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Adherent time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#adherent-time-historical) AGENT_ANSWER_RATE Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Agent answer rate](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#agent-answer-rate-historical) AGENT_NON_ADHERENT_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Non-adherent time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#non-adherent-time) AGENT_NON_RESPONSE Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Agent non-response](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#agent-non-response) AGENT_NON_RESPONSE_WITHOUT_CUSTOMER_ABANDONS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy Data for this metric is available starting from October 1, 2023 0:00:00 GMT. UI name: [Agent non-response without customer abandons](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#agent-nonresponse-no-abandon-historical) AGENT_OCCUPANCY Unit: Percentage Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: [Occupancy](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#occupancy-historical) AGENT_SCHEDULE_ADHERENCE This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Adherence](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#adherence-historical) AGENT_SCHEDULED_TIME This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Scheduled time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#scheduled-time-historical) AVG_ABANDON_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype UI name: [Average queue abandon time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-queue-abandon-time-historical) AVG_ACTIVE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Average active time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-active-time-historical) AVG_AFTER_CONTACT_WORK_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype UI name: [Average after contact work time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-acw-time-historical) Feature is a valid filter but not a valid grouping. AVG_AGENT_CONNECTING_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD. For now, this metric only supports the following as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Average agent API connecting time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#htm-avg-agent-api-connecting-time) The Negate key in Metric Level Filters is not applicable for this metric. AVG_AGENT_PAUSE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Average agent pause time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-agent-pause-time-historical) AVG_CASE_RELATED_CONTACTS Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Average contacts per case](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-contacts-case-historical) AVG_CASE_RESOLUTION_TIME Unit: Seconds Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Average case resolution time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-case-resolution-time-historical) AVG_CONTACT_DURATION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype UI name: [Average contact duration](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-contact-duration-historical) Feature is a valid filter but not a valid grouping. AVG_CONVERSATION_DURATION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype UI name: [Average conversation duration](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-conversation-duration-historical) AVG_GREETING_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Average greeting time agent ](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-greeting-time-agent-historical) AVG_HANDLE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression UI name: [Average handle time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-handle-time-historical) Feature is a valid filter but not a valid grouping. AVG_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype UI name: [Average customer hold time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-customer-hold-time-historical) Feature is a valid filter but not a valid grouping. AVG_HOLD_TIME_ALL_CONTACTS Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Average customer hold time all contacts](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#avg-customer-hold-time-all-contacts-historical) AVG_HOLDS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype UI name: [Average holds](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-holds-historical) Feature is a valid filter but not a valid grouping. AVG_INTERACTION_AND_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Average agent interaction and customer hold time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-agent-interaction-customer-hold-time-historical) AVG_INTERACTION_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype UI name: [Average agent interaction time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-agent-interaction-time-historical) Feature is a valid filter but not a valid grouping. AVG_INTERRUPTIONS_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Average interruptions agent ](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-interruptions-agent-historical) AVG_INTERRUPTION_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Average interruption time agent](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-interruptions-time-agent-historical) AVG_NON_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Average non-talk time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html##average-non-talk-time-historical) AVG_QUEUE_ANSWER_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype UI name: [Average queue answer time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-queue-answer-time-historical) Feature is a valid filter but not a valid grouping. AVG_RESOLUTION_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype UI name: [Average resolution time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-resolution-time-historical) AVG_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Average talk time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-talk-time-historical) AVG_TALK_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Average talk time agent](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-talk-time-agent-historical) AVG_TALK_TIME_CUSTOMER This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Average talk time customer](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-talk-time-customer-historical) CASES_CREATED Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Cases created](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html##cases-created-historical) CONTACTS_ABANDONED Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, RoutingStepExpression UI name: [Contact abandoned](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-abandoned-historical) CONTACTS_CREATED Unit: Count Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype UI name: [Contacts created](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-created-historical) Feature is a valid filter but not a valid grouping. CONTACTS_HANDLED Unit: Count Valid metric filter key: INITIATION_METHOD, DISCONNECT_REASON Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression UI name: [API contacts handled](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#api-contacts-handled-historical) Feature is a valid filter but not a valid grouping. CONTACTS_HANDLED_BY_CONNECTED_TO_AGENT Unit: Count Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Contacts handled by Connected to agent](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-handled-by-connected-to-agent-historical) CONTACTS_HOLD_ABANDONS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Contacts hold disconnect](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-handled-by-connected-to-agent-historical) CONTACTS_ON_HOLD_AGENT_DISCONNECT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Contacts hold agent disconnect](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-hold-agent-disconnect-historical) CONTACTS_ON_HOLD_CUSTOMER_DISCONNECT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Contacts hold customer disconnect](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-hold-customer-disconnect-historical) CONTACTS_PUT_ON_HOLD Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Contacts put on hold](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-hold-customer-disconnect-historical) CONTACTS_TRANSFERRED_OUT_EXTERNAL Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Contacts transferred out external](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-transferred-out-external-historical) CONTACTS_TRANSFERRED_OUT_INTERNAL Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Contacts transferred out internal](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-transferred-out-internal-historical) CONTACTS_QUEUED Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Contacts queued](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-queued-historical) CONTACTS_QUEUED_BY_ENQUEUE Unit: Count Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Contacts queued by Enqueue](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-queued-by-enqueue-historical) CONTACTS_RESOLVED_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype Threshold: For ThresholdValue enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). UI name: [Contacts resolved in X](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-resolved-historical) CONTACTS_TRANSFERRED_OUT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype UI name: [Contacts transferred out](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-transferred-out-historical) Feature is a valid filter but not a valid grouping. CONTACTS_TRANSFERRED_OUT_BY_AGENT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Contacts transferred out by agent](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-transferred-out-by-agent-historical) CONTACTS_TRANSFERRED_OUT_FROM_QUEUE Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Contacts transferred out queue](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-transferred-out-by-agent-historical) CURRENT_CASES Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Current cases](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#current-cases-historical) MAX_QUEUED_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Maximum queued time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#maximum-queued-time-historical) PERCENT_CASES_FIRST_CONTACT_RESOLVED Unit: Percent Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Cases resolved on first contact](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#cases-resolved-first-contact-historical) PERCENT_CONTACTS_STEP_EXPIRED Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: Not available PERCENT_CONTACTS_STEP_JOINED Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: Not available PERCENT_NON_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Non-talk time percent](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#ntt-historical) PERCENT_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Talk time percent](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#tt-historical) PERCENT_TALK_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Talk time agent percent](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#ttagent-historical) PERCENT_TALK_TIME_CUSTOMER This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Talk time customer percent](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#ttcustomer-historical) REOPENED_CASE_ACTIONS Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Cases reopened](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#cases-reopened-historical) RESOLVED_CASE_ACTIONS Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Cases resolved](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#cases-resolved-historicall) SERVICE_LEVEL You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). UI name: [Service level X](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#service-level-historical) STEP_CONTACTS_QUEUED Unit: Count Valid groupings and filters: Queue, RoutingStepExpression UI name: Not available SUM_AFTER_CONTACT_WORK_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [After contact work time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#acw-historical) SUM_CONNECTING_TIME_AGENT Unit: Seconds Valid metric filter key: INITIATION_METHOD. This metric only supports the following filter keys as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Agent API connecting time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#htm-agent-api-connecting-time) The Negate key in Metric Level Filters is not applicable for this metric. SUM_CONTACT_FLOW_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Contact flow time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contact-flow-time-historical) SUM_CONTACT_TIME_AGENT Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Agent on contact time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#agent-on-contact-time-historical) SUM_CONTACTS_ANSWERED_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). UI name: [Contacts answered in X seconds](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-answered-x-historical) SUM_CONTACTS_ABANDONED_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). UI name: [Contacts abandoned in X seconds](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-abandoned-x-historical) SUM_CONTACTS_DISCONNECTED Valid metric filter key: DISCONNECT_REASON Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Contact disconnected](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contact-disconnected-historical) SUM_ERROR_STATUS_TIME_AGENT Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Error status time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#error-status-time-historical) SUM_HANDLE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Contact handle time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contact-handle-time-historical) SUM_HOLD_TIME Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Customer hold time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#customer-hold-time-historical) SUM_IDLE_TIME_AGENT Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: [Agent idle time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#agent-idle-time-historica) SUM_INTERACTION_AND_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Agent interaction and hold time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#agent-interaction-hold-time-historical) SUM_INTERACTION_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Agent interaction time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#agent-interaction-time-historical) SUM_NON_PRODUCTIVE_TIME_AGENT Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: [Non-Productive Time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#npt-historical) SUM_ONLINE_TIME_AGENT Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: [Online time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#online-time-historical) SUM_RETRY_CALLBACK_ATTEMPTS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype UI name: [Callback attempts](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#callback-attempts-historical)
+    /// The metrics to retrieve. Specify the name, groupings, and filters for each metric. The following historical metrics are available. For a description of each metric, see [Historical metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html) in the Amazon Connect Administrator's Guide. ABANDONMENT_RATE Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype UI name: [Abandonment rate](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#abandonment-rate-historical) AGENT_ADHERENT_TIME This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Adherent time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#adherent-time-historical) AGENT_ANSWER_RATE Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Agent answer rate](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#agent-answer-rate-historical) AGENT_NON_ADHERENT_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Non-adherent time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#non-adherent-time) AGENT_NON_RESPONSE Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Agent non-response](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#agent-non-response) AGENT_NON_RESPONSE_WITHOUT_CUSTOMER_ABANDONS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy Data for this metric is available starting from October 1, 2023 0:00:00 GMT. UI name: [Agent non-response without customer abandons](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#agent-nonresponse-no-abandon-historical) AGENT_OCCUPANCY Unit: Percentage Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: [Occupancy](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#occupancy-historical) AGENT_SCHEDULE_ADHERENCE This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Adherence](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#adherence-historical) AGENT_SCHEDULED_TIME This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Scheduled time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#scheduled-time-historical) AVG_ABANDON_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype UI name: [Average queue abandon time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-queue-abandon-time-historical) AVG_ACTIVE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Average active time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-active-time-historical) AVG_AFTER_CONTACT_WORK_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype UI name: [Average after contact work time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-acw-time-historical) Feature is a valid filter but not a valid grouping. AVG_AGENT_CONNECTING_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD. For now, this metric only supports the following as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Average agent API connecting time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#htm-avg-agent-api-connecting-time) The Negate key in Metric Level Filters is not applicable for this metric. AVG_AGENT_PAUSE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Average agent pause time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-agent-pause-time-historical) AVG_CASE_RELATED_CONTACTS Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Average contacts per case](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-contacts-case-historical) AVG_CASE_RESOLUTION_TIME Unit: Seconds Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Average case resolution time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-case-resolution-time-historical) AVG_CONTACT_DURATION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype UI name: [Average contact duration](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-contact-duration-historical) Feature is a valid filter but not a valid grouping. AVG_CONVERSATION_DURATION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype UI name: [Average conversation duration](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-conversation-duration-historical) AVG_GREETING_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Average agent greeting time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-greeting-time-agent-historical) AVG_HANDLE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression UI name: [Average handle time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-handle-time-historical) Feature is a valid filter but not a valid grouping. AVG_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype UI name: [Average customer hold time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-customer-hold-time-historical) Feature is a valid filter but not a valid grouping. AVG_HOLD_TIME_ALL_CONTACTS Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Average customer hold time all contacts](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#avg-customer-hold-time-all-contacts-historical) AVG_HOLDS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype UI name: [Average holds](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-holds-historical) Feature is a valid filter but not a valid grouping. AVG_INTERACTION_AND_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Average agent interaction and customer hold time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-agent-interaction-customer-hold-time-historical) AVG_INTERACTION_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype UI name: [Average agent interaction time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-agent-interaction-time-historical) Feature is a valid filter but not a valid grouping. AVG_INTERRUPTIONS_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Average agent interruptions](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-interruptions-agent-historical) AVG_INTERRUPTION_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Average agent interruption time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-interruptions-time-agent-historical) AVG_NON_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Average non-talk time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html##average-non-talk-time-historical) AVG_QUEUE_ANSWER_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype UI name: [Average queue answer time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-queue-answer-time-historical) Feature is a valid filter but not a valid grouping. AVG_RESOLUTION_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype UI name: [Average resolution time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-resolution-time-historical) AVG_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Average talk time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-talk-time-historical) AVG_TALK_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Average agent talk time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-talk-time-agent-historical) AVG_TALK_TIME_CUSTOMER This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Average customer talk time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-talk-time-customer-historical) CASES_CREATED Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Cases created](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html##cases-created-historical) CONTACTS_ABANDONED Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, RoutingStepExpression UI name: [Contact abandoned](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-abandoned-historical) CONTACTS_CREATED Unit: Count Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype UI name: [Contacts created](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-created-historical) Feature is a valid filter but not a valid grouping. CONTACTS_HANDLED Unit: Count Valid metric filter key: INITIATION_METHOD, DISCONNECT_REASON Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression UI name: [API contacts handled](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#api-contacts-handled-historical) Feature is a valid filter but not a valid grouping. CONTACTS_HANDLED_BY_CONNECTED_TO_AGENT Unit: Count Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Contacts handled (connected to agent timestamp)](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-handled-by-connected-to-agent-historical) CONTACTS_HOLD_ABANDONS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Contacts hold disconnect](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-handled-by-connected-to-agent-historical) CONTACTS_ON_HOLD_AGENT_DISCONNECT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Contacts hold agent disconnect](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-hold-agent-disconnect-historical) CONTACTS_ON_HOLD_CUSTOMER_DISCONNECT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Contacts hold customer disconnect](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-hold-customer-disconnect-historical) CONTACTS_PUT_ON_HOLD Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Contacts put on hold](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-hold-customer-disconnect-historical) CONTACTS_TRANSFERRED_OUT_EXTERNAL Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Contacts transferred out external](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-transferred-out-external-historical) CONTACTS_TRANSFERRED_OUT_INTERNAL Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Contacts transferred out internal](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-transferred-out-internal-historical) CONTACTS_QUEUED Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Contacts queued](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-queued-historical) CONTACTS_QUEUED_BY_ENQUEUE Unit: Count Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Contacts queued (enqueue timestamp)](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-queued-by-enqueue-historical) CONTACTS_RESOLVED_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype Threshold: For ThresholdValue enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). UI name: [Contacts resolved in X](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-resolved-historical) CONTACTS_TRANSFERRED_OUT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype UI name: [Contacts transferred out](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-transferred-out-historical) Feature is a valid filter but not a valid grouping. CONTACTS_TRANSFERRED_OUT_BY_AGENT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Contacts transferred out by agent](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-transferred-out-by-agent-historical) CONTACTS_TRANSFERRED_OUT_FROM_QUEUE Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Contacts transferred out queue](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-transferred-out-by-agent-historical) CURRENT_CASES Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Current cases](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#current-cases-historical) MAX_QUEUED_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Maximum queued time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#maximum-queued-time-historical) PERCENT_CASES_FIRST_CONTACT_RESOLVED Unit: Percent Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Cases resolved on first contact](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#cases-resolved-first-contact-historical) PERCENT_CONTACTS_STEP_EXPIRED Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: Not available PERCENT_CONTACTS_STEP_JOINED Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: Not available PERCENT_NON_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Non-talk time percent](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#ntt-historical) PERCENT_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Talk time percent](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#tt-historical) PERCENT_TALK_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Agent talk time percent](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#ttagent-historical) PERCENT_TALK_TIME_CUSTOMER This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Customer talk time percent](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#ttcustomer-historical) REOPENED_CASE_ACTIONS Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Cases reopened](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#cases-reopened-historical) RESOLVED_CASE_ACTIONS Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Cases resolved](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#cases-resolved-historicall) SERVICE_LEVEL You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). UI name: [Service level X](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#service-level-historical) STEP_CONTACTS_QUEUED Unit: Count Valid groupings and filters: Queue, RoutingStepExpression UI name: Not available SUM_AFTER_CONTACT_WORK_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [After contact work time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#acw-historical) SUM_CONNECTING_TIME_AGENT Unit: Seconds Valid metric filter key: INITIATION_METHOD. This metric only supports the following filter keys as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Agent API connecting time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#htm-agent-api-connecting-time) The Negate key in Metric Level Filters is not applicable for this metric. SUM_CONTACT_FLOW_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Contact flow time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contact-flow-time-historical) SUM_CONTACT_TIME_AGENT Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Agent on contact time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#agent-on-contact-time-historical) SUM_CONTACTS_ANSWERED_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). UI name: [Contacts answered in X seconds](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-answered-x-historical) SUM_CONTACTS_ABANDONED_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). UI name: [Contacts abandoned in X seconds](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-abandoned-x-historical) SUM_CONTACTS_DISCONNECTED Valid metric filter key: DISCONNECT_REASON Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Contact disconnected](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contact-disconnected-historical) SUM_ERROR_STATUS_TIME_AGENT Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Error status time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#error-status-time-historical) SUM_HANDLE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Contact handle time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contact-handle-time-historical) SUM_HOLD_TIME Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Customer hold time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#customer-hold-time-historical) SUM_IDLE_TIME_AGENT Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: [Agent idle time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#agent-idle-time-historica) SUM_INTERACTION_AND_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Agent interaction and hold time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#agent-interaction-hold-time-historical) SUM_INTERACTION_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Agent interaction time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#agent-interaction-time-historical) SUM_NON_PRODUCTIVE_TIME_AGENT Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: [Non-Productive Time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#npt-historical) SUM_ONLINE_TIME_AGENT Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: [Online time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#online-time-historical) SUM_RETRY_CALLBACK_ATTEMPTS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype UI name: [Callback attempts](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#callback-attempts-historical)
     /// This member is required.
     public var metrics: [ConnectClientTypes.MetricV2]?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -24233,8 +25202,10 @@ extension InvalidRequestException {
             let responseDecoder = decoder {
             let output: InvalidRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.properties.message = output.message
+            self.properties.reason = output.reason
         } else {
             self.properties.message = nil
+            self.properties.reason = nil
         }
         self.httpResponse = httpResponse
         self.requestID = requestID
@@ -24248,6 +25219,8 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     public struct Properties {
         /// The message about the request.
         public internal(set) var message: Swift.String? = nil
+        /// Reason why the request was invalid.
+        public internal(set) var reason: ConnectClientTypes.InvalidRequestExceptionReason? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -24260,27 +25233,70 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     public internal(set) var requestID: Swift.String?
 
     public init(
-        message: Swift.String? = nil
+        message: Swift.String? = nil,
+        reason: ConnectClientTypes.InvalidRequestExceptionReason? = nil
     )
     {
         self.properties.message = message
+        self.properties.reason = reason
     }
 }
 
 struct InvalidRequestExceptionBody {
     let message: Swift.String?
+    let reason: ConnectClientTypes.InvalidRequestExceptionReason?
 }
 
 extension InvalidRequestExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message = "Message"
+        case reason = "Reason"
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+        let reasonDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.InvalidRequestExceptionReason.self, forKey: .reason)
+        reason = reasonDecoded
     }
+}
+
+extension ConnectClientTypes.InvalidRequestExceptionReason: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attachedfileinvalidrequestexceptionreason = "AttachedFileInvalidRequestExceptionReason"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .attachedfileinvalidrequestexceptionreason(attachedfileinvalidrequestexceptionreason):
+                try container.encode(attachedfileinvalidrequestexceptionreason.rawValue, forKey: .attachedfileinvalidrequestexceptionreason)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let attachedfileinvalidrequestexceptionreasonDecoded = try values.decodeIfPresent(ConnectClientTypes.AttachedFileInvalidRequestExceptionReason.self, forKey: .attachedfileinvalidrequestexceptionreason)
+        if let attachedfileinvalidrequestexceptionreason = attachedfileinvalidrequestexceptionreasonDecoded {
+            self = .attachedfileinvalidrequestexceptionreason(attachedfileinvalidrequestexceptionreason)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension ConnectClientTypes {
+    /// Reason why the request was invalid.
+    public enum InvalidRequestExceptionReason {
+        /// Reason why the StartAttachedFiledUpload request was invalid.
+        case attachedfileinvalidrequestexceptionreason(ConnectClientTypes.AttachedFileInvalidRequestExceptionReason)
+        case sdkUnknown(Swift.String)
+    }
+
 }
 
 extension ConnectClientTypes.InvisibleFieldInfo: Swift.Codable {
@@ -42921,6 +43937,275 @@ extension ConnectClientTypes {
     }
 }
 
+extension StartAttachedFileUploadInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case createdBy = "CreatedBy"
+        case fileName = "FileName"
+        case fileSizeInBytes = "FileSizeInBytes"
+        case fileUseCaseType = "FileUseCaseType"
+        case tags = "Tags"
+        case urlExpiryInSeconds = "UrlExpiryInSeconds"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let createdBy = self.createdBy {
+            try encodeContainer.encode(createdBy, forKey: .createdBy)
+        }
+        if let fileName = self.fileName {
+            try encodeContainer.encode(fileName, forKey: .fileName)
+        }
+        if let fileSizeInBytes = self.fileSizeInBytes {
+            try encodeContainer.encode(fileSizeInBytes, forKey: .fileSizeInBytes)
+        }
+        if let fileUseCaseType = self.fileUseCaseType {
+            try encodeContainer.encode(fileUseCaseType.rawValue, forKey: .fileUseCaseType)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let urlExpiryInSeconds = self.urlExpiryInSeconds {
+            try encodeContainer.encode(urlExpiryInSeconds, forKey: .urlExpiryInSeconds)
+        }
+    }
+}
+
+extension StartAttachedFileUploadInput {
+
+    static func queryItemProvider(_ value: StartAttachedFileUploadInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let associatedResourceArn = value.associatedResourceArn else {
+            let message = "Creating a URL Query Item failed. associatedResourceArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let associatedResourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "associatedResourceArn".urlPercentEncoding(), value: Swift.String(associatedResourceArn).urlPercentEncoding())
+        items.append(associatedResourceArnQueryItem)
+        return items
+    }
+}
+
+extension StartAttachedFileUploadInput {
+
+    static func urlPathProvider(_ value: StartAttachedFileUploadInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        return "/attached-files/\(instanceId.urlPercentEncoding())"
+    }
+}
+
+public struct StartAttachedFileUploadInput {
+    /// The resource to which the attached file is (being) uploaded to. [Cases](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html) are the only current supported resource. This value must be a valid ARN.
+    /// This member is required.
+    public var associatedResourceArn: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// Represents the identity that created the file.
+    public var createdBy: ConnectClientTypes.CreatedByInfo?
+    /// A case-sensitive name of the attached file being uploaded.
+    /// This member is required.
+    public var fileName: Swift.String?
+    /// The size of the attached file in bytes.
+    /// This member is required.
+    public var fileSizeInBytes: Swift.Int?
+    /// The use case for the file.
+    /// This member is required.
+    public var fileUseCaseType: ConnectClientTypes.FileUseCaseType?
+    /// The unique identifier of the Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
+    public var tags: [Swift.String:Swift.String]?
+    /// Optional override for the expiry of the pre-signed S3 URL in seconds.
+    public var urlExpiryInSeconds: Swift.Int?
+
+    public init(
+        associatedResourceArn: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        createdBy: ConnectClientTypes.CreatedByInfo? = nil,
+        fileName: Swift.String? = nil,
+        fileSizeInBytes: Swift.Int? = nil,
+        fileUseCaseType: ConnectClientTypes.FileUseCaseType? = nil,
+        instanceId: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        urlExpiryInSeconds: Swift.Int? = nil
+    )
+    {
+        self.associatedResourceArn = associatedResourceArn
+        self.clientToken = clientToken
+        self.createdBy = createdBy
+        self.fileName = fileName
+        self.fileSizeInBytes = fileSizeInBytes
+        self.fileUseCaseType = fileUseCaseType
+        self.instanceId = instanceId
+        self.tags = tags
+        self.urlExpiryInSeconds = urlExpiryInSeconds
+    }
+}
+
+struct StartAttachedFileUploadInputBody {
+    let clientToken: Swift.String?
+    let fileName: Swift.String?
+    let fileSizeInBytes: Swift.Int?
+    let urlExpiryInSeconds: Swift.Int?
+    let fileUseCaseType: ConnectClientTypes.FileUseCaseType?
+    let createdBy: ConnectClientTypes.CreatedByInfo?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension StartAttachedFileUploadInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case createdBy = "CreatedBy"
+        case fileName = "FileName"
+        case fileSizeInBytes = "FileSizeInBytes"
+        case fileUseCaseType = "FileUseCaseType"
+        case tags = "Tags"
+        case urlExpiryInSeconds = "UrlExpiryInSeconds"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+        let fileNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileName)
+        fileName = fileNameDecoded
+        let fileSizeInBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fileSizeInBytes)
+        fileSizeInBytes = fileSizeInBytesDecoded
+        let urlExpiryInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .urlExpiryInSeconds)
+        urlExpiryInSeconds = urlExpiryInSecondsDecoded
+        let fileUseCaseTypeDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.FileUseCaseType.self, forKey: .fileUseCaseType)
+        fileUseCaseType = fileUseCaseTypeDecoded
+        let createdByDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.CreatedByInfo.self, forKey: .createdBy)
+        createdBy = createdByDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension StartAttachedFileUploadOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartAttachedFileUploadOutputBody = try responseDecoder.decode(responseBody: data)
+            self.createdBy = output.createdBy
+            self.creationTime = output.creationTime
+            self.fileArn = output.fileArn
+            self.fileId = output.fileId
+            self.fileStatus = output.fileStatus
+            self.uploadUrlMetadata = output.uploadUrlMetadata
+        } else {
+            self.createdBy = nil
+            self.creationTime = nil
+            self.fileArn = nil
+            self.fileId = nil
+            self.fileStatus = nil
+            self.uploadUrlMetadata = nil
+        }
+    }
+}
+
+/// Response from StartAttachedFileUpload API.
+public struct StartAttachedFileUploadOutput {
+    /// Represents the identity that created the file.
+    public var createdBy: ConnectClientTypes.CreatedByInfo?
+    /// The time of Creation of the file resource as an ISO timestamp. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2024-05-03T02:41:28.172Z.
+    public var creationTime: Swift.String?
+    /// The unique identifier of the attached file resource (ARN).
+    public var fileArn: Swift.String?
+    /// The unique identifier of the attached file resource.
+    public var fileId: Swift.String?
+    /// The current status of the attached file.
+    public var fileStatus: ConnectClientTypes.FileStatusType?
+    /// Information to be used while uploading the attached file.
+    public var uploadUrlMetadata: ConnectClientTypes.UploadUrlMetadata?
+
+    public init(
+        createdBy: ConnectClientTypes.CreatedByInfo? = nil,
+        creationTime: Swift.String? = nil,
+        fileArn: Swift.String? = nil,
+        fileId: Swift.String? = nil,
+        fileStatus: ConnectClientTypes.FileStatusType? = nil,
+        uploadUrlMetadata: ConnectClientTypes.UploadUrlMetadata? = nil
+    )
+    {
+        self.createdBy = createdBy
+        self.creationTime = creationTime
+        self.fileArn = fileArn
+        self.fileId = fileId
+        self.fileStatus = fileStatus
+        self.uploadUrlMetadata = uploadUrlMetadata
+    }
+}
+
+struct StartAttachedFileUploadOutputBody {
+    let fileArn: Swift.String?
+    let fileId: Swift.String?
+    let creationTime: Swift.String?
+    let fileStatus: ConnectClientTypes.FileStatusType?
+    let createdBy: ConnectClientTypes.CreatedByInfo?
+    let uploadUrlMetadata: ConnectClientTypes.UploadUrlMetadata?
+}
+
+extension StartAttachedFileUploadOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdBy = "CreatedBy"
+        case creationTime = "CreationTime"
+        case fileArn = "FileArn"
+        case fileId = "FileId"
+        case fileStatus = "FileStatus"
+        case uploadUrlMetadata = "UploadUrlMetadata"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fileArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileArn)
+        fileArn = fileArnDecoded
+        let fileIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileId)
+        fileId = fileIdDecoded
+        let creationTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let fileStatusDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.FileStatusType.self, forKey: .fileStatus)
+        fileStatus = fileStatusDecoded
+        let createdByDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.CreatedByInfo.self, forKey: .createdBy)
+        createdBy = createdByDecoded
+        let uploadUrlMetadataDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.UploadUrlMetadata.self, forKey: .uploadUrlMetadata)
+        uploadUrlMetadata = uploadUrlMetadataDecoded
+    }
+}
+
+enum StartAttachedFileUploadOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceConflictException": return try await ResourceConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension StartChatContactInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case attributes = "Attributes"
@@ -47556,7 +48841,11 @@ extension UpdateContactAttributesInput {
 }
 
 public struct UpdateContactAttributesInput {
-    /// The Amazon Connect attributes. These attributes can be accessed in flows just like any other contact attributes. You can have up to 32,768 UTF-8 bytes across all attributes for a contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
+    /// The Amazon Connect attributes. These attributes can be accessed in flows just like any other contact attributes. You can have up to 32,768 UTF-8 bytes across all attributes for a contact. Attribute keys can include only alphanumeric, dash, and underscore characters. When the attributes for a contact exceed 32 KB, the contact is routed down the Error branch of the flow. As a mitigation, consider the following options:
+    ///
+    /// * Remove unnecessary attributes by setting their values to empty.
+    ///
+    /// * If the attributes are only used in one flow and don't need to be referred to outside of that flow (for example, by a Lambda or another flow), then use flow attributes. This way you aren't needlessly persisting the 32 KB of information from one flow to another. For more information, see [Flow block: Set contact attributes](https://docs.aws.amazon.com/connect/latest/adminguide/set-contact-attributes.html) in the Amazon Connect Administrator Guide.
     /// This member is required.
     public var attributes: [Swift.String:Swift.String]?
     /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
@@ -52737,6 +54026,73 @@ enum UpdateViewMetadataOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension ConnectClientTypes.UploadUrlMetadata: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case headersToInclude = "HeadersToInclude"
+        case url = "Url"
+        case urlExpiry = "UrlExpiry"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let headersToInclude = headersToInclude {
+            var headersToIncludeContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .headersToInclude)
+            for (dictKey0, urlMetadataSignedHeaders0) in headersToInclude {
+                try headersToIncludeContainer.encode(urlMetadataSignedHeaders0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let url = self.url {
+            try encodeContainer.encode(url, forKey: .url)
+        }
+        if let urlExpiry = self.urlExpiry {
+            try encodeContainer.encode(urlExpiry, forKey: .urlExpiry)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let urlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .url)
+        url = urlDecoded
+        let urlExpiryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .urlExpiry)
+        urlExpiry = urlExpiryDecoded
+        let headersToIncludeContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .headersToInclude)
+        var headersToIncludeDecoded0: [Swift.String:Swift.String]? = nil
+        if let headersToIncludeContainer = headersToIncludeContainer {
+            headersToIncludeDecoded0 = [Swift.String:Swift.String]()
+            for (key0, urlmetadatasignedheadersvalue0) in headersToIncludeContainer {
+                if let urlmetadatasignedheadersvalue0 = urlmetadatasignedheadersvalue0 {
+                    headersToIncludeDecoded0?[key0] = urlmetadatasignedheadersvalue0
+                }
+            }
+        }
+        headersToInclude = headersToIncludeDecoded0
+    }
+}
+
+extension ConnectClientTypes {
+    /// Fields required when uploading an attached file.
+    public struct UploadUrlMetadata {
+        /// A map of headers that should be provided when uploading the attached file.
+        public var headersToInclude: [Swift.String:Swift.String]?
+        /// A pre-signed S3 URL that should be used for uploading the attached file.
+        public var url: Swift.String?
+        /// The expiration time of the URL in ISO timestamp. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
+        public var urlExpiry: Swift.String?
+
+        public init(
+            headersToInclude: [Swift.String:Swift.String]? = nil,
+            url: Swift.String? = nil,
+            urlExpiry: Swift.String? = nil
+        )
+        {
+            self.headersToInclude = headersToInclude
+            self.url = url
+            self.urlExpiry = urlExpiry
+        }
+    }
+
 }
 
 extension ConnectClientTypes.UrlReference: Swift.Codable {

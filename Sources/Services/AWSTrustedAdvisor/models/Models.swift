@@ -168,6 +168,132 @@ extension TrustedAdvisorClientTypes {
 
 }
 
+extension BatchUpdateRecommendationResourceExclusionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case recommendationResourceExclusions
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let recommendationResourceExclusions = recommendationResourceExclusions {
+            var recommendationResourceExclusionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recommendationResourceExclusions)
+            for recommendationresourceexclusion0 in recommendationResourceExclusions {
+                try recommendationResourceExclusionsContainer.encode(recommendationresourceexclusion0)
+            }
+        }
+    }
+}
+
+extension BatchUpdateRecommendationResourceExclusionInput {
+
+    static func urlPathProvider(_ value: BatchUpdateRecommendationResourceExclusionInput) -> Swift.String? {
+        return "/v1/batch-update-recommendation-resource-exclusion"
+    }
+}
+
+public struct BatchUpdateRecommendationResourceExclusionInput {
+    /// A list of recommendation resource ARNs and exclusion status to update
+    /// This member is required.
+    public var recommendationResourceExclusions: [TrustedAdvisorClientTypes.RecommendationResourceExclusion]?
+
+    public init(
+        recommendationResourceExclusions: [TrustedAdvisorClientTypes.RecommendationResourceExclusion]? = nil
+    )
+    {
+        self.recommendationResourceExclusions = recommendationResourceExclusions
+    }
+}
+
+struct BatchUpdateRecommendationResourceExclusionInputBody {
+    let recommendationResourceExclusions: [TrustedAdvisorClientTypes.RecommendationResourceExclusion]?
+}
+
+extension BatchUpdateRecommendationResourceExclusionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case recommendationResourceExclusions
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let recommendationResourceExclusionsContainer = try containerValues.decodeIfPresent([TrustedAdvisorClientTypes.RecommendationResourceExclusion?].self, forKey: .recommendationResourceExclusions)
+        var recommendationResourceExclusionsDecoded0:[TrustedAdvisorClientTypes.RecommendationResourceExclusion]? = nil
+        if let recommendationResourceExclusionsContainer = recommendationResourceExclusionsContainer {
+            recommendationResourceExclusionsDecoded0 = [TrustedAdvisorClientTypes.RecommendationResourceExclusion]()
+            for structure0 in recommendationResourceExclusionsContainer {
+                if let structure0 = structure0 {
+                    recommendationResourceExclusionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        recommendationResourceExclusions = recommendationResourceExclusionsDecoded0
+    }
+}
+
+extension BatchUpdateRecommendationResourceExclusionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: BatchUpdateRecommendationResourceExclusionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.batchUpdateRecommendationResourceExclusionErrors = output.batchUpdateRecommendationResourceExclusionErrors
+        } else {
+            self.batchUpdateRecommendationResourceExclusionErrors = nil
+        }
+    }
+}
+
+public struct BatchUpdateRecommendationResourceExclusionOutput {
+    /// A list of recommendation resource ARNs whose exclusion status failed to update, if any
+    /// This member is required.
+    public var batchUpdateRecommendationResourceExclusionErrors: [TrustedAdvisorClientTypes.UpdateRecommendationResourceExclusionError]?
+
+    public init(
+        batchUpdateRecommendationResourceExclusionErrors: [TrustedAdvisorClientTypes.UpdateRecommendationResourceExclusionError]? = nil
+    )
+    {
+        self.batchUpdateRecommendationResourceExclusionErrors = batchUpdateRecommendationResourceExclusionErrors
+    }
+}
+
+struct BatchUpdateRecommendationResourceExclusionOutputBody {
+    let batchUpdateRecommendationResourceExclusionErrors: [TrustedAdvisorClientTypes.UpdateRecommendationResourceExclusionError]?
+}
+
+extension BatchUpdateRecommendationResourceExclusionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case batchUpdateRecommendationResourceExclusionErrors
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let batchUpdateRecommendationResourceExclusionErrorsContainer = try containerValues.decodeIfPresent([TrustedAdvisorClientTypes.UpdateRecommendationResourceExclusionError?].self, forKey: .batchUpdateRecommendationResourceExclusionErrors)
+        var batchUpdateRecommendationResourceExclusionErrorsDecoded0:[TrustedAdvisorClientTypes.UpdateRecommendationResourceExclusionError]? = nil
+        if let batchUpdateRecommendationResourceExclusionErrorsContainer = batchUpdateRecommendationResourceExclusionErrorsContainer {
+            batchUpdateRecommendationResourceExclusionErrorsDecoded0 = [TrustedAdvisorClientTypes.UpdateRecommendationResourceExclusionError]()
+            for structure0 in batchUpdateRecommendationResourceExclusionErrorsContainer {
+                if let structure0 = structure0 {
+                    batchUpdateRecommendationResourceExclusionErrorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        batchUpdateRecommendationResourceExclusionErrors = batchUpdateRecommendationResourceExclusionErrorsDecoded0
+    }
+}
+
+enum BatchUpdateRecommendationResourceExclusionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension TrustedAdvisorClientTypes.CheckSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
@@ -370,6 +496,38 @@ extension ConflictExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension TrustedAdvisorClientTypes {
+    public enum ExclusionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case excluded
+        case included
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExclusionStatus] {
+            return [
+                .excluded,
+                .included,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .excluded: return "excluded"
+            case .included: return "included"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ExclusionStatus(rawValue: rawValue) ?? ExclusionStatus.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -912,6 +1070,10 @@ extension ListOrganizationRecommendationResourcesInput {
             let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
+        if let exclusionStatus = value.exclusionStatus {
+            let exclusionStatusQueryItem = ClientRuntime.SDKURLQueryItem(name: "exclusionStatus".urlPercentEncoding(), value: Swift.String(exclusionStatus.rawValue).urlPercentEncoding())
+            items.append(exclusionStatusQueryItem)
+        }
         if let affectedAccountId = value.affectedAccountId {
             let affectedAccountIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "affectedAccountId".urlPercentEncoding(), value: Swift.String(affectedAccountId).urlPercentEncoding())
             items.append(affectedAccountIdQueryItem)
@@ -937,6 +1099,8 @@ extension ListOrganizationRecommendationResourcesInput {
 public struct ListOrganizationRecommendationResourcesInput {
     /// An account affected by this organization recommendation
     public var affectedAccountId: Swift.String?
+    /// The exclusion status of the resource
+    public var exclusionStatus: TrustedAdvisorClientTypes.ExclusionStatus?
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -951,6 +1115,7 @@ public struct ListOrganizationRecommendationResourcesInput {
 
     public init(
         affectedAccountId: Swift.String? = nil,
+        exclusionStatus: TrustedAdvisorClientTypes.ExclusionStatus? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         organizationRecommendationIdentifier: Swift.String? = nil,
@@ -959,6 +1124,7 @@ public struct ListOrganizationRecommendationResourcesInput {
     )
     {
         self.affectedAccountId = affectedAccountId
+        self.exclusionStatus = exclusionStatus
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.organizationRecommendationIdentifier = organizationRecommendationIdentifier
@@ -1253,6 +1419,10 @@ extension ListRecommendationResourcesInput {
             let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
+        if let exclusionStatus = value.exclusionStatus {
+            let exclusionStatusQueryItem = ClientRuntime.SDKURLQueryItem(name: "exclusionStatus".urlPercentEncoding(), value: Swift.String(exclusionStatus.rawValue).urlPercentEncoding())
+            items.append(exclusionStatusQueryItem)
+        }
         if let status = value.status {
             let statusQueryItem = ClientRuntime.SDKURLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
             items.append(statusQueryItem)
@@ -1272,6 +1442,8 @@ extension ListRecommendationResourcesInput {
 }
 
 public struct ListRecommendationResourcesInput {
+    /// The exclusion status of the resource
+    public var exclusionStatus: TrustedAdvisorClientTypes.ExclusionStatus?
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -1285,6 +1457,7 @@ public struct ListRecommendationResourcesInput {
     public var status: TrustedAdvisorClientTypes.ResourceStatus?
 
     public init(
+        exclusionStatus: TrustedAdvisorClientTypes.ExclusionStatus? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         recommendationIdentifier: Swift.String? = nil,
@@ -1292,6 +1465,7 @@ public struct ListRecommendationResourcesInput {
         status: TrustedAdvisorClientTypes.ResourceStatus? = nil
     )
     {
+        self.exclusionStatus = exclusionStatus
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.recommendationIdentifier = recommendationIdentifier
@@ -1848,6 +2022,7 @@ extension TrustedAdvisorClientTypes.OrganizationRecommendationResourceSummary: S
         case accountId
         case arn
         case awsResourceId
+        case exclusionStatus
         case id
         case lastUpdatedAt
         case metadata
@@ -1866,6 +2041,9 @@ extension TrustedAdvisorClientTypes.OrganizationRecommendationResourceSummary: S
         }
         if let awsResourceId = self.awsResourceId {
             try encodeContainer.encode(awsResourceId, forKey: .awsResourceId)
+        }
+        if let exclusionStatus = self.exclusionStatus {
+            try encodeContainer.encode(exclusionStatus.rawValue, forKey: .exclusionStatus)
         }
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
@@ -1915,6 +2093,8 @@ extension TrustedAdvisorClientTypes.OrganizationRecommendationResourceSummary: S
         metadata = metadataDecoded0
         let lastUpdatedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastUpdatedAt)
         lastUpdatedAt = lastUpdatedAtDecoded
+        let exclusionStatusDecoded = try containerValues.decodeIfPresent(TrustedAdvisorClientTypes.ExclusionStatus.self, forKey: .exclusionStatus)
+        exclusionStatus = exclusionStatusDecoded
         let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
         accountId = accountIdDecoded
         let recommendationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recommendationArn)
@@ -1933,6 +2113,8 @@ extension TrustedAdvisorClientTypes {
         /// The AWS resource identifier
         /// This member is required.
         public var awsResourceId: Swift.String?
+        /// The exclusion status of the Recommendation Resource
+        public var exclusionStatus: TrustedAdvisorClientTypes.ExclusionStatus?
         /// The ID of the Recommendation Resource
         /// This member is required.
         public var id: Swift.String?
@@ -1956,6 +2138,7 @@ extension TrustedAdvisorClientTypes {
             accountId: Swift.String? = nil,
             arn: Swift.String? = nil,
             awsResourceId: Swift.String? = nil,
+            exclusionStatus: TrustedAdvisorClientTypes.ExclusionStatus? = nil,
             id: Swift.String? = nil,
             lastUpdatedAt: ClientRuntime.Date? = nil,
             metadata: [Swift.String:Swift.String]? = nil,
@@ -1967,6 +2150,7 @@ extension TrustedAdvisorClientTypes {
             self.accountId = accountId
             self.arn = arn
             self.awsResourceId = awsResourceId
+            self.exclusionStatus = exclusionStatus
             self.id = id
             self.lastUpdatedAt = lastUpdatedAt
             self.metadata = metadata
@@ -2671,10 +2855,58 @@ extension TrustedAdvisorClientTypes {
 
 }
 
+extension TrustedAdvisorClientTypes.RecommendationResourceExclusion: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case isExcluded
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let isExcluded = self.isExcluded {
+            try encodeContainer.encode(isExcluded, forKey: .isExcluded)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let isExcludedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isExcluded)
+        isExcluded = isExcludedDecoded
+    }
+}
+
+extension TrustedAdvisorClientTypes {
+    /// The request entry for Recommendation Resource exclusion. Each entry is a combination of Recommendation Resource ARN and corresponding exclusion status
+    public struct RecommendationResourceExclusion {
+        /// The ARN of the Recommendation Resource
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The exclusion status
+        /// This member is required.
+        public var isExcluded: Swift.Bool?
+
+        public init(
+            arn: Swift.String? = nil,
+            isExcluded: Swift.Bool? = nil
+        )
+        {
+            self.arn = arn
+            self.isExcluded = isExcluded
+        }
+    }
+
+}
+
 extension TrustedAdvisorClientTypes.RecommendationResourceSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case awsResourceId
+        case exclusionStatus
         case id
         case lastUpdatedAt
         case metadata
@@ -2690,6 +2922,9 @@ extension TrustedAdvisorClientTypes.RecommendationResourceSummary: Swift.Codable
         }
         if let awsResourceId = self.awsResourceId {
             try encodeContainer.encode(awsResourceId, forKey: .awsResourceId)
+        }
+        if let exclusionStatus = self.exclusionStatus {
+            try encodeContainer.encode(exclusionStatus.rawValue, forKey: .exclusionStatus)
         }
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
@@ -2739,6 +2974,8 @@ extension TrustedAdvisorClientTypes.RecommendationResourceSummary: Swift.Codable
         metadata = metadataDecoded0
         let lastUpdatedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastUpdatedAt)
         lastUpdatedAt = lastUpdatedAtDecoded
+        let exclusionStatusDecoded = try containerValues.decodeIfPresent(TrustedAdvisorClientTypes.ExclusionStatus.self, forKey: .exclusionStatus)
+        exclusionStatus = exclusionStatusDecoded
         let recommendationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recommendationArn)
         recommendationArn = recommendationArnDecoded
     }
@@ -2753,6 +2990,8 @@ extension TrustedAdvisorClientTypes {
         /// The AWS resource identifier
         /// This member is required.
         public var awsResourceId: Swift.String?
+        /// The exclusion status of the Recommendation Resource
+        public var exclusionStatus: TrustedAdvisorClientTypes.ExclusionStatus?
         /// The ID of the Recommendation Resource
         /// This member is required.
         public var id: Swift.String?
@@ -2775,6 +3014,7 @@ extension TrustedAdvisorClientTypes {
         public init(
             arn: Swift.String? = nil,
             awsResourceId: Swift.String? = nil,
+            exclusionStatus: TrustedAdvisorClientTypes.ExclusionStatus? = nil,
             id: Swift.String? = nil,
             lastUpdatedAt: ClientRuntime.Date? = nil,
             metadata: [Swift.String:Swift.String]? = nil,
@@ -2785,6 +3025,7 @@ extension TrustedAdvisorClientTypes {
         {
             self.arn = arn
             self.awsResourceId = awsResourceId
+            self.exclusionStatus = exclusionStatus
             self.id = id
             self.lastUpdatedAt = lastUpdatedAt
             self.metadata = metadata
@@ -3639,6 +3880,61 @@ extension TrustedAdvisorClientTypes {
             self = UpdateRecommendationLifecycleStageReasonCode(rawValue: rawValue) ?? UpdateRecommendationLifecycleStageReasonCode.sdkUnknown(rawValue)
         }
     }
+}
+
+extension TrustedAdvisorClientTypes.UpdateRecommendationResourceExclusionError: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case errorCode
+        case errorMessage
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let errorCode = self.errorCode {
+            try encodeContainer.encode(errorCode, forKey: .errorCode)
+        }
+        if let errorMessage = self.errorMessage {
+            try encodeContainer.encode(errorMessage, forKey: .errorMessage)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let errorCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorCode)
+        errorCode = errorCodeDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+    }
+}
+
+extension TrustedAdvisorClientTypes {
+    /// The error entry for Recommendation Resource exclusion. Each entry is a combination of Recommendation Resource ARN, error code and error message
+    public struct UpdateRecommendationResourceExclusionError {
+        /// The ARN of the Recommendation Resource
+        public var arn: Swift.String?
+        /// The error code
+        public var errorCode: Swift.String?
+        /// The error message
+        public var errorMessage: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            errorCode: Swift.String? = nil,
+            errorMessage: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+    }
+
 }
 
 extension ValidationException {

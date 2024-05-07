@@ -69,6 +69,7 @@ extension ConflictExceptionBody: Swift.Decodable {
 extension CreateLinkInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case labelTemplate = "LabelTemplate"
+        case linkConfiguration = "LinkConfiguration"
         case resourceTypes = "ResourceTypes"
         case sinkIdentifier = "SinkIdentifier"
         case tags = "Tags"
@@ -78,6 +79,9 @@ extension CreateLinkInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let labelTemplate = self.labelTemplate {
             try encodeContainer.encode(labelTemplate, forKey: .labelTemplate)
+        }
+        if let linkConfiguration = self.linkConfiguration {
+            try encodeContainer.encode(linkConfiguration, forKey: .linkConfiguration)
         }
         if let resourceTypes = resourceTypes {
             var resourceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTypes)
@@ -114,6 +118,8 @@ public struct CreateLinkInput {
     /// * $AccountEmailNoDomain is the email address of the account without the domain name
     /// This member is required.
     public var labelTemplate: Swift.String?
+    /// Use this structure to optionally create filters that specify that only some metric namespaces or log groups are to be shared from the source account to the monitoring account.
+    public var linkConfiguration: OAMClientTypes.LinkConfiguration?
     /// An array of strings that define which types of data that the source account shares with the monitoring account.
     /// This member is required.
     public var resourceTypes: [OAMClientTypes.ResourceType]?
@@ -125,12 +131,14 @@ public struct CreateLinkInput {
 
     public init(
         labelTemplate: Swift.String? = nil,
+        linkConfiguration: OAMClientTypes.LinkConfiguration? = nil,
         resourceTypes: [OAMClientTypes.ResourceType]? = nil,
         sinkIdentifier: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
         self.labelTemplate = labelTemplate
+        self.linkConfiguration = linkConfiguration
         self.resourceTypes = resourceTypes
         self.sinkIdentifier = sinkIdentifier
         self.tags = tags
@@ -142,11 +150,13 @@ struct CreateLinkInputBody {
     let resourceTypes: [OAMClientTypes.ResourceType]?
     let sinkIdentifier: Swift.String?
     let tags: [Swift.String:Swift.String]?
+    let linkConfiguration: OAMClientTypes.LinkConfiguration?
 }
 
 extension CreateLinkInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case labelTemplate = "LabelTemplate"
+        case linkConfiguration = "LinkConfiguration"
         case resourceTypes = "ResourceTypes"
         case sinkIdentifier = "SinkIdentifier"
         case tags = "Tags"
@@ -180,6 +190,8 @@ extension CreateLinkInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let linkConfigurationDecoded = try containerValues.decodeIfPresent(OAMClientTypes.LinkConfiguration.self, forKey: .linkConfiguration)
+        linkConfiguration = linkConfigurationDecoded
     }
 }
 
@@ -192,6 +204,7 @@ extension CreateLinkOutput: ClientRuntime.HttpResponseBinding {
             self.id = output.id
             self.label = output.label
             self.labelTemplate = output.labelTemplate
+            self.linkConfiguration = output.linkConfiguration
             self.resourceTypes = output.resourceTypes
             self.sinkArn = output.sinkArn
             self.tags = output.tags
@@ -200,6 +213,7 @@ extension CreateLinkOutput: ClientRuntime.HttpResponseBinding {
             self.id = nil
             self.label = nil
             self.labelTemplate = nil
+            self.linkConfiguration = nil
             self.resourceTypes = nil
             self.sinkArn = nil
             self.tags = nil
@@ -216,6 +230,8 @@ public struct CreateLinkOutput {
     public var label: Swift.String?
     /// The exact label template that you specified, with the variables not resolved.
     public var labelTemplate: Swift.String?
+    /// This structure includes filters that specify which metric namespaces and which log groups are shared from the source account to the monitoring account.
+    public var linkConfiguration: OAMClientTypes.LinkConfiguration?
     /// The resource types supported by this link.
     public var resourceTypes: [Swift.String]?
     /// The ARN of the sink that is used for this link.
@@ -228,6 +244,7 @@ public struct CreateLinkOutput {
         id: Swift.String? = nil,
         label: Swift.String? = nil,
         labelTemplate: Swift.String? = nil,
+        linkConfiguration: OAMClientTypes.LinkConfiguration? = nil,
         resourceTypes: [Swift.String]? = nil,
         sinkArn: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
@@ -237,6 +254,7 @@ public struct CreateLinkOutput {
         self.id = id
         self.label = label
         self.labelTemplate = labelTemplate
+        self.linkConfiguration = linkConfiguration
         self.resourceTypes = resourceTypes
         self.sinkArn = sinkArn
         self.tags = tags
@@ -251,6 +269,7 @@ struct CreateLinkOutputBody {
     let resourceTypes: [Swift.String]?
     let sinkArn: Swift.String?
     let tags: [Swift.String:Swift.String]?
+    let linkConfiguration: OAMClientTypes.LinkConfiguration?
 }
 
 extension CreateLinkOutputBody: Swift.Decodable {
@@ -259,6 +278,7 @@ extension CreateLinkOutputBody: Swift.Decodable {
         case id = "Id"
         case label = "Label"
         case labelTemplate = "LabelTemplate"
+        case linkConfiguration = "LinkConfiguration"
         case resourceTypes = "ResourceTypes"
         case sinkArn = "SinkArn"
         case tags = "Tags"
@@ -298,6 +318,8 @@ extension CreateLinkOutputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let linkConfigurationDecoded = try containerValues.decodeIfPresent(OAMClientTypes.LinkConfiguration.self, forKey: .linkConfiguration)
+        linkConfiguration = linkConfigurationDecoded
     }
 }
 
@@ -688,6 +710,7 @@ extension GetLinkOutput: ClientRuntime.HttpResponseBinding {
             self.id = output.id
             self.label = output.label
             self.labelTemplate = output.labelTemplate
+            self.linkConfiguration = output.linkConfiguration
             self.resourceTypes = output.resourceTypes
             self.sinkArn = output.sinkArn
             self.tags = output.tags
@@ -696,6 +719,7 @@ extension GetLinkOutput: ClientRuntime.HttpResponseBinding {
             self.id = nil
             self.label = nil
             self.labelTemplate = nil
+            self.linkConfiguration = nil
             self.resourceTypes = nil
             self.sinkArn = nil
             self.tags = nil
@@ -712,6 +736,8 @@ public struct GetLinkOutput {
     public var label: Swift.String?
     /// The exact label template that was specified when the link was created, with the template variables not resolved.
     public var labelTemplate: Swift.String?
+    /// This structure includes filters that specify which metric namespaces and which log groups are shared from the source account to the monitoring account.
+    public var linkConfiguration: OAMClientTypes.LinkConfiguration?
     /// The resource types supported by this link.
     public var resourceTypes: [Swift.String]?
     /// The ARN of the sink that is used for this link.
@@ -724,6 +750,7 @@ public struct GetLinkOutput {
         id: Swift.String? = nil,
         label: Swift.String? = nil,
         labelTemplate: Swift.String? = nil,
+        linkConfiguration: OAMClientTypes.LinkConfiguration? = nil,
         resourceTypes: [Swift.String]? = nil,
         sinkArn: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
@@ -733,6 +760,7 @@ public struct GetLinkOutput {
         self.id = id
         self.label = label
         self.labelTemplate = labelTemplate
+        self.linkConfiguration = linkConfiguration
         self.resourceTypes = resourceTypes
         self.sinkArn = sinkArn
         self.tags = tags
@@ -747,6 +775,7 @@ struct GetLinkOutputBody {
     let resourceTypes: [Swift.String]?
     let sinkArn: Swift.String?
     let tags: [Swift.String:Swift.String]?
+    let linkConfiguration: OAMClientTypes.LinkConfiguration?
 }
 
 extension GetLinkOutputBody: Swift.Decodable {
@@ -755,6 +784,7 @@ extension GetLinkOutputBody: Swift.Decodable {
         case id = "Id"
         case label = "Label"
         case labelTemplate = "LabelTemplate"
+        case linkConfiguration = "LinkConfiguration"
         case resourceTypes = "ResourceTypes"
         case sinkArn = "SinkArn"
         case tags = "Tags"
@@ -794,6 +824,8 @@ extension GetLinkOutputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let linkConfigurationDecoded = try containerValues.decodeIfPresent(OAMClientTypes.LinkConfiguration.self, forKey: .linkConfiguration)
+        linkConfiguration = linkConfigurationDecoded
     }
 }
 
@@ -1202,6 +1234,51 @@ extension InvalidParameterExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension OAMClientTypes.LinkConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case logGroupConfiguration = "LogGroupConfiguration"
+        case metricConfiguration = "MetricConfiguration"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let logGroupConfiguration = self.logGroupConfiguration {
+            try encodeContainer.encode(logGroupConfiguration, forKey: .logGroupConfiguration)
+        }
+        if let metricConfiguration = self.metricConfiguration {
+            try encodeContainer.encode(metricConfiguration, forKey: .metricConfiguration)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let logGroupConfigurationDecoded = try containerValues.decodeIfPresent(OAMClientTypes.LogGroupConfiguration.self, forKey: .logGroupConfiguration)
+        logGroupConfiguration = logGroupConfigurationDecoded
+        let metricConfigurationDecoded = try containerValues.decodeIfPresent(OAMClientTypes.MetricConfiguration.self, forKey: .metricConfiguration)
+        metricConfiguration = metricConfigurationDecoded
+    }
+}
+
+extension OAMClientTypes {
+    /// Use this structure to optionally create filters that specify that only some metric namespaces or log groups are to be shared from the source account to the monitoring account.
+    public struct LinkConfiguration {
+        /// Use this structure to filter which log groups are to send log events from the source account to the monitoring account.
+        public var logGroupConfiguration: OAMClientTypes.LogGroupConfiguration?
+        /// Use this structure to filter which metric namespaces are to be shared from the source account to the monitoring account.
+        public var metricConfiguration: OAMClientTypes.MetricConfiguration?
+
+        public init(
+            logGroupConfiguration: OAMClientTypes.LogGroupConfiguration? = nil,
+            metricConfiguration: OAMClientTypes.MetricConfiguration? = nil
+        )
+        {
+            self.logGroupConfiguration = logGroupConfiguration
+            self.metricConfiguration = metricConfiguration
+        }
+    }
+
 }
 
 extension ListAttachedLinksInput: Swift.Encodable {
@@ -1919,6 +1996,122 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension OAMClientTypes.LogGroupConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filter = "Filter"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filter = self.filter {
+            try encodeContainer.encode(filter, forKey: .filter)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let filterDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .filter)
+        filter = filterDecoded
+    }
+}
+
+extension OAMClientTypes {
+    /// This structure contains the Filter parameter which you can use to specify which log groups are to share log events from this source account to the monitoring account.
+    public struct LogGroupConfiguration {
+        /// Use this field to specify which log groups are to share their log events with the monitoring account. Use the term LogGroupName and one or more of the following operands. Use single quotation marks (') around log group names. The matching of log group names is case sensitive. Each filter has a limit of five conditional operands. Conditional operands are AND and OR.
+        ///
+        /// * = and !=
+        ///
+        /// * AND
+        ///
+        /// * OR
+        ///
+        /// * LIKE and NOT LIKE. These can be used only as prefix searches. Include a % at the end of the string that you want to search for and include.
+        ///
+        /// * IN and NOT IN, using parentheses ( )
+        ///
+        ///
+        /// Examples:
+        ///
+        /// * LogGroupName IN ('This-Log-Group', 'Other-Log-Group') includes only the log groups with names This-Log-Group and Other-Log-Group.
+        ///
+        /// * LogGroupName NOT IN ('Private-Log-Group', 'Private-Log-Group-2') includes all log groups except the log groups with names Private-Log-Group and Private-Log-Group-2.
+        ///
+        /// * LogGroupName LIKE 'aws/lambda/%' OR LogGroupName LIKE 'AWSLogs%' includes all log groups that have names that start with aws/lambda/ or AWSLogs.
+        ///
+        ///
+        /// If you are updating a link that uses filters, you can specify * as the only value for the filter parameter to delete the filter and share all log groups with the monitoring account.
+        /// This member is required.
+        public var filter: Swift.String?
+
+        public init(
+            filter: Swift.String? = nil
+        )
+        {
+            self.filter = filter
+        }
+    }
+
+}
+
+extension OAMClientTypes.MetricConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filter = "Filter"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filter = self.filter {
+            try encodeContainer.encode(filter, forKey: .filter)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let filterDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .filter)
+        filter = filterDecoded
+    }
+}
+
+extension OAMClientTypes {
+    /// This structure contains the Filter parameter which you can use to specify which metric namespaces are to be shared from this source account to the monitoring account.
+    public struct MetricConfiguration {
+        /// Use this field to specify which metrics are to be shared with the monitoring account. Use the term Namespace and one or more of the following operands. Use single quotation marks (') around namespace names. The matching of namespace names is case sensitive. Each filter has a limit of five conditional operands. Conditional operands are AND and OR.
+        ///
+        /// * = and !=
+        ///
+        /// * AND
+        ///
+        /// * OR
+        ///
+        /// * LIKE and NOT LIKE. These can be used only as prefix searches. Include a % at the end of the string that you want to search for and include.
+        ///
+        /// * IN and NOT IN, using parentheses ( )
+        ///
+        ///
+        /// Examples:
+        ///
+        /// * Namespace NOT LIKE 'AWS/%' includes only namespaces that don't start with AWS/, such as custom namespaces.
+        ///
+        /// * Namespace IN ('AWS/EC2', 'AWS/ELB', 'AWS/S3') includes only the metrics in the EC2, Elastic Load Balancing, and Amazon S3 namespaces.
+        ///
+        /// * Namespace = 'AWS/EC2' OR Namespace NOT LIKE 'AWS/%' includes only the EC2 namespace and your custom namespaces.
+        ///
+        ///
+        /// If you are updating a link that uses filters, you can specify * as the only value for the filter parameter to delete the filter and share all metric namespaces with the monitoring account.
+        /// This member is required.
+        public var filter: Swift.String?
+
+        public init(
+            filter: Swift.String? = nil
+        )
+        {
+            self.filter = filter
+        }
+    }
+
+}
+
 extension MissingRequiredParameterException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let amznErrorTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-ErrorType") {
@@ -2515,6 +2708,7 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
 extension UpdateLinkInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case identifier = "Identifier"
+        case linkConfiguration = "LinkConfiguration"
         case resourceTypes = "ResourceTypes"
     }
 
@@ -2522,6 +2716,9 @@ extension UpdateLinkInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let identifier = self.identifier {
             try encodeContainer.encode(identifier, forKey: .identifier)
+        }
+        if let linkConfiguration = self.linkConfiguration {
+            try encodeContainer.encode(linkConfiguration, forKey: .linkConfiguration)
         }
         if let resourceTypes = resourceTypes {
             var resourceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTypes)
@@ -2543,16 +2740,20 @@ public struct UpdateLinkInput {
     /// The ARN of the link that you want to update.
     /// This member is required.
     public var identifier: Swift.String?
+    /// Use this structure to filter which metric namespaces and which log groups are to be shared from the source account to the monitoring account.
+    public var linkConfiguration: OAMClientTypes.LinkConfiguration?
     /// An array of strings that define which types of data that the source account will send to the monitoring account. Your input here replaces the current set of data types that are shared.
     /// This member is required.
     public var resourceTypes: [OAMClientTypes.ResourceType]?
 
     public init(
         identifier: Swift.String? = nil,
+        linkConfiguration: OAMClientTypes.LinkConfiguration? = nil,
         resourceTypes: [OAMClientTypes.ResourceType]? = nil
     )
     {
         self.identifier = identifier
+        self.linkConfiguration = linkConfiguration
         self.resourceTypes = resourceTypes
     }
 }
@@ -2560,11 +2761,13 @@ public struct UpdateLinkInput {
 struct UpdateLinkInputBody {
     let identifier: Swift.String?
     let resourceTypes: [OAMClientTypes.ResourceType]?
+    let linkConfiguration: OAMClientTypes.LinkConfiguration?
 }
 
 extension UpdateLinkInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case identifier = "Identifier"
+        case linkConfiguration = "LinkConfiguration"
         case resourceTypes = "ResourceTypes"
     }
 
@@ -2583,6 +2786,8 @@ extension UpdateLinkInputBody: Swift.Decodable {
             }
         }
         resourceTypes = resourceTypesDecoded0
+        let linkConfigurationDecoded = try containerValues.decodeIfPresent(OAMClientTypes.LinkConfiguration.self, forKey: .linkConfiguration)
+        linkConfiguration = linkConfigurationDecoded
     }
 }
 
@@ -2595,6 +2800,7 @@ extension UpdateLinkOutput: ClientRuntime.HttpResponseBinding {
             self.id = output.id
             self.label = output.label
             self.labelTemplate = output.labelTemplate
+            self.linkConfiguration = output.linkConfiguration
             self.resourceTypes = output.resourceTypes
             self.sinkArn = output.sinkArn
             self.tags = output.tags
@@ -2603,6 +2809,7 @@ extension UpdateLinkOutput: ClientRuntime.HttpResponseBinding {
             self.id = nil
             self.label = nil
             self.labelTemplate = nil
+            self.linkConfiguration = nil
             self.resourceTypes = nil
             self.sinkArn = nil
             self.tags = nil
@@ -2619,6 +2826,8 @@ public struct UpdateLinkOutput {
     public var label: Swift.String?
     /// The exact label template that was specified when the link was created, with the template variables not resolved.
     public var labelTemplate: Swift.String?
+    /// This structure includes filters that specify which metric namespaces and which log groups are shared from the source account to the monitoring account.
+    public var linkConfiguration: OAMClientTypes.LinkConfiguration?
     /// The resource types now supported by this link.
     public var resourceTypes: [Swift.String]?
     /// The ARN of the sink that is used for this link.
@@ -2631,6 +2840,7 @@ public struct UpdateLinkOutput {
         id: Swift.String? = nil,
         label: Swift.String? = nil,
         labelTemplate: Swift.String? = nil,
+        linkConfiguration: OAMClientTypes.LinkConfiguration? = nil,
         resourceTypes: [Swift.String]? = nil,
         sinkArn: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
@@ -2640,6 +2850,7 @@ public struct UpdateLinkOutput {
         self.id = id
         self.label = label
         self.labelTemplate = labelTemplate
+        self.linkConfiguration = linkConfiguration
         self.resourceTypes = resourceTypes
         self.sinkArn = sinkArn
         self.tags = tags
@@ -2654,6 +2865,7 @@ struct UpdateLinkOutputBody {
     let resourceTypes: [Swift.String]?
     let sinkArn: Swift.String?
     let tags: [Swift.String:Swift.String]?
+    let linkConfiguration: OAMClientTypes.LinkConfiguration?
 }
 
 extension UpdateLinkOutputBody: Swift.Decodable {
@@ -2662,6 +2874,7 @@ extension UpdateLinkOutputBody: Swift.Decodable {
         case id = "Id"
         case label = "Label"
         case labelTemplate = "LabelTemplate"
+        case linkConfiguration = "LinkConfiguration"
         case resourceTypes = "ResourceTypes"
         case sinkArn = "SinkArn"
         case tags = "Tags"
@@ -2701,6 +2914,8 @@ extension UpdateLinkOutputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let linkConfigurationDecoded = try containerValues.decodeIfPresent(OAMClientTypes.LinkConfiguration.self, forKey: .linkConfiguration)
+        linkConfiguration = linkConfigurationDecoded
     }
 }
 

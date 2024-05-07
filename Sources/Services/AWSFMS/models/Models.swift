@@ -193,7 +193,7 @@ extension FMSClientTypes {
         public var adminAccount: Swift.String?
         /// A boolean value that indicates if the administrator is the default administrator. If true, then this is the default administrator account. The default administrator can manage third-party firewalls and has full administrative scope. There is only one default administrator account per organization. For information about Firewall Manager default administrator accounts, see [Managing Firewall Manager administrators](https://docs.aws.amazon.com/waf/latest/developerguide/fms-administrators.html) in the Firewall Manager Developer Guide.
         public var defaultAdmin: Swift.Bool
-        /// The current status of the request to onboard a member account as an Firewall Manager administator.
+        /// The current status of the request to onboard a member account as an Firewall Manager administrator.
         ///
         /// * ONBOARDING - The account is onboarding to Firewall Manager as an administrator.
         ///
@@ -1315,6 +1315,138 @@ extension FMSClientTypes {
 
 }
 
+extension FMSClientTypes.CreateNetworkAclAction: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case fmsCanRemediate = "FMSCanRemediate"
+        case vpc = "Vpc"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if fmsCanRemediate != false {
+            try encodeContainer.encode(fmsCanRemediate, forKey: .fmsCanRemediate)
+        }
+        if let vpc = self.vpc {
+            try encodeContainer.encode(vpc, forKey: .vpc)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let vpcDecoded = try containerValues.decodeIfPresent(FMSClientTypes.ActionTarget.self, forKey: .vpc)
+        vpc = vpcDecoded
+        let fmsCanRemediateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .fmsCanRemediate) ?? false
+        fmsCanRemediate = fmsCanRemediateDecoded
+    }
+}
+
+extension FMSClientTypes {
+    /// Information about the CreateNetworkAcl action in Amazon EC2. This is a remediation option in RemediationAction.
+    public struct CreateNetworkAclAction {
+        /// Brief description of this remediation action.
+        public var description: Swift.String?
+        /// Indicates whether it is possible for Firewall Manager to perform this remediation action. A false value indicates that auto remediation is disabled or Firewall Manager is unable to perform the action due to a conflict of some kind.
+        public var fmsCanRemediate: Swift.Bool
+        /// The VPC that's associated with the remediation action.
+        public var vpc: FMSClientTypes.ActionTarget?
+
+        public init(
+            description: Swift.String? = nil,
+            fmsCanRemediate: Swift.Bool = false,
+            vpc: FMSClientTypes.ActionTarget? = nil
+        )
+        {
+            self.description = description
+            self.fmsCanRemediate = fmsCanRemediate
+            self.vpc = vpc
+        }
+    }
+
+}
+
+extension FMSClientTypes.CreateNetworkAclEntriesAction: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case fmsCanRemediate = "FMSCanRemediate"
+        case networkAclEntriesToBeCreated = "NetworkAclEntriesToBeCreated"
+        case networkAclId = "NetworkAclId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if fmsCanRemediate != false {
+            try encodeContainer.encode(fmsCanRemediate, forKey: .fmsCanRemediate)
+        }
+        if let networkAclEntriesToBeCreated = networkAclEntriesToBeCreated {
+            var networkAclEntriesToBeCreatedContainer = encodeContainer.nestedUnkeyedContainer(forKey: .networkAclEntriesToBeCreated)
+            for entrydescription0 in networkAclEntriesToBeCreated {
+                try networkAclEntriesToBeCreatedContainer.encode(entrydescription0)
+            }
+        }
+        if let networkAclId = self.networkAclId {
+            try encodeContainer.encode(networkAclId, forKey: .networkAclId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let networkAclIdDecoded = try containerValues.decodeIfPresent(FMSClientTypes.ActionTarget.self, forKey: .networkAclId)
+        networkAclId = networkAclIdDecoded
+        let networkAclEntriesToBeCreatedContainer = try containerValues.decodeIfPresent([FMSClientTypes.EntryDescription?].self, forKey: .networkAclEntriesToBeCreated)
+        var networkAclEntriesToBeCreatedDecoded0:[FMSClientTypes.EntryDescription]? = nil
+        if let networkAclEntriesToBeCreatedContainer = networkAclEntriesToBeCreatedContainer {
+            networkAclEntriesToBeCreatedDecoded0 = [FMSClientTypes.EntryDescription]()
+            for structure0 in networkAclEntriesToBeCreatedContainer {
+                if let structure0 = structure0 {
+                    networkAclEntriesToBeCreatedDecoded0?.append(structure0)
+                }
+            }
+        }
+        networkAclEntriesToBeCreated = networkAclEntriesToBeCreatedDecoded0
+        let fmsCanRemediateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .fmsCanRemediate) ?? false
+        fmsCanRemediate = fmsCanRemediateDecoded
+    }
+}
+
+extension FMSClientTypes {
+    /// Information about the CreateNetworkAclEntries action in Amazon EC2. This is a remediation option in RemediationAction.
+    public struct CreateNetworkAclEntriesAction {
+        /// Brief description of this remediation action.
+        public var description: Swift.String?
+        /// Indicates whether it is possible for Firewall Manager to perform this remediation action. A false value indicates that auto remediation is disabled or Firewall Manager is unable to perform the action due to a conflict of some kind.
+        public var fmsCanRemediate: Swift.Bool
+        /// Lists the entries that the remediation action would create.
+        public var networkAclEntriesToBeCreated: [FMSClientTypes.EntryDescription]?
+        /// The network ACL that's associated with the remediation action.
+        public var networkAclId: FMSClientTypes.ActionTarget?
+
+        public init(
+            description: Swift.String? = nil,
+            fmsCanRemediate: Swift.Bool = false,
+            networkAclEntriesToBeCreated: [FMSClientTypes.EntryDescription]? = nil,
+            networkAclId: FMSClientTypes.ActionTarget? = nil
+        )
+        {
+            self.description = description
+            self.fmsCanRemediate = fmsCanRemediate
+            self.networkAclEntriesToBeCreated = networkAclEntriesToBeCreated
+            self.networkAclId = networkAclId
+        }
+    }
+
+}
+
 extension FMSClientTypes {
     public enum CustomerPolicyScopeIdType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case account
@@ -1449,6 +1581,83 @@ enum DeleteAppsListOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension FMSClientTypes.DeleteNetworkAclEntriesAction: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case fmsCanRemediate = "FMSCanRemediate"
+        case networkAclEntriesToBeDeleted = "NetworkAclEntriesToBeDeleted"
+        case networkAclId = "NetworkAclId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if fmsCanRemediate != false {
+            try encodeContainer.encode(fmsCanRemediate, forKey: .fmsCanRemediate)
+        }
+        if let networkAclEntriesToBeDeleted = networkAclEntriesToBeDeleted {
+            var networkAclEntriesToBeDeletedContainer = encodeContainer.nestedUnkeyedContainer(forKey: .networkAclEntriesToBeDeleted)
+            for entrydescription0 in networkAclEntriesToBeDeleted {
+                try networkAclEntriesToBeDeletedContainer.encode(entrydescription0)
+            }
+        }
+        if let networkAclId = self.networkAclId {
+            try encodeContainer.encode(networkAclId, forKey: .networkAclId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let networkAclIdDecoded = try containerValues.decodeIfPresent(FMSClientTypes.ActionTarget.self, forKey: .networkAclId)
+        networkAclId = networkAclIdDecoded
+        let networkAclEntriesToBeDeletedContainer = try containerValues.decodeIfPresent([FMSClientTypes.EntryDescription?].self, forKey: .networkAclEntriesToBeDeleted)
+        var networkAclEntriesToBeDeletedDecoded0:[FMSClientTypes.EntryDescription]? = nil
+        if let networkAclEntriesToBeDeletedContainer = networkAclEntriesToBeDeletedContainer {
+            networkAclEntriesToBeDeletedDecoded0 = [FMSClientTypes.EntryDescription]()
+            for structure0 in networkAclEntriesToBeDeletedContainer {
+                if let structure0 = structure0 {
+                    networkAclEntriesToBeDeletedDecoded0?.append(structure0)
+                }
+            }
+        }
+        networkAclEntriesToBeDeleted = networkAclEntriesToBeDeletedDecoded0
+        let fmsCanRemediateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .fmsCanRemediate) ?? false
+        fmsCanRemediate = fmsCanRemediateDecoded
+    }
+}
+
+extension FMSClientTypes {
+    /// Information about the DeleteNetworkAclEntries action in Amazon EC2. This is a remediation option in RemediationAction.
+    public struct DeleteNetworkAclEntriesAction {
+        /// Brief description of this remediation action.
+        public var description: Swift.String?
+        /// Indicates whether it is possible for Firewall Manager to perform this remediation action. A false value indicates that auto remediation is disabled or Firewall Manager is unable to perform the action due to a conflict of some kind.
+        public var fmsCanRemediate: Swift.Bool
+        /// Lists the entries that the remediation action would delete.
+        public var networkAclEntriesToBeDeleted: [FMSClientTypes.EntryDescription]?
+        /// The network ACL that's associated with the remediation action.
+        public var networkAclId: FMSClientTypes.ActionTarget?
+
+        public init(
+            description: Swift.String? = nil,
+            fmsCanRemediate: Swift.Bool = false,
+            networkAclEntriesToBeDeleted: [FMSClientTypes.EntryDescription]? = nil,
+            networkAclId: FMSClientTypes.ActionTarget? = nil
+        )
+        {
+            self.description = description
+            self.fmsCanRemediate = fmsCanRemediate
+            self.networkAclEntriesToBeDeleted = networkAclEntriesToBeDeleted
+            self.networkAclId = networkAclId
+        }
+    }
+
 }
 
 extension DeleteNotificationChannelInput: Swift.Encodable {
@@ -2714,6 +2923,240 @@ extension FMSClientTypes {
 
 }
 
+extension FMSClientTypes.EntryDescription: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case entryDetail = "EntryDetail"
+        case entryRuleNumber = "EntryRuleNumber"
+        case entryType = "EntryType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let entryDetail = self.entryDetail {
+            try encodeContainer.encode(entryDetail, forKey: .entryDetail)
+        }
+        if entryRuleNumber != 0 {
+            try encodeContainer.encode(entryRuleNumber, forKey: .entryRuleNumber)
+        }
+        if let entryType = self.entryType {
+            try encodeContainer.encode(entryType.rawValue, forKey: .entryType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let entryDetailDecoded = try containerValues.decodeIfPresent(FMSClientTypes.NetworkAclEntry.self, forKey: .entryDetail)
+        entryDetail = entryDetailDecoded
+        let entryRuleNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .entryRuleNumber) ?? 0
+        entryRuleNumber = entryRuleNumberDecoded
+        let entryTypeDecoded = try containerValues.decodeIfPresent(FMSClientTypes.EntryType.self, forKey: .entryType)
+        entryType = entryTypeDecoded
+    }
+}
+
+extension FMSClientTypes {
+    /// Describes a single rule in a network ACL.
+    public struct EntryDescription {
+        /// Describes a rule in a network ACL. Each network ACL has a set of numbered ingress rules and a separate set of numbered egress rules. When determining whether a packet should be allowed in or out of a subnet associated with the network ACL, Amazon Web Services processes the entries in the network ACL according to the rule numbers, in ascending order. When you manage an individual network ACL, you explicitly specify the rule numbers. When you specify the network ACL rules in a Firewall Manager policy, you provide the rules to run first, in the order that you want them to run, and the rules to run last, in the order that you want them to run. Firewall Manager assigns the rule numbers for you when you save the network ACL policy specification.
+        public var entryDetail: FMSClientTypes.NetworkAclEntry?
+        /// The rule number for the entry. ACL entries are processed in ascending order by rule number. In a Firewall Manager network ACL policy, Firewall Manager assigns rule numbers.
+        public var entryRuleNumber: Swift.Int
+        /// Specifies whether the entry is managed by Firewall Manager or by a user, and, for Firewall Manager-managed entries, specifies whether the entry is among those that run first in the network ACL or those that run last.
+        public var entryType: FMSClientTypes.EntryType?
+
+        public init(
+            entryDetail: FMSClientTypes.NetworkAclEntry? = nil,
+            entryRuleNumber: Swift.Int = 0,
+            entryType: FMSClientTypes.EntryType? = nil
+        )
+        {
+            self.entryDetail = entryDetail
+            self.entryRuleNumber = entryRuleNumber
+            self.entryType = entryType
+        }
+    }
+
+}
+
+extension FMSClientTypes {
+    public enum EntryType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case customentry
+        case fmsmanagedfirstentry
+        case fmsmanagedlastentry
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EntryType] {
+            return [
+                .customentry,
+                .fmsmanagedfirstentry,
+                .fmsmanagedlastentry,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .customentry: return "CUSTOM_ENTRY"
+            case .fmsmanagedfirstentry: return "FMS_MANAGED_FIRST_ENTRY"
+            case .fmsmanagedlastentry: return "FMS_MANAGED_LAST_ENTRY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EntryType(rawValue: rawValue) ?? EntryType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension FMSClientTypes.EntryViolation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actualEvaluationOrder = "ActualEvaluationOrder"
+        case entriesWithConflicts = "EntriesWithConflicts"
+        case entryAtExpectedEvaluationOrder = "EntryAtExpectedEvaluationOrder"
+        case entryViolationReasons = "EntryViolationReasons"
+        case expectedEntry = "ExpectedEntry"
+        case expectedEvaluationOrder = "ExpectedEvaluationOrder"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let actualEvaluationOrder = self.actualEvaluationOrder {
+            try encodeContainer.encode(actualEvaluationOrder, forKey: .actualEvaluationOrder)
+        }
+        if let entriesWithConflicts = entriesWithConflicts {
+            var entriesWithConflictsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entriesWithConflicts)
+            for entrydescription0 in entriesWithConflicts {
+                try entriesWithConflictsContainer.encode(entrydescription0)
+            }
+        }
+        if let entryAtExpectedEvaluationOrder = self.entryAtExpectedEvaluationOrder {
+            try encodeContainer.encode(entryAtExpectedEvaluationOrder, forKey: .entryAtExpectedEvaluationOrder)
+        }
+        if let entryViolationReasons = entryViolationReasons {
+            var entryViolationReasonsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entryViolationReasons)
+            for entryviolationreason0 in entryViolationReasons {
+                try entryViolationReasonsContainer.encode(entryviolationreason0.rawValue)
+            }
+        }
+        if let expectedEntry = self.expectedEntry {
+            try encodeContainer.encode(expectedEntry, forKey: .expectedEntry)
+        }
+        if let expectedEvaluationOrder = self.expectedEvaluationOrder {
+            try encodeContainer.encode(expectedEvaluationOrder, forKey: .expectedEvaluationOrder)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let expectedEntryDecoded = try containerValues.decodeIfPresent(FMSClientTypes.EntryDescription.self, forKey: .expectedEntry)
+        expectedEntry = expectedEntryDecoded
+        let expectedEvaluationOrderDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .expectedEvaluationOrder)
+        expectedEvaluationOrder = expectedEvaluationOrderDecoded
+        let actualEvaluationOrderDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .actualEvaluationOrder)
+        actualEvaluationOrder = actualEvaluationOrderDecoded
+        let entryAtExpectedEvaluationOrderDecoded = try containerValues.decodeIfPresent(FMSClientTypes.EntryDescription.self, forKey: .entryAtExpectedEvaluationOrder)
+        entryAtExpectedEvaluationOrder = entryAtExpectedEvaluationOrderDecoded
+        let entriesWithConflictsContainer = try containerValues.decodeIfPresent([FMSClientTypes.EntryDescription?].self, forKey: .entriesWithConflicts)
+        var entriesWithConflictsDecoded0:[FMSClientTypes.EntryDescription]? = nil
+        if let entriesWithConflictsContainer = entriesWithConflictsContainer {
+            entriesWithConflictsDecoded0 = [FMSClientTypes.EntryDescription]()
+            for structure0 in entriesWithConflictsContainer {
+                if let structure0 = structure0 {
+                    entriesWithConflictsDecoded0?.append(structure0)
+                }
+            }
+        }
+        entriesWithConflicts = entriesWithConflictsDecoded0
+        let entryViolationReasonsContainer = try containerValues.decodeIfPresent([FMSClientTypes.EntryViolationReason?].self, forKey: .entryViolationReasons)
+        var entryViolationReasonsDecoded0:[FMSClientTypes.EntryViolationReason]? = nil
+        if let entryViolationReasonsContainer = entryViolationReasonsContainer {
+            entryViolationReasonsDecoded0 = [FMSClientTypes.EntryViolationReason]()
+            for enum0 in entryViolationReasonsContainer {
+                if let enum0 = enum0 {
+                    entryViolationReasonsDecoded0?.append(enum0)
+                }
+            }
+        }
+        entryViolationReasons = entryViolationReasonsDecoded0
+    }
+}
+
+extension FMSClientTypes {
+    /// Detailed information about an entry violation in a network ACL. The violation is against the network ACL specification inside the Firewall Manager network ACL policy. This data object is part of InvalidNetworkAclEntriesViolation.
+    public struct EntryViolation {
+        /// The evaluation location within the ordered list of entries where the ExpectedEntry is currently located.
+        public var actualEvaluationOrder: Swift.String?
+        /// The list of entries that are in conflict with ExpectedEntry.
+        public var entriesWithConflicts: [FMSClientTypes.EntryDescription]?
+        /// The entry that's currently in the ExpectedEvaluationOrder location, in place of the expected entry.
+        public var entryAtExpectedEvaluationOrder: FMSClientTypes.EntryDescription?
+        /// Descriptions of the violations that Firewall Manager found for these entries.
+        public var entryViolationReasons: [FMSClientTypes.EntryViolationReason]?
+        /// The Firewall Manager-managed network ACL entry that is involved in the entry violation.
+        public var expectedEntry: FMSClientTypes.EntryDescription?
+        /// The evaluation location within the ordered list of entries where the ExpectedEntry should be, according to the network ACL policy specifications.
+        public var expectedEvaluationOrder: Swift.String?
+
+        public init(
+            actualEvaluationOrder: Swift.String? = nil,
+            entriesWithConflicts: [FMSClientTypes.EntryDescription]? = nil,
+            entryAtExpectedEvaluationOrder: FMSClientTypes.EntryDescription? = nil,
+            entryViolationReasons: [FMSClientTypes.EntryViolationReason]? = nil,
+            expectedEntry: FMSClientTypes.EntryDescription? = nil,
+            expectedEvaluationOrder: Swift.String? = nil
+        )
+        {
+            self.actualEvaluationOrder = actualEvaluationOrder
+            self.entriesWithConflicts = entriesWithConflicts
+            self.entryAtExpectedEvaluationOrder = entryAtExpectedEvaluationOrder
+            self.entryViolationReasons = entryViolationReasons
+            self.expectedEntry = expectedEntry
+            self.expectedEvaluationOrder = expectedEvaluationOrder
+        }
+    }
+
+}
+
+extension FMSClientTypes {
+    public enum EntryViolationReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case entryconflict
+        case incorrectentryorder
+        case missingexpectedentry
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EntryViolationReason] {
+            return [
+                .entryconflict,
+                .incorrectentryorder,
+                .missingexpectedentry,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .entryconflict: return "ENTRY_CONFLICT"
+            case .incorrectentryorder: return "INCORRECT_ENTRY_ORDER"
+            case .missingexpectedentry: return "MISSING_EXPECTED_ENTRY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EntryViolationReason(rawValue: rawValue) ?? EntryViolationReason.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension FMSClientTypes.EvaluationResult: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case complianceStatus = "ComplianceStatus"
@@ -3299,7 +3742,7 @@ extension GetAdminScopeInput {
 }
 
 public struct GetAdminScopeInput {
-    /// The administator account that you want to get the details for.
+    /// The administrator account that you want to get the details for.
     /// This member is required.
     public var adminAccount: Swift.String?
 
@@ -3344,7 +3787,7 @@ extension GetAdminScopeOutput: ClientRuntime.HttpResponseBinding {
 public struct GetAdminScopeOutput {
     /// Contains details about the administrative scope of the requested account.
     public var adminScope: FMSClientTypes.AdminScope?
-    /// The current status of the request to onboard a member account as an Firewall Manager administator.
+    /// The current status of the request to onboard a member account as an Firewall Manager administrator.
     ///
     /// * ONBOARDING - The account is onboarding to Firewall Manager as an administrator.
     ///
@@ -4464,6 +4907,8 @@ public struct GetViolationDetailsInput {
     ///
     /// * Security group content audit
     ///
+    /// * Network ACL
+    ///
     /// * Third-party firewall
     /// This member is required.
     public var policyId: Swift.String?
@@ -4677,6 +5122,93 @@ extension InvalidInputExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension FMSClientTypes.InvalidNetworkAclEntriesViolation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case currentAssociatedNetworkAcl = "CurrentAssociatedNetworkAcl"
+        case entryViolations = "EntryViolations"
+        case subnet = "Subnet"
+        case subnetAvailabilityZone = "SubnetAvailabilityZone"
+        case vpc = "Vpc"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let currentAssociatedNetworkAcl = self.currentAssociatedNetworkAcl {
+            try encodeContainer.encode(currentAssociatedNetworkAcl, forKey: .currentAssociatedNetworkAcl)
+        }
+        if let entryViolations = entryViolations {
+            var entryViolationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entryViolations)
+            for entryviolation0 in entryViolations {
+                try entryViolationsContainer.encode(entryviolation0)
+            }
+        }
+        if let subnet = self.subnet {
+            try encodeContainer.encode(subnet, forKey: .subnet)
+        }
+        if let subnetAvailabilityZone = self.subnetAvailabilityZone {
+            try encodeContainer.encode(subnetAvailabilityZone, forKey: .subnetAvailabilityZone)
+        }
+        if let vpc = self.vpc {
+            try encodeContainer.encode(vpc, forKey: .vpc)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vpcDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpc)
+        vpc = vpcDecoded
+        let subnetDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subnet)
+        subnet = subnetDecoded
+        let subnetAvailabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subnetAvailabilityZone)
+        subnetAvailabilityZone = subnetAvailabilityZoneDecoded
+        let currentAssociatedNetworkAclDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .currentAssociatedNetworkAcl)
+        currentAssociatedNetworkAcl = currentAssociatedNetworkAclDecoded
+        let entryViolationsContainer = try containerValues.decodeIfPresent([FMSClientTypes.EntryViolation?].self, forKey: .entryViolations)
+        var entryViolationsDecoded0:[FMSClientTypes.EntryViolation]? = nil
+        if let entryViolationsContainer = entryViolationsContainer {
+            entryViolationsDecoded0 = [FMSClientTypes.EntryViolation]()
+            for structure0 in entryViolationsContainer {
+                if let structure0 = structure0 {
+                    entryViolationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        entryViolations = entryViolationsDecoded0
+    }
+}
+
+extension FMSClientTypes {
+    /// Violation detail for the entries in a network ACL resource.
+    public struct InvalidNetworkAclEntriesViolation {
+        /// The network ACL containing the entry violations.
+        public var currentAssociatedNetworkAcl: Swift.String?
+        /// Detailed information about the entry violations in the network ACL.
+        public var entryViolations: [FMSClientTypes.EntryViolation]?
+        /// The subnet that's associated with the network ACL.
+        public var subnet: Swift.String?
+        /// The Availability Zone where the network ACL is in use.
+        public var subnetAvailabilityZone: Swift.String?
+        /// The VPC where the violation was found.
+        public var vpc: Swift.String?
+
+        public init(
+            currentAssociatedNetworkAcl: Swift.String? = nil,
+            entryViolations: [FMSClientTypes.EntryViolation]? = nil,
+            subnet: Swift.String? = nil,
+            subnetAvailabilityZone: Swift.String? = nil,
+            vpc: Swift.String? = nil
+        )
+        {
+            self.currentAssociatedNetworkAcl = currentAssociatedNetworkAcl
+            self.entryViolations = entryViolations
+            self.subnet = subnet
+            self.subnetAvailabilityZone = subnetAvailabilityZone
+            self.vpc = vpc
+        }
+    }
+
 }
 
 extension InvalidOperationException {
@@ -6551,6 +7083,353 @@ extension FMSClientTypes {
     }
 }
 
+extension FMSClientTypes.NetworkAclCommonPolicy: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case networkAclEntrySet = "NetworkAclEntrySet"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let networkAclEntrySet = self.networkAclEntrySet {
+            try encodeContainer.encode(networkAclEntrySet, forKey: .networkAclEntrySet)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let networkAclEntrySetDecoded = try containerValues.decodeIfPresent(FMSClientTypes.NetworkAclEntrySet.self, forKey: .networkAclEntrySet)
+        networkAclEntrySet = networkAclEntrySetDecoded
+    }
+}
+
+extension FMSClientTypes {
+    /// Defines a Firewall Manager network ACL policy. This is used in the PolicyOption of a SecurityServicePolicyData for a Policy, when the SecurityServicePolicyData type is set to NETWORK_ACL_COMMON. For information about network ACLs, see [Control traffic to subnets using network ACLs](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html) in the Amazon Virtual Private Cloud User Guide.
+    public struct NetworkAclCommonPolicy {
+        /// The definition of the first and last rules for the network ACL policy.
+        /// This member is required.
+        public var networkAclEntrySet: FMSClientTypes.NetworkAclEntrySet?
+
+        public init(
+            networkAclEntrySet: FMSClientTypes.NetworkAclEntrySet? = nil
+        )
+        {
+            self.networkAclEntrySet = networkAclEntrySet
+        }
+    }
+
+}
+
+extension FMSClientTypes.NetworkAclEntry: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cidrBlock = "CidrBlock"
+        case egress = "Egress"
+        case icmpTypeCode = "IcmpTypeCode"
+        case ipv6CidrBlock = "Ipv6CidrBlock"
+        case portRange = "PortRange"
+        case `protocol` = "Protocol"
+        case ruleAction = "RuleAction"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cidrBlock = self.cidrBlock {
+            try encodeContainer.encode(cidrBlock, forKey: .cidrBlock)
+        }
+        if let egress = self.egress {
+            try encodeContainer.encode(egress, forKey: .egress)
+        }
+        if let icmpTypeCode = self.icmpTypeCode {
+            try encodeContainer.encode(icmpTypeCode, forKey: .icmpTypeCode)
+        }
+        if let ipv6CidrBlock = self.ipv6CidrBlock {
+            try encodeContainer.encode(ipv6CidrBlock, forKey: .ipv6CidrBlock)
+        }
+        if let portRange = self.portRange {
+            try encodeContainer.encode(portRange, forKey: .portRange)
+        }
+        if let `protocol` = self.`protocol` {
+            try encodeContainer.encode(`protocol`, forKey: .`protocol`)
+        }
+        if let ruleAction = self.ruleAction {
+            try encodeContainer.encode(ruleAction.rawValue, forKey: .ruleAction)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let icmpTypeCodeDecoded = try containerValues.decodeIfPresent(FMSClientTypes.NetworkAclIcmpTypeCode.self, forKey: .icmpTypeCode)
+        icmpTypeCode = icmpTypeCodeDecoded
+        let protocolDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .protocol)
+        `protocol` = protocolDecoded
+        let portRangeDecoded = try containerValues.decodeIfPresent(FMSClientTypes.NetworkAclPortRange.self, forKey: .portRange)
+        portRange = portRangeDecoded
+        let cidrBlockDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cidrBlock)
+        cidrBlock = cidrBlockDecoded
+        let ipv6CidrBlockDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipv6CidrBlock)
+        ipv6CidrBlock = ipv6CidrBlockDecoded
+        let ruleActionDecoded = try containerValues.decodeIfPresent(FMSClientTypes.NetworkAclRuleAction.self, forKey: .ruleAction)
+        ruleAction = ruleActionDecoded
+        let egressDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .egress)
+        egress = egressDecoded
+    }
+}
+
+extension FMSClientTypes {
+    /// Describes a rule in a network ACL. Each network ACL has a set of numbered ingress rules and a separate set of numbered egress rules. When determining whether a packet should be allowed in or out of a subnet associated with the network ACL, Amazon Web Services processes the entries in the network ACL according to the rule numbers, in ascending order. When you manage an individual network ACL, you explicitly specify the rule numbers. When you specify the network ACL rules in a Firewall Manager policy, you provide the rules to run first, in the order that you want them to run, and the rules to run last, in the order that you want them to run. Firewall Manager assigns the rule numbers for you when you save the network ACL policy specification.
+    public struct NetworkAclEntry {
+        /// The IPv4 network range to allow or deny, in CIDR notation.
+        public var cidrBlock: Swift.String?
+        /// Indicates whether the rule is an egress, or outbound, rule (applied to traffic leaving the subnet). If it's not an egress rule, then it's an ingress, or inbound, rule.
+        /// This member is required.
+        public var egress: Swift.Bool?
+        /// ICMP protocol: The ICMP type and code.
+        public var icmpTypeCode: FMSClientTypes.NetworkAclIcmpTypeCode?
+        /// The IPv6 network range to allow or deny, in CIDR notation.
+        public var ipv6CidrBlock: Swift.String?
+        /// TCP or UDP protocols: The range of ports the rule applies to.
+        public var portRange: FMSClientTypes.NetworkAclPortRange?
+        /// The protocol number. A value of "-1" means all protocols.
+        /// This member is required.
+        public var `protocol`: Swift.String?
+        /// Indicates whether to allow or deny the traffic that matches the rule.
+        /// This member is required.
+        public var ruleAction: FMSClientTypes.NetworkAclRuleAction?
+
+        public init(
+            cidrBlock: Swift.String? = nil,
+            egress: Swift.Bool? = nil,
+            icmpTypeCode: FMSClientTypes.NetworkAclIcmpTypeCode? = nil,
+            ipv6CidrBlock: Swift.String? = nil,
+            portRange: FMSClientTypes.NetworkAclPortRange? = nil,
+            `protocol`: Swift.String? = nil,
+            ruleAction: FMSClientTypes.NetworkAclRuleAction? = nil
+        )
+        {
+            self.cidrBlock = cidrBlock
+            self.egress = egress
+            self.icmpTypeCode = icmpTypeCode
+            self.ipv6CidrBlock = ipv6CidrBlock
+            self.portRange = portRange
+            self.`protocol` = `protocol`
+            self.ruleAction = ruleAction
+        }
+    }
+
+}
+
+extension FMSClientTypes.NetworkAclEntrySet: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case firstEntries = "FirstEntries"
+        case forceRemediateForFirstEntries = "ForceRemediateForFirstEntries"
+        case forceRemediateForLastEntries = "ForceRemediateForLastEntries"
+        case lastEntries = "LastEntries"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let firstEntries = firstEntries {
+            var firstEntriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .firstEntries)
+            for networkaclentry0 in firstEntries {
+                try firstEntriesContainer.encode(networkaclentry0)
+            }
+        }
+        if let forceRemediateForFirstEntries = self.forceRemediateForFirstEntries {
+            try encodeContainer.encode(forceRemediateForFirstEntries, forKey: .forceRemediateForFirstEntries)
+        }
+        if let forceRemediateForLastEntries = self.forceRemediateForLastEntries {
+            try encodeContainer.encode(forceRemediateForLastEntries, forKey: .forceRemediateForLastEntries)
+        }
+        if let lastEntries = lastEntries {
+            var lastEntriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lastEntries)
+            for networkaclentry0 in lastEntries {
+                try lastEntriesContainer.encode(networkaclentry0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let firstEntriesContainer = try containerValues.decodeIfPresent([FMSClientTypes.NetworkAclEntry?].self, forKey: .firstEntries)
+        var firstEntriesDecoded0:[FMSClientTypes.NetworkAclEntry]? = nil
+        if let firstEntriesContainer = firstEntriesContainer {
+            firstEntriesDecoded0 = [FMSClientTypes.NetworkAclEntry]()
+            for structure0 in firstEntriesContainer {
+                if let structure0 = structure0 {
+                    firstEntriesDecoded0?.append(structure0)
+                }
+            }
+        }
+        firstEntries = firstEntriesDecoded0
+        let forceRemediateForFirstEntriesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .forceRemediateForFirstEntries)
+        forceRemediateForFirstEntries = forceRemediateForFirstEntriesDecoded
+        let lastEntriesContainer = try containerValues.decodeIfPresent([FMSClientTypes.NetworkAclEntry?].self, forKey: .lastEntries)
+        var lastEntriesDecoded0:[FMSClientTypes.NetworkAclEntry]? = nil
+        if let lastEntriesContainer = lastEntriesContainer {
+            lastEntriesDecoded0 = [FMSClientTypes.NetworkAclEntry]()
+            for structure0 in lastEntriesContainer {
+                if let structure0 = structure0 {
+                    lastEntriesDecoded0?.append(structure0)
+                }
+            }
+        }
+        lastEntries = lastEntriesDecoded0
+        let forceRemediateForLastEntriesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .forceRemediateForLastEntries)
+        forceRemediateForLastEntries = forceRemediateForLastEntriesDecoded
+    }
+}
+
+extension FMSClientTypes {
+    /// The configuration of the first and last rules for the network ACL policy, and the remediation settings for each.
+    public struct NetworkAclEntrySet {
+        /// The rules that you want to run first in the Firewall Manager managed network ACLs. Provide these in the order in which you want them to run. Firewall Manager will assign the specific rule numbers for you, in the network ACLs that it creates. You must specify at least one first entry or one last entry in any network ACL policy.
+        public var firstEntries: [FMSClientTypes.NetworkAclEntry]?
+        /// Applies only when remediation is enabled for the policy as a whole. Firewall Manager uses this setting when it finds policy violations that involve conflicts between the custom entries and the policy entries. If forced remediation is disabled, Firewall Manager marks the network ACL as noncompliant and does not try to remediate. For more information about the remediation behavior, see [Network access control list (ACL) policies](https://docs.aws.amazon.com/waf/latest/developerguide/network-acl-policies.html) in the Firewall Manager Developer Guide.
+        /// This member is required.
+        public var forceRemediateForFirstEntries: Swift.Bool?
+        /// Applies only when remediation is enabled for the policy as a whole. Firewall Manager uses this setting when it finds policy violations that involve conflicts between the custom entries and the policy entries. If forced remediation is disabled, Firewall Manager marks the network ACL as noncompliant and does not try to remediate. For more information about the remediation behavior, see [Network access control list (ACL) policies](https://docs.aws.amazon.com/waf/latest/developerguide/network-acl-policies.html) in the Firewall Manager Developer Guide.
+        /// This member is required.
+        public var forceRemediateForLastEntries: Swift.Bool?
+        /// The rules that you want to run last in the Firewall Manager managed network ACLs. Provide these in the order in which you want them to run. Firewall Manager will assign the specific rule numbers for you, in the network ACLs that it creates. You must specify at least one first entry or one last entry in any network ACL policy.
+        public var lastEntries: [FMSClientTypes.NetworkAclEntry]?
+
+        public init(
+            firstEntries: [FMSClientTypes.NetworkAclEntry]? = nil,
+            forceRemediateForFirstEntries: Swift.Bool? = nil,
+            forceRemediateForLastEntries: Swift.Bool? = nil,
+            lastEntries: [FMSClientTypes.NetworkAclEntry]? = nil
+        )
+        {
+            self.firstEntries = firstEntries
+            self.forceRemediateForFirstEntries = forceRemediateForFirstEntries
+            self.forceRemediateForLastEntries = forceRemediateForLastEntries
+            self.lastEntries = lastEntries
+        }
+    }
+
+}
+
+extension FMSClientTypes.NetworkAclIcmpTypeCode: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case code = "Code"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let code = self.code {
+            try encodeContainer.encode(code, forKey: .code)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let codeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .code)
+        code = codeDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .type)
+        type = typeDecoded
+    }
+}
+
+extension FMSClientTypes {
+    /// ICMP protocol: The ICMP type and code.
+    public struct NetworkAclIcmpTypeCode {
+        /// ICMP code.
+        public var code: Swift.Int?
+        /// ICMP type.
+        public var type: Swift.Int?
+
+        public init(
+            code: Swift.Int? = nil,
+            type: Swift.Int? = nil
+        )
+        {
+            self.code = code
+            self.type = type
+        }
+    }
+
+}
+
+extension FMSClientTypes.NetworkAclPortRange: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case from = "From"
+        case to = "To"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let from = self.from {
+            try encodeContainer.encode(from, forKey: .from)
+        }
+        if let to = self.to {
+            try encodeContainer.encode(to, forKey: .to)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fromDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .from)
+        from = fromDecoded
+        let toDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .to)
+        to = toDecoded
+    }
+}
+
+extension FMSClientTypes {
+    /// TCP or UDP protocols: The range of ports the rule applies to.
+    public struct NetworkAclPortRange {
+        /// The beginning port number of the range.
+        public var from: Swift.Int?
+        /// The ending port number of the range.
+        public var to: Swift.Int?
+
+        public init(
+            from: Swift.Int? = nil,
+            to: Swift.Int? = nil
+        )
+        {
+            self.from = from
+            self.to = to
+        }
+    }
+
+}
+
+extension FMSClientTypes {
+    public enum NetworkAclRuleAction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case allow
+        case deny
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NetworkAclRuleAction] {
+            return [
+                .allow,
+                .deny,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .allow: return "allow"
+            case .deny: return "deny"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = NetworkAclRuleAction(rawValue: rawValue) ?? NetworkAclRuleAction.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension FMSClientTypes.NetworkFirewallBlackHoleRouteDetectedViolation: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case routeTableId = "RouteTableId"
@@ -8270,13 +9149,15 @@ extension FMSClientTypes {
         ///
         /// * WAF - AWS::ApiGateway::Stage, AWS::ElasticLoadBalancingV2::LoadBalancer, and AWS::CloudFront::Distribution.
         ///
-        /// * DNS Firewall, Network Firewall, and third-party firewall - AWS::EC2::VPC.
-        ///
         /// * Shield Advanced - AWS::ElasticLoadBalancingV2::LoadBalancer, AWS::ElasticLoadBalancing::LoadBalancer, AWS::EC2::EIP, and AWS::CloudFront::Distribution.
+        ///
+        /// * Network ACL - AWS::EC2::Subnet.
+        ///
+        /// * Security group usage audit - AWS::EC2::SecurityGroup.
         ///
         /// * Security group content audit - AWS::EC2::SecurityGroup, AWS::EC2::NetworkInterface, and AWS::EC2::Instance.
         ///
-        /// * Security group usage audit - AWS::EC2::SecurityGroup.
+        /// * DNS Firewall, Network Firewall, and third-party firewall - AWS::EC2::VPC.
         /// This member is required.
         public var resourceType: Swift.String?
         /// An array of ResourceType objects. Use this only to specify multiple resource types. To specify a single resource type, use ResourceType.
@@ -8595,12 +9476,16 @@ extension FMSClientTypes {
 
 extension FMSClientTypes.PolicyOption: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case networkAclCommonPolicy = "NetworkAclCommonPolicy"
         case networkFirewallPolicy = "NetworkFirewallPolicy"
         case thirdPartyFirewallPolicy = "ThirdPartyFirewallPolicy"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let networkAclCommonPolicy = self.networkAclCommonPolicy {
+            try encodeContainer.encode(networkAclCommonPolicy, forKey: .networkAclCommonPolicy)
+        }
         if let networkFirewallPolicy = self.networkFirewallPolicy {
             try encodeContainer.encode(networkFirewallPolicy, forKey: .networkFirewallPolicy)
         }
@@ -8615,22 +9500,28 @@ extension FMSClientTypes.PolicyOption: Swift.Codable {
         networkFirewallPolicy = networkFirewallPolicyDecoded
         let thirdPartyFirewallPolicyDecoded = try containerValues.decodeIfPresent(FMSClientTypes.ThirdPartyFirewallPolicy.self, forKey: .thirdPartyFirewallPolicy)
         thirdPartyFirewallPolicy = thirdPartyFirewallPolicyDecoded
+        let networkAclCommonPolicyDecoded = try containerValues.decodeIfPresent(FMSClientTypes.NetworkAclCommonPolicy.self, forKey: .networkAclCommonPolicy)
+        networkAclCommonPolicy = networkAclCommonPolicyDecoded
     }
 }
 
 extension FMSClientTypes {
-    /// Contains the Network Firewall firewall policy options to configure the policy's deployment model and third-party firewall policy settings.
+    /// Contains the settings to configure a network ACL policy, a Network Firewall firewall policy deployment model, or a third-party firewall policy.
     public struct PolicyOption {
+        /// Defines a Firewall Manager network ACL policy.
+        public var networkAclCommonPolicy: FMSClientTypes.NetworkAclCommonPolicy?
         /// Defines the deployment model to use for the firewall policy.
         public var networkFirewallPolicy: FMSClientTypes.NetworkFirewallPolicy?
         /// Defines the policy options for a third-party firewall policy.
         public var thirdPartyFirewallPolicy: FMSClientTypes.ThirdPartyFirewallPolicy?
 
         public init(
+            networkAclCommonPolicy: FMSClientTypes.NetworkAclCommonPolicy? = nil,
             networkFirewallPolicy: FMSClientTypes.NetworkFirewallPolicy? = nil,
             thirdPartyFirewallPolicy: FMSClientTypes.ThirdPartyFirewallPolicy? = nil
         )
         {
+            self.networkAclCommonPolicy = networkAclCommonPolicy
             self.networkFirewallPolicy = networkFirewallPolicy
             self.thirdPartyFirewallPolicy = thirdPartyFirewallPolicy
         }
@@ -8718,7 +9609,7 @@ extension FMSClientTypes {
         public var policyStatus: FMSClientTypes.CustomerPolicyStatus?
         /// Indicates if the policy should be automatically applied to new resources.
         public var remediationEnabled: Swift.Bool
-        /// The type of resource protected by or in scope of the policy. This is in the format shown in the [Amazon Web Services Resource Types Reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html). For WAF and Shield Advanced, examples include AWS::ElasticLoadBalancingV2::LoadBalancer and AWS::CloudFront::Distribution. For a security group common policy, valid values are AWS::EC2::NetworkInterface and AWS::EC2::Instance. For a security group content audit policy, valid values are AWS::EC2::SecurityGroup, AWS::EC2::NetworkInterface, and AWS::EC2::Instance. For a security group usage audit policy, the value is AWS::EC2::SecurityGroup. For an Network Firewall policy or DNS Firewall policy, the value is AWS::EC2::VPC.
+        /// The type of resource protected by or in scope of the policy. This is in the format shown in the [Amazon Web Services Resource Types Reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html).
         public var resourceType: Swift.String?
         /// The service that the policy is using to protect the resources. This specifies the type of policy that is created, either an WAF policy, a Shield Advanced policy, or a security group policy.
         public var securityServiceType: FMSClientTypes.SecurityServiceType?
@@ -9920,6 +10811,9 @@ extension FMSClientTypes {
 
 extension FMSClientTypes.RemediationAction: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createNetworkAclAction = "CreateNetworkAclAction"
+        case createNetworkAclEntriesAction = "CreateNetworkAclEntriesAction"
+        case deleteNetworkAclEntriesAction = "DeleteNetworkAclEntriesAction"
         case description = "Description"
         case ec2AssociateRouteTableAction = "EC2AssociateRouteTableAction"
         case ec2CopyRouteTableAction = "EC2CopyRouteTableAction"
@@ -9929,10 +10823,20 @@ extension FMSClientTypes.RemediationAction: Swift.Codable {
         case ec2ReplaceRouteAction = "EC2ReplaceRouteAction"
         case ec2ReplaceRouteTableAssociationAction = "EC2ReplaceRouteTableAssociationAction"
         case fmsPolicyUpdateFirewallCreationConfigAction = "FMSPolicyUpdateFirewallCreationConfigAction"
+        case replaceNetworkAclAssociationAction = "ReplaceNetworkAclAssociationAction"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let createNetworkAclAction = self.createNetworkAclAction {
+            try encodeContainer.encode(createNetworkAclAction, forKey: .createNetworkAclAction)
+        }
+        if let createNetworkAclEntriesAction = self.createNetworkAclEntriesAction {
+            try encodeContainer.encode(createNetworkAclEntriesAction, forKey: .createNetworkAclEntriesAction)
+        }
+        if let deleteNetworkAclEntriesAction = self.deleteNetworkAclEntriesAction {
+            try encodeContainer.encode(deleteNetworkAclEntriesAction, forKey: .deleteNetworkAclEntriesAction)
+        }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
@@ -9960,6 +10864,9 @@ extension FMSClientTypes.RemediationAction: Swift.Codable {
         if let fmsPolicyUpdateFirewallCreationConfigAction = self.fmsPolicyUpdateFirewallCreationConfigAction {
             try encodeContainer.encode(fmsPolicyUpdateFirewallCreationConfigAction, forKey: .fmsPolicyUpdateFirewallCreationConfigAction)
         }
+        if let replaceNetworkAclAssociationAction = self.replaceNetworkAclAssociationAction {
+            try encodeContainer.encode(replaceNetworkAclAssociationAction, forKey: .replaceNetworkAclAssociationAction)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -9982,12 +10889,26 @@ extension FMSClientTypes.RemediationAction: Swift.Codable {
         ec2CreateRouteTableAction = ec2CreateRouteTableActionDecoded
         let fmsPolicyUpdateFirewallCreationConfigActionDecoded = try containerValues.decodeIfPresent(FMSClientTypes.FMSPolicyUpdateFirewallCreationConfigAction.self, forKey: .fmsPolicyUpdateFirewallCreationConfigAction)
         fmsPolicyUpdateFirewallCreationConfigAction = fmsPolicyUpdateFirewallCreationConfigActionDecoded
+        let createNetworkAclActionDecoded = try containerValues.decodeIfPresent(FMSClientTypes.CreateNetworkAclAction.self, forKey: .createNetworkAclAction)
+        createNetworkAclAction = createNetworkAclActionDecoded
+        let replaceNetworkAclAssociationActionDecoded = try containerValues.decodeIfPresent(FMSClientTypes.ReplaceNetworkAclAssociationAction.self, forKey: .replaceNetworkAclAssociationAction)
+        replaceNetworkAclAssociationAction = replaceNetworkAclAssociationActionDecoded
+        let createNetworkAclEntriesActionDecoded = try containerValues.decodeIfPresent(FMSClientTypes.CreateNetworkAclEntriesAction.self, forKey: .createNetworkAclEntriesAction)
+        createNetworkAclEntriesAction = createNetworkAclEntriesActionDecoded
+        let deleteNetworkAclEntriesActionDecoded = try containerValues.decodeIfPresent(FMSClientTypes.DeleteNetworkAclEntriesAction.self, forKey: .deleteNetworkAclEntriesAction)
+        deleteNetworkAclEntriesAction = deleteNetworkAclEntriesActionDecoded
     }
 }
 
 extension FMSClientTypes {
     /// Information about an individual action you can take to remediate a violation.
     public struct RemediationAction {
+        /// Information about the CreateNetworkAcl action in Amazon EC2.
+        public var createNetworkAclAction: FMSClientTypes.CreateNetworkAclAction?
+        /// Information about the CreateNetworkAclEntries action in Amazon EC2.
+        public var createNetworkAclEntriesAction: FMSClientTypes.CreateNetworkAclEntriesAction?
+        /// Information about the DeleteNetworkAclEntries action in Amazon EC2.
+        public var deleteNetworkAclEntriesAction: FMSClientTypes.DeleteNetworkAclEntriesAction?
         /// A description of a remediation action.
         public var description: Swift.String?
         /// Information about the AssociateRouteTable action in the Amazon EC2 API.
@@ -10006,8 +10927,13 @@ extension FMSClientTypes {
         public var ec2ReplaceRouteTableAssociationAction: FMSClientTypes.EC2ReplaceRouteTableAssociationAction?
         /// The remedial action to take when updating a firewall configuration.
         public var fmsPolicyUpdateFirewallCreationConfigAction: FMSClientTypes.FMSPolicyUpdateFirewallCreationConfigAction?
+        /// Information about the ReplaceNetworkAclAssociation action in Amazon EC2.
+        public var replaceNetworkAclAssociationAction: FMSClientTypes.ReplaceNetworkAclAssociationAction?
 
         public init(
+            createNetworkAclAction: FMSClientTypes.CreateNetworkAclAction? = nil,
+            createNetworkAclEntriesAction: FMSClientTypes.CreateNetworkAclEntriesAction? = nil,
+            deleteNetworkAclEntriesAction: FMSClientTypes.DeleteNetworkAclEntriesAction? = nil,
             description: Swift.String? = nil,
             ec2AssociateRouteTableAction: FMSClientTypes.EC2AssociateRouteTableAction? = nil,
             ec2CopyRouteTableAction: FMSClientTypes.EC2CopyRouteTableAction? = nil,
@@ -10016,9 +10942,13 @@ extension FMSClientTypes {
             ec2DeleteRouteAction: FMSClientTypes.EC2DeleteRouteAction? = nil,
             ec2ReplaceRouteAction: FMSClientTypes.EC2ReplaceRouteAction? = nil,
             ec2ReplaceRouteTableAssociationAction: FMSClientTypes.EC2ReplaceRouteTableAssociationAction? = nil,
-            fmsPolicyUpdateFirewallCreationConfigAction: FMSClientTypes.FMSPolicyUpdateFirewallCreationConfigAction? = nil
+            fmsPolicyUpdateFirewallCreationConfigAction: FMSClientTypes.FMSPolicyUpdateFirewallCreationConfigAction? = nil,
+            replaceNetworkAclAssociationAction: FMSClientTypes.ReplaceNetworkAclAssociationAction? = nil
         )
         {
+            self.createNetworkAclAction = createNetworkAclAction
+            self.createNetworkAclEntriesAction = createNetworkAclEntriesAction
+            self.deleteNetworkAclEntriesAction = deleteNetworkAclEntriesAction
             self.description = description
             self.ec2AssociateRouteTableAction = ec2AssociateRouteTableAction
             self.ec2CopyRouteTableAction = ec2CopyRouteTableAction
@@ -10028,6 +10958,7 @@ extension FMSClientTypes {
             self.ec2ReplaceRouteAction = ec2ReplaceRouteAction
             self.ec2ReplaceRouteTableAssociationAction = ec2ReplaceRouteTableAssociationAction
             self.fmsPolicyUpdateFirewallCreationConfigAction = fmsPolicyUpdateFirewallCreationConfigAction
+            self.replaceNetworkAclAssociationAction = replaceNetworkAclAssociationAction
         }
     }
 
@@ -10105,6 +11036,71 @@ extension FMSClientTypes {
         {
             self.order = order
             self.remediationAction = remediationAction
+        }
+    }
+
+}
+
+extension FMSClientTypes.ReplaceNetworkAclAssociationAction: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case associationId = "AssociationId"
+        case description = "Description"
+        case fmsCanRemediate = "FMSCanRemediate"
+        case networkAclId = "NetworkAclId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let associationId = self.associationId {
+            try encodeContainer.encode(associationId, forKey: .associationId)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if fmsCanRemediate != false {
+            try encodeContainer.encode(fmsCanRemediate, forKey: .fmsCanRemediate)
+        }
+        if let networkAclId = self.networkAclId {
+            try encodeContainer.encode(networkAclId, forKey: .networkAclId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let associationIdDecoded = try containerValues.decodeIfPresent(FMSClientTypes.ActionTarget.self, forKey: .associationId)
+        associationId = associationIdDecoded
+        let networkAclIdDecoded = try containerValues.decodeIfPresent(FMSClientTypes.ActionTarget.self, forKey: .networkAclId)
+        networkAclId = networkAclIdDecoded
+        let fmsCanRemediateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .fmsCanRemediate) ?? false
+        fmsCanRemediate = fmsCanRemediateDecoded
+    }
+}
+
+extension FMSClientTypes {
+    /// Information about the ReplaceNetworkAclAssociation action in Amazon EC2. This is a remediation option in RemediationAction.
+    public struct ReplaceNetworkAclAssociationAction {
+        /// Describes a remediation action target.
+        public var associationId: FMSClientTypes.ActionTarget?
+        /// Brief description of this remediation action.
+        public var description: Swift.String?
+        /// Indicates whether it is possible for Firewall Manager to perform this remediation action. A false value indicates that auto remediation is disabled or Firewall Manager is unable to perform the action due to a conflict of some kind.
+        public var fmsCanRemediate: Swift.Bool
+        /// The network ACL that's associated with the remediation action.
+        public var networkAclId: FMSClientTypes.ActionTarget?
+
+        public init(
+            associationId: FMSClientTypes.ActionTarget? = nil,
+            description: Swift.String? = nil,
+            fmsCanRemediate: Swift.Bool = false,
+            networkAclId: FMSClientTypes.ActionTarget? = nil
+        )
+        {
+            self.associationId = associationId
+            self.description = description
+            self.fmsCanRemediate = fmsCanRemediate
+            self.networkAclId = networkAclId
         }
     }
 
@@ -10491,6 +11487,7 @@ extension FMSClientTypes.ResourceViolation: Swift.Codable {
         case dnsRuleGroupPriorityConflictViolation = "DnsRuleGroupPriorityConflictViolation"
         case firewallSubnetIsOutOfScopeViolation = "FirewallSubnetIsOutOfScopeViolation"
         case firewallSubnetMissingVPCEndpointViolation = "FirewallSubnetMissingVPCEndpointViolation"
+        case invalidNetworkAclEntriesViolation = "InvalidNetworkAclEntriesViolation"
         case networkFirewallBlackHoleRouteDetectedViolation = "NetworkFirewallBlackHoleRouteDetectedViolation"
         case networkFirewallInternetTrafficNotInspectedViolation = "NetworkFirewallInternetTrafficNotInspectedViolation"
         case networkFirewallInvalidRouteConfigurationViolation = "NetworkFirewallInvalidRouteConfigurationViolation"
@@ -10533,6 +11530,9 @@ extension FMSClientTypes.ResourceViolation: Swift.Codable {
         }
         if let firewallSubnetMissingVPCEndpointViolation = self.firewallSubnetMissingVPCEndpointViolation {
             try encodeContainer.encode(firewallSubnetMissingVPCEndpointViolation, forKey: .firewallSubnetMissingVPCEndpointViolation)
+        }
+        if let invalidNetworkAclEntriesViolation = self.invalidNetworkAclEntriesViolation {
+            try encodeContainer.encode(invalidNetworkAclEntriesViolation, forKey: .invalidNetworkAclEntriesViolation)
         }
         if let networkFirewallBlackHoleRouteDetectedViolation = self.networkFirewallBlackHoleRouteDetectedViolation {
             try encodeContainer.encode(networkFirewallBlackHoleRouteDetectedViolation, forKey: .networkFirewallBlackHoleRouteDetectedViolation)
@@ -10615,8 +11615,6 @@ extension FMSClientTypes.ResourceViolation: Swift.Codable {
         dnsDuplicateRuleGroupViolation = dnsDuplicateRuleGroupViolationDecoded
         let dnsRuleGroupLimitExceededViolationDecoded = try containerValues.decodeIfPresent(FMSClientTypes.DnsRuleGroupLimitExceededViolation.self, forKey: .dnsRuleGroupLimitExceededViolation)
         dnsRuleGroupLimitExceededViolation = dnsRuleGroupLimitExceededViolationDecoded
-        let possibleRemediationActionsDecoded = try containerValues.decodeIfPresent(FMSClientTypes.PossibleRemediationActions.self, forKey: .possibleRemediationActions)
-        possibleRemediationActions = possibleRemediationActionsDecoded
         let firewallSubnetIsOutOfScopeViolationDecoded = try containerValues.decodeIfPresent(FMSClientTypes.FirewallSubnetIsOutOfScopeViolation.self, forKey: .firewallSubnetIsOutOfScopeViolation)
         firewallSubnetIsOutOfScopeViolation = firewallSubnetIsOutOfScopeViolationDecoded
         let routeHasOutOfScopeEndpointViolationDecoded = try containerValues.decodeIfPresent(FMSClientTypes.RouteHasOutOfScopeEndpointViolation.self, forKey: .routeHasOutOfScopeEndpointViolation)
@@ -10629,6 +11627,10 @@ extension FMSClientTypes.ResourceViolation: Swift.Codable {
         thirdPartyFirewallMissingExpectedRouteTableViolation = thirdPartyFirewallMissingExpectedRouteTableViolationDecoded
         let firewallSubnetMissingVPCEndpointViolationDecoded = try containerValues.decodeIfPresent(FMSClientTypes.FirewallSubnetMissingVPCEndpointViolation.self, forKey: .firewallSubnetMissingVPCEndpointViolation)
         firewallSubnetMissingVPCEndpointViolation = firewallSubnetMissingVPCEndpointViolationDecoded
+        let invalidNetworkAclEntriesViolationDecoded = try containerValues.decodeIfPresent(FMSClientTypes.InvalidNetworkAclEntriesViolation.self, forKey: .invalidNetworkAclEntriesViolation)
+        invalidNetworkAclEntriesViolation = invalidNetworkAclEntriesViolationDecoded
+        let possibleRemediationActionsDecoded = try containerValues.decodeIfPresent(FMSClientTypes.PossibleRemediationActions.self, forKey: .possibleRemediationActions)
+        possibleRemediationActions = possibleRemediationActionsDecoded
     }
 }
 
@@ -10651,6 +11653,8 @@ extension FMSClientTypes {
         public var firewallSubnetIsOutOfScopeViolation: FMSClientTypes.FirewallSubnetIsOutOfScopeViolation?
         /// The violation details for a third-party firewall's VPC endpoint subnet that was deleted.
         public var firewallSubnetMissingVPCEndpointViolation: FMSClientTypes.FirewallSubnetMissingVPCEndpointViolation?
+        /// Violation detail for the entries in a network ACL resource.
+        public var invalidNetworkAclEntriesViolation: FMSClientTypes.InvalidNetworkAclEntriesViolation?
         /// Violation detail for an internet gateway route with an inactive state in the customer subnet route table or Network Firewall subnet route table.
         public var networkFirewallBlackHoleRouteDetectedViolation: FMSClientTypes.NetworkFirewallBlackHoleRouteDetectedViolation?
         /// Violation detail for the subnet for which internet traffic hasn't been inspected.
@@ -10691,6 +11695,7 @@ extension FMSClientTypes {
             dnsRuleGroupPriorityConflictViolation: FMSClientTypes.DnsRuleGroupPriorityConflictViolation? = nil,
             firewallSubnetIsOutOfScopeViolation: FMSClientTypes.FirewallSubnetIsOutOfScopeViolation? = nil,
             firewallSubnetMissingVPCEndpointViolation: FMSClientTypes.FirewallSubnetMissingVPCEndpointViolation? = nil,
+            invalidNetworkAclEntriesViolation: FMSClientTypes.InvalidNetworkAclEntriesViolation? = nil,
             networkFirewallBlackHoleRouteDetectedViolation: FMSClientTypes.NetworkFirewallBlackHoleRouteDetectedViolation? = nil,
             networkFirewallInternetTrafficNotInspectedViolation: FMSClientTypes.NetworkFirewallInternetTrafficNotInspectedViolation? = nil,
             networkFirewallInvalidRouteConfigurationViolation: FMSClientTypes.NetworkFirewallInvalidRouteConfigurationViolation? = nil,
@@ -10716,6 +11721,7 @@ extension FMSClientTypes {
             self.dnsRuleGroupPriorityConflictViolation = dnsRuleGroupPriorityConflictViolation
             self.firewallSubnetIsOutOfScopeViolation = firewallSubnetIsOutOfScopeViolation
             self.firewallSubnetMissingVPCEndpointViolation = firewallSubnetMissingVPCEndpointViolation
+            self.invalidNetworkAclEntriesViolation = invalidNetworkAclEntriesViolation
             self.networkFirewallBlackHoleRouteDetectedViolation = networkFirewallBlackHoleRouteDetectedViolation
             self.networkFirewallInternetTrafficNotInspectedViolation = networkFirewallInternetTrafficNotInspectedViolation
             self.networkFirewallInvalidRouteConfigurationViolation = networkFirewallInvalidRouteConfigurationViolation
@@ -11216,7 +12222,7 @@ extension FMSClientTypes {
         ///
         /// * Example: SECURITY_GROUPS_COMMON"{\"type\":\"SECURITY_GROUPS_COMMON\",\"revertManualSecurityGroupChanges\":false,\"exclusiveResourceSecurityGroupManagement\":false, \"applyToAllEC2InstanceENIs\":false,\"securityGroups\":[{\"id\":\" sg-000e55995d61a06bd\"}]}"
         ///
-        /// * Example: SECURITY_GROUPS_COMMON - Security group tag distribution ""{\"type\":\"SECURITY_GROUPS_COMMON\",\"securityGroups\":[{\"id\":\"sg-000e55995d61a06bd\"}],\"revertManualSecurityGroupChanges\":true,\"exclusiveResourceSecurityGroupManagement\":false,\"applyToAllEC2InstanceENIs\":false,\"includeSharedVPC\":false,\"enableTagDistribution\":true}"" Firewall Manager automatically distributes tags from the primary group to the security groups created by this policy. To use security group tag distribution, you must also set revertManualSecurityGroupChanges to true, otherwise Firewall Manager won't be able to create the policy. When you enable revertManualSecurityGroupChanges, Firewall Manager identifies and reports when the security groups created by this policy become non-compliant. Firewall Manager won't distrubute system tags added by Amazon Web Services services into the replica security groups. System tags begin with the aws: prefix.
+        /// * Example: SECURITY_GROUPS_COMMON - Security group tag distribution ""{\"type\":\"SECURITY_GROUPS_COMMON\",\"securityGroups\":[{\"id\":\"sg-000e55995d61a06bd\"}],\"revertManualSecurityGroupChanges\":true,\"exclusiveResourceSecurityGroupManagement\":false,\"applyToAllEC2InstanceENIs\":false,\"includeSharedVPC\":false,\"enableTagDistribution\":true}"" Firewall Manager automatically distributes tags from the primary group to the security groups created by this policy. To use security group tag distribution, you must also set revertManualSecurityGroupChanges to true, otherwise Firewall Manager won't be able to create the policy. When you enable revertManualSecurityGroupChanges, Firewall Manager identifies and reports when the security groups created by this policy become non-compliant. Firewall Manager won't distribute system tags added by Amazon Web Services services into the replica security groups. System tags begin with the aws: prefix.
         ///
         /// * Example: Shared VPCs. Apply the preceding policy to resources in shared VPCs as well as to those in VPCs that the account owns "{\"type\":\"SECURITY_GROUPS_COMMON\",\"revertManualSecurityGroupChanges\":false,\"exclusiveResourceSecurityGroupManagement\":false, \"applyToAllEC2InstanceENIs\":false,\"includeSharedVPC\":true,\"securityGroups\":[{\"id\":\" sg-000e55995d61a06bd\"}]}"
         ///
@@ -11258,7 +12264,7 @@ extension FMSClientTypes {
         ///
         /// * Example: WAF Classic"{\"type\": \"WAF\", \"ruleGroups\": [{\"id\":\"12345678-1bcd-9012-efga-0987654321ab\", \"overrideAction\" : {\"type\": \"COUNT\"}}], \"defaultAction\": {\"type\": \"BLOCK\"}}"
         public var managedServiceData: Swift.String?
-        /// Contains the Network Firewall firewall policy options to configure a centralized deployment model.
+        /// Contains the settings to configure a network ACL policy, a Network Firewall firewall policy deployment model, or a third-party firewall policy.
         public var policyOption: FMSClientTypes.PolicyOption?
         /// The service that the policy is using to protect the resources. This specifies the type of policy that is created, either an WAF policy, a Shield Advanced policy, or a security group policy. For security group policies, Firewall Manager supports one security group for each common policy and for each content audit policy. This is an adjustable limit that you can increase by contacting Amazon Web Services Support.
         /// This member is required.
@@ -11282,6 +12288,7 @@ extension FMSClientTypes {
     public enum SecurityServiceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case dnsFirewall
         case importNetworkFirewall
+        case networkAclCommon
         case networkFirewall
         case securityGroupsCommon
         case securityGroupsContentAudit
@@ -11296,6 +12303,7 @@ extension FMSClientTypes {
             return [
                 .dnsFirewall,
                 .importNetworkFirewall,
+                .networkAclCommon,
                 .networkFirewall,
                 .securityGroupsCommon,
                 .securityGroupsContentAudit,
@@ -11315,6 +12323,7 @@ extension FMSClientTypes {
             switch self {
             case .dnsFirewall: return "DNS_FIREWALL"
             case .importNetworkFirewall: return "IMPORT_NETWORK_FIREWALL"
+            case .networkAclCommon: return "NETWORK_ACL_COMMON"
             case .networkFirewall: return "NETWORK_FIREWALL"
             case .securityGroupsCommon: return "SECURITY_GROUPS_COMMON"
             case .securityGroupsContentAudit: return "SECURITY_GROUPS_CONTENT_AUDIT"
@@ -11337,6 +12346,7 @@ extension FMSClientTypes {
 extension FMSClientTypes.StatefulEngineOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case ruleOrder = "RuleOrder"
+        case streamExceptionPolicy = "StreamExceptionPolicy"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -11344,26 +12354,46 @@ extension FMSClientTypes.StatefulEngineOptions: Swift.Codable {
         if let ruleOrder = self.ruleOrder {
             try encodeContainer.encode(ruleOrder.rawValue, forKey: .ruleOrder)
         }
+        if let streamExceptionPolicy = self.streamExceptionPolicy {
+            try encodeContainer.encode(streamExceptionPolicy.rawValue, forKey: .streamExceptionPolicy)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ruleOrderDecoded = try containerValues.decodeIfPresent(FMSClientTypes.RuleOrder.self, forKey: .ruleOrder)
         ruleOrder = ruleOrderDecoded
+        let streamExceptionPolicyDecoded = try containerValues.decodeIfPresent(FMSClientTypes.StreamExceptionPolicy.self, forKey: .streamExceptionPolicy)
+        streamExceptionPolicy = streamExceptionPolicyDecoded
     }
 }
 
 extension FMSClientTypes {
     /// Configuration settings for the handling of the stateful rule groups in a Network Firewall firewall policy.
     public struct StatefulEngineOptions {
-        /// Indicates how to manage the order of stateful rule evaluation for the policy. DEFAULT_ACTION_ORDER is the default behavior. Stateful rules are provided to the rule engine as Suricata compatible strings, and Suricata evaluates them based on certain settings. For more information, see [Evaluation order for stateful rules](https://docs.aws.amazon.com/network-firewall/latest/developerguide/suricata-rule-evaluation-order.html) in the Network Firewall Developer Guide.
+        /// Indicates how to manage the order of stateful rule evaluation for the policy. Stateful rules are provided to the rule engine as Suricata compatible strings, and Suricata evaluates them based on certain settings. For more information, see [Evaluation order for stateful rules](https://docs.aws.amazon.com/network-firewall/latest/developerguide/suricata-rule-evaluation-order.html) in the Network Firewall Developer Guide. Default: DEFAULT_ACTION_ORDER
         public var ruleOrder: FMSClientTypes.RuleOrder?
+        /// Indicates how Network Firewall should handle traffic when a network connection breaks midstream.
+        ///
+        /// * DROP - Fail closed and drop all subsequent traffic going to the firewall.
+        ///
+        /// * CONTINUE - Continue to apply rules to subsequent traffic without context from traffic before the break. This impacts the behavior of rules that depend on context. For example, with a stateful rule that drops HTTP traffic, Network Firewall won't match subsequent traffic because the it won't have the context from session initialization, which defines the application layer protocol as HTTP. However, a TCP-layer rule using a flow:stateless rule would still match, and so would the aws:drop_strict default action.
+        ///
+        /// * REJECT - Fail closed and drop all subsequent traffic going to the firewall. With this option, Network Firewall also sends a TCP reject packet back to the client so the client can immediately establish a new session. With the new session, Network Firewall will have context and will apply rules appropriately. For applications that are reliant on long-lived TCP connections that trigger Gateway Load Balancer idle timeouts, this is the recommended setting.
+        ///
+        /// * FMS_IGNORE - Firewall Manager doesn't monitor or modify the Network Firewall stream exception policy settings.
+        ///
+        ///
+        /// For more information, see [Stream exception policy in your firewall policy](https://docs.aws.amazon.com/network-firewall/latest/developerguide/stream-exception-policy.html) in the Network Firewall Developer Guide. Default: FMS_IGNORE
+        public var streamExceptionPolicy: FMSClientTypes.StreamExceptionPolicy?
 
         public init(
-            ruleOrder: FMSClientTypes.RuleOrder? = nil
+            ruleOrder: FMSClientTypes.RuleOrder? = nil,
+            streamExceptionPolicy: FMSClientTypes.StreamExceptionPolicy? = nil
         )
         {
             self.ruleOrder = ruleOrder
+            self.streamExceptionPolicy = streamExceptionPolicy
         }
     }
 
@@ -11487,6 +12517,44 @@ extension FMSClientTypes {
         }
     }
 
+}
+
+extension FMSClientTypes {
+    public enum StreamExceptionPolicy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case `continue`
+        case drop
+        case fmsIgnore
+        case reject
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StreamExceptionPolicy] {
+            return [
+                .continue,
+                .drop,
+                .fmsIgnore,
+                .reject,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .continue: return "CONTINUE"
+            case .drop: return "DROP"
+            case .fmsIgnore: return "FMS_IGNORE"
+            case .reject: return "REJECT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = StreamExceptionPolicy(rawValue: rawValue) ?? StreamExceptionPolicy.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension FMSClientTypes.Tag: Swift.Codable {
@@ -12281,6 +13349,7 @@ extension FMSClientTypes {
         case firewallsubnetmissingvpcendpoint
         case internetgatewaymissingexpectedroute
         case internettrafficnotinspected
+        case invalidnetworkaclentry
         case invalidrouteconfiguration
         case missingexpectedroutetable
         case missingfirewall
@@ -12313,6 +13382,7 @@ extension FMSClientTypes {
                 .firewallsubnetmissingvpcendpoint,
                 .internetgatewaymissingexpectedroute,
                 .internettrafficnotinspected,
+                .invalidnetworkaclentry,
                 .invalidrouteconfiguration,
                 .missingexpectedroutetable,
                 .missingfirewall,
@@ -12350,6 +13420,7 @@ extension FMSClientTypes {
             case .firewallsubnetmissingvpcendpoint: return "FIREWALL_SUBNET_MISSING_VPCE_ENDPOINT"
             case .internetgatewaymissingexpectedroute: return "INTERNET_GATEWAY_MISSING_EXPECTED_ROUTE"
             case .internettrafficnotinspected: return "INTERNET_TRAFFIC_NOT_INSPECTED"
+            case .invalidnetworkaclentry: return "INVALID_NETWORK_ACL_ENTRY"
             case .invalidrouteconfiguration: return "INVALID_ROUTE_CONFIGURATION"
             case .missingexpectedroutetable: return "MISSING_EXPECTED_ROUTE_TABLE"
             case .missingfirewall: return "MISSING_FIREWALL"

@@ -2674,6 +2674,71 @@ extension SSMClient {
         return result
     }
 
+    /// Performs the `DescribeInstanceProperties` operation on the `AmazonSSM` service.
+    ///
+    /// An API operation used by the Systems Manager console to display information about Systems Manager managed nodes.
+    ///
+    /// - Parameter DescribeInstancePropertiesInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeInstancePropertiesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : An error occurred on the server side.
+    /// - `InvalidActivationId` : The activation ID isn't valid. Verify the you entered the correct ActivationId or ActivationCode and try again.
+    /// - `InvalidDocument` : The specified SSM document doesn't exist.
+    /// - `InvalidFilterKey` : The specified key isn't valid.
+    /// - `InvalidInstanceId` : The following problems can cause this exception:
+    ///
+    /// * You don't have permission to access the managed node.
+    ///
+    /// * Amazon Web Services Systems Manager Agent (SSM Agent) isn't running. Verify that SSM Agent is running.
+    ///
+    /// * SSM Agent isn't registered with the SSM endpoint. Try reinstalling SSM Agent.
+    ///
+    /// * The managed node isn't in a valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
+    /// - `InvalidInstancePropertyFilterValue` : The specified filter value isn't valid.
+    /// - `InvalidNextToken` : The specified token isn't valid.
+    public func describeInstanceProperties(input: DescribeInstancePropertiesInput) async throws -> DescribeInstancePropertiesOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeInstanceProperties")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ssm")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DescribeInstancePropertiesInput, DescribeInstancePropertiesOutput>(id: "describeInstanceProperties")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeInstancePropertiesInput, DescribeInstancePropertiesOutput>(DescribeInstancePropertiesInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeInstancePropertiesInput, DescribeInstancePropertiesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeInstancePropertiesOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeInstancePropertiesOutput>())
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeInstancePropertiesInput, DescribeInstancePropertiesOutput>(xAmzTarget: "AmazonSSM.DescribeInstanceProperties"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeInstancePropertiesInput, DescribeInstancePropertiesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeInstancePropertiesInput, DescribeInstancePropertiesOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeInstancePropertiesOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeInstancePropertiesOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeInstancePropertiesOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeInstancePropertiesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeInstancePropertiesOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `DescribeInventoryDeletions` operation on the `AmazonSSM` service.
     ///
     /// Describes a specific delete inventory operation.
