@@ -663,6 +663,69 @@ extension BadGatewayExceptionBody: Swift.Decodable {
 
 public enum BedrockAgentRuntimeClientTypes {}
 
+extension BedrockAgentRuntimeClientTypes.ByteContentDoc: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contentType
+        case data
+        case identifier
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let contentType = self.contentType {
+            try encodeContainer.encode(contentType, forKey: .contentType)
+        }
+        if let data = self.data {
+            try encodeContainer.encode(data.base64EncodedString(), forKey: .data)
+        }
+        if let identifier = self.identifier {
+            try encodeContainer.encode(identifier, forKey: .identifier)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let identifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identifier)
+        identifier = identifierDecoded
+        let contentTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contentType)
+        contentType = contentTypeDecoded
+        let dataDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .data)
+        data = dataDecoded
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.ByteContentDoc: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ByteContentDoc(contentType: \(Swift.String(describing: contentType)), data: \"CONTENT_REDACTED\", identifier: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// This property contains the document to chat with, along with its attributes.
+    public struct ByteContentDoc {
+        /// The MIME type of the document contained in the wrapper object.
+        /// This member is required.
+        public var contentType: Swift.String?
+        /// The byte value of the file to upload, encoded as a Base-64 string.
+        /// This member is required.
+        public var data: ClientRuntime.Data?
+        /// The file name of the document contained in the wrapper object.
+        /// This member is required.
+        public var identifier: Swift.String?
+
+        public init(
+            contentType: Swift.String? = nil,
+            data: ClientRuntime.Data? = nil,
+            identifier: Swift.String? = nil
+        )
+        {
+            self.contentType = contentType
+            self.data = data
+            self.identifier = identifier
+        }
+    }
+
+}
+
 extension BedrockAgentRuntimeClientTypes.Citation: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case generatedResponsePart
@@ -955,6 +1018,198 @@ extension DependencyFailedExceptionBody: Swift.Decodable {
         let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
         resourceName = resourceNameDecoded
     }
+}
+
+extension BedrockAgentRuntimeClientTypes.ExternalSource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case byteContent
+        case s3Location
+        case sourceType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let byteContent = self.byteContent {
+            try encodeContainer.encode(byteContent, forKey: .byteContent)
+        }
+        if let s3Location = self.s3Location {
+            try encodeContainer.encode(s3Location, forKey: .s3Location)
+        }
+        if let sourceType = self.sourceType {
+            try encodeContainer.encode(sourceType.rawValue, forKey: .sourceType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceTypeDecoded = try containerValues.decodeIfPresent(BedrockAgentRuntimeClientTypes.ExternalSourceType.self, forKey: .sourceType)
+        sourceType = sourceTypeDecoded
+        let s3LocationDecoded = try containerValues.decodeIfPresent(BedrockAgentRuntimeClientTypes.S3ObjectDoc.self, forKey: .s3Location)
+        s3Location = s3LocationDecoded
+        let byteContentDecoded = try containerValues.decodeIfPresent(BedrockAgentRuntimeClientTypes.ByteContentDoc.self, forKey: .byteContent)
+        byteContent = byteContentDecoded
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// The unique external source of the content contained in the wrapper object.
+    public struct ExternalSource {
+        /// The identifier, contentType, and data of the external source wrapper object.
+        public var byteContent: BedrockAgentRuntimeClientTypes.ByteContentDoc?
+        /// The S3 location of the external source wrapper object.
+        public var s3Location: BedrockAgentRuntimeClientTypes.S3ObjectDoc?
+        /// The source type of the external source wrapper object.
+        /// This member is required.
+        public var sourceType: BedrockAgentRuntimeClientTypes.ExternalSourceType?
+
+        public init(
+            byteContent: BedrockAgentRuntimeClientTypes.ByteContentDoc? = nil,
+            s3Location: BedrockAgentRuntimeClientTypes.S3ObjectDoc? = nil,
+            sourceType: BedrockAgentRuntimeClientTypes.ExternalSourceType? = nil
+        )
+        {
+            self.byteContent = byteContent
+            self.s3Location = s3Location
+            self.sourceType = sourceType
+        }
+    }
+
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    public enum ExternalSourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case byteContent
+        case s3
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExternalSourceType] {
+            return [
+                .byteContent,
+                .s3,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .byteContent: return "BYTE_CONTENT"
+            case .s3: return "S3"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ExternalSourceType(rawValue: rawValue) ?? ExternalSourceType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.ExternalSourcesGenerationConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case promptTemplate
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let promptTemplate = self.promptTemplate {
+            try encodeContainer.encode(promptTemplate, forKey: .promptTemplate)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let promptTemplateDecoded = try containerValues.decodeIfPresent(BedrockAgentRuntimeClientTypes.PromptTemplate.self, forKey: .promptTemplate)
+        promptTemplate = promptTemplateDecoded
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// Contains the generation configuration of the external source wrapper object.
+    public struct ExternalSourcesGenerationConfiguration {
+        /// Contain the textPromptTemplate string for the external source wrapper object.
+        public var promptTemplate: BedrockAgentRuntimeClientTypes.PromptTemplate?
+
+        public init(
+            promptTemplate: BedrockAgentRuntimeClientTypes.PromptTemplate? = nil
+        )
+        {
+            self.promptTemplate = promptTemplate
+        }
+    }
+
+}
+
+extension BedrockAgentRuntimeClientTypes.ExternalSourcesRetrieveAndGenerateConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case generationConfiguration
+        case modelArn
+        case sources
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let generationConfiguration = self.generationConfiguration {
+            try encodeContainer.encode(generationConfiguration, forKey: .generationConfiguration)
+        }
+        if let modelArn = self.modelArn {
+            try encodeContainer.encode(modelArn, forKey: .modelArn)
+        }
+        if let sources = sources {
+            var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
+            for externalsource0 in sources {
+                try sourcesContainer.encode(externalsource0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let modelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .modelArn)
+        modelArn = modelArnDecoded
+        let sourcesContainer = try containerValues.decodeIfPresent([BedrockAgentRuntimeClientTypes.ExternalSource?].self, forKey: .sources)
+        var sourcesDecoded0:[BedrockAgentRuntimeClientTypes.ExternalSource]? = nil
+        if let sourcesContainer = sourcesContainer {
+            sourcesDecoded0 = [BedrockAgentRuntimeClientTypes.ExternalSource]()
+            for structure0 in sourcesContainer {
+                if let structure0 = structure0 {
+                    sourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        sources = sourcesDecoded0
+        let generationConfigurationDecoded = try containerValues.decodeIfPresent(BedrockAgentRuntimeClientTypes.ExternalSourcesGenerationConfiguration.self, forKey: .generationConfiguration)
+        generationConfiguration = generationConfigurationDecoded
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// The configurations of the external source wrapper object in the retrieveAndGenerate function.
+    public struct ExternalSourcesRetrieveAndGenerateConfiguration {
+        /// The prompt used with the external source wrapper object with the retrieveAndGenerate function.
+        public var generationConfiguration: BedrockAgentRuntimeClientTypes.ExternalSourcesGenerationConfiguration?
+        /// The modelArn used with the external source wrapper object in the retrieveAndGenerate function.
+        /// This member is required.
+        public var modelArn: Swift.String?
+        /// The document used with the external source wrapper object in the retrieveAndGenerate function.
+        /// This member is required.
+        public var sources: [BedrockAgentRuntimeClientTypes.ExternalSource]?
+
+        public init(
+            generationConfiguration: BedrockAgentRuntimeClientTypes.ExternalSourcesGenerationConfiguration? = nil,
+            modelArn: Swift.String? = nil,
+            sources: [BedrockAgentRuntimeClientTypes.ExternalSource]? = nil
+        )
+        {
+            self.generationConfiguration = generationConfiguration
+            self.modelArn = modelArn
+            self.sources = sources
+        }
+    }
+
 }
 
 extension BedrockAgentRuntimeClientTypes.FailureTrace: Swift.Codable {
@@ -3819,12 +4074,16 @@ extension BedrockAgentRuntimeClientTypes {
 
 extension BedrockAgentRuntimeClientTypes.RetrieveAndGenerateConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case externalSourcesConfiguration
         case knowledgeBaseConfiguration
         case type
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let externalSourcesConfiguration = self.externalSourcesConfiguration {
+            try encodeContainer.encode(externalSourcesConfiguration, forKey: .externalSourcesConfiguration)
+        }
         if let knowledgeBaseConfiguration = self.knowledgeBaseConfiguration {
             try encodeContainer.encode(knowledgeBaseConfiguration, forKey: .knowledgeBaseConfiguration)
         }
@@ -3839,6 +4098,8 @@ extension BedrockAgentRuntimeClientTypes.RetrieveAndGenerateConfiguration: Swift
         type = typeDecoded
         let knowledgeBaseConfigurationDecoded = try containerValues.decodeIfPresent(BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrieveAndGenerateConfiguration.self, forKey: .knowledgeBaseConfiguration)
         knowledgeBaseConfiguration = knowledgeBaseConfigurationDecoded
+        let externalSourcesConfigurationDecoded = try containerValues.decodeIfPresent(BedrockAgentRuntimeClientTypes.ExternalSourcesRetrieveAndGenerateConfiguration.self, forKey: .externalSourcesConfiguration)
+        externalSourcesConfiguration = externalSourcesConfigurationDecoded
     }
 }
 
@@ -3847,6 +4108,8 @@ extension BedrockAgentRuntimeClientTypes {
     ///
     /// * [RetrieveAndGenerate request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_RequestSyntax) – in the retrieveAndGenerateConfiguration field
     public struct RetrieveAndGenerateConfiguration {
+        /// The configuration used with the external source wrapper object in the retrieveAndGenerate function.
+        public var externalSourcesConfiguration: BedrockAgentRuntimeClientTypes.ExternalSourcesRetrieveAndGenerateConfiguration?
         /// Contains details about the resource being queried.
         public var knowledgeBaseConfiguration: BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrieveAndGenerateConfiguration?
         /// The type of resource that is queried by the request.
@@ -3854,10 +4117,12 @@ extension BedrockAgentRuntimeClientTypes {
         public var type: BedrockAgentRuntimeClientTypes.RetrieveAndGenerateType?
 
         public init(
+            externalSourcesConfiguration: BedrockAgentRuntimeClientTypes.ExternalSourcesRetrieveAndGenerateConfiguration? = nil,
             knowledgeBaseConfiguration: BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrieveAndGenerateConfiguration? = nil,
             type: BedrockAgentRuntimeClientTypes.RetrieveAndGenerateType? = nil
         )
         {
+            self.externalSourcesConfiguration = externalSourcesConfiguration
             self.knowledgeBaseConfiguration = knowledgeBaseConfiguration
             self.type = type
         }
@@ -4178,11 +4443,13 @@ extension BedrockAgentRuntimeClientTypes {
 
 extension BedrockAgentRuntimeClientTypes {
     public enum RetrieveAndGenerateType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case externalSources
         case knowledgeBase
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RetrieveAndGenerateType] {
             return [
+                .externalSources,
                 .knowledgeBase,
                 .sdkUnknown("")
             ]
@@ -4193,6 +4460,7 @@ extension BedrockAgentRuntimeClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .externalSources: return "EXTERNAL_SOURCES"
             case .knowledgeBase: return "KNOWLEDGE_BASE"
             case let .sdkUnknown(s): return s
             }
@@ -4511,6 +4779,42 @@ extension BedrockAgentRuntimeClientTypes {
         {
             self.invocationId = invocationId
             self.invocationInputs = invocationInputs
+        }
+    }
+
+}
+
+extension BedrockAgentRuntimeClientTypes.S3ObjectDoc: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case uri
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let uri = self.uri {
+            try encodeContainer.encode(uri, forKey: .uri)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let uriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .uri)
+        uri = uriDecoded
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// The unique wrapper object of the document from the S3 location.
+    public struct S3ObjectDoc {
+        /// The file location of the S3 wrapper object.
+        /// This member is required.
+        public var uri: Swift.String?
+
+        public init(
+            uri: Swift.String? = nil
+        )
+        {
+            self.uri = uri
         }
     }
 

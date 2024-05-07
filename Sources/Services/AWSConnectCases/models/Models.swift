@@ -278,7 +278,7 @@ extension ConnectCasesClientTypes.AuditEventFieldValueUnion: Swift.Codable {
 }
 
 extension ConnectCasesClientTypes {
-    /// Object to store union of Field values. This data type is a UNION, so only one of the following members can be specified when used or returned.
+    /// Object to store union of Field values.
     public enum AuditEventFieldValueUnion {
         /// Can be either null, or have a String value type. Only one value can be provided.
         case stringvalue(Swift.String)
@@ -2202,6 +2202,205 @@ enum DeleteDomainOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension DeleteFieldInput {
+
+    static func urlPathProvider(_ value: DeleteFieldInput) -> Swift.String? {
+        guard let domainId = value.domainId else {
+            return nil
+        }
+        guard let fieldId = value.fieldId else {
+            return nil
+        }
+        return "/domains/\(domainId.urlPercentEncoding())/fields/\(fieldId.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteFieldInput {
+    /// The unique identifier of the Cases domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// Unique identifier of the field.
+    /// This member is required.
+    public var fieldId: Swift.String?
+
+    public init(
+        domainId: Swift.String? = nil,
+        fieldId: Swift.String? = nil
+    )
+    {
+        self.domainId = domainId
+        self.fieldId = fieldId
+    }
+}
+
+struct DeleteFieldInputBody {
+}
+
+extension DeleteFieldInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteFieldOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteFieldOutput {
+
+    public init() { }
+}
+
+enum DeleteFieldOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteLayoutInput {
+
+    static func urlPathProvider(_ value: DeleteLayoutInput) -> Swift.String? {
+        guard let domainId = value.domainId else {
+            return nil
+        }
+        guard let layoutId = value.layoutId else {
+            return nil
+        }
+        return "/domains/\(domainId.urlPercentEncoding())/layouts/\(layoutId.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteLayoutInput {
+    /// The unique identifier of the Cases domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The unique identifier of the layout.
+    /// This member is required.
+    public var layoutId: Swift.String?
+
+    public init(
+        domainId: Swift.String? = nil,
+        layoutId: Swift.String? = nil
+    )
+    {
+        self.domainId = domainId
+        self.layoutId = layoutId
+    }
+}
+
+struct DeleteLayoutInputBody {
+}
+
+extension DeleteLayoutInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteLayoutOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteLayoutOutput {
+
+    public init() { }
+}
+
+enum DeleteLayoutOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteTemplateInput {
+
+    static func urlPathProvider(_ value: DeleteTemplateInput) -> Swift.String? {
+        guard let domainId = value.domainId else {
+            return nil
+        }
+        guard let templateId = value.templateId else {
+            return nil
+        }
+        return "/domains/\(domainId.urlPercentEncoding())/templates/\(templateId.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteTemplateInput {
+    /// The unique identifier of the Cases domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// A unique identifier of a template.
+    /// This member is required.
+    public var templateId: Swift.String?
+
+    public init(
+        domainId: Swift.String? = nil,
+        templateId: Swift.String? = nil
+    )
+    {
+        self.domainId = domainId
+        self.templateId = templateId
+    }
+}
+
+struct DeleteTemplateInputBody {
+}
+
+extension DeleteTemplateInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteTemplateOutput {
+
+    public init() { }
+}
+
+enum DeleteTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ConnectCasesClientTypes {
     public enum DomainStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case active
@@ -3079,6 +3278,77 @@ extension ConnectCasesClientTypes {
 
 }
 
+extension ConnectCasesClientTypes.FileContent: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fileArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let fileArn = self.fileArn {
+            try encodeContainer.encode(fileArn, forKey: .fileArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fileArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileArn)
+        fileArn = fileArnDecoded
+    }
+}
+
+extension ConnectCasesClientTypes {
+    /// An object that represents a content of an Amazon Connect file object.
+    public struct FileContent {
+        /// The Amazon Resource Name (ARN) of a File in Amazon Connect.
+        /// This member is required.
+        public var fileArn: Swift.String?
+
+        public init(
+            fileArn: Swift.String? = nil
+        )
+        {
+            self.fileArn = fileArn
+        }
+    }
+
+}
+
+extension ConnectCasesClientTypes.FileFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fileArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let fileArn = self.fileArn {
+            try encodeContainer.encode(fileArn, forKey: .fileArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fileArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileArn)
+        fileArn = fileArnDecoded
+    }
+}
+
+extension ConnectCasesClientTypes {
+    /// A filter for related items of type File.
+    public struct FileFilter {
+        /// The Amazon Resource Name (ARN) of the file.
+        public var fileArn: Swift.String?
+
+        public init(
+            fileArn: Swift.String? = nil
+        )
+        {
+            self.fileArn = fileArn
+        }
+    }
+
+}
+
 extension GetCaseAuditEventsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults
@@ -3659,9 +3929,12 @@ enum GetDomainOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension ConnectCasesClientTypes.GetFieldResponse: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdTime
+        case deleted
         case description
         case fieldArn
         case fieldId
+        case lastModifiedTime
         case name
         case namespace
         case tags
@@ -3670,6 +3943,12 @@ extension ConnectCasesClientTypes.GetFieldResponse: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let createdTime = self.createdTime {
+            try encodeContainer.encodeTimestamp(createdTime, format: .dateTime, forKey: .createdTime)
+        }
+        if deleted != false {
+            try encodeContainer.encode(deleted, forKey: .deleted)
+        }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
@@ -3678,6 +3957,9 @@ extension ConnectCasesClientTypes.GetFieldResponse: Swift.Codable {
         }
         if let fieldId = self.fieldId {
             try encodeContainer.encode(fieldId, forKey: .fieldId)
+        }
+        if let lastModifiedTime = self.lastModifiedTime {
+            try encodeContainer.encodeTimestamp(lastModifiedTime, format: .dateTime, forKey: .lastModifiedTime)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -3723,12 +4005,22 @@ extension ConnectCasesClientTypes.GetFieldResponse: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let deletedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleted) ?? false
+        deleted = deletedDecoded
+        let createdTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdTime)
+        createdTime = createdTimeDecoded
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
     }
 }
 
 extension ConnectCasesClientTypes {
     /// Object to store detailed field information.
     public struct GetFieldResponse {
+        /// Timestamp at which the resource was created.
+        public var createdTime: ClientRuntime.Date?
+        /// Denotes whether or not the resource has been deleted.
+        public var deleted: Swift.Bool
         /// Description of the field.
         public var description: Swift.String?
         /// The Amazon Resource Name (ARN) of the field.
@@ -3737,6 +4029,8 @@ extension ConnectCasesClientTypes {
         /// Unique identifier of the field.
         /// This member is required.
         public var fieldId: Swift.String?
+        /// Timestamp at which the resource was created or last modified.
+        public var lastModifiedTime: ClientRuntime.Date?
         /// Name of the field.
         /// This member is required.
         public var name: Swift.String?
@@ -3750,18 +4044,24 @@ extension ConnectCasesClientTypes {
         public var type: ConnectCasesClientTypes.FieldType?
 
         public init(
+            createdTime: ClientRuntime.Date? = nil,
+            deleted: Swift.Bool = false,
             description: Swift.String? = nil,
             fieldArn: Swift.String? = nil,
             fieldId: Swift.String? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil,
             name: Swift.String? = nil,
             namespace: ConnectCasesClientTypes.FieldNamespace? = nil,
             tags: [Swift.String:Swift.String?]? = nil,
             type: ConnectCasesClientTypes.FieldType? = nil
         )
         {
+            self.createdTime = createdTime
+            self.deleted = deleted
             self.description = description
             self.fieldArn = fieldArn
             self.fieldId = fieldId
+            self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.namespace = namespace
             self.tags = tags
@@ -3817,12 +4117,18 @@ extension GetLayoutOutput: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: GetLayoutOutputBody = try responseDecoder.decode(responseBody: data)
             self.content = output.content
+            self.createdTime = output.createdTime
+            self.deleted = output.deleted
+            self.lastModifiedTime = output.lastModifiedTime
             self.layoutArn = output.layoutArn
             self.layoutId = output.layoutId
             self.name = output.name
             self.tags = output.tags
         } else {
             self.content = nil
+            self.createdTime = nil
+            self.deleted = false
+            self.lastModifiedTime = nil
             self.layoutArn = nil
             self.layoutId = nil
             self.name = nil
@@ -3835,6 +4141,12 @@ public struct GetLayoutOutput {
     /// Information about which fields will be present in the layout, the order of the fields, and read-only attribute of the field.
     /// This member is required.
     public var content: ConnectCasesClientTypes.LayoutContent?
+    /// Timestamp at which the resource was created.
+    public var createdTime: ClientRuntime.Date?
+    /// Denotes whether or not the resource has been deleted.
+    public var deleted: Swift.Bool
+    /// Timestamp at which the resource was created or last modified.
+    public var lastModifiedTime: ClientRuntime.Date?
     /// The Amazon Resource Name (ARN) of the newly created layout.
     /// This member is required.
     public var layoutArn: Swift.String?
@@ -3849,6 +4161,9 @@ public struct GetLayoutOutput {
 
     public init(
         content: ConnectCasesClientTypes.LayoutContent? = nil,
+        createdTime: ClientRuntime.Date? = nil,
+        deleted: Swift.Bool = false,
+        lastModifiedTime: ClientRuntime.Date? = nil,
         layoutArn: Swift.String? = nil,
         layoutId: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -3856,6 +4171,9 @@ public struct GetLayoutOutput {
     )
     {
         self.content = content
+        self.createdTime = createdTime
+        self.deleted = deleted
+        self.lastModifiedTime = lastModifiedTime
         self.layoutArn = layoutArn
         self.layoutId = layoutId
         self.name = name
@@ -3869,11 +4187,17 @@ struct GetLayoutOutputBody {
     let name: Swift.String?
     let content: ConnectCasesClientTypes.LayoutContent?
     let tags: [Swift.String:Swift.String?]?
+    let deleted: Swift.Bool
+    let createdTime: ClientRuntime.Date?
+    let lastModifiedTime: ClientRuntime.Date?
 }
 
 extension GetLayoutOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case content
+        case createdTime
+        case deleted
+        case lastModifiedTime
         case layoutArn
         case layoutId
         case name
@@ -3899,6 +4223,12 @@ extension GetLayoutOutputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let deletedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleted) ?? false
+        deleted = deletedDecoded
+        let createdTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdTime)
+        createdTime = createdTimeDecoded
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
     }
 }
 
@@ -3962,7 +4292,10 @@ extension GetTemplateOutput: ClientRuntime.HttpResponseBinding {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetTemplateOutputBody = try responseDecoder.decode(responseBody: data)
+            self.createdTime = output.createdTime
+            self.deleted = output.deleted
             self.description = output.description
+            self.lastModifiedTime = output.lastModifiedTime
             self.layoutConfiguration = output.layoutConfiguration
             self.name = output.name
             self.requiredFields = output.requiredFields
@@ -3971,7 +4304,10 @@ extension GetTemplateOutput: ClientRuntime.HttpResponseBinding {
             self.templateArn = output.templateArn
             self.templateId = output.templateId
         } else {
+            self.createdTime = nil
+            self.deleted = false
             self.description = nil
+            self.lastModifiedTime = nil
             self.layoutConfiguration = nil
             self.name = nil
             self.requiredFields = nil
@@ -3984,8 +4320,14 @@ extension GetTemplateOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetTemplateOutput {
+    /// Timestamp at which the resource was created.
+    public var createdTime: ClientRuntime.Date?
+    /// Denotes whether or not the resource has been deleted.
+    public var deleted: Swift.Bool
     /// A brief description of the template.
     public var description: Swift.String?
+    /// Timestamp at which the resource was created or last modified.
+    public var lastModifiedTime: ClientRuntime.Date?
     /// Configuration of layouts associated to the template.
     public var layoutConfiguration: ConnectCasesClientTypes.LayoutConfiguration?
     /// The name of the template.
@@ -4006,7 +4348,10 @@ public struct GetTemplateOutput {
     public var templateId: Swift.String?
 
     public init(
+        createdTime: ClientRuntime.Date? = nil,
+        deleted: Swift.Bool = false,
         description: Swift.String? = nil,
+        lastModifiedTime: ClientRuntime.Date? = nil,
         layoutConfiguration: ConnectCasesClientTypes.LayoutConfiguration? = nil,
         name: Swift.String? = nil,
         requiredFields: [ConnectCasesClientTypes.RequiredField]? = nil,
@@ -4016,7 +4361,10 @@ public struct GetTemplateOutput {
         templateId: Swift.String? = nil
     )
     {
+        self.createdTime = createdTime
+        self.deleted = deleted
         self.description = description
+        self.lastModifiedTime = lastModifiedTime
         self.layoutConfiguration = layoutConfiguration
         self.name = name
         self.requiredFields = requiredFields
@@ -4036,11 +4384,17 @@ struct GetTemplateOutputBody {
     let requiredFields: [ConnectCasesClientTypes.RequiredField]?
     let tags: [Swift.String:Swift.String?]?
     let status: ConnectCasesClientTypes.TemplateStatus?
+    let deleted: Swift.Bool
+    let createdTime: ClientRuntime.Date?
+    let lastModifiedTime: ClientRuntime.Date?
 }
 
 extension GetTemplateOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdTime
+        case deleted
         case description
+        case lastModifiedTime
         case layoutConfiguration
         case name
         case requiredFields
@@ -4084,6 +4438,12 @@ extension GetTemplateOutputBody: Swift.Decodable {
         tags = tagsDecoded0
         let statusDecoded = try containerValues.decodeIfPresent(ConnectCasesClientTypes.TemplateStatus.self, forKey: .status)
         status = statusDecoded
+        let deletedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleted) ?? false
+        deleted = deletedDecoded
+        let createdTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdTime)
+        createdTime = createdTimeDecoded
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
     }
 }
 
@@ -5386,6 +5746,7 @@ extension ConnectCasesClientTypes.RelatedItemContent: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case comment
         case contact
+        case file
         case sdkUnknown
     }
 
@@ -5396,6 +5757,8 @@ extension ConnectCasesClientTypes.RelatedItemContent: Swift.Codable {
                 try container.encode(comment, forKey: .comment)
             case let .contact(contact):
                 try container.encode(contact, forKey: .contact)
+            case let .file(file):
+                try container.encode(file, forKey: .file)
             case let .sdkUnknown(sdkUnknown):
                 try container.encode(sdkUnknown, forKey: .sdkUnknown)
         }
@@ -5413,6 +5776,11 @@ extension ConnectCasesClientTypes.RelatedItemContent: Swift.Codable {
             self = .comment(comment)
             return
         }
+        let fileDecoded = try values.decodeIfPresent(ConnectCasesClientTypes.FileContent.self, forKey: .file)
+        if let file = fileDecoded {
+            self = .file(file)
+            return
+        }
         self = .sdkUnknown("")
     }
 }
@@ -5424,6 +5792,8 @@ extension ConnectCasesClientTypes {
         case contact(ConnectCasesClientTypes.ContactContent)
         /// Represents the content of a comment to be returned to agents.
         case comment(ConnectCasesClientTypes.CommentContent)
+        /// Represents the content of a File to be returned to agents.
+        case file(ConnectCasesClientTypes.FileContent)
         case sdkUnknown(Swift.String)
     }
 
@@ -5469,6 +5839,7 @@ extension ConnectCasesClientTypes.RelatedItemInputContent: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case comment
         case contact
+        case file
         case sdkUnknown
     }
 
@@ -5479,6 +5850,8 @@ extension ConnectCasesClientTypes.RelatedItemInputContent: Swift.Codable {
                 try container.encode(comment, forKey: .comment)
             case let .contact(contact):
                 try container.encode(contact, forKey: .contact)
+            case let .file(file):
+                try container.encode(file, forKey: .file)
             case let .sdkUnknown(sdkUnknown):
                 try container.encode(sdkUnknown, forKey: .sdkUnknown)
         }
@@ -5496,6 +5869,11 @@ extension ConnectCasesClientTypes.RelatedItemInputContent: Swift.Codable {
             self = .comment(comment)
             return
         }
+        let fileDecoded = try values.decodeIfPresent(ConnectCasesClientTypes.FileContent.self, forKey: .file)
+        if let file = fileDecoded {
+            self = .file(file)
+            return
+        }
         self = .sdkUnknown("")
     }
 }
@@ -5507,6 +5885,8 @@ extension ConnectCasesClientTypes {
         case contact(ConnectCasesClientTypes.Contact)
         /// Represents the content of a comment to be returned to agents.
         case comment(ConnectCasesClientTypes.CommentContent)
+        /// A file of related items.
+        case file(ConnectCasesClientTypes.FileContent)
         case sdkUnknown(Swift.String)
     }
 
@@ -5516,12 +5896,14 @@ extension ConnectCasesClientTypes {
     public enum RelatedItemType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case comment
         case contact
+        case file
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RelatedItemType] {
             return [
                 .comment,
                 .contact,
+                .file,
                 .sdkUnknown("")
             ]
         }
@@ -5533,6 +5915,7 @@ extension ConnectCasesClientTypes {
             switch self {
             case .comment: return "Comment"
             case .contact: return "Contact"
+            case .file: return "File"
             case let .sdkUnknown(s): return s
             }
         }
@@ -5548,6 +5931,7 @@ extension ConnectCasesClientTypes.RelatedItemTypeFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case comment
         case contact
+        case file
         case sdkUnknown
     }
 
@@ -5558,6 +5942,8 @@ extension ConnectCasesClientTypes.RelatedItemTypeFilter: Swift.Codable {
                 try container.encode(comment, forKey: .comment)
             case let .contact(contact):
                 try container.encode(contact, forKey: .contact)
+            case let .file(file):
+                try container.encode(file, forKey: .file)
             case let .sdkUnknown(sdkUnknown):
                 try container.encode(sdkUnknown, forKey: .sdkUnknown)
         }
@@ -5575,6 +5961,11 @@ extension ConnectCasesClientTypes.RelatedItemTypeFilter: Swift.Codable {
             self = .comment(comment)
             return
         }
+        let fileDecoded = try values.decodeIfPresent(ConnectCasesClientTypes.FileFilter.self, forKey: .file)
+        if let file = fileDecoded {
+            self = .file(file)
+            return
+        }
         self = .sdkUnknown("")
     }
 }
@@ -5586,6 +5977,8 @@ extension ConnectCasesClientTypes {
         case contact(ConnectCasesClientTypes.ContactFilter)
         /// A filter for related items of type Comment.
         case comment(ConnectCasesClientTypes.CommentFilter)
+        /// A filter for related items of this type of File.
+        case file(ConnectCasesClientTypes.FileFilter)
         case sdkUnknown(Swift.String)
     }
 

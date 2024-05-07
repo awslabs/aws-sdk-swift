@@ -152,7 +152,7 @@ extension TimestreamQueryClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You are not authorized to perform this action.
-    /// - `InternalServerException` : Timestream was unable to fully process this request because of an internal server error.
+    /// - `InternalServerException` : The service was unable to fully process this request because of an internal server error.
     /// - `InvalidEndpointException` : The requested endpoint was not valid.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : Invalid or malformed request.
@@ -208,7 +208,7 @@ extension TimestreamQueryClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You are not authorized to perform this action.
     /// - `ConflictException` : Unable to poll results for a cancelled query.
-    /// - `InternalServerException` : Timestream was unable to fully process this request because of an internal server error.
+    /// - `InternalServerException` : The service was unable to fully process this request because of an internal server error.
     /// - `InvalidEndpointException` : The requested endpoint was not valid.
     /// - `ServiceQuotaExceededException` : You have exceeded the service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
@@ -265,7 +265,7 @@ extension TimestreamQueryClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You are not authorized to perform this action.
-    /// - `InternalServerException` : Timestream was unable to fully process this request because of an internal server error.
+    /// - `InternalServerException` : The service was unable to fully process this request because of an internal server error.
     /// - `InvalidEndpointException` : The requested endpoint was not valid.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
@@ -309,6 +309,60 @@ extension TimestreamQueryClient {
         return result
     }
 
+    /// Performs the `DescribeAccountSettings` operation on the `Timestream_20181101` service.
+    ///
+    /// Describes the settings for your account that include the query pricing model and the configured maximum TCUs the service can use for your query workload. You're charged only for the duration of compute units used for your workloads.
+    ///
+    /// - Parameter DescribeAccountSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAccountSettingsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this action.
+    /// - `InternalServerException` : The service was unable to fully process this request because of an internal server error.
+    /// - `InvalidEndpointException` : The requested endpoint was not valid.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    public func describeAccountSettings(input: DescribeAccountSettingsInput) async throws -> DescribeAccountSettingsOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeAccountSettings")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "timestream")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DescribeAccountSettingsInput, DescribeAccountSettingsOutput>(id: "describeAccountSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccountSettingsInput, DescribeAccountSettingsOutput>(DescribeAccountSettingsInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAccountSettingsInput, DescribeAccountSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAccountSettingsOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeAccountSettingsOutput>())
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeAccountSettingsInput, DescribeAccountSettingsOutput>(xAmzTarget: "Timestream_20181101.DescribeAccountSettings"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeAccountSettingsInput, DescribeAccountSettingsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeAccountSettingsInput, DescribeAccountSettingsOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAccountSettingsOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeAccountSettingsOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAccountSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeAccountSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAccountSettingsOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `DescribeEndpoints` operation on the `Timestream_20181101` service.
     ///
     /// DescribeEndpoints returns a list of available endpoints to make Timestream API calls against. This API is available through both Write and Query. Because the Timestream SDKs are designed to transparently work with the service’s architecture, including the management and mapping of the service endpoints, it is not recommended that you use this API unless:
@@ -329,7 +383,7 @@ extension TimestreamQueryClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : Timestream was unable to fully process this request because of an internal server error.
+    /// - `InternalServerException` : The service was unable to fully process this request because of an internal server error.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : Invalid or malformed request.
     public func describeEndpoints(input: DescribeEndpointsInput) async throws -> DescribeEndpointsOutput {
@@ -383,7 +437,7 @@ extension TimestreamQueryClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You are not authorized to perform this action.
-    /// - `InternalServerException` : Timestream was unable to fully process this request because of an internal server error.
+    /// - `InternalServerException` : The service was unable to fully process this request because of an internal server error.
     /// - `InvalidEndpointException` : The requested endpoint was not valid.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
@@ -439,7 +493,7 @@ extension TimestreamQueryClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You are not authorized to perform this action.
-    /// - `InternalServerException` : Timestream was unable to fully process this request because of an internal server error.
+    /// - `InternalServerException` : The service was unable to fully process this request because of an internal server error.
     /// - `InvalidEndpointException` : The requested endpoint was not valid.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
@@ -496,7 +550,7 @@ extension TimestreamQueryClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You are not authorized to perform this action.
-    /// - `InternalServerException` : Timestream was unable to fully process this request because of an internal server error.
+    /// - `InternalServerException` : The service was unable to fully process this request because of an internal server error.
     /// - `InvalidEndpointException` : The requested endpoint was not valid.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : Invalid or malformed request.
@@ -605,7 +659,7 @@ extension TimestreamQueryClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You are not authorized to perform this action.
-    /// - `InternalServerException` : Timestream was unable to fully process this request because of an internal server error.
+    /// - `InternalServerException` : The service was unable to fully process this request because of an internal server error.
     /// - `InvalidEndpointException` : The requested endpoint was not valid.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : Invalid or malformed request.
@@ -669,7 +723,7 @@ extension TimestreamQueryClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You are not authorized to perform this action.
     /// - `ConflictException` : Unable to poll results for a cancelled query.
-    /// - `InternalServerException` : Timestream was unable to fully process this request because of an internal server error.
+    /// - `InternalServerException` : The service was unable to fully process this request because of an internal server error.
     /// - `InvalidEndpointException` : The requested endpoint was not valid.
     /// - `QueryExecutionException` : Timestream was unable to run the query successfully.
     /// - `ThrottlingException` : The request was denied due to request throttling.
@@ -823,6 +877,61 @@ extension TimestreamQueryClient {
         return result
     }
 
+    /// Performs the `UpdateAccountSettings` operation on the `Timestream_20181101` service.
+    ///
+    /// Transitions your account to use TCUs for query pricing and modifies the maximum query compute units that you've configured. If you reduce the value of MaxQueryTCU to a desired configuration, the new value can take up to 24 hours to be effective. After you've transitioned your account to use TCUs for query pricing, you can't transition to using bytes scanned for query pricing.
+    ///
+    /// - Parameter UpdateAccountSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAccountSettingsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this action.
+    /// - `InternalServerException` : The service was unable to fully process this request because of an internal server error.
+    /// - `InvalidEndpointException` : The requested endpoint was not valid.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : Invalid or malformed request.
+    public func updateAccountSettings(input: UpdateAccountSettingsInput) async throws -> UpdateAccountSettingsOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateAccountSettings")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "timestream")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<UpdateAccountSettingsInput, UpdateAccountSettingsOutput>(id: "updateAccountSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutput>(UpdateAccountSettingsInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAccountSettingsOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateAccountSettingsOutput>())
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutput>(xAmzTarget: "Timestream_20181101.UpdateAccountSettings"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAccountSettingsOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateAccountSettingsOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAccountSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateAccountSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAccountSettingsOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `UpdateScheduledQuery` operation on the `Timestream_20181101` service.
     ///
     /// Update a scheduled query.
@@ -835,7 +944,7 @@ extension TimestreamQueryClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You are not authorized to perform this action.
-    /// - `InternalServerException` : Timestream was unable to fully process this request because of an internal server error.
+    /// - `InternalServerException` : The service was unable to fully process this request because of an internal server error.
     /// - `InvalidEndpointException` : The requested endpoint was not valid.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.

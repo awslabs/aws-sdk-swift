@@ -2,6 +2,51 @@
 import AWSClientRuntime
 import ClientRuntime
 
+extension EMRcontainersClientTypes.AuthorizationConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case encryptionConfiguration
+        case lakeFormationConfiguration
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let encryptionConfiguration = self.encryptionConfiguration {
+            try encodeContainer.encode(encryptionConfiguration, forKey: .encryptionConfiguration)
+        }
+        if let lakeFormationConfiguration = self.lakeFormationConfiguration {
+            try encodeContainer.encode(lakeFormationConfiguration, forKey: .lakeFormationConfiguration)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let lakeFormationConfigurationDecoded = try containerValues.decodeIfPresent(EMRcontainersClientTypes.LakeFormationConfiguration.self, forKey: .lakeFormationConfiguration)
+        lakeFormationConfiguration = lakeFormationConfigurationDecoded
+        let encryptionConfigurationDecoded = try containerValues.decodeIfPresent(EMRcontainersClientTypes.EncryptionConfiguration.self, forKey: .encryptionConfiguration)
+        encryptionConfiguration = encryptionConfigurationDecoded
+    }
+}
+
+extension EMRcontainersClientTypes {
+    /// Authorization-related configuration inputs for the security configuration.
+    public struct AuthorizationConfiguration {
+        /// Encryption-related configuration input for the security configuration.
+        public var encryptionConfiguration: EMRcontainersClientTypes.EncryptionConfiguration?
+        /// Lake Formation related configuration inputs for the security configuration.
+        public var lakeFormationConfiguration: EMRcontainersClientTypes.LakeFormationConfiguration?
+
+        public init(
+            encryptionConfiguration: EMRcontainersClientTypes.EncryptionConfiguration? = nil,
+            lakeFormationConfiguration: EMRcontainersClientTypes.LakeFormationConfiguration? = nil
+        )
+        {
+            self.encryptionConfiguration = encryptionConfiguration
+            self.lakeFormationConfiguration = lakeFormationConfiguration
+        }
+    }
+
+}
+
 extension CancelJobRunInput {
 
     static func urlPathProvider(_ value: CancelJobRunInput) -> Swift.String? {
@@ -147,6 +192,35 @@ extension EMRcontainersClientTypes {
         }
     }
 
+}
+
+extension EMRcontainersClientTypes {
+    public enum CertificateProviderType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case pem
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CertificateProviderType] {
+            return [
+                .pem,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .pem: return "PEM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CertificateProviderType(rawValue: rawValue) ?? CertificateProviderType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension EMRcontainersClientTypes.CloudWatchMonitoringConfiguration: Swift.Codable {
@@ -942,11 +1016,183 @@ enum CreateManagedEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension CreateSecurityConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case name
+        case securityConfigurationData
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let securityConfigurationData = self.securityConfigurationData {
+            try encodeContainer.encode(securityConfigurationData, forKey: .securityConfigurationData)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension CreateSecurityConfigurationInput {
+
+    static func urlPathProvider(_ value: CreateSecurityConfigurationInput) -> Swift.String? {
+        return "/securityconfigurations"
+    }
+}
+
+public struct CreateSecurityConfigurationInput {
+    /// The client idempotency token to use when creating the security configuration.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// The name of the security configuration.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Security configuration input for the request.
+    /// This member is required.
+    public var securityConfigurationData: EMRcontainersClientTypes.SecurityConfigurationData?
+    /// The tags to add to the security configuration.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        name: Swift.String? = nil,
+        securityConfigurationData: EMRcontainersClientTypes.SecurityConfigurationData? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.name = name
+        self.securityConfigurationData = securityConfigurationData
+        self.tags = tags
+    }
+}
+
+struct CreateSecurityConfigurationInputBody {
+    let clientToken: Swift.String?
+    let name: Swift.String?
+    let securityConfigurationData: EMRcontainersClientTypes.SecurityConfigurationData?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateSecurityConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case name
+        case securityConfigurationData
+        case tags
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let securityConfigurationDataDecoded = try containerValues.decodeIfPresent(EMRcontainersClientTypes.SecurityConfigurationData.self, forKey: .securityConfigurationData)
+        securityConfigurationData = securityConfigurationDataDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, stringempty2560) in tagsContainer {
+                if let stringempty2560 = stringempty2560 {
+                    tagsDecoded0?[key0] = stringempty2560
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateSecurityConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateSecurityConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.id = output.id
+            self.name = output.name
+        } else {
+            self.arn = nil
+            self.id = nil
+            self.name = nil
+        }
+    }
+}
+
+public struct CreateSecurityConfigurationOutput {
+    /// The ARN (Amazon Resource Name) of the security configuration.
+    public var arn: Swift.String?
+    /// The ID of the security configuration.
+    public var id: Swift.String?
+    /// The name of the security configuration.
+    public var name: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+        self.id = id
+        self.name = name
+    }
+}
+
+struct CreateSecurityConfigurationOutputBody {
+    let id: Swift.String?
+    let name: Swift.String?
+    let arn: Swift.String?
+}
+
+extension CreateSecurityConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case id
+        case name
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+    }
+}
+
+enum CreateSecurityConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension CreateVirtualClusterInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
         case containerProvider
         case name
+        case securityConfigurationId
         case tags
     }
 
@@ -960,6 +1206,9 @@ extension CreateVirtualClusterInput: Swift.Encodable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let securityConfigurationId = self.securityConfigurationId {
+            try encodeContainer.encode(securityConfigurationId, forKey: .securityConfigurationId)
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
@@ -987,6 +1236,8 @@ public struct CreateVirtualClusterInput {
     /// The specified name of the virtual cluster.
     /// This member is required.
     public var name: Swift.String?
+    /// The ID of the security configuration.
+    public var securityConfigurationId: Swift.String?
     /// The tags assigned to the virtual cluster.
     public var tags: [Swift.String:Swift.String]?
 
@@ -994,12 +1245,14 @@ public struct CreateVirtualClusterInput {
         clientToken: Swift.String? = nil,
         containerProvider: EMRcontainersClientTypes.ContainerProvider? = nil,
         name: Swift.String? = nil,
+        securityConfigurationId: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
         self.clientToken = clientToken
         self.containerProvider = containerProvider
         self.name = name
+        self.securityConfigurationId = securityConfigurationId
         self.tags = tags
     }
 }
@@ -1009,6 +1262,7 @@ struct CreateVirtualClusterInputBody {
     let containerProvider: EMRcontainersClientTypes.ContainerProvider?
     let clientToken: Swift.String?
     let tags: [Swift.String:Swift.String]?
+    let securityConfigurationId: Swift.String?
 }
 
 extension CreateVirtualClusterInputBody: Swift.Decodable {
@@ -1016,6 +1270,7 @@ extension CreateVirtualClusterInputBody: Swift.Decodable {
         case clientToken
         case containerProvider
         case name
+        case securityConfigurationId
         case tags
     }
 
@@ -1038,6 +1293,8 @@ extension CreateVirtualClusterInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let securityConfigurationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .securityConfigurationId)
+        securityConfigurationId = securityConfigurationIdDecoded
     }
 }
 
@@ -1693,6 +1950,91 @@ enum DescribeManagedEndpointOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
+extension DescribeSecurityConfigurationInput {
+
+    static func urlPathProvider(_ value: DescribeSecurityConfigurationInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/securityconfigurations/\(id.urlPercentEncoding())"
+    }
+}
+
+public struct DescribeSecurityConfigurationInput {
+    /// The ID of the security configuration.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        id: Swift.String? = nil
+    )
+    {
+        self.id = id
+    }
+}
+
+struct DescribeSecurityConfigurationInputBody {
+}
+
+extension DescribeSecurityConfigurationInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribeSecurityConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeSecurityConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.securityConfiguration = output.securityConfiguration
+        } else {
+            self.securityConfiguration = nil
+        }
+    }
+}
+
+public struct DescribeSecurityConfigurationOutput {
+    /// Details of the security configuration.
+    public var securityConfiguration: EMRcontainersClientTypes.SecurityConfiguration?
+
+    public init(
+        securityConfiguration: EMRcontainersClientTypes.SecurityConfiguration? = nil
+    )
+    {
+        self.securityConfiguration = securityConfiguration
+    }
+}
+
+struct DescribeSecurityConfigurationOutputBody {
+    let securityConfiguration: EMRcontainersClientTypes.SecurityConfiguration?
+}
+
+extension DescribeSecurityConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case securityConfiguration
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let securityConfigurationDecoded = try containerValues.decodeIfPresent(EMRcontainersClientTypes.SecurityConfiguration.self, forKey: .securityConfiguration)
+        securityConfiguration = securityConfigurationDecoded
+    }
+}
+
+enum DescribeSecurityConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DescribeVirtualClusterInput {
 
     static func urlPathProvider(_ value: DescribeVirtualClusterInput) -> Swift.String? {
@@ -1865,6 +2207,41 @@ extension EMRcontainersClientTypes {
         )
         {
             self.namespace = namespace
+        }
+    }
+
+}
+
+extension EMRcontainersClientTypes.EncryptionConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case inTransitEncryptionConfiguration
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let inTransitEncryptionConfiguration = self.inTransitEncryptionConfiguration {
+            try encodeContainer.encode(inTransitEncryptionConfiguration, forKey: .inTransitEncryptionConfiguration)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let inTransitEncryptionConfigurationDecoded = try containerValues.decodeIfPresent(EMRcontainersClientTypes.InTransitEncryptionConfiguration.self, forKey: .inTransitEncryptionConfiguration)
+        inTransitEncryptionConfiguration = inTransitEncryptionConfigurationDecoded
+    }
+}
+
+extension EMRcontainersClientTypes {
+    /// Configurations related to encryption for the security configuration.
+    public struct EncryptionConfiguration {
+        /// In-transit encryption-related input for the security configuration.
+        public var inTransitEncryptionConfiguration: EMRcontainersClientTypes.InTransitEncryptionConfiguration?
+
+        public init(
+            inTransitEncryptionConfiguration: EMRcontainersClientTypes.InTransitEncryptionConfiguration? = nil
+        )
+        {
+            self.inTransitEncryptionConfiguration = inTransitEncryptionConfiguration
         }
     }
 
@@ -2365,6 +2742,41 @@ enum GetManagedEndpointSessionCredentialsOutputError: ClientRuntime.HttpResponse
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension EMRcontainersClientTypes.InTransitEncryptionConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tlsCertificateConfiguration
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let tlsCertificateConfiguration = self.tlsCertificateConfiguration {
+            try encodeContainer.encode(tlsCertificateConfiguration, forKey: .tlsCertificateConfiguration)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tlsCertificateConfigurationDecoded = try containerValues.decodeIfPresent(EMRcontainersClientTypes.TLSCertificateConfiguration.self, forKey: .tlsCertificateConfiguration)
+        tlsCertificateConfiguration = tlsCertificateConfigurationDecoded
+    }
+}
+
+extension EMRcontainersClientTypes {
+    /// Configurations related to in-transit encryption for the security configuration.
+    public struct InTransitEncryptionConfiguration {
+        /// TLS certificate-related configuration input for the security configuration.
+        public var tlsCertificateConfiguration: EMRcontainersClientTypes.TLSCertificateConfiguration?
+
+        public init(
+            tlsCertificateConfiguration: EMRcontainersClientTypes.TLSCertificateConfiguration? = nil
+        )
+        {
+            self.tlsCertificateConfiguration = tlsCertificateConfiguration
+        }
+    }
+
 }
 
 extension InternalServerException {
@@ -2971,6 +3383,61 @@ extension EMRcontainersClientTypes {
 
 }
 
+extension EMRcontainersClientTypes.LakeFormationConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authorizedSessionTagValue
+        case queryEngineRoleArn
+        case secureNamespaceInfo
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let authorizedSessionTagValue = self.authorizedSessionTagValue {
+            try encodeContainer.encode(authorizedSessionTagValue, forKey: .authorizedSessionTagValue)
+        }
+        if let queryEngineRoleArn = self.queryEngineRoleArn {
+            try encodeContainer.encode(queryEngineRoleArn, forKey: .queryEngineRoleArn)
+        }
+        if let secureNamespaceInfo = self.secureNamespaceInfo {
+            try encodeContainer.encode(secureNamespaceInfo, forKey: .secureNamespaceInfo)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let authorizedSessionTagValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .authorizedSessionTagValue)
+        authorizedSessionTagValue = authorizedSessionTagValueDecoded
+        let secureNamespaceInfoDecoded = try containerValues.decodeIfPresent(EMRcontainersClientTypes.SecureNamespaceInfo.self, forKey: .secureNamespaceInfo)
+        secureNamespaceInfo = secureNamespaceInfoDecoded
+        let queryEngineRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryEngineRoleArn)
+        queryEngineRoleArn = queryEngineRoleArnDecoded
+    }
+}
+
+extension EMRcontainersClientTypes {
+    /// Lake Formation related configuration inputs for the security configuration.
+    public struct LakeFormationConfiguration {
+        /// The session tag to authorize Amazon EMR on EKS for API calls to Lake Formation.
+        public var authorizedSessionTagValue: Swift.String?
+        /// The query engine IAM role ARN that is tied to the secure Spark job. The QueryEngine role assumes the JobExecutionRole to execute all the Lake Formation calls.
+        public var queryEngineRoleArn: Swift.String?
+        /// The namespace input of the system job.
+        public var secureNamespaceInfo: EMRcontainersClientTypes.SecureNamespaceInfo?
+
+        public init(
+            authorizedSessionTagValue: Swift.String? = nil,
+            queryEngineRoleArn: Swift.String? = nil,
+            secureNamespaceInfo: EMRcontainersClientTypes.SecureNamespaceInfo? = nil
+        )
+        {
+            self.authorizedSessionTagValue = authorizedSessionTagValue
+            self.queryEngineRoleArn = queryEngineRoleArn
+            self.secureNamespaceInfo = secureNamespaceInfo
+        }
+    }
+
+}
+
 extension ListJobRunsInput {
 
     static func queryItemProvider(_ value: ListJobRunsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
@@ -3419,6 +3886,141 @@ extension ListManagedEndpointsOutputBody: Swift.Decodable {
 }
 
 enum ListManagedEndpointsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListSecurityConfigurationsInput {
+
+    static func queryItemProvider(_ value: ListSecurityConfigurationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let createdBefore = value.createdBefore {
+            let createdBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdBefore)).urlPercentEncoding())
+            items.append(createdBeforeQueryItem)
+        }
+        if let createdAfter = value.createdAfter {
+            let createdAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdAfter)).urlPercentEncoding())
+            items.append(createdAfterQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListSecurityConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListSecurityConfigurationsInput) -> Swift.String? {
+        return "/securityconfigurations"
+    }
+}
+
+public struct ListSecurityConfigurationsInput {
+    /// The date and time after which the security configuration was created.
+    public var createdAfter: ClientRuntime.Date?
+    /// The date and time before which the security configuration was created.
+    public var createdBefore: ClientRuntime.Date?
+    /// The maximum number of security configurations the operation can list.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of security configurations to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        createdAfter: ClientRuntime.Date? = nil,
+        createdBefore: ClientRuntime.Date? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.createdAfter = createdAfter
+        self.createdBefore = createdBefore
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListSecurityConfigurationsInputBody {
+}
+
+extension ListSecurityConfigurationsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListSecurityConfigurationsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListSecurityConfigurationsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.securityConfigurations = output.securityConfigurations
+        } else {
+            self.nextToken = nil
+            self.securityConfigurations = nil
+        }
+    }
+}
+
+public struct ListSecurityConfigurationsOutput {
+    /// The token for the next set of security configurations to return.
+    public var nextToken: Swift.String?
+    /// The list of returned security configurations.
+    public var securityConfigurations: [EMRcontainersClientTypes.SecurityConfiguration]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        securityConfigurations: [EMRcontainersClientTypes.SecurityConfiguration]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.securityConfigurations = securityConfigurations
+    }
+}
+
+struct ListSecurityConfigurationsOutputBody {
+    let securityConfigurations: [EMRcontainersClientTypes.SecurityConfiguration]?
+    let nextToken: Swift.String?
+}
+
+extension ListSecurityConfigurationsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case securityConfigurations
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let securityConfigurationsContainer = try containerValues.decodeIfPresent([EMRcontainersClientTypes.SecurityConfiguration?].self, forKey: .securityConfigurations)
+        var securityConfigurationsDecoded0:[EMRcontainersClientTypes.SecurityConfiguration]? = nil
+        if let securityConfigurationsContainer = securityConfigurationsContainer {
+            securityConfigurationsDecoded0 = [EMRcontainersClientTypes.SecurityConfiguration]()
+            for structure0 in securityConfigurationsContainer {
+                if let structure0 = structure0 {
+                    securityConfigurationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        securityConfigurations = securityConfigurationsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListSecurityConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
@@ -4200,6 +4802,193 @@ extension EMRcontainersClientTypes {
 
 }
 
+extension EMRcontainersClientTypes.SecureNamespaceInfo: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clusterId
+        case namespace
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clusterId = self.clusterId {
+            try encodeContainer.encode(clusterId, forKey: .clusterId)
+        }
+        if let namespace = self.namespace {
+            try encodeContainer.encode(namespace, forKey: .namespace)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clusterIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterId)
+        clusterId = clusterIdDecoded
+        let namespaceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .namespace)
+        namespace = namespaceDecoded
+    }
+}
+
+extension EMRcontainersClientTypes {
+    /// Namespace inputs for the system job.
+    public struct SecureNamespaceInfo {
+        /// The ID of the Amazon EKS cluster where Amazon EMR on EKS jobs run.
+        public var clusterId: Swift.String?
+        /// The namespace of the Amazon EKS cluster where the system jobs run.
+        public var namespace: Swift.String?
+
+        public init(
+            clusterId: Swift.String? = nil,
+            namespace: Swift.String? = nil
+        )
+        {
+            self.clusterId = clusterId
+            self.namespace = namespace
+        }
+    }
+
+}
+
+extension EMRcontainersClientTypes.SecurityConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case createdAt
+        case createdBy
+        case id
+        case name
+        case securityConfigurationData
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let createdAt = self.createdAt {
+            try encodeContainer.encodeTimestamp(createdAt, format: .dateTime, forKey: .createdAt)
+        }
+        if let createdBy = self.createdBy {
+            try encodeContainer.encode(createdBy, forKey: .createdBy)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let securityConfigurationData = self.securityConfigurationData {
+            try encodeContainer.encode(securityConfigurationData, forKey: .securityConfigurationData)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let createdByDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdBy)
+        createdBy = createdByDecoded
+        let securityConfigurationDataDecoded = try containerValues.decodeIfPresent(EMRcontainersClientTypes.SecurityConfigurationData.self, forKey: .securityConfigurationData)
+        securityConfigurationData = securityConfigurationDataDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, stringempty2560) in tagsContainer {
+                if let stringempty2560 = stringempty2560 {
+                    tagsDecoded0?[key0] = stringempty2560
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension EMRcontainersClientTypes {
+    /// Inputs related to the security configuration. Security configurations in Amazon EMR on EKS are templates for different security setups. You can use security configurations to configure the Lake Formation integration setup. You can also create a security configuration to re-use a security setup each time you create a virtual cluster.
+    public struct SecurityConfiguration {
+        /// The ARN (Amazon Resource Name) of the security configuration.
+        public var arn: Swift.String?
+        /// The date and time that the job run was created.
+        public var createdAt: ClientRuntime.Date?
+        /// The user who created the job run.
+        public var createdBy: Swift.String?
+        /// The ID of the security configuration.
+        public var id: Swift.String?
+        /// The name of the security configuration.
+        public var name: Swift.String?
+        /// Security configuration inputs for the request.
+        public var securityConfigurationData: EMRcontainersClientTypes.SecurityConfigurationData?
+        /// The tags to assign to the security configuration.
+        public var tags: [Swift.String:Swift.String]?
+
+        public init(
+            arn: Swift.String? = nil,
+            createdAt: ClientRuntime.Date? = nil,
+            createdBy: Swift.String? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            securityConfigurationData: EMRcontainersClientTypes.SecurityConfigurationData? = nil,
+            tags: [Swift.String:Swift.String]? = nil
+        )
+        {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.id = id
+            self.name = name
+            self.securityConfigurationData = securityConfigurationData
+            self.tags = tags
+        }
+    }
+
+}
+
+extension EMRcontainersClientTypes.SecurityConfigurationData: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authorizationConfiguration
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let authorizationConfiguration = self.authorizationConfiguration {
+            try encodeContainer.encode(authorizationConfiguration, forKey: .authorizationConfiguration)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let authorizationConfigurationDecoded = try containerValues.decodeIfPresent(EMRcontainersClientTypes.AuthorizationConfiguration.self, forKey: .authorizationConfiguration)
+        authorizationConfiguration = authorizationConfigurationDecoded
+    }
+}
+
+extension EMRcontainersClientTypes {
+    /// Configurations related to the security configuration for the request.
+    public struct SecurityConfigurationData {
+        /// Authorization-related configuration input for the security configuration.
+        public var authorizationConfiguration: EMRcontainersClientTypes.AuthorizationConfiguration?
+
+        public init(
+            authorizationConfiguration: EMRcontainersClientTypes.AuthorizationConfiguration? = nil
+        )
+        {
+            self.authorizationConfiguration = authorizationConfiguration
+        }
+    }
+
+}
+
 extension EMRcontainersClientTypes.SparkSqlJobDriver: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case entryPoint
@@ -4595,6 +5384,61 @@ enum StartJobRunOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension EMRcontainersClientTypes.TLSCertificateConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case certificateProviderType
+        case privateCertificateSecretArn
+        case publicCertificateSecretArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let certificateProviderType = self.certificateProviderType {
+            try encodeContainer.encode(certificateProviderType.rawValue, forKey: .certificateProviderType)
+        }
+        if let privateCertificateSecretArn = self.privateCertificateSecretArn {
+            try encodeContainer.encode(privateCertificateSecretArn, forKey: .privateCertificateSecretArn)
+        }
+        if let publicCertificateSecretArn = self.publicCertificateSecretArn {
+            try encodeContainer.encode(publicCertificateSecretArn, forKey: .publicCertificateSecretArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let certificateProviderTypeDecoded = try containerValues.decodeIfPresent(EMRcontainersClientTypes.CertificateProviderType.self, forKey: .certificateProviderType)
+        certificateProviderType = certificateProviderTypeDecoded
+        let publicCertificateSecretArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .publicCertificateSecretArn)
+        publicCertificateSecretArn = publicCertificateSecretArnDecoded
+        let privateCertificateSecretArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .privateCertificateSecretArn)
+        privateCertificateSecretArn = privateCertificateSecretArnDecoded
+    }
+}
+
+extension EMRcontainersClientTypes {
+    /// Configurations related to the TLS certificate for the security configuration.
+    public struct TLSCertificateConfiguration {
+        /// The TLS certificate type. Acceptable values: PEM or Custom.
+        public var certificateProviderType: EMRcontainersClientTypes.CertificateProviderType?
+        /// Secrets Manager ARN that contains the private TLS certificate contents, used for communication between the user job and the system job.
+        public var privateCertificateSecretArn: Swift.String?
+        /// Secrets Manager ARN that contains the public TLS certificate contents, used for communication between the user job and the system job.
+        public var publicCertificateSecretArn: Swift.String?
+
+        public init(
+            certificateProviderType: EMRcontainersClientTypes.CertificateProviderType? = nil,
+            privateCertificateSecretArn: Swift.String? = nil,
+            publicCertificateSecretArn: Swift.String? = nil
+        )
+        {
+            self.certificateProviderType = certificateProviderType
+            self.privateCertificateSecretArn = privateCertificateSecretArn
+            self.publicCertificateSecretArn = publicCertificateSecretArn
+        }
+    }
+
+}
+
 extension TagResourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags
@@ -4902,6 +5746,7 @@ extension EMRcontainersClientTypes.VirtualCluster: Swift.Codable {
         case createdAt
         case id
         case name
+        case securityConfigurationId
         case state
         case tags
     }
@@ -4922,6 +5767,9 @@ extension EMRcontainersClientTypes.VirtualCluster: Swift.Codable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let securityConfigurationId = self.securityConfigurationId {
+            try encodeContainer.encode(securityConfigurationId, forKey: .securityConfigurationId)
         }
         if let state = self.state {
             try encodeContainer.encode(state.rawValue, forKey: .state)
@@ -4959,6 +5807,8 @@ extension EMRcontainersClientTypes.VirtualCluster: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let securityConfigurationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .securityConfigurationId)
+        securityConfigurationId = securityConfigurationIdDecoded
     }
 }
 
@@ -4975,6 +5825,8 @@ extension EMRcontainersClientTypes {
         public var id: Swift.String?
         /// The name of the virtual cluster.
         public var name: Swift.String?
+        /// The ID of the security configuration.
+        public var securityConfigurationId: Swift.String?
         /// The state of the virtual cluster.
         public var state: EMRcontainersClientTypes.VirtualClusterState?
         /// The assigned tags of the virtual cluster.
@@ -4986,6 +5838,7 @@ extension EMRcontainersClientTypes {
             createdAt: ClientRuntime.Date? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
+            securityConfigurationId: Swift.String? = nil,
             state: EMRcontainersClientTypes.VirtualClusterState? = nil,
             tags: [Swift.String:Swift.String]? = nil
         )
@@ -4995,6 +5848,7 @@ extension EMRcontainersClientTypes {
             self.createdAt = createdAt
             self.id = id
             self.name = name
+            self.securityConfigurationId = securityConfigurationId
             self.state = state
             self.tags = tags
         }

@@ -2594,7 +2594,7 @@
                     "sdkId": "CloudWatch",
                     "arnNamespace": "monitoring",
                     "cloudFormationName": "CloudWatch",
-                    "cloudTrailEventSource": "cloudwatch.amazonaws.com",
+                    "cloudTrailEventSource": "monitoring.amazonaws.com",
                     "docId": "monitoring-2010-08-01",
                     "endpointPrefix": "monitoring"
                 },

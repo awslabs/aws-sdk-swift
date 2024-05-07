@@ -5340,6 +5340,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidPasswordException` : This exception is thrown when Amazon Cognito encounters an invalid password.
     /// - `InvalidSmsRoleAccessPolicyException` : This exception is returned when the role provided for SMS configuration doesn't have permission to publish using Amazon SNS.
     /// - `InvalidSmsRoleTrustRelationshipException` : This exception is thrown when the trust relationship is not valid for the role provided for SMS configuration. This can happen if you don't trust cognito-idp.amazonaws.com or the external ID provided in the role does not match what is provided in the SMS configuration for the user pool.
+    /// - `LimitExceededException` : This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.

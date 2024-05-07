@@ -140,7 +140,7 @@ extension BedrockAgentClientTypes.ActionGroupExecutor: Swift.Codable {
 }
 
 extension BedrockAgentClientTypes {
-    /// Contains details about the Lambda function containing the business logic that is carried out upon invoking the action.
+    /// Contains details about the Lambda function containing the business logic that is carried out upon invoking the action or the custom control method for handling the information elicited from the user.
     public enum ActionGroupExecutor {
         /// The Amazon Resource Name (ARN) of the Lambda function containing the business logic that is carried out upon invoking the action.
         case lambda(Swift.String)
@@ -642,7 +642,7 @@ extension BedrockAgentClientTypes.AgentActionGroup: Swift.Codable {
 extension BedrockAgentClientTypes {
     /// Contains details about an action group.
     public struct AgentActionGroup {
-        /// The Amazon Resource Name (ARN) of the Lambda function containing the business logic that is carried out upon invoking the action.
+        /// The Amazon Resource Name (ARN) of the Lambda function containing the business logic that is carried out upon invoking the action or the custom control method for handling the information elicited from the user.
         public var actionGroupExecutor: BedrockAgentClientTypes.ActionGroupExecutor?
         /// The unique identifier of the action group.
         /// This member is required.
@@ -721,6 +721,7 @@ extension BedrockAgentClientTypes.AgentAlias: Swift.Codable {
         case clientToken
         case createdAt
         case description
+        case failureReasons
         case routingConfiguration
         case updatedAt
     }
@@ -756,6 +757,12 @@ extension BedrockAgentClientTypes.AgentAlias: Swift.Codable {
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let failureReasons = failureReasons {
+            var failureReasonsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .failureReasons)
+            for failurereason0 in failureReasons {
+                try failureReasonsContainer.encode(failurereason0)
+            }
         }
         if let routingConfiguration = routingConfiguration {
             var routingConfigurationContainer = encodeContainer.nestedUnkeyedContainer(forKey: .routingConfiguration)
@@ -810,6 +817,17 @@ extension BedrockAgentClientTypes.AgentAlias: Swift.Codable {
         agentAliasHistoryEvents = agentAliasHistoryEventsDecoded0
         let agentAliasStatusDecoded = try containerValues.decodeIfPresent(BedrockAgentClientTypes.AgentAliasStatus.self, forKey: .agentAliasStatus)
         agentAliasStatus = agentAliasStatusDecoded
+        let failureReasonsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .failureReasons)
+        var failureReasonsDecoded0:[Swift.String]? = nil
+        if let failureReasonsContainer = failureReasonsContainer {
+            failureReasonsDecoded0 = [Swift.String]()
+            for string0 in failureReasonsContainer {
+                if let string0 = string0 {
+                    failureReasonsDecoded0?.append(string0)
+                }
+            }
+        }
+        failureReasons = failureReasonsDecoded0
     }
 }
 
@@ -850,6 +868,8 @@ extension BedrockAgentClientTypes {
         public var createdAt: ClientRuntime.Date?
         /// The description of the alias of the agent.
         public var description: Swift.String?
+        /// Information on the failure of Provisioned Throughput assigned to an agent alias.
+        public var failureReasons: [Swift.String]?
         /// Contains details about the routing configuration of the alias.
         /// This member is required.
         public var routingConfiguration: [BedrockAgentClientTypes.AgentAliasRoutingConfigurationListItem]?
@@ -867,6 +887,7 @@ extension BedrockAgentClientTypes {
             clientToken: Swift.String? = nil,
             createdAt: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
+            failureReasons: [Swift.String]? = nil,
             routingConfiguration: [BedrockAgentClientTypes.AgentAliasRoutingConfigurationListItem]? = nil,
             updatedAt: ClientRuntime.Date? = nil
         )
@@ -880,6 +901,7 @@ extension BedrockAgentClientTypes {
             self.clientToken = clientToken
             self.createdAt = createdAt
             self.description = description
+            self.failureReasons = failureReasons
             self.routingConfiguration = routingConfiguration
             self.updatedAt = updatedAt
         }
@@ -957,6 +979,7 @@ extension BedrockAgentClientTypes {
 extension BedrockAgentClientTypes.AgentAliasRoutingConfigurationListItem: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case agentVersion
+        case provisionedThroughput
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -964,12 +987,17 @@ extension BedrockAgentClientTypes.AgentAliasRoutingConfigurationListItem: Swift.
         if let agentVersion = self.agentVersion {
             try encodeContainer.encode(agentVersion, forKey: .agentVersion)
         }
+        if let provisionedThroughput = self.provisionedThroughput {
+            try encodeContainer.encode(provisionedThroughput, forKey: .provisionedThroughput)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let agentVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .agentVersion)
         agentVersion = agentVersionDecoded
+        let provisionedThroughputDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .provisionedThroughput)
+        provisionedThroughput = provisionedThroughputDecoded
     }
 }
 
@@ -977,14 +1005,17 @@ extension BedrockAgentClientTypes {
     /// Contains details about the routing configuration of the alias.
     public struct AgentAliasRoutingConfigurationListItem {
         /// The version of the agent with which the alias is associated.
-        /// This member is required.
         public var agentVersion: Swift.String?
+        /// Information on the Provisioned Throughput assigned to an agent alias.
+        public var provisionedThroughput: Swift.String?
 
         public init(
-            agentVersion: Swift.String? = nil
+            agentVersion: Swift.String? = nil,
+            provisionedThroughput: Swift.String? = nil
         )
         {
             self.agentVersion = agentVersion
+            self.provisionedThroughput = provisionedThroughput
         }
     }
 
@@ -2107,7 +2138,7 @@ extension CreateAgentActionGroupInput {
 }
 
 public struct CreateAgentActionGroupInput {
-    /// The Amazon Resource Name (ARN) of the Lambda function containing the business logic that is carried out upon invoking the action.
+    /// The Amazon Resource Name (ARN) of the Lambda function containing the business logic that is carried out upon invoking the action or the custom control method for handling the information elicited from the user.
     public var actionGroupExecutor: BedrockAgentClientTypes.ActionGroupExecutor?
     /// The name to give the action group.
     /// This member is required.
@@ -2680,6 +2711,7 @@ enum CreateAgentOutputError: ClientRuntime.HttpResponseErrorBinding {
 extension CreateDataSourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
+        case dataDeletionPolicy
         case dataSourceConfiguration
         case description
         case name
@@ -2691,6 +2723,9 @@ extension CreateDataSourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let clientToken = self.clientToken {
             try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let dataDeletionPolicy = self.dataDeletionPolicy {
+            try encodeContainer.encode(dataDeletionPolicy.rawValue, forKey: .dataDeletionPolicy)
         }
         if let dataSourceConfiguration = self.dataSourceConfiguration {
             try encodeContainer.encode(dataSourceConfiguration, forKey: .dataSourceConfiguration)
@@ -2723,6 +2758,8 @@ extension CreateDataSourceInput {
 public struct CreateDataSourceInput {
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
     public var clientToken: Swift.String?
+    /// The data deletion policy assigned to the data source.
+    public var dataDeletionPolicy: BedrockAgentClientTypes.DataDeletionPolicy?
     /// Contains metadata about where the data source is stored.
     /// This member is required.
     public var dataSourceConfiguration: BedrockAgentClientTypes.DataSourceConfiguration?
@@ -2741,6 +2778,7 @@ public struct CreateDataSourceInput {
 
     public init(
         clientToken: Swift.String? = nil,
+        dataDeletionPolicy: BedrockAgentClientTypes.DataDeletionPolicy? = nil,
         dataSourceConfiguration: BedrockAgentClientTypes.DataSourceConfiguration? = nil,
         description: Swift.String? = nil,
         knowledgeBaseId: Swift.String? = nil,
@@ -2750,6 +2788,7 @@ public struct CreateDataSourceInput {
     )
     {
         self.clientToken = clientToken
+        self.dataDeletionPolicy = dataDeletionPolicy
         self.dataSourceConfiguration = dataSourceConfiguration
         self.description = description
         self.knowledgeBaseId = knowledgeBaseId
@@ -2764,6 +2803,7 @@ struct CreateDataSourceInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let dataSourceConfiguration: BedrockAgentClientTypes.DataSourceConfiguration?
+    let dataDeletionPolicy: BedrockAgentClientTypes.DataDeletionPolicy?
     let serverSideEncryptionConfiguration: BedrockAgentClientTypes.ServerSideEncryptionConfiguration?
     let vectorIngestionConfiguration: BedrockAgentClientTypes.VectorIngestionConfiguration?
 }
@@ -2771,6 +2811,7 @@ struct CreateDataSourceInputBody {
 extension CreateDataSourceInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
+        case dataDeletionPolicy
         case dataSourceConfiguration
         case description
         case name
@@ -2788,6 +2829,8 @@ extension CreateDataSourceInputBody: Swift.Decodable {
         description = descriptionDecoded
         let dataSourceConfigurationDecoded = try containerValues.decodeIfPresent(BedrockAgentClientTypes.DataSourceConfiguration.self, forKey: .dataSourceConfiguration)
         dataSourceConfiguration = dataSourceConfigurationDecoded
+        let dataDeletionPolicyDecoded = try containerValues.decodeIfPresent(BedrockAgentClientTypes.DataDeletionPolicy.self, forKey: .dataDeletionPolicy)
+        dataDeletionPolicy = dataDeletionPolicyDecoded
         let serverSideEncryptionConfigurationDecoded = try containerValues.decodeIfPresent(BedrockAgentClientTypes.ServerSideEncryptionConfiguration.self, forKey: .serverSideEncryptionConfiguration)
         serverSideEncryptionConfiguration = serverSideEncryptionConfigurationDecoded
         let vectorIngestionConfigurationDecoded = try containerValues.decodeIfPresent(BedrockAgentClientTypes.VectorIngestionConfiguration.self, forKey: .vectorIngestionConfiguration)
@@ -3107,12 +3150,46 @@ extension BedrockAgentClientTypes {
     }
 }
 
+extension BedrockAgentClientTypes {
+    public enum DataDeletionPolicy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case delete
+        case retain
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataDeletionPolicy] {
+            return [
+                .delete,
+                .retain,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .delete: return "DELETE"
+            case .retain: return "RETAIN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DataDeletionPolicy(rawValue: rawValue) ?? DataDeletionPolicy.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension BedrockAgentClientTypes.DataSource: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdAt
+        case dataDeletionPolicy
         case dataSourceConfiguration
         case dataSourceId
         case description
+        case failureReasons
         case knowledgeBaseId
         case name
         case serverSideEncryptionConfiguration
@@ -3126,6 +3203,9 @@ extension BedrockAgentClientTypes.DataSource: Swift.Codable {
         if let createdAt = self.createdAt {
             try encodeContainer.encodeTimestamp(createdAt, format: .dateTime, forKey: .createdAt)
         }
+        if let dataDeletionPolicy = self.dataDeletionPolicy {
+            try encodeContainer.encode(dataDeletionPolicy.rawValue, forKey: .dataDeletionPolicy)
+        }
         if let dataSourceConfiguration = self.dataSourceConfiguration {
             try encodeContainer.encode(dataSourceConfiguration, forKey: .dataSourceConfiguration)
         }
@@ -3134,6 +3214,12 @@ extension BedrockAgentClientTypes.DataSource: Swift.Codable {
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let failureReasons = failureReasons {
+            var failureReasonsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .failureReasons)
+            for failurereason0 in failureReasons {
+                try failureReasonsContainer.encode(failurereason0)
+            }
         }
         if let knowledgeBaseId = self.knowledgeBaseId {
             try encodeContainer.encode(knowledgeBaseId, forKey: .knowledgeBaseId)
@@ -3173,10 +3259,23 @@ extension BedrockAgentClientTypes.DataSource: Swift.Codable {
         serverSideEncryptionConfiguration = serverSideEncryptionConfigurationDecoded
         let vectorIngestionConfigurationDecoded = try containerValues.decodeIfPresent(BedrockAgentClientTypes.VectorIngestionConfiguration.self, forKey: .vectorIngestionConfiguration)
         vectorIngestionConfiguration = vectorIngestionConfigurationDecoded
+        let dataDeletionPolicyDecoded = try containerValues.decodeIfPresent(BedrockAgentClientTypes.DataDeletionPolicy.self, forKey: .dataDeletionPolicy)
+        dataDeletionPolicy = dataDeletionPolicyDecoded
         let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
         createdAt = createdAtDecoded
         let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updatedAt)
         updatedAt = updatedAtDecoded
+        let failureReasonsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .failureReasons)
+        var failureReasonsDecoded0:[Swift.String]? = nil
+        if let failureReasonsContainer = failureReasonsContainer {
+            failureReasonsDecoded0 = [Swift.String]()
+            for string0 in failureReasonsContainer {
+                if let string0 = string0 {
+                    failureReasonsDecoded0?.append(string0)
+                }
+            }
+        }
+        failureReasons = failureReasonsDecoded0
     }
 }
 
@@ -3186,6 +3285,8 @@ extension BedrockAgentClientTypes {
         /// The time at which the data source was created.
         /// This member is required.
         public var createdAt: ClientRuntime.Date?
+        /// The data deletion policy for a data source.
+        public var dataDeletionPolicy: BedrockAgentClientTypes.DataDeletionPolicy?
         /// Contains details about how the data source is stored.
         /// This member is required.
         public var dataSourceConfiguration: BedrockAgentClientTypes.DataSourceConfiguration?
@@ -3194,6 +3295,8 @@ extension BedrockAgentClientTypes {
         public var dataSourceId: Swift.String?
         /// The description of the data source.
         public var description: Swift.String?
+        /// The detailed reasons on the failure to delete a data source.
+        public var failureReasons: [Swift.String]?
         /// The unique identifier of the knowledge base to which the data source belongs.
         /// This member is required.
         public var knowledgeBaseId: Swift.String?
@@ -3217,9 +3320,11 @@ extension BedrockAgentClientTypes {
 
         public init(
             createdAt: ClientRuntime.Date? = nil,
+            dataDeletionPolicy: BedrockAgentClientTypes.DataDeletionPolicy? = nil,
             dataSourceConfiguration: BedrockAgentClientTypes.DataSourceConfiguration? = nil,
             dataSourceId: Swift.String? = nil,
             description: Swift.String? = nil,
+            failureReasons: [Swift.String]? = nil,
             knowledgeBaseId: Swift.String? = nil,
             name: Swift.String? = nil,
             serverSideEncryptionConfiguration: BedrockAgentClientTypes.ServerSideEncryptionConfiguration? = nil,
@@ -3229,9 +3334,11 @@ extension BedrockAgentClientTypes {
         )
         {
             self.createdAt = createdAt
+            self.dataDeletionPolicy = dataDeletionPolicy
             self.dataSourceConfiguration = dataSourceConfiguration
             self.dataSourceId = dataSourceId
             self.description = description
+            self.failureReasons = failureReasons
             self.knowledgeBaseId = knowledgeBaseId
             self.name = name
             self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
@@ -3292,12 +3399,14 @@ extension BedrockAgentClientTypes {
 extension BedrockAgentClientTypes {
     public enum DataSourceStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case available
+        case deleteUnsuccessful
         case deleting
         case sdkUnknown(Swift.String)
 
         public static var allCases: [DataSourceStatus] {
             return [
                 .available,
+                .deleteUnsuccessful,
                 .deleting,
                 .sdkUnknown("")
             ]
@@ -3309,6 +3418,7 @@ extension BedrockAgentClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .available: return "AVAILABLE"
+            case .deleteUnsuccessful: return "DELETE_UNSUCCESSFUL"
             case .deleting: return "DELETING"
             case let .sdkUnknown(s): return s
             }
@@ -6132,6 +6242,7 @@ extension BedrockAgentClientTypes {
     public enum KnowledgeBaseStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case active
         case creating
+        case deleteUnsuccessful
         case deleting
         case failed
         case updating
@@ -6141,6 +6252,7 @@ extension BedrockAgentClientTypes {
             return [
                 .active,
                 .creating,
+                .deleteUnsuccessful,
                 .deleting,
                 .failed,
                 .updating,
@@ -6155,6 +6267,7 @@ extension BedrockAgentClientTypes {
             switch self {
             case .active: return "ACTIVE"
             case .creating: return "CREATING"
+            case .deleteUnsuccessful: return "DELETE_UNSUCCESSFUL"
             case .deleting: return "DELETING"
             case .failed: return "FAILED"
             case .updating: return "UPDATING"
@@ -6171,6 +6284,7 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
     public enum KnowledgeBaseStorageType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case mongoDbAtlas
         case opensearchServerless
         case pinecone
         case rds
@@ -6179,6 +6293,7 @@ extension BedrockAgentClientTypes {
 
         public static var allCases: [KnowledgeBaseStorageType] {
             return [
+                .mongoDbAtlas,
                 .opensearchServerless,
                 .pinecone,
                 .rds,
@@ -6192,6 +6307,7 @@ extension BedrockAgentClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .mongoDbAtlas: return "MONGO_DB_ATLAS"
             case .opensearchServerless: return "OPENSEARCH_SERVERLESS"
             case .pinecone: return "PINECONE"
             case .rds: return "RDS"
@@ -7597,6 +7713,165 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension BedrockAgentClientTypes.MongoDbAtlasConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case collectionName
+        case credentialsSecretArn
+        case databaseName
+        case endpoint
+        case endpointServiceName
+        case fieldMapping
+        case vectorIndexName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let collectionName = self.collectionName {
+            try encodeContainer.encode(collectionName, forKey: .collectionName)
+        }
+        if let credentialsSecretArn = self.credentialsSecretArn {
+            try encodeContainer.encode(credentialsSecretArn, forKey: .credentialsSecretArn)
+        }
+        if let databaseName = self.databaseName {
+            try encodeContainer.encode(databaseName, forKey: .databaseName)
+        }
+        if let endpoint = self.endpoint {
+            try encodeContainer.encode(endpoint, forKey: .endpoint)
+        }
+        if let endpointServiceName = self.endpointServiceName {
+            try encodeContainer.encode(endpointServiceName, forKey: .endpointServiceName)
+        }
+        if let fieldMapping = self.fieldMapping {
+            try encodeContainer.encode(fieldMapping, forKey: .fieldMapping)
+        }
+        if let vectorIndexName = self.vectorIndexName {
+            try encodeContainer.encode(vectorIndexName, forKey: .vectorIndexName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let endpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endpoint)
+        endpoint = endpointDecoded
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
+        let collectionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collectionName)
+        collectionName = collectionNameDecoded
+        let vectorIndexNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vectorIndexName)
+        vectorIndexName = vectorIndexNameDecoded
+        let credentialsSecretArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .credentialsSecretArn)
+        credentialsSecretArn = credentialsSecretArnDecoded
+        let fieldMappingDecoded = try containerValues.decodeIfPresent(BedrockAgentClientTypes.MongoDbAtlasFieldMapping.self, forKey: .fieldMapping)
+        fieldMapping = fieldMappingDecoded
+        let endpointServiceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endpointServiceName)
+        endpointServiceName = endpointServiceNameDecoded
+    }
+}
+
+extension BedrockAgentClientTypes {
+    /// Contains details about the storage configuration of the knowledge base in MongoDB Atlas.
+    public struct MongoDbAtlasConfiguration {
+        /// The collection name of the knowledge base in MongoDB Atlas.
+        /// This member is required.
+        public var collectionName: Swift.String?
+        /// The Amazon Resource Name (ARN) of the secret that you created in Secrets Manager that contains user credentials for your MongoDB Atlas cluster.
+        /// This member is required.
+        public var credentialsSecretArn: Swift.String?
+        /// The database name in your MongoDB Atlas cluster for your knowledge base.
+        /// This member is required.
+        public var databaseName: Swift.String?
+        /// The endpoint URL of your MongoDB Atlas cluster for your knowledge base.
+        /// This member is required.
+        public var endpoint: Swift.String?
+        /// The name of the VPC endpoint service in your account that is connected to your MongoDB Atlas cluster.
+        public var endpointServiceName: Swift.String?
+        /// Contains the names of the fields to which to map information about the vector store.
+        /// This member is required.
+        public var fieldMapping: BedrockAgentClientTypes.MongoDbAtlasFieldMapping?
+        /// The name of the MongoDB Atlas vector search index.
+        /// This member is required.
+        public var vectorIndexName: Swift.String?
+
+        public init(
+            collectionName: Swift.String? = nil,
+            credentialsSecretArn: Swift.String? = nil,
+            databaseName: Swift.String? = nil,
+            endpoint: Swift.String? = nil,
+            endpointServiceName: Swift.String? = nil,
+            fieldMapping: BedrockAgentClientTypes.MongoDbAtlasFieldMapping? = nil,
+            vectorIndexName: Swift.String? = nil
+        )
+        {
+            self.collectionName = collectionName
+            self.credentialsSecretArn = credentialsSecretArn
+            self.databaseName = databaseName
+            self.endpoint = endpoint
+            self.endpointServiceName = endpointServiceName
+            self.fieldMapping = fieldMapping
+            self.vectorIndexName = vectorIndexName
+        }
+    }
+
+}
+
+extension BedrockAgentClientTypes.MongoDbAtlasFieldMapping: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case metadataField
+        case textField
+        case vectorField
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let metadataField = self.metadataField {
+            try encodeContainer.encode(metadataField, forKey: .metadataField)
+        }
+        if let textField = self.textField {
+            try encodeContainer.encode(textField, forKey: .textField)
+        }
+        if let vectorField = self.vectorField {
+            try encodeContainer.encode(vectorField, forKey: .vectorField)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vectorFieldDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vectorField)
+        vectorField = vectorFieldDecoded
+        let textFieldDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .textField)
+        textField = textFieldDecoded
+        let metadataFieldDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metadataField)
+        metadataField = metadataFieldDecoded
+    }
+}
+
+extension BedrockAgentClientTypes {
+    /// Contains the names of the fields to which to map information about the vector store.
+    public struct MongoDbAtlasFieldMapping {
+        /// The name of the field in which Amazon Bedrock stores metadata about the vector store.
+        /// This member is required.
+        public var metadataField: Swift.String?
+        /// The name of the field in which Amazon Bedrock stores the raw text from your data. The text is split according to the chunking strategy you choose.
+        /// This member is required.
+        public var textField: Swift.String?
+        /// The name of the field in which Amazon Bedrock stores the vector embeddings for your data sources.
+        /// This member is required.
+        public var vectorField: Swift.String?
+
+        public init(
+            metadataField: Swift.String? = nil,
+            textField: Swift.String? = nil,
+            vectorField: Swift.String? = nil
+        )
+        {
+            self.metadataField = metadataField
+            self.textField = textField
+            self.vectorField = vectorField
+        }
+    }
+
+}
+
 extension BedrockAgentClientTypes.OpenSearchServerlessConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case collectionArn
@@ -8578,6 +8853,7 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
 extension BedrockAgentClientTypes.S3DataSourceConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case bucketArn
+        case bucketOwnerAccountId
         case inclusionPrefixes
     }
 
@@ -8585,6 +8861,9 @@ extension BedrockAgentClientTypes.S3DataSourceConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let bucketArn = self.bucketArn {
             try encodeContainer.encode(bucketArn, forKey: .bucketArn)
+        }
+        if let bucketOwnerAccountId = self.bucketOwnerAccountId {
+            try encodeContainer.encode(bucketOwnerAccountId, forKey: .bucketOwnerAccountId)
         }
         if let inclusionPrefixes = inclusionPrefixes {
             var inclusionPrefixesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inclusionPrefixes)
@@ -8609,6 +8888,8 @@ extension BedrockAgentClientTypes.S3DataSourceConfiguration: Swift.Codable {
             }
         }
         inclusionPrefixes = inclusionPrefixesDecoded0
+        let bucketOwnerAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketOwnerAccountId)
+        bucketOwnerAccountId = bucketOwnerAccountIdDecoded
     }
 }
 
@@ -8618,15 +8899,19 @@ extension BedrockAgentClientTypes {
         /// The Amazon Resource Name (ARN) of the bucket that contains the data source.
         /// This member is required.
         public var bucketArn: Swift.String?
+        /// The bucket account owner ID for the S3 bucket.
+        public var bucketOwnerAccountId: Swift.String?
         /// A list of S3 prefixes that define the object containing the data sources. For more information, see [Organizing objects using prefixes](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-prefixes.html).
         public var inclusionPrefixes: [Swift.String]?
 
         public init(
             bucketArn: Swift.String? = nil,
+            bucketOwnerAccountId: Swift.String? = nil,
             inclusionPrefixes: [Swift.String]? = nil
         )
         {
             self.bucketArn = bucketArn
+            self.bucketOwnerAccountId = bucketOwnerAccountId
             self.inclusionPrefixes = inclusionPrefixes
         }
     }
@@ -8936,6 +9221,7 @@ enum StartIngestionJobOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension BedrockAgentClientTypes.StorageConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case mongoDbAtlasConfiguration
         case opensearchServerlessConfiguration
         case pineconeConfiguration
         case rdsConfiguration
@@ -8945,6 +9231,9 @@ extension BedrockAgentClientTypes.StorageConfiguration: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let mongoDbAtlasConfiguration = self.mongoDbAtlasConfiguration {
+            try encodeContainer.encode(mongoDbAtlasConfiguration, forKey: .mongoDbAtlasConfiguration)
+        }
         if let opensearchServerlessConfiguration = self.opensearchServerlessConfiguration {
             try encodeContainer.encode(opensearchServerlessConfiguration, forKey: .opensearchServerlessConfiguration)
         }
@@ -8974,12 +9263,16 @@ extension BedrockAgentClientTypes.StorageConfiguration: Swift.Codable {
         redisEnterpriseCloudConfiguration = redisEnterpriseCloudConfigurationDecoded
         let rdsConfigurationDecoded = try containerValues.decodeIfPresent(BedrockAgentClientTypes.RdsConfiguration.self, forKey: .rdsConfiguration)
         rdsConfiguration = rdsConfigurationDecoded
+        let mongoDbAtlasConfigurationDecoded = try containerValues.decodeIfPresent(BedrockAgentClientTypes.MongoDbAtlasConfiguration.self, forKey: .mongoDbAtlasConfiguration)
+        mongoDbAtlasConfiguration = mongoDbAtlasConfigurationDecoded
     }
 }
 
 extension BedrockAgentClientTypes {
     /// Contains the storage configuration of the knowledge base.
     public struct StorageConfiguration {
+        /// Contains the storage configuration of the knowledge base in MongoDB Atlas.
+        public var mongoDbAtlasConfiguration: BedrockAgentClientTypes.MongoDbAtlasConfiguration?
         /// Contains the storage configuration of the knowledge base in Amazon OpenSearch Service.
         public var opensearchServerlessConfiguration: BedrockAgentClientTypes.OpenSearchServerlessConfiguration?
         /// Contains the storage configuration of the knowledge base in Pinecone.
@@ -8993,6 +9286,7 @@ extension BedrockAgentClientTypes {
         public var type: BedrockAgentClientTypes.KnowledgeBaseStorageType?
 
         public init(
+            mongoDbAtlasConfiguration: BedrockAgentClientTypes.MongoDbAtlasConfiguration? = nil,
             opensearchServerlessConfiguration: BedrockAgentClientTypes.OpenSearchServerlessConfiguration? = nil,
             pineconeConfiguration: BedrockAgentClientTypes.PineconeConfiguration? = nil,
             rdsConfiguration: BedrockAgentClientTypes.RdsConfiguration? = nil,
@@ -9000,6 +9294,7 @@ extension BedrockAgentClientTypes {
             type: BedrockAgentClientTypes.KnowledgeBaseStorageType? = nil
         )
         {
+            self.mongoDbAtlasConfiguration = mongoDbAtlasConfiguration
             self.opensearchServerlessConfiguration = opensearchServerlessConfiguration
             self.pineconeConfiguration = pineconeConfiguration
             self.rdsConfiguration = rdsConfiguration
@@ -9990,6 +10285,7 @@ enum UpdateAgentOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension UpdateDataSourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataDeletionPolicy
         case dataSourceConfiguration
         case description
         case name
@@ -9999,6 +10295,9 @@ extension UpdateDataSourceInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataDeletionPolicy = self.dataDeletionPolicy {
+            try encodeContainer.encode(dataDeletionPolicy.rawValue, forKey: .dataDeletionPolicy)
+        }
         if let dataSourceConfiguration = self.dataSourceConfiguration {
             try encodeContainer.encode(dataSourceConfiguration, forKey: .dataSourceConfiguration)
         }
@@ -10031,6 +10330,8 @@ extension UpdateDataSourceInput {
 }
 
 public struct UpdateDataSourceInput {
+    /// The data deletion policy of the updated data source.
+    public var dataDeletionPolicy: BedrockAgentClientTypes.DataDeletionPolicy?
     /// Contains details about the storage configuration of the data source.
     /// This member is required.
     public var dataSourceConfiguration: BedrockAgentClientTypes.DataSourceConfiguration?
@@ -10051,6 +10352,7 @@ public struct UpdateDataSourceInput {
     public var vectorIngestionConfiguration: BedrockAgentClientTypes.VectorIngestionConfiguration?
 
     public init(
+        dataDeletionPolicy: BedrockAgentClientTypes.DataDeletionPolicy? = nil,
         dataSourceConfiguration: BedrockAgentClientTypes.DataSourceConfiguration? = nil,
         dataSourceId: Swift.String? = nil,
         description: Swift.String? = nil,
@@ -10060,6 +10362,7 @@ public struct UpdateDataSourceInput {
         vectorIngestionConfiguration: BedrockAgentClientTypes.VectorIngestionConfiguration? = nil
     )
     {
+        self.dataDeletionPolicy = dataDeletionPolicy
         self.dataSourceConfiguration = dataSourceConfiguration
         self.dataSourceId = dataSourceId
         self.description = description
@@ -10074,12 +10377,14 @@ struct UpdateDataSourceInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let dataSourceConfiguration: BedrockAgentClientTypes.DataSourceConfiguration?
+    let dataDeletionPolicy: BedrockAgentClientTypes.DataDeletionPolicy?
     let serverSideEncryptionConfiguration: BedrockAgentClientTypes.ServerSideEncryptionConfiguration?
     let vectorIngestionConfiguration: BedrockAgentClientTypes.VectorIngestionConfiguration?
 }
 
 extension UpdateDataSourceInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataDeletionPolicy
         case dataSourceConfiguration
         case description
         case name
@@ -10095,6 +10400,8 @@ extension UpdateDataSourceInputBody: Swift.Decodable {
         description = descriptionDecoded
         let dataSourceConfigurationDecoded = try containerValues.decodeIfPresent(BedrockAgentClientTypes.DataSourceConfiguration.self, forKey: .dataSourceConfiguration)
         dataSourceConfiguration = dataSourceConfigurationDecoded
+        let dataDeletionPolicyDecoded = try containerValues.decodeIfPresent(BedrockAgentClientTypes.DataDeletionPolicy.self, forKey: .dataDeletionPolicy)
+        dataDeletionPolicy = dataDeletionPolicyDecoded
         let serverSideEncryptionConfigurationDecoded = try containerValues.decodeIfPresent(BedrockAgentClientTypes.ServerSideEncryptionConfiguration.self, forKey: .serverSideEncryptionConfiguration)
         serverSideEncryptionConfiguration = serverSideEncryptionConfigurationDecoded
         let vectorIngestionConfigurationDecoded = try containerValues.decodeIfPresent(BedrockAgentClientTypes.VectorIngestionConfiguration.self, forKey: .vectorIngestionConfiguration)

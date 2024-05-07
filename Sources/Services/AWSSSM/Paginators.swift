@@ -414,6 +414,38 @@ extension PaginatorSequence where OperationStackInput == DescribeInstancePatchSt
     }
 }
 extension SSMClient {
+    /// Paginate over `[DescribeInstancePropertiesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeInstancePropertiesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeInstancePropertiesOutput`
+    public func describeInstancePropertiesPaginated(input: DescribeInstancePropertiesInput) -> ClientRuntime.PaginatorSequence<DescribeInstancePropertiesInput, DescribeInstancePropertiesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeInstancePropertiesInput, DescribeInstancePropertiesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeInstanceProperties(input:))
+    }
+}
+
+extension DescribeInstancePropertiesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeInstancePropertiesInput {
+        return DescribeInstancePropertiesInput(
+            filtersWithOperator: self.filtersWithOperator,
+            instancePropertyFilterList: self.instancePropertyFilterList,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeInstancePropertiesInput, OperationStackOutput == DescribeInstancePropertiesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeInstancePropertiesPaginated`
+    /// to access the nested member `[SSMClientTypes.InstanceProperty]`
+    /// - Returns: `[SSMClientTypes.InstanceProperty]`
+    public func instanceProperties() async throws -> [SSMClientTypes.InstanceProperty] {
+        return try await self.asyncCompactMap { item in item.instanceProperties }
+    }
+}
+extension SSMClient {
     /// Paginate over `[DescribeInventoryDeletionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

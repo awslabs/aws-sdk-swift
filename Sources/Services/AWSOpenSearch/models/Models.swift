@@ -7947,6 +7947,7 @@ extension OpenSearchClientTypes.DomainStatus: Swift.Codable {
         case created = "Created"
         case deleted = "Deleted"
         case domainEndpointOptions = "DomainEndpointOptions"
+        case domainEndpointV2HostedZoneId = "DomainEndpointV2HostedZoneId"
         case domainId = "DomainId"
         case domainName = "DomainName"
         case domainProcessingStatus = "DomainProcessingStatus"
@@ -8006,6 +8007,9 @@ extension OpenSearchClientTypes.DomainStatus: Swift.Codable {
         }
         if let domainEndpointOptions = self.domainEndpointOptions {
             try encodeContainer.encode(domainEndpointOptions, forKey: .domainEndpointOptions)
+        }
+        if let domainEndpointV2HostedZoneId = self.domainEndpointV2HostedZoneId {
+            try encodeContainer.encode(domainEndpointV2HostedZoneId, forKey: .domainEndpointV2HostedZoneId)
         }
         if let domainId = self.domainId {
             try encodeContainer.encode(domainId, forKey: .domainId)
@@ -8105,6 +8109,8 @@ extension OpenSearchClientTypes.DomainStatus: Swift.Codable {
             }
         }
         endpoints = endpointsDecoded0
+        let domainEndpointV2HostedZoneIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainEndpointV2HostedZoneId)
+        domainEndpointV2HostedZoneId = domainEndpointV2HostedZoneIdDecoded
         let processingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .processing)
         processing = processingDecoded
         let upgradeProcessingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .upgradeProcessing)
@@ -8208,6 +8214,8 @@ extension OpenSearchClientTypes {
         public var deleted: Swift.Bool?
         /// Additional options for the domain endpoint, such as whether to require HTTPS for all traffic.
         public var domainEndpointOptions: OpenSearchClientTypes.DomainEndpointOptions?
+        /// The DualStack Hosted Zone Id for the domain.
+        public var domainEndpointV2HostedZoneId: Swift.String?
         /// Unique identifier for the domain.
         /// This member is required.
         public var domainId: Swift.String?
@@ -8224,7 +8232,11 @@ extension OpenSearchClientTypes {
         public var endpoint: Swift.String?
         /// If IPAddressType to set to dualstack, a version 2 domain endpoint is provisioned. This endpoint functions like a normal endpoint, except that it works with both IPv4 and IPv6 IP addresses. Normal endpoints work only with IPv4 IP addresses.
         public var endpointV2: Swift.String?
-        /// The key-value pair that exists if the OpenSearch Service domain uses VPC endpoints. Example key, value: 'vpc','vpc-endpoint-h2dsd34efgyghrtguk5gt6j2foh4.us-east-1.es.amazonaws.com'.
+        /// The key-value pair that exists if the OpenSearch Service domain uses VPC endpoints. For example:
+        ///
+        /// * IPv4 IP addresses - 'vpc','vpc-endpoint-h2dsd34efgyghrtguk5gt6j2foh4.us-east-1.es.amazonaws.com'
+        ///
+        /// * Dual stack IP addresses - 'vpcv2':'vpc-endpoint-h2dsd34efgyghrtguk5gt6j2foh4.aos.us-east-1.on.aws'
         public var endpoints: [Swift.String:Swift.String]?
         /// Version of OpenSearch or Elasticsearch that the domain is running, in the format Elasticsearch_X.Y or OpenSearch_X.Y.
         public var engineVersion: Swift.String?
@@ -8263,6 +8275,7 @@ extension OpenSearchClientTypes {
             created: Swift.Bool? = nil,
             deleted: Swift.Bool? = nil,
             domainEndpointOptions: OpenSearchClientTypes.DomainEndpointOptions? = nil,
+            domainEndpointV2HostedZoneId: Swift.String? = nil,
             domainId: Swift.String? = nil,
             domainName: Swift.String? = nil,
             domainProcessingStatus: OpenSearchClientTypes.DomainProcessingStatusType? = nil,
@@ -8296,6 +8309,7 @@ extension OpenSearchClientTypes {
             self.created = created
             self.deleted = deleted
             self.domainEndpointOptions = domainEndpointOptions
+            self.domainEndpointV2HostedZoneId = domainEndpointV2HostedZoneId
             self.domainId = domainId
             self.domainName = domainName
             self.domainProcessingStatus = domainProcessingStatus

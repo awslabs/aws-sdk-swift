@@ -1280,6 +1280,7 @@ extension Inspector2Client {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
     public func getCisScanReport(input: GetCisScanReportInput) async throws -> GetCisScanReportOutput {

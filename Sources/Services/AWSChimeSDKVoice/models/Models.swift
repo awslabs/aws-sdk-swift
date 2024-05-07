@@ -11241,7 +11241,7 @@ extension ChimeSDKVoiceClientTypes.SipMediaApplicationAlexaSkillConfiguration: S
 }
 
 extension ChimeSDKVoiceClientTypes {
-    /// The Alexa Skill configuration of a SIP media application.
+    /// The Alexa Skill configuration of a SIP media application. Due to changes made by the Amazon Alexa service, this data type is no longer available for use. For more information, refer to the [Alexa Smart Properties](https://developer.amazon.com/en-US/alexa/alexasmartproperties) page.
     public struct SipMediaApplicationAlexaSkillConfiguration {
         /// The ID of the Alexa Skill configuration.
         /// This member is required.
@@ -13090,7 +13090,7 @@ extension UpdatePhoneNumberInput {
 public struct UpdatePhoneNumberInput {
     /// The outbound calling name associated with the phone number.
     public var callingName: Swift.String?
-    /// Specifies the name assigned to one or more phone numbers.
+    /// Specifies the updated name assigned to one or more phone numbers.
     public var name: Swift.String?
     /// The phone number ID.
     /// This member is required.

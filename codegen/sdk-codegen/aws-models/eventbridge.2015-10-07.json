@@ -207,7 +207,7 @@
                     "sdkId": "EventBridge",
                     "arnNamespace": "events",
                     "cloudFormationName": "Events",
-                    "cloudTrailEventSource": "eventbridge.amazonaws.com",
+                    "cloudTrailEventSource": "events.amazonaws.com",
                     "endpointPrefix": "events"
                 },
                 "aws.auth#sigv4": {
