@@ -2833,7 +2833,7 @@
                     "sdkId": "EMR",
                     "arnNamespace": "elasticmapreduce",
                     "cloudFormationName": "EMR",
-                    "cloudTrailEventSource": "emr.amazonaws.com",
+                    "cloudTrailEventSource": "elasticmapreduce.amazonaws.com",
                     "docId": "elasticmapreduce-2009-03-31",
                     "endpointPrefix": "elasticmapreduce"
                 },
