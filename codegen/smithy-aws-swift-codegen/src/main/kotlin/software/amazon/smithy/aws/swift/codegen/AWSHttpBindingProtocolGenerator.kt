@@ -76,7 +76,7 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
         var testCount = 0
 
         ctx.service.getTrait<EndpointTestsTrait>()?.let { testsTrait ->
-            if (testsTrait?.testCases.isEmpty()) {
+            if (testsTrait.testCases?.isEmpty() == true) {
                 return 0
             }
 
