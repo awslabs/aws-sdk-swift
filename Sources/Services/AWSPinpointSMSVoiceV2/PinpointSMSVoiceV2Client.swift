@@ -198,6 +198,62 @@ extension PinpointSMSVoiceV2Client {
         return result
     }
 
+    /// Performs the `AssociateProtectConfiguration` operation on the `PinpointSMSVoiceV2` service.
+    ///
+    /// Associate a protect configuration with a configuration set. This replaces the configuration sets current protect configuration. A configuration set can only be associated with one protect configuration at a time. A protect configuration can be associated with multiple configuration sets.
+    ///
+    /// - Parameter AssociateProtectConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateProtectConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient permissions to access the resource.
+    /// - `ConflictException` : Your request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time or it could be that the requested action isn't valid for the current state or configuration of the resource.
+    /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
+    /// - `ResourceNotFoundException` : A requested resource couldn't be found.
+    /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : A validation exception for a field.
+    public func associateProtectConfiguration(input: AssociateProtectConfigurationInput) async throws -> AssociateProtectConfigurationOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "associateProtectConfiguration")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "sms-voice")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<AssociateProtectConfigurationInput, AssociateProtectConfigurationOutput>(id: "associateProtectConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateProtectConfigurationInput, AssociateProtectConfigurationOutput>(AssociateProtectConfigurationInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateProtectConfigurationInput, AssociateProtectConfigurationOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateProtectConfigurationOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<AssociateProtectConfigurationOutput>())
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AssociateProtectConfigurationInput, AssociateProtectConfigurationOutput>(xAmzTarget: "PinpointSMSVoiceV2.AssociateProtectConfiguration"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AssociateProtectConfigurationInput, AssociateProtectConfigurationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateProtectConfigurationInput, AssociateProtectConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateProtectConfigurationOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<AssociateProtectConfigurationOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateProtectConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(AssociateProtectConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateProtectConfigurationOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `CreateConfigurationSet` operation on the `PinpointSMSVoiceV2` service.
     ///
     /// Creates a new configuration set. After you create the configuration set, you can add one or more event destinations to it. A configuration set is a set of rules that you apply to the SMS and voice messages that you send. When you send a message, you can optionally specify a single configuration set.
@@ -424,6 +480,62 @@ extension PinpointSMSVoiceV2Client {
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreatePoolOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePoolOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreatePoolOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePoolOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `CreateProtectConfiguration` operation on the `PinpointSMSVoiceV2` service.
+    ///
+    /// Create a new protect configuration. By default all country rule sets for each capability are set to ALLOW. Update the country rule sets using UpdateProtectConfigurationCountryRuleSet. A protect configurations name is stored as a Tag with the key set to Name and value as the name of the protect configuration.
+    ///
+    /// - Parameter CreateProtectConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateProtectConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient permissions to access the resource.
+    /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
+    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
+    /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : A validation exception for a field.
+    public func createProtectConfiguration(input: CreateProtectConfigurationInput) async throws -> CreateProtectConfigurationOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createProtectConfiguration")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "sms-voice")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<CreateProtectConfigurationInput, CreateProtectConfigurationOutput>(id: "createProtectConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateProtectConfigurationInput, CreateProtectConfigurationOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateProtectConfigurationInput, CreateProtectConfigurationOutput>(CreateProtectConfigurationInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateProtectConfigurationInput, CreateProtectConfigurationOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateProtectConfigurationOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateProtectConfigurationOutput>())
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateProtectConfigurationInput, CreateProtectConfigurationOutput>(xAmzTarget: "PinpointSMSVoiceV2.CreateProtectConfiguration"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateProtectConfigurationInput, CreateProtectConfigurationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateProtectConfigurationInput, CreateProtectConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateProtectConfigurationOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateProtectConfigurationOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateProtectConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateProtectConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateProtectConfigurationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -713,6 +825,61 @@ extension PinpointSMSVoiceV2Client {
         return result
     }
 
+    /// Performs the `DeleteAccountDefaultProtectConfiguration` operation on the `PinpointSMSVoiceV2` service.
+    ///
+    /// Removes the current account default protect configuration.
+    ///
+    /// - Parameter DeleteAccountDefaultProtectConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAccountDefaultProtectConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient permissions to access the resource.
+    /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
+    /// - `ResourceNotFoundException` : A requested resource couldn't be found.
+    /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : A validation exception for a field.
+    public func deleteAccountDefaultProtectConfiguration(input: DeleteAccountDefaultProtectConfigurationInput) async throws -> DeleteAccountDefaultProtectConfigurationOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteAccountDefaultProtectConfiguration")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "sms-voice")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DeleteAccountDefaultProtectConfigurationInput, DeleteAccountDefaultProtectConfigurationOutput>(id: "deleteAccountDefaultProtectConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAccountDefaultProtectConfigurationInput, DeleteAccountDefaultProtectConfigurationOutput>(DeleteAccountDefaultProtectConfigurationInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAccountDefaultProtectConfigurationInput, DeleteAccountDefaultProtectConfigurationOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAccountDefaultProtectConfigurationOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteAccountDefaultProtectConfigurationOutput>())
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteAccountDefaultProtectConfigurationInput, DeleteAccountDefaultProtectConfigurationOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteAccountDefaultProtectConfiguration"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteAccountDefaultProtectConfigurationInput, DeleteAccountDefaultProtectConfigurationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteAccountDefaultProtectConfigurationInput, DeleteAccountDefaultProtectConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAccountDefaultProtectConfigurationOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteAccountDefaultProtectConfigurationOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccountDefaultProtectConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteAccountDefaultProtectConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAccountDefaultProtectConfigurationOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `DeleteConfigurationSet` operation on the `PinpointSMSVoiceV2` service.
     ///
     /// Deletes an existing configuration set. A configuration set is a set of rules that you apply to voice and SMS messages that you send. In a configuration set, you can specify a destination for specific types of events related to voice and SMS messages.
@@ -989,6 +1156,60 @@ extension PinpointSMSVoiceV2Client {
         return result
     }
 
+    /// Performs the `DeleteMediaMessageSpendLimitOverride` operation on the `PinpointSMSVoiceV2` service.
+    ///
+    /// Deletes an account-level monthly spending limit override for sending multimedia messages (MMS). Deleting a spend limit override will set the EnforcedLimit to equal the MaxLimit, which is controlled by Amazon Web Services. For more information on spend limits (quotas) see [Quotas for Server Migration Service](https://docs.aws.amazon.com/sms-voice/latest/userguide/quotas.html) in the Server Migration Service User Guide.
+    ///
+    /// - Parameter DeleteMediaMessageSpendLimitOverrideInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteMediaMessageSpendLimitOverrideOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient permissions to access the resource.
+    /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
+    /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : A validation exception for a field.
+    public func deleteMediaMessageSpendLimitOverride(input: DeleteMediaMessageSpendLimitOverrideInput) async throws -> DeleteMediaMessageSpendLimitOverrideOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteMediaMessageSpendLimitOverride")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "sms-voice")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DeleteMediaMessageSpendLimitOverrideInput, DeleteMediaMessageSpendLimitOverrideOutput>(id: "deleteMediaMessageSpendLimitOverride")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMediaMessageSpendLimitOverrideInput, DeleteMediaMessageSpendLimitOverrideOutput>(DeleteMediaMessageSpendLimitOverrideInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMediaMessageSpendLimitOverrideInput, DeleteMediaMessageSpendLimitOverrideOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteMediaMessageSpendLimitOverrideOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteMediaMessageSpendLimitOverrideOutput>())
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteMediaMessageSpendLimitOverrideInput, DeleteMediaMessageSpendLimitOverrideOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteMediaMessageSpendLimitOverride"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteMediaMessageSpendLimitOverrideInput, DeleteMediaMessageSpendLimitOverrideOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteMediaMessageSpendLimitOverrideInput, DeleteMediaMessageSpendLimitOverrideOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteMediaMessageSpendLimitOverrideOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteMediaMessageSpendLimitOverrideOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMediaMessageSpendLimitOverrideOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteMediaMessageSpendLimitOverrideOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMediaMessageSpendLimitOverrideOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `DeleteOptOutList` operation on the `PinpointSMSVoiceV2` service.
     ///
     /// Deletes an existing opt-out list. All opted out phone numbers in the opt-out list are deleted. If the specified opt-out list name doesn't exist or is in-use by an origination phone number or pool, an error is returned.
@@ -1153,6 +1374,62 @@ extension PinpointSMSVoiceV2Client {
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeletePoolOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePoolOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeletePoolOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePoolOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `DeleteProtectConfiguration` operation on the `PinpointSMSVoiceV2` service.
+    ///
+    /// Permanently delete the protect configuration. The protect configuration must have deletion protection disabled and must not be associated as the account default protect configuration or associated with a configuration set.
+    ///
+    /// - Parameter DeleteProtectConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteProtectConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient permissions to access the resource.
+    /// - `ConflictException` : Your request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time or it could be that the requested action isn't valid for the current state or configuration of the resource.
+    /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
+    /// - `ResourceNotFoundException` : A requested resource couldn't be found.
+    /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : A validation exception for a field.
+    public func deleteProtectConfiguration(input: DeleteProtectConfigurationInput) async throws -> DeleteProtectConfigurationOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteProtectConfiguration")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "sms-voice")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DeleteProtectConfigurationInput, DeleteProtectConfigurationOutput>(id: "deleteProtectConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProtectConfigurationInput, DeleteProtectConfigurationOutput>(DeleteProtectConfigurationInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteProtectConfigurationInput, DeleteProtectConfigurationOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteProtectConfigurationOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteProtectConfigurationOutput>())
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteProtectConfigurationInput, DeleteProtectConfigurationOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteProtectConfiguration"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteProtectConfigurationInput, DeleteProtectConfigurationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteProtectConfigurationInput, DeleteProtectConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteProtectConfigurationOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteProtectConfigurationOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProtectConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteProtectConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteProtectConfigurationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1927,6 +2204,61 @@ extension PinpointSMSVoiceV2Client {
         return result
     }
 
+    /// Performs the `DescribeProtectConfigurations` operation on the `PinpointSMSVoiceV2` service.
+    ///
+    /// Retrieves the protect configurations that match any of filters. If a filter isn’t provided then all protect configurations are returned.
+    ///
+    /// - Parameter DescribeProtectConfigurationsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeProtectConfigurationsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient permissions to access the resource.
+    /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
+    /// - `ResourceNotFoundException` : A requested resource couldn't be found.
+    /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : A validation exception for a field.
+    public func describeProtectConfigurations(input: DescribeProtectConfigurationsInput) async throws -> DescribeProtectConfigurationsOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeProtectConfigurations")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "sms-voice")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DescribeProtectConfigurationsInput, DescribeProtectConfigurationsOutput>(id: "describeProtectConfigurations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeProtectConfigurationsInput, DescribeProtectConfigurationsOutput>(DescribeProtectConfigurationsInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeProtectConfigurationsInput, DescribeProtectConfigurationsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeProtectConfigurationsOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeProtectConfigurationsOutput>())
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeProtectConfigurationsInput, DescribeProtectConfigurationsOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeProtectConfigurations"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeProtectConfigurationsInput, DescribeProtectConfigurationsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeProtectConfigurationsInput, DescribeProtectConfigurationsOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeProtectConfigurationsOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeProtectConfigurationsOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeProtectConfigurationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeProtectConfigurationsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeProtectConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `DescribeRegistrationAttachments` operation on the `PinpointSMSVoiceV2` service.
     ///
     /// Retrieves the specified registration attachments or all registration attachments associated with your Amazon Web Services account.
@@ -2530,6 +2862,62 @@ extension PinpointSMSVoiceV2Client {
         return result
     }
 
+    /// Performs the `DisassociateProtectConfiguration` operation on the `PinpointSMSVoiceV2` service.
+    ///
+    /// Disassociate a protect configuration from a configuration set.
+    ///
+    /// - Parameter DisassociateProtectConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateProtectConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient permissions to access the resource.
+    /// - `ConflictException` : Your request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time or it could be that the requested action isn't valid for the current state or configuration of the resource.
+    /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
+    /// - `ResourceNotFoundException` : A requested resource couldn't be found.
+    /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : A validation exception for a field.
+    public func disassociateProtectConfiguration(input: DisassociateProtectConfigurationInput) async throws -> DisassociateProtectConfigurationOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disassociateProtectConfiguration")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "sms-voice")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DisassociateProtectConfigurationInput, DisassociateProtectConfigurationOutput>(id: "disassociateProtectConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateProtectConfigurationInput, DisassociateProtectConfigurationOutput>(DisassociateProtectConfigurationInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateProtectConfigurationInput, DisassociateProtectConfigurationOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateProtectConfigurationOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DisassociateProtectConfigurationOutput>())
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisassociateProtectConfigurationInput, DisassociateProtectConfigurationOutput>(xAmzTarget: "PinpointSMSVoiceV2.DisassociateProtectConfiguration"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DisassociateProtectConfigurationInput, DisassociateProtectConfigurationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociateProtectConfigurationInput, DisassociateProtectConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateProtectConfigurationOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DisassociateProtectConfigurationOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateProtectConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(DisassociateProtectConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateProtectConfigurationOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `DiscardRegistrationVersion` operation on the `PinpointSMSVoiceV2` service.
     ///
     /// Discard the current version of the registration.
@@ -2582,6 +2970,61 @@ extension PinpointSMSVoiceV2Client {
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DiscardRegistrationVersionOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DiscardRegistrationVersionOutput>(responseClosure(decoder: decoder), responseErrorClosure(DiscardRegistrationVersionOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DiscardRegistrationVersionOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `GetProtectConfigurationCountryRuleSet` operation on the `PinpointSMSVoiceV2` service.
+    ///
+    /// Retrieve the CountryRuleSet for the specified NumberCapability from a protect configuration.
+    ///
+    /// - Parameter GetProtectConfigurationCountryRuleSetInput : [no documentation found]
+    ///
+    /// - Returns: `GetProtectConfigurationCountryRuleSetOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient permissions to access the resource.
+    /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
+    /// - `ResourceNotFoundException` : A requested resource couldn't be found.
+    /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : A validation exception for a field.
+    public func getProtectConfigurationCountryRuleSet(input: GetProtectConfigurationCountryRuleSetInput) async throws -> GetProtectConfigurationCountryRuleSetOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getProtectConfigurationCountryRuleSet")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "sms-voice")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<GetProtectConfigurationCountryRuleSetInput, GetProtectConfigurationCountryRuleSetOutput>(id: "getProtectConfigurationCountryRuleSet")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetProtectConfigurationCountryRuleSetInput, GetProtectConfigurationCountryRuleSetOutput>(GetProtectConfigurationCountryRuleSetInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetProtectConfigurationCountryRuleSetInput, GetProtectConfigurationCountryRuleSetOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetProtectConfigurationCountryRuleSetOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetProtectConfigurationCountryRuleSetOutput>())
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetProtectConfigurationCountryRuleSetInput, GetProtectConfigurationCountryRuleSetOutput>(xAmzTarget: "PinpointSMSVoiceV2.GetProtectConfigurationCountryRuleSet"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetProtectConfigurationCountryRuleSetInput, GetProtectConfigurationCountryRuleSetOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetProtectConfigurationCountryRuleSetInput, GetProtectConfigurationCountryRuleSetOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetProtectConfigurationCountryRuleSetOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetProtectConfigurationCountryRuleSetOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetProtectConfigurationCountryRuleSetOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetProtectConfigurationCountryRuleSetOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetProtectConfigurationCountryRuleSetOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3203,6 +3646,63 @@ extension PinpointSMSVoiceV2Client {
         return result
     }
 
+    /// Performs the `SendMediaMessage` operation on the `PinpointSMSVoiceV2` service.
+    ///
+    /// Creates a new multimedia message (MMS) and sends it to a recipient's phone number.
+    ///
+    /// - Parameter SendMediaMessageInput : [no documentation found]
+    ///
+    /// - Returns: `SendMediaMessageOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient permissions to access the resource.
+    /// - `ConflictException` : Your request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time or it could be that the requested action isn't valid for the current state or configuration of the resource.
+    /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
+    /// - `ResourceNotFoundException` : A requested resource couldn't be found.
+    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
+    /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : A validation exception for a field.
+    public func sendMediaMessage(input: SendMediaMessageInput) async throws -> SendMediaMessageOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "sendMediaMessage")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "sms-voice")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<SendMediaMessageInput, SendMediaMessageOutput>(id: "sendMediaMessage")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendMediaMessageInput, SendMediaMessageOutput>(SendMediaMessageInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendMediaMessageInput, SendMediaMessageOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SendMediaMessageOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<SendMediaMessageOutput>())
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SendMediaMessageInput, SendMediaMessageOutput>(xAmzTarget: "PinpointSMSVoiceV2.SendMediaMessage"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<SendMediaMessageInput, SendMediaMessageOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SendMediaMessageInput, SendMediaMessageOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SendMediaMessageOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<SendMediaMessageOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendMediaMessageOutput>(responseClosure(decoder: decoder), responseErrorClosure(SendMediaMessageOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendMediaMessageOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `SendTextMessage` operation on the `PinpointSMSVoiceV2` service.
     ///
     /// Creates a new text message and sends it to a recipient's phone number. SMS throughput limits are measured in Message Parts per Second (MPS). Your MPS limit depends on the destination country of your messages, as well as the type of phone number (origination number) that you use to send the message. For more information, see [Message Parts per Second (MPS) limits](https://docs.aws.amazon.com/pinpoint/latest/userguide/channels-sms-limitations-mps.html) in the Amazon Pinpoint User Guide.
@@ -3317,6 +3817,61 @@ extension PinpointSMSVoiceV2Client {
         return result
     }
 
+    /// Performs the `SetAccountDefaultProtectConfiguration` operation on the `PinpointSMSVoiceV2` service.
+    ///
+    /// Set a protect configuration as your account default. You can only have one account default protect configuration at a time. The current account default protect configuration is replaced with the provided protect configuration.
+    ///
+    /// - Parameter SetAccountDefaultProtectConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `SetAccountDefaultProtectConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient permissions to access the resource.
+    /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
+    /// - `ResourceNotFoundException` : A requested resource couldn't be found.
+    /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : A validation exception for a field.
+    public func setAccountDefaultProtectConfiguration(input: SetAccountDefaultProtectConfigurationInput) async throws -> SetAccountDefaultProtectConfigurationOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "setAccountDefaultProtectConfiguration")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "sms-voice")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<SetAccountDefaultProtectConfigurationInput, SetAccountDefaultProtectConfigurationOutput>(id: "setAccountDefaultProtectConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetAccountDefaultProtectConfigurationInput, SetAccountDefaultProtectConfigurationOutput>(SetAccountDefaultProtectConfigurationInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetAccountDefaultProtectConfigurationInput, SetAccountDefaultProtectConfigurationOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetAccountDefaultProtectConfigurationOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<SetAccountDefaultProtectConfigurationOutput>())
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SetAccountDefaultProtectConfigurationInput, SetAccountDefaultProtectConfigurationOutput>(xAmzTarget: "PinpointSMSVoiceV2.SetAccountDefaultProtectConfiguration"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<SetAccountDefaultProtectConfigurationInput, SetAccountDefaultProtectConfigurationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SetAccountDefaultProtectConfigurationInput, SetAccountDefaultProtectConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetAccountDefaultProtectConfigurationOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<SetAccountDefaultProtectConfigurationOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetAccountDefaultProtectConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(SetAccountDefaultProtectConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetAccountDefaultProtectConfigurationOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `SetDefaultMessageType` operation on the `PinpointSMSVoiceV2` service.
     ///
     /// Sets the default message type on a configuration set. Choose the category of SMS messages that you plan to send from this account. If you send account-related messages or time-sensitive messages such as one-time passcodes, choose Transactional. If you plan to send messages that contain marketing material or other promotional content, choose Promotional. This setting applies to your entire Amazon Web Services account.
@@ -3423,6 +3978,60 @@ extension PinpointSMSVoiceV2Client {
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<SetDefaultSenderIdOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetDefaultSenderIdOutput>(responseClosure(decoder: decoder), responseErrorClosure(SetDefaultSenderIdOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetDefaultSenderIdOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `SetMediaMessageSpendLimitOverride` operation on the `PinpointSMSVoiceV2` service.
+    ///
+    /// Sets an account level monthly spend limit override for sending MMS messages. The requested spend limit must be less than or equal to the MaxLimit, which is set by Amazon Web Services.
+    ///
+    /// - Parameter SetMediaMessageSpendLimitOverrideInput : [no documentation found]
+    ///
+    /// - Returns: `SetMediaMessageSpendLimitOverrideOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient permissions to access the resource.
+    /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
+    /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : A validation exception for a field.
+    public func setMediaMessageSpendLimitOverride(input: SetMediaMessageSpendLimitOverrideInput) async throws -> SetMediaMessageSpendLimitOverrideOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "setMediaMessageSpendLimitOverride")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "sms-voice")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<SetMediaMessageSpendLimitOverrideInput, SetMediaMessageSpendLimitOverrideOutput>(id: "setMediaMessageSpendLimitOverride")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetMediaMessageSpendLimitOverrideInput, SetMediaMessageSpendLimitOverrideOutput>(SetMediaMessageSpendLimitOverrideInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetMediaMessageSpendLimitOverrideInput, SetMediaMessageSpendLimitOverrideOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetMediaMessageSpendLimitOverrideOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<SetMediaMessageSpendLimitOverrideOutput>())
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SetMediaMessageSpendLimitOverrideInput, SetMediaMessageSpendLimitOverrideOutput>(xAmzTarget: "PinpointSMSVoiceV2.SetMediaMessageSpendLimitOverride"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<SetMediaMessageSpendLimitOverrideInput, SetMediaMessageSpendLimitOverrideOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SetMediaMessageSpendLimitOverrideInput, SetMediaMessageSpendLimitOverrideOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetMediaMessageSpendLimitOverrideOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<SetMediaMessageSpendLimitOverrideOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetMediaMessageSpendLimitOverrideOutput>(responseClosure(decoder: decoder), responseErrorClosure(SetMediaMessageSpendLimitOverrideOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetMediaMessageSpendLimitOverrideOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3866,6 +4475,116 @@ extension PinpointSMSVoiceV2Client {
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdatePoolOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePoolOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdatePoolOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePoolOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `UpdateProtectConfiguration` operation on the `PinpointSMSVoiceV2` service.
+    ///
+    /// Update the setting for an existing protect configuration.
+    ///
+    /// - Parameter UpdateProtectConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateProtectConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient permissions to access the resource.
+    /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
+    /// - `ResourceNotFoundException` : A requested resource couldn't be found.
+    /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : A validation exception for a field.
+    public func updateProtectConfiguration(input: UpdateProtectConfigurationInput) async throws -> UpdateProtectConfigurationOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateProtectConfiguration")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "sms-voice")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<UpdateProtectConfigurationInput, UpdateProtectConfigurationOutput>(id: "updateProtectConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateProtectConfigurationInput, UpdateProtectConfigurationOutput>(UpdateProtectConfigurationInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateProtectConfigurationInput, UpdateProtectConfigurationOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateProtectConfigurationOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateProtectConfigurationOutput>())
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateProtectConfigurationInput, UpdateProtectConfigurationOutput>(xAmzTarget: "PinpointSMSVoiceV2.UpdateProtectConfiguration"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateProtectConfigurationInput, UpdateProtectConfigurationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateProtectConfigurationInput, UpdateProtectConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateProtectConfigurationOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateProtectConfigurationOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateProtectConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateProtectConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateProtectConfigurationOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `UpdateProtectConfigurationCountryRuleSet` operation on the `PinpointSMSVoiceV2` service.
+    ///
+    /// Update a country rule set to ALLOW or BLOCK messages to be sent to the specified destination counties. You can update one or multiple countries at a time. The updates are only applied to the specified NumberCapability type.
+    ///
+    /// - Parameter UpdateProtectConfigurationCountryRuleSetInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateProtectConfigurationCountryRuleSetOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient permissions to access the resource.
+    /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
+    /// - `ResourceNotFoundException` : A requested resource couldn't be found.
+    /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : A validation exception for a field.
+    public func updateProtectConfigurationCountryRuleSet(input: UpdateProtectConfigurationCountryRuleSetInput) async throws -> UpdateProtectConfigurationCountryRuleSetOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateProtectConfigurationCountryRuleSet")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "sms-voice")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<UpdateProtectConfigurationCountryRuleSetInput, UpdateProtectConfigurationCountryRuleSetOutput>(id: "updateProtectConfigurationCountryRuleSet")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateProtectConfigurationCountryRuleSetInput, UpdateProtectConfigurationCountryRuleSetOutput>(UpdateProtectConfigurationCountryRuleSetInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateProtectConfigurationCountryRuleSetInput, UpdateProtectConfigurationCountryRuleSetOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateProtectConfigurationCountryRuleSetOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateProtectConfigurationCountryRuleSetOutput>())
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateProtectConfigurationCountryRuleSetInput, UpdateProtectConfigurationCountryRuleSetOutput>(xAmzTarget: "PinpointSMSVoiceV2.UpdateProtectConfigurationCountryRuleSet"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateProtectConfigurationCountryRuleSetInput, UpdateProtectConfigurationCountryRuleSetOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateProtectConfigurationCountryRuleSetInput, UpdateProtectConfigurationCountryRuleSetOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateProtectConfigurationCountryRuleSetOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateProtectConfigurationCountryRuleSetOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateProtectConfigurationCountryRuleSetOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateProtectConfigurationCountryRuleSetOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateProtectConfigurationCountryRuleSetOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

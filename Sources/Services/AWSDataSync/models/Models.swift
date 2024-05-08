@@ -2473,18 +2473,16 @@ public struct CreateLocationObjectStorageInput {
     public var bucketName: Swift.String?
     /// Specifies the secret key (for example, a password) if credentials are required to authenticate with the object storage server.
     public var secretKey: Swift.String?
-    /// Specifies a file with the certificates that are used to sign the object storage server's certificate (for example, file:///home/user/.ssh/storage_sys_certificate.pem). The file you specify must include the following:
+    /// Specifies a certificate chain for DataSync to authenticate with your object storage system if the system uses a private or self-signed certificate authority (CA). You must specify a single .pem file with a full certificate chain (for example, file:///home/user/.ssh/object_storage_certificates.pem). The certificate chain might include:
     ///
-    /// * The certificate of the signing certificate authority (CA)
+    /// * The object storage system's certificate
     ///
-    /// * Any intermediate certificates
+    /// * All intermediate certificates (if there are any)
     ///
-    /// * base64 encoding
-    ///
-    /// * A .pem extension
+    /// * The root certificate of the signing CA
     ///
     ///
-    /// The file can be up to 32768 bytes (before base64 encoding). To use this parameter, configure ServerProtocol to HTTPS.
+    /// You can concatenate your certificates into a .pem file (which can be up to 32768 bytes before base64 encoding). The following example cat command creates an object_storage_certificates.pem file that includes three certificates: cat object_server_certificate.pem intermediate_certificate.pem ca_root_certificate.pem > object_storage_certificates.pem To use this parameter, configure ServerProtocol to HTTPS.
     public var serverCertificate: ClientRuntime.Data?
     /// Specifies the domain name or IP address of the object storage server. A DataSync agent uses this hostname to mount the object storage server in a network.
     /// This member is required.
@@ -3134,27 +3132,27 @@ extension CreateTaskInput {
 
 /// CreateTaskRequest
 public struct CreateTaskInput {
-    /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that is used to monitor and log events in the task.
+    /// Specifies the Amazon Resource Name (ARN) of an Amazon CloudWatch log group for monitoring your task.
     public var cloudWatchLogGroupArn: Swift.String?
-    /// The Amazon Resource Name (ARN) of an Amazon Web Services storage resource's location.
+    /// Specifies the ARN of your transfer's destination location.
     /// This member is required.
     public var destinationLocationArn: Swift.String?
-    /// Specifies a list of filter rules that exclude specific data during your transfer. For more information and examples, see [Filtering data transferred by DataSync](https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html).
+    /// Specifies exclude filters that define the files, objects, and folders in your source location that you don't want DataSync to transfer. For more information and examples, see [Specifying what DataSync transfers by using filters](https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html).
     public var excludes: [DataSyncClientTypes.FilterRule]?
-    /// Specifies a list of filter rules that include specific data during your transfer. For more information and examples, see [Filtering data transferred by DataSync](https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html).
+    /// Specifies include filters define the files, objects, and folders in your source location that you want DataSync to transfer. For more information and examples, see [Specifying what DataSync transfers by using filters](https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html).
     public var includes: [DataSyncClientTypes.FilterRule]?
     /// Configures a manifest, which is a list of files or objects that you want DataSync to transfer. For more information and configuration examples, see [Specifying what DataSync transfers by using a manifest](https://docs.aws.amazon.com/datasync/latest/userguide/transferring-with-manifest.html). When using this parameter, your caller identity (the role that you're using DataSync with) must have the iam:PassRole permission. The [AWSDataSyncFullAccess](https://docs.aws.amazon.com/datasync/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-awsdatasyncfullaccess) policy includes this permission.
     public var manifestConfig: DataSyncClientTypes.ManifestConfig?
-    /// The name of a task. This value is a text reference that is used to identify the task in the console.
+    /// Specifies the name of your task.
     public var name: Swift.String?
-    /// Specifies the configuration options for a task. Some options include preserving file or object metadata and verifying data integrity. You can also override these options before starting an individual run of a task (also known as a task execution). For more information, see [StartTaskExecution](https://docs.aws.amazon.com/datasync/latest/userguide/API_StartTaskExecution.html).
+    /// Specifies your task's settings, such as preserving file metadata, verifying data integrity, among other options.
     public var options: DataSyncClientTypes.Options?
-    /// Specifies a schedule used to periodically transfer files from a source to a destination location. The schedule should be specified in UTC time. For more information, see [Scheduling your task](https://docs.aws.amazon.com/datasync/latest/userguide/task-scheduling.html).
+    /// Specifies a schedule for when you want your task to run. For more information, see [Scheduling your task](https://docs.aws.amazon.com/datasync/latest/userguide/task-scheduling.html).
     public var schedule: DataSyncClientTypes.TaskSchedule?
-    /// The Amazon Resource Name (ARN) of the source location for the task.
+    /// Specifies the ARN of your transfer's source location.
     /// This member is required.
     public var sourceLocationArn: Swift.String?
-    /// Specifies the tags that you want to apply to the Amazon Resource Name (ARN) representing the task. Tags are key-value pairs that help you manage, filter, and search for your DataSync resources.
+    /// Specifies the tags that you want to apply to your task. Tags are key-value pairs that help you manage, filter, and search for your DataSync resources.
     public var tags: [DataSyncClientTypes.TagListEntry]?
     /// Specifies how you want to configure a task report, which provides detailed information about your DataSync transfer. For more information, see [Monitoring your DataSync transfers with task reports](https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html). When using this parameter, your caller identity (the role that you're using DataSync with) must have the iam:PassRole permission. The [AWSDataSyncFullAccess](https://docs.aws.amazon.com/datasync/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-awsdatasyncfullaccess) policy includes this permission.
     public var taskReportConfig: DataSyncClientTypes.TaskReportConfig?
@@ -5334,7 +5332,7 @@ public struct DescribeLocationObjectStorageOutput {
     public var locationArn: Swift.String?
     /// The URI of the object storage system location.
     public var locationUri: Swift.String?
-    /// The self-signed certificate that DataSync uses to securely authenticate with your object storage system.
+    /// The certificate chain for DataSync to authenticate with your object storage system if the system uses a private or self-signed certificate authority (CA).
     public var serverCertificate: ClientRuntime.Data?
     /// The port that your object storage server accepts inbound network traffic on (for example, port 443).
     public var serverPort: Swift.Int?
@@ -6490,7 +6488,7 @@ public struct DescribeTaskExecutionOutput {
     public var includes: [DataSyncClientTypes.FilterRule]?
     /// The configuration of the manifest that lists the files or objects to transfer. For more information, see [Specifying what DataSync transfers by using a manifest](https://docs.aws.amazon.com/datasync/latest/userguide/transferring-with-manifest.html).
     public var manifestConfig: DataSyncClientTypes.ManifestConfig?
-    /// Indicates how your transfer task is configured. These options include how DataSync handles files, objects, and their associated metadata during your transfer. You also can specify how to verify data integrity, set bandwidth limits for your task, among other options. Each option has a default value. Unless you need to, you don't have to configure any of these options before starting your task.
+    /// Indicates how your transfer task is configured. These options include how DataSync handles files, objects, and their associated metadata during your transfer. You also can specify how to verify data integrity, set bandwidth limits for your task, among other options. Each option has a default value. Unless you need to, you don't have to configure any option before calling [StartTaskExecution](https://docs.aws.amazon.com/datasync/latest/userguide/API_StartTaskExecution.html). You also can override your task options for each task execution. For example, you might want to adjust the LogLevel for an individual execution.
     public var options: DataSyncClientTypes.Options?
     /// Indicates whether DataSync generated a complete [task report](https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html) for your transfer.
     public var reportResult: DataSyncClientTypes.ReportResult?
@@ -6695,7 +6693,7 @@ extension DescribeTaskInput {
 
 /// DescribeTaskRequest
 public struct DescribeTaskInput {
-    /// Specifies the Amazon Resource Name (ARN) of the transfer task.
+    /// Specifies the Amazon Resource Name (ARN) of the transfer task that you want information about.
     /// This member is required.
     public var taskArn: Swift.String?
 
@@ -6741,6 +6739,7 @@ extension DescribeTaskOutput: ClientRuntime.HttpResponseBinding {
             self.name = output.name
             self.options = output.options
             self.schedule = output.schedule
+            self.scheduleDetails = output.scheduleDetails
             self.sourceLocationArn = output.sourceLocationArn
             self.sourceNetworkInterfaceArns = output.sourceNetworkInterfaceArns
             self.status = output.status
@@ -6760,6 +6759,7 @@ extension DescribeTaskOutput: ClientRuntime.HttpResponseBinding {
             self.name = nil
             self.options = nil
             self.schedule = nil
+            self.scheduleDetails = nil
             self.sourceLocationArn = nil
             self.sourceNetworkInterfaceArns = nil
             self.status = nil
@@ -6771,41 +6771,43 @@ extension DescribeTaskOutput: ClientRuntime.HttpResponseBinding {
 
 /// DescribeTaskResponse
 public struct DescribeTaskOutput {
-    /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that was used to monitor and log events in the task. For more information on these groups, see Working with Log Groups and Log Streams in the Amazon CloudWatch User Guide.
+    /// The Amazon Resource Name (ARN) of an Amazon CloudWatch log group for monitoring your task. For more information, see [Monitoring DataSync with Amazon CloudWatch](https://docs.aws.amazon.com/datasync/latest/userguide/monitor-datasync.html).
     public var cloudWatchLogGroupArn: Swift.String?
     /// The time that the task was created.
     public var creationTime: ClientRuntime.Date?
-    /// The Amazon Resource Name (ARN) of the task execution that is transferring files.
+    /// The ARN of the most recent task execution.
     public var currentTaskExecutionArn: Swift.String?
-    /// The Amazon Resource Name (ARN) of the Amazon Web Services storage resource's location.
+    /// The ARN of your transfer's destination location.
     public var destinationLocationArn: Swift.String?
-    /// The Amazon Resource Names (ARNs) of the network interfaces created for your destination location. For more information, see [Network interface requirements](https://docs.aws.amazon.com/datasync/latest/userguide/datasync-network.html#required-network-interfaces).
+    /// The ARNs of the [network interfaces](https://docs.aws.amazon.com/datasync/latest/userguide/datasync-network.html#required-network-interfaces) that DataSync created for your destination location.
     public var destinationNetworkInterfaceArns: [Swift.String]?
-    /// Errors that DataSync encountered during execution of the task. You can use this error code to help troubleshoot issues.
+    /// If there's an issue with your task, you can use the error code to help you troubleshoot the problem. For more information, see [Troubleshooting issues with DataSync transfers](https://docs.aws.amazon.com/datasync/latest/userguide/troubleshooting-datasync-locations-tasks.html).
     public var errorCode: Swift.String?
-    /// Detailed description of an error that was encountered during the task execution. You can use this information to help troubleshoot issues.
+    /// If there's an issue with your task, you can use the error details to help you troubleshoot the problem. For more information, see [Troubleshooting issues with DataSync transfers](https://docs.aws.amazon.com/datasync/latest/userguide/troubleshooting-datasync-locations-tasks.html).
     public var errorDetail: Swift.String?
-    /// A list of filter rules that exclude specific data during your transfer. For more information and examples, see [Filtering data transferred by DataSync](https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html).
+    /// The exclude filters that define the files, objects, and folders in your source location that you don't want DataSync to transfer. For more information and examples, see [Specifying what DataSync transfers by using filters](https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html).
     public var excludes: [DataSyncClientTypes.FilterRule]?
-    /// A list of filter rules that include specific data during your transfer. For more information and examples, see [Filtering data transferred by DataSync](https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html).
+    /// The include filters that define the files, objects, and folders in your source location that you want DataSync to transfer. For more information and examples, see [Specifying what DataSync transfers by using filters](https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html).
     public var includes: [DataSyncClientTypes.FilterRule]?
-    /// The configuration of the manifest that lists the files or objects to transfer. For more information, see [Specifying what DataSync transfers by using a manifest](https://docs.aws.amazon.com/datasync/latest/userguide/transferring-with-manifest.html).
+    /// The configuration of the manifest that lists the files or objects that you want DataSync to transfer. For more information, see [Specifying what DataSync transfers by using a manifest](https://docs.aws.amazon.com/datasync/latest/userguide/transferring-with-manifest.html).
     public var manifestConfig: DataSyncClientTypes.ManifestConfig?
-    /// The name of the task that was described.
+    /// The name of your task.
     public var name: Swift.String?
-    /// The configuration options that control the behavior of the StartTaskExecution operation. Some options include preserving file or object metadata and verifying data integrity. You can override these options for each task execution. For more information, see [StartTaskExecution](https://docs.aws.amazon.com/datasync/latest/userguide/API_StartTaskExecution.html).
+    /// The task's settings. For example, what file metadata gets preserved, how data integrity gets verified at the end of your transfer, bandwidth limits, among other options.
     public var options: DataSyncClientTypes.Options?
-    /// The schedule used to periodically transfer files from a source to a destination location.
+    /// The schedule for when you want your task to run. For more information, see [Scheduling your task](https://docs.aws.amazon.com/datasync/latest/userguide/task-scheduling.html).
     public var schedule: DataSyncClientTypes.TaskSchedule?
-    /// The Amazon Resource Name (ARN) of the source file system's location.
+    /// The details about your [task schedule](https://docs.aws.amazon.com/datasync/latest/userguide/task-scheduling.html).
+    public var scheduleDetails: DataSyncClientTypes.TaskScheduleDetails?
+    /// The ARN of your transfer's source location.
     public var sourceLocationArn: Swift.String?
-    /// The Amazon Resource Names (ARNs) of the network interfaces created for your source location. For more information, see [Network interface requirements](https://docs.aws.amazon.com/datasync/latest/userguide/datasync-network.html#required-network-interfaces).
+    /// The ARNs of the [network interfaces](https://docs.aws.amazon.com/datasync/latest/userguide/datasync-network.html#required-network-interfaces) that DataSync created for your source location.
     public var sourceNetworkInterfaceArns: [Swift.String]?
-    /// The status of the task that was described. For detailed information about task execution statuses, see Understanding Task Statuses in the DataSync User Guide.
+    /// The status of your task. For information about what each status means, see [Task statuses](https://docs.aws.amazon.com/datasync/latest/userguide/understand-task-statuses.html#understand-task-creation-statuses).
     public var status: DataSyncClientTypes.TaskStatus?
-    /// The Amazon Resource Name (ARN) of the task that was described.
+    /// The ARN of your task.
     public var taskArn: Swift.String?
-    /// The configuration of your task report, which provides detailed information about for your DataSync transfer. For more information, see [Creating a task report](https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html).
+    /// The configuration of your task report, which provides detailed information about your DataSync transfer. For more information, see [Monitoring your DataSync transfers with task reports](https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html).
     public var taskReportConfig: DataSyncClientTypes.TaskReportConfig?
 
     public init(
@@ -6822,6 +6824,7 @@ public struct DescribeTaskOutput {
         name: Swift.String? = nil,
         options: DataSyncClientTypes.Options? = nil,
         schedule: DataSyncClientTypes.TaskSchedule? = nil,
+        scheduleDetails: DataSyncClientTypes.TaskScheduleDetails? = nil,
         sourceLocationArn: Swift.String? = nil,
         sourceNetworkInterfaceArns: [Swift.String]? = nil,
         status: DataSyncClientTypes.TaskStatus? = nil,
@@ -6842,6 +6845,7 @@ public struct DescribeTaskOutput {
         self.name = name
         self.options = options
         self.schedule = schedule
+        self.scheduleDetails = scheduleDetails
         self.sourceLocationArn = sourceLocationArn
         self.sourceNetworkInterfaceArns = sourceNetworkInterfaceArns
         self.status = status
@@ -6869,6 +6873,7 @@ struct DescribeTaskOutputBody {
     let includes: [DataSyncClientTypes.FilterRule]?
     let manifestConfig: DataSyncClientTypes.ManifestConfig?
     let taskReportConfig: DataSyncClientTypes.TaskReportConfig?
+    let scheduleDetails: DataSyncClientTypes.TaskScheduleDetails?
 }
 
 extension DescribeTaskOutputBody: Swift.Decodable {
@@ -6886,6 +6891,7 @@ extension DescribeTaskOutputBody: Swift.Decodable {
         case name = "Name"
         case options = "Options"
         case schedule = "Schedule"
+        case scheduleDetails = "ScheduleDetails"
         case sourceLocationArn = "SourceLocationArn"
         case sourceNetworkInterfaceArns = "SourceNetworkInterfaceArns"
         case status = "Status"
@@ -6967,6 +6973,8 @@ extension DescribeTaskOutputBody: Swift.Decodable {
         manifestConfig = manifestConfigDecoded
         let taskReportConfigDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.TaskReportConfig.self, forKey: .taskReportConfig)
         taskReportConfig = taskReportConfigDecoded
+        let scheduleDetailsDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.TaskScheduleDetails.self, forKey: .scheduleDetails)
+        scheduleDetails = scheduleDetailsDecoded
     }
 }
 
@@ -10529,7 +10537,7 @@ extension DataSyncClientTypes.Options: Swift.Codable {
 }
 
 extension DataSyncClientTypes {
-    /// Indicates how your transfer task is configured. These options include how DataSync handles files, objects, and their associated metadata during your transfer. You also can specify how to verify data integrity, set bandwidth limits for your task, among other options. Each option has a default value. Unless you need to, you don't have to configure any of these options before starting your task.
+    /// Indicates how your transfer task is configured. These options include how DataSync handles files, objects, and their associated metadata during your transfer. You also can specify how to verify data integrity, set bandwidth limits for your task, among other options. Each option has a default value. Unless you need to, you don't have to configure any option before calling [StartTaskExecution](https://docs.aws.amazon.com/datasync/latest/userguide/API_StartTaskExecution.html). You also can override your task options for each task execution. For example, you might want to adjust the LogLevel for an individual execution.
     public struct Options {
         /// Specifies whether to preserve metadata indicating the last time a file was read or written to. The behavior of Atime isn't fully standard across platforms, so DataSync can only do this on a best-effort basis.
         ///
@@ -10645,7 +10653,7 @@ extension DataSyncClientTypes {
         ///
         /// * ONLY_FILES_TRANSFERRED (recommended) - DataSync calculates the checksum of transferred files and metadata at the source location. At the end of the transfer, DataSync then compares this checksum to the checksum calculated on those files at the destination. We recommend this option when transferring to S3 Glacier Flexible Retrieval or S3 Glacier Deep Archive storage classes. For more information, see [Storage class considerations with Amazon S3 locations](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#using-storage-classes).
         ///
-        /// * POINT_IN_TIME_CONSISTENT (default) - At the end of the transfer, DataSync scans the entire source and destination to verify that both locations are fully synchronized. You can't use this option when transferring to S3 Glacier Flexible Retrieval or S3 Glacier Deep Archive storage classes. For more information, see [Storage class considerations with Amazon S3 locations](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#using-storage-classes).
+        /// * POINT_IN_TIME_CONSISTENT (default) - At the end of the transfer, DataSync scans the entire source and destination to verify that both locations are fully synchronized. If you use a [manifest](https://docs.aws.amazon.com/datasync/latest/userguide/transferring-with-manifest.html), DataSync only scans and verifies what's listed in the manifest. You can't use this option when transferring to S3 Glacier Flexible Retrieval or S3 Glacier Deep Archive storage classes. For more information, see [Storage class considerations with Amazon S3 locations](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#using-storage-classes).
         ///
         /// * NONE - DataSync doesn't run additional verification at the end of the transfer. All data transmissions are still integrity-checked with checksum verification during the transfer.
         public var verifyMode: DataSyncClientTypes.VerifyMode?
@@ -10832,7 +10840,7 @@ extension DataSyncClientTypes.Platform: Swift.Codable {
 extension DataSyncClientTypes {
     /// The platform-related details about the DataSync agent, such as the version number.
     public struct Platform {
-        /// The version of the DataSync agent. On December 7, 2023, we discontinued version 1 DataSync agents. Check the DataSync console to see if you have affected agents. If you do, [replace](https://docs.aws.amazon.com/datasync/latest/userguide/replacing-agent.html) those agents or [delete](https://docs.aws.amazon.com/datasync/latest/userguide/deleting-agent.html) them if they aren't in use. If you need more help, contact [Amazon Web Services Support](https://aws.amazon.com/contact-us/).
+        /// The version of the DataSync agent.
         public var version: Swift.String?
 
         public init(
@@ -11882,6 +11890,70 @@ extension DataSyncClientTypes {
     }
 }
 
+extension DataSyncClientTypes {
+    public enum ScheduleDisabledBy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case service
+        case user
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScheduleDisabledBy] {
+            return [
+                .service,
+                .user,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .service: return "SERVICE"
+            case .user: return "USER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ScheduleDisabledBy(rawValue: rawValue) ?? ScheduleDisabledBy.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension DataSyncClientTypes {
+    public enum ScheduleStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScheduleStatus] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ScheduleStatus(rawValue: rawValue) ?? ScheduleStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension DataSyncClientTypes.SmbMountOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case version = "Version"
@@ -12251,7 +12323,7 @@ public struct StartTaskExecutionInput {
     public var includes: [DataSyncClientTypes.FilterRule]?
     /// Configures a manifest, which is a list of files or objects that you want DataSync to transfer. For more information and configuration examples, see [Specifying what DataSync transfers by using a manifest](https://docs.aws.amazon.com/datasync/latest/userguide/transferring-with-manifest.html). When using this parameter, your caller identity (the role that you're using DataSync with) must have the iam:PassRole permission. The [AWSDataSyncFullAccess](https://docs.aws.amazon.com/datasync/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-awsdatasyncfullaccess) policy includes this permission. To remove a manifest configuration, specify this parameter with an empty value.
     public var manifestConfig: DataSyncClientTypes.ManifestConfig?
-    /// Indicates how your transfer task is configured. These options include how DataSync handles files, objects, and their associated metadata during your transfer. You also can specify how to verify data integrity, set bandwidth limits for your task, among other options. Each option has a default value. Unless you need to, you don't have to configure any of these options before starting your task.
+    /// Indicates how your transfer task is configured. These options include how DataSync handles files, objects, and their associated metadata during your transfer. You also can specify how to verify data integrity, set bandwidth limits for your task, among other options. Each option has a default value. Unless you need to, you don't have to configure any option before calling [StartTaskExecution](https://docs.aws.amazon.com/datasync/latest/userguide/API_StartTaskExecution.html). You also can override your task options for each task execution. For example, you might want to adjust the LogLevel for an individual execution.
     public var overrideOptions: DataSyncClientTypes.Options?
     /// Specifies the tags that you want to apply to the Amazon Resource Name (ARN) representing the task execution. Tags are key-value pairs that help you manage, filter, and search for your DataSync resources.
     public var tags: [DataSyncClientTypes.TagListEntry]?
@@ -13177,6 +13249,7 @@ extension DataSyncClientTypes {
 extension DataSyncClientTypes.TaskSchedule: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case scheduleExpression = "ScheduleExpression"
+        case status = "Status"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -13184,27 +13257,95 @@ extension DataSyncClientTypes.TaskSchedule: Swift.Codable {
         if let scheduleExpression = self.scheduleExpression {
             try encodeContainer.encode(scheduleExpression, forKey: .scheduleExpression)
         }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let scheduleExpressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scheduleExpression)
         scheduleExpression = scheduleExpressionDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.ScheduleStatus.self, forKey: .status)
+        status = statusDecoded
     }
 }
 
 extension DataSyncClientTypes {
-    /// Specifies the schedule you want your task to use for repeated executions. For more information, see [Schedule Expressions for Rules](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html).
+    /// Configures your DataSync task to run on a [schedule](https://docs.aws.amazon.com/datasync/latest/userguide/task-scheduling.html) (at a minimum interval of 1 hour).
     public struct TaskSchedule {
-        /// A cron expression that specifies when DataSync initiates a scheduled transfer from a source to a destination location.
+        /// Specifies your task schedule by using a cron expression in UTC time. For information about cron expression syntax, see the [ Amazon EventBridge User Guide ](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-cron-expressions.html).
         /// This member is required.
         public var scheduleExpression: Swift.String?
+        /// Specifies whether to enable or disable your task schedule. Your schedule is enabled by default, but there can be situations where you need to disable it. For example, you might need to pause a recurring transfer to fix an issue with your task or perform maintenance on your storage system. DataSync might disable your schedule automatically if your task fails repeatedly with the same error. For more information, see [TaskScheduleDetails](https://docs.aws.amazon.com/datasync/latest/userguide/API_TaskScheduleDetails.html).
+        public var status: DataSyncClientTypes.ScheduleStatus?
 
         public init(
-            scheduleExpression: Swift.String? = nil
+            scheduleExpression: Swift.String? = nil,
+            status: DataSyncClientTypes.ScheduleStatus? = nil
         )
         {
             self.scheduleExpression = scheduleExpression
+            self.status = status
+        }
+    }
+
+}
+
+extension DataSyncClientTypes.TaskScheduleDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case disabledBy = "DisabledBy"
+        case disabledReason = "DisabledReason"
+        case statusUpdateTime = "StatusUpdateTime"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let disabledBy = self.disabledBy {
+            try encodeContainer.encode(disabledBy.rawValue, forKey: .disabledBy)
+        }
+        if let disabledReason = self.disabledReason {
+            try encodeContainer.encode(disabledReason, forKey: .disabledReason)
+        }
+        if let statusUpdateTime = self.statusUpdateTime {
+            try encodeContainer.encodeTimestamp(statusUpdateTime, format: .epochSeconds, forKey: .statusUpdateTime)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusUpdateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .statusUpdateTime)
+        statusUpdateTime = statusUpdateTimeDecoded
+        let disabledReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .disabledReason)
+        disabledReason = disabledReasonDecoded
+        let disabledByDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.ScheduleDisabledBy.self, forKey: .disabledBy)
+        disabledBy = disabledByDecoded
+    }
+}
+
+extension DataSyncClientTypes {
+    /// Provides information about your DataSync [task schedule](https://docs.aws.amazon.com/datasync/latest/userguide/task-scheduling.html).
+    public struct TaskScheduleDetails {
+        /// Indicates how your task schedule was disabled.
+        ///
+        /// * USER - Your schedule was manually disabled by using the [UpdateTask](https://docs.aws.amazon.com/datasync/latest/userguide/API_UpdateTask.html) operation or DataSync console.
+        ///
+        /// * SERVICE - Your schedule was automatically disabled by DataSync because the task failed repeatedly with the same error.
+        public var disabledBy: DataSyncClientTypes.ScheduleDisabledBy?
+        /// Provides a reason if the task schedule is disabled. If your schedule is disabled by USER, you see a Manually disabled by user. message. If your schedule is disabled by SERVICE, you see an error message to help you understand why the task keeps failing. For information on resolving DataSync errors, see [Troubleshooting issues with DataSync transfers](https://docs.aws.amazon.com/datasync/latest/userguide/troubleshooting-datasync-locations-tasks.html).
+        public var disabledReason: Swift.String?
+        /// Indicates the last time the status of your task schedule changed. For example, if DataSync automatically disables your schedule because of a repeated error, you can see when the schedule was disabled.
+        public var statusUpdateTime: ClientRuntime.Date?
+
+        public init(
+            disabledBy: DataSyncClientTypes.ScheduleDisabledBy? = nil,
+            disabledReason: Swift.String? = nil,
+            statusUpdateTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.disabledBy = disabledBy
+            self.disabledReason = disabledReason
+            self.statusUpdateTime = statusUpdateTime
         }
     }
 
@@ -14218,7 +14359,16 @@ public struct UpdateLocationObjectStorageInput {
     public var locationArn: Swift.String?
     /// Specifies the secret key (for example, a password) if credentials are required to authenticate with the object storage server.
     public var secretKey: Swift.String?
-    /// Specifies a certificate to authenticate with an object storage system that uses a private or self-signed certificate authority (CA). You must specify a Base64-encoded .pem file (for example, file:///home/user/.ssh/storage_sys_certificate.pem). The certificate can be up to 32768 bytes (before Base64 encoding). To use this parameter, configure ServerProtocol to HTTPS. Updating the certificate doesn't interfere with tasks that you have in progress.
+    /// Specifies a certificate chain for DataSync to authenticate with your object storage system if the system uses a private or self-signed certificate authority (CA). You must specify a single .pem file with a full certificate chain (for example, file:///home/user/.ssh/object_storage_certificates.pem). The certificate chain might include:
+    ///
+    /// * The object storage system's certificate
+    ///
+    /// * All intermediate certificates (if there are any)
+    ///
+    /// * The root certificate of the signing CA
+    ///
+    ///
+    /// You can concatenate your certificates into a .pem file (which can be up to 32768 bytes before base64 encoding). The following example cat command creates an object_storage_certificates.pem file that includes three certificates: cat object_server_certificate.pem intermediate_certificate.pem ca_root_certificate.pem > object_storage_certificates.pem To use this parameter, configure ServerProtocol to HTTPS. Updating this parameter doesn't interfere with tasks that you have in progress.
     public var serverCertificate: ClientRuntime.Data?
     /// Specifies the port that your object storage server accepts inbound network traffic on (for example, port 443).
     public var serverPort: Swift.Int?
@@ -14652,7 +14802,7 @@ extension UpdateTaskExecutionInput {
 }
 
 public struct UpdateTaskExecutionInput {
-    /// Indicates how your transfer task is configured. These options include how DataSync handles files, objects, and their associated metadata during your transfer. You also can specify how to verify data integrity, set bandwidth limits for your task, among other options. Each option has a default value. Unless you need to, you don't have to configure any of these options before starting your task.
+    /// Indicates how your transfer task is configured. These options include how DataSync handles files, objects, and their associated metadata during your transfer. You also can specify how to verify data integrity, set bandwidth limits for your task, among other options. Each option has a default value. Unless you need to, you don't have to configure any option before calling [StartTaskExecution](https://docs.aws.amazon.com/datasync/latest/userguide/API_StartTaskExecution.html). You also can override your task options for each task execution. For example, you might want to adjust the LogLevel for an individual execution.
     /// This member is required.
     public var options: DataSyncClientTypes.Options?
     /// Specifies the Amazon Resource Name (ARN) of the task execution that you're updating.
@@ -14771,21 +14921,21 @@ extension UpdateTaskInput {
 
 /// UpdateTaskResponse
 public struct UpdateTaskInput {
-    /// The Amazon Resource Name (ARN) of the resource name of the Amazon CloudWatch log group.
+    /// Specifies the Amazon Resource Name (ARN) of an Amazon CloudWatch log group for monitoring your task.
     public var cloudWatchLogGroupArn: Swift.String?
-    /// Specifies a list of filter rules that exclude specific data during your transfer. For more information and examples, see [Filtering data transferred by DataSync](https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html).
+    /// Specifies exclude filters that define the files, objects, and folders in your source location that you don't want DataSync to transfer. For more information and examples, see [Specifying what DataSync transfers by using filters](https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html).
     public var excludes: [DataSyncClientTypes.FilterRule]?
-    /// Specifies a list of filter rules that include specific data during your transfer. For more information and examples, see [Filtering data transferred by DataSync](https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html).
+    /// Specifies include filters define the files, objects, and folders in your source location that you want DataSync to transfer. For more information and examples, see [Specifying what DataSync transfers by using filters](https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html).
     public var includes: [DataSyncClientTypes.FilterRule]?
     /// Configures a manifest, which is a list of files or objects that you want DataSync to transfer. For more information and configuration examples, see [Specifying what DataSync transfers by using a manifest](https://docs.aws.amazon.com/datasync/latest/userguide/transferring-with-manifest.html). When using this parameter, your caller identity (the IAM role that you're using DataSync with) must have the iam:PassRole permission. The [AWSDataSyncFullAccess](https://docs.aws.amazon.com/datasync/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-awsdatasyncfullaccess) policy includes this permission. To remove a manifest configuration, specify this parameter as empty.
     public var manifestConfig: DataSyncClientTypes.ManifestConfig?
-    /// The name of the task to update.
+    /// Specifies the name of your task.
     public var name: Swift.String?
-    /// Indicates how your transfer task is configured. These options include how DataSync handles files, objects, and their associated metadata during your transfer. You also can specify how to verify data integrity, set bandwidth limits for your task, among other options. Each option has a default value. Unless you need to, you don't have to configure any of these options before starting your task.
+    /// Indicates how your transfer task is configured. These options include how DataSync handles files, objects, and their associated metadata during your transfer. You also can specify how to verify data integrity, set bandwidth limits for your task, among other options. Each option has a default value. Unless you need to, you don't have to configure any option before calling [StartTaskExecution](https://docs.aws.amazon.com/datasync/latest/userguide/API_StartTaskExecution.html). You also can override your task options for each task execution. For example, you might want to adjust the LogLevel for an individual execution.
     public var options: DataSyncClientTypes.Options?
-    /// Specifies a schedule used to periodically transfer files from a source to a destination location. You can configure your task to execute hourly, daily, weekly or on specific days of the week. You control when in the day or hour you want the task to execute. The time you specify is UTC time. For more information, see [Scheduling your task](https://docs.aws.amazon.com/datasync/latest/userguide/task-scheduling.html).
+    /// Specifies a schedule for when you want your task to run. For more information, see [Scheduling your task](https://docs.aws.amazon.com/datasync/latest/userguide/task-scheduling.html).
     public var schedule: DataSyncClientTypes.TaskSchedule?
-    /// The Amazon Resource Name (ARN) of the resource name of the task to update.
+    /// Specifies the ARN of the task that you want to update.
     /// This member is required.
     public var taskArn: Swift.String?
     /// Specifies how you want to configure a task report, which provides detailed information about your DataSync transfer. For more information, see [Monitoring your DataSync transfers with task reports](https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html). When using this parameter, your caller identity (the IAM role that you're using DataSync with) must have the iam:PassRole permission. The [AWSDataSyncFullAccess](https://docs.aws.amazon.com/datasync/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-awsdatasyncfullaccess) policy includes this permission. To remove a task report configuration, specify this parameter as empty.

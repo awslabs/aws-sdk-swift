@@ -260,6 +260,65 @@ extension QBusinessClient {
         return result
     }
 
+    /// Performs the `Chat` operation on the `ExpertQ` service.
+    ///
+    /// Starts or continues a streaming Amazon Q Business conversation.
+    ///
+    /// - Parameter ChatInput : [no documentation found]
+    ///
+    /// - Returns: `ChatOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
+    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `LicenseNotFoundException` : You don't have permissions to perform the action because your license is inactive. Ask your admin to activate your license and try again after your licence is active.
+    /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
+    /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
+    public func chat(input: ChatInput) async throws -> ChatOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "chat")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "qbusiness")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        try context.setupBidirectionalStreaming()
+        var operation = ClientRuntime.OperationStack<ChatInput, ChatOutput>(id: "chat")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<ChatInput, ChatOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ChatInput, ChatOutput>(ChatInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ChatInput, ChatOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ChatOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ChatOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ChatInput, ChatOutput>(ChatInput.queryItemProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ChatInput, ChatOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.EventStreamBodyMiddleware<ChatInput, ChatOutput, QBusinessClientTypes.ChatInputStream>(keyPath: \.inputStream, defaultBody: "{}", marshalClosure: jsonMarshalClosure(requestEncoder: encoder)))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ChatOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ChatOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ChatOutput>(responseClosure(decoder: decoder), responseErrorClosure(ChatOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ChatOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `ChatSync` operation on the `ExpertQ` service.
     ///
     /// Starts or continues a non-streaming Amazon Q Business conversation.
@@ -320,7 +379,7 @@ extension QBusinessClient {
 
     /// Performs the `CreateApplication` operation on the `ExpertQ` service.
     ///
-    /// Creates an Amazon Q Business application.
+    /// Creates an Amazon Q Business application. There are new tiers for Amazon Q Business. Not all features in Amazon Q Business Pro are also available in Amazon Q Business Lite. For information on what's included in Amazon Q Business Lite and what's included in Amazon Q Business Pro, see [Amazon Q Business tiers](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/what-is.html#tiers). You must use the Amazon Q Business console to assign subscription tiers to users.
     ///
     /// - Parameter CreateApplicationInput : [no documentation found]
     ///

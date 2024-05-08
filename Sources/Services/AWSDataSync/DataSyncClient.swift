@@ -885,7 +885,7 @@ extension DataSyncClient {
 
     /// Performs the `CreateTask` operation on the `FmrsService` service.
     ///
-    /// Configures a transfer task, which defines where and how DataSync moves your data. A task includes a source location, destination location, and the options for how and when you want to transfer your data (such as bandwidth limits, scheduling, among other options). If you're planning to transfer data to or from an Amazon S3 location, review [how DataSync can affect your S3 request charges](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-s3-requests) and the [DataSync pricing page](http://aws.amazon.com/datasync/pricing/) before you begin.
+    /// Configures a task, which defines where and how DataSync transfers your data. A task includes a source location, destination location, and transfer options (such as bandwidth limits, scheduling, and more). If you're planning to transfer data to or from an Amazon S3 location, review [how DataSync can affect your S3 request charges](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-s3-requests) and the [DataSync pricing page](http://aws.amazon.com/datasync/pricing/) before you begin.
     ///
     /// - Parameter CreateTaskInput : CreateTaskRequest
     ///
@@ -1925,7 +1925,7 @@ extension DataSyncClient {
 
     /// Performs the `DescribeTask` operation on the `FmrsService` service.
     ///
-    /// Provides information about an DataSync transfer task.
+    /// Provides information about a task, which defines where and how DataSync transfers your data.
     ///
     /// - Parameter DescribeTaskInput : DescribeTaskRequest
     ///
@@ -3018,7 +3018,7 @@ extension DataSyncClient {
 
     /// Performs the `UpdateLocationObjectStorage` operation on the `FmrsService` service.
     ///
-    /// Updates some parameters of an existing object storage location that DataSync accesses for a transfer. For information about creating a self-managed object storage location, see [Creating a location for object storage](https://docs.aws.amazon.com/datasync/latest/userguide/create-object-location.html).
+    /// Updates some parameters of an existing DataSync location for an object storage system.
     ///
     /// - Parameter UpdateLocationObjectStorageInput : [no documentation found]
     ///
@@ -3174,7 +3174,7 @@ extension DataSyncClient {
 
     /// Performs the `UpdateTask` operation on the `FmrsService` service.
     ///
-    /// Updates the configuration of an DataSync transfer task.
+    /// Updates the configuration of a task, which defines where and how DataSync transfers your data.
     ///
     /// - Parameter UpdateTaskInput : UpdateTaskResponse
     ///

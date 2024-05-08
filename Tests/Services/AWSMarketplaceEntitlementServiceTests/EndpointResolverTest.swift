@@ -93,8 +93,28 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region cn-north-1 with FIPS enabled and DualStack enabled
+    /// For region cn-northwest-1 with FIPS disabled and DualStack disabled
     func testResolve5() throws {
+        let endpointParams = EndpointParams(
+            region: "cn-northwest-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://entitlement-marketplace.cn-northwest-1.amazonaws.com.cn", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region cn-north-1 with FIPS enabled and DualStack enabled
+    func testResolve6() throws {
         let endpointParams = EndpointParams(
             region: "cn-north-1",
             useDualStack: true,
@@ -114,7 +134,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// For region cn-north-1 with FIPS enabled and DualStack disabled
-    func testResolve6() throws {
+    func testResolve7() throws {
         let endpointParams = EndpointParams(
             region: "cn-north-1",
             useDualStack: false,
@@ -134,7 +154,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// For region cn-north-1 with FIPS disabled and DualStack enabled
-    func testResolve7() throws {
+    func testResolve8() throws {
         let endpointParams = EndpointParams(
             region: "cn-north-1",
             useDualStack: true,
@@ -154,7 +174,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// For region cn-north-1 with FIPS disabled and DualStack disabled
-    func testResolve8() throws {
+    func testResolve9() throws {
         let endpointParams = EndpointParams(
             region: "cn-north-1",
             useDualStack: false,
@@ -174,7 +194,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// For region us-gov-east-1 with FIPS enabled and DualStack enabled
-    func testResolve9() throws {
+    func testResolve10() throws {
         let endpointParams = EndpointParams(
             region: "us-gov-east-1",
             useDualStack: true,
@@ -194,7 +214,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// For region us-gov-east-1 with FIPS enabled and DualStack disabled
-    func testResolve10() throws {
+    func testResolve11() throws {
         let endpointParams = EndpointParams(
             region: "us-gov-east-1",
             useDualStack: false,
@@ -214,7 +234,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// For region us-gov-east-1 with FIPS disabled and DualStack enabled
-    func testResolve11() throws {
+    func testResolve12() throws {
         let endpointParams = EndpointParams(
             region: "us-gov-east-1",
             useDualStack: true,
@@ -234,7 +254,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// For region us-gov-east-1 with FIPS disabled and DualStack disabled
-    func testResolve12() throws {
+    func testResolve13() throws {
         let endpointParams = EndpointParams(
             region: "us-gov-east-1",
             useDualStack: false,
@@ -254,7 +274,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// For region us-iso-east-1 with FIPS enabled and DualStack enabled
-    func testResolve13() throws {
+    func testResolve14() throws {
         let endpointParams = EndpointParams(
             region: "us-iso-east-1",
             useDualStack: true,
@@ -273,7 +293,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// For region us-iso-east-1 with FIPS enabled and DualStack disabled
-    func testResolve14() throws {
+    func testResolve15() throws {
         let endpointParams = EndpointParams(
             region: "us-iso-east-1",
             useDualStack: false,
@@ -293,7 +313,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// For region us-iso-east-1 with FIPS disabled and DualStack enabled
-    func testResolve15() throws {
+    func testResolve16() throws {
         let endpointParams = EndpointParams(
             region: "us-iso-east-1",
             useDualStack: true,
@@ -312,7 +332,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// For region us-iso-east-1 with FIPS disabled and DualStack disabled
-    func testResolve16() throws {
+    func testResolve17() throws {
         let endpointParams = EndpointParams(
             region: "us-iso-east-1",
             useDualStack: false,
@@ -332,7 +352,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// For region us-isob-east-1 with FIPS enabled and DualStack enabled
-    func testResolve17() throws {
+    func testResolve18() throws {
         let endpointParams = EndpointParams(
             region: "us-isob-east-1",
             useDualStack: true,
@@ -351,7 +371,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// For region us-isob-east-1 with FIPS enabled and DualStack disabled
-    func testResolve18() throws {
+    func testResolve19() throws {
         let endpointParams = EndpointParams(
             region: "us-isob-east-1",
             useDualStack: false,
@@ -371,7 +391,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// For region us-isob-east-1 with FIPS disabled and DualStack enabled
-    func testResolve19() throws {
+    func testResolve20() throws {
         let endpointParams = EndpointParams(
             region: "us-isob-east-1",
             useDualStack: true,
@@ -390,7 +410,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// For region us-isob-east-1 with FIPS disabled and DualStack disabled
-    func testResolve20() throws {
+    func testResolve21() throws {
         let endpointParams = EndpointParams(
             region: "us-isob-east-1",
             useDualStack: false,
@@ -410,7 +430,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// For custom endpoint with region set and fips disabled and dualstack disabled
-    func testResolve21() throws {
+    func testResolve22() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://example.com",
             region: "us-east-1",
@@ -431,7 +451,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// For custom endpoint with region not set and fips disabled and dualstack disabled
-    func testResolve22() throws {
+    func testResolve23() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://example.com",
             useDualStack: false,
@@ -451,7 +471,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// For custom endpoint with fips enabled and dualstack disabled
-    func testResolve23() throws {
+    func testResolve24() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://example.com",
             region: "us-east-1",
@@ -471,7 +491,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// For custom endpoint with fips disabled and dualstack enabled
-    func testResolve24() throws {
+    func testResolve25() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://example.com",
             region: "us-east-1",
@@ -491,7 +511,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Missing region
-    func testResolve25() throws {
+    func testResolve26() throws {
         let endpointParams = EndpointParams(
         )
         let resolver = try DefaultEndpointResolver()

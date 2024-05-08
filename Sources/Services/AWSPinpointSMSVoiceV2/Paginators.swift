@@ -256,6 +256,38 @@ extension PaginatorSequence where OperationStackInput == DescribePoolsInput, Ope
     }
 }
 extension PinpointSMSVoiceV2Client {
+    /// Paginate over `[DescribeProtectConfigurationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeProtectConfigurationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeProtectConfigurationsOutput`
+    public func describeProtectConfigurationsPaginated(input: DescribeProtectConfigurationsInput) -> ClientRuntime.PaginatorSequence<DescribeProtectConfigurationsInput, DescribeProtectConfigurationsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeProtectConfigurationsInput, DescribeProtectConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeProtectConfigurations(input:))
+    }
+}
+
+extension DescribeProtectConfigurationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeProtectConfigurationsInput {
+        return DescribeProtectConfigurationsInput(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            protectConfigurationIds: self.protectConfigurationIds
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeProtectConfigurationsInput, OperationStackOutput == DescribeProtectConfigurationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeProtectConfigurationsPaginated`
+    /// to access the nested member `[PinpointSMSVoiceV2ClientTypes.ProtectConfigurationInformation]`
+    /// - Returns: `[PinpointSMSVoiceV2ClientTypes.ProtectConfigurationInformation]`
+    public func protectConfigurations() async throws -> [PinpointSMSVoiceV2ClientTypes.ProtectConfigurationInformation] {
+        return try await self.asyncCompactMap { item in item.protectConfigurations }
+    }
+}
+extension PinpointSMSVoiceV2Client {
     /// Paginate over `[DescribeRegistrationAttachmentsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

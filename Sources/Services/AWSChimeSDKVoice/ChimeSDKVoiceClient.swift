@@ -315,7 +315,7 @@ extension ChimeSDKVoiceClient {
 
     /// Performs the `BatchUpdatePhoneNumber` operation on the `ChimeSDKTelephonyService` service.
     ///
-    /// Updates one or more phone numbers.
+    /// Updates phone number product types, calling names, or phone number names. You can update one attribute at a time for each UpdatePhoneNumberRequestItem. For example, you can update the product type, the calling name, or phone name. You cannot have a duplicate phoneNumberId in a request.
     ///
     /// - Parameter BatchUpdatePhoneNumberInput : [no documentation found]
     ///
@@ -2074,7 +2074,8 @@ extension ChimeSDKVoiceClient {
 
     /// Performs the `GetSipMediaApplicationAlexaSkillConfiguration` operation on the `ChimeSDKTelephonyService` service.
     ///
-    /// Gets the Alexa Skill configuration for the SIP media application.
+    /// Gets the Alexa Skill configuration for the SIP media application. Due to changes made by the Amazon Alexa service, this API is no longer available for use. For more information, refer to the [Alexa Smart Properties](https://developer.amazon.com/en-US/alexa/alexasmartproperties) page.
+    @available(*, deprecated, message: "Due to changes made by the Amazon Alexa service, this API is no longer available for use. For more information, refer to the Alexa Smart Properties page(https://developer.amazon.com/en-US/alexa/alexasmartproperties).")
     ///
     /// - Parameter GetSipMediaApplicationAlexaSkillConfigurationInput : [no documentation found]
     ///
@@ -3622,7 +3623,8 @@ extension ChimeSDKVoiceClient {
 
     /// Performs the `PutSipMediaApplicationAlexaSkillConfiguration` operation on the `ChimeSDKTelephonyService` service.
     ///
-    /// Updates the Alexa Skill configuration for the SIP media application.
+    /// Updates the Alexa Skill configuration for the SIP media application. Due to changes made by the Amazon Alexa service, this API is no longer available for use. For more information, refer to the [Alexa Smart Properties](https://developer.amazon.com/en-US/alexa/alexasmartproperties) page.
+    @available(*, deprecated, message: "Due to changes made by the Amazon Alexa service, this API is no longer available for use. For more information, refer to the Alexa Smart Properties page(https://developer.amazon.com/en-US/alexa/alexasmartproperties).")
     ///
     /// - Parameter PutSipMediaApplicationAlexaSkillConfigurationInput : [no documentation found]
     ///
@@ -4642,7 +4644,7 @@ extension ChimeSDKVoiceClient {
 
     /// Performs the `UpdatePhoneNumber` operation on the `ChimeSDKTelephonyService` service.
     ///
-    /// Updates phone number details, such as product type or calling name, for the specified phone number ID. You can update one phone number detail at a time. For example, you can update either the product type or the calling name in one action. For numbers outside the U.S., you must use the Amazon Chime SDK SIP Media Application Dial-In product type. Updates to outbound calling names can take 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
+    /// Updates phone number details, such as product type, calling name, or phone number name for the specified phone number ID. You can update one phone number detail at a time. For example, you can update either the product type, calling name, or phone number name in one action. For numbers outside the U.S., you must use the Amazon Chime SDK SIP Media Application Dial-In product type. Updates to outbound calling names can take 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
     ///
     /// - Parameter UpdatePhoneNumberInput : [no documentation found]
     ///

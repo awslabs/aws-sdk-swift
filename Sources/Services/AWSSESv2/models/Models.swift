@@ -802,6 +802,7 @@ extension SESv2ClientTypes.BulkEmailEntry: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case destination = "Destination"
         case replacementEmailContent = "ReplacementEmailContent"
+        case replacementHeaders = "ReplacementHeaders"
         case replacementTags = "ReplacementTags"
     }
 
@@ -812,6 +813,12 @@ extension SESv2ClientTypes.BulkEmailEntry: Swift.Codable {
         }
         if let replacementEmailContent = self.replacementEmailContent {
             try encodeContainer.encode(replacementEmailContent, forKey: .replacementEmailContent)
+        }
+        if let replacementHeaders = replacementHeaders {
+            var replacementHeadersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replacementHeaders)
+            for messageheader0 in replacementHeaders {
+                try replacementHeadersContainer.encode(messageheader0)
+            }
         }
         if let replacementTags = replacementTags {
             var replacementTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replacementTags)
@@ -838,6 +845,17 @@ extension SESv2ClientTypes.BulkEmailEntry: Swift.Codable {
         replacementTags = replacementTagsDecoded0
         let replacementEmailContentDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.ReplacementEmailContent.self, forKey: .replacementEmailContent)
         replacementEmailContent = replacementEmailContentDecoded
+        let replacementHeadersContainer = try containerValues.decodeIfPresent([SESv2ClientTypes.MessageHeader?].self, forKey: .replacementHeaders)
+        var replacementHeadersDecoded0:[SESv2ClientTypes.MessageHeader]? = nil
+        if let replacementHeadersContainer = replacementHeadersContainer {
+            replacementHeadersDecoded0 = [SESv2ClientTypes.MessageHeader]()
+            for structure0 in replacementHeadersContainer {
+                if let structure0 = structure0 {
+                    replacementHeadersDecoded0?.append(structure0)
+                }
+            }
+        }
+        replacementHeaders = replacementHeadersDecoded0
     }
 }
 
@@ -848,17 +866,29 @@ extension SESv2ClientTypes {
         public var destination: SESv2ClientTypes.Destination?
         /// The ReplacementEmailContent associated with a BulkEmailEntry.
         public var replacementEmailContent: SESv2ClientTypes.ReplacementEmailContent?
+        /// The list of message headers associated with the BulkEmailEntry data type.
+        ///
+        /// * Headers Not Present in BulkEmailEntry: If a header is specified in [Template](https://docs.aws.amazon.com/ses/latest/APIReference-V2/API_Template.html) but not in BulkEmailEntry, the header from Template will be added to the outgoing email.
+        ///
+        /// * Headers Present in BulkEmailEntry: If a header is specified in BulkEmailEntry, it takes precedence over any header of the same name specified in [Template](https://docs.aws.amazon.com/ses/latest/APIReference-V2/API_Template.html):
+        ///
+        /// * If the header is also defined within Template, the value from BulkEmailEntry will replace the header's value in the email.
+        ///
+        /// * If the header is not defined within Template, it will simply be added to the email as specified in BulkEmailEntry.
+        public var replacementHeaders: [SESv2ClientTypes.MessageHeader]?
         /// A list of tags, in the form of name/value pairs, to apply to an email that you send using the SendBulkTemplatedEmail operation. Tags correspond to characteristics of the email that you define, so that you can publish email sending events.
         public var replacementTags: [SESv2ClientTypes.MessageTag]?
 
         public init(
             destination: SESv2ClientTypes.Destination? = nil,
             replacementEmailContent: SESv2ClientTypes.ReplacementEmailContent? = nil,
+            replacementHeaders: [SESv2ClientTypes.MessageHeader]? = nil,
             replacementTags: [SESv2ClientTypes.MessageTag]? = nil
         )
         {
             self.destination = destination
             self.replacementEmailContent = replacementEmailContent
+            self.replacementHeaders = replacementHeaders
             self.replacementTags = replacementTags
         }
     }
@@ -10081,6 +10111,8 @@ extension SESv2ClientTypes {
 extension ListContactsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case filter = "Filter"
+        case nextToken = "NextToken"
+        case pageSize = "PageSize"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -10088,22 +10120,12 @@ extension ListContactsInput: Swift.Encodable {
         if let filter = self.filter {
             try encodeContainer.encode(filter, forKey: .filter)
         }
-    }
-}
-
-extension ListContactsInput {
-
-    static func queryItemProvider(_ value: ListContactsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        if let pageSize = value.pageSize {
-            let pageSizeQueryItem = ClientRuntime.SDKURLQueryItem(name: "PageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-            items.append(pageSizeQueryItem)
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
         }
-        if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        if let pageSize = self.pageSize {
+            try encodeContainer.encode(pageSize, forKey: .pageSize)
         }
-        return items
     }
 }
 
@@ -10113,7 +10135,7 @@ extension ListContactsInput {
         guard let contactListName = value.contactListName else {
             return nil
         }
-        return "/v2/email/contact-lists/\(contactListName.urlPercentEncoding())/contacts"
+        return "/v2/email/contact-lists/\(contactListName.urlPercentEncoding())/contacts/list"
     }
 }
 
@@ -10144,17 +10166,25 @@ public struct ListContactsInput {
 
 struct ListContactsInputBody {
     let filter: SESv2ClientTypes.ListContactsFilter?
+    let pageSize: Swift.Int?
+    let nextToken: Swift.String?
 }
 
 extension ListContactsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case filter = "Filter"
+        case nextToken = "NextToken"
+        case pageSize = "PageSize"
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let filterDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.ListContactsFilter.self, forKey: .filter)
         filter = filterDecoded
+        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize)
+        pageSize = pageSizeDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
     }
 }
 
@@ -11150,6 +11180,8 @@ enum ListExportJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
 extension ListImportJobsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case importDestinationType = "ImportDestinationType"
+        case nextToken = "NextToken"
+        case pageSize = "PageSize"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -11157,29 +11189,19 @@ extension ListImportJobsInput: Swift.Encodable {
         if let importDestinationType = self.importDestinationType {
             try encodeContainer.encode(importDestinationType.rawValue, forKey: .importDestinationType)
         }
-    }
-}
-
-extension ListImportJobsInput {
-
-    static func queryItemProvider(_ value: ListImportJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
         }
-        if let pageSize = value.pageSize {
-            let pageSizeQueryItem = ClientRuntime.SDKURLQueryItem(name: "PageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-            items.append(pageSizeQueryItem)
+        if let pageSize = self.pageSize {
+            try encodeContainer.encode(pageSize, forKey: .pageSize)
         }
-        return items
     }
 }
 
 extension ListImportJobsInput {
 
     static func urlPathProvider(_ value: ListImportJobsInput) -> Swift.String? {
-        return "/v2/email/import-jobs"
+        return "/v2/email/import-jobs/list"
     }
 }
 
@@ -11206,17 +11228,25 @@ public struct ListImportJobsInput {
 
 struct ListImportJobsInputBody {
     let importDestinationType: SESv2ClientTypes.ImportDestinationType?
+    let nextToken: Swift.String?
+    let pageSize: Swift.Int?
 }
 
 extension ListImportJobsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case importDestinationType = "ImportDestinationType"
+        case nextToken = "NextToken"
+        case pageSize = "PageSize"
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let importDestinationTypeDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.ImportDestinationType.self, forKey: .importDestinationType)
         importDestinationType = importDestinationTypeDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize)
+        pageSize = pageSizeDecoded
     }
 }
 

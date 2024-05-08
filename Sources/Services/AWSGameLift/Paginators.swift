@@ -543,6 +543,37 @@ extension PaginatorSequence where OperationStackInput == ListComputeInput, Opera
     }
 }
 extension GameLiftClient {
+    /// Paginate over `[ListContainerGroupDefinitionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListContainerGroupDefinitionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListContainerGroupDefinitionsOutput`
+    public func listContainerGroupDefinitionsPaginated(input: ListContainerGroupDefinitionsInput) -> ClientRuntime.PaginatorSequence<ListContainerGroupDefinitionsInput, ListContainerGroupDefinitionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListContainerGroupDefinitionsInput, ListContainerGroupDefinitionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listContainerGroupDefinitions(input:))
+    }
+}
+
+extension ListContainerGroupDefinitionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListContainerGroupDefinitionsInput {
+        return ListContainerGroupDefinitionsInput(
+            limit: self.limit,
+            nextToken: token,
+            schedulingStrategy: self.schedulingStrategy
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListContainerGroupDefinitionsInput, OperationStackOutput == ListContainerGroupDefinitionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listContainerGroupDefinitionsPaginated`
+    /// to access the nested member `[GameLiftClientTypes.ContainerGroupDefinition]`
+    /// - Returns: `[GameLiftClientTypes.ContainerGroupDefinition]`
+    public func containerGroupDefinitions() async throws -> [GameLiftClientTypes.ContainerGroupDefinition] {
+        return try await self.asyncCompactMap { item in item.containerGroupDefinitions }
+    }
+}
+extension GameLiftClient {
     /// Paginate over `[ListFleetsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -560,6 +591,7 @@ extension ListFleetsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListFleetsInput {
         return ListFleetsInput(
             buildId: self.buildId,
+            containerGroupDefinitionName: self.containerGroupDefinitionName,
             limit: self.limit,
             nextToken: token,
             scriptId: self.scriptId

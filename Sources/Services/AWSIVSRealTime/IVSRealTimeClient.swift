@@ -1549,6 +1549,7 @@ extension IVSRealTimeClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` :
+    /// - `ConflictException` :
     /// - `PendingVerification` :
     /// - `ResourceNotFoundException` :
     /// - `ServiceQuotaExceededException` :

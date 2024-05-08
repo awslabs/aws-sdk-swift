@@ -4068,7 +4068,7 @@ extension SecurityHubClient {
 
     /// Performs the `UpdateFindings` operation on the `SecurityHubAPIService` service.
     ///
-    /// UpdateFindings is deprecated. Instead of UpdateFindings, use BatchUpdateFindings. Updates the Note and RecordState of the Security Hub-aggregated findings that the filter attributes specify. Any member account that can view the finding also sees the update to the finding.
+    /// UpdateFindings is a deprecated operation. Instead of UpdateFindings, use the BatchUpdateFindings operation. Updates the Note and RecordState of the Security Hub-aggregated findings that the filter attributes specify. Any member account that can view the finding also sees the update to the finding. Finding updates made with UpdateFindings might not be persisted if the same finding is later updated by the finding provider through the BatchImportFindings operation.
     ///
     /// - Parameter UpdateFindingsInput : [no documentation found]
     ///

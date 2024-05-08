@@ -1451,6 +1451,7 @@ extension SFNClient {
     /// - `ExecutionLimitExceeded` : The maximum number of running executions has been reached. Running executions must end or be stopped before a new execution can be started.
     /// - `ExecutionNotRedrivable` : The execution Amazon Resource Name (ARN) that you specified for executionArn cannot be redriven.
     /// - `InvalidArn` : The provided Amazon Resource Name (ARN) is not valid.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
     public func redriveExecution(input: RedriveExecutionInput) async throws -> RedriveExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2191,6 +2192,64 @@ extension SFNClient {
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateStateMachineAliasOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateStateMachineAliasOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateStateMachineAliasOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateStateMachineAliasOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `ValidateStateMachineDefinition` operation on the `AWSStepFunctions` service.
+    ///
+    /// Validates the syntax of a state machine definition. You can validate that a state machine definition is correct without creating a state machine resource. Step Functions will implicitly perform the same syntax check when you invoke CreateStateMachine and UpdateStateMachine. State machine definitions are specified using a JSON-based, structured language. For more information on Amazon States Language see [Amazon States Language](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html) (ASL). Suggested uses for ValidateStateMachineDefinition:
+    ///
+    /// * Integrate automated checks into your code review or Continuous Integration (CI) process to validate state machine definitions before starting deployments.
+    ///
+    /// * Run the validation from a Git pre-commit hook to check your state machine definitions before committing them to your source repository.
+    ///
+    ///
+    /// Errors found in the state machine definition will be returned in the response as a list of diagnostic elements, rather than raise an exception.
+    ///
+    /// - Parameter ValidateStateMachineDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `ValidateStateMachineDefinitionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
+    public func validateStateMachineDefinition(input: ValidateStateMachineDefinitionInput) async throws -> ValidateStateMachineDefinitionOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "validateStateMachineDefinition")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "states")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ValidateStateMachineDefinitionInput, ValidateStateMachineDefinitionOutput>(id: "validateStateMachineDefinition")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ValidateStateMachineDefinitionInput, ValidateStateMachineDefinitionOutput>(ValidateStateMachineDefinitionInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ValidateStateMachineDefinitionInput, ValidateStateMachineDefinitionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ValidateStateMachineDefinitionOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ValidateStateMachineDefinitionOutput>())
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ValidateStateMachineDefinitionInput, ValidateStateMachineDefinitionOutput>(xAmzTarget: "AWSStepFunctions.ValidateStateMachineDefinition"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ValidateStateMachineDefinitionInput, ValidateStateMachineDefinitionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ValidateStateMachineDefinitionInput, ValidateStateMachineDefinitionOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ValidateStateMachineDefinitionOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ValidateStateMachineDefinitionOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ValidateStateMachineDefinitionOutput>(responseClosure(decoder: decoder), responseErrorClosure(ValidateStateMachineDefinitionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ValidateStateMachineDefinitionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

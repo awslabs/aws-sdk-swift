@@ -86,6 +86,7 @@ extension ListOrganizationRecommendationResourcesInput: ClientRuntime.PaginateTo
     public func usingPaginationToken(_ token: Swift.String) -> ListOrganizationRecommendationResourcesInput {
         return ListOrganizationRecommendationResourcesInput(
             affectedAccountId: self.affectedAccountId,
+            exclusionStatus: self.exclusionStatus,
             maxResults: self.maxResults,
             nextToken: token,
             organizationRecommendationIdentifier: self.organizationRecommendationIdentifier,
@@ -157,6 +158,7 @@ extension TrustedAdvisorClient {
 extension ListRecommendationResourcesInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListRecommendationResourcesInput {
         return ListRecommendationResourcesInput(
+            exclusionStatus: self.exclusionStatus,
             maxResults: self.maxResults,
             nextToken: token,
             recommendationIdentifier: self.recommendationIdentifier,

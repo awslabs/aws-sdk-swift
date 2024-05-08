@@ -140,6 +140,60 @@ public struct TrustedAdvisorClientLogHandlerFactory: ClientRuntime.SDKLogHandler
 }
 
 extension TrustedAdvisorClient {
+    /// Performs the `BatchUpdateRecommendationResourceExclusion` operation on the `TrustedAdvisor` service.
+    ///
+    /// Update one or more exclusion status for a list of recommendation resources
+    ///
+    /// - Parameter BatchUpdateRecommendationResourceExclusionInput : [no documentation found]
+    ///
+    /// - Returns: `BatchUpdateRecommendationResourceExclusionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Exception that access has been denied due to insufficient access
+    /// - `ConflictException` : Exception that the request was denied due to conflictions in state
+    /// - `InternalServerException` : Exception to notify that an unexpected internal error occurred during processing of the request
+    /// - `ThrottlingException` : Exception to notify that requests are being throttled
+    /// - `ValidationException` : Exception that the request failed to satisfy service constraints
+    public func batchUpdateRecommendationResourceExclusion(input: BatchUpdateRecommendationResourceExclusionInput) async throws -> BatchUpdateRecommendationResourceExclusionOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchUpdateRecommendationResourceExclusion")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "trustedadvisor")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<BatchUpdateRecommendationResourceExclusionInput, BatchUpdateRecommendationResourceExclusionOutput>(id: "batchUpdateRecommendationResourceExclusion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchUpdateRecommendationResourceExclusionInput, BatchUpdateRecommendationResourceExclusionOutput>(BatchUpdateRecommendationResourceExclusionInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchUpdateRecommendationResourceExclusionInput, BatchUpdateRecommendationResourceExclusionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchUpdateRecommendationResourceExclusionOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<BatchUpdateRecommendationResourceExclusionOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchUpdateRecommendationResourceExclusionInput, BatchUpdateRecommendationResourceExclusionOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<BatchUpdateRecommendationResourceExclusionInput, BatchUpdateRecommendationResourceExclusionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchUpdateRecommendationResourceExclusionOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<BatchUpdateRecommendationResourceExclusionOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchUpdateRecommendationResourceExclusionOutput>(responseClosure(decoder: decoder), responseErrorClosure(BatchUpdateRecommendationResourceExclusionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchUpdateRecommendationResourceExclusionOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `GetOrganizationRecommendation` operation on the `TrustedAdvisor` service.
     ///
     /// Get a specific recommendation within an AWS Organizations organization. This API supports only prioritized recommendations.
@@ -553,7 +607,7 @@ extension TrustedAdvisorClient {
 
     /// Performs the `UpdateOrganizationRecommendationLifecycle` operation on the `TrustedAdvisor` service.
     ///
-    /// Update the lifecyle of a Recommendation within an Organization. This API only supports prioritized recommendations.
+    /// Update the lifecycle of a Recommendation within an Organization. This API only supports prioritized recommendations.
     ///
     /// - Parameter UpdateOrganizationRecommendationLifecycleInput : [no documentation found]
     ///
