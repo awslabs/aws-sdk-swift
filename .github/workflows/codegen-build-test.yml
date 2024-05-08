@@ -36,9 +36,9 @@ jobs:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-          key: 2-${{ runner.os }}-gradle-${{ hashFiles('settings.gradle.kts', 'gradle/wrapper/gradle-wrapper.properties') }}
+          key: 2-${{ runner.os }}-gradle-${{ hashFiles('*.gradle.kts', 'gradle/wrapper/gradle-wrapper.properties') }}
           restore-keys: |
-            2-${{ runner.os }}-gradle-${{ hashFiles('settings.gradle.kts', 'gradle/wrapper/gradle-wrapper.properties') }}
+            2-${{ runner.os }}-gradle-${{ hashFiles('*.gradle.kts', 'gradle/wrapper/gradle-wrapper.properties') }}
             2-${{ runner.os }}-gradle-
       - name: Cache Swift
         uses: actions/cache@v3
