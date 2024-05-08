@@ -214,15 +214,15 @@ extension EventStreamTestClientTypes.TestStream: ClientRuntime.MessageUnmarshall
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TestStreamOpInput, TestStreamOpOutput>())
         let endpointParams = EndpointParams()
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TestStreamOpOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<TestStreamOpInput, TestStreamOpOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0.0", config: config)))
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<TestStreamOpOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TestStreamOpInput, TestStreamOpOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.EventStreamBodyMiddleware<TestStreamOpInput, TestStreamOpOutput, EventStreamTestClientTypes.TestStream>(keyPath: \.value, defaultBody: "{}", marshalClosure: jsonMarshalClosure(requestEncoder: encoder)))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<TestStreamOpInput, TestStreamOpOutput>())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TestStreamOpOutput>(options: config.retryStrategyOptions))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<TestStreamOpOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TestStreamOpOutput>(responseClosure(decoder: decoder), responseErrorClosure(TestStreamOpOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TestStreamOpOutput>(clientLogMode: config.clientLogMode))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TestStreamOpInput, TestStreamOpOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

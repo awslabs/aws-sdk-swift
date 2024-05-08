@@ -52,81 +52,94 @@ class EndpointResolverMiddleware(
         }
     }
 
+    override fun renderExtensions() {
+        writer.write(
+            """
+            extension EndpointResolverMiddleware: ApplyEndpoint {
+                public func apply(
+                    request: SdkHttpRequest,
+                    selectedAuthScheme: SelectedAuthScheme?,
+                    attributes: HttpContext) async throws -> SdkHttpRequest
+                {
+                    let builder = request.toBuilder()
+                    
+                    let endpoint = try endpointResolver.resolve(params: endpointParams)
+                    
+                    var signingName: String? = nil
+                    var signingRegion: String? = nil
+                    var signingAlgorithm: String? = nil
+                    if let authSchemes = endpoint.authSchemes() {
+                        let schemes = try authSchemes.map { try AuthScheme(from: ${'$'}${'$'}0) }
+                        let authScheme = try authSchemeResolver.resolve(authSchemes: schemes)
+                        signingAlgorithm = authScheme.name
+                        switch authScheme {
+                        case .sigV4(let param):
+                            signingName = param.signingName
+                            signingRegion = param.signingRegion
+                        case .sigV4A(let param):
+                            signingName = param.signingName
+                            signingRegion = param.signingRegionSet?.first
+                        case .none:
+                            break
+                        }
+                    }
+                    
+                    let awsEndpoint = AWSEndpoint(endpoint: endpoint, signingName: signingName, signingRegion: signingRegion)
+                    
+                    var host = ""
+                    if let hostOverride = attributes.getHost() {
+                        host = hostOverride
+                    } else {
+                        host = "\(attributes.getHostPrefix() ?? "")\(awsEndpoint.endpoint.host)"
+                    }
+                    
+                    if let protocolType = awsEndpoint.endpoint.protocolType {
+                        builder.withProtocol(protocolType)
+                    }
+                    
+                    if let signingRegion = signingRegion {
+                        attributes.set(key: AttributeKeys.signingRegion, value: signingRegion)
+                        attributes.set(key: AttributeKeys.selectedAuthScheme, value: selectedAuthScheme?.getCopyWithUpdatedSigningProperty(key: AttributeKeys.signingRegion, value: signingRegion))
+                    }
+                    
+                    if let signingName = signingName {
+                       attributes.set(key: AttributeKeys.signingName, value: signingName) 
+                       attributes.set(key: AttributeKeys.selectedAuthScheme, value: selectedAuthScheme?.getCopyWithUpdatedSigningProperty(key: AttributeKeys.signingName, value: signingName))
+                    }
+                    
+                    if let signingAlgorithm = signingAlgorithm {
+                        attributes.set(key: AttributeKeys.signingAlgorithm, value: AWSSigningAlgorithm(rawValue: signingAlgorithm))
+                    }
+                    
+                    if let headers = endpoint.headers {
+                        builder.withHeaders(headers)
+                    }
+                    
+                    return builder.withMethod(attributes.getMethod())
+                        .withHost(host)
+                        .withPort(awsEndpoint.endpoint.port)
+                        .withPath(awsEndpoint.endpoint.path.appendingPathComponent(attributes.getPath()))
+                        .withHeader(name: "Host", value: host)
+                        .build()
+                }
+            }
+            """.trimIndent()
+        )
+    }
+
     override fun generateMiddlewareClosure() {
         writer.addImport(SwiftDependency.CLIENT_RUNTIME.target)
         writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
-        writer.write("let endpoint = try endpointResolver.resolve(params: endpointParams)")
-            .write("")
-
-        writer.write("var signingName: String? = nil")
-        writer.write("var signingRegion: String? = nil")
-        writer.write("var signingAlgorithm: String? = nil")
-        writer.openBlock("if let authSchemes = endpoint.authSchemes() {", "}") {
-            writer.write("let schemes = try authSchemes.map { try AuthScheme(from: \$$0) }")
-            writer.write("let authScheme = try authSchemeResolver.resolve(authSchemes: schemes)")
-            writer.write("signingAlgorithm = authScheme.name")
-            writer.write("switch authScheme {")
-            writer.write("case .sigV4(let param):")
-            writer.indent()
-            writer.write("signingName = param.signingName")
-            writer.write("signingRegion = param.signingRegion")
-            writer.dedent()
-            writer.write("case .sigV4A(let param):")
-            writer.indent()
-            writer.write("signingName = param.signingName")
-            writer.write("signingRegion = param.signingRegionSet?.first")
-            writer.dedent()
-            writer.write("case .none:")
-            writer.indent()
-            writer.write("break")
-            writer.dedent()
-            writer.write("}")
-        }
-        writer.write("")
-        writer.write("let awsEndpoint = AWSEndpoint(endpoint: endpoint, signingName: signingName, signingRegion: signingRegion)")
-            .write("")
-
-        writer.write("""var host = """"")
-            .openBlock("if let hostOverride = context.getHost() {", "} else {") {
-                writer.write("host = hostOverride")
-            }
-            .indent()
-            .write("""host = "\(context.getHostPrefix() ?? "")\(awsEndpoint.endpoint.host)"""")
-            .dedent()
-            .write("}")
-
-        writer.write("")
-        writer.openBlock("if let protocolType = awsEndpoint.endpoint.protocolType {", "}") {
-            writer.write("input.withProtocol(protocolType)")
-        }.write("")
-
-        writer.openBlock("if let signingRegion = signingRegion {", "}") {
-            writer.write("context.attributes.set(key: AttributeKeys.signingRegion, value: signingRegion)")
-            writer.write("context.attributes.set(key: AttributeKeys.selectedAuthScheme, value: context.getSelectedAuthScheme()?.getCopyWithUpdatedSigningProperty(key: AttributeKeys.signingRegion, value: signingRegion))")
-        }
-        writer.openBlock("if let signingName = signingName {", "}") {
-            writer.write("context.attributes.set(key: AttributeKeys.signingName, value: signingName)")
-            writer.write("context.attributes.set(key: AttributeKeys.selectedAuthScheme, value: context.getSelectedAuthScheme()?.getCopyWithUpdatedSigningProperty(key: AttributeKeys.signingName, value: signingName))")
-        }
-        writer.openBlock("if let signingAlgorithm = signingAlgorithm {", "}") {
-            writer.write("context.attributes.set(key: AttributeKeys.signingAlgorithm, value: AWSSigningAlgorithm(rawValue: signingAlgorithm))")
-        }.write("")
-
-        writer.openBlock("if let headers = endpoint.headers {", "}") {
-            writer.write("input.withHeaders(headers)")
-        }.write("")
-
-        writer.write("input.withMethod(context.getMethod())")
-            .indent()
-            .write(".withHost(host)")
-            .write(".withPort(awsEndpoint.endpoint.port)")
-            .write(".withPath(awsEndpoint.endpoint.path.appendingPathComponent(context.getPath()))")
-            .write(""".withHeader(name: "Host", value: host)""")
-            .dedent()
-            .write("")
+        writer.write(
+            """
+            let selectedAuthScheme = context.getSelectedAuthScheme()
+            let request = input.build()
+            let updatedRequest = try await apply(request: request, selectedAuthScheme: selectedAuthScheme, attributes: context)
+            """.trimIndent()
+        )
     }
 
     override fun renderReturn() {
-        writer.write("return try await next.handle(context: context, input: input)")
+        writer.write("return try await next.handle(context: context, input: updatedRequest.toBuilder())")
     }
 }
