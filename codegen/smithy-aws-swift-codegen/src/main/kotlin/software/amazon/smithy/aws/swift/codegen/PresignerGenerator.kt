@@ -88,6 +88,15 @@ class PresignerGenerator : SwiftIntegration {
             writer.openBlock("public func presign(config: \$L, expiration: \$N) async throws -> \$T {", "}", serviceConfig.typeName, FoundationTypes.TimeInterval, SdkHttpRequest) {
                 writer.write("let serviceName = \$S", ctx.settings.sdkId)
                 writer.write("let input = self")
+                if (protocolGeneratorContext.settings.useInterceptors) {
+                    writer.write(
+                        """
+                        let client: (SdkHttpRequest, HttpContext) async throws -> HttpResponse = { (_, _) in
+                            throw ClientRuntime.ClientError.unknownError("No HTTP client configured for presigned request")
+                        }
+                        """.trimIndent()
+                    )
+                }
                 val operationStackName = "operation"
                 for (prop in protocolGenerator.customizations.getClientProperties()) {
                     prop.addImportsAndDependencies(writer)
@@ -106,17 +115,26 @@ class PresignerGenerator : SwiftIntegration {
                 generator.render(serviceShape, op, PRESIGN_REQUEST) { writer, _ ->
                     writer.write("return nil")
                 }
-                val requestBuilderName = "presignedRequestBuilder"
-                val builtRequestName = "builtRequest"
-                writer.write(
-                    "let $requestBuilderName = try await $operationStackName.presignedRequest(context: context, input: input, output: \$L(), next: \$N())",
-                    outputType,
-                    NoopHandler
-                )
-                writer.openBlock("guard let $builtRequestName = $requestBuilderName?.build() else {", "}") {
-                    writer.write("return nil")
+
+                if (protocolGeneratorContext.settings.useInterceptors) {
+                    writer.write(
+                        """
+                        return try await op.presignRequest(input: input)
+                        """.trimIndent()
+                    )
+                } else {
+                    val requestBuilderName = "presignedRequestBuilder"
+                    val builtRequestName = "builtRequest"
+                    writer.write(
+                        "let $requestBuilderName = try await $operationStackName.presignedRequest(context: context, input: input, output: \$L(), next: \$N())",
+                        outputType,
+                        NoopHandler
+                    )
+                    writer.openBlock("guard let $builtRequestName = $requestBuilderName?.build() else {", "}") {
+                        writer.write("return nil")
+                    }
+                    writer.write("return $builtRequestName")
                 }
-                writer.write("return $builtRequestName")
             }
         }
     }

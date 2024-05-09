@@ -116,6 +116,15 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
             ) {
                 writer.write("let serviceName = \"${ctx.settings.sdkId}\"")
                 writer.write("let input = self")
+                if (protocolGeneratorContext.settings.useInterceptors) {
+                    writer.write(
+                        """
+                        let client: (SdkHttpRequest, HttpContext) async throws -> HttpResponse = { (_, _) in
+                            throw ClientRuntime.ClientError.unknownError("No HTTP client configured for presigned request")
+                        }
+                        """.trimIndent()
+                    )
+                }
                 val operationStackName = "operation"
                 for (prop in protocolGenerator.customizations.getClientProperties()) {
                     prop.addImportsAndDependencies(writer)
@@ -136,18 +145,26 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
                     writer.write("return nil")
                 }
 
-                val requestBuilderName = "presignedRequestBuilder"
-                val builtRequestName = "builtRequest"
-                val presignedURL = "presignedURL"
-                writer.write(
-                    "let $requestBuilderName = try await $operationStackName.presignedRequest(context: context, input: input, output: \$L(), next: \$N())",
-                    outputType,
-                    ClientRuntimeTypes.Middleware.NoopHandler
-                )
-                writer.openBlock("guard let $builtRequestName = $requestBuilderName?.build(), let $presignedURL = $builtRequestName.endpoint.url else {", "}") {
-                    writer.write("return nil")
+                if (protocolGeneratorContext.settings.useInterceptors) {
+                    writer.write(
+                        """
+                        return try await op.presignRequest(input: input).endpoint.url
+                        """.trimIndent()
+                    )
+                } else {
+                    val requestBuilderName = "presignedRequestBuilder"
+                    val builtRequestName = "builtRequest"
+                    val presignedURL = "presignedURL"
+                    writer.write(
+                        "let $requestBuilderName = try await $operationStackName.presignedRequest(context: context, input: input, output: \$L(), next: \$N())",
+                        outputType,
+                        ClientRuntimeTypes.Middleware.NoopHandler
+                    )
+                    writer.openBlock("guard let $builtRequestName = $requestBuilderName?.build(), let $presignedURL = $builtRequestName.endpoint.url else {", "}") {
+                        writer.write("return nil")
+                    }
+                    writer.write("return $presignedURL")
                 }
-                writer.write("return $presignedURL")
             }
         }
     }

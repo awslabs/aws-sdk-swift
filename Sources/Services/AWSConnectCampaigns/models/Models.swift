@@ -104,11 +104,15 @@ extension ConnectCampaignsClientTypes {
 
 extension ConnectCampaignsClientTypes.AnswerMachineDetectionConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case awaitAnswerMachinePrompt
         case enableAnswerMachineDetection
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let awaitAnswerMachinePrompt = self.awaitAnswerMachinePrompt {
+            try encodeContainer.encode(awaitAnswerMachinePrompt, forKey: .awaitAnswerMachinePrompt)
+        }
         if let enableAnswerMachineDetection = self.enableAnswerMachineDetection {
             try encodeContainer.encode(enableAnswerMachineDetection, forKey: .enableAnswerMachineDetection)
         }
@@ -118,20 +122,26 @@ extension ConnectCampaignsClientTypes.AnswerMachineDetectionConfig: Swift.Codabl
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let enableAnswerMachineDetectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableAnswerMachineDetection)
         enableAnswerMachineDetection = enableAnswerMachineDetectionDecoded
+        let awaitAnswerMachinePromptDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .awaitAnswerMachinePrompt)
+        awaitAnswerMachinePrompt = awaitAnswerMachinePromptDecoded
     }
 }
 
 extension ConnectCampaignsClientTypes {
     /// Answering Machine Detection config
     public struct AnswerMachineDetectionConfig {
+        /// Enable or disable await answer machine prompt
+        public var awaitAnswerMachinePrompt: Swift.Bool?
         /// Enable or disable answering machine detection
         /// This member is required.
         public var enableAnswerMachineDetection: Swift.Bool?
 
         public init(
+            awaitAnswerMachinePrompt: Swift.Bool? = nil,
             enableAnswerMachineDetection: Swift.Bool? = nil
         )
         {
+            self.awaitAnswerMachinePrompt = awaitAnswerMachinePrompt
             self.enableAnswerMachineDetection = enableAnswerMachineDetection
         }
     }

@@ -110,7 +110,7 @@ extension AcceptShareInput {
 }
 
 public struct AcceptShareInput {
-    /// The ID for a share offer for analytics store data.
+    /// The ID of the resource share.
     /// This member is required.
     public var shareId: Swift.String?
 
@@ -144,7 +144,7 @@ extension AcceptShareOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct AcceptShareOutput {
-    /// The status of an analytics store share.
+    /// The status of the resource share.
     public var status: OmicsClientTypes.ShareStatus?
 
     public init(
@@ -3153,13 +3153,13 @@ extension CreateShareInput {
 }
 
 public struct CreateShareInput {
-    /// The principal subscriber is the account being given access to the analytics store data through the share offer.
+    /// The principal subscriber is the account being offered shared access to the resource.
     /// This member is required.
     public var principalSubscriber: Swift.String?
-    /// The resource ARN for the analytics store to be shared.
+    /// The ARN of the resource to be shared.
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// A name given to the share.
+    /// A name that the owner defines for the share.
     public var shareName: Swift.String?
 
     public init(
@@ -3215,11 +3215,11 @@ extension CreateShareOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CreateShareOutput {
-    /// An ID generated for the share.
+    /// The ID that HealthOmics generates for the share.
     public var shareId: Swift.String?
-    /// A name given to the share.
+    /// The name of the share.
     public var shareName: Swift.String?
-    /// The status of a share.
+    /// The status of the share.
     public var status: OmicsClientTypes.ShareStatus?
 
     public init(
@@ -3571,7 +3571,7 @@ public struct CreateWorkflowInput {
     /// To ensure that requests don't run multiple times, specify a unique ID for each request.
     /// This member is required.
     public var requestId: Swift.String?
-    /// A storage capacity for the workflow in gibibytes.
+    /// The storage capacity for the workflow in gibibytes.
     public var storageCapacity: Swift.Int?
     /// Tags for the workflow.
     public var tags: [Swift.String:Swift.String]?
@@ -4378,7 +4378,7 @@ extension DeleteShareInput {
 }
 
 public struct DeleteShareInput {
-    /// The ID for the share request to be deleted.
+    /// The ID for the resource share to be deleted.
     /// This member is required.
     public var shareId: Swift.String?
 
@@ -5139,6 +5139,7 @@ extension OmicsClientTypes.Filter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case resourceArns
         case status
+        case type
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -5153,6 +5154,12 @@ extension OmicsClientTypes.Filter: Swift.Codable {
             var statusContainer = encodeContainer.nestedUnkeyedContainer(forKey: .status)
             for sharestatus0 in status {
                 try statusContainer.encode(sharestatus0.rawValue)
+            }
+        }
+        if let type = type {
+            var typeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .type)
+            for shareresourcetype0 in type {
+                try typeContainer.encode(shareresourcetype0.rawValue)
             }
         }
     }
@@ -5181,24 +5188,39 @@ extension OmicsClientTypes.Filter: Swift.Codable {
             }
         }
         status = statusDecoded0
+        let typeContainer = try containerValues.decodeIfPresent([OmicsClientTypes.ShareResourceType?].self, forKey: .type)
+        var typeDecoded0:[OmicsClientTypes.ShareResourceType]? = nil
+        if let typeContainer = typeContainer {
+            typeDecoded0 = [OmicsClientTypes.ShareResourceType]()
+            for string0 in typeContainer {
+                if let string0 = string0 {
+                    typeDecoded0?.append(string0)
+                }
+            }
+        }
+        type = typeDecoded0
     }
 }
 
 extension OmicsClientTypes {
-    /// Use filters to focus the returned annotation store versions on a specific parameter, such as the status of the annotation store.
+    /// Use filters to return a subset of resources. You can define filters for specific parameters, such as the resource status.
     public struct Filter {
-        /// The Amazon Resource Number (Arn) for an analytics store.
+        /// Filter based on the Amazon Resource Number (ARN) of the resource. You can specify up to 10 values.
         public var resourceArns: [Swift.String]?
-        /// The status of an annotation store version.
+        /// Filter based on the resource status. You can specify up to 10 values.
         public var status: [OmicsClientTypes.ShareStatus]?
+        /// The type of resources to be filtered. You can specify one or more of the resource types.
+        public var type: [OmicsClientTypes.ShareResourceType]?
 
         public init(
             resourceArns: [Swift.String]? = nil,
-            status: [OmicsClientTypes.ShareStatus]? = nil
+            status: [OmicsClientTypes.ShareStatus]? = nil,
+            type: [OmicsClientTypes.ShareResourceType]? = nil
         )
         {
             self.resourceArns = resourceArns
             self.status = status
+            self.type = type
         }
     }
 
@@ -7838,9 +7860,11 @@ extension GetRunOutput: ClientRuntime.HttpResponseBinding {
             self.statusMessage = output.statusMessage
             self.stopTime = output.stopTime
             self.storageCapacity = output.storageCapacity
+            self.storageType = output.storageType
             self.tags = output.tags
             self.uuid = output.uuid
             self.workflowId = output.workflowId
+            self.workflowOwnerId = output.workflowOwnerId
             self.workflowType = output.workflowType
         } else {
             self.accelerators = nil
@@ -7868,9 +7892,11 @@ extension GetRunOutput: ClientRuntime.HttpResponseBinding {
             self.statusMessage = nil
             self.stopTime = nil
             self.storageCapacity = nil
+            self.storageType = nil
             self.tags = nil
             self.uuid = nil
             self.workflowId = nil
+            self.workflowOwnerId = nil
             self.workflowType = nil
         }
     }
@@ -7925,14 +7951,18 @@ public struct GetRunOutput {
     public var statusMessage: Swift.String?
     /// The run's stop time.
     public var stopTime: ClientRuntime.Date?
-    /// The run's storage capacity in gigabytes.
+    /// The run's storage capacity in gibibytes. For dynamic storage, after the run has completed, this value is the maximum amount of storage used during the run.
     public var storageCapacity: Swift.Int?
+    /// The run's storage type.
+    public var storageType: OmicsClientTypes.StorageType?
     /// The run's tags.
     public var tags: [Swift.String:Swift.String]?
     /// The universally unique identifier for a run.
     public var uuid: Swift.String?
     /// The run's workflow ID.
     public var workflowId: Swift.String?
+    /// The ID of the workflow owner.
+    public var workflowOwnerId: Swift.String?
     /// The run's workflow type.
     public var workflowType: OmicsClientTypes.WorkflowType?
 
@@ -7962,9 +7992,11 @@ public struct GetRunOutput {
         statusMessage: Swift.String? = nil,
         stopTime: ClientRuntime.Date? = nil,
         storageCapacity: Swift.Int? = nil,
+        storageType: OmicsClientTypes.StorageType? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         uuid: Swift.String? = nil,
         workflowId: Swift.String? = nil,
+        workflowOwnerId: Swift.String? = nil,
         workflowType: OmicsClientTypes.WorkflowType? = nil
     )
     {
@@ -7993,9 +8025,11 @@ public struct GetRunOutput {
         self.statusMessage = statusMessage
         self.stopTime = stopTime
         self.storageCapacity = storageCapacity
+        self.storageType = storageType
         self.tags = tags
         self.uuid = uuid
         self.workflowId = workflowId
+        self.workflowOwnerId = workflowOwnerId
         self.workflowType = workflowType
     }
 }
@@ -8030,6 +8064,8 @@ struct GetRunOutputBody {
     let logLocation: OmicsClientTypes.RunLogLocation?
     let uuid: Swift.String?
     let runOutputUri: Swift.String?
+    let storageType: OmicsClientTypes.StorageType?
+    let workflowOwnerId: Swift.String?
 }
 
 extension GetRunOutputBody: Swift.Decodable {
@@ -8059,9 +8095,11 @@ extension GetRunOutputBody: Swift.Decodable {
         case statusMessage
         case stopTime
         case storageCapacity
+        case storageType
         case tags
         case uuid
         case workflowId
+        case workflowOwnerId
         case workflowType
     }
 
@@ -8143,6 +8181,10 @@ extension GetRunOutputBody: Swift.Decodable {
         uuid = uuidDecoded
         let runOutputUriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .runOutputUri)
         runOutputUri = runOutputUriDecoded
+        let storageTypeDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.StorageType.self, forKey: .storageType)
+        storageType = storageTypeDecoded
+        let workflowOwnerIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workflowOwnerId)
+        workflowOwnerId = workflowOwnerIdDecoded
     }
 }
 
@@ -8564,7 +8606,7 @@ extension GetShareInput {
 }
 
 public struct GetShareInput {
-    /// The generated ID for a share.
+    /// The ID of the share.
     /// This member is required.
     public var shareId: Swift.String?
 
@@ -8598,7 +8640,7 @@ extension GetShareOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetShareOutput {
-    /// An analytic store share details object. contains status, resourceArn, ownerId, etc.
+    /// A resource share details object. The object includes the status, the resourceArn, and ownerId.
     public var share: OmicsClientTypes.ShareDetails?
 
     public init(
@@ -9078,6 +9120,10 @@ extension GetWorkflowInput {
 
     static func queryItemProvider(_ value: GetWorkflowInput) throws -> [ClientRuntime.SDKURLQueryItem] {
         var items = [ClientRuntime.SDKURLQueryItem]()
+        if let workflowOwnerId = value.workflowOwnerId {
+            let workflowOwnerIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "workflowOwnerId".urlPercentEncoding(), value: Swift.String(workflowOwnerId).urlPercentEncoding())
+            items.append(workflowOwnerIdQueryItem)
+        }
         if let type = value.type {
             let typeQueryItem = ClientRuntime.SDKURLQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
             items.append(typeQueryItem)
@@ -9110,16 +9156,20 @@ public struct GetWorkflowInput {
     public var id: Swift.String?
     /// The workflow's type.
     public var type: OmicsClientTypes.WorkflowType?
+    /// The ID of the workflow owner.
+    public var workflowOwnerId: Swift.String?
 
     public init(
         export: [OmicsClientTypes.WorkflowExport]? = nil,
         id: Swift.String? = nil,
-        type: OmicsClientTypes.WorkflowType? = nil
+        type: OmicsClientTypes.WorkflowType? = nil,
+        workflowOwnerId: Swift.String? = nil
     )
     {
         self.export = export
         self.id = id
         self.type = type
+        self.workflowOwnerId = workflowOwnerId
     }
 }
 
@@ -9205,7 +9255,7 @@ public struct GetWorkflowOutput {
     public var status: OmicsClientTypes.WorkflowStatus?
     /// The workflow's status message.
     public var statusMessage: Swift.String?
-    /// The workflow's storage capacity in gigabytes.
+    /// The workflow's storage capacity in gibibytes.
     public var storageCapacity: Swift.Int?
     /// The workflow's tags.
     public var tags: [Swift.String:Swift.String]?
@@ -12633,13 +12683,13 @@ extension ListSharesInput {
 }
 
 public struct ListSharesInput {
-    /// Attributes used to filter for a specific subset of shares.
+    /// Attributes that you use to filter for a specific subset of resource shares.
     public var filter: OmicsClientTypes.Filter?
     /// The maximum number of shares to return in one page of results.
     public var maxResults: Swift.Int?
     /// Next token returned in the response of a previous ListReadSetUploadPartsRequest call. Used to get the next page of results.
     public var nextToken: Swift.String?
-    /// The account that owns the analytics store shared.
+    /// The account that owns the resource shares.
     /// This member is required.
     public var resourceOwner: OmicsClientTypes.ResourceOwner?
 
@@ -12694,7 +12744,7 @@ extension ListSharesOutput: ClientRuntime.HttpResponseBinding {
 public struct ListSharesOutput {
     /// Next token returned in the response of a previous ListSharesResponse call. Used to get the next page of results.
     public var nextToken: Swift.String?
-    /// The shares available and their meta details.
+    /// The shares available and their metadata details.
     /// This member is required.
     public var shares: [OmicsClientTypes.ShareDetails]?
 
@@ -13308,11 +13358,11 @@ extension ListWorkflowsInput {
 public struct ListWorkflowsInput {
     /// The maximum number of workflows to return in one page of results.
     public var maxResults: Swift.Int?
-    /// The workflows' name.
+    /// Filter the list by workflow name.
     public var name: Swift.String?
     /// Specify the pagination token from a previous request to retrieve the next page of results.
     public var startingToken: Swift.String?
-    /// The workflows' type.
+    /// Filter the list by workflow type.
     public var type: OmicsClientTypes.WorkflowType?
 
     public init(
@@ -13353,7 +13403,7 @@ extension ListWorkflowsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListWorkflowsOutput {
-    /// The workflows' items.
+    /// A list of workflow items.
     public var items: [OmicsClientTypes.WorkflowListItem]?
     /// A pagination token that's included if more results are available.
     public var nextToken: Swift.String?
@@ -15600,6 +15650,7 @@ extension OmicsClientTypes.RunListItem: Swift.Codable {
         case status
         case stopTime
         case storageCapacity
+        case storageType
         case workflowId
     }
 
@@ -15632,6 +15683,9 @@ extension OmicsClientTypes.RunListItem: Swift.Codable {
         if let storageCapacity = self.storageCapacity {
             try encodeContainer.encode(storageCapacity, forKey: .storageCapacity)
         }
+        if let storageType = self.storageType {
+            try encodeContainer.encode(storageType.rawValue, forKey: .storageType)
+        }
         if let workflowId = self.workflowId {
             try encodeContainer.encode(workflowId, forKey: .workflowId)
         }
@@ -15659,6 +15713,8 @@ extension OmicsClientTypes.RunListItem: Swift.Codable {
         startTime = startTimeDecoded
         let stopTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .stopTime)
         stopTime = stopTimeDecoded
+        let storageTypeDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.StorageType.self, forKey: .storageType)
+        storageType = storageTypeDecoded
     }
 }
 
@@ -15681,8 +15737,10 @@ extension OmicsClientTypes {
         public var status: OmicsClientTypes.RunStatus?
         /// When the run stopped.
         public var stopTime: ClientRuntime.Date?
-        /// The run's storage capacity.
+        /// The run's storage capacity in gibibytes. For dynamic storage, after the run has completed, this value is the maximum amount of storage used during the run.
         public var storageCapacity: Swift.Int?
+        /// The run's storage type.
+        public var storageType: OmicsClientTypes.StorageType?
         /// The run's workflow ID.
         public var workflowId: Swift.String?
 
@@ -15696,6 +15754,7 @@ extension OmicsClientTypes {
             status: OmicsClientTypes.RunStatus? = nil,
             stopTime: ClientRuntime.Date? = nil,
             storageCapacity: Swift.Int? = nil,
+            storageType: OmicsClientTypes.StorageType? = nil,
             workflowId: Swift.String? = nil
         )
         {
@@ -15708,6 +15767,7 @@ extension OmicsClientTypes {
             self.status = status
             self.stopTime = stopTime
             self.storageCapacity = storageCapacity
+            self.storageType = storageType
             self.workflowId = workflowId
         }
     }
@@ -16264,6 +16324,7 @@ extension OmicsClientTypes.ShareDetails: Swift.Codable {
         case ownerId
         case principalSubscriber
         case resourceArn
+        case resourceId
         case shareId
         case shareName
         case status
@@ -16284,6 +16345,9 @@ extension OmicsClientTypes.ShareDetails: Swift.Codable {
         }
         if let resourceArn = self.resourceArn {
             try encodeContainer.encode(resourceArn, forKey: .resourceArn)
+        }
+        if let resourceId = self.resourceId {
+            try encodeContainer.encode(resourceId, forKey: .resourceId)
         }
         if let shareId = self.shareId {
             try encodeContainer.encode(shareId, forKey: .shareId)
@@ -16308,6 +16372,8 @@ extension OmicsClientTypes.ShareDetails: Swift.Codable {
         shareId = shareIdDecoded
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
+        let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
+        resourceId = resourceIdDecoded
         let principalSubscriberDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .principalSubscriber)
         principalSubscriber = principalSubscriberDecoded
         let ownerIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ownerId)
@@ -16326,25 +16392,27 @@ extension OmicsClientTypes.ShareDetails: Swift.Codable {
 }
 
 extension OmicsClientTypes {
-    /// The details of a share.
+    /// The details of a resource share.
     public struct ShareDetails {
-        /// The timestamp for when the share was created.
+        /// The timestamp of when the resource share was created.
         public var creationTime: ClientRuntime.Date?
-        /// The account ID for the data owner. The owner creates the share offer.
+        /// The account ID for the data owner. The owner creates the resource share.
         public var ownerId: Swift.String?
-        /// The principal subscriber is the account the analytics store data is being shared with.
+        /// The principal subscriber is the account that is sharing the resource.
         public var principalSubscriber: Swift.String?
-        /// The resource Arn of the analytics store being shared.
+        /// The Arn of the shared resource.
         public var resourceArn: Swift.String?
-        /// The ID for a share offer for an analytics store .
+        /// The ID of the shared resource.
+        public var resourceId: Swift.String?
+        /// The ID of the resource share.
         public var shareId: Swift.String?
-        /// The name of the share.
+        /// The name of the resource share.
         public var shareName: Swift.String?
-        /// The status of a share.
+        /// The status of the share.
         public var status: OmicsClientTypes.ShareStatus?
-        /// The status message for a share. It provides more details on the status of the share.
+        /// The status message for a resource share. It provides additional details about the share status.
         public var statusMessage: Swift.String?
-        /// The timestamp of the share update.
+        /// The timestamp of the resource share update.
         public var updateTime: ClientRuntime.Date?
 
         public init(
@@ -16352,6 +16420,7 @@ extension OmicsClientTypes {
             ownerId: Swift.String? = nil,
             principalSubscriber: Swift.String? = nil,
             resourceArn: Swift.String? = nil,
+            resourceId: Swift.String? = nil,
             shareId: Swift.String? = nil,
             shareName: Swift.String? = nil,
             status: OmicsClientTypes.ShareStatus? = nil,
@@ -16363,6 +16432,7 @@ extension OmicsClientTypes {
             self.ownerId = ownerId
             self.principalSubscriber = principalSubscriber
             self.resourceArn = resourceArn
+            self.resourceId = resourceId
             self.shareId = shareId
             self.shareName = shareName
             self.status = status
@@ -16371,6 +16441,44 @@ extension OmicsClientTypes {
         }
     }
 
+}
+
+extension OmicsClientTypes {
+    public enum ShareResourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        /// The share is on an annotation store
+        case annotationStore
+        /// The share is on a variant store
+        case variantStore
+        /// The share is on a workflow
+        case workflow
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ShareResourceType] {
+            return [
+                .annotationStore,
+                .variantStore,
+                .workflow,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .annotationStore: return "ANNOTATION_STORE"
+            case .variantStore: return "VARIANT_STORE"
+            case .workflow: return "WORKFLOW"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ShareResourceType(rawValue: rawValue) ?? ShareResourceType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension OmicsClientTypes {
@@ -17751,8 +17859,10 @@ extension StartRunInput: Swift.Encodable {
         case runGroupId
         case runId
         case storageCapacity
+        case storageType
         case tags
         case workflowId
+        case workflowOwnerId
         case workflowType
     }
 
@@ -17791,6 +17901,9 @@ extension StartRunInput: Swift.Encodable {
         if let storageCapacity = self.storageCapacity {
             try encodeContainer.encode(storageCapacity, forKey: .storageCapacity)
         }
+        if let storageType = self.storageType {
+            try encodeContainer.encode(storageType.rawValue, forKey: .storageType)
+        }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
             for (dictKey0, tagMap0) in tags {
@@ -17799,6 +17912,9 @@ extension StartRunInput: Swift.Encodable {
         }
         if let workflowId = self.workflowId {
             try encodeContainer.encode(workflowId, forKey: .workflowId)
+        }
+        if let workflowOwnerId = self.workflowOwnerId {
+            try encodeContainer.encode(workflowOwnerId, forKey: .workflowOwnerId)
         }
         if let workflowType = self.workflowType {
             try encodeContainer.encode(workflowType.rawValue, forKey: .workflowType)
@@ -17836,12 +17952,16 @@ public struct StartRunInput {
     public var runGroupId: Swift.String?
     /// The ID of a run to duplicate.
     public var runId: Swift.String?
-    /// A storage capacity for the run in gibibytes.
+    /// A storage capacity for the run in gibibytes. This field is not required if the storage type is dynamic (the system ignores any value that you enter).
     public var storageCapacity: Swift.Int?
+    /// The run's storage type. By default, the run uses STATIC storage type, which allocates a fixed amount of storage. If you set the storage type to DYNAMIC, HealthOmics dynamically scales the storage up or down, based on file system utilization.
+    public var storageType: OmicsClientTypes.StorageType?
     /// Tags for the run.
     public var tags: [Swift.String:Swift.String]?
     /// The run's workflow ID.
     public var workflowId: Swift.String?
+    /// The ID of the workflow owner.
+    public var workflowOwnerId: Swift.String?
     /// The run's workflow type.
     public var workflowType: OmicsClientTypes.WorkflowType?
 
@@ -17857,8 +17977,10 @@ public struct StartRunInput {
         runGroupId: Swift.String? = nil,
         runId: Swift.String? = nil,
         storageCapacity: Swift.Int? = nil,
+        storageType: OmicsClientTypes.StorageType? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         workflowId: Swift.String? = nil,
+        workflowOwnerId: Swift.String? = nil,
         workflowType: OmicsClientTypes.WorkflowType? = nil
     )
     {
@@ -17873,8 +17995,10 @@ public struct StartRunInput {
         self.runGroupId = runGroupId
         self.runId = runId
         self.storageCapacity = storageCapacity
+        self.storageType = storageType
         self.tags = tags
         self.workflowId = workflowId
+        self.workflowOwnerId = workflowOwnerId
         self.workflowType = workflowType
     }
 }
@@ -17894,6 +18018,8 @@ struct StartRunInputBody {
     let tags: [Swift.String:Swift.String]?
     let requestId: Swift.String?
     let retentionMode: OmicsClientTypes.RunRetentionMode?
+    let storageType: OmicsClientTypes.StorageType?
+    let workflowOwnerId: Swift.String?
 }
 
 extension StartRunInputBody: Swift.Decodable {
@@ -17909,8 +18035,10 @@ extension StartRunInputBody: Swift.Decodable {
         case runGroupId
         case runId
         case storageCapacity
+        case storageType
         case tags
         case workflowId
+        case workflowOwnerId
         case workflowType
     }
 
@@ -17953,6 +18081,10 @@ extension StartRunInputBody: Swift.Decodable {
         requestId = requestIdDecoded
         let retentionModeDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.RunRetentionMode.self, forKey: .retentionMode)
         retentionMode = retentionModeDecoded
+        let storageTypeDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.StorageType.self, forKey: .storageType)
+        storageType = storageTypeDecoded
+        let workflowOwnerIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workflowOwnerId)
+        workflowOwnerId = workflowOwnerIdDecoded
     }
 }
 
@@ -18249,6 +18381,38 @@ enum StartVariantImportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension OmicsClientTypes {
+    public enum StorageType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case `dynamic`
+        case `static`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StorageType] {
+            return [
+                .dynamic,
+                .static,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .dynamic: return "DYNAMIC"
+            case .static: return "STATIC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = StorageType(rawValue: rawValue) ?? StorageType.sdkUnknown(rawValue)
         }
     }
 }

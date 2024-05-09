@@ -16,7 +16,7 @@ import software.amazon.smithy.swift.codegen.model.isEnum
 
 class InputTypeGETQueryItemMiddleware(
     private val ctx: ProtocolGenerator.GenerationContext,
-    inputSymbol: Symbol,
+    val inputSymbol: Symbol,
     outputSymbol: Symbol,
     outputErrorSymbol: Symbol,
     val inputShape: Shape,
@@ -24,7 +24,28 @@ class InputTypeGETQueryItemMiddleware(
 ) : Middleware(writer, inputSymbol, OperationSerializeStep(inputSymbol, outputSymbol, outputErrorSymbol)) {
     override val typeName = "${inputSymbol.name}GETQueryItemMiddleware"
 
+    override fun renderExtensions() {
+        writer.write(
+            """
+            extension $typeName: ClientRuntime.RequestMessageSerializer {
+                public typealias InputType = ${inputSymbol.name}
+                public typealias RequestType = ClientRuntime.SdkHttpRequest
+                public typealias AttributesType = ClientRuntime.HttpContext
+                
+                public func apply(input: InputType, builder: ClientRuntime.SdkHttpRequestBuilder, attributes: ClientRuntime.HttpContext) throws {
+                    ${'$'}{C|}
+                }
+            }
+            """.trimIndent(),
+            Runnable { renderApplyBody() }
+        )
+    }
+
     override fun generateMiddlewareClosure() {
+        writer.write("try self.apply(input: input.operationInput, builder: input.builder, attributes: context)")
+    }
+
+    private fun renderApplyBody() {
         for (member in inputShape.members()) {
             val memberName = ctx.symbolProvider.toMemberName(member)
             val queryKey = member.memberName
@@ -33,7 +54,7 @@ class InputTypeGETQueryItemMiddleware(
             if (memberTargetShape is IntegerShape || memberTargetShape is TimestampShape) {
                 continue
             }
-            writer.openBlock("if let $memberName = input.operationInput.$memberName {", "}") {
+            writer.openBlock("if let $memberName = input.$memberName {", "}") {
                 when (memberTargetShape) {
                     is ListShape -> {
                         val rawValueIfNeeded = rawValueIfNeeded(memberTargetShape.member.target)
@@ -58,7 +79,7 @@ class InputTypeGETQueryItemMiddleware(
 
     private fun writeRenderItem(queryKey: String, queryValue: String) {
         writer.write("let queryItem = \$N(name: \"${queryKey}\".urlPercentEncoding(), value: \$N($queryValue).urlPercentEncoding())", SDKURLQueryItem, SwiftTypes.String)
-        writer.write("input.builder.withQueryItem(queryItem)")
+        writer.write("builder.withQueryItem(queryItem)")
     }
 
     override fun generateInit() {

@@ -7768,6 +7768,7 @@ enum RedriveExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ExecutionLimitExceeded": return try await ExecutionLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ExecutionNotRedrivable": return try await ExecutionNotRedrivable(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidArn": return try await InvalidArn(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -11267,6 +11268,273 @@ enum UpdateStateMachineOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "StateMachineDoesNotExist": return try await StateMachineDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension SFNClientTypes.ValidateStateMachineDefinitionDiagnostic: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case code
+        case location
+        case message
+        case severity
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let code = self.code {
+            try encodeContainer.encode(code, forKey: .code)
+        }
+        if let location = self.location {
+            try encodeContainer.encode(location, forKey: .location)
+        }
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+        if let severity = self.severity {
+            try encodeContainer.encode(severity.rawValue, forKey: .severity)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let severityDecoded = try containerValues.decodeIfPresent(SFNClientTypes.ValidateStateMachineDefinitionSeverity.self, forKey: .severity)
+        severity = severityDecoded
+        let codeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .code)
+        code = codeDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+        let locationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .location)
+        location = locationDecoded
+    }
+}
+
+extension SFNClientTypes {
+    /// Describes an error found during validation. Validation errors found in the definition return in the response as diagnostic elements, rather than raise an exception.
+    public struct ValidateStateMachineDefinitionDiagnostic {
+        /// Identifying code for the diagnostic.
+        /// This member is required.
+        public var code: Swift.String?
+        /// Location of the issue in the state machine, if available. For errors specific to a field, the location could be in the format: /States//, for example: /States/FailState/ErrorPath.
+        public var location: Swift.String?
+        /// Message describing the diagnostic condition.
+        /// This member is required.
+        public var message: Swift.String?
+        /// A value of ERROR means that you cannot create or update a state machine with this definition.
+        /// This member is required.
+        public var severity: SFNClientTypes.ValidateStateMachineDefinitionSeverity?
+
+        public init(
+            code: Swift.String? = nil,
+            location: Swift.String? = nil,
+            message: Swift.String? = nil,
+            severity: SFNClientTypes.ValidateStateMachineDefinitionSeverity? = nil
+        )
+        {
+            self.code = code
+            self.location = location
+            self.message = message
+            self.severity = severity
+        }
+    }
+
+}
+
+extension ValidateStateMachineDefinitionInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ValidateStateMachineDefinitionInput(type: \(Swift.String(describing: type)), definition: \"CONTENT_REDACTED\")"}
+}
+
+extension ValidateStateMachineDefinitionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case definition
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let definition = self.definition {
+            try encodeContainer.encode(definition, forKey: .definition)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+}
+
+extension ValidateStateMachineDefinitionInput {
+
+    static func urlPathProvider(_ value: ValidateStateMachineDefinitionInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct ValidateStateMachineDefinitionInput {
+    /// The Amazon States Language definition of the state machine. For more information, see [Amazon States Language](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html) (ASL).
+    /// This member is required.
+    public var definition: Swift.String?
+    /// The target type of state machine for this definition. The default is STANDARD.
+    public var type: SFNClientTypes.StateMachineType?
+
+    public init(
+        definition: Swift.String? = nil,
+        type: SFNClientTypes.StateMachineType? = nil
+    )
+    {
+        self.definition = definition
+        self.type = type
+    }
+}
+
+struct ValidateStateMachineDefinitionInputBody {
+    let definition: Swift.String?
+    let type: SFNClientTypes.StateMachineType?
+}
+
+extension ValidateStateMachineDefinitionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case definition
+        case type
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let definitionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .definition)
+        definition = definitionDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(SFNClientTypes.StateMachineType.self, forKey: .type)
+        type = typeDecoded
+    }
+}
+
+extension ValidateStateMachineDefinitionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ValidateStateMachineDefinitionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.diagnostics = output.diagnostics
+            self.result = output.result
+        } else {
+            self.diagnostics = nil
+            self.result = nil
+        }
+    }
+}
+
+public struct ValidateStateMachineDefinitionOutput {
+    /// If the result is OK, this field will be empty. When there are errors, this field will contain an array of Diagnostic objects to help you troubleshoot.
+    /// This member is required.
+    public var diagnostics: [SFNClientTypes.ValidateStateMachineDefinitionDiagnostic]?
+    /// The result value will be OK when no syntax errors are found, or FAIL if the workflow definition does not pass verification.
+    /// This member is required.
+    public var result: SFNClientTypes.ValidateStateMachineDefinitionResultCode?
+
+    public init(
+        diagnostics: [SFNClientTypes.ValidateStateMachineDefinitionDiagnostic]? = nil,
+        result: SFNClientTypes.ValidateStateMachineDefinitionResultCode? = nil
+    )
+    {
+        self.diagnostics = diagnostics
+        self.result = result
+    }
+}
+
+struct ValidateStateMachineDefinitionOutputBody {
+    let result: SFNClientTypes.ValidateStateMachineDefinitionResultCode?
+    let diagnostics: [SFNClientTypes.ValidateStateMachineDefinitionDiagnostic]?
+}
+
+extension ValidateStateMachineDefinitionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case diagnostics
+        case result
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resultDecoded = try containerValues.decodeIfPresent(SFNClientTypes.ValidateStateMachineDefinitionResultCode.self, forKey: .result)
+        result = resultDecoded
+        let diagnosticsContainer = try containerValues.decodeIfPresent([SFNClientTypes.ValidateStateMachineDefinitionDiagnostic?].self, forKey: .diagnostics)
+        var diagnosticsDecoded0:[SFNClientTypes.ValidateStateMachineDefinitionDiagnostic]? = nil
+        if let diagnosticsContainer = diagnosticsContainer {
+            diagnosticsDecoded0 = [SFNClientTypes.ValidateStateMachineDefinitionDiagnostic]()
+            for structure0 in diagnosticsContainer {
+                if let structure0 = structure0 {
+                    diagnosticsDecoded0?.append(structure0)
+                }
+            }
+        }
+        diagnostics = diagnosticsDecoded0
+    }
+}
+
+enum ValidateStateMachineDefinitionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension SFNClientTypes {
+    public enum ValidateStateMachineDefinitionResultCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case fail
+        case ok
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ValidateStateMachineDefinitionResultCode] {
+            return [
+                .fail,
+                .ok,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .fail: return "FAIL"
+            case .ok: return "OK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ValidateStateMachineDefinitionResultCode(rawValue: rawValue) ?? ValidateStateMachineDefinitionResultCode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension SFNClientTypes {
+    public enum ValidateStateMachineDefinitionSeverity: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case error
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ValidateStateMachineDefinitionSeverity] {
+            return [
+                .error,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .error: return "ERROR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ValidateStateMachineDefinitionSeverity(rawValue: rawValue) ?? ValidateStateMachineDefinitionSeverity.sdkUnknown(rawValue)
         }
     }
 }

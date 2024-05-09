@@ -3543,6 +3543,7 @@ extension CreateCustomDBEngineVersionOutput {
             value.supportsCertificateRotationWithoutRestart = try reader["SupportsCertificateRotationWithoutRestart"].readIfPresent()
             value.supportsGlobalDatabases = try reader["SupportsGlobalDatabases"].readIfPresent()
             value.supportsIntegrations = try reader["SupportsIntegrations"].readIfPresent()
+            value.supportsLimitlessDatabase = try reader["SupportsLimitlessDatabase"].readIfPresent()
             value.supportsLocalWriteForwarding = try reader["SupportsLocalWriteForwarding"].readIfPresent()
             value.supportsLogExportsToCloudwatchLogs = try reader["SupportsLogExportsToCloudwatchLogs"].readIfPresent()
             value.supportsParallelQuery = try reader["SupportsParallelQuery"].readIfPresent()
@@ -3610,6 +3611,8 @@ public struct CreateCustomDBEngineVersionOutput {
     public var supportsGlobalDatabases: Swift.Bool?
     /// Indicates whether the DB engine version supports zero-ETL integrations with Amazon Redshift.
     public var supportsIntegrations: Swift.Bool?
+    /// Indicates whether the DB engine version supports Aurora Limitless Database.
+    public var supportsLimitlessDatabase: Swift.Bool?
     /// Indicates whether the DB engine version supports forwarding write operations from reader DB instances to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances. Valid for: Aurora DB clusters only
     public var supportsLocalWriteForwarding: Swift.Bool?
     /// Indicates whether the engine version supports exporting the log types specified by ExportableLogTypes to CloudWatch Logs.
@@ -3651,6 +3654,7 @@ public struct CreateCustomDBEngineVersionOutput {
         supportsCertificateRotationWithoutRestart: Swift.Bool? = nil,
         supportsGlobalDatabases: Swift.Bool? = nil,
         supportsIntegrations: Swift.Bool? = nil,
+        supportsLimitlessDatabase: Swift.Bool? = nil,
         supportsLocalWriteForwarding: Swift.Bool? = nil,
         supportsLogExportsToCloudwatchLogs: Swift.Bool? = nil,
         supportsParallelQuery: Swift.Bool? = nil,
@@ -3686,6 +3690,7 @@ public struct CreateCustomDBEngineVersionOutput {
         self.supportsCertificateRotationWithoutRestart = supportsCertificateRotationWithoutRestart
         self.supportsGlobalDatabases = supportsGlobalDatabases
         self.supportsIntegrations = supportsIntegrations
+        self.supportsLimitlessDatabase = supportsLimitlessDatabase
         self.supportsLocalWriteForwarding = supportsLocalWriteForwarding
         self.supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogs
         self.supportsParallelQuery = supportsParallelQuery
@@ -5710,7 +5715,7 @@ public struct CreateDBInstanceInput {
     public var tdeCredentialArn: Swift.String?
     /// The password for the given ARN from the key store in order to access the device. This setting doesn't apply to RDS Custom DB instances.
     public var tdeCredentialPassword: Swift.String?
-    /// The time zone of the DB instance. The time zone parameter is currently supported only by [Microsoft SQL Server](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_SQLServer.html#SQLServer.Concepts.General.TimeZone).
+    /// The time zone of the DB instance. The time zone parameter is currently supported only by [RDS for Db2](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-time-zone) and [RDS for SQL Server](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_SQLServer.html#SQLServer.Concepts.General.TimeZone).
     public var timezone: Swift.String?
     /// A list of Amazon EC2 VPC security groups to associate with this DB instance. This setting doesn't apply to Amazon Aurora DB instances. The associated list of EC2 VPC security groups is managed by the DB cluster. Default: The default EC2 VPC security group for the DB subnet group's VPC.
     public var vpcSecurityGroupIds: [Swift.String]?
@@ -11235,6 +11240,7 @@ extension RDSClientTypes.DBEngineVersion: Swift.Encodable {
         case supportsCertificateRotationWithoutRestart = "SupportsCertificateRotationWithoutRestart"
         case supportsGlobalDatabases = "SupportsGlobalDatabases"
         case supportsIntegrations = "SupportsIntegrations"
+        case supportsLimitlessDatabase = "SupportsLimitlessDatabase"
         case supportsLocalWriteForwarding = "SupportsLocalWriteForwarding"
         case supportsLogExportsToCloudwatchLogs = "SupportsLogExportsToCloudwatchLogs"
         case supportsParallelQuery = "SupportsParallelQuery"
@@ -11389,6 +11395,9 @@ extension RDSClientTypes.DBEngineVersion: Swift.Encodable {
         if let supportsIntegrations = supportsIntegrations {
             try container.encode(supportsIntegrations, forKey: ClientRuntime.Key("SupportsIntegrations"))
         }
+        if let supportsLimitlessDatabase = supportsLimitlessDatabase {
+            try container.encode(supportsLimitlessDatabase, forKey: ClientRuntime.Key("SupportsLimitlessDatabase"))
+        }
         if let supportsLocalWriteForwarding = supportsLocalWriteForwarding {
             try container.encode(supportsLocalWriteForwarding, forKey: ClientRuntime.Key("SupportsLocalWriteForwarding"))
         }
@@ -11460,6 +11469,7 @@ extension RDSClientTypes.DBEngineVersion: Swift.Encodable {
             value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.readingClosure, memberNodeInfo: "Tag", isFlattened: false)
             value.supportsBabelfish = try reader["SupportsBabelfish"].readIfPresent()
             value.customDBEngineVersionManifest = try reader["CustomDBEngineVersionManifest"].readIfPresent()
+            value.supportsLimitlessDatabase = try reader["SupportsLimitlessDatabase"].readIfPresent()
             value.supportsCertificateRotationWithoutRestart = try reader["SupportsCertificateRotationWithoutRestart"].readIfPresent()
             value.supportedCACertificateIdentifiers = try reader["SupportedCACertificateIdentifiers"].readListIfPresent(memberReadingClosure: Swift.String.readingClosure, memberNodeInfo: "member", isFlattened: false)
             value.supportsLocalWriteForwarding = try reader["SupportsLocalWriteForwarding"].readIfPresent()
@@ -11526,6 +11536,8 @@ extension RDSClientTypes {
         public var supportsGlobalDatabases: Swift.Bool?
         /// Indicates whether the DB engine version supports zero-ETL integrations with Amazon Redshift.
         public var supportsIntegrations: Swift.Bool?
+        /// Indicates whether the DB engine version supports Aurora Limitless Database.
+        public var supportsLimitlessDatabase: Swift.Bool?
         /// Indicates whether the DB engine version supports forwarding write operations from reader DB instances to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances. Valid for: Aurora DB clusters only
         public var supportsLocalWriteForwarding: Swift.Bool?
         /// Indicates whether the engine version supports exporting the log types specified by ExportableLogTypes to CloudWatch Logs.
@@ -11567,6 +11579,7 @@ extension RDSClientTypes {
             supportsCertificateRotationWithoutRestart: Swift.Bool? = nil,
             supportsGlobalDatabases: Swift.Bool? = nil,
             supportsIntegrations: Swift.Bool? = nil,
+            supportsLimitlessDatabase: Swift.Bool? = nil,
             supportsLocalWriteForwarding: Swift.Bool? = nil,
             supportsLogExportsToCloudwatchLogs: Swift.Bool? = nil,
             supportsParallelQuery: Swift.Bool? = nil,
@@ -11602,6 +11615,7 @@ extension RDSClientTypes {
             self.supportsCertificateRotationWithoutRestart = supportsCertificateRotationWithoutRestart
             self.supportsGlobalDatabases = supportsGlobalDatabases
             self.supportsIntegrations = supportsIntegrations
+            self.supportsLimitlessDatabase = supportsLimitlessDatabase
             self.supportsLocalWriteForwarding = supportsLocalWriteForwarding
             self.supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogs
             self.supportsParallelQuery = supportsParallelQuery
@@ -12359,7 +12373,7 @@ extension RDSClientTypes {
         public var tagList: [RDSClientTypes.Tag]?
         /// The ARN from the key store with which the instance is associated for TDE encryption.
         public var tdeCredentialArn: Swift.String?
-        /// The time zone of the DB instance. In most cases, the Timezone element is empty. Timezone content appears only for Microsoft SQL Server DB instances that were created with a time zone specified.
+        /// The time zone of the DB instance. In most cases, the Timezone element is empty. Timezone content appears only for RDS for Db2 and RDS for SQL Server DB instances that were created with a time zone specified.
         public var timezone: Swift.String?
         /// The list of Amazon EC2 VPC security groups that the DB instance belongs to.
         public var vpcSecurityGroups: [RDSClientTypes.VpcSecurityGroupMembership]?
@@ -16573,6 +16587,7 @@ extension DeleteCustomDBEngineVersionOutput {
             value.supportsCertificateRotationWithoutRestart = try reader["SupportsCertificateRotationWithoutRestart"].readIfPresent()
             value.supportsGlobalDatabases = try reader["SupportsGlobalDatabases"].readIfPresent()
             value.supportsIntegrations = try reader["SupportsIntegrations"].readIfPresent()
+            value.supportsLimitlessDatabase = try reader["SupportsLimitlessDatabase"].readIfPresent()
             value.supportsLocalWriteForwarding = try reader["SupportsLocalWriteForwarding"].readIfPresent()
             value.supportsLogExportsToCloudwatchLogs = try reader["SupportsLogExportsToCloudwatchLogs"].readIfPresent()
             value.supportsParallelQuery = try reader["SupportsParallelQuery"].readIfPresent()
@@ -16640,6 +16655,8 @@ public struct DeleteCustomDBEngineVersionOutput {
     public var supportsGlobalDatabases: Swift.Bool?
     /// Indicates whether the DB engine version supports zero-ETL integrations with Amazon Redshift.
     public var supportsIntegrations: Swift.Bool?
+    /// Indicates whether the DB engine version supports Aurora Limitless Database.
+    public var supportsLimitlessDatabase: Swift.Bool?
     /// Indicates whether the DB engine version supports forwarding write operations from reader DB instances to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances. Valid for: Aurora DB clusters only
     public var supportsLocalWriteForwarding: Swift.Bool?
     /// Indicates whether the engine version supports exporting the log types specified by ExportableLogTypes to CloudWatch Logs.
@@ -16681,6 +16698,7 @@ public struct DeleteCustomDBEngineVersionOutput {
         supportsCertificateRotationWithoutRestart: Swift.Bool? = nil,
         supportsGlobalDatabases: Swift.Bool? = nil,
         supportsIntegrations: Swift.Bool? = nil,
+        supportsLimitlessDatabase: Swift.Bool? = nil,
         supportsLocalWriteForwarding: Swift.Bool? = nil,
         supportsLogExportsToCloudwatchLogs: Swift.Bool? = nil,
         supportsParallelQuery: Swift.Bool? = nil,
@@ -16716,6 +16734,7 @@ public struct DeleteCustomDBEngineVersionOutput {
         self.supportsCertificateRotationWithoutRestart = supportsCertificateRotationWithoutRestart
         self.supportsGlobalDatabases = supportsGlobalDatabases
         self.supportsIntegrations = supportsIntegrations
+        self.supportsLimitlessDatabase = supportsLimitlessDatabase
         self.supportsLocalWriteForwarding = supportsLocalWriteForwarding
         self.supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogs
         self.supportsParallelQuery = supportsParallelQuery
@@ -29388,7 +29407,7 @@ extension ModifyActivityStreamInput {
 public struct ModifyActivityStreamInput {
     /// The audit policy state. When a policy is unlocked, it is read/write. When it is locked, it is read-only. You can edit your audit policy only when the activity stream is unlocked or stopped.
     public var auditPolicyState: RDSClientTypes.AuditPolicyState?
-    /// The Amazon Resource Name (ARN) of the RDS for Oracle or Microsoft SQL Server DB instance. For example, arn:aws:rds:us-east-1:12345667890:instance:my-orcl-db.
+    /// The Amazon Resource Name (ARN) of the RDS for Oracle or Microsoft SQL Server DB instance. For example, arn:aws:rds:us-east-1:12345667890:db:my-orcl-db.
     public var resourceArn: Swift.String?
 
     public init(
@@ -29785,6 +29804,7 @@ extension ModifyCustomDBEngineVersionOutput {
             value.supportsCertificateRotationWithoutRestart = try reader["SupportsCertificateRotationWithoutRestart"].readIfPresent()
             value.supportsGlobalDatabases = try reader["SupportsGlobalDatabases"].readIfPresent()
             value.supportsIntegrations = try reader["SupportsIntegrations"].readIfPresent()
+            value.supportsLimitlessDatabase = try reader["SupportsLimitlessDatabase"].readIfPresent()
             value.supportsLocalWriteForwarding = try reader["SupportsLocalWriteForwarding"].readIfPresent()
             value.supportsLogExportsToCloudwatchLogs = try reader["SupportsLogExportsToCloudwatchLogs"].readIfPresent()
             value.supportsParallelQuery = try reader["SupportsParallelQuery"].readIfPresent()
@@ -29852,6 +29872,8 @@ public struct ModifyCustomDBEngineVersionOutput {
     public var supportsGlobalDatabases: Swift.Bool?
     /// Indicates whether the DB engine version supports zero-ETL integrations with Amazon Redshift.
     public var supportsIntegrations: Swift.Bool?
+    /// Indicates whether the DB engine version supports Aurora Limitless Database.
+    public var supportsLimitlessDatabase: Swift.Bool?
     /// Indicates whether the DB engine version supports forwarding write operations from reader DB instances to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances. Valid for: Aurora DB clusters only
     public var supportsLocalWriteForwarding: Swift.Bool?
     /// Indicates whether the engine version supports exporting the log types specified by ExportableLogTypes to CloudWatch Logs.
@@ -29893,6 +29915,7 @@ public struct ModifyCustomDBEngineVersionOutput {
         supportsCertificateRotationWithoutRestart: Swift.Bool? = nil,
         supportsGlobalDatabases: Swift.Bool? = nil,
         supportsIntegrations: Swift.Bool? = nil,
+        supportsLimitlessDatabase: Swift.Bool? = nil,
         supportsLocalWriteForwarding: Swift.Bool? = nil,
         supportsLogExportsToCloudwatchLogs: Swift.Bool? = nil,
         supportsParallelQuery: Swift.Bool? = nil,
@@ -29928,6 +29951,7 @@ public struct ModifyCustomDBEngineVersionOutput {
         self.supportsCertificateRotationWithoutRestart = supportsCertificateRotationWithoutRestart
         self.supportsGlobalDatabases = supportsGlobalDatabases
         self.supportsIntegrations = supportsIntegrations
+        self.supportsLimitlessDatabase = supportsLimitlessDatabase
         self.supportsLocalWriteForwarding = supportsLocalWriteForwarding
         self.supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogs
         self.supportsParallelQuery = supportsParallelQuery
@@ -31287,7 +31311,7 @@ public struct ModifyDBInstanceInput {
     ///
     /// * If supplied, must match existing DB security groups.
     public var dbSecurityGroups: [Swift.String]?
-    /// The new DB subnet group for the DB instance. You can use this parameter to move your DB instance to a different VPC. If your DB instance isn't in a VPC, you can also use this parameter to move your DB instance into a VPC. For more information, see [Working with a DB instance in a VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html#USER_VPC.Non-VPC2VPC) in the Amazon RDS User Guide. Changing the subnet group causes an outage during the change. The change is applied during the next maintenance window, unless you enable ApplyImmediately. This parameter doesn't apply to RDS Custom DB instances. Constraints:
+    /// The new DB subnet group for the DB instance. You can use this parameter to move your DB instance to a different VPC. If your DB instance isn't in a VPC, you can also use this parameter to move your DB instance into a VPC. For more information, see [Working with a DB instance in a VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html#USER_VPC.Non-VPC2VPC) in the Amazon RDS User Guide. Changing the subnet group causes an outage during the change. The change is applied during the next maintenance window, unless you enable ApplyImmediately. This setting doesn't apply to RDS Custom DB instances. Constraints:
     ///
     /// * If supplied, must match existing DB subnet group.
     ///
@@ -31296,7 +31320,7 @@ public struct ModifyDBInstanceInput {
     public var dbSubnetGroupName: Swift.String?
     /// Indicates whether the DB instance has a dedicated log volume (DLV) enabled.
     public var dedicatedLogVolume: Swift.Bool?
-    /// Specifies whether the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection isn't enabled. For more information, see [ Deleting a DB Instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_DeleteInstance.html).
+    /// Specifies whether the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection isn't enabled. For more information, see [ Deleting a DB Instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_DeleteInstance.html). This setting doesn't apply to Amazon Aurora DB instances. You can enable or disable deletion protection for the DB cluster. For more information, see ModifyDBCluster. DB instances in a DB cluster can be deleted even when deletion protection is enabled for the DB cluster.
     public var deletionProtection: Swift.Bool?
     /// Specifies whether to remove the DB instance from the Active Directory domain.
     public var disableDomain: Swift.Bool?
@@ -44499,6 +44523,7 @@ extension RDSClientTypes.UpgradeTarget: Swift.Encodable {
         case supportsBabelfish = "SupportsBabelfish"
         case supportsGlobalDatabases = "SupportsGlobalDatabases"
         case supportsIntegrations = "SupportsIntegrations"
+        case supportsLimitlessDatabase = "SupportsLimitlessDatabase"
         case supportsLocalWriteForwarding = "SupportsLocalWriteForwarding"
         case supportsParallelQuery = "SupportsParallelQuery"
     }
@@ -44541,6 +44566,9 @@ extension RDSClientTypes.UpgradeTarget: Swift.Encodable {
         if let supportsIntegrations = supportsIntegrations {
             try container.encode(supportsIntegrations, forKey: ClientRuntime.Key("SupportsIntegrations"))
         }
+        if let supportsLimitlessDatabase = supportsLimitlessDatabase {
+            try container.encode(supportsLimitlessDatabase, forKey: ClientRuntime.Key("SupportsLimitlessDatabase"))
+        }
         if let supportsLocalWriteForwarding = supportsLocalWriteForwarding {
             try container.encode(supportsLocalWriteForwarding, forKey: ClientRuntime.Key("SupportsLocalWriteForwarding"))
         }
@@ -44562,6 +44590,7 @@ extension RDSClientTypes.UpgradeTarget: Swift.Encodable {
             value.supportsParallelQuery = try reader["SupportsParallelQuery"].readIfPresent()
             value.supportsGlobalDatabases = try reader["SupportsGlobalDatabases"].readIfPresent()
             value.supportsBabelfish = try reader["SupportsBabelfish"].readIfPresent()
+            value.supportsLimitlessDatabase = try reader["SupportsLimitlessDatabase"].readIfPresent()
             value.supportsLocalWriteForwarding = try reader["SupportsLocalWriteForwarding"].readIfPresent()
             value.supportsIntegrations = try reader["SupportsIntegrations"].readIfPresent()
             return value
@@ -44590,6 +44619,8 @@ extension RDSClientTypes {
         public var supportsGlobalDatabases: Swift.Bool?
         /// Indicates whether the DB engine version supports zero-ETL integrations with Amazon Redshift.
         public var supportsIntegrations: Swift.Bool?
+        /// Indicates whether the DB engine version supports Aurora Limitless Database.
+        public var supportsLimitlessDatabase: Swift.Bool?
         /// Indicates whether the target engine version supports forwarding write operations from reader DB instances to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances. Valid for: Aurora DB clusters only
         public var supportsLocalWriteForwarding: Swift.Bool?
         /// Indicates whether you can use Aurora parallel query with the target engine version.
@@ -44605,6 +44636,7 @@ extension RDSClientTypes {
             supportsBabelfish: Swift.Bool? = nil,
             supportsGlobalDatabases: Swift.Bool? = nil,
             supportsIntegrations: Swift.Bool? = nil,
+            supportsLimitlessDatabase: Swift.Bool? = nil,
             supportsLocalWriteForwarding: Swift.Bool? = nil,
             supportsParallelQuery: Swift.Bool? = nil
         )
@@ -44618,6 +44650,7 @@ extension RDSClientTypes {
             self.supportsBabelfish = supportsBabelfish
             self.supportsGlobalDatabases = supportsGlobalDatabases
             self.supportsIntegrations = supportsIntegrations
+            self.supportsLimitlessDatabase = supportsLimitlessDatabase
             self.supportsLocalWriteForwarding = supportsLocalWriteForwarding
             self.supportsParallelQuery = supportsParallelQuery
         }

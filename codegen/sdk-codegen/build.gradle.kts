@@ -60,6 +60,20 @@ fun getProperty(name: String): String? {
     return null
 }
 
+// TODO: Update this list with more services (currently just services with integration tests)
+val interceptorsServices = setOf<String>(
+    "AWSCloudFrontKeyValueStore",
+    "AWSEC2",
+    "AWSECS",
+    "AWSEventBridge",
+    "AWSKinesis",
+    "AWSMediaConvert",
+    "AWSRoute53",
+    "AWSS3",
+    "AWSSQS",
+    "AWSTranscribeStreaming",
+)
+
 // Represents information needed to generate a smithy projection JSON stanza
 data class AwsService(
     val name: String,
@@ -102,7 +116,8 @@ fun generateSmithyBuild(services: List<AwsService>): String {
                       "swiftVersion": "5.7.0",
                       "build": {
                           "rootProject": $buildStandaloneSdk
-                      }
+                      },
+                      "useInterceptors": ${interceptorsServices.contains(service.packageName)}
                     }
                 }
             }

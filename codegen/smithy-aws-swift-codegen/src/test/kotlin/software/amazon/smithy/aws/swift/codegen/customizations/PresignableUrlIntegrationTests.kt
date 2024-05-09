@@ -43,14 +43,7 @@ public struct PutObjectPresignedURLMiddleware: ClientRuntime.Middleware {
     Self.MOutput == H.Output,
     Self.Context == H.Context
     {
-        let metadata = input.operationInput.metadata ?? [:]
-        for (metadataKey, metadataValue) in metadata {
-            let queryItem = ClientRuntime.SDKURLQueryItem(
-                name: "x-amz-meta-\(metadataKey.urlPercentEncoding())",
-                value: metadataValue.urlPercentEncoding()
-            )
-            input.builder.withQueryItem(queryItem)
-        }
+        try self.apply(input: input.operationInput, builder: input.builder, attributes: context)
         return try await next.handle(context: context, input: input)
     }
 
