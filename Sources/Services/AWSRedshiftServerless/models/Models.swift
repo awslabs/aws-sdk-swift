@@ -159,7 +159,7 @@ extension RedshiftServerlessClientTypes.ConfigParameter: Swift.Codable {
 extension RedshiftServerlessClientTypes {
     /// An array of key-value pairs to set for advanced control over Amazon Redshift Serverless.
     public struct ConfigParameter {
-        /// The key of the parameter. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see [Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
+        /// The key of the parameter. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see [Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
         public var parameterKey: Swift.String?
         /// The value of the parameter to set.
         public var parameterValue: Swift.String?
@@ -1814,7 +1814,7 @@ extension CreateWorkgroupInput {
 public struct CreateWorkgroupInput {
     /// The base data warehouse capacity of the workgroup in Redshift Processing Units (RPUs).
     public var baseCapacity: Swift.Int?
-    /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see [ Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
+    /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see [ Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
     public var configParameters: [RedshiftServerlessClientTypes.ConfigParameter]?
     /// The value that specifies whether to turn on enhanced virtual private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC instead of over the internet.
     public var enhancedVpcRouting: Swift.Bool?
@@ -5224,12 +5224,12 @@ extension ListScheduledActionsOutput: ClientRuntime.HttpResponseBinding {
 public struct ListScheduledActionsOutput {
     /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
-    /// All of the returned scheduled action objects.
-    public var scheduledActions: [Swift.String]?
+    /// All of the returned scheduled action association objects.
+    public var scheduledActions: [RedshiftServerlessClientTypes.ScheduledActionAssociation]?
 
     public init(
         nextToken: Swift.String? = nil,
-        scheduledActions: [Swift.String]? = nil
+        scheduledActions: [RedshiftServerlessClientTypes.ScheduledActionAssociation]? = nil
     )
     {
         self.nextToken = nextToken
@@ -5239,7 +5239,7 @@ public struct ListScheduledActionsOutput {
 
 struct ListScheduledActionsOutputBody {
     let nextToken: Swift.String?
-    let scheduledActions: [Swift.String]?
+    let scheduledActions: [RedshiftServerlessClientTypes.ScheduledActionAssociation]?
 }
 
 extension ListScheduledActionsOutputBody: Swift.Decodable {
@@ -5252,13 +5252,13 @@ extension ListScheduledActionsOutputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
-        let scheduledActionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .scheduledActions)
-        var scheduledActionsDecoded0:[Swift.String]? = nil
+        let scheduledActionsContainer = try containerValues.decodeIfPresent([RedshiftServerlessClientTypes.ScheduledActionAssociation?].self, forKey: .scheduledActions)
+        var scheduledActionsDecoded0:[RedshiftServerlessClientTypes.ScheduledActionAssociation]? = nil
         if let scheduledActionsContainer = scheduledActionsContainer {
-            scheduledActionsDecoded0 = [Swift.String]()
-            for string0 in scheduledActionsContainer {
-                if let string0 = string0 {
-                    scheduledActionsDecoded0?.append(string0)
+            scheduledActionsDecoded0 = [RedshiftServerlessClientTypes.ScheduledActionAssociation]()
+            for structure0 in scheduledActionsContainer {
+                if let structure0 = structure0 {
+                    scheduledActionsDecoded0?.append(structure0)
                 }
             }
         }
@@ -7554,6 +7554,51 @@ extension RedshiftServerlessClientTypes {
         /// The cron expression to use to schedule a recurring scheduled action. Schedule invocations must be separated by at least one hour. Times are in UTC. Format of cron expressions is (Minutes Hours Day-of-month Month Day-of-week Year). For example, "(0 10 ? * MON *)". For more information, see [Cron Expressions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions) in the Amazon CloudWatch Events User Guide.
         case cron(Swift.String)
         case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension RedshiftServerlessClientTypes.ScheduledActionAssociation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case namespaceName
+        case scheduledActionName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let namespaceName = self.namespaceName {
+            try encodeContainer.encode(namespaceName, forKey: .namespaceName)
+        }
+        if let scheduledActionName = self.scheduledActionName {
+            try encodeContainer.encode(scheduledActionName, forKey: .scheduledActionName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let namespaceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .namespaceName)
+        namespaceName = namespaceNameDecoded
+        let scheduledActionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scheduledActionName)
+        scheduledActionName = scheduledActionNameDecoded
+    }
+}
+
+extension RedshiftServerlessClientTypes {
+    /// Contains names of objects associated with a scheduled action.
+    public struct ScheduledActionAssociation {
+        /// Name of associated Amazon Redshift Serverless namespace.
+        public var namespaceName: Swift.String?
+        /// Name of associated scheduled action.
+        public var scheduledActionName: Swift.String?
+
+        public init(
+            namespaceName: Swift.String? = nil,
+            scheduledActionName: Swift.String? = nil
+        )
+        {
+            self.namespaceName = namespaceName
+            self.scheduledActionName = scheduledActionName
+        }
     }
 
 }
@@ -9922,7 +9967,7 @@ extension UpdateWorkgroupInput {
 public struct UpdateWorkgroupInput {
     /// The new base data warehouse capacity in Redshift Processing Units (RPUs).
     public var baseCapacity: Swift.Int?
-    /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see [ Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
+    /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see [ Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
     public var configParameters: [RedshiftServerlessClientTypes.ConfigParameter]?
     /// The value that specifies whether to turn on enhanced virtual private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC.
     public var enhancedVpcRouting: Swift.Bool?
@@ -10652,7 +10697,7 @@ extension RedshiftServerlessClientTypes {
     public struct Workgroup {
         /// The base data warehouse capacity of the workgroup in Redshift Processing Units (RPUs).
         public var baseCapacity: Swift.Int?
-        /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see [ Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
+        /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see [ Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
         public var configParameters: [RedshiftServerlessClientTypes.ConfigParameter]?
         /// The creation date of the workgroup.
         public var creationDate: ClientRuntime.Date?
@@ -10676,7 +10721,7 @@ extension RedshiftServerlessClientTypes {
         public var patchVersion: Swift.String?
         /// The custom port to use when connecting to a workgroup. Valid port ranges are 5431-5455 and 8191-8215. The default is 5439.
         public var port: Swift.Int?
-        /// A value that specifies whether the workgroup can be accessible from a public network
+        /// A value that specifies whether the workgroup can be accessible from a public network.
         public var publiclyAccessible: Swift.Bool?
         /// An array of security group IDs to associate with the workgroup.
         public var securityGroupIds: [Swift.String]?

@@ -3353,6 +3353,7 @@ extension DynamoDBClientTypes.CreateGlobalSecondaryIndexAction: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case indexName = "IndexName"
         case keySchema = "KeySchema"
+        case onDemandThroughput = "OnDemandThroughput"
         case projection = "Projection"
         case provisionedThroughput = "ProvisionedThroughput"
     }
@@ -3367,6 +3368,9 @@ extension DynamoDBClientTypes.CreateGlobalSecondaryIndexAction: Swift.Codable {
             for keyschemaelement0 in keySchema {
                 try keySchemaContainer.encode(keyschemaelement0)
             }
+        }
+        if let onDemandThroughput = self.onDemandThroughput {
+            try encodeContainer.encode(onDemandThroughput, forKey: .onDemandThroughput)
         }
         if let projection = self.projection {
             try encodeContainer.encode(projection, forKey: .projection)
@@ -3395,6 +3399,8 @@ extension DynamoDBClientTypes.CreateGlobalSecondaryIndexAction: Swift.Codable {
         projection = projectionDecoded
         let provisionedThroughputDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ProvisionedThroughput.self, forKey: .provisionedThroughput)
         provisionedThroughput = provisionedThroughputDecoded
+        let onDemandThroughputDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.OnDemandThroughput.self, forKey: .onDemandThroughput)
+        onDemandThroughput = onDemandThroughputDecoded
     }
 }
 
@@ -3407,6 +3413,8 @@ extension DynamoDBClientTypes {
         /// The key schema for the global secondary index.
         /// This member is required.
         public var keySchema: [DynamoDBClientTypes.KeySchemaElement]?
+        /// The maximum number of read and write units for the global secondary index being created. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
+        public var onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput?
         /// Represents attributes that are copied (projected) from the table into an index. These are in addition to the primary key attributes and index key attributes, which are automatically projected.
         /// This member is required.
         public var projection: DynamoDBClientTypes.Projection?
@@ -3416,12 +3424,14 @@ extension DynamoDBClientTypes {
         public init(
             indexName: Swift.String? = nil,
             keySchema: [DynamoDBClientTypes.KeySchemaElement]? = nil,
+            onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput? = nil,
             projection: DynamoDBClientTypes.Projection? = nil,
             provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput? = nil
         )
         {
             self.indexName = indexName
             self.keySchema = keySchema
+            self.onDemandThroughput = onDemandThroughput
             self.projection = projection
             self.provisionedThroughput = provisionedThroughput
         }
@@ -3598,6 +3608,7 @@ extension DynamoDBClientTypes.CreateReplicationGroupMemberAction: Swift.Codable 
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case globalSecondaryIndexes = "GlobalSecondaryIndexes"
         case kmsMasterKeyId = "KMSMasterKeyId"
+        case onDemandThroughputOverride = "OnDemandThroughputOverride"
         case provisionedThroughputOverride = "ProvisionedThroughputOverride"
         case regionName = "RegionName"
         case tableClassOverride = "TableClassOverride"
@@ -3613,6 +3624,9 @@ extension DynamoDBClientTypes.CreateReplicationGroupMemberAction: Swift.Codable 
         }
         if let kmsMasterKeyId = self.kmsMasterKeyId {
             try encodeContainer.encode(kmsMasterKeyId, forKey: .kmsMasterKeyId)
+        }
+        if let onDemandThroughputOverride = self.onDemandThroughputOverride {
+            try encodeContainer.encode(onDemandThroughputOverride, forKey: .onDemandThroughputOverride)
         }
         if let provisionedThroughputOverride = self.provisionedThroughputOverride {
             try encodeContainer.encode(provisionedThroughputOverride, forKey: .provisionedThroughputOverride)
@@ -3633,6 +3647,8 @@ extension DynamoDBClientTypes.CreateReplicationGroupMemberAction: Swift.Codable 
         kmsMasterKeyId = kmsMasterKeyIdDecoded
         let provisionedThroughputOverrideDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ProvisionedThroughputOverride.self, forKey: .provisionedThroughputOverride)
         provisionedThroughputOverride = provisionedThroughputOverrideDecoded
+        let onDemandThroughputOverrideDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.OnDemandThroughputOverride.self, forKey: .onDemandThroughputOverride)
+        onDemandThroughputOverride = onDemandThroughputOverrideDecoded
         let globalSecondaryIndexesContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.ReplicaGlobalSecondaryIndex?].self, forKey: .globalSecondaryIndexes)
         var globalSecondaryIndexesDecoded0:[DynamoDBClientTypes.ReplicaGlobalSecondaryIndex]? = nil
         if let globalSecondaryIndexesContainer = globalSecondaryIndexesContainer {
@@ -3656,6 +3672,8 @@ extension DynamoDBClientTypes {
         public var globalSecondaryIndexes: [DynamoDBClientTypes.ReplicaGlobalSecondaryIndex]?
         /// The KMS key that should be used for KMS encryption in the new replica. To specify a key, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. Note that you should only provide this parameter if the key is different from the default DynamoDB KMS key alias/aws/dynamodb.
         public var kmsMasterKeyId: Swift.String?
+        /// The maximum on-demand throughput settings for the specified replica table being created. You can only modify MaxReadRequestUnits, because you can't modify MaxWriteRequestUnits for individual replica tables.
+        public var onDemandThroughputOverride: DynamoDBClientTypes.OnDemandThroughputOverride?
         /// Replica-specific provisioned throughput. If not specified, uses the source table's provisioned throughput settings.
         public var provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughputOverride?
         /// The Region where the new replica will be created.
@@ -3667,6 +3685,7 @@ extension DynamoDBClientTypes {
         public init(
             globalSecondaryIndexes: [DynamoDBClientTypes.ReplicaGlobalSecondaryIndex]? = nil,
             kmsMasterKeyId: Swift.String? = nil,
+            onDemandThroughputOverride: DynamoDBClientTypes.OnDemandThroughputOverride? = nil,
             provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughputOverride? = nil,
             regionName: Swift.String? = nil,
             tableClassOverride: DynamoDBClientTypes.TableClass? = nil
@@ -3674,6 +3693,7 @@ extension DynamoDBClientTypes {
         {
             self.globalSecondaryIndexes = globalSecondaryIndexes
             self.kmsMasterKeyId = kmsMasterKeyId
+            self.onDemandThroughputOverride = onDemandThroughputOverride
             self.provisionedThroughputOverride = provisionedThroughputOverride
             self.regionName = regionName
             self.tableClassOverride = tableClassOverride
@@ -3690,6 +3710,7 @@ extension CreateTableInput: Swift.Encodable {
         case globalSecondaryIndexes = "GlobalSecondaryIndexes"
         case keySchema = "KeySchema"
         case localSecondaryIndexes = "LocalSecondaryIndexes"
+        case onDemandThroughput = "OnDemandThroughput"
         case provisionedThroughput = "ProvisionedThroughput"
         case resourcePolicy = "ResourcePolicy"
         case sseSpecification = "SSESpecification"
@@ -3730,6 +3751,9 @@ extension CreateTableInput: Swift.Encodable {
             for localsecondaryindex0 in localSecondaryIndexes {
                 try localSecondaryIndexesContainer.encode(localsecondaryindex0)
             }
+        }
+        if let onDemandThroughput = self.onDemandThroughput {
+            try encodeContainer.encode(onDemandThroughput, forKey: .onDemandThroughput)
         }
         if let provisionedThroughput = self.provisionedThroughput {
             try encodeContainer.encode(provisionedThroughput, forKey: .provisionedThroughput)
@@ -3842,9 +3866,11 @@ public struct CreateTableInput {
     ///
     /// * NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 100. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.
     public var localSecondaryIndexes: [DynamoDBClientTypes.LocalSecondaryIndex]?
+    /// Sets the maximum number of read and write units for the specified table in on-demand capacity mode. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
+    public var onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput?
     /// Represents the provisioned throughput settings for a specified table or index. The settings can be modified using the UpdateTable operation. If you set BillingMode as PROVISIONED, you must specify this property. If you set BillingMode as PAY_PER_REQUEST, you cannot specify this property. For current minimum and maximum provisioned throughput values, see [Service, Account, and Table Quotas](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html) in the Amazon DynamoDB Developer Guide.
     public var provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput?
-    /// An Amazon Web Services resource-based policy document in JSON format that will be attached to the table. When you attach a resource-based policy while creating a table, the policy creation is strongly consistent. The maximum size supported for a resource-based policy document is 20 KB. DynamoDB counts whitespaces when calculating the size of a policy against this limit. You can’t request an increase for this limit. For a full list of all considerations that you should keep in mind while attaching a resource-based policy, see [Resource-based policy considerations](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/rbac-considerations.html).
+    /// An Amazon Web Services resource-based policy document in JSON format that will be attached to the table. When you attach a resource-based policy while creating a table, the policy application is strongly consistent. The maximum size supported for a resource-based policy document is 20 KB. DynamoDB counts whitespaces when calculating the size of a policy against this limit. For a full list of all considerations that apply for resource-based policies, see [Resource-based policy considerations](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/rbac-considerations.html).
     public var resourcePolicy: Swift.String?
     /// Represents the settings used to enable server-side encryption.
     public var sseSpecification: DynamoDBClientTypes.SSESpecification?
@@ -3877,6 +3903,7 @@ public struct CreateTableInput {
         globalSecondaryIndexes: [DynamoDBClientTypes.GlobalSecondaryIndex]? = nil,
         keySchema: [DynamoDBClientTypes.KeySchemaElement]? = nil,
         localSecondaryIndexes: [DynamoDBClientTypes.LocalSecondaryIndex]? = nil,
+        onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput? = nil,
         provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput? = nil,
         resourcePolicy: Swift.String? = nil,
         sseSpecification: DynamoDBClientTypes.SSESpecification? = nil,
@@ -3892,6 +3919,7 @@ public struct CreateTableInput {
         self.globalSecondaryIndexes = globalSecondaryIndexes
         self.keySchema = keySchema
         self.localSecondaryIndexes = localSecondaryIndexes
+        self.onDemandThroughput = onDemandThroughput
         self.provisionedThroughput = provisionedThroughput
         self.resourcePolicy = resourcePolicy
         self.sseSpecification = sseSpecification
@@ -3916,6 +3944,7 @@ struct CreateTableInputBody {
     let tableClass: DynamoDBClientTypes.TableClass?
     let deletionProtectionEnabled: Swift.Bool?
     let resourcePolicy: Swift.String?
+    let onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput?
 }
 
 extension CreateTableInputBody: Swift.Decodable {
@@ -3926,6 +3955,7 @@ extension CreateTableInputBody: Swift.Decodable {
         case globalSecondaryIndexes = "GlobalSecondaryIndexes"
         case keySchema = "KeySchema"
         case localSecondaryIndexes = "LocalSecondaryIndexes"
+        case onDemandThroughput = "OnDemandThroughput"
         case provisionedThroughput = "ProvisionedThroughput"
         case resourcePolicy = "ResourcePolicy"
         case sseSpecification = "SSESpecification"
@@ -4008,6 +4038,8 @@ extension CreateTableInputBody: Swift.Decodable {
         deletionProtectionEnabled = deletionProtectionEnabledDecoded
         let resourcePolicyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourcePolicy)
         resourcePolicy = resourcePolicyDecoded
+        let onDemandThroughputDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.OnDemandThroughput.self, forKey: .onDemandThroughput)
+        onDemandThroughput = onDemandThroughputDecoded
     }
 }
 
@@ -4937,7 +4969,7 @@ extension DeleteResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DeleteResourcePolicyOutput {
-    /// A unique string that represents the revision ID of the policy. If you are comparing revision IDs, make sure to always use string comparison logic. This value will be empty if you make a request against a resource without a policy.
+    /// A unique string that represents the revision ID of the policy. If you're comparing revision IDs, make sure to always use string comparison logic. This value will be empty if you make a request against a resource without a policy.
     public var revisionId: Swift.String?
 
     public init(
@@ -8803,7 +8835,7 @@ extension GetResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
 public struct GetResourcePolicyOutput {
     /// The resource-based policy document attached to the resource, which can be a table or stream, in JSON format.
     public var policy: Swift.String?
-    /// A unique string that represents the revision ID of the policy. If you are comparing revision IDs, make sure to always use string comparison logic.
+    /// A unique string that represents the revision ID of the policy. If you're comparing revision IDs, make sure to always use string comparison logic.
     public var revisionId: Swift.String?
 
     public init(
@@ -8854,6 +8886,7 @@ extension DynamoDBClientTypes.GlobalSecondaryIndex: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case indexName = "IndexName"
         case keySchema = "KeySchema"
+        case onDemandThroughput = "OnDemandThroughput"
         case projection = "Projection"
         case provisionedThroughput = "ProvisionedThroughput"
     }
@@ -8868,6 +8901,9 @@ extension DynamoDBClientTypes.GlobalSecondaryIndex: Swift.Codable {
             for keyschemaelement0 in keySchema {
                 try keySchemaContainer.encode(keyschemaelement0)
             }
+        }
+        if let onDemandThroughput = self.onDemandThroughput {
+            try encodeContainer.encode(onDemandThroughput, forKey: .onDemandThroughput)
         }
         if let projection = self.projection {
             try encodeContainer.encode(projection, forKey: .projection)
@@ -8896,6 +8932,8 @@ extension DynamoDBClientTypes.GlobalSecondaryIndex: Swift.Codable {
         projection = projectionDecoded
         let provisionedThroughputDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ProvisionedThroughput.self, forKey: .provisionedThroughput)
         provisionedThroughput = provisionedThroughputDecoded
+        let onDemandThroughputDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.OnDemandThroughput.self, forKey: .onDemandThroughput)
+        onDemandThroughput = onDemandThroughputDecoded
     }
 }
 
@@ -8915,6 +8953,8 @@ extension DynamoDBClientTypes {
         /// The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from DynamoDB's usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.
         /// This member is required.
         public var keySchema: [DynamoDBClientTypes.KeySchemaElement]?
+        /// The maximum number of read and write units for the specified global secondary index. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
+        public var onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput?
         /// Represents attributes that are copied (projected) from the table into the global secondary index. These are in addition to the primary key attributes and index key attributes, which are automatically projected.
         /// This member is required.
         public var projection: DynamoDBClientTypes.Projection?
@@ -8924,12 +8964,14 @@ extension DynamoDBClientTypes {
         public init(
             indexName: Swift.String? = nil,
             keySchema: [DynamoDBClientTypes.KeySchemaElement]? = nil,
+            onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput? = nil,
             projection: DynamoDBClientTypes.Projection? = nil,
             provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput? = nil
         )
         {
             self.indexName = indexName
             self.keySchema = keySchema
+            self.onDemandThroughput = onDemandThroughput
             self.projection = projection
             self.provisionedThroughput = provisionedThroughput
         }
@@ -8991,6 +9033,7 @@ extension DynamoDBClientTypes.GlobalSecondaryIndexDescription: Swift.Codable {
         case indexStatus = "IndexStatus"
         case itemCount = "ItemCount"
         case keySchema = "KeySchema"
+        case onDemandThroughput = "OnDemandThroughput"
         case projection = "Projection"
         case provisionedThroughput = "ProvisionedThroughput"
     }
@@ -9020,6 +9063,9 @@ extension DynamoDBClientTypes.GlobalSecondaryIndexDescription: Swift.Codable {
             for keyschemaelement0 in keySchema {
                 try keySchemaContainer.encode(keyschemaelement0)
             }
+        }
+        if let onDemandThroughput = self.onDemandThroughput {
+            try encodeContainer.encode(onDemandThroughput, forKey: .onDemandThroughput)
         }
         if let projection = self.projection {
             try encodeContainer.encode(projection, forKey: .projection)
@@ -9058,6 +9104,8 @@ extension DynamoDBClientTypes.GlobalSecondaryIndexDescription: Swift.Codable {
         itemCount = itemCountDecoded
         let indexArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexArn)
         indexArn = indexArnDecoded
+        let onDemandThroughputDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.OnDemandThroughput.self, forKey: .onDemandThroughput)
+        onDemandThroughput = onDemandThroughputDecoded
     }
 }
 
@@ -9093,6 +9141,8 @@ extension DynamoDBClientTypes {
         ///
         /// The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from DynamoDB's usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.
         public var keySchema: [DynamoDBClientTypes.KeySchemaElement]?
+        /// The maximum number of read and write units for the specified global secondary index. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
+        public var onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput?
         /// Represents attributes that are copied (projected) from the table into the global secondary index. These are in addition to the primary key attributes and index key attributes, which are automatically projected.
         public var projection: DynamoDBClientTypes.Projection?
         /// Represents the provisioned throughput settings for the specified global secondary index. For current minimum and maximum provisioned throughput values, see [Service, Account, and Table Quotas](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html) in the Amazon DynamoDB Developer Guide.
@@ -9106,6 +9156,7 @@ extension DynamoDBClientTypes {
             indexStatus: DynamoDBClientTypes.IndexStatus? = nil,
             itemCount: Swift.Int? = nil,
             keySchema: [DynamoDBClientTypes.KeySchemaElement]? = nil,
+            onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput? = nil,
             projection: DynamoDBClientTypes.Projection? = nil,
             provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughputDescription? = nil
         )
@@ -9117,6 +9168,7 @@ extension DynamoDBClientTypes {
             self.indexStatus = indexStatus
             self.itemCount = itemCount
             self.keySchema = keySchema
+            self.onDemandThroughput = onDemandThroughput
             self.projection = projection
             self.provisionedThroughput = provisionedThroughput
         }
@@ -9128,6 +9180,7 @@ extension DynamoDBClientTypes.GlobalSecondaryIndexInfo: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case indexName = "IndexName"
         case keySchema = "KeySchema"
+        case onDemandThroughput = "OnDemandThroughput"
         case projection = "Projection"
         case provisionedThroughput = "ProvisionedThroughput"
     }
@@ -9142,6 +9195,9 @@ extension DynamoDBClientTypes.GlobalSecondaryIndexInfo: Swift.Codable {
             for keyschemaelement0 in keySchema {
                 try keySchemaContainer.encode(keyschemaelement0)
             }
+        }
+        if let onDemandThroughput = self.onDemandThroughput {
+            try encodeContainer.encode(onDemandThroughput, forKey: .onDemandThroughput)
         }
         if let projection = self.projection {
             try encodeContainer.encode(projection, forKey: .projection)
@@ -9170,6 +9226,8 @@ extension DynamoDBClientTypes.GlobalSecondaryIndexInfo: Swift.Codable {
         projection = projectionDecoded
         let provisionedThroughputDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ProvisionedThroughput.self, forKey: .provisionedThroughput)
         provisionedThroughput = provisionedThroughputDecoded
+        let onDemandThroughputDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.OnDemandThroughput.self, forKey: .onDemandThroughput)
+        onDemandThroughput = onDemandThroughputDecoded
     }
 }
 
@@ -9187,6 +9245,8 @@ extension DynamoDBClientTypes {
         ///
         /// The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from DynamoDB's usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.
         public var keySchema: [DynamoDBClientTypes.KeySchemaElement]?
+        /// Sets the maximum number of read and write units for the specified on-demand table. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
+        public var onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput?
         /// Represents attributes that are copied (projected) from the table into the global secondary index. These are in addition to the primary key attributes and index key attributes, which are automatically projected.
         public var projection: DynamoDBClientTypes.Projection?
         /// Represents the provisioned throughput settings for the specified global secondary index.
@@ -9195,12 +9255,14 @@ extension DynamoDBClientTypes {
         public init(
             indexName: Swift.String? = nil,
             keySchema: [DynamoDBClientTypes.KeySchemaElement]? = nil,
+            onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput? = nil,
             projection: DynamoDBClientTypes.Projection? = nil,
             provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput? = nil
         )
         {
             self.indexName = indexName
             self.keySchema = keySchema
+            self.onDemandThroughput = onDemandThroughput
             self.projection = projection
             self.provisionedThroughput = provisionedThroughput
         }
@@ -12603,6 +12665,86 @@ extension DynamoDBClientTypes {
 
 }
 
+extension DynamoDBClientTypes.OnDemandThroughput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxReadRequestUnits = "MaxReadRequestUnits"
+        case maxWriteRequestUnits = "MaxWriteRequestUnits"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxReadRequestUnits = self.maxReadRequestUnits {
+            try encodeContainer.encode(maxReadRequestUnits, forKey: .maxReadRequestUnits)
+        }
+        if let maxWriteRequestUnits = self.maxWriteRequestUnits {
+            try encodeContainer.encode(maxWriteRequestUnits, forKey: .maxWriteRequestUnits)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxReadRequestUnitsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxReadRequestUnits)
+        maxReadRequestUnits = maxReadRequestUnitsDecoded
+        let maxWriteRequestUnitsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxWriteRequestUnits)
+        maxWriteRequestUnits = maxWriteRequestUnitsDecoded
+    }
+}
+
+extension DynamoDBClientTypes {
+    /// Sets the maximum number of read and write units for the specified on-demand table. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
+    public struct OnDemandThroughput {
+        /// Maximum number of read request units for the specified table. To specify a maximum OnDemandThroughput on your table, set the value of MaxReadRequestUnits as greater than or equal to 1. To remove the maximum OnDemandThroughput that is currently set on your table, set the value of MaxReadRequestUnits to -1.
+        public var maxReadRequestUnits: Swift.Int?
+        /// Maximum number of write request units for the specified table. To specify a maximum OnDemandThroughput on your table, set the value of MaxWriteRequestUnits as greater than or equal to 1. To remove the maximum OnDemandThroughput that is currently set on your table, set the value of MaxWriteRequestUnits to -1.
+        public var maxWriteRequestUnits: Swift.Int?
+
+        public init(
+            maxReadRequestUnits: Swift.Int? = nil,
+            maxWriteRequestUnits: Swift.Int? = nil
+        )
+        {
+            self.maxReadRequestUnits = maxReadRequestUnits
+            self.maxWriteRequestUnits = maxWriteRequestUnits
+        }
+    }
+
+}
+
+extension DynamoDBClientTypes.OnDemandThroughputOverride: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxReadRequestUnits = "MaxReadRequestUnits"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxReadRequestUnits = self.maxReadRequestUnits {
+            try encodeContainer.encode(maxReadRequestUnits, forKey: .maxReadRequestUnits)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxReadRequestUnitsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxReadRequestUnits)
+        maxReadRequestUnits = maxReadRequestUnitsDecoded
+    }
+}
+
+extension DynamoDBClientTypes {
+    /// Overrides the on-demand throughput settings for this replica table. If you don't specify a value for this parameter, it uses the source table's on-demand throughput settings.
+    public struct OnDemandThroughputOverride {
+        /// Maximum number of read request units for the specified replica table.
+        public var maxReadRequestUnits: Swift.Int?
+
+        public init(
+            maxReadRequestUnits: Swift.Int? = nil
+        )
+        {
+            self.maxReadRequestUnits = maxReadRequestUnits
+        }
+    }
+
+}
+
 extension DynamoDBClientTypes.ParameterizedStatement: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case parameters = "Parameters"
@@ -13781,9 +13923,16 @@ extension PutResourcePolicyInput {
 public struct PutResourcePolicyInput {
     /// Set this parameter to true to confirm that you want to remove your permissions to change the policy of this resource in the future.
     public var confirmRemoveSelfResourceAccess: Swift.Bool?
-    /// A string value that you can use to conditionally update your policy. You can provide the revision ID of your existing policy to make mutating requests against that policy. When you provide an expected revision ID, if the revision ID of the existing policy on the resource doesn't match or if there's no policy attached to the resource, your request will be rejected with a PolicyNotFoundException. To conditionally put a policy when no policy exists for the resource, specify NO_POLICY for the revision ID.
+    /// A string value that you can use to conditionally update your policy. You can provide the revision ID of your existing policy to make mutating requests against that policy. When you provide an expected revision ID, if the revision ID of the existing policy on the resource doesn't match or if there's no policy attached to the resource, your request will be rejected with a PolicyNotFoundException. To conditionally attach a policy when no policy exists for the resource, specify NO_POLICY for the revision ID.
     public var expectedRevisionId: Swift.String?
-    /// An Amazon Web Services resource-based policy document in JSON format. The maximum size supported for a resource-based policy document is 20 KB. DynamoDB counts whitespaces when calculating the size of a policy against this limit. For a full list of all considerations that you should keep in mind while attaching a resource-based policy, see [Resource-based policy considerations](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/rbac-considerations.html).
+    /// An Amazon Web Services resource-based policy document in JSON format.
+    ///
+    /// * The maximum size supported for a resource-based policy document is 20 KB. DynamoDB counts whitespaces when calculating the size of a policy against this limit.
+    ///
+    /// * Within a resource-based policy, if the action for a DynamoDB service-linked role (SLR) to replicate data for a global table is denied, adding or deleting a replica will fail with an error.
+    ///
+    ///
+    /// For a full list of all considerations that apply while attaching a resource-based policy, see [Resource-based policy considerations](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/rbac-considerations.html).
     /// This member is required.
     public var policy: Swift.String?
     /// The Amazon Resource Name (ARN) of the DynamoDB resource to which the policy will be attached. The resources you can specify include tables and streams. You can control index permissions using the base table's policy. To specify the same permission level for your table and its indexes, you can provide both the table and index Amazon Resource Name (ARN)s in the Resource field of a given Statement in your policy document. Alternatively, to specify different permissions for your table, indexes, or both, you can define multiple Statement fields in your policy document.
@@ -13841,7 +13990,7 @@ extension PutResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct PutResourcePolicyOutput {
-    /// A unique string that represents the revision ID of the policy. If you are comparing revision IDs, make sure to always use string comparison logic.
+    /// A unique string that represents the revision ID of the policy. If you're comparing revision IDs, make sure to always use string comparison logic.
     public var revisionId: Swift.String?
 
     public init(
@@ -14661,6 +14810,7 @@ extension DynamoDBClientTypes.ReplicaDescription: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case globalSecondaryIndexes = "GlobalSecondaryIndexes"
         case kmsMasterKeyId = "KMSMasterKeyId"
+        case onDemandThroughputOverride = "OnDemandThroughputOverride"
         case provisionedThroughputOverride = "ProvisionedThroughputOverride"
         case regionName = "RegionName"
         case replicaInaccessibleDateTime = "ReplicaInaccessibleDateTime"
@@ -14680,6 +14830,9 @@ extension DynamoDBClientTypes.ReplicaDescription: Swift.Codable {
         }
         if let kmsMasterKeyId = self.kmsMasterKeyId {
             try encodeContainer.encode(kmsMasterKeyId, forKey: .kmsMasterKeyId)
+        }
+        if let onDemandThroughputOverride = self.onDemandThroughputOverride {
+            try encodeContainer.encode(onDemandThroughputOverride, forKey: .onDemandThroughputOverride)
         }
         if let provisionedThroughputOverride = self.provisionedThroughputOverride {
             try encodeContainer.encode(provisionedThroughputOverride, forKey: .provisionedThroughputOverride)
@@ -14718,6 +14871,8 @@ extension DynamoDBClientTypes.ReplicaDescription: Swift.Codable {
         kmsMasterKeyId = kmsMasterKeyIdDecoded
         let provisionedThroughputOverrideDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ProvisionedThroughputOverride.self, forKey: .provisionedThroughputOverride)
         provisionedThroughputOverride = provisionedThroughputOverrideDecoded
+        let onDemandThroughputOverrideDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.OnDemandThroughputOverride.self, forKey: .onDemandThroughputOverride)
+        onDemandThroughputOverride = onDemandThroughputOverrideDecoded
         let globalSecondaryIndexesContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.ReplicaGlobalSecondaryIndexDescription?].self, forKey: .globalSecondaryIndexes)
         var globalSecondaryIndexesDecoded0:[DynamoDBClientTypes.ReplicaGlobalSecondaryIndexDescription]? = nil
         if let globalSecondaryIndexesContainer = globalSecondaryIndexesContainer {
@@ -14743,6 +14898,8 @@ extension DynamoDBClientTypes {
         public var globalSecondaryIndexes: [DynamoDBClientTypes.ReplicaGlobalSecondaryIndexDescription]?
         /// The KMS key of the replica that will be used for KMS encryption.
         public var kmsMasterKeyId: Swift.String?
+        /// Overrides the maximum on-demand throughput settings for the specified replica table.
+        public var onDemandThroughputOverride: DynamoDBClientTypes.OnDemandThroughputOverride?
         /// Replica-specific provisioned throughput. If not described, uses the source table's provisioned throughput settings.
         public var provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughputOverride?
         /// The name of the Region.
@@ -14773,6 +14930,7 @@ extension DynamoDBClientTypes {
         public init(
             globalSecondaryIndexes: [DynamoDBClientTypes.ReplicaGlobalSecondaryIndexDescription]? = nil,
             kmsMasterKeyId: Swift.String? = nil,
+            onDemandThroughputOverride: DynamoDBClientTypes.OnDemandThroughputOverride? = nil,
             provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughputOverride? = nil,
             regionName: Swift.String? = nil,
             replicaInaccessibleDateTime: ClientRuntime.Date? = nil,
@@ -14784,6 +14942,7 @@ extension DynamoDBClientTypes {
         {
             self.globalSecondaryIndexes = globalSecondaryIndexes
             self.kmsMasterKeyId = kmsMasterKeyId
+            self.onDemandThroughputOverride = onDemandThroughputOverride
             self.provisionedThroughputOverride = provisionedThroughputOverride
             self.regionName = regionName
             self.replicaInaccessibleDateTime = replicaInaccessibleDateTime
@@ -14799,6 +14958,7 @@ extension DynamoDBClientTypes {
 extension DynamoDBClientTypes.ReplicaGlobalSecondaryIndex: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case indexName = "IndexName"
+        case onDemandThroughputOverride = "OnDemandThroughputOverride"
         case provisionedThroughputOverride = "ProvisionedThroughputOverride"
     }
 
@@ -14806,6 +14966,9 @@ extension DynamoDBClientTypes.ReplicaGlobalSecondaryIndex: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let indexName = self.indexName {
             try encodeContainer.encode(indexName, forKey: .indexName)
+        }
+        if let onDemandThroughputOverride = self.onDemandThroughputOverride {
+            try encodeContainer.encode(onDemandThroughputOverride, forKey: .onDemandThroughputOverride)
         }
         if let provisionedThroughputOverride = self.provisionedThroughputOverride {
             try encodeContainer.encode(provisionedThroughputOverride, forKey: .provisionedThroughputOverride)
@@ -14818,6 +14981,8 @@ extension DynamoDBClientTypes.ReplicaGlobalSecondaryIndex: Swift.Codable {
         indexName = indexNameDecoded
         let provisionedThroughputOverrideDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ProvisionedThroughputOverride.self, forKey: .provisionedThroughputOverride)
         provisionedThroughputOverride = provisionedThroughputOverrideDecoded
+        let onDemandThroughputOverrideDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.OnDemandThroughputOverride.self, forKey: .onDemandThroughputOverride)
+        onDemandThroughputOverride = onDemandThroughputOverrideDecoded
     }
 }
 
@@ -14827,15 +14992,19 @@ extension DynamoDBClientTypes {
         /// The name of the global secondary index.
         /// This member is required.
         public var indexName: Swift.String?
+        /// Overrides the maximum on-demand throughput settings for the specified global secondary index in the specified replica table.
+        public var onDemandThroughputOverride: DynamoDBClientTypes.OnDemandThroughputOverride?
         /// Replica table GSI-specific provisioned throughput. If not specified, uses the source table GSI's read capacity settings.
         public var provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughputOverride?
 
         public init(
             indexName: Swift.String? = nil,
+            onDemandThroughputOverride: DynamoDBClientTypes.OnDemandThroughputOverride? = nil,
             provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughputOverride? = nil
         )
         {
             self.indexName = indexName
+            self.onDemandThroughputOverride = onDemandThroughputOverride
             self.provisionedThroughputOverride = provisionedThroughputOverride
         }
     }
@@ -14963,6 +15132,7 @@ extension DynamoDBClientTypes {
 extension DynamoDBClientTypes.ReplicaGlobalSecondaryIndexDescription: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case indexName = "IndexName"
+        case onDemandThroughputOverride = "OnDemandThroughputOverride"
         case provisionedThroughputOverride = "ProvisionedThroughputOverride"
     }
 
@@ -14970,6 +15140,9 @@ extension DynamoDBClientTypes.ReplicaGlobalSecondaryIndexDescription: Swift.Coda
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let indexName = self.indexName {
             try encodeContainer.encode(indexName, forKey: .indexName)
+        }
+        if let onDemandThroughputOverride = self.onDemandThroughputOverride {
+            try encodeContainer.encode(onDemandThroughputOverride, forKey: .onDemandThroughputOverride)
         }
         if let provisionedThroughputOverride = self.provisionedThroughputOverride {
             try encodeContainer.encode(provisionedThroughputOverride, forKey: .provisionedThroughputOverride)
@@ -14982,6 +15155,8 @@ extension DynamoDBClientTypes.ReplicaGlobalSecondaryIndexDescription: Swift.Coda
         indexName = indexNameDecoded
         let provisionedThroughputOverrideDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ProvisionedThroughputOverride.self, forKey: .provisionedThroughputOverride)
         provisionedThroughputOverride = provisionedThroughputOverrideDecoded
+        let onDemandThroughputOverrideDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.OnDemandThroughputOverride.self, forKey: .onDemandThroughputOverride)
+        onDemandThroughputOverride = onDemandThroughputOverrideDecoded
     }
 }
 
@@ -14990,15 +15165,19 @@ extension DynamoDBClientTypes {
     public struct ReplicaGlobalSecondaryIndexDescription {
         /// The name of the global secondary index.
         public var indexName: Swift.String?
+        /// Overrides the maximum on-demand throughput for the specified global secondary index in the specified replica table.
+        public var onDemandThroughputOverride: DynamoDBClientTypes.OnDemandThroughputOverride?
         /// If not described, uses the source table GSI's read capacity settings.
         public var provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughputOverride?
 
         public init(
             indexName: Swift.String? = nil,
+            onDemandThroughputOverride: DynamoDBClientTypes.OnDemandThroughputOverride? = nil,
             provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughputOverride? = nil
         )
         {
             self.indexName = indexName
+            self.onDemandThroughputOverride = onDemandThroughputOverride
             self.provisionedThroughputOverride = provisionedThroughputOverride
         }
     }
@@ -15836,6 +16015,7 @@ extension RestoreTableFromBackupInput: Swift.Encodable {
         case billingModeOverride = "BillingModeOverride"
         case globalSecondaryIndexOverride = "GlobalSecondaryIndexOverride"
         case localSecondaryIndexOverride = "LocalSecondaryIndexOverride"
+        case onDemandThroughputOverride = "OnDemandThroughputOverride"
         case provisionedThroughputOverride = "ProvisionedThroughputOverride"
         case sseSpecificationOverride = "SSESpecificationOverride"
         case targetTableName = "TargetTableName"
@@ -15860,6 +16040,9 @@ extension RestoreTableFromBackupInput: Swift.Encodable {
             for localsecondaryindex0 in localSecondaryIndexOverride {
                 try localSecondaryIndexOverrideContainer.encode(localsecondaryindex0)
             }
+        }
+        if let onDemandThroughputOverride = self.onDemandThroughputOverride {
+            try encodeContainer.encode(onDemandThroughputOverride, forKey: .onDemandThroughputOverride)
         }
         if let provisionedThroughputOverride = self.provisionedThroughputOverride {
             try encodeContainer.encode(provisionedThroughputOverride, forKey: .provisionedThroughputOverride)
@@ -15890,6 +16073,8 @@ public struct RestoreTableFromBackupInput {
     public var globalSecondaryIndexOverride: [DynamoDBClientTypes.GlobalSecondaryIndex]?
     /// List of local secondary indexes for the restored table. The indexes provided should match existing secondary indexes. You can choose to exclude some or all of the indexes at the time of restore.
     public var localSecondaryIndexOverride: [DynamoDBClientTypes.LocalSecondaryIndex]?
+    /// Sets the maximum number of read and write units for the specified on-demand table. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
+    public var onDemandThroughputOverride: DynamoDBClientTypes.OnDemandThroughput?
     /// Provisioned throughput settings for the restored table.
     public var provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughput?
     /// The new server-side encryption settings for the restored table.
@@ -15903,6 +16088,7 @@ public struct RestoreTableFromBackupInput {
         billingModeOverride: DynamoDBClientTypes.BillingMode? = nil,
         globalSecondaryIndexOverride: [DynamoDBClientTypes.GlobalSecondaryIndex]? = nil,
         localSecondaryIndexOverride: [DynamoDBClientTypes.LocalSecondaryIndex]? = nil,
+        onDemandThroughputOverride: DynamoDBClientTypes.OnDemandThroughput? = nil,
         provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughput? = nil,
         sseSpecificationOverride: DynamoDBClientTypes.SSESpecification? = nil,
         targetTableName: Swift.String? = nil
@@ -15912,6 +16098,7 @@ public struct RestoreTableFromBackupInput {
         self.billingModeOverride = billingModeOverride
         self.globalSecondaryIndexOverride = globalSecondaryIndexOverride
         self.localSecondaryIndexOverride = localSecondaryIndexOverride
+        self.onDemandThroughputOverride = onDemandThroughputOverride
         self.provisionedThroughputOverride = provisionedThroughputOverride
         self.sseSpecificationOverride = sseSpecificationOverride
         self.targetTableName = targetTableName
@@ -15925,6 +16112,7 @@ struct RestoreTableFromBackupInputBody {
     let globalSecondaryIndexOverride: [DynamoDBClientTypes.GlobalSecondaryIndex]?
     let localSecondaryIndexOverride: [DynamoDBClientTypes.LocalSecondaryIndex]?
     let provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughput?
+    let onDemandThroughputOverride: DynamoDBClientTypes.OnDemandThroughput?
     let sseSpecificationOverride: DynamoDBClientTypes.SSESpecification?
 }
 
@@ -15934,6 +16122,7 @@ extension RestoreTableFromBackupInputBody: Swift.Decodable {
         case billingModeOverride = "BillingModeOverride"
         case globalSecondaryIndexOverride = "GlobalSecondaryIndexOverride"
         case localSecondaryIndexOverride = "LocalSecondaryIndexOverride"
+        case onDemandThroughputOverride = "OnDemandThroughputOverride"
         case provisionedThroughputOverride = "ProvisionedThroughputOverride"
         case sseSpecificationOverride = "SSESpecificationOverride"
         case targetTableName = "TargetTableName"
@@ -15971,6 +16160,8 @@ extension RestoreTableFromBackupInputBody: Swift.Decodable {
         localSecondaryIndexOverride = localSecondaryIndexOverrideDecoded0
         let provisionedThroughputOverrideDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ProvisionedThroughput.self, forKey: .provisionedThroughputOverride)
         provisionedThroughputOverride = provisionedThroughputOverrideDecoded
+        let onDemandThroughputOverrideDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.OnDemandThroughput.self, forKey: .onDemandThroughputOverride)
+        onDemandThroughputOverride = onDemandThroughputOverrideDecoded
         let sseSpecificationOverrideDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.SSESpecification.self, forKey: .sseSpecificationOverride)
         sseSpecificationOverride = sseSpecificationOverrideDecoded
     }
@@ -16038,6 +16229,7 @@ extension RestoreTableToPointInTimeInput: Swift.Encodable {
         case billingModeOverride = "BillingModeOverride"
         case globalSecondaryIndexOverride = "GlobalSecondaryIndexOverride"
         case localSecondaryIndexOverride = "LocalSecondaryIndexOverride"
+        case onDemandThroughputOverride = "OnDemandThroughputOverride"
         case provisionedThroughputOverride = "ProvisionedThroughputOverride"
         case restoreDateTime = "RestoreDateTime"
         case sseSpecificationOverride = "SSESpecificationOverride"
@@ -16063,6 +16255,9 @@ extension RestoreTableToPointInTimeInput: Swift.Encodable {
             for localsecondaryindex0 in localSecondaryIndexOverride {
                 try localSecondaryIndexOverrideContainer.encode(localsecondaryindex0)
             }
+        }
+        if let onDemandThroughputOverride = self.onDemandThroughputOverride {
+            try encodeContainer.encode(onDemandThroughputOverride, forKey: .onDemandThroughputOverride)
         }
         if let provisionedThroughputOverride = self.provisionedThroughputOverride {
             try encodeContainer.encode(provisionedThroughputOverride, forKey: .provisionedThroughputOverride)
@@ -16102,6 +16297,8 @@ public struct RestoreTableToPointInTimeInput {
     public var globalSecondaryIndexOverride: [DynamoDBClientTypes.GlobalSecondaryIndex]?
     /// List of local secondary indexes for the restored table. The indexes provided should match existing secondary indexes. You can choose to exclude some or all of the indexes at the time of restore.
     public var localSecondaryIndexOverride: [DynamoDBClientTypes.LocalSecondaryIndex]?
+    /// Sets the maximum number of read and write units for the specified on-demand table. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
+    public var onDemandThroughputOverride: DynamoDBClientTypes.OnDemandThroughput?
     /// Provisioned throughput settings for the restored table.
     public var provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughput?
     /// Time in the past to restore the table to.
@@ -16122,6 +16319,7 @@ public struct RestoreTableToPointInTimeInput {
         billingModeOverride: DynamoDBClientTypes.BillingMode? = nil,
         globalSecondaryIndexOverride: [DynamoDBClientTypes.GlobalSecondaryIndex]? = nil,
         localSecondaryIndexOverride: [DynamoDBClientTypes.LocalSecondaryIndex]? = nil,
+        onDemandThroughputOverride: DynamoDBClientTypes.OnDemandThroughput? = nil,
         provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughput? = nil,
         restoreDateTime: ClientRuntime.Date? = nil,
         sourceTableArn: Swift.String? = nil,
@@ -16134,6 +16332,7 @@ public struct RestoreTableToPointInTimeInput {
         self.billingModeOverride = billingModeOverride
         self.globalSecondaryIndexOverride = globalSecondaryIndexOverride
         self.localSecondaryIndexOverride = localSecondaryIndexOverride
+        self.onDemandThroughputOverride = onDemandThroughputOverride
         self.provisionedThroughputOverride = provisionedThroughputOverride
         self.restoreDateTime = restoreDateTime
         self.sourceTableArn = sourceTableArn
@@ -16154,6 +16353,7 @@ struct RestoreTableToPointInTimeInputBody {
     let globalSecondaryIndexOverride: [DynamoDBClientTypes.GlobalSecondaryIndex]?
     let localSecondaryIndexOverride: [DynamoDBClientTypes.LocalSecondaryIndex]?
     let provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughput?
+    let onDemandThroughputOverride: DynamoDBClientTypes.OnDemandThroughput?
     let sseSpecificationOverride: DynamoDBClientTypes.SSESpecification?
 }
 
@@ -16162,6 +16362,7 @@ extension RestoreTableToPointInTimeInputBody: Swift.Decodable {
         case billingModeOverride = "BillingModeOverride"
         case globalSecondaryIndexOverride = "GlobalSecondaryIndexOverride"
         case localSecondaryIndexOverride = "LocalSecondaryIndexOverride"
+        case onDemandThroughputOverride = "OnDemandThroughputOverride"
         case provisionedThroughputOverride = "ProvisionedThroughputOverride"
         case restoreDateTime = "RestoreDateTime"
         case sseSpecificationOverride = "SSESpecificationOverride"
@@ -16209,6 +16410,8 @@ extension RestoreTableToPointInTimeInputBody: Swift.Decodable {
         localSecondaryIndexOverride = localSecondaryIndexOverrideDecoded0
         let provisionedThroughputOverrideDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ProvisionedThroughput.self, forKey: .provisionedThroughputOverride)
         provisionedThroughputOverride = provisionedThroughputOverrideDecoded
+        let onDemandThroughputOverrideDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.OnDemandThroughput.self, forKey: .onDemandThroughputOverride)
+        onDemandThroughputOverride = onDemandThroughputOverrideDecoded
         let sseSpecificationOverrideDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.SSESpecification.self, forKey: .sseSpecificationOverride)
         sseSpecificationOverride = sseSpecificationOverrideDecoded
     }
@@ -17247,6 +17450,7 @@ extension DynamoDBClientTypes.SourceTableDetails: Swift.Codable {
         case billingMode = "BillingMode"
         case itemCount = "ItemCount"
         case keySchema = "KeySchema"
+        case onDemandThroughput = "OnDemandThroughput"
         case provisionedThroughput = "ProvisionedThroughput"
         case tableArn = "TableArn"
         case tableCreationDateTime = "TableCreationDateTime"
@@ -17268,6 +17472,9 @@ extension DynamoDBClientTypes.SourceTableDetails: Swift.Codable {
             for keyschemaelement0 in keySchema {
                 try keySchemaContainer.encode(keyschemaelement0)
             }
+        }
+        if let onDemandThroughput = self.onDemandThroughput {
+            try encodeContainer.encode(onDemandThroughput, forKey: .onDemandThroughput)
         }
         if let provisionedThroughput = self.provisionedThroughput {
             try encodeContainer.encode(provisionedThroughput, forKey: .provisionedThroughput)
@@ -17314,6 +17521,8 @@ extension DynamoDBClientTypes.SourceTableDetails: Swift.Codable {
         tableCreationDateTime = tableCreationDateTimeDecoded
         let provisionedThroughputDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ProvisionedThroughput.self, forKey: .provisionedThroughput)
         provisionedThroughput = provisionedThroughputDecoded
+        let onDemandThroughputDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.OnDemandThroughput.self, forKey: .onDemandThroughput)
+        onDemandThroughput = onDemandThroughputDecoded
         let itemCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .itemCount)
         itemCount = itemCountDecoded
         let billingModeDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.BillingMode.self, forKey: .billingMode)
@@ -17335,6 +17544,8 @@ extension DynamoDBClientTypes {
         /// Schema of the table.
         /// This member is required.
         public var keySchema: [DynamoDBClientTypes.KeySchemaElement]?
+        /// Sets the maximum number of read and write units for the specified on-demand table. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
+        public var onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput?
         /// Read IOPs and Write IOPS on the table when the backup was created.
         /// This member is required.
         public var provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput?
@@ -17356,6 +17567,7 @@ extension DynamoDBClientTypes {
             billingMode: DynamoDBClientTypes.BillingMode? = nil,
             itemCount: Swift.Int? = nil,
             keySchema: [DynamoDBClientTypes.KeySchemaElement]? = nil,
+            onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput? = nil,
             provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput? = nil,
             tableArn: Swift.String? = nil,
             tableCreationDateTime: ClientRuntime.Date? = nil,
@@ -17367,6 +17579,7 @@ extension DynamoDBClientTypes {
             self.billingMode = billingMode
             self.itemCount = itemCount
             self.keySchema = keySchema
+            self.onDemandThroughput = onDemandThroughput
             self.provisionedThroughput = provisionedThroughput
             self.tableArn = tableArn
             self.tableCreationDateTime = tableCreationDateTime
@@ -17782,6 +17995,7 @@ extension DynamoDBClientTypes.TableCreationParameters: Swift.Codable {
         case billingMode = "BillingMode"
         case globalSecondaryIndexes = "GlobalSecondaryIndexes"
         case keySchema = "KeySchema"
+        case onDemandThroughput = "OnDemandThroughput"
         case provisionedThroughput = "ProvisionedThroughput"
         case sseSpecification = "SSESpecification"
         case tableName = "TableName"
@@ -17809,6 +18023,9 @@ extension DynamoDBClientTypes.TableCreationParameters: Swift.Codable {
             for keyschemaelement0 in keySchema {
                 try keySchemaContainer.encode(keyschemaelement0)
             }
+        }
+        if let onDemandThroughput = self.onDemandThroughput {
+            try encodeContainer.encode(onDemandThroughput, forKey: .onDemandThroughput)
         }
         if let provisionedThroughput = self.provisionedThroughput {
             try encodeContainer.encode(provisionedThroughput, forKey: .provisionedThroughput)
@@ -17851,6 +18068,8 @@ extension DynamoDBClientTypes.TableCreationParameters: Swift.Codable {
         billingMode = billingModeDecoded
         let provisionedThroughputDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ProvisionedThroughput.self, forKey: .provisionedThroughput)
         provisionedThroughput = provisionedThroughputDecoded
+        let onDemandThroughputDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.OnDemandThroughput.self, forKey: .onDemandThroughput)
+        onDemandThroughput = onDemandThroughputDecoded
         let sseSpecificationDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.SSESpecification.self, forKey: .sseSpecification)
         sseSpecification = sseSpecificationDecoded
         let globalSecondaryIndexesContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.GlobalSecondaryIndex?].self, forKey: .globalSecondaryIndexes)
@@ -17880,6 +18099,8 @@ extension DynamoDBClientTypes {
         /// The primary key and option sort key of the table created as part of the import operation.
         /// This member is required.
         public var keySchema: [DynamoDBClientTypes.KeySchemaElement]?
+        /// Sets the maximum number of read and write units for the specified on-demand table. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
+        public var onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput?
         /// Represents the provisioned throughput settings for a specified table or index. The settings can be modified using the UpdateTable operation. For current minimum and maximum provisioned throughput values, see [Service, Account, and Table Quotas](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html) in the Amazon DynamoDB Developer Guide.
         public var provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput?
         /// Represents the settings used to enable server-side encryption.
@@ -17893,6 +18114,7 @@ extension DynamoDBClientTypes {
             billingMode: DynamoDBClientTypes.BillingMode? = nil,
             globalSecondaryIndexes: [DynamoDBClientTypes.GlobalSecondaryIndex]? = nil,
             keySchema: [DynamoDBClientTypes.KeySchemaElement]? = nil,
+            onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput? = nil,
             provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput? = nil,
             sseSpecification: DynamoDBClientTypes.SSESpecification? = nil,
             tableName: Swift.String? = nil
@@ -17902,6 +18124,7 @@ extension DynamoDBClientTypes {
             self.billingMode = billingMode
             self.globalSecondaryIndexes = globalSecondaryIndexes
             self.keySchema = keySchema
+            self.onDemandThroughput = onDemandThroughput
             self.provisionedThroughput = provisionedThroughput
             self.sseSpecification = sseSpecification
             self.tableName = tableName
@@ -17924,6 +18147,7 @@ extension DynamoDBClientTypes.TableDescription: Swift.Codable {
         case latestStreamArn = "LatestStreamArn"
         case latestStreamLabel = "LatestStreamLabel"
         case localSecondaryIndexes = "LocalSecondaryIndexes"
+        case onDemandThroughput = "OnDemandThroughput"
         case provisionedThroughput = "ProvisionedThroughput"
         case replicas = "Replicas"
         case restoreSummary = "RestoreSummary"
@@ -17986,6 +18210,9 @@ extension DynamoDBClientTypes.TableDescription: Swift.Codable {
             for localsecondaryindexdescription0 in localSecondaryIndexes {
                 try localSecondaryIndexesContainer.encode(localsecondaryindexdescription0)
             }
+        }
+        if let onDemandThroughput = self.onDemandThroughput {
+            try encodeContainer.encode(onDemandThroughput, forKey: .onDemandThroughput)
         }
         if let provisionedThroughput = self.provisionedThroughput {
             try encodeContainer.encode(provisionedThroughput, forKey: .provisionedThroughput)
@@ -18118,6 +18345,8 @@ extension DynamoDBClientTypes.TableDescription: Swift.Codable {
         tableClassSummary = tableClassSummaryDecoded
         let deletionProtectionEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deletionProtectionEnabled)
         deletionProtectionEnabled = deletionProtectionEnabledDecoded
+        let onDemandThroughputDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.OnDemandThroughput.self, forKey: .onDemandThroughput)
+        onDemandThroughput = onDemandThroughputDecoded
     }
 }
 
@@ -18247,6 +18476,8 @@ extension DynamoDBClientTypes {
         ///
         /// If the table is in the DELETING state, no information about indexes will be returned.
         public var localSecondaryIndexes: [DynamoDBClientTypes.LocalSecondaryIndexDescription]?
+        /// The maximum number of read and write units for the specified on-demand table. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
+        public var onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput?
         /// The provisioned throughput settings for the table, consisting of read and write capacity units, along with data about increases and decreases.
         public var provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughputDescription?
         /// Represents replicas of the table.
@@ -18297,6 +18528,7 @@ extension DynamoDBClientTypes {
             latestStreamArn: Swift.String? = nil,
             latestStreamLabel: Swift.String? = nil,
             localSecondaryIndexes: [DynamoDBClientTypes.LocalSecondaryIndexDescription]? = nil,
+            onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput? = nil,
             provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughputDescription? = nil,
             replicas: [DynamoDBClientTypes.ReplicaDescription]? = nil,
             restoreSummary: DynamoDBClientTypes.RestoreSummary? = nil,
@@ -18322,6 +18554,7 @@ extension DynamoDBClientTypes {
             self.latestStreamArn = latestStreamArn
             self.latestStreamLabel = latestStreamLabel
             self.localSecondaryIndexes = localSecondaryIndexes
+            self.onDemandThroughput = onDemandThroughput
             self.provisionedThroughput = provisionedThroughput
             self.replicas = replicas
             self.restoreSummary = restoreSummary
@@ -20054,6 +20287,7 @@ enum UpdateContributorInsightsOutputError: ClientRuntime.HttpResponseErrorBindin
 extension DynamoDBClientTypes.UpdateGlobalSecondaryIndexAction: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case indexName = "IndexName"
+        case onDemandThroughput = "OnDemandThroughput"
         case provisionedThroughput = "ProvisionedThroughput"
     }
 
@@ -20061,6 +20295,9 @@ extension DynamoDBClientTypes.UpdateGlobalSecondaryIndexAction: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let indexName = self.indexName {
             try encodeContainer.encode(indexName, forKey: .indexName)
+        }
+        if let onDemandThroughput = self.onDemandThroughput {
+            try encodeContainer.encode(onDemandThroughput, forKey: .onDemandThroughput)
         }
         if let provisionedThroughput = self.provisionedThroughput {
             try encodeContainer.encode(provisionedThroughput, forKey: .provisionedThroughput)
@@ -20073,6 +20310,8 @@ extension DynamoDBClientTypes.UpdateGlobalSecondaryIndexAction: Swift.Codable {
         indexName = indexNameDecoded
         let provisionedThroughputDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ProvisionedThroughput.self, forKey: .provisionedThroughput)
         provisionedThroughput = provisionedThroughputDecoded
+        let onDemandThroughputDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.OnDemandThroughput.self, forKey: .onDemandThroughput)
+        onDemandThroughput = onDemandThroughputDecoded
     }
 }
 
@@ -20082,16 +20321,19 @@ extension DynamoDBClientTypes {
         /// The name of the global secondary index to be updated.
         /// This member is required.
         public var indexName: Swift.String?
+        /// Updates the maximum number of read and write units for the specified global secondary index. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
+        public var onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput?
         /// Represents the provisioned throughput settings for the specified global secondary index. For current minimum and maximum provisioned throughput values, see [Service, Account, and Table Quotas](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html) in the Amazon DynamoDB Developer Guide.
-        /// This member is required.
         public var provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput?
 
         public init(
             indexName: Swift.String? = nil,
+            onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput? = nil,
             provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput? = nil
         )
         {
             self.indexName = indexName
+            self.onDemandThroughput = onDemandThroughput
             self.provisionedThroughput = provisionedThroughput
         }
     }
@@ -21063,6 +21305,7 @@ extension DynamoDBClientTypes.UpdateReplicationGroupMemberAction: Swift.Codable 
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case globalSecondaryIndexes = "GlobalSecondaryIndexes"
         case kmsMasterKeyId = "KMSMasterKeyId"
+        case onDemandThroughputOverride = "OnDemandThroughputOverride"
         case provisionedThroughputOverride = "ProvisionedThroughputOverride"
         case regionName = "RegionName"
         case tableClassOverride = "TableClassOverride"
@@ -21078,6 +21321,9 @@ extension DynamoDBClientTypes.UpdateReplicationGroupMemberAction: Swift.Codable 
         }
         if let kmsMasterKeyId = self.kmsMasterKeyId {
             try encodeContainer.encode(kmsMasterKeyId, forKey: .kmsMasterKeyId)
+        }
+        if let onDemandThroughputOverride = self.onDemandThroughputOverride {
+            try encodeContainer.encode(onDemandThroughputOverride, forKey: .onDemandThroughputOverride)
         }
         if let provisionedThroughputOverride = self.provisionedThroughputOverride {
             try encodeContainer.encode(provisionedThroughputOverride, forKey: .provisionedThroughputOverride)
@@ -21098,6 +21344,8 @@ extension DynamoDBClientTypes.UpdateReplicationGroupMemberAction: Swift.Codable 
         kmsMasterKeyId = kmsMasterKeyIdDecoded
         let provisionedThroughputOverrideDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ProvisionedThroughputOverride.self, forKey: .provisionedThroughputOverride)
         provisionedThroughputOverride = provisionedThroughputOverrideDecoded
+        let onDemandThroughputOverrideDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.OnDemandThroughputOverride.self, forKey: .onDemandThroughputOverride)
+        onDemandThroughputOverride = onDemandThroughputOverrideDecoded
         let globalSecondaryIndexesContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.ReplicaGlobalSecondaryIndex?].self, forKey: .globalSecondaryIndexes)
         var globalSecondaryIndexesDecoded0:[DynamoDBClientTypes.ReplicaGlobalSecondaryIndex]? = nil
         if let globalSecondaryIndexesContainer = globalSecondaryIndexesContainer {
@@ -21121,6 +21369,8 @@ extension DynamoDBClientTypes {
         public var globalSecondaryIndexes: [DynamoDBClientTypes.ReplicaGlobalSecondaryIndex]?
         /// The KMS key of the replica that should be used for KMS encryption. To specify a key, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. Note that you should only provide this parameter if the key is different from the default DynamoDB KMS key alias/aws/dynamodb.
         public var kmsMasterKeyId: Swift.String?
+        /// Overrides the maximum on-demand throughput for the replica table.
+        public var onDemandThroughputOverride: DynamoDBClientTypes.OnDemandThroughputOverride?
         /// Replica-specific provisioned throughput. If not specified, uses the source table's provisioned throughput settings.
         public var provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughputOverride?
         /// The Region where the replica exists.
@@ -21132,6 +21382,7 @@ extension DynamoDBClientTypes {
         public init(
             globalSecondaryIndexes: [DynamoDBClientTypes.ReplicaGlobalSecondaryIndex]? = nil,
             kmsMasterKeyId: Swift.String? = nil,
+            onDemandThroughputOverride: DynamoDBClientTypes.OnDemandThroughputOverride? = nil,
             provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughputOverride? = nil,
             regionName: Swift.String? = nil,
             tableClassOverride: DynamoDBClientTypes.TableClass? = nil
@@ -21139,6 +21390,7 @@ extension DynamoDBClientTypes {
         {
             self.globalSecondaryIndexes = globalSecondaryIndexes
             self.kmsMasterKeyId = kmsMasterKeyId
+            self.onDemandThroughputOverride = onDemandThroughputOverride
             self.provisionedThroughputOverride = provisionedThroughputOverride
             self.regionName = regionName
             self.tableClassOverride = tableClassOverride
@@ -21153,6 +21405,7 @@ extension UpdateTableInput: Swift.Encodable {
         case billingMode = "BillingMode"
         case deletionProtectionEnabled = "DeletionProtectionEnabled"
         case globalSecondaryIndexUpdates = "GlobalSecondaryIndexUpdates"
+        case onDemandThroughput = "OnDemandThroughput"
         case provisionedThroughput = "ProvisionedThroughput"
         case replicaUpdates = "ReplicaUpdates"
         case sseSpecification = "SSESpecification"
@@ -21180,6 +21433,9 @@ extension UpdateTableInput: Swift.Encodable {
             for globalsecondaryindexupdate0 in globalSecondaryIndexUpdates {
                 try globalSecondaryIndexUpdatesContainer.encode(globalsecondaryindexupdate0)
             }
+        }
+        if let onDemandThroughput = self.onDemandThroughput {
+            try encodeContainer.encode(onDemandThroughput, forKey: .onDemandThroughput)
         }
         if let provisionedThroughput = self.provisionedThroughput {
             try encodeContainer.encode(provisionedThroughput, forKey: .provisionedThroughput)
@@ -21235,6 +21491,8 @@ public struct UpdateTableInput {
     ///
     /// You can create or delete only one global secondary index per UpdateTable operation. For more information, see [Managing Global Secondary Indexes](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.OnlineOps.html) in the Amazon DynamoDB Developer Guide.
     public var globalSecondaryIndexUpdates: [DynamoDBClientTypes.GlobalSecondaryIndexUpdate]?
+    /// Updates the maximum number of read and write units for the specified table in on-demand capacity mode. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
+    public var onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput?
     /// The new provisioned throughput settings for the specified table or index.
     public var provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput?
     /// A list of replica update actions (create, delete, or update) for the table. This property only applies to [Version 2019.11.21 (Current)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V2.html) of global tables.
@@ -21254,6 +21512,7 @@ public struct UpdateTableInput {
         billingMode: DynamoDBClientTypes.BillingMode? = nil,
         deletionProtectionEnabled: Swift.Bool? = nil,
         globalSecondaryIndexUpdates: [DynamoDBClientTypes.GlobalSecondaryIndexUpdate]? = nil,
+        onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput? = nil,
         provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput? = nil,
         replicaUpdates: [DynamoDBClientTypes.ReplicationGroupUpdate]? = nil,
         sseSpecification: DynamoDBClientTypes.SSESpecification? = nil,
@@ -21266,6 +21525,7 @@ public struct UpdateTableInput {
         self.billingMode = billingMode
         self.deletionProtectionEnabled = deletionProtectionEnabled
         self.globalSecondaryIndexUpdates = globalSecondaryIndexUpdates
+        self.onDemandThroughput = onDemandThroughput
         self.provisionedThroughput = provisionedThroughput
         self.replicaUpdates = replicaUpdates
         self.sseSpecification = sseSpecification
@@ -21286,6 +21546,7 @@ struct UpdateTableInputBody {
     let replicaUpdates: [DynamoDBClientTypes.ReplicationGroupUpdate]?
     let tableClass: DynamoDBClientTypes.TableClass?
     let deletionProtectionEnabled: Swift.Bool?
+    let onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput?
 }
 
 extension UpdateTableInputBody: Swift.Decodable {
@@ -21294,6 +21555,7 @@ extension UpdateTableInputBody: Swift.Decodable {
         case billingMode = "BillingMode"
         case deletionProtectionEnabled = "DeletionProtectionEnabled"
         case globalSecondaryIndexUpdates = "GlobalSecondaryIndexUpdates"
+        case onDemandThroughput = "OnDemandThroughput"
         case provisionedThroughput = "ProvisionedThroughput"
         case replicaUpdates = "ReplicaUpdates"
         case sseSpecification = "SSESpecification"
@@ -21351,6 +21613,8 @@ extension UpdateTableInputBody: Swift.Decodable {
         tableClass = tableClassDecoded
         let deletionProtectionEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deletionProtectionEnabled)
         deletionProtectionEnabled = deletionProtectionEnabledDecoded
+        let onDemandThroughputDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.OnDemandThroughput.self, forKey: .onDemandThroughput)
+        onDemandThroughput = onDemandThroughputDecoded
     }
 }
 

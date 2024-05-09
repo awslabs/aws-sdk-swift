@@ -135,7 +135,7 @@ extension InternalServerExceptionBody: Swift.Decodable {
 
 extension InvokeModelInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "InvokeModelInput(accept: \(Swift.String(describing: accept)), contentType: \(Swift.String(describing: contentType)), modelId: \(Swift.String(describing: modelId)), body: \"CONTENT_REDACTED\")"}
+        "InvokeModelInput(accept: \(Swift.String(describing: accept)), contentType: \(Swift.String(describing: contentType)), guardrailIdentifier: \(Swift.String(describing: guardrailIdentifier)), guardrailVersion: \(Swift.String(describing: guardrailVersion)), modelId: \(Swift.String(describing: modelId)), trace: \(Swift.String(describing: trace)), body: \"CONTENT_REDACTED\")"}
 }
 
 extension InvokeModelInput: Swift.Encodable {
@@ -161,6 +161,15 @@ extension InvokeModelInput {
         if let contentType = value.contentType {
             items.add(Header(name: "Content-Type", value: Swift.String(contentType)))
         }
+        if let guardrailIdentifier = value.guardrailIdentifier {
+            items.add(Header(name: "X-Amzn-Bedrock-GuardrailIdentifier", value: Swift.String(guardrailIdentifier)))
+        }
+        if let guardrailVersion = value.guardrailVersion {
+            items.add(Header(name: "X-Amzn-Bedrock-GuardrailVersion", value: Swift.String(guardrailVersion)))
+        }
+        if let trace = value.trace {
+            items.add(Header(name: "X-Amzn-Bedrock-Trace", value: Swift.String(trace.rawValue)))
+        }
         return items
     }
 }
@@ -178,26 +187,50 @@ extension InvokeModelInput {
 public struct InvokeModelInput {
     /// The desired MIME type of the inference body in the response. The default value is application/json.
     public var accept: Swift.String?
-    /// Input data in the format specified in the content-type request header. To see the format and content of this field for different models, refer to [Inference parameters](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
+    /// The prompt and inference parameters in the format specified in the contentType in the header. To see the format and content of the request and response bodies for different models, refer to [Inference parameters](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html). For more information, see [Run inference](https://docs.aws.amazon.com/bedrock/latest/userguide/api-methods-run.html) in the Bedrock User Guide.
     /// This member is required.
     public var body: ClientRuntime.Data?
     /// The MIME type of the input data in the request. The default value is application/json.
     public var contentType: Swift.String?
-    /// Identifier of the model.
+    /// The unique identifier of the guardrail that you want to use. If you don't provide a value, no guardrail is applied to the invocation. An error will be thrown in the following situations.
+    ///
+    /// * You don't provide a guardrail identifier but you specify the amazon-bedrock-guardrailConfig field in the request body.
+    ///
+    /// * You enable the guardrail but the contentType isn't application/json.
+    ///
+    /// * You provide a guardrail identifier, but guardrailVersion isn't specified.
+    public var guardrailIdentifier: Swift.String?
+    /// The version number for the guardrail. The value can also be DRAFT.
+    public var guardrailVersion: Swift.String?
+    /// The unique identifier of the model to invoke to run inference. The modelId to provide depends on the type of model that you use:
+    ///
+    /// * If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see [Amazon Bedrock base model IDs (on-demand throughput)](https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html#model-ids-arns) in the Amazon Bedrock User Guide.
+    ///
+    /// * If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see [Run inference using a Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-thru-use.html) in the Amazon Bedrock User Guide.
+    ///
+    /// * If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see [Use a custom model in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-use.html) in the Amazon Bedrock User Guide.
     /// This member is required.
     public var modelId: Swift.String?
+    /// Specifies whether to enable or disable the Bedrock trace. If enabled, you can see the full Bedrock trace.
+    public var trace: BedrockRuntimeClientTypes.Trace?
 
     public init(
         accept: Swift.String? = nil,
         body: ClientRuntime.Data? = nil,
         contentType: Swift.String? = nil,
-        modelId: Swift.String? = nil
+        guardrailIdentifier: Swift.String? = nil,
+        guardrailVersion: Swift.String? = nil,
+        modelId: Swift.String? = nil,
+        trace: BedrockRuntimeClientTypes.Trace? = nil
     )
     {
         self.accept = accept
         self.body = body
         self.contentType = contentType
+        self.guardrailIdentifier = guardrailIdentifier
+        self.guardrailVersion = guardrailVersion
         self.modelId = modelId
+        self.trace = trace
     }
 }
 
@@ -241,7 +274,7 @@ extension InvokeModelOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct InvokeModelOutput {
-    /// Inference response from the model in the format specified in the content-type header field. To see the format and content of this field for different models, refer to [Inference parameters](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
+    /// Inference response from the model in the format specified in the contentType header. To see the format and content of the request and response bodies for different models, refer to [Inference parameters](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
     /// This member is required.
     public var body: ClientRuntime.Data?
     /// The MIME type of the inference result.
@@ -295,7 +328,7 @@ enum InvokeModelOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension InvokeModelWithResponseStreamInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "InvokeModelWithResponseStreamInput(accept: \(Swift.String(describing: accept)), contentType: \(Swift.String(describing: contentType)), modelId: \(Swift.String(describing: modelId)), body: \"CONTENT_REDACTED\")"}
+        "InvokeModelWithResponseStreamInput(accept: \(Swift.String(describing: accept)), contentType: \(Swift.String(describing: contentType)), guardrailIdentifier: \(Swift.String(describing: guardrailIdentifier)), guardrailVersion: \(Swift.String(describing: guardrailVersion)), modelId: \(Swift.String(describing: modelId)), trace: \(Swift.String(describing: trace)), body: \"CONTENT_REDACTED\")"}
 }
 
 extension InvokeModelWithResponseStreamInput: Swift.Encodable {
@@ -321,6 +354,15 @@ extension InvokeModelWithResponseStreamInput {
         if let contentType = value.contentType {
             items.add(Header(name: "Content-Type", value: Swift.String(contentType)))
         }
+        if let guardrailIdentifier = value.guardrailIdentifier {
+            items.add(Header(name: "X-Amzn-Bedrock-GuardrailIdentifier", value: Swift.String(guardrailIdentifier)))
+        }
+        if let guardrailVersion = value.guardrailVersion {
+            items.add(Header(name: "X-Amzn-Bedrock-GuardrailVersion", value: Swift.String(guardrailVersion)))
+        }
+        if let trace = value.trace {
+            items.add(Header(name: "X-Amzn-Bedrock-Trace", value: Swift.String(trace.rawValue)))
+        }
         return items
     }
 }
@@ -338,26 +380,50 @@ extension InvokeModelWithResponseStreamInput {
 public struct InvokeModelWithResponseStreamInput {
     /// The desired MIME type of the inference body in the response. The default value is application/json.
     public var accept: Swift.String?
-    /// Inference input in the format specified by the content-type. To see the format and content of this field for different models, refer to [Inference parameters](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
+    /// The prompt and inference parameters in the format specified in the contentType in the header. To see the format and content of the request and response bodies for different models, refer to [Inference parameters](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html). For more information, see [Run inference](https://docs.aws.amazon.com/bedrock/latest/userguide/api-methods-run.html) in the Bedrock User Guide.
     /// This member is required.
     public var body: ClientRuntime.Data?
     /// The MIME type of the input data in the request. The default value is application/json.
     public var contentType: Swift.String?
-    /// Id of the model to invoke using the streaming request.
+    /// The unique identifier of the guardrail that you want to use. If you don't provide a value, no guardrail is applied to the invocation. An error is thrown in the following situations.
+    ///
+    /// * You don't provide a guardrail identifier but you specify the amazon-bedrock-guardrailConfig field in the request body.
+    ///
+    /// * You enable the guardrail but the contentType isn't application/json.
+    ///
+    /// * You provide a guardrail identifier, but guardrailVersion isn't specified.
+    public var guardrailIdentifier: Swift.String?
+    /// The version number for the guardrail. The value can also be DRAFT.
+    public var guardrailVersion: Swift.String?
+    /// The unique identifier of the model to invoke to run inference. The modelId to provide depends on the type of model that you use:
+    ///
+    /// * If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see [Amazon Bedrock base model IDs (on-demand throughput)](https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html#model-ids-arns) in the Amazon Bedrock User Guide.
+    ///
+    /// * If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see [Run inference using a Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-thru-use.html) in the Amazon Bedrock User Guide.
+    ///
+    /// * If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see [Use a custom model in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-use.html) in the Amazon Bedrock User Guide.
     /// This member is required.
     public var modelId: Swift.String?
+    /// Specifies whether to enable or disable the Bedrock trace. If enabled, you can see the full Bedrock trace.
+    public var trace: BedrockRuntimeClientTypes.Trace?
 
     public init(
         accept: Swift.String? = nil,
         body: ClientRuntime.Data? = nil,
         contentType: Swift.String? = nil,
-        modelId: Swift.String? = nil
+        guardrailIdentifier: Swift.String? = nil,
+        guardrailVersion: Swift.String? = nil,
+        modelId: Swift.String? = nil,
+        trace: BedrockRuntimeClientTypes.Trace? = nil
     )
     {
         self.accept = accept
         self.body = body
         self.contentType = contentType
+        self.guardrailIdentifier = guardrailIdentifier
+        self.guardrailVersion = guardrailVersion
         self.modelId = modelId
+        self.trace = trace
     }
 }
 
@@ -395,7 +461,7 @@ extension InvokeModelWithResponseStreamOutput: ClientRuntime.HttpResponseBinding
 }
 
 public struct InvokeModelWithResponseStreamOutput {
-    /// Inference response from the model in the format specified by Content-Type. To see the format and content of this field for different models, refer to [Inference parameters](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
+    /// Inference response from the model in the format specified by the contentType header. To see the format and content of this field for different models, refer to [Inference parameters](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
     /// This member is required.
     public var body: AsyncThrowingStream<BedrockRuntimeClientTypes.ResponseStream, Swift.Error>?
     /// The MIME type of the inference result.
@@ -612,7 +678,7 @@ extension ModelStreamErrorException {
     }
 }
 
-/// An error occurred while streaming the response.
+/// An error occurred while streaming the response. Retry your request.
 public struct ModelStreamErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -1013,6 +1079,38 @@ extension ThrottlingExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+    public enum Trace: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Trace] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Trace(rawValue: rawValue) ?? Trace.sdkUnknown(rawValue)
+        }
     }
 }
 

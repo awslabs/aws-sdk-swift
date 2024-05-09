@@ -825,6 +825,7 @@ extension PersonalizeRuntimeClientTypes.PredictedItem: Swift.Codable {
         case itemId
         case metadata
         case promotionName
+        case reason
         case score
     }
 
@@ -841,6 +842,12 @@ extension PersonalizeRuntimeClientTypes.PredictedItem: Swift.Codable {
         }
         if let promotionName = self.promotionName {
             try encodeContainer.encode(promotionName, forKey: .promotionName)
+        }
+        if let reason = reason {
+            var reasonContainer = encodeContainer.nestedUnkeyedContainer(forKey: .reason)
+            for reason0 in reason {
+                try reasonContainer.encode(reason0)
+            }
         }
         if let score = self.score {
             try encodeContainer.encode(score, forKey: .score)
@@ -866,7 +873,23 @@ extension PersonalizeRuntimeClientTypes.PredictedItem: Swift.Codable {
             }
         }
         metadata = metadataDecoded0
+        let reasonContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .reason)
+        var reasonDecoded0:[Swift.String]? = nil
+        if let reasonContainer = reasonContainer {
+            reasonDecoded0 = [Swift.String]()
+            for string0 in reasonContainer {
+                if let string0 = string0 {
+                    reasonDecoded0?.append(string0)
+                }
+            }
+        }
+        reason = reasonDecoded0
     }
+}
+
+extension PersonalizeRuntimeClientTypes.PredictedItem: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PredictedItem(itemId: \(Swift.String(describing: itemId)), promotionName: \(Swift.String(describing: promotionName)), reason: \(Swift.String(describing: reason)), score: \(Swift.String(describing: score)), metadata: \"CONTENT_REDACTED\")"}
 }
 
 extension PersonalizeRuntimeClientTypes {
@@ -878,6 +901,14 @@ extension PersonalizeRuntimeClientTypes {
         public var metadata: [Swift.String:Swift.String]?
         /// The name of the promotion that included the predicted item.
         public var promotionName: Swift.String?
+        /// If you use User-Personalization-v2, a list of reasons for why the item was included in recommendations. Possible reasons include the following:
+        ///
+        /// * Promoted item - Indicates the item was included as part of a promotion that you applied in your recommendation request.
+        ///
+        /// * Exploration - Indicates the item was included with exploration. With exploration, recommendations include items with less interactions data or relevance for the user. For more information about exploration, see [Exploration](https://docs.aws.amazon.com/personalize/latest/dg/use-case-recipe-features.html#about-exploration).
+        ///
+        /// * Popular item - Indicates the item was included as a placeholder popular item. If you use a filter, depending on how many recommendations the filter removes, Amazon Personalize might add placeholder items to meet the numResults for your recommendation request. These items are popular items, based on interactions data, that satisfy your filter criteria. They don't have a relevance score for the user.
+        public var reason: [Swift.String]?
         /// A numeric representation of the model's certainty that the item will be the next user selection. For more information on scoring logic, see [how-scores-work].
         public var score: Swift.Double?
 
@@ -885,12 +916,14 @@ extension PersonalizeRuntimeClientTypes {
             itemId: Swift.String? = nil,
             metadata: [Swift.String:Swift.String]? = nil,
             promotionName: Swift.String? = nil,
+            reason: [Swift.String]? = nil,
             score: Swift.Double? = nil
         )
         {
             self.itemId = itemId
             self.metadata = metadata
             self.promotionName = promotionName
+            self.reason = reason
             self.score = score
         }
     }

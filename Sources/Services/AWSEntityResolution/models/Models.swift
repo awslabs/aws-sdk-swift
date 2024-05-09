@@ -294,6 +294,177 @@ extension EntityResolutionClientTypes {
     }
 }
 
+extension BatchDeleteUniqueIdInput {
+
+    static func headerProvider(_ value: BatchDeleteUniqueIdInput) -> ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let inputSource = value.inputSource {
+            items.add(Header(name: "inputSource", value: Swift.String(inputSource)))
+        }
+        if let uniqueIds = value.uniqueIds {
+            uniqueIds.forEach { headerValue in
+                items.add(Header(name: "uniqueIds", value: quoteHeaderValue(Swift.String(headerValue))))
+            }
+        }
+        return items
+    }
+}
+
+extension BatchDeleteUniqueIdInput {
+
+    static func urlPathProvider(_ value: BatchDeleteUniqueIdInput) -> Swift.String? {
+        guard let workflowName = value.workflowName else {
+            return nil
+        }
+        return "/matchingworkflows/\(workflowName.urlPercentEncoding())/uniqueids"
+    }
+}
+
+public struct BatchDeleteUniqueIdInput {
+    /// The input source for the batch delete unique ID operation.
+    public var inputSource: Swift.String?
+    /// The unique IDs to delete.
+    /// This member is required.
+    public var uniqueIds: [Swift.String]?
+    /// The name of the workflow.
+    /// This member is required.
+    public var workflowName: Swift.String?
+
+    public init(
+        inputSource: Swift.String? = nil,
+        uniqueIds: [Swift.String]? = nil,
+        workflowName: Swift.String? = nil
+    )
+    {
+        self.inputSource = inputSource
+        self.uniqueIds = uniqueIds
+        self.workflowName = workflowName
+    }
+}
+
+struct BatchDeleteUniqueIdInputBody {
+}
+
+extension BatchDeleteUniqueIdInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension BatchDeleteUniqueIdOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: BatchDeleteUniqueIdOutputBody = try responseDecoder.decode(responseBody: data)
+            self.deleted = output.deleted
+            self.disconnectedUniqueIds = output.disconnectedUniqueIds
+            self.errors = output.errors
+            self.status = output.status
+        } else {
+            self.deleted = nil
+            self.disconnectedUniqueIds = nil
+            self.errors = nil
+            self.status = nil
+        }
+    }
+}
+
+public struct BatchDeleteUniqueIdOutput {
+    /// The unique IDs that were deleted.
+    /// This member is required.
+    public var deleted: [EntityResolutionClientTypes.DeletedUniqueId]?
+    /// The unique IDs that were disconnected.
+    /// This member is required.
+    public var disconnectedUniqueIds: [Swift.String]?
+    /// The errors from deleting multiple unique IDs.
+    /// This member is required.
+    public var errors: [EntityResolutionClientTypes.DeleteUniqueIdError]?
+    /// The status of the batch delete unique ID operation.
+    /// This member is required.
+    public var status: EntityResolutionClientTypes.DeleteUniqueIdStatus?
+
+    public init(
+        deleted: [EntityResolutionClientTypes.DeletedUniqueId]? = nil,
+        disconnectedUniqueIds: [Swift.String]? = nil,
+        errors: [EntityResolutionClientTypes.DeleteUniqueIdError]? = nil,
+        status: EntityResolutionClientTypes.DeleteUniqueIdStatus? = nil
+    )
+    {
+        self.deleted = deleted
+        self.disconnectedUniqueIds = disconnectedUniqueIds
+        self.errors = errors
+        self.status = status
+    }
+}
+
+struct BatchDeleteUniqueIdOutputBody {
+    let status: EntityResolutionClientTypes.DeleteUniqueIdStatus?
+    let errors: [EntityResolutionClientTypes.DeleteUniqueIdError]?
+    let deleted: [EntityResolutionClientTypes.DeletedUniqueId]?
+    let disconnectedUniqueIds: [Swift.String]?
+}
+
+extension BatchDeleteUniqueIdOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deleted
+        case disconnectedUniqueIds
+        case errors
+        case status
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(EntityResolutionClientTypes.DeleteUniqueIdStatus.self, forKey: .status)
+        status = statusDecoded
+        let errorsContainer = try containerValues.decodeIfPresent([EntityResolutionClientTypes.DeleteUniqueIdError?].self, forKey: .errors)
+        var errorsDecoded0:[EntityResolutionClientTypes.DeleteUniqueIdError]? = nil
+        if let errorsContainer = errorsContainer {
+            errorsDecoded0 = [EntityResolutionClientTypes.DeleteUniqueIdError]()
+            for structure0 in errorsContainer {
+                if let structure0 = structure0 {
+                    errorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        errors = errorsDecoded0
+        let deletedContainer = try containerValues.decodeIfPresent([EntityResolutionClientTypes.DeletedUniqueId?].self, forKey: .deleted)
+        var deletedDecoded0:[EntityResolutionClientTypes.DeletedUniqueId]? = nil
+        if let deletedContainer = deletedContainer {
+            deletedDecoded0 = [EntityResolutionClientTypes.DeletedUniqueId]()
+            for structure0 in deletedContainer {
+                if let structure0 = structure0 {
+                    deletedDecoded0?.append(structure0)
+                }
+            }
+        }
+        deleted = deletedDecoded0
+        let disconnectedUniqueIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .disconnectedUniqueIds)
+        var disconnectedUniqueIdsDecoded0:[Swift.String]? = nil
+        if let disconnectedUniqueIdsContainer = disconnectedUniqueIdsContainer {
+            disconnectedUniqueIdsDecoded0 = [Swift.String]()
+            for string0 in disconnectedUniqueIdsContainer {
+                if let string0 = string0 {
+                    disconnectedUniqueIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        disconnectedUniqueIds = disconnectedUniqueIdsDecoded0
+    }
+}
+
+enum BatchDeleteUniqueIdOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ConflictException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -1983,6 +2154,153 @@ enum DeleteSchemaMappingOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension EntityResolutionClientTypes.DeleteUniqueIdError: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorType
+        case uniqueId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let errorType = self.errorType {
+            try encodeContainer.encode(errorType.rawValue, forKey: .errorType)
+        }
+        if let uniqueId = self.uniqueId {
+            try encodeContainer.encode(uniqueId, forKey: .uniqueId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let uniqueIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .uniqueId)
+        uniqueId = uniqueIdDecoded
+        let errorTypeDecoded = try containerValues.decodeIfPresent(EntityResolutionClientTypes.DeleteUniqueIdErrorType.self, forKey: .errorType)
+        errorType = errorTypeDecoded
+    }
+}
+
+extension EntityResolutionClientTypes {
+    /// The Delete Unique Id error.
+    public struct DeleteUniqueIdError {
+        /// The error type for the batch delete unique ID operation.
+        /// This member is required.
+        public var errorType: EntityResolutionClientTypes.DeleteUniqueIdErrorType?
+        /// The unique ID that could not be deleted.
+        /// This member is required.
+        public var uniqueId: Swift.String?
+
+        public init(
+            errorType: EntityResolutionClientTypes.DeleteUniqueIdErrorType? = nil,
+            uniqueId: Swift.String? = nil
+        )
+        {
+            self.errorType = errorType
+            self.uniqueId = uniqueId
+        }
+    }
+
+}
+
+extension EntityResolutionClientTypes {
+    public enum DeleteUniqueIdErrorType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case serviceError
+        case validationError
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeleteUniqueIdErrorType] {
+            return [
+                .serviceError,
+                .validationError,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .serviceError: return "SERVICE_ERROR"
+            case .validationError: return "VALIDATION_ERROR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DeleteUniqueIdErrorType(rawValue: rawValue) ?? DeleteUniqueIdErrorType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension EntityResolutionClientTypes {
+    public enum DeleteUniqueIdStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case accepted
+        case completed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeleteUniqueIdStatus] {
+            return [
+                .accepted,
+                .completed,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .accepted: return "ACCEPTED"
+            case .completed: return "COMPLETED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DeleteUniqueIdStatus(rawValue: rawValue) ?? DeleteUniqueIdStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension EntityResolutionClientTypes.DeletedUniqueId: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case uniqueId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let uniqueId = self.uniqueId {
+            try encodeContainer.encode(uniqueId, forKey: .uniqueId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let uniqueIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .uniqueId)
+        uniqueId = uniqueIdDecoded
+    }
+}
+
+extension EntityResolutionClientTypes {
+    /// The deleted unique ID.
+    public struct DeletedUniqueId {
+        /// The unique ID of the deleted item.
+        /// This member is required.
+        public var uniqueId: Swift.String?
+
+        public init(
+            uniqueId: Swift.String? = nil
+        )
+        {
+            self.uniqueId = uniqueId
+        }
+    }
+
 }
 
 public enum EntityResolutionClientTypes {}

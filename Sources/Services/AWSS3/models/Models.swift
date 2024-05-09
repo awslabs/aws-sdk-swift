@@ -8851,6 +8851,9 @@ extension GetObjectInput {
     public func presignURL(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.URL? {
         let serviceName = "S3"
         let input = self
+        let client: (SdkHttpRequest, HttpContext) async throws -> HttpResponse = { (_, _) in
+            throw ClientRuntime.ClientError.unknownError("No HTTP client configured for presigned request")
+        }
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -8870,24 +8873,24 @@ extension GetObjectInput {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetObjectInput, GetObjectOutput>(id: "getObject")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetObjectInput, GetObjectOutput>(GetObjectInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetObjectInput, GetObjectOutput>())
+        let builder = OrchestratorBuilder<GetObjectInput, GetObjectOutput, ClientRuntime.SdkHttpRequest, ClientRuntime.HttpResponse, ClientRuntime.HttpContext>()
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetObjectInput, GetObjectOutput>(GetObjectInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetObjectInput, GetObjectOutput>())
         let endpointParams = EndpointParams(accelerate: config.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.forcePathStyle ?? false, key: input.key, region: config.region, useArnRegion: config.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.useGlobalEndpoint ?? false)
         context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetObjectOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetObjectOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: GetObjectInputGETQueryItemMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetObjectOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetObjectOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectOutput>(responseClosure(GetObjectOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetObjectOutputError.httpBinding, responseDocumentBinding)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetObjectOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.FlexibleChecksumsResponseMiddleware<GetObjectOutput>(validationMode: true))
-        let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, output: GetObjectOutput(), next: ClientRuntime.NoopHandler())
-        guard let builtRequest = presignedRequestBuilder?.build(), let presignedURL = builtRequest.endpoint.url else {
-            return nil
-        }
-        return presignedURL
+        builder.applyEndpoint(EndpointResolverMiddleware<GetObjectOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetObjectOutput>())
+        builder.serialize(GetObjectInputGETQueryItemMiddleware())
+        builder.retryStrategy(ClientRuntime.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetObjectOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetObjectOutput>(responseClosure(GetObjectOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetObjectOutputError.httpBinding, responseDocumentBinding)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetObjectInput, GetObjectOutput>(clientLogMode: config.clientLogMode))
+        builder.interceptors.add(ClientRuntime.FlexibleChecksumsResponseMiddleware<GetObjectInput, GetObjectOutput>(validationMode: true))
+        let op = builder.attributes(context)
+            .executeRequest(client)
+            .build()
+        return try await op.presignRequest(input: input).endpoint.url
     }
 }
 
@@ -8895,6 +8898,9 @@ extension GetObjectInput {
     public func presign(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest? {
         let serviceName = "S3"
         let input = self
+        let client: (SdkHttpRequest, HttpContext) async throws -> HttpResponse = { (_, _) in
+            throw ClientRuntime.ClientError.unknownError("No HTTP client configured for presigned request")
+        }
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -8914,26 +8920,26 @@ extension GetObjectInput {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetObjectInput, GetObjectOutput>(id: "getObject")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetObjectInput, GetObjectOutput>(GetObjectInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetObjectInput, GetObjectOutput>())
+        let builder = OrchestratorBuilder<GetObjectInput, GetObjectOutput, ClientRuntime.SdkHttpRequest, ClientRuntime.HttpResponse, ClientRuntime.HttpContext>()
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetObjectInput, GetObjectOutput>(GetObjectInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetObjectInput, GetObjectOutput>())
         let endpointParams = EndpointParams(accelerate: config.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.forcePathStyle ?? false, key: input.key, region: config.region, useArnRegion: config.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.useGlobalEndpoint ?? false)
         context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetObjectOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetObjectOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetObjectInput, GetObjectOutput>(GetObjectInput.headerProvider(_:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetObjectInput, GetObjectOutput>(GetObjectInput.queryItemProvider(_:)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetObjectOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetObjectOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectOutput>(responseClosure(GetObjectOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetObjectOutputError.httpBinding, responseDocumentBinding)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetObjectOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.FlexibleChecksumsResponseMiddleware<GetObjectOutput>(validationMode: true))
-        let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, output: GetObjectOutput(), next: ClientRuntime.NoopHandler())
-        guard let builtRequest = presignedRequestBuilder?.build() else {
-            return nil
-        }
-        return builtRequest
+        builder.applyEndpoint(EndpointResolverMiddleware<GetObjectOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetObjectInput, GetObjectOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetObjectOutput>())
+        builder.serialize(ClientRuntime.HeaderMiddleware<GetObjectInput, GetObjectOutput>(GetObjectInput.headerProvider(_:)))
+        builder.serialize(ClientRuntime.QueryItemMiddleware<GetObjectInput, GetObjectOutput>(GetObjectInput.queryItemProvider(_:)))
+        builder.retryStrategy(ClientRuntime.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetObjectOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetObjectOutput>(responseClosure(GetObjectOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetObjectOutputError.httpBinding, responseDocumentBinding)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetObjectInput, GetObjectOutput>(clientLogMode: config.clientLogMode))
+        builder.interceptors.add(ClientRuntime.FlexibleChecksumsResponseMiddleware<GetObjectInput, GetObjectOutput>(validationMode: true))
+        let op = builder.attributes(context)
+            .executeRequest(client)
+            .build()
+        return try await op.presignRequest(input: input)
     }
 }
 
@@ -8950,80 +8956,89 @@ public struct GetObjectInputGETQueryItemMiddleware: ClientRuntime.Middleware {
     Self.MOutput == H.Output,
     Self.Context == H.Context
     {
-        if let bucket = input.operationInput.bucket {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "Bucket".urlPercentEncoding(), value: Swift.String(bucket).urlPercentEncoding())
-            input.builder.withQueryItem(queryItem)
-        }
-        if let ifMatch = input.operationInput.ifMatch {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "IfMatch".urlPercentEncoding(), value: Swift.String(ifMatch).urlPercentEncoding())
-            input.builder.withQueryItem(queryItem)
-        }
-        if let ifNoneMatch = input.operationInput.ifNoneMatch {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "IfNoneMatch".urlPercentEncoding(), value: Swift.String(ifNoneMatch).urlPercentEncoding())
-            input.builder.withQueryItem(queryItem)
-        }
-        if let key = input.operationInput.key {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "Key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
-            input.builder.withQueryItem(queryItem)
-        }
-        if let range = input.operationInput.range {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "Range".urlPercentEncoding(), value: Swift.String(range).urlPercentEncoding())
-            input.builder.withQueryItem(queryItem)
-        }
-        if let responseCacheControl = input.operationInput.responseCacheControl {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "ResponseCacheControl".urlPercentEncoding(), value: Swift.String(responseCacheControl).urlPercentEncoding())
-            input.builder.withQueryItem(queryItem)
-        }
-        if let responseContentDisposition = input.operationInput.responseContentDisposition {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "ResponseContentDisposition".urlPercentEncoding(), value: Swift.String(responseContentDisposition).urlPercentEncoding())
-            input.builder.withQueryItem(queryItem)
-        }
-        if let responseContentEncoding = input.operationInput.responseContentEncoding {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "ResponseContentEncoding".urlPercentEncoding(), value: Swift.String(responseContentEncoding).urlPercentEncoding())
-            input.builder.withQueryItem(queryItem)
-        }
-        if let responseContentLanguage = input.operationInput.responseContentLanguage {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "ResponseContentLanguage".urlPercentEncoding(), value: Swift.String(responseContentLanguage).urlPercentEncoding())
-            input.builder.withQueryItem(queryItem)
-        }
-        if let responseContentType = input.operationInput.responseContentType {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "ResponseContentType".urlPercentEncoding(), value: Swift.String(responseContentType).urlPercentEncoding())
-            input.builder.withQueryItem(queryItem)
-        }
-        if let versionId = input.operationInput.versionId {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "VersionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
-            input.builder.withQueryItem(queryItem)
-        }
-        if let sseCustomerAlgorithm = input.operationInput.sseCustomerAlgorithm {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "SSECustomerAlgorithm".urlPercentEncoding(), value: Swift.String(sseCustomerAlgorithm).urlPercentEncoding())
-            input.builder.withQueryItem(queryItem)
-        }
-        if let sseCustomerKey = input.operationInput.sseCustomerKey {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "SSECustomerKey".urlPercentEncoding(), value: Swift.String(sseCustomerKey).urlPercentEncoding())
-            input.builder.withQueryItem(queryItem)
-        }
-        if let sseCustomerKeyMD5 = input.operationInput.sseCustomerKeyMD5 {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "SSECustomerKeyMD5".urlPercentEncoding(), value: Swift.String(sseCustomerKeyMD5).urlPercentEncoding())
-            input.builder.withQueryItem(queryItem)
-        }
-        if let requestPayer = input.operationInput.requestPayer {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "RequestPayer".urlPercentEncoding(), value: Swift.String(requestPayer.rawValue).urlPercentEncoding())
-            input.builder.withQueryItem(queryItem)
-        }
-        if let expectedBucketOwner = input.operationInput.expectedBucketOwner {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "ExpectedBucketOwner".urlPercentEncoding(), value: Swift.String(expectedBucketOwner).urlPercentEncoding())
-            input.builder.withQueryItem(queryItem)
-        }
-        if let checksumMode = input.operationInput.checksumMode {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "ChecksumMode".urlPercentEncoding(), value: Swift.String(checksumMode.rawValue).urlPercentEncoding())
-            input.builder.withQueryItem(queryItem)
-        }
+        try self.apply(input: input.operationInput, builder: input.builder, attributes: context)
         return try await next.handle(context: context, input: input)
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<GetObjectInput>
     public typealias MOutput = ClientRuntime.OperationOutput<GetObjectOutput>
     public typealias Context = ClientRuntime.HttpContext
+}
+extension GetObjectInputGETQueryItemMiddleware: ClientRuntime.RequestMessageSerializer {
+    public typealias InputType = GetObjectInput
+    public typealias RequestType = ClientRuntime.SdkHttpRequest
+    public typealias AttributesType = ClientRuntime.HttpContext
+
+    public func apply(input: InputType, builder: ClientRuntime.SdkHttpRequestBuilder, attributes: ClientRuntime.HttpContext) throws {
+        if let bucket = input.bucket {
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "Bucket".urlPercentEncoding(), value: Swift.String(bucket).urlPercentEncoding())
+            builder.withQueryItem(queryItem)
+        }
+        if let ifMatch = input.ifMatch {
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "IfMatch".urlPercentEncoding(), value: Swift.String(ifMatch).urlPercentEncoding())
+            builder.withQueryItem(queryItem)
+        }
+        if let ifNoneMatch = input.ifNoneMatch {
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "IfNoneMatch".urlPercentEncoding(), value: Swift.String(ifNoneMatch).urlPercentEncoding())
+            builder.withQueryItem(queryItem)
+        }
+        if let key = input.key {
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "Key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
+            builder.withQueryItem(queryItem)
+        }
+        if let range = input.range {
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "Range".urlPercentEncoding(), value: Swift.String(range).urlPercentEncoding())
+            builder.withQueryItem(queryItem)
+        }
+        if let responseCacheControl = input.responseCacheControl {
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "ResponseCacheControl".urlPercentEncoding(), value: Swift.String(responseCacheControl).urlPercentEncoding())
+            builder.withQueryItem(queryItem)
+        }
+        if let responseContentDisposition = input.responseContentDisposition {
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "ResponseContentDisposition".urlPercentEncoding(), value: Swift.String(responseContentDisposition).urlPercentEncoding())
+            builder.withQueryItem(queryItem)
+        }
+        if let responseContentEncoding = input.responseContentEncoding {
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "ResponseContentEncoding".urlPercentEncoding(), value: Swift.String(responseContentEncoding).urlPercentEncoding())
+            builder.withQueryItem(queryItem)
+        }
+        if let responseContentLanguage = input.responseContentLanguage {
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "ResponseContentLanguage".urlPercentEncoding(), value: Swift.String(responseContentLanguage).urlPercentEncoding())
+            builder.withQueryItem(queryItem)
+        }
+        if let responseContentType = input.responseContentType {
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "ResponseContentType".urlPercentEncoding(), value: Swift.String(responseContentType).urlPercentEncoding())
+            builder.withQueryItem(queryItem)
+        }
+        if let versionId = input.versionId {
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "VersionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            builder.withQueryItem(queryItem)
+        }
+        if let sseCustomerAlgorithm = input.sseCustomerAlgorithm {
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "SSECustomerAlgorithm".urlPercentEncoding(), value: Swift.String(sseCustomerAlgorithm).urlPercentEncoding())
+            builder.withQueryItem(queryItem)
+        }
+        if let sseCustomerKey = input.sseCustomerKey {
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "SSECustomerKey".urlPercentEncoding(), value: Swift.String(sseCustomerKey).urlPercentEncoding())
+            builder.withQueryItem(queryItem)
+        }
+        if let sseCustomerKeyMD5 = input.sseCustomerKeyMD5 {
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "SSECustomerKeyMD5".urlPercentEncoding(), value: Swift.String(sseCustomerKeyMD5).urlPercentEncoding())
+            builder.withQueryItem(queryItem)
+        }
+        if let requestPayer = input.requestPayer {
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "RequestPayer".urlPercentEncoding(), value: Swift.String(requestPayer.rawValue).urlPercentEncoding())
+            builder.withQueryItem(queryItem)
+        }
+        if let expectedBucketOwner = input.expectedBucketOwner {
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "ExpectedBucketOwner".urlPercentEncoding(), value: Swift.String(expectedBucketOwner).urlPercentEncoding())
+            builder.withQueryItem(queryItem)
+        }
+        if let checksumMode = input.checksumMode {
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "ChecksumMode".urlPercentEncoding(), value: Swift.String(checksumMode.rawValue).urlPercentEncoding())
+            builder.withQueryItem(queryItem)
+        }
+    }
 }
 
 extension GetObjectInput {
@@ -18027,6 +18042,9 @@ extension PutObjectInput {
     public func presignURL(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.URL? {
         let serviceName = "S3"
         let input = self
+        let client: (SdkHttpRequest, HttpContext) async throws -> HttpResponse = { (_, _) in
+            throw ClientRuntime.ClientError.unknownError("No HTTP client configured for presigned request")
+        }
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -18046,25 +18064,25 @@ extension PutObjectInput {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutObjectInput, PutObjectOutput>(id: "putObject")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutObjectInput, PutObjectOutput>(PutObjectInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutObjectInput, PutObjectOutput>())
+        let builder = OrchestratorBuilder<PutObjectInput, PutObjectOutput, ClientRuntime.SdkHttpRequest, ClientRuntime.HttpResponse, ClientRuntime.HttpContext>()
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutObjectInput, PutObjectOutput>(PutObjectInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutObjectInput, PutObjectOutput>())
         let endpointParams = EndpointParams(accelerate: config.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.forcePathStyle ?? false, key: input.key, region: config.region, useArnRegion: config.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.useGlobalEndpoint ?? false)
         context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutObjectOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PutObjectOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.FlexibleChecksumsRequestMiddleware<PutObjectInput, PutObjectOutput>(checksumAlgorithm: input.checksumAlgorithm?.rawValue))
-        operation.serializeStep.intercept(position: .after, middleware: PutObjectPresignedURLMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutObjectOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutObjectOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectOutput>(responseClosure(PutObjectOutput.httpBinding, responseDocumentBinding), responseErrorClosure(PutObjectOutputError.httpBinding, responseDocumentBinding)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutObjectOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutObjectOutput>())
-        let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, output: PutObjectOutput(), next: ClientRuntime.NoopHandler())
-        guard let builtRequest = presignedRequestBuilder?.build(), let presignedURL = builtRequest.endpoint.url else {
-            return nil
-        }
-        return presignedURL
+        builder.applyEndpoint(EndpointResolverMiddleware<PutObjectOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutObjectOutput>())
+        builder.interceptors.add(ClientRuntime.FlexibleChecksumsRequestMiddleware<PutObjectInput, PutObjectOutput>(checksumAlgorithm: input.checksumAlgorithm?.rawValue))
+        builder.serialize(PutObjectPresignedURLMiddleware())
+        builder.retryStrategy(ClientRuntime.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutObjectOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutObjectOutput>(responseClosure(PutObjectOutput.httpBinding, responseDocumentBinding), responseErrorClosure(PutObjectOutputError.httpBinding, responseDocumentBinding)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutObjectInput, PutObjectOutput>(clientLogMode: config.clientLogMode))
+        builder.interceptors.add(AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutObjectInput, PutObjectOutput>())
+        let op = builder.attributes(context)
+            .executeRequest(client)
+            .build()
+        return try await op.presignRequest(input: input).endpoint.url
     }
 }
 
@@ -18072,6 +18090,9 @@ extension PutObjectInput {
     public func presign(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest? {
         let serviceName = "S3"
         let input = self
+        let client: (SdkHttpRequest, HttpContext) async throws -> HttpResponse = { (_, _) in
+            throw ClientRuntime.ClientError.unknownError("No HTTP client configured for presigned request")
+        }
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -18091,30 +18112,30 @@ extension PutObjectInput {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutObjectInput, PutObjectOutput>(id: "putObject")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutObjectInput, PutObjectOutput>(PutObjectInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutObjectInput, PutObjectOutput>())
+        let builder = OrchestratorBuilder<PutObjectInput, PutObjectOutput, ClientRuntime.SdkHttpRequest, ClientRuntime.HttpResponse, ClientRuntime.HttpContext>()
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutObjectInput, PutObjectOutput>(PutObjectInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutObjectInput, PutObjectOutput>())
         let endpointParams = EndpointParams(accelerate: config.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.forcePathStyle ?? false, key: input.key, region: config.region, useArnRegion: config.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.useGlobalEndpoint ?? false)
         context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutObjectOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PutObjectOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutObjectInput, PutObjectOutput>(PutObjectInput.headerProvider(_:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutObjectInput, PutObjectOutput>(PutObjectInput.queryItemProvider(_:)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutObjectInput, PutObjectOutput>(contentType: "application/octet-stream"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BlobStreamBodyMiddleware<PutObjectInput, PutObjectOutput>(keyPath: \.body))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.FlexibleChecksumsRequestMiddleware<PutObjectInput, PutObjectOutput>(checksumAlgorithm: input.checksumAlgorithm?.rawValue))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutObjectOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutObjectOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectOutput>(responseClosure(PutObjectOutput.httpBinding, responseDocumentBinding), responseErrorClosure(PutObjectOutputError.httpBinding, responseDocumentBinding)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutObjectOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutObjectOutput>())
-        let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, output: PutObjectOutput(), next: ClientRuntime.NoopHandler())
-        guard let builtRequest = presignedRequestBuilder?.build() else {
-            return nil
-        }
-        return builtRequest
+        builder.applyEndpoint(EndpointResolverMiddleware<PutObjectOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutObjectInput, PutObjectOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutObjectOutput>())
+        builder.serialize(ClientRuntime.HeaderMiddleware<PutObjectInput, PutObjectOutput>(PutObjectInput.headerProvider(_:)))
+        builder.serialize(ClientRuntime.QueryItemMiddleware<PutObjectInput, PutObjectOutput>(PutObjectInput.queryItemProvider(_:)))
+        builder.interceptors.add(ContentTypeMiddleware<PutObjectInput, PutObjectOutput>(contentType: "application/octet-stream"))
+        builder.serialize(ClientRuntime.BlobStreamBodyMiddleware<PutObjectInput, PutObjectOutput>(keyPath: \.body))
+        builder.interceptors.add(ClientRuntime.FlexibleChecksumsRequestMiddleware<PutObjectInput, PutObjectOutput>(checksumAlgorithm: input.checksumAlgorithm?.rawValue))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutObjectInput, PutObjectOutput>())
+        builder.retryStrategy(ClientRuntime.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutObjectOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutObjectOutput>(responseClosure(PutObjectOutput.httpBinding, responseDocumentBinding), responseErrorClosure(PutObjectOutputError.httpBinding, responseDocumentBinding)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutObjectInput, PutObjectOutput>(clientLogMode: config.clientLogMode))
+        builder.interceptors.add(AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutObjectInput, PutObjectOutput>())
+        let op = builder.attributes(context)
+            .executeRequest(client)
+            .build()
+        return try await op.presignRequest(input: input)
     }
 }
 
@@ -18131,20 +18152,29 @@ public struct PutObjectPresignedURLMiddleware: ClientRuntime.Middleware {
     Self.MOutput == H.Output,
     Self.Context == H.Context
     {
-        let metadata = input.operationInput.metadata ?? [:]
-        for (metadataKey, metadataValue) in metadata {
-            let queryItem = ClientRuntime.SDKURLQueryItem(
-                name: "x-amz-meta-\(metadataKey.urlPercentEncoding())",
-                value: metadataValue.urlPercentEncoding()
-            )
-            input.builder.withQueryItem(queryItem)
-        }
+        try self.apply(input: input.operationInput, builder: input.builder, attributes: context)
         return try await next.handle(context: context, input: input)
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<PutObjectInput>
     public typealias MOutput = ClientRuntime.OperationOutput<PutObjectOutput>
     public typealias Context = ClientRuntime.HttpContext
+}
+extension PutObjectPresignedURLMiddleware: ClientRuntime.RequestMessageSerializer {
+    public typealias InputType = PutObjectInput
+    public typealias RequestType = ClientRuntime.SdkHttpRequest
+    public typealias AttributesType = ClientRuntime.HttpContext
+
+    public func apply(input: InputType, builder: ClientRuntime.SdkHttpRequestBuilder, attributes: ClientRuntime.HttpContext) throws {
+        let metadata = input.metadata ?? [:]
+        for (metadataKey, metadataValue) in metadata {
+            let queryItem = ClientRuntime.SDKURLQueryItem(
+                name: "x-amz-meta-\(metadataKey.urlPercentEncoding())",
+                value: metadataValue.urlPercentEncoding()
+            )
+            builder.withQueryItem(queryItem)
+        }
+    }
 }
 
 extension PutObjectInput {
@@ -22128,6 +22158,9 @@ extension UploadPartInput {
     public func presign(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest? {
         let serviceName = "S3"
         let input = self
+        let client: (SdkHttpRequest, HttpContext) async throws -> HttpResponse = { (_, _) in
+            throw ClientRuntime.ClientError.unknownError("No HTTP client configured for presigned request")
+        }
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -22147,30 +22180,30 @@ extension UploadPartInput {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UploadPartInput, UploadPartOutput>(id: "uploadPart")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UploadPartInput, UploadPartOutput>(UploadPartInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UploadPartInput, UploadPartOutput>())
+        let builder = OrchestratorBuilder<UploadPartInput, UploadPartOutput, ClientRuntime.SdkHttpRequest, ClientRuntime.HttpResponse, ClientRuntime.HttpContext>()
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UploadPartInput, UploadPartOutput>(UploadPartInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UploadPartInput, UploadPartOutput>())
         let endpointParams = EndpointParams(accelerate: config.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.forcePathStyle ?? false, key: input.key, region: config.region, useArnRegion: config.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.useGlobalEndpoint ?? false)
         context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UploadPartOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UploadPartOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UploadPartInput, UploadPartOutput>(UploadPartInput.headerProvider(_:)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UploadPartInput, UploadPartOutput>(UploadPartInput.queryItemProvider(_:)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UploadPartInput, UploadPartOutput>(contentType: "application/octet-stream"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BlobStreamBodyMiddleware<UploadPartInput, UploadPartOutput>(keyPath: \.body))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.FlexibleChecksumsRequestMiddleware<UploadPartInput, UploadPartOutput>(checksumAlgorithm: input.checksumAlgorithm?.rawValue))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UploadPartOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UploadPartOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadPartOutput>(responseClosure(UploadPartOutput.httpBinding, responseDocumentBinding), responseErrorClosure(UploadPartOutputError.httpBinding, responseDocumentBinding)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UploadPartOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<UploadPartOutput>())
-        let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, output: UploadPartOutput(), next: ClientRuntime.NoopHandler())
-        guard let builtRequest = presignedRequestBuilder?.build() else {
-            return nil
-        }
-        return builtRequest
+        builder.applyEndpoint(EndpointResolverMiddleware<UploadPartOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UploadPartInput, UploadPartOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UploadPartOutput>())
+        builder.serialize(ClientRuntime.HeaderMiddleware<UploadPartInput, UploadPartOutput>(UploadPartInput.headerProvider(_:)))
+        builder.serialize(ClientRuntime.QueryItemMiddleware<UploadPartInput, UploadPartOutput>(UploadPartInput.queryItemProvider(_:)))
+        builder.interceptors.add(ContentTypeMiddleware<UploadPartInput, UploadPartOutput>(contentType: "application/octet-stream"))
+        builder.serialize(ClientRuntime.BlobStreamBodyMiddleware<UploadPartInput, UploadPartOutput>(keyPath: \.body))
+        builder.interceptors.add(ClientRuntime.FlexibleChecksumsRequestMiddleware<UploadPartInput, UploadPartOutput>(checksumAlgorithm: input.checksumAlgorithm?.rawValue))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UploadPartInput, UploadPartOutput>())
+        builder.retryStrategy(ClientRuntime.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UploadPartOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UploadPartOutput>(responseClosure(UploadPartOutput.httpBinding, responseDocumentBinding), responseErrorClosure(UploadPartOutputError.httpBinding, responseDocumentBinding)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UploadPartInput, UploadPartOutput>(clientLogMode: config.clientLogMode))
+        builder.interceptors.add(AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<UploadPartInput, UploadPartOutput>())
+        let op = builder.attributes(context)
+            .executeRequest(client)
+            .build()
+        return try await op.presignRequest(input: input)
     }
 }
 

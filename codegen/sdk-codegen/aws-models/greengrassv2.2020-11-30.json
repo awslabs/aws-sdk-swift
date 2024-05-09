@@ -2724,7 +2724,7 @@
                     "sdkId": "GreengrassV2",
                     "arnNamespace": "greengrass",
                     "cloudFormationName": "GreengrassV2",
-                    "cloudTrailEventSource": "greengrassv2.amazonaws.com",
+                    "cloudTrailEventSource": "greengrass.amazonaws.com",
                     "endpointPrefix": "greengrass"
                 },
                 "aws.auth#sigv4": {

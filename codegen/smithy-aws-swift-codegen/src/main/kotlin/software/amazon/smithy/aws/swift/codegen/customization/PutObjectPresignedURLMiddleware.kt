@@ -11,7 +11,7 @@ import software.amazon.smithy.swift.codegen.integration.steps.OperationSerialize
 //
 // Generates a middleware that writes S3 object metadata into the HTTP query string.
 class PutObjectPresignedURLMiddleware(
-    inputSymbol: Symbol,
+    val inputSymbol: Symbol,
     outputSymbol: Symbol,
     outputErrorSymbol: Symbol,
     private val writer: SwiftWriter
@@ -22,16 +22,31 @@ class PutObjectPresignedURLMiddleware(
         writer.write("public init() {}")
     }
 
-    override fun generateMiddlewareClosure() {
-        writer.apply {
-            write("let metadata = input.operationInput.metadata ?? [:]")
-            openBlock("for (metadataKey, metadataValue) in metadata {", "}") {
-                openBlock("let queryItem = \$N(", ")", ClientRuntimeTypes.Core.SDKURLQueryItem) {
-                    write("name: \"x-amz-meta-\\(metadataKey.urlPercentEncoding())\",")
-                    write("value: metadataValue.urlPercentEncoding()")
+    override fun renderExtensions() {
+        writer.write(
+            """
+            extension $typeName: ClientRuntime.RequestMessageSerializer {
+                public typealias InputType = ${inputSymbol.name}
+                public typealias RequestType = ClientRuntime.SdkHttpRequest
+                public typealias AttributesType = ClientRuntime.HttpContext
+                
+                public func apply(input: InputType, builder: ClientRuntime.SdkHttpRequestBuilder, attributes: ClientRuntime.HttpContext) throws {
+                    let metadata = input.metadata ?? [:]
+                    for (metadataKey, metadataValue) in metadata {
+                        let queryItem = ${'$'}N(
+                            name: "x-amz-meta-\(metadataKey.urlPercentEncoding())",
+                            value: metadataValue.urlPercentEncoding()
+                        )
+                        builder.withQueryItem(queryItem)
+                    }
                 }
-                write("input.builder.withQueryItem(queryItem)")
             }
-        }
+            """.trimIndent(),
+            ClientRuntimeTypes.Core.SDKURLQueryItem
+        )
+    }
+
+    override fun generateMiddlewareClosure() {
+        writer.write("try self.apply(input: input.operationInput, builder: input.builder, attributes: context)")
     }
 }

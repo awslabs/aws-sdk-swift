@@ -804,13 +804,21 @@ extension WorkSpacesWebClientTypes {
 
 extension WorkSpacesWebClientTypes.BrowserSettings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalEncryptionContext
         case associatedPortalArns
         case browserPolicy
         case browserSettingsArn
+        case customerManagedKey
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let additionalEncryptionContext = additionalEncryptionContext {
+            var additionalEncryptionContextContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .additionalEncryptionContext)
+            for (dictKey0, encryptionContextMap0) in additionalEncryptionContext {
+                try additionalEncryptionContextContainer.encode(encryptionContextMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
         if let associatedPortalArns = associatedPortalArns {
             var associatedPortalArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .associatedPortalArns)
             for arn0 in associatedPortalArns {
@@ -822,6 +830,9 @@ extension WorkSpacesWebClientTypes.BrowserSettings: Swift.Codable {
         }
         if let browserSettingsArn = self.browserSettingsArn {
             try encodeContainer.encode(browserSettingsArn, forKey: .browserSettingsArn)
+        }
+        if let customerManagedKey = self.customerManagedKey {
+            try encodeContainer.encode(customerManagedKey, forKey: .customerManagedKey)
         }
     }
 
@@ -842,17 +853,32 @@ extension WorkSpacesWebClientTypes.BrowserSettings: Swift.Codable {
         associatedPortalArns = associatedPortalArnsDecoded0
         let browserPolicyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .browserPolicy)
         browserPolicy = browserPolicyDecoded
+        let customerManagedKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customerManagedKey)
+        customerManagedKey = customerManagedKeyDecoded
+        let additionalEncryptionContextContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .additionalEncryptionContext)
+        var additionalEncryptionContextDecoded0: [Swift.String:Swift.String]? = nil
+        if let additionalEncryptionContextContainer = additionalEncryptionContextContainer {
+            additionalEncryptionContextDecoded0 = [Swift.String:Swift.String]()
+            for (key0, stringtype0) in additionalEncryptionContextContainer {
+                if let stringtype0 = stringtype0 {
+                    additionalEncryptionContextDecoded0?[key0] = stringtype0
+                }
+            }
+        }
+        additionalEncryptionContext = additionalEncryptionContextDecoded0
     }
 }
 
 extension WorkSpacesWebClientTypes.BrowserSettings: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "BrowserSettings(associatedPortalArns: \(Swift.String(describing: associatedPortalArns)), browserSettingsArn: \(Swift.String(describing: browserSettingsArn)), browserPolicy: \"CONTENT_REDACTED\")"}
+        "BrowserSettings(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), associatedPortalArns: \(Swift.String(describing: associatedPortalArns)), browserSettingsArn: \(Swift.String(describing: browserSettingsArn)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), browserPolicy: \"CONTENT_REDACTED\")"}
 }
 
 extension WorkSpacesWebClientTypes {
     /// The browser settings resource that can be associated with a web portal. Once associated with a web portal, browser settings control how the browser will behave once a user starts a streaming session for the web portal.
     public struct BrowserSettings {
+        /// The additional encryption context of the browser settings.
+        public var additionalEncryptionContext: [Swift.String:Swift.String]?
         /// A list of web portal ARNs that this browser settings is associated with.
         public var associatedPortalArns: [Swift.String]?
         /// A JSON string containing Chrome Enterprise policies that will be applied to all streaming sessions.
@@ -860,16 +886,22 @@ extension WorkSpacesWebClientTypes {
         /// The ARN of the browser settings.
         /// This member is required.
         public var browserSettingsArn: Swift.String?
+        /// The customer managed key used to encrypt sensitive information in the browser settings.
+        public var customerManagedKey: Swift.String?
 
         public init(
+            additionalEncryptionContext: [Swift.String:Swift.String]? = nil,
             associatedPortalArns: [Swift.String]? = nil,
             browserPolicy: Swift.String? = nil,
-            browserSettingsArn: Swift.String? = nil
+            browserSettingsArn: Swift.String? = nil,
+            customerManagedKey: Swift.String? = nil
         )
         {
+            self.additionalEncryptionContext = additionalEncryptionContext
             self.associatedPortalArns = associatedPortalArns
             self.browserPolicy = browserPolicy
             self.browserSettingsArn = browserSettingsArn
+            self.customerManagedKey = customerManagedKey
         }
     }
 
@@ -1206,6 +1238,11 @@ extension WorkSpacesWebClientTypes.CookieSpecification: Swift.Codable {
     }
 }
 
+extension WorkSpacesWebClientTypes.CookieSpecification: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CookieSpecification(domain: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", path: \"CONTENT_REDACTED\")"}
+}
+
 extension WorkSpacesWebClientTypes {
     /// Specifies a single cookie or set of cookies in an end user's browser.
     public struct CookieSpecification {
@@ -1360,7 +1397,7 @@ public struct CreateBrowserSettingsInput {
     /// A JSON string containing Chrome Enterprise policies that will be applied to all streaming sessions.
     /// This member is required.
     public var browserPolicy: Swift.String?
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request. If you do not specify a client token, one is automatically generated by the AWS SDK.
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request. If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK.
     public var clientToken: Swift.String?
     /// The custom managed key of the browser settings.
     public var customerManagedKey: Swift.String?
@@ -1536,7 +1573,7 @@ extension CreateIdentityProviderInput {
 }
 
 public struct CreateIdentityProviderInput {
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request. If you do not specify a client token, one is automatically generated by the AWS SDK.
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request. If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK.
     public var clientToken: Swift.String?
     /// The identity provider details. The following list describes the provider detail keys for each identity provider type.
     ///
@@ -1607,6 +1644,12 @@ public struct CreateIdentityProviderInput {
     /// * MetadataFile OR MetadataURL
     ///
     /// * IDPSignout (boolean) optional
+    ///
+    /// * IDPInit (boolean) optional
+    ///
+    /// * RequestSigningAlgorithm (string) optional - Only accepts rsa-sha256
+    ///
+    /// * EncryptedResponses (boolean) optional
     /// This member is required.
     public var identityProviderDetails: [Swift.String:Swift.String]?
     /// The identity provider name.
@@ -1795,7 +1838,7 @@ extension CreateIpAccessSettingsInput {
 public struct CreateIpAccessSettingsInput {
     /// Additional encryption context of the IP access settings.
     public var additionalEncryptionContext: [Swift.String:Swift.String]?
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request. If you do not specify a client token, one is automatically generated by the AWS SDK.
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request. If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK.
     public var clientToken: Swift.String?
     /// The custom managed key of the IP access settings.
     public var customerManagedKey: Swift.String?
@@ -1999,7 +2042,7 @@ extension CreateNetworkSettingsInput {
 }
 
 public struct CreateNetworkSettingsInput {
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request. If you do not specify a client token, one is automatically generated by the AWS SDK.
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request. If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK.
     public var clientToken: Swift.String?
     /// One or more security groups used to control access from streaming instances to your VPC.
     /// This member is required.
@@ -2147,7 +2190,7 @@ enum CreateNetworkSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension CreatePortalInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreatePortalInput(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), authenticationType: \(Swift.String(describing: authenticationType)), clientToken: \(Swift.String(describing: clientToken)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), tags: \(Swift.String(describing: tags)), displayName: \"CONTENT_REDACTED\")"}
+        "CreatePortalInput(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), authenticationType: \(Swift.String(describing: authenticationType)), clientToken: \(Swift.String(describing: clientToken)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), instanceType: \(Swift.String(describing: instanceType)), maxConcurrentSessions: \(Swift.String(describing: maxConcurrentSessions)), tags: \(Swift.String(describing: tags)), displayName: \"CONTENT_REDACTED\")"}
 }
 
 extension CreatePortalInput: Swift.Encodable {
@@ -2157,6 +2200,8 @@ extension CreatePortalInput: Swift.Encodable {
         case clientToken
         case customerManagedKey
         case displayName
+        case instanceType
+        case maxConcurrentSessions
         case tags
     }
 
@@ -2180,6 +2225,12 @@ extension CreatePortalInput: Swift.Encodable {
         if let displayName = self.displayName {
             try encodeContainer.encode(displayName, forKey: .displayName)
         }
+        if let instanceType = self.instanceType {
+            try encodeContainer.encode(instanceType.rawValue, forKey: .instanceType)
+        }
+        if let maxConcurrentSessions = self.maxConcurrentSessions {
+            try encodeContainer.encode(maxConcurrentSessions, forKey: .maxConcurrentSessions)
+        }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
             for tag0 in tags {
@@ -2199,14 +2250,18 @@ extension CreatePortalInput {
 public struct CreatePortalInput {
     /// The additional encryption context of the portal.
     public var additionalEncryptionContext: [Swift.String:Swift.String]?
-    /// The type of authentication integration points used when signing into the web portal. Defaults to Standard. Standard web portals are authenticated directly through your identity provider. You need to call CreateIdentityProvider to integrate your identity provider with your web portal. User and group access to your web portal is controlled through your identity provider. IAM_Identity_Center web portals are authenticated through AWS IAM Identity Center (successor to AWS Single Sign-On). They provide additional features, such as IdP-initiated authentication. Identity sources (including external identity provider integration), plus user and group access to your web portal, can be configured in the IAM Identity Center.
+    /// The type of authentication integration points used when signing into the web portal. Defaults to Standard. Standard web portals are authenticated directly through your identity provider. You need to call CreateIdentityProvider to integrate your identity provider with your web portal. User and group access to your web portal is controlled through your identity provider. IAM Identity Center web portals are authenticated through IAM Identity Center (successor to Single Sign-On). Identity sources (including external identity provider integration), plus user and group access to your web portal, can be configured in the IAM Identity Center.
     public var authenticationType: WorkSpacesWebClientTypes.AuthenticationType?
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request. If you do not specify a client token, one is automatically generated by the AWS SDK.
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request. If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK.
     public var clientToken: Swift.String?
     /// The customer managed key of the web portal.
     public var customerManagedKey: Swift.String?
     /// The name of the web portal. This is not visible to users who log into the web portal.
     public var displayName: Swift.String?
+    /// The type and resources of the underlying instance.
+    public var instanceType: WorkSpacesWebClientTypes.InstanceType?
+    /// The maximum number of concurrent sessions for the portal.
+    public var maxConcurrentSessions: Swift.Int?
     /// The tags to add to the web portal. A tag is a key-value pair.
     public var tags: [WorkSpacesWebClientTypes.Tag]?
 
@@ -2216,6 +2271,8 @@ public struct CreatePortalInput {
         clientToken: Swift.String? = nil,
         customerManagedKey: Swift.String? = nil,
         displayName: Swift.String? = nil,
+        instanceType: WorkSpacesWebClientTypes.InstanceType? = nil,
+        maxConcurrentSessions: Swift.Int? = nil,
         tags: [WorkSpacesWebClientTypes.Tag]? = nil
     )
     {
@@ -2224,6 +2281,8 @@ public struct CreatePortalInput {
         self.clientToken = clientToken
         self.customerManagedKey = customerManagedKey
         self.displayName = displayName
+        self.instanceType = instanceType
+        self.maxConcurrentSessions = maxConcurrentSessions
         self.tags = tags
     }
 }
@@ -2235,6 +2294,8 @@ struct CreatePortalInputBody {
     let additionalEncryptionContext: [Swift.String:Swift.String]?
     let clientToken: Swift.String?
     let authenticationType: WorkSpacesWebClientTypes.AuthenticationType?
+    let instanceType: WorkSpacesWebClientTypes.InstanceType?
+    let maxConcurrentSessions: Swift.Int?
 }
 
 extension CreatePortalInputBody: Swift.Decodable {
@@ -2244,6 +2305,8 @@ extension CreatePortalInputBody: Swift.Decodable {
         case clientToken
         case customerManagedKey
         case displayName
+        case instanceType
+        case maxConcurrentSessions
         case tags
     }
 
@@ -2279,6 +2342,10 @@ extension CreatePortalInputBody: Swift.Decodable {
         clientToken = clientTokenDecoded
         let authenticationTypeDecoded = try containerValues.decodeIfPresent(WorkSpacesWebClientTypes.AuthenticationType.self, forKey: .authenticationType)
         authenticationType = authenticationTypeDecoded
+        let instanceTypeDecoded = try containerValues.decodeIfPresent(WorkSpacesWebClientTypes.InstanceType.self, forKey: .instanceType)
+        instanceType = instanceTypeDecoded
+        let maxConcurrentSessionsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxConcurrentSessions)
+        maxConcurrentSessions = maxConcurrentSessionsDecoded
     }
 }
 
@@ -2389,7 +2456,7 @@ public struct CreateTrustStoreInput {
     /// A list of CA certificates to be added to the trust store.
     /// This member is required.
     public var certificateList: [ClientRuntime.Data]?
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request. If you do not specify a client token, one is automatically generated by the AWS SDK.
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request. If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK.
     public var clientToken: Swift.String?
     /// The tags to add to the trust store. A tag is a key-value pair.
     public var tags: [WorkSpacesWebClientTypes.Tag]?
@@ -2537,7 +2604,7 @@ extension CreateUserAccessLoggingSettingsInput {
 }
 
 public struct CreateUserAccessLoggingSettingsInput {
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request. If you do not specify a client token, one is automatically generated by the AWS SDK.
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request. If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK.
     public var clientToken: Swift.String?
     /// The ARN of the Kinesis stream.
     /// This member is required.
@@ -2725,7 +2792,7 @@ extension CreateUserSettingsInput {
 public struct CreateUserSettingsInput {
     /// The additional encryption context of the user settings.
     public var additionalEncryptionContext: [Swift.String:Swift.String]?
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request. If you do not specify a client token, one is automatically generated by the AWS SDK.
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request. If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK.
     public var clientToken: Swift.String?
     /// The configuration that specifies which cookies should be synchronized from the end user's local browser to the remote browser.
     public var cookieSynchronizationConfiguration: WorkSpacesWebClientTypes.CookieSynchronizationConfiguration?
@@ -4787,7 +4854,13 @@ extension WorkSpacesWebClientTypes {
         ///
         /// * MetadataFile OR MetadataURL
         ///
-        /// * IDPSignout optional
+        /// * IDPSignout (boolean) optional
+        ///
+        /// * IDPInit (boolean) optional
+        ///
+        /// * RequestSigningAlgorithm (string) optional - Only accepts rsa-sha256
+        ///
+        /// * EncryptedResponses (boolean) optional
         public var identityProviderDetails: [Swift.String:Swift.String]?
         /// The identity provider name.
         public var identityProviderName: Swift.String?
@@ -4915,6 +4988,41 @@ extension WorkSpacesWebClientTypes {
     }
 }
 
+extension WorkSpacesWebClientTypes {
+    public enum InstanceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case standardLarge
+        case standardRegular
+        case standardXlarge
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InstanceType] {
+            return [
+                .standardLarge,
+                .standardRegular,
+                .standardXlarge,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .standardLarge: return "standard.large"
+            case .standardRegular: return "standard.regular"
+            case .standardXlarge: return "standard.xlarge"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = InstanceType(rawValue: rawValue) ?? InstanceType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension InternalServerException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
@@ -4981,8 +5089,10 @@ extension InternalServerExceptionBody: Swift.Decodable {
 
 extension WorkSpacesWebClientTypes.IpAccessSettings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalEncryptionContext
         case associatedPortalArns
         case creationDate
+        case customerManagedKey
         case description
         case displayName
         case ipAccessSettingsArn
@@ -4991,6 +5101,12 @@ extension WorkSpacesWebClientTypes.IpAccessSettings: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let additionalEncryptionContext = additionalEncryptionContext {
+            var additionalEncryptionContextContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .additionalEncryptionContext)
+            for (dictKey0, encryptionContextMap0) in additionalEncryptionContext {
+                try additionalEncryptionContextContainer.encode(encryptionContextMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
         if let associatedPortalArns = associatedPortalArns {
             var associatedPortalArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .associatedPortalArns)
             for arn0 in associatedPortalArns {
@@ -4999,6 +5115,9 @@ extension WorkSpacesWebClientTypes.IpAccessSettings: Swift.Codable {
         }
         if let creationDate = self.creationDate {
             try encodeContainer.encodeTimestamp(creationDate, format: .epochSeconds, forKey: .creationDate)
+        }
+        if let customerManagedKey = self.customerManagedKey {
+            try encodeContainer.encode(customerManagedKey, forKey: .customerManagedKey)
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
@@ -5049,21 +5168,38 @@ extension WorkSpacesWebClientTypes.IpAccessSettings: Swift.Codable {
         description = descriptionDecoded
         let creationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDate)
         creationDate = creationDateDecoded
+        let customerManagedKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customerManagedKey)
+        customerManagedKey = customerManagedKeyDecoded
+        let additionalEncryptionContextContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .additionalEncryptionContext)
+        var additionalEncryptionContextDecoded0: [Swift.String:Swift.String]? = nil
+        if let additionalEncryptionContextContainer = additionalEncryptionContextContainer {
+            additionalEncryptionContextDecoded0 = [Swift.String:Swift.String]()
+            for (key0, stringtype0) in additionalEncryptionContextContainer {
+                if let stringtype0 = stringtype0 {
+                    additionalEncryptionContextDecoded0?[key0] = stringtype0
+                }
+            }
+        }
+        additionalEncryptionContext = additionalEncryptionContextDecoded0
     }
 }
 
 extension WorkSpacesWebClientTypes.IpAccessSettings: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "IpAccessSettings(associatedPortalArns: \(Swift.String(describing: associatedPortalArns)), creationDate: \(Swift.String(describing: creationDate)), ipAccessSettingsArn: \(Swift.String(describing: ipAccessSettingsArn)), description: \"CONTENT_REDACTED\", displayName: \"CONTENT_REDACTED\", ipRules: \"CONTENT_REDACTED\")"}
+        "IpAccessSettings(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), associatedPortalArns: \(Swift.String(describing: associatedPortalArns)), creationDate: \(Swift.String(describing: creationDate)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), ipAccessSettingsArn: \(Swift.String(describing: ipAccessSettingsArn)), description: \"CONTENT_REDACTED\", displayName: \"CONTENT_REDACTED\", ipRules: \"CONTENT_REDACTED\")"}
 }
 
 extension WorkSpacesWebClientTypes {
     /// The IP access settings resource that can be associated with a web portal.
     public struct IpAccessSettings {
+        /// The additional encryption context of the IP access settings.
+        public var additionalEncryptionContext: [Swift.String:Swift.String]?
         /// A list of web portal ARNs that this IP access settings resource is associated with.
         public var associatedPortalArns: [Swift.String]?
         /// The creation date timestamp of the IP access settings.
         public var creationDate: ClientRuntime.Date?
+        /// The customer managed key used to encrypt sensitive information in the IP access settings.
+        public var customerManagedKey: Swift.String?
         /// The description of the IP access settings.
         public var description: Swift.String?
         /// The display name of the IP access settings.
@@ -5075,16 +5211,20 @@ extension WorkSpacesWebClientTypes {
         public var ipRules: [WorkSpacesWebClientTypes.IpRule]?
 
         public init(
+            additionalEncryptionContext: [Swift.String:Swift.String]? = nil,
             associatedPortalArns: [Swift.String]? = nil,
             creationDate: ClientRuntime.Date? = nil,
+            customerManagedKey: Swift.String? = nil,
             description: Swift.String? = nil,
             displayName: Swift.String? = nil,
             ipAccessSettingsArn: Swift.String? = nil,
             ipRules: [WorkSpacesWebClientTypes.IpRule]? = nil
         )
         {
+            self.additionalEncryptionContext = additionalEncryptionContext
             self.associatedPortalArns = associatedPortalArns
             self.creationDate = creationDate
+            self.customerManagedKey = customerManagedKey
             self.description = description
             self.displayName = displayName
             self.ipAccessSettingsArn = ipAccessSettingsArn
@@ -6589,12 +6729,16 @@ extension WorkSpacesWebClientTypes {
 
 extension WorkSpacesWebClientTypes.Portal: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalEncryptionContext
         case authenticationType
         case browserSettingsArn
         case browserType
         case creationDate
+        case customerManagedKey
         case displayName
+        case instanceType
         case ipAccessSettingsArn
+        case maxConcurrentSessions
         case networkSettingsArn
         case portalArn
         case portalEndpoint
@@ -6608,6 +6752,12 @@ extension WorkSpacesWebClientTypes.Portal: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let additionalEncryptionContext = additionalEncryptionContext {
+            var additionalEncryptionContextContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .additionalEncryptionContext)
+            for (dictKey0, encryptionContextMap0) in additionalEncryptionContext {
+                try additionalEncryptionContextContainer.encode(encryptionContextMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
         if let authenticationType = self.authenticationType {
             try encodeContainer.encode(authenticationType.rawValue, forKey: .authenticationType)
         }
@@ -6620,11 +6770,20 @@ extension WorkSpacesWebClientTypes.Portal: Swift.Codable {
         if let creationDate = self.creationDate {
             try encodeContainer.encodeTimestamp(creationDate, format: .epochSeconds, forKey: .creationDate)
         }
+        if let customerManagedKey = self.customerManagedKey {
+            try encodeContainer.encode(customerManagedKey, forKey: .customerManagedKey)
+        }
         if let displayName = self.displayName {
             try encodeContainer.encode(displayName, forKey: .displayName)
         }
+        if let instanceType = self.instanceType {
+            try encodeContainer.encode(instanceType.rawValue, forKey: .instanceType)
+        }
         if let ipAccessSettingsArn = self.ipAccessSettingsArn {
             try encodeContainer.encode(ipAccessSettingsArn, forKey: .ipAccessSettingsArn)
+        }
+        if let maxConcurrentSessions = self.maxConcurrentSessions {
+            try encodeContainer.encode(maxConcurrentSessions, forKey: .maxConcurrentSessions)
         }
         if let networkSettingsArn = self.networkSettingsArn {
             try encodeContainer.encode(networkSettingsArn, forKey: .networkSettingsArn)
@@ -6687,18 +6846,37 @@ extension WorkSpacesWebClientTypes.Portal: Swift.Codable {
         authenticationType = authenticationTypeDecoded
         let ipAccessSettingsArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipAccessSettingsArn)
         ipAccessSettingsArn = ipAccessSettingsArnDecoded
+        let customerManagedKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customerManagedKey)
+        customerManagedKey = customerManagedKeyDecoded
+        let additionalEncryptionContextContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .additionalEncryptionContext)
+        var additionalEncryptionContextDecoded0: [Swift.String:Swift.String]? = nil
+        if let additionalEncryptionContextContainer = additionalEncryptionContextContainer {
+            additionalEncryptionContextDecoded0 = [Swift.String:Swift.String]()
+            for (key0, stringtype0) in additionalEncryptionContextContainer {
+                if let stringtype0 = stringtype0 {
+                    additionalEncryptionContextDecoded0?[key0] = stringtype0
+                }
+            }
+        }
+        additionalEncryptionContext = additionalEncryptionContextDecoded0
+        let instanceTypeDecoded = try containerValues.decodeIfPresent(WorkSpacesWebClientTypes.InstanceType.self, forKey: .instanceType)
+        instanceType = instanceTypeDecoded
+        let maxConcurrentSessionsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxConcurrentSessions)
+        maxConcurrentSessions = maxConcurrentSessionsDecoded
     }
 }
 
 extension WorkSpacesWebClientTypes.Portal: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Portal(authenticationType: \(Swift.String(describing: authenticationType)), browserSettingsArn: \(Swift.String(describing: browserSettingsArn)), browserType: \(Swift.String(describing: browserType)), creationDate: \(Swift.String(describing: creationDate)), ipAccessSettingsArn: \(Swift.String(describing: ipAccessSettingsArn)), networkSettingsArn: \(Swift.String(describing: networkSettingsArn)), portalArn: \(Swift.String(describing: portalArn)), portalEndpoint: \(Swift.String(describing: portalEndpoint)), portalStatus: \(Swift.String(describing: portalStatus)), rendererType: \(Swift.String(describing: rendererType)), statusReason: \(Swift.String(describing: statusReason)), trustStoreArn: \(Swift.String(describing: trustStoreArn)), userAccessLoggingSettingsArn: \(Swift.String(describing: userAccessLoggingSettingsArn)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), displayName: \"CONTENT_REDACTED\")"}
+        "Portal(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), authenticationType: \(Swift.String(describing: authenticationType)), browserSettingsArn: \(Swift.String(describing: browserSettingsArn)), browserType: \(Swift.String(describing: browserType)), creationDate: \(Swift.String(describing: creationDate)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), instanceType: \(Swift.String(describing: instanceType)), ipAccessSettingsArn: \(Swift.String(describing: ipAccessSettingsArn)), maxConcurrentSessions: \(Swift.String(describing: maxConcurrentSessions)), networkSettingsArn: \(Swift.String(describing: networkSettingsArn)), portalArn: \(Swift.String(describing: portalArn)), portalEndpoint: \(Swift.String(describing: portalEndpoint)), portalStatus: \(Swift.String(describing: portalStatus)), rendererType: \(Swift.String(describing: rendererType)), statusReason: \(Swift.String(describing: statusReason)), trustStoreArn: \(Swift.String(describing: trustStoreArn)), userAccessLoggingSettingsArn: \(Swift.String(describing: userAccessLoggingSettingsArn)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), displayName: \"CONTENT_REDACTED\")"}
 }
 
 extension WorkSpacesWebClientTypes {
     /// The web portal.
     public struct Portal {
-        /// The type of authentication integration points used when signing into the web portal. Defaults to Standard. Standard web portals are authenticated directly through your identity provider. You need to call CreateIdentityProvider to integrate your identity provider with your web portal. User and group access to your web portal is controlled through your identity provider. IAM_Identity_Center web portals are authenticated through AWS IAM Identity Center (successor to AWS Single Sign-On). They provide additional features, such as IdP-initiated authentication. Identity sources (including external identity provider integration), plus user and group access to your web portal, can be configured in the IAM Identity Center.
+        /// The additional encryption context of the portal.
+        public var additionalEncryptionContext: [Swift.String:Swift.String]?
+        /// The type of authentication integration points used when signing into the web portal. Defaults to Standard. Standard web portals are authenticated directly through your identity provider. You need to call CreateIdentityProvider to integrate your identity provider with your web portal. User and group access to your web portal is controlled through your identity provider. IAM Identity Center web portals are authenticated through IAM Identity Center (successor to Single Sign-On). Identity sources (including external identity provider integration), plus user and group access to your web portal, can be configured in the IAM Identity Center.
         public var authenticationType: WorkSpacesWebClientTypes.AuthenticationType?
         /// The ARN of the browser settings that is associated with this web portal.
         public var browserSettingsArn: Swift.String?
@@ -6706,10 +6884,16 @@ extension WorkSpacesWebClientTypes {
         public var browserType: WorkSpacesWebClientTypes.BrowserType?
         /// The creation date of the web portal.
         public var creationDate: ClientRuntime.Date?
+        /// The customer managed key used to encrypt sensitive information in the portal.
+        public var customerManagedKey: Swift.String?
         /// The name of the web portal.
         public var displayName: Swift.String?
+        /// The type and resources of the underlying instance.
+        public var instanceType: WorkSpacesWebClientTypes.InstanceType?
         /// The ARN of the IP access settings.
         public var ipAccessSettingsArn: Swift.String?
+        /// The maximum number of concurrent sessions for the portal.
+        public var maxConcurrentSessions: Swift.Int?
         /// The ARN of the network settings that is associated with the web portal.
         public var networkSettingsArn: Swift.String?
         /// The ARN of the web portal.
@@ -6731,12 +6915,16 @@ extension WorkSpacesWebClientTypes {
         public var userSettingsArn: Swift.String?
 
         public init(
+            additionalEncryptionContext: [Swift.String:Swift.String]? = nil,
             authenticationType: WorkSpacesWebClientTypes.AuthenticationType? = nil,
             browserSettingsArn: Swift.String? = nil,
             browserType: WorkSpacesWebClientTypes.BrowserType? = nil,
             creationDate: ClientRuntime.Date? = nil,
+            customerManagedKey: Swift.String? = nil,
             displayName: Swift.String? = nil,
+            instanceType: WorkSpacesWebClientTypes.InstanceType? = nil,
             ipAccessSettingsArn: Swift.String? = nil,
+            maxConcurrentSessions: Swift.Int? = nil,
             networkSettingsArn: Swift.String? = nil,
             portalArn: Swift.String? = nil,
             portalEndpoint: Swift.String? = nil,
@@ -6748,12 +6936,16 @@ extension WorkSpacesWebClientTypes {
             userSettingsArn: Swift.String? = nil
         )
         {
+            self.additionalEncryptionContext = additionalEncryptionContext
             self.authenticationType = authenticationType
             self.browserSettingsArn = browserSettingsArn
             self.browserType = browserType
             self.creationDate = creationDate
+            self.customerManagedKey = customerManagedKey
             self.displayName = displayName
+            self.instanceType = instanceType
             self.ipAccessSettingsArn = ipAccessSettingsArn
+            self.maxConcurrentSessions = maxConcurrentSessions
             self.networkSettingsArn = networkSettingsArn
             self.portalArn = portalArn
             self.portalEndpoint = portalEndpoint
@@ -6810,7 +7002,9 @@ extension WorkSpacesWebClientTypes.PortalSummary: Swift.Codable {
         case browserType
         case creationDate
         case displayName
+        case instanceType
         case ipAccessSettingsArn
+        case maxConcurrentSessions
         case networkSettingsArn
         case portalArn
         case portalEndpoint
@@ -6838,8 +7032,14 @@ extension WorkSpacesWebClientTypes.PortalSummary: Swift.Codable {
         if let displayName = self.displayName {
             try encodeContainer.encode(displayName, forKey: .displayName)
         }
+        if let instanceType = self.instanceType {
+            try encodeContainer.encode(instanceType.rawValue, forKey: .instanceType)
+        }
         if let ipAccessSettingsArn = self.ipAccessSettingsArn {
             try encodeContainer.encode(ipAccessSettingsArn, forKey: .ipAccessSettingsArn)
+        }
+        if let maxConcurrentSessions = self.maxConcurrentSessions {
+            try encodeContainer.encode(maxConcurrentSessions, forKey: .maxConcurrentSessions)
         }
         if let networkSettingsArn = self.networkSettingsArn {
             try encodeContainer.encode(networkSettingsArn, forKey: .networkSettingsArn)
@@ -6897,18 +7097,22 @@ extension WorkSpacesWebClientTypes.PortalSummary: Swift.Codable {
         authenticationType = authenticationTypeDecoded
         let ipAccessSettingsArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipAccessSettingsArn)
         ipAccessSettingsArn = ipAccessSettingsArnDecoded
+        let instanceTypeDecoded = try containerValues.decodeIfPresent(WorkSpacesWebClientTypes.InstanceType.self, forKey: .instanceType)
+        instanceType = instanceTypeDecoded
+        let maxConcurrentSessionsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxConcurrentSessions)
+        maxConcurrentSessions = maxConcurrentSessionsDecoded
     }
 }
 
 extension WorkSpacesWebClientTypes.PortalSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "PortalSummary(authenticationType: \(Swift.String(describing: authenticationType)), browserSettingsArn: \(Swift.String(describing: browserSettingsArn)), browserType: \(Swift.String(describing: browserType)), creationDate: \(Swift.String(describing: creationDate)), ipAccessSettingsArn: \(Swift.String(describing: ipAccessSettingsArn)), networkSettingsArn: \(Swift.String(describing: networkSettingsArn)), portalArn: \(Swift.String(describing: portalArn)), portalEndpoint: \(Swift.String(describing: portalEndpoint)), portalStatus: \(Swift.String(describing: portalStatus)), rendererType: \(Swift.String(describing: rendererType)), trustStoreArn: \(Swift.String(describing: trustStoreArn)), userAccessLoggingSettingsArn: \(Swift.String(describing: userAccessLoggingSettingsArn)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), displayName: \"CONTENT_REDACTED\")"}
+        "PortalSummary(authenticationType: \(Swift.String(describing: authenticationType)), browserSettingsArn: \(Swift.String(describing: browserSettingsArn)), browserType: \(Swift.String(describing: browserType)), creationDate: \(Swift.String(describing: creationDate)), instanceType: \(Swift.String(describing: instanceType)), ipAccessSettingsArn: \(Swift.String(describing: ipAccessSettingsArn)), maxConcurrentSessions: \(Swift.String(describing: maxConcurrentSessions)), networkSettingsArn: \(Swift.String(describing: networkSettingsArn)), portalArn: \(Swift.String(describing: portalArn)), portalEndpoint: \(Swift.String(describing: portalEndpoint)), portalStatus: \(Swift.String(describing: portalStatus)), rendererType: \(Swift.String(describing: rendererType)), trustStoreArn: \(Swift.String(describing: trustStoreArn)), userAccessLoggingSettingsArn: \(Swift.String(describing: userAccessLoggingSettingsArn)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), displayName: \"CONTENT_REDACTED\")"}
 }
 
 extension WorkSpacesWebClientTypes {
     /// The summary of the portal.
     public struct PortalSummary {
-        /// The type of authentication integration points used when signing into the web portal. Defaults to Standard. Standard web portals are authenticated directly through your identity provider. You need to call CreateIdentityProvider to integrate your identity provider with your web portal. User and group access to your web portal is controlled through your identity provider. IAM_Identity_Center web portals are authenticated through AWS IAM Identity Center (successor to AWS Single Sign-On). They provide additional features, such as IdP-initiated authentication. Identity sources (including external identity provider integration), plus user and group access to your web portal, can be configured in the IAM Identity Center.
+        /// The type of authentication integration points used when signing into the web portal. Defaults to Standard. Standard web portals are authenticated directly through your identity provider. You need to call CreateIdentityProvider to integrate your identity provider with your web portal. User and group access to your web portal is controlled through your identity provider. IAM Identity Center web portals are authenticated through IAM Identity Center (successor to Single Sign-On). Identity sources (including external identity provider integration), plus user and group access to your web portal, can be configured in the IAM Identity Center.
         public var authenticationType: WorkSpacesWebClientTypes.AuthenticationType?
         /// The ARN of the browser settings that is associated with the web portal.
         public var browserSettingsArn: Swift.String?
@@ -6918,8 +7122,12 @@ extension WorkSpacesWebClientTypes {
         public var creationDate: ClientRuntime.Date?
         /// The name of the web portal.
         public var displayName: Swift.String?
+        /// The type and resources of the underlying instance.
+        public var instanceType: WorkSpacesWebClientTypes.InstanceType?
         /// The ARN of the IP access settings.
         public var ipAccessSettingsArn: Swift.String?
+        /// The maximum number of concurrent sessions for the portal.
+        public var maxConcurrentSessions: Swift.Int?
         /// The ARN of the network settings that is associated with the web portal.
         public var networkSettingsArn: Swift.String?
         /// The ARN of the web portal.
@@ -6944,7 +7152,9 @@ extension WorkSpacesWebClientTypes {
             browserType: WorkSpacesWebClientTypes.BrowserType? = nil,
             creationDate: ClientRuntime.Date? = nil,
             displayName: Swift.String? = nil,
+            instanceType: WorkSpacesWebClientTypes.InstanceType? = nil,
             ipAccessSettingsArn: Swift.String? = nil,
+            maxConcurrentSessions: Swift.Int? = nil,
             networkSettingsArn: Swift.String? = nil,
             portalArn: Swift.String? = nil,
             portalEndpoint: Swift.String? = nil,
@@ -6960,7 +7170,9 @@ extension WorkSpacesWebClientTypes {
             self.browserType = browserType
             self.creationDate = creationDate
             self.displayName = displayName
+            self.instanceType = instanceType
             self.ipAccessSettingsArn = ipAccessSettingsArn
+            self.maxConcurrentSessions = maxConcurrentSessions
             self.networkSettingsArn = networkSettingsArn
             self.portalArn = portalArn
             self.portalEndpoint = portalEndpoint
@@ -7257,7 +7469,7 @@ extension TagResourceInput {
 }
 
 public struct TagResourceInput {
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request. If you do not specify a client token, one is automatically generated by the AWS SDK.
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request. If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK.
     public var clientToken: Swift.String?
     /// The ARN of the resource.
     /// This member is required.
@@ -7691,7 +7903,7 @@ public struct UpdateBrowserSettingsInput {
     /// The ARN of the browser settings.
     /// This member is required.
     public var browserSettingsArn: Swift.String?
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token return the result from the original successful request. If you do not specify a client token, one is automatically generated by the AWS SDK.
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token return the result from the original successful request. If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK.
     public var clientToken: Swift.String?
 
     public init(
@@ -7826,7 +8038,7 @@ extension UpdateIdentityProviderInput {
 }
 
 public struct UpdateIdentityProviderInput {
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token return the result from the original successful request. If you do not specify a client token, one is automatically generated by the AWS SDK.
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token return the result from the original successful request. If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK.
     public var clientToken: Swift.String?
     /// The ARN of the identity provider.
     /// This member is required.
@@ -7900,6 +8112,12 @@ public struct UpdateIdentityProviderInput {
     /// * MetadataFile OR MetadataURL
     ///
     /// * IDPSignout (boolean) optional
+    ///
+    /// * IDPInit (boolean) optional
+    ///
+    /// * RequestSigningAlgorithm (string) optional - Only accepts rsa-sha256
+    ///
+    /// * EncryptedResponses (boolean) optional
     public var identityProviderDetails: [Swift.String:Swift.String]?
     /// The name of the identity provider.
     public var identityProviderName: Swift.String?
@@ -8059,7 +8277,7 @@ extension UpdateIpAccessSettingsInput {
 }
 
 public struct UpdateIpAccessSettingsInput {
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token return the result from the original successful request. If you do not specify a client token, one is automatically generated by the AWS SDK.
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token return the result from the original successful request. If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK.
     public var clientToken: Swift.String?
     /// The description of the IP access settings.
     public var description: Swift.String?
@@ -8222,7 +8440,7 @@ extension UpdateNetworkSettingsInput {
 }
 
 public struct UpdateNetworkSettingsInput {
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token return the result from the original successful request. If you do not specify a client token, one is automatically generated by the AWS SDK.
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token return the result from the original successful request. If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK.
     public var clientToken: Swift.String?
     /// The ARN of the network settings.
     /// This member is required.
@@ -8354,13 +8572,15 @@ enum UpdateNetworkSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension UpdatePortalInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdatePortalInput(authenticationType: \(Swift.String(describing: authenticationType)), portalArn: \(Swift.String(describing: portalArn)), displayName: \"CONTENT_REDACTED\")"}
+        "UpdatePortalInput(authenticationType: \(Swift.String(describing: authenticationType)), instanceType: \(Swift.String(describing: instanceType)), maxConcurrentSessions: \(Swift.String(describing: maxConcurrentSessions)), portalArn: \(Swift.String(describing: portalArn)), displayName: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdatePortalInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case authenticationType
         case displayName
+        case instanceType
+        case maxConcurrentSessions
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -8370,6 +8590,12 @@ extension UpdatePortalInput: Swift.Encodable {
         }
         if let displayName = self.displayName {
             try encodeContainer.encode(displayName, forKey: .displayName)
+        }
+        if let instanceType = self.instanceType {
+            try encodeContainer.encode(instanceType.rawValue, forKey: .instanceType)
+        }
+        if let maxConcurrentSessions = self.maxConcurrentSessions {
+            try encodeContainer.encode(maxConcurrentSessions, forKey: .maxConcurrentSessions)
         }
     }
 }
@@ -8385,10 +8611,14 @@ extension UpdatePortalInput {
 }
 
 public struct UpdatePortalInput {
-    /// The type of authentication integration points used when signing into the web portal. Defaults to Standard. Standard web portals are authenticated directly through your identity provider. You need to call CreateIdentityProvider to integrate your identity provider with your web portal. User and group access to your web portal is controlled through your identity provider. IAM_Identity_Center web portals are authenticated through AWS IAM Identity Center (successor to AWS Single Sign-On). They provide additional features, such as IdP-initiated authentication. Identity sources (including external identity provider integration), plus user and group access to your web portal, can be configured in the IAM Identity Center.
+    /// The type of authentication integration points used when signing into the web portal. Defaults to Standard. Standard web portals are authenticated directly through your identity provider. You need to call CreateIdentityProvider to integrate your identity provider with your web portal. User and group access to your web portal is controlled through your identity provider. IAM Identity Center web portals are authenticated through IAM Identity Center (successor to Single Sign-On). Identity sources (including external identity provider integration), plus user and group access to your web portal, can be configured in the IAM Identity Center.
     public var authenticationType: WorkSpacesWebClientTypes.AuthenticationType?
     /// The name of the web portal. This is not visible to users who log into the web portal.
     public var displayName: Swift.String?
+    /// The type and resources of the underlying instance.
+    public var instanceType: WorkSpacesWebClientTypes.InstanceType?
+    /// The maximum number of concurrent sessions for the portal.
+    public var maxConcurrentSessions: Swift.Int?
     /// The ARN of the web portal.
     /// This member is required.
     public var portalArn: Swift.String?
@@ -8396,11 +8626,15 @@ public struct UpdatePortalInput {
     public init(
         authenticationType: WorkSpacesWebClientTypes.AuthenticationType? = nil,
         displayName: Swift.String? = nil,
+        instanceType: WorkSpacesWebClientTypes.InstanceType? = nil,
+        maxConcurrentSessions: Swift.Int? = nil,
         portalArn: Swift.String? = nil
     )
     {
         self.authenticationType = authenticationType
         self.displayName = displayName
+        self.instanceType = instanceType
+        self.maxConcurrentSessions = maxConcurrentSessions
         self.portalArn = portalArn
     }
 }
@@ -8408,12 +8642,16 @@ public struct UpdatePortalInput {
 struct UpdatePortalInputBody {
     let displayName: Swift.String?
     let authenticationType: WorkSpacesWebClientTypes.AuthenticationType?
+    let instanceType: WorkSpacesWebClientTypes.InstanceType?
+    let maxConcurrentSessions: Swift.Int?
 }
 
 extension UpdatePortalInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case authenticationType
         case displayName
+        case instanceType
+        case maxConcurrentSessions
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -8422,6 +8660,10 @@ extension UpdatePortalInputBody: Swift.Decodable {
         displayName = displayNameDecoded
         let authenticationTypeDecoded = try containerValues.decodeIfPresent(WorkSpacesWebClientTypes.AuthenticationType.self, forKey: .authenticationType)
         authenticationType = authenticationTypeDecoded
+        let instanceTypeDecoded = try containerValues.decodeIfPresent(WorkSpacesWebClientTypes.InstanceType.self, forKey: .instanceType)
+        instanceType = instanceTypeDecoded
+        let maxConcurrentSessionsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxConcurrentSessions)
+        maxConcurrentSessions = maxConcurrentSessionsDecoded
     }
 }
 
@@ -8474,6 +8716,7 @@ enum UpdatePortalOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -8523,7 +8766,7 @@ public struct UpdateTrustStoreInput {
     public var certificatesToAdd: [ClientRuntime.Data]?
     /// A list of CA certificates to delete from a trust store.
     public var certificatesToDelete: [Swift.String]?
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token return the result from the original successful request. If you do not specify a client token, one is automatically generated by the AWS SDK.
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token return the result from the original successful request. If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK.
     public var clientToken: Swift.String?
     /// The ARN of the trust store.
     /// This member is required.
@@ -8670,7 +8913,7 @@ extension UpdateUserAccessLoggingSettingsInput {
 }
 
 public struct UpdateUserAccessLoggingSettingsInput {
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token return the result from the original successful request. If you do not specify a client token, one is automatically generated by the AWS SDK.
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token return the result from the original successful request. If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK.
     public var clientToken: Swift.String?
     /// The ARN of the Kinesis stream.
     public var kinesisStreamArn: Swift.String?
@@ -8827,7 +9070,7 @@ extension UpdateUserSettingsInput {
 }
 
 public struct UpdateUserSettingsInput {
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token return the result from the original successful request. If you do not specify a client token, one is automatically generated by the AWS SDK.
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token return the result from the original successful request. If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK.
     public var clientToken: Swift.String?
     /// The configuration that specifies which cookies should be synchronized from the end user's local browser to the remote browser. If the allowlist and blocklist are empty, the configuration becomes null.
     public var cookieSynchronizationConfiguration: WorkSpacesWebClientTypes.CookieSynchronizationConfiguration?
@@ -9095,9 +9338,11 @@ extension WorkSpacesWebClientTypes {
 
 extension WorkSpacesWebClientTypes.UserSettings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalEncryptionContext
         case associatedPortalArns
         case cookieSynchronizationConfiguration
         case copyAllowed
+        case customerManagedKey
         case disconnectTimeoutInMinutes
         case downloadAllowed
         case idleDisconnectTimeoutInMinutes
@@ -9109,6 +9354,12 @@ extension WorkSpacesWebClientTypes.UserSettings: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let additionalEncryptionContext = additionalEncryptionContext {
+            var additionalEncryptionContextContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .additionalEncryptionContext)
+            for (dictKey0, encryptionContextMap0) in additionalEncryptionContext {
+                try additionalEncryptionContextContainer.encode(encryptionContextMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
         if let associatedPortalArns = associatedPortalArns {
             var associatedPortalArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .associatedPortalArns)
             for arn0 in associatedPortalArns {
@@ -9120,6 +9371,9 @@ extension WorkSpacesWebClientTypes.UserSettings: Swift.Codable {
         }
         if let copyAllowed = self.copyAllowed {
             try encodeContainer.encode(copyAllowed.rawValue, forKey: .copyAllowed)
+        }
+        if let customerManagedKey = self.customerManagedKey {
+            try encodeContainer.encode(customerManagedKey, forKey: .customerManagedKey)
         }
         if let disconnectTimeoutInMinutes = self.disconnectTimeoutInMinutes {
             try encodeContainer.encode(disconnectTimeoutInMinutes, forKey: .disconnectTimeoutInMinutes)
@@ -9175,23 +9429,40 @@ extension WorkSpacesWebClientTypes.UserSettings: Swift.Codable {
         idleDisconnectTimeoutInMinutes = idleDisconnectTimeoutInMinutesDecoded
         let cookieSynchronizationConfigurationDecoded = try containerValues.decodeIfPresent(WorkSpacesWebClientTypes.CookieSynchronizationConfiguration.self, forKey: .cookieSynchronizationConfiguration)
         cookieSynchronizationConfiguration = cookieSynchronizationConfigurationDecoded
+        let customerManagedKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customerManagedKey)
+        customerManagedKey = customerManagedKeyDecoded
+        let additionalEncryptionContextContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .additionalEncryptionContext)
+        var additionalEncryptionContextDecoded0: [Swift.String:Swift.String]? = nil
+        if let additionalEncryptionContextContainer = additionalEncryptionContextContainer {
+            additionalEncryptionContextDecoded0 = [Swift.String:Swift.String]()
+            for (key0, stringtype0) in additionalEncryptionContextContainer {
+                if let stringtype0 = stringtype0 {
+                    additionalEncryptionContextDecoded0?[key0] = stringtype0
+                }
+            }
+        }
+        additionalEncryptionContext = additionalEncryptionContextDecoded0
     }
 }
 
 extension WorkSpacesWebClientTypes.UserSettings: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UserSettings(associatedPortalArns: \(Swift.String(describing: associatedPortalArns)), copyAllowed: \(Swift.String(describing: copyAllowed)), disconnectTimeoutInMinutes: \(Swift.String(describing: disconnectTimeoutInMinutes)), downloadAllowed: \(Swift.String(describing: downloadAllowed)), idleDisconnectTimeoutInMinutes: \(Swift.String(describing: idleDisconnectTimeoutInMinutes)), pasteAllowed: \(Swift.String(describing: pasteAllowed)), printAllowed: \(Swift.String(describing: printAllowed)), uploadAllowed: \(Swift.String(describing: uploadAllowed)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), cookieSynchronizationConfiguration: \"CONTENT_REDACTED\")"}
+        "UserSettings(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), associatedPortalArns: \(Swift.String(describing: associatedPortalArns)), copyAllowed: \(Swift.String(describing: copyAllowed)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), disconnectTimeoutInMinutes: \(Swift.String(describing: disconnectTimeoutInMinutes)), downloadAllowed: \(Swift.String(describing: downloadAllowed)), idleDisconnectTimeoutInMinutes: \(Swift.String(describing: idleDisconnectTimeoutInMinutes)), pasteAllowed: \(Swift.String(describing: pasteAllowed)), printAllowed: \(Swift.String(describing: printAllowed)), uploadAllowed: \(Swift.String(describing: uploadAllowed)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), cookieSynchronizationConfiguration: \"CONTENT_REDACTED\")"}
 }
 
 extension WorkSpacesWebClientTypes {
     /// A user settings resource that can be associated with a web portal. Once associated with a web portal, user settings control how users can transfer data between a streaming session and the their local devices.
     public struct UserSettings {
+        /// The additional encryption context of the user settings.
+        public var additionalEncryptionContext: [Swift.String:Swift.String]?
         /// A list of web portal ARNs that this user settings is associated with.
         public var associatedPortalArns: [Swift.String]?
         /// The configuration that specifies which cookies should be synchronized from the end user's local browser to the remote browser.
         public var cookieSynchronizationConfiguration: WorkSpacesWebClientTypes.CookieSynchronizationConfiguration?
         /// Specifies whether the user can copy text from the streaming session to the local device.
         public var copyAllowed: WorkSpacesWebClientTypes.EnabledType?
+        /// The customer managed key used to encrypt sensitive information in the user settings.
+        public var customerManagedKey: Swift.String?
         /// The amount of time that a streaming session remains active after users disconnect.
         public var disconnectTimeoutInMinutes: Swift.Int?
         /// Specifies whether the user can download files from the streaming session to the local device.
@@ -9209,9 +9480,11 @@ extension WorkSpacesWebClientTypes {
         public var userSettingsArn: Swift.String?
 
         public init(
+            additionalEncryptionContext: [Swift.String:Swift.String]? = nil,
             associatedPortalArns: [Swift.String]? = nil,
             cookieSynchronizationConfiguration: WorkSpacesWebClientTypes.CookieSynchronizationConfiguration? = nil,
             copyAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
+            customerManagedKey: Swift.String? = nil,
             disconnectTimeoutInMinutes: Swift.Int? = nil,
             downloadAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
             idleDisconnectTimeoutInMinutes: Swift.Int? = nil,
@@ -9221,9 +9494,11 @@ extension WorkSpacesWebClientTypes {
             userSettingsArn: Swift.String? = nil
         )
         {
+            self.additionalEncryptionContext = additionalEncryptionContext
             self.associatedPortalArns = associatedPortalArns
             self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
             self.copyAllowed = copyAllowed
+            self.customerManagedKey = customerManagedKey
             self.disconnectTimeoutInMinutes = disconnectTimeoutInMinutes
             self.downloadAllowed = downloadAllowed
             self.idleDisconnectTimeoutInMinutes = idleDisconnectTimeoutInMinutes

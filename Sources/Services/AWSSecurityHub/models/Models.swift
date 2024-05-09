@@ -64659,7 +64659,7 @@ extension StartConfigurationPolicyAssociationInput {
 }
 
 public struct StartConfigurationPolicyAssociationInput {
-    /// The Amazon Resource Name (ARN) or universally unique identifier (UUID) of the configuration policy.
+    /// The Amazon Resource Name (ARN) of a configuration policy, the universally unique identifier (UUID) of a configuration policy, or a value of SELF_MANAGED_SECURITY_HUB for a self-managed configuration.
     /// This member is required.
     public var configurationPolicyIdentifier: Swift.String?
     /// The identifier of the target account, organizational unit, or the root to associate with the specified configuration.
@@ -64837,7 +64837,7 @@ extension StartConfigurationPolicyDisassociationInput {
 }
 
 public struct StartConfigurationPolicyDisassociationInput {
-    /// The Amazon Resource Name (ARN) or universally unique identifier (UUID) of the configuration policy.
+    /// The Amazon Resource Name (ARN) of a configuration policy, the universally unique identifier (UUID) of a configuration policy, or a value of SELF_MANAGED_SECURITY_HUB for a self-managed configuration.
     /// This member is required.
     public var configurationPolicyIdentifier: Swift.String?
     /// The identifier of the target account, organizational unit, or the root to disassociate from the specified configuration.

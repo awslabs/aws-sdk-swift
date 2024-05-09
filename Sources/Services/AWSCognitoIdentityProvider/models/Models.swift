@@ -1772,7 +1772,7 @@ public struct AdminGetUserOutput {
     public var userAttributes: [CognitoIdentityProviderClientTypes.AttributeType]?
     /// The date the user was created.
     public var userCreateDate: ClientRuntime.Date?
-    /// The date and time, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format, when the item was modified.
+    /// The date and time when the item was modified. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a human-readable format like ISO 8601 or a Java Date object.
     public var userLastModifiedDate: ClientRuntime.Date?
     /// The MFA options that are activated for the user. The possible values in this list are SMS_MFA and SOFTWARE_TOKEN_MFA.
     public var userMFASettingList: [Swift.String]?
@@ -4784,7 +4784,7 @@ extension CognitoIdentityProviderClientTypes {
     public struct AuthEventType {
         /// The challenge responses.
         public var challengeResponses: [CognitoIdentityProviderClientTypes.ChallengeResponseType]?
-        /// The date and time, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format, when the item was created.
+        /// The date and time when the item was created. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a human-readable format like ISO 8601 or a Java Date object.
         public var creationDate: ClientRuntime.Date?
         /// The user context data captured at the time of an event request. This value provides additional information about the client from which event the request is received.
         public var eventContextData: CognitoIdentityProviderClientTypes.EventContextDataType?
@@ -6660,7 +6660,7 @@ extension CreateResourceServerInput {
 }
 
 public struct CreateResourceServerInput {
-    /// A unique resource server identifier for the resource server. This could be an HTTPS endpoint where the resource server is located, such as https://my-weather-api.example.com.
+    /// A unique resource server identifier for the resource server. The identifier can be an API friendly name like solar-system-data. You can also set an API URL like https://solar-system-data-api.example.com as your identifier. Amazon Cognito represents scopes in the access token in the format $resource-server-identifier/$scope. Longer scope-identifier strings increase the size of your access tokens.
     /// This member is required.
     public var identifier: Swift.String?
     /// A friendly name for the resource server.
@@ -7081,7 +7081,7 @@ public struct CreateUserPoolClientInput {
     /// The client name for the user pool client you would like to create.
     /// This member is required.
     public var clientName: Swift.String?
-    /// The default redirect URI. Must be in the CallbackURLs list. A redirect URI must:
+    /// The default redirect URI. In app clients with one assigned IdP, replaces redirect_uri in authentication requests. Must be in the CallbackURLs list. A redirect URI must:
     ///
     /// * Be an absolute URI.
     ///
@@ -7090,7 +7090,7 @@ public struct CreateUserPoolClientInput {
     /// * Not include a fragment component.
     ///
     ///
-    /// See [OAuth 2.0 - Redirection Endpoint](https://tools.ietf.org/html/rfc6749#section-3.1.2). Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes only. App callback URLs such as myapp://example are also supported.
+    /// For more information, see [Default redirect URI](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-client-apps.html#cognito-user-pools-app-idp-settings-about). Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes only. App callback URLs such as myapp://example are also supported.
     public var defaultRedirectURI: Swift.String?
     /// Activates the propagation of additional user context data. For more information about propagation of user context data, see [ Adding advanced security to a user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pool-settings-advanced-security.html). If you don’t include this parameter, you can't send device fingerprint information, including source IP address, to Amazon Cognito advanced security. You can only activate EnablePropagateAdditionalUserContextData in an app client that has a client secret.
     public var enablePropagateAdditionalUserContextData: Swift.Bool?
@@ -9121,7 +9121,7 @@ extension DescribeResourceServerInput {
 }
 
 public struct DescribeResourceServerInput {
-    /// The identifier for the resource server
+    /// A unique resource server identifier for the resource server. The identifier can be an API friendly name like solar-system-data. You can also set an API URL like https://solar-system-data-api.example.com as your identifier. Amazon Cognito represents scopes in the access token in the format $resource-server-identifier/$scope. Longer scope-identifier strings increase the size of your access tokens.
     /// This member is required.
     public var identifier: Swift.String?
     /// The user pool ID for the user pool that hosts the resource server.
@@ -9978,7 +9978,7 @@ extension CognitoIdentityProviderClientTypes {
         public var deviceKey: Swift.String?
         /// The date when the device was last authenticated.
         public var deviceLastAuthenticatedDate: ClientRuntime.Date?
-        /// The date and time, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format, when the item was modified.
+        /// The date and time when the item was modified. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a human-readable format like ISO 8601 or a Java Date object.
         public var deviceLastModifiedDate: ClientRuntime.Date?
 
         public init(
@@ -12688,13 +12688,13 @@ extension CognitoIdentityProviderClientTypes.GroupType: Swift.Codable {
 extension CognitoIdentityProviderClientTypes {
     /// The group type.
     public struct GroupType {
-        /// The date and time, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format, when the item was created.
+        /// The date and time when the item was created. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a human-readable format like ISO 8601 or a Java Date object.
         public var creationDate: ClientRuntime.Date?
         /// A string containing the description of the group.
         public var description: Swift.String?
         /// The name of the group.
         public var groupName: Swift.String?
-        /// The date and time, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format, when the item was modified.
+        /// The date and time when the item was modified. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a human-readable format like ISO 8601 or a Java Date object.
         public var lastModifiedDate: ClientRuntime.Date?
         /// A non-negative integer value that specifies the precedence of this group relative to the other groups that a user can belong to in the user pool. Zero is the highest precedence value. Groups with lower Precedence values take precedence over groups with higher ornull Precedence values. If a user belongs to two or more groups, it is the group with the lowest precedence value whose role ARN is given in the user's tokens for the cognito:roles and cognito:preferred_role claims. Two groups can have the same Precedence value. If this happens, neither group takes precedence over the other. If two groups with the same Precedence have the same role ARN, that role is used in the cognito:preferred_role claim in tokens for users in each group. If the two groups have different role ARNs, the cognito:preferred_role claim isn't set in users' tokens. The default Precedence value is null.
         public var precedence: Swift.Int?
@@ -12872,11 +12872,11 @@ extension CognitoIdentityProviderClientTypes {
     public struct IdentityProviderType {
         /// A mapping of IdP attributes to standard and custom user pool attributes.
         public var attributeMapping: [Swift.String:Swift.String]?
-        /// The date and time, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format, when the item was created.
+        /// The date and time when the item was created. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a human-readable format like ISO 8601 or a Java Date object.
         public var creationDate: ClientRuntime.Date?
         /// A list of IdP identifiers.
         public var idpIdentifiers: [Swift.String]?
-        /// The date and time, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format, when the item was modified.
+        /// The date and time when the item was modified. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a human-readable format like ISO 8601 or a Java Date object.
         public var lastModifiedDate: ClientRuntime.Date?
         /// The scopes, URLs, and identifiers for your external identity provider. The following examples describe the provider detail keys for each IdP type. These values and their schema are subject to change. Social IdP authorize_scopes values must match the values listed here. OpenID Connect (OIDC) Amazon Cognito accepts the following elements when it can't discover endpoint URLs from oidc_issuer: attributes_url, authorize_url, jwks_uri, token_url. Create or update request: "ProviderDetails": { "attributes_request_method": "GET", "attributes_url": "https://auth.example.com/userInfo", "authorize_scopes": "openid profile email", "authorize_url": "https://auth.example.com/authorize", "client_id": "1example23456789", "client_secret": "provider-app-client-secret", "jwks_uri": "https://auth.example.com/.well-known/jwks.json", "oidc_issuer": "https://auth.example.com", "token_url": "https://example.com/token" } Describe response: "ProviderDetails": { "attributes_request_method": "GET", "attributes_url": "https://auth.example.com/userInfo", "attributes_url_add_attributes": "false", "authorize_scopes": "openid profile email", "authorize_url": "https://auth.example.com/authorize", "client_id": "1example23456789", "client_secret": "provider-app-client-secret", "jwks_uri": "https://auth.example.com/.well-known/jwks.json", "oidc_issuer": "https://auth.example.com", "token_url": "https://example.com/token" } SAML Create or update request with Metadata URL: "ProviderDetails": { "IDPInit": "true", "IDPSignout": "true", "EncryptedResponses" : "true", "MetadataURL": "https://auth.example.com/sso/saml/metadata", "RequestSigningAlgorithm": "rsa-sha256" } Create or update request with Metadata file: "ProviderDetails": { "IDPInit": "true", "IDPSignout": "true", "EncryptedResponses" : "true", "MetadataFile": "[metadata XML]", "RequestSigningAlgorithm": "rsa-sha256" } The value of MetadataFile must be the plaintext metadata document with all quote (") characters escaped by backslashes. Describe response: "ProviderDetails": { "IDPInit": "true", "IDPSignout": "true", "EncryptedResponses" : "true", "ActiveEncryptionCertificate": "[certificate]", "MetadataURL": "https://auth.example.com/sso/saml/metadata", "RequestSigningAlgorithm": "rsa-sha256", "SLORedirectBindingURI": "https://auth.example.com/slo/saml", "SSORedirectBindingURI": "https://auth.example.com/sso/saml" } LoginWithAmazon Create or update request: "ProviderDetails": { "authorize_scopes": "profile postal_code", "client_id": "amzn1.application-oa2-client.1example23456789", "client_secret": "provider-app-client-secret" Describe response: "ProviderDetails": { "attributes_url": "https://api.amazon.com/user/profile", "attributes_url_add_attributes": "false", "authorize_scopes": "profile postal_code", "authorize_url": "https://www.amazon.com/ap/oa", "client_id": "amzn1.application-oa2-client.1example23456789", "client_secret": "provider-app-client-secret", "token_request_method": "POST", "token_url": "https://api.amazon.com/auth/o2/token" } Google Create or update request: "ProviderDetails": { "authorize_scopes": "email profile openid", "client_id": "1example23456789.apps.googleusercontent.com", "client_secret": "provider-app-client-secret" } Describe response: "ProviderDetails": { "attributes_url": "https://people.googleapis.com/v1/people/me?personFields=", "attributes_url_add_attributes": "true", "authorize_scopes": "email profile openid", "authorize_url": "https://accounts.google.com/o/oauth2/v2/auth", "client_id": "1example23456789.apps.googleusercontent.com", "client_secret": "provider-app-client-secret", "oidc_issuer": "https://accounts.google.com", "token_request_method": "POST", "token_url": "https://www.googleapis.com/oauth2/v4/token" } SignInWithApple Create or update request: "ProviderDetails": { "authorize_scopes": "email name", "client_id": "com.example.cognito", "private_key": "1EXAMPLE", "key_id": "2EXAMPLE", "team_id": "3EXAMPLE" } Describe response: "ProviderDetails": { "attributes_url_add_attributes": "false", "authorize_scopes": "email name", "authorize_url": "https://appleid.apple.com/auth/authorize", "client_id": "com.example.cognito", "key_id": "1EXAMPLE", "oidc_issuer": "https://appleid.apple.com", "team_id": "2EXAMPLE", "token_request_method": "POST", "token_url": "https://appleid.apple.com/auth/token" } Facebook Create or update request: "ProviderDetails": { "api_version": "v17.0", "authorize_scopes": "public_profile, email", "client_id": "1example23456789", "client_secret": "provider-app-client-secret" } Describe response: "ProviderDetails": { "api_version": "v17.0", "attributes_url": "https://graph.facebook.com/v17.0/me?fields=", "attributes_url_add_attributes": "true", "authorize_scopes": "public_profile, email", "authorize_url": "https://www.facebook.com/v17.0/dialog/oauth", "client_id": "1example23456789", "client_secret": "provider-app-client-secret", "token_request_method": "GET", "token_url": "https://graph.facebook.com/v17.0/oauth/access_token" }
         public var providerDetails: [Swift.String:Swift.String]?
@@ -16533,7 +16533,7 @@ extension CognitoIdentityProviderClientTypes.ProviderDescription: Swift.Codable 
 extension CognitoIdentityProviderClientTypes {
     /// A container for IdP details.
     public struct ProviderDescription {
-        /// The date and time, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format, when the item was created.
+        /// The date and time when the item was created. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a human-readable format like ISO 8601 or a Java Date object.
         public var creationDate: ClientRuntime.Date?
         /// The date the provider was last modified.
         public var lastModifiedDate: ClientRuntime.Date?
@@ -17050,7 +17050,7 @@ extension CognitoIdentityProviderClientTypes.ResourceServerType: Swift.Codable {
 extension CognitoIdentityProviderClientTypes {
     /// A container for information about a resource server for a user pool.
     public struct ResourceServerType {
-        /// The identifier for the resource server.
+        /// A unique resource server identifier for the resource server. The identifier can be an API friendly name like solar-system-data. You can also set an API URL like https://solar-system-data-api.example.com as your identifier. Amazon Cognito represents scopes in the access token in the format $resource-server-identifier/$scope. Longer scope-identifier strings increase the size of your access tokens.
         public var identifier: Swift.String?
         /// The name of the resource server.
         public var name: Swift.String?
@@ -17518,7 +17518,7 @@ extension CognitoIdentityProviderClientTypes {
         public var clientId: Swift.String?
         /// The compromised credentials risk configuration object, including the EventFilter and the EventAction.
         public var compromisedCredentialsRiskConfiguration: CognitoIdentityProviderClientTypes.CompromisedCredentialsRiskConfigurationType?
-        /// The date and time, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format, when the item was modified.
+        /// The date and time when the item was modified. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a human-readable format like ISO 8601 or a Java Date object.
         public var lastModifiedDate: ClientRuntime.Date?
         /// The configuration to override the risk decision.
         public var riskExceptionConfiguration: CognitoIdentityProviderClientTypes.RiskExceptionConfigurationType?
@@ -18977,6 +18977,7 @@ enum SignUpOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InvalidPasswordException": return try await InvalidPasswordException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidSmsRoleAccessPolicyException": return try await InvalidSmsRoleAccessPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidSmsRoleTrustRelationshipException": return try await InvalidSmsRoleTrustRelationshipException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "NotAuthorizedException": return try await NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -19910,7 +19911,7 @@ extension CognitoIdentityProviderClientTypes {
     public struct UICustomizationType {
         /// The client ID for the client app.
         public var clientId: Swift.String?
-        /// The date and time, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format, when the item was created.
+        /// The date and time when the item was created. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a human-readable format like ISO 8601 or a Java Date object.
         public var creationDate: ClientRuntime.Date?
         /// The CSS values in the UI customization.
         public var css: Swift.String?
@@ -19918,7 +19919,7 @@ extension CognitoIdentityProviderClientTypes {
         public var cssVersion: Swift.String?
         /// The logo image for the UI customization.
         public var imageUrl: Swift.String?
-        /// The date and time, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format, when the item was modified.
+        /// The date and time when the item was modified. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a human-readable format like ISO 8601 or a Java Date object.
         public var lastModifiedDate: ClientRuntime.Date?
         /// The user pool ID for the user pool.
         public var userPoolId: Swift.String?
@@ -21001,7 +21002,7 @@ extension UpdateResourceServerInput {
 }
 
 public struct UpdateResourceServerInput {
-    /// The identifier for the resource server.
+    /// A unique resource server identifier for the resource server. The identifier can be an API friendly name like solar-system-data. You can also set an API URL like https://solar-system-data-api.example.com as your identifier. Amazon Cognito represents scopes in the access token in the format $resource-server-identifier/$scope. Longer scope-identifier strings increase the size of your access tokens.
     /// This member is required.
     public var identifier: Swift.String?
     /// The name of the resource server.
@@ -22582,7 +22583,7 @@ extension CognitoIdentityProviderClientTypes {
         public var completionDate: ClientRuntime.Date?
         /// The message returned when the user import job is completed.
         public var completionMessage: Swift.String?
-        /// The date and time, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format, when the item was created.
+        /// The date and time when the item was created. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a human-readable format like ISO 8601 or a Java Date object.
         public var creationDate: ClientRuntime.Date?
         /// The number of users that couldn't be imported.
         public var failedUsers: Swift.Int
@@ -23279,7 +23280,7 @@ extension CognitoIdentityProviderClientTypes {
         public var clientName: Swift.String?
         /// The client secret from the user pool request of the client type.
         public var clientSecret: Swift.String?
-        /// The date and time, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format, when the item was created.
+        /// The date and time when the item was created. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a human-readable format like ISO 8601 or a Java Date object.
         public var creationDate: ClientRuntime.Date?
         /// The default redirect URI. Must be in the CallbackURLs list. A redirect URI must:
         ///
@@ -23313,7 +23314,7 @@ extension CognitoIdentityProviderClientTypes {
         public var explicitAuthFlows: [CognitoIdentityProviderClientTypes.ExplicitAuthFlowsType]?
         /// The ID token time limit. After this limit expires, your user can't use their ID token. To specify the time unit for IdTokenValidity as seconds, minutes, hours, or days, set a TokenValidityUnits value in your API request. For example, when you set IdTokenValidity as 10 and TokenValidityUnits as hours, your user can authenticate their session with their ID token for 10 hours. The default time unit for IdTokenValidity in an API request is hours. Valid range is displayed below in seconds. If you don't specify otherwise in the configuration of your app client, your ID tokens are valid for one hour.
         public var idTokenValidity: Swift.Int?
-        /// The date and time, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format, when the item was modified.
+        /// The date and time when the item was modified. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a human-readable format like ISO 8601 or a Java Date object.
         public var lastModifiedDate: ClientRuntime.Date?
         /// A list of allowed logout URLs for the IdPs.
         public var logoutURLs: [Swift.String]?
@@ -23446,13 +23447,13 @@ extension CognitoIdentityProviderClientTypes.UserPoolDescriptionType: Swift.Coda
 extension CognitoIdentityProviderClientTypes {
     /// A user pool description.
     public struct UserPoolDescriptionType {
-        /// The date and time, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format, when the item was created.
+        /// The date and time when the item was created. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a human-readable format like ISO 8601 or a Java Date object.
         public var creationDate: ClientRuntime.Date?
         /// The ID in a user pool description.
         public var id: Swift.String?
         /// The Lambda configuration information in a user pool description.
         public var lambdaConfig: CognitoIdentityProviderClientTypes.LambdaConfigType?
-        /// The date and time, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format, when the item was modified.
+        /// The date and time when the item was modified. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a human-readable format like ISO 8601 or a Java Date object.
         public var lastModifiedDate: ClientRuntime.Date?
         /// The name in a user pool description.
         public var name: Swift.String?
@@ -23889,7 +23890,7 @@ extension CognitoIdentityProviderClientTypes {
         public var arn: Swift.String?
         /// The attributes that are auto-verified in a user pool.
         public var autoVerifiedAttributes: [CognitoIdentityProviderClientTypes.VerifiedAttributeType]?
-        /// The date and time, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format, when the item was created.
+        /// The date and time when the item was created. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a human-readable format like ISO 8601 or a Java Date object.
         public var creationDate: ClientRuntime.Date?
         /// A custom domain name that you provide to Amazon Cognito. This parameter applies only if you use a custom domain to host the sign-up and sign-in pages for your application. An example of a custom domain name might be auth.example.com. For more information about adding a custom domain to your user pool, see [Using Your Own Domain for the Hosted UI](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-add-custom-domain.html).
         public var customDomain: Swift.String?
@@ -23913,7 +23914,7 @@ extension CognitoIdentityProviderClientTypes {
         public var id: Swift.String?
         /// The Lambda triggers associated with the user pool.
         public var lambdaConfig: CognitoIdentityProviderClientTypes.LambdaConfigType?
-        /// The date and time, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format, when the item was modified.
+        /// The date and time when the item was modified. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a human-readable format like ISO 8601 or a Java Date object.
         public var lastModifiedDate: ClientRuntime.Date?
         /// Can be one of the following values:
         ///
@@ -24169,7 +24170,7 @@ extension CognitoIdentityProviderClientTypes {
         public var mfaOptions: [CognitoIdentityProviderClientTypes.MFAOptionType]?
         /// The creation date of the user.
         public var userCreateDate: ClientRuntime.Date?
-        /// The date and time, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format, when the item was modified.
+        /// The date and time when the item was modified. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a human-readable format like ISO 8601 or a Java Date object.
         public var userLastModifiedDate: ClientRuntime.Date?
         /// The user status. This can be one of the following:
         ///

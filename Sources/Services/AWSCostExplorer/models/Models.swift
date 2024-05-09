@@ -12741,12 +12741,16 @@ extension CostExplorerClientTypes {
 
 extension CostExplorerClientTypes.ReservationPurchaseRecommendationMetadata: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalMetadata = "AdditionalMetadata"
         case generationTimestamp = "GenerationTimestamp"
         case recommendationId = "RecommendationId"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let additionalMetadata = self.additionalMetadata {
+            try encodeContainer.encode(additionalMetadata, forKey: .additionalMetadata)
+        }
         if let generationTimestamp = self.generationTimestamp {
             try encodeContainer.encode(generationTimestamp, forKey: .generationTimestamp)
         }
@@ -12761,22 +12765,28 @@ extension CostExplorerClientTypes.ReservationPurchaseRecommendationMetadata: Swi
         recommendationId = recommendationIdDecoded
         let generationTimestampDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .generationTimestamp)
         generationTimestamp = generationTimestampDecoded
+        let additionalMetadataDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .additionalMetadata)
+        additionalMetadata = additionalMetadataDecoded
     }
 }
 
 extension CostExplorerClientTypes {
-    /// Information about this specific recommendation, such as the timestamp for when Amazon Web Services made a specific recommendation.
+    /// Information about a recommendation, such as the timestamp for when Amazon Web Services made a specific recommendation.
     public struct ReservationPurchaseRecommendationMetadata {
-        /// The timestamp for when Amazon Web Services made this recommendation.
+        /// Additional metadata that might be applicable to the recommendation.
+        public var additionalMetadata: Swift.String?
+        /// The timestamp for when Amazon Web Services made the recommendation.
         public var generationTimestamp: Swift.String?
-        /// The ID for this specific recommendation.
+        /// The ID for the recommendation.
         public var recommendationId: Swift.String?
 
         public init(
+            additionalMetadata: Swift.String? = nil,
             generationTimestamp: Swift.String? = nil,
             recommendationId: Swift.String? = nil
         )
         {
+            self.additionalMetadata = additionalMetadata
             self.generationTimestamp = generationTimestamp
             self.recommendationId = recommendationId
         }
@@ -13368,15 +13378,15 @@ extension CostExplorerClientTypes.RightsizingRecommendationMetadata: Swift.Codab
 }
 
 extension CostExplorerClientTypes {
-    /// Metadata for this recommendation set.
+    /// Metadata for a recommendation set.
     public struct RightsizingRecommendationMetadata {
         /// Additional metadata that might be applicable to the recommendation.
         public var additionalMetadata: Swift.String?
-        /// The timestamp for when Amazon Web Services made this recommendation.
+        /// The timestamp for when Amazon Web Services made the recommendation.
         public var generationTimestamp: Swift.String?
-        /// The number of days of previous usage that Amazon Web Services considers when making this recommendation.
+        /// The number of days of previous usage that Amazon Web Services considers when making the recommendation.
         public var lookbackPeriodInDays: CostExplorerClientTypes.LookbackPeriodInDays?
-        /// The ID for this specific recommendation.
+        /// The ID for the recommendation.
         public var recommendationId: Swift.String?
 
         public init(

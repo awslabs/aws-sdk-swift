@@ -17,7 +17,7 @@ extension AccessDeniedException {
     }
 }
 
-/// The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+/// The current account doesn't have the IAM permissions required to perform the specified Resolver operation. This error can also be thrown when a customer has reached the 5120 character limit for a resource policy for CloudWatch Logs.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -1102,6 +1102,7 @@ extension CreateFirewallRuleInput: Swift.Encodable {
         case blockResponse = "BlockResponse"
         case creatorRequestId = "CreatorRequestId"
         case firewallDomainListId = "FirewallDomainListId"
+        case firewallDomainRedirectionAction = "FirewallDomainRedirectionAction"
         case firewallRuleGroupId = "FirewallRuleGroupId"
         case name = "Name"
         case priority = "Priority"
@@ -1130,6 +1131,9 @@ extension CreateFirewallRuleInput: Swift.Encodable {
         }
         if let firewallDomainListId = self.firewallDomainListId {
             try encodeContainer.encode(firewallDomainListId, forKey: .firewallDomainListId)
+        }
+        if let firewallDomainRedirectionAction = self.firewallDomainRedirectionAction {
+            try encodeContainer.encode(firewallDomainRedirectionAction.rawValue, forKey: .firewallDomainRedirectionAction)
         }
         if let firewallRuleGroupId = self.firewallRuleGroupId {
             try encodeContainer.encode(firewallRuleGroupId, forKey: .firewallRuleGroupId)
@@ -1186,6 +1190,8 @@ public struct CreateFirewallRuleInput {
     /// The ID of the domain list that you want to use in the rule.
     /// This member is required.
     public var firewallDomainListId: Swift.String?
+    /// How you want the the rule to evaluate DNS redirection in the DNS redirection chain, such as CNAME, DNAME, ot ALIAS. Inspect_Redirection_Domain (Default) inspects all domains in the redirection chain. The individual domains in the redirection chain must be added to the allow domain list. Trust_Redirection_Domain  inspects only the first domain in the redirection chain. You don't need to add the subsequent domains in the redirection list to the domain alloww list.
+    public var firewallDomainRedirectionAction: Route53ResolverClientTypes.FirewallDomainRedirectionAction?
     /// The unique identifier of the firewall rule group where you want to create the rule.
     /// This member is required.
     public var firewallRuleGroupId: Swift.String?
@@ -1222,6 +1228,8 @@ public struct CreateFirewallRuleInput {
     /// * SRV: Application specific values that identify servers.
     ///
     /// * TXT: Verifies email senders and application-specific values.
+    ///
+    /// * A query type you define by using the DNS type ID, for example 28 for AAAA. The values must be defined as TYPENUMBER, where the NUMBER can be 1-65334, for example, TYPE28. For more information, see [List of DNS record types](https://en.wikipedia.org/wiki/List_of_DNS_record_types).
     public var qtype: Swift.String?
 
     public init(
@@ -1232,6 +1240,7 @@ public struct CreateFirewallRuleInput {
         blockResponse: Route53ResolverClientTypes.BlockResponse? = nil,
         creatorRequestId: Swift.String? = nil,
         firewallDomainListId: Swift.String? = nil,
+        firewallDomainRedirectionAction: Route53ResolverClientTypes.FirewallDomainRedirectionAction? = nil,
         firewallRuleGroupId: Swift.String? = nil,
         name: Swift.String? = nil,
         priority: Swift.Int? = nil,
@@ -1245,6 +1254,7 @@ public struct CreateFirewallRuleInput {
         self.blockResponse = blockResponse
         self.creatorRequestId = creatorRequestId
         self.firewallDomainListId = firewallDomainListId
+        self.firewallDomainRedirectionAction = firewallDomainRedirectionAction
         self.firewallRuleGroupId = firewallRuleGroupId
         self.name = name
         self.priority = priority
@@ -1263,6 +1273,7 @@ struct CreateFirewallRuleInputBody {
     let blockOverrideDnsType: Route53ResolverClientTypes.BlockOverrideDnsType?
     let blockOverrideTtl: Swift.Int?
     let name: Swift.String?
+    let firewallDomainRedirectionAction: Route53ResolverClientTypes.FirewallDomainRedirectionAction?
     let qtype: Swift.String?
 }
 
@@ -1275,6 +1286,7 @@ extension CreateFirewallRuleInputBody: Swift.Decodable {
         case blockResponse = "BlockResponse"
         case creatorRequestId = "CreatorRequestId"
         case firewallDomainListId = "FirewallDomainListId"
+        case firewallDomainRedirectionAction = "FirewallDomainRedirectionAction"
         case firewallRuleGroupId = "FirewallRuleGroupId"
         case name = "Name"
         case priority = "Priority"
@@ -1303,6 +1315,8 @@ extension CreateFirewallRuleInputBody: Swift.Decodable {
         blockOverrideTtl = blockOverrideTtlDecoded
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
+        let firewallDomainRedirectionActionDecoded = try containerValues.decodeIfPresent(Route53ResolverClientTypes.FirewallDomainRedirectionAction.self, forKey: .firewallDomainRedirectionAction)
+        firewallDomainRedirectionAction = firewallDomainRedirectionActionDecoded
         let qtypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .qtype)
         qtype = qtypeDecoded
     }
@@ -1659,7 +1673,7 @@ public struct CreateResolverEndpointInput {
     public var protocols: [Route53ResolverClientTypes.ModelProtocol]?
     /// For the endpoint type you can choose either IPv4, IPv6, or dual-stack. A dual-stack endpoint means that it will resolve via both IPv4 and IPv6. This endpoint type is applied to all IP addresses.
     public var resolverEndpointType: Route53ResolverClientTypes.ResolverEndpointType?
-    /// The ID of one or more security groups that you want to use to control access to this VPC. The security group that you specify must include one or more inbound rules (for inbound Resolver endpoints) or outbound rules (for outbound Resolver endpoints). Inbound and outbound rules must allow TCP and UDP access. For inbound access, open port 53. For outbound access, open the port that you're using for DNS queries on your network.
+    /// The ID of one or more security groups that you want to use to control access to this VPC. The security group that you specify must include one or more inbound rules (for inbound Resolver endpoints) or outbound rules (for outbound Resolver endpoints). Inbound and outbound rules must allow TCP and UDP access. For inbound access, open port 53. For outbound access, open the port that you're using for DNS queries on your network. Some security group rules will cause your connection to be tracked. For outbound resolver endpoint, it can potentially impact the maximum queries per second from outbound endpoint to your target name server. For inbound resolver endpoint, it can bring down the overall maximum queries per second per IP address to as low as 1500. To avoid connection tracking caused by security group, see [Untracked connections](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/security-group-connection-tracking.html#untracked-connectionsl).
     /// This member is required.
     public var securityGroupIds: [Swift.String]?
     /// A list of the tag keys and values that you want to associate with the endpoint.
@@ -2476,6 +2490,8 @@ public struct DeleteFirewallRuleInput {
     /// * SRV: Application specific values that identify servers.
     ///
     /// * TXT: Verifies email senders and application-specific values.
+    ///
+    /// * A query type you define by using the DNS type ID, for example 28 for AAAA. The values must be defined as TYPENUMBER, where the NUMBER can be 1-65334, for example, TYPE28. For more information, see [List of DNS record types](https://en.wikipedia.org/wiki/List_of_DNS_record_types).
     public var qtype: Swift.String?
 
     public init(
@@ -3932,6 +3948,38 @@ extension Route53ResolverClientTypes {
 }
 
 extension Route53ResolverClientTypes {
+    public enum FirewallDomainRedirectionAction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case inspectRedirectionDomain
+        case trustRedirectionDomain
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FirewallDomainRedirectionAction] {
+            return [
+                .inspectRedirectionDomain,
+                .trustRedirectionDomain,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .inspectRedirectionDomain: return "INSPECT_REDIRECTION_DOMAIN"
+            case .trustRedirectionDomain: return "TRUST_REDIRECTION_DOMAIN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = FirewallDomainRedirectionAction(rawValue: rawValue) ?? FirewallDomainRedirectionAction.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension Route53ResolverClientTypes {
     public enum FirewallDomainUpdateOperation: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case add
         case remove
@@ -4011,6 +4059,7 @@ extension Route53ResolverClientTypes.FirewallRule: Swift.Codable {
         case creationTime = "CreationTime"
         case creatorRequestId = "CreatorRequestId"
         case firewallDomainListId = "FirewallDomainListId"
+        case firewallDomainRedirectionAction = "FirewallDomainRedirectionAction"
         case firewallRuleGroupId = "FirewallRuleGroupId"
         case modificationTime = "ModificationTime"
         case name = "Name"
@@ -4043,6 +4092,9 @@ extension Route53ResolverClientTypes.FirewallRule: Swift.Codable {
         }
         if let firewallDomainListId = self.firewallDomainListId {
             try encodeContainer.encode(firewallDomainListId, forKey: .firewallDomainListId)
+        }
+        if let firewallDomainRedirectionAction = self.firewallDomainRedirectionAction {
+            try encodeContainer.encode(firewallDomainRedirectionAction.rawValue, forKey: .firewallDomainRedirectionAction)
         }
         if let firewallRuleGroupId = self.firewallRuleGroupId {
             try encodeContainer.encode(firewallRuleGroupId, forKey: .firewallRuleGroupId)
@@ -4087,6 +4139,8 @@ extension Route53ResolverClientTypes.FirewallRule: Swift.Codable {
         creationTime = creationTimeDecoded
         let modificationTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .modificationTime)
         modificationTime = modificationTimeDecoded
+        let firewallDomainRedirectionActionDecoded = try containerValues.decodeIfPresent(Route53ResolverClientTypes.FirewallDomainRedirectionAction.self, forKey: .firewallDomainRedirectionAction)
+        firewallDomainRedirectionAction = firewallDomainRedirectionActionDecoded
         let qtypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .qtype)
         qtype = qtypeDecoded
     }
@@ -4123,6 +4177,8 @@ extension Route53ResolverClientTypes {
         public var creatorRequestId: Swift.String?
         /// The ID of the domain list that's used in the rule.
         public var firewallDomainListId: Swift.String?
+        /// How you want the the rule to evaluate DNS redirection in the DNS redirection chain, such as CNAME, DNAME, ot ALIAS. Inspect_Redirection_Domain (Default) inspects all domains in the redirection chain. The individual domains in the redirection chain must be added to the allow domain list. Trust_Redirection_Domain  inspects only the first domain in the redirection chain. You don't need to add the subsequent domains in the domain in the redirection list to the domain alloww list.
+        public var firewallDomainRedirectionAction: Route53ResolverClientTypes.FirewallDomainRedirectionAction?
         /// The unique identifier of the firewall rule group of the rule.
         public var firewallRuleGroupId: Swift.String?
         /// The date and time that the rule was last modified, in Unix time format and Coordinated Universal Time (UTC).
@@ -4158,6 +4214,8 @@ extension Route53ResolverClientTypes {
         /// * SRV: Application specific values that identify servers.
         ///
         /// * TXT: Verifies email senders and application-specific values.
+        ///
+        /// * A query type you define by using the DNS type ID, for example 28 for AAAA. The values must be defined as TYPENUMBER, where the NUMBER can be 1-65334, for example, TYPE28. For more information, see [List of DNS record types](https://en.wikipedia.org/wiki/List_of_DNS_record_types).
         public var qtype: Swift.String?
 
         public init(
@@ -4169,6 +4227,7 @@ extension Route53ResolverClientTypes {
             creationTime: Swift.String? = nil,
             creatorRequestId: Swift.String? = nil,
             firewallDomainListId: Swift.String? = nil,
+            firewallDomainRedirectionAction: Route53ResolverClientTypes.FirewallDomainRedirectionAction? = nil,
             firewallRuleGroupId: Swift.String? = nil,
             modificationTime: Swift.String? = nil,
             name: Swift.String? = nil,
@@ -4184,6 +4243,7 @@ extension Route53ResolverClientTypes {
             self.creationTime = creationTime
             self.creatorRequestId = creatorRequestId
             self.firewallDomainListId = firewallDomainListId
+            self.firewallDomainRedirectionAction = firewallDomainRedirectionAction
             self.firewallRuleGroupId = firewallRuleGroupId
             self.modificationTime = modificationTime
             self.name = name
@@ -13019,6 +13079,7 @@ extension UpdateFirewallRuleInput: Swift.Encodable {
         case blockOverrideTtl = "BlockOverrideTtl"
         case blockResponse = "BlockResponse"
         case firewallDomainListId = "FirewallDomainListId"
+        case firewallDomainRedirectionAction = "FirewallDomainRedirectionAction"
         case firewallRuleGroupId = "FirewallRuleGroupId"
         case name = "Name"
         case priority = "Priority"
@@ -13044,6 +13105,9 @@ extension UpdateFirewallRuleInput: Swift.Encodable {
         }
         if let firewallDomainListId = self.firewallDomainListId {
             try encodeContainer.encode(firewallDomainListId, forKey: .firewallDomainListId)
+        }
+        if let firewallDomainRedirectionAction = self.firewallDomainRedirectionAction {
+            try encodeContainer.encode(firewallDomainRedirectionAction.rawValue, forKey: .firewallDomainRedirectionAction)
         }
         if let firewallRuleGroupId = self.firewallRuleGroupId {
             try encodeContainer.encode(firewallRuleGroupId, forKey: .firewallRuleGroupId)
@@ -13093,6 +13157,8 @@ public struct UpdateFirewallRuleInput {
     /// The ID of the domain list to use in the rule.
     /// This member is required.
     public var firewallDomainListId: Swift.String?
+    /// How you want the the rule to evaluate DNS redirection in the DNS redirection chain, such as CNAME, DNAME, ot ALIAS. Inspect_Redirection_Domain (Default) inspects all domains in the redirection chain. The individual domains in the redirection chain must be added to the allow domain list. Trust_Redirection_Domain  inspects only the first domain in the redirection chain. You don't need to add the subsequent domains in the domain in the redirection list to the domain alloww list.
+    public var firewallDomainRedirectionAction: Route53ResolverClientTypes.FirewallDomainRedirectionAction?
     /// The unique identifier of the firewall rule group for the rule.
     /// This member is required.
     public var firewallRuleGroupId: Swift.String?
@@ -13127,6 +13193,8 @@ public struct UpdateFirewallRuleInput {
     /// * SRV: Application specific values that identify servers.
     ///
     /// * TXT: Verifies email senders and application-specific values.
+    ///
+    /// * A query type you define by using the DNS type ID, for example 28 for AAAA. The values must be defined as TYPENUMBER, where the NUMBER can be 1-65334, for example, TYPE28. For more information, see [List of DNS record types](https://en.wikipedia.org/wiki/List_of_DNS_record_types).
     public var qtype: Swift.String?
 
     public init(
@@ -13136,6 +13204,7 @@ public struct UpdateFirewallRuleInput {
         blockOverrideTtl: Swift.Int? = nil,
         blockResponse: Route53ResolverClientTypes.BlockResponse? = nil,
         firewallDomainListId: Swift.String? = nil,
+        firewallDomainRedirectionAction: Route53ResolverClientTypes.FirewallDomainRedirectionAction? = nil,
         firewallRuleGroupId: Swift.String? = nil,
         name: Swift.String? = nil,
         priority: Swift.Int? = nil,
@@ -13148,6 +13217,7 @@ public struct UpdateFirewallRuleInput {
         self.blockOverrideTtl = blockOverrideTtl
         self.blockResponse = blockResponse
         self.firewallDomainListId = firewallDomainListId
+        self.firewallDomainRedirectionAction = firewallDomainRedirectionAction
         self.firewallRuleGroupId = firewallRuleGroupId
         self.name = name
         self.priority = priority
@@ -13165,6 +13235,7 @@ struct UpdateFirewallRuleInputBody {
     let blockOverrideDnsType: Route53ResolverClientTypes.BlockOverrideDnsType?
     let blockOverrideTtl: Swift.Int?
     let name: Swift.String?
+    let firewallDomainRedirectionAction: Route53ResolverClientTypes.FirewallDomainRedirectionAction?
     let qtype: Swift.String?
 }
 
@@ -13176,6 +13247,7 @@ extension UpdateFirewallRuleInputBody: Swift.Decodable {
         case blockOverrideTtl = "BlockOverrideTtl"
         case blockResponse = "BlockResponse"
         case firewallDomainListId = "FirewallDomainListId"
+        case firewallDomainRedirectionAction = "FirewallDomainRedirectionAction"
         case firewallRuleGroupId = "FirewallRuleGroupId"
         case name = "Name"
         case priority = "Priority"
@@ -13202,6 +13274,8 @@ extension UpdateFirewallRuleInputBody: Swift.Decodable {
         blockOverrideTtl = blockOverrideTtlDecoded
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
+        let firewallDomainRedirectionActionDecoded = try containerValues.decodeIfPresent(Route53ResolverClientTypes.FirewallDomainRedirectionAction.self, forKey: .firewallDomainRedirectionAction)
+        firewallDomainRedirectionAction = firewallDomainRedirectionActionDecoded
         let qtypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .qtype)
         qtype = qtypeDecoded
     }

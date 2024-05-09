@@ -28,4 +28,22 @@ class PredictInputEndpointURLHostMiddlewareHandler(
             writer.write("return try await next.handle(context: copiedContext, input: input)")
         }
     }
+
+    override fun renderExtensions() {
+        writer.write(
+            """
+            extension $typeName: HttpInterceptor {
+                public typealias InputType = PredictInput
+                public typealias OutputType = PredictOutput
+                
+                public func modifyBeforeSerialization(context: some MutableInput<Self.InputType, HttpContext>) async throws {
+                    if let endpoint = context.getInput().predictEndpoint, let url = ${'$'}N(string: endpoint), let host = url.host {
+                        context.getAttributes().set(key: AttributeKey<String>(name: "Host"), value: host)
+                    }
+                }
+            }
+            """.trimIndent(),
+            ClientRuntimeTypes.Core.URL
+        )
+    }
 }

@@ -4461,6 +4461,38 @@ extension CodePipelineClientTypes {
 
 }
 
+extension CodePipelineClientTypes {
+    public enum ExecutionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case rollback
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExecutionType] {
+            return [
+                .rollback,
+                .standard,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .rollback: return "ROLLBACK"
+            case .standard: return "STANDARD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ExecutionType(rawValue: rawValue) ?? ExecutionType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension CodePipelineClientTypes.ExecutorConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobWorkerExecutorConfiguration
@@ -4536,6 +4568,41 @@ extension CodePipelineClientTypes {
             self = ExecutorType(rawValue: rawValue) ?? ExecutorType.sdkUnknown(rawValue)
         }
     }
+}
+
+extension CodePipelineClientTypes.FailureConditions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case result
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let result = self.result {
+            try encodeContainer.encode(result.rawValue, forKey: .result)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resultDecoded = try containerValues.decodeIfPresent(CodePipelineClientTypes.Result.self, forKey: .result)
+        result = resultDecoded
+    }
+}
+
+extension CodePipelineClientTypes {
+    /// The configuration that specifies the result, such as rollback, to occur upon stage failure.
+    public struct FailureConditions {
+        /// The specified result for when the failure conditions are met, such as rolling back the stage.
+        public var result: CodePipelineClientTypes.Result?
+
+        public init(
+            result: CodePipelineClientTypes.Result? = nil
+        )
+        {
+            self.result = result
+        }
+    }
+
 }
 
 extension CodePipelineClientTypes.FailureDetails: Swift.Codable {
@@ -7544,6 +7611,7 @@ enum ListActionTypesOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension ListPipelineExecutionsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filter
         case maxResults
         case nextToken
         case pipelineName
@@ -7551,6 +7619,9 @@ extension ListPipelineExecutionsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filter = self.filter {
+            try encodeContainer.encode(filter, forKey: .filter)
+        }
         if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
@@ -7572,6 +7643,8 @@ extension ListPipelineExecutionsInput {
 
 /// Represents the input of a ListPipelineExecutions action.
 public struct ListPipelineExecutionsInput {
+    /// The pipeline execution to filter on.
+    public var filter: CodePipelineClientTypes.PipelineExecutionFilter?
     /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value. Pipeline history is limited to the most recent 12 months, based on pipeline execution start times. Default value is 100.
     public var maxResults: Swift.Int?
     /// The token that was returned from the previous ListPipelineExecutions call, which can be used to return the next set of pipeline executions in the list.
@@ -7581,11 +7654,13 @@ public struct ListPipelineExecutionsInput {
     public var pipelineName: Swift.String?
 
     public init(
+        filter: CodePipelineClientTypes.PipelineExecutionFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         pipelineName: Swift.String? = nil
     )
     {
+        self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.pipelineName = pipelineName
@@ -7595,11 +7670,13 @@ public struct ListPipelineExecutionsInput {
 struct ListPipelineExecutionsInputBody {
     let pipelineName: Swift.String?
     let maxResults: Swift.Int?
+    let filter: CodePipelineClientTypes.PipelineExecutionFilter?
     let nextToken: Swift.String?
 }
 
 extension ListPipelineExecutionsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filter
         case maxResults
         case nextToken
         case pipelineName
@@ -7611,6 +7688,8 @@ extension ListPipelineExecutionsInputBody: Swift.Decodable {
         pipelineName = pipelineNameDecoded
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
+        let filterDecoded = try containerValues.decodeIfPresent(CodePipelineClientTypes.PipelineExecutionFilter.self, forKey: .filter)
+        filter = filterDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
@@ -8617,9 +8696,11 @@ extension CodePipelineClientTypes.PipelineExecution: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case artifactRevisions
         case executionMode
+        case executionType
         case pipelineExecutionId
         case pipelineName
         case pipelineVersion
+        case rollbackMetadata
         case status
         case statusSummary
         case trigger
@@ -8637,6 +8718,9 @@ extension CodePipelineClientTypes.PipelineExecution: Swift.Codable {
         if let executionMode = self.executionMode {
             try encodeContainer.encode(executionMode.rawValue, forKey: .executionMode)
         }
+        if let executionType = self.executionType {
+            try encodeContainer.encode(executionType.rawValue, forKey: .executionType)
+        }
         if let pipelineExecutionId = self.pipelineExecutionId {
             try encodeContainer.encode(pipelineExecutionId, forKey: .pipelineExecutionId)
         }
@@ -8645,6 +8729,9 @@ extension CodePipelineClientTypes.PipelineExecution: Swift.Codable {
         }
         if let pipelineVersion = self.pipelineVersion {
             try encodeContainer.encode(pipelineVersion, forKey: .pipelineVersion)
+        }
+        if let rollbackMetadata = self.rollbackMetadata {
+            try encodeContainer.encode(rollbackMetadata, forKey: .rollbackMetadata)
         }
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
@@ -8701,6 +8788,10 @@ extension CodePipelineClientTypes.PipelineExecution: Swift.Codable {
         trigger = triggerDecoded
         let executionModeDecoded = try containerValues.decodeIfPresent(CodePipelineClientTypes.ExecutionMode.self, forKey: .executionMode)
         executionMode = executionModeDecoded
+        let executionTypeDecoded = try containerValues.decodeIfPresent(CodePipelineClientTypes.ExecutionType.self, forKey: .executionType)
+        executionType = executionTypeDecoded
+        let rollbackMetadataDecoded = try containerValues.decodeIfPresent(CodePipelineClientTypes.PipelineRollbackMetadata.self, forKey: .rollbackMetadata)
+        rollbackMetadata = rollbackMetadataDecoded
     }
 }
 
@@ -8711,12 +8802,16 @@ extension CodePipelineClientTypes {
         public var artifactRevisions: [CodePipelineClientTypes.ArtifactRevision]?
         /// The method that the pipeline will use to handle multiple executions. The default mode is SUPERSEDED.
         public var executionMode: CodePipelineClientTypes.ExecutionMode?
+        /// The type of the pipeline execution.
+        public var executionType: CodePipelineClientTypes.ExecutionType?
         /// The ID of the pipeline execution.
         public var pipelineExecutionId: Swift.String?
         /// The name of the pipeline with the specified pipeline execution.
         public var pipelineName: Swift.String?
         /// The version number of the pipeline with the specified pipeline execution.
         public var pipelineVersion: Swift.Int?
+        /// The metadata about the execution pertaining to stage rollback.
+        public var rollbackMetadata: CodePipelineClientTypes.PipelineRollbackMetadata?
         /// The status of the pipeline execution.
         ///
         /// * Cancelled: The pipeline’s definition was updated before the pipeline execution could be completed.
@@ -8743,9 +8838,11 @@ extension CodePipelineClientTypes {
         public init(
             artifactRevisions: [CodePipelineClientTypes.ArtifactRevision]? = nil,
             executionMode: CodePipelineClientTypes.ExecutionMode? = nil,
+            executionType: CodePipelineClientTypes.ExecutionType? = nil,
             pipelineExecutionId: Swift.String? = nil,
             pipelineName: Swift.String? = nil,
             pipelineVersion: Swift.Int? = nil,
+            rollbackMetadata: CodePipelineClientTypes.PipelineRollbackMetadata? = nil,
             status: CodePipelineClientTypes.PipelineExecutionStatus? = nil,
             statusSummary: Swift.String? = nil,
             trigger: CodePipelineClientTypes.ExecutionTrigger? = nil,
@@ -8754,13 +8851,50 @@ extension CodePipelineClientTypes {
         {
             self.artifactRevisions = artifactRevisions
             self.executionMode = executionMode
+            self.executionType = executionType
             self.pipelineExecutionId = pipelineExecutionId
             self.pipelineName = pipelineName
             self.pipelineVersion = pipelineVersion
+            self.rollbackMetadata = rollbackMetadata
             self.status = status
             self.statusSummary = statusSummary
             self.trigger = trigger
             self.variables = variables
+        }
+    }
+
+}
+
+extension CodePipelineClientTypes.PipelineExecutionFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case succeededInStage
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let succeededInStage = self.succeededInStage {
+            try encodeContainer.encode(succeededInStage, forKey: .succeededInStage)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let succeededInStageDecoded = try containerValues.decodeIfPresent(CodePipelineClientTypes.SucceededInStageFilter.self, forKey: .succeededInStage)
+        succeededInStage = succeededInStageDecoded
+    }
+}
+
+extension CodePipelineClientTypes {
+    /// The pipeline execution to filter on.
+    public struct PipelineExecutionFilter {
+        /// Filter for pipeline executions where the stage was successful in the current pipeline version.
+        public var succeededInStage: CodePipelineClientTypes.SucceededInStageFilter?
+
+        public init(
+            succeededInStage: CodePipelineClientTypes.SucceededInStageFilter? = nil
+        )
+        {
+            self.succeededInStage = succeededInStage
         }
     }
 
@@ -8877,6 +9011,61 @@ extension PipelineExecutionNotStoppableExceptionBody: Swift.Decodable {
     }
 }
 
+extension PipelineExecutionOutdatedException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PipelineExecutionOutdatedExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The specified pipeline execution is outdated and cannot be used as a target pipeline execution for rollback.
+public struct PipelineExecutionOutdatedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "PipelineExecutionOutdatedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct PipelineExecutionOutdatedExceptionBody {
+    let message: Swift.String?
+}
+
+extension PipelineExecutionOutdatedExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension CodePipelineClientTypes {
     public enum PipelineExecutionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case cancelled
@@ -8927,11 +9116,14 @@ extension CodePipelineClientTypes {
 extension CodePipelineClientTypes.PipelineExecutionSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case executionMode
+        case executionType
         case lastUpdateTime
         case pipelineExecutionId
+        case rollbackMetadata
         case sourceRevisions
         case startTime
         case status
+        case statusSummary
         case stopTrigger
         case trigger
     }
@@ -8941,11 +9133,17 @@ extension CodePipelineClientTypes.PipelineExecutionSummary: Swift.Codable {
         if let executionMode = self.executionMode {
             try encodeContainer.encode(executionMode.rawValue, forKey: .executionMode)
         }
+        if let executionType = self.executionType {
+            try encodeContainer.encode(executionType.rawValue, forKey: .executionType)
+        }
         if let lastUpdateTime = self.lastUpdateTime {
             try encodeContainer.encodeTimestamp(lastUpdateTime, format: .epochSeconds, forKey: .lastUpdateTime)
         }
         if let pipelineExecutionId = self.pipelineExecutionId {
             try encodeContainer.encode(pipelineExecutionId, forKey: .pipelineExecutionId)
+        }
+        if let rollbackMetadata = self.rollbackMetadata {
+            try encodeContainer.encode(rollbackMetadata, forKey: .rollbackMetadata)
         }
         if let sourceRevisions = sourceRevisions {
             var sourceRevisionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceRevisions)
@@ -8958,6 +9156,9 @@ extension CodePipelineClientTypes.PipelineExecutionSummary: Swift.Codable {
         }
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let statusSummary = self.statusSummary {
+            try encodeContainer.encode(statusSummary, forKey: .statusSummary)
         }
         if let stopTrigger = self.stopTrigger {
             try encodeContainer.encode(stopTrigger, forKey: .stopTrigger)
@@ -8973,6 +9174,8 @@ extension CodePipelineClientTypes.PipelineExecutionSummary: Swift.Codable {
         pipelineExecutionId = pipelineExecutionIdDecoded
         let statusDecoded = try containerValues.decodeIfPresent(CodePipelineClientTypes.PipelineExecutionStatus.self, forKey: .status)
         status = statusDecoded
+        let statusSummaryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusSummary)
+        statusSummary = statusSummaryDecoded
         let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
         startTime = startTimeDecoded
         let lastUpdateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdateTime)
@@ -8994,6 +9197,10 @@ extension CodePipelineClientTypes.PipelineExecutionSummary: Swift.Codable {
         stopTrigger = stopTriggerDecoded
         let executionModeDecoded = try containerValues.decodeIfPresent(CodePipelineClientTypes.ExecutionMode.self, forKey: .executionMode)
         executionMode = executionModeDecoded
+        let executionTypeDecoded = try containerValues.decodeIfPresent(CodePipelineClientTypes.ExecutionType.self, forKey: .executionType)
+        executionType = executionTypeDecoded
+        let rollbackMetadataDecoded = try containerValues.decodeIfPresent(CodePipelineClientTypes.PipelineRollbackMetadata.self, forKey: .rollbackMetadata)
+        rollbackMetadata = rollbackMetadataDecoded
     }
 }
 
@@ -9002,10 +9209,14 @@ extension CodePipelineClientTypes {
     public struct PipelineExecutionSummary {
         /// The method that the pipeline will use to handle multiple executions. The default mode is SUPERSEDED.
         public var executionMode: CodePipelineClientTypes.ExecutionMode?
+        /// Type of the pipeline execution.
+        public var executionType: CodePipelineClientTypes.ExecutionType?
         /// The date and time of the last change to the pipeline execution, in timestamp format.
         public var lastUpdateTime: ClientRuntime.Date?
         /// The ID of the pipeline execution.
         public var pipelineExecutionId: Swift.String?
+        /// The metadata for the stage execution to be rolled back.
+        public var rollbackMetadata: CodePipelineClientTypes.PipelineRollbackMetadata?
         /// A list of the source artifact revisions that initiated a pipeline execution.
         public var sourceRevisions: [CodePipelineClientTypes.SourceRevision]?
         /// The date and time when the pipeline execution began, in timestamp format.
@@ -9024,6 +9235,8 @@ extension CodePipelineClientTypes {
         ///
         /// * Failed: The pipeline execution was not completed successfully.
         public var status: CodePipelineClientTypes.PipelineExecutionStatus?
+        /// Status summary for the pipeline.
+        public var statusSummary: Swift.String?
         /// The interaction that stopped a pipeline execution.
         public var stopTrigger: CodePipelineClientTypes.StopExecutionTrigger?
         /// The interaction or event that started a pipeline execution, such as automated change detection or a StartPipelineExecution API call.
@@ -9031,21 +9244,27 @@ extension CodePipelineClientTypes {
 
         public init(
             executionMode: CodePipelineClientTypes.ExecutionMode? = nil,
+            executionType: CodePipelineClientTypes.ExecutionType? = nil,
             lastUpdateTime: ClientRuntime.Date? = nil,
             pipelineExecutionId: Swift.String? = nil,
+            rollbackMetadata: CodePipelineClientTypes.PipelineRollbackMetadata? = nil,
             sourceRevisions: [CodePipelineClientTypes.SourceRevision]? = nil,
             startTime: ClientRuntime.Date? = nil,
             status: CodePipelineClientTypes.PipelineExecutionStatus? = nil,
+            statusSummary: Swift.String? = nil,
             stopTrigger: CodePipelineClientTypes.StopExecutionTrigger? = nil,
             trigger: CodePipelineClientTypes.ExecutionTrigger? = nil
         )
         {
             self.executionMode = executionMode
+            self.executionType = executionType
             self.lastUpdateTime = lastUpdateTime
             self.pipelineExecutionId = pipelineExecutionId
+            self.rollbackMetadata = rollbackMetadata
             self.sourceRevisions = sourceRevisions
             self.startTime = startTime
             self.status = status
+            self.statusSummary = statusSummary
             self.stopTrigger = stopTrigger
             self.trigger = trigger
         }
@@ -9228,6 +9447,41 @@ extension PipelineNotFoundExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension CodePipelineClientTypes.PipelineRollbackMetadata: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case rollbackTargetPipelineExecutionId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let rollbackTargetPipelineExecutionId = self.rollbackTargetPipelineExecutionId {
+            try encodeContainer.encode(rollbackTargetPipelineExecutionId, forKey: .rollbackTargetPipelineExecutionId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let rollbackTargetPipelineExecutionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rollbackTargetPipelineExecutionId)
+        rollbackTargetPipelineExecutionId = rollbackTargetPipelineExecutionIdDecoded
+    }
+}
+
+extension CodePipelineClientTypes {
+    /// The metadata for the stage execution to be rolled back.
+    public struct PipelineRollbackMetadata {
+        /// The pipeline execution ID to which the stage will be rolled back.
+        public var rollbackTargetPipelineExecutionId: Swift.String?
+
+        public init(
+            rollbackTargetPipelineExecutionId: Swift.String? = nil
+        )
+        {
+            self.rollbackTargetPipelineExecutionId = rollbackTargetPipelineExecutionId
+        }
+    }
+
 }
 
 extension CodePipelineClientTypes.PipelineSummary: Swift.Codable {
@@ -10974,6 +11228,35 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
     }
 }
 
+extension CodePipelineClientTypes {
+    public enum Result: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case rollback
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Result] {
+            return [
+                .rollback,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .rollback: return "ROLLBACK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Result(rawValue: rawValue) ?? Result.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension RetryStageExecutionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case pipelineExecutionId
@@ -11114,6 +11397,139 @@ enum RetryStageExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "PipelineNotFoundException": return try await PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "StageNotFoundException": return try await StageNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "StageNotRetryableException": return try await StageNotRetryableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension RollbackStageInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case pipelineName
+        case stageName
+        case targetPipelineExecutionId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let pipelineName = self.pipelineName {
+            try encodeContainer.encode(pipelineName, forKey: .pipelineName)
+        }
+        if let stageName = self.stageName {
+            try encodeContainer.encode(stageName, forKey: .stageName)
+        }
+        if let targetPipelineExecutionId = self.targetPipelineExecutionId {
+            try encodeContainer.encode(targetPipelineExecutionId, forKey: .targetPipelineExecutionId)
+        }
+    }
+}
+
+extension RollbackStageInput {
+
+    static func urlPathProvider(_ value: RollbackStageInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct RollbackStageInput {
+    /// The name of the pipeline for which the stage will be rolled back.
+    /// This member is required.
+    public var pipelineName: Swift.String?
+    /// The name of the stage in the pipeline to be rolled back.
+    /// This member is required.
+    public var stageName: Swift.String?
+    /// The pipeline execution ID for the stage to be rolled back to.
+    /// This member is required.
+    public var targetPipelineExecutionId: Swift.String?
+
+    public init(
+        pipelineName: Swift.String? = nil,
+        stageName: Swift.String? = nil,
+        targetPipelineExecutionId: Swift.String? = nil
+    )
+    {
+        self.pipelineName = pipelineName
+        self.stageName = stageName
+        self.targetPipelineExecutionId = targetPipelineExecutionId
+    }
+}
+
+struct RollbackStageInputBody {
+    let pipelineName: Swift.String?
+    let stageName: Swift.String?
+    let targetPipelineExecutionId: Swift.String?
+}
+
+extension RollbackStageInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case pipelineName
+        case stageName
+        case targetPipelineExecutionId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pipelineNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pipelineName)
+        pipelineName = pipelineNameDecoded
+        let stageNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stageName)
+        stageName = stageNameDecoded
+        let targetPipelineExecutionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetPipelineExecutionId)
+        targetPipelineExecutionId = targetPipelineExecutionIdDecoded
+    }
+}
+
+extension RollbackStageOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: RollbackStageOutputBody = try responseDecoder.decode(responseBody: data)
+            self.pipelineExecutionId = output.pipelineExecutionId
+        } else {
+            self.pipelineExecutionId = nil
+        }
+    }
+}
+
+public struct RollbackStageOutput {
+    /// The execution ID of the pipeline execution for the stage that has been rolled back.
+    /// This member is required.
+    public var pipelineExecutionId: Swift.String?
+
+    public init(
+        pipelineExecutionId: Swift.String? = nil
+    )
+    {
+        self.pipelineExecutionId = pipelineExecutionId
+    }
+}
+
+struct RollbackStageOutputBody {
+    let pipelineExecutionId: Swift.String?
+}
+
+extension RollbackStageOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case pipelineExecutionId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pipelineExecutionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pipelineExecutionId)
+        pipelineExecutionId = pipelineExecutionIdDecoded
+    }
+}
+
+enum RollbackStageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PipelineExecutionNotFoundException": return try await PipelineExecutionNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PipelineExecutionOutdatedException": return try await PipelineExecutionOutdatedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PipelineNotFoundException": return try await PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "StageNotFoundException": return try await StageNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnableToRollbackStageException": return try await UnableToRollbackStageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -11411,6 +11827,7 @@ extension CodePipelineClientTypes.StageDeclaration: Swift.Codable {
         case actions
         case blockers
         case name
+        case onFailure
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -11429,6 +11846,9 @@ extension CodePipelineClientTypes.StageDeclaration: Swift.Codable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let onFailure = self.onFailure {
+            try encodeContainer.encode(onFailure, forKey: .onFailure)
         }
     }
 
@@ -11458,6 +11878,8 @@ extension CodePipelineClientTypes.StageDeclaration: Swift.Codable {
             }
         }
         actions = actionsDecoded0
+        let onFailureDecoded = try containerValues.decodeIfPresent(CodePipelineClientTypes.FailureConditions.self, forKey: .onFailure)
+        onFailure = onFailureDecoded
     }
 }
 
@@ -11472,16 +11894,20 @@ extension CodePipelineClientTypes {
         /// The name of the stage.
         /// This member is required.
         public var name: Swift.String?
+        /// The method to use when a stage has not completed successfully. For example, configuring this field for rollback will roll back a failed stage automatically to the last successful pipeline execution in the stage.
+        public var onFailure: CodePipelineClientTypes.FailureConditions?
 
         public init(
             actions: [CodePipelineClientTypes.ActionDeclaration]? = nil,
             blockers: [CodePipelineClientTypes.BlockerDeclaration]? = nil,
-            name: Swift.String? = nil
+            name: Swift.String? = nil,
+            onFailure: CodePipelineClientTypes.FailureConditions? = nil
         )
         {
             self.actions = actions
             self.blockers = blockers
             self.name = name
+            self.onFailure = onFailure
         }
     }
 
@@ -11491,6 +11917,7 @@ extension CodePipelineClientTypes.StageExecution: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case pipelineExecutionId
         case status
+        case type
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -11501,6 +11928,9 @@ extension CodePipelineClientTypes.StageExecution: Swift.Codable {
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
         }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -11509,6 +11939,8 @@ extension CodePipelineClientTypes.StageExecution: Swift.Codable {
         pipelineExecutionId = pipelineExecutionIdDecoded
         let statusDecoded = try containerValues.decodeIfPresent(CodePipelineClientTypes.StageExecutionStatus.self, forKey: .status)
         status = statusDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(CodePipelineClientTypes.ExecutionType.self, forKey: .type)
+        type = typeDecoded
     }
 }
 
@@ -11521,14 +11953,18 @@ extension CodePipelineClientTypes {
         /// The status of the stage, or for a completed stage, the last status of the stage. A status of cancelled means that the pipeline’s definition was updated before the stage execution could be completed.
         /// This member is required.
         public var status: CodePipelineClientTypes.StageExecutionStatus?
+        /// The type of pipeline execution for the stage, such as a rollback pipeline execution.
+        public var type: CodePipelineClientTypes.ExecutionType?
 
         public init(
             pipelineExecutionId: Swift.String? = nil,
-            status: CodePipelineClientTypes.StageExecutionStatus? = nil
+            status: CodePipelineClientTypes.StageExecutionStatus? = nil,
+            type: CodePipelineClientTypes.ExecutionType? = nil
         )
         {
             self.pipelineExecutionId = pipelineExecutionId
             self.status = status
+            self.type = type
         }
     }
 
@@ -12236,6 +12672,41 @@ enum StopPipelineExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension CodePipelineClientTypes.SucceededInStageFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case stageName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let stageName = self.stageName {
+            try encodeContainer.encode(stageName, forKey: .stageName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let stageNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stageName)
+        stageName = stageNameDecoded
+    }
+}
+
+extension CodePipelineClientTypes {
+    /// Filter for pipeline executions that have successfully completed the stage in the current pipeline version.
+    public struct SucceededInStageFilter {
+        /// The name of the stage for filtering for pipeline executions where the stage was successful in the current pipeline version.
+        public var stageName: Swift.String?
+
+        public init(
+            stageName: Swift.String? = nil
+        )
+        {
+            self.stageName = stageName
+        }
+    }
+
+}
+
 extension CodePipelineClientTypes.Tag: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case key
@@ -12739,8 +13210,10 @@ extension CodePipelineClientTypes {
 
 extension CodePipelineClientTypes {
     public enum TriggerType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case automatedrollback
         case cloudwatchevent
         case createpipeline
+        case manualrollback
         case pollforsourcechanges
         case putactionrevision
         case startpipelineexecution
@@ -12750,8 +13223,10 @@ extension CodePipelineClientTypes {
 
         public static var allCases: [TriggerType] {
             return [
+                .automatedrollback,
                 .cloudwatchevent,
                 .createpipeline,
+                .manualrollback,
                 .pollforsourcechanges,
                 .putactionrevision,
                 .startpipelineexecution,
@@ -12766,8 +13241,10 @@ extension CodePipelineClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .automatedrollback: return "AutomatedRollback"
             case .cloudwatchevent: return "CloudWatchEvent"
             case .createpipeline: return "CreatePipeline"
+            case .manualrollback: return "ManualRollback"
             case .pollforsourcechanges: return "PollForSourceChanges"
             case .putactionrevision: return "PutActionRevision"
             case .startpipelineexecution: return "StartPipelineExecution"
@@ -12781,6 +13258,61 @@ extension CodePipelineClientTypes {
             let rawValue = try container.decode(RawValue.self)
             self = TriggerType(rawValue: rawValue) ?? TriggerType.sdkUnknown(rawValue)
         }
+    }
+}
+
+extension UnableToRollbackStageException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UnableToRollbackStageExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// Unable to roll back the stage. The cause might be if the pipeline version has changed since the target pipeline execution was deployed, the stage is currently running, or an incorrect target pipeline execution ID was provided.
+public struct UnableToRollbackStageException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnableToRollbackStageException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct UnableToRollbackStageExceptionBody {
+    let message: Swift.String?
+}
+
+extension UnableToRollbackStageExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
