@@ -18,19 +18,35 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # This matrix runs tests on Mac, on oldest & newest supported Xcodes
+        # This matrix runs tests on iOS sim & Mac, on oldest & newest supported Xcodes
         runner:
           - macos-13-xlarge
           - macos-14-xlarge
         xcode:
           - Xcode_14.1
           - Xcode_15.3
+        destination:
+          - 'platform=iOS Simulator,OS=16.1,name=iPhone 14'
+          - 'platform=iOS Simulator,OS=17.4,name=iPhone 15'
+          - 'platform=tvOS Simulator,OS=16.1,name=Apple TV 4K (3rd generation) (at 1080p)'
+          - 'platform=tvOS Simulator,OS=17.4,name=Apple TV 4K (3rd generation) (at 1080p)'
+          - 'platform=OS X'
         exclude:
           # Don't run old macOS with new Xcode
           - runner: macos-13-xlarge
             xcode: Xcode_15.3
           # Don't run new macOS with old Xcode
           - runner: macos-14-xlarge
+            xcode: Xcode_14.1
+          # Don't run old simulators with new Xcode
+          - destination: 'platform=tvOS Simulator,OS=16.1,name=Apple TV 4K (3rd generation) (at 1080p)'
+            xcode: Xcode_15.3
+          - destination: 'platform=iOS Simulator,OS=16.1,name=iPhone 14'
+            xcode: Xcode_15.3
+          # Don't run new simulators with old Xcode
+          - destination: 'platform=tvOS Simulator,OS=17.4,name=Apple TV 4K (3rd generation) (at 1080p)'
+            xcode: Xcode_14.1
+          - destination: 'platform=iOS Simulator,OS=17.4,name=iPhone 15'
             xcode: Xcode_14.1
     steps:
       - name: Configure AWS Credentials for Integration Tests
@@ -80,12 +96,28 @@ jobs:
           java-version: 17
       - name: Tools Versions
         run: ./scripts/ci_steps/log_tool_versions.sh
+      - name: Add Credentials to Test Plan
+        run: |
+          # JSON-escape the credentials.  They are also surrounded with double quotes.
+          AKID_ESCAPED=`echo -n "$AWS_ACCESS_KEY_ID" | jq -Rsa .`
+          SECRET_ESCAPED=`echo -n "$AWS_SECRET_ACCESS_KEY" | jq -Rsa .`
+          REGION_ESCAPED=`echo -n "$AWS_DEFAULT_REGION" | jq -Rsa .`
+          TOKEN_ESCAPED=`echo -n "$AWS_SESSION_TOKEN" | jq -Rsa .`
+          # Insert the credentials into the .xctestplan file, write the modified JSON
+          # to a temp file, then move the temp over the original.
+          jq ".defaultOptions.environmentVariableEntries += [{\"key\": \"AWS_ACCESS_KEY_ID\", \"value\": $AKID_ESCAPED}, {\"key\": \"AWS_SECRET_ACCESS_KEY\", \"value\": $SECRET_ESCAPED}, {\"key\": \"AWS_DEFAULT_REGION\", \"value\": $REGION_ESCAPED}, {\"key\": \"AWS_SESSION_TOKEN\", \"value\": $TOKEN_ESCAPED}]" XCTestPlans/AWSIntegrationTestsOnCI.xctestplan > testplan.tmp
+          mv testplan.tmp XCTestPlans/AWSIntegrationTestsOnCI.xctestplan
       - name: Prepare Integration Tests
         run: ./scripts/ci_steps/prepare_integration_tests.sh
-      - name: Build Integration Tests
-        run: swift build --build-tests
       - name: Run Integration Tests
-        run: swift test
+        run: |
+          set -o pipefail && \
+          NSUnbufferedIO=YES xcodebuild \
+            -scheme AWSIntegrationTestsOnCI \
+            -testPlan AWSIntegrationTestsOnCI \
+            -destination '${{ matrix.destination }}' \
+            test 2>&1 \
+            | xcpretty
 
   linux:
     runs-on: ubuntu-latest
