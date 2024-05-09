@@ -2,6 +2,82 @@
 import AWSClientRuntime
 import ClientRuntime
 
+extension QBusinessClientTypes.APISchema: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case payload
+        case s3
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .payload(payload):
+                try container.encode(payload, forKey: .payload)
+            case let .s3(s3):
+                try container.encode(s3, forKey: .s3)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let payloadDecoded = try values.decodeIfPresent(Swift.String.self, forKey: .payload)
+        if let payload = payloadDecoded {
+            self = .payload(payload)
+            return
+        }
+        let s3Decoded = try values.decodeIfPresent(QBusinessClientTypes.S3.self, forKey: .s3)
+        if let s3 = s3Decoded {
+            self = .s3(s3)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension QBusinessClientTypes {
+    /// Contains details about the OpenAPI schema for a custom plugin. For more information, see [custom plugin OpenAPI schemas](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/custom-plugin.html#plugins-api-schema). You can either include the schema directly in the payload field or you can upload it to an S3 bucket and specify the S3 bucket location in the s3 field.
+    public enum APISchema {
+        /// The JSON or YAML-formatted payload defining the OpenAPI schema for a custom plugin.
+        case payload(Swift.String)
+        /// Contains details about the S3 object containing the OpenAPI schema for a custom plugin. The schema could be in either JSON or YAML format.
+        case s3(QBusinessClientTypes.S3)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension QBusinessClientTypes {
+    public enum APISchemaType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case openApiV3
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [APISchemaType] {
+            return [
+                .openApiV3,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .openApiV3: return "OPEN_API_V3"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = APISchemaType(rawValue: rawValue) ?? APISchemaType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension QBusinessClientTypes.AccessConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessControls
@@ -244,6 +320,76 @@ extension QBusinessClientTypes {
 
 }
 
+extension QBusinessClientTypes.ActionExecutionEvent: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case payload
+        case payloadFieldNameSeparator
+        case pluginId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let payload = payload {
+            var payloadContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .payload)
+            for (dictKey0, actionExecutionPayload0) in payload {
+                try payloadContainer.encode(actionExecutionPayload0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let payloadFieldNameSeparator = self.payloadFieldNameSeparator {
+            try encodeContainer.encode(payloadFieldNameSeparator, forKey: .payloadFieldNameSeparator)
+        }
+        if let pluginId = self.pluginId {
+            try encodeContainer.encode(pluginId, forKey: .pluginId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pluginIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pluginId)
+        pluginId = pluginIdDecoded
+        let payloadContainer = try containerValues.decodeIfPresent([Swift.String: QBusinessClientTypes.ActionExecutionPayloadField?].self, forKey: .payload)
+        var payloadDecoded0: [Swift.String:QBusinessClientTypes.ActionExecutionPayloadField]? = nil
+        if let payloadContainer = payloadContainer {
+            payloadDecoded0 = [Swift.String:QBusinessClientTypes.ActionExecutionPayloadField]()
+            for (key0, actionexecutionpayloadfield0) in payloadContainer {
+                if let actionexecutionpayloadfield0 = actionexecutionpayloadfield0 {
+                    payloadDecoded0?[key0] = actionexecutionpayloadfield0
+                }
+            }
+        }
+        payload = payloadDecoded0
+        let payloadFieldNameSeparatorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .payloadFieldNameSeparator)
+        payloadFieldNameSeparator = payloadFieldNameSeparatorDecoded
+    }
+}
+
+extension QBusinessClientTypes {
+    /// A request from an end user signalling an intent to perform an Amazon Q Business plugin action during a streaming chat.
+    public struct ActionExecutionEvent {
+        /// A mapping of field names to the field values in input that an end user provides to Amazon Q Business requests to perform their plugin action.
+        /// This member is required.
+        public var payload: [Swift.String:QBusinessClientTypes.ActionExecutionPayloadField]?
+        /// A string used to retain information about the hierarchical contexts within a action execution event payload.
+        /// This member is required.
+        public var payloadFieldNameSeparator: Swift.String?
+        /// The identifier of the plugin for which the action is being requested.
+        /// This member is required.
+        public var pluginId: Swift.String?
+
+        public init(
+            payload: [Swift.String:QBusinessClientTypes.ActionExecutionPayloadField]? = nil,
+            payloadFieldNameSeparator: Swift.String? = nil,
+            pluginId: Swift.String? = nil
+        )
+        {
+            self.payload = payload
+            self.payloadFieldNameSeparator = payloadFieldNameSeparator
+            self.pluginId = pluginId
+        }
+    }
+
+}
+
 extension QBusinessClientTypes.ActionExecutionPayloadField: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case value
@@ -395,9 +541,118 @@ extension QBusinessClientTypes {
 
 }
 
+extension QBusinessClientTypes.ActionReviewEvent: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case conversationId
+        case payload
+        case payloadFieldNameSeparator
+        case pluginId
+        case pluginType
+        case systemMessageId
+        case userMessageId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let conversationId = self.conversationId {
+            try encodeContainer.encode(conversationId, forKey: .conversationId)
+        }
+        if let payload = payload {
+            var payloadContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .payload)
+            for (dictKey0, actionReviewPayload0) in payload {
+                try payloadContainer.encode(actionReviewPayload0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let payloadFieldNameSeparator = self.payloadFieldNameSeparator {
+            try encodeContainer.encode(payloadFieldNameSeparator, forKey: .payloadFieldNameSeparator)
+        }
+        if let pluginId = self.pluginId {
+            try encodeContainer.encode(pluginId, forKey: .pluginId)
+        }
+        if let pluginType = self.pluginType {
+            try encodeContainer.encode(pluginType.rawValue, forKey: .pluginType)
+        }
+        if let systemMessageId = self.systemMessageId {
+            try encodeContainer.encode(systemMessageId, forKey: .systemMessageId)
+        }
+        if let userMessageId = self.userMessageId {
+            try encodeContainer.encode(userMessageId, forKey: .userMessageId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let conversationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .conversationId)
+        conversationId = conversationIdDecoded
+        let userMessageIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userMessageId)
+        userMessageId = userMessageIdDecoded
+        let systemMessageIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .systemMessageId)
+        systemMessageId = systemMessageIdDecoded
+        let pluginIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pluginId)
+        pluginId = pluginIdDecoded
+        let pluginTypeDecoded = try containerValues.decodeIfPresent(QBusinessClientTypes.PluginType.self, forKey: .pluginType)
+        pluginType = pluginTypeDecoded
+        let payloadContainer = try containerValues.decodeIfPresent([Swift.String: QBusinessClientTypes.ActionReviewPayloadField?].self, forKey: .payload)
+        var payloadDecoded0: [Swift.String:QBusinessClientTypes.ActionReviewPayloadField]? = nil
+        if let payloadContainer = payloadContainer {
+            payloadDecoded0 = [Swift.String:QBusinessClientTypes.ActionReviewPayloadField]()
+            for (key0, actionreviewpayloadfield0) in payloadContainer {
+                if let actionreviewpayloadfield0 = actionreviewpayloadfield0 {
+                    payloadDecoded0?[key0] = actionreviewpayloadfield0
+                }
+            }
+        }
+        payload = payloadDecoded0
+        let payloadFieldNameSeparatorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .payloadFieldNameSeparator)
+        payloadFieldNameSeparator = payloadFieldNameSeparatorDecoded
+    }
+}
+
+extension QBusinessClientTypes {
+    /// An output event that Amazon Q Business returns to an user who wants to perform a plugin action during a streaming chat conversation. It contains information about the selected action with a list of possible user input fields, some pre-populated by Amazon Q Business.
+    public struct ActionReviewEvent {
+        /// The identifier of the conversation with which the action review event is associated.
+        public var conversationId: Swift.String?
+        /// Field values that an end user needs to provide to Amazon Q Business for Amazon Q Business to perform the requested plugin action.
+        public var payload: [Swift.String:QBusinessClientTypes.ActionReviewPayloadField]?
+        /// A string used to retain information about the hierarchical contexts within an action review event payload.
+        public var payloadFieldNameSeparator: Swift.String?
+        /// The identifier of the plugin associated with the action review event.
+        public var pluginId: Swift.String?
+        /// The type of plugin.
+        public var pluginType: QBusinessClientTypes.PluginType?
+        /// The identifier of an Amazon Q Business AI generated associated with the action review event.
+        public var systemMessageId: Swift.String?
+        /// The identifier of the conversation with which the plugin action is associated.
+        public var userMessageId: Swift.String?
+
+        public init(
+            conversationId: Swift.String? = nil,
+            payload: [Swift.String:QBusinessClientTypes.ActionReviewPayloadField]? = nil,
+            payloadFieldNameSeparator: Swift.String? = nil,
+            pluginId: Swift.String? = nil,
+            pluginType: QBusinessClientTypes.PluginType? = nil,
+            systemMessageId: Swift.String? = nil,
+            userMessageId: Swift.String? = nil
+        )
+        {
+            self.conversationId = conversationId
+            self.payload = payload
+            self.payloadFieldNameSeparator = payloadFieldNameSeparator
+            self.pluginId = pluginId
+            self.pluginType = pluginType
+            self.systemMessageId = systemMessageId
+            self.userMessageId = userMessageId
+        }
+    }
+
+}
+
 extension QBusinessClientTypes.ActionReviewPayloadField: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allowedFormat
         case allowedValues
+        case displayDescription
         case displayName
         case displayOrder
         case `required` = "required"
@@ -407,11 +662,17 @@ extension QBusinessClientTypes.ActionReviewPayloadField: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let allowedFormat = self.allowedFormat {
+            try encodeContainer.encode(allowedFormat, forKey: .allowedFormat)
+        }
         if let allowedValues = allowedValues {
             var allowedValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedValues)
             for actionreviewpayloadfieldallowedvalue0 in allowedValues {
                 try allowedValuesContainer.encode(actionreviewpayloadfieldallowedvalue0)
             }
+        }
+        if let displayDescription = self.displayDescription {
+            try encodeContainer.encode(displayDescription, forKey: .displayDescription)
         }
         if let displayName = self.displayName {
             try encodeContainer.encode(displayName, forKey: .displayName)
@@ -436,6 +697,8 @@ extension QBusinessClientTypes.ActionReviewPayloadField: Swift.Codable {
         displayName = displayNameDecoded
         let displayOrderDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .displayOrder)
         displayOrder = displayOrderDecoded
+        let displayDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .displayDescription)
+        displayDescription = displayDescriptionDecoded
         let typeDecoded = try containerValues.decodeIfPresent(QBusinessClientTypes.ActionPayloadFieldType.self, forKey: .type)
         type = typeDecoded
         let valueDecoded = try containerValues.decodeIfPresent(ClientRuntime.Document.self, forKey: .value)
@@ -451,6 +714,8 @@ extension QBusinessClientTypes.ActionReviewPayloadField: Swift.Codable {
             }
         }
         allowedValues = allowedValuesDecoded0
+        let allowedFormatDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .allowedFormat)
+        allowedFormat = allowedFormatDecoded
         let requiredDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .required)
         `required` = requiredDecoded
     }
@@ -459,8 +724,12 @@ extension QBusinessClientTypes.ActionReviewPayloadField: Swift.Codable {
 extension QBusinessClientTypes {
     /// A user input field in an plugin action review payload.
     public struct ActionReviewPayloadField {
+        /// The expected data format for the action review input field value. For example, in PTO request, from and to would be of datetime allowed format.
+        public var allowedFormat: Swift.String?
         /// Information about the field values that an end user can use to provide to Amazon Q Business for Amazon Q Business to perform the requested plugin action.
         public var allowedValues: [QBusinessClientTypes.ActionReviewPayloadFieldAllowedValue]?
+        /// The field level description of each action review input field. This could be an explanation of the field. In the Amazon Q Business web experience, these descriptions could be used to display as tool tips to help users understand the field.
+        public var displayDescription: Swift.String?
         /// The name of the field.
         public var displayName: Swift.String?
         /// The display order of fields in a payload.
@@ -473,7 +742,9 @@ extension QBusinessClientTypes {
         public var value: ClientRuntime.Document?
 
         public init(
+            allowedFormat: Swift.String? = nil,
             allowedValues: [QBusinessClientTypes.ActionReviewPayloadFieldAllowedValue]? = nil,
+            displayDescription: Swift.String? = nil,
             displayName: Swift.String? = nil,
             displayOrder: Swift.Int? = nil,
             `required`: Swift.Bool? = nil,
@@ -481,7 +752,9 @@ extension QBusinessClientTypes {
             value: ClientRuntime.Document? = nil
         )
         {
+            self.allowedFormat = allowedFormat
             self.allowedValues = allowedValues
+            self.displayDescription = displayDescription
             self.displayName = displayName
             self.displayOrder = displayOrder
             self.`required` = `required`
@@ -766,6 +1039,41 @@ extension QBusinessClientTypes {
         {
             self.data = data
             self.name = name
+        }
+    }
+
+}
+
+extension QBusinessClientTypes.AttachmentInputEvent: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attachment
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attachment = self.attachment {
+            try encodeContainer.encode(attachment, forKey: .attachment)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let attachmentDecoded = try containerValues.decodeIfPresent(QBusinessClientTypes.AttachmentInput.self, forKey: .attachment)
+        attachment = attachmentDecoded
+    }
+}
+
+extension QBusinessClientTypes {
+    /// A file input event activated by a end user request to upload files into their web experience chat.
+    public struct AttachmentInputEvent {
+        /// A file directly uploaded into a web experience chat.
+        public var attachment: QBusinessClientTypes.AttachmentInput?
+
+        public init(
+            attachment: QBusinessClientTypes.AttachmentInput? = nil
+        )
+        {
+            self.attachment = attachment
         }
     }
 
@@ -1140,6 +1448,174 @@ extension QBusinessClientTypes {
             self = AttributeValueOperator(rawValue: rawValue) ?? AttributeValueOperator.sdkUnknown(rawValue)
         }
     }
+}
+
+extension QBusinessClientTypes.AuthChallengeRequest: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authorizationUrl
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let authorizationUrl = self.authorizationUrl {
+            try encodeContainer.encode(authorizationUrl, forKey: .authorizationUrl)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let authorizationUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .authorizationUrl)
+        authorizationUrl = authorizationUrlDecoded
+    }
+}
+
+extension QBusinessClientTypes {
+    /// A request made by Amazon Q Business to a third paty authentication server to authenticate a custom plugin user.
+    public struct AuthChallengeRequest {
+        /// The URL sent by Amazon Q Business to the third party authentication server to authenticate a custom plugin user through an OAuth protocol.
+        /// This member is required.
+        public var authorizationUrl: Swift.String?
+
+        public init(
+            authorizationUrl: Swift.String? = nil
+        )
+        {
+            self.authorizationUrl = authorizationUrl
+        }
+    }
+
+}
+
+extension QBusinessClientTypes.AuthChallengeRequestEvent: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authorizationUrl
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let authorizationUrl = self.authorizationUrl {
+            try encodeContainer.encode(authorizationUrl, forKey: .authorizationUrl)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let authorizationUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .authorizationUrl)
+        authorizationUrl = authorizationUrlDecoded
+    }
+}
+
+extension QBusinessClientTypes {
+    /// An authentication verification event activated by an end user request to use a custom plugin.
+    public struct AuthChallengeRequestEvent {
+        /// The URL sent by Amazon Q Business to a third party authentication server in response to an authentication verification event activated by an end user request to use a custom plugin.
+        /// This member is required.
+        public var authorizationUrl: Swift.String?
+
+        public init(
+            authorizationUrl: Swift.String? = nil
+        )
+        {
+            self.authorizationUrl = authorizationUrl
+        }
+    }
+
+}
+
+extension QBusinessClientTypes.AuthChallengeResponse: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case responseMap
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let responseMap = responseMap {
+            var responseMapContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .responseMap)
+            for (dictKey0, authorizationResponseMap0) in responseMap {
+                try responseMapContainer.encode(authorizationResponseMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let responseMapContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .responseMap)
+        var responseMapDecoded0: [Swift.String:Swift.String]? = nil
+        if let responseMapContainer = responseMapContainer {
+            responseMapDecoded0 = [Swift.String:Swift.String]()
+            for (key0, authresponsevalue0) in responseMapContainer {
+                if let authresponsevalue0 = authresponsevalue0 {
+                    responseMapDecoded0?[key0] = authresponsevalue0
+                }
+            }
+        }
+        responseMap = responseMapDecoded0
+    }
+}
+
+extension QBusinessClientTypes {
+    /// Contains details of the authentication information received from a third party authentication server in response to an authentication challenge.
+    public struct AuthChallengeResponse {
+        /// The mapping of key-value pairs in an authentication challenge response.
+        /// This member is required.
+        public var responseMap: [Swift.String:Swift.String]?
+
+        public init(
+            responseMap: [Swift.String:Swift.String]? = nil
+        )
+        {
+            self.responseMap = responseMap
+        }
+    }
+
+}
+
+extension QBusinessClientTypes.AuthChallengeResponseEvent: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case responseMap
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let responseMap = responseMap {
+            var responseMapContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .responseMap)
+            for (dictKey0, authorizationResponseMap0) in responseMap {
+                try responseMapContainer.encode(authorizationResponseMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let responseMapContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .responseMap)
+        var responseMapDecoded0: [Swift.String:Swift.String]? = nil
+        if let responseMapContainer = responseMapContainer {
+            responseMapDecoded0 = [Swift.String:Swift.String]()
+            for (key0, authresponsevalue0) in responseMapContainer {
+                if let authresponsevalue0 = authresponsevalue0 {
+                    responseMapDecoded0?[key0] = authresponsevalue0
+                }
+            }
+        }
+        responseMap = responseMapDecoded0
+    }
+}
+
+extension QBusinessClientTypes {
+    /// An authentication verification event response by a third party authentication server to Amazon Q Business.
+    public struct AuthChallengeResponseEvent {
+        /// The mapping of key-value pairs in an authentication challenge response.
+        /// This member is required.
+        public var responseMap: [Swift.String:Swift.String]?
+
+        public init(
+            responseMap: [Swift.String:Swift.String]? = nil
+        )
+        {
+            self.responseMap = responseMap
+        }
+    }
+
 }
 
 extension QBusinessClientTypes.BasicAuthConfiguration: Swift.Codable {
@@ -1646,6 +2122,137 @@ extension QBusinessClientTypes {
 
 }
 
+extension ChatInput {
+
+    static func queryItemProvider(_ value: ChatInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let userGroups = value.userGroups {
+            userGroups.forEach { queryItemValue in
+                let queryItem = ClientRuntime.SDKURLQueryItem(name: "userGroups".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
+        if let conversationId = value.conversationId {
+            let conversationIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "conversationId".urlPercentEncoding(), value: Swift.String(conversationId).urlPercentEncoding())
+            items.append(conversationIdQueryItem)
+        }
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
+        }
+        if let parentMessageId = value.parentMessageId {
+            let parentMessageIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "parentMessageId".urlPercentEncoding(), value: Swift.String(parentMessageId).urlPercentEncoding())
+            items.append(parentMessageIdQueryItem)
+        }
+        if let userId = value.userId {
+            let userIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "userId".urlPercentEncoding(), value: Swift.String(userId).urlPercentEncoding())
+            items.append(userIdQueryItem)
+        }
+        return items
+    }
+}
+
+extension ChatInput {
+
+    static func urlPathProvider(_ value: ChatInput) -> Swift.String? {
+        guard let applicationId = value.applicationId else {
+            return nil
+        }
+        return "/applications/\(applicationId.urlPercentEncoding())/conversations"
+    }
+}
+
+public struct ChatInput {
+    /// The identifier of the Amazon Q Business application linked to a streaming Amazon Q Business conversation.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// A token that you provide to identify the chat input.
+    public var clientToken: Swift.String?
+    /// The identifier of the Amazon Q Business conversation.
+    public var conversationId: Swift.String?
+    /// The streaming input for the Chat API.
+    public var inputStream: AsyncThrowingStream<QBusinessClientTypes.ChatInputStream, Swift.Error>?
+    /// The identifier used to associate a user message with a AI generated response.
+    public var parentMessageId: Swift.String?
+    /// The groups that a user associated with the chat input belongs to.
+    public var userGroups: [Swift.String]?
+    /// The identifier of the user attached to the chat input.
+    public var userId: Swift.String?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        conversationId: Swift.String? = nil,
+        inputStream: AsyncThrowingStream<QBusinessClientTypes.ChatInputStream, Swift.Error>? = nil,
+        parentMessageId: Swift.String? = nil,
+        userGroups: [Swift.String]? = nil,
+        userId: Swift.String? = nil
+    )
+    {
+        self.applicationId = applicationId
+        self.clientToken = clientToken
+        self.conversationId = conversationId
+        self.inputStream = inputStream
+        self.parentMessageId = parentMessageId
+        self.userGroups = userGroups
+        self.userId = userId
+    }
+}
+
+extension QBusinessClientTypes.ChatInputStream: ClientRuntime.MessageMarshallable {
+    public func marshall(encoder: ClientRuntime.RequestEncoder) throws -> ClientRuntime.EventStream.Message {
+        var headers: [ClientRuntime.EventStream.Header] = [.init(name: ":message-type", value: .string("event"))]
+        var payload: ClientRuntime.Data? = nil
+        switch self {
+        case .configurationevent(let value):
+            headers.append(.init(name: ":event-type", value: .string("configurationEvent")))
+            headers.append(.init(name: ":content-type", value: .string("application/json")))
+            payload = try ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder)(value, JSONReadWrite.writingClosure())
+        case .textevent(let value):
+            headers.append(.init(name: ":event-type", value: .string("textEvent")))
+            headers.append(.init(name: ":content-type", value: .string("application/json")))
+            payload = try ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder)(value, JSONReadWrite.writingClosure())
+        case .attachmentevent(let value):
+            headers.append(.init(name: ":event-type", value: .string("attachmentEvent")))
+            headers.append(.init(name: ":content-type", value: .string("application/json")))
+            payload = try ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder)(value, JSONReadWrite.writingClosure())
+        case .actionexecutionevent(let value):
+            headers.append(.init(name: ":event-type", value: .string("actionExecutionEvent")))
+            headers.append(.init(name: ":content-type", value: .string("application/json")))
+            payload = try ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder)(value, JSONReadWrite.writingClosure())
+        case .endofinputevent(let value):
+            headers.append(.init(name: ":event-type", value: .string("endOfInputEvent")))
+        case .authchallengeresponseevent(let value):
+            headers.append(.init(name: ":event-type", value: .string("authChallengeResponseEvent")))
+            headers.append(.init(name: ":content-type", value: .string("application/json")))
+            payload = try ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder)(value, JSONReadWrite.writingClosure())
+        case .sdkUnknown(_):
+            throw ClientRuntime.ClientError.unknownError("cannot serialize the unknown event type!")
+        }
+        return ClientRuntime.EventStream.Message(headers: headers, payload: payload ?? .init())
+    }
+}
+
+extension QBusinessClientTypes {
+    /// The streaming input for the Chat API.
+    public indirect enum ChatInputStream {
+        /// A configuration event activated by an end user request to select a specific chat mode.
+        case configurationevent(QBusinessClientTypes.ConfigurationEvent)
+        /// Information about the payload of the ChatInputStream event containing the end user message input.
+        case textevent(QBusinessClientTypes.TextInputEvent)
+        /// A request by an end user to upload a file during chat.
+        case attachmentevent(QBusinessClientTypes.AttachmentInputEvent)
+        /// A request from an end user to perform an Amazon Q Business plugin action.
+        case actionexecutionevent(QBusinessClientTypes.ActionExecutionEvent)
+        /// The end of the streaming input for the Chat API.
+        case endofinputevent(QBusinessClientTypes.EndOfInputEvent)
+        /// An authentication verification event response by a third party authentication server to Amazon Q Business.
+        case authchallengeresponseevent(QBusinessClientTypes.AuthChallengeResponseEvent)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
 extension QBusinessClientTypes {
     public enum ChatMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case creatorMode
@@ -1718,11 +2325,108 @@ extension QBusinessClientTypes {
 
 }
 
+extension ChatOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if case let .stream(stream) = httpResponse.body, let responseDecoder = decoder {
+            let messageDecoder = AWSClientRuntime.AWSEventStream.AWSMessageDecoder()
+            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream<QBusinessClientTypes.ChatOutputStream>(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: jsonUnmarshalClosure(responseDecoder: responseDecoder))
+            self.outputStream = decoderStream.toAsyncStream()
+        } else {
+            self.outputStream = nil
+        }
+    }
+}
+
+public struct ChatOutput {
+    /// The streaming output for the Chat API.
+    public var outputStream: AsyncThrowingStream<QBusinessClientTypes.ChatOutputStream, Swift.Error>?
+
+    public init(
+        outputStream: AsyncThrowingStream<QBusinessClientTypes.ChatOutputStream, Swift.Error>? = nil
+    )
+    {
+        self.outputStream = outputStream
+    }
+}
+
+enum ChatOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LicenseNotFoundException": return try await LicenseNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension QBusinessClientTypes.ChatOutputStream: ClientRuntime.MessageUnmarshallable {
+    public init(message: ClientRuntime.EventStream.Message, decoder: ClientRuntime.ResponseDecoder) throws {
+        switch try message.type() {
+        case .event(let params):
+            switch params.eventType {
+            case "textEvent":
+                self = .textevent(try decoder.decode(responseBody: message.payload))
+            case "metadataEvent":
+                self = .metadataevent(try decoder.decode(responseBody: message.payload))
+            case "actionReviewEvent":
+                self = .actionreviewevent(try decoder.decode(responseBody: message.payload))
+            case "failedAttachmentEvent":
+                self = .failedattachmentevent(try decoder.decode(responseBody: message.payload))
+            case "authChallengeRequestEvent":
+                self = .authchallengerequestevent(try decoder.decode(responseBody: message.payload))
+            default:
+                self = .sdkUnknown("error processing event stream, unrecognized event: \(params.eventType)")
+            }
+        case .exception(let params):
+            let makeError: (ClientRuntime.EventStream.Message, ClientRuntime.EventStream.MessageType.ExceptionParams) throws -> Swift.Error = { message, params in
+                switch params.exceptionType {
+                default:
+                    let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
+                    return AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':exceptionType': \(params.exceptionType); contentType: \(params.contentType ?? "nil")", requestID: nil, typeName: nil)
+                }
+            }
+            let error = try makeError(message, params)
+            throw error
+        case .error(let params):
+            let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
+            throw AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':errorType': \(params.errorCode); message: \(params.message ?? "nil")", requestID: nil, typeName: nil)
+        case .unknown(messageType: let messageType):
+            throw ClientRuntime.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+    /// The streaming output for the Chat API.
+    public enum ChatOutputStream {
+        /// Information about the payload of the ChatOutputStream event containing the AI-generated message output.
+        case textevent(QBusinessClientTypes.TextOutputEvent)
+        /// A metadata event for a AI-generated text output message in a Amazon Q Business conversation.
+        case metadataevent(QBusinessClientTypes.MetadataEvent)
+        /// A request from Amazon Q Business to the end user for information Amazon Q Business needs to successfully complete a requested plugin action.
+        case actionreviewevent(QBusinessClientTypes.ActionReviewEvent)
+        /// A failed file upload event during a web experience chat.
+        case failedattachmentevent(QBusinessClientTypes.FailedAttachmentEvent)
+        /// An authentication verification event activated by an end user request to use a custom plugin.
+        case authchallengerequestevent(QBusinessClientTypes.AuthChallengeRequestEvent)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
 extension ChatSyncInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case actionExecution
         case attachments
         case attributeFilter
+        case authChallengeResponse
         case chatMode
         case chatModeConfiguration
         case clientToken
@@ -1744,6 +2448,9 @@ extension ChatSyncInput: Swift.Encodable {
         }
         if let attributeFilter = self.attributeFilter {
             try encodeContainer.encode(attributeFilter, forKey: .attributeFilter)
+        }
+        if let authChallengeResponse = self.authChallengeResponse {
+            try encodeContainer.encode(authChallengeResponse, forKey: .authChallengeResponse)
         }
         if let chatMode = self.chatMode {
             try encodeContainer.encode(chatMode.rawValue, forKey: .chatMode)
@@ -1771,15 +2478,15 @@ extension ChatSyncInput {
     static func queryItemProvider(_ value: ChatSyncInput) throws -> [ClientRuntime.SDKURLQueryItem] {
         var items = [ClientRuntime.SDKURLQueryItem]()
         items.append(ClientRuntime.SDKURLQueryItem(name: "sync", value: nil))
+        if let userId = value.userId {
+            let userIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "userId".urlPercentEncoding(), value: Swift.String(userId).urlPercentEncoding())
+            items.append(userIdQueryItem)
+        }
         if let userGroups = value.userGroups {
             userGroups.forEach { queryItemValue in
                 let queryItem = ClientRuntime.SDKURLQueryItem(name: "userGroups".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
                 items.append(queryItem)
             }
-        }
-        if let userId = value.userId {
-            let userIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "userId".urlPercentEncoding(), value: Swift.String(userId).urlPercentEncoding())
-            items.append(userIdQueryItem)
         }
         return items
     }
@@ -1805,7 +2512,9 @@ public struct ChatSyncInput {
     public var attachments: [QBusinessClientTypes.AttachmentInput]?
     /// Enables filtering of Amazon Q Business web experience responses based on document attributes or metadata fields.
     public var attributeFilter: QBusinessClientTypes.AttributeFilter?
-    /// The chat modes available in an Amazon Q Business web experience.
+    /// An authentication verification event response by a third party authentication server to Amazon Q Business.
+    public var authChallengeResponse: QBusinessClientTypes.AuthChallengeResponse?
+    /// The chat modes available to an Amazon Q Business end user.
     ///
     /// * RETRIEVAL_MODE - The default chat mode for an Amazon Q Business application. When this mode is enabled, Amazon Q Business generates responses only from data sources connected to an Amazon Q Business application.
     ///
@@ -1836,6 +2545,7 @@ public struct ChatSyncInput {
         applicationId: Swift.String? = nil,
         attachments: [QBusinessClientTypes.AttachmentInput]? = nil,
         attributeFilter: QBusinessClientTypes.AttributeFilter? = nil,
+        authChallengeResponse: QBusinessClientTypes.AuthChallengeResponse? = nil,
         chatMode: QBusinessClientTypes.ChatMode? = nil,
         chatModeConfiguration: QBusinessClientTypes.ChatModeConfiguration? = nil,
         clientToken: Swift.String? = nil,
@@ -1850,6 +2560,7 @@ public struct ChatSyncInput {
         self.applicationId = applicationId
         self.attachments = attachments
         self.attributeFilter = attributeFilter
+        self.authChallengeResponse = authChallengeResponse
         self.chatMode = chatMode
         self.chatModeConfiguration = chatModeConfiguration
         self.clientToken = clientToken
@@ -1865,6 +2576,7 @@ struct ChatSyncInputBody {
     let userMessage: Swift.String?
     let attachments: [QBusinessClientTypes.AttachmentInput]?
     let actionExecution: QBusinessClientTypes.ActionExecution?
+    let authChallengeResponse: QBusinessClientTypes.AuthChallengeResponse?
     let conversationId: Swift.String?
     let parentMessageId: Swift.String?
     let attributeFilter: QBusinessClientTypes.AttributeFilter?
@@ -1878,6 +2590,7 @@ extension ChatSyncInputBody: Swift.Decodable {
         case actionExecution
         case attachments
         case attributeFilter
+        case authChallengeResponse
         case chatMode
         case chatModeConfiguration
         case clientToken
@@ -1903,6 +2616,8 @@ extension ChatSyncInputBody: Swift.Decodable {
         attachments = attachmentsDecoded0
         let actionExecutionDecoded = try containerValues.decodeIfPresent(QBusinessClientTypes.ActionExecution.self, forKey: .actionExecution)
         actionExecution = actionExecutionDecoded
+        let authChallengeResponseDecoded = try containerValues.decodeIfPresent(QBusinessClientTypes.AuthChallengeResponse.self, forKey: .authChallengeResponse)
+        authChallengeResponse = authChallengeResponseDecoded
         let conversationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .conversationId)
         conversationId = conversationIdDecoded
         let parentMessageIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .parentMessageId)
@@ -1924,6 +2639,7 @@ extension ChatSyncOutput: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: ChatSyncOutputBody = try responseDecoder.decode(responseBody: data)
             self.actionReview = output.actionReview
+            self.authChallengeRequest = output.authChallengeRequest
             self.conversationId = output.conversationId
             self.failedAttachments = output.failedAttachments
             self.sourceAttributions = output.sourceAttributions
@@ -1932,6 +2648,7 @@ extension ChatSyncOutput: ClientRuntime.HttpResponseBinding {
             self.userMessageId = output.userMessageId
         } else {
             self.actionReview = nil
+            self.authChallengeRequest = nil
             self.conversationId = nil
             self.failedAttachments = nil
             self.sourceAttributions = nil
@@ -1945,6 +2662,8 @@ extension ChatSyncOutput: ClientRuntime.HttpResponseBinding {
 public struct ChatSyncOutput {
     /// A request from Amazon Q Business to the end user for information Amazon Q Business needs to successfully complete a requested plugin action.
     public var actionReview: QBusinessClientTypes.ActionReview?
+    /// An authentication verification event activated by an end user request to use a custom plugin.
+    public var authChallengeRequest: QBusinessClientTypes.AuthChallengeRequest?
     /// The identifier of the Amazon Q Business conversation.
     public var conversationId: Swift.String?
     /// A list of files which failed to upload during chat.
@@ -1960,6 +2679,7 @@ public struct ChatSyncOutput {
 
     public init(
         actionReview: QBusinessClientTypes.ActionReview? = nil,
+        authChallengeRequest: QBusinessClientTypes.AuthChallengeRequest? = nil,
         conversationId: Swift.String? = nil,
         failedAttachments: [QBusinessClientTypes.AttachmentOutput]? = nil,
         sourceAttributions: [QBusinessClientTypes.SourceAttribution?]? = nil,
@@ -1969,6 +2689,7 @@ public struct ChatSyncOutput {
     )
     {
         self.actionReview = actionReview
+        self.authChallengeRequest = authChallengeRequest
         self.conversationId = conversationId
         self.failedAttachments = failedAttachments
         self.sourceAttributions = sourceAttributions
@@ -1984,6 +2705,7 @@ struct ChatSyncOutputBody {
     let systemMessageId: Swift.String?
     let userMessageId: Swift.String?
     let actionReview: QBusinessClientTypes.ActionReview?
+    let authChallengeRequest: QBusinessClientTypes.AuthChallengeRequest?
     let sourceAttributions: [QBusinessClientTypes.SourceAttribution?]?
     let failedAttachments: [QBusinessClientTypes.AttachmentOutput]?
 }
@@ -1991,6 +2713,7 @@ struct ChatSyncOutputBody {
 extension ChatSyncOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case actionReview
+        case authChallengeRequest
         case conversationId
         case failedAttachments
         case sourceAttributions
@@ -2011,6 +2734,8 @@ extension ChatSyncOutputBody: Swift.Decodable {
         userMessageId = userMessageIdDecoded
         let actionReviewDecoded = try containerValues.decodeIfPresent(QBusinessClientTypes.ActionReview.self, forKey: .actionReview)
         actionReview = actionReviewDecoded
+        let authChallengeRequestDecoded = try containerValues.decodeIfPresent(QBusinessClientTypes.AuthChallengeRequest.self, forKey: .authChallengeRequest)
+        authChallengeRequest = authChallengeRequestDecoded
         let sourceAttributionsContainer = try containerValues.decodeIfPresent([QBusinessClientTypes.SourceAttribution?].self, forKey: .sourceAttributions)
         var sourceAttributionsDecoded0:[QBusinessClientTypes.SourceAttribution?]? = nil
         if let sourceAttributionsContainer = sourceAttributionsContainer {
@@ -2049,6 +2774,70 @@ enum ChatSyncOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension QBusinessClientTypes.ConfigurationEvent: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributeFilter
+        case chatMode
+        case chatModeConfiguration
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attributeFilter = self.attributeFilter {
+            try encodeContainer.encode(attributeFilter, forKey: .attributeFilter)
+        }
+        if let chatMode = self.chatMode {
+            try encodeContainer.encode(chatMode.rawValue, forKey: .chatMode)
+        }
+        if let chatModeConfiguration = self.chatModeConfiguration {
+            try encodeContainer.encode(chatModeConfiguration, forKey: .chatModeConfiguration)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let chatModeDecoded = try containerValues.decodeIfPresent(QBusinessClientTypes.ChatMode.self, forKey: .chatMode)
+        chatMode = chatModeDecoded
+        let chatModeConfigurationDecoded = try containerValues.decodeIfPresent(QBusinessClientTypes.ChatModeConfiguration.self, forKey: .chatModeConfiguration)
+        chatModeConfiguration = chatModeConfigurationDecoded
+        let attributeFilterDecoded = try containerValues.decodeIfPresent(QBusinessClientTypes.AttributeFilter.self, forKey: .attributeFilter)
+        attributeFilter = attributeFilterDecoded
+    }
+}
+
+extension QBusinessClientTypes {
+    /// A configuration event activated by an end user request to select a specific chat mode.
+    public struct ConfigurationEvent {
+        /// Enables filtering of responses based on document attributes or metadata fields.
+        public var attributeFilter: QBusinessClientTypes.AttributeFilter?
+        /// The chat modes available to an Amazon Q Business end user.
+        ///
+        /// * RETRIEVAL_MODE - The default chat mode for an Amazon Q Business application. When this mode is enabled, Amazon Q Business generates responses only from data sources connected to an Amazon Q Business application.
+        ///
+        /// * CREATOR_MODE - By selecting this mode, users can choose to generate responses only from the LLM knowledge, without consulting connected data sources, for a chat request.
+        ///
+        /// * PLUGIN_MODE - By selecting this mode, users can choose to use plugins in chat.
+        ///
+        ///
+        /// For more information, see [Admin controls and guardrails](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/guardrails.html), [Plugins](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/plugins.html), and [Conversation settings](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/using-web-experience.html#chat-source-scope).
+        public var chatMode: QBusinessClientTypes.ChatMode?
+        /// Configuration information for Amazon Q Business conversation modes. For more information, see [Admin controls and guardrails](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/guardrails.html) and [Conversation settings](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/using-web-experience.html#chat-source-scope).
+        public var chatModeConfiguration: QBusinessClientTypes.ChatModeConfiguration?
+
+        public init(
+            attributeFilter: QBusinessClientTypes.AttributeFilter? = nil,
+            chatMode: QBusinessClientTypes.ChatMode? = nil,
+            chatModeConfiguration: QBusinessClientTypes.ChatModeConfiguration? = nil
+        )
+        {
+            self.attributeFilter = attributeFilter
+            self.chatMode = chatMode
+            self.chatModeConfiguration = chatModeConfiguration
+        }
+    }
+
 }
 
 extension ConflictException {
@@ -2395,7 +3184,6 @@ public struct CreateApplicationInput {
     /// The Amazon Resource Name (ARN) of the IAM Identity Center instance you are either creating for—or connecting to—your Amazon Q Business application.
     public var identityCenterInstanceArn: Swift.String?
     /// The Amazon Resource Name (ARN) of an IAM role with permissions to access your Amazon CloudWatch logs and metrics.
-    /// This member is required.
     public var roleArn: Swift.String?
     /// A list of key-value pairs that identify or categorize your Amazon Q Business application. You can also use tags to help control access to the application. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
     public var tags: [QBusinessClientTypes.Tag]?
@@ -2790,6 +3578,7 @@ extension CreateIndexInput: Swift.Encodable {
         case description
         case displayName
         case tags
+        case type
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -2811,6 +3600,9 @@ extension CreateIndexInput: Swift.Encodable {
             for tag0 in tags {
                 try tagsContainer.encode(tag0)
             }
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
         }
     }
 }
@@ -2840,6 +3632,8 @@ public struct CreateIndexInput {
     public var displayName: Swift.String?
     /// A list of key-value pairs that identify or categorize the index. You can also use tags to help control access to the index. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
     public var tags: [QBusinessClientTypes.Tag]?
+    /// The index type that's suitable for your needs. For more information on what's included in each type of index or index tier, see [Amazon Q Business tiers](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/what-is.html#tiers).
+    public var type: QBusinessClientTypes.IndexType?
 
     public init(
         applicationId: Swift.String? = nil,
@@ -2847,7 +3641,8 @@ public struct CreateIndexInput {
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         displayName: Swift.String? = nil,
-        tags: [QBusinessClientTypes.Tag]? = nil
+        tags: [QBusinessClientTypes.Tag]? = nil,
+        type: QBusinessClientTypes.IndexType? = nil
     )
     {
         self.applicationId = applicationId
@@ -2856,11 +3651,13 @@ public struct CreateIndexInput {
         self.description = description
         self.displayName = displayName
         self.tags = tags
+        self.type = type
     }
 }
 
 struct CreateIndexInputBody {
     let displayName: Swift.String?
+    let type: QBusinessClientTypes.IndexType?
     let description: Swift.String?
     let tags: [QBusinessClientTypes.Tag]?
     let capacityConfiguration: QBusinessClientTypes.IndexCapacityConfiguration?
@@ -2874,12 +3671,15 @@ extension CreateIndexInputBody: Swift.Decodable {
         case description
         case displayName
         case tags
+        case type
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let displayNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .displayName)
         displayName = displayNameDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(QBusinessClientTypes.IndexType.self, forKey: .type)
+        type = typeDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
         let tagsContainer = try containerValues.decodeIfPresent([QBusinessClientTypes.Tag?].self, forKey: .tags)
@@ -2971,6 +3771,7 @@ extension CreatePluginInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case authConfiguration
         case clientToken
+        case customPluginConfiguration
         case displayName
         case serverUrl
         case tags
@@ -2984,6 +3785,9 @@ extension CreatePluginInput: Swift.Encodable {
         }
         if let clientToken = self.clientToken {
             try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let customPluginConfiguration = self.customPluginConfiguration {
+            try encodeContainer.encode(customPluginConfiguration, forKey: .customPluginConfiguration)
         }
         if let displayName = self.displayName {
             try encodeContainer.encode(displayName, forKey: .displayName)
@@ -3022,11 +3826,12 @@ public struct CreatePluginInput {
     public var authConfiguration: QBusinessClientTypes.PluginAuthConfiguration?
     /// A token that you provide to identify the request to create your Amazon Q Business plugin.
     public var clientToken: Swift.String?
+    /// Contains configuration for a custom plugin.
+    public var customPluginConfiguration: QBusinessClientTypes.CustomPluginConfiguration?
     /// A the name for your plugin.
     /// This member is required.
     public var displayName: Swift.String?
     /// The source URL used for plugin configuration.
-    /// This member is required.
     public var serverUrl: Swift.String?
     /// A list of key-value pairs that identify or categorize the data source connector. You can also use tags to help control access to the data source connector. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
     public var tags: [QBusinessClientTypes.Tag]?
@@ -3038,6 +3843,7 @@ public struct CreatePluginInput {
         applicationId: Swift.String? = nil,
         authConfiguration: QBusinessClientTypes.PluginAuthConfiguration? = nil,
         clientToken: Swift.String? = nil,
+        customPluginConfiguration: QBusinessClientTypes.CustomPluginConfiguration? = nil,
         displayName: Swift.String? = nil,
         serverUrl: Swift.String? = nil,
         tags: [QBusinessClientTypes.Tag]? = nil,
@@ -3047,6 +3853,7 @@ public struct CreatePluginInput {
         self.applicationId = applicationId
         self.authConfiguration = authConfiguration
         self.clientToken = clientToken
+        self.customPluginConfiguration = customPluginConfiguration
         self.displayName = displayName
         self.serverUrl = serverUrl
         self.tags = tags
@@ -3057,8 +3864,9 @@ public struct CreatePluginInput {
 struct CreatePluginInputBody {
     let displayName: Swift.String?
     let type: QBusinessClientTypes.PluginType?
-    let serverUrl: Swift.String?
     let authConfiguration: QBusinessClientTypes.PluginAuthConfiguration?
+    let serverUrl: Swift.String?
+    let customPluginConfiguration: QBusinessClientTypes.CustomPluginConfiguration?
     let tags: [QBusinessClientTypes.Tag]?
     let clientToken: Swift.String?
 }
@@ -3067,6 +3875,7 @@ extension CreatePluginInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case authConfiguration
         case clientToken
+        case customPluginConfiguration
         case displayName
         case serverUrl
         case tags
@@ -3079,10 +3888,12 @@ extension CreatePluginInputBody: Swift.Decodable {
         displayName = displayNameDecoded
         let typeDecoded = try containerValues.decodeIfPresent(QBusinessClientTypes.PluginType.self, forKey: .type)
         type = typeDecoded
-        let serverUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serverUrl)
-        serverUrl = serverUrlDecoded
         let authConfigurationDecoded = try containerValues.decodeIfPresent(QBusinessClientTypes.PluginAuthConfiguration.self, forKey: .authConfiguration)
         authConfiguration = authConfigurationDecoded
+        let serverUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serverUrl)
+        serverUrl = serverUrlDecoded
+        let customPluginConfigurationDecoded = try containerValues.decodeIfPresent(QBusinessClientTypes.CustomPluginConfiguration.self, forKey: .customPluginConfiguration)
+        customPluginConfiguration = customPluginConfigurationDecoded
         let tagsContainer = try containerValues.decodeIfPresent([QBusinessClientTypes.Tag?].self, forKey: .tags)
         var tagsDecoded0:[QBusinessClientTypes.Tag]? = nil
         if let tagsContainer = tagsContainer {
@@ -3104,9 +3915,11 @@ extension CreatePluginOutput: ClientRuntime.HttpResponseBinding {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreatePluginOutputBody = try responseDecoder.decode(responseBody: data)
+            self.buildStatus = output.buildStatus
             self.pluginArn = output.pluginArn
             self.pluginId = output.pluginId
         } else {
+            self.buildStatus = nil
             self.pluginArn = nil
             self.pluginId = nil
         }
@@ -3114,16 +3927,20 @@ extension CreatePluginOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CreatePluginOutput {
+    /// The current status of a plugin. A plugin is modified asynchronously.
+    public var buildStatus: QBusinessClientTypes.PluginBuildStatus?
     /// The Amazon Resource Name (ARN) of a plugin.
     public var pluginArn: Swift.String?
     /// The identifier of the plugin created.
     public var pluginId: Swift.String?
 
     public init(
+        buildStatus: QBusinessClientTypes.PluginBuildStatus? = nil,
         pluginArn: Swift.String? = nil,
         pluginId: Swift.String? = nil
     )
     {
+        self.buildStatus = buildStatus
         self.pluginArn = pluginArn
         self.pluginId = pluginId
     }
@@ -3132,10 +3949,12 @@ public struct CreatePluginOutput {
 struct CreatePluginOutputBody {
     let pluginId: Swift.String?
     let pluginArn: Swift.String?
+    let buildStatus: QBusinessClientTypes.PluginBuildStatus?
 }
 
 extension CreatePluginOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case buildStatus
         case pluginArn
         case pluginId
     }
@@ -3146,6 +3965,8 @@ extension CreatePluginOutputBody: Swift.Decodable {
         pluginId = pluginIdDecoded
         let pluginArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pluginArn)
         pluginArn = pluginArnDecoded
+        let buildStatusDecoded = try containerValues.decodeIfPresent(QBusinessClientTypes.PluginBuildStatus.self, forKey: .buildStatus)
+        buildStatus = buildStatusDecoded
     }
 }
 
@@ -3757,6 +4578,64 @@ extension QBusinessClientTypes {
             self = CreatorModeControl(rawValue: rawValue) ?? CreatorModeControl.sdkUnknown(rawValue)
         }
     }
+}
+
+extension QBusinessClientTypes.CustomPluginConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case apiSchema
+        case apiSchemaType
+        case description
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let apiSchema = self.apiSchema {
+            try encodeContainer.encode(apiSchema, forKey: .apiSchema)
+        }
+        if let apiSchemaType = self.apiSchemaType {
+            try encodeContainer.encode(apiSchemaType.rawValue, forKey: .apiSchemaType)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let apiSchemaTypeDecoded = try containerValues.decodeIfPresent(QBusinessClientTypes.APISchemaType.self, forKey: .apiSchemaType)
+        apiSchemaType = apiSchemaTypeDecoded
+        let apiSchemaDecoded = try containerValues.decodeIfPresent(QBusinessClientTypes.APISchema.self, forKey: .apiSchema)
+        apiSchema = apiSchemaDecoded
+    }
+}
+
+extension QBusinessClientTypes {
+    /// Configuration information required to create a custom plugin.
+    public struct CustomPluginConfiguration {
+        /// Contains either details about the S3 object containing the OpenAPI schema for the action group or the JSON or YAML-formatted payload defining the schema.
+        /// This member is required.
+        public var apiSchema: QBusinessClientTypes.APISchema?
+        /// The type of OpenAPI schema to use.
+        /// This member is required.
+        public var apiSchemaType: QBusinessClientTypes.APISchemaType?
+        /// A description for your custom plugin configuration.
+        /// This member is required.
+        public var description: Swift.String?
+
+        public init(
+            apiSchema: QBusinessClientTypes.APISchema? = nil,
+            apiSchemaType: QBusinessClientTypes.APISchemaType? = nil,
+            description: Swift.String? = nil
+        )
+        {
+            self.apiSchema = apiSchema
+            self.apiSchemaType = apiSchemaType
+            self.description = description
+        }
+    }
+
 }
 
 extension QBusinessClientTypes.DataSource: Swift.Codable {
@@ -5249,7 +6128,7 @@ extension QBusinessClientTypes {
         /// The identifier of the document attribute used for the condition. For example, 'Source_URI' could be an identifier for the attribute or metadata field that contains source URIs associated with the documents. Amazon Q Business currently doesn't support _document_body as an attribute key used for the condition.
         /// This member is required.
         public var key: Swift.String?
-        /// The identifier of the document attribute used for the condition. For example, 'Source_URI' could be an identifier for the attribute or metadata field that contains source URIs associated with the documents. Amazon Kendra currently does not support _document_body as an attribute key used for the condition.
+        /// The identifier of the document attribute used for the condition. For example, 'Source_URI' could be an identifier for the attribute or metadata field that contains source URIs associated with the documents. Amazon Q Business currently does not support _document_body as an attribute key used for the condition.
         /// This member is required.
         public var `operator`: QBusinessClientTypes.DocumentEnrichmentConditionOperator?
         /// The value of a document attribute. You can only provide one value for a document attribute.
@@ -5717,9 +6596,9 @@ extension QBusinessClientTypes {
     public struct DocumentEnrichmentConfiguration {
         /// Configuration information to alter document attributes or metadata fields and content when ingesting documents into Amazon Q Business.
         public var inlineConfigurations: [QBusinessClientTypes.InlineDocumentEnrichmentConfiguration]?
-        /// Provides the configuration information for invoking a Lambda function in Lambda to alter document metadata and content when ingesting documents into Amazon Q Business. You can configure your Lambda function using [PreExtractionHookConfiguration](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentEnrichmentConfiguration.html) if you want to apply advanced alterations on the original or raw documents. If you want to apply advanced alterations on the Amazon Q Business structured documents, you must configure your Lambda function using [PostExtractionHookConfiguration](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentEnrichmentConfiguration.html). You can only invoke one Lambda function. However, this function can invoke other functions it requires. For more information, see [Custom document enrichment](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/custom-document-enrichment.html).
+        /// Provides the configuration information for invoking a Lambda function in Lambda to alter document metadata and content when ingesting documents into Amazon Q Business. You can configure your Lambda function using the PreExtractionHookConfiguration parameter if you want to apply advanced alterations on the original or raw documents. If you want to apply advanced alterations on the Amazon Q Business structured documents, you must configure your Lambda function using PostExtractionHookConfiguration. You can only invoke one Lambda function. However, this function can invoke other functions it requires. For more information, see [Custom document enrichment](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/custom-document-enrichment.html).
         public var postExtractionHookConfiguration: QBusinessClientTypes.HookConfiguration?
-        /// Provides the configuration information for invoking a Lambda function in Lambda to alter document metadata and content when ingesting documents into Amazon Q Business. You can configure your Lambda function using [PreExtractionHookConfiguration](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentEnrichmentConfiguration.html) if you want to apply advanced alterations on the original or raw documents. If you want to apply advanced alterations on the Amazon Q Business structured documents, you must configure your Lambda function using [PostExtractionHookConfiguration](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentEnrichmentConfiguration.html). You can only invoke one Lambda function. However, this function can invoke other functions it requires. For more information, see [Custom document enrichment](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/custom-document-enrichment.html).
+        /// Provides the configuration information for invoking a Lambda function in Lambda to alter document metadata and content when ingesting documents into Amazon Q Business. You can configure your Lambda function using the PreExtractionHookConfiguration parameter if you want to apply advanced alterations on the original or raw documents. If you want to apply advanced alterations on the Amazon Q Business structured documents, you must configure your Lambda function using PostExtractionHookConfiguration. You can only invoke one Lambda function. However, this function can invoke other functions it requires. For more information, see [Custom document enrichment](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/custom-document-enrichment.html).
         public var preExtractionHookConfiguration: QBusinessClientTypes.HookConfiguration?
 
         public init(
@@ -5871,6 +6750,26 @@ extension QBusinessClientTypes {
 
 }
 
+extension QBusinessClientTypes.EndOfInputEvent: Swift.Codable {
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode([String:String]())
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension QBusinessClientTypes {
+    /// The end of the streaming input for the Chat API.
+    public struct EndOfInputEvent {
+
+        public init() { }
+    }
+
+}
+
 extension QBusinessClientTypes {
     public enum ErrorCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case internalError
@@ -5949,6 +6848,71 @@ extension QBusinessClientTypes {
         {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
+        }
+    }
+
+}
+
+extension QBusinessClientTypes.FailedAttachmentEvent: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attachment
+        case conversationId
+        case systemMessageId
+        case userMessageId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attachment = self.attachment {
+            try encodeContainer.encode(attachment, forKey: .attachment)
+        }
+        if let conversationId = self.conversationId {
+            try encodeContainer.encode(conversationId, forKey: .conversationId)
+        }
+        if let systemMessageId = self.systemMessageId {
+            try encodeContainer.encode(systemMessageId, forKey: .systemMessageId)
+        }
+        if let userMessageId = self.userMessageId {
+            try encodeContainer.encode(userMessageId, forKey: .userMessageId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let conversationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .conversationId)
+        conversationId = conversationIdDecoded
+        let userMessageIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userMessageId)
+        userMessageId = userMessageIdDecoded
+        let systemMessageIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .systemMessageId)
+        systemMessageId = systemMessageIdDecoded
+        let attachmentDecoded = try containerValues.decodeIfPresent(QBusinessClientTypes.AttachmentOutput.self, forKey: .attachment)
+        attachment = attachmentDecoded
+    }
+}
+
+extension QBusinessClientTypes {
+    /// A failed file upload during web experience chat.
+    public struct FailedAttachmentEvent {
+        /// The details of a file uploaded during chat.
+        public var attachment: QBusinessClientTypes.AttachmentOutput?
+        /// The identifier of the conversation associated with the failed file upload.
+        public var conversationId: Swift.String?
+        /// The identifier of the AI-generated message associated with the file upload.
+        public var systemMessageId: Swift.String?
+        /// The identifier of the end user chat message associated with the file upload.
+        public var userMessageId: Swift.String?
+
+        public init(
+            attachment: QBusinessClientTypes.AttachmentOutput? = nil,
+            conversationId: Swift.String? = nil,
+            systemMessageId: Swift.String? = nil,
+            userMessageId: Swift.String? = nil
+        )
+        {
+            self.attachment = attachment
+            self.conversationId = conversationId
+            self.systemMessageId = systemMessageId
+            self.userMessageId = userMessageId
         }
     }
 
@@ -6814,6 +7778,7 @@ extension GetIndexOutput: ClientRuntime.HttpResponseBinding {
             self.indexId = output.indexId
             self.indexStatistics = output.indexStatistics
             self.status = output.status
+            self.type = output.type
             self.updatedAt = output.updatedAt
         } else {
             self.applicationId = nil
@@ -6827,6 +7792,7 @@ extension GetIndexOutput: ClientRuntime.HttpResponseBinding {
             self.indexId = nil
             self.indexStatistics = nil
             self.status = nil
+            self.type = nil
             self.updatedAt = nil
         }
     }
@@ -6855,6 +7821,8 @@ public struct GetIndexOutput {
     public var indexStatistics: QBusinessClientTypes.IndexStatistics?
     /// The current status of the index. When the value is ACTIVE, the index is ready for use. If the Status field value is FAILED, the ErrorMessage field contains a message that explains why.
     public var status: QBusinessClientTypes.IndexStatus?
+    /// The type of index attached to your Amazon Q Business application.
+    public var type: QBusinessClientTypes.IndexType?
     /// The Unix timestamp when the Amazon Q Business index was last updated.
     public var updatedAt: ClientRuntime.Date?
 
@@ -6870,6 +7838,7 @@ public struct GetIndexOutput {
         indexId: Swift.String? = nil,
         indexStatistics: QBusinessClientTypes.IndexStatistics? = nil,
         status: QBusinessClientTypes.IndexStatus? = nil,
+        type: QBusinessClientTypes.IndexType? = nil,
         updatedAt: ClientRuntime.Date? = nil
     )
     {
@@ -6884,6 +7853,7 @@ public struct GetIndexOutput {
         self.indexId = indexId
         self.indexStatistics = indexStatistics
         self.status = status
+        self.type = type
         self.updatedAt = updatedAt
     }
 }
@@ -6892,6 +7862,7 @@ struct GetIndexOutputBody {
     let applicationId: Swift.String?
     let indexId: Swift.String?
     let displayName: Swift.String?
+    let type: QBusinessClientTypes.IndexType?
     let indexArn: Swift.String?
     let status: QBusinessClientTypes.IndexStatus?
     let description: Swift.String?
@@ -6916,6 +7887,7 @@ extension GetIndexOutputBody: Swift.Decodable {
         case indexId
         case indexStatistics
         case status
+        case type
         case updatedAt
     }
 
@@ -6927,6 +7899,8 @@ extension GetIndexOutputBody: Swift.Decodable {
         indexId = indexIdDecoded
         let displayNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .displayName)
         displayName = displayNameDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(QBusinessClientTypes.IndexType.self, forKey: .type)
+        type = typeDecoded
         let indexArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexArn)
         indexArn = indexArnDecoded
         let statusDecoded = try containerValues.decodeIfPresent(QBusinessClientTypes.IndexStatus.self, forKey: .status)
@@ -7019,7 +7993,9 @@ extension GetPluginOutput: ClientRuntime.HttpResponseBinding {
             let output: GetPluginOutputBody = try responseDecoder.decode(responseBody: data)
             self.applicationId = output.applicationId
             self.authConfiguration = output.authConfiguration
+            self.buildStatus = output.buildStatus
             self.createdAt = output.createdAt
+            self.customPluginConfiguration = output.customPluginConfiguration
             self.displayName = output.displayName
             self.pluginArn = output.pluginArn
             self.pluginId = output.pluginId
@@ -7030,7 +8006,9 @@ extension GetPluginOutput: ClientRuntime.HttpResponseBinding {
         } else {
             self.applicationId = nil
             self.authConfiguration = nil
+            self.buildStatus = nil
             self.createdAt = nil
+            self.customPluginConfiguration = nil
             self.displayName = nil
             self.pluginArn = nil
             self.pluginId = nil
@@ -7047,8 +8025,12 @@ public struct GetPluginOutput {
     public var applicationId: Swift.String?
     /// Authentication configuration information for an Amazon Q Business plugin.
     public var authConfiguration: QBusinessClientTypes.PluginAuthConfiguration?
+    /// The current status of a plugin. A plugin is modified asynchronously.
+    public var buildStatus: QBusinessClientTypes.PluginBuildStatus?
     /// The timestamp for when the plugin was created.
     public var createdAt: ClientRuntime.Date?
+    /// Configuration information required to create a custom plugin.
+    public var customPluginConfiguration: QBusinessClientTypes.CustomPluginConfiguration?
     /// The name of the plugin.
     public var displayName: Swift.String?
     /// The Amazon Resource Name (ARN) of the role with permission to access resources needed to create the plugin.
@@ -7067,7 +8049,9 @@ public struct GetPluginOutput {
     public init(
         applicationId: Swift.String? = nil,
         authConfiguration: QBusinessClientTypes.PluginAuthConfiguration? = nil,
+        buildStatus: QBusinessClientTypes.PluginBuildStatus? = nil,
         createdAt: ClientRuntime.Date? = nil,
+        customPluginConfiguration: QBusinessClientTypes.CustomPluginConfiguration? = nil,
         displayName: Swift.String? = nil,
         pluginArn: Swift.String? = nil,
         pluginId: Swift.String? = nil,
@@ -7079,7 +8063,9 @@ public struct GetPluginOutput {
     {
         self.applicationId = applicationId
         self.authConfiguration = authConfiguration
+        self.buildStatus = buildStatus
         self.createdAt = createdAt
+        self.customPluginConfiguration = customPluginConfiguration
         self.displayName = displayName
         self.pluginArn = pluginArn
         self.pluginId = pluginId
@@ -7097,6 +8083,8 @@ struct GetPluginOutputBody {
     let type: QBusinessClientTypes.PluginType?
     let serverUrl: Swift.String?
     let authConfiguration: QBusinessClientTypes.PluginAuthConfiguration?
+    let customPluginConfiguration: QBusinessClientTypes.CustomPluginConfiguration?
+    let buildStatus: QBusinessClientTypes.PluginBuildStatus?
     let pluginArn: Swift.String?
     let state: QBusinessClientTypes.PluginState?
     let createdAt: ClientRuntime.Date?
@@ -7107,7 +8095,9 @@ extension GetPluginOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case applicationId
         case authConfiguration
+        case buildStatus
         case createdAt
+        case customPluginConfiguration
         case displayName
         case pluginArn
         case pluginId
@@ -7131,6 +8121,10 @@ extension GetPluginOutputBody: Swift.Decodable {
         serverUrl = serverUrlDecoded
         let authConfigurationDecoded = try containerValues.decodeIfPresent(QBusinessClientTypes.PluginAuthConfiguration.self, forKey: .authConfiguration)
         authConfiguration = authConfigurationDecoded
+        let customPluginConfigurationDecoded = try containerValues.decodeIfPresent(QBusinessClientTypes.CustomPluginConfiguration.self, forKey: .customPluginConfiguration)
+        customPluginConfiguration = customPluginConfigurationDecoded
+        let buildStatusDecoded = try containerValues.decodeIfPresent(QBusinessClientTypes.PluginBuildStatus.self, forKey: .buildStatus)
+        buildStatus = buildStatusDecoded
         let pluginArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pluginArn)
         pluginArn = pluginArnDecoded
         let stateDecoded = try containerValues.decodeIfPresent(QBusinessClientTypes.PluginState.self, forKey: .state)
@@ -7529,8 +8523,9 @@ public struct GetWebExperienceOutput {
     /// The identifier of the Amazon Q Business application linked to the web experience.
     public var applicationId: Swift.String?
     /// The authentication configuration information for your Amazon Q Business web experience.
+    @available(*, deprecated, message: "Property associated with legacy SAML IdP flow. Deprecated in favor of using AWS IAM Identity Center for user management.")
     public var authenticationConfiguration: QBusinessClientTypes.WebExperienceAuthConfiguration?
-    /// The Unix timestamp when the retriever was created.
+    /// The Unix timestamp when the Amazon Q Business web experience was last created.
     public var createdAt: ClientRuntime.Date?
     /// The endpoint of your Amazon Q Business web experience.
     public var defaultEndpoint: Swift.String?
@@ -7546,7 +8541,7 @@ public struct GetWebExperienceOutput {
     public var subtitle: Swift.String?
     /// The title for your Amazon Q Business web experience.
     public var title: Swift.String?
-    /// The Unix timestamp when the data source connector was last updated.
+    /// The Unix timestamp when the Amazon Q Business web experience was last updated.
     public var updatedAt: ClientRuntime.Date?
     /// The Amazon Resource Name (ARN) of the role with the permission to access the Amazon Q Business web experience and required resources.
     public var webExperienceArn: Swift.String?
@@ -7910,7 +8905,7 @@ extension QBusinessClientTypes.HookConfiguration: Swift.Codable {
 }
 
 extension QBusinessClientTypes {
-    /// Provides the configuration information for invoking a Lambda function in Lambda to alter document metadata and content when ingesting documents into Amazon Q Business. You can configure your Lambda function using [PreExtractionHookConfiguration](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentEnrichmentConfiguration.html) if you want to apply advanced alterations on the original or raw documents. If you want to apply advanced alterations on the Amazon Q Business structured documents, you must configure your Lambda function using [PostExtractionHookConfiguration](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentEnrichmentConfiguration.html). You can only invoke one Lambda function. However, this function can invoke other functions it requires. For more information, see [Custom document enrichment](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/custom-document-enrichment.html).
+    /// Provides the configuration information for invoking a Lambda function in Lambda to alter document metadata and content when ingesting documents into Amazon Q Business. You can configure your Lambda function using the PreExtractionHookConfiguration parameter if you want to apply advanced alterations on the original or raw documents. If you want to apply advanced alterations on the Amazon Q Business structured documents, you must configure your Lambda function using PostExtractionHookConfiguration. You can only invoke one Lambda function. However, this function can invoke other functions it requires. For more information, see [Custom document enrichment](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/custom-document-enrichment.html).
     public struct HookConfiguration {
         /// The condition used for when a Lambda function should be invoked. For example, you can specify a condition that if there are empty date-time values, then Amazon Q Business should invoke a function that inserts the current date-time.
         public var invocationCondition: QBusinessClientTypes.DocumentAttributeCondition?
@@ -8119,6 +9114,38 @@ extension QBusinessClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = IndexStatus(rawValue: rawValue) ?? IndexStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+    public enum IndexType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case enterprise
+        case starter
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IndexType] {
+            return [
+                .enterprise,
+                .starter,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .enterprise: return "ENTERPRISE"
+            case .starter: return "STARTER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = IndexType(rawValue: rawValue) ?? IndexType.sdkUnknown(rawValue)
         }
     }
 }
@@ -10443,6 +11470,95 @@ extension QBusinessClientTypes {
     }
 }
 
+extension QBusinessClientTypes.MetadataEvent: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case conversationId
+        case finalTextMessage
+        case sourceAttributions
+        case systemMessageId
+        case userMessageId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let conversationId = self.conversationId {
+            try encodeContainer.encode(conversationId, forKey: .conversationId)
+        }
+        if let finalTextMessage = self.finalTextMessage {
+            try encodeContainer.encode(finalTextMessage, forKey: .finalTextMessage)
+        }
+        if let sourceAttributions = sourceAttributions {
+            var sourceAttributionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceAttributions)
+            for sourceattribution0 in sourceAttributions {
+                guard let sourceattribution0 = sourceattribution0 else {
+                    try sourceAttributionsContainer.encodeNil()
+                    continue
+                }
+                try sourceAttributionsContainer.encode(sourceattribution0)
+            }
+        }
+        if let systemMessageId = self.systemMessageId {
+            try encodeContainer.encode(systemMessageId, forKey: .systemMessageId)
+        }
+        if let userMessageId = self.userMessageId {
+            try encodeContainer.encode(userMessageId, forKey: .userMessageId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let conversationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .conversationId)
+        conversationId = conversationIdDecoded
+        let userMessageIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userMessageId)
+        userMessageId = userMessageIdDecoded
+        let systemMessageIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .systemMessageId)
+        systemMessageId = systemMessageIdDecoded
+        let sourceAttributionsContainer = try containerValues.decodeIfPresent([QBusinessClientTypes.SourceAttribution?].self, forKey: .sourceAttributions)
+        var sourceAttributionsDecoded0:[QBusinessClientTypes.SourceAttribution?]? = nil
+        if let sourceAttributionsContainer = sourceAttributionsContainer {
+            sourceAttributionsDecoded0 = [QBusinessClientTypes.SourceAttribution?]()
+            for structure0 in sourceAttributionsContainer {
+                sourceAttributionsDecoded0?.append(structure0)
+            }
+        }
+        sourceAttributions = sourceAttributionsDecoded0
+        let finalTextMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .finalTextMessage)
+        finalTextMessage = finalTextMessageDecoded
+    }
+}
+
+extension QBusinessClientTypes {
+    /// A metadata event for a AI-generated text output message in a Amazon Q Business conversation, containing associated metadata generated.
+    public struct MetadataEvent {
+        /// The identifier of the conversation with which the generated metadata is associated.
+        public var conversationId: Swift.String?
+        /// The final text output message generated by the system.
+        public var finalTextMessage: Swift.String?
+        /// The source documents used to generate the conversation response.
+        public var sourceAttributions: [QBusinessClientTypes.SourceAttribution?]?
+        /// The identifier of an Amazon Q Business AI generated message within the conversation.
+        public var systemMessageId: Swift.String?
+        /// The identifier of an Amazon Q Business end user text input message within the conversation.
+        public var userMessageId: Swift.String?
+
+        public init(
+            conversationId: Swift.String? = nil,
+            finalTextMessage: Swift.String? = nil,
+            sourceAttributions: [QBusinessClientTypes.SourceAttribution?]? = nil,
+            systemMessageId: Swift.String? = nil,
+            userMessageId: Swift.String? = nil
+        )
+        {
+            self.conversationId = conversationId
+            self.finalTextMessage = finalTextMessage
+            self.sourceAttributions = sourceAttributions
+            self.systemMessageId = systemMessageId
+            self.userMessageId = userMessageId
+        }
+    }
+
+}
+
 extension QBusinessClientTypes.NativeIndexConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case boostingOverride
@@ -10497,6 +11613,26 @@ extension QBusinessClientTypes {
             self.boostingOverride = boostingOverride
             self.indexId = indexId
         }
+    }
+
+}
+
+extension QBusinessClientTypes.NoAuthConfiguration: Swift.Codable {
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode([String:String]())
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension QBusinessClientTypes {
+    /// Information about invoking a custom plugin without any authentication or authorization requirement.
+    public struct NoAuthConfiguration {
+
+        public init() { }
     }
 
 }
@@ -10628,6 +11764,7 @@ extension QBusinessClientTypes {
 
 extension QBusinessClientTypes.Plugin: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case buildStatus
         case createdAt
         case displayName
         case pluginId
@@ -10639,6 +11776,9 @@ extension QBusinessClientTypes.Plugin: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let buildStatus = self.buildStatus {
+            try encodeContainer.encode(buildStatus.rawValue, forKey: .buildStatus)
+        }
         if let createdAt = self.createdAt {
             try encodeContainer.encodeTimestamp(createdAt, format: .epochSeconds, forKey: .createdAt)
         }
@@ -10674,6 +11814,8 @@ extension QBusinessClientTypes.Plugin: Swift.Codable {
         serverUrl = serverUrlDecoded
         let stateDecoded = try containerValues.decodeIfPresent(QBusinessClientTypes.PluginState.self, forKey: .state)
         state = stateDecoded
+        let buildStatusDecoded = try containerValues.decodeIfPresent(QBusinessClientTypes.PluginBuildStatus.self, forKey: .buildStatus)
+        buildStatus = buildStatusDecoded
         let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
         createdAt = createdAtDecoded
         let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updatedAt)
@@ -10684,6 +11826,8 @@ extension QBusinessClientTypes.Plugin: Swift.Codable {
 extension QBusinessClientTypes {
     /// Information about an Amazon Q Business plugin and its configuration.
     public struct Plugin {
+        /// The status of the plugin.
+        public var buildStatus: QBusinessClientTypes.PluginBuildStatus?
         /// The timestamp for when the plugin was created.
         public var createdAt: ClientRuntime.Date?
         /// The name of the plugin.
@@ -10700,6 +11844,7 @@ extension QBusinessClientTypes {
         public var updatedAt: ClientRuntime.Date?
 
         public init(
+            buildStatus: QBusinessClientTypes.PluginBuildStatus? = nil,
             createdAt: ClientRuntime.Date? = nil,
             displayName: Swift.String? = nil,
             pluginId: Swift.String? = nil,
@@ -10709,6 +11854,7 @@ extension QBusinessClientTypes {
             updatedAt: ClientRuntime.Date? = nil
         )
         {
+            self.buildStatus = buildStatus
             self.createdAt = createdAt
             self.displayName = displayName
             self.pluginId = pluginId
@@ -10724,6 +11870,7 @@ extension QBusinessClientTypes {
 extension QBusinessClientTypes.PluginAuthConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case basicauthconfiguration = "basicAuthConfiguration"
+        case noauthconfiguration = "noAuthConfiguration"
         case oauth2clientcredentialconfiguration = "oAuth2ClientCredentialConfiguration"
         case sdkUnknown
     }
@@ -10733,6 +11880,8 @@ extension QBusinessClientTypes.PluginAuthConfiguration: Swift.Codable {
         switch self {
             case let .basicauthconfiguration(basicauthconfiguration):
                 try container.encode(basicauthconfiguration, forKey: .basicauthconfiguration)
+            case let .noauthconfiguration(noauthconfiguration):
+                try container.encode(noauthconfiguration, forKey: .noauthconfiguration)
             case let .oauth2clientcredentialconfiguration(oauth2clientcredentialconfiguration):
                 try container.encode(oauth2clientcredentialconfiguration, forKey: .oauth2clientcredentialconfiguration)
             case let .sdkUnknown(sdkUnknown):
@@ -10752,6 +11901,11 @@ extension QBusinessClientTypes.PluginAuthConfiguration: Swift.Codable {
             self = .oauth2clientcredentialconfiguration(oauth2clientcredentialconfiguration)
             return
         }
+        let noauthconfigurationDecoded = try values.decodeIfPresent(QBusinessClientTypes.NoAuthConfiguration.self, forKey: .noauthconfiguration)
+        if let noauthconfiguration = noauthconfigurationDecoded {
+            self = .noauthconfiguration(noauthconfiguration)
+            return
+        }
         self = .sdkUnknown("")
     }
 }
@@ -10763,9 +11917,58 @@ extension QBusinessClientTypes {
         case basicauthconfiguration(QBusinessClientTypes.BasicAuthConfiguration)
         /// Information about the OAuth 2.0 authentication credential/token used to configure a plugin.
         case oauth2clientcredentialconfiguration(QBusinessClientTypes.OAuth2ClientCredentialConfiguration)
+        /// Information about invoking a custom plugin without any authentication.
+        case noauthconfiguration(QBusinessClientTypes.NoAuthConfiguration)
         case sdkUnknown(Swift.String)
     }
 
+}
+
+extension QBusinessClientTypes {
+    public enum PluginBuildStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case createFailed
+        case createInProgress
+        case deleteFailed
+        case deleteInProgress
+        case ready
+        case updateFailed
+        case updateInProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PluginBuildStatus] {
+            return [
+                .createFailed,
+                .createInProgress,
+                .deleteFailed,
+                .deleteInProgress,
+                .ready,
+                .updateFailed,
+                .updateInProgress,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .createFailed: return "CREATE_FAILED"
+            case .createInProgress: return "CREATE_IN_PROGRESS"
+            case .deleteFailed: return "DELETE_FAILED"
+            case .deleteInProgress: return "DELETE_IN_PROGRESS"
+            case .ready: return "READY"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updateInProgress: return "UPDATE_IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PluginBuildStatus(rawValue: rawValue) ?? PluginBuildStatus.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension QBusinessClientTypes.PluginConfiguration: Swift.Codable {
@@ -10838,6 +12041,7 @@ extension QBusinessClientTypes {
 
 extension QBusinessClientTypes {
     public enum PluginType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case custom
         case jira
         case salesforce
         case serviceNow
@@ -10846,6 +12050,7 @@ extension QBusinessClientTypes {
 
         public static var allCases: [PluginType] {
             return [
+                .custom,
                 .jira,
                 .salesforce,
                 .serviceNow,
@@ -10859,6 +12064,7 @@ extension QBusinessClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .custom: return "CUSTOM"
             case .jira: return "JIRA"
             case .salesforce: return "SALESFORCE"
             case .serviceNow: return "SERVICE_NOW"
@@ -11961,6 +13167,41 @@ extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
     }
 }
 
+extension QBusinessClientTypes.SnippetExcerpt: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case text
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let text = self.text {
+            try encodeContainer.encode(text, forKey: .text)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let textDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .text)
+        text = textDecoded
+    }
+}
+
+extension QBusinessClientTypes {
+    /// Contains the relevant text excerpt from a source that was used to generate a citation text segment in an Amazon Q Business chat response.
+    public struct SnippetExcerpt {
+        /// The relevant text excerpt from a source that was used to generate a citation text segment in an Amazon Q chat response.
+        public var text: Swift.String?
+
+        public init(
+            text: Swift.String? = nil
+        )
+        {
+            self.text = text
+        }
+    }
+
+}
+
 extension QBusinessClientTypes.SourceAttribution: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case citationNumber
@@ -12587,10 +13828,112 @@ extension QBusinessClientTypes {
 
 }
 
+extension QBusinessClientTypes.TextInputEvent: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case userMessage
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let userMessage = self.userMessage {
+            try encodeContainer.encode(userMessage, forKey: .userMessage)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let userMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userMessage)
+        userMessage = userMessageDecoded
+    }
+}
+
+extension QBusinessClientTypes {
+    /// An input event for a end user message in an Amazon Q Business web experience.
+    public struct TextInputEvent {
+        /// A user message in a text message input event.
+        /// This member is required.
+        public var userMessage: Swift.String?
+
+        public init(
+            userMessage: Swift.String? = nil
+        )
+        {
+            self.userMessage = userMessage
+        }
+    }
+
+}
+
+extension QBusinessClientTypes.TextOutputEvent: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case conversationId
+        case systemMessage
+        case systemMessageId
+        case userMessageId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let conversationId = self.conversationId {
+            try encodeContainer.encode(conversationId, forKey: .conversationId)
+        }
+        if let systemMessage = self.systemMessage {
+            try encodeContainer.encode(systemMessage, forKey: .systemMessage)
+        }
+        if let systemMessageId = self.systemMessageId {
+            try encodeContainer.encode(systemMessageId, forKey: .systemMessageId)
+        }
+        if let userMessageId = self.userMessageId {
+            try encodeContainer.encode(userMessageId, forKey: .userMessageId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let conversationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .conversationId)
+        conversationId = conversationIdDecoded
+        let userMessageIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userMessageId)
+        userMessageId = userMessageIdDecoded
+        let systemMessageIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .systemMessageId)
+        systemMessageId = systemMessageIdDecoded
+        let systemMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .systemMessage)
+        systemMessage = systemMessageDecoded
+    }
+}
+
+extension QBusinessClientTypes {
+    /// An output event for an AI-generated response in an Amazon Q Business web experience.
+    public struct TextOutputEvent {
+        /// The identifier of the conversation with which the text output event is associated.
+        public var conversationId: Swift.String?
+        /// An AI-generated message in a TextOutputEvent.
+        public var systemMessage: Swift.String?
+        /// The identifier of an AI-generated message in a TextOutputEvent.
+        public var systemMessageId: Swift.String?
+        /// The identifier of an end user message in a TextOutputEvent.
+        public var userMessageId: Swift.String?
+
+        public init(
+            conversationId: Swift.String? = nil,
+            systemMessage: Swift.String? = nil,
+            systemMessageId: Swift.String? = nil,
+            userMessageId: Swift.String? = nil
+        )
+        {
+            self.conversationId = conversationId
+            self.systemMessage = systemMessage
+            self.systemMessageId = systemMessageId
+            self.userMessageId = userMessageId
+        }
+    }
+
+}
+
 extension QBusinessClientTypes.TextSegment: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case beginOffset
         case endOffset
+        case snippetExcerpt
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -12601,6 +13944,9 @@ extension QBusinessClientTypes.TextSegment: Swift.Codable {
         if let endOffset = self.endOffset {
             try encodeContainer.encode(endOffset, forKey: .endOffset)
         }
+        if let snippetExcerpt = self.snippetExcerpt {
+            try encodeContainer.encode(snippetExcerpt, forKey: .snippetExcerpt)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -12609,6 +13955,8 @@ extension QBusinessClientTypes.TextSegment: Swift.Codable {
         beginOffset = beginOffsetDecoded
         let endOffsetDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .endOffset)
         endOffset = endOffsetDecoded
+        let snippetExcerptDecoded = try containerValues.decodeIfPresent(QBusinessClientTypes.SnippetExcerpt.self, forKey: .snippetExcerpt)
+        snippetExcerpt = snippetExcerptDecoded
     }
 }
 
@@ -12619,14 +13967,18 @@ extension QBusinessClientTypes {
         public var beginOffset: Swift.Int?
         /// The zero-based location in the response string where the source attribution ends.
         public var endOffset: Swift.Int?
+        /// The relevant text excerpt from a source that was used to generate a citation text segment in an Amazon Q Business chat response.
+        public var snippetExcerpt: QBusinessClientTypes.SnippetExcerpt?
 
         public init(
             beginOffset: Swift.Int? = nil,
-            endOffset: Swift.Int? = nil
+            endOffset: Swift.Int? = nil,
+            snippetExcerpt: QBusinessClientTypes.SnippetExcerpt? = nil
         )
         {
             self.beginOffset = beginOffset
             self.endOffset = endOffset
+            self.snippetExcerpt = snippetExcerpt
         }
     }
 
@@ -12862,6 +14214,7 @@ extension UpdateApplicationInput: Swift.Encodable {
         case attachmentsConfiguration
         case description
         case displayName
+        case identityCenterInstanceArn
         case roleArn
     }
 
@@ -12875,6 +14228,9 @@ extension UpdateApplicationInput: Swift.Encodable {
         }
         if let displayName = self.displayName {
             try encodeContainer.encode(displayName, forKey: .displayName)
+        }
+        if let identityCenterInstanceArn = self.identityCenterInstanceArn {
+            try encodeContainer.encode(identityCenterInstanceArn, forKey: .identityCenterInstanceArn)
         }
         if let roleArn = self.roleArn {
             try encodeContainer.encode(roleArn, forKey: .roleArn)
@@ -12902,6 +14258,8 @@ public struct UpdateApplicationInput {
     public var description: Swift.String?
     /// A name for the Amazon Q Business application.
     public var displayName: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM Identity Center instance you are either creating for—or connecting to—your Amazon Q Business application.
+    public var identityCenterInstanceArn: Swift.String?
     /// An Amazon Web Services Identity and Access Management (IAM) role that gives Amazon Q Business permission to access Amazon CloudWatch logs and metrics.
     public var roleArn: Swift.String?
 
@@ -12910,6 +14268,7 @@ public struct UpdateApplicationInput {
         attachmentsConfiguration: QBusinessClientTypes.AttachmentsConfiguration? = nil,
         description: Swift.String? = nil,
         displayName: Swift.String? = nil,
+        identityCenterInstanceArn: Swift.String? = nil,
         roleArn: Swift.String? = nil
     )
     {
@@ -12917,11 +14276,13 @@ public struct UpdateApplicationInput {
         self.attachmentsConfiguration = attachmentsConfiguration
         self.description = description
         self.displayName = displayName
+        self.identityCenterInstanceArn = identityCenterInstanceArn
         self.roleArn = roleArn
     }
 }
 
 struct UpdateApplicationInputBody {
+    let identityCenterInstanceArn: Swift.String?
     let displayName: Swift.String?
     let description: Swift.String?
     let roleArn: Swift.String?
@@ -12933,11 +14294,14 @@ extension UpdateApplicationInputBody: Swift.Decodable {
         case attachmentsConfiguration
         case description
         case displayName
+        case identityCenterInstanceArn
         case roleArn
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let identityCenterInstanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identityCenterInstanceArn)
+        identityCenterInstanceArn = identityCenterInstanceArnDecoded
         let displayNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .displayName)
         displayName = displayNameDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
@@ -13454,6 +14818,7 @@ enum UpdateIndexOutputError: ClientRuntime.HttpResponseErrorBinding {
 extension UpdatePluginInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case authConfiguration
+        case customPluginConfiguration
         case displayName
         case serverUrl
         case state
@@ -13463,6 +14828,9 @@ extension UpdatePluginInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let authConfiguration = self.authConfiguration {
             try encodeContainer.encode(authConfiguration, forKey: .authConfiguration)
+        }
+        if let customPluginConfiguration = self.customPluginConfiguration {
+            try encodeContainer.encode(customPluginConfiguration, forKey: .customPluginConfiguration)
         }
         if let displayName = self.displayName {
             try encodeContainer.encode(displayName, forKey: .displayName)
@@ -13495,6 +14863,8 @@ public struct UpdatePluginInput {
     public var applicationId: Swift.String?
     /// The authentication configuration the plugin is using.
     public var authConfiguration: QBusinessClientTypes.PluginAuthConfiguration?
+    /// The configuration for a custom plugin.
+    public var customPluginConfiguration: QBusinessClientTypes.CustomPluginConfiguration?
     /// The name of the plugin.
     public var displayName: Swift.String?
     /// The identifier of the plugin.
@@ -13508,6 +14878,7 @@ public struct UpdatePluginInput {
     public init(
         applicationId: Swift.String? = nil,
         authConfiguration: QBusinessClientTypes.PluginAuthConfiguration? = nil,
+        customPluginConfiguration: QBusinessClientTypes.CustomPluginConfiguration? = nil,
         displayName: Swift.String? = nil,
         pluginId: Swift.String? = nil,
         serverUrl: Swift.String? = nil,
@@ -13516,6 +14887,7 @@ public struct UpdatePluginInput {
     {
         self.applicationId = applicationId
         self.authConfiguration = authConfiguration
+        self.customPluginConfiguration = customPluginConfiguration
         self.displayName = displayName
         self.pluginId = pluginId
         self.serverUrl = serverUrl
@@ -13527,12 +14899,14 @@ struct UpdatePluginInputBody {
     let displayName: Swift.String?
     let state: QBusinessClientTypes.PluginState?
     let serverUrl: Swift.String?
+    let customPluginConfiguration: QBusinessClientTypes.CustomPluginConfiguration?
     let authConfiguration: QBusinessClientTypes.PluginAuthConfiguration?
 }
 
 extension UpdatePluginInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case authConfiguration
+        case customPluginConfiguration
         case displayName
         case serverUrl
         case state
@@ -13546,6 +14920,8 @@ extension UpdatePluginInputBody: Swift.Decodable {
         state = stateDecoded
         let serverUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serverUrl)
         serverUrl = serverUrlDecoded
+        let customPluginConfigurationDecoded = try containerValues.decodeIfPresent(QBusinessClientTypes.CustomPluginConfiguration.self, forKey: .customPluginConfiguration)
+        customPluginConfiguration = customPluginConfigurationDecoded
         let authConfigurationDecoded = try containerValues.decodeIfPresent(QBusinessClientTypes.PluginAuthConfiguration.self, forKey: .authConfiguration)
         authConfiguration = authConfigurationDecoded
     }
@@ -13899,6 +15275,7 @@ enum UpdateUserOutputError: ClientRuntime.HttpResponseErrorBinding {
 extension UpdateWebExperienceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case authenticationConfiguration
+        case roleArn
         case samplePromptsControlMode
         case subtitle
         case title
@@ -13909,6 +15286,9 @@ extension UpdateWebExperienceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let authenticationConfiguration = self.authenticationConfiguration {
             try encodeContainer.encode(authenticationConfiguration, forKey: .authenticationConfiguration)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
         }
         if let samplePromptsControlMode = self.samplePromptsControlMode {
             try encodeContainer.encode(samplePromptsControlMode.rawValue, forKey: .samplePromptsControlMode)
@@ -13943,7 +15323,10 @@ public struct UpdateWebExperienceInput {
     /// This member is required.
     public var applicationId: Swift.String?
     /// The authentication configuration of the Amazon Q Business web experience.
+    @available(*, deprecated, message: "Property associated with legacy SAML IdP flow. Deprecated in favor of using AWS IAM Identity Center for user management.")
     public var authenticationConfiguration: QBusinessClientTypes.WebExperienceAuthConfiguration?
+    /// The Amazon Resource Name (ARN) of the role with permission to access the Amazon Q Business web experience and required resources.
+    public var roleArn: Swift.String?
     /// Determines whether sample prompts are enabled in the web experience for an end user.
     public var samplePromptsControlMode: QBusinessClientTypes.WebExperienceSamplePromptsControlMode?
     /// The subtitle of the Amazon Q Business web experience.
@@ -13959,6 +15342,7 @@ public struct UpdateWebExperienceInput {
     public init(
         applicationId: Swift.String? = nil,
         authenticationConfiguration: QBusinessClientTypes.WebExperienceAuthConfiguration? = nil,
+        roleArn: Swift.String? = nil,
         samplePromptsControlMode: QBusinessClientTypes.WebExperienceSamplePromptsControlMode? = nil,
         subtitle: Swift.String? = nil,
         title: Swift.String? = nil,
@@ -13968,6 +15352,7 @@ public struct UpdateWebExperienceInput {
     {
         self.applicationId = applicationId
         self.authenticationConfiguration = authenticationConfiguration
+        self.roleArn = roleArn
         self.samplePromptsControlMode = samplePromptsControlMode
         self.subtitle = subtitle
         self.title = title
@@ -13977,6 +15362,7 @@ public struct UpdateWebExperienceInput {
 }
 
 struct UpdateWebExperienceInputBody {
+    let roleArn: Swift.String?
     let authenticationConfiguration: QBusinessClientTypes.WebExperienceAuthConfiguration?
     let title: Swift.String?
     let subtitle: Swift.String?
@@ -13987,6 +15373,7 @@ struct UpdateWebExperienceInputBody {
 extension UpdateWebExperienceInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case authenticationConfiguration
+        case roleArn
         case samplePromptsControlMode
         case subtitle
         case title
@@ -13995,6 +15382,8 @@ extension UpdateWebExperienceInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
         let authenticationConfigurationDecoded = try containerValues.decodeIfPresent(QBusinessClientTypes.WebExperienceAuthConfiguration.self, forKey: .authenticationConfiguration)
         authenticationConfiguration = authenticationConfigurationDecoded
         let titleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .title)

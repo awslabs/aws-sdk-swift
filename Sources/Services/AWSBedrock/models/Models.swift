@@ -57,6 +57,54 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
     }
 }
 
+extension BedrockClientTypes.AutomatedEvaluationConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case datasetMetricConfigs
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let datasetMetricConfigs = datasetMetricConfigs {
+            var datasetMetricConfigsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .datasetMetricConfigs)
+            for evaluationdatasetmetricconfig0 in datasetMetricConfigs {
+                try datasetMetricConfigsContainer.encode(evaluationdatasetmetricconfig0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let datasetMetricConfigsContainer = try containerValues.decodeIfPresent([BedrockClientTypes.EvaluationDatasetMetricConfig?].self, forKey: .datasetMetricConfigs)
+        var datasetMetricConfigsDecoded0:[BedrockClientTypes.EvaluationDatasetMetricConfig]? = nil
+        if let datasetMetricConfigsContainer = datasetMetricConfigsContainer {
+            datasetMetricConfigsDecoded0 = [BedrockClientTypes.EvaluationDatasetMetricConfig]()
+            for structure0 in datasetMetricConfigsContainer {
+                if let structure0 = structure0 {
+                    datasetMetricConfigsDecoded0?.append(structure0)
+                }
+            }
+        }
+        datasetMetricConfigs = datasetMetricConfigsDecoded0
+    }
+}
+
+extension BedrockClientTypes {
+    /// Use to specify a automatic model evaluation job. The EvaluationDatasetMetricConfig object is used to specify the prompt datasets, task type, and metric names.
+    public struct AutomatedEvaluationConfig {
+        /// Specifies the required elements for an automatic model evaluation job.
+        /// This member is required.
+        public var datasetMetricConfigs: [BedrockClientTypes.EvaluationDatasetMetricConfig]?
+
+        public init(
+            datasetMetricConfigs: [BedrockClientTypes.EvaluationDatasetMetricConfig]? = nil
+        )
+        {
+            self.datasetMetricConfigs = datasetMetricConfigs
+        }
+    }
+
+}
+
 public enum BedrockClientTypes {}
 
 extension BedrockClientTypes.CloudWatchConfig: Swift.Codable {
@@ -98,7 +146,7 @@ extension BedrockClientTypes {
         /// The log group name.
         /// This member is required.
         public var logGroupName: Swift.String?
-        /// The role ARN.
+        /// The role Amazon Resource Name (ARN).
         /// This member is required.
         public var roleArn: Swift.String?
 
@@ -203,6 +251,652 @@ extension ConflictExceptionBody: Swift.Decodable {
     }
 }
 
+extension CreateEvaluationJobInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateEvaluationJobInput(clientRequestToken: \(Swift.String(describing: clientRequestToken)), customerEncryptionKeyId: \(Swift.String(describing: customerEncryptionKeyId)), evaluationConfig: \(Swift.String(describing: evaluationConfig)), inferenceConfig: \(Swift.String(describing: inferenceConfig)), jobName: \(Swift.String(describing: jobName)), jobTags: \(Swift.String(describing: jobTags)), outputDataConfig: \(Swift.String(describing: outputDataConfig)), roleArn: \(Swift.String(describing: roleArn)), jobDescription: \"CONTENT_REDACTED\")"}
+}
+
+extension CreateEvaluationJobInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken
+        case customerEncryptionKeyId
+        case evaluationConfig
+        case inferenceConfig
+        case jobDescription
+        case jobName
+        case jobTags
+        case outputDataConfig
+        case roleArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let customerEncryptionKeyId = self.customerEncryptionKeyId {
+            try encodeContainer.encode(customerEncryptionKeyId, forKey: .customerEncryptionKeyId)
+        }
+        if let evaluationConfig = self.evaluationConfig {
+            try encodeContainer.encode(evaluationConfig, forKey: .evaluationConfig)
+        }
+        if let inferenceConfig = self.inferenceConfig {
+            try encodeContainer.encode(inferenceConfig, forKey: .inferenceConfig)
+        }
+        if let jobDescription = self.jobDescription {
+            try encodeContainer.encode(jobDescription, forKey: .jobDescription)
+        }
+        if let jobName = self.jobName {
+            try encodeContainer.encode(jobName, forKey: .jobName)
+        }
+        if let jobTags = jobTags {
+            var jobTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .jobTags)
+            for tag0 in jobTags {
+                try jobTagsContainer.encode(tag0)
+            }
+        }
+        if let outputDataConfig = self.outputDataConfig {
+            try encodeContainer.encode(outputDataConfig, forKey: .outputDataConfig)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+    }
+}
+
+extension CreateEvaluationJobInput {
+
+    static func urlPathProvider(_ value: CreateEvaluationJobInput) -> Swift.String? {
+        return "/evaluation-jobs"
+    }
+}
+
+public struct CreateEvaluationJobInput {
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+    public var clientRequestToken: Swift.String?
+    /// Specify your customer managed key ARN that will be used to encrypt your model evaluation job.
+    public var customerEncryptionKeyId: Swift.String?
+    /// Specifies whether the model evaluation job is automatic or uses human worker.
+    /// This member is required.
+    public var evaluationConfig: BedrockClientTypes.EvaluationConfig?
+    /// Specify the models you want to use in your model evaluation job. Automatic model evaluation jobs support a single model, and model evaluation job that use human workers support two models.
+    /// This member is required.
+    public var inferenceConfig: BedrockClientTypes.EvaluationInferenceConfig?
+    /// A description of the model evaluation job.
+    public var jobDescription: Swift.String?
+    /// The name of the model evaluation job. Model evaluation job names must unique with your AWS account, and your account's AWS region.
+    /// This member is required.
+    public var jobName: Swift.String?
+    /// Tags to attach to the model evaluation job.
+    public var jobTags: [BedrockClientTypes.Tag]?
+    /// An object that defines where the results of model evaluation job will be saved in Amazon S3.
+    /// This member is required.
+    public var outputDataConfig: BedrockClientTypes.EvaluationOutputDataConfig?
+    /// The Amazon Resource Name (ARN) of an IAM service role that Amazon Bedrock can assume to perform tasks on your behalf. The service role must have Amazon Bedrock as the service principal, and provide access to any Amazon S3 buckets specified in the EvaluationConfig object. To pass this role to Amazon Bedrock, the caller of this API must have the iam:PassRole permission. To learn more about the required permissions, see [Required permissions](https://docs.aws.amazon.com/bedrock/latest/userguide/model-evaluation-security.html).
+    /// This member is required.
+    public var roleArn: Swift.String?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        customerEncryptionKeyId: Swift.String? = nil,
+        evaluationConfig: BedrockClientTypes.EvaluationConfig? = nil,
+        inferenceConfig: BedrockClientTypes.EvaluationInferenceConfig? = nil,
+        jobDescription: Swift.String? = nil,
+        jobName: Swift.String? = nil,
+        jobTags: [BedrockClientTypes.Tag]? = nil,
+        outputDataConfig: BedrockClientTypes.EvaluationOutputDataConfig? = nil,
+        roleArn: Swift.String? = nil
+    )
+    {
+        self.clientRequestToken = clientRequestToken
+        self.customerEncryptionKeyId = customerEncryptionKeyId
+        self.evaluationConfig = evaluationConfig
+        self.inferenceConfig = inferenceConfig
+        self.jobDescription = jobDescription
+        self.jobName = jobName
+        self.jobTags = jobTags
+        self.outputDataConfig = outputDataConfig
+        self.roleArn = roleArn
+    }
+}
+
+struct CreateEvaluationJobInputBody {
+    let jobName: Swift.String?
+    let jobDescription: Swift.String?
+    let clientRequestToken: Swift.String?
+    let roleArn: Swift.String?
+    let customerEncryptionKeyId: Swift.String?
+    let jobTags: [BedrockClientTypes.Tag]?
+    let evaluationConfig: BedrockClientTypes.EvaluationConfig?
+    let inferenceConfig: BedrockClientTypes.EvaluationInferenceConfig?
+    let outputDataConfig: BedrockClientTypes.EvaluationOutputDataConfig?
+}
+
+extension CreateEvaluationJobInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken
+        case customerEncryptionKeyId
+        case evaluationConfig
+        case inferenceConfig
+        case jobDescription
+        case jobName
+        case jobTags
+        case outputDataConfig
+        case roleArn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let jobNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobName)
+        jobName = jobNameDecoded
+        let jobDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobDescription)
+        jobDescription = jobDescriptionDecoded
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let customerEncryptionKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customerEncryptionKeyId)
+        customerEncryptionKeyId = customerEncryptionKeyIdDecoded
+        let jobTagsContainer = try containerValues.decodeIfPresent([BedrockClientTypes.Tag?].self, forKey: .jobTags)
+        var jobTagsDecoded0:[BedrockClientTypes.Tag]? = nil
+        if let jobTagsContainer = jobTagsContainer {
+            jobTagsDecoded0 = [BedrockClientTypes.Tag]()
+            for structure0 in jobTagsContainer {
+                if let structure0 = structure0 {
+                    jobTagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        jobTags = jobTagsDecoded0
+        let evaluationConfigDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.EvaluationConfig.self, forKey: .evaluationConfig)
+        evaluationConfig = evaluationConfigDecoded
+        let inferenceConfigDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.EvaluationInferenceConfig.self, forKey: .inferenceConfig)
+        inferenceConfig = inferenceConfigDecoded
+        let outputDataConfigDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.EvaluationOutputDataConfig.self, forKey: .outputDataConfig)
+        outputDataConfig = outputDataConfigDecoded
+    }
+}
+
+extension CreateEvaluationJobOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateEvaluationJobOutputBody = try responseDecoder.decode(responseBody: data)
+            self.jobArn = output.jobArn
+        } else {
+            self.jobArn = nil
+        }
+    }
+}
+
+public struct CreateEvaluationJobOutput {
+    /// The ARN of the model evaluation job.
+    /// This member is required.
+    public var jobArn: Swift.String?
+
+    public init(
+        jobArn: Swift.String? = nil
+    )
+    {
+        self.jobArn = jobArn
+    }
+}
+
+struct CreateEvaluationJobOutputBody {
+    let jobArn: Swift.String?
+}
+
+extension CreateEvaluationJobOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case jobArn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let jobArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobArn)
+        jobArn = jobArnDecoded
+    }
+}
+
+enum CreateEvaluationJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateGuardrailInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateGuardrailInput(clientRequestToken: \(Swift.String(describing: clientRequestToken)), contentPolicyConfig: \(Swift.String(describing: contentPolicyConfig)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), sensitiveInformationPolicyConfig: \(Swift.String(describing: sensitiveInformationPolicyConfig)), tags: \(Swift.String(describing: tags)), topicPolicyConfig: \(Swift.String(describing: topicPolicyConfig)), wordPolicyConfig: \(Swift.String(describing: wordPolicyConfig)), blockedInputMessaging: \"CONTENT_REDACTED\", blockedOutputsMessaging: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+extension CreateGuardrailInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case blockedInputMessaging
+        case blockedOutputsMessaging
+        case clientRequestToken
+        case contentPolicyConfig
+        case description
+        case kmsKeyId
+        case name
+        case sensitiveInformationPolicyConfig
+        case tags
+        case topicPolicyConfig
+        case wordPolicyConfig
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let blockedInputMessaging = self.blockedInputMessaging {
+            try encodeContainer.encode(blockedInputMessaging, forKey: .blockedInputMessaging)
+        }
+        if let blockedOutputsMessaging = self.blockedOutputsMessaging {
+            try encodeContainer.encode(blockedOutputsMessaging, forKey: .blockedOutputsMessaging)
+        }
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let contentPolicyConfig = self.contentPolicyConfig {
+            try encodeContainer.encode(contentPolicyConfig, forKey: .contentPolicyConfig)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let kmsKeyId = self.kmsKeyId {
+            try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let sensitiveInformationPolicyConfig = self.sensitiveInformationPolicyConfig {
+            try encodeContainer.encode(sensitiveInformationPolicyConfig, forKey: .sensitiveInformationPolicyConfig)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+        if let topicPolicyConfig = self.topicPolicyConfig {
+            try encodeContainer.encode(topicPolicyConfig, forKey: .topicPolicyConfig)
+        }
+        if let wordPolicyConfig = self.wordPolicyConfig {
+            try encodeContainer.encode(wordPolicyConfig, forKey: .wordPolicyConfig)
+        }
+    }
+}
+
+extension CreateGuardrailInput {
+
+    static func urlPathProvider(_ value: CreateGuardrailInput) -> Swift.String? {
+        return "/guardrails"
+    }
+}
+
+public struct CreateGuardrailInput {
+    /// The message to return when the guardrail blocks a prompt.
+    /// This member is required.
+    public var blockedInputMessaging: Swift.String?
+    /// The message to return when the guardrail blocks a model response.
+    /// This member is required.
+    public var blockedOutputsMessaging: Swift.String?
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than once. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon S3 User Guide.
+    public var clientRequestToken: Swift.String?
+    /// The content filter policies to configure for the guardrail.
+    public var contentPolicyConfig: BedrockClientTypes.GuardrailContentPolicyConfig?
+    /// A description of the guardrail.
+    public var description: Swift.String?
+    /// The ARN of the KMS key that you use to encrypt the guardrail.
+    public var kmsKeyId: Swift.String?
+    /// The name to give the guardrail.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The sensitive information policy to configure for the guardrail.
+    public var sensitiveInformationPolicyConfig: BedrockClientTypes.GuardrailSensitiveInformationPolicyConfig?
+    /// The tags that you want to attach to the guardrail.
+    public var tags: [BedrockClientTypes.Tag]?
+    /// The topic policies to configure for the guardrail.
+    public var topicPolicyConfig: BedrockClientTypes.GuardrailTopicPolicyConfig?
+    /// The word policy you configure for the guardrail.
+    public var wordPolicyConfig: BedrockClientTypes.GuardrailWordPolicyConfig?
+
+    public init(
+        blockedInputMessaging: Swift.String? = nil,
+        blockedOutputsMessaging: Swift.String? = nil,
+        clientRequestToken: Swift.String? = nil,
+        contentPolicyConfig: BedrockClientTypes.GuardrailContentPolicyConfig? = nil,
+        description: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        sensitiveInformationPolicyConfig: BedrockClientTypes.GuardrailSensitiveInformationPolicyConfig? = nil,
+        tags: [BedrockClientTypes.Tag]? = nil,
+        topicPolicyConfig: BedrockClientTypes.GuardrailTopicPolicyConfig? = nil,
+        wordPolicyConfig: BedrockClientTypes.GuardrailWordPolicyConfig? = nil
+    )
+    {
+        self.blockedInputMessaging = blockedInputMessaging
+        self.blockedOutputsMessaging = blockedOutputsMessaging
+        self.clientRequestToken = clientRequestToken
+        self.contentPolicyConfig = contentPolicyConfig
+        self.description = description
+        self.kmsKeyId = kmsKeyId
+        self.name = name
+        self.sensitiveInformationPolicyConfig = sensitiveInformationPolicyConfig
+        self.tags = tags
+        self.topicPolicyConfig = topicPolicyConfig
+        self.wordPolicyConfig = wordPolicyConfig
+    }
+}
+
+struct CreateGuardrailInputBody {
+    let name: Swift.String?
+    let description: Swift.String?
+    let topicPolicyConfig: BedrockClientTypes.GuardrailTopicPolicyConfig?
+    let contentPolicyConfig: BedrockClientTypes.GuardrailContentPolicyConfig?
+    let wordPolicyConfig: BedrockClientTypes.GuardrailWordPolicyConfig?
+    let sensitiveInformationPolicyConfig: BedrockClientTypes.GuardrailSensitiveInformationPolicyConfig?
+    let blockedInputMessaging: Swift.String?
+    let blockedOutputsMessaging: Swift.String?
+    let kmsKeyId: Swift.String?
+    let tags: [BedrockClientTypes.Tag]?
+    let clientRequestToken: Swift.String?
+}
+
+extension CreateGuardrailInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case blockedInputMessaging
+        case blockedOutputsMessaging
+        case clientRequestToken
+        case contentPolicyConfig
+        case description
+        case kmsKeyId
+        case name
+        case sensitiveInformationPolicyConfig
+        case tags
+        case topicPolicyConfig
+        case wordPolicyConfig
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let topicPolicyConfigDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.GuardrailTopicPolicyConfig.self, forKey: .topicPolicyConfig)
+        topicPolicyConfig = topicPolicyConfigDecoded
+        let contentPolicyConfigDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.GuardrailContentPolicyConfig.self, forKey: .contentPolicyConfig)
+        contentPolicyConfig = contentPolicyConfigDecoded
+        let wordPolicyConfigDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.GuardrailWordPolicyConfig.self, forKey: .wordPolicyConfig)
+        wordPolicyConfig = wordPolicyConfigDecoded
+        let sensitiveInformationPolicyConfigDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.GuardrailSensitiveInformationPolicyConfig.self, forKey: .sensitiveInformationPolicyConfig)
+        sensitiveInformationPolicyConfig = sensitiveInformationPolicyConfigDecoded
+        let blockedInputMessagingDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .blockedInputMessaging)
+        blockedInputMessaging = blockedInputMessagingDecoded
+        let blockedOutputsMessagingDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .blockedOutputsMessaging)
+        blockedOutputsMessaging = blockedOutputsMessagingDecoded
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([BedrockClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[BedrockClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [BedrockClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
+    }
+}
+
+extension CreateGuardrailOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateGuardrailOutputBody = try responseDecoder.decode(responseBody: data)
+            self.createdAt = output.createdAt
+            self.guardrailArn = output.guardrailArn
+            self.guardrailId = output.guardrailId
+            self.version = output.version
+        } else {
+            self.createdAt = nil
+            self.guardrailArn = nil
+            self.guardrailId = nil
+            self.version = nil
+        }
+    }
+}
+
+public struct CreateGuardrailOutput {
+    /// The time at which the guardrail was created.
+    /// This member is required.
+    public var createdAt: ClientRuntime.Date?
+    /// The ARN of the guardrail that was created.
+    /// This member is required.
+    public var guardrailArn: Swift.String?
+    /// The unique identifier of the guardrail that was created.
+    /// This member is required.
+    public var guardrailId: Swift.String?
+    /// The version of the guardrail that was created. This value should be 1.
+    /// This member is required.
+    public var version: Swift.String?
+
+    public init(
+        createdAt: ClientRuntime.Date? = nil,
+        guardrailArn: Swift.String? = nil,
+        guardrailId: Swift.String? = nil,
+        version: Swift.String? = nil
+    )
+    {
+        self.createdAt = createdAt
+        self.guardrailArn = guardrailArn
+        self.guardrailId = guardrailId
+        self.version = version
+    }
+}
+
+struct CreateGuardrailOutputBody {
+    let guardrailId: Swift.String?
+    let guardrailArn: Swift.String?
+    let version: Swift.String?
+    let createdAt: ClientRuntime.Date?
+}
+
+extension CreateGuardrailOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdAt
+        case guardrailArn
+        case guardrailId
+        case version
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let guardrailIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .guardrailId)
+        guardrailId = guardrailIdDecoded
+        let guardrailArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .guardrailArn)
+        guardrailArn = guardrailArnDecoded
+        let versionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .version)
+        version = versionDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
+        createdAt = createdAtDecoded
+    }
+}
+
+enum CreateGuardrailOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyTagsException": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateGuardrailVersionInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateGuardrailVersionInput(clientRequestToken: \(Swift.String(describing: clientRequestToken)), guardrailIdentifier: \(Swift.String(describing: guardrailIdentifier)), description: \"CONTENT_REDACTED\")"}
+}
+
+extension CreateGuardrailVersionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken
+        case description
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+    }
+}
+
+extension CreateGuardrailVersionInput {
+
+    static func urlPathProvider(_ value: CreateGuardrailVersionInput) -> Swift.String? {
+        guard let guardrailIdentifier = value.guardrailIdentifier else {
+            return nil
+        }
+        return "/guardrails/\(guardrailIdentifier.urlPercentEncoding())"
+    }
+}
+
+public struct CreateGuardrailVersionInput {
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than once. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon S3 User Guide.
+    public var clientRequestToken: Swift.String?
+    /// A description of the guardrail version.
+    public var description: Swift.String?
+    /// The unique identifier of the guardrail.
+    /// This member is required.
+    public var guardrailIdentifier: Swift.String?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        guardrailIdentifier: Swift.String? = nil
+    )
+    {
+        self.clientRequestToken = clientRequestToken
+        self.description = description
+        self.guardrailIdentifier = guardrailIdentifier
+    }
+}
+
+struct CreateGuardrailVersionInputBody {
+    let description: Swift.String?
+    let clientRequestToken: Swift.String?
+}
+
+extension CreateGuardrailVersionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken
+        case description
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
+    }
+}
+
+extension CreateGuardrailVersionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateGuardrailVersionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.guardrailId = output.guardrailId
+            self.version = output.version
+        } else {
+            self.guardrailId = nil
+            self.version = nil
+        }
+    }
+}
+
+public struct CreateGuardrailVersionOutput {
+    /// The unique identifier of the guardrail.
+    /// This member is required.
+    public var guardrailId: Swift.String?
+    /// The number of the version of the guardrail.
+    /// This member is required.
+    public var version: Swift.String?
+
+    public init(
+        guardrailId: Swift.String? = nil,
+        version: Swift.String? = nil
+    )
+    {
+        self.guardrailId = guardrailId
+        self.version = version
+    }
+}
+
+struct CreateGuardrailVersionOutputBody {
+    let guardrailId: Swift.String?
+    let version: Swift.String?
+}
+
+extension CreateGuardrailVersionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case guardrailId
+        case version
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let guardrailIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .guardrailId)
+        guardrailId = guardrailIdDecoded
+        let versionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .version)
+        version = versionDecoded
+    }
+}
+
+enum CreateGuardrailVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension CreateModelCustomizationJobInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case baseModelIdentifier
@@ -288,29 +982,29 @@ public struct CreateModelCustomizationJobInput {
     /// Name of the base model.
     /// This member is required.
     public var baseModelIdentifier: Swift.String?
-    /// Unique token value that you can provide. The GetModelCustomizationJob response includes the same token value.
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
     public var clientRequestToken: Swift.String?
     /// The custom model is encrypted at rest using this key.
     public var customModelKmsKeyId: Swift.String?
-    /// Enter a name for the custom model.
+    /// A name for the resulting custom model.
     /// This member is required.
     public var customModelName: Swift.String?
-    /// Assign tags to the custom model.
+    /// Tags to attach to the resulting custom model.
     public var customModelTags: [BedrockClientTypes.Tag]?
     /// The customization type.
     public var customizationType: BedrockClientTypes.CustomizationType?
-    /// Parameters related to tuning the model.
+    /// Parameters related to tuning the model. For details on the format for different models, see [Custom model hyperparameters](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models-hp.html).
     /// This member is required.
     public var hyperParameters: [Swift.String:Swift.String]?
-    /// Enter a unique name for the fine-tuning job.
+    /// A name for the fine-tuning job.
     /// This member is required.
     public var jobName: Swift.String?
-    /// Assign tags to the job.
+    /// Tags to attach to the job.
     public var jobTags: [BedrockClientTypes.Tag]?
     /// S3 location for the output data.
     /// This member is required.
     public var outputDataConfig: BedrockClientTypes.OutputDataConfig?
-    /// The Amazon Resource Name (ARN) of an IAM role that Amazon Bedrock can assume to perform tasks on your behalf. For example, during model training, Amazon Bedrock needs your permission to read input data from an S3 bucket, write model artifacts to an S3 bucket. To pass this role to Amazon Bedrock, the caller of this API must have the iam:PassRole permission.
+    /// The Amazon Resource Name (ARN) of an IAM service role that Amazon Bedrock can assume to perform tasks on your behalf. For example, during model training, Amazon Bedrock needs your permission to read input data from an S3 bucket, write model artifacts to an S3 bucket. To pass this role to Amazon Bedrock, the caller of this API must have the iam:PassRole permission.
     /// This member is required.
     public var roleArn: Swift.String?
     /// Information about the training dataset.
@@ -463,7 +1157,7 @@ extension CreateModelCustomizationJobOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CreateModelCustomizationJobOutput {
-    /// ARN of the fine tuning job
+    /// Amazon Resource Name (ARN) of the fine tuning job
     /// This member is required.
     public var jobArn: Swift.String?
 
@@ -553,20 +1247,20 @@ extension CreateProvisionedModelThroughputInput {
 }
 
 public struct CreateProvisionedModelThroughputInput {
-    /// Unique token value that you can provide. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error.
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon S3 User Guide.
     public var clientRequestToken: Swift.String?
-    /// Commitment duration requested for the provisioned throughput.
+    /// The commitment duration requested for the Provisioned Throughput. Billing occurs hourly and is discounted for longer commitment terms. To request a no-commit Provisioned Throughput, omit this field. Custom models support all levels of commitment. To see which base models support no commitment, see [Supported regions and models for Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/pt-supported.html) in the Amazon Bedrock User Guide
     public var commitmentDuration: BedrockClientTypes.CommitmentDuration?
-    /// Name or ARN of the model to associate with this provisioned throughput.
+    /// The Amazon Resource Name (ARN) or name of the model to associate with this Provisioned Throughput. For a list of models for which you can purchase Provisioned Throughput, see [Amazon Bedrock model IDs for purchasing Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html#prov-throughput-models) in the Amazon Bedrock User Guide.
     /// This member is required.
     public var modelId: Swift.String?
-    /// Number of model units to allocate.
+    /// Number of model units to allocate. A model unit delivers a specific throughput level for the specified model. The throughput level of a model unit specifies the total number of input and output tokens that it can process and generate within a span of one minute. By default, your account has no model units for purchasing Provisioned Throughputs with commitment. You must first visit the [Amazon Web Services support center](https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase) to request MUs. For model unit quotas, see [Provisioned Throughput quotas](https://docs.aws.amazon.com/bedrock/latest/userguide/quotas.html#prov-thru-quotas) in the Amazon Bedrock User Guide. For more information about what an MU specifies, contact your Amazon Web Services account manager.
     /// This member is required.
     public var modelUnits: Swift.Int?
-    /// Unique name for this provisioned throughput.
+    /// The name for this Provisioned Throughput.
     /// This member is required.
     public var provisionedModelName: Swift.String?
-    /// Tags to associate with this provisioned throughput.
+    /// Tags to associate with this Provisioned Throughput.
     public var tags: [BedrockClientTypes.Tag]?
 
     public init(
@@ -645,7 +1339,7 @@ extension CreateProvisionedModelThroughputOutput: ClientRuntime.HttpResponseBind
 }
 
 public struct CreateProvisionedModelThroughputOutput {
-    /// The ARN for this provisioned throughput.
+    /// The Amazon Resource Name (ARN) for this Provisioned Throughput.
     /// This member is required.
     public var provisionedModelArn: Swift.String?
 
@@ -742,7 +1436,7 @@ extension BedrockClientTypes.CustomModelSummary: Swift.Codable {
 extension BedrockClientTypes {
     /// Summary information for a custom model.
     public struct CustomModelSummary {
-        /// The base model ARN.
+        /// The base model Amazon Resource Name (ARN).
         /// This member is required.
         public var baseModelArn: Swift.String?
         /// The base model name.
@@ -753,7 +1447,7 @@ extension BedrockClientTypes {
         public var creationTime: ClientRuntime.Date?
         /// Specifies whether to carry out continued pre-training of a model or whether to fine-tune it. For more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html).
         public var customizationType: BedrockClientTypes.CustomizationType?
-        /// The ARN of the custom model.
+        /// The Amazon Resource Name (ARN) of the custom model.
         /// This member is required.
         public var modelArn: Swift.String?
         /// The name of the custom model.
@@ -870,6 +1564,80 @@ enum DeleteCustomModelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension DeleteGuardrailInput {
+
+    static func queryItemProvider(_ value: DeleteGuardrailInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let guardrailVersion = value.guardrailVersion {
+            let guardrailVersionQueryItem = ClientRuntime.SDKURLQueryItem(name: "guardrailVersion".urlPercentEncoding(), value: Swift.String(guardrailVersion).urlPercentEncoding())
+            items.append(guardrailVersionQueryItem)
+        }
+        return items
+    }
+}
+
+extension DeleteGuardrailInput {
+
+    static func urlPathProvider(_ value: DeleteGuardrailInput) -> Swift.String? {
+        guard let guardrailIdentifier = value.guardrailIdentifier else {
+            return nil
+        }
+        return "/guardrails/\(guardrailIdentifier.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteGuardrailInput {
+    /// The unique identifier of the guardrail.
+    /// This member is required.
+    public var guardrailIdentifier: Swift.String?
+    /// The version of the guardrail.
+    public var guardrailVersion: Swift.String?
+
+    public init(
+        guardrailIdentifier: Swift.String? = nil,
+        guardrailVersion: Swift.String? = nil
+    )
+    {
+        self.guardrailIdentifier = guardrailIdentifier
+        self.guardrailVersion = guardrailVersion
+    }
+}
+
+struct DeleteGuardrailInputBody {
+}
+
+extension DeleteGuardrailInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteGuardrailOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteGuardrailOutput {
+
+    public init() { }
+}
+
+enum DeleteGuardrailOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DeleteModelInvocationLoggingConfigurationInput {
 
     static func urlPathProvider(_ value: DeleteModelInvocationLoggingConfigurationInput) -> Swift.String? {
@@ -925,7 +1693,7 @@ extension DeleteProvisionedModelThroughputInput {
 }
 
 public struct DeleteProvisionedModelThroughputInput {
-    /// The ARN or name of the provisioned throughput.
+    /// The Amazon Resource Name (ARN) or name of the Provisioned Throughput.
     /// This member is required.
     public var provisionedModelId: Swift.String?
 
@@ -968,6 +1736,625 @@ enum DeleteProvisionedModelThroughputOutputError: ClientRuntime.HttpResponseErro
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension BedrockClientTypes.EvaluationBedrockModel: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case inferenceParams
+        case modelIdentifier
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let inferenceParams = self.inferenceParams {
+            try encodeContainer.encode(inferenceParams, forKey: .inferenceParams)
+        }
+        if let modelIdentifier = self.modelIdentifier {
+            try encodeContainer.encode(modelIdentifier, forKey: .modelIdentifier)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let modelIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .modelIdentifier)
+        modelIdentifier = modelIdentifierDecoded
+        let inferenceParamsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .inferenceParams)
+        inferenceParams = inferenceParamsDecoded
+    }
+}
+
+extension BedrockClientTypes.EvaluationBedrockModel: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "EvaluationBedrockModel(modelIdentifier: \(Swift.String(describing: modelIdentifier)), inferenceParams: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockClientTypes {
+    /// Contains the ARN of the Amazon Bedrock models specified in your model evaluation job. Each Amazon Bedrock model supports different inferenceParams. To learn more about supported inference parameters for Amazon Bedrock models, see [Inference parameters for foundation models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-evaluation-prompt-datasets-custom.html). The inferenceParams are specified using JSON. To successfully insert JSON as string make sure that all quotations are properly escaped. For example, "temperature":"0.25" key value pair would need to be formatted as \"temperature\":\"0.25\" to successfully accepted in the request.
+    public struct EvaluationBedrockModel {
+        /// Each Amazon Bedrock support different inference parameters that change how the model behaves during inference.
+        /// This member is required.
+        public var inferenceParams: Swift.String?
+        /// The ARN of the Amazon Bedrock model specified.
+        /// This member is required.
+        public var modelIdentifier: Swift.String?
+
+        public init(
+            inferenceParams: Swift.String? = nil,
+            modelIdentifier: Swift.String? = nil
+        )
+        {
+            self.inferenceParams = inferenceParams
+            self.modelIdentifier = modelIdentifier
+        }
+    }
+
+}
+
+extension BedrockClientTypes.EvaluationConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case automated
+        case human
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .automated(automated):
+                try container.encode(automated, forKey: .automated)
+            case let .human(human):
+                try container.encode(human, forKey: .human)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let automatedDecoded = try values.decodeIfPresent(BedrockClientTypes.AutomatedEvaluationConfig.self, forKey: .automated)
+        if let automated = automatedDecoded {
+            self = .automated(automated)
+            return
+        }
+        let humanDecoded = try values.decodeIfPresent(BedrockClientTypes.HumanEvaluationConfig.self, forKey: .human)
+        if let human = humanDecoded {
+            self = .human(human)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension BedrockClientTypes {
+    /// Used to specify either a AutomatedEvaluationConfig or HumanEvaluationConfig object.
+    public enum EvaluationConfig {
+        /// Used to specify an automated model evaluation job. See AutomatedEvaluationConfig to view the required parameters.
+        case automated(BedrockClientTypes.AutomatedEvaluationConfig)
+        /// Used to specify a model evaluation job that uses human workers.See HumanEvaluationConfig to view the required parameters.
+        case human(BedrockClientTypes.HumanEvaluationConfig)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension BedrockClientTypes.EvaluationDataset: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case datasetLocation
+        case name
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let datasetLocation = self.datasetLocation {
+            try encodeContainer.encode(datasetLocation, forKey: .datasetLocation)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let datasetLocationDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.EvaluationDatasetLocation.self, forKey: .datasetLocation)
+        datasetLocation = datasetLocationDecoded
+    }
+}
+
+extension BedrockClientTypes.EvaluationDataset: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "EvaluationDataset(datasetLocation: \(Swift.String(describing: datasetLocation)), name: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockClientTypes {
+    /// Used to specify the name of a built-in prompt dataset and optionally, the Amazon S3 bucket where a custom prompt dataset is saved.
+    public struct EvaluationDataset {
+        /// For custom prompt datasets, you must specify the location in Amazon S3 where the prompt dataset is saved.
+        public var datasetLocation: BedrockClientTypes.EvaluationDatasetLocation?
+        /// Used to specify supported built-in prompt datasets. Valid values are Builtin.Bold, Builtin.BoolQ, Builtin.NaturalQuestions, Builtin.Gigaword, Builtin.RealToxicityPrompts, Builtin.TriviaQa, Builtin.T-Rex, Builtin.WomensEcommerceClothingReviews and Builtin.Wikitext2.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            datasetLocation: BedrockClientTypes.EvaluationDatasetLocation? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.datasetLocation = datasetLocation
+            self.name = name
+        }
+    }
+
+}
+
+extension BedrockClientTypes.EvaluationDatasetLocation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case s3uri = "s3Uri"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .s3uri(s3uri):
+                try container.encode(s3uri, forKey: .s3uri)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let s3uriDecoded = try values.decodeIfPresent(Swift.String.self, forKey: .s3uri)
+        if let s3uri = s3uriDecoded {
+            self = .s3uri(s3uri)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension BedrockClientTypes {
+    /// The location in Amazon S3 where your prompt dataset is stored.
+    public enum EvaluationDatasetLocation {
+        /// The S3 URI of the S3 bucket specified in the job.
+        case s3uri(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension BedrockClientTypes.EvaluationDatasetMetricConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataset
+        case metricNames
+        case taskType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataset = self.dataset {
+            try encodeContainer.encode(dataset, forKey: .dataset)
+        }
+        if let metricNames = metricNames {
+            var metricNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metricNames)
+            for evaluationmetricname0 in metricNames {
+                try metricNamesContainer.encode(evaluationmetricname0)
+            }
+        }
+        if let taskType = self.taskType {
+            try encodeContainer.encode(taskType.rawValue, forKey: .taskType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let taskTypeDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.EvaluationTaskType.self, forKey: .taskType)
+        taskType = taskTypeDecoded
+        let datasetDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.EvaluationDataset.self, forKey: .dataset)
+        dataset = datasetDecoded
+        let metricNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .metricNames)
+        var metricNamesDecoded0:[Swift.String]? = nil
+        if let metricNamesContainer = metricNamesContainer {
+            metricNamesDecoded0 = [Swift.String]()
+            for string0 in metricNamesContainer {
+                if let string0 = string0 {
+                    metricNamesDecoded0?.append(string0)
+                }
+            }
+        }
+        metricNames = metricNamesDecoded0
+    }
+}
+
+extension BedrockClientTypes {
+    /// Defines the built-in prompt datasets, built-in metric names and custom metric names, and the task type.
+    public struct EvaluationDatasetMetricConfig {
+        /// Specifies the prompt dataset.
+        /// This member is required.
+        public var dataset: BedrockClientTypes.EvaluationDataset?
+        /// The names of the metrics used. For automated model evaluation jobs valid values are "Builtin.Accuracy", "Builtin.Robustness", and "Builtin.Toxicity". In human-based model evaluation jobs the array of strings must match the name parameter specified in HumanEvaluationCustomMetric.
+        /// This member is required.
+        public var metricNames: [Swift.String]?
+        /// The task type you want the model to carry out.
+        /// This member is required.
+        public var taskType: BedrockClientTypes.EvaluationTaskType?
+
+        public init(
+            dataset: BedrockClientTypes.EvaluationDataset? = nil,
+            metricNames: [Swift.String]? = nil,
+            taskType: BedrockClientTypes.EvaluationTaskType? = nil
+        )
+        {
+            self.dataset = dataset
+            self.metricNames = metricNames
+            self.taskType = taskType
+        }
+    }
+
+}
+
+extension BedrockClientTypes.EvaluationInferenceConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case models
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .models(models):
+                var modelsContainer = container.nestedUnkeyedContainer(forKey: .models)
+                for evaluationmodelconfig0 in models {
+                    try modelsContainer.encode(evaluationmodelconfig0)
+                }
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let modelsContainer = try values.decodeIfPresent([BedrockClientTypes.EvaluationModelConfig?].self, forKey: .models)
+        var modelsDecoded0:[BedrockClientTypes.EvaluationModelConfig]? = nil
+        if let modelsContainer = modelsContainer {
+            modelsDecoded0 = [BedrockClientTypes.EvaluationModelConfig]()
+            for union0 in modelsContainer {
+                if let union0 = union0 {
+                    modelsDecoded0?.append(union0)
+                }
+            }
+        }
+        if let models = modelsDecoded0 {
+            self = .models(models)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension BedrockClientTypes {
+    /// Used to define the models you want used in your model evaluation job. Automated model evaluation jobs support only a single model. In a human-based model evaluation job, your annotator can compare the responses for up to two different models.
+    public enum EvaluationInferenceConfig {
+        /// Used to specify the models.
+        case models([BedrockClientTypes.EvaluationModelConfig])
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension BedrockClientTypes {
+    public enum EvaluationJobStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case completed
+        case failed
+        case inProgress
+        case stopped
+        case stopping
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EvaluationJobStatus] {
+            return [
+                .completed,
+                .failed,
+                .inProgress,
+                .stopped,
+                .stopping,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "Completed"
+            case .failed: return "Failed"
+            case .inProgress: return "InProgress"
+            case .stopped: return "Stopped"
+            case .stopping: return "Stopping"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EvaluationJobStatus(rawValue: rawValue) ?? EvaluationJobStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension BedrockClientTypes {
+    public enum EvaluationJobType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case automated
+        case human
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EvaluationJobType] {
+            return [
+                .automated,
+                .human,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .automated: return "Automated"
+            case .human: return "Human"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EvaluationJobType(rawValue: rawValue) ?? EvaluationJobType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension BedrockClientTypes.EvaluationModelConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bedrockmodel = "bedrockModel"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .bedrockmodel(bedrockmodel):
+                try container.encode(bedrockmodel, forKey: .bedrockmodel)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let bedrockmodelDecoded = try values.decodeIfPresent(BedrockClientTypes.EvaluationBedrockModel.self, forKey: .bedrockmodel)
+        if let bedrockmodel = bedrockmodelDecoded {
+            self = .bedrockmodel(bedrockmodel)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension BedrockClientTypes {
+    /// Defines the models used in the model evaluation job.
+    public enum EvaluationModelConfig {
+        /// Defines the Amazon Bedrock model and inference parameters you want used.
+        case bedrockmodel(BedrockClientTypes.EvaluationBedrockModel)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension BedrockClientTypes.EvaluationOutputDataConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case s3Uri
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let s3Uri = self.s3Uri {
+            try encodeContainer.encode(s3Uri, forKey: .s3Uri)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let s3UriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Uri)
+        s3Uri = s3UriDecoded
+    }
+}
+
+extension BedrockClientTypes {
+    /// The Amazon S3 location where the results of your model evaluation job are saved.
+    public struct EvaluationOutputDataConfig {
+        /// The Amazon S3 URI where the results of model evaluation job are saved.
+        /// This member is required.
+        public var s3Uri: Swift.String?
+
+        public init(
+            s3Uri: Swift.String? = nil
+        )
+        {
+            self.s3Uri = s3Uri
+        }
+    }
+
+}
+
+extension BedrockClientTypes.EvaluationSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime
+        case evaluationTaskTypes
+        case jobArn
+        case jobName
+        case jobType
+        case modelIdentifiers
+        case status
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationTime = self.creationTime {
+            try encodeContainer.encodeTimestamp(creationTime, format: .dateTime, forKey: .creationTime)
+        }
+        if let evaluationTaskTypes = evaluationTaskTypes {
+            var evaluationTaskTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .evaluationTaskTypes)
+            for evaluationtasktype0 in evaluationTaskTypes {
+                try evaluationTaskTypesContainer.encode(evaluationtasktype0.rawValue)
+            }
+        }
+        if let jobArn = self.jobArn {
+            try encodeContainer.encode(jobArn, forKey: .jobArn)
+        }
+        if let jobName = self.jobName {
+            try encodeContainer.encode(jobName, forKey: .jobName)
+        }
+        if let jobType = self.jobType {
+            try encodeContainer.encode(jobType.rawValue, forKey: .jobType)
+        }
+        if let modelIdentifiers = modelIdentifiers {
+            var modelIdentifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .modelIdentifiers)
+            for evaluationmodelidentifier0 in modelIdentifiers {
+                try modelIdentifiersContainer.encode(evaluationmodelidentifier0)
+            }
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let jobArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobArn)
+        jobArn = jobArnDecoded
+        let jobNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobName)
+        jobName = jobNameDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.EvaluationJobStatus.self, forKey: .status)
+        status = statusDecoded
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let jobTypeDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.EvaluationJobType.self, forKey: .jobType)
+        jobType = jobTypeDecoded
+        let evaluationTaskTypesContainer = try containerValues.decodeIfPresent([BedrockClientTypes.EvaluationTaskType?].self, forKey: .evaluationTaskTypes)
+        var evaluationTaskTypesDecoded0:[BedrockClientTypes.EvaluationTaskType]? = nil
+        if let evaluationTaskTypesContainer = evaluationTaskTypesContainer {
+            evaluationTaskTypesDecoded0 = [BedrockClientTypes.EvaluationTaskType]()
+            for enum0 in evaluationTaskTypesContainer {
+                if let enum0 = enum0 {
+                    evaluationTaskTypesDecoded0?.append(enum0)
+                }
+            }
+        }
+        evaluationTaskTypes = evaluationTaskTypesDecoded0
+        let modelIdentifiersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .modelIdentifiers)
+        var modelIdentifiersDecoded0:[Swift.String]? = nil
+        if let modelIdentifiersContainer = modelIdentifiersContainer {
+            modelIdentifiersDecoded0 = [Swift.String]()
+            for string0 in modelIdentifiersContainer {
+                if let string0 = string0 {
+                    modelIdentifiersDecoded0?.append(string0)
+                }
+            }
+        }
+        modelIdentifiers = modelIdentifiersDecoded0
+    }
+}
+
+extension BedrockClientTypes {
+    /// A summary of the model evaluation job.
+    public struct EvaluationSummary {
+        /// When the model evaluation job was created.
+        /// This member is required.
+        public var creationTime: ClientRuntime.Date?
+        /// What task type was used in the model evaluation job.
+        /// This member is required.
+        public var evaluationTaskTypes: [BedrockClientTypes.EvaluationTaskType]?
+        /// The Amazon Resource Name (ARN) of the model evaluation job.
+        /// This member is required.
+        public var jobArn: Swift.String?
+        /// The name of the model evaluation job.
+        /// This member is required.
+        public var jobName: Swift.String?
+        /// The type, either human or automatic, of model evaluation job.
+        /// This member is required.
+        public var jobType: BedrockClientTypes.EvaluationJobType?
+        /// The Amazon Resource Names (ARNs) of the model(s) used in the model evaluation job.
+        /// This member is required.
+        public var modelIdentifiers: [Swift.String]?
+        /// The current status of the model evaluation job.
+        /// This member is required.
+        public var status: BedrockClientTypes.EvaluationJobStatus?
+
+        public init(
+            creationTime: ClientRuntime.Date? = nil,
+            evaluationTaskTypes: [BedrockClientTypes.EvaluationTaskType]? = nil,
+            jobArn: Swift.String? = nil,
+            jobName: Swift.String? = nil,
+            jobType: BedrockClientTypes.EvaluationJobType? = nil,
+            modelIdentifiers: [Swift.String]? = nil,
+            status: BedrockClientTypes.EvaluationJobStatus? = nil
+        )
+        {
+            self.creationTime = creationTime
+            self.evaluationTaskTypes = evaluationTaskTypes
+            self.jobArn = jobArn
+            self.jobName = jobName
+            self.jobType = jobType
+            self.modelIdentifiers = modelIdentifiers
+            self.status = status
+        }
+    }
+
+}
+
+extension BedrockClientTypes {
+    public enum EvaluationTaskType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case classification
+        case custom
+        case generation
+        case questionAndAnswer
+        case summarization
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EvaluationTaskType] {
+            return [
+                .classification,
+                .custom,
+                .generation,
+                .questionAndAnswer,
+                .summarization,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .classification: return "Classification"
+            case .custom: return "Custom"
+            case .generation: return "Generation"
+            case .questionAndAnswer: return "QuestionAndAnswer"
+            case .summarization: return "Summarization"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EvaluationTaskType(rawValue: rawValue) ?? EvaluationTaskType.sdkUnknown(rawValue)
         }
     }
 }
@@ -1143,7 +2530,7 @@ extension BedrockClientTypes {
         public var inferenceTypesSupported: [BedrockClientTypes.InferenceType]?
         /// The input modalities that the model supports.
         public var inputModalities: [BedrockClientTypes.ModelModality]?
-        /// The model ARN.
+        /// The model Amazon Resource Name (ARN).
         /// This member is required.
         public var modelArn: Swift.String?
         /// The model identifier.
@@ -1155,7 +2542,7 @@ extension BedrockClientTypes {
         public var modelName: Swift.String?
         /// The output modalities that the model supports.
         public var outputModalities: [BedrockClientTypes.ModelModality]?
-        /// he model's provider name.
+        /// The model's provider name.
         public var providerName: Swift.String?
         /// Indicates whether the model supports streaming.
         public var responseStreamingSupported: Swift.Bool?
@@ -1386,10 +2773,10 @@ extension BedrockClientTypes {
         public var inferenceTypesSupported: [BedrockClientTypes.InferenceType]?
         /// The input modalities that the model supports.
         public var inputModalities: [BedrockClientTypes.ModelModality]?
-        /// The ARN of the foundation model.
+        /// The Amazon Resource Name (ARN) of the foundation model.
         /// This member is required.
         public var modelArn: Swift.String?
-        /// The model Id of the foundation model.
+        /// The model ID of the foundation model.
         /// This member is required.
         public var modelId: Swift.String?
         /// Contains details about whether a model version is available or deprecated.
@@ -1442,7 +2829,7 @@ extension GetCustomModelInput {
 }
 
 public struct GetCustomModelInput {
-    /// Name or ARN of the custom model.
+    /// Name or Amazon Resource Name (ARN) of the custom model.
     /// This member is required.
     public var modelIdentifier: Swift.String?
 
@@ -1502,7 +2889,7 @@ extension GetCustomModelOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetCustomModelOutput {
-    /// ARN of the base model.
+    /// Amazon Resource Name (ARN) of the base model.
     /// This member is required.
     public var baseModelArn: Swift.String?
     /// Creation time of the model.
@@ -1510,14 +2897,14 @@ public struct GetCustomModelOutput {
     public var creationTime: ClientRuntime.Date?
     /// The type of model customization.
     public var customizationType: BedrockClientTypes.CustomizationType?
-    /// Hyperparameter values associated with this model.
+    /// Hyperparameter values associated with this model. For details on the format for different models, see [Custom model hyperparameters](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models-hp.html).
     public var hyperParameters: [Swift.String:Swift.String]?
-    /// Job ARN associated with this model.
+    /// Job Amazon Resource Name (ARN) associated with this model.
     /// This member is required.
     public var jobArn: Swift.String?
     /// Job name associated with this model.
     public var jobName: Swift.String?
-    /// ARN associated with this model.
+    /// Amazon Resource Name (ARN) associated with this model.
     /// This member is required.
     public var modelArn: Swift.String?
     /// The custom model is encrypted at rest using this key.
@@ -1528,12 +2915,12 @@ public struct GetCustomModelOutput {
     /// Output data configuration associated with this custom model.
     /// This member is required.
     public var outputDataConfig: BedrockClientTypes.OutputDataConfig?
-    /// Information about the training dataset.
+    /// Contains information about the training dataset.
     /// This member is required.
     public var trainingDataConfig: BedrockClientTypes.TrainingDataConfig?
-    /// The training metrics from the job creation.
+    /// Contains training metrics from the job creation.
     public var trainingMetrics: BedrockClientTypes.TrainingMetrics?
-    /// Array of up to 10 validators.
+    /// Contains information about the validation dataset.
     public var validationDataConfig: BedrockClientTypes.ValidationDataConfig?
     /// The validation metrics from the job creation.
     public var validationMetrics: [BedrockClientTypes.ValidatorMetric]?
@@ -1673,6 +3060,241 @@ enum GetCustomModelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension GetEvaluationJobInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetEvaluationJobInput(jobIdentifier: \"CONTENT_REDACTED\")"}
+}
+
+extension GetEvaluationJobInput {
+
+    static func urlPathProvider(_ value: GetEvaluationJobInput) -> Swift.String? {
+        guard let jobIdentifier = value.jobIdentifier else {
+            return nil
+        }
+        return "/evaluation-jobs/\(jobIdentifier.urlPercentEncoding())"
+    }
+}
+
+public struct GetEvaluationJobInput {
+    /// The Amazon Resource Name (ARN) of the model evaluation job.
+    /// This member is required.
+    public var jobIdentifier: Swift.String?
+
+    public init(
+        jobIdentifier: Swift.String? = nil
+    )
+    {
+        self.jobIdentifier = jobIdentifier
+    }
+}
+
+struct GetEvaluationJobInputBody {
+}
+
+extension GetEvaluationJobInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetEvaluationJobOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetEvaluationJobOutput(creationTime: \(Swift.String(describing: creationTime)), customerEncryptionKeyId: \(Swift.String(describing: customerEncryptionKeyId)), evaluationConfig: \(Swift.String(describing: evaluationConfig)), failureMessages: \(Swift.String(describing: failureMessages)), inferenceConfig: \(Swift.String(describing: inferenceConfig)), jobArn: \(Swift.String(describing: jobArn)), jobName: \(Swift.String(describing: jobName)), jobType: \(Swift.String(describing: jobType)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), outputDataConfig: \(Swift.String(describing: outputDataConfig)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), jobDescription: \"CONTENT_REDACTED\")"}
+}
+
+extension GetEvaluationJobOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetEvaluationJobOutputBody = try responseDecoder.decode(responseBody: data)
+            self.creationTime = output.creationTime
+            self.customerEncryptionKeyId = output.customerEncryptionKeyId
+            self.evaluationConfig = output.evaluationConfig
+            self.failureMessages = output.failureMessages
+            self.inferenceConfig = output.inferenceConfig
+            self.jobArn = output.jobArn
+            self.jobDescription = output.jobDescription
+            self.jobName = output.jobName
+            self.jobType = output.jobType
+            self.lastModifiedTime = output.lastModifiedTime
+            self.outputDataConfig = output.outputDataConfig
+            self.roleArn = output.roleArn
+            self.status = output.status
+        } else {
+            self.creationTime = nil
+            self.customerEncryptionKeyId = nil
+            self.evaluationConfig = nil
+            self.failureMessages = nil
+            self.inferenceConfig = nil
+            self.jobArn = nil
+            self.jobDescription = nil
+            self.jobName = nil
+            self.jobType = nil
+            self.lastModifiedTime = nil
+            self.outputDataConfig = nil
+            self.roleArn = nil
+            self.status = nil
+        }
+    }
+}
+
+public struct GetEvaluationJobOutput {
+    /// When the model evaluation job was created.
+    /// This member is required.
+    public var creationTime: ClientRuntime.Date?
+    /// The Amazon Resource Name (ARN) of the customer managed key specified when the model evaluation job was created.
+    public var customerEncryptionKeyId: Swift.String?
+    /// Contains details about the type of model evaluation job, the metrics used, the task type selected, the datasets used, and any custom metrics you defined.
+    /// This member is required.
+    public var evaluationConfig: BedrockClientTypes.EvaluationConfig?
+    /// An array of strings the specify why the model evaluation job has failed.
+    public var failureMessages: [Swift.String]?
+    /// Details about the models you specified in your model evaluation job.
+    /// This member is required.
+    public var inferenceConfig: BedrockClientTypes.EvaluationInferenceConfig?
+    /// The Amazon Resource Name (ARN) of the model evaluation job.
+    /// This member is required.
+    public var jobArn: Swift.String?
+    /// The description of the model evaluation job.
+    public var jobDescription: Swift.String?
+    /// The name of the model evaluation job.
+    /// This member is required.
+    public var jobName: Swift.String?
+    /// The type of model evaluation job.
+    /// This member is required.
+    public var jobType: BedrockClientTypes.EvaluationJobType?
+    /// When the model evaluation job was last modified.
+    public var lastModifiedTime: ClientRuntime.Date?
+    /// Amazon S3 location for where output data is saved.
+    /// This member is required.
+    public var outputDataConfig: BedrockClientTypes.EvaluationOutputDataConfig?
+    /// The Amazon Resource Name (ARN) of the IAM service role used in the model evaluation job.
+    /// This member is required.
+    public var roleArn: Swift.String?
+    /// The status of the model evaluation job.
+    /// This member is required.
+    public var status: BedrockClientTypes.EvaluationJobStatus?
+
+    public init(
+        creationTime: ClientRuntime.Date? = nil,
+        customerEncryptionKeyId: Swift.String? = nil,
+        evaluationConfig: BedrockClientTypes.EvaluationConfig? = nil,
+        failureMessages: [Swift.String]? = nil,
+        inferenceConfig: BedrockClientTypes.EvaluationInferenceConfig? = nil,
+        jobArn: Swift.String? = nil,
+        jobDescription: Swift.String? = nil,
+        jobName: Swift.String? = nil,
+        jobType: BedrockClientTypes.EvaluationJobType? = nil,
+        lastModifiedTime: ClientRuntime.Date? = nil,
+        outputDataConfig: BedrockClientTypes.EvaluationOutputDataConfig? = nil,
+        roleArn: Swift.String? = nil,
+        status: BedrockClientTypes.EvaluationJobStatus? = nil
+    )
+    {
+        self.creationTime = creationTime
+        self.customerEncryptionKeyId = customerEncryptionKeyId
+        self.evaluationConfig = evaluationConfig
+        self.failureMessages = failureMessages
+        self.inferenceConfig = inferenceConfig
+        self.jobArn = jobArn
+        self.jobDescription = jobDescription
+        self.jobName = jobName
+        self.jobType = jobType
+        self.lastModifiedTime = lastModifiedTime
+        self.outputDataConfig = outputDataConfig
+        self.roleArn = roleArn
+        self.status = status
+    }
+}
+
+struct GetEvaluationJobOutputBody {
+    let jobName: Swift.String?
+    let status: BedrockClientTypes.EvaluationJobStatus?
+    let jobArn: Swift.String?
+    let jobDescription: Swift.String?
+    let roleArn: Swift.String?
+    let customerEncryptionKeyId: Swift.String?
+    let jobType: BedrockClientTypes.EvaluationJobType?
+    let evaluationConfig: BedrockClientTypes.EvaluationConfig?
+    let inferenceConfig: BedrockClientTypes.EvaluationInferenceConfig?
+    let outputDataConfig: BedrockClientTypes.EvaluationOutputDataConfig?
+    let creationTime: ClientRuntime.Date?
+    let lastModifiedTime: ClientRuntime.Date?
+    let failureMessages: [Swift.String]?
+}
+
+extension GetEvaluationJobOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime
+        case customerEncryptionKeyId
+        case evaluationConfig
+        case failureMessages
+        case inferenceConfig
+        case jobArn
+        case jobDescription
+        case jobName
+        case jobType
+        case lastModifiedTime
+        case outputDataConfig
+        case roleArn
+        case status
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let jobNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobName)
+        jobName = jobNameDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.EvaluationJobStatus.self, forKey: .status)
+        status = statusDecoded
+        let jobArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobArn)
+        jobArn = jobArnDecoded
+        let jobDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobDescription)
+        jobDescription = jobDescriptionDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let customerEncryptionKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customerEncryptionKeyId)
+        customerEncryptionKeyId = customerEncryptionKeyIdDecoded
+        let jobTypeDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.EvaluationJobType.self, forKey: .jobType)
+        jobType = jobTypeDecoded
+        let evaluationConfigDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.EvaluationConfig.self, forKey: .evaluationConfig)
+        evaluationConfig = evaluationConfigDecoded
+        let inferenceConfigDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.EvaluationInferenceConfig.self, forKey: .inferenceConfig)
+        inferenceConfig = inferenceConfigDecoded
+        let outputDataConfigDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.EvaluationOutputDataConfig.self, forKey: .outputDataConfig)
+        outputDataConfig = outputDataConfigDecoded
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let failureMessagesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .failureMessages)
+        var failureMessagesDecoded0:[Swift.String]? = nil
+        if let failureMessagesContainer = failureMessagesContainer {
+            failureMessagesDecoded0 = [Swift.String]()
+            for string0 in failureMessagesContainer {
+                if let string0 = string0 {
+                    failureMessagesDecoded0?.append(string0)
+                }
+            }
+        }
+        failureMessages = failureMessagesDecoded0
+    }
+}
+
+enum GetEvaluationJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension GetFoundationModelInput {
 
     static func urlPathProvider(_ value: GetFoundationModelInput) -> Swift.String? {
@@ -1746,6 +3368,301 @@ extension GetFoundationModelOutputBody: Swift.Decodable {
 }
 
 enum GetFoundationModelOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetGuardrailInput {
+
+    static func queryItemProvider(_ value: GetGuardrailInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let guardrailVersion = value.guardrailVersion {
+            let guardrailVersionQueryItem = ClientRuntime.SDKURLQueryItem(name: "guardrailVersion".urlPercentEncoding(), value: Swift.String(guardrailVersion).urlPercentEncoding())
+            items.append(guardrailVersionQueryItem)
+        }
+        return items
+    }
+}
+
+extension GetGuardrailInput {
+
+    static func urlPathProvider(_ value: GetGuardrailInput) -> Swift.String? {
+        guard let guardrailIdentifier = value.guardrailIdentifier else {
+            return nil
+        }
+        return "/guardrails/\(guardrailIdentifier.urlPercentEncoding())"
+    }
+}
+
+public struct GetGuardrailInput {
+    /// The unique identifier of the guardrail for which to get details.
+    /// This member is required.
+    public var guardrailIdentifier: Swift.String?
+    /// The version of the guardrail for which to get details. If you don't specify a version, the response returns details for the DRAFT version.
+    public var guardrailVersion: Swift.String?
+
+    public init(
+        guardrailIdentifier: Swift.String? = nil,
+        guardrailVersion: Swift.String? = nil
+    )
+    {
+        self.guardrailIdentifier = guardrailIdentifier
+        self.guardrailVersion = guardrailVersion
+    }
+}
+
+struct GetGuardrailInputBody {
+}
+
+extension GetGuardrailInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetGuardrailOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetGuardrailOutput(contentPolicy: \(Swift.String(describing: contentPolicy)), createdAt: \(Swift.String(describing: createdAt)), failureRecommendations: \(Swift.String(describing: failureRecommendations)), guardrailArn: \(Swift.String(describing: guardrailArn)), guardrailId: \(Swift.String(describing: guardrailId)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), sensitiveInformationPolicy: \(Swift.String(describing: sensitiveInformationPolicy)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), topicPolicy: \(Swift.String(describing: topicPolicy)), updatedAt: \(Swift.String(describing: updatedAt)), version: \(Swift.String(describing: version)), wordPolicy: \(Swift.String(describing: wordPolicy)), blockedInputMessaging: \"CONTENT_REDACTED\", blockedOutputsMessaging: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+extension GetGuardrailOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetGuardrailOutputBody = try responseDecoder.decode(responseBody: data)
+            self.blockedInputMessaging = output.blockedInputMessaging
+            self.blockedOutputsMessaging = output.blockedOutputsMessaging
+            self.contentPolicy = output.contentPolicy
+            self.createdAt = output.createdAt
+            self.description = output.description
+            self.failureRecommendations = output.failureRecommendations
+            self.guardrailArn = output.guardrailArn
+            self.guardrailId = output.guardrailId
+            self.kmsKeyArn = output.kmsKeyArn
+            self.name = output.name
+            self.sensitiveInformationPolicy = output.sensitiveInformationPolicy
+            self.status = output.status
+            self.statusReasons = output.statusReasons
+            self.topicPolicy = output.topicPolicy
+            self.updatedAt = output.updatedAt
+            self.version = output.version
+            self.wordPolicy = output.wordPolicy
+        } else {
+            self.blockedInputMessaging = nil
+            self.blockedOutputsMessaging = nil
+            self.contentPolicy = nil
+            self.createdAt = nil
+            self.description = nil
+            self.failureRecommendations = nil
+            self.guardrailArn = nil
+            self.guardrailId = nil
+            self.kmsKeyArn = nil
+            self.name = nil
+            self.sensitiveInformationPolicy = nil
+            self.status = nil
+            self.statusReasons = nil
+            self.topicPolicy = nil
+            self.updatedAt = nil
+            self.version = nil
+            self.wordPolicy = nil
+        }
+    }
+}
+
+public struct GetGuardrailOutput {
+    /// The message that the guardrail returns when it blocks a prompt.
+    /// This member is required.
+    public var blockedInputMessaging: Swift.String?
+    /// The message that the guardrail returns when it blocks a model response.
+    /// This member is required.
+    public var blockedOutputsMessaging: Swift.String?
+    /// The content policy that was configured for the guardrail.
+    public var contentPolicy: BedrockClientTypes.GuardrailContentPolicy?
+    /// The date and time at which the guardrail was created.
+    /// This member is required.
+    public var createdAt: ClientRuntime.Date?
+    /// The description of the guardrail.
+    public var description: Swift.String?
+    /// Appears if the status of the guardrail is FAILED. A list of recommendations to carry out before retrying the request.
+    public var failureRecommendations: [Swift.String]?
+    /// The ARN of the guardrail that was created.
+    /// This member is required.
+    public var guardrailArn: Swift.String?
+    /// The unique identifier of the guardrail.
+    /// This member is required.
+    public var guardrailId: Swift.String?
+    /// The ARN of the KMS key that encrypts the guardrail.
+    public var kmsKeyArn: Swift.String?
+    /// The name of the guardrail.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The sensitive information policy that was configured for the guardrail.
+    public var sensitiveInformationPolicy: BedrockClientTypes.GuardrailSensitiveInformationPolicy?
+    /// The status of the guardrail.
+    /// This member is required.
+    public var status: BedrockClientTypes.GuardrailStatus?
+    /// Appears if the status is FAILED. A list of reasons for why the guardrail failed to be created, updated, versioned, or deleted.
+    public var statusReasons: [Swift.String]?
+    /// The topic policy that was configured for the guardrail.
+    public var topicPolicy: BedrockClientTypes.GuardrailTopicPolicy?
+    /// The date and time at which the guardrail was updated.
+    /// This member is required.
+    public var updatedAt: ClientRuntime.Date?
+    /// The version of the guardrail.
+    /// This member is required.
+    public var version: Swift.String?
+    /// The word policy that was configured for the guardrail.
+    public var wordPolicy: BedrockClientTypes.GuardrailWordPolicy?
+
+    public init(
+        blockedInputMessaging: Swift.String? = nil,
+        blockedOutputsMessaging: Swift.String? = nil,
+        contentPolicy: BedrockClientTypes.GuardrailContentPolicy? = nil,
+        createdAt: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
+        failureRecommendations: [Swift.String]? = nil,
+        guardrailArn: Swift.String? = nil,
+        guardrailId: Swift.String? = nil,
+        kmsKeyArn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        sensitiveInformationPolicy: BedrockClientTypes.GuardrailSensitiveInformationPolicy? = nil,
+        status: BedrockClientTypes.GuardrailStatus? = nil,
+        statusReasons: [Swift.String]? = nil,
+        topicPolicy: BedrockClientTypes.GuardrailTopicPolicy? = nil,
+        updatedAt: ClientRuntime.Date? = nil,
+        version: Swift.String? = nil,
+        wordPolicy: BedrockClientTypes.GuardrailWordPolicy? = nil
+    )
+    {
+        self.blockedInputMessaging = blockedInputMessaging
+        self.blockedOutputsMessaging = blockedOutputsMessaging
+        self.contentPolicy = contentPolicy
+        self.createdAt = createdAt
+        self.description = description
+        self.failureRecommendations = failureRecommendations
+        self.guardrailArn = guardrailArn
+        self.guardrailId = guardrailId
+        self.kmsKeyArn = kmsKeyArn
+        self.name = name
+        self.sensitiveInformationPolicy = sensitiveInformationPolicy
+        self.status = status
+        self.statusReasons = statusReasons
+        self.topicPolicy = topicPolicy
+        self.updatedAt = updatedAt
+        self.version = version
+        self.wordPolicy = wordPolicy
+    }
+}
+
+struct GetGuardrailOutputBody {
+    let name: Swift.String?
+    let description: Swift.String?
+    let guardrailId: Swift.String?
+    let guardrailArn: Swift.String?
+    let version: Swift.String?
+    let status: BedrockClientTypes.GuardrailStatus?
+    let topicPolicy: BedrockClientTypes.GuardrailTopicPolicy?
+    let contentPolicy: BedrockClientTypes.GuardrailContentPolicy?
+    let wordPolicy: BedrockClientTypes.GuardrailWordPolicy?
+    let sensitiveInformationPolicy: BedrockClientTypes.GuardrailSensitiveInformationPolicy?
+    let createdAt: ClientRuntime.Date?
+    let updatedAt: ClientRuntime.Date?
+    let statusReasons: [Swift.String]?
+    let failureRecommendations: [Swift.String]?
+    let blockedInputMessaging: Swift.String?
+    let blockedOutputsMessaging: Swift.String?
+    let kmsKeyArn: Swift.String?
+}
+
+extension GetGuardrailOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case blockedInputMessaging
+        case blockedOutputsMessaging
+        case contentPolicy
+        case createdAt
+        case description
+        case failureRecommendations
+        case guardrailArn
+        case guardrailId
+        case kmsKeyArn
+        case name
+        case sensitiveInformationPolicy
+        case status
+        case statusReasons
+        case topicPolicy
+        case updatedAt
+        case version
+        case wordPolicy
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let guardrailIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .guardrailId)
+        guardrailId = guardrailIdDecoded
+        let guardrailArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .guardrailArn)
+        guardrailArn = guardrailArnDecoded
+        let versionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .version)
+        version = versionDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.GuardrailStatus.self, forKey: .status)
+        status = statusDecoded
+        let topicPolicyDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.GuardrailTopicPolicy.self, forKey: .topicPolicy)
+        topicPolicy = topicPolicyDecoded
+        let contentPolicyDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.GuardrailContentPolicy.self, forKey: .contentPolicy)
+        contentPolicy = contentPolicyDecoded
+        let wordPolicyDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.GuardrailWordPolicy.self, forKey: .wordPolicy)
+        wordPolicy = wordPolicyDecoded
+        let sensitiveInformationPolicyDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.GuardrailSensitiveInformationPolicy.self, forKey: .sensitiveInformationPolicy)
+        sensitiveInformationPolicy = sensitiveInformationPolicyDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updatedAt)
+        updatedAt = updatedAtDecoded
+        let statusReasonsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .statusReasons)
+        var statusReasonsDecoded0:[Swift.String]? = nil
+        if let statusReasonsContainer = statusReasonsContainer {
+            statusReasonsDecoded0 = [Swift.String]()
+            for string0 in statusReasonsContainer {
+                if let string0 = string0 {
+                    statusReasonsDecoded0?.append(string0)
+                }
+            }
+        }
+        statusReasons = statusReasonsDecoded0
+        let failureRecommendationsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .failureRecommendations)
+        var failureRecommendationsDecoded0:[Swift.String]? = nil
+        if let failureRecommendationsContainer = failureRecommendationsContainer {
+            failureRecommendationsDecoded0 = [Swift.String]()
+            for string0 in failureRecommendationsContainer {
+                if let string0 = string0 {
+                    failureRecommendationsDecoded0?.append(string0)
+                }
+            }
+        }
+        failureRecommendations = failureRecommendationsDecoded0
+        let blockedInputMessagingDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .blockedInputMessaging)
+        blockedInputMessaging = blockedInputMessagingDecoded
+        let blockedOutputsMessagingDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .blockedOutputsMessaging)
+        blockedOutputsMessaging = blockedOutputsMessagingDecoded
+        let kmsKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyArn)
+        kmsKeyArn = kmsKeyArnDecoded
+    }
+}
+
+enum GetGuardrailOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
@@ -1845,7 +3762,7 @@ extension GetModelCustomizationJobOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetModelCustomizationJobOutput {
-    /// ARN of the base model.
+    /// Amazon Resource Name (ARN) of the base model.
     /// This member is required.
     public var baseModelArn: Swift.String?
     /// The token that you specified in the CreateCustomizationJob request.
@@ -1859,10 +3776,10 @@ public struct GetModelCustomizationJobOutput {
     public var endTime: ClientRuntime.Date?
     /// Information about why the job failed.
     public var failureMessage: Swift.String?
-    /// The hyperparameter values for the job. For information about hyperparameters for specific models, see [Guidelines for model customization](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-guidelines.html).
+    /// The hyperparameter values for the job. For details on the format for different models, see [Custom model hyperparameters](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models-hp.html).
     /// This member is required.
     public var hyperParameters: [Swift.String:Swift.String]?
-    /// The ARN of the customization job.
+    /// The Amazon Resource Name (ARN) of the customization job.
     /// This member is required.
     public var jobArn: Swift.String?
     /// The name of the customization job.
@@ -1873,24 +3790,24 @@ public struct GetModelCustomizationJobOutput {
     /// Output data configuration
     /// This member is required.
     public var outputDataConfig: BedrockClientTypes.OutputDataConfig?
-    /// The ARN of the output model.
+    /// The Amazon Resource Name (ARN) of the output model.
     public var outputModelArn: Swift.String?
     /// The custom model is encrypted at rest using this key.
     public var outputModelKmsKeyArn: Swift.String?
     /// The name of the output model.
     /// This member is required.
     public var outputModelName: Swift.String?
-    /// The ARN of the IAM role.
+    /// The Amazon Resource Name (ARN) of the IAM role.
     /// This member is required.
     public var roleArn: Swift.String?
     /// The status of the job. A successful job transitions from in-progress to completed when the output model is ready to use. If the job failed, the failure message contains information about why the job failed.
     public var status: BedrockClientTypes.ModelCustomizationJobStatus?
-    /// S3 Location of the training data.
+    /// Contains information about the training dataset.
     /// This member is required.
     public var trainingDataConfig: BedrockClientTypes.TrainingDataConfig?
-    /// Metrics associated with the custom job.
+    /// Contains training metrics from the job creation.
     public var trainingMetrics: BedrockClientTypes.TrainingMetrics?
-    /// Array of up to 10 validators.
+    /// Contains information about the validation dataset.
     /// This member is required.
     public var validationDataConfig: BedrockClientTypes.ValidationDataConfig?
     /// The loss metric for each validator that you provided in the createjob request.
@@ -2160,7 +4077,7 @@ extension GetProvisionedModelThroughputInput {
 }
 
 public struct GetProvisionedModelThroughputInput {
-    /// The ARN or name of the provisioned throughput.
+    /// The Amazon Resource Name (ARN) or name of the Provisioned Throughput.
     /// This member is required.
     public var provisionedModelId: Swift.String?
 
@@ -2218,40 +4135,40 @@ extension GetProvisionedModelThroughputOutput: ClientRuntime.HttpResponseBinding
 }
 
 public struct GetProvisionedModelThroughputOutput {
-    /// Commitment duration of the provisioned throughput.
+    /// Commitment duration of the Provisioned Throughput.
     public var commitmentDuration: BedrockClientTypes.CommitmentDuration?
-    /// Commitment expiration time for the provisioned throughput.
+    /// The timestamp for when the commitment term for the Provisioned Throughput expires.
     public var commitmentExpirationTime: ClientRuntime.Date?
-    /// The timestamp of the creation time for this provisioned throughput.
+    /// The timestamp of the creation time for this Provisioned Throughput.
     /// This member is required.
     public var creationTime: ClientRuntime.Date?
-    /// The ARN of the new model to asssociate with this provisioned throughput.
+    /// The Amazon Resource Name (ARN) of the model requested to be associated to this Provisioned Throughput. This value differs from the modelArn if updating hasn't completed.
     /// This member is required.
     public var desiredModelArn: Swift.String?
-    /// The desired number of model units that was requested to be available for this provisioned throughput.
+    /// The number of model units that was requested for this Provisioned Throughput.
     /// This member is required.
     public var desiredModelUnits: Swift.Int?
-    /// Failure message for any issues that the create operation encounters.
+    /// A failure message for any issues that occurred during creation, updating, or deletion of the Provisioned Throughput.
     public var failureMessage: Swift.String?
-    /// ARN of the foundation model.
+    /// The Amazon Resource Name (ARN) of the base model for which the Provisioned Throughput was created, or of the base model that the custom model for which the Provisioned Throughput was created was customized.
     /// This member is required.
     public var foundationModelArn: Swift.String?
-    /// The timestamp of the last modified time of this provisioned throughput.
+    /// The timestamp of the last time that this Provisioned Throughput was modified.
     /// This member is required.
     public var lastModifiedTime: ClientRuntime.Date?
-    /// The ARN or name of the model associated with this provisioned throughput.
+    /// The Amazon Resource Name (ARN) of the model associated with this Provisioned Throughput.
     /// This member is required.
     public var modelArn: Swift.String?
-    /// The current number of model units requested to be available for this provisioned throughput.
+    /// The number of model units allocated to this Provisioned Throughput.
     /// This member is required.
     public var modelUnits: Swift.Int?
-    /// The ARN of the provisioned throughput.
+    /// The Amazon Resource Name (ARN) of the Provisioned Throughput.
     /// This member is required.
     public var provisionedModelArn: Swift.String?
-    /// The name of the provisioned throughput.
+    /// The name of the Provisioned Throughput.
     /// This member is required.
     public var provisionedModelName: Swift.String?
-    /// Status of the provisioned throughput.
+    /// The status of the Provisioned Throughput.
     /// This member is required.
     public var status: BedrockClientTypes.ProvisionedModelStatus?
 
@@ -2364,6 +4281,1825 @@ enum GetProvisionedModelThroughputOutputError: ClientRuntime.HttpResponseErrorBi
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension BedrockClientTypes.GuardrailContentFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case inputStrength
+        case outputStrength
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let inputStrength = self.inputStrength {
+            try encodeContainer.encode(inputStrength.rawValue, forKey: .inputStrength)
+        }
+        if let outputStrength = self.outputStrength {
+            try encodeContainer.encode(outputStrength.rawValue, forKey: .outputStrength)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.GuardrailContentFilterType.self, forKey: .type)
+        type = typeDecoded
+        let inputStrengthDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.GuardrailFilterStrength.self, forKey: .inputStrength)
+        inputStrength = inputStrengthDecoded
+        let outputStrengthDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.GuardrailFilterStrength.self, forKey: .outputStrength)
+        outputStrength = outputStrengthDecoded
+    }
+}
+
+extension BedrockClientTypes {
+    /// Contains filter strengths for harmful content. Guardrails support the following content filters to detect and filter harmful user inputs and FM-generated outputs.
+    ///
+    /// * Hate – Describes language or a statement that discriminates, criticizes, insults, denounces, or dehumanizes a person or group on the basis of an identity (such as race, ethnicity, gender, religion, sexual orientation, ability, and national origin).
+    ///
+    /// * Insults – Describes language or a statement that includes demeaning, humiliating, mocking, insulting, or belittling language. This type of language is also labeled as bullying.
+    ///
+    /// * Sexual – Describes language or a statement that indicates sexual interest, activity, or arousal using direct or indirect references to body parts, physical traits, or sex.
+    ///
+    /// * Violence – Describes language or a statement that includes glorification of or threats to inflict physical pain, hurt, or injury toward a person, group or thing.
+    ///
+    ///
+    /// Content filtering depends on the confidence classification of user inputs and FM responses across each of the four harmful categories. All input and output statements are classified into one of four confidence levels (NONE, LOW, MEDIUM, HIGH) for each harmful category. For example, if a statement is classified as Hate with HIGH confidence, the likelihood of the statement representing hateful content is high. A single statement can be classified across multiple categories with varying confidence levels. For example, a single statement can be classified as Hate with HIGH confidence, Insults with LOW confidence, Sexual with NONE confidence, and Violence with MEDIUM confidence. For more information, see [Guardrails content filters](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-filters.html). This data type is used in the following API operations:
+    ///
+    /// * [GetGuardrail response body](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GetGuardrail.html#API_GetGuardrail_ResponseSyntax)
+    public struct GuardrailContentFilter {
+        /// The strength of the content filter to apply to prompts. As you increase the filter strength, the likelihood of filtering harmful content increases and the probability of seeing harmful content in your application reduces.
+        /// This member is required.
+        public var inputStrength: BedrockClientTypes.GuardrailFilterStrength?
+        /// The strength of the content filter to apply to model responses. As you increase the filter strength, the likelihood of filtering harmful content increases and the probability of seeing harmful content in your application reduces.
+        /// This member is required.
+        public var outputStrength: BedrockClientTypes.GuardrailFilterStrength?
+        /// The harmful category that the content filter is applied to.
+        /// This member is required.
+        public var type: BedrockClientTypes.GuardrailContentFilterType?
+
+        public init(
+            inputStrength: BedrockClientTypes.GuardrailFilterStrength? = nil,
+            outputStrength: BedrockClientTypes.GuardrailFilterStrength? = nil,
+            type: BedrockClientTypes.GuardrailContentFilterType? = nil
+        )
+        {
+            self.inputStrength = inputStrength
+            self.outputStrength = outputStrength
+            self.type = type
+        }
+    }
+
+}
+
+extension BedrockClientTypes.GuardrailContentFilterConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case inputStrength
+        case outputStrength
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let inputStrength = self.inputStrength {
+            try encodeContainer.encode(inputStrength.rawValue, forKey: .inputStrength)
+        }
+        if let outputStrength = self.outputStrength {
+            try encodeContainer.encode(outputStrength.rawValue, forKey: .outputStrength)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.GuardrailContentFilterType.self, forKey: .type)
+        type = typeDecoded
+        let inputStrengthDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.GuardrailFilterStrength.self, forKey: .inputStrength)
+        inputStrength = inputStrengthDecoded
+        let outputStrengthDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.GuardrailFilterStrength.self, forKey: .outputStrength)
+        outputStrength = outputStrengthDecoded
+    }
+}
+
+extension BedrockClientTypes {
+    /// Contains filter strengths for harmful content. Guardrails support the following content filters to detect and filter harmful user inputs and FM-generated outputs.
+    ///
+    /// * Hate – Describes language or a statement that discriminates, criticizes, insults, denounces, or dehumanizes a person or group on the basis of an identity (such as race, ethnicity, gender, religion, sexual orientation, ability, and national origin).
+    ///
+    /// * Insults – Describes language or a statement that includes demeaning, humiliating, mocking, insulting, or belittling language. This type of language is also labeled as bullying.
+    ///
+    /// * Sexual – Describes language or a statement that indicates sexual interest, activity, or arousal using direct or indirect references to body parts, physical traits, or sex.
+    ///
+    /// * Violence – Describes language or a statement that includes glorification of or threats to inflict physical pain, hurt, or injury toward a person, group or thing.
+    ///
+    ///
+    /// Content filtering depends on the confidence classification of user inputs and FM responses across each of the four harmful categories. All input and output statements are classified into one of four confidence levels (NONE, LOW, MEDIUM, HIGH) for each harmful category. For example, if a statement is classified as Hate with HIGH confidence, the likelihood of the statement representing hateful content is high. A single statement can be classified across multiple categories with varying confidence levels. For example, a single statement can be classified as Hate with HIGH confidence, Insults with LOW confidence, Sexual with NONE confidence, and Violence with MEDIUM confidence. For more information, see [Guardrails content filters](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-filters.html). This data type is used in the following API operations:
+    ///
+    /// * [CreateGuardrail request body](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_CreateGuardrail.html#API_CreateGuardrail_RequestSyntax)
+    ///
+    /// * [UpdateGuardrail request body](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_UpdateGuardrail.html#API_UpdateGuardrail_RequestSyntax)
+    public struct GuardrailContentFilterConfig {
+        /// The strength of the content filter to apply to prompts. As you increase the filter strength, the likelihood of filtering harmful content increases and the probability of seeing harmful content in your application reduces.
+        /// This member is required.
+        public var inputStrength: BedrockClientTypes.GuardrailFilterStrength?
+        /// The strength of the content filter to apply to model responses. As you increase the filter strength, the likelihood of filtering harmful content increases and the probability of seeing harmful content in your application reduces.
+        /// This member is required.
+        public var outputStrength: BedrockClientTypes.GuardrailFilterStrength?
+        /// The harmful category that the content filter is applied to.
+        /// This member is required.
+        public var type: BedrockClientTypes.GuardrailContentFilterType?
+
+        public init(
+            inputStrength: BedrockClientTypes.GuardrailFilterStrength? = nil,
+            outputStrength: BedrockClientTypes.GuardrailFilterStrength? = nil,
+            type: BedrockClientTypes.GuardrailContentFilterType? = nil
+        )
+        {
+            self.inputStrength = inputStrength
+            self.outputStrength = outputStrength
+            self.type = type
+        }
+    }
+
+}
+
+extension BedrockClientTypes {
+    public enum GuardrailContentFilterType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case hate
+        case insults
+        case misconduct
+        case promptAttack
+        case sexual
+        case violence
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailContentFilterType] {
+            return [
+                .hate,
+                .insults,
+                .misconduct,
+                .promptAttack,
+                .sexual,
+                .violence,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .hate: return "HATE"
+            case .insults: return "INSULTS"
+            case .misconduct: return "MISCONDUCT"
+            case .promptAttack: return "PROMPT_ATTACK"
+            case .sexual: return "SEXUAL"
+            case .violence: return "VIOLENCE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = GuardrailContentFilterType(rawValue: rawValue) ?? GuardrailContentFilterType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension BedrockClientTypes.GuardrailContentPolicy: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for guardrailcontentfilter0 in filters {
+                try filtersContainer.encode(guardrailcontentfilter0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let filtersContainer = try containerValues.decodeIfPresent([BedrockClientTypes.GuardrailContentFilter?].self, forKey: .filters)
+        var filtersDecoded0:[BedrockClientTypes.GuardrailContentFilter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [BedrockClientTypes.GuardrailContentFilter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+    }
+}
+
+extension BedrockClientTypes {
+    /// Contains details about how to handle harmful content. This data type is used in the following API operations:
+    ///
+    /// * [GetGuardrail response body](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GetGuardrail.html#API_GetGuardrail_ResponseSyntax)
+    public struct GuardrailContentPolicy {
+        /// Contains the type of the content filter and how strongly it should apply to prompts and model responses.
+        public var filters: [BedrockClientTypes.GuardrailContentFilter]?
+
+        public init(
+            filters: [BedrockClientTypes.GuardrailContentFilter]? = nil
+        )
+        {
+            self.filters = filters
+        }
+    }
+
+}
+
+extension BedrockClientTypes.GuardrailContentPolicyConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filtersConfig
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filtersConfig = filtersConfig {
+            var filtersConfigContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filtersConfig)
+            for guardrailcontentfilterconfig0 in filtersConfig {
+                try filtersConfigContainer.encode(guardrailcontentfilterconfig0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let filtersConfigContainer = try containerValues.decodeIfPresent([BedrockClientTypes.GuardrailContentFilterConfig?].self, forKey: .filtersConfig)
+        var filtersConfigDecoded0:[BedrockClientTypes.GuardrailContentFilterConfig]? = nil
+        if let filtersConfigContainer = filtersConfigContainer {
+            filtersConfigDecoded0 = [BedrockClientTypes.GuardrailContentFilterConfig]()
+            for structure0 in filtersConfigContainer {
+                if let structure0 = structure0 {
+                    filtersConfigDecoded0?.append(structure0)
+                }
+            }
+        }
+        filtersConfig = filtersConfigDecoded0
+    }
+}
+
+extension BedrockClientTypes {
+    /// Contains details about how to handle harmful content. This data type is used in the following API operations:
+    ///
+    /// * [CreateGuardrail request body](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_CreateGuardrail.html#API_CreateGuardrail_RequestSyntax)
+    ///
+    /// * [UpdateGuardrail request body](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_UpdateGuardrail.html#API_UpdateGuardrail_RequestSyntax)
+    public struct GuardrailContentPolicyConfig {
+        /// Contains the type of the content filter and how strongly it should apply to prompts and model responses.
+        /// This member is required.
+        public var filtersConfig: [BedrockClientTypes.GuardrailContentFilterConfig]?
+
+        public init(
+            filtersConfig: [BedrockClientTypes.GuardrailContentFilterConfig]? = nil
+        )
+        {
+            self.filtersConfig = filtersConfig
+        }
+    }
+
+}
+
+extension BedrockClientTypes {
+    public enum GuardrailFilterStrength: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case high
+        case low
+        case medium
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailFilterStrength] {
+            return [
+                .high,
+                .low,
+                .medium,
+                .none,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .high: return "HIGH"
+            case .low: return "LOW"
+            case .medium: return "MEDIUM"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = GuardrailFilterStrength(rawValue: rawValue) ?? GuardrailFilterStrength.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension BedrockClientTypes.GuardrailManagedWords: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.GuardrailManagedWordsType.self, forKey: .type)
+        type = typeDecoded
+    }
+}
+
+extension BedrockClientTypes {
+    /// The managed word list that was configured for the guardrail. (This is a list of words that are pre-defined and managed by Guardrails only.)
+    public struct GuardrailManagedWords {
+        /// ManagedWords$type The managed word type that was configured for the guardrail. (For now, we only offer profanity word list)
+        /// This member is required.
+        public var type: BedrockClientTypes.GuardrailManagedWordsType?
+
+        public init(
+            type: BedrockClientTypes.GuardrailManagedWordsType? = nil
+        )
+        {
+            self.type = type
+        }
+    }
+
+}
+
+extension BedrockClientTypes.GuardrailManagedWordsConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.GuardrailManagedWordsType.self, forKey: .type)
+        type = typeDecoded
+    }
+}
+
+extension BedrockClientTypes {
+    /// The managed word list to configure for the guardrail.
+    public struct GuardrailManagedWordsConfig {
+        /// The managed word type to configure for the guardrail.
+        /// This member is required.
+        public var type: BedrockClientTypes.GuardrailManagedWordsType?
+
+        public init(
+            type: BedrockClientTypes.GuardrailManagedWordsType? = nil
+        )
+        {
+            self.type = type
+        }
+    }
+
+}
+
+extension BedrockClientTypes {
+    public enum GuardrailManagedWordsType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case profanity
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailManagedWordsType] {
+            return [
+                .profanity,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .profanity: return "PROFANITY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = GuardrailManagedWordsType(rawValue: rawValue) ?? GuardrailManagedWordsType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension BedrockClientTypes.GuardrailPiiEntity: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case action
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let action = self.action {
+            try encodeContainer.encode(action.rawValue, forKey: .action)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.GuardrailPiiEntityType.self, forKey: .type)
+        type = typeDecoded
+        let actionDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.GuardrailSensitiveInformationAction.self, forKey: .action)
+        action = actionDecoded
+    }
+}
+
+extension BedrockClientTypes {
+    /// The PII entity configured for the guardrail.
+    public struct GuardrailPiiEntity {
+        /// The configured guardrail action when PII entity is detected.
+        /// This member is required.
+        public var action: BedrockClientTypes.GuardrailSensitiveInformationAction?
+        /// The type of PII entity. For example, Social Security Number.
+        /// This member is required.
+        public var type: BedrockClientTypes.GuardrailPiiEntityType?
+
+        public init(
+            action: BedrockClientTypes.GuardrailSensitiveInformationAction? = nil,
+            type: BedrockClientTypes.GuardrailPiiEntityType? = nil
+        )
+        {
+            self.action = action
+            self.type = type
+        }
+    }
+
+}
+
+extension BedrockClientTypes.GuardrailPiiEntityConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case action
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let action = self.action {
+            try encodeContainer.encode(action.rawValue, forKey: .action)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.GuardrailPiiEntityType.self, forKey: .type)
+        type = typeDecoded
+        let actionDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.GuardrailSensitiveInformationAction.self, forKey: .action)
+        action = actionDecoded
+    }
+}
+
+extension BedrockClientTypes {
+    /// The PII entity to configure for the guardrail.
+    public struct GuardrailPiiEntityConfig {
+        /// Configure guardrail action when the PII entity is detected.
+        /// This member is required.
+        public var action: BedrockClientTypes.GuardrailSensitiveInformationAction?
+        /// Configure guardrail type when the PII entity is detected.
+        /// This member is required.
+        public var type: BedrockClientTypes.GuardrailPiiEntityType?
+
+        public init(
+            action: BedrockClientTypes.GuardrailSensitiveInformationAction? = nil,
+            type: BedrockClientTypes.GuardrailPiiEntityType? = nil
+        )
+        {
+            self.action = action
+            self.type = type
+        }
+    }
+
+}
+
+extension BedrockClientTypes {
+    public enum GuardrailPiiEntityType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case address
+        case age
+        case awsAccessKey
+        case awsSecretKey
+        case caHealthNumber
+        case caSocialInsuranceNumber
+        case creditDebitCardCvv
+        case creditDebitCardExpiry
+        case creditDebitCardNumber
+        case driverId
+        case email
+        case internationalBankAccountNumber
+        case ipAddress
+        case licensePlate
+        case macAddress
+        case name
+        case password
+        case phone
+        case pin
+        case swiftCode
+        case ukNationalHealthServiceNumber
+        case ukNationalInsuranceNumber
+        case ukUniqueTaxpayerReferenceNumber
+        case url
+        case username
+        case usBankAccountNumber
+        case usBankRoutingNumber
+        case usIndividualTaxIdentificationNumber
+        case usPassportNumber
+        case usSocialSecurityNumber
+        case vehicleIdentificationNumber
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailPiiEntityType] {
+            return [
+                .address,
+                .age,
+                .awsAccessKey,
+                .awsSecretKey,
+                .caHealthNumber,
+                .caSocialInsuranceNumber,
+                .creditDebitCardCvv,
+                .creditDebitCardExpiry,
+                .creditDebitCardNumber,
+                .driverId,
+                .email,
+                .internationalBankAccountNumber,
+                .ipAddress,
+                .licensePlate,
+                .macAddress,
+                .name,
+                .password,
+                .phone,
+                .pin,
+                .swiftCode,
+                .ukNationalHealthServiceNumber,
+                .ukNationalInsuranceNumber,
+                .ukUniqueTaxpayerReferenceNumber,
+                .url,
+                .username,
+                .usBankAccountNumber,
+                .usBankRoutingNumber,
+                .usIndividualTaxIdentificationNumber,
+                .usPassportNumber,
+                .usSocialSecurityNumber,
+                .vehicleIdentificationNumber,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .address: return "ADDRESS"
+            case .age: return "AGE"
+            case .awsAccessKey: return "AWS_ACCESS_KEY"
+            case .awsSecretKey: return "AWS_SECRET_KEY"
+            case .caHealthNumber: return "CA_HEALTH_NUMBER"
+            case .caSocialInsuranceNumber: return "CA_SOCIAL_INSURANCE_NUMBER"
+            case .creditDebitCardCvv: return "CREDIT_DEBIT_CARD_CVV"
+            case .creditDebitCardExpiry: return "CREDIT_DEBIT_CARD_EXPIRY"
+            case .creditDebitCardNumber: return "CREDIT_DEBIT_CARD_NUMBER"
+            case .driverId: return "DRIVER_ID"
+            case .email: return "EMAIL"
+            case .internationalBankAccountNumber: return "INTERNATIONAL_BANK_ACCOUNT_NUMBER"
+            case .ipAddress: return "IP_ADDRESS"
+            case .licensePlate: return "LICENSE_PLATE"
+            case .macAddress: return "MAC_ADDRESS"
+            case .name: return "NAME"
+            case .password: return "PASSWORD"
+            case .phone: return "PHONE"
+            case .pin: return "PIN"
+            case .swiftCode: return "SWIFT_CODE"
+            case .ukNationalHealthServiceNumber: return "UK_NATIONAL_HEALTH_SERVICE_NUMBER"
+            case .ukNationalInsuranceNumber: return "UK_NATIONAL_INSURANCE_NUMBER"
+            case .ukUniqueTaxpayerReferenceNumber: return "UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER"
+            case .url: return "URL"
+            case .username: return "USERNAME"
+            case .usBankAccountNumber: return "US_BANK_ACCOUNT_NUMBER"
+            case .usBankRoutingNumber: return "US_BANK_ROUTING_NUMBER"
+            case .usIndividualTaxIdentificationNumber: return "US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER"
+            case .usPassportNumber: return "US_PASSPORT_NUMBER"
+            case .usSocialSecurityNumber: return "US_SOCIAL_SECURITY_NUMBER"
+            case .vehicleIdentificationNumber: return "VEHICLE_IDENTIFICATION_NUMBER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = GuardrailPiiEntityType(rawValue: rawValue) ?? GuardrailPiiEntityType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension BedrockClientTypes.GuardrailRegex: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case action
+        case description
+        case name
+        case pattern
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let action = self.action {
+            try encodeContainer.encode(action.rawValue, forKey: .action)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let pattern = self.pattern {
+            try encodeContainer.encode(pattern, forKey: .pattern)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let patternDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pattern)
+        pattern = patternDecoded
+        let actionDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.GuardrailSensitiveInformationAction.self, forKey: .action)
+        action = actionDecoded
+    }
+}
+
+extension BedrockClientTypes {
+    /// The regular expression configured for the guardrail.
+    public struct GuardrailRegex {
+        /// The action taken when a match to the regular expression is detected.
+        /// This member is required.
+        public var action: BedrockClientTypes.GuardrailSensitiveInformationAction?
+        /// The description of the regular expression for the guardrail.
+        public var description: Swift.String?
+        /// The name of the regular expression for the guardrail.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The pattern of the regular expression configured for the guardrail.
+        /// This member is required.
+        public var pattern: Swift.String?
+
+        public init(
+            action: BedrockClientTypes.GuardrailSensitiveInformationAction? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            pattern: Swift.String? = nil
+        )
+        {
+            self.action = action
+            self.description = description
+            self.name = name
+            self.pattern = pattern
+        }
+    }
+
+}
+
+extension BedrockClientTypes.GuardrailRegexConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case action
+        case description
+        case name
+        case pattern
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let action = self.action {
+            try encodeContainer.encode(action.rawValue, forKey: .action)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let pattern = self.pattern {
+            try encodeContainer.encode(pattern, forKey: .pattern)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let patternDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pattern)
+        pattern = patternDecoded
+        let actionDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.GuardrailSensitiveInformationAction.self, forKey: .action)
+        action = actionDecoded
+    }
+}
+
+extension BedrockClientTypes {
+    /// The regular expression to configure for the guardrail.
+    public struct GuardrailRegexConfig {
+        /// The guardrail action to configure when matching regular expression is detected.
+        /// This member is required.
+        public var action: BedrockClientTypes.GuardrailSensitiveInformationAction?
+        /// The description of the regular expression to configure for the guardrail.
+        public var description: Swift.String?
+        /// The name of the regular expression to configure for the guardrail.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The regular expression pattern to configure for the guardrail.
+        /// This member is required.
+        public var pattern: Swift.String?
+
+        public init(
+            action: BedrockClientTypes.GuardrailSensitiveInformationAction? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            pattern: Swift.String? = nil
+        )
+        {
+            self.action = action
+            self.description = description
+            self.name = name
+            self.pattern = pattern
+        }
+    }
+
+}
+
+extension BedrockClientTypes {
+    public enum GuardrailSensitiveInformationAction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case anonymize
+        case block
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailSensitiveInformationAction] {
+            return [
+                .anonymize,
+                .block,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .anonymize: return "ANONYMIZE"
+            case .block: return "BLOCK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = GuardrailSensitiveInformationAction(rawValue: rawValue) ?? GuardrailSensitiveInformationAction.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension BedrockClientTypes.GuardrailSensitiveInformationPolicy: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case piiEntities
+        case regexes
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let piiEntities = piiEntities {
+            var piiEntitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .piiEntities)
+            for guardrailpiientity0 in piiEntities {
+                try piiEntitiesContainer.encode(guardrailpiientity0)
+            }
+        }
+        if let regexes = regexes {
+            var regexesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .regexes)
+            for guardrailregex0 in regexes {
+                try regexesContainer.encode(guardrailregex0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let piiEntitiesContainer = try containerValues.decodeIfPresent([BedrockClientTypes.GuardrailPiiEntity?].self, forKey: .piiEntities)
+        var piiEntitiesDecoded0:[BedrockClientTypes.GuardrailPiiEntity]? = nil
+        if let piiEntitiesContainer = piiEntitiesContainer {
+            piiEntitiesDecoded0 = [BedrockClientTypes.GuardrailPiiEntity]()
+            for structure0 in piiEntitiesContainer {
+                if let structure0 = structure0 {
+                    piiEntitiesDecoded0?.append(structure0)
+                }
+            }
+        }
+        piiEntities = piiEntitiesDecoded0
+        let regexesContainer = try containerValues.decodeIfPresent([BedrockClientTypes.GuardrailRegex?].self, forKey: .regexes)
+        var regexesDecoded0:[BedrockClientTypes.GuardrailRegex]? = nil
+        if let regexesContainer = regexesContainer {
+            regexesDecoded0 = [BedrockClientTypes.GuardrailRegex]()
+            for structure0 in regexesContainer {
+                if let structure0 = structure0 {
+                    regexesDecoded0?.append(structure0)
+                }
+            }
+        }
+        regexes = regexesDecoded0
+    }
+}
+
+extension BedrockClientTypes {
+    /// Contains details about PII entities and regular expressions configured for the guardrail.
+    public struct GuardrailSensitiveInformationPolicy {
+        /// The list of PII entities configured for the guardrail.
+        public var piiEntities: [BedrockClientTypes.GuardrailPiiEntity]?
+        /// The list of regular expressions configured for the guardrail.
+        public var regexes: [BedrockClientTypes.GuardrailRegex]?
+
+        public init(
+            piiEntities: [BedrockClientTypes.GuardrailPiiEntity]? = nil,
+            regexes: [BedrockClientTypes.GuardrailRegex]? = nil
+        )
+        {
+            self.piiEntities = piiEntities
+            self.regexes = regexes
+        }
+    }
+
+}
+
+extension BedrockClientTypes.GuardrailSensitiveInformationPolicyConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case piiEntitiesConfig
+        case regexesConfig
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let piiEntitiesConfig = piiEntitiesConfig {
+            var piiEntitiesConfigContainer = encodeContainer.nestedUnkeyedContainer(forKey: .piiEntitiesConfig)
+            for guardrailpiientityconfig0 in piiEntitiesConfig {
+                try piiEntitiesConfigContainer.encode(guardrailpiientityconfig0)
+            }
+        }
+        if let regexesConfig = regexesConfig {
+            var regexesConfigContainer = encodeContainer.nestedUnkeyedContainer(forKey: .regexesConfig)
+            for guardrailregexconfig0 in regexesConfig {
+                try regexesConfigContainer.encode(guardrailregexconfig0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let piiEntitiesConfigContainer = try containerValues.decodeIfPresent([BedrockClientTypes.GuardrailPiiEntityConfig?].self, forKey: .piiEntitiesConfig)
+        var piiEntitiesConfigDecoded0:[BedrockClientTypes.GuardrailPiiEntityConfig]? = nil
+        if let piiEntitiesConfigContainer = piiEntitiesConfigContainer {
+            piiEntitiesConfigDecoded0 = [BedrockClientTypes.GuardrailPiiEntityConfig]()
+            for structure0 in piiEntitiesConfigContainer {
+                if let structure0 = structure0 {
+                    piiEntitiesConfigDecoded0?.append(structure0)
+                }
+            }
+        }
+        piiEntitiesConfig = piiEntitiesConfigDecoded0
+        let regexesConfigContainer = try containerValues.decodeIfPresent([BedrockClientTypes.GuardrailRegexConfig?].self, forKey: .regexesConfig)
+        var regexesConfigDecoded0:[BedrockClientTypes.GuardrailRegexConfig]? = nil
+        if let regexesConfigContainer = regexesConfigContainer {
+            regexesConfigDecoded0 = [BedrockClientTypes.GuardrailRegexConfig]()
+            for structure0 in regexesConfigContainer {
+                if let structure0 = structure0 {
+                    regexesConfigDecoded0?.append(structure0)
+                }
+            }
+        }
+        regexesConfig = regexesConfigDecoded0
+    }
+}
+
+extension BedrockClientTypes {
+    /// Contains details about PII entities and regular expressions to configure for the guardrail.
+    public struct GuardrailSensitiveInformationPolicyConfig {
+        /// A list of PII entities to configure to the guardrail.
+        public var piiEntitiesConfig: [BedrockClientTypes.GuardrailPiiEntityConfig]?
+        /// A list of regular expressions to configure to the guardrail.
+        public var regexesConfig: [BedrockClientTypes.GuardrailRegexConfig]?
+
+        public init(
+            piiEntitiesConfig: [BedrockClientTypes.GuardrailPiiEntityConfig]? = nil,
+            regexesConfig: [BedrockClientTypes.GuardrailRegexConfig]? = nil
+        )
+        {
+            self.piiEntitiesConfig = piiEntitiesConfig
+            self.regexesConfig = regexesConfig
+        }
+    }
+
+}
+
+extension BedrockClientTypes {
+    public enum GuardrailStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case creating
+        case deleting
+        case failed
+        case ready
+        case updating
+        case versioning
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailStatus] {
+            return [
+                .creating,
+                .deleting,
+                .failed,
+                .ready,
+                .updating,
+                .versioning,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .ready: return "READY"
+            case .updating: return "UPDATING"
+            case .versioning: return "VERSIONING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = GuardrailStatus(rawValue: rawValue) ?? GuardrailStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension BedrockClientTypes.GuardrailSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case createdAt
+        case description
+        case id
+        case name
+        case status
+        case updatedAt
+        case version
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let createdAt = self.createdAt {
+            try encodeContainer.encodeTimestamp(createdAt, format: .dateTime, forKey: .createdAt)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let updatedAt = self.updatedAt {
+            try encodeContainer.encodeTimestamp(updatedAt, format: .dateTime, forKey: .updatedAt)
+        }
+        if let version = self.version {
+            try encodeContainer.encode(version, forKey: .version)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.GuardrailStatus.self, forKey: .status)
+        status = statusDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let versionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .version)
+        version = versionDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updatedAt)
+        updatedAt = updatedAtDecoded
+    }
+}
+
+extension BedrockClientTypes.GuardrailSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GuardrailSummary(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), id: \(Swift.String(describing: id)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), version: \(Swift.String(describing: version)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockClientTypes {
+    /// Contains details about a guardrail. This data type is used in the following API operations:
+    ///
+    /// * [ListGuardrails response body](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_ListGuardrails.html#API_ListGuardrails_ResponseSyntax)
+    public struct GuardrailSummary {
+        /// The ARN of the guardrail.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The date and time at which the guardrail was created.
+        /// This member is required.
+        public var createdAt: ClientRuntime.Date?
+        /// A description of the guardrail.
+        public var description: Swift.String?
+        /// The unique identifier of the guardrail.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The name of the guardrail.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The status of the guardrail.
+        /// This member is required.
+        public var status: BedrockClientTypes.GuardrailStatus?
+        /// The date and time at which the guardrail was last updated.
+        /// This member is required.
+        public var updatedAt: ClientRuntime.Date?
+        /// The version of the guardrail.
+        /// This member is required.
+        public var version: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            createdAt: ClientRuntime.Date? = nil,
+            description: Swift.String? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            status: BedrockClientTypes.GuardrailStatus? = nil,
+            updatedAt: ClientRuntime.Date? = nil,
+            version: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.description = description
+            self.id = id
+            self.name = name
+            self.status = status
+            self.updatedAt = updatedAt
+            self.version = version
+        }
+    }
+
+}
+
+extension BedrockClientTypes.GuardrailTopic: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case definition
+        case examples
+        case name
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let definition = self.definition {
+            try encodeContainer.encode(definition, forKey: .definition)
+        }
+        if let examples = examples {
+            var examplesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .examples)
+            for guardrailtopicexample0 in examples {
+                try examplesContainer.encode(guardrailtopicexample0)
+            }
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let definitionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .definition)
+        definition = definitionDecoded
+        let examplesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .examples)
+        var examplesDecoded0:[Swift.String]? = nil
+        if let examplesContainer = examplesContainer {
+            examplesDecoded0 = [Swift.String]()
+            for string0 in examplesContainer {
+                if let string0 = string0 {
+                    examplesDecoded0?.append(string0)
+                }
+            }
+        }
+        examples = examplesDecoded0
+        let typeDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.GuardrailTopicType.self, forKey: .type)
+        type = typeDecoded
+    }
+}
+
+extension BedrockClientTypes.GuardrailTopic: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GuardrailTopic(examples: \(Swift.String(describing: examples)), type: \(Swift.String(describing: type)), definition: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockClientTypes {
+    /// Details about topics for the guardrail to identify and deny. This data type is used in the following API operations:
+    ///
+    /// * [GetGuardrail response body](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GetGuardrail.html#API_GetGuardrail_ResponseSyntax)
+    public struct GuardrailTopic {
+        /// A definition of the topic to deny.
+        /// This member is required.
+        public var definition: Swift.String?
+        /// A list of prompts, each of which is an example of a prompt that can be categorized as belonging to the topic.
+        public var examples: [Swift.String]?
+        /// The name of the topic to deny.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Specifies to deny the topic.
+        public var type: BedrockClientTypes.GuardrailTopicType?
+
+        public init(
+            definition: Swift.String? = nil,
+            examples: [Swift.String]? = nil,
+            name: Swift.String? = nil,
+            type: BedrockClientTypes.GuardrailTopicType? = nil
+        )
+        {
+            self.definition = definition
+            self.examples = examples
+            self.name = name
+            self.type = type
+        }
+    }
+
+}
+
+extension BedrockClientTypes.GuardrailTopicConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case definition
+        case examples
+        case name
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let definition = self.definition {
+            try encodeContainer.encode(definition, forKey: .definition)
+        }
+        if let examples = examples {
+            var examplesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .examples)
+            for guardrailtopicexample0 in examples {
+                try examplesContainer.encode(guardrailtopicexample0)
+            }
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let definitionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .definition)
+        definition = definitionDecoded
+        let examplesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .examples)
+        var examplesDecoded0:[Swift.String]? = nil
+        if let examplesContainer = examplesContainer {
+            examplesDecoded0 = [Swift.String]()
+            for string0 in examplesContainer {
+                if let string0 = string0 {
+                    examplesDecoded0?.append(string0)
+                }
+            }
+        }
+        examples = examplesDecoded0
+        let typeDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.GuardrailTopicType.self, forKey: .type)
+        type = typeDecoded
+    }
+}
+
+extension BedrockClientTypes.GuardrailTopicConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GuardrailTopicConfig(examples: \(Swift.String(describing: examples)), type: \(Swift.String(describing: type)), definition: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockClientTypes {
+    /// Details about topics for the guardrail to identify and deny. This data type is used in the following API operations:
+    ///
+    /// * [CreateGuardrail request body](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_CreateGuardrail.html#API_CreateGuardrail_RequestSyntax)
+    ///
+    /// * [UpdateGuardrail request body](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_UpdateGuardrail.html#API_UpdateGuardrail_RequestSyntax)
+    public struct GuardrailTopicConfig {
+        /// A definition of the topic to deny.
+        /// This member is required.
+        public var definition: Swift.String?
+        /// A list of prompts, each of which is an example of a prompt that can be categorized as belonging to the topic.
+        public var examples: [Swift.String]?
+        /// The name of the topic to deny.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Specifies to deny the topic.
+        /// This member is required.
+        public var type: BedrockClientTypes.GuardrailTopicType?
+
+        public init(
+            definition: Swift.String? = nil,
+            examples: [Swift.String]? = nil,
+            name: Swift.String? = nil,
+            type: BedrockClientTypes.GuardrailTopicType? = nil
+        )
+        {
+            self.definition = definition
+            self.examples = examples
+            self.name = name
+            self.type = type
+        }
+    }
+
+}
+
+extension BedrockClientTypes.GuardrailTopicPolicy: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case topics
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let topics = topics {
+            var topicsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .topics)
+            for guardrailtopic0 in topics {
+                try topicsContainer.encode(guardrailtopic0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let topicsContainer = try containerValues.decodeIfPresent([BedrockClientTypes.GuardrailTopic?].self, forKey: .topics)
+        var topicsDecoded0:[BedrockClientTypes.GuardrailTopic]? = nil
+        if let topicsContainer = topicsContainer {
+            topicsDecoded0 = [BedrockClientTypes.GuardrailTopic]()
+            for structure0 in topicsContainer {
+                if let structure0 = structure0 {
+                    topicsDecoded0?.append(structure0)
+                }
+            }
+        }
+        topics = topicsDecoded0
+    }
+}
+
+extension BedrockClientTypes {
+    /// Contains details about topics that the guardrail should identify and deny. This data type is used in the following API operations:
+    ///
+    /// * [GetGuardrail response body](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GetGuardrail.html#API_GetGuardrail_ResponseSyntax)
+    public struct GuardrailTopicPolicy {
+        /// A list of policies related to topics that the guardrail should deny.
+        /// This member is required.
+        public var topics: [BedrockClientTypes.GuardrailTopic]?
+
+        public init(
+            topics: [BedrockClientTypes.GuardrailTopic]? = nil
+        )
+        {
+            self.topics = topics
+        }
+    }
+
+}
+
+extension BedrockClientTypes.GuardrailTopicPolicyConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case topicsConfig
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let topicsConfig = topicsConfig {
+            var topicsConfigContainer = encodeContainer.nestedUnkeyedContainer(forKey: .topicsConfig)
+            for guardrailtopicconfig0 in topicsConfig {
+                try topicsConfigContainer.encode(guardrailtopicconfig0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let topicsConfigContainer = try containerValues.decodeIfPresent([BedrockClientTypes.GuardrailTopicConfig?].self, forKey: .topicsConfig)
+        var topicsConfigDecoded0:[BedrockClientTypes.GuardrailTopicConfig]? = nil
+        if let topicsConfigContainer = topicsConfigContainer {
+            topicsConfigDecoded0 = [BedrockClientTypes.GuardrailTopicConfig]()
+            for structure0 in topicsConfigContainer {
+                if let structure0 = structure0 {
+                    topicsConfigDecoded0?.append(structure0)
+                }
+            }
+        }
+        topicsConfig = topicsConfigDecoded0
+    }
+}
+
+extension BedrockClientTypes {
+    /// Contains details about topics that the guardrail should identify and deny. This data type is used in the following API operations:
+    ///
+    /// * [CreateGuardrail request body](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_CreateGuardrail.html#API_CreateGuardrail_RequestSyntax)
+    ///
+    /// * [UpdateGuardrail request body](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_UpdateGuardrail.html#API_UpdateGuardrail_RequestSyntax)
+    public struct GuardrailTopicPolicyConfig {
+        /// A list of policies related to topics that the guardrail should deny.
+        /// This member is required.
+        public var topicsConfig: [BedrockClientTypes.GuardrailTopicConfig]?
+
+        public init(
+            topicsConfig: [BedrockClientTypes.GuardrailTopicConfig]? = nil
+        )
+        {
+            self.topicsConfig = topicsConfig
+        }
+    }
+
+}
+
+extension BedrockClientTypes {
+    public enum GuardrailTopicType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case deny
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailTopicType] {
+            return [
+                .deny,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .deny: return "DENY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = GuardrailTopicType(rawValue: rawValue) ?? GuardrailTopicType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension BedrockClientTypes.GuardrailWord: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case text
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let text = self.text {
+            try encodeContainer.encode(text, forKey: .text)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let textDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .text)
+        text = textDecoded
+    }
+}
+
+extension BedrockClientTypes {
+    /// A word configured for the guardrail.
+    public struct GuardrailWord {
+        /// Text of the word configured for the guardrail to block.
+        /// This member is required.
+        public var text: Swift.String?
+
+        public init(
+            text: Swift.String? = nil
+        )
+        {
+            self.text = text
+        }
+    }
+
+}
+
+extension BedrockClientTypes.GuardrailWordConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case text
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let text = self.text {
+            try encodeContainer.encode(text, forKey: .text)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let textDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .text)
+        text = textDecoded
+    }
+}
+
+extension BedrockClientTypes {
+    /// A word to configure for the guardrail.
+    public struct GuardrailWordConfig {
+        /// Text of the word configured for the guardrail to block.
+        /// This member is required.
+        public var text: Swift.String?
+
+        public init(
+            text: Swift.String? = nil
+        )
+        {
+            self.text = text
+        }
+    }
+
+}
+
+extension BedrockClientTypes.GuardrailWordPolicy: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case managedWordLists
+        case words
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let managedWordLists = managedWordLists {
+            var managedWordListsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .managedWordLists)
+            for guardrailmanagedwords0 in managedWordLists {
+                try managedWordListsContainer.encode(guardrailmanagedwords0)
+            }
+        }
+        if let words = words {
+            var wordsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .words)
+            for guardrailword0 in words {
+                try wordsContainer.encode(guardrailword0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let wordsContainer = try containerValues.decodeIfPresent([BedrockClientTypes.GuardrailWord?].self, forKey: .words)
+        var wordsDecoded0:[BedrockClientTypes.GuardrailWord]? = nil
+        if let wordsContainer = wordsContainer {
+            wordsDecoded0 = [BedrockClientTypes.GuardrailWord]()
+            for structure0 in wordsContainer {
+                if let structure0 = structure0 {
+                    wordsDecoded0?.append(structure0)
+                }
+            }
+        }
+        words = wordsDecoded0
+        let managedWordListsContainer = try containerValues.decodeIfPresent([BedrockClientTypes.GuardrailManagedWords?].self, forKey: .managedWordLists)
+        var managedWordListsDecoded0:[BedrockClientTypes.GuardrailManagedWords]? = nil
+        if let managedWordListsContainer = managedWordListsContainer {
+            managedWordListsDecoded0 = [BedrockClientTypes.GuardrailManagedWords]()
+            for structure0 in managedWordListsContainer {
+                if let structure0 = structure0 {
+                    managedWordListsDecoded0?.append(structure0)
+                }
+            }
+        }
+        managedWordLists = managedWordListsDecoded0
+    }
+}
+
+extension BedrockClientTypes {
+    /// Contains details about the word policy configured for the guardrail.
+    public struct GuardrailWordPolicy {
+        /// A list of managed words configured for the guardrail.
+        public var managedWordLists: [BedrockClientTypes.GuardrailManagedWords]?
+        /// A list of words configured for the guardrail.
+        public var words: [BedrockClientTypes.GuardrailWord]?
+
+        public init(
+            managedWordLists: [BedrockClientTypes.GuardrailManagedWords]? = nil,
+            words: [BedrockClientTypes.GuardrailWord]? = nil
+        )
+        {
+            self.managedWordLists = managedWordLists
+            self.words = words
+        }
+    }
+
+}
+
+extension BedrockClientTypes.GuardrailWordPolicyConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case managedWordListsConfig
+        case wordsConfig
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let managedWordListsConfig = managedWordListsConfig {
+            var managedWordListsConfigContainer = encodeContainer.nestedUnkeyedContainer(forKey: .managedWordListsConfig)
+            for guardrailmanagedwordsconfig0 in managedWordListsConfig {
+                try managedWordListsConfigContainer.encode(guardrailmanagedwordsconfig0)
+            }
+        }
+        if let wordsConfig = wordsConfig {
+            var wordsConfigContainer = encodeContainer.nestedUnkeyedContainer(forKey: .wordsConfig)
+            for guardrailwordconfig0 in wordsConfig {
+                try wordsConfigContainer.encode(guardrailwordconfig0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let wordsConfigContainer = try containerValues.decodeIfPresent([BedrockClientTypes.GuardrailWordConfig?].self, forKey: .wordsConfig)
+        var wordsConfigDecoded0:[BedrockClientTypes.GuardrailWordConfig]? = nil
+        if let wordsConfigContainer = wordsConfigContainer {
+            wordsConfigDecoded0 = [BedrockClientTypes.GuardrailWordConfig]()
+            for structure0 in wordsConfigContainer {
+                if let structure0 = structure0 {
+                    wordsConfigDecoded0?.append(structure0)
+                }
+            }
+        }
+        wordsConfig = wordsConfigDecoded0
+        let managedWordListsConfigContainer = try containerValues.decodeIfPresent([BedrockClientTypes.GuardrailManagedWordsConfig?].self, forKey: .managedWordListsConfig)
+        var managedWordListsConfigDecoded0:[BedrockClientTypes.GuardrailManagedWordsConfig]? = nil
+        if let managedWordListsConfigContainer = managedWordListsConfigContainer {
+            managedWordListsConfigDecoded0 = [BedrockClientTypes.GuardrailManagedWordsConfig]()
+            for structure0 in managedWordListsConfigContainer {
+                if let structure0 = structure0 {
+                    managedWordListsConfigDecoded0?.append(structure0)
+                }
+            }
+        }
+        managedWordListsConfig = managedWordListsConfigDecoded0
+    }
+}
+
+extension BedrockClientTypes {
+    /// Contains details about the word policy to configured for the guardrail.
+    public struct GuardrailWordPolicyConfig {
+        /// A list of managed words to configure for the guardrail.
+        public var managedWordListsConfig: [BedrockClientTypes.GuardrailManagedWordsConfig]?
+        /// A list of words to configure for the guardrail.
+        public var wordsConfig: [BedrockClientTypes.GuardrailWordConfig]?
+
+        public init(
+            managedWordListsConfig: [BedrockClientTypes.GuardrailManagedWordsConfig]? = nil,
+            wordsConfig: [BedrockClientTypes.GuardrailWordConfig]? = nil
+        )
+        {
+            self.managedWordListsConfig = managedWordListsConfig
+            self.wordsConfig = wordsConfig
+        }
+    }
+
+}
+
+extension BedrockClientTypes.HumanEvaluationConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case customMetrics
+        case datasetMetricConfigs
+        case humanWorkflowConfig
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let customMetrics = customMetrics {
+            var customMetricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .customMetrics)
+            for humanevaluationcustommetric0 in customMetrics {
+                try customMetricsContainer.encode(humanevaluationcustommetric0)
+            }
+        }
+        if let datasetMetricConfigs = datasetMetricConfigs {
+            var datasetMetricConfigsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .datasetMetricConfigs)
+            for evaluationdatasetmetricconfig0 in datasetMetricConfigs {
+                try datasetMetricConfigsContainer.encode(evaluationdatasetmetricconfig0)
+            }
+        }
+        if let humanWorkflowConfig = self.humanWorkflowConfig {
+            try encodeContainer.encode(humanWorkflowConfig, forKey: .humanWorkflowConfig)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let humanWorkflowConfigDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.HumanWorkflowConfig.self, forKey: .humanWorkflowConfig)
+        humanWorkflowConfig = humanWorkflowConfigDecoded
+        let customMetricsContainer = try containerValues.decodeIfPresent([BedrockClientTypes.HumanEvaluationCustomMetric?].self, forKey: .customMetrics)
+        var customMetricsDecoded0:[BedrockClientTypes.HumanEvaluationCustomMetric]? = nil
+        if let customMetricsContainer = customMetricsContainer {
+            customMetricsDecoded0 = [BedrockClientTypes.HumanEvaluationCustomMetric]()
+            for structure0 in customMetricsContainer {
+                if let structure0 = structure0 {
+                    customMetricsDecoded0?.append(structure0)
+                }
+            }
+        }
+        customMetrics = customMetricsDecoded0
+        let datasetMetricConfigsContainer = try containerValues.decodeIfPresent([BedrockClientTypes.EvaluationDatasetMetricConfig?].self, forKey: .datasetMetricConfigs)
+        var datasetMetricConfigsDecoded0:[BedrockClientTypes.EvaluationDatasetMetricConfig]? = nil
+        if let datasetMetricConfigsContainer = datasetMetricConfigsContainer {
+            datasetMetricConfigsDecoded0 = [BedrockClientTypes.EvaluationDatasetMetricConfig]()
+            for structure0 in datasetMetricConfigsContainer {
+                if let structure0 = structure0 {
+                    datasetMetricConfigsDecoded0?.append(structure0)
+                }
+            }
+        }
+        datasetMetricConfigs = datasetMetricConfigsDecoded0
+    }
+}
+
+extension BedrockClientTypes {
+    /// Specifies the custom metrics, how tasks will be rated, the flow definition ARN, and your custom prompt datasets. Model evaluation jobs use human workers only support the use of custom prompt datasets. To learn more about custom prompt datasets and the required format, see [Custom prompt datasets](https://docs.aws.amazon.com/bedrock/latest/userguide/model-evaluation-prompt-datasets-custom.html). When you create custom metrics in HumanEvaluationCustomMetric you must specify the metric's name. The list of names specified in the HumanEvaluationCustomMetric array, must match the metricNames array of strings specified in EvaluationDatasetMetricConfig. For example, if in the HumanEvaluationCustomMetric array your specified the names "accuracy", "toxicity", "readability" as custom metrics then the metricNames array would need to look like the following ["accuracy", "toxicity", "readability"] in EvaluationDatasetMetricConfig.
+    public struct HumanEvaluationConfig {
+        /// A HumanEvaluationCustomMetric object. It contains the names the metrics, how the metrics are to be evaluated, an optional description.
+        public var customMetrics: [BedrockClientTypes.HumanEvaluationCustomMetric]?
+        /// Use to specify the metrics, task, and prompt dataset to be used in your model evaluation job.
+        /// This member is required.
+        public var datasetMetricConfigs: [BedrockClientTypes.EvaluationDatasetMetricConfig]?
+        /// The parameters of the human workflow.
+        public var humanWorkflowConfig: BedrockClientTypes.HumanWorkflowConfig?
+
+        public init(
+            customMetrics: [BedrockClientTypes.HumanEvaluationCustomMetric]? = nil,
+            datasetMetricConfigs: [BedrockClientTypes.EvaluationDatasetMetricConfig]? = nil,
+            humanWorkflowConfig: BedrockClientTypes.HumanWorkflowConfig? = nil
+        )
+        {
+            self.customMetrics = customMetrics
+            self.datasetMetricConfigs = datasetMetricConfigs
+            self.humanWorkflowConfig = humanWorkflowConfig
+        }
+    }
+
+}
+
+extension BedrockClientTypes.HumanEvaluationCustomMetric: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case name
+        case ratingMethod
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let ratingMethod = self.ratingMethod {
+            try encodeContainer.encode(ratingMethod, forKey: .ratingMethod)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let ratingMethodDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ratingMethod)
+        ratingMethod = ratingMethodDecoded
+    }
+}
+
+extension BedrockClientTypes.HumanEvaluationCustomMetric: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "HumanEvaluationCustomMetric(ratingMethod: \(Swift.String(describing: ratingMethod)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockClientTypes {
+    /// In a model evaluation job that uses human workers you must define the name of the metric, and how you want that metric rated ratingMethod, and an optional description of the metric.
+    public struct HumanEvaluationCustomMetric {
+        /// An optional description of the metric. Use this parameter to provide more details about the metric.
+        public var description: Swift.String?
+        /// The name of the metric. Your human evaluators will see this name in the evaluation UI.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Choose how you want your human workers to evaluation your model. Valid values for rating methods are ThumbsUpDown, IndividualLikertScale,ComparisonLikertScale, ComparisonChoice, and ComparisonRank
+        /// This member is required.
+        public var ratingMethod: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            ratingMethod: Swift.String? = nil
+        )
+        {
+            self.description = description
+            self.name = name
+            self.ratingMethod = ratingMethod
+        }
+    }
+
+}
+
+extension BedrockClientTypes.HumanWorkflowConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case flowDefinitionArn
+        case instructions
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let flowDefinitionArn = self.flowDefinitionArn {
+            try encodeContainer.encode(flowDefinitionArn, forKey: .flowDefinitionArn)
+        }
+        if let instructions = self.instructions {
+            try encodeContainer.encode(instructions, forKey: .instructions)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let flowDefinitionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flowDefinitionArn)
+        flowDefinitionArn = flowDefinitionArnDecoded
+        let instructionsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instructions)
+        instructions = instructionsDecoded
+    }
+}
+
+extension BedrockClientTypes.HumanWorkflowConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "HumanWorkflowConfig(flowDefinitionArn: \(Swift.String(describing: flowDefinitionArn)), instructions: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockClientTypes {
+    /// Contains SageMakerFlowDefinition object. The object is used to specify the prompt dataset, task type, rating method and metric names.
+    public struct HumanWorkflowConfig {
+        /// The Amazon Resource Number (ARN) for the flow definition
+        /// This member is required.
+        public var flowDefinitionArn: Swift.String?
+        /// Instructions for the flow definition
+        public var instructions: Swift.String?
+
+        public init(
+            flowDefinitionArn: Swift.String? = nil,
+            instructions: Swift.String? = nil
+        )
+        {
+            self.flowDefinitionArn = flowDefinitionArn
+            self.instructions = instructions
+        }
+    }
+
 }
 
 extension BedrockClientTypes {
@@ -2505,13 +6241,13 @@ extension ListCustomModelsInput {
 }
 
 public struct ListCustomModelsInput {
-    /// Return custom models only if the base model ARN matches this parameter.
+    /// Return custom models only if the base model Amazon Resource Name (ARN) matches this parameter.
     public var baseModelArnEquals: Swift.String?
     /// Return custom models created after the specified time.
     public var creationTimeAfter: ClientRuntime.Date?
     /// Return custom models created before the specified time.
     public var creationTimeBefore: ClientRuntime.Date?
-    /// Return custom models only if the foundation model ARN matches this parameter.
+    /// Return custom models only if the foundation model Amazon Resource Name (ARN) matches this parameter.
     public var foundationModelArnEquals: Swift.String?
     /// Maximum number of results to return in the response.
     public var maxResults: Swift.Int?
@@ -2630,6 +6366,175 @@ enum ListCustomModelsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension ListEvaluationJobsInput {
+
+    static func queryItemProvider(_ value: ListEvaluationJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nameContains = value.nameContains {
+            let nameContainsQueryItem = ClientRuntime.SDKURLQueryItem(name: "nameContains".urlPercentEncoding(), value: Swift.String(nameContains).urlPercentEncoding())
+            items.append(nameContainsQueryItem)
+        }
+        if let statusEquals = value.statusEquals {
+            let statusEqualsQueryItem = ClientRuntime.SDKURLQueryItem(name: "statusEquals".urlPercentEncoding(), value: Swift.String(statusEquals.rawValue).urlPercentEncoding())
+            items.append(statusEqualsQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let sortOrder = value.sortOrder {
+            let sortOrderQueryItem = ClientRuntime.SDKURLQueryItem(name: "sortOrder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
+            items.append(sortOrderQueryItem)
+        }
+        if let creationTimeAfter = value.creationTimeAfter {
+            let creationTimeAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "creationTimeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeAfter)).urlPercentEncoding())
+            items.append(creationTimeAfterQueryItem)
+        }
+        if let sortBy = value.sortBy {
+            let sortByQueryItem = ClientRuntime.SDKURLQueryItem(name: "sortBy".urlPercentEncoding(), value: Swift.String(sortBy.rawValue).urlPercentEncoding())
+            items.append(sortByQueryItem)
+        }
+        if let creationTimeBefore = value.creationTimeBefore {
+            let creationTimeBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "creationTimeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeBefore)).urlPercentEncoding())
+            items.append(creationTimeBeforeQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListEvaluationJobsInput {
+
+    static func urlPathProvider(_ value: ListEvaluationJobsInput) -> Swift.String? {
+        return "/evaluation-jobs"
+    }
+}
+
+public struct ListEvaluationJobsInput {
+    /// A filter that includes model evaluation jobs created after the time specified.
+    public var creationTimeAfter: ClientRuntime.Date?
+    /// A filter that includes model evaluation jobs created prior to the time specified.
+    public var creationTimeBefore: ClientRuntime.Date?
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// Query parameter string for model evaluation job names.
+    public var nameContains: Swift.String?
+    /// Continuation token from the previous response, for Amazon Bedrock to list the next set of results.
+    public var nextToken: Swift.String?
+    /// Allows you to sort model evaluation jobs by when they were created.
+    public var sortBy: BedrockClientTypes.SortJobsBy?
+    /// How you want the order of jobs sorted.
+    public var sortOrder: BedrockClientTypes.SortOrder?
+    /// Only return jobs where the status condition is met.
+    public var statusEquals: BedrockClientTypes.EvaluationJobStatus?
+
+    public init(
+        creationTimeAfter: ClientRuntime.Date? = nil,
+        creationTimeBefore: ClientRuntime.Date? = nil,
+        maxResults: Swift.Int? = nil,
+        nameContains: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        sortBy: BedrockClientTypes.SortJobsBy? = nil,
+        sortOrder: BedrockClientTypes.SortOrder? = nil,
+        statusEquals: BedrockClientTypes.EvaluationJobStatus? = nil
+    )
+    {
+        self.creationTimeAfter = creationTimeAfter
+        self.creationTimeBefore = creationTimeBefore
+        self.maxResults = maxResults
+        self.nameContains = nameContains
+        self.nextToken = nextToken
+        self.sortBy = sortBy
+        self.sortOrder = sortOrder
+        self.statusEquals = statusEquals
+    }
+}
+
+struct ListEvaluationJobsInputBody {
+}
+
+extension ListEvaluationJobsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListEvaluationJobsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListEvaluationJobsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.jobSummaries = output.jobSummaries
+            self.nextToken = output.nextToken
+        } else {
+            self.jobSummaries = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListEvaluationJobsOutput {
+    /// A summary of the model evaluation jobs.
+    public var jobSummaries: [BedrockClientTypes.EvaluationSummary]?
+    /// Continuation token from the previous response, for Amazon Bedrock to list the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        jobSummaries: [BedrockClientTypes.EvaluationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.jobSummaries = jobSummaries
+        self.nextToken = nextToken
+    }
+}
+
+struct ListEvaluationJobsOutputBody {
+    let nextToken: Swift.String?
+    let jobSummaries: [BedrockClientTypes.EvaluationSummary]?
+}
+
+extension ListEvaluationJobsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case jobSummaries
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let jobSummariesContainer = try containerValues.decodeIfPresent([BedrockClientTypes.EvaluationSummary?].self, forKey: .jobSummaries)
+        var jobSummariesDecoded0:[BedrockClientTypes.EvaluationSummary]? = nil
+        if let jobSummariesContainer = jobSummariesContainer {
+            jobSummariesDecoded0 = [BedrockClientTypes.EvaluationSummary]()
+            for structure0 in jobSummariesContainer {
+                if let structure0 = structure0 {
+                    jobSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        jobSummaries = jobSummariesDecoded0
+    }
+}
+
+enum ListEvaluationJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListFoundationModelsInput {
 
     static func queryItemProvider(_ value: ListFoundationModelsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
@@ -2662,13 +6567,13 @@ extension ListFoundationModelsInput {
 }
 
 public struct ListFoundationModelsInput {
-    /// List by customization type.
+    /// Return models that support the customization type that you specify. For more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html) in the Amazon Bedrock User Guide.
     public var byCustomizationType: BedrockClientTypes.ModelCustomization?
-    /// List by inference type.
+    /// Return models that support the inference type that you specify. For more information, see [Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html) in the Amazon Bedrock User Guide.
     public var byInferenceType: BedrockClientTypes.InferenceType?
-    /// List by output modality type.
+    /// Return models that support the output modality that you specify.
     public var byOutputModality: BedrockClientTypes.ModelModality?
-    /// A Amazon Bedrock model provider.
+    /// Return models belonging to the model provider that you specify.
     public var byProvider: Swift.String?
 
     public init(
@@ -2750,6 +6655,137 @@ enum ListFoundationModelsOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListGuardrailsInput {
+
+    static func queryItemProvider(_ value: ListGuardrailsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let guardrailIdentifier = value.guardrailIdentifier {
+            let guardrailIdentifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "guardrailIdentifier".urlPercentEncoding(), value: Swift.String(guardrailIdentifier).urlPercentEncoding())
+            items.append(guardrailIdentifierQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListGuardrailsInput {
+
+    static func urlPathProvider(_ value: ListGuardrailsInput) -> Swift.String? {
+        return "/guardrails"
+    }
+}
+
+public struct ListGuardrailsInput {
+    /// The unique identifier of the guardrail.
+    public var guardrailIdentifier: Swift.String?
+    /// The maximum number of results to return in the response.
+    public var maxResults: Swift.Int?
+    /// If there are more results than were returned in the response, the response returns a nextToken that you can send in another ListGuardrails request to see the next batch of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        guardrailIdentifier: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.guardrailIdentifier = guardrailIdentifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListGuardrailsInputBody {
+}
+
+extension ListGuardrailsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListGuardrailsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListGuardrailsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.guardrails = output.guardrails
+            self.nextToken = output.nextToken
+        } else {
+            self.guardrails = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListGuardrailsOutput {
+    /// A list of objects, each of which contains details about a guardrail.
+    /// This member is required.
+    public var guardrails: [BedrockClientTypes.GuardrailSummary]?
+    /// If there are more results than were returned in the response, the response returns a nextToken that you can send in another ListGuardrails request to see the next batch of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        guardrails: [BedrockClientTypes.GuardrailSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.guardrails = guardrails
+        self.nextToken = nextToken
+    }
+}
+
+struct ListGuardrailsOutputBody {
+    let guardrails: [BedrockClientTypes.GuardrailSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListGuardrailsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case guardrails
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let guardrailsContainer = try containerValues.decodeIfPresent([BedrockClientTypes.GuardrailSummary?].self, forKey: .guardrails)
+        var guardrailsDecoded0:[BedrockClientTypes.GuardrailSummary]? = nil
+        if let guardrailsContainer = guardrailsContainer {
+            guardrailsDecoded0 = [BedrockClientTypes.GuardrailSummary]()
+            for structure0 in guardrailsContainer {
+                if let structure0 = structure0 {
+                    guardrailsDecoded0?.append(structure0)
+                }
+            }
+        }
+        guardrails = guardrailsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListGuardrailsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -2978,23 +7014,23 @@ extension ListProvisionedModelThroughputsInput {
 }
 
 public struct ListProvisionedModelThroughputsInput {
-    /// Return provisioned capacities created after the specified time.
+    /// A filter that returns Provisioned Throughputs created after the specified time.
     public var creationTimeAfter: ClientRuntime.Date?
-    /// Return provisioned capacities created before the specified time.
+    /// A filter that returns Provisioned Throughputs created before the specified time.
     public var creationTimeBefore: ClientRuntime.Date?
-    /// THe maximum number of results to return in the response.
+    /// THe maximum number of results to return in the response. If there are more results than the number you specified, the response returns a nextToken value. To see the next batch of results, send the nextToken value in another list request.
     public var maxResults: Swift.Int?
-    /// Return the list of provisioned capacities where their model ARN is equal to this parameter.
+    /// A filter that returns Provisioned Throughputs whose model Amazon Resource Name (ARN) is equal to the value that you specify.
     public var modelArnEquals: Swift.String?
-    /// Return the list of provisioned capacities if their name contains these characters.
+    /// A filter that returns Provisioned Throughputs if their name contains the expression that you specify.
     public var nameContains: Swift.String?
-    /// Continuation token from the previous response, for Amazon Bedrock to list the next set of results.
+    /// If there are more results than the number you specified in the maxResults field, the response returns a nextToken value. To see the next batch of results, specify the nextToken value in this field.
     public var nextToken: Swift.String?
-    /// The field to sort by in the returned list of provisioned capacities.
+    /// The field by which to sort the returned list of Provisioned Throughputs.
     public var sortBy: BedrockClientTypes.SortByProvisionedModels?
     /// The sort order of the results.
     public var sortOrder: BedrockClientTypes.SortOrder?
-    /// Return the list of provisioned capacities that match the specified status.
+    /// A filter that returns Provisioned Throughputs if their statuses matches the value that you specify.
     public var statusEquals: BedrockClientTypes.ProvisionedModelStatus?
 
     public init(
@@ -3045,9 +7081,9 @@ extension ListProvisionedModelThroughputsOutput: ClientRuntime.HttpResponseBindi
 }
 
 public struct ListProvisionedModelThroughputsOutput {
-    /// Continuation token for the next request to list the next set of results.
+    /// If there are more results than the number you specified in the maxResults field, this value is returned. To see the next batch of results, include this value in the nextToken field in another list request.
     public var nextToken: Swift.String?
-    /// List of summaries, one for each provisioned throughput in the response.
+    /// A list of summaries, one for each Provisioned Throughput in the response.
     public var provisionedModelSummaries: [BedrockClientTypes.ProvisionedModelSummary]?
 
     public init(
@@ -3124,7 +7160,7 @@ extension ListTagsForResourceInput {
 }
 
 public struct ListTagsForResourceInput {
-    /// The ARN of the resource.
+    /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceARN: Swift.String?
 
@@ -3260,7 +7296,7 @@ extension BedrockClientTypes.LoggingConfig: Swift.Codable {
 }
 
 extension BedrockClientTypes {
-    /// Configuration fields for invokation logging.
+    /// Configuration fields for invocation logging.
     public struct LoggingConfig {
         /// CloudWatch logging configuration.
         public var cloudWatchConfig: BedrockClientTypes.CloudWatchConfig?
@@ -3440,13 +7476,13 @@ extension BedrockClientTypes.ModelCustomizationJobSummary: Swift.Codable {
 extension BedrockClientTypes {
     /// Information about one customization job
     public struct ModelCustomizationJobSummary {
-        /// ARN of the base model.
+        /// Amazon Resource Name (ARN) of the base model.
         /// This member is required.
         public var baseModelArn: Swift.String?
         /// Creation time of the custom model.
         /// This member is required.
         public var creationTime: ClientRuntime.Date?
-        /// ARN of the custom model.
+        /// Amazon Resource Name (ARN) of the custom model.
         public var customModelArn: Swift.String?
         /// Name of the custom model.
         public var customModelName: Swift.String?
@@ -3454,7 +7490,7 @@ extension BedrockClientTypes {
         public var customizationType: BedrockClientTypes.CustomizationType?
         /// Time that the customization job ended.
         public var endTime: ClientRuntime.Date?
-        /// ARN of the customization job.
+        /// Amazon Resource Name (ARN) of the customization job.
         /// This member is required.
         public var jobArn: Swift.String?
         /// Name of the customization job.
@@ -3689,40 +7725,42 @@ extension BedrockClientTypes.ProvisionedModelSummary: Swift.Codable {
 }
 
 extension BedrockClientTypes {
-    /// Set of fields associated with a provisioned throughput.
+    /// A summary of information about a Provisioned Throughput. This data type is used in the following API operations:
+    ///
+    /// * [ListProvisionedThroughputs response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_ListProvisionedModelThroughputs.html#API_ListProvisionedModelThroughputs_ResponseSyntax)
     public struct ProvisionedModelSummary {
-        /// Commitment duration for the provisioned throughput.
+        /// The duration for which the Provisioned Throughput was committed.
         public var commitmentDuration: BedrockClientTypes.CommitmentDuration?
-        /// Commitment expiration time for the provisioned throughput.
+        /// The timestamp for when the commitment term of the Provisioned Throughput expires.
         public var commitmentExpirationTime: ClientRuntime.Date?
-        /// The time that this provisioned throughput was created.
+        /// The time that the Provisioned Throughput was created.
         /// This member is required.
         public var creationTime: ClientRuntime.Date?
-        /// Desired model ARN.
+        /// The Amazon Resource Name (ARN) of the model requested to be associated to this Provisioned Throughput. This value differs from the modelArn if updating hasn't completed.
         /// This member is required.
         public var desiredModelArn: Swift.String?
-        /// Desired model units.
+        /// The number of model units that was requested to be allocated to the Provisioned Throughput.
         /// This member is required.
         public var desiredModelUnits: Swift.Int?
-        /// Foundation model ARN.
+        /// The Amazon Resource Name (ARN) of the base model for which the Provisioned Throughput was created, or of the base model that the custom model for which the Provisioned Throughput was created was customized.
         /// This member is required.
         public var foundationModelArn: Swift.String?
-        /// The time that this provisioned throughput was last modified.
+        /// The time that the Provisioned Throughput was last modified.
         /// This member is required.
         public var lastModifiedTime: ClientRuntime.Date?
-        /// The ARN of the model associated with this provisioned throughput.
+        /// The Amazon Resource Name (ARN) of the model associated with the Provisioned Throughput.
         /// This member is required.
         public var modelArn: Swift.String?
-        /// The number of model units allocated.
+        /// The number of model units allocated to the Provisioned Throughput.
         /// This member is required.
         public var modelUnits: Swift.Int?
-        /// The ARN of the provisioned throughput.
+        /// The Amazon Resource Name (ARN) of the Provisioned Throughput.
         /// This member is required.
         public var provisionedModelArn: Swift.String?
-        /// The name of the provisioned throughput.
+        /// The name of the Provisioned Throughput.
         /// This member is required.
         public var provisionedModelName: Swift.String?
-        /// Status of the provisioned throughput.
+        /// The status of the Provisioned Throughput.
         /// This member is required.
         public var status: BedrockClientTypes.ProvisionedModelStatus?
 
@@ -3846,7 +7884,7 @@ extension ResourceNotFoundException {
     }
 }
 
-/// The specified resource ARN was not found. Check the ARN and try your request again.
+/// The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -4106,6 +8144,69 @@ extension BedrockClientTypes {
     }
 }
 
+extension StopEvaluationJobInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StopEvaluationJobInput(jobIdentifier: \"CONTENT_REDACTED\")"}
+}
+
+extension StopEvaluationJobInput {
+
+    static func urlPathProvider(_ value: StopEvaluationJobInput) -> Swift.String? {
+        guard let jobIdentifier = value.jobIdentifier else {
+            return nil
+        }
+        return "/evaluation-job/\(jobIdentifier.urlPercentEncoding())/stop"
+    }
+}
+
+public struct StopEvaluationJobInput {
+    /// The ARN of the model evaluation job you want to stop.
+    /// This member is required.
+    public var jobIdentifier: Swift.String?
+
+    public init(
+        jobIdentifier: Swift.String? = nil
+    )
+    {
+        self.jobIdentifier = jobIdentifier
+    }
+}
+
+struct StopEvaluationJobInputBody {
+}
+
+extension StopEvaluationJobInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension StopEvaluationJobOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct StopEvaluationJobOutput {
+
+    public init() { }
+}
+
+enum StopEvaluationJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension StopModelCustomizationJobInput {
 
     static func urlPathProvider(_ value: StopModelCustomizationJobInput) -> Swift.String? {
@@ -4239,7 +8340,7 @@ extension TagResourceInput {
 }
 
 public struct TagResourceInput {
-    /// The ARN of the resource to tag.
+    /// The Amazon Resource Name (ARN) of the resource to tag.
     /// This member is required.
     public var resourceARN: Swift.String?
     /// Tags to associate with the resource.
@@ -4530,7 +8631,7 @@ extension UntagResourceInput {
 }
 
 public struct UntagResourceInput {
-    /// The ARN of the resource to untag.
+    /// The Amazon Resource Name (ARN) of the resource to untag.
     /// This member is required.
     public var resourceARN: Swift.String?
     /// Tag keys of the tags to remove from the resource.
@@ -4601,6 +8702,257 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension UpdateGuardrailInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateGuardrailInput(contentPolicyConfig: \(Swift.String(describing: contentPolicyConfig)), guardrailIdentifier: \(Swift.String(describing: guardrailIdentifier)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), sensitiveInformationPolicyConfig: \(Swift.String(describing: sensitiveInformationPolicyConfig)), topicPolicyConfig: \(Swift.String(describing: topicPolicyConfig)), wordPolicyConfig: \(Swift.String(describing: wordPolicyConfig)), blockedInputMessaging: \"CONTENT_REDACTED\", blockedOutputsMessaging: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+extension UpdateGuardrailInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case blockedInputMessaging
+        case blockedOutputsMessaging
+        case contentPolicyConfig
+        case description
+        case kmsKeyId
+        case name
+        case sensitiveInformationPolicyConfig
+        case topicPolicyConfig
+        case wordPolicyConfig
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let blockedInputMessaging = self.blockedInputMessaging {
+            try encodeContainer.encode(blockedInputMessaging, forKey: .blockedInputMessaging)
+        }
+        if let blockedOutputsMessaging = self.blockedOutputsMessaging {
+            try encodeContainer.encode(blockedOutputsMessaging, forKey: .blockedOutputsMessaging)
+        }
+        if let contentPolicyConfig = self.contentPolicyConfig {
+            try encodeContainer.encode(contentPolicyConfig, forKey: .contentPolicyConfig)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let kmsKeyId = self.kmsKeyId {
+            try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let sensitiveInformationPolicyConfig = self.sensitiveInformationPolicyConfig {
+            try encodeContainer.encode(sensitiveInformationPolicyConfig, forKey: .sensitiveInformationPolicyConfig)
+        }
+        if let topicPolicyConfig = self.topicPolicyConfig {
+            try encodeContainer.encode(topicPolicyConfig, forKey: .topicPolicyConfig)
+        }
+        if let wordPolicyConfig = self.wordPolicyConfig {
+            try encodeContainer.encode(wordPolicyConfig, forKey: .wordPolicyConfig)
+        }
+    }
+}
+
+extension UpdateGuardrailInput {
+
+    static func urlPathProvider(_ value: UpdateGuardrailInput) -> Swift.String? {
+        guard let guardrailIdentifier = value.guardrailIdentifier else {
+            return nil
+        }
+        return "/guardrails/\(guardrailIdentifier.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateGuardrailInput {
+    /// The message to return when the guardrail blocks a prompt.
+    /// This member is required.
+    public var blockedInputMessaging: Swift.String?
+    /// The message to return when the guardrail blocks a model response.
+    /// This member is required.
+    public var blockedOutputsMessaging: Swift.String?
+    /// The content policy to configure for the guardrail.
+    public var contentPolicyConfig: BedrockClientTypes.GuardrailContentPolicyConfig?
+    /// A description of the guardrail.
+    public var description: Swift.String?
+    /// The unique identifier of the guardrail
+    /// This member is required.
+    public var guardrailIdentifier: Swift.String?
+    /// The ARN of the KMS key with which to encrypt the guardrail.
+    public var kmsKeyId: Swift.String?
+    /// A name for the guardrail.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The sensitive information policy to configure for the guardrail.
+    public var sensitiveInformationPolicyConfig: BedrockClientTypes.GuardrailSensitiveInformationPolicyConfig?
+    /// The topic policy to configure for the guardrail.
+    public var topicPolicyConfig: BedrockClientTypes.GuardrailTopicPolicyConfig?
+    /// The word policy to configure for the guardrail.
+    public var wordPolicyConfig: BedrockClientTypes.GuardrailWordPolicyConfig?
+
+    public init(
+        blockedInputMessaging: Swift.String? = nil,
+        blockedOutputsMessaging: Swift.String? = nil,
+        contentPolicyConfig: BedrockClientTypes.GuardrailContentPolicyConfig? = nil,
+        description: Swift.String? = nil,
+        guardrailIdentifier: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        sensitiveInformationPolicyConfig: BedrockClientTypes.GuardrailSensitiveInformationPolicyConfig? = nil,
+        topicPolicyConfig: BedrockClientTypes.GuardrailTopicPolicyConfig? = nil,
+        wordPolicyConfig: BedrockClientTypes.GuardrailWordPolicyConfig? = nil
+    )
+    {
+        self.blockedInputMessaging = blockedInputMessaging
+        self.blockedOutputsMessaging = blockedOutputsMessaging
+        self.contentPolicyConfig = contentPolicyConfig
+        self.description = description
+        self.guardrailIdentifier = guardrailIdentifier
+        self.kmsKeyId = kmsKeyId
+        self.name = name
+        self.sensitiveInformationPolicyConfig = sensitiveInformationPolicyConfig
+        self.topicPolicyConfig = topicPolicyConfig
+        self.wordPolicyConfig = wordPolicyConfig
+    }
+}
+
+struct UpdateGuardrailInputBody {
+    let name: Swift.String?
+    let description: Swift.String?
+    let topicPolicyConfig: BedrockClientTypes.GuardrailTopicPolicyConfig?
+    let contentPolicyConfig: BedrockClientTypes.GuardrailContentPolicyConfig?
+    let wordPolicyConfig: BedrockClientTypes.GuardrailWordPolicyConfig?
+    let sensitiveInformationPolicyConfig: BedrockClientTypes.GuardrailSensitiveInformationPolicyConfig?
+    let blockedInputMessaging: Swift.String?
+    let blockedOutputsMessaging: Swift.String?
+    let kmsKeyId: Swift.String?
+}
+
+extension UpdateGuardrailInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case blockedInputMessaging
+        case blockedOutputsMessaging
+        case contentPolicyConfig
+        case description
+        case kmsKeyId
+        case name
+        case sensitiveInformationPolicyConfig
+        case topicPolicyConfig
+        case wordPolicyConfig
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let topicPolicyConfigDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.GuardrailTopicPolicyConfig.self, forKey: .topicPolicyConfig)
+        topicPolicyConfig = topicPolicyConfigDecoded
+        let contentPolicyConfigDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.GuardrailContentPolicyConfig.self, forKey: .contentPolicyConfig)
+        contentPolicyConfig = contentPolicyConfigDecoded
+        let wordPolicyConfigDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.GuardrailWordPolicyConfig.self, forKey: .wordPolicyConfig)
+        wordPolicyConfig = wordPolicyConfigDecoded
+        let sensitiveInformationPolicyConfigDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.GuardrailSensitiveInformationPolicyConfig.self, forKey: .sensitiveInformationPolicyConfig)
+        sensitiveInformationPolicyConfig = sensitiveInformationPolicyConfigDecoded
+        let blockedInputMessagingDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .blockedInputMessaging)
+        blockedInputMessaging = blockedInputMessagingDecoded
+        let blockedOutputsMessagingDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .blockedOutputsMessaging)
+        blockedOutputsMessaging = blockedOutputsMessagingDecoded
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+    }
+}
+
+extension UpdateGuardrailOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateGuardrailOutputBody = try responseDecoder.decode(responseBody: data)
+            self.guardrailArn = output.guardrailArn
+            self.guardrailId = output.guardrailId
+            self.updatedAt = output.updatedAt
+            self.version = output.version
+        } else {
+            self.guardrailArn = nil
+            self.guardrailId = nil
+            self.updatedAt = nil
+            self.version = nil
+        }
+    }
+}
+
+public struct UpdateGuardrailOutput {
+    /// The ARN of the guardrail that was created.
+    /// This member is required.
+    public var guardrailArn: Swift.String?
+    /// The unique identifier of the guardrail
+    /// This member is required.
+    public var guardrailId: Swift.String?
+    /// The date and time at which the guardrail was updated.
+    /// This member is required.
+    public var updatedAt: ClientRuntime.Date?
+    /// The version of the guardrail.
+    /// This member is required.
+    public var version: Swift.String?
+
+    public init(
+        guardrailArn: Swift.String? = nil,
+        guardrailId: Swift.String? = nil,
+        updatedAt: ClientRuntime.Date? = nil,
+        version: Swift.String? = nil
+    )
+    {
+        self.guardrailArn = guardrailArn
+        self.guardrailId = guardrailId
+        self.updatedAt = updatedAt
+        self.version = version
+    }
+}
+
+struct UpdateGuardrailOutputBody {
+    let guardrailId: Swift.String?
+    let guardrailArn: Swift.String?
+    let version: Swift.String?
+    let updatedAt: ClientRuntime.Date?
+}
+
+extension UpdateGuardrailOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case guardrailArn
+        case guardrailId
+        case updatedAt
+        case version
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let guardrailIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .guardrailId)
+        guardrailId = guardrailIdDecoded
+        let guardrailArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .guardrailArn)
+        guardrailArn = guardrailArnDecoded
+        let versionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .version)
+        version = versionDecoded
+        let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updatedAt)
+        updatedAt = updatedAtDecoded
+    }
+}
+
+enum UpdateGuardrailOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension UpdateProvisionedModelThroughputInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case desiredModelId
@@ -4629,11 +8981,15 @@ extension UpdateProvisionedModelThroughputInput {
 }
 
 public struct UpdateProvisionedModelThroughputInput {
-    /// The ARN of the new model to associate with this provisioned throughput.
+    /// The Amazon Resource Name (ARN) of the new model to associate with this Provisioned Throughput. You can't specify this field if this Provisioned Throughput is associated with a base model. If this Provisioned Throughput is associated with a custom model, you can specify one of the following options:
+    ///
+    /// * The base model from which the custom model was customized.
+    ///
+    /// * Another custom model that was customized from the same base model as the custom model.
     public var desiredModelId: Swift.String?
-    /// The new name for this provisioned throughput.
+    /// The new name for this Provisioned Throughput.
     public var desiredProvisionedModelName: Swift.String?
-    /// The ARN or name of the provisioned throughput to update.
+    /// The Amazon Resource Name (ARN) or name of the Provisioned Throughput to update.
     /// This member is required.
     public var provisionedModelId: Swift.String?
 

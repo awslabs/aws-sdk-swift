@@ -2717,7 +2717,7 @@ extension SynthesizeSpeechInput {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SynthesizeSpeechOutput>(options: config.retryStrategyOptions))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<SynthesizeSpeechOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SynthesizeSpeechOutput>(responseClosure(decoder: decoder), responseErrorClosure(SynthesizeSpeechOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SynthesizeSpeechOutput>(clientLogMode: config.clientLogMode))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput>(clientLogMode: config.clientLogMode))
         let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, output: SynthesizeSpeechOutput(), next: ClientRuntime.NoopHandler())
         guard let builtRequest = presignedRequestBuilder?.build(), let presignedURL = builtRequest.endpoint.url else {
             return nil
@@ -2762,15 +2762,15 @@ extension SynthesizeSpeechInput {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SynthesizeSpeechOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<SynthesizeSpeechOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput>())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SynthesizeSpeechOutput>(options: config.retryStrategyOptions))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<SynthesizeSpeechOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SynthesizeSpeechOutput>(responseClosure(decoder: decoder), responseErrorClosure(SynthesizeSpeechOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SynthesizeSpeechOutput>(clientLogMode: config.clientLogMode))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput>(clientLogMode: config.clientLogMode))
         let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, output: SynthesizeSpeechOutput(), next: ClientRuntime.NoopHandler())
         guard let builtRequest = presignedRequestBuilder?.build() else {
             return nil
@@ -2792,52 +2792,61 @@ public struct SynthesizeSpeechInputGETQueryItemMiddleware: ClientRuntime.Middlew
     Self.MOutput == H.Output,
     Self.Context == H.Context
     {
-        if let engine = input.operationInput.engine {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "Engine".urlPercentEncoding(), value: Swift.String(engine.rawValue).urlPercentEncoding())
-            input.builder.withQueryItem(queryItem)
-        }
-        if let languageCode = input.operationInput.languageCode {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "LanguageCode".urlPercentEncoding(), value: Swift.String(languageCode.rawValue).urlPercentEncoding())
-            input.builder.withQueryItem(queryItem)
-        }
-        if let lexiconNames = input.operationInput.lexiconNames {
-            lexiconNames.forEach { item in
-                let queryItem = ClientRuntime.SDKURLQueryItem(name: "LexiconNames".urlPercentEncoding(), value: Swift.String(item).urlPercentEncoding())
-                input.builder.withQueryItem(queryItem)
-            }
-        }
-        if let outputFormat = input.operationInput.outputFormat {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "OutputFormat".urlPercentEncoding(), value: Swift.String(outputFormat.rawValue).urlPercentEncoding())
-            input.builder.withQueryItem(queryItem)
-        }
-        if let sampleRate = input.operationInput.sampleRate {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "SampleRate".urlPercentEncoding(), value: Swift.String(sampleRate).urlPercentEncoding())
-            input.builder.withQueryItem(queryItem)
-        }
-        if let speechMarkTypes = input.operationInput.speechMarkTypes {
-            speechMarkTypes.forEach { item in
-                let queryItem = ClientRuntime.SDKURLQueryItem(name: "SpeechMarkTypes".urlPercentEncoding(), value: Swift.String(item.rawValue).urlPercentEncoding())
-                input.builder.withQueryItem(queryItem)
-            }
-        }
-        if let text = input.operationInput.text {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "Text".urlPercentEncoding(), value: Swift.String(text).urlPercentEncoding())
-            input.builder.withQueryItem(queryItem)
-        }
-        if let textType = input.operationInput.textType {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "TextType".urlPercentEncoding(), value: Swift.String(textType.rawValue).urlPercentEncoding())
-            input.builder.withQueryItem(queryItem)
-        }
-        if let voiceId = input.operationInput.voiceId {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "VoiceId".urlPercentEncoding(), value: Swift.String(voiceId.rawValue).urlPercentEncoding())
-            input.builder.withQueryItem(queryItem)
-        }
+        try self.apply(input: input.operationInput, builder: input.builder, attributes: context)
         return try await next.handle(context: context, input: input)
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<SynthesizeSpeechInput>
     public typealias MOutput = ClientRuntime.OperationOutput<SynthesizeSpeechOutput>
     public typealias Context = ClientRuntime.HttpContext
+}
+extension SynthesizeSpeechInputGETQueryItemMiddleware: ClientRuntime.RequestMessageSerializer {
+    public typealias InputType = SynthesizeSpeechInput
+    public typealias RequestType = ClientRuntime.SdkHttpRequest
+    public typealias AttributesType = ClientRuntime.HttpContext
+
+    public func apply(input: InputType, builder: ClientRuntime.SdkHttpRequestBuilder, attributes: ClientRuntime.HttpContext) throws {
+        if let engine = input.engine {
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "Engine".urlPercentEncoding(), value: Swift.String(engine.rawValue).urlPercentEncoding())
+            builder.withQueryItem(queryItem)
+        }
+        if let languageCode = input.languageCode {
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "LanguageCode".urlPercentEncoding(), value: Swift.String(languageCode.rawValue).urlPercentEncoding())
+            builder.withQueryItem(queryItem)
+        }
+        if let lexiconNames = input.lexiconNames {
+            lexiconNames.forEach { item in
+                let queryItem = ClientRuntime.SDKURLQueryItem(name: "LexiconNames".urlPercentEncoding(), value: Swift.String(item).urlPercentEncoding())
+                builder.withQueryItem(queryItem)
+            }
+        }
+        if let outputFormat = input.outputFormat {
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "OutputFormat".urlPercentEncoding(), value: Swift.String(outputFormat.rawValue).urlPercentEncoding())
+            builder.withQueryItem(queryItem)
+        }
+        if let sampleRate = input.sampleRate {
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "SampleRate".urlPercentEncoding(), value: Swift.String(sampleRate).urlPercentEncoding())
+            builder.withQueryItem(queryItem)
+        }
+        if let speechMarkTypes = input.speechMarkTypes {
+            speechMarkTypes.forEach { item in
+                let queryItem = ClientRuntime.SDKURLQueryItem(name: "SpeechMarkTypes".urlPercentEncoding(), value: Swift.String(item.rawValue).urlPercentEncoding())
+                builder.withQueryItem(queryItem)
+            }
+        }
+        if let text = input.text {
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "Text".urlPercentEncoding(), value: Swift.String(text).urlPercentEncoding())
+            builder.withQueryItem(queryItem)
+        }
+        if let textType = input.textType {
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "TextType".urlPercentEncoding(), value: Swift.String(textType.rawValue).urlPercentEncoding())
+            builder.withQueryItem(queryItem)
+        }
+        if let voiceId = input.voiceId {
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "VoiceId".urlPercentEncoding(), value: Swift.String(voiceId.rawValue).urlPercentEncoding())
+            builder.withQueryItem(queryItem)
+        }
+    }
 }
 
 extension SynthesizeSpeechInput {

@@ -2776,7 +2776,7 @@
                     "sdkId": "EFS",
                     "arnNamespace": "elasticfilesystem",
                     "cloudFormationName": "EFS",
-                    "cloudTrailEventSource": "efs.amazonaws.com",
+                    "cloudTrailEventSource": "elasticfilesystem.amazonaws.com",
                     "docId": "elasticfilesystem-2015-02-01",
                     "endpointPrefix": "elasticfilesystem"
                 },

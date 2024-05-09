@@ -50,14 +50,16 @@ private object FlexibleChecksumRequestMiddleware : MiddlewareRenderable {
 
     override val position = MiddlewarePosition.AFTER
 
-    override fun render(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, op: OperationShape, operationStackName: String) {
+    override fun renderMiddlewareInit(
+        ctx: ProtocolGenerator.GenerationContext,
+        writer: SwiftWriter,
+        op: OperationShape
+    ) {
         val inputShapeName = MiddlewareShapeUtils.inputSymbol(ctx.symbolProvider, ctx.model, op).name
         val outputShapeName = MiddlewareShapeUtils.outputSymbol(ctx.symbolProvider, ctx.model, op).name
         val httpChecksumTrait = op.getTrait(HttpChecksumTrait::class.java).orElse(null)
         val inputMemberName = httpChecksumTrait?.requestAlgorithmMember?.get()?.lowercaseFirstLetter()
 
-        val middlewareInit = "${ClientRuntimeTypes.Middleware.FlexibleChecksumsRequestMiddleware}<$inputShapeName, $outputShapeName>(checksumAlgorithm: input.$inputMemberName?.rawValue)"
-
-        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: $middlewareInit)")
+        writer.write("${ClientRuntimeTypes.Middleware.FlexibleChecksumsRequestMiddleware}<$inputShapeName, $outputShapeName>(checksumAlgorithm: input.$inputMemberName?.rawValue)")
     }
 }

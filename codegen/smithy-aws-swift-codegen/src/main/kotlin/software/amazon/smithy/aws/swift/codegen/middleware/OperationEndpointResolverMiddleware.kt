@@ -43,7 +43,30 @@ class OperationEndpointResolverMiddleware(
     override val position = MiddlewarePosition.BEFORE
 
     override fun render(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, op: OperationShape, operationStackName: String) {
+        renderEndpointParams(ctx, writer, op)
+
+        // Write code that saves endpoint params to middleware context for use in auth scheme middleware when using rules-based auth scheme resolvers
+        if (AuthSchemeResolverGenerator.usesRulesBasedAuthResolver(ctx)) {
+            writer.write("context.attributes.set(key: AttributeKey<EndpointParams>(name: \"EndpointParams\"), value: endpointParams)")
+        }
+
+        super.renderSpecific(ctx, writer, op, operationStackName, "applyEndpoint")
+    }
+
+    override fun renderMiddlewareInit(
+        ctx: ProtocolGenerator.GenerationContext,
+        writer: SwiftWriter,
+        op: OperationShape
+    ) {
         val output = MiddlewareShapeUtils.outputSymbol(ctx.symbolProvider, ctx.model, op)
+        writer.write(
+            "\$N<\$N>(endpointResolver: config.endpointResolver, endpointParams: endpointParams)",
+            AWSServiceTypes.EndpointResolverMiddleware,
+            output
+        )
+    }
+
+    private fun renderEndpointParams(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, op: OperationShape) {
         val outputError = MiddlewareShapeUtils.outputErrorSymbol(op)
         val params = mutableListOf<String>()
         ctx.service.getTrait<EndpointRuleSetTrait>()?.ruleSet?.let { node ->
@@ -70,13 +93,8 @@ class OperationEndpointResolverMiddleware(
                     }
                 }
         }
+
         writer.write("let endpointParams = EndpointParams(${params.joinToString(separator = ", ")})")
-        // Write code that saves endpoint params to middleware context for use in auth scheme middleware when using rules-based auth scheme resolvers
-        if (AuthSchemeResolverGenerator.usesRulesBasedAuthResolver(ctx)) {
-            writer.write("context.attributes.set(key: AttributeKey<EndpointParams>(name: \"EndpointParams\"), value: endpointParams)")
-        }
-        val middlewareParamsString = "endpointResolver: config.endpointResolver, endpointParams: endpointParams"
-        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N<\$N>($middlewareParamsString))", AWSServiceTypes.EndpointResolverMiddleware, output)
     }
 
     /**

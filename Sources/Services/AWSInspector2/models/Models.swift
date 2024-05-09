@@ -3339,6 +3339,38 @@ extension Inspector2ClientTypes {
 }
 
 extension Inspector2ClientTypes {
+    public enum CisReportFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case csv
+        case pdf
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CisReportFormat] {
+            return [
+                .csv,
+                .pdf,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .csv: return "CSV"
+            case .pdf: return "PDF"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CisReportFormat(rawValue: rawValue) ?? CisReportFormat.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
     public enum CisReportStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case failed
         case inProgress
@@ -6117,6 +6149,7 @@ extension Inspector2ClientTypes.CoverageFilterCriteria: Swift.Codable {
         case lastScannedAt
         case resourceId
         case resourceType
+        case scanMode
         case scanStatusCode
         case scanStatusReason
         case scanType
@@ -6188,6 +6221,12 @@ extension Inspector2ClientTypes.CoverageFilterCriteria: Swift.Codable {
             var resourceTypeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceType)
             for coveragestringfilter0 in resourceType {
                 try resourceTypeContainer.encode(coveragestringfilter0)
+            }
+        }
+        if let scanMode = scanMode {
+            var scanModeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scanMode)
+            for coveragestringfilter0 in scanMode {
+                try scanModeContainer.encode(coveragestringfilter0)
             }
         }
         if let scanStatusCode = scanStatusCode {
@@ -6355,6 +6394,17 @@ extension Inspector2ClientTypes.CoverageFilterCriteria: Swift.Codable {
             }
         }
         lastScannedAt = lastScannedAtDecoded0
+        let scanModeContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CoverageStringFilter?].self, forKey: .scanMode)
+        var scanModeDecoded0:[Inspector2ClientTypes.CoverageStringFilter]? = nil
+        if let scanModeContainer = scanModeContainer {
+            scanModeDecoded0 = [Inspector2ClientTypes.CoverageStringFilter]()
+            for structure0 in scanModeContainer {
+                if let structure0 = structure0 {
+                    scanModeDecoded0?.append(structure0)
+                }
+            }
+        }
+        scanMode = scanModeDecoded0
         let imagePulledAtContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CoverageDateFilter?].self, forKey: .imagePulledAt)
         var imagePulledAtDecoded0:[Inspector2ClientTypes.CoverageDateFilter]? = nil
         if let imagePulledAtContainer = imagePulledAtContainer {
@@ -6394,6 +6444,8 @@ extension Inspector2ClientTypes {
         public var resourceId: [Inspector2ClientTypes.CoverageStringFilter]?
         /// An array of Amazon Web Services resource types to return coverage statistics for. The values can be AWS_EC2_INSTANCE, AWS_LAMBDA_FUNCTION, AWS_ECR_CONTAINER_IMAGE, AWS_ECR_REPOSITORY or AWS_ACCOUNT.
         public var resourceType: [Inspector2ClientTypes.CoverageStringFilter]?
+        /// The filter to search for Amazon EC2 instance coverage by scan mode. Valid values are EC2_SSM_AGENT_BASED and EC2_HYBRID.
+        public var scanMode: [Inspector2ClientTypes.CoverageStringFilter]?
         /// The scan status code to filter on. Valid values are: ValidationException, InternalServerException, ResourceNotFoundException, BadRequestException, and ThrottlingException.
         public var scanStatusCode: [Inspector2ClientTypes.CoverageStringFilter]?
         /// The scan status reason to filter on.
@@ -6413,6 +6465,7 @@ extension Inspector2ClientTypes {
             lastScannedAt: [Inspector2ClientTypes.CoverageDateFilter]? = nil,
             resourceId: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
             resourceType: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
+            scanMode: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
             scanStatusCode: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
             scanStatusReason: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
             scanType: [Inspector2ClientTypes.CoverageStringFilter]? = nil
@@ -6429,6 +6482,7 @@ extension Inspector2ClientTypes {
             self.lastScannedAt = lastScannedAt
             self.resourceId = resourceId
             self.resourceType = resourceType
+            self.scanMode = scanMode
             self.scanStatusCode = scanStatusCode
             self.scanStatusReason = scanStatusReason
             self.scanType = scanType
@@ -6647,6 +6701,7 @@ extension Inspector2ClientTypes.CoveredResource: Swift.Codable {
         case resourceId
         case resourceMetadata
         case resourceType
+        case scanMode
         case scanStatus
         case scanType
     }
@@ -6667,6 +6722,9 @@ extension Inspector2ClientTypes.CoveredResource: Swift.Codable {
         }
         if let resourceType = self.resourceType {
             try encodeContainer.encode(resourceType.rawValue, forKey: .resourceType)
+        }
+        if let scanMode = self.scanMode {
+            try encodeContainer.encode(scanMode.rawValue, forKey: .scanMode)
         }
         if let scanStatus = self.scanStatus {
             try encodeContainer.encode(scanStatus, forKey: .scanStatus)
@@ -6692,6 +6750,8 @@ extension Inspector2ClientTypes.CoveredResource: Swift.Codable {
         resourceMetadata = resourceMetadataDecoded
         let lastScannedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastScannedAt)
         lastScannedAt = lastScannedAtDecoded
+        let scanModeDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.ScanMode.self, forKey: .scanMode)
+        scanMode = scanModeDecoded
     }
 }
 
@@ -6711,6 +6771,8 @@ extension Inspector2ClientTypes {
         /// The type of the covered resource.
         /// This member is required.
         public var resourceType: Inspector2ClientTypes.CoverageResourceType?
+        /// The scan method that is applied to the instance.
+        public var scanMode: Inspector2ClientTypes.ScanMode?
         /// The status of the scan covering the resource.
         public var scanStatus: Inspector2ClientTypes.ScanStatus?
         /// The Amazon Inspector scan type covering the resource.
@@ -6723,6 +6785,7 @@ extension Inspector2ClientTypes {
             resourceId: Swift.String? = nil,
             resourceMetadata: Inspector2ClientTypes.ResourceScanMetadata? = nil,
             resourceType: Inspector2ClientTypes.CoverageResourceType? = nil,
+            scanMode: Inspector2ClientTypes.ScanMode? = nil,
             scanStatus: Inspector2ClientTypes.ScanStatus? = nil,
             scanType: Inspector2ClientTypes.ScanType? = nil
         )
@@ -6732,6 +6795,7 @@ extension Inspector2ClientTypes {
             self.resourceId = resourceId
             self.resourceMetadata = resourceMetadata
             self.resourceType = resourceType
+            self.scanMode = scanMode
             self.scanStatus = scanStatus
             self.scanType = scanType
         }
@@ -8740,6 +8804,77 @@ enum DisassociateMemberOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension Inspector2ClientTypes.Ec2Configuration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scanMode
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let scanMode = self.scanMode {
+            try encodeContainer.encode(scanMode.rawValue, forKey: .scanMode)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scanModeDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Ec2ScanMode.self, forKey: .scanMode)
+        scanMode = scanModeDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// Enables agent-based scanning, which scans instances that are not managed by SSM.
+    public struct Ec2Configuration {
+        /// The scan method that is applied to the instance.
+        /// This member is required.
+        public var scanMode: Inspector2ClientTypes.Ec2ScanMode?
+
+        public init(
+            scanMode: Inspector2ClientTypes.Ec2ScanMode? = nil
+        )
+        {
+            self.scanMode = scanMode
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes.Ec2ConfigurationState: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scanModeState
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let scanModeState = self.scanModeState {
+            try encodeContainer.encode(scanModeState, forKey: .scanModeState)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scanModeStateDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Ec2ScanModeState.self, forKey: .scanModeState)
+        scanModeState = scanModeStateDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// Details about the state of the EC2 scan configuration for your environment.
+    public struct Ec2ConfigurationState {
+        /// An object that contains details about the state of the Amazon EC2 scan mode.
+        public var scanModeState: Inspector2ClientTypes.Ec2ScanModeState?
+
+        public init(
+            scanModeState: Inspector2ClientTypes.Ec2ScanModeState? = nil
+        )
+        {
+            self.scanModeState = scanModeState
+        }
+    }
+
+}
+
 extension Inspector2ClientTypes {
     public enum Ec2DeepInspectionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case activated
@@ -9158,6 +9293,115 @@ extension Inspector2ClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = Ec2Platform(rawValue: rawValue) ?? Ec2Platform.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+    public enum Ec2ScanMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case ec2Hybrid
+        case ec2SsmAgentBased
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Ec2ScanMode] {
+            return [
+                .ec2Hybrid,
+                .ec2SsmAgentBased,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .ec2Hybrid: return "EC2_HYBRID"
+            case .ec2SsmAgentBased: return "EC2_SSM_AGENT_BASED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Ec2ScanMode(rawValue: rawValue) ?? Ec2ScanMode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension Inspector2ClientTypes.Ec2ScanModeState: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scanMode
+        case scanModeStatus
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let scanMode = self.scanMode {
+            try encodeContainer.encode(scanMode.rawValue, forKey: .scanMode)
+        }
+        if let scanModeStatus = self.scanModeStatus {
+            try encodeContainer.encode(scanModeStatus.rawValue, forKey: .scanModeStatus)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scanModeDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Ec2ScanMode.self, forKey: .scanMode)
+        scanMode = scanModeDecoded
+        let scanModeStatusDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Ec2ScanModeStatus.self, forKey: .scanModeStatus)
+        scanModeStatus = scanModeStatusDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// The state of your Amazon EC2 scan mode configuration.
+    public struct Ec2ScanModeState {
+        /// The scan method that is applied to the instance.
+        public var scanMode: Inspector2ClientTypes.Ec2ScanMode?
+        /// The status of the Amazon EC2 scan mode setting.
+        public var scanModeStatus: Inspector2ClientTypes.Ec2ScanModeStatus?
+
+        public init(
+            scanMode: Inspector2ClientTypes.Ec2ScanMode? = nil,
+            scanModeStatus: Inspector2ClientTypes.Ec2ScanModeStatus? = nil
+        )
+        {
+            self.scanMode = scanMode
+            self.scanModeStatus = scanModeStatus
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes {
+    public enum Ec2ScanModeStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case pending
+        case success
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Ec2ScanModeStatus] {
+            return [
+                .pending,
+                .success,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .pending: return "PENDING"
+            case .success: return "SUCCESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Ec2ScanModeStatus(rawValue: rawValue) ?? Ec2ScanModeStatus.sdkUnknown(rawValue)
         }
     }
 }
@@ -11646,7 +11890,7 @@ extension Inspector2ClientTypes {
         public var inspectorScore: Swift.Double?
         /// An object that contains details of the Amazon Inspector score.
         public var inspectorScoreDetails: Inspector2ClientTypes.InspectorScoreDetails?
-        /// The date and time that the finding was last observed.
+        /// The date and time the finding was last observed. This timestamp for this field remains unchanged until a finding is updated.
         /// This member is required.
         public var lastObservedAt: ClientRuntime.Date?
         /// An object that contains the details of a network reachability finding.
@@ -12544,12 +12788,16 @@ extension Inspector2ClientTypes {
 
 extension GetCisScanReportInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case reportFormat
         case scanArn
         case targetAccounts
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let reportFormat = self.reportFormat {
+            try encodeContainer.encode(reportFormat.rawValue, forKey: .reportFormat)
+        }
         if let scanArn = self.scanArn {
             try encodeContainer.encode(scanArn, forKey: .scanArn)
         }
@@ -12570,6 +12818,8 @@ extension GetCisScanReportInput {
 }
 
 public struct GetCisScanReportInput {
+    /// The format of the report. Valid values are PDF and CSV. If no value is specified, the report format defaults to PDF.
+    public var reportFormat: Inspector2ClientTypes.CisReportFormat?
     /// The scan ARN.
     /// This member is required.
     public var scanArn: Swift.String?
@@ -12577,10 +12827,12 @@ public struct GetCisScanReportInput {
     public var targetAccounts: [Swift.String]?
 
     public init(
+        reportFormat: Inspector2ClientTypes.CisReportFormat? = nil,
         scanArn: Swift.String? = nil,
         targetAccounts: [Swift.String]? = nil
     )
     {
+        self.reportFormat = reportFormat
         self.scanArn = scanArn
         self.targetAccounts = targetAccounts
     }
@@ -12589,10 +12841,12 @@ public struct GetCisScanReportInput {
 struct GetCisScanReportInputBody {
     let scanArn: Swift.String?
     let targetAccounts: [Swift.String]?
+    let reportFormat: Inspector2ClientTypes.CisReportFormat?
 }
 
 extension GetCisScanReportInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case reportFormat
         case scanArn
         case targetAccounts
     }
@@ -12612,6 +12866,8 @@ extension GetCisScanReportInputBody: Swift.Decodable {
             }
         }
         targetAccounts = targetAccountsDecoded0
+        let reportFormatDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisReportFormat.self, forKey: .reportFormat)
+        reportFormat = reportFormatDecoded
     }
 }
 
@@ -12632,7 +12888,7 @@ extension GetCisScanReportOutput: ClientRuntime.HttpResponseBinding {
 public struct GetCisScanReportOutput {
     /// The status.
     public var status: Inspector2ClientTypes.CisReportStatus?
-    /// The URL where the CIS scan report PDF can be downloaded.
+    /// The URL where a PDF or CSV of the CIS scan report can be downloaded.
     public var url: Swift.String?
 
     public init(
@@ -12672,6 +12928,7 @@ enum GetCisScanReportOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -12913,31 +13170,39 @@ extension GetConfigurationOutput: ClientRuntime.HttpResponseBinding {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.ec2Configuration = output.ec2Configuration
             self.ecrConfiguration = output.ecrConfiguration
         } else {
+            self.ec2Configuration = nil
             self.ecrConfiguration = nil
         }
     }
 }
 
 public struct GetConfigurationOutput {
+    /// Specifies how the Amazon EC2 automated scan mode is currently configured for your environment.
+    public var ec2Configuration: Inspector2ClientTypes.Ec2ConfigurationState?
     /// Specifies how the ECR automated re-scan duration is currently configured for your environment.
     public var ecrConfiguration: Inspector2ClientTypes.EcrConfigurationState?
 
     public init(
+        ec2Configuration: Inspector2ClientTypes.Ec2ConfigurationState? = nil,
         ecrConfiguration: Inspector2ClientTypes.EcrConfigurationState? = nil
     )
     {
+        self.ec2Configuration = ec2Configuration
         self.ecrConfiguration = ecrConfiguration
     }
 }
 
 struct GetConfigurationOutputBody {
     let ecrConfiguration: Inspector2ClientTypes.EcrConfigurationState?
+    let ec2Configuration: Inspector2ClientTypes.Ec2ConfigurationState?
 }
 
 extension GetConfigurationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ec2Configuration
         case ecrConfiguration
     }
 
@@ -12945,6 +13210,8 @@ extension GetConfigurationOutputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ecrConfigurationDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.EcrConfigurationState.self, forKey: .ecrConfiguration)
         ecrConfiguration = ecrConfigurationDecoded
+        let ec2ConfigurationDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Ec2ConfigurationState.self, forKey: .ec2Configuration)
+        ec2Configuration = ec2ConfigurationDecoded
     }
 }
 
@@ -19988,6 +20255,38 @@ extension Inspector2ClientTypes {
     }
 }
 
+extension Inspector2ClientTypes {
+    public enum ScanMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case ec2Agentless
+        case ec2SsmAgentBased
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScanMode] {
+            return [
+                .ec2Agentless,
+                .ec2SsmAgentBased,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .ec2Agentless: return "EC2_AGENTLESS"
+            case .ec2SsmAgentBased: return "EC2_SSM_AGENT_BASED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ScanMode(rawValue: rawValue) ?? ScanMode.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension Inspector2ClientTypes.ScanStatus: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case reason
@@ -22614,11 +22913,15 @@ extension Inspector2ClientTypes {
 
 extension UpdateConfigurationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ec2Configuration
         case ecrConfiguration
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let ec2Configuration = self.ec2Configuration {
+            try encodeContainer.encode(ec2Configuration, forKey: .ec2Configuration)
+        }
         if let ecrConfiguration = self.ecrConfiguration {
             try encodeContainer.encode(ecrConfiguration, forKey: .ecrConfiguration)
         }
@@ -22633,24 +22936,29 @@ extension UpdateConfigurationInput {
 }
 
 public struct UpdateConfigurationInput {
+    /// Specifies how the Amazon EC2 automated scan will be updated for your environment.
+    public var ec2Configuration: Inspector2ClientTypes.Ec2Configuration?
     /// Specifies how the ECR automated re-scan will be updated for your environment.
-    /// This member is required.
     public var ecrConfiguration: Inspector2ClientTypes.EcrConfiguration?
 
     public init(
+        ec2Configuration: Inspector2ClientTypes.Ec2Configuration? = nil,
         ecrConfiguration: Inspector2ClientTypes.EcrConfiguration? = nil
     )
     {
+        self.ec2Configuration = ec2Configuration
         self.ecrConfiguration = ecrConfiguration
     }
 }
 
 struct UpdateConfigurationInputBody {
     let ecrConfiguration: Inspector2ClientTypes.EcrConfiguration?
+    let ec2Configuration: Inspector2ClientTypes.Ec2Configuration?
 }
 
 extension UpdateConfigurationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ec2Configuration
         case ecrConfiguration
     }
 
@@ -22658,6 +22966,8 @@ extension UpdateConfigurationInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ecrConfigurationDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.EcrConfiguration.self, forKey: .ecrConfiguration)
         ecrConfiguration = ecrConfigurationDecoded
+        let ec2ConfigurationDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Ec2Configuration.self, forKey: .ec2Configuration)
+        ec2Configuration = ec2ConfigurationDecoded
     }
 }
 

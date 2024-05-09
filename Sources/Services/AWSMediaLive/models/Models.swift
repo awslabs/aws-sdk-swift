@@ -2551,6 +2551,7 @@ extension MediaLiveClientTypes {
 extension MediaLiveClientTypes.AvailConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case availSettings = "availSettings"
+        case scte35SegmentationScope = "scte35SegmentationScope"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -2558,12 +2559,17 @@ extension MediaLiveClientTypes.AvailConfiguration: Swift.Codable {
         if let availSettings = self.availSettings {
             try encodeContainer.encode(availSettings, forKey: .availSettings)
         }
+        if let scte35SegmentationScope = self.scte35SegmentationScope {
+            try encodeContainer.encode(scte35SegmentationScope.rawValue, forKey: .scte35SegmentationScope)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let availSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.AvailSettings.self, forKey: .availSettings)
         availSettings = availSettingsDecoded
+        let scte35SegmentationScopeDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.Scte35SegmentationScope.self, forKey: .scte35SegmentationScope)
+        scte35SegmentationScope = scte35SegmentationScopeDecoded
     }
 }
 
@@ -2572,12 +2578,16 @@ extension MediaLiveClientTypes {
     public struct AvailConfiguration {
         /// Controls how SCTE-35 messages create cues. Splice Insert mode treats all segmentation signals traditionally. With Time Signal APOS mode only Time Signal Placement Opportunity and Break messages create segment breaks. With ESAM mode, signals are forwarded to an ESAM server for possible update.
         public var availSettings: MediaLiveClientTypes.AvailSettings?
+        /// Configures whether SCTE 35 passthrough triggers segment breaks in all output groups that use segmented outputs. Insertion of a SCTE 35 message typically results in a segment break, in addition to the regular cadence of breaks. The segment breaks appear in video outputs, audio outputs, and captions outputs (if any). ALL_OUTPUT_GROUPS: Default. Insert the segment break in in all output groups that have segmented outputs. This is the legacy behavior. SCTE35_ENABLED_OUTPUT_GROUPS: Insert the segment break only in output groups that have SCTE 35 passthrough enabled. This is the recommended value, because it reduces unnecessary segment breaks.
+        public var scte35SegmentationScope: MediaLiveClientTypes.Scte35SegmentationScope?
 
         public init(
-            availSettings: MediaLiveClientTypes.AvailSettings? = nil
+            availSettings: MediaLiveClientTypes.AvailSettings? = nil,
+            scte35SegmentationScope: MediaLiveClientTypes.Scte35SegmentationScope? = nil
         )
         {
             self.availSettings = availSettings
+            self.scte35SegmentationScope = scte35SegmentationScope
         }
     }
 
@@ -38287,6 +38297,39 @@ extension MediaLiveClientTypes {
         }
     }
 
+}
+
+extension MediaLiveClientTypes {
+    /// Scte35 Segmentation Scope
+    public enum Scte35SegmentationScope: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case allOutputGroups
+        case scte35EnabledOutputGroups
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Scte35SegmentationScope] {
+            return [
+                .allOutputGroups,
+                .scte35EnabledOutputGroups,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .allOutputGroups: return "ALL_OUTPUT_GROUPS"
+            case .scte35EnabledOutputGroups: return "SCTE35_ENABLED_OUTPUT_GROUPS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Scte35SegmentationScope(rawValue: rawValue) ?? Scte35SegmentationScope.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension MediaLiveClientTypes.Scte35SpliceInsert: Swift.Codable {

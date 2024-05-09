@@ -55,6 +55,15 @@ else
 fi
 echo
 
+if command -v kotlin &> /dev/null
+then
+  which kotlin
+  kotlin -version
+else
+  echo "kotlin not installed"
+fi
+echo
+
 if command -v xcbeautify &> /dev/null
 then
   which xcbeautify

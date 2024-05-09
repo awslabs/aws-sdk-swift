@@ -34,7 +34,7 @@ public protocol EndpointResolver {
 public struct DefaultEndpointResolver: EndpointResolver  {
 
     private let engine: AWSClientRuntime.AWSEndpointsRuleEngine
-    private let ruleSet = "{\"version\":\"1.0\",\"parameters\":{\"Region\":{\"builtIn\":\"AWS::Region\",\"required\":false,\"documentation\":\"The AWS region used to dispatch the request.\",\"type\":\"String\"},\"UseDualStack\":{\"builtIn\":\"AWS::UseDualStack\",\"required\":true,\"default\":false,\"documentation\":\"When true, use the dual-stack endpoint. If the configured endpoint does not support dual-stack, dispatching the request MAY return an error.\",\"type\":\"Boolean\"},\"UseFIPS\":{\"builtIn\":\"AWS::UseFIPS\",\"required\":true,\"default\":false,\"documentation\":\"When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.\",\"type\":\"Boolean\"},\"Endpoint\":{\"builtIn\":\"SDK::Endpoint\",\"required\":false,\"documentation\":\"Override the endpoint used to send this request\",\"type\":\"String\"}},\"rules\":[{\"conditions\":[{\"fn\":\"isSet\",\"argv\":[{\"ref\":\"Endpoint\"}]}],\"rules\":[{\"conditions\":[{\"fn\":\"booleanEquals\",\"argv\":[{\"ref\":\"UseFIPS\"},true]}],\"error\":\"Invalid Configuration: FIPS and custom endpoint are not supported\",\"type\":\"error\"},{\"conditions\":[{\"fn\":\"booleanEquals\",\"argv\":[{\"ref\":\"UseDualStack\"},true]}],\"error\":\"Invalid Configuration: Dualstack and custom endpoint are not supported\",\"type\":\"error\"},{\"conditions\":[],\"endpoint\":{\"url\":{\"ref\":\"Endpoint\"},\"properties\":{},\"headers\":{}},\"type\":\"endpoint\"}],\"type\":\"tree\"},{\"conditions\":[{\"fn\":\"isSet\",\"argv\":[{\"ref\":\"Region\"}]}],\"rules\":[{\"conditions\":[{\"fn\":\"aws.partition\",\"argv\":[{\"ref\":\"Region\"}],\"assign\":\"PartitionResult\"}],\"rules\":[{\"conditions\":[{\"fn\":\"booleanEquals\",\"argv\":[{\"ref\":\"UseFIPS\"},true]},{\"fn\":\"booleanEquals\",\"argv\":[{\"ref\":\"UseDualStack\"},true]}],\"rules\":[{\"conditions\":[{\"fn\":\"booleanEquals\",\"argv\":[true,{\"fn\":\"getAttr\",\"argv\":[{\"ref\":\"PartitionResult\"},\"supportsFIPS\"]}]},{\"fn\":\"booleanEquals\",\"argv\":[true,{\"fn\":\"getAttr\",\"argv\":[{\"ref\":\"PartitionResult\"},\"supportsDualStack\"]}]}],\"rules\":[{\"conditions\":[],\"endpoint\":{\"url\":\"https://entitlement.marketplace-fips.{Region}.{PartitionResult#dualStackDnsSuffix}\",\"properties\":{},\"headers\":{}},\"type\":\"endpoint\"}],\"type\":\"tree\"},{\"conditions\":[],\"error\":\"FIPS and DualStack are enabled, but this partition does not support one or both\",\"type\":\"error\"}],\"type\":\"tree\"},{\"conditions\":[{\"fn\":\"booleanEquals\",\"argv\":[{\"ref\":\"UseFIPS\"},true]}],\"rules\":[{\"conditions\":[{\"fn\":\"booleanEquals\",\"argv\":[{\"fn\":\"getAttr\",\"argv\":[{\"ref\":\"PartitionResult\"},\"supportsFIPS\"]},true]}],\"rules\":[{\"conditions\":[],\"endpoint\":{\"url\":\"https://entitlement.marketplace-fips.{Region}.{PartitionResult#dnsSuffix}\",\"properties\":{},\"headers\":{}},\"type\":\"endpoint\"}],\"type\":\"tree\"},{\"conditions\":[],\"error\":\"FIPS is enabled but this partition does not support FIPS\",\"type\":\"error\"}],\"type\":\"tree\"},{\"conditions\":[{\"fn\":\"booleanEquals\",\"argv\":[{\"ref\":\"UseDualStack\"},true]}],\"rules\":[{\"conditions\":[{\"fn\":\"booleanEquals\",\"argv\":[true,{\"fn\":\"getAttr\",\"argv\":[{\"ref\":\"PartitionResult\"},\"supportsDualStack\"]}]}],\"rules\":[{\"conditions\":[],\"endpoint\":{\"url\":\"https://entitlement.marketplace.{Region}.{PartitionResult#dualStackDnsSuffix}\",\"properties\":{},\"headers\":{}},\"type\":\"endpoint\"}],\"type\":\"tree\"},{\"conditions\":[],\"error\":\"DualStack is enabled but this partition does not support DualStack\",\"type\":\"error\"}],\"type\":\"tree\"},{\"conditions\":[{\"fn\":\"stringEquals\",\"argv\":[\"aws\",{\"fn\":\"getAttr\",\"argv\":[{\"ref\":\"PartitionResult\"},\"name\"]}]}],\"endpoint\":{\"url\":\"https://entitlement.marketplace.{Region}.amazonaws.com\",\"properties\":{},\"headers\":{}},\"type\":\"endpoint\"},{\"conditions\":[],\"endpoint\":{\"url\":\"https://entitlement.marketplace.{Region}.{PartitionResult#dnsSuffix}\",\"properties\":{},\"headers\":{}},\"type\":\"endpoint\"}],\"type\":\"tree\"}],\"type\":\"tree\"},{\"conditions\":[],\"error\":\"Invalid Configuration: Missing Region\",\"type\":\"error\"}]}"
+    private let ruleSet = "{\"version\":\"1.0\",\"parameters\":{\"Region\":{\"builtIn\":\"AWS::Region\",\"required\":false,\"documentation\":\"The AWS region used to dispatch the request.\",\"type\":\"String\"},\"UseDualStack\":{\"builtIn\":\"AWS::UseDualStack\",\"required\":true,\"default\":false,\"documentation\":\"When true, use the dual-stack endpoint. If the configured endpoint does not support dual-stack, dispatching the request MAY return an error.\",\"type\":\"Boolean\"},\"UseFIPS\":{\"builtIn\":\"AWS::UseFIPS\",\"required\":true,\"default\":false,\"documentation\":\"When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.\",\"type\":\"Boolean\"},\"Endpoint\":{\"builtIn\":\"SDK::Endpoint\",\"required\":false,\"documentation\":\"Override the endpoint used to send this request\",\"type\":\"String\"}},\"rules\":[{\"conditions\":[{\"fn\":\"isSet\",\"argv\":[{\"ref\":\"Endpoint\"}]}],\"rules\":[{\"conditions\":[{\"fn\":\"booleanEquals\",\"argv\":[{\"ref\":\"UseFIPS\"},true]}],\"error\":\"Invalid Configuration: FIPS and custom endpoint are not supported\",\"type\":\"error\"},{\"conditions\":[{\"fn\":\"booleanEquals\",\"argv\":[{\"ref\":\"UseDualStack\"},true]}],\"error\":\"Invalid Configuration: Dualstack and custom endpoint are not supported\",\"type\":\"error\"},{\"conditions\":[],\"endpoint\":{\"url\":{\"ref\":\"Endpoint\"},\"properties\":{},\"headers\":{}},\"type\":\"endpoint\"}],\"type\":\"tree\"},{\"conditions\":[{\"fn\":\"isSet\",\"argv\":[{\"ref\":\"Region\"}]}],\"rules\":[{\"conditions\":[{\"fn\":\"aws.partition\",\"argv\":[{\"ref\":\"Region\"}],\"assign\":\"PartitionResult\"}],\"rules\":[{\"conditions\":[{\"fn\":\"booleanEquals\",\"argv\":[{\"ref\":\"UseFIPS\"},true]},{\"fn\":\"booleanEquals\",\"argv\":[{\"ref\":\"UseDualStack\"},true]}],\"rules\":[{\"conditions\":[{\"fn\":\"booleanEquals\",\"argv\":[true,{\"fn\":\"getAttr\",\"argv\":[{\"ref\":\"PartitionResult\"},\"supportsFIPS\"]}]},{\"fn\":\"booleanEquals\",\"argv\":[true,{\"fn\":\"getAttr\",\"argv\":[{\"ref\":\"PartitionResult\"},\"supportsDualStack\"]}]}],\"rules\":[{\"conditions\":[],\"endpoint\":{\"url\":\"https://entitlement.marketplace-fips.{Region}.{PartitionResult#dualStackDnsSuffix}\",\"properties\":{},\"headers\":{}},\"type\":\"endpoint\"}],\"type\":\"tree\"},{\"conditions\":[],\"error\":\"FIPS and DualStack are enabled, but this partition does not support one or both\",\"type\":\"error\"}],\"type\":\"tree\"},{\"conditions\":[{\"fn\":\"booleanEquals\",\"argv\":[{\"ref\":\"UseFIPS\"},true]}],\"rules\":[{\"conditions\":[{\"fn\":\"booleanEquals\",\"argv\":[{\"fn\":\"getAttr\",\"argv\":[{\"ref\":\"PartitionResult\"},\"supportsFIPS\"]},true]}],\"rules\":[{\"conditions\":[],\"endpoint\":{\"url\":\"https://entitlement.marketplace-fips.{Region}.{PartitionResult#dnsSuffix}\",\"properties\":{},\"headers\":{}},\"type\":\"endpoint\"}],\"type\":\"tree\"},{\"conditions\":[],\"error\":\"FIPS is enabled but this partition does not support FIPS\",\"type\":\"error\"}],\"type\":\"tree\"},{\"conditions\":[{\"fn\":\"booleanEquals\",\"argv\":[{\"ref\":\"UseDualStack\"},true]}],\"rules\":[{\"conditions\":[{\"fn\":\"booleanEquals\",\"argv\":[true,{\"fn\":\"getAttr\",\"argv\":[{\"ref\":\"PartitionResult\"},\"supportsDualStack\"]}]}],\"rules\":[{\"conditions\":[],\"endpoint\":{\"url\":\"https://entitlement.marketplace.{Region}.{PartitionResult#dualStackDnsSuffix}\",\"properties\":{},\"headers\":{}},\"type\":\"endpoint\"}],\"type\":\"tree\"},{\"conditions\":[],\"error\":\"DualStack is enabled but this partition does not support DualStack\",\"type\":\"error\"}],\"type\":\"tree\"},{\"conditions\":[{\"fn\":\"stringEquals\",\"argv\":[{\"ref\":\"Region\"},\"cn-northwest-1\"]}],\"endpoint\":{\"url\":\"https://entitlement-marketplace.cn-northwest-1.amazonaws.com.cn\",\"properties\":{},\"headers\":{}},\"type\":\"endpoint\"},{\"conditions\":[{\"fn\":\"stringEquals\",\"argv\":[\"aws\",{\"fn\":\"getAttr\",\"argv\":[{\"ref\":\"PartitionResult\"},\"name\"]}]}],\"endpoint\":{\"url\":\"https://entitlement.marketplace.{Region}.amazonaws.com\",\"properties\":{},\"headers\":{}},\"type\":\"endpoint\"},{\"conditions\":[],\"endpoint\":{\"url\":\"https://entitlement.marketplace.{Region}.{PartitionResult#dnsSuffix}\",\"properties\":{},\"headers\":{}},\"type\":\"endpoint\"}],\"type\":\"tree\"}],\"type\":\"tree\"},{\"conditions\":[],\"error\":\"Invalid Configuration: Missing Region\",\"type\":\"error\"}]}"
 
     public init() throws {
         engine = try AWSClientRuntime.AWSEndpointsRuleEngine(ruleSet: ruleSet)
@@ -90,6 +90,24 @@ public struct EndpointResolverMiddleware<OperationStackOutput>: ClientRuntime.Mi
     Self.MOutput == H.Output,
     Self.Context == H.Context
     {
+        let selectedAuthScheme = context.getSelectedAuthScheme()
+        let request = input.build()
+        let updatedRequest = try await apply(request: request, selectedAuthScheme: selectedAuthScheme, attributes: context)
+        return try await next.handle(context: context, input: updatedRequest.toBuilder())
+    }
+
+    public typealias MInput = ClientRuntime.SdkHttpRequestBuilder
+    public typealias MOutput = ClientRuntime.OperationOutput<OperationStackOutput>
+    public typealias Context = ClientRuntime.HttpContext
+}
+extension EndpointResolverMiddleware: ApplyEndpoint {
+    public func apply(
+        request: SdkHttpRequest,
+        selectedAuthScheme: SelectedAuthScheme?,
+        attributes: HttpContext) async throws -> SdkHttpRequest
+    {
+        let builder = request.toBuilder()
+
         let endpoint = try endpointResolver.resolve(params: endpointParams)
 
         var signingName: String? = nil
@@ -114,42 +132,39 @@ public struct EndpointResolverMiddleware<OperationStackOutput>: ClientRuntime.Mi
         let awsEndpoint = AWSEndpoint(endpoint: endpoint, signingName: signingName, signingRegion: signingRegion)
 
         var host = ""
-        if let hostOverride = context.getHost() {
+        if let hostOverride = attributes.getHost() {
             host = hostOverride
         } else {
-            host = "\(context.getHostPrefix() ?? "")\(awsEndpoint.endpoint.host)"
+            host = "\(attributes.getHostPrefix() ?? "")\(awsEndpoint.endpoint.host)"
         }
 
         if let protocolType = awsEndpoint.endpoint.protocolType {
-            input.withProtocol(protocolType)
+            builder.withProtocol(protocolType)
         }
 
         if let signingRegion = signingRegion {
-            context.attributes.set(key: AttributeKeys.signingRegion, value: signingRegion)
-            context.attributes.set(key: AttributeKeys.selectedAuthScheme, value: context.getSelectedAuthScheme()?.getCopyWithUpdatedSigningProperty(key: AttributeKeys.signingRegion, value: signingRegion))
+            attributes.set(key: AttributeKeys.signingRegion, value: signingRegion)
+            attributes.set(key: AttributeKeys.selectedAuthScheme, value: selectedAuthScheme?.getCopyWithUpdatedSigningProperty(key: AttributeKeys.signingRegion, value: signingRegion))
         }
+
         if let signingName = signingName {
-            context.attributes.set(key: AttributeKeys.signingName, value: signingName)
-            context.attributes.set(key: AttributeKeys.selectedAuthScheme, value: context.getSelectedAuthScheme()?.getCopyWithUpdatedSigningProperty(key: AttributeKeys.signingName, value: signingName))
+           attributes.set(key: AttributeKeys.signingName, value: signingName)
+           attributes.set(key: AttributeKeys.selectedAuthScheme, value: selectedAuthScheme?.getCopyWithUpdatedSigningProperty(key: AttributeKeys.signingName, value: signingName))
         }
+
         if let signingAlgorithm = signingAlgorithm {
-            context.attributes.set(key: AttributeKeys.signingAlgorithm, value: AWSSigningAlgorithm(rawValue: signingAlgorithm))
+            attributes.set(key: AttributeKeys.signingAlgorithm, value: AWSSigningAlgorithm(rawValue: signingAlgorithm))
         }
 
         if let headers = endpoint.headers {
-            input.withHeaders(headers)
+            builder.withHeaders(headers)
         }
 
-        input.withMethod(context.getMethod())
+        return builder.withMethod(attributes.getMethod())
             .withHost(host)
             .withPort(awsEndpoint.endpoint.port)
-            .withPath(awsEndpoint.endpoint.path.appendingPathComponent(context.getPath()))
+            .withPath(awsEndpoint.endpoint.path.appendingPathComponent(attributes.getPath()))
             .withHeader(name: "Host", value: host)
-
-        return try await next.handle(context: context, input: input)
+            .build()
     }
-
-    public typealias MInput = ClientRuntime.SdkHttpRequestBuilder
-    public typealias MOutput = ClientRuntime.OperationOutput<OperationStackOutput>
-    public typealias Context = ClientRuntime.HttpContext
 }

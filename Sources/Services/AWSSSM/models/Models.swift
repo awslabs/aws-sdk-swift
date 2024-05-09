@@ -7794,6 +7794,12 @@ public struct CreateDocumentInput {
     /// * amazon
     ///
     /// * amzn
+    ///
+    /// * AWSEC2
+    ///
+    /// * AWSConfigRemediation
+    ///
+    /// * AWSSupport
     /// This member is required.
     public var name: Swift.String?
     /// A list of SSM documents required by a document. This parameter is used exclusively by AppConfig. When a user creates an AppConfig configuration in an SSM document, the user must also specify a required document for validation purposes. In this case, an ApplicationConfiguration document requires an ApplicationConfigurationSchema document for validation purposes. For more information, see [What is AppConfig?](https://docs.aws.amazon.com/appconfig/latest/userguide/what-is-appconfig.html) in the AppConfig User Guide.
@@ -8071,7 +8077,7 @@ public struct CreateMaintenanceWindowInput {
     public var scheduleOffset: Swift.Int?
     /// The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or "Asia/Seoul". For more information, see the [Time Zone Database](https://www.iana.org/time-zones) on the IANA website.
     public var scheduleTimezone: Swift.String?
-    /// The date and time, in ISO-8601 Extended format, for when you want the maintenance window to become active. StartDate allows you to delay activation of the maintenance window until the specified future date.
+    /// The date and time, in ISO-8601 Extended format, for when you want the maintenance window to become active. StartDate allows you to delay activation of the maintenance window until the specified future date. When using a rate schedule, if you provide a start date that occurs in the past, the current date and time are used as the start date.
     public var startDate: Swift.String?
     /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag a maintenance window to identify the type of tasks it will run, the types of targets, and the environment it will run in. In this case, you could specify the following key-value pairs:
     ///
@@ -13557,6 +13563,190 @@ enum DescribeInstancePatchesOutputError: ClientRuntime.HttpResponseErrorBinding 
             case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidFilter": return try await InvalidFilter(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidInstanceId": return try await InvalidInstanceId(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextToken": return try await InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeInstancePropertiesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filtersWithOperator = "FiltersWithOperator"
+        case instancePropertyFilterList = "InstancePropertyFilterList"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filtersWithOperator = filtersWithOperator {
+            var filtersWithOperatorContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filtersWithOperator)
+            for instancepropertystringfilter0 in filtersWithOperator {
+                try filtersWithOperatorContainer.encode(instancepropertystringfilter0)
+            }
+        }
+        if let instancePropertyFilterList = instancePropertyFilterList {
+            var instancePropertyFilterListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instancePropertyFilterList)
+            for instancepropertyfilter0 in instancePropertyFilterList {
+                try instancePropertyFilterListContainer.encode(instancepropertyfilter0)
+            }
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension DescribeInstancePropertiesInput {
+
+    static func urlPathProvider(_ value: DescribeInstancePropertiesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeInstancePropertiesInput {
+    /// The request filters to use with the operator.
+    public var filtersWithOperator: [SSMClientTypes.InstancePropertyStringFilter]?
+    /// An array of instance property filters.
+    public var instancePropertyFilterList: [SSMClientTypes.InstancePropertyFilter]?
+    /// The maximum number of items to return for the call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+    public var maxResults: Swift.Int?
+    /// The token provided by a previous request to use to return the next set of properties.
+    public var nextToken: Swift.String?
+
+    public init(
+        filtersWithOperator: [SSMClientTypes.InstancePropertyStringFilter]? = nil,
+        instancePropertyFilterList: [SSMClientTypes.InstancePropertyFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.filtersWithOperator = filtersWithOperator
+        self.instancePropertyFilterList = instancePropertyFilterList
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct DescribeInstancePropertiesInputBody {
+    let instancePropertyFilterList: [SSMClientTypes.InstancePropertyFilter]?
+    let filtersWithOperator: [SSMClientTypes.InstancePropertyStringFilter]?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension DescribeInstancePropertiesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filtersWithOperator = "FiltersWithOperator"
+        case instancePropertyFilterList = "InstancePropertyFilterList"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instancePropertyFilterListContainer = try containerValues.decodeIfPresent([SSMClientTypes.InstancePropertyFilter?].self, forKey: .instancePropertyFilterList)
+        var instancePropertyFilterListDecoded0:[SSMClientTypes.InstancePropertyFilter]? = nil
+        if let instancePropertyFilterListContainer = instancePropertyFilterListContainer {
+            instancePropertyFilterListDecoded0 = [SSMClientTypes.InstancePropertyFilter]()
+            for structure0 in instancePropertyFilterListContainer {
+                if let structure0 = structure0 {
+                    instancePropertyFilterListDecoded0?.append(structure0)
+                }
+            }
+        }
+        instancePropertyFilterList = instancePropertyFilterListDecoded0
+        let filtersWithOperatorContainer = try containerValues.decodeIfPresent([SSMClientTypes.InstancePropertyStringFilter?].self, forKey: .filtersWithOperator)
+        var filtersWithOperatorDecoded0:[SSMClientTypes.InstancePropertyStringFilter]? = nil
+        if let filtersWithOperatorContainer = filtersWithOperatorContainer {
+            filtersWithOperatorDecoded0 = [SSMClientTypes.InstancePropertyStringFilter]()
+            for structure0 in filtersWithOperatorContainer {
+                if let structure0 = structure0 {
+                    filtersWithOperatorDecoded0?.append(structure0)
+                }
+            }
+        }
+        filtersWithOperator = filtersWithOperatorDecoded0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension DescribeInstancePropertiesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeInstancePropertiesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.instanceProperties = output.instanceProperties
+            self.nextToken = output.nextToken
+        } else {
+            self.instanceProperties = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct DescribeInstancePropertiesOutput {
+    /// Properties for the managed instances.
+    public var instanceProperties: [SSMClientTypes.InstanceProperty]?
+    /// The token for the next set of properties to return. Use this token to get the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        instanceProperties: [SSMClientTypes.InstanceProperty]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.instanceProperties = instanceProperties
+        self.nextToken = nextToken
+    }
+}
+
+struct DescribeInstancePropertiesOutputBody {
+    let instanceProperties: [SSMClientTypes.InstanceProperty]?
+    let nextToken: Swift.String?
+}
+
+extension DescribeInstancePropertiesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceProperties = "InstanceProperties"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instancePropertiesContainer = try containerValues.decodeIfPresent([SSMClientTypes.InstanceProperty?].self, forKey: .instanceProperties)
+        var instancePropertiesDecoded0:[SSMClientTypes.InstanceProperty]? = nil
+        if let instancePropertiesContainer = instancePropertiesContainer {
+            instancePropertiesDecoded0 = [SSMClientTypes.InstanceProperty]()
+            for structure0 in instancePropertiesContainer {
+                if let structure0 = structure0 {
+                    instancePropertiesDecoded0?.append(structure0)
+                }
+            }
+        }
+        instanceProperties = instancePropertiesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeInstancePropertiesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidActivationId": return try await InvalidActivationId(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDocument": return try await InvalidDocument(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidFilterKey": return try await InvalidFilterKey(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInstanceId": return try await InvalidInstanceId(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInstancePropertyFilterValue": return try await InvalidInstancePropertyFilterValue(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidNextToken": return try await InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -22663,7 +22853,7 @@ extension GetParametersInput {
 }
 
 public struct GetParametersInput {
-    /// The names or Amazon Resource Names (ARNs) of the parameters that you want to query. For parameters shared with you from another account, you must use the full ARNs. To query by parameter label, use "Name": "name:label". To query by parameter version, use "Name": "name:version". For more information about shared parameters, see [Working with shared parameters](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-shared-parameters.html) in the Amazon Web Services Systems Manager User Guide.
+    /// The names or Amazon Resource Names (ARNs) of the parameters that you want to query. For parameters shared with you from another account, you must use the full ARNs. To query by parameter label, use "Name": "name:label". To query by parameter version, use "Name": "name:version". The results for GetParameters requests are listed in alphabetical order in query responses. For information about shared parameters, see [Working with shared parameters](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-shared-parameters.html) in the Amazon Web Services Systems Manager User Guide.
     /// This member is required.
     public var names: [Swift.String]?
     /// Return decrypted secure string value. Return decrypted values for secure string parameters. This flag is ignored for String and StringList parameter types.
@@ -24885,6 +25075,513 @@ extension SSMClientTypes {
     }
 }
 
+extension SSMClientTypes.InstanceProperty: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case activationId = "ActivationId"
+        case agentVersion = "AgentVersion"
+        case architecture = "Architecture"
+        case associationOverview = "AssociationOverview"
+        case associationStatus = "AssociationStatus"
+        case computerName = "ComputerName"
+        case ipAddress = "IPAddress"
+        case iamRole = "IamRole"
+        case instanceId = "InstanceId"
+        case instanceRole = "InstanceRole"
+        case instanceState = "InstanceState"
+        case instanceType = "InstanceType"
+        case keyName = "KeyName"
+        case lastAssociationExecutionDate = "LastAssociationExecutionDate"
+        case lastPingDateTime = "LastPingDateTime"
+        case lastSuccessfulAssociationExecutionDate = "LastSuccessfulAssociationExecutionDate"
+        case launchTime = "LaunchTime"
+        case name = "Name"
+        case pingStatus = "PingStatus"
+        case platformName = "PlatformName"
+        case platformType = "PlatformType"
+        case platformVersion = "PlatformVersion"
+        case registrationDate = "RegistrationDate"
+        case resourceType = "ResourceType"
+        case sourceId = "SourceId"
+        case sourceType = "SourceType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let activationId = self.activationId {
+            try encodeContainer.encode(activationId, forKey: .activationId)
+        }
+        if let agentVersion = self.agentVersion {
+            try encodeContainer.encode(agentVersion, forKey: .agentVersion)
+        }
+        if let architecture = self.architecture {
+            try encodeContainer.encode(architecture, forKey: .architecture)
+        }
+        if let associationOverview = self.associationOverview {
+            try encodeContainer.encode(associationOverview, forKey: .associationOverview)
+        }
+        if let associationStatus = self.associationStatus {
+            try encodeContainer.encode(associationStatus, forKey: .associationStatus)
+        }
+        if let computerName = self.computerName {
+            try encodeContainer.encode(computerName, forKey: .computerName)
+        }
+        if let ipAddress = self.ipAddress {
+            try encodeContainer.encode(ipAddress, forKey: .ipAddress)
+        }
+        if let iamRole = self.iamRole {
+            try encodeContainer.encode(iamRole, forKey: .iamRole)
+        }
+        if let instanceId = self.instanceId {
+            try encodeContainer.encode(instanceId, forKey: .instanceId)
+        }
+        if let instanceRole = self.instanceRole {
+            try encodeContainer.encode(instanceRole, forKey: .instanceRole)
+        }
+        if let instanceState = self.instanceState {
+            try encodeContainer.encode(instanceState, forKey: .instanceState)
+        }
+        if let instanceType = self.instanceType {
+            try encodeContainer.encode(instanceType, forKey: .instanceType)
+        }
+        if let keyName = self.keyName {
+            try encodeContainer.encode(keyName, forKey: .keyName)
+        }
+        if let lastAssociationExecutionDate = self.lastAssociationExecutionDate {
+            try encodeContainer.encodeTimestamp(lastAssociationExecutionDate, format: .epochSeconds, forKey: .lastAssociationExecutionDate)
+        }
+        if let lastPingDateTime = self.lastPingDateTime {
+            try encodeContainer.encodeTimestamp(lastPingDateTime, format: .epochSeconds, forKey: .lastPingDateTime)
+        }
+        if let lastSuccessfulAssociationExecutionDate = self.lastSuccessfulAssociationExecutionDate {
+            try encodeContainer.encodeTimestamp(lastSuccessfulAssociationExecutionDate, format: .epochSeconds, forKey: .lastSuccessfulAssociationExecutionDate)
+        }
+        if let launchTime = self.launchTime {
+            try encodeContainer.encodeTimestamp(launchTime, format: .epochSeconds, forKey: .launchTime)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let pingStatus = self.pingStatus {
+            try encodeContainer.encode(pingStatus.rawValue, forKey: .pingStatus)
+        }
+        if let platformName = self.platformName {
+            try encodeContainer.encode(platformName, forKey: .platformName)
+        }
+        if let platformType = self.platformType {
+            try encodeContainer.encode(platformType.rawValue, forKey: .platformType)
+        }
+        if let platformVersion = self.platformVersion {
+            try encodeContainer.encode(platformVersion, forKey: .platformVersion)
+        }
+        if let registrationDate = self.registrationDate {
+            try encodeContainer.encodeTimestamp(registrationDate, format: .epochSeconds, forKey: .registrationDate)
+        }
+        if let resourceType = self.resourceType {
+            try encodeContainer.encode(resourceType, forKey: .resourceType)
+        }
+        if let sourceId = self.sourceId {
+            try encodeContainer.encode(sourceId, forKey: .sourceId)
+        }
+        if let sourceType = self.sourceType {
+            try encodeContainer.encode(sourceType.rawValue, forKey: .sourceType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
+        instanceId = instanceIdDecoded
+        let instanceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceType)
+        instanceType = instanceTypeDecoded
+        let instanceRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceRole)
+        instanceRole = instanceRoleDecoded
+        let keyNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyName)
+        keyName = keyNameDecoded
+        let instanceStateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceState)
+        instanceState = instanceStateDecoded
+        let architectureDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .architecture)
+        architecture = architectureDecoded
+        let ipAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipAddress)
+        ipAddress = ipAddressDecoded
+        let launchTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .launchTime)
+        launchTime = launchTimeDecoded
+        let pingStatusDecoded = try containerValues.decodeIfPresent(SSMClientTypes.PingStatus.self, forKey: .pingStatus)
+        pingStatus = pingStatusDecoded
+        let lastPingDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastPingDateTime)
+        lastPingDateTime = lastPingDateTimeDecoded
+        let agentVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .agentVersion)
+        agentVersion = agentVersionDecoded
+        let platformTypeDecoded = try containerValues.decodeIfPresent(SSMClientTypes.PlatformType.self, forKey: .platformType)
+        platformType = platformTypeDecoded
+        let platformNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .platformName)
+        platformName = platformNameDecoded
+        let platformVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .platformVersion)
+        platformVersion = platformVersionDecoded
+        let activationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .activationId)
+        activationId = activationIdDecoded
+        let iamRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .iamRole)
+        iamRole = iamRoleDecoded
+        let registrationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .registrationDate)
+        registrationDate = registrationDateDecoded
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+        let computerNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .computerName)
+        computerName = computerNameDecoded
+        let associationStatusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .associationStatus)
+        associationStatus = associationStatusDecoded
+        let lastAssociationExecutionDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastAssociationExecutionDate)
+        lastAssociationExecutionDate = lastAssociationExecutionDateDecoded
+        let lastSuccessfulAssociationExecutionDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastSuccessfulAssociationExecutionDate)
+        lastSuccessfulAssociationExecutionDate = lastSuccessfulAssociationExecutionDateDecoded
+        let associationOverviewDecoded = try containerValues.decodeIfPresent(SSMClientTypes.InstanceAggregatedAssociationOverview.self, forKey: .associationOverview)
+        associationOverview = associationOverviewDecoded
+        let sourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceId)
+        sourceId = sourceIdDecoded
+        let sourceTypeDecoded = try containerValues.decodeIfPresent(SSMClientTypes.SourceType.self, forKey: .sourceType)
+        sourceType = sourceTypeDecoded
+    }
+}
+
+extension SSMClientTypes {
+    /// An object containing various properties of a managed node.
+    public struct InstanceProperty {
+        /// The activation ID created by Systems Manager when the server or virtual machine (VM) was registered
+        public var activationId: Swift.String?
+        /// The version of SSM Agent running on your managed node.
+        public var agentVersion: Swift.String?
+        /// The CPU architecture of the node. For example, x86_64.
+        public var architecture: Swift.String?
+        /// Status information about the aggregated associations.
+        public var associationOverview: SSMClientTypes.InstanceAggregatedAssociationOverview?
+        /// The status of the State Manager association applied to the managed node.
+        public var associationStatus: Swift.String?
+        /// The fully qualified host name of the managed node.
+        public var computerName: Swift.String?
+        /// The IAM role used in the hybrid activation to register the node with Systems Manager.
+        public var iamRole: Swift.String?
+        /// The ID of the managed node.
+        public var instanceId: Swift.String?
+        /// The instance profile attached to the node. If an instance profile isn't attached to the node, this value is blank.
+        public var instanceRole: Swift.String?
+        /// The current state of the node.
+        public var instanceState: Swift.String?
+        /// The instance type of the managed node. For example, t3.large.
+        public var instanceType: Swift.String?
+        /// The public IPv4 address assigned to the node. If a public IPv4 address isn't assigned to the node, this value is blank.
+        public var ipAddress: Swift.String?
+        /// The name of the key pair associated with the node. If a key pair isnt't associated with the node, this value is blank.
+        public var keyName: Swift.String?
+        /// The date the association was last run.
+        public var lastAssociationExecutionDate: ClientRuntime.Date?
+        /// The date and time when the SSM Agent last pinged the Systems Manager service.
+        public var lastPingDateTime: ClientRuntime.Date?
+        /// The last date the association was successfully run.
+        public var lastSuccessfulAssociationExecutionDate: ClientRuntime.Date?
+        /// The timestamp for when the node was launched.
+        public var launchTime: ClientRuntime.Date?
+        /// The value of the EC2 Name tag associated with the node. If a Name tag hasn't been applied to the node, this value is blank.
+        public var name: Swift.String?
+        /// Connection status of the SSM Agent on the managed node.
+        public var pingStatus: SSMClientTypes.PingStatus?
+        /// The name of the operating system platform running on your managed node.
+        public var platformName: Swift.String?
+        /// The operating system platform type of the managed node. For example, Windows.
+        public var platformType: SSMClientTypes.PlatformType?
+        /// The version of the OS platform running on your managed node.
+        public var platformVersion: Swift.String?
+        /// The date the node was registered with Systems Manager.
+        public var registrationDate: ClientRuntime.Date?
+        /// The type of managed node.
+        public var resourceType: Swift.String?
+        /// The ID of the source resource.
+        public var sourceId: Swift.String?
+        /// The type of the source resource.
+        public var sourceType: SSMClientTypes.SourceType?
+
+        public init(
+            activationId: Swift.String? = nil,
+            agentVersion: Swift.String? = nil,
+            architecture: Swift.String? = nil,
+            associationOverview: SSMClientTypes.InstanceAggregatedAssociationOverview? = nil,
+            associationStatus: Swift.String? = nil,
+            computerName: Swift.String? = nil,
+            iamRole: Swift.String? = nil,
+            instanceId: Swift.String? = nil,
+            instanceRole: Swift.String? = nil,
+            instanceState: Swift.String? = nil,
+            instanceType: Swift.String? = nil,
+            ipAddress: Swift.String? = nil,
+            keyName: Swift.String? = nil,
+            lastAssociationExecutionDate: ClientRuntime.Date? = nil,
+            lastPingDateTime: ClientRuntime.Date? = nil,
+            lastSuccessfulAssociationExecutionDate: ClientRuntime.Date? = nil,
+            launchTime: ClientRuntime.Date? = nil,
+            name: Swift.String? = nil,
+            pingStatus: SSMClientTypes.PingStatus? = nil,
+            platformName: Swift.String? = nil,
+            platformType: SSMClientTypes.PlatformType? = nil,
+            platformVersion: Swift.String? = nil,
+            registrationDate: ClientRuntime.Date? = nil,
+            resourceType: Swift.String? = nil,
+            sourceId: Swift.String? = nil,
+            sourceType: SSMClientTypes.SourceType? = nil
+        )
+        {
+            self.activationId = activationId
+            self.agentVersion = agentVersion
+            self.architecture = architecture
+            self.associationOverview = associationOverview
+            self.associationStatus = associationStatus
+            self.computerName = computerName
+            self.iamRole = iamRole
+            self.instanceId = instanceId
+            self.instanceRole = instanceRole
+            self.instanceState = instanceState
+            self.instanceType = instanceType
+            self.ipAddress = ipAddress
+            self.keyName = keyName
+            self.lastAssociationExecutionDate = lastAssociationExecutionDate
+            self.lastPingDateTime = lastPingDateTime
+            self.lastSuccessfulAssociationExecutionDate = lastSuccessfulAssociationExecutionDate
+            self.launchTime = launchTime
+            self.name = name
+            self.pingStatus = pingStatus
+            self.platformName = platformName
+            self.platformType = platformType
+            self.platformVersion = platformVersion
+            self.registrationDate = registrationDate
+            self.resourceType = resourceType
+            self.sourceId = sourceId
+            self.sourceType = sourceType
+        }
+    }
+
+}
+
+extension SSMClientTypes.InstancePropertyFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case key
+        case valueSet
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let key = self.key {
+            try encodeContainer.encode(key.rawValue, forKey: .key)
+        }
+        if let valueSet = valueSet {
+            var valueSetContainer = encodeContainer.nestedUnkeyedContainer(forKey: .valueSet)
+            for instancepropertyfiltervalue0 in valueSet {
+                try valueSetContainer.encode(instancepropertyfiltervalue0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyDecoded = try containerValues.decodeIfPresent(SSMClientTypes.InstancePropertyFilterKey.self, forKey: .key)
+        key = keyDecoded
+        let valueSetContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .valueSet)
+        var valueSetDecoded0:[Swift.String]? = nil
+        if let valueSetContainer = valueSetContainer {
+            valueSetDecoded0 = [Swift.String]()
+            for string0 in valueSetContainer {
+                if let string0 = string0 {
+                    valueSetDecoded0?.append(string0)
+                }
+            }
+        }
+        valueSet = valueSetDecoded0
+    }
+}
+
+extension SSMClientTypes {
+    /// Describes a filter for a specific list of managed nodes. You can filter node information by using tags. You specify tags by using a key-value mapping.
+    public struct InstancePropertyFilter {
+        /// The name of the filter.
+        /// This member is required.
+        public var key: SSMClientTypes.InstancePropertyFilterKey?
+        /// The filter values.
+        /// This member is required.
+        public var valueSet: [Swift.String]?
+
+        public init(
+            key: SSMClientTypes.InstancePropertyFilterKey? = nil,
+            valueSet: [Swift.String]? = nil
+        )
+        {
+            self.key = key
+            self.valueSet = valueSet
+        }
+    }
+
+}
+
+extension SSMClientTypes {
+    public enum InstancePropertyFilterKey: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case activationIds
+        case agentVersion
+        case associationStatus
+        case documentName
+        case iamRole
+        case instanceIds
+        case pingStatus
+        case platformTypes
+        case resourceType
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InstancePropertyFilterKey] {
+            return [
+                .activationIds,
+                .agentVersion,
+                .associationStatus,
+                .documentName,
+                .iamRole,
+                .instanceIds,
+                .pingStatus,
+                .platformTypes,
+                .resourceType,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .activationIds: return "ActivationIds"
+            case .agentVersion: return "AgentVersion"
+            case .associationStatus: return "AssociationStatus"
+            case .documentName: return "DocumentName"
+            case .iamRole: return "IamRole"
+            case .instanceIds: return "InstanceIds"
+            case .pingStatus: return "PingStatus"
+            case .platformTypes: return "PlatformTypes"
+            case .resourceType: return "ResourceType"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = InstancePropertyFilterKey(rawValue: rawValue) ?? InstancePropertyFilterKey.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension SSMClientTypes {
+    public enum InstancePropertyFilterOperator: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case beginWith
+        case equal
+        case greaterThan
+        case lessThan
+        case notEqual
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InstancePropertyFilterOperator] {
+            return [
+                .beginWith,
+                .equal,
+                .greaterThan,
+                .lessThan,
+                .notEqual,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .beginWith: return "BeginWith"
+            case .equal: return "Equal"
+            case .greaterThan: return "GreaterThan"
+            case .lessThan: return "LessThan"
+            case .notEqual: return "NotEqual"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = InstancePropertyFilterOperator(rawValue: rawValue) ?? InstancePropertyFilterOperator.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension SSMClientTypes.InstancePropertyStringFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case key = "Key"
+        case `operator` = "Operator"
+        case values = "Values"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let key = self.key {
+            try encodeContainer.encode(key, forKey: .key)
+        }
+        if let `operator` = self.`operator` {
+            try encodeContainer.encode(`operator`.rawValue, forKey: .`operator`)
+        }
+        if let values = values {
+            var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
+            for instancepropertyfiltervalue0 in values {
+                try valuesContainer.encode(instancepropertyfiltervalue0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
+        key = keyDecoded
+        let valuesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .values)
+        var valuesDecoded0:[Swift.String]? = nil
+        if let valuesContainer = valuesContainer {
+            valuesDecoded0 = [Swift.String]()
+            for string0 in valuesContainer {
+                if let string0 = string0 {
+                    valuesDecoded0?.append(string0)
+                }
+            }
+        }
+        values = valuesDecoded0
+        let operatorDecoded = try containerValues.decodeIfPresent(SSMClientTypes.InstancePropertyFilterOperator.self, forKey: .operator)
+        `operator` = operatorDecoded
+    }
+}
+
+extension SSMClientTypes {
+    /// The filters to describe or get information about your managed nodes.
+    public struct InstancePropertyStringFilter {
+        /// The filter key name to describe your managed nodes.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The operator used by the filter call.
+        public var `operator`: SSMClientTypes.InstancePropertyFilterOperator?
+        /// The filter key name to describe your managed nodes.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            key: Swift.String? = nil,
+            `operator`: SSMClientTypes.InstancePropertyFilterOperator? = nil,
+            values: [Swift.String]? = nil
+        )
+        {
+            self.key = key
+            self.`operator` = `operator`
+            self.values = values
+        }
+    }
+
+}
+
 extension InternalServerError {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -26193,6 +26890,61 @@ struct InvalidInstanceInformationFilterValueBody {
 }
 
 extension InvalidInstanceInformationFilterValueBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension InvalidInstancePropertyFilterValue {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: InvalidInstancePropertyFilterValueBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The specified filter value isn't valid.
+public struct InvalidInstancePropertyFilterValue: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidInstancePropertyFilterValue" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct InvalidInstancePropertyFilterValueBody {
+    let message: Swift.String?
+}
+
+extension InvalidInstancePropertyFilterValueBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message
     }
@@ -40496,7 +41248,7 @@ public struct RegisterTaskWithMaintenanceWindowInput {
     public var name: Swift.String?
     /// The priority of the task in the maintenance window, the lower the number the higher the priority. Tasks in a maintenance window are scheduled in priority order with tasks that have the same priority scheduled in parallel.
     public var priority: Swift.Int?
-    /// The Amazon Resource Name (ARN) of the IAM service role for Amazon Web Services Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses your account's service-linked role. If no service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. For more information, see [Using service-linked roles for Systems Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/using-service-linked-roles.html#slr-permissions) in the in the Amazon Web Services Systems Manager User Guide:
+    /// The Amazon Resource Name (ARN) of the IAM service role for Amazon Web Services Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses a service-linked role in your account. If no appropriate service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. However, for an improved security posture, we strongly recommend creating a custom policy and custom service role for running your maintenance window tasks. The policy can be crafted to provide only the permissions needed for your particular maintenance window tasks. For more information, see [Setting up maintenance windows](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-maintenance-permissions.html) in the in the Amazon Web Services Systems Manager User Guide.
     public var serviceRoleArn: Swift.String?
     /// The targets (either managed nodes or maintenance window targets). One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Automation, Lambda, and Step Functions). For more information about running tasks that don't specify targets, see [Registering maintenance window tasks without targets](https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html) in the Amazon Web Services Systems Manager User Guide. Specify managed nodes using the following format: Key=InstanceIds,Values=, Specify maintenance window targets using the following format: Key=WindowTargetIds,Values=,
     public var targets: [SSMClientTypes.Target]?
@@ -45926,36 +46678,57 @@ extension SSMClientTypes.Target: Swift.Codable {
 }
 
 extension SSMClientTypes {
-    /// An array of search criteria that targets managed nodes using a key-value pair that you specify. One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Automation, Lambda, and Step Functions). For more information about running tasks that don't specify targets, see [Registering maintenance window tasks without targets](https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html) in the Amazon Web Services Systems Manager User Guide. Supported formats include the following.
+    /// An array of search criteria that targets managed nodes using a key-value pair that you specify. One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Automation, Lambda, and Step Functions). For more information about running tasks that don't specify targets, see [Registering maintenance window tasks without targets](https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html) in the Amazon Web Services Systems Manager User Guide. Supported formats include the following. For all Systems Manager capabilities:
     ///
-    /// * Key=InstanceIds,Values=,,
-    ///
-    /// * Key=tag:,Values=,
-    ///
-    /// * Key=tag-key,Values=,
-    ///
-    /// * Run Command and Maintenance window targets only: Key=resource-groups:Name,Values=
-    ///
-    /// * Maintenance window targets only: Key=resource-groups:ResourceTypeFilters,Values=,
-    ///
-    /// * Automation targets only: Key=ResourceGroup;Values=
+    /// * Key=tag-key,Values=tag-value-1,tag-value-2
     ///
     ///
-    /// For example:
+    /// For Automation and Change Manager:
     ///
-    /// * Key=InstanceIds,Values=i-02573cafcfEXAMPLE,i-0471e04240EXAMPLE,i-07782c72faEXAMPLE
+    /// * Key=tag:tag-key,Values=tag-value
     ///
-    /// * Key=tag:CostCenter,Values=CostCenter1,CostCenter2,CostCenter3
+    /// * Key=ResourceGroup,Values=resource-group-name
     ///
-    /// * Key=tag-key,Values=Name,Instance-Type,CostCenter
+    /// * Key=ParameterValues,Values=value-1,value-2,value-3
     ///
-    /// * Run Command and Maintenance window targets only: Key=resource-groups:Name,Values=ProductionResourceGroup This example demonstrates how to target all resources in the resource group ProductionResourceGroup in your maintenance window.
+    /// * To target all instances in the Amazon Web Services Region:
     ///
-    /// * Maintenance window targets only: Key=resource-groups:ResourceTypeFilters,Values=AWS::EC2::INSTANCE,AWS::EC2::VPC This example demonstrates how to target only Amazon Elastic Compute Cloud (Amazon EC2) instances and VPCs in your maintenance window.
+    /// * Key=AWS::EC2::Instance,Values=*
     ///
-    /// * Automation targets only: Key=ResourceGroup,Values=MyResourceGroup
+    /// * Key=InstanceIds,Values=*
     ///
-    /// * State Manager association targets only: Key=InstanceIds,Values=* This example demonstrates how to target all managed instances in the Amazon Web Services Region where the association was created.
+    ///
+    ///
+    ///
+    ///
+    /// For Run Command and Maintenance Windows:
+    ///
+    /// * Key=InstanceIds,Values=instance-id-1,instance-id-2,instance-id-3
+    ///
+    /// * Key=tag:tag-key,Values=tag-value-1,tag-value-2
+    ///
+    /// * Key=resource-groups:Name,Values=resource-group-name
+    ///
+    /// * Additionally, Maintenance Windows support targeting resource types:
+    ///
+    /// * Key=resource-groups:ResourceTypeFilters,Values=resource-type-1,resource-type-2
+    ///
+    ///
+    ///
+    ///
+    ///
+    /// For State Manager:
+    ///
+    /// * Key=InstanceIds,Values=instance-id-1,instance-id-2,instance-id-3
+    ///
+    /// * Key=tag:tag-key,Values=tag-value-1,tag-value-2
+    ///
+    /// * To target all instances in the Amazon Web Services Region:
+    ///
+    /// * Key=InstanceIds,Values=*
+    ///
+    ///
+    ///
     ///
     ///
     /// For more information about how to send commands that target managed nodes using Key,Value parameters, see [Targeting multiple managed nodes](https://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html#send-commands-targeting) in the Amazon Web Services Systems Manager User Guide.
@@ -48090,7 +48863,7 @@ public struct UpdateMaintenanceWindowInput {
     public var scheduleOffset: Swift.Int?
     /// The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or "Asia/Seoul". For more information, see the [Time Zone Database](https://www.iana.org/time-zones) on the IANA website.
     public var scheduleTimezone: Swift.String?
-    /// The date and time, in ISO-8601 Extended format, for when you want the maintenance window to become active. StartDate allows you to delay activation of the maintenance window until the specified future date.
+    /// The date and time, in ISO-8601 Extended format, for when you want the maintenance window to become active. StartDate allows you to delay activation of the maintenance window until the specified future date. When using a rate schedule, if you provide a start date that occurs in the past, the current date and time are used as the start date.
     public var startDate: Swift.String?
     /// The ID of the maintenance window to update.
     /// This member is required.
@@ -48735,7 +49508,7 @@ public struct UpdateMaintenanceWindowTaskInput {
     public var priority: Swift.Int?
     /// If True, then all fields that are required by the [RegisterTaskWithMaintenanceWindow] operation are also required for this API request. Optional fields that aren't specified are set to null.
     public var replace: Swift.Bool?
-    /// The Amazon Resource Name (ARN) of the IAM service role for Amazon Web Services Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses your account's service-linked role. If no service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. For more information, see [Using service-linked roles for Systems Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/using-service-linked-roles.html#slr-permissions) in the in the Amazon Web Services Systems Manager User Guide:
+    /// The Amazon Resource Name (ARN) of the IAM service role for Amazon Web Services Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses a service-linked role in your account. If no appropriate service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. However, for an improved security posture, we strongly recommend creating a custom policy and custom service role for running your maintenance window tasks. The policy can be crafted to provide only the permissions needed for your particular maintenance window tasks. For more information, see [Setting up maintenance windows](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-maintenance-permissions.html) in the in the Amazon Web Services Systems Manager User Guide.
     public var serviceRoleArn: Swift.String?
     /// The targets (either managed nodes or tags) to modify. Managed nodes are specified using the format Key=instanceids,Values=instanceID_1,instanceID_2. Tags are specified using the format  Key=tag_name,Values=tag_value. One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Automation, Lambda, and Step Functions). For more information about running tasks that don't specify targets, see [Registering maintenance window tasks without targets](https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html) in the Amazon Web Services Systems Manager User Guide.
     public var targets: [SSMClientTypes.Target]?
