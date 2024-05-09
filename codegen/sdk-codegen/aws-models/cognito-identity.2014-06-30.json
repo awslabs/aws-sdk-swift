@@ -117,7 +117,7 @@
                     "sdkId": "Cognito Identity",
                     "arnNamespace": "cognito-identity",
                     "cloudFormationName": "Cognito",
-                    "cloudTrailEventSource": "cognitoidentity.amazonaws.com",
+                    "cloudTrailEventSource": "cognito-identity.amazonaws.com",
                     "endpointPrefix": "cognito-identity"
                 },
                 "aws.auth#sigv4": {

@@ -189,7 +189,7 @@
                     "sdkId": "License Manager",
                     "arnNamespace": "license-manager",
                     "cloudFormationName": "LicenseManager",
-                    "cloudTrailEventSource": "licensemanager.amazonaws.com",
+                    "cloudTrailEventSource": "license-manager.amazonaws.com",
                     "endpointPrefix": "license-manager"
                 },
                 "aws.auth#sigv4": {

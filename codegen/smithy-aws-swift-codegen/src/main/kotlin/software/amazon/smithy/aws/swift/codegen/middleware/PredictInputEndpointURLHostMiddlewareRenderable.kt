@@ -14,7 +14,11 @@ class PredictInputEndpointURLHostMiddlewareRenderable : MiddlewareRenderable {
 
     override val position = MiddlewarePosition.AFTER
 
-    override fun render(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, op: OperationShape, operationStackName: String) {
-        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: PredictInputEndpointURLHostMiddleware())")
+    override fun renderMiddlewareInit(
+        ctx: ProtocolGenerator.GenerationContext,
+        writer: SwiftWriter,
+        op: OperationShape
+    ) {
+        writer.write("PredictInputEndpointURLHostMiddleware()")
     }
 }

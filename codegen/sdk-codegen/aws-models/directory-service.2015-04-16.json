@@ -3965,7 +3965,7 @@
                     "sdkId": "Directory Service",
                     "arnNamespace": "ds",
                     "cloudFormationName": "DirectoryService",
-                    "cloudTrailEventSource": "directoryservice.amazonaws.com",
+                    "cloudTrailEventSource": "ds.amazonaws.com",
                     "docId": "ds-2015-04-16",
                     "endpointPrefix": "ds"
                 },

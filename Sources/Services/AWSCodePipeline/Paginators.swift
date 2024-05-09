@@ -82,6 +82,7 @@ extension CodePipelineClient {
 extension ListPipelineExecutionsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListPipelineExecutionsInput {
         return ListPipelineExecutionsInput(
+            filter: self.filter,
             maxResults: self.maxResults,
             nextToken: token,
             pipelineName: self.pipelineName

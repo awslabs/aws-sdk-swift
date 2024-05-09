@@ -108,7 +108,7 @@
                     "sdkId": "ACM PCA",
                     "arnNamespace": "acm-pca",
                     "cloudFormationName": "ACMPCA",
-                    "cloudTrailEventSource": "acmpca.amazonaws.com",
+                    "cloudTrailEventSource": "acm-pca.amazonaws.com",
                     "endpointPrefix": "acm-pca"
                 },
                 "aws.auth#sigv4": {

@@ -2207,6 +2207,174 @@ enum CreateCampaignOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension CreateDataDeletionJobInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataSource
+        case datasetGroupArn
+        case jobName
+        case roleArn
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataSource = self.dataSource {
+            try encodeContainer.encode(dataSource, forKey: .dataSource)
+        }
+        if let datasetGroupArn = self.datasetGroupArn {
+            try encodeContainer.encode(datasetGroupArn, forKey: .datasetGroupArn)
+        }
+        if let jobName = self.jobName {
+            try encodeContainer.encode(jobName, forKey: .jobName)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+}
+
+extension CreateDataDeletionJobInput {
+
+    static func urlPathProvider(_ value: CreateDataDeletionJobInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateDataDeletionJobInput {
+    /// The Amazon S3 bucket that contains the list of userIds of the users to delete.
+    /// This member is required.
+    public var dataSource: PersonalizeClientTypes.DataSource?
+    /// The Amazon Resource Name (ARN) of the dataset group that has the datasets you want to delete records from.
+    /// This member is required.
+    public var datasetGroupArn: Swift.String?
+    /// The name for the data deletion job.
+    /// This member is required.
+    public var jobName: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM role that has permissions to read from the Amazon S3 data source.
+    /// This member is required.
+    public var roleArn: Swift.String?
+    /// A list of [tags](https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html) to apply to the data deletion job.
+    public var tags: [PersonalizeClientTypes.Tag]?
+
+    public init(
+        dataSource: PersonalizeClientTypes.DataSource? = nil,
+        datasetGroupArn: Swift.String? = nil,
+        jobName: Swift.String? = nil,
+        roleArn: Swift.String? = nil,
+        tags: [PersonalizeClientTypes.Tag]? = nil
+    )
+    {
+        self.dataSource = dataSource
+        self.datasetGroupArn = datasetGroupArn
+        self.jobName = jobName
+        self.roleArn = roleArn
+        self.tags = tags
+    }
+}
+
+struct CreateDataDeletionJobInputBody {
+    let jobName: Swift.String?
+    let datasetGroupArn: Swift.String?
+    let dataSource: PersonalizeClientTypes.DataSource?
+    let roleArn: Swift.String?
+    let tags: [PersonalizeClientTypes.Tag]?
+}
+
+extension CreateDataDeletionJobInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataSource
+        case datasetGroupArn
+        case jobName
+        case roleArn
+        case tags
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let jobNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobName)
+        jobName = jobNameDecoded
+        let datasetGroupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datasetGroupArn)
+        datasetGroupArn = datasetGroupArnDecoded
+        let dataSourceDecoded = try containerValues.decodeIfPresent(PersonalizeClientTypes.DataSource.self, forKey: .dataSource)
+        dataSource = dataSourceDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([PersonalizeClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[PersonalizeClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [PersonalizeClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateDataDeletionJobOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateDataDeletionJobOutputBody = try responseDecoder.decode(responseBody: data)
+            self.dataDeletionJobArn = output.dataDeletionJobArn
+        } else {
+            self.dataDeletionJobArn = nil
+        }
+    }
+}
+
+public struct CreateDataDeletionJobOutput {
+    /// The Amazon Resource Name (ARN) of the data deletion job.
+    public var dataDeletionJobArn: Swift.String?
+
+    public init(
+        dataDeletionJobArn: Swift.String? = nil
+    )
+    {
+        self.dataDeletionJobArn = dataDeletionJobArn
+    }
+}
+
+struct CreateDataDeletionJobOutputBody {
+    let dataDeletionJobArn: Swift.String?
+}
+
+extension CreateDataDeletionJobOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataDeletionJobArn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataDeletionJobArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataDeletionJobArn)
+        dataDeletionJobArn = dataDeletionJobArnDecoded
+    }
+}
+
+enum CreateDataDeletionJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistsException": return try await ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyTagsException": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension CreateDatasetExportJobInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case datasetArn
@@ -4061,6 +4229,230 @@ enum CreateSolutionVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension PersonalizeClientTypes.DataDeletionJob: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationDateTime
+        case dataDeletionJobArn
+        case dataSource
+        case datasetGroupArn
+        case failureReason
+        case jobName
+        case lastUpdatedDateTime
+        case numDeleted
+        case roleArn
+        case status
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationDateTime = self.creationDateTime {
+            try encodeContainer.encodeTimestamp(creationDateTime, format: .epochSeconds, forKey: .creationDateTime)
+        }
+        if let dataDeletionJobArn = self.dataDeletionJobArn {
+            try encodeContainer.encode(dataDeletionJobArn, forKey: .dataDeletionJobArn)
+        }
+        if let dataSource = self.dataSource {
+            try encodeContainer.encode(dataSource, forKey: .dataSource)
+        }
+        if let datasetGroupArn = self.datasetGroupArn {
+            try encodeContainer.encode(datasetGroupArn, forKey: .datasetGroupArn)
+        }
+        if let failureReason = self.failureReason {
+            try encodeContainer.encode(failureReason, forKey: .failureReason)
+        }
+        if let jobName = self.jobName {
+            try encodeContainer.encode(jobName, forKey: .jobName)
+        }
+        if let lastUpdatedDateTime = self.lastUpdatedDateTime {
+            try encodeContainer.encodeTimestamp(lastUpdatedDateTime, format: .epochSeconds, forKey: .lastUpdatedDateTime)
+        }
+        if let numDeleted = self.numDeleted {
+            try encodeContainer.encode(numDeleted, forKey: .numDeleted)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let jobNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobName)
+        jobName = jobNameDecoded
+        let dataDeletionJobArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataDeletionJobArn)
+        dataDeletionJobArn = dataDeletionJobArnDecoded
+        let datasetGroupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datasetGroupArn)
+        datasetGroupArn = datasetGroupArnDecoded
+        let dataSourceDecoded = try containerValues.decodeIfPresent(PersonalizeClientTypes.DataSource.self, forKey: .dataSource)
+        dataSource = dataSourceDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+        let numDeletedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numDeleted)
+        numDeleted = numDeletedDecoded
+        let creationDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDateTime)
+        creationDateTime = creationDateTimeDecoded
+        let lastUpdatedDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedDateTime)
+        lastUpdatedDateTime = lastUpdatedDateTimeDecoded
+        let failureReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .failureReason)
+        failureReason = failureReasonDecoded
+    }
+}
+
+extension PersonalizeClientTypes {
+    /// Describes a job that deletes all references to specific users from an Amazon Personalize dataset group in batches. For information about creating a data deletion job, see [Deleting users](https://docs.aws.amazon.com/personalize/latest/dg/delete-records.html).
+    public struct DataDeletionJob {
+        /// The creation date and time (in Unix time) of the data deletion job.
+        public var creationDateTime: ClientRuntime.Date?
+        /// The Amazon Resource Name (ARN) of the data deletion job.
+        public var dataDeletionJobArn: Swift.String?
+        /// Describes the data source that contains the data to upload to a dataset, or the list of records to delete from Amazon Personalize.
+        public var dataSource: PersonalizeClientTypes.DataSource?
+        /// The Amazon Resource Name (ARN) of the dataset group the job deletes records from.
+        public var datasetGroupArn: Swift.String?
+        /// If a data deletion job fails, provides the reason why.
+        public var failureReason: Swift.String?
+        /// The name of the data deletion job.
+        public var jobName: Swift.String?
+        /// The date and time (in Unix time) the data deletion job was last updated.
+        public var lastUpdatedDateTime: ClientRuntime.Date?
+        /// The number of records deleted by a COMPLETED job.
+        public var numDeleted: Swift.Int?
+        /// The Amazon Resource Name (ARN) of the IAM role that has permissions to read from the Amazon S3 data source.
+        public var roleArn: Swift.String?
+        /// The status of the data deletion job. A data deletion job can have one of the following statuses:
+        ///
+        /// * PENDING > IN_PROGRESS > COMPLETED -or- FAILED
+        public var status: Swift.String?
+
+        public init(
+            creationDateTime: ClientRuntime.Date? = nil,
+            dataDeletionJobArn: Swift.String? = nil,
+            dataSource: PersonalizeClientTypes.DataSource? = nil,
+            datasetGroupArn: Swift.String? = nil,
+            failureReason: Swift.String? = nil,
+            jobName: Swift.String? = nil,
+            lastUpdatedDateTime: ClientRuntime.Date? = nil,
+            numDeleted: Swift.Int? = nil,
+            roleArn: Swift.String? = nil,
+            status: Swift.String? = nil
+        )
+        {
+            self.creationDateTime = creationDateTime
+            self.dataDeletionJobArn = dataDeletionJobArn
+            self.dataSource = dataSource
+            self.datasetGroupArn = datasetGroupArn
+            self.failureReason = failureReason
+            self.jobName = jobName
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.numDeleted = numDeleted
+            self.roleArn = roleArn
+            self.status = status
+        }
+    }
+
+}
+
+extension PersonalizeClientTypes.DataDeletionJobSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationDateTime
+        case dataDeletionJobArn
+        case datasetGroupArn
+        case failureReason
+        case jobName
+        case lastUpdatedDateTime
+        case status
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationDateTime = self.creationDateTime {
+            try encodeContainer.encodeTimestamp(creationDateTime, format: .epochSeconds, forKey: .creationDateTime)
+        }
+        if let dataDeletionJobArn = self.dataDeletionJobArn {
+            try encodeContainer.encode(dataDeletionJobArn, forKey: .dataDeletionJobArn)
+        }
+        if let datasetGroupArn = self.datasetGroupArn {
+            try encodeContainer.encode(datasetGroupArn, forKey: .datasetGroupArn)
+        }
+        if let failureReason = self.failureReason {
+            try encodeContainer.encode(failureReason, forKey: .failureReason)
+        }
+        if let jobName = self.jobName {
+            try encodeContainer.encode(jobName, forKey: .jobName)
+        }
+        if let lastUpdatedDateTime = self.lastUpdatedDateTime {
+            try encodeContainer.encodeTimestamp(lastUpdatedDateTime, format: .epochSeconds, forKey: .lastUpdatedDateTime)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataDeletionJobArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataDeletionJobArn)
+        dataDeletionJobArn = dataDeletionJobArnDecoded
+        let datasetGroupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datasetGroupArn)
+        datasetGroupArn = datasetGroupArnDecoded
+        let jobNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobName)
+        jobName = jobNameDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+        let creationDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDateTime)
+        creationDateTime = creationDateTimeDecoded
+        let lastUpdatedDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedDateTime)
+        lastUpdatedDateTime = lastUpdatedDateTimeDecoded
+        let failureReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .failureReason)
+        failureReason = failureReasonDecoded
+    }
+}
+
+extension PersonalizeClientTypes {
+    /// Provides a summary of the properties of a data deletion job. For a complete listing, call the [DescribeDataDeletionJob](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeDataDeletionJob.html) API operation.
+    public struct DataDeletionJobSummary {
+        /// The creation date and time (in Unix time) of the data deletion job.
+        public var creationDateTime: ClientRuntime.Date?
+        /// The Amazon Resource Name (ARN) of the data deletion job.
+        public var dataDeletionJobArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the dataset group the job deleted records from.
+        public var datasetGroupArn: Swift.String?
+        /// If a data deletion job fails, provides the reason why.
+        public var failureReason: Swift.String?
+        /// The name of the data deletion job.
+        public var jobName: Swift.String?
+        /// The date and time (in Unix time) the data deletion job was last updated.
+        public var lastUpdatedDateTime: ClientRuntime.Date?
+        /// The status of the data deletion job. A data deletion job can have one of the following statuses:
+        ///
+        /// * PENDING > IN_PROGRESS > COMPLETED -or- FAILED
+        public var status: Swift.String?
+
+        public init(
+            creationDateTime: ClientRuntime.Date? = nil,
+            dataDeletionJobArn: Swift.String? = nil,
+            datasetGroupArn: Swift.String? = nil,
+            failureReason: Swift.String? = nil,
+            jobName: Swift.String? = nil,
+            lastUpdatedDateTime: ClientRuntime.Date? = nil,
+            status: Swift.String? = nil
+        )
+        {
+            self.creationDateTime = creationDateTime
+            self.dataDeletionJobArn = dataDeletionJobArn
+            self.datasetGroupArn = datasetGroupArn
+            self.failureReason = failureReason
+            self.jobName = jobName
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.status = status
+        }
+    }
+
+}
+
 extension PersonalizeClientTypes.DataSource: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dataLocation
@@ -4081,9 +4473,9 @@ extension PersonalizeClientTypes.DataSource: Swift.Codable {
 }
 
 extension PersonalizeClientTypes {
-    /// Describes the data source that contains the data to upload to a dataset.
+    /// Describes the data source that contains the data to upload to a dataset, or the list of records to delete from Amazon Personalize.
     public struct DataSource {
-        /// The path to the Amazon S3 bucket where the data that you want to upload to your dataset is stored. For example: s3://bucket-name/folder-name/
+        /// For dataset import jobs, the path to the Amazon S3 bucket where the data that you want to upload to your dataset is stored. For data deletion jobs, the path to the Amazon S3 bucket that stores the list of records to delete. For example: s3://bucket-name/folder-name/fileName.csv If your CSV files are in a folder in your Amazon S3 bucket and you want your import job or data deletion job to consider multiple files, you can specify the path to the folder. With a data deletion job, Amazon Personalize uses all files in the folder and any sub folder. Use the following syntax with a / after the folder name: s3://bucket-name/folder-name/
         public var dataLocation: Swift.String?
 
         public init(
@@ -6602,6 +6994,115 @@ extension DescribeCampaignOutputBody: Swift.Decodable {
 }
 
 enum DescribeCampaignOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeDataDeletionJobInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataDeletionJobArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataDeletionJobArn = self.dataDeletionJobArn {
+            try encodeContainer.encode(dataDeletionJobArn, forKey: .dataDeletionJobArn)
+        }
+    }
+}
+
+extension DescribeDataDeletionJobInput {
+
+    static func urlPathProvider(_ value: DescribeDataDeletionJobInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeDataDeletionJobInput {
+    /// The Amazon Resource Name (ARN) of the data deletion job.
+    /// This member is required.
+    public var dataDeletionJobArn: Swift.String?
+
+    public init(
+        dataDeletionJobArn: Swift.String? = nil
+    )
+    {
+        self.dataDeletionJobArn = dataDeletionJobArn
+    }
+}
+
+struct DescribeDataDeletionJobInputBody {
+    let dataDeletionJobArn: Swift.String?
+}
+
+extension DescribeDataDeletionJobInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataDeletionJobArn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataDeletionJobArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataDeletionJobArn)
+        dataDeletionJobArn = dataDeletionJobArnDecoded
+    }
+}
+
+extension DescribeDataDeletionJobOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeDataDeletionJobOutputBody = try responseDecoder.decode(responseBody: data)
+            self.dataDeletionJob = output.dataDeletionJob
+        } else {
+            self.dataDeletionJob = nil
+        }
+    }
+}
+
+public struct DescribeDataDeletionJobOutput {
+    /// Information about the data deletion job, including the status. The status is one of the following values:
+    ///
+    /// * PENDING
+    ///
+    /// * IN_PROGRESS
+    ///
+    /// * COMPLETED
+    ///
+    /// * FAILED
+    public var dataDeletionJob: PersonalizeClientTypes.DataDeletionJob?
+
+    public init(
+        dataDeletionJob: PersonalizeClientTypes.DataDeletionJob? = nil
+    )
+    {
+        self.dataDeletionJob = dataDeletionJob
+    }
+}
+
+struct DescribeDataDeletionJobOutputBody {
+    let dataDeletionJob: PersonalizeClientTypes.DataDeletionJob?
+}
+
+extension DescribeDataDeletionJobOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataDeletionJob
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataDeletionJobDecoded = try containerValues.decodeIfPresent(PersonalizeClientTypes.DataDeletionJob.self, forKey: .dataDeletionJob)
+        dataDeletionJob = dataDeletionJobDecoded
+    }
+}
+
+enum DescribeDataDeletionJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
@@ -9574,6 +10075,149 @@ extension ListCampaignsOutputBody: Swift.Decodable {
 }
 
 enum ListCampaignsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListDataDeletionJobsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case datasetGroupArn
+        case maxResults
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let datasetGroupArn = self.datasetGroupArn {
+            try encodeContainer.encode(datasetGroupArn, forKey: .datasetGroupArn)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListDataDeletionJobsInput {
+
+    static func urlPathProvider(_ value: ListDataDeletionJobsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListDataDeletionJobsInput {
+    /// The Amazon Resource Name (ARN) of the dataset group to list data deletion jobs for.
+    public var datasetGroupArn: Swift.String?
+    /// The maximum number of data deletion jobs to return.
+    public var maxResults: Swift.Int?
+    /// A token returned from the previous call to ListDataDeletionJobs for getting the next set of jobs (if they exist).
+    public var nextToken: Swift.String?
+
+    public init(
+        datasetGroupArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.datasetGroupArn = datasetGroupArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListDataDeletionJobsInputBody {
+    let datasetGroupArn: Swift.String?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListDataDeletionJobsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case datasetGroupArn
+        case maxResults
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let datasetGroupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datasetGroupArn)
+        datasetGroupArn = datasetGroupArnDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListDataDeletionJobsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListDataDeletionJobsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.dataDeletionJobs = output.dataDeletionJobs
+            self.nextToken = output.nextToken
+        } else {
+            self.dataDeletionJobs = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListDataDeletionJobsOutput {
+    /// The list of data deletion jobs.
+    public var dataDeletionJobs: [PersonalizeClientTypes.DataDeletionJobSummary]?
+    /// A token for getting the next set of data deletion jobs (if they exist).
+    public var nextToken: Swift.String?
+
+    public init(
+        dataDeletionJobs: [PersonalizeClientTypes.DataDeletionJobSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.dataDeletionJobs = dataDeletionJobs
+        self.nextToken = nextToken
+    }
+}
+
+struct ListDataDeletionJobsOutputBody {
+    let dataDeletionJobs: [PersonalizeClientTypes.DataDeletionJobSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListDataDeletionJobsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataDeletionJobs
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataDeletionJobsContainer = try containerValues.decodeIfPresent([PersonalizeClientTypes.DataDeletionJobSummary?].self, forKey: .dataDeletionJobs)
+        var dataDeletionJobsDecoded0:[PersonalizeClientTypes.DataDeletionJobSummary]? = nil
+        if let dataDeletionJobsContainer = dataDeletionJobsContainer {
+            dataDeletionJobsDecoded0 = [PersonalizeClientTypes.DataDeletionJobSummary]()
+            for structure0 in dataDeletionJobsContainer {
+                if let structure0 = structure0 {
+                    dataDeletionJobsDecoded0?.append(structure0)
+                }
+            }
+        }
+        dataDeletionJobs = dataDeletionJobsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListDataDeletionJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId

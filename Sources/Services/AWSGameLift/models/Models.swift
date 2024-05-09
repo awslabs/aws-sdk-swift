@@ -265,7 +265,7 @@ extension GameLiftClientTypes.AnywhereConfiguration: Swift.Codable {
 }
 
 extension GameLiftClientTypes {
-    /// Amazon GameLift Anywhere configuration options for your Anywhere fleets.
+    /// Amazon GameLift configuration options for your Anywhere fleets.
     public struct AnywhereConfiguration {
         /// The cost to run your fleet per hour. Amazon GameLift uses the provided cost of your fleet to balance usage in queues. For more information about queues, see [Setting up queues](https://docs.aws.amazon.com/gamelift/latest/developerguide/queues-intro.html) in the Amazon GameLift Developer Guide.
         /// This member is required.
@@ -678,7 +678,7 @@ extension GameLiftClientTypes.CertificateConfiguration: Swift.Codable {
 }
 
 extension GameLiftClientTypes {
-    /// Determines whether a TLS/SSL certificate is generated for a fleet. This feature must be enabled when creating the fleet. All instances in a fleet share the same certificate. The certificate can be retrieved by calling the [Amazon GameLift Server SDK](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk.html) operation GetInstanceCertificate.
+    /// This data type has been expanded to use with the Amazon GameLift containers feature, which is currently in public preview. Determines whether a TLS/SSL certificate is generated for a fleet. This feature must be enabled when creating the fleet. All instances in a fleet share the same certificate. The certificate can be retrieved by calling the [Amazon GameLift Server SDK](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk.html) operation GetInstanceCertificate.
     public struct CertificateConfiguration {
         /// Indicates whether a TLS/SSL certificate is generated for a fleet. Valid values include:
         ///
@@ -961,11 +961,14 @@ extension GameLiftClientTypes.Compute: Swift.Codable {
         case computeArn = "ComputeArn"
         case computeName = "ComputeName"
         case computeStatus = "ComputeStatus"
+        case containerAttributes = "ContainerAttributes"
         case creationTime = "CreationTime"
         case dnsName = "DnsName"
         case fleetArn = "FleetArn"
         case fleetId = "FleetId"
+        case gameLiftAgentEndpoint = "GameLiftAgentEndpoint"
         case gameLiftServiceSdkEndpoint = "GameLiftServiceSdkEndpoint"
+        case instanceId = "InstanceId"
         case ipAddress = "IpAddress"
         case location = "Location"
         case operatingSystem = "OperatingSystem"
@@ -983,6 +986,9 @@ extension GameLiftClientTypes.Compute: Swift.Codable {
         if let computeStatus = self.computeStatus {
             try encodeContainer.encode(computeStatus.rawValue, forKey: .computeStatus)
         }
+        if let containerAttributes = self.containerAttributes {
+            try encodeContainer.encode(containerAttributes, forKey: .containerAttributes)
+        }
         if let creationTime = self.creationTime {
             try encodeContainer.encodeTimestamp(creationTime, format: .epochSeconds, forKey: .creationTime)
         }
@@ -995,8 +1001,14 @@ extension GameLiftClientTypes.Compute: Swift.Codable {
         if let fleetId = self.fleetId {
             try encodeContainer.encode(fleetId, forKey: .fleetId)
         }
+        if let gameLiftAgentEndpoint = self.gameLiftAgentEndpoint {
+            try encodeContainer.encode(gameLiftAgentEndpoint, forKey: .gameLiftAgentEndpoint)
+        }
         if let gameLiftServiceSdkEndpoint = self.gameLiftServiceSdkEndpoint {
             try encodeContainer.encode(gameLiftServiceSdkEndpoint, forKey: .gameLiftServiceSdkEndpoint)
+        }
+        if let instanceId = self.instanceId {
+            try encodeContainer.encode(instanceId, forKey: .instanceId)
         }
         if let ipAddress = self.ipAddress {
             try encodeContainer.encode(ipAddress, forKey: .ipAddress)
@@ -1038,23 +1050,37 @@ extension GameLiftClientTypes.Compute: Swift.Codable {
         type = typeDecoded
         let gameLiftServiceSdkEndpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gameLiftServiceSdkEndpoint)
         gameLiftServiceSdkEndpoint = gameLiftServiceSdkEndpointDecoded
+        let gameLiftAgentEndpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gameLiftAgentEndpoint)
+        gameLiftAgentEndpoint = gameLiftAgentEndpointDecoded
+        let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
+        instanceId = instanceIdDecoded
+        let containerAttributesDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.ContainerAttributes.self, forKey: .containerAttributes)
+        containerAttributes = containerAttributesDecoded
     }
 }
 
 extension GameLiftClientTypes.Compute: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Compute(computeArn: \(Swift.String(describing: computeArn)), computeName: \(Swift.String(describing: computeName)), computeStatus: \(Swift.String(describing: computeStatus)), creationTime: \(Swift.String(describing: creationTime)), dnsName: \(Swift.String(describing: dnsName)), fleetArn: \(Swift.String(describing: fleetArn)), fleetId: \(Swift.String(describing: fleetId)), gameLiftServiceSdkEndpoint: \(Swift.String(describing: gameLiftServiceSdkEndpoint)), location: \(Swift.String(describing: location)), operatingSystem: \(Swift.String(describing: operatingSystem)), type: \(Swift.String(describing: type)), ipAddress: \"CONTENT_REDACTED\")"}
+        "Compute(computeArn: \(Swift.String(describing: computeArn)), computeName: \(Swift.String(describing: computeName)), computeStatus: \(Swift.String(describing: computeStatus)), containerAttributes: \(Swift.String(describing: containerAttributes)), creationTime: \(Swift.String(describing: creationTime)), dnsName: \(Swift.String(describing: dnsName)), fleetArn: \(Swift.String(describing: fleetArn)), fleetId: \(Swift.String(describing: fleetId)), gameLiftAgentEndpoint: \(Swift.String(describing: gameLiftAgentEndpoint)), gameLiftServiceSdkEndpoint: \(Swift.String(describing: gameLiftServiceSdkEndpoint)), instanceId: \(Swift.String(describing: instanceId)), location: \(Swift.String(describing: location)), operatingSystem: \(Swift.String(describing: operatingSystem)), type: \(Swift.String(describing: type)), ipAddress: \"CONTENT_REDACTED\")"}
 }
 
 extension GameLiftClientTypes {
-    /// An Amazon GameLift compute resource for hosting your game servers. A compute can be an EC2instance in a managed EC2 fleet or a registered compute in an Anywhere fleet.
+    /// This data type has been expanded to use with the Amazon GameLift containers feature, which is currently in public preview. An Amazon GameLift compute resource for hosting your game servers. Computes in an Amazon GameLift fleet differs depending on the fleet's compute type property as follows:
+    ///
+    /// * For EC2 fleets, a compute is an EC2 instance.
+    ///
+    /// * For ANYWHERE fleets, a compute is a computing resource that you provide and is registered to the fleet.
+    ///
+    /// * For CONTAINER fleets, a compute is a container that's registered to the fleet.
     public struct Compute {
-        /// The ARN that is assigned to a compute resource and uniquely identifies it. ARNs are unique across locations. Instances in managed EC2 fleets are not assigned a ComputeARN.
+        /// The ARN that is assigned to a compute resource and uniquely identifies it. ARNs are unique across locations. Instances in managed EC2 fleets are not assigned a Compute ARN.
         public var computeArn: Swift.String?
-        /// A descriptive label for the compute resource. For instances in a managed EC2 fleet, the compute name is an instance ID.
+        /// A descriptive label for the compute resource. For instances in a managed EC2 fleet, the compute name is the same value as the InstanceId ID.
         public var computeName: Swift.String?
         /// Current status of the compute. A compute must have an ACTIVE status to host game sessions.
         public var computeStatus: GameLiftClientTypes.ComputeStatus?
+        /// Some attributes of a container.
+        public var containerAttributes: GameLiftClientTypes.ContainerAttributes?
         /// A time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public var creationTime: ClientRuntime.Date?
         /// The DNS name of a compute resource. Amazon GameLift requires a DNS name or IP address for a compute.
@@ -1063,8 +1089,12 @@ extension GameLiftClientTypes {
         public var fleetArn: Swift.String?
         /// A unique identifier for the fleet that the compute belongs to.
         public var fleetId: Swift.String?
+        /// The endpoint of the Amazon GameLift Agent.
+        public var gameLiftAgentEndpoint: Swift.String?
         /// The Amazon GameLift SDK endpoint connection for a registered compute resource in an Anywhere fleet. The game servers on the compute use this endpoint to connect to the Amazon GameLift service.
         public var gameLiftServiceSdkEndpoint: Swift.String?
+        /// The InstanceID of the Instance hosting the compute for Container and Managed EC2 fleets.
+        public var instanceId: Swift.String?
         /// The IP address of a compute resource. Amazon GameLift requires a DNS name or IP address for a compute.
         public var ipAddress: Swift.String?
         /// The name of the custom location you added to the fleet that this compute resource resides in.
@@ -1078,11 +1108,14 @@ extension GameLiftClientTypes {
             computeArn: Swift.String? = nil,
             computeName: Swift.String? = nil,
             computeStatus: GameLiftClientTypes.ComputeStatus? = nil,
+            containerAttributes: GameLiftClientTypes.ContainerAttributes? = nil,
             creationTime: ClientRuntime.Date? = nil,
             dnsName: Swift.String? = nil,
             fleetArn: Swift.String? = nil,
             fleetId: Swift.String? = nil,
+            gameLiftAgentEndpoint: Swift.String? = nil,
             gameLiftServiceSdkEndpoint: Swift.String? = nil,
+            instanceId: Swift.String? = nil,
             ipAddress: Swift.String? = nil,
             location: Swift.String? = nil,
             operatingSystem: GameLiftClientTypes.OperatingSystem? = nil,
@@ -1092,11 +1125,14 @@ extension GameLiftClientTypes {
             self.computeArn = computeArn
             self.computeName = computeName
             self.computeStatus = computeStatus
+            self.containerAttributes = containerAttributes
             self.creationTime = creationTime
             self.dnsName = dnsName
             self.fleetArn = fleetArn
             self.fleetId = fleetId
+            self.gameLiftAgentEndpoint = gameLiftAgentEndpoint
             self.gameLiftServiceSdkEndpoint = gameLiftServiceSdkEndpoint
+            self.instanceId = instanceId
             self.ipAddress = ipAddress
             self.location = location
             self.operatingSystem = operatingSystem
@@ -1144,12 +1180,14 @@ extension GameLiftClientTypes {
 extension GameLiftClientTypes {
     public enum ComputeType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case anywhere
+        case container
         case ec2
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ComputeType] {
             return [
                 .anywhere,
+                .container,
                 .ec2,
                 .sdkUnknown("")
             ]
@@ -1161,6 +1199,7 @@ extension GameLiftClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .anywhere: return "ANYWHERE"
+            case .container: return "CONTAINER"
             case .ec2: return "EC2"
             case let .sdkUnknown(s): return s
             }
@@ -1225,6 +1264,1455 @@ extension ConflictExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension GameLiftClientTypes.ConnectionPortRange: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fromPort = "FromPort"
+        case toPort = "ToPort"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let fromPort = self.fromPort {
+            try encodeContainer.encode(fromPort, forKey: .fromPort)
+        }
+        if let toPort = self.toPort {
+            try encodeContainer.encode(toPort, forKey: .toPort)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fromPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fromPort)
+        fromPort = fromPortDecoded
+        let toPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .toPort)
+        toPort = toPortDecoded
+    }
+}
+
+extension GameLiftClientTypes.ConnectionPortRange: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ConnectionPortRange(fromPort: \"CONTENT_REDACTED\", toPort: \"CONTENT_REDACTED\")"}
+}
+
+extension GameLiftClientTypes {
+    /// This operation has been expanded to use with the Amazon GameLift containers feature, which is currently in public preview. The set of port numbers to open on each instance in a container fleet. Connection ports are used by inbound traffic to connect with processes that are running in containers on the fleet. Part of: [ContainerGroupsConfiguration], [ContainerGroupsAttributes]
+    public struct ConnectionPortRange {
+        /// Starting value for the port range.
+        /// This member is required.
+        public var fromPort: Swift.Int?
+        /// Ending value for the port. Port numbers are end-inclusive. This value must be equal to or greater than FromPort.
+        /// This member is required.
+        public var toPort: Swift.Int?
+
+        public init(
+            fromPort: Swift.Int? = nil,
+            toPort: Swift.Int? = nil
+        )
+        {
+            self.fromPort = fromPort
+            self.toPort = toPort
+        }
+    }
+
+}
+
+extension GameLiftClientTypes.ContainerAttributes: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case containerPortMappings = "ContainerPortMappings"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let containerPortMappings = containerPortMappings {
+            var containerPortMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .containerPortMappings)
+            for containerportmapping0 in containerPortMappings {
+                try containerPortMappingsContainer.encode(containerportmapping0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let containerPortMappingsContainer = try containerValues.decodeIfPresent([GameLiftClientTypes.ContainerPortMapping?].self, forKey: .containerPortMappings)
+        var containerPortMappingsDecoded0:[GameLiftClientTypes.ContainerPortMapping]? = nil
+        if let containerPortMappingsContainer = containerPortMappingsContainer {
+            containerPortMappingsDecoded0 = [GameLiftClientTypes.ContainerPortMapping]()
+            for structure0 in containerPortMappingsContainer {
+                if let structure0 = structure0 {
+                    containerPortMappingsDecoded0?.append(structure0)
+                }
+            }
+        }
+        containerPortMappings = containerPortMappingsDecoded0
+    }
+}
+
+extension GameLiftClientTypes {
+    /// This data type is used with the Amazon GameLift containers feature, which is currently in public preview. Describes attributes of containers that are deployed to a fleet with compute type CONTAINER.
+    public struct ContainerAttributes {
+        /// Describes how container ports map to connection ports on the fleet instance. Incoming traffic connects to a game via a connection port. A ContainerPortMapping directs the traffic from a connection port to a port on the container that hosts the game session.
+        public var containerPortMappings: [GameLiftClientTypes.ContainerPortMapping]?
+
+        public init(
+            containerPortMappings: [GameLiftClientTypes.ContainerPortMapping]? = nil
+        )
+        {
+            self.containerPortMappings = containerPortMappings
+        }
+    }
+
+}
+
+extension GameLiftClientTypes.ContainerDefinition: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case command = "Command"
+        case containerName = "ContainerName"
+        case cpu = "Cpu"
+        case dependsOn = "DependsOn"
+        case entryPoint = "EntryPoint"
+        case environment = "Environment"
+        case essential = "Essential"
+        case healthCheck = "HealthCheck"
+        case imageUri = "ImageUri"
+        case memoryLimits = "MemoryLimits"
+        case portConfiguration = "PortConfiguration"
+        case resolvedImageDigest = "ResolvedImageDigest"
+        case workingDirectory = "WorkingDirectory"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let command = command {
+            var commandContainer = encodeContainer.nestedUnkeyedContainer(forKey: .command)
+            for nonzeroand255maxstring0 in command {
+                try commandContainer.encode(nonzeroand255maxstring0)
+            }
+        }
+        if let containerName = self.containerName {
+            try encodeContainer.encode(containerName, forKey: .containerName)
+        }
+        if let cpu = self.cpu {
+            try encodeContainer.encode(cpu, forKey: .cpu)
+        }
+        if let dependsOn = dependsOn {
+            var dependsOnContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dependsOn)
+            for containerdependency0 in dependsOn {
+                try dependsOnContainer.encode(containerdependency0)
+            }
+        }
+        if let entryPoint = entryPoint {
+            var entryPointContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entryPoint)
+            for nonzeroandmaxstring0 in entryPoint {
+                try entryPointContainer.encode(nonzeroandmaxstring0)
+            }
+        }
+        if let environment = environment {
+            var environmentContainer = encodeContainer.nestedUnkeyedContainer(forKey: .environment)
+            for containerenvironment0 in environment {
+                try environmentContainer.encode(containerenvironment0)
+            }
+        }
+        if let essential = self.essential {
+            try encodeContainer.encode(essential, forKey: .essential)
+        }
+        if let healthCheck = self.healthCheck {
+            try encodeContainer.encode(healthCheck, forKey: .healthCheck)
+        }
+        if let imageUri = self.imageUri {
+            try encodeContainer.encode(imageUri, forKey: .imageUri)
+        }
+        if let memoryLimits = self.memoryLimits {
+            try encodeContainer.encode(memoryLimits, forKey: .memoryLimits)
+        }
+        if let portConfiguration = self.portConfiguration {
+            try encodeContainer.encode(portConfiguration, forKey: .portConfiguration)
+        }
+        if let resolvedImageDigest = self.resolvedImageDigest {
+            try encodeContainer.encode(resolvedImageDigest, forKey: .resolvedImageDigest)
+        }
+        if let workingDirectory = self.workingDirectory {
+            try encodeContainer.encode(workingDirectory, forKey: .workingDirectory)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let containerNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .containerName)
+        containerName = containerNameDecoded
+        let imageUriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .imageUri)
+        imageUri = imageUriDecoded
+        let resolvedImageDigestDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resolvedImageDigest)
+        resolvedImageDigest = resolvedImageDigestDecoded
+        let memoryLimitsDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.ContainerMemoryLimits.self, forKey: .memoryLimits)
+        memoryLimits = memoryLimitsDecoded
+        let portConfigurationDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.ContainerPortConfiguration.self, forKey: .portConfiguration)
+        portConfiguration = portConfigurationDecoded
+        let cpuDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .cpu)
+        cpu = cpuDecoded
+        let healthCheckDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.ContainerHealthCheck.self, forKey: .healthCheck)
+        healthCheck = healthCheckDecoded
+        let commandContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .command)
+        var commandDecoded0:[Swift.String]? = nil
+        if let commandContainer = commandContainer {
+            commandDecoded0 = [Swift.String]()
+            for string0 in commandContainer {
+                if let string0 = string0 {
+                    commandDecoded0?.append(string0)
+                }
+            }
+        }
+        command = commandDecoded0
+        let essentialDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .essential)
+        essential = essentialDecoded
+        let entryPointContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .entryPoint)
+        var entryPointDecoded0:[Swift.String]? = nil
+        if let entryPointContainer = entryPointContainer {
+            entryPointDecoded0 = [Swift.String]()
+            for string0 in entryPointContainer {
+                if let string0 = string0 {
+                    entryPointDecoded0?.append(string0)
+                }
+            }
+        }
+        entryPoint = entryPointDecoded0
+        let workingDirectoryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workingDirectory)
+        workingDirectory = workingDirectoryDecoded
+        let environmentContainer = try containerValues.decodeIfPresent([GameLiftClientTypes.ContainerEnvironment?].self, forKey: .environment)
+        var environmentDecoded0:[GameLiftClientTypes.ContainerEnvironment]? = nil
+        if let environmentContainer = environmentContainer {
+            environmentDecoded0 = [GameLiftClientTypes.ContainerEnvironment]()
+            for structure0 in environmentContainer {
+                if let structure0 = structure0 {
+                    environmentDecoded0?.append(structure0)
+                }
+            }
+        }
+        environment = environmentDecoded0
+        let dependsOnContainer = try containerValues.decodeIfPresent([GameLiftClientTypes.ContainerDependency?].self, forKey: .dependsOn)
+        var dependsOnDecoded0:[GameLiftClientTypes.ContainerDependency]? = nil
+        if let dependsOnContainer = dependsOnContainer {
+            dependsOnDecoded0 = [GameLiftClientTypes.ContainerDependency]()
+            for structure0 in dependsOnContainer {
+                if let structure0 = structure0 {
+                    dependsOnDecoded0?.append(structure0)
+                }
+            }
+        }
+        dependsOn = dependsOnDecoded0
+    }
+}
+
+extension GameLiftClientTypes {
+    /// This data type is used with the Amazon GameLift containers feature, which is currently in public preview. Describes a container in a container fleet, the resources available to the container, and the commands that are run when the container starts. Container properties can't be updated. To change a property, create a new container group definition. See also [ContainerDefinitionInput]. Part of: [ContainerGroupDefinition] Returned by: [DescribeContainerGroupDefinition], [ListContainerGroupDefinitions]
+    public struct ContainerDefinition {
+        /// A command that's passed to the container on startup. Each argument for the command is an additional string in the array. See the [ContainerDefinition::command](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ContainerDefinition.html#ECS-Type-ContainerDefinition-command) parameter in the Amazon Elastic Container Service API reference.
+        public var command: [Swift.String]?
+        /// The container definition identifier. Container names are unique within a container group definition.
+        /// This member is required.
+        public var containerName: Swift.String?
+        /// The number of CPU units that are reserved for the container. Note: 1 vCPU unit equals 1024 CPU units. If no resources are reserved, the container shares the total CPU limit for the container group. Related data type: [ContainerGroupDefinition$TotalCpuLimit]
+        public var cpu: Swift.Int?
+        /// Indicates that the container relies on the status of other containers in the same container group during its startup and shutdown sequences. A container might have dependencies on multiple containers.
+        public var dependsOn: [GameLiftClientTypes.ContainerDependency]?
+        /// The entry point that's passed to the container on startup. If there are multiple arguments, each argument is an additional string in the array. See the [ContainerDefinition::entryPoint](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ContainerDefinition.html#ECS-Type-ContainerDefinition-entryPoint) parameter in the Amazon Elastic Container Service API Reference.
+        public var entryPoint: [Swift.String]?
+        /// A set of environment variables that's passed to the container on startup. See the [ContainerDefinition::environment](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ContainerDefinition.html#ECS-Type-ContainerDefinition-environment) parameter in the Amazon Elastic Container Service API Reference.
+        public var environment: [GameLiftClientTypes.ContainerEnvironment]?
+        /// Indicates whether the container is vital to the container group. If an essential container fails, the entire container group is restarted.
+        public var essential: Swift.Bool?
+        /// A configuration for a non-terminal health check. A container, which automatically restarts if it stops functioning, also restarts if it fails this health check. If an essential container in the daemon group fails a health check, the entire container group is restarted. The essential container in the replica group doesn't use this health check mechanism, because the Amazon GameLift Agent automatically handles the task.
+        public var healthCheck: GameLiftClientTypes.ContainerHealthCheck?
+        /// The URI to the image that $short; copied and deployed to a container fleet. For a more specific identifier, see ResolvedImageDigest.
+        /// This member is required.
+        public var imageUri: Swift.String?
+        /// The amount of memory that Amazon GameLift makes available to the container. If memory limits aren't set for an individual container, the container shares the container group's total memory allocation. Related data type: [ContainerGroupDefinition$TotalMemoryLimit]
+        public var memoryLimits: GameLiftClientTypes.ContainerMemoryLimits?
+        /// Defines the ports that are available to assign to processes in the container. For example, a game server process requires a container port to allow game clients to connect to it. Container ports aren't directly accessed by inbound traffic. Amazon GameLift maps these container ports to externally accessible connection ports, which are assigned as needed from the container fleet's ConnectionPortRange.
+        public var portConfiguration: GameLiftClientTypes.ContainerPortConfiguration?
+        /// A unique and immutable identifier for the container image that is deployed to a container fleet. The digest is a SHA 256 hash of the container image manifest.
+        public var resolvedImageDigest: Swift.String?
+        /// The directory in the container where commands are run. See the [ContainerDefinition::workingDirectory](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ContainerDefinition.html#ECS-Type-ContainerDefinition-workingDirectory) parameter in the Amazon Elastic Container Service API Reference.
+        public var workingDirectory: Swift.String?
+
+        public init(
+            command: [Swift.String]? = nil,
+            containerName: Swift.String? = nil,
+            cpu: Swift.Int? = nil,
+            dependsOn: [GameLiftClientTypes.ContainerDependency]? = nil,
+            entryPoint: [Swift.String]? = nil,
+            environment: [GameLiftClientTypes.ContainerEnvironment]? = nil,
+            essential: Swift.Bool? = nil,
+            healthCheck: GameLiftClientTypes.ContainerHealthCheck? = nil,
+            imageUri: Swift.String? = nil,
+            memoryLimits: GameLiftClientTypes.ContainerMemoryLimits? = nil,
+            portConfiguration: GameLiftClientTypes.ContainerPortConfiguration? = nil,
+            resolvedImageDigest: Swift.String? = nil,
+            workingDirectory: Swift.String? = nil
+        )
+        {
+            self.command = command
+            self.containerName = containerName
+            self.cpu = cpu
+            self.dependsOn = dependsOn
+            self.entryPoint = entryPoint
+            self.environment = environment
+            self.essential = essential
+            self.healthCheck = healthCheck
+            self.imageUri = imageUri
+            self.memoryLimits = memoryLimits
+            self.portConfiguration = portConfiguration
+            self.resolvedImageDigest = resolvedImageDigest
+            self.workingDirectory = workingDirectory
+        }
+    }
+
+}
+
+extension GameLiftClientTypes.ContainerDefinitionInput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case command = "Command"
+        case containerName = "ContainerName"
+        case cpu = "Cpu"
+        case dependsOn = "DependsOn"
+        case entryPoint = "EntryPoint"
+        case environment = "Environment"
+        case essential = "Essential"
+        case healthCheck = "HealthCheck"
+        case imageUri = "ImageUri"
+        case memoryLimits = "MemoryLimits"
+        case portConfiguration = "PortConfiguration"
+        case workingDirectory = "WorkingDirectory"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let command = command {
+            var commandContainer = encodeContainer.nestedUnkeyedContainer(forKey: .command)
+            for nonzeroand255maxstring0 in command {
+                try commandContainer.encode(nonzeroand255maxstring0)
+            }
+        }
+        if let containerName = self.containerName {
+            try encodeContainer.encode(containerName, forKey: .containerName)
+        }
+        if let cpu = self.cpu {
+            try encodeContainer.encode(cpu, forKey: .cpu)
+        }
+        if let dependsOn = dependsOn {
+            var dependsOnContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dependsOn)
+            for containerdependency0 in dependsOn {
+                try dependsOnContainer.encode(containerdependency0)
+            }
+        }
+        if let entryPoint = entryPoint {
+            var entryPointContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entryPoint)
+            for nonzeroandmaxstring0 in entryPoint {
+                try entryPointContainer.encode(nonzeroandmaxstring0)
+            }
+        }
+        if let environment = environment {
+            var environmentContainer = encodeContainer.nestedUnkeyedContainer(forKey: .environment)
+            for containerenvironment0 in environment {
+                try environmentContainer.encode(containerenvironment0)
+            }
+        }
+        if let essential = self.essential {
+            try encodeContainer.encode(essential, forKey: .essential)
+        }
+        if let healthCheck = self.healthCheck {
+            try encodeContainer.encode(healthCheck, forKey: .healthCheck)
+        }
+        if let imageUri = self.imageUri {
+            try encodeContainer.encode(imageUri, forKey: .imageUri)
+        }
+        if let memoryLimits = self.memoryLimits {
+            try encodeContainer.encode(memoryLimits, forKey: .memoryLimits)
+        }
+        if let portConfiguration = self.portConfiguration {
+            try encodeContainer.encode(portConfiguration, forKey: .portConfiguration)
+        }
+        if let workingDirectory = self.workingDirectory {
+            try encodeContainer.encode(workingDirectory, forKey: .workingDirectory)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let containerNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .containerName)
+        containerName = containerNameDecoded
+        let imageUriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .imageUri)
+        imageUri = imageUriDecoded
+        let memoryLimitsDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.ContainerMemoryLimits.self, forKey: .memoryLimits)
+        memoryLimits = memoryLimitsDecoded
+        let portConfigurationDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.ContainerPortConfiguration.self, forKey: .portConfiguration)
+        portConfiguration = portConfigurationDecoded
+        let cpuDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .cpu)
+        cpu = cpuDecoded
+        let healthCheckDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.ContainerHealthCheck.self, forKey: .healthCheck)
+        healthCheck = healthCheckDecoded
+        let commandContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .command)
+        var commandDecoded0:[Swift.String]? = nil
+        if let commandContainer = commandContainer {
+            commandDecoded0 = [Swift.String]()
+            for string0 in commandContainer {
+                if let string0 = string0 {
+                    commandDecoded0?.append(string0)
+                }
+            }
+        }
+        command = commandDecoded0
+        let essentialDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .essential)
+        essential = essentialDecoded
+        let entryPointContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .entryPoint)
+        var entryPointDecoded0:[Swift.String]? = nil
+        if let entryPointContainer = entryPointContainer {
+            entryPointDecoded0 = [Swift.String]()
+            for string0 in entryPointContainer {
+                if let string0 = string0 {
+                    entryPointDecoded0?.append(string0)
+                }
+            }
+        }
+        entryPoint = entryPointDecoded0
+        let workingDirectoryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workingDirectory)
+        workingDirectory = workingDirectoryDecoded
+        let environmentContainer = try containerValues.decodeIfPresent([GameLiftClientTypes.ContainerEnvironment?].self, forKey: .environment)
+        var environmentDecoded0:[GameLiftClientTypes.ContainerEnvironment]? = nil
+        if let environmentContainer = environmentContainer {
+            environmentDecoded0 = [GameLiftClientTypes.ContainerEnvironment]()
+            for structure0 in environmentContainer {
+                if let structure0 = structure0 {
+                    environmentDecoded0?.append(structure0)
+                }
+            }
+        }
+        environment = environmentDecoded0
+        let dependsOnContainer = try containerValues.decodeIfPresent([GameLiftClientTypes.ContainerDependency?].self, forKey: .dependsOn)
+        var dependsOnDecoded0:[GameLiftClientTypes.ContainerDependency]? = nil
+        if let dependsOnContainer = dependsOnContainer {
+            dependsOnDecoded0 = [GameLiftClientTypes.ContainerDependency]()
+            for structure0 in dependsOnContainer {
+                if let structure0 = structure0 {
+                    dependsOnDecoded0?.append(structure0)
+                }
+            }
+        }
+        dependsOn = dependsOnDecoded0
+    }
+}
+
+extension GameLiftClientTypes {
+    /// This data type is used with the Amazon GameLift containers feature, which is currently in public preview. Describes a container's configuration, resources, and start instructions. Use this data type to create a container group definition. For the properties of a container that's been deployed to a fleet, see [ContainerDefinition]. You can't change these properties after you've created the container group definition. If you need a container group with different properties, then you must create a new one. Used with: [CreateContainerGroupDefinition]
+    public struct ContainerDefinitionInput {
+        /// A command to pass to the container on startup. Add multiple arguments as additional strings in the array. See the [ContainerDefinition command](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ContainerDefinition.html#ECS-Type-ContainerDefinition-command) parameter in the Amazon Elastic Container Service API reference.
+        public var command: [Swift.String]?
+        /// A string that uniquely identifies the container definition within a container group.
+        /// This member is required.
+        public var containerName: Swift.String?
+        /// The number of CPU units to reserve for this container. The container can use more resources when needed, if available. Note: 1 vCPU unit equals 1024 CPU units. If you don't reserve CPU units for this container, then it shares the total CPU limit for the container group. This property is similar to the Amazon ECS container definition parameter [environment](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html#container_definition_environment) (Amazon Elastic Container Service Developer Guide). Related data type: [ContainerGroupDefinition$TotalCpuLimit]
+        public var cpu: Swift.Int?
+        /// Sets up dependencies between this container and the status of other containers in the same container group. A container can have dependencies on multiple different containers. You can use dependencies to establish a startup/shutdown sequence across the container group. A container startup dependency is reversed on shutdown. For example, you might specify that SideCarContainerB has a START dependency on SideCarContainerA. This dependency means that SideCarContainerB can't start until after SideCarContainerA has started. This dependency is reversed on shutdown, which means that SideCarContainerB must shut down before SideCarContainerA can shut down.
+        public var dependsOn: [GameLiftClientTypes.ContainerDependency]?
+        /// An entry point to pass to the container on startup. Add multiple arguments as additional strings in the array. See the [ContainerDefinition::entryPoint](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ContainerDefinition.html#ECS-Type-ContainerDefinition-entryPoint) parameter in the Amazon Elastic Container Service API Reference.
+        public var entryPoint: [Swift.String]?
+        /// A set of environment variables to pass to the container on startup. See the [ContainerDefinition::environment](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ContainerDefinition.html#ECS-Type-ContainerDefinition-environment) parameter in the Amazon Elastic Container Service API Reference.
+        public var environment: [GameLiftClientTypes.ContainerEnvironment]?
+        /// Specifies whether the container is vital for the container group to function properly. If an essential container fails, it causes the entire container group to restart. Each container group must have an essential container. Replica container groups - A replica group must have exactly one essential container. Use the following to configure an essential replica container:
+        ///
+        /// * Choose a container is running your game server and the Amazon GameLift Agent.
+        ///
+        /// * Include a port configuration. This container runs your game server processes, and each process requires a container port to allow access to game clients.
+        ///
+        /// * Don't configure a health check. The Agent handles this task for the essential replica container.
+        ///
+        ///
+        /// Daemon container groups - A daemon group must have at least one essential container.
+        public var essential: Swift.Bool?
+        /// Configuration for a non-terminal health check. A container automatically restarts if it stops functioning. This parameter lets you define additional reasons to consider a container unhealthy and restart it. You can set a health check for any container except for the essential container in the replica container group. If an essential container in the daemon group fails a health check, the entire container group is restarted.
+        public var healthCheck: GameLiftClientTypes.ContainerHealthCheck?
+        /// The location of a container image that $short; will copy and deploy to a container fleet. Images in Amazon Elastic Container Registry private repositories are supported. The repository must be in the same Amazon Web Services account and Amazon Web Services Region where you're creating the container group definition. For limits on image size, see [Amazon GameLift endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/gamelift.html). You can use any of the following image URI formats:
+        ///
+        /// * Image ID only: [AWS account].dkr.ecr.[AWS region].amazonaws.com/[repository ID]
+        ///
+        /// * Image ID and digest: [AWS account].dkr.ecr.[AWS region].amazonaws.com/[repository ID]@[digest]
+        ///
+        /// * Image ID and tag: [AWS account].dkr.ecr.[AWS region].amazonaws.com/[repository ID]:[tag]
+        /// This member is required.
+        public var imageUri: Swift.String?
+        /// The amount of memory to make available to the container. If you don't specify memory limits for this container, then it shares the container group's total memory allocation. Related data type: [ContainerGroupDefinition$TotalMemoryLimit]
+        public var memoryLimits: GameLiftClientTypes.ContainerMemoryLimits?
+        /// A set of ports that Amazon GameLift can assign to processes in the container. All processes that accept inbound traffic connections, including game server processes, must be assigned a port from this set. The set of ports must be large enough to assign one to each process in the container that needs one. If the container includes your game server, include enough ports to assign one port to each concurrent server process (as defined in a container fleet's [RuntimeConfiguration]). For more details, see [Networking for container fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/containers-network). Container ports aren't directly accessed by inbound traffic. Amazon GameLift maps these container ports to externally accessible connection ports, which are assigned as needed from the container fleet's ConnectionPortRange.
+        public var portConfiguration: GameLiftClientTypes.ContainerPortConfiguration?
+        /// The directory in the container where commands are run. See the [ContainerDefinition::workingDirectory parameter](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ContainerDefinition.html#ECS-Type-ContainerDefinition-workingDirectory) in the Amazon Elastic Container Service API Reference.
+        public var workingDirectory: Swift.String?
+
+        public init(
+            command: [Swift.String]? = nil,
+            containerName: Swift.String? = nil,
+            cpu: Swift.Int? = nil,
+            dependsOn: [GameLiftClientTypes.ContainerDependency]? = nil,
+            entryPoint: [Swift.String]? = nil,
+            environment: [GameLiftClientTypes.ContainerEnvironment]? = nil,
+            essential: Swift.Bool? = nil,
+            healthCheck: GameLiftClientTypes.ContainerHealthCheck? = nil,
+            imageUri: Swift.String? = nil,
+            memoryLimits: GameLiftClientTypes.ContainerMemoryLimits? = nil,
+            portConfiguration: GameLiftClientTypes.ContainerPortConfiguration? = nil,
+            workingDirectory: Swift.String? = nil
+        )
+        {
+            self.command = command
+            self.containerName = containerName
+            self.cpu = cpu
+            self.dependsOn = dependsOn
+            self.entryPoint = entryPoint
+            self.environment = environment
+            self.essential = essential
+            self.healthCheck = healthCheck
+            self.imageUri = imageUri
+            self.memoryLimits = memoryLimits
+            self.portConfiguration = portConfiguration
+            self.workingDirectory = workingDirectory
+        }
+    }
+
+}
+
+extension GameLiftClientTypes.ContainerDependency: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case condition = "Condition"
+        case containerName = "ContainerName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let condition = self.condition {
+            try encodeContainer.encode(condition.rawValue, forKey: .condition)
+        }
+        if let containerName = self.containerName {
+            try encodeContainer.encode(containerName, forKey: .containerName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let containerNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .containerName)
+        containerName = containerNameDecoded
+        let conditionDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.ContainerDependencyCondition.self, forKey: .condition)
+        condition = conditionDecoded
+    }
+}
+
+extension GameLiftClientTypes {
+    /// This data type is used with the Amazon GameLift containers feature, which is currently in public preview. A container's dependency on another container in the same container group. The dependency impacts how the dependent container is able to start or shut down based the status of the other container. For example, ContainerA is configured with the following dependency: a START dependency on ContainerB. This means that ContainerA can't start until ContainerB has started. It also means that ContainerA must shut down before ContainerB. Part of: [ContainerDefinition]
+    public struct ContainerDependency {
+        /// The condition that the dependency container must reach before the dependent container can start. Valid conditions include:
+        ///
+        /// * START - The dependency container must have started.
+        ///
+        /// * COMPLETE - The dependency container has run to completion (exits). Use this condition with nonessential containers, such as those that run a script and then exit. The dependency container can't be an essential container.
+        ///
+        /// * SUCCESS - The dependency container has run to completion and exited with a zero status. The dependency container can't be an essential container.
+        ///
+        /// * HEALTHY - The dependency container has passed its Docker health check. Use this condition with dependency containers that have health checks configured. This condition is confirmed at container group startup only.
+        /// This member is required.
+        public var condition: GameLiftClientTypes.ContainerDependencyCondition?
+        /// A descriptive label for the container definition that this container depends on.
+        /// This member is required.
+        public var containerName: Swift.String?
+
+        public init(
+            condition: GameLiftClientTypes.ContainerDependencyCondition? = nil,
+            containerName: Swift.String? = nil
+        )
+        {
+            self.condition = condition
+            self.containerName = containerName
+        }
+    }
+
+}
+
+extension GameLiftClientTypes {
+    public enum ContainerDependencyCondition: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case complete
+        case healthy
+        case start
+        case success
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContainerDependencyCondition] {
+            return [
+                .complete,
+                .healthy,
+                .start,
+                .success,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .complete: return "COMPLETE"
+            case .healthy: return "HEALTHY"
+            case .start: return "START"
+            case .success: return "SUCCESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ContainerDependencyCondition(rawValue: rawValue) ?? ContainerDependencyCondition.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension GameLiftClientTypes.ContainerEnvironment: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+        case value = "Value"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension GameLiftClientTypes {
+    /// This data type is used with the Amazon GameLift containers feature, which is currently in public preview. An environment variable to set inside a container, in the form of a key-value pair. Related data type: [ContainerDefinition$Environment]
+    public struct ContainerEnvironment {
+        /// The environment variable name.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The environment variable value.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.name = name
+            self.value = value
+        }
+    }
+
+}
+
+extension GameLiftClientTypes.ContainerGroupDefinition: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case containerDefinitions = "ContainerDefinitions"
+        case containerGroupDefinitionArn = "ContainerGroupDefinitionArn"
+        case creationTime = "CreationTime"
+        case name = "Name"
+        case operatingSystem = "OperatingSystem"
+        case schedulingStrategy = "SchedulingStrategy"
+        case status = "Status"
+        case statusReason = "StatusReason"
+        case totalCpuLimit = "TotalCpuLimit"
+        case totalMemoryLimit = "TotalMemoryLimit"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let containerDefinitions = containerDefinitions {
+            var containerDefinitionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .containerDefinitions)
+            for containerdefinition0 in containerDefinitions {
+                try containerDefinitionsContainer.encode(containerdefinition0)
+            }
+        }
+        if let containerGroupDefinitionArn = self.containerGroupDefinitionArn {
+            try encodeContainer.encode(containerGroupDefinitionArn, forKey: .containerGroupDefinitionArn)
+        }
+        if let creationTime = self.creationTime {
+            try encodeContainer.encodeTimestamp(creationTime, format: .epochSeconds, forKey: .creationTime)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let operatingSystem = self.operatingSystem {
+            try encodeContainer.encode(operatingSystem.rawValue, forKey: .operatingSystem)
+        }
+        if let schedulingStrategy = self.schedulingStrategy {
+            try encodeContainer.encode(schedulingStrategy.rawValue, forKey: .schedulingStrategy)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let statusReason = self.statusReason {
+            try encodeContainer.encode(statusReason, forKey: .statusReason)
+        }
+        if let totalCpuLimit = self.totalCpuLimit {
+            try encodeContainer.encode(totalCpuLimit, forKey: .totalCpuLimit)
+        }
+        if let totalMemoryLimit = self.totalMemoryLimit {
+            try encodeContainer.encode(totalMemoryLimit, forKey: .totalMemoryLimit)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let containerGroupDefinitionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .containerGroupDefinitionArn)
+        containerGroupDefinitionArn = containerGroupDefinitionArnDecoded
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let operatingSystemDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.ContainerOperatingSystem.self, forKey: .operatingSystem)
+        operatingSystem = operatingSystemDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let schedulingStrategyDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.ContainerSchedulingStrategy.self, forKey: .schedulingStrategy)
+        schedulingStrategy = schedulingStrategyDecoded
+        let totalMemoryLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalMemoryLimit)
+        totalMemoryLimit = totalMemoryLimitDecoded
+        let totalCpuLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalCpuLimit)
+        totalCpuLimit = totalCpuLimitDecoded
+        let containerDefinitionsContainer = try containerValues.decodeIfPresent([GameLiftClientTypes.ContainerDefinition?].self, forKey: .containerDefinitions)
+        var containerDefinitionsDecoded0:[GameLiftClientTypes.ContainerDefinition]? = nil
+        if let containerDefinitionsContainer = containerDefinitionsContainer {
+            containerDefinitionsDecoded0 = [GameLiftClientTypes.ContainerDefinition]()
+            for structure0 in containerDefinitionsContainer {
+                if let structure0 = structure0 {
+                    containerDefinitionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        containerDefinitions = containerDefinitionsDecoded0
+        let statusDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.ContainerGroupDefinitionStatus.self, forKey: .status)
+        status = statusDecoded
+        let statusReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusReason)
+        statusReason = statusReasonDecoded
+    }
+}
+
+extension GameLiftClientTypes {
+    /// This data type is used with the Amazon GameLift containers feature, which is currently in public preview. The properties that describe a container group resource. Container group definition properties can't be updated. To change a property, create a new container group definition. Used with: [CreateContainerGroupDefinition] Returned by: [DescribeContainerGroupDefinition], [ListContainerGroupDefinitions]
+    public struct ContainerGroupDefinition {
+        /// The set of container definitions that are included in the container group.
+        public var containerDefinitions: [GameLiftClientTypes.ContainerDefinition]?
+        /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to an Amazon GameLift ContainerGroupDefinition resource. It uniquely identifies the resource across all Amazon Web Services Regions. Format is arn:aws:gamelift:::containergroupdefinition/[container group definition name].
+        public var containerGroupDefinitionArn: Swift.String?
+        /// A time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
+        public var creationTime: ClientRuntime.Date?
+        /// A descriptive identifier for the container group definition. The name value is unique in an Amazon Web Services Region.
+        public var name: Swift.String?
+        /// The platform required for all containers in the container group definition.
+        public var operatingSystem: GameLiftClientTypes.ContainerOperatingSystem?
+        /// The method for deploying the container group across fleet instances. A replica container group might have multiple copies on each fleet instance. A daemon container group maintains only one copy per fleet instance.
+        public var schedulingStrategy: GameLiftClientTypes.ContainerSchedulingStrategy?
+        /// Current status of the container group definition resource. Values include:
+        ///
+        /// * COPYING -- Amazon GameLift is in the process of making copies of all container images that are defined in the group. While in this state, the resource can't be used to create a container fleet.
+        ///
+        /// * READY -- Amazon GameLift has copied the registry images for all containers that are defined in the group. You can use a container group definition in this status to create a container fleet.
+        ///
+        /// * FAILED -- Amazon GameLift failed to create a valid container group definition resource. For more details on the cause of the failure, see StatusReason. A container group definition resource in failed status will be deleted within a few minutes.
+        public var status: GameLiftClientTypes.ContainerGroupDefinitionStatus?
+        /// Additional information about a container group definition that's in FAILED status. Possible reasons include:
+        ///
+        /// * An internal issue prevented Amazon GameLift from creating the container group definition resource. Delete the failed resource and call [CreateContainerGroupDefinition]again.
+        ///
+        /// * An access-denied message means that you don't have permissions to access the container image on ECR. See [ IAM permission examples](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-iam-policy-examples.html) for help setting up required IAM permissions for Amazon GameLift.
+        ///
+        /// * The ImageUri value for at least one of the containers in the container group definition was invalid or not found in the current Amazon Web Services account.
+        ///
+        /// * At least one of the container images referenced in the container group definition exceeds the allowed size. For size limits, see [ Amazon GameLift endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/gamelift.html).
+        ///
+        /// * At least one of the container images referenced in the container group definition uses a different operating system than the one defined for the container group.
+        public var statusReason: Swift.String?
+        /// The amount of CPU units on a fleet instance to allocate for the container group. All containers in the group share these resources. This property is an integer value in CPU units (1 vCPU is equal to 1024 CPU units). You can set additional limits for each [ContainerDefinition] in the group. If individual containers have limits, this value must be equal to or greater than the sum of all container-specific CPU limits in the group. For more details on memory allocation, see the [Container fleet design guide](https://docs.aws.amazon.com/gamelift/latest/developerguide/containers-design-fleet).
+        public var totalCpuLimit: Swift.Int?
+        /// The amount of memory (in MiB) on a fleet instance to allocate for the container group. All containers in the group share these resources. You can set additional limits for each [ContainerDefinition] in the group. If individual containers have limits, this value must meet the following requirements:
+        ///
+        /// * Equal to or greater than the sum of all container-specific soft memory limits in the group.
+        ///
+        /// * Equal to or greater than any container-specific hard limits in the group.
+        ///
+        ///
+        /// For more details on memory allocation, see the [Container fleet design guide](https://docs.aws.amazon.com/gamelift/latest/developerguide/containers-design-fleet).
+        public var totalMemoryLimit: Swift.Int?
+
+        public init(
+            containerDefinitions: [GameLiftClientTypes.ContainerDefinition]? = nil,
+            containerGroupDefinitionArn: Swift.String? = nil,
+            creationTime: ClientRuntime.Date? = nil,
+            name: Swift.String? = nil,
+            operatingSystem: GameLiftClientTypes.ContainerOperatingSystem? = nil,
+            schedulingStrategy: GameLiftClientTypes.ContainerSchedulingStrategy? = nil,
+            status: GameLiftClientTypes.ContainerGroupDefinitionStatus? = nil,
+            statusReason: Swift.String? = nil,
+            totalCpuLimit: Swift.Int? = nil,
+            totalMemoryLimit: Swift.Int? = nil
+        )
+        {
+            self.containerDefinitions = containerDefinitions
+            self.containerGroupDefinitionArn = containerGroupDefinitionArn
+            self.creationTime = creationTime
+            self.name = name
+            self.operatingSystem = operatingSystem
+            self.schedulingStrategy = schedulingStrategy
+            self.status = status
+            self.statusReason = statusReason
+            self.totalCpuLimit = totalCpuLimit
+            self.totalMemoryLimit = totalMemoryLimit
+        }
+    }
+
+}
+
+extension GameLiftClientTypes.ContainerGroupDefinitionProperty: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case containerGroupDefinitionName = "ContainerGroupDefinitionName"
+        case schedulingStrategy = "SchedulingStrategy"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let containerGroupDefinitionName = self.containerGroupDefinitionName {
+            try encodeContainer.encode(containerGroupDefinitionName, forKey: .containerGroupDefinitionName)
+        }
+        if let schedulingStrategy = self.schedulingStrategy {
+            try encodeContainer.encode(schedulingStrategy.rawValue, forKey: .schedulingStrategy)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let schedulingStrategyDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.ContainerSchedulingStrategy.self, forKey: .schedulingStrategy)
+        schedulingStrategy = schedulingStrategyDecoded
+        let containerGroupDefinitionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .containerGroupDefinitionName)
+        containerGroupDefinitionName = containerGroupDefinitionNameDecoded
+    }
+}
+
+extension GameLiftClientTypes {
+    /// This data type is used with the Amazon GameLift containers feature, which is currently in public preview. The properties of a container group that is deployed to a container fleet. Part of: [ContainerGroupsAttributes] Returned by: [DescribeFleetAttributes]
+    public struct ContainerGroupDefinitionProperty {
+        /// The unique identifier for the container group definition.
+        public var containerGroupDefinitionName: Swift.String?
+        /// The method for scheduling and maintaining copies of the container group across a container fleet.
+        public var schedulingStrategy: GameLiftClientTypes.ContainerSchedulingStrategy?
+
+        public init(
+            containerGroupDefinitionName: Swift.String? = nil,
+            schedulingStrategy: GameLiftClientTypes.ContainerSchedulingStrategy? = nil
+        )
+        {
+            self.containerGroupDefinitionName = containerGroupDefinitionName
+            self.schedulingStrategy = schedulingStrategy
+        }
+    }
+
+}
+
+extension GameLiftClientTypes {
+    public enum ContainerGroupDefinitionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case copying
+        case failed
+        case ready
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContainerGroupDefinitionStatus] {
+            return [
+                .copying,
+                .failed,
+                .ready,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .copying: return "COPYING"
+            case .failed: return "FAILED"
+            case .ready: return "READY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ContainerGroupDefinitionStatus(rawValue: rawValue) ?? ContainerGroupDefinitionStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension GameLiftClientTypes.ContainerGroupsAttributes: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case connectionPortRange = "ConnectionPortRange"
+        case containerGroupDefinitionProperties = "ContainerGroupDefinitionProperties"
+        case containerGroupsPerInstance = "ContainerGroupsPerInstance"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let connectionPortRange = self.connectionPortRange {
+            try encodeContainer.encode(connectionPortRange, forKey: .connectionPortRange)
+        }
+        if let containerGroupDefinitionProperties = containerGroupDefinitionProperties {
+            var containerGroupDefinitionPropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .containerGroupDefinitionProperties)
+            for containergroupdefinitionproperty0 in containerGroupDefinitionProperties {
+                try containerGroupDefinitionPropertiesContainer.encode(containergroupdefinitionproperty0)
+            }
+        }
+        if let containerGroupsPerInstance = self.containerGroupsPerInstance {
+            try encodeContainer.encode(containerGroupsPerInstance, forKey: .containerGroupsPerInstance)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let containerGroupDefinitionPropertiesContainer = try containerValues.decodeIfPresent([GameLiftClientTypes.ContainerGroupDefinitionProperty?].self, forKey: .containerGroupDefinitionProperties)
+        var containerGroupDefinitionPropertiesDecoded0:[GameLiftClientTypes.ContainerGroupDefinitionProperty]? = nil
+        if let containerGroupDefinitionPropertiesContainer = containerGroupDefinitionPropertiesContainer {
+            containerGroupDefinitionPropertiesDecoded0 = [GameLiftClientTypes.ContainerGroupDefinitionProperty]()
+            for structure0 in containerGroupDefinitionPropertiesContainer {
+                if let structure0 = structure0 {
+                    containerGroupDefinitionPropertiesDecoded0?.append(structure0)
+                }
+            }
+        }
+        containerGroupDefinitionProperties = containerGroupDefinitionPropertiesDecoded0
+        let connectionPortRangeDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.ConnectionPortRange.self, forKey: .connectionPortRange)
+        connectionPortRange = connectionPortRangeDecoded
+        let containerGroupsPerInstanceDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.ContainerGroupsPerInstance.self, forKey: .containerGroupsPerInstance)
+        containerGroupsPerInstance = containerGroupsPerInstanceDecoded
+    }
+}
+
+extension GameLiftClientTypes {
+    /// This data type is used with the Amazon GameLift containers feature, which is currently in public preview. The properties of container groups that are running on a container fleet. Container group properties for a fleet can't be changed. Returned by: [DescribeFleetAttributes], [CreateFleet]
+    public struct ContainerGroupsAttributes {
+        /// A set of ports that allow inbound traffic to connect to processes running in the fleet's container groups. Amazon GameLift maps each connection port to a container port, which is assigned to a specific container process. A fleet's connection port range can't be changed, but you can control access to connection ports by updating a fleet's EC2InboundPermissions with [UpdateFleetPortSettings].
+        public var connectionPortRange: GameLiftClientTypes.ConnectionPortRange?
+        /// A collection of properties that describe each container group in the fleet. A container fleet is deployed with one or more [ContainerGroupDefinition] resources, which is where these properties are set.
+        public var containerGroupDefinitionProperties: [GameLiftClientTypes.ContainerGroupDefinitionProperty]?
+        /// Details about the number of replica container groups that Amazon GameLift deploys to each instance in the container fleet.
+        public var containerGroupsPerInstance: GameLiftClientTypes.ContainerGroupsPerInstance?
+
+        public init(
+            connectionPortRange: GameLiftClientTypes.ConnectionPortRange? = nil,
+            containerGroupDefinitionProperties: [GameLiftClientTypes.ContainerGroupDefinitionProperty]? = nil,
+            containerGroupsPerInstance: GameLiftClientTypes.ContainerGroupsPerInstance? = nil
+        )
+        {
+            self.connectionPortRange = connectionPortRange
+            self.containerGroupDefinitionProperties = containerGroupDefinitionProperties
+            self.containerGroupsPerInstance = containerGroupsPerInstance
+        }
+    }
+
+}
+
+extension GameLiftClientTypes.ContainerGroupsConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case connectionPortRange = "ConnectionPortRange"
+        case containerGroupDefinitionNames = "ContainerGroupDefinitionNames"
+        case desiredReplicaContainerGroupsPerInstance = "DesiredReplicaContainerGroupsPerInstance"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let connectionPortRange = self.connectionPortRange {
+            try encodeContainer.encode(connectionPortRange, forKey: .connectionPortRange)
+        }
+        if let containerGroupDefinitionNames = containerGroupDefinitionNames {
+            var containerGroupDefinitionNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .containerGroupDefinitionNames)
+            for containergroupdefinitionnameorarn0 in containerGroupDefinitionNames {
+                try containerGroupDefinitionNamesContainer.encode(containergroupdefinitionnameorarn0)
+            }
+        }
+        if let desiredReplicaContainerGroupsPerInstance = self.desiredReplicaContainerGroupsPerInstance {
+            try encodeContainer.encode(desiredReplicaContainerGroupsPerInstance, forKey: .desiredReplicaContainerGroupsPerInstance)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let containerGroupDefinitionNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .containerGroupDefinitionNames)
+        var containerGroupDefinitionNamesDecoded0:[Swift.String]? = nil
+        if let containerGroupDefinitionNamesContainer = containerGroupDefinitionNamesContainer {
+            containerGroupDefinitionNamesDecoded0 = [Swift.String]()
+            for string0 in containerGroupDefinitionNamesContainer {
+                if let string0 = string0 {
+                    containerGroupDefinitionNamesDecoded0?.append(string0)
+                }
+            }
+        }
+        containerGroupDefinitionNames = containerGroupDefinitionNamesDecoded0
+        let connectionPortRangeDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.ConnectionPortRange.self, forKey: .connectionPortRange)
+        connectionPortRange = connectionPortRangeDecoded
+        let desiredReplicaContainerGroupsPerInstanceDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .desiredReplicaContainerGroupsPerInstance)
+        desiredReplicaContainerGroupsPerInstance = desiredReplicaContainerGroupsPerInstanceDecoded
+    }
+}
+
+extension GameLiftClientTypes {
+    /// This data type is used with the Amazon GameLift containers feature, which is currently in public preview. Configuration details for a set of container groups, for use when creating a fleet with compute type CONTAINER. Used with: [CreateFleet]
+    public struct ContainerGroupsConfiguration {
+        /// A set of ports to allow inbound traffic, including game clients, to connect to processes running in the container fleet. Connection ports are dynamically mapped to container ports, which are assigned to individual processes running in a container. The connection port range must have enough ports to map to all container ports across a fleet instance. To calculate the minimum connection ports needed, use the following formula: [Total number of container ports as defined for containers in the replica container group] * [Desired or calculated number of replica container groups per instance] + [Total number of container ports as defined for containers in the daemon container group] As a best practice, double the minimum number of connection ports. Use the fleet's EC2InboundPermissions property to control external access to connection ports. Set this property to the connection port numbers that you want to open access to. See [IpPermission] for more details.
+        /// This member is required.
+        public var connectionPortRange: GameLiftClientTypes.ConnectionPortRange?
+        /// The list of container group definition names to deploy to a new container fleet.
+        /// This member is required.
+        public var containerGroupDefinitionNames: [Swift.String]?
+        /// The number of times to replicate the replica container group on each instance in a container fleet. By default, Amazon GameLift calculates the maximum number of replica container groups that can fit on a fleet instance (based on CPU and memory resources). Leave this parameter empty if you want to use the maximum number, or specify a desired number to override the maximum. The desired number is used if it's less than the maximum number.
+        public var desiredReplicaContainerGroupsPerInstance: Swift.Int?
+
+        public init(
+            connectionPortRange: GameLiftClientTypes.ConnectionPortRange? = nil,
+            containerGroupDefinitionNames: [Swift.String]? = nil,
+            desiredReplicaContainerGroupsPerInstance: Swift.Int? = nil
+        )
+        {
+            self.connectionPortRange = connectionPortRange
+            self.containerGroupDefinitionNames = containerGroupDefinitionNames
+            self.desiredReplicaContainerGroupsPerInstance = desiredReplicaContainerGroupsPerInstance
+        }
+    }
+
+}
+
+extension GameLiftClientTypes.ContainerGroupsPerInstance: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case desiredReplicaContainerGroupsPerInstance = "DesiredReplicaContainerGroupsPerInstance"
+        case maxReplicaContainerGroupsPerInstance = "MaxReplicaContainerGroupsPerInstance"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let desiredReplicaContainerGroupsPerInstance = self.desiredReplicaContainerGroupsPerInstance {
+            try encodeContainer.encode(desiredReplicaContainerGroupsPerInstance, forKey: .desiredReplicaContainerGroupsPerInstance)
+        }
+        if let maxReplicaContainerGroupsPerInstance = self.maxReplicaContainerGroupsPerInstance {
+            try encodeContainer.encode(maxReplicaContainerGroupsPerInstance, forKey: .maxReplicaContainerGroupsPerInstance)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let desiredReplicaContainerGroupsPerInstanceDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .desiredReplicaContainerGroupsPerInstance)
+        desiredReplicaContainerGroupsPerInstance = desiredReplicaContainerGroupsPerInstanceDecoded
+        let maxReplicaContainerGroupsPerInstanceDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxReplicaContainerGroupsPerInstance)
+        maxReplicaContainerGroupsPerInstance = maxReplicaContainerGroupsPerInstanceDecoded
+    }
+}
+
+extension GameLiftClientTypes {
+    /// This data type is used with the Amazon GameLift containers feature, which is currently in public preview. Determines how many replica container groups that Amazon GameLift deploys to each instance in a container fleet. Amazon GameLift calculates the maximum possible replica groups per instance based on the instance 's CPU and memory resources. When deploying a fleet, Amazon GameLift places replica container groups on each fleet instance based on the following:
+    ///
+    /// * If no desired value is set, Amazon GameLift places the calculated maximum.
+    ///
+    /// * If a desired number is set to a value higher than the calculated maximum, Amazon GameLift places the calculated maximum.
+    ///
+    /// * If a desired number is set to a value lower than the calculated maximum, Amazon GameLift places the desired number.
+    ///
+    ///
+    /// Part of: [ContainerGroupsConfiguration], [ContainerGroupsAttributes] Returned by: [DescribeFleetAttributes], [CreateFleet]
+    public struct ContainerGroupsPerInstance {
+        /// The desired number of replica container groups to place on each fleet instance.
+        public var desiredReplicaContainerGroupsPerInstance: Swift.Int?
+        /// The maximum possible number of replica container groups that each fleet instance can have.
+        public var maxReplicaContainerGroupsPerInstance: Swift.Int?
+
+        public init(
+            desiredReplicaContainerGroupsPerInstance: Swift.Int? = nil,
+            maxReplicaContainerGroupsPerInstance: Swift.Int? = nil
+        )
+        {
+            self.desiredReplicaContainerGroupsPerInstance = desiredReplicaContainerGroupsPerInstance
+            self.maxReplicaContainerGroupsPerInstance = maxReplicaContainerGroupsPerInstance
+        }
+    }
+
+}
+
+extension GameLiftClientTypes.ContainerHealthCheck: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case command = "Command"
+        case interval = "Interval"
+        case retries = "Retries"
+        case startPeriod = "StartPeriod"
+        case timeout = "Timeout"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let command = command {
+            var commandContainer = encodeContainer.nestedUnkeyedContainer(forKey: .command)
+            for nonzeroand255maxstring0 in command {
+                try commandContainer.encode(nonzeroand255maxstring0)
+            }
+        }
+        if let interval = self.interval {
+            try encodeContainer.encode(interval, forKey: .interval)
+        }
+        if let retries = self.retries {
+            try encodeContainer.encode(retries, forKey: .retries)
+        }
+        if let startPeriod = self.startPeriod {
+            try encodeContainer.encode(startPeriod, forKey: .startPeriod)
+        }
+        if let timeout = self.timeout {
+            try encodeContainer.encode(timeout, forKey: .timeout)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let commandContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .command)
+        var commandDecoded0:[Swift.String]? = nil
+        if let commandContainer = commandContainer {
+            commandDecoded0 = [Swift.String]()
+            for string0 in commandContainer {
+                if let string0 = string0 {
+                    commandDecoded0?.append(string0)
+                }
+            }
+        }
+        command = commandDecoded0
+        let intervalDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .interval)
+        interval = intervalDecoded
+        let timeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeout)
+        timeout = timeoutDecoded
+        let retriesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .retries)
+        retries = retriesDecoded
+        let startPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .startPeriod)
+        startPeriod = startPeriodDecoded
+    }
+}
+
+extension GameLiftClientTypes {
+    /// Instructions on when and how to check the health of a container in a container fleet. When health check properties are set in a container definition, they override any Docker health checks in the container image. For more information on container health checks, see [HealthCheck command](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_HealthCheck.html#ECS-Type-HealthCheck-command) in the Amazon Elastic Container Service API. The following example instructions tell the container to wait 100 seconds after launch before counting failed health checks, then initiate the health check command every 60 seconds. After issuing the health check command, wait 10 seconds for it to succeed. If it fails, retry the command 3 times before considering the container to be unhealthy. {"Command": [ "CMD-SHELL", "ps cax | grep "processmanager" || exit 1" ], "Interval": 300, "Timeout": 30, "Retries": 5, "StartPeriod": 100 } Part of: [ContainerDefinition$HealthCheck]
+    public struct ContainerHealthCheck {
+        /// A string array that specifies the command that the container runs to determine if it's healthy.
+        /// This member is required.
+        public var command: [Swift.String]?
+        /// The time period (in seconds) between each health check.
+        public var interval: Swift.Int?
+        /// The number of times to retry a failed health check before the container is considered unhealthy. The first run of the command does not count as a retry.
+        public var retries: Swift.Int?
+        /// The optional grace period (in seconds) to give a container time to bootstrap before the first failed health check counts toward the number of retries.
+        public var startPeriod: Swift.Int?
+        /// The time period (in seconds) to wait for a health check to succeed before a failed health check is counted.
+        public var timeout: Swift.Int?
+
+        public init(
+            command: [Swift.String]? = nil,
+            interval: Swift.Int? = nil,
+            retries: Swift.Int? = nil,
+            startPeriod: Swift.Int? = nil,
+            timeout: Swift.Int? = nil
+        )
+        {
+            self.command = command
+            self.interval = interval
+            self.retries = retries
+            self.startPeriod = startPeriod
+            self.timeout = timeout
+        }
+    }
+
+}
+
+extension GameLiftClientTypes.ContainerMemoryLimits: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case hardLimit = "HardLimit"
+        case softLimit = "SoftLimit"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let hardLimit = self.hardLimit {
+            try encodeContainer.encode(hardLimit, forKey: .hardLimit)
+        }
+        if let softLimit = self.softLimit {
+            try encodeContainer.encode(softLimit, forKey: .softLimit)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let softLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .softLimit)
+        softLimit = softLimitDecoded
+        let hardLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .hardLimit)
+        hardLimit = hardLimitDecoded
+    }
+}
+
+extension GameLiftClientTypes {
+    /// Specifies how much memory is available to a container. You can't change this value after you create this object. Part of: [ContainerDefinition$MemoryLimits]
+    public struct ContainerMemoryLimits {
+        /// The maximum amount of memory that the container can use. If a container attempts to exceed this limit, the container is stopped. This property is similar to the Amazon ECS container definition parameter [memory](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html#container_definition_memory) in the Amazon Elastic Container Service Developer Guide.
+        public var hardLimit: Swift.Int?
+        /// The amount of memory that is reserved for a container. When the container group's shared memory is under contention, the system attempts to maintain the container memory usage at this soft limit. However, the container can use more memory when needed, if available. This property is similar to the Amazon ECS container definition parameter [memoryreservation](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html#ContainerDefinition-memoryReservation) (Amazon Elastic Container Service Developer Guide).
+        public var softLimit: Swift.Int?
+
+        public init(
+            hardLimit: Swift.Int? = nil,
+            softLimit: Swift.Int? = nil
+        )
+        {
+            self.hardLimit = hardLimit
+            self.softLimit = softLimit
+        }
+    }
+
+}
+
+extension GameLiftClientTypes {
+    public enum ContainerOperatingSystem: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case amazonLinux2023
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContainerOperatingSystem] {
+            return [
+                .amazonLinux2023,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .amazonLinux2023: return "AMAZON_LINUX_2023"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ContainerOperatingSystem(rawValue: rawValue) ?? ContainerOperatingSystem.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension GameLiftClientTypes.ContainerPortConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case containerPortRanges = "ContainerPortRanges"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let containerPortRanges = containerPortRanges {
+            var containerPortRangesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .containerPortRanges)
+            for containerportrange0 in containerPortRanges {
+                try containerPortRangesContainer.encode(containerportrange0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let containerPortRangesContainer = try containerValues.decodeIfPresent([GameLiftClientTypes.ContainerPortRange?].self, forKey: .containerPortRanges)
+        var containerPortRangesDecoded0:[GameLiftClientTypes.ContainerPortRange]? = nil
+        if let containerPortRangesContainer = containerPortRangesContainer {
+            containerPortRangesDecoded0 = [GameLiftClientTypes.ContainerPortRange]()
+            for structure0 in containerPortRangesContainer {
+                if let structure0 = structure0 {
+                    containerPortRangesDecoded0?.append(structure0)
+                }
+            }
+        }
+        containerPortRanges = containerPortRangesDecoded0
+    }
+}
+
+extension GameLiftClientTypes {
+    /// Defines ranges of ports that server processes can connect to. Part of: [ContainerDefinition$PortConfiguration]
+    public struct ContainerPortConfiguration {
+        /// Specifies one or more ranges of ports on a container. These ranges must not overlap.
+        /// This member is required.
+        public var containerPortRanges: [GameLiftClientTypes.ContainerPortRange]?
+
+        public init(
+            containerPortRanges: [GameLiftClientTypes.ContainerPortRange]? = nil
+        )
+        {
+            self.containerPortRanges = containerPortRanges
+        }
+    }
+
+}
+
+extension GameLiftClientTypes.ContainerPortMapping: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case connectionPort = "ConnectionPort"
+        case containerPort = "ContainerPort"
+        case `protocol` = "Protocol"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let connectionPort = self.connectionPort {
+            try encodeContainer.encode(connectionPort, forKey: .connectionPort)
+        }
+        if let containerPort = self.containerPort {
+            try encodeContainer.encode(containerPort, forKey: .containerPort)
+        }
+        if let `protocol` = self.`protocol` {
+            try encodeContainer.encode(`protocol`.rawValue, forKey: .`protocol`)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let containerPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .containerPort)
+        containerPort = containerPortDecoded
+        let connectionPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .connectionPort)
+        connectionPort = connectionPortDecoded
+        let protocolDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.IpProtocol.self, forKey: .protocol)
+        `protocol` = protocolDecoded
+    }
+}
+
+extension GameLiftClientTypes.ContainerPortMapping: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ContainerPortMapping(protocol: \(Swift.String(describing: `protocol`)), connectionPort: \"CONTENT_REDACTED\", containerPort: \"CONTENT_REDACTED\")"}
+}
+
+extension GameLiftClientTypes {
+    /// This data type is used with the Amazon GameLift containers feature, which is currently in public preview. Defines how an internal-facing container port is mapped to an external-facing connection port on a fleet instance of compute type CONTAINER. Incoming traffic, such as a game client, uses a connection port to connect to a process in the container fleet. Amazon GameLift directs the inbound traffic to the container port that is assigned to the process, such as a game session, running on a container. Part of: [ContainerAttributes]
+    public struct ContainerPortMapping {
+        /// The port opened on the fleet instance. This is also called the "host port".
+        public var connectionPort: Swift.Int?
+        /// The port opened on the container.
+        public var containerPort: Swift.Int?
+        /// The network protocol that this mapping supports.
+        public var `protocol`: GameLiftClientTypes.IpProtocol?
+
+        public init(
+            connectionPort: Swift.Int? = nil,
+            containerPort: Swift.Int? = nil,
+            `protocol`: GameLiftClientTypes.IpProtocol? = nil
+        )
+        {
+            self.connectionPort = connectionPort
+            self.containerPort = containerPort
+            self.`protocol` = `protocol`
+        }
+    }
+
+}
+
+extension GameLiftClientTypes.ContainerPortRange: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fromPort = "FromPort"
+        case `protocol` = "Protocol"
+        case toPort = "ToPort"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let fromPort = self.fromPort {
+            try encodeContainer.encode(fromPort, forKey: .fromPort)
+        }
+        if let `protocol` = self.`protocol` {
+            try encodeContainer.encode(`protocol`.rawValue, forKey: .`protocol`)
+        }
+        if let toPort = self.toPort {
+            try encodeContainer.encode(toPort, forKey: .toPort)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fromPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fromPort)
+        fromPort = fromPortDecoded
+        let toPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .toPort)
+        toPort = toPortDecoded
+        let protocolDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.IpProtocol.self, forKey: .protocol)
+        `protocol` = protocolDecoded
+    }
+}
+
+extension GameLiftClientTypes.ContainerPortRange: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ContainerPortRange(protocol: \(Swift.String(describing: `protocol`)), fromPort: \"CONTENT_REDACTED\", toPort: \"CONTENT_REDACTED\")"}
+}
+
+extension GameLiftClientTypes {
+    /// This data type is used with the Amazon GameLift containers feature, which is currently in public preview. A set of one or more port numbers that can be opened on the container. Part of: [ContainerPortConfiguration]
+    public struct ContainerPortRange {
+        /// A starting value for the range of allowed port numbers.
+        /// This member is required.
+        public var fromPort: Swift.Int?
+        /// The network protocol that these ports support.
+        /// This member is required.
+        public var `protocol`: GameLiftClientTypes.IpProtocol?
+        /// An ending value for the range of allowed port numbers. Port numbers are end-inclusive. This value must be equal to or greater than FromPort.
+        /// This member is required.
+        public var toPort: Swift.Int?
+
+        public init(
+            fromPort: Swift.Int? = nil,
+            `protocol`: GameLiftClientTypes.IpProtocol? = nil,
+            toPort: Swift.Int? = nil
+        )
+        {
+            self.fromPort = fromPort
+            self.`protocol` = `protocol`
+            self.toPort = toPort
+        }
+    }
+
+}
+
+extension GameLiftClientTypes {
+    public enum ContainerSchedulingStrategy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case daemon
+        case replica
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContainerSchedulingStrategy] {
+            return [
+                .daemon,
+                .replica,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .daemon: return "DAEMON"
+            case .replica: return "REPLICA"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ContainerSchedulingStrategy(rawValue: rawValue) ?? ContainerSchedulingStrategy.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -1582,12 +3070,219 @@ enum CreateBuildOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension CreateContainerGroupDefinitionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case containerDefinitions = "ContainerDefinitions"
+        case name = "Name"
+        case operatingSystem = "OperatingSystem"
+        case schedulingStrategy = "SchedulingStrategy"
+        case tags = "Tags"
+        case totalCpuLimit = "TotalCpuLimit"
+        case totalMemoryLimit = "TotalMemoryLimit"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let containerDefinitions = containerDefinitions {
+            var containerDefinitionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .containerDefinitions)
+            for containerdefinitioninput0 in containerDefinitions {
+                try containerDefinitionsContainer.encode(containerdefinitioninput0)
+            }
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let operatingSystem = self.operatingSystem {
+            try encodeContainer.encode(operatingSystem.rawValue, forKey: .operatingSystem)
+        }
+        if let schedulingStrategy = self.schedulingStrategy {
+            try encodeContainer.encode(schedulingStrategy.rawValue, forKey: .schedulingStrategy)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+        if let totalCpuLimit = self.totalCpuLimit {
+            try encodeContainer.encode(totalCpuLimit, forKey: .totalCpuLimit)
+        }
+        if let totalMemoryLimit = self.totalMemoryLimit {
+            try encodeContainer.encode(totalMemoryLimit, forKey: .totalMemoryLimit)
+        }
+    }
+}
+
+extension CreateContainerGroupDefinitionInput {
+
+    static func urlPathProvider(_ value: CreateContainerGroupDefinitionInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateContainerGroupDefinitionInput {
+    /// Definitions for all containers in this group. Each container definition identifies the container image and specifies configuration settings for the container. See the [ Container fleet design guide](https://docs.aws.amazon.com/gamelift/latest/developerguide/containers-design-fleet.html) for container guidelines.
+    /// This member is required.
+    public var containerDefinitions: [GameLiftClientTypes.ContainerDefinitionInput]?
+    /// A descriptive identifier for the container group definition. The name value must be unique in an Amazon Web Services Region.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The platform that is used by containers in the container group definition. All containers in a group must run on the same operating system.
+    /// This member is required.
+    public var operatingSystem: GameLiftClientTypes.ContainerOperatingSystem?
+    /// The method for deploying the container group across fleet instances. A replica container group might have multiple copies on each fleet instance. A daemon container group has one copy per fleet instance. Default value is REPLICA.
+    public var schedulingStrategy: GameLiftClientTypes.ContainerSchedulingStrategy?
+    /// A list of labels to assign to the container group definition resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources are useful for resource management, access management and cost allocation. For more information, see [ Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference.
+    public var tags: [GameLiftClientTypes.Tag]?
+    /// The maximum amount of CPU units to allocate to the container group. Set this parameter to an integer value in CPU units (1 vCPU is equal to 1024 CPU units). All containers in the group share this memory. If you specify CPU limits for individual containers, set this parameter based on the following guidelines. The value must be equal to or greater than the sum of the CPU limits for all containers in the group.
+    /// This member is required.
+    public var totalCpuLimit: Swift.Int?
+    /// The maximum amount of memory (in MiB) to allocate to the container group. All containers in the group share this memory. If you specify memory limits for individual containers, set this parameter based on the following guidelines. The value must be (1) greater than the sum of the soft memory limits for all containers in the group, and (2) greater than any individual container's hard memory limit.
+    /// This member is required.
+    public var totalMemoryLimit: Swift.Int?
+
+    public init(
+        containerDefinitions: [GameLiftClientTypes.ContainerDefinitionInput]? = nil,
+        name: Swift.String? = nil,
+        operatingSystem: GameLiftClientTypes.ContainerOperatingSystem? = nil,
+        schedulingStrategy: GameLiftClientTypes.ContainerSchedulingStrategy? = nil,
+        tags: [GameLiftClientTypes.Tag]? = nil,
+        totalCpuLimit: Swift.Int? = nil,
+        totalMemoryLimit: Swift.Int? = nil
+    )
+    {
+        self.containerDefinitions = containerDefinitions
+        self.name = name
+        self.operatingSystem = operatingSystem
+        self.schedulingStrategy = schedulingStrategy
+        self.tags = tags
+        self.totalCpuLimit = totalCpuLimit
+        self.totalMemoryLimit = totalMemoryLimit
+    }
+}
+
+struct CreateContainerGroupDefinitionInputBody {
+    let name: Swift.String?
+    let schedulingStrategy: GameLiftClientTypes.ContainerSchedulingStrategy?
+    let totalMemoryLimit: Swift.Int?
+    let totalCpuLimit: Swift.Int?
+    let containerDefinitions: [GameLiftClientTypes.ContainerDefinitionInput]?
+    let operatingSystem: GameLiftClientTypes.ContainerOperatingSystem?
+    let tags: [GameLiftClientTypes.Tag]?
+}
+
+extension CreateContainerGroupDefinitionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case containerDefinitions = "ContainerDefinitions"
+        case name = "Name"
+        case operatingSystem = "OperatingSystem"
+        case schedulingStrategy = "SchedulingStrategy"
+        case tags = "Tags"
+        case totalCpuLimit = "TotalCpuLimit"
+        case totalMemoryLimit = "TotalMemoryLimit"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let schedulingStrategyDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.ContainerSchedulingStrategy.self, forKey: .schedulingStrategy)
+        schedulingStrategy = schedulingStrategyDecoded
+        let totalMemoryLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalMemoryLimit)
+        totalMemoryLimit = totalMemoryLimitDecoded
+        let totalCpuLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalCpuLimit)
+        totalCpuLimit = totalCpuLimitDecoded
+        let containerDefinitionsContainer = try containerValues.decodeIfPresent([GameLiftClientTypes.ContainerDefinitionInput?].self, forKey: .containerDefinitions)
+        var containerDefinitionsDecoded0:[GameLiftClientTypes.ContainerDefinitionInput]? = nil
+        if let containerDefinitionsContainer = containerDefinitionsContainer {
+            containerDefinitionsDecoded0 = [GameLiftClientTypes.ContainerDefinitionInput]()
+            for structure0 in containerDefinitionsContainer {
+                if let structure0 = structure0 {
+                    containerDefinitionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        containerDefinitions = containerDefinitionsDecoded0
+        let operatingSystemDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.ContainerOperatingSystem.self, forKey: .operatingSystem)
+        operatingSystem = operatingSystemDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([GameLiftClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[GameLiftClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [GameLiftClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateContainerGroupDefinitionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateContainerGroupDefinitionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.containerGroupDefinition = output.containerGroupDefinition
+        } else {
+            self.containerGroupDefinition = nil
+        }
+    }
+}
+
+public struct CreateContainerGroupDefinitionOutput {
+    /// The properties of the newly created container group definition resource. You use this resource to create a container fleet.
+    public var containerGroupDefinition: GameLiftClientTypes.ContainerGroupDefinition?
+
+    public init(
+        containerGroupDefinition: GameLiftClientTypes.ContainerGroupDefinition? = nil
+    )
+    {
+        self.containerGroupDefinition = containerGroupDefinition
+    }
+}
+
+struct CreateContainerGroupDefinitionOutputBody {
+    let containerGroupDefinition: GameLiftClientTypes.ContainerGroupDefinition?
+}
+
+extension CreateContainerGroupDefinitionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case containerGroupDefinition = "ContainerGroupDefinition"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let containerGroupDefinitionDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.ContainerGroupDefinition.self, forKey: .containerGroupDefinition)
+        containerGroupDefinition = containerGroupDefinitionDecoded
+    }
+}
+
+enum CreateContainerGroupDefinitionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TaggingFailedException": return try await TaggingFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedRegionException": return try await UnsupportedRegionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension CreateFleetInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case anywhereConfiguration = "AnywhereConfiguration"
         case buildId = "BuildId"
         case certificateConfiguration = "CertificateConfiguration"
         case computeType = "ComputeType"
+        case containerGroupsConfiguration = "ContainerGroupsConfiguration"
         case description = "Description"
         case ec2InboundPermissions = "EC2InboundPermissions"
         case ec2InstanceType = "EC2InstanceType"
@@ -1622,6 +3317,9 @@ extension CreateFleetInput: Swift.Encodable {
         }
         if let computeType = self.computeType {
             try encodeContainer.encode(computeType.rawValue, forKey: .computeType)
+        }
+        if let containerGroupsConfiguration = self.containerGroupsConfiguration {
+            try encodeContainer.encode(containerGroupsConfiguration, forKey: .containerGroupsConfiguration)
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
@@ -1708,25 +3406,33 @@ extension CreateFleetInput {
 public struct CreateFleetInput {
     /// Amazon GameLift Anywhere configuration options.
     public var anywhereConfiguration: GameLiftClientTypes.AnywhereConfiguration?
-    /// The unique identifier for a custom game server build to be deployed on fleet instances. You can use either the build ID or ARN. The build must be uploaded to Amazon GameLift and in READY status. This fleet property can't be changed after the fleet is created.
+    /// The unique identifier for a custom game server build to be deployed to a fleet with compute type EC2. You can use either the build ID or ARN. The build must be uploaded to Amazon GameLift and in READY status. This fleet property can't be changed after the fleet is created.
     public var buildId: Swift.String?
     /// Prompts Amazon GameLift to generate a TLS/SSL certificate for the fleet. Amazon GameLift uses the certificates to encrypt traffic between game clients and the game servers running on Amazon GameLift. By default, the CertificateConfiguration is DISABLED. You can't change this property after you create the fleet. Certificate Manager (ACM) certificates expire after 13 months. Certificate expiration can cause fleets to fail, preventing players from connecting to instances in the fleet. We recommend you replace fleets before 13 months, consider using fleet aliases for a smooth transition. ACM isn't available in all Amazon Web Services regions. A fleet creation request with certificate generation enabled in an unsupported Region, fails with a 4xx error. For more information about the supported Regions, see [Supported Regions](https://docs.aws.amazon.com/acm/latest/userguide/acm-regions.html) in the Certificate Manager User Guide.
     public var certificateConfiguration: GameLiftClientTypes.CertificateConfiguration?
-    /// The type of compute resource used to host your game servers. You can use your own compute resources with Amazon GameLift Anywhere or use Amazon EC2 instances with managed Amazon GameLift. By default, this property is set to EC2.
+    /// The type of compute resource used to host your game servers.
+    ///
+    /// * EC2 – The game server build is deployed to Amazon EC2 instances for cloud hosting. This is the default setting.
+    ///
+    /// * CONTAINER – Container images with your game server build and supporting software are deployed to Amazon EC2 instances for cloud hosting. With this compute type, you must specify the ContainerGroupsConfiguration parameter.
+    ///
+    /// * ANYWHERE – Game servers or container images with your game server and supporting software are deployed to compute resources that are provided and managed by you. With this compute type, you can also set the AnywhereConfiguration parameter.
     public var computeType: GameLiftClientTypes.ComputeType?
+    /// The container groups to deploy to instances in the container fleet and other fleet-level configuration settings. Use the [CreateContainerGroupDefinition] action to create container groups. A container fleet must have exactly one replica container group, and can optionally have one daemon container group. You can't change this property after you create the fleet.
+    public var containerGroupsConfiguration: GameLiftClientTypes.ContainerGroupsConfiguration?
     /// A description for the fleet.
     public var description: Swift.String?
-    /// The allowed IP address ranges and port settings that allow inbound traffic to access game sessions on this fleet. If the fleet is hosting a custom game build, this property must be set before players can connect to game sessions. For Realtime Servers fleets, Amazon GameLift automatically sets TCP and UDP ranges.
+    /// The IP address ranges and port settings that allow inbound traffic to access game server processes and other processes on this fleet. Set this parameter for EC2 and container fleets. You can leave this parameter empty when creating the fleet, but you must call [UpdateFleetPortSettings] to set it before players can connect to game sessions. As a best practice, we recommend opening ports for remote access only when you need them and closing them when you're finished. For Realtime Servers fleets, Amazon GameLift automatically sets TCP and UDP ranges. To manage inbound access for a container fleet, set this parameter to the same port numbers that you set for the fleet's connection port range. During the life of the fleet, update this parameter to control which connection ports are open to inbound traffic.
     public var ec2InboundPermissions: [GameLiftClientTypes.IpPermission]?
-    /// The Amazon GameLift-supported Amazon EC2 instance type to use for all fleet instances. Instance type determines the computing resources that will be used to host your game servers, including CPU, memory, storage, and networking capacity. See [Amazon Elastic Compute Cloud Instance Types](http://aws.amazon.com/ec2/instance-types/) for detailed descriptions of Amazon EC2 instance types.
+    /// The Amazon GameLift-supported Amazon EC2 instance type to use with EC2 and container fleets. Instance type determines the computing resources that will be used to host your game servers, including CPU, memory, storage, and networking capacity. See [Amazon Elastic Compute Cloud Instance Types](http://aws.amazon.com/ec2/instance-types/) for detailed descriptions of Amazon EC2 instance types.
     public var ec2InstanceType: GameLiftClientTypes.EC2InstanceType?
     /// Indicates whether to use On-Demand or Spot instances for this fleet. By default, this property is set to ON_DEMAND. Learn more about when to use [ On-Demand versus Spot Instances](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-ec2-instances.html#gamelift-ec2-instances-spot). This fleet property can't be changed after the fleet is created.
     public var fleetType: GameLiftClientTypes.FleetType?
     /// A unique identifier for an IAM role with access permissions to other Amazon Web Services services. Any application that runs on an instance in the fleet--including install scripts, server processes, and other processes--can use these permissions to interact with Amazon Web Services resources that you own or have access to. For more information about using the role with your game server builds, see [ Communicate with other Amazon Web Services resources from your fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-resources.html). This fleet property can't be changed after the fleet is created.
     public var instanceRoleArn: Swift.String?
-    /// Prompts Amazon GameLift to generate a shared credentials file for the IAM role defined in InstanceRoleArn. The shared credentials file is stored on each fleet instance and refreshed as needed. Use shared credentials for applications that are deployed along with the game server executable, if the game server is integrated with server SDK version 5.x. For more information about using shared credentials, see [ Communicate with other Amazon Web Services resources from your fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-resources.html).
+    /// Prompts Amazon GameLift to generate a shared credentials file for the IAM role that's defined in InstanceRoleArn. The shared credentials file is stored on each fleet instance and refreshed as needed. Use shared credentials for applications that are deployed along with the game server executable, if the game server is integrated with server SDK version 5.x. For more information about using shared credentials, see [ Communicate with other Amazon Web Services resources from your fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-resources.html).
     public var instanceRoleCredentialsProvider: GameLiftClientTypes.InstanceRoleCredentialsProvider?
-    /// A set of remote locations to deploy additional instances to and manage as part of the fleet. This parameter can only be used when creating fleets in Amazon Web Services Regions that support multiple locations. You can add any Amazon GameLift-supported Amazon Web Services Region as a remote location, in the form of an Amazon Web Services Region code such as us-west-2. To create a fleet with instances in the home Region only, don't use this parameter. To use this parameter, Amazon GameLift requires you to use your home location in the request.
+    /// A set of remote locations to deploy additional instances to and manage as part of the fleet. This parameter can only be used when creating fleets in Amazon Web Services Regions that support multiple locations. You can add any Amazon GameLift-supported Amazon Web Services Region as a remote location, in the form of an Amazon Web Services Region code, such as us-west-2 or Local Zone code. To create a fleet with instances in the home Region only, don't set this parameter. When using this parameter, Amazon GameLift requires you to include your home location in the request.
     public var locations: [GameLiftClientTypes.LocationConfiguration]?
     /// This parameter is no longer used. To specify where Amazon GameLift should store log files once a server process shuts down, use the Amazon GameLift server API ProcessReady() and specify one or more directory paths in logParameters. For more information, see [Initialize the server process](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-initialize) in the Amazon GameLift Developer Guide.
     public var logPaths: [Swift.String]?
@@ -1747,9 +3453,9 @@ public struct CreateFleetInput {
     public var peerVpcId: Swift.String?
     /// A policy that limits the number of game sessions that an individual player can create on instances in this fleet within a specified span of time.
     public var resourceCreationLimitPolicy: GameLiftClientTypes.ResourceCreationLimitPolicy?
-    /// Instructions for how to launch and maintain server processes on instances in the fleet. The runtime configuration defines one or more server process configurations, each identifying a build executable or Realtime script file and the number of processes of that type to run concurrently. The RuntimeConfiguration parameter is required unless the fleet is being configured using the older parameters ServerLaunchPath and ServerLaunchParameters, which are still supported for backward compatibility.
+    /// Instructions for how to launch and run server processes on the fleet. Set runtime configuration for EC2 fleets and container fleets. For an Anywhere fleets, set this parameter only if the fleet is running the Amazon GameLift Agent. The runtime configuration defines one or more server process configurations. Each server process identifies a game executable or Realtime script file and the number of processes to run concurrently. This parameter replaces the parameters ServerLaunchPath and ServerLaunchParameters, which are still supported for backward compatibility.
     public var runtimeConfiguration: GameLiftClientTypes.RuntimeConfiguration?
-    /// The unique identifier for a Realtime configuration script to be deployed on fleet instances. You can use either the script ID or ARN. Scripts must be uploaded to Amazon GameLift prior to creating the fleet. This fleet property can't be changed after the fleet is created.
+    /// The unique identifier for a Realtime configuration script to be deployed to a fleet with compute type EC2. You can use either the script ID or ARN. Scripts must be uploaded to Amazon GameLift prior to creating the fleet. This fleet property can't be changed after the fleet is created.
     public var scriptId: Swift.String?
     /// This parameter is no longer used. Specify server launch parameters using the RuntimeConfiguration parameter. Requests that use this parameter instead continue to be valid.
     public var serverLaunchParameters: Swift.String?
@@ -1763,6 +3469,7 @@ public struct CreateFleetInput {
         buildId: Swift.String? = nil,
         certificateConfiguration: GameLiftClientTypes.CertificateConfiguration? = nil,
         computeType: GameLiftClientTypes.ComputeType? = nil,
+        containerGroupsConfiguration: GameLiftClientTypes.ContainerGroupsConfiguration? = nil,
         description: Swift.String? = nil,
         ec2InboundPermissions: [GameLiftClientTypes.IpPermission]? = nil,
         ec2InstanceType: GameLiftClientTypes.EC2InstanceType? = nil,
@@ -1788,6 +3495,7 @@ public struct CreateFleetInput {
         self.buildId = buildId
         self.certificateConfiguration = certificateConfiguration
         self.computeType = computeType
+        self.containerGroupsConfiguration = containerGroupsConfiguration
         self.description = description
         self.ec2InboundPermissions = ec2InboundPermissions
         self.ec2InstanceType = ec2InstanceType
@@ -1834,6 +3542,7 @@ struct CreateFleetInputBody {
     let computeType: GameLiftClientTypes.ComputeType?
     let anywhereConfiguration: GameLiftClientTypes.AnywhereConfiguration?
     let instanceRoleCredentialsProvider: GameLiftClientTypes.InstanceRoleCredentialsProvider?
+    let containerGroupsConfiguration: GameLiftClientTypes.ContainerGroupsConfiguration?
 }
 
 extension CreateFleetInputBody: Swift.Decodable {
@@ -1842,6 +3551,7 @@ extension CreateFleetInputBody: Swift.Decodable {
         case buildId = "BuildId"
         case certificateConfiguration = "CertificateConfiguration"
         case computeType = "ComputeType"
+        case containerGroupsConfiguration = "ContainerGroupsConfiguration"
         case description = "Description"
         case ec2InboundPermissions = "EC2InboundPermissions"
         case ec2InstanceType = "EC2InstanceType"
@@ -1956,6 +3666,8 @@ extension CreateFleetInputBody: Swift.Decodable {
         anywhereConfiguration = anywhereConfigurationDecoded
         let instanceRoleCredentialsProviderDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.InstanceRoleCredentialsProvider.self, forKey: .instanceRoleCredentialsProvider)
         instanceRoleCredentialsProvider = instanceRoleCredentialsProviderDecoded
+        let containerGroupsConfigurationDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.ContainerGroupsConfiguration.self, forKey: .containerGroupsConfiguration)
+        containerGroupsConfiguration = containerGroupsConfigurationDecoded
     }
 }
 
@@ -2113,6 +3825,7 @@ enum CreateFleetLocationsOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotReadyException": return try await NotReadyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "UnsupportedRegionException": return try await UnsupportedRegionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -2189,6 +3902,7 @@ enum CreateFleetOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotReadyException": return try await NotReadyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "TaggingFailedException": return try await TaggingFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "UnsupportedRegionException": return try await UnsupportedRegionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -4353,6 +6067,81 @@ enum DeleteBuildOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension DeleteContainerGroupDefinitionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+}
+
+extension DeleteContainerGroupDefinitionInput {
+
+    static func urlPathProvider(_ value: DeleteContainerGroupDefinitionInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteContainerGroupDefinitionInput {
+    /// The unique identifier for the container group definition to delete. You can use either the Name or ARN value.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        name: Swift.String? = nil
+    )
+    {
+        self.name = name
+    }
+}
+
+struct DeleteContainerGroupDefinitionInputBody {
+    let name: Swift.String?
+}
+
+extension DeleteContainerGroupDefinitionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension DeleteContainerGroupDefinitionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteContainerGroupDefinitionOutput {
+
+    public init() { }
+}
+
+enum DeleteContainerGroupDefinitionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TaggingFailedException": return try await TaggingFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedRegionException": return try await UnsupportedRegionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DeleteFleetInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fleetId = "FleetId"
@@ -5359,7 +7148,7 @@ extension DeregisterComputeInput {
 }
 
 public struct DeregisterComputeInput {
-    /// The name of the compute resource to remove from the specified Anywhere fleet.
+    /// The unique identifier of the compute resource to deregister. For an Anywhere fleet compute, use the registered compute name. For a container fleet, use the compute name (for example, a123b456c789012d3e4567f8a901b23c/1a234b56-7cd8-9e0f-a1b2-c34d567ef8a9) or the compute ARN.
     /// This member is required.
     public var computeName: Swift.String?
     /// A unique identifier for the fleet the compute resource is currently registered to.
@@ -5737,10 +7526,10 @@ extension DescribeComputeInput {
 }
 
 public struct DescribeComputeInput {
-    /// The unique identifier of the compute resource to retrieve properties for. For an Anywhere fleet compute, use the registered compute name. For a managed EC2 fleet instance, use the instance ID.
+    /// The unique identifier of the compute resource to retrieve properties for. For an Anywhere fleet compute, use the registered compute name. For an EC2 fleet instance, use the instance ID. For a container fleet, use the compute name (for example, a123b456c789012d3e4567f8a901b23c/1a234b56-7cd8-9e0f-a1b2-c34d567ef8a9) or the compute ARN.
     /// This member is required.
     public var computeName: Swift.String?
-    /// A unique identifier for the fleet that the compute is registered to. You can use either the fleet ID or ARN value.
+    /// A unique identifier for the fleet that the compute belongs to. You can use either the fleet ID or ARN value.
     /// This member is required.
     public var fleetId: Swift.String?
 
@@ -5823,6 +7612,110 @@ enum DescribeComputeOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeContainerGroupDefinitionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+}
+
+extension DescribeContainerGroupDefinitionInput {
+
+    static func urlPathProvider(_ value: DescribeContainerGroupDefinitionInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeContainerGroupDefinitionInput {
+    /// The unique identifier for the container group definition to retrieve properties for. You can use either the Name or ARN value.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        name: Swift.String? = nil
+    )
+    {
+        self.name = name
+    }
+}
+
+struct DescribeContainerGroupDefinitionInputBody {
+    let name: Swift.String?
+}
+
+extension DescribeContainerGroupDefinitionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension DescribeContainerGroupDefinitionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeContainerGroupDefinitionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.containerGroupDefinition = output.containerGroupDefinition
+        } else {
+            self.containerGroupDefinition = nil
+        }
+    }
+}
+
+public struct DescribeContainerGroupDefinitionOutput {
+    /// The properties of the requested container group definition resource.
+    public var containerGroupDefinition: GameLiftClientTypes.ContainerGroupDefinition?
+
+    public init(
+        containerGroupDefinition: GameLiftClientTypes.ContainerGroupDefinition? = nil
+    )
+    {
+        self.containerGroupDefinition = containerGroupDefinition
+    }
+}
+
+struct DescribeContainerGroupDefinitionOutputBody {
+    let containerGroupDefinition: GameLiftClientTypes.ContainerGroupDefinition?
+}
+
+extension DescribeContainerGroupDefinitionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case containerGroupDefinition = "ContainerGroupDefinition"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let containerGroupDefinitionDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.ContainerGroupDefinition.self, forKey: .containerGroupDefinition)
+        containerGroupDefinition = containerGroupDefinitionDecoded
+    }
+}
+
+enum DescribeContainerGroupDefinitionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedRegionException": return try await UnsupportedRegionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -9097,7 +10990,7 @@ extension DescribeRuntimeConfigurationOutput: ClientRuntime.HttpResponseBinding 
 }
 
 public struct DescribeRuntimeConfigurationOutput {
-    /// Instructions that describe how server processes should be launched and maintained on each instance in the fleet.
+    /// Instructions that describe how server processes are launched and maintained on computes in the fleet.
     public var runtimeConfiguration: GameLiftClientTypes.RuntimeConfiguration?
 
     public init(
@@ -10391,6 +12284,7 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes.Event: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case count = "Count"
         case eventCode = "EventCode"
         case eventId = "EventId"
         case eventTime = "EventTime"
@@ -10401,6 +12295,9 @@ extension GameLiftClientTypes.Event: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let count = self.count {
+            try encodeContainer.encode(count, forKey: .count)
+        }
         if let eventCode = self.eventCode {
             try encodeContainer.encode(eventCode.rawValue, forKey: .eventCode)
         }
@@ -10435,12 +12332,16 @@ extension GameLiftClientTypes.Event: Swift.Codable {
         eventTime = eventTimeDecoded
         let preSignedLogUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .preSignedLogUrl)
         preSignedLogUrl = preSignedLogUrlDecoded
+        let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count)
+        count = countDecoded
     }
 }
 
 extension GameLiftClientTypes {
     /// Log entry describing an event that involves Amazon GameLift resources (such as a fleet). In addition to tracking activity, event codes and messages can provide additional information for troubleshooting and debugging problems.
     public struct Event {
+        /// The number of times that this event occurred.
+        public var count: Swift.Int?
         /// The type of event being logged. Fleet state transition events:
         ///
         /// * FLEET_CREATED -- A fleet resource was successfully created with a status of NEW. Event messaging includes the fleet ID.
@@ -10541,6 +12442,7 @@ extension GameLiftClientTypes {
         public var resourceId: Swift.String?
 
         public init(
+            count: Swift.Int? = nil,
             eventCode: GameLiftClientTypes.EventCode? = nil,
             eventId: Swift.String? = nil,
             eventTime: ClientRuntime.Date? = nil,
@@ -10549,6 +12451,7 @@ extension GameLiftClientTypes {
             resourceId: Swift.String? = nil
         )
         {
+            self.count = count
             self.eventCode = eventCode
             self.eventId = eventId
             self.eventTime = eventTime
@@ -10803,6 +12706,7 @@ extension GameLiftClientTypes.FleetAttributes: Swift.Codable {
         case buildId = "BuildId"
         case certificateConfiguration = "CertificateConfiguration"
         case computeType = "ComputeType"
+        case containerGroupsAttributes = "ContainerGroupsAttributes"
         case creationTime = "CreationTime"
         case description = "Description"
         case fleetArn = "FleetArn"
@@ -10842,6 +12746,9 @@ extension GameLiftClientTypes.FleetAttributes: Swift.Codable {
         }
         if let computeType = self.computeType {
             try encodeContainer.encode(computeType.rawValue, forKey: .computeType)
+        }
+        if let containerGroupsAttributes = self.containerGroupsAttributes {
+            try encodeContainer.encode(containerGroupsAttributes, forKey: .containerGroupsAttributes)
         }
         if let creationTime = self.creationTime {
             try encodeContainer.encodeTimestamp(creationTime, format: .epochSeconds, forKey: .creationTime)
@@ -10998,22 +12905,35 @@ extension GameLiftClientTypes.FleetAttributes: Swift.Codable {
         anywhereConfiguration = anywhereConfigurationDecoded
         let instanceRoleCredentialsProviderDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.InstanceRoleCredentialsProvider.self, forKey: .instanceRoleCredentialsProvider)
         instanceRoleCredentialsProvider = instanceRoleCredentialsProviderDecoded
+        let containerGroupsAttributesDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.ContainerGroupsAttributes.self, forKey: .containerGroupsAttributes)
+        containerGroupsAttributes = containerGroupsAttributesDecoded
     }
 }
 
 extension GameLiftClientTypes {
-    /// Describes a Amazon GameLift fleet of game hosting resources. Related actions
+    /// This operation has been expanded to use with the Amazon GameLift containers feature, which is currently in public preview. Describes an Amazon GameLift fleet of game hosting resources. Attributes differ based on the fleet's compute type, as follows:
+    ///
+    /// * EC2 fleet attributes identify a Build resource (for fleets with customer game server builds) or a Script resource (for Realtime Servers fleets).
+    ///
+    /// * Container fleets have ContainerGroupsAttributes, which identify the fleet's ContainerGroupDefinition resources.
+    ///
+    /// * Amazon GameLift Anywhere fleets have an abbreviated set of attributes, because most fleet configurations are set directly on the fleet's computes. Attributes include fleet identifiers and descriptive properties, creation/termination time, and fleet status.
+    ///
+    ///
+    /// Returned by: [DescribeFleetAttributes]
     public struct FleetAttributes {
-        /// Amazon GameLift Anywhere configuration options for your Anywhere fleets.
+        /// This property is used with the Amazon GameLift containers feature, which is currently in public preview. A set of attributes that describe the container groups that are deployed on the fleet. These attributes are included for fleets with compute type CONTAINER only. This attribute is used with fleets where ComputeType is "Container".
         public var anywhereConfiguration: GameLiftClientTypes.AnywhereConfiguration?
-        /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) associated with the Amazon GameLift build resource that is deployed on instances in this fleet. In a GameLift build ARN, the resource ID matches the BuildId value.
+        /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) associated with the Amazon GameLift build resource that is deployed on instances in this fleet. In a GameLift build ARN, the resource ID matches the BuildId value. This attribute is used with fleets where ComputeType is "EC2".
         public var buildArn: Swift.String?
-        /// A unique identifier for the build resource that is deployed on instances in this fleet.
+        /// A unique identifier for the build resource that is deployed on instances in this fleet. This attribute is used with fleets where ComputeType is "EC2".
         public var buildId: Swift.String?
-        /// Determines whether a TLS/SSL certificate is generated for a fleet. This feature must be enabled when creating the fleet. All instances in a fleet share the same certificate. The certificate can be retrieved by calling the [Amazon GameLift Server SDK](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk.html) operation GetInstanceCertificate.
+        /// Determines whether a TLS/SSL certificate is generated for a fleet. This feature must be enabled when creating the fleet. All instances in a fleet share the same certificate.
         public var certificateConfiguration: GameLiftClientTypes.CertificateConfiguration?
         /// The type of compute resource used to host your game servers. You can use your own compute resources with Amazon GameLift Anywhere or use Amazon EC2 instances with managed Amazon GameLift.
         public var computeType: GameLiftClientTypes.ComputeType?
+        /// A set of properties that describe the container groups that are deployed to the fleet. These attributes are included for fleets with compute type CONTAINER.
+        public var containerGroupsAttributes: GameLiftClientTypes.ContainerGroupsAttributes?
         /// A time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public var creationTime: ClientRuntime.Date?
         /// A human-readable description of the fleet.
@@ -11022,37 +12942,37 @@ extension GameLiftClientTypes {
         public var fleetArn: Swift.String?
         /// A unique identifier for the fleet.
         public var fleetId: Swift.String?
-        /// Indicates whether to use On-Demand or Spot instances for this fleet. By default, this property is set to ON_DEMAND. Learn more about when to use [ On-Demand versus Spot Instances](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-ec2-instances.html#gamelift-ec2-instances-spot). This fleet property can't be changed after the fleet is created.
+        /// Indicates whether the fleet uses On-Demand or Spot instances. For more information, see [ On-Demand versus Spot Instances](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-ec2-instances.html#gamelift-ec2-instances-spot). This fleet property can't be changed after the fleet is created.
         public var fleetType: GameLiftClientTypes.FleetType?
-        /// A unique identifier for an IAM role with access permissions to other Amazon Web Services services. Any application that runs on an instance in the fleet--including install scripts, server processes, and other processes--can use these permissions to interact with Amazon Web Services resources that you own or have access to. For more information about using the role with your game server builds, see [ Communicate with other Amazon Web Services resources from your fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-resources.html).
+        /// A unique identifier for an IAM role with access permissions to other Amazon Web Services services. Any application that runs on an instance in the fleet--including install scripts, server processes, and other processes--can use these permissions to interact with Amazon Web Services resources that you own or have access to. For more information about using the role with your game server builds, see [ Communicate with other Amazon Web Services resources from your fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-resources.html). This attribute is used with fleets where ComputeType is "EC2" or "Container".
         public var instanceRoleArn: Swift.String?
-        /// Indicates that fleet instances maintain a shared credentials file for the IAM role defined in InstanceRoleArn. Shared credentials allow applications that are deployed with the game server executable to communicate with other Amazon Web Services resources. This property is used only when the game server is integrated with the server SDK version 5.x. For more information about using shared credentials, see [ Communicate with other Amazon Web Services resources from your fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-resources.html).
+        /// Indicates that fleet instances maintain a shared credentials file for the IAM role defined in InstanceRoleArn. Shared credentials allow applications that are deployed with the game server executable to communicate with other Amazon Web Services resources. This property is used only when the game server is integrated with the server SDK version 5.x. For more information about using shared credentials, see [ Communicate with other Amazon Web Services resources from your fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-resources.html). This attribute is used with fleets where ComputeType is "EC2" or "Container".
         public var instanceRoleCredentialsProvider: GameLiftClientTypes.InstanceRoleCredentialsProvider?
-        /// The Amazon EC2 instance type that determines the computing resources of each instance in the fleet. Instance type defines the CPU, memory, storage, and networking capacity. See [Amazon Elastic Compute Cloud Instance Types](http://aws.amazon.com/ec2/instance-types/) for detailed descriptions.
+        /// The Amazon EC2 instance type that the fleet uses. Instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. See [Amazon Elastic Compute Cloud Instance Types](http://aws.amazon.com/ec2/instance-types/) for detailed descriptions. This attribute is used with fleets where ComputeType is "EC2" or "Container".
         public var instanceType: GameLiftClientTypes.EC2InstanceType?
         /// This parameter is no longer used. Game session log paths are now defined using the Amazon GameLift server API ProcessReady()logParameters. See more information in the [Server API Reference](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api-ref.html#gamelift-sdk-server-api-ref-dataypes-process).
         public var logPaths: [Swift.String]?
-        /// Name of a metric group that metrics for this fleet are added to. In Amazon CloudWatch, you can view aggregated metrics for fleets that are in a metric group. A fleet can be included in only one metric group at a time.
+        /// Name of a metric group that metrics for this fleet are added to. In Amazon CloudWatch, you can view aggregated metrics for fleets that are in a metric group. A fleet can be included in only one metric group at a time. This attribute is used with fleets where ComputeType is "EC2" or "Container".
         public var metricGroups: [Swift.String]?
         /// A descriptive label that is associated with a fleet. Fleet names do not need to be unique.
         public var name: Swift.String?
-        /// The type of game session protection to set on all new instances that are started in the fleet.
+        /// The type of game session protection to set on all new instances that are started in the fleet. This attribute is used with fleets where ComputeType is "EC2" or "Container".
         ///
         /// * NoProtection -- The game session can be terminated during a scale-down event.
         ///
         /// * FullProtection -- If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.
         public var newGameSessionProtectionPolicy: GameLiftClientTypes.ProtectionPolicy?
-        /// The operating system of the fleet's computing resources. A fleet's operating system is determined by the OS of the build or script that is deployed on this fleet.
+        /// The operating system of the fleet's computing resources. A fleet's operating system is determined by the OS of the build or script that is deployed on this fleet. This attribute is used with fleets where ComputeType is "EC2" or "Container".
         public var operatingSystem: GameLiftClientTypes.OperatingSystem?
         /// A policy that puts limits on the number of game sessions that a player can create within a specified span of time. With this policy, you can control players' ability to consume available resources. The policy is evaluated when a player tries to create a new game session. On receiving a CreateGameSession request, Amazon GameLift checks that the player (identified by CreatorId) has created fewer than game session limit in the specified time period.
         public var resourceCreationLimitPolicy: GameLiftClientTypes.ResourceCreationLimitPolicy?
         /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) associated with the GameLift script resource that is deployed on instances in this fleet. In a GameLift script ARN, the resource ID matches the ScriptId value.
         public var scriptArn: Swift.String?
-        /// A unique identifier for the Realtime script resource that is deployed on instances in this fleet.
+        /// A unique identifier for the Realtime script resource that is deployed on instances in this fleet. This attribute is used with fleets where ComputeType is "EC2".
         public var scriptId: Swift.String?
-        /// This parameter is no longer used. Server launch parameters are now defined using the fleet's runtime configuration . Requests that use this parameter instead continue to be valid.
+        /// This parameter is no longer used. Server launch parameters are now defined using the fleet's runtime configuration . Requests that use this parameter continue to be valid.
         public var serverLaunchParameters: Swift.String?
-        /// This parameter is no longer used. Server launch paths are now defined using the fleet's [RuntimeConfiguration](https://docs.aws.amazon.com/gamelift/latest/apireference/RuntimeConfiguration.html) . Requests that use this parameter instead continue to be valid.
+        /// This parameter is no longer used. Server launch paths are now defined using the fleet's [RuntimeConfiguration](https://docs.aws.amazon.com/gamelift/latest/apireference/RuntimeConfiguration.html) . Requests that use this parameter continue to be valid.
         public var serverLaunchPath: Swift.String?
         /// Current status of the fleet. Possible fleet statuses include the following:
         ///
@@ -11068,7 +12988,7 @@ extension GameLiftClientTypes {
         ///
         /// * TERMINATED -- The fleet no longer exists.
         public var status: GameLiftClientTypes.FleetStatus?
-        /// A list of fleet activity that has been suspended using [StopFleetActions](https://docs.aws.amazon.com/gamelift/latest/apireference/API_StopFleetActions.html) . This includes fleet auto-scaling.
+        /// A list of fleet activity that has been suspended using [StopFleetActions](https://docs.aws.amazon.com/gamelift/latest/apireference/API_StopFleetActions.html). This includes fleet auto-scaling. This attribute is used with fleets where ComputeType is "EC2" or "Container".
         public var stoppedActions: [GameLiftClientTypes.FleetAction]?
         /// A time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public var terminationTime: ClientRuntime.Date?
@@ -11079,6 +12999,7 @@ extension GameLiftClientTypes {
             buildId: Swift.String? = nil,
             certificateConfiguration: GameLiftClientTypes.CertificateConfiguration? = nil,
             computeType: GameLiftClientTypes.ComputeType? = nil,
+            containerGroupsAttributes: GameLiftClientTypes.ContainerGroupsAttributes? = nil,
             creationTime: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
             fleetArn: Swift.String? = nil,
@@ -11107,6 +13028,7 @@ extension GameLiftClientTypes {
             self.buildId = buildId
             self.certificateConfiguration = certificateConfiguration
             self.computeType = computeType
+            self.containerGroupsAttributes = containerGroupsAttributes
             self.creationTime = creationTime
             self.description = description
             self.fleetArn = fleetArn
@@ -11140,6 +13062,7 @@ extension GameLiftClientTypes.FleetCapacity: Swift.Codable {
         case instanceCounts = "InstanceCounts"
         case instanceType = "InstanceType"
         case location = "Location"
+        case replicaContainerGroupCounts = "ReplicaContainerGroupCounts"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -11159,6 +13082,9 @@ extension GameLiftClientTypes.FleetCapacity: Swift.Codable {
         if let location = self.location {
             try encodeContainer.encode(location, forKey: .location)
         }
+        if let replicaContainerGroupCounts = self.replicaContainerGroupCounts {
+            try encodeContainer.encode(replicaContainerGroupCounts, forKey: .replicaContainerGroupCounts)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -11173,29 +13099,34 @@ extension GameLiftClientTypes.FleetCapacity: Swift.Codable {
         instanceCounts = instanceCountsDecoded
         let locationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .location)
         location = locationDecoded
+        let replicaContainerGroupCountsDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.ReplicaContainerGroupCounts.self, forKey: .replicaContainerGroupCounts)
+        replicaContainerGroupCounts = replicaContainerGroupCountsDecoded
     }
 }
 
 extension GameLiftClientTypes {
-    /// Current resource capacity settings in a specified fleet or location. The location value might refer to a fleet's remote location or its home Region. Related actions [DescribeFleetCapacity](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetCapacity.html) | [DescribeFleetLocationCapacity](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetLocationCapacity.html) | [UpdateFleetCapacity](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateFleetCapacity.html)
+    /// Current resource capacity settings for managed EC2 fleets and container fleets. For multi-location fleets, location values might refer to a fleet's remote location or its home Region. Returned by: [DescribeFleetCapacity](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetCapacity.html), [DescribeFleetLocationCapacity](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetLocationCapacity.html), [UpdateFleetCapacity](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateFleetCapacity.html)
     public struct FleetCapacity {
         /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
         public var fleetArn: Swift.String?
         /// A unique identifier for the fleet associated with the location.
         public var fleetId: Swift.String?
-        /// Resource capacity settings. Fleet capacity is measured in Amazon EC2 instances. Pending and terminating counts are non-zero when the fleet capacity is adjusting to a scaling event or if access to resources is temporarily affected.
+        /// The current number of instances in the fleet, listed by instance status. Counts for pending and terminating instances might be non-zero if the fleet is adjusting to a scaling event or if access to resources is temporarily affected.
         public var instanceCounts: GameLiftClientTypes.EC2InstanceCounts?
-        /// The Amazon EC2 instance type that is used for all instances in a fleet. The instance type determines the computing resources in use, including CPU, memory, storage, and networking capacity. See [Amazon Elastic Compute Cloud Instance Types](http://aws.amazon.com/ec2/instance-types/) for detailed descriptions.
+        /// The Amazon EC2 instance type that is used for instances in a fleet. Instance type determines the computing resources in use, including CPU, memory, storage, and networking capacity. See [Amazon Elastic Compute Cloud Instance Types](http://aws.amazon.com/ec2/instance-types/) for detailed descriptions.
         public var instanceType: GameLiftClientTypes.EC2InstanceType?
         /// The fleet location for the instance count information, expressed as an Amazon Web Services Region code, such as us-west-2.
         public var location: Swift.String?
+        /// This property is used with the Amazon GameLift containers feature, which is currently in public preview. The number and status of replica container groups in a container fleet.
+        public var replicaContainerGroupCounts: GameLiftClientTypes.ReplicaContainerGroupCounts?
 
         public init(
             fleetArn: Swift.String? = nil,
             fleetId: Swift.String? = nil,
             instanceCounts: GameLiftClientTypes.EC2InstanceCounts? = nil,
             instanceType: GameLiftClientTypes.EC2InstanceType? = nil,
-            location: Swift.String? = nil
+            location: Swift.String? = nil,
+            replicaContainerGroupCounts: GameLiftClientTypes.ReplicaContainerGroupCounts? = nil
         )
         {
             self.fleetArn = fleetArn
@@ -11203,6 +13134,7 @@ extension GameLiftClientTypes {
             self.instanceCounts = instanceCounts
             self.instanceType = instanceType
             self.location = location
+            self.replicaContainerGroupCounts = replicaContainerGroupCounts
         }
     }
 
@@ -11407,7 +13339,7 @@ extension GameLiftClientTypes.FleetUtilization: Swift.Codable {
 }
 
 extension GameLiftClientTypes {
-    /// Current resource utilization statistics in a specified fleet or location. The location value might refer to a fleet's remote location or its home Region. Related actions
+    /// Current resource utilization statistics in a specified fleet or location. The location value might refer to a fleet's remote location or its home region.
     public struct FleetUtilization {
         /// The number of active game sessions that are currently being hosted across all instances in the fleet location.
         public var activeGameSessionCount: Swift.Int?
@@ -13539,10 +15471,10 @@ extension GetComputeAccessInput {
 }
 
 public struct GetComputeAccessInput {
-    /// A unique identifier for the compute resource that you want to connect to. You can use either a registered compute name or an instance ID.
+    /// A unique identifier for the compute resource that you want to connect to. For an EC2 fleet compute, use the instance ID. For a container fleet, use the compute name (for example, a123b456c789012d3e4567f8a901b23c/1a234b56-7cd8-9e0f-a1b2-c34d567ef8a9) or the compute ARN.
     /// This member is required.
     public var computeName: Swift.String?
-    /// A unique identifier for the fleet that contains the compute resource you want to connect to. You can use either the fleet ID or ARN value.
+    /// A unique identifier for the fleet that holds the compute resource that you want to connect to. You can use either the fleet ID or ARN value.
     /// This member is required.
     public var fleetId: Swift.String?
 
@@ -13578,7 +15510,7 @@ extension GetComputeAccessInputBody: Swift.Decodable {
 
 extension GetComputeAccessOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetComputeAccessOutput(computeArn: \(Swift.String(describing: computeArn)), computeName: \(Swift.String(describing: computeName)), fleetArn: \(Swift.String(describing: fleetArn)), fleetId: \(Swift.String(describing: fleetId)), credentials: \"CONTENT_REDACTED\")"}
+        "GetComputeAccessOutput(computeArn: \(Swift.String(describing: computeArn)), computeName: \(Swift.String(describing: computeName)), fleetArn: \(Swift.String(describing: fleetArn)), fleetId: \(Swift.String(describing: fleetId)), target: \(Swift.String(describing: target)), credentials: \"CONTENT_REDACTED\")"}
 }
 
 extension GetComputeAccessOutput: ClientRuntime.HttpResponseBinding {
@@ -13591,12 +15523,14 @@ extension GetComputeAccessOutput: ClientRuntime.HttpResponseBinding {
             self.credentials = output.credentials
             self.fleetArn = output.fleetArn
             self.fleetId = output.fleetId
+            self.target = output.target
         } else {
             self.computeArn = nil
             self.computeName = nil
             self.credentials = nil
             self.fleetArn = nil
             self.fleetId = nil
+            self.target = nil
         }
     }
 }
@@ -13610,15 +15544,18 @@ public struct GetComputeAccessOutput {
     public var credentials: GameLiftClientTypes.AwsCredentials?
     /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
     public var fleetArn: Swift.String?
-    /// The ID of the fleet that contains the compute resource to be accessed.
+    /// The ID of the fleet that holds the compute resource to be accessed.
     public var fleetId: Swift.String?
+    /// (For container fleets only) The instance ID where the compute resource is running.
+    public var target: Swift.String?
 
     public init(
         computeArn: Swift.String? = nil,
         computeName: Swift.String? = nil,
         credentials: GameLiftClientTypes.AwsCredentials? = nil,
         fleetArn: Swift.String? = nil,
-        fleetId: Swift.String? = nil
+        fleetId: Swift.String? = nil,
+        target: Swift.String? = nil
     )
     {
         self.computeArn = computeArn
@@ -13626,6 +15563,7 @@ public struct GetComputeAccessOutput {
         self.credentials = credentials
         self.fleetArn = fleetArn
         self.fleetId = fleetId
+        self.target = target
     }
 }
 
@@ -13635,6 +15573,7 @@ struct GetComputeAccessOutputBody {
     let computeName: Swift.String?
     let computeArn: Swift.String?
     let credentials: GameLiftClientTypes.AwsCredentials?
+    let target: Swift.String?
 }
 
 extension GetComputeAccessOutputBody: Swift.Decodable {
@@ -13644,6 +15583,7 @@ extension GetComputeAccessOutputBody: Swift.Decodable {
         case credentials = "Credentials"
         case fleetArn = "FleetArn"
         case fleetId = "FleetId"
+        case target = "Target"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -13658,6 +15598,8 @@ extension GetComputeAccessOutputBody: Swift.Decodable {
         computeArn = computeArnDecoded
         let credentialsDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.AwsCredentials.self, forKey: .credentials)
         credentials = credentialsDecoded
+        let targetDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .target)
+        target = targetDecoded
     }
 }
 
@@ -13700,7 +15642,7 @@ extension GetComputeAuthTokenInput {
 }
 
 public struct GetComputeAuthTokenInput {
-    /// The name of the compute resource you are requesting the authentication token for.
+    /// The name of the compute resource you are requesting the authentication token for. For an Anywhere fleet compute, use the registered compute name. For an EC2 fleet instance, use the instance ID. For a container fleet, use the compute name (for example, a123b456c789012d3e4567f8a901b23c/1a234b56-7cd8-9e0f-a1b2-c34d567ef8a9) or the compute ARN.
     /// This member is required.
     public var computeName: Swift.String?
     /// A unique identifier for the fleet that the compute is registered to.
@@ -14762,7 +16704,7 @@ extension GameLiftClientTypes.IpPermission: Swift.CustomDebugStringConvertible {
 }
 
 extension GameLiftClientTypes {
-    /// A range of IP addresses and port settings that allow inbound traffic to connect to server processes on an instance in a fleet. New game sessions are assigned an IP address/port number combination, which must fall into the fleet's allowed ranges. Fleets with custom game builds must have permissions explicitly set. For Realtime Servers fleets, Amazon GameLift automatically opens two port ranges, one for TCP messaging and one for UDP.
+    /// A range of IP addresses and port settings that allow inbound traffic to connect to processes on an instance in a fleet. Processes are assigned an IP address/port number combination, which must fall into the fleet's allowed ranges. For container fleets, the port settings must use the same port numbers as the fleet's connection ports. For Realtime Servers fleets, Amazon GameLift automatically opens two port ranges, one for TCP messaging and one for UDP.
     public struct IpPermission {
         /// A starting value for a range of allowed port numbers. For fleets using Linux builds, only ports 22 and 1026-60000 are valid. For fleets using Windows builds, only ports 1026-60000 are valid.
         /// This member is required.
@@ -15283,7 +17225,7 @@ public struct ListComputeInput {
     public var fleetId: Swift.String?
     /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
     public var limit: Swift.Int?
-    /// The name of a location to retrieve compute resources for.
+    /// The name of a location to retrieve compute resources for. For an Amazon GameLift Anywhere fleet, use a custom location. For a multi-location EC2 or container fleet, provide a Amazon Web Services Region or Local Zone code (for example: us-west-2 or us-west-2-lax-1).
     public var location: Swift.String?
     /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
     public var nextToken: Swift.String?
@@ -15402,9 +17344,159 @@ enum ListComputeOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension ListContainerGroupDefinitionsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case limit = "Limit"
+        case nextToken = "NextToken"
+        case schedulingStrategy = "SchedulingStrategy"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let limit = self.limit {
+            try encodeContainer.encode(limit, forKey: .limit)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let schedulingStrategy = self.schedulingStrategy {
+            try encodeContainer.encode(schedulingStrategy.rawValue, forKey: .schedulingStrategy)
+        }
+    }
+}
+
+extension ListContainerGroupDefinitionsInput {
+
+    static func urlPathProvider(_ value: ListContainerGroupDefinitionsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListContainerGroupDefinitionsInput {
+    /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+    public var limit: Swift.Int?
+    /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
+    public var nextToken: Swift.String?
+    /// The type of container group definitions to retrieve.
+    ///
+    /// * DAEMON -- Daemon container groups run background processes and are deployed once per fleet instance.
+    ///
+    /// * REPLICA -- Replica container groups run your game server application and supporting software. Replica groups might be deployed multiple times per fleet instance.
+    public var schedulingStrategy: GameLiftClientTypes.ContainerSchedulingStrategy?
+
+    public init(
+        limit: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        schedulingStrategy: GameLiftClientTypes.ContainerSchedulingStrategy? = nil
+    )
+    {
+        self.limit = limit
+        self.nextToken = nextToken
+        self.schedulingStrategy = schedulingStrategy
+    }
+}
+
+struct ListContainerGroupDefinitionsInputBody {
+    let schedulingStrategy: GameLiftClientTypes.ContainerSchedulingStrategy?
+    let limit: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListContainerGroupDefinitionsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case limit = "Limit"
+        case nextToken = "NextToken"
+        case schedulingStrategy = "SchedulingStrategy"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let schedulingStrategyDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.ContainerSchedulingStrategy.self, forKey: .schedulingStrategy)
+        schedulingStrategy = schedulingStrategyDecoded
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
+        limit = limitDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListContainerGroupDefinitionsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListContainerGroupDefinitionsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.containerGroupDefinitions = output.containerGroupDefinitions
+            self.nextToken = output.nextToken
+        } else {
+            self.containerGroupDefinitions = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListContainerGroupDefinitionsOutput {
+    /// A result set of container group definitions that match the request.
+    public var containerGroupDefinitions: [GameLiftClientTypes.ContainerGroupDefinition]?
+    /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
+    public var nextToken: Swift.String?
+
+    public init(
+        containerGroupDefinitions: [GameLiftClientTypes.ContainerGroupDefinition]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.containerGroupDefinitions = containerGroupDefinitions
+        self.nextToken = nextToken
+    }
+}
+
+struct ListContainerGroupDefinitionsOutputBody {
+    let containerGroupDefinitions: [GameLiftClientTypes.ContainerGroupDefinition]?
+    let nextToken: Swift.String?
+}
+
+extension ListContainerGroupDefinitionsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case containerGroupDefinitions = "ContainerGroupDefinitions"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let containerGroupDefinitionsContainer = try containerValues.decodeIfPresent([GameLiftClientTypes.ContainerGroupDefinition?].self, forKey: .containerGroupDefinitions)
+        var containerGroupDefinitionsDecoded0:[GameLiftClientTypes.ContainerGroupDefinition]? = nil
+        if let containerGroupDefinitionsContainer = containerGroupDefinitionsContainer {
+            containerGroupDefinitionsDecoded0 = [GameLiftClientTypes.ContainerGroupDefinition]()
+            for structure0 in containerGroupDefinitionsContainer {
+                if let structure0 = structure0 {
+                    containerGroupDefinitionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        containerGroupDefinitions = containerGroupDefinitionsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListContainerGroupDefinitionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedRegionException": return try await UnsupportedRegionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListFleetsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case buildId = "BuildId"
+        case containerGroupDefinitionName = "ContainerGroupDefinitionName"
         case limit = "Limit"
         case nextToken = "NextToken"
         case scriptId = "ScriptId"
@@ -15414,6 +17506,9 @@ extension ListFleetsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let buildId = self.buildId {
             try encodeContainer.encode(buildId, forKey: .buildId)
+        }
+        if let containerGroupDefinitionName = self.containerGroupDefinitionName {
+            try encodeContainer.encode(containerGroupDefinitionName, forKey: .containerGroupDefinitionName)
         }
         if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
@@ -15437,6 +17532,8 @@ extension ListFleetsInput {
 public struct ListFleetsInput {
     /// A unique identifier for the build to request fleets for. Use this parameter to return only fleets using a specified build. Use either the build ID or ARN value.
     public var buildId: Swift.String?
+    /// The container group definition name to request fleets for. Use this parameter to return only fleets that are deployed with the specified container group definition.
+    public var containerGroupDefinitionName: Swift.String?
     /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
     public var limit: Swift.Int?
     /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
@@ -15446,12 +17543,14 @@ public struct ListFleetsInput {
 
     public init(
         buildId: Swift.String? = nil,
+        containerGroupDefinitionName: Swift.String? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         scriptId: Swift.String? = nil
     )
     {
         self.buildId = buildId
+        self.containerGroupDefinitionName = containerGroupDefinitionName
         self.limit = limit
         self.nextToken = nextToken
         self.scriptId = scriptId
@@ -15461,6 +17560,7 @@ public struct ListFleetsInput {
 struct ListFleetsInputBody {
     let buildId: Swift.String?
     let scriptId: Swift.String?
+    let containerGroupDefinitionName: Swift.String?
     let limit: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -15468,6 +17568,7 @@ struct ListFleetsInputBody {
 extension ListFleetsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case buildId = "BuildId"
+        case containerGroupDefinitionName = "ContainerGroupDefinitionName"
         case limit = "Limit"
         case nextToken = "NextToken"
         case scriptId = "ScriptId"
@@ -15479,6 +17580,8 @@ extension ListFleetsInputBody: Swift.Decodable {
         buildId = buildIdDecoded
         let scriptIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scriptId)
         scriptId = scriptIdDecoded
+        let containerGroupDefinitionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .containerGroupDefinitionName)
+        containerGroupDefinitionName = containerGroupDefinitionNameDecoded
         let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
@@ -16335,7 +18438,7 @@ extension GameLiftClientTypes.LocationConfiguration: Swift.Codable {
 }
 
 extension GameLiftClientTypes {
-    /// A remote location where a multi-location fleet can deploy game servers for game hosting.
+    /// This data type has been expanded to use with the Amazon GameLift containers feature, which is currently in public preview. A remote location where a multi-location fleet can deploy game servers for game hosting.
     public struct LocationConfiguration {
         /// An Amazon Web Services Region code, such as us-west-2.
         /// This member is required.
@@ -16409,7 +18512,7 @@ extension GameLiftClientTypes.LocationModel: Swift.Codable {
 }
 
 extension GameLiftClientTypes {
-    /// Properties of a location
+    /// Properties of a custom location for use in an Amazon GameLift Anywhere fleet. This data type is returned in response to a call to [https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateLocation.html](https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateLocation.html).
     public struct LocationModel {
         /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift location resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::location/location-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
         public var locationArn: Swift.String?
@@ -17185,6 +19288,61 @@ struct NotFoundExceptionBody {
 }
 
 extension NotFoundExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension NotReadyException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: NotReadyExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The operation failed because Amazon GameLift has not yet finished validating this compute. We recommend attempting 8 to 10 retries over 3 to 5 minutes with [exponential backoffs and jitter](http://aws.amazon.com/blogs/https:/aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/).
+public struct NotReadyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NotReadyException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct NotReadyExceptionBody {
+    let message: Swift.String?
+}
+
+extension NotReadyExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message = "Message"
     }
@@ -18367,6 +20525,7 @@ enum RegisterComputeOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotReadyException": return try await NotReadyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -18525,6 +20684,71 @@ enum RegisterGameServerOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension GameLiftClientTypes.ReplicaContainerGroupCounts: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case active = "ACTIVE"
+        case idle = "IDLE"
+        case pending = "PENDING"
+        case terminating = "TERMINATING"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let active = self.active {
+            try encodeContainer.encode(active, forKey: .active)
+        }
+        if let idle = self.idle {
+            try encodeContainer.encode(idle, forKey: .idle)
+        }
+        if let pending = self.pending {
+            try encodeContainer.encode(pending, forKey: .pending)
+        }
+        if let terminating = self.terminating {
+            try encodeContainer.encode(terminating, forKey: .terminating)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pendingDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pending)
+        pending = pendingDecoded
+        let activeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .active)
+        active = activeDecoded
+        let idleDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .idle)
+        idle = idleDecoded
+        let terminatingDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .terminating)
+        terminating = terminatingDecoded
+    }
+}
+
+extension GameLiftClientTypes {
+    /// This data type is used with the Amazon GameLift containers feature, which is currently in public preview. The number and status of replica container groups that are deployed across a fleet with compute type CONTAINER. This information, combined with the number of server processes being hosted per container group (see RuntimeConfiguration), tells you how many game sessions the fleet is currently capable of hosting concurrently. Returned by: [DescribeFleetCapacity], [DescribeFleetLocationCapacity]
+    public struct ReplicaContainerGroupCounts {
+        /// The number of container groups that have active game sessions.
+        public var active: Swift.Int?
+        /// The number of container groups that have no active game sessions.
+        public var idle: Swift.Int?
+        /// The number of container groups that are starting up but have not yet registered.
+        public var pending: Swift.Int?
+        /// The number of container groups that are in the process of shutting down.
+        public var terminating: Swift.Int?
+
+        public init(
+            active: Swift.Int? = nil,
+            idle: Swift.Int? = nil,
+            pending: Swift.Int? = nil,
+            terminating: Swift.Int? = nil
+        )
+        {
+            self.active = active
+            self.idle = idle
+            self.pending = pending
+            self.terminating = terminating
+        }
+    }
+
 }
 
 extension RequestUploadCredentialsInput: Swift.Encodable {
@@ -19067,13 +21291,13 @@ extension GameLiftClientTypes.RuntimeConfiguration: Swift.Codable {
 }
 
 extension GameLiftClientTypes {
-    /// A collection of server process configurations that describe the set of processes to run on each instance in a fleet. Server processes run either an executable in a custom game build or a Realtime Servers script. Amazon GameLift launches the configured processes, manages their life cycle, and replaces them as needed. Each instance checks regularly for an updated runtime configuration. A Amazon GameLift instance is limited to 50 processes running concurrently. To calculate the total number of processes in a runtime configuration, add the values of the ConcurrentExecutions parameter for each server process. Learn more about [ Running Multiple Processes on a Fleet](https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-multiprocess.html).
+    /// This data type has been expanded to use with the Amazon GameLift containers feature, which is currently in public preview. A set of instructions that define the set of server processes to run on computes in a fleet. Server processes run either an executable in a custom game build or a Realtime Servers script. Amazon GameLift launches the processes, manages their life cycle, and replaces them as needed. Computes check regularly for an updated runtime configuration. On a container fleet, the Amazon GameLift Agent uses the runtime configuration to manage the lifecycle of server processes in a replica container group. An Amazon GameLift instance is limited to 50 processes running concurrently. To calculate the total number of processes defined in a runtime configuration, add the values of the ConcurrentExecutions parameter for each server process. Learn more about [ Running Multiple Processes on a Fleet](https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-multiprocess.html).
     public struct RuntimeConfiguration {
         /// The maximum amount of time (in seconds) allowed to launch a new game session and have it report ready to host players. During this time, the game session is in status ACTIVATING. If the game session does not become active before the timeout, it is ended and the game session status is changed to TERMINATED.
         public var gameSessionActivationTimeoutSeconds: Swift.Int?
-        /// The number of game sessions in status ACTIVATING to allow on an instance. This setting limits the instance resources that can be used for new game activations at any one time.
+        /// The number of game sessions in status ACTIVATING to allow on an instance or container. This setting limits the instance resources that can be used for new game activations at any one time.
         public var maxConcurrentGameSessionActivations: Swift.Int?
-        /// A collection of server process configurations that identify what server processes to run on each instance in a fleet.
+        /// A collection of server process configurations that identify what server processes to run on fleet computes.
         public var serverProcesses: [GameLiftClientTypes.ServerProcess]?
 
         public init(
@@ -19795,9 +22019,9 @@ extension GameLiftClientTypes.ServerProcess: Swift.Codable {
 }
 
 extension GameLiftClientTypes {
-    /// A set of instructions for launching server processes on each instance in a fleet. Server processes run either an executable in a custom game build or a Realtime Servers script. Server process configurations are part of a fleet's runtime configuration.
+    /// A set of instructions for launching server processes on fleet computes. Server processes run either an executable in a custom game build or a Realtime Servers script. Server process configurations are part of a fleet's runtime configuration.
     public struct ServerProcess {
-        /// The number of server processes using this configuration that run concurrently on each instance.
+        /// The number of server processes using this configuration that run concurrently on each instance or container..
         /// This member is required.
         public var concurrentExecutions: Swift.Int?
         /// The location of a game build executable or Realtime script. Game builds and Realtime scripts are installed on instances at the root:
@@ -23358,7 +25582,7 @@ public struct UpdateRuntimeConfigurationInput {
     /// A unique identifier for the fleet to update runtime configuration for. You can use either the fleet ID or ARN value.
     /// This member is required.
     public var fleetId: Swift.String?
-    /// Instructions for launching server processes on each instance in the fleet. Server processes run either a custom game build executable or a Realtime Servers script. The runtime configuration lists the types of server processes to run on an instance, how to launch them, and the number of processes to run concurrently.
+    /// Instructions for launching server processes on fleet computes. Server processes run either a custom game build executable or a Realtime Servers script. The runtime configuration lists the types of server processes to run, how to launch them, and the number of processes to run concurrently.
     /// This member is required.
     public var runtimeConfiguration: GameLiftClientTypes.RuntimeConfiguration?
 
@@ -23405,7 +25629,7 @@ extension UpdateRuntimeConfigurationOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct UpdateRuntimeConfigurationOutput {
-    /// The runtime configuration currently in use by all instances in the fleet. If the update was successful, all property changes are shown.
+    /// The runtime configuration currently in use by computes in the fleet. If the update is successful, all property changes are shown.
     public var runtimeConfiguration: GameLiftClientTypes.RuntimeConfiguration?
 
     public init(
@@ -23440,6 +25664,7 @@ enum UpdateRuntimeConfigurationOutputError: ClientRuntime.HttpResponseErrorBindi
             case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidFleetStatusException": return try await InvalidFleetStatusException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)

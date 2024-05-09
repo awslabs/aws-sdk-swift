@@ -1545,6 +1545,7 @@ extension QuickSightClientTypes.AnonymousUserEmbeddingExperienceConfiguration: S
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dashboard = "Dashboard"
         case dashboardVisual = "DashboardVisual"
+        case generativeQnA = "GenerativeQnA"
         case qSearchBar = "QSearchBar"
     }
 
@@ -1555,6 +1556,9 @@ extension QuickSightClientTypes.AnonymousUserEmbeddingExperienceConfiguration: S
         }
         if let dashboardVisual = self.dashboardVisual {
             try encodeContainer.encode(dashboardVisual, forKey: .dashboardVisual)
+        }
+        if let generativeQnA = self.generativeQnA {
+            try encodeContainer.encode(generativeQnA, forKey: .generativeQnA)
         }
         if let qSearchBar = self.qSearchBar {
             try encodeContainer.encode(qSearchBar, forKey: .qSearchBar)
@@ -1569,6 +1573,8 @@ extension QuickSightClientTypes.AnonymousUserEmbeddingExperienceConfiguration: S
         dashboardVisual = dashboardVisualDecoded
         let qSearchBarDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AnonymousUserQSearchBarEmbeddingConfiguration.self, forKey: .qSearchBar)
         qSearchBar = qSearchBarDecoded
+        let generativeQnADecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AnonymousUserGenerativeQnAEmbeddingConfiguration.self, forKey: .generativeQnA)
+        generativeQnA = generativeQnADecoded
     }
 }
 
@@ -1579,18 +1585,58 @@ extension QuickSightClientTypes {
         public var dashboard: QuickSightClientTypes.AnonymousUserDashboardEmbeddingConfiguration?
         /// The type of embedding experience. In this case, Amazon QuickSight visuals.
         public var dashboardVisual: QuickSightClientTypes.AnonymousUserDashboardVisualEmbeddingConfiguration?
+        /// The Generative Q&A experience that you want to use for anonymous user embedding.
+        public var generativeQnA: QuickSightClientTypes.AnonymousUserGenerativeQnAEmbeddingConfiguration?
         /// The Q search bar that you want to use for anonymous user embedding.
         public var qSearchBar: QuickSightClientTypes.AnonymousUserQSearchBarEmbeddingConfiguration?
 
         public init(
             dashboard: QuickSightClientTypes.AnonymousUserDashboardEmbeddingConfiguration? = nil,
             dashboardVisual: QuickSightClientTypes.AnonymousUserDashboardVisualEmbeddingConfiguration? = nil,
+            generativeQnA: QuickSightClientTypes.AnonymousUserGenerativeQnAEmbeddingConfiguration? = nil,
             qSearchBar: QuickSightClientTypes.AnonymousUserQSearchBarEmbeddingConfiguration? = nil
         )
         {
             self.dashboard = dashboard
             self.dashboardVisual = dashboardVisual
+            self.generativeQnA = generativeQnA
             self.qSearchBar = qSearchBar
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.AnonymousUserGenerativeQnAEmbeddingConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case initialTopicId = "InitialTopicId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let initialTopicId = self.initialTopicId {
+            try encodeContainer.encode(initialTopicId, forKey: .initialTopicId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let initialTopicIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .initialTopicId)
+        initialTopicId = initialTopicIdDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The settings that you want to use for the Generative Q&A experience.
+    public struct AnonymousUserGenerativeQnAEmbeddingConfiguration {
+        /// The Amazon QuickSight Q topic ID of the new reader experience topic that you want the anonymous user to see first. This ID is included in the output URL. When the URL in response is accessed, Amazon QuickSight renders the Generative Q&A experience with this new reader experience topic pre selected. The Amazon Resource Name (ARN) of this Q new reader experience topic must be included in the AuthorizedResourceArns parameter. Otherwise, the request fails with an InvalidParameterValueException error.
+        /// This member is required.
+        public var initialTopicId: Swift.String?
+
+        public init(
+            initialTopicId: Swift.String? = nil
+        )
+        {
+            self.initialTopicId = initialTopicId
         }
     }
 
@@ -1618,7 +1664,7 @@ extension QuickSightClientTypes.AnonymousUserQSearchBarEmbeddingConfiguration: S
 extension QuickSightClientTypes {
     /// The settings that you want to use with the Q search bar.
     public struct AnonymousUserQSearchBarEmbeddingConfiguration {
-        /// The QuickSight Q topic ID of the topic that you want the anonymous user to see first. This ID is included in the output URL. When the URL in response is accessed, Amazon QuickSight renders the Q search bar with this topic pre-selected. The Amazon Resource Name (ARN) of this Q topic must be included in the AuthorizedResourceArns parameter. Otherwise, the request will fail with InvalidParameterValueException.
+        /// The Amazon QuickSight Q topic ID of the legacy topic that you want the anonymous user to see first. This ID is included in the output URL. When the URL in response is accessed, Amazon QuickSight renders the Q search bar with this legacy topic pre-selected. The Amazon Resource Name (ARN) of this Q legacy topic must be included in the AuthorizedResourceArns parameter. Otherwise, the request fails with an InvalidParameterValueException error.
         /// This member is required.
         public var initialTopicId: Swift.String?
 
@@ -12046,8 +12092,10 @@ extension CreateAccountSubscriptionInput: Swift.Encodable {
         case accountName = "AccountName"
         case activeDirectoryName = "ActiveDirectoryName"
         case adminGroup = "AdminGroup"
+        case adminProGroup = "AdminProGroup"
         case authenticationMethod = "AuthenticationMethod"
         case authorGroup = "AuthorGroup"
+        case authorProGroup = "AuthorProGroup"
         case contactNumber = "ContactNumber"
         case directoryId = "DirectoryId"
         case edition = "Edition"
@@ -12057,6 +12105,7 @@ extension CreateAccountSubscriptionInput: Swift.Encodable {
         case lastName = "LastName"
         case notificationEmail = "NotificationEmail"
         case readerGroup = "ReaderGroup"
+        case readerProGroup = "ReaderProGroup"
         case realm = "Realm"
     }
 
@@ -12074,6 +12123,12 @@ extension CreateAccountSubscriptionInput: Swift.Encodable {
                 try adminGroupContainer.encode(string0)
             }
         }
+        if let adminProGroup = adminProGroup {
+            var adminProGroupContainer = encodeContainer.nestedUnkeyedContainer(forKey: .adminProGroup)
+            for string0 in adminProGroup {
+                try adminProGroupContainer.encode(string0)
+            }
+        }
         if let authenticationMethod = self.authenticationMethod {
             try encodeContainer.encode(authenticationMethod.rawValue, forKey: .authenticationMethod)
         }
@@ -12081,6 +12136,12 @@ extension CreateAccountSubscriptionInput: Swift.Encodable {
             var authorGroupContainer = encodeContainer.nestedUnkeyedContainer(forKey: .authorGroup)
             for string0 in authorGroup {
                 try authorGroupContainer.encode(string0)
+            }
+        }
+        if let authorProGroup = authorProGroup {
+            var authorProGroupContainer = encodeContainer.nestedUnkeyedContainer(forKey: .authorProGroup)
+            for string0 in authorProGroup {
+                try authorProGroupContainer.encode(string0)
             }
         }
         if let contactNumber = self.contactNumber {
@@ -12113,6 +12174,12 @@ extension CreateAccountSubscriptionInput: Swift.Encodable {
                 try readerGroupContainer.encode(string0)
             }
         }
+        if let readerProGroup = readerProGroup {
+            var readerProGroupContainer = encodeContainer.nestedUnkeyedContainer(forKey: .readerProGroup)
+            for string0 in readerProGroup {
+                try readerProGroupContainer.encode(string0)
+            }
+        }
         if let realm = self.realm {
             try encodeContainer.encode(realm, forKey: .realm)
         }
@@ -12135,13 +12202,17 @@ public struct CreateAccountSubscriptionInput {
     public var accountName: Swift.String?
     /// The name of your Active Directory. This field is required if ACTIVE_DIRECTORY is the selected authentication method of the new Amazon QuickSight account.
     public var activeDirectoryName: Swift.String?
-    /// The admin group associated with your Active Directory or IAM Identity Center account. This field is required if ACTIVE_DIRECTORY or IAM_IDENTITY_CENTER is the selected authentication method of the new Amazon QuickSight account. For more information about using IAM Identity Center in Amazon QuickSight, see [Using IAM Identity Center with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/sec-identity-management-identity-center.html) in the Amazon QuickSight User Guide. For more information about using Active Directory in Amazon QuickSight, see [Using Active Directory with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html) in the Amazon QuickSight User Guide.
+    /// The admin group associated with your Active Directory or IAM Identity Center account. Either this field or the AdminProGroup field is required if ACTIVE_DIRECTORY or IAM_IDENTITY_CENTER is the selected authentication method of the new Amazon QuickSight account. For more information about using IAM Identity Center in Amazon QuickSight, see [Using IAM Identity Center with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/sec-identity-management-identity-center.html) in the Amazon QuickSight User Guide. For more information about using Active Directory in Amazon QuickSight, see [Using Active Directory with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html) in the Amazon QuickSight User Guide.
     public var adminGroup: [Swift.String]?
+    /// The admin pro group associated with your Active Directory or IAM Identity Center account. Either this field or the AdminGroup field is required if ACTIVE_DIRECTORY or IAM_IDENTITY_CENTER is the selected authentication method of the new Amazon QuickSight account. For more information about using IAM Identity Center in Amazon QuickSight, see [Using IAM Identity Center with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/sec-identity-management-identity-center.html) in the Amazon QuickSight User Guide. For more information about using Active Directory in Amazon QuickSight, see [Using Active Directory with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html) in the Amazon QuickSight User Guide.
+    public var adminProGroup: [Swift.String]?
     /// The method that you want to use to authenticate your Amazon QuickSight account. If you choose ACTIVE_DIRECTORY, provide an ActiveDirectoryName and an AdminGroup associated with your Active Directory. If you choose IAM_IDENTITY_CENTER, provide an AdminGroup associated with your IAM Identity Center account.
     /// This member is required.
     public var authenticationMethod: QuickSightClientTypes.AuthenticationMethodOption?
     /// The author group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon QuickSight, see [Using IAM Identity Center with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/sec-identity-management-identity-center.html) in the Amazon QuickSight User Guide. For more information about using Active Directory in Amazon QuickSight, see [Using Active Directory with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html) in the Amazon QuickSight User Guide.
     public var authorGroup: [Swift.String]?
+    /// The author pro group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon QuickSight, see [Using IAM Identity Center with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/sec-identity-management-identity-center.html) in the Amazon QuickSight User Guide. For more information about using Active Directory in Amazon QuickSight, see [Using Active Directory with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html) in the Amazon QuickSight User Guide.
+    public var authorProGroup: [Swift.String]?
     /// The Amazon Web Services account ID of the account that you're using to create your Amazon QuickSight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -12158,7 +12229,6 @@ public struct CreateAccountSubscriptionInput {
     /// * EmailAddress
     ///
     /// * ContactNumber
-    /// This member is required.
     public var edition: QuickSightClientTypes.Edition?
     /// The email address of the author of the Amazon QuickSight account to use for future communications. This field is required if ENTERPPRISE_AND_Q is the selected edition of the new Amazon QuickSight account.
     public var emailAddress: Swift.String?
@@ -12173,6 +12243,8 @@ public struct CreateAccountSubscriptionInput {
     public var notificationEmail: Swift.String?
     /// The reader group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon QuickSight, see [Using IAM Identity Center with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/sec-identity-management-identity-center.html) in the Amazon QuickSight User Guide. For more information about using Active Directory in Amazon QuickSight, see [Using Active Directory with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html) in the Amazon QuickSight User Guide.
     public var readerGroup: [Swift.String]?
+    /// The reader pro group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon QuickSight, see [Using IAM Identity Center with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/sec-identity-management-identity-center.html) in the Amazon QuickSight User Guide. For more information about using Active Directory in Amazon QuickSight, see [Using Active Directory with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html) in the Amazon QuickSight User Guide.
+    public var readerProGroup: [Swift.String]?
     /// The realm of the Active Directory that is associated with your Amazon QuickSight account. This field is required if ACTIVE_DIRECTORY is the selected authentication method of the new Amazon QuickSight account.
     public var realm: Swift.String?
 
@@ -12180,8 +12252,10 @@ public struct CreateAccountSubscriptionInput {
         accountName: Swift.String? = nil,
         activeDirectoryName: Swift.String? = nil,
         adminGroup: [Swift.String]? = nil,
+        adminProGroup: [Swift.String]? = nil,
         authenticationMethod: QuickSightClientTypes.AuthenticationMethodOption? = nil,
         authorGroup: [Swift.String]? = nil,
+        authorProGroup: [Swift.String]? = nil,
         awsAccountId: Swift.String? = nil,
         contactNumber: Swift.String? = nil,
         directoryId: Swift.String? = nil,
@@ -12192,14 +12266,17 @@ public struct CreateAccountSubscriptionInput {
         lastName: Swift.String? = nil,
         notificationEmail: Swift.String? = nil,
         readerGroup: [Swift.String]? = nil,
+        readerProGroup: [Swift.String]? = nil,
         realm: Swift.String? = nil
     )
     {
         self.accountName = accountName
         self.activeDirectoryName = activeDirectoryName
         self.adminGroup = adminGroup
+        self.adminProGroup = adminProGroup
         self.authenticationMethod = authenticationMethod
         self.authorGroup = authorGroup
+        self.authorProGroup = authorProGroup
         self.awsAccountId = awsAccountId
         self.contactNumber = contactNumber
         self.directoryId = directoryId
@@ -12210,6 +12287,7 @@ public struct CreateAccountSubscriptionInput {
         self.lastName = lastName
         self.notificationEmail = notificationEmail
         self.readerGroup = readerGroup
+        self.readerProGroup = readerProGroup
         self.realm = realm
     }
 }
@@ -12225,6 +12303,9 @@ struct CreateAccountSubscriptionInputBody {
     let adminGroup: [Swift.String]?
     let authorGroup: [Swift.String]?
     let readerGroup: [Swift.String]?
+    let adminProGroup: [Swift.String]?
+    let authorProGroup: [Swift.String]?
+    let readerProGroup: [Swift.String]?
     let firstName: Swift.String?
     let lastName: Swift.String?
     let emailAddress: Swift.String?
@@ -12237,8 +12318,10 @@ extension CreateAccountSubscriptionInputBody: Swift.Decodable {
         case accountName = "AccountName"
         case activeDirectoryName = "ActiveDirectoryName"
         case adminGroup = "AdminGroup"
+        case adminProGroup = "AdminProGroup"
         case authenticationMethod = "AuthenticationMethod"
         case authorGroup = "AuthorGroup"
+        case authorProGroup = "AuthorProGroup"
         case contactNumber = "ContactNumber"
         case directoryId = "DirectoryId"
         case edition = "Edition"
@@ -12248,6 +12331,7 @@ extension CreateAccountSubscriptionInputBody: Swift.Decodable {
         case lastName = "LastName"
         case notificationEmail = "NotificationEmail"
         case readerGroup = "ReaderGroup"
+        case readerProGroup = "ReaderProGroup"
         case realm = "Realm"
     }
 
@@ -12300,6 +12384,39 @@ extension CreateAccountSubscriptionInputBody: Swift.Decodable {
             }
         }
         readerGroup = readerGroupDecoded0
+        let adminProGroupContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .adminProGroup)
+        var adminProGroupDecoded0:[Swift.String]? = nil
+        if let adminProGroupContainer = adminProGroupContainer {
+            adminProGroupDecoded0 = [Swift.String]()
+            for string0 in adminProGroupContainer {
+                if let string0 = string0 {
+                    adminProGroupDecoded0?.append(string0)
+                }
+            }
+        }
+        adminProGroup = adminProGroupDecoded0
+        let authorProGroupContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .authorProGroup)
+        var authorProGroupDecoded0:[Swift.String]? = nil
+        if let authorProGroupContainer = authorProGroupContainer {
+            authorProGroupDecoded0 = [Swift.String]()
+            for string0 in authorProGroupContainer {
+                if let string0 = string0 {
+                    authorProGroupDecoded0?.append(string0)
+                }
+            }
+        }
+        authorProGroup = authorProGroupDecoded0
+        let readerProGroupContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .readerProGroup)
+        var readerProGroupDecoded0:[Swift.String]? = nil
+        if let readerProGroupContainer = readerProGroupContainer {
+            readerProGroupDecoded0 = [Swift.String]()
+            for string0 in readerProGroupContainer {
+                if let string0 = string0 {
+                    readerProGroupDecoded0?.append(string0)
+                }
+            }
+        }
+        readerProGroup = readerProGroupDecoded0
         let firstNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .firstName)
         firstName = firstNameDecoded
         let lastNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastName)
@@ -39646,6 +39763,51 @@ extension QuickSightClientTypes {
 
 }
 
+extension QuickSightClientTypes.GaugeChartColorConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case backgroundColor = "BackgroundColor"
+        case foregroundColor = "ForegroundColor"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let backgroundColor = self.backgroundColor {
+            try encodeContainer.encode(backgroundColor, forKey: .backgroundColor)
+        }
+        if let foregroundColor = self.foregroundColor {
+            try encodeContainer.encode(foregroundColor, forKey: .foregroundColor)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let foregroundColorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .foregroundColor)
+        foregroundColor = foregroundColorDecoded
+        let backgroundColorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .backgroundColor)
+        backgroundColor = backgroundColorDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The color configuration of a GaugeChartVisual.
+    public struct GaugeChartColorConfiguration {
+        /// The background color configuration of a GaugeChartVisual.
+        public var backgroundColor: Swift.String?
+        /// The foreground color configuration of a GaugeChartVisual.
+        public var foregroundColor: Swift.String?
+
+        public init(
+            backgroundColor: Swift.String? = nil,
+            foregroundColor: Swift.String? = nil
+        )
+        {
+            self.backgroundColor = backgroundColor
+            self.foregroundColor = foregroundColor
+        }
+    }
+
+}
+
 extension QuickSightClientTypes.GaugeChartConditionalFormatting: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case conditionalFormattingOptions = "ConditionalFormattingOptions"
@@ -39740,6 +39902,7 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.GaugeChartConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case colorConfiguration = "ColorConfiguration"
         case dataLabels = "DataLabels"
         case fieldWells = "FieldWells"
         case gaugeChartOptions = "GaugeChartOptions"
@@ -39750,6 +39913,9 @@ extension QuickSightClientTypes.GaugeChartConfiguration: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let colorConfiguration = self.colorConfiguration {
+            try encodeContainer.encode(colorConfiguration, forKey: .colorConfiguration)
+        }
         if let dataLabels = self.dataLabels {
             try encodeContainer.encode(dataLabels, forKey: .dataLabels)
         }
@@ -39782,6 +39948,8 @@ extension QuickSightClientTypes.GaugeChartConfiguration: Swift.Codable {
         tooltipOptions = tooltipOptionsDecoded
         let visualPaletteDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VisualPalette.self, forKey: .visualPalette)
         visualPalette = visualPaletteDecoded
+        let colorConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.GaugeChartColorConfiguration.self, forKey: .colorConfiguration)
+        colorConfiguration = colorConfigurationDecoded
         let interactionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VisualInteractionOptions.self, forKey: .interactions)
         interactions = interactionsDecoded
     }
@@ -39790,6 +39958,8 @@ extension QuickSightClientTypes.GaugeChartConfiguration: Swift.Codable {
 extension QuickSightClientTypes {
     /// The configuration of a GaugeChartVisual.
     public struct GaugeChartConfiguration {
+        /// The color configuration of a GaugeChartVisual.
+        public var colorConfiguration: QuickSightClientTypes.GaugeChartColorConfiguration?
         /// The data label configuration of a GaugeChartVisual.
         public var dataLabels: QuickSightClientTypes.DataLabelOptions?
         /// The field well configuration of a GaugeChartVisual.
@@ -39804,6 +39974,7 @@ extension QuickSightClientTypes {
         public var visualPalette: QuickSightClientTypes.VisualPalette?
 
         public init(
+            colorConfiguration: QuickSightClientTypes.GaugeChartColorConfiguration? = nil,
             dataLabels: QuickSightClientTypes.DataLabelOptions? = nil,
             fieldWells: QuickSightClientTypes.GaugeChartFieldWells? = nil,
             gaugeChartOptions: QuickSightClientTypes.GaugeChartOptions? = nil,
@@ -39812,6 +39983,7 @@ extension QuickSightClientTypes {
             visualPalette: QuickSightClientTypes.VisualPalette? = nil
         )
         {
+            self.colorConfiguration = colorConfiguration
             self.dataLabels = dataLabels
             self.fieldWells = fieldWells
             self.gaugeChartOptions = gaugeChartOptions
@@ -40405,7 +40577,7 @@ public struct GenerateEmbedUrlForRegisteredUserInput {
     /// The ID for the Amazon Web Services account that contains the dashboard that you're embedding.
     /// This member is required.
     public var awsAccountId: Swift.String?
-    /// The experience you are embedding. For registered users, you can embed Amazon QuickSight dashboards, Amazon QuickSight visuals, the Amazon QuickSight Q search bar, or the entire Amazon QuickSight console.
+    /// The experience that you want to embed. For registered users, you can embed Amazon QuickSight dashboards, Amazon QuickSight visuals, the Amazon QuickSight Q search bar, the Amazon QuickSight Generative Q&A experience, or the entire Amazon QuickSight console.
     /// This member is required.
     public var experienceConfiguration: QuickSightClientTypes.RegisteredUserEmbeddingExperienceConfiguration?
     /// How many minutes the session is valid. The session lifetime must be in [15-600] minutes range.
@@ -40488,7 +40660,7 @@ extension GenerateEmbedUrlForRegisteredUserOutput: ClientRuntime.HttpResponseBin
 }
 
 public struct GenerateEmbedUrlForRegisteredUserOutput {
-    /// The embed URL for the Amazon QuickSight dashboard, visual, Q search bar, or console.
+    /// The embed URL for the Amazon QuickSight dashboard, visual, Q search bar, Generative Q&A experience, or console.
     /// This member is required.
     public var embedUrl: Swift.String?
     /// The Amazon Web Services request ID for this operation.
@@ -59996,6 +60168,38 @@ extension QuickSightClientTypes {
     }
 }
 
+extension QuickSightClientTypes {
+    public enum PurchaseMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case autoPurchase
+        case manual
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PurchaseMode] {
+            return [
+                .autoPurchase,
+                .manual,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .autoPurchase: return "AUTO_PURCHASE"
+            case .manual: return "MANUAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PurchaseMode(rawValue: rawValue) ?? PurchaseMode.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension PutDataSetRefreshPropertiesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dataSetRefreshProperties = "DataSetRefreshProperties"
@@ -62148,7 +62352,7 @@ public struct RegisterUserInput {
     /// * Subscribe to email reports
     ///
     ///
-    /// To add custom permissions to an existing user, use [UpdateUser](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateUser.html) instead. A set of custom permissions includes any combination of these restrictions. Currently, you need to create the profile names for custom permission sets by using the Amazon QuickSight console. Then, you use the RegisterUser API operation to assign the named set of permissions to a Amazon QuickSight user. Amazon QuickSight custom permissions are applied through IAM policies. Therefore, they override the permissions typically granted by assigning Amazon QuickSight users to one of the default security cohorts in Amazon QuickSight (admin, author, reader). This feature is available only to Amazon QuickSight Enterprise edition subscriptions.
+    /// To add custom permissions to an existing user, use [UpdateUser](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateUser.html) instead. A set of custom permissions includes any combination of these restrictions. Currently, you need to create the profile names for custom permission sets by using the Amazon QuickSight console. Then, you use the RegisterUser API operation to assign the named set of permissions to a Amazon QuickSight user. Amazon QuickSight custom permissions are applied through IAM policies. Therefore, they override the permissions typically granted by assigning Amazon QuickSight users to one of the default security cohorts in Amazon QuickSight (admin, author, reader, admin pro, author pro, reader pro). This feature is available only to Amazon QuickSight Enterprise edition subscriptions.
     public var customPermissionsName: Swift.String?
     /// The email address of the user that you want to register.
     /// This member is required.
@@ -62163,11 +62367,7 @@ public struct RegisterUserInput {
     public var externalLoginId: Swift.String?
     /// The ARN of the IAM user or role that you are registering with Amazon QuickSight.
     public var iamArn: Swift.String?
-    /// Amazon QuickSight supports several ways of managing the identity of users. This parameter accepts two values:
-    ///
-    /// * IAM: A user whose identity maps to an existing IAM user or role.
-    ///
-    /// * QUICKSIGHT: A user whose identity is owned and managed internally by Amazon QuickSight.
+    /// The identity type that your Amazon QuickSight account uses to manage the identity of users.
     /// This member is required.
     public var identityType: QuickSightClientTypes.IdentityType?
     /// The namespace. Currently, you should set this to default.
@@ -62544,6 +62744,7 @@ extension QuickSightClientTypes.RegisteredUserEmbeddingExperienceConfiguration: 
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dashboard = "Dashboard"
         case dashboardVisual = "DashboardVisual"
+        case generativeQnA = "GenerativeQnA"
         case qSearchBar = "QSearchBar"
         case quickSightConsole = "QuickSightConsole"
     }
@@ -62555,6 +62756,9 @@ extension QuickSightClientTypes.RegisteredUserEmbeddingExperienceConfiguration: 
         }
         if let dashboardVisual = self.dashboardVisual {
             try encodeContainer.encode(dashboardVisual, forKey: .dashboardVisual)
+        }
+        if let generativeQnA = self.generativeQnA {
+            try encodeContainer.encode(generativeQnA, forKey: .generativeQnA)
         }
         if let qSearchBar = self.qSearchBar {
             try encodeContainer.encode(qSearchBar, forKey: .qSearchBar)
@@ -62574,6 +62778,8 @@ extension QuickSightClientTypes.RegisteredUserEmbeddingExperienceConfiguration: 
         qSearchBar = qSearchBarDecoded
         let dashboardVisualDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.RegisteredUserDashboardVisualEmbeddingConfiguration.self, forKey: .dashboardVisual)
         dashboardVisual = dashboardVisualDecoded
+        let generativeQnADecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.RegisteredUserGenerativeQnAEmbeddingConfiguration.self, forKey: .generativeQnA)
+        generativeQnA = generativeQnADecoded
     }
 }
 
@@ -62584,6 +62790,8 @@ extension QuickSightClientTypes {
         public var dashboard: QuickSightClientTypes.RegisteredUserDashboardEmbeddingConfiguration?
         /// The type of embedding experience. In this case, Amazon QuickSight visuals.
         public var dashboardVisual: QuickSightClientTypes.RegisteredUserDashboardVisualEmbeddingConfiguration?
+        /// The configuration details for embedding the Generative Q&A experience. For more information about embedding the Generative Q&A experience, see [Embedding Overview](https://docs.aws.amazon.com/quicksight/latest/user/embedding-overview.html) in the Amazon QuickSight User Guide.
+        public var generativeQnA: QuickSightClientTypes.RegisteredUserGenerativeQnAEmbeddingConfiguration?
         /// The configuration details for embedding the Q search bar. For more information about embedding the Q search bar, see [Embedding Overview](https://docs.aws.amazon.com/quicksight/latest/user/embedding-overview.html) in the Amazon QuickSight User Guide.
         public var qSearchBar: QuickSightClientTypes.RegisteredUserQSearchBarEmbeddingConfiguration?
         /// The configuration details for providing each Amazon QuickSight console embedding experience. This can be used along with custom permissions to restrict access to certain features. For more information, see [Customizing Access to the Amazon QuickSight Console](https://docs.aws.amazon.com/quicksight/latest/user/customizing-permissions-to-the-quicksight-console.html) in the Amazon QuickSight User Guide. Use [GenerateEmbedUrlForRegisteredUser](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GenerateEmbedUrlForRegisteredUser.html) where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dashboards. The users who accesses an embedded Amazon QuickSight console needs to belong to the author or admin security cohort. If you want to restrict permissions to some of these features, add a custom permissions profile to the user with the [UpdateUser](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateUser.html) API operation. Use the [RegisterUser](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_RegisterUser.html) API operation to add a new user with a custom permission profile attached. For more information, see the following sections in the Amazon QuickSight User Guide:
@@ -62599,14 +62807,51 @@ extension QuickSightClientTypes {
         public init(
             dashboard: QuickSightClientTypes.RegisteredUserDashboardEmbeddingConfiguration? = nil,
             dashboardVisual: QuickSightClientTypes.RegisteredUserDashboardVisualEmbeddingConfiguration? = nil,
+            generativeQnA: QuickSightClientTypes.RegisteredUserGenerativeQnAEmbeddingConfiguration? = nil,
             qSearchBar: QuickSightClientTypes.RegisteredUserQSearchBarEmbeddingConfiguration? = nil,
             quickSightConsole: QuickSightClientTypes.RegisteredUserQuickSightConsoleEmbeddingConfiguration? = nil
         )
         {
             self.dashboard = dashboard
             self.dashboardVisual = dashboardVisual
+            self.generativeQnA = generativeQnA
             self.qSearchBar = qSearchBar
             self.quickSightConsole = quickSightConsole
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.RegisteredUserGenerativeQnAEmbeddingConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case initialTopicId = "InitialTopicId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let initialTopicId = self.initialTopicId {
+            try encodeContainer.encode(initialTopicId, forKey: .initialTopicId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let initialTopicIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .initialTopicId)
+        initialTopicId = initialTopicIdDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// An object that provides information about the configuration of a Generative Q&A experience.
+    public struct RegisteredUserGenerativeQnAEmbeddingConfiguration {
+        /// The ID of the new Q reader experience topic that you want to make the starting topic in the Generative Q&A experience. You can find a topic ID by navigating to the Topics pane in the Amazon QuickSight application and opening a topic. The ID is in the URL for the topic that you open. If you don't specify an initial topic or you specify a legacy topic, a list of all shared new reader experience topics is shown in the Generative Q&A experience for your readers. When you select an initial new reader experience topic, you can specify whether or not readers are allowed to select other new reader experience topics from the available ones in the list.
+        public var initialTopicId: Swift.String?
+
+        public init(
+            initialTopicId: Swift.String? = nil
+        )
+        {
+            self.initialTopicId = initialTopicId
         }
     }
 
@@ -62634,7 +62879,7 @@ extension QuickSightClientTypes.RegisteredUserQSearchBarEmbeddingConfiguration: 
 extension QuickSightClientTypes {
     /// Information about the Q search bar embedding experience.
     public struct RegisteredUserQSearchBarEmbeddingConfiguration {
-        /// The ID of the Q topic that you want to make the starting topic in the Q search bar. You can find a topic ID by navigating to the Topics pane in the Amazon QuickSight application and opening a topic. The ID is in the URL for the topic that you open. If you don't specify an initial topic, a list of all shared topics is shown in the Q bar for your readers. When you select an initial topic, you can specify whether or not readers are allowed to select other topics from the available ones in the list.
+        /// The ID of the legacy Q topic that you want to use as the starting topic in the Q search bar. To locate the topic ID of the topic that you want to use, open the [Amazon QuickSight console](https://quicksight.aws.amazon.com/), navigate to the Topics pane, and choose thre topic that you want to use. The TopicID is located in the URL of the topic that opens. When you select an initial topic, you can specify whether or not readers are allowed to select other topics from the list of available topics. If you don't specify an initial topic or if you specify a new reader experience topic, a list of all shared legacy topics is shown in the Q bar.
         public var initialTopicId: Swift.String?
 
         public init(
@@ -63632,15 +63877,21 @@ enum RestoreAnalysisOutputError: ClientRuntime.HttpResponseErrorBinding {
 extension QuickSightClientTypes {
     public enum Role: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case admin
+        case adminPro
         case author
+        case authorPro
         case reader
+        case readerPro
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Role] {
             return [
                 .admin,
+                .adminPro,
                 .author,
+                .authorPro,
                 .reader,
+                .readerPro,
                 .sdkUnknown("")
             ]
         }
@@ -63651,8 +63902,11 @@ extension QuickSightClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .admin: return "ADMIN"
+            case .adminPro: return "ADMIN_PRO"
             case .author: return "AUTHOR"
+            case .authorPro: return "AUTHOR_PRO"
             case .reader: return "READER"
+            case .readerPro: return "READER_PRO"
             case let .sdkUnknown(s): return s
             }
         }
@@ -78347,6 +78601,7 @@ extension QuickSightClientTypes.TopicSummary: Swift.Codable {
         case arn = "Arn"
         case name = "Name"
         case topicId = "TopicId"
+        case userExperienceVersion = "UserExperienceVersion"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -78360,6 +78615,9 @@ extension QuickSightClientTypes.TopicSummary: Swift.Codable {
         if let topicId = self.topicId {
             try encodeContainer.encode(topicId, forKey: .topicId)
         }
+        if let userExperienceVersion = self.userExperienceVersion {
+            try encodeContainer.encode(userExperienceVersion.rawValue, forKey: .userExperienceVersion)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -78370,6 +78628,8 @@ extension QuickSightClientTypes.TopicSummary: Swift.Codable {
         topicId = topicIdDecoded
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
+        let userExperienceVersionDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TopicUserExperienceVersion.self, forKey: .userExperienceVersion)
+        userExperienceVersion = userExperienceVersionDecoded
     }
 }
 
@@ -78382,16 +78642,20 @@ extension QuickSightClientTypes {
         public var name: Swift.String?
         /// The ID for the topic. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public var topicId: Swift.String?
+        /// The user experience version of the topic.
+        public var userExperienceVersion: QuickSightClientTypes.TopicUserExperienceVersion?
 
         public init(
             arn: Swift.String? = nil,
             name: Swift.String? = nil,
-            topicId: Swift.String? = nil
+            topicId: Swift.String? = nil,
+            userExperienceVersion: QuickSightClientTypes.TopicUserExperienceVersion? = nil
         )
         {
             self.arn = arn
             self.name = name
             self.topicId = topicId
+            self.userExperienceVersion = userExperienceVersion
         }
     }
 
@@ -84150,6 +84414,131 @@ enum UpdateRoleCustomPermissionOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
+extension UpdateSPICECapacityConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case purchaseMode = "PurchaseMode"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let purchaseMode = self.purchaseMode {
+            try encodeContainer.encode(purchaseMode.rawValue, forKey: .purchaseMode)
+        }
+    }
+}
+
+extension UpdateSPICECapacityConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateSPICECapacityConfigurationInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/spice-capacity-configuration"
+    }
+}
+
+public struct UpdateSPICECapacityConfigurationInput {
+    /// The ID of the Amazon Web Services account that contains the SPICE configuration that you want to update.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// Determines how SPICE capacity can be purchased. The following options are available.
+    ///
+    /// * MANUAL: SPICE capacity can only be purchased manually.
+    ///
+    /// * AUTO_PURCHASE: Extra SPICE capacity is automatically purchased on your behalf as needed. SPICE capacity can also be purchased manually with this option.
+    /// This member is required.
+    public var purchaseMode: QuickSightClientTypes.PurchaseMode?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        purchaseMode: QuickSightClientTypes.PurchaseMode? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.purchaseMode = purchaseMode
+    }
+}
+
+struct UpdateSPICECapacityConfigurationInputBody {
+    let purchaseMode: QuickSightClientTypes.PurchaseMode?
+}
+
+extension UpdateSPICECapacityConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case purchaseMode = "PurchaseMode"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let purchaseModeDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.PurchaseMode.self, forKey: .purchaseMode)
+        purchaseMode = purchaseModeDecoded
+    }
+}
+
+extension UpdateSPICECapacityConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateSPICECapacityConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.requestId = output.requestId
+        } else {
+            self.requestId = nil
+        }
+        self.status = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct UpdateSPICECapacityConfigurationOutput {
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+struct UpdateSPICECapacityConfigurationOutputBody {
+    let requestId: Swift.String?
+    let status: Swift.Int
+}
+
+extension UpdateSPICECapacityConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case requestId = "RequestId"
+        case status = "Status"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+    }
+}
+
+enum UpdateSPICECapacityConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension UpdateTemplateAliasInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case templateVersionNumber = "TemplateVersionNumber"
@@ -85917,6 +86306,12 @@ public struct UpdateUserInput {
     ///
     /// * ADMIN: A user who is an author, who can also manage Amazon QuickSight settings.
     ///
+    /// * READER_PRO: Reader Pro adds Generative BI capabilities to the Reader role. Reader Pros have access to Amazon Q Business, can build stories with Amazon Q, and can generate executive summaries from dashboards.
+    ///
+    /// * AUTHOR_PRO: Author Pro adds Generative BI capabilities to the Author role. Author Pros can author dashboards with natural language with Amazon Q, build stories with Amazon Q, create Topics for Q&A, and generate executive summaries from dashboards.
+    ///
+    /// * ADMIN_PRO: Admin Pros are Author Pros who can also manage Amazon QuickSight administrative settings. Admin Pro users are billed at Author Pro pricing.
+    ///
     ///
     /// The name of the Amazon QuickSight role is invisible to the user except for the console screens dealing with permissions.
     /// This member is required.
@@ -86515,6 +86910,12 @@ extension QuickSightClientTypes {
         ///
         /// * ADMIN: A user who is an author, who can also manage Amazon Amazon QuickSight settings.
         ///
+        /// * READER_PRO: Reader Pro adds Generative BI capabilities to the Reader role. Reader Pros have access to Amazon Q Business, can build stories with Amazon Q, and can generate executive summaries from dashboards.
+        ///
+        /// * AUTHOR_PRO: Author Pro adds Generative BI capabilities to the Author role. Author Pros can author dashboards with natural language with Amazon Q, build stories with Amazon Q, create Topics for Q&A, and generate executive summaries from dashboards.
+        ///
+        /// * ADMIN_PRO: Admin Pros are Author Pros who can also manage Amazon QuickSight administrative settings. Admin Pro users are billed at Author Pro pricing.
+        ///
         /// * RESTRICTED_READER: This role isn't currently available for use.
         ///
         /// * RESTRICTED_AUTHOR: This role isn't currently available for use.
@@ -86555,8 +86956,11 @@ extension QuickSightClientTypes {
 extension QuickSightClientTypes {
     public enum UserRole: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case admin
+        case adminPro
         case author
+        case authorPro
         case reader
+        case readerPro
         case restrictedAuthor
         case restrictedReader
         case sdkUnknown(Swift.String)
@@ -86564,8 +86968,11 @@ extension QuickSightClientTypes {
         public static var allCases: [UserRole] {
             return [
                 .admin,
+                .adminPro,
                 .author,
+                .authorPro,
                 .reader,
+                .readerPro,
                 .restrictedAuthor,
                 .restrictedReader,
                 .sdkUnknown("")
@@ -86578,8 +86985,11 @@ extension QuickSightClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .admin: return "ADMIN"
+            case .adminPro: return "ADMIN_PRO"
             case .author: return "AUTHOR"
+            case .authorPro: return "AUTHOR_PRO"
             case .reader: return "READER"
+            case .readerPro: return "READER_PRO"
             case .restrictedAuthor: return "RESTRICTED_AUTHOR"
             case .restrictedReader: return "RESTRICTED_READER"
             case let .sdkUnknown(s): return s

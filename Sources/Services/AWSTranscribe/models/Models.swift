@@ -201,8 +201,38 @@ extension TranscribeClientTypes {
     }
 }
 
+extension TranscribeClientTypes {
+    public enum CallAnalyticsFeature: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case generativeSummarization
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CallAnalyticsFeature] {
+            return [
+                .generativeSummarization,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .generativeSummarization: return "GENERATIVE_SUMMARIZATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CallAnalyticsFeature(rawValue: rawValue) ?? CallAnalyticsFeature.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension TranscribeClientTypes.CallAnalyticsJob: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case callAnalyticsJobDetails = "CallAnalyticsJobDetails"
         case callAnalyticsJobName = "CallAnalyticsJobName"
         case callAnalyticsJobStatus = "CallAnalyticsJobStatus"
         case channelDefinitions = "ChannelDefinitions"
@@ -222,6 +252,9 @@ extension TranscribeClientTypes.CallAnalyticsJob: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let callAnalyticsJobDetails = self.callAnalyticsJobDetails {
+            try encodeContainer.encode(callAnalyticsJobDetails, forKey: .callAnalyticsJobDetails)
+        }
         if let callAnalyticsJobName = self.callAnalyticsJobName {
             try encodeContainer.encode(callAnalyticsJobName, forKey: .callAnalyticsJobName)
         }
@@ -278,6 +311,8 @@ extension TranscribeClientTypes.CallAnalyticsJob: Swift.Codable {
         callAnalyticsJobName = callAnalyticsJobNameDecoded
         let callAnalyticsJobStatusDecoded = try containerValues.decodeIfPresent(TranscribeClientTypes.CallAnalyticsJobStatus.self, forKey: .callAnalyticsJobStatus)
         callAnalyticsJobStatus = callAnalyticsJobStatusDecoded
+        let callAnalyticsJobDetailsDecoded = try containerValues.decodeIfPresent(TranscribeClientTypes.CallAnalyticsJobDetails.self, forKey: .callAnalyticsJobDetails)
+        callAnalyticsJobDetails = callAnalyticsJobDetailsDecoded
         let languageCodeDecoded = try containerValues.decodeIfPresent(TranscribeClientTypes.LanguageCode.self, forKey: .languageCode)
         languageCode = languageCodeDecoded
         let mediaSampleRateHertzDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .mediaSampleRateHertz)
@@ -319,6 +354,8 @@ extension TranscribeClientTypes.CallAnalyticsJob: Swift.Codable {
 extension TranscribeClientTypes {
     /// Provides detailed information about a Call Analytics job. To view the job's status, refer to CallAnalyticsJobStatus. If the status is COMPLETED, the job is finished. You can find your completed transcript at the URI specified in TranscriptFileUri. If the status is FAILED, FailureReason provides details on why your transcription job failed. If you enabled personally identifiable information (PII) redaction, the redacted transcript appears at the location specified in RedactedTranscriptFileUri. If you chose to redact the audio in your media file, you can find your redacted media file at the location specified in the RedactedMediaFileUri field of your response.
     public struct CallAnalyticsJob {
+        /// Provides detailed information about a call analytics job, including information about skipped analytics features.
+        public var callAnalyticsJobDetails: TranscribeClientTypes.CallAnalyticsJobDetails?
         /// The name of the Call Analytics job. Job names are case sensitive and must be unique within an Amazon Web Services account.
         public var callAnalyticsJobName: Swift.String?
         /// Provides the status of the specified Call Analytics job. If the status is COMPLETED, the job is finished and you can find the results at the location specified in TranscriptFileUri (or RedactedTranscriptFileUri, if you requested transcript redaction). If the status is FAILED, FailureReason provides details on why your transcription job failed.
@@ -363,6 +400,7 @@ extension TranscribeClientTypes {
         public var transcript: TranscribeClientTypes.Transcript?
 
         public init(
+            callAnalyticsJobDetails: TranscribeClientTypes.CallAnalyticsJobDetails? = nil,
             callAnalyticsJobName: Swift.String? = nil,
             callAnalyticsJobStatus: TranscribeClientTypes.CallAnalyticsJobStatus? = nil,
             channelDefinitions: [TranscribeClientTypes.ChannelDefinition]? = nil,
@@ -380,6 +418,7 @@ extension TranscribeClientTypes {
             transcript: TranscribeClientTypes.Transcript? = nil
         )
         {
+            self.callAnalyticsJobDetails = callAnalyticsJobDetails
             self.callAnalyticsJobName = callAnalyticsJobName
             self.callAnalyticsJobStatus = callAnalyticsJobStatus
             self.channelDefinitions = channelDefinitions
@@ -395,6 +434,53 @@ extension TranscribeClientTypes {
             self.settings = settings
             self.startTime = startTime
             self.transcript = transcript
+        }
+    }
+
+}
+
+extension TranscribeClientTypes.CallAnalyticsJobDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case skipped = "Skipped"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let skipped = skipped {
+            var skippedContainer = encodeContainer.nestedUnkeyedContainer(forKey: .skipped)
+            for callanalyticsskippedfeature0 in skipped {
+                try skippedContainer.encode(callanalyticsskippedfeature0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let skippedContainer = try containerValues.decodeIfPresent([TranscribeClientTypes.CallAnalyticsSkippedFeature?].self, forKey: .skipped)
+        var skippedDecoded0:[TranscribeClientTypes.CallAnalyticsSkippedFeature]? = nil
+        if let skippedContainer = skippedContainer {
+            skippedDecoded0 = [TranscribeClientTypes.CallAnalyticsSkippedFeature]()
+            for structure0 in skippedContainer {
+                if let structure0 = structure0 {
+                    skippedDecoded0?.append(structure0)
+                }
+            }
+        }
+        skipped = skippedDecoded0
+    }
+}
+
+extension TranscribeClientTypes {
+    /// Contains details about a call analytics job, including information about skipped analytics features.
+    public struct CallAnalyticsJobDetails {
+        /// Contains information about any skipped analytics features during the analysis of a call analytics job. This array lists all the analytics features that were skipped, along with their corresponding reason code and message.
+        public var skipped: [TranscribeClientTypes.CallAnalyticsSkippedFeature]?
+
+        public init(
+            skipped: [TranscribeClientTypes.CallAnalyticsSkippedFeature]? = nil
+        )
+        {
+            self.skipped = skipped
         }
     }
 
@@ -569,6 +655,7 @@ extension TranscribeClientTypes {
 
 extension TranscribeClientTypes.CallAnalyticsJobSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case callAnalyticsJobDetails = "CallAnalyticsJobDetails"
         case callAnalyticsJobName = "CallAnalyticsJobName"
         case callAnalyticsJobStatus = "CallAnalyticsJobStatus"
         case completionTime = "CompletionTime"
@@ -580,6 +667,9 @@ extension TranscribeClientTypes.CallAnalyticsJobSummary: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let callAnalyticsJobDetails = self.callAnalyticsJobDetails {
+            try encodeContainer.encode(callAnalyticsJobDetails, forKey: .callAnalyticsJobDetails)
+        }
         if let callAnalyticsJobName = self.callAnalyticsJobName {
             try encodeContainer.encode(callAnalyticsJobName, forKey: .callAnalyticsJobName)
         }
@@ -617,6 +707,8 @@ extension TranscribeClientTypes.CallAnalyticsJobSummary: Swift.Codable {
         languageCode = languageCodeDecoded
         let callAnalyticsJobStatusDecoded = try containerValues.decodeIfPresent(TranscribeClientTypes.CallAnalyticsJobStatus.self, forKey: .callAnalyticsJobStatus)
         callAnalyticsJobStatus = callAnalyticsJobStatusDecoded
+        let callAnalyticsJobDetailsDecoded = try containerValues.decodeIfPresent(TranscribeClientTypes.CallAnalyticsJobDetails.self, forKey: .callAnalyticsJobDetails)
+        callAnalyticsJobDetails = callAnalyticsJobDetailsDecoded
         let failureReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .failureReason)
         failureReason = failureReasonDecoded
     }
@@ -625,6 +717,8 @@ extension TranscribeClientTypes.CallAnalyticsJobSummary: Swift.Codable {
 extension TranscribeClientTypes {
     /// Provides detailed information about a specific Call Analytics job.
     public struct CallAnalyticsJobSummary {
+        /// Provides detailed information about a call analytics job, including information about skipped analytics features.
+        public var callAnalyticsJobDetails: TranscribeClientTypes.CallAnalyticsJobDetails?
         /// The name of the Call Analytics job. Job names are case sensitive and must be unique within an Amazon Web Services account.
         public var callAnalyticsJobName: Swift.String?
         /// Provides the status of your Call Analytics job. If the status is COMPLETED, the job is finished and you can find the results at the location specified in TranscriptFileUri (or RedactedTranscriptFileUri, if you requested transcript redaction). If the status is FAILED, FailureReason provides details on why your transcription job failed.
@@ -641,6 +735,7 @@ extension TranscribeClientTypes {
         public var startTime: ClientRuntime.Date?
 
         public init(
+            callAnalyticsJobDetails: TranscribeClientTypes.CallAnalyticsJobDetails? = nil,
             callAnalyticsJobName: Swift.String? = nil,
             callAnalyticsJobStatus: TranscribeClientTypes.CallAnalyticsJobStatus? = nil,
             completionTime: ClientRuntime.Date? = nil,
@@ -650,6 +745,7 @@ extension TranscribeClientTypes {
             startTime: ClientRuntime.Date? = nil
         )
         {
+            self.callAnalyticsJobDetails = callAnalyticsJobDetails
             self.callAnalyticsJobName = callAnalyticsJobName
             self.callAnalyticsJobStatus = callAnalyticsJobStatus
             self.completionTime = completionTime
@@ -660,6 +756,93 @@ extension TranscribeClientTypes {
         }
     }
 
+}
+
+extension TranscribeClientTypes.CallAnalyticsSkippedFeature: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case feature = "Feature"
+        case message = "Message"
+        case reasonCode = "ReasonCode"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let feature = self.feature {
+            try encodeContainer.encode(feature.rawValue, forKey: .feature)
+        }
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+        if let reasonCode = self.reasonCode {
+            try encodeContainer.encode(reasonCode.rawValue, forKey: .reasonCode)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let featureDecoded = try containerValues.decodeIfPresent(TranscribeClientTypes.CallAnalyticsFeature.self, forKey: .feature)
+        feature = featureDecoded
+        let reasonCodeDecoded = try containerValues.decodeIfPresent(TranscribeClientTypes.CallAnalyticsSkippedReasonCode.self, forKey: .reasonCode)
+        reasonCode = reasonCodeDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension TranscribeClientTypes {
+    /// Represents a skipped analytics feature during the analysis of a call analytics job. The Feature field indicates the type of analytics feature that was skipped. The Message field contains additional information or a message explaining why the analytics feature was skipped. The ReasonCode field provides a code indicating the reason why the analytics feature was skipped.
+    public struct CallAnalyticsSkippedFeature {
+        /// Indicates the type of analytics feature that was skipped during the analysis of a call analytics job.
+        public var feature: TranscribeClientTypes.CallAnalyticsFeature?
+        /// Contains additional information or a message explaining why a specific analytics feature was skipped during the analysis of a call analytics job.
+        public var message: Swift.String?
+        /// Provides a code indicating the reason why a specific analytics feature was skipped during the analysis of a call analytics job.
+        public var reasonCode: TranscribeClientTypes.CallAnalyticsSkippedReasonCode?
+
+        public init(
+            feature: TranscribeClientTypes.CallAnalyticsFeature? = nil,
+            message: Swift.String? = nil,
+            reasonCode: TranscribeClientTypes.CallAnalyticsSkippedReasonCode? = nil
+        )
+        {
+            self.feature = feature
+            self.message = message
+            self.reasonCode = reasonCode
+        }
+    }
+
+}
+
+extension TranscribeClientTypes {
+    public enum CallAnalyticsSkippedReasonCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failedSafetyGuidelines
+        case insufficientConversationContent
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CallAnalyticsSkippedReasonCode] {
+            return [
+                .failedSafetyGuidelines,
+                .insufficientConversationContent,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failedSafetyGuidelines: return "FAILED_SAFETY_GUIDELINES"
+            case .insufficientConversationContent: return "INSUFFICIENT_CONVERSATION_CONTENT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CallAnalyticsSkippedReasonCode(rawValue: rawValue) ?? CallAnalyticsSkippedReasonCode.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension TranscribeClientTypes.CategoryProperties: Swift.Codable {

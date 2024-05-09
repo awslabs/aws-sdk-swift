@@ -27,6 +27,8 @@ jobs:
           - 'platform=iOS Simulator,OS=17.4,name=iPhone 15'
           - 'platform=tvOS Simulator,OS=16.1,name=Apple TV 4K (3rd generation) (at 1080p)'
           - 'platform=tvOS Simulator,OS=17.4,name=Apple TV 4K (3rd generation) (at 1080p)'
+          - 'platform=visionOS Simulator,OS=1.0,name=Apple Vision Pro'
+          - 'platform=visionOS Simulator,OS=1.2,name=Apple Vision Pro'
           - 'platform=OS X'
         exclude:
           # Don't run old macOS with new Xcode
@@ -44,6 +46,10 @@ jobs:
           - destination: 'platform=tvOS Simulator,OS=17.4,name=Apple TV 4K (3rd generation) (at 1080p)'
             xcode: Xcode_14.1
           - destination: 'platform=iOS Simulator,OS=17.4,name=iPhone 15'
+            xcode: Xcode_14.1
+          - destination: 'platform=visionOS Simulator,OS=1.0,name=Apple Vision Pro'
+            xcode: Xcode_14.1
+          - destination: 'platform=visionOS Simulator,OS=1.2,name=Apple Vision Pro'
             xcode: Xcode_14.1
     steps:
       - name: Checkout aws-sdk-swift

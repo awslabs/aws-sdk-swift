@@ -677,6 +677,99 @@ enum DeleteScheduledQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension DescribeAccountSettingsInput: Swift.Encodable {
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode([String:String]())
+    }
+}
+
+extension DescribeAccountSettingsInput {
+
+    static func urlPathProvider(_ value: DescribeAccountSettingsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeAccountSettingsInput {
+
+    public init() { }
+}
+
+struct DescribeAccountSettingsInputBody {
+}
+
+extension DescribeAccountSettingsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribeAccountSettingsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeAccountSettingsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.maxQueryTCU = output.maxQueryTCU
+            self.queryPricingModel = output.queryPricingModel
+        } else {
+            self.maxQueryTCU = nil
+            self.queryPricingModel = nil
+        }
+    }
+}
+
+public struct DescribeAccountSettingsOutput {
+    /// The maximum number of [Timestream compute units](https://docs.aws.amazon.com/timestream/latest/developerguide/tcu.html) (TCUs) the service will use at any point in time to serve your queries.
+    public var maxQueryTCU: Swift.Int?
+    /// The pricing model for queries in your account.
+    public var queryPricingModel: TimestreamQueryClientTypes.QueryPricingModel?
+
+    public init(
+        maxQueryTCU: Swift.Int? = nil,
+        queryPricingModel: TimestreamQueryClientTypes.QueryPricingModel? = nil
+    )
+    {
+        self.maxQueryTCU = maxQueryTCU
+        self.queryPricingModel = queryPricingModel
+    }
+}
+
+struct DescribeAccountSettingsOutputBody {
+    let maxQueryTCU: Swift.Int?
+    let queryPricingModel: TimestreamQueryClientTypes.QueryPricingModel?
+}
+
+extension DescribeAccountSettingsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxQueryTCU = "MaxQueryTCU"
+        case queryPricingModel = "QueryPricingModel"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxQueryTCUDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxQueryTCU)
+        maxQueryTCU = maxQueryTCUDecoded
+        let queryPricingModelDecoded = try containerValues.decodeIfPresent(TimestreamQueryClientTypes.QueryPricingModel.self, forKey: .queryPricingModel)
+        queryPricingModel = queryPricingModelDecoded
+    }
+}
+
+enum DescribeAccountSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DescribeEndpointsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1177,6 +1270,7 @@ enum ExecuteScheduledQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
 extension TimestreamQueryClientTypes.ExecutionStats: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case bytesMetered = "BytesMetered"
+        case cumulativeBytesScanned = "CumulativeBytesScanned"
         case dataWrites = "DataWrites"
         case executionTimeInMillis = "ExecutionTimeInMillis"
         case queryResultRows = "QueryResultRows"
@@ -1187,6 +1281,9 @@ extension TimestreamQueryClientTypes.ExecutionStats: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if bytesMetered != 0 {
             try encodeContainer.encode(bytesMetered, forKey: .bytesMetered)
+        }
+        if cumulativeBytesScanned != 0 {
+            try encodeContainer.encode(cumulativeBytesScanned, forKey: .cumulativeBytesScanned)
         }
         if dataWrites != 0 {
             try encodeContainer.encode(dataWrites, forKey: .dataWrites)
@@ -1210,6 +1307,8 @@ extension TimestreamQueryClientTypes.ExecutionStats: Swift.Codable {
         dataWrites = dataWritesDecoded
         let bytesMeteredDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .bytesMetered) ?? 0
         bytesMetered = bytesMeteredDecoded
+        let cumulativeBytesScannedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .cumulativeBytesScanned) ?? 0
+        cumulativeBytesScanned = cumulativeBytesScannedDecoded
         let recordsIngestedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .recordsIngested) ?? 0
         recordsIngested = recordsIngestedDecoded
         let queryResultRowsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .queryResultRows) ?? 0
@@ -1222,6 +1321,8 @@ extension TimestreamQueryClientTypes {
     public struct ExecutionStats {
         /// Bytes metered for a single scheduled query run.
         public var bytesMetered: Swift.Int
+        /// Bytes scanned for a single scheduled query run.
+        public var cumulativeBytesScanned: Swift.Int
         /// Data writes metered for records ingested in a single scheduled query run.
         public var dataWrites: Swift.Int
         /// Total time, measured in milliseconds, that was needed for the scheduled query run to complete.
@@ -1233,6 +1334,7 @@ extension TimestreamQueryClientTypes {
 
         public init(
             bytesMetered: Swift.Int = 0,
+            cumulativeBytesScanned: Swift.Int = 0,
             dataWrites: Swift.Int = 0,
             executionTimeInMillis: Swift.Int = 0,
             queryResultRows: Swift.Int = 0,
@@ -1240,6 +1342,7 @@ extension TimestreamQueryClientTypes {
         )
         {
             self.bytesMetered = bytesMetered
+            self.cumulativeBytesScanned = cumulativeBytesScanned
             self.dataWrites = dataWrites
             self.executionTimeInMillis = executionTimeInMillis
             self.queryResultRows = queryResultRows
@@ -1264,7 +1367,7 @@ extension InternalServerException {
     }
 }
 
-/// Timestream was unable to fully process this request because of an internal server error.
+/// The service was unable to fully process this request because of an internal server error.
 public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -2470,6 +2573,38 @@ enum QueryOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension TimestreamQueryClientTypes {
+    public enum QueryPricingModel: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case bytesScanned
+        case computeUnits
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QueryPricingModel] {
+            return [
+                .bytesScanned,
+                .computeUnits,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .bytesScanned: return "BYTES_SCANNED"
+            case .computeUnits: return "COMPUTE_UNITS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = QueryPricingModel(rawValue: rawValue) ?? QueryPricingModel.sdkUnknown(rawValue)
         }
     }
 }
@@ -4156,6 +4291,131 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restJSONError.errorType {
             case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateAccountSettingsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxQueryTCU = "MaxQueryTCU"
+        case queryPricingModel = "QueryPricingModel"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxQueryTCU = self.maxQueryTCU {
+            try encodeContainer.encode(maxQueryTCU, forKey: .maxQueryTCU)
+        }
+        if let queryPricingModel = self.queryPricingModel {
+            try encodeContainer.encode(queryPricingModel.rawValue, forKey: .queryPricingModel)
+        }
+    }
+}
+
+extension UpdateAccountSettingsInput {
+
+    static func urlPathProvider(_ value: UpdateAccountSettingsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateAccountSettingsInput {
+    /// The maximum number of compute units the service will use at any point in time to serve your queries. To run queries, you must set a minimum capacity of 4 TCU. You can set the maximum number of TCU in multiples of 4, for example, 4, 8, 16, 32, and so on. The maximum value supported for MaxQueryTCU is 1000. To request an increase to this soft limit, contact Amazon Web Services Support. For information about the default quota for maxQueryTCU, see [Default quotas](https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html#limits.default).
+    public var maxQueryTCU: Swift.Int?
+    /// The pricing model for queries in an account.
+    public var queryPricingModel: TimestreamQueryClientTypes.QueryPricingModel?
+
+    public init(
+        maxQueryTCU: Swift.Int? = nil,
+        queryPricingModel: TimestreamQueryClientTypes.QueryPricingModel? = nil
+    )
+    {
+        self.maxQueryTCU = maxQueryTCU
+        self.queryPricingModel = queryPricingModel
+    }
+}
+
+struct UpdateAccountSettingsInputBody {
+    let maxQueryTCU: Swift.Int?
+    let queryPricingModel: TimestreamQueryClientTypes.QueryPricingModel?
+}
+
+extension UpdateAccountSettingsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxQueryTCU = "MaxQueryTCU"
+        case queryPricingModel = "QueryPricingModel"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxQueryTCUDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxQueryTCU)
+        maxQueryTCU = maxQueryTCUDecoded
+        let queryPricingModelDecoded = try containerValues.decodeIfPresent(TimestreamQueryClientTypes.QueryPricingModel.self, forKey: .queryPricingModel)
+        queryPricingModel = queryPricingModelDecoded
+    }
+}
+
+extension UpdateAccountSettingsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateAccountSettingsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.maxQueryTCU = output.maxQueryTCU
+            self.queryPricingModel = output.queryPricingModel
+        } else {
+            self.maxQueryTCU = nil
+            self.queryPricingModel = nil
+        }
+    }
+}
+
+public struct UpdateAccountSettingsOutput {
+    /// The configured maximum number of compute units the service will use at any point in time to serve your queries.
+    public var maxQueryTCU: Swift.Int?
+    /// The pricing model for an account.
+    public var queryPricingModel: TimestreamQueryClientTypes.QueryPricingModel?
+
+    public init(
+        maxQueryTCU: Swift.Int? = nil,
+        queryPricingModel: TimestreamQueryClientTypes.QueryPricingModel? = nil
+    )
+    {
+        self.maxQueryTCU = maxQueryTCU
+        self.queryPricingModel = queryPricingModel
+    }
+}
+
+struct UpdateAccountSettingsOutputBody {
+    let maxQueryTCU: Swift.Int?
+    let queryPricingModel: TimestreamQueryClientTypes.QueryPricingModel?
+}
+
+extension UpdateAccountSettingsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxQueryTCU = "MaxQueryTCU"
+        case queryPricingModel = "QueryPricingModel"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxQueryTCUDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxQueryTCU)
+        maxQueryTCU = maxQueryTCUDecoded
+        let queryPricingModelDecoded = try containerValues.decodeIfPresent(TimestreamQueryClientTypes.QueryPricingModel.self, forKey: .queryPricingModel)
+        queryPricingModel = queryPricingModelDecoded
+    }
+}
+
+enum UpdateAccountSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
