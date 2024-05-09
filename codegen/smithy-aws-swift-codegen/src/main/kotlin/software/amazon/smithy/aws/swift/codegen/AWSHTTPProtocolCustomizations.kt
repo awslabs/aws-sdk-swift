@@ -6,11 +6,13 @@
 package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.aws.swift.codegen.customization.RulesBasedAuthSchemeResolverGenerator
+import software.amazon.smithy.aws.swift.codegen.middleware.AWSEndpointResolverMiddleware
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
 import software.amazon.smithy.swift.codegen.SwiftWriter
+import software.amazon.smithy.swift.codegen.endpoints.EndpointResolverGenerator
 import software.amazon.smithy.swift.codegen.integration.DefaultHTTPProtocolCustomizations
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolServiceClient
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
@@ -45,12 +47,16 @@ abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations
     }
 
     override fun renderInternals(ctx: ProtocolGenerator.GenerationContext) {
-        super.renderInternals(ctx)
+        AuthSchemeResolverGenerator().render(ctx)
         // Generate rules-based auth scheme resolver for services that depend on endpoint resolver for auth scheme resolution
         if (AuthSchemeResolverGenerator.usesRulesBasedAuthResolver(ctx)) {
             RulesBasedAuthSchemeResolverGenerator().render(ctx)
         }
-        EndpointResolverGenerator().render(ctx)
+        EndpointResolverGenerator(
+            partitionDefinition = AWSClientRuntimeTypes.Core.AWSPartitionDefinition,
+            dependency = AWSSwiftDependency.AWS_CLIENT_RUNTIME,
+            endpointResolverMiddleware = { w, i, o, oe -> AWSEndpointResolverMiddleware(w, i, o, oe) }
+        ).render(ctx)
     }
 
     override fun serviceClient(
