@@ -5,7 +5,6 @@
 
 package software.amazon.smithy.aws.swift.codegen.middleware
 
-import software.amazon.smithy.aws.swift.codegen.AWSServiceTypes
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.MemberShape
 import software.amazon.smithy.model.shapes.OperationShape
@@ -20,6 +19,7 @@ import software.amazon.smithy.rulesengine.traits.StaticContextParamDefinition
 import software.amazon.smithy.rulesengine.traits.StaticContextParamsTrait
 import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
 import software.amazon.smithy.swift.codegen.SwiftWriter
+import software.amazon.smithy.swift.codegen.endpoints.EndpointTypes
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.middlewares.handlers.MiddlewareShapeUtils
 import software.amazon.smithy.swift.codegen.middleware.MiddlewarePosition
@@ -61,7 +61,7 @@ class OperationEndpointResolverMiddleware(
         val output = MiddlewareShapeUtils.outputSymbol(ctx.symbolProvider, ctx.model, op)
         writer.write(
             "\$N<\$N>(endpointResolver: config.endpointResolver, endpointParams: endpointParams)",
-            AWSServiceTypes.EndpointResolverMiddleware,
+            EndpointTypes.EndpointResolverMiddleware,
             output
         )
     }
