@@ -126,7 +126,7 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
                     )
                 }
                 val operationStackName = "operation"
-                for (prop in protocolGenerator.httpProtocolCustomizable.getClientProperties()) {
+                for (prop in protocolGenerator.customizations.getClientProperties()) {
                     prop.addImportsAndDependencies(writer)
                     prop.renderInstantiation(writer)
                     prop.renderConfiguration(writer)
@@ -136,7 +136,7 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
                     protocolGeneratorContext,
                     writer,
                     httpBindingResolver,
-                    protocolGenerator.httpProtocolCustomizable,
+                    protocolGenerator.customizations,
                     operationMiddleware,
                     operationStackName,
                     ::overrideHttpMethod

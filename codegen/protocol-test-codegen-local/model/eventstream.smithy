@@ -1,4 +1,4 @@
-namespace aws.protocoltests.restjson
+namespace aws.protocoltests.eventstream
 
 use aws.protocols#restJson1
 use aws.api#service

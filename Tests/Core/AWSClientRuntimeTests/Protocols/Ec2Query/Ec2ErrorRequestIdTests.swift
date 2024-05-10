@@ -27,8 +27,8 @@ class Ec2ErrorRequestIdTests: XCTestCase {
         </Ec2Response>
         """.utf8)
         let httpResponse = HttpResponse(body: .data(data), statusCode: .ok)
-        let response = try await responseClosure(Ec2Response.httpBinding, responseDocumentBinding)(httpResponse)
-        XCTAssertEqual(response.requestId, "abcdefg12345")
+        let response = try EC2QueryError(httpResponse: httpResponse, responseReader: Reader.from(data: data), noErrorWrapping: true)
+        XCTAssertEqual(response.requestID, "abcdefg12345")
     }
 
     func testEc2ResponseDecodesRequestId() async throws {
@@ -44,35 +44,7 @@ class Ec2ErrorRequestIdTests: XCTestCase {
         </Ec2Response>
         """.utf8)
         let httpResponse = HttpResponse(body: .data(data), statusCode: .ok)
-        let response = try await responseClosure(Ec2Response.httpBinding, responseDocumentBinding)(httpResponse)
-        XCTAssertEqual(response.requestId, "abcdefg12345")
-    }
-
-    func testEc2NarrowedResponseDecodesRequestID() async throws {
-        let data = Data("""
-        <Ec2NarrowedResponse>
-            <Errors>
-                <Error>Sample Error</Error>
-            </Errors>
-            <RequestID>abcdefg12345</RequestID>
-        </Ec2NarrowedResponse>
-        """.utf8)
-        let httpResponse = HttpResponse(body: .data(data), statusCode: .ok)
-        let response = try await responseClosure(Ec2Response.httpBinding, responseDocumentBinding)(httpResponse)
-        XCTAssertEqual(response.requestId, "abcdefg12345")
-    }
-
-    func testEc2NarrowResponseDecodesRequestId() async throws {
-        let data = Data("""
-        <Ec2Response>
-            <Errors>
-                <Error>Sample Error</Error>
-            </Errors>
-            <RequestId>abcdefg12345</RequestId>
-        </Ec2Response>
-        """.utf8)
-        let httpResponse = HttpResponse(body: .data(data), statusCode: .ok)
-        let response = try await responseClosure(Ec2Response.httpBinding, responseDocumentBinding)(httpResponse)
-        XCTAssertEqual(response.requestId, "abcdefg12345")
+        let response = try EC2QueryError(httpResponse: httpResponse, responseReader: Reader.from(data: data), noErrorWrapping: true)
+        XCTAssertEqual(response.requestID, "abcdefg12345")
     }
 }

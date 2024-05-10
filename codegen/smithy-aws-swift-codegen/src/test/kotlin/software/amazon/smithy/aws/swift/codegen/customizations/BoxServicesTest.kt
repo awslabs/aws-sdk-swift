@@ -2,9 +2,9 @@ package software.amazon.smithy.aws.swift.codegen.customizations
 
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import software.amazon.smithy.aws.swift.codegen.awsjson.AwsJson1_0_ProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.customization.BoxServices
 import software.amazon.smithy.aws.swift.codegen.newTestContext
+import software.amazon.smithy.aws.swift.codegen.protocols.awsjson.AWSJSON1_0ProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.toSmithyModel
 import software.amazon.smithy.model.knowledge.NullableIndex
 import software.amazon.smithy.model.shapes.MemberShape
@@ -44,7 +44,7 @@ class BoxServicesTest {
             integer NotPrimitiveField
         """
         val model = smithy.toSmithyModel()
-        val ctx = model.newTestContext("com.test#Example", AwsJson1_0_ProtocolGenerator()).ctx
+        val ctx = model.newTestContext("com.test#Example", AWSJSON1_0ProtocolGenerator()).ctx
         val operationTransform = AddOperationShapes.execute(model, ctx.service, ctx.settings.moduleName)
         val transformed = BoxServices().preprocessModel(operationTransform, ctx.settings)
 
